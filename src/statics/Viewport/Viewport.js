@@ -10,4 +10,4 @@ function Viewport() {
     );
 }
 
-export default withRouter(Viewport)
+export default withRouter(Viewport);

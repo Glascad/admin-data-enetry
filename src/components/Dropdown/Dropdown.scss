@@ -3,12 +3,37 @@
 
 .Dropdown {
     margin: 0;
-    padding: $med $small;
     background: $light-gray;
     color: $dark-gray;
-
+    
     &[open] {
         background: $med-gray !important;
         color: white;
+    }
+    
+    summary {
+        padding: 0 $small;
+        height: $item-height;
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        min-height: $item-height;
+
+        > div, > a {
+            margin: 0;
+            padding: $x-small $x-large;
+            // height: $item-height;
+            display: flex;
+            align-items: center;
+            width: fill;
+
+            &:hover {
+                background: black;
+            }
+        }
     }
 }

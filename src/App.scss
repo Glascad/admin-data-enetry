@@ -7,11 +7,11 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3rem;
+    height: $header-height;
     background: white;
     border: 1px solid $dark-gray;
     box-sizing: border-box;
-    padding: $small;
+    // padding: $small;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,18 +19,18 @@
 
 #Viewport, #Sidebar {
     position: fixed;
-    top: 3rem;
+    top: $header-height;
     border: 1px solid $dark-gray;
     box-sizing: border-box;
-    height: calc(100vh - 3rem);
+    height: $viewport-height;
 }
 
 #Sidebar {
     left: 0;
-    width: 17.5vw;
+    width: $sidebar-width;
 }
 
 #Viewport {
-    left: 17.5vw;
-    width: 82.5vw;
+    left: $sidebar-width;
+    width: $viewport-width;
 }
