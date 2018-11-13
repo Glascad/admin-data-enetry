@@ -2,83 +2,32 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import './Sidebar.scss';
 import { Link } from 'react-router-dom';
+import routes from '../Viewport/routes/routes';
 
 import Dropdown from '../../components/Dropdown/Dropdown';
 
 class Sidebar extends Component {
 
-    routes = [
-        {
-            name: "SYSTEM",
-            subroutes: []
-        },
-        {
-            name: "SYSTEM CONFIGURATIONS",
-            subroutes: [
-                {
-                    name: "SYSTEM TYPES",
-                    path: ""
-                },
-                {
-                    name: "DETAIL TYPES",
-                    path: ""
-                },
-                {
-                    name: "CONFIGURATION TYPES",
-                    path: ""
-                },
-                {
-                    name: "PART TYPES",
-                    path: ""
-                }
-            ]
-        },
-        {
-            name: "SETTINGS",
-            subroutes: [
-                {
-                    name: "MANUFACTURERS",
-                    path: ""
-                },
-                {
-                    name: "LINETYPES",
-                    path: ""
-                },
-                {
-                    name: "PART ORIENTATIONS",
-                    path: ""
-                },
-                {
-                    name: "FASTENERS",
-                    path: ""
-                },
-                {
-                    name: "INFILL SIZES",
-                    path: ""
-                },
-                {
-                    name: "INFILL TYPES",
-                    path: ""
-                },
-            ]
-        }
-    ];
-
-
     render = () => {
         const {
-            routes,
-            closeOtherTabs
+            props: {
+                location: {
+                    pathname
+                }
+            }
         } = this;
-
         return (
             <div id="Sidebar">
-                <header>HOME</header>
-                {routes.map(({ name, subroutes }, i) => (
+                <Link to="/" className={`header ${pathname === '/' ? 'selected' : ''}`} ><header>HOME</header></Link>
+                {routes.map(({ name, subroutes, path }, i) => (
                     <Dropdown
-                        title={name}
+                        className={pathname.includes(name.toLowerCase().replace(/ /, '') + '/') ? 'selected' : ''}
+                        title={<Link
+                            to={path}
+                            children={name}
+                        />}
                         content={subroutes}
-                        onClick={closeOtherTabs}
+                        key={i}
                         renderChild={({ name, path }, i) => (
                             <Link
                                 to={path}

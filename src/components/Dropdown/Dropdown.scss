@@ -6,10 +6,10 @@
     background: $light-gray;
     color: $dark-gray;
     
-    &[open] {
-        background: $med-gray !important;
-        color: white;
-    }
+    // &[open] {
+    //     background: $med-gray;
+    //     color: white;
+    // }
     
     summary {
         padding: 0 $small;

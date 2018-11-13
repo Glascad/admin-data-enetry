@@ -7,7 +7,7 @@ import './App.scss';
 
 import Header from './statics/Header/Header';
 import Sidebar from './statics/Sidebar/Sidebar';
-import Viewport from './statics/Viewport/Viewport';
+// import Viewport from './statics/Viewport/Viewport';
 
 const client = new ApolloClient({
     uri: 'http://1227.0.0.1:5001/graphql'
@@ -19,7 +19,7 @@ export default function App() {
             <ApolloProvider client={client}>
                 <Header />
                 <Sidebar />
-                <Viewport />
+                {/* <Viewport /> */}
             </ApolloProvider>
         </Router>
     );

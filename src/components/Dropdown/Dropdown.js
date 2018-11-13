@@ -6,31 +6,21 @@ export default class Dropdown extends Component {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
+        closeOnBlur: PropTypes.bool,
         content: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
         renderChild: PropTypes.func,
         onToggle: PropTypes.func,
         onClick: PropTypes.func,
+        onBlur: PropTypes.onBlur,
     };
 
     ref = createRef();
 
     close = () => this.ref.current.open = false;
 
-    onClick = e => {
-        e.stopPropagation();
-        if (e.target.open) {
-            console.log('open');
-        } else console.log('closed');
-    }
-
-    onToggle = e => {
-        e.stopPropagation();
-        if (e.target.open) {
-            console.log('adding event listener');
-            window.addEventListener('click', this.close);
-        } else {
-            window.removeEventListener('click', this.close);
-        }
+    onBlur = e => {
+        if (this.props.closeOnBlur) this.close();
+        if (this.props.onBlur) this.props.onBlur(e);
     }
 
     render = () => {
@@ -39,16 +29,19 @@ export default class Dropdown extends Component {
                 title,
                 content,
                 renderChild,
+                className
             },
             onToggle,
             onClick,
+            onBlur,
             ref,
         } = this;
 
         return (
             <details
-                className="Dropdown"
+                className={`Dropdown ${className}`}
                 onToggle={onToggle}
+                onBlur={onBlur}
                 onClick={onClick}
                 ref={ref}
             >
