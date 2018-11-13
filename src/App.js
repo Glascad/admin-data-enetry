@@ -1,35 +1,26 @@
 import React from 'react';
-import { ApolloProvider, Query } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
-import gql from 'graphql-tag';
+import { ApolloProvider } from 'react-apollo';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import './App.scss';
+
+import Header from './statics/Header/Header';
+import Sidebar from './statics/Sidebar/Sidebar';
+import Viewport from './statics/Viewport/Viewport';
 
 const client = new ApolloClient({
-    uri: 'http://127.0.0.1:5001/graphql'
-})
+    uri: 'http://1227.0.0.1:5001/graphql'
+});
 
 export default function App() {
     return (
-        <ApolloProvider client={client}>
-            <Query query={gql`
-                {
-                    allManufacturers{
-                        nodes{
-                            id
-                            name
-                        }
-                    }
-                }
-            `}>
-                {({ loading, error, data }) => (
-                    (loading ?
-                        <p>...LOADING...</p>
-                        :
-                        error ?
-                            <p>ERROR: {error.toString()}</p>
-                            :
-                            <p>DATA: {JSON.stringify(data)}</p>
-                ))}
-            </Query>
-        </ApolloProvider>
+        <Router>
+            <ApolloProvider client={client}>
+                <Header />
+                <Sidebar />
+                <Viewport />
+            </ApolloProvider>
+        </Router>
     );
 }

@@ -1,0 +1,36 @@
+
+@import './variables';
+
+#Header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3rem;
+    background: white;
+    border: 1px solid $dark-gray;
+    box-sizing: border-box;
+    padding: $small;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#Viewport, #Sidebar {
+    position: fixed;
+    top: 3rem;
+    border: 1px solid $dark-gray;
+    box-sizing: border-box;
+    height: calc(100vh - 3rem);
+}
+
+#Sidebar {
+    left: 0;
+    width: 17.5vw;
+}
+
+#Viewport {
+    left: 17.5vw;
+    width: 82.5vw;
+}

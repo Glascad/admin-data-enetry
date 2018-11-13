@@ -1,0 +1,22 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+button {
+    border: none;
+    background: none;
+    outline: none;
+}
+
+html, root, body {
+    font-family: 'Roboto Condensed';
+}
+
+html details {
+    outline: none;
+    &:hover {
+        cursor: default;
+    }
+    summary {
+        outline: none;
+    }
+}

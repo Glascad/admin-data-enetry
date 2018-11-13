@@ -1,0 +1,14 @@
+
+@import '../../variables';
+
+.Dropdown {
+    margin: 0;
+    padding: $med $small;
+    background: $light-gray;
+    color: $dark-gray;
+
+    &[open] {
+        background: $med-gray !important;
+        color: white;
+    }
+}

@@ -1,0 +1,57 @@
+
+@import '../../variables';
+
+.Pill {
+    background: $light-gray;
+    color: $dark-gray;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    width: 240px;
+    border-radius: 240px;
+    padding: $med;
+    margin: $small;
+
+    &.selectable:hover {
+        background: $med-gray;
+        color: white;
+    }
+    &.selected {
+        background: $blue;
+        color: white;
+    }
+    &.default{
+        border: 2px solid $dark-gray;
+    }
+    &.editing {
+
+    }
+    h5 {
+        font-weight: bold;
+    }
+    h6 {
+
+    }
+    button {
+        position: absolute;
+        color: $dark-gray;
+        &.drag {
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%)
+        }
+        &.edit {
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+        }
+        &.delete {
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+        }
+    }
+}
