@@ -2,16 +2,20 @@
 @import '../../variables';
 
 #Sidebar {
+    background: $light-gray;
     header {
-        background: $light-gray;
-        color: $dark-gray;
+        background: $med-gray;
+        color: $x-dark-gray;
         height: $item-height;
         display: flex;
         align-items: center;
         padding: 0 $small;
     }
-    .selected {
+    .Dropdown {
         background: $med-gray;
+    }
+    .selected {
+        background: $dark-gray;
         color: white;
     }
 }

@@ -2,9 +2,9 @@ import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import './Viewport.scss';
 import routes from './routes/routes';
+import ViewportHeader from './ViewportHeader';
 
 const createRoute = ({ path, component, exact }, parentPath) => (
-    console.log(typeof parentPath === 'string' ? parentPath + path : path) ||
     <Route
         exact={exact}
         path={typeof parentPath === 'string' ? parentPath + path.slice(1) : path}
@@ -15,6 +15,7 @@ const createRoute = ({ path, component, exact }, parentPath) => (
 function Viewport() {
     return (
         <div id="Viewport">
+            <ViewportHeader />
             <Switch>
                 {routes.map(({ subroutes = [], ...route }) => [
                     createRoute(route),

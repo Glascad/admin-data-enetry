@@ -4,7 +4,7 @@
 .Dropdown {
     margin: 0;
     background: $light-gray;
-    color: $dark-gray;
+    color: $x-dark-gray;
     
     // &[open] {
     //     background: $med-gray;
@@ -36,10 +36,11 @@
             display: flex;
             align-items: center;
             width: fill;
-
-            &:hover {
-                background: black;
-            }
+            color: inherit;
+            text-decoration: none;
+            // &:hover {
+            //     background: black;
+            // }
         }
     }
 }

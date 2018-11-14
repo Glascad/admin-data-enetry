@@ -17,19 +17,6 @@ import Fasteners from './Settings/Fasteners/Fasteners';
 import InfillSizes from './Settings/InfillSizes/InfillSizes';
 import InfillTypes from './Settings/InfillTypes/InfillTypes';
 
-// function fromPascalToUpperSpaceCase(PascalCase) {
-//     return [...PascalCase].reduce((spaces, letter) => `${spaces}${letter === letter.toUpperCase() ? ' ' : ''}${letter.toUpperCase()}`, '');
-// }
-
-// function createRouteObject(compObj, prefix) {
-//     return Object.keys(compObj).reduce((routeObj, key) => ({
-//         ...routeObj,
-//         name: fromPascalToUpperSpaceCase(key),
-//         path: `/${[prefix, key.toLowerCase()].join('/')}`,
-// component: compObj[key]
-//     }), {});
-// }
-
 export default [
     {
         name: "HOME",

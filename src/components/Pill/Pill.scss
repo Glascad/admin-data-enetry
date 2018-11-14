@@ -3,7 +3,7 @@
 
 .Pill {
     background: $light-gray;
-    color: $dark-gray;
+    color: $x-dark-gray;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -16,7 +16,7 @@
     margin: $small;
 
     &.selectable:hover {
-        background: $med-gray;
+        background: $dark-gray;
         color: white;
     }
     &.selected {
@@ -24,7 +24,7 @@
         color: white;
     }
     &.default{
-        border: 2px solid $dark-gray;
+        border: 2px solid $x-dark-gray;
     }
     &.editing {
 
@@ -37,7 +37,7 @@
     }
     button {
         position: absolute;
-        color: $dark-gray;
+        color: $x-dark-gray;
         &.drag {
             top: 50%;
             left: 50%;

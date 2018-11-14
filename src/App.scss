@@ -9,7 +9,7 @@
     right: 0;
     height: $header-height;
     background: white;
-    border: 1px solid $dark-gray;
+    border: 1px solid $x-dark-gray;
     box-sizing: border-box;
     // padding: $small;
     display: flex;
@@ -20,7 +20,7 @@
 #Viewport, #Sidebar {
     position: fixed;
     top: $header-height;
-    border: 1px solid $dark-gray;
+    border: 1px solid $x-dark-gray;
     box-sizing: border-box;
     height: $viewport-height;
 }
