@@ -12,6 +12,7 @@ export default class Pill extends Component {
         default: PropTypes.bool,
         draggable: PropTypes.bool,
         // STRINGS
+        tagname: PropTypes.string,
         title: PropTypes.string.isRequired,
         subtitle: PropTypes.string,
         // CONTENT
@@ -60,6 +61,7 @@ export default class Pill extends Component {
                 subtitle,
                 contents,
                 style,
+                tagname
             },
             state: {
                 editing,
@@ -68,8 +70,13 @@ export default class Pill extends Component {
             handleEditClick,
             handleDeleteClick,
         } = this;
+
+        const tag = {
+            name: tagname || 'div'
+        };
+
         return (
-            <div
+            <tag.name
                 className={`Pill ${
                     selected ? 'selected' :
                         selectable ? 'selectable' : ''
@@ -112,7 +119,7 @@ export default class Pill extends Component {
                         children="delete"
                     />
                 ) : null}
-            </div>
+            </tag.name>
         );
     }
 }

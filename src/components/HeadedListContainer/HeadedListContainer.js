@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ListContainer from '../ListContainer/ListContainer';
+import './HeadedListContainer.scss';
 
 export default class HeadedListContainer extends Component {
 
@@ -7,14 +9,71 @@ export default class HeadedListContainer extends Component {
         title: PropTypes.string.isRequired,
         filters: PropTypes.arrayOf(PropTypes.exact({
             name: PropTypes.string.isRequired,
-            callback: PropTypes.function.isRequired,
+            callback: PropTypes.func.isRequired,
         })),
-    }
+        sorts: PropTypes.arrayOf(PropTypes.exact({
+            name: PropTypes.string.isRequired,
+            callback: PropTypes.func.isRequired
+        })),
+        listItems: PropTypes.array.isRequired,
+        renderListItem: PropTypes.func.isRequired,
+        addListItem: PropTypes.func,
+    };
+
+    state = {
+        currentFilterIndex: -1,
+        currentSortIndex: -1,
+    };
 
     render = () => {
+        const {
+            props: {
+                title,
+                filters,
+                sorts,
+                listItems,
+                renderListItem,
+                addListItem,
+                childrenBeforeList,
+                childrenAfterList,
+            },
+            state: {
+                currentFilterIndex,
+                currentSortIndex,
+            }
+        } = this;
+
+        const currentFilter = (filters || [])[currentFilterIndex];
+        const currentSort = (sorts || [])[currentSortIndex];
+
         return (
             <div className="HeadedListContainer">
-
+                <header>
+                    <span className="title">{title}{currentFilter ? ` | ${currentFilter.name}` : ''}</span>
+                    <span>
+                        {filters && filters.length ? (
+                            <span>
+                                <span>Filter: </span>
+                                {/* INSERT REACT SELECT HERE */}
+                            </span>
+                        ) : null}
+                        {sorts && sorts.length ? (
+                            <span>
+                                <span>Sort By: </span>
+                                {/* INSERT REACT SELECT HERE */}
+                            </span>
+                        ) : null}
+                    </span>
+                </header>
+                {childrenBeforeList}
+                <ListContainer
+                    items={listItems}
+                    renderItem={renderListItem}
+                    addItem={addListItem}
+                    filter={currentFilter ? currentFilter.callback : undefined}
+                    sort={currentSort ? currentSort.callback : undefined}
+                />
+                {childrenAfterList}
             </div>
         );
     }

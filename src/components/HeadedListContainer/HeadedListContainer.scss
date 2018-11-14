@@ -1,0 +1,18 @@
+
+@import '../../variables';
+
+.HeadedListContainer {
+    margin: $large $small;
+    
+    header {
+        margin: $small;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: $x-small;
+        border-bottom: 1px solid $x-dark-gray;
+
+        .title {
+            font-weight: bold;
+        }
+    }
+}
