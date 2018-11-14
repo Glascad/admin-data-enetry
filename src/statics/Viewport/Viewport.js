@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import './Viewport.scss';
 import routes from './routes/routes';
 import ViewportHeader from './ViewportHeader';
@@ -7,7 +7,7 @@ import ViewportHeader from './ViewportHeader';
 const createRoute = ({ path, component, exact }, parentPath) => (
     <Route
         exact={exact}
-        path={typeof parentPath === 'string' ? parentPath + path.slice(1) : path}
+        path={typeof parentPath === 'string' ? parentPath + path : path}
         component={component}
     />
 );
@@ -26,4 +26,4 @@ function Viewport() {
     );
 }
 
-export default withRouter(Viewport);
+export default Viewport;

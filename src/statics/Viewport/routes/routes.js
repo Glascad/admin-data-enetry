@@ -26,33 +26,47 @@ export default [
     },
     {
         name: "SYSTEM",
-        path: "/system/",
+        exact: true,
+        path: "/system",
         component: System,
+        subroutes: [
+            {
+                name: "SYSTEM",
+                exact: true,
+                path: "/:mnfgNID",
+                component: System
+            },
+            {
+                name: "SYSTEM",
+                path: "/:mnfgNID/:systemNID",
+                component: System
+            }
+        ]
     },
     {
         name: "SYSTEM CONFIGURATIONS",
         exact: true,
-        path: "/system configurations/",
+        path: "/system configurations",
         component: SystemConfigurations,
         subroutes: [
             {
                 name: "SYSTEM TYPES",
-                path: "/system types/",
+                path: "/system types",
                 component: SystemTypes
             },
             {
                 name: "DETAIL TYPES",
-                path: "/detail types/",
+                path: "/detail types",
                 component: DetailTypes
             },
             {
                 name: "CONFIGURATION TYPES",
-                path: "/configuration types/",
+                path: "/configuration types",
                 component: ConfigurationTypes
             },
             {
                 name: "PART TYPES",
-                path: "/part types/",
+                path: "/part types",
                 component: PartTypes
             }
         ]
@@ -60,37 +74,37 @@ export default [
     {
         name: "SETTINGS",
         exact: true,
-        path: "/settings/",
+        path: "/settings",
         component: Settings,
         subroutes: [
             {
                 name: "MANUFACTURERS",
-                path: "/manufacturers/",
+                path: "/manufacturers",
                 component: Manufacturers
             },
             {
                 name: "LINETYPES",
-                path: "/linetypes/",
+                path: "/linetypes",
                 component: Linetypes
             },
             {
                 name: "PART ORIENTATIONS",
-                path: "/part orientations/",
+                path: "/part orientations",
                 component: PartOrientations
             },
             {
                 name: "FASTENERS",
-                path: "/fasteners/",
+                path: "/fasteners",
                 component: Fasteners
             },
             {
                 name: "INFILL SIZES",
-                path: "/infill sizes/",
+                path: "/infill sizes",
                 component: InfillSizes
             },
             {
                 name: "INFILL TYPES",
-                path: "/infill types/",
+                path: "/infill types",
                 component: InfillTypes
             },
         ]

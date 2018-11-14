@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './ListContainer.scss';
 
 ListContainer.propTypes = {
+    title: PropTypes.string,
     items: PropTypes.array.isRequired,
     renderItem: PropTypes.func.isRequired,
     addItem: PropTypes.func,
@@ -11,25 +12,31 @@ ListContainer.propTypes = {
 };
 
 export default function ListContainer({
+    title,
     items,
     renderItem,
     addItem,
     filter = () => true,
     sort = () => 0,
 }) {
-    return (
-        <ul className="ListContainer">
-            {items.slice()
-                .sort(sort)
-                .filter(filter)
-                .map(renderItem)}
-            {addItem ? (
-                <button
-                    className="add"
-                    children="+"
-                    onClick={addItem}
-                />
+    return (//[
+        <div className="ListContainer">
+            {title ? (
+                <h5 className="title">{title}</h5>
             ) : null}
-        </ul>
-    );
+            <ul>
+                {items.slice()
+                    .sort(sort)
+                    .filter(filter)
+                    .map(renderItem)}
+                {addItem ? (
+                    <button
+                        className="add"
+                        children="+"
+                        onClick={addItem}
+                    />
+                ) : null}
+            </ul>
+        </div>
+    );//];
 }

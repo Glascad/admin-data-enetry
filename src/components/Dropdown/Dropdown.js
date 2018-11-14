@@ -10,7 +10,7 @@ export default class Dropdown extends Component {
         content: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
         onToggle: PropTypes.func,
         onClick: PropTypes.func,
-        onBlur: PropTypes.onBlur,
+        onBlur: PropTypes.func,
         reference: PropTypes.any,
     };
 

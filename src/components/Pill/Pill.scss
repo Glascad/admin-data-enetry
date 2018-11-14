@@ -10,10 +10,38 @@
     align-items: center;
     position: relative;
 
-    width: 240px;
-    border-radius: 240px;
+    width: $pill-width;
+    border-radius: $pill-width;
     padding: $med;
     margin: $small;
+
+    &.tile {
+        flex-direction: column;
+        justify-content: space-between;
+        height: $pill-width;
+        border-radius: $small;
+
+        &.align-left {
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .title {
+            margin-bottom: $small;
+        }
+
+        .subtitle {
+            
+        }
+        
+        .footer {
+            font-style: italic;
+        }
+    }
+
+    &.align-left {
+        justify-content: flex-start;
+    }
 
     &.selectable:hover {
         background: $dark-gray;
@@ -29,10 +57,10 @@
     &.editing {
 
     }
-    h5 {
+    .title {
         font-weight: bold;
     }
-    h6 {
+    .subtitle {
 
     }
     button {

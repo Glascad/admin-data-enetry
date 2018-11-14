@@ -44,10 +44,10 @@ class Sidebar extends Component {
                         className={pathname.includes(parentPath) ? 'selected' : ''}
                         title={name}
                         onSummaryClick={handleDropdownClick(parentPath)}
-                        children={subroutes ? subroutes.map(({ name, path: childPath }, i) => (
+                        children={subroutes && subroutes.some(({ path }) => path[1] !== ':') ? subroutes.filter(({path}) => path[1] !== ':').map(({ name, path: childPath }, i) => (
                             <Link
                                 key={i}
-                                to={parentPath + childPath.slice(1)}
+                                to={parentPath + childPath}
                                 children={name}
                             />
                         )) : null}

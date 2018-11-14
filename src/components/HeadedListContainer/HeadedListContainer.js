@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import HeadedContainer from '../HeadedContainer/HeadedContainer';
 import ListContainer from '../ListContainer/ListContainer';
 import './HeadedListContainer.scss';
 
@@ -15,6 +16,7 @@ export default class HeadedListContainer extends Component {
             name: PropTypes.string.isRequired,
             callback: PropTypes.func.isRequired
         })),
+        listTitle: PropTypes.string,
         listItems: PropTypes.array.isRequired,
         renderListItem: PropTypes.func.isRequired,
         addListItem: PropTypes.func,
@@ -31,6 +33,7 @@ export default class HeadedListContainer extends Component {
                 title,
                 filters,
                 sorts,
+                listTitle,
                 listItems,
                 renderListItem,
                 addListItem,
@@ -47,9 +50,12 @@ export default class HeadedListContainer extends Component {
         const currentSort = (sorts || [])[currentSortIndex];
 
         return (
-            <div className="HeadedListContainer">
-                <header>
+            <HeadedContainer
+                className="HeadedListContainer"
+                title={(
                     <span className="title">{title}{currentFilter ? ` | ${currentFilter.name}` : ''}</span>
+                )}
+                right={(
                     <span>
                         {filters && filters.length ? (
                             <span>
@@ -64,9 +70,11 @@ export default class HeadedListContainer extends Component {
                             </span>
                         ) : null}
                     </span>
-                </header>
+                )}
+            >
                 {childrenBeforeList}
                 <ListContainer
+                    title={listTitle}
                     items={listItems}
                     renderItem={renderListItem}
                     addItem={addListItem}
@@ -74,7 +82,7 @@ export default class HeadedListContainer extends Component {
                     sort={currentSort ? currentSort.callback : undefined}
                 />
                 {childrenAfterList}
-            </div>
+            </HeadedContainer>
         );
     }
 }

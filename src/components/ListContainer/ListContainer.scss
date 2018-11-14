@@ -1,5 +1,14 @@
 
+@import '../../variables';
+
 .ListContainer {
-    display: flex;
-    flex-flow: row wrap;
+    > .title {
+        color: $med-gray;
+        margin-left: $small;
+    }
+
+    ul {
+        display: flex;
+        flex-flow: row wrap;
+    }
 }

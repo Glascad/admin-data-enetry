@@ -5,6 +5,7 @@ import './Pill.scss';
 export default class Pill extends Component {
 
     static propTypes = {
+        type: PropTypes.oneOf(['pill', 'tile']),
         // BOOLEANS
         selected: PropTypes.bool,
         editable: PropTypes.bool,
@@ -12,6 +13,7 @@ export default class Pill extends Component {
         default: PropTypes.bool,
         draggable: PropTypes.bool,
         // STRINGS
+        align: PropTypes.oneOf(['left', 'right', 'center']),
         tagname: PropTypes.string,
         title: PropTypes.string.isRequired,
         subtitle: PropTypes.string,
@@ -51,15 +53,18 @@ export default class Pill extends Component {
     render = () => {
         const {
             props: {
+                type,
                 onSelect: selectable,
                 selected,
                 editable,
                 deletable,
                 default: defaulted,
                 draggable,
+                align,
                 title,
                 subtitle,
                 contents,
+                footer,
                 style,
                 tagname
             },
@@ -84,6 +89,10 @@ export default class Pill extends Component {
                     defaulted ? 'default' : ''
                     } ${
                     editing ? 'editing' : ''
+                    } ${
+                    align ? `align-${align}` : ''
+                    } ${
+                    type === 'tile' ? 'tile' : ''
                     }`}
                 style={style}
                 onClick={handleClick}
@@ -96,14 +105,20 @@ export default class Pill extends Component {
                         children="edit"
                     />
                 ) : null}
-                {/* TITLE */}
-                <h5>{title}</h5>
-                {/* SUBTITLE */}
-                {subtitle ? (
-                    <h6>{subtitle}</h6>
-                ) : null}
+                <div>
+                    {/* TITLE */}
+                    <h5 className="title">{title}</h5>
+                    {/* SUBTITLE */}
+                    {subtitle ? (
+                        <h6 className="subtitle">{subtitle}</h6>
+                    ) : null}
+                </div>
                 {/* CONTENTS */}
                 {contents}
+                {/* FOOTER */}
+                {footer ? (
+                    <h6 className="footer">{footer}</h6>
+                ) : null}
                 {/* DRAG BUTTON */}
                 {draggable ? (
                     <button

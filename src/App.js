@@ -10,7 +10,7 @@ import Sidebar from './statics/Sidebar/Sidebar';
 import Viewport from './statics/Viewport/Viewport';
 
 const client = new ApolloClient({
-    uri: 'http://1227.0.0.1:5001/graphql'
+    uri: 'http://127.0.0.1:5001/graphql'
 });
 
 export default function App() {
