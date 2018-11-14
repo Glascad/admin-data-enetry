@@ -10,6 +10,12 @@
     //     background: $med-gray;
     //     color: white;
     // }
+
+    &.empty {
+        summary::webkit-details-marker {
+            display: none;
+        }
+    }
     
     summary {
         padding: 0 $small;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import './Sidebar.scss';
 import { Link } from 'react-router-dom';
@@ -8,33 +8,49 @@ import Dropdown from '../../components/Dropdown/Dropdown';
 
 class Sidebar extends Component {
 
+    routeRefs = routes.slice(1).map(createRef);
+
+    closeDropdowns = ({ target } = {}) => this.routeRefs.forEach(({ current }) => current !== target ? current.open = false : null);
+
+    goTo = pathname => this.props.history.push(pathname);
+
+    handleDropdownClick = path => e => {
+        this.closeDropdowns(e);
+        this.goTo(path);
+    }
+
     render = () => {
         const {
             props: {
                 location: {
                     pathname
                 }
-            }
+            },
+            routeRefs,
+            handleDropdownClick,
         } = this;
         return (
             <div id="Sidebar">
-                <Link to="/" className={`header ${pathname === '/' ? 'selected' : ''}`} ><header>HOME</header></Link>
-                {routes.map(({ name, subroutes, path }, i) => (
+                <header
+                    className={`header ${pathname === '/' ? 'selected' : ''}`}
+                    onClick={handleDropdownClick('/')}
+                >
+                    HOME
+                </header>
+                {routes.slice(1).map(({ name, subroutes, path: parentPath }, i) => (
                     <Dropdown
-                        className={pathname.includes(name.toLowerCase().replace(/ /, '') + '/') ? 'selected' : ''}
-                        title={<Link
-                            to={path}
-                            children={name}
-                        />}
-                        content={subroutes}
                         key={i}
-                        renderChild={({ name, path }, i) => (
+                        reference={routeRefs[i]}
+                        className={pathname.includes(parentPath) ? 'selected' : ''}
+                        title={name}
+                        onSummaryClick={handleDropdownClick(parentPath)}
+                        children={subroutes ? subroutes.map(({ name, path: childPath }, i) => (
                             <Link
-                                to={path}
-                                children={name}
                                 key={i}
+                                to={parentPath + childPath.slice(1)}
+                                children={name}
                             />
-                        )}
+                        )) : null}
                     />
                 ))}
             </div>

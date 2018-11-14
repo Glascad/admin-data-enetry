@@ -8,10 +8,10 @@ export default class Dropdown extends Component {
         title: PropTypes.string.isRequired,
         closeOnBlur: PropTypes.bool,
         content: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
-        renderChild: PropTypes.func,
         onToggle: PropTypes.func,
         onClick: PropTypes.func,
         onBlur: PropTypes.onBlur,
+        reference: PropTypes.any,
     };
 
     ref = createRef();
@@ -27,33 +27,32 @@ export default class Dropdown extends Component {
         const {
             props: {
                 title,
-                content,
-                renderChild,
-                className
+                children,
+                className,
+                onClick,
+                onSummaryClick,
+                reference,
             },
             onToggle,
-            onClick,
             onBlur,
-            ref,
         } = this;
 
         return (
             <details
-                className={`Dropdown ${className}`}
+                className={`Dropdown ${className} ${!children || !children.length ? 'empty' : ''}`}
                 onToggle={onToggle}
                 onBlur={onBlur}
                 onClick={onClick}
-                ref={ref}
+                ref={reference}
             >
-                <summary>{title}</summary>
-                {content && content.length ? (
+                <summary
+                    onClick={onSummaryClick}
+                >
+                    {title}
+                </summary>
+                {children ? (
                     <div className="content">
-                        {renderChild ?
-                            !Array.isArray(content) ?
-                                renderChild(content)
-                                :
-                                content.map(renderChild)
-                            : content}
+                        {children}
                     </div>
                 ) : null}
             </details>

@@ -1,19 +1,21 @@
 // HOME
-// import Home from './Home/Home';
-// // SYSTEM
-// import System from './System/System';
-// // SYSTEM CONFIGURATIONS
-// import SystemTypes from './SystemConfigurations/SystemTypes/SystemTypes';
-// import DetailTypes from './SystemConfigurations/DetailTypes/DetailTypes';
-// import ConfigurationTypes from './SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
-// import PartTypes from './SystemConfigurations/PartTypes/PartTypes';
-// // SETTINGS
-// import Manufacturers from './Settings/Manufacturers/Manufacturers';
-// import Linetypes from './Settings/Linetypes/Linetypes';
-// import PartOrientations from './Settings/PartOrientations/PartOrientations';
-// import Fasteners from './Settings/Fasteners/Fasteners';
-// import InfillSizes from './Settings/InfillSizes/InfillSizes';
-// import InfillTypes from './Settings/InfillTypes/InfillTypes';
+import Home from './Home/Home';
+// SYSTEM
+import System from './System/System';
+// SYSTEM CONFIGURATIONS
+import SystemConfigurations from './SystemConfigurations/SystemConfigurations';
+import SystemTypes from './SystemConfigurations/SystemTypes/SystemTypes';
+import DetailTypes from './SystemConfigurations/DetailTypes/DetailTypes';
+import ConfigurationTypes from './SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
+import PartTypes from './SystemConfigurations/PartTypes/PartTypes';
+// SETTINGS
+import Settings from './Settings/Settings';
+import Manufacturers from './Settings/Manufacturers/Manufacturers';
+import Linetypes from './Settings/Linetypes/Linetypes';
+import PartOrientations from './Settings/PartOrientations/PartOrientations';
+import Fasteners from './Settings/Fasteners/Fasteners';
+import InfillSizes from './Settings/InfillSizes/InfillSizes';
+import InfillTypes from './Settings/InfillTypes/InfillTypes';
 
 // function fromPascalToUpperSpaceCase(PascalCase) {
 //     return [...PascalCase].reduce((spaces, letter) => `${spaces}${letter === letter.toUpperCase() ? ' ' : ''}${letter.toUpperCase()}`, '');
@@ -30,69 +32,79 @@
 
 export default [
     {
+        name: "HOME",
+        exact: true,
+        path: "/",
+        component: Home,
+    },
+    {
         name: "SYSTEM",
-        path: "/system",
-        // component: System,
+        path: "/system/",
+        component: System,
     },
     {
         name: "SYSTEM CONFIGURATIONS",
-        path: "/systemconfigurations",
+        exact: true,
+        path: "/systemconfigurations/",
+        component: SystemConfigurations,
         subroutes: [
             {
                 name: "SYSTEM TYPES",
-                path: "/systemconfigurations/systemtypes",
-                // component: SystemTypes
+                path: "/systemtypes/",
+                component: SystemTypes
             },
             {
                 name: "DETAIL TYPES",
-                path: "/systemconfigurations/detailtypes",
-                // component: DetailTypes
+                path: "/detailtypes/",
+                component: DetailTypes
             },
             {
                 name: "CONFIGURATION TYPES",
-                path: "/systemconfigurations/configurationtypes",
-                // component: ConfigurationTypes
+                path: "/configurationtypes/",
+                component: ConfigurationTypes
             },
             {
                 name: "PART TYPES",
-                path: "/systemconfigurations/parttypes",
-                // component: PartTypes
+                path: "/parttypes/",
+                component: PartTypes
             }
         ]
     },
     {
         name: "SETTINGS",
-        path: "/settings",
+        exact: true,
+        path: "/settings/",
+        component: Settings,
         subroutes: [
             {
                 name: "MANUFACTURERS",
-                path: "/settings/manufacturers",
-                // component: Manufacturers
+                path: "/manufacturers/",
+                component: Manufacturers
             },
             {
                 name: "LINETYPES",
-                path: "/settings/linetypes",
-                // component: Linetypes
+                path: "/linetypes/",
+                component: Linetypes
             },
             {
                 name: "PART ORIENTATIONS",
-                path: "/settings/partorientations",
-                // component: PartOrientations
+                path: "/partorientations/",
+                component: PartOrientations
             },
             {
                 name: "FASTENERS",
-                path: "/settings/fasteners",
-                // component: Fasteners
+                path: "/fasteners/",
+                component: Fasteners
             },
             {
                 name: "INFILL SIZES",
-                path: "/settings/infillsizes",
-                // component: InfillSizes
+                path: "/infillsizes/",
+                component: InfillSizes
             },
             {
                 name: "INFILL TYPES",
-                path: "/settings/infilltypes",
-                // component: InfillTypes
+                path: "/infilltypes/",
+                component: InfillTypes
             },
         ]
     }

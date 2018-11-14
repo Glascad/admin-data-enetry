@@ -70,12 +70,14 @@ export default class Pill extends Component {
         } = this;
         return (
             <div
-                className={`Pill
-                    ${selected ? 'selected' :
-                        selectable ? 'selectable' : ''}
-                    ${defaulted ? 'default' : ''}
-                    ${editing ? 'editing' : ''}
-                `}
+                className={`Pill ${
+                    selected ? 'selected' :
+                        selectable ? 'selectable' : ''
+                    } ${
+                    defaulted ? 'default' : ''
+                    } ${
+                    editing ? 'editing' : ''
+                    }`}
                 style={style}
                 onClick={handleClick}
             >
