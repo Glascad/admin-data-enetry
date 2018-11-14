@@ -32,27 +32,27 @@ export default [
     {
         name: "SYSTEM CONFIGURATIONS",
         exact: true,
-        path: "/systemconfigurations/",
+        path: "/system configurations/",
         component: SystemConfigurations,
         subroutes: [
             {
                 name: "SYSTEM TYPES",
-                path: "/systemtypes/",
+                path: "/system types/",
                 component: SystemTypes
             },
             {
                 name: "DETAIL TYPES",
-                path: "/detailtypes/",
+                path: "/detail types/",
                 component: DetailTypes
             },
             {
                 name: "CONFIGURATION TYPES",
-                path: "/configurationtypes/",
+                path: "/configuration types/",
                 component: ConfigurationTypes
             },
             {
                 name: "PART TYPES",
-                path: "/parttypes/",
+                path: "/part types/",
                 component: PartTypes
             }
         ]
@@ -75,7 +75,7 @@ export default [
             },
             {
                 name: "PART ORIENTATIONS",
-                path: "/partorientations/",
+                path: "/part orientations/",
                 component: PartOrientations
             },
             {
@@ -85,12 +85,12 @@ export default [
             },
             {
                 name: "INFILL SIZES",
-                path: "/infillsizes/",
+                path: "/infill sizes/",
                 component: InfillSizes
             },
             {
                 name: "INFILL TYPES",
-                path: "/infilltypes/",
+                path: "/infill types/",
                 component: InfillTypes
             },
         ]

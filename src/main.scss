@@ -7,16 +7,18 @@ button {
     outline: none;
 }
 
-html, root, body {
+html, #root, body {
     font-family: 'Roboto Condensed';
 }
 
-html details {
-    outline: none;
-    &:hover {
-        cursor: default;
-    }
-    summary {
+html {
+    details {
         outline: none;
+        &:hover {
+            cursor: default;
+        }
+        summary {
+            outline: none;
+        }
     }
 }
