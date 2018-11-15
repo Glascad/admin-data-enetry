@@ -34,7 +34,19 @@ export default class HeadedListContainer extends Component {
                 className,
                 title,
                 filters,
+                filters: {
+                    [currentFilterIndex]: {
+                        name: currentFilterName,
+                        callback: currentFilterCallback,
+                    } = {}
+                } = [],
                 sorts,
+                sorts: {
+                    [currentSortIndex]: {
+                        name: currentSortName,
+                        callback: currentSortCallback,
+                    } = {}
+                } = [],
                 listTitle,
                 listItems,
                 renderListItem,
@@ -48,27 +60,24 @@ export default class HeadedListContainer extends Component {
             }
         } = this;
 
-        const currentFilter = (filters || [])[currentFilterIndex];
-        const currentSort = (sorts || [])[currentSortIndex];
-
         return (
             <HeadedContainer
                 id={id}
                 className={`HeadedListContainer ${className}`}
                 title={(
-                    <span className="title">{title}{currentFilter ? ` | ${currentFilter.name}` : ''}</span>
+                    <span className="title">{title}{currentFilterCallback ? ` | ${currentFilterName}` : ''}</span>
                 )}
                 right={(
                     <span>
                         {filters && filters.length ? (
                             <span>
-                                <span>Filter: </span>
+                                <span>Filter: {currentFilterName}</span>
                                 {/* INSERT REACT SELECT HERE */}
                             </span>
                         ) : null}
                         {sorts && sorts.length ? (
                             <span>
-                                <span>Sort By: </span>
+                                <span>Sort By: {currentSortName}</span>
                                 {/* INSERT REACT SELECT HERE */}
                             </span>
                         ) : null}
@@ -81,8 +90,8 @@ export default class HeadedListContainer extends Component {
                     items={listItems}
                     renderItem={renderListItem}
                     addItem={addListItem}
-                    filter={currentFilter ? currentFilter.callback : undefined}
-                    sort={currentSort ? currentSort.callback : undefined}
+                    filter={currentFilterCallback}
+                    sort={currentSortCallback}
                 />
                 {afterList}
             </HeadedContainer>

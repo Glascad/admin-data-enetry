@@ -19,6 +19,17 @@ export default gql`{
                     }
                 }
             }
+            configurationNameOverridesByConfigurationTypeId{
+                nodes{
+                    nodeId
+                    nameOverride
+                    manufacturerByManufacturerId{
+                        nodeId
+                        id
+                        name
+                    }
+                }
+            }
         }
     }
 }`;

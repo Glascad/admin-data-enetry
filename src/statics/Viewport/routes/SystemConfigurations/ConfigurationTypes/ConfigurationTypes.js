@@ -35,20 +35,20 @@ export default class PartTypes extends Component {
                     error,
                     data: {
                         allConfigurationTypes: {
-                            nodes: configurationTypes = []
+                            nodes: configurationTypes = [],
                         } = {},
-                    } = {}
+                    } = {},
                 }) => {
                     const {
-                        type: selectedConfigurationTypeName,
+                        type: selectedConfigurationTypeName = '',
                         configurationTypePartTypesByConfigurationTypeId: {
-                            nodes: partTypes
-                        }
-                    } = configurationTypes.find(({ nodeId }) => nodeId === selectedConfigurationTypeNID) || {
-                        configurationTypePartTypesByConfigurationTypeId: {
-                            nodes: []
-                        }
-                    };
+                            nodes: partTypes = [],
+                        } = {},
+                        configurationNameOverridesByConfigurationTypeId: {
+                            nodes: configurationTypeNameOverrides = [],
+                        } = {},
+                    } = configurationTypes.find(({ nodeId }) => nodeId === selectedConfigurationTypeNID) || {};
+
                     return (
                         <div>
                             <HeadedListContainer
@@ -68,25 +68,50 @@ export default class PartTypes extends Component {
                                         />
                                     )}
                             />
-                            <HeadedListContainer
-                                title={`Part Types - ${selectedConfigurationTypeName}`}
-                                listItems={partTypes}
-                                renderListItem={({
-                                    partTypeByPartTypeId: {
+                            {selectedConfigurationTypeName ? (
+                                <HeadedListContainer
+                                    title={`Part Types - ${selectedConfigurationTypeName}`}
+                                    listItems={partTypes}
+                                    renderListItem={({
+                                        partTypeByPartTypeId: {
+                                            nodeId,
+                                            type,
+                                        }
+                                    }) => (
+                                            <Pill
+                                                key={nodeId}
+                                                nodeId={nodeId}
+                                                tagname="li"
+                                                title={type}
+                                                selected={nodeId === selectedPartTypeNID}
+                                                onSelect={selectPartType}
+                                            />
+                                        )}
+                                />
+                            ) : null}
+                            {selectedConfigurationTypeName ? (
+                                <HeadedListContainer
+                                    title={`Configuration Type Name Override - ${selectedConfigurationTypeName}`}
+                                    listItems={configurationTypeNameOverrides}
+                                    renderListItem={({
                                         nodeId,
-                                        type,
-                                    }
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            nodeId={nodeId}
-                                            tagname="li"
-                                            title={type}
-                                            selected={nodeId === selectedPartTypeNID}
-                                            onSelect={selectPartType}
-                                        />
-                                    )}
-                            />
+                                        nameOverride,
+                                        manufacturerByManufacturerId: {
+                                            name: mnfgName,
+                                        }
+                                    }) => (
+                                            <Pill
+                                                key={nodeId}
+                                                tagname="li"
+                                                type="tile"
+                                                align="left"
+                                                title={mnfgName}
+                                                subtitle={nameOverride}
+                                                footer={selectedConfigurationTypeName}
+                                            />
+                                        )}
+                                />
+                            ) : null}
                         </div>
                     );
                 }}
