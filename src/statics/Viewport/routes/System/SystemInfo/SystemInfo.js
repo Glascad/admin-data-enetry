@@ -1,48 +1,11 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Select from 'react-select';
 import Creatable from 'react-select/lib/Creatable';
 
-import HeadedContainer from '../../../../../components/HeadedContainer/HeadedContainer';
+import SYSTEM_INFO_QUERY from './system-info-query.js';
 
-const GET_SYSTEM_INFO = gql`
-query{
-  allSystemTypes{
-    nodes{
-      nodeId
-      id
-      type
-    }
-  }
-  allSystemTags{
-    nodes{
-      nodeId
-      id
-      type
-    }
-  }
-  allInfillSizes{
-    nodes{
-      nodeId
-      size
-    }
-  }
-  allInfillPocketTypes{
-    nodes{
-      nodeId
-      id
-      type
-      captured
-    }
-  }
-  allInfillPocketSizes{
-    nodes{
-      nodeId
-      size
-    }
-  }
-}`;
+import { HeadedContainer } from '../../../../../components';
 
 export default class SystemInfo extends Component {
 
@@ -88,7 +51,7 @@ export default class SystemInfo extends Component {
         } = this;
         return (
             <Query
-                query={GET_SYSTEM_INFO}
+                query={SYSTEM_INFO_QUERY}
             >
                 {({
                     loading,

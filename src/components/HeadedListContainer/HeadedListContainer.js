@@ -30,6 +30,8 @@ export default class HeadedListContainer extends Component {
     render = () => {
         const {
             props: {
+                id,
+                className,
                 title,
                 filters,
                 sorts,
@@ -37,8 +39,8 @@ export default class HeadedListContainer extends Component {
                 listItems,
                 renderListItem,
                 addListItem,
-                childrenBeforeList,
-                childrenAfterList,
+                beforeList,
+                afterList,
             },
             state: {
                 currentFilterIndex,
@@ -51,7 +53,8 @@ export default class HeadedListContainer extends Component {
 
         return (
             <HeadedContainer
-                className="HeadedListContainer"
+                id={id}
+                className={`HeadedListContainer ${className}`}
                 title={(
                     <span className="title">{title}{currentFilter ? ` | ${currentFilter.name}` : ''}</span>
                 )}
@@ -72,7 +75,7 @@ export default class HeadedListContainer extends Component {
                     </span>
                 )}
             >
-                {childrenBeforeList}
+                {beforeList}
                 <ListContainer
                     title={listTitle}
                     items={listItems}
@@ -81,7 +84,7 @@ export default class HeadedListContainer extends Component {
                     filter={currentFilter ? currentFilter.callback : undefined}
                     sort={currentSort ? currentSort.callback : undefined}
                 />
-                {childrenAfterList}
+                {afterList}
             </HeadedContainer>
         );
     }

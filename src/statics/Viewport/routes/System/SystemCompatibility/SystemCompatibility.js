@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeadedContainer from '../../../../../components/HeadedContainer/HeadedContainer';
+import { HeadedContainer } from '../../../../../components';
 
 export default class SystemCompatibility extends Component {
     render = () => {
@@ -8,7 +8,7 @@ export default class SystemCompatibility extends Component {
                 id="SystemCompatibility"
                 title="System Compatibility"
             >
-                
+
             </HeadedContainer>
         );
     }

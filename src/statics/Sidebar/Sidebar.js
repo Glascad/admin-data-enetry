@@ -4,7 +4,7 @@ import './Sidebar.scss';
 import { Link } from 'react-router-dom';
 import routes from '../Viewport/routes/routes';
 
-import Dropdown from '../../components/Dropdown/Dropdown';
+import { Dropdown } from '../../components';
 
 class Sidebar extends Component {
 
@@ -44,7 +44,7 @@ class Sidebar extends Component {
                         className={pathname.includes(parentPath) ? 'selected' : ''}
                         title={name}
                         onSummaryClick={handleDropdownClick(parentPath)}
-                        children={subroutes && subroutes.some(({ path }) => path[1] !== ':') ? subroutes.filter(({path}) => path[1] !== ':').map(({ name, path: childPath }, i) => (
+                        children={subroutes && subroutes.some(({ path }) => path[1] !== ':') ? subroutes.filter(({ path }) => path[1] !== ':').map(({ name, path: childPath }, i) => (
                             <Link
                                 key={i}
                                 to={parentPath + childPath}

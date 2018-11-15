@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeadedContainer from '../../../../../components/HeadedContainer/HeadedContainer';
+import { HeadedContainer } from '../../../../../components';
 
 export default class SystemDetailTypes extends Component {
     render = () => {

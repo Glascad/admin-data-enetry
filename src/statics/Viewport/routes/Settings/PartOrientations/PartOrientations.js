@@ -1,6 +1,5 @@
 import React from 'react';
-import HeadedListContainer from '../../../../../components/HeadedListContainer/HeadedListContainer';
-import Pill from '../../../../../components/Pill/Pill';
+import { HeadedListContainer, Pill } from '../../../../../components';
 
 export default function PartOrientations() {
     return (

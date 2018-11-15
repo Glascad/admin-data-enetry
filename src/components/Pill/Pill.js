@@ -5,7 +5,10 @@ import './Pill.scss';
 export default class Pill extends Component {
 
     static propTypes = {
-        type: PropTypes.oneOf(['pill', 'tile']),
+        type: PropTypes.oneOf([
+            'pill',
+            'tile'
+        ]),
         // BOOLEANS
         selected: PropTypes.bool,
         editable: PropTypes.bool,
@@ -13,9 +16,16 @@ export default class Pill extends Component {
         default: PropTypes.bool,
         draggable: PropTypes.bool,
         // STRINGS
-        align: PropTypes.oneOf(['left', 'right', 'center']),
+        align: PropTypes.oneOf([
+            'left',
+            'right',
+            'center'
+        ]),
         tagname: PropTypes.string,
-        title: PropTypes.string.isRequired,
+        title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]).isRequired,
         subtitle: PropTypes.string,
         // CONTENT
         contents: PropTypes.any,
@@ -47,7 +57,7 @@ export default class Pill extends Component {
     handleClick = e => {
         e.stopPropagation();
         if (this.props.onSelect)
-            this.props.onSelect(this.props.selected);
+            this.props.onSelect(this.props);
     }
 
     render = () => {

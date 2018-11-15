@@ -13,7 +13,8 @@
     width: $pill-width;
     border-radius: $pill-width;
     padding: $med;
-    margin: $small;
+    margin: $small $large;
+    margin-left: 0;
 
     &.tile {
         flex-direction: column;
