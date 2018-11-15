@@ -1,21 +1,21 @@
 // HOME
-import Home from './Home/Home';
+import Home from './Viewport/routes/Home/Home';
 // SYSTEM
-import System from './System/System';
+import System from './Viewport/routes/System/System';
 // SYSTEM CONFIGURATIONS
-import SystemConfigurations from './SystemConfigurations/SystemConfigurations';
-import SystemTypes from './SystemConfigurations/SystemTypes/SystemTypes';
-import DetailTypes from './SystemConfigurations/DetailTypes/DetailTypes';
-import ConfigurationTypes from './SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
-import PartTypes from './SystemConfigurations/PartTypes/PartTypes';
+import SystemConfigurations from './Viewport/routes/SystemConfigurations/SystemConfigurations';
+import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
+import DetailTypes from './Viewport/routes/SystemConfigurations/DetailTypes/DetailTypes';
+import ConfigurationTypes from './Viewport/routes/SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
+import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
 // SETTINGS
-import Settings from './Settings/Settings';
-import Manufacturers from './Settings/Manufacturers/Manufacturers';
-import Linetypes from './Settings/Linetypes/Linetypes';
-import PartOrientations from './Settings/PartOrientations/PartOrientations';
-import Fasteners from './Settings/Fasteners/Fasteners';
-import InfillSizes from './Settings/InfillSizes/InfillSizes';
-import InfillTypes from './Settings/InfillTypes/InfillTypes';
+import Settings from './Viewport/routes/Settings/Settings';
+import Manufacturers from './Viewport/routes/Settings/Manufacturers/Manufacturers';
+import Linetypes from './Viewport/routes/Settings/Linetypes/Linetypes';
+import PartOrientations from './Viewport/routes/Settings/PartOrientations/PartOrientations';
+import Fasteners from './Viewport/routes/Settings/Fasteners/Fasteners';
+import InfillSizes from './Viewport/routes/Settings/InfillSizes/InfillSizes';
+import InfillTypes from './Viewport/routes/Settings/InfillTypes/InfillTypes';
 
 export default [
     {

@@ -5,16 +5,20 @@ import CONFIGURATION_TYPES_QUERY from './configuration-types-query';
 
 import { HeadedListContainer, Pill } from '../../../../../components';
 
-export default class PartTypes extends Component {
+export default class ConfigurationTypes extends Component {
 
     state = {
         selectedConfigurationTypeNID: "nodeId",
         selectedPartTypeNID: "nodeid"
     }
 
-    selectConfigurationType = ({ nodeId }) => this.setState({ selectedConfigurationTypeNID: nodeId });
+    selectConfigurationType = ({ nodeId }) => this.setState({
+        selectedConfigurationTypeNID: nodeId
+    });
 
-    selectPartType = ({ nodeId }) => this.setState({ selectedPartTypeNID: nodeId });
+    selectPartType = ({ nodeId }) => this.setState({
+        selectedPartTypeNID: nodeId
+    });
 
     render = () => {
         const {

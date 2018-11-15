@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './Viewport.scss';
-import routes from './routes/routes';
+import routes from '../routes';
 import ViewportHeader from './ViewportHeader';
 
 const createRoute = ({ path, component, exact }, parentPath) => (

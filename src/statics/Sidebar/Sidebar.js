@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import './Sidebar.scss';
 import { Link } from 'react-router-dom';
-import routes from '../Viewport/routes/routes';
+import routes from '../routes';
 
 import { Dropdown } from '../../components';
 

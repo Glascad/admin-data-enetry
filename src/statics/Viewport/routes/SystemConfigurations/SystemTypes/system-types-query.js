@@ -1,0 +1,46 @@
+import gql from 'graphql-tag';
+
+export default gql`{
+    allSystemTypes{
+        nodes{
+            nodeId
+            id
+            type
+            systemTypeDetailTypesBySystemTypeId{
+                nodes{
+                    detailTypeByDetailTypeId{
+                        nodeId
+                        id
+                        type
+                        vertical
+                        entrance
+                    }
+                }
+            }
+            systemTypeDetailTypeConfigurationTypesBySystemTypeId{
+                nodes{
+                    nodeId
+                    required
+                    mirrorable
+                    detailTypeByDetailTypeId{
+                        nodeId
+                    }
+                    configurationTypeByConfigurationTypeId{
+                        nodeId
+                        id
+                        type
+                        door
+                        overrideLevel
+                        presentationLevel
+                    }
+                }
+            }
+        }
+    }
+    allSystemTags{
+        nodes{
+            nodeId
+            type
+        }
+    }
+}`;
