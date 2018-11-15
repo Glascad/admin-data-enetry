@@ -12,6 +12,11 @@ query System($systemNID: ID!){
   system(nodeId: $systemNID){
     id
     name
+    depth
+    defaultSightline
+    shimSize
+    defaultGlassSize
+    defaultGlassBite
     manufacturerByManufacturerId{
       nodeId
       id
@@ -159,6 +164,11 @@ class System extends Component {
                             nodeId,
                             id,
                             name,
+                            depth,
+                            defaultSightline,
+                            shimSize,
+                            defaultGlassSize,
+                            defaultGlassBite,
                             manufacturerByManufacturerId: manufacturer,
                             systemTypeBySystemTypeId: systemType,
                             systemTagsBySystemId: systemTags,
@@ -178,6 +188,11 @@ class System extends Component {
                                     nodeId,
                                     id,
                                     name,
+                                    depth,
+                                    defaultSightline,
+                                    shimSize,
+                                    defaultGlassSize,
+                                    defaultGlassBite,
                                     manufacturer,
                                     systemType,
                                     systemTags,

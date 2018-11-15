@@ -27,7 +27,9 @@ export default function HeadedContainer({
                     <span className="">{right}</span>
                 ) : null}
             </header>
-            {children}
+            <div className="content">
+                {children}
+            </div>
         </div>
     );
 }
