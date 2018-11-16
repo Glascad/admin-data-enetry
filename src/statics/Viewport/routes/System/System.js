@@ -7,6 +7,11 @@ import SystemInfo from './SystemInfo/SystemInfo';
 import SystemDetailTypes from './SystemDetailTypes/SystemDetailTypes';
 import SystemCompatibility from './SystemCompatibility/SystemCompatibility';
 import SystemOptions from './SystemOptions/SystemOptions';
+import SystemHeaderButtons from './SystemHeaderButtons/SystemHeaderButtons';
+
+System.headerProps = {
+    right: <SystemHeaderButtons />
+};
 
 export default function System({
     match: {
@@ -78,7 +83,7 @@ export default function System({
                         />
                         <SystemCompatibility
                             {...{
-                                
+
                             }}
                         />
                         <SystemOptions

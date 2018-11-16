@@ -3,6 +3,9 @@
 
 #Sidebar {
     background: $light-gray;
+    display: flex;
+    flex-direction: column;
+
     header {
         background: $med-gray;
         color: $x-dark-gray;
@@ -11,9 +14,18 @@
         align-items: center;
         padding: 0 $small;
     }
-    .Dropdown {
+    .Dropdown, .item {
         background: $med-gray;
         color: white;
+    }
+    .item {
+        width: 100%;
+        height: $item-height;
+        display: flex;
+        align-items: center;
+        padding: 0 $small;
+        // padding-left: 27px;
+        box-sizing: border-box;
     }
     .selected {
         background: $dark-gray;

@@ -8,16 +8,19 @@ import { Dropdown } from '../../components';
 
 class Sidebar extends Component {
 
-    routeRefs = routes.slice(1).map(createRef);
+    routeRefs = routes.map(createRef);
 
-    closeDropdowns = ({ target } = {}) => this.routeRefs.forEach(({ current }) => current !== target ? current.open = false : null);
+    closeDropdowns = ({
+        target
+    }) => this.routeRefs
+        .forEach(({
+            current
+        }) => current !== target ?
+                current.open = false
+                :
+                null);
 
     goTo = pathname => this.props.history.push(pathname);
-
-    handleDropdownClick = path => e => {
-        this.closeDropdowns(e);
-        this.goTo(path);
-    }
 
     render = () => {
         const {
@@ -28,31 +31,58 @@ class Sidebar extends Component {
             },
             routeRefs,
             handleDropdownClick,
+            closeDropdowns,
         } = this;
         return (
             <div id="Sidebar">
-                <header
-                    className={`header ${pathname === '/' ? 'selected' : ''}`}
-                    onClick={handleDropdownClick('/')}
-                >
-                    HOME
-                </header>
-                {routes.slice(1).map(({ name, subroutes, path: parentPath }, i) => (
-                    <Dropdown
-                        key={i}
-                        reference={routeRefs[i]}
-                        className={pathname.includes(parentPath) ? 'selected' : ''}
-                        title={name}
-                        onSummaryClick={handleDropdownClick(parentPath)}
-                        children={subroutes && subroutes.some(({ path }) => path[1] !== ':') ? subroutes.filter(({ path }) => path[1] !== ':').map(({ name, path: childPath }, i) => (
+                {routes.map(({
+                    name,
+                    subroutes = [],
+                    exact,
+                    path: parentPath,
+                }, i) => {
+                    const selected = exact ?
+                        pathname === parentPath
+                        :
+                        pathname.includes(parentPath);
+                    const filteredSubroutes = subroutes.filter(({ path }) => path[1] !== ':');
+                    return filteredSubroutes.length ? (
+                        <Dropdown
+                            key={i}
+                            reference={routeRefs[i]}
+                            className={selected ? 'selected' : ''}
+                            title={name}
+                            onSummaryClick={closeDropdowns}
+                            children={filteredSubroutes.map(({
+                                exact,
+                                name,
+                                path: childPath
+                            }, i) => {
+                                const childSelected = exact ?
+                                    pathname === parentPath + childPath
+                                    :
+                                    pathname.includes(parentPath + childPath)
+                                return (
+                                    <Link
+                                        key={i}
+                                        to={parentPath + childPath}
+                                        className={childSelected ? 'selected' : ''}
+                                        children={name}
+                                    />
+                                )
+                            })}
+                        />
+                    ) : (
                             <Link
                                 key={i}
-                                to={parentPath + childPath}
+                                ref={routeRefs[i]}
+                                to={parentPath}
+                                className={`item ${selected ? 'selected' : ''}`}
                                 children={name}
+                                onClick={closeDropdowns}
                             />
-                        )) : null}
-                    />
-                ))}
+                        );
+                })}
             </div>
         );
     }
