@@ -8,6 +8,7 @@ export default gql`{
             type
             systemTypeDetailTypesBySystemTypeId{
                 nodes{
+                    nodeId
                     detailTypeByDetailTypeId{
                         nodeId
                         id
@@ -20,10 +21,12 @@ export default gql`{
             systemTypeDetailTypeConfigurationTypesBySystemTypeId{
                 nodes{
                     nodeId
+                    id
                     required
                     mirrorable
                     detailTypeByDetailTypeId{
                         nodeId
+                        id
                     }
                     configurationTypeByConfigurationTypeId{
                         nodeId
@@ -40,6 +43,7 @@ export default gql`{
     allSystemTags{
         nodes{
             nodeId
+            id
             type
         }
     }

@@ -30,9 +30,9 @@ export default class SystemDetailTypes extends Component {
                 systemType: {
                     nodeId: systemTypeNID,
                     type: systemTypeName = '',
-                } = {},
-                detailTypes: {
-                    nodes: detailTypes = [],
+                    systemTypeDetailTypesByDetailTypeId: {
+                        nodes: detailTypes = [],
+                    } = {},
                 } = {},
                 invalidConfigurationTypes: {
                     nodes: invalidConfigurationTypes = []
@@ -89,8 +89,10 @@ export default class SystemDetailTypes extends Component {
                     title={`Detail Types - ${systemTypeName}`}
                     listItems={detailTypes}
                     renderListItem={({
-                        nodeId,
-                        type,
+                        detailTypeByDetailTypeId: {
+                            nodeId,
+                            type,
+                        }
                     }) => (
                             <Pill
                                 key={nodeId}

@@ -35,23 +35,31 @@ export default class SystemInfo extends Component {
                 nodeId,
                 id: systemId,
                 name: systemName = '',
-                depth,
-                defaultSightline,
-                shimSize,
-                defaultGlassSize,
-                defaultGlassBite,
+                depth: systemDepth,
+                defaultSightline: systemDefaultSightline,
+                shimSize: systemShimSize,
+                defaultGlassSize: systemDefaultGlassSize,
+                defaultGlassBite: systemDefaultGlassBite,
                 manufacturer: {
                     id: mnfgId,
                     name: mnfgName = '',
                 } = {},
                 systemType: {
                     id: systemTypeId,
-                    type: systemType
+                    type: systemTypeName = '',
                 } = {},
-                systemTags,
-                infillSizes,
-                infillPocketTypes,
-                infillPocketSizes,
+                systemTags: {
+                    nodes: systemTags = [],
+                } = {},
+                infillSizes: {
+                    nodes: infillSizes = [],
+                } = {},
+                infillPocketTypes: {
+                    nodes: infillPocketTypes = [],
+                } = {},
+                infillPocketSizes: {
+                    nodes: infillPocketSizes = [],
+                } = {},
             }
         } = this;
         return (
@@ -63,19 +71,19 @@ export default class SystemInfo extends Component {
                     error,
                     data: {
                         allSystemTypes: {
-                            nodes: systemTypes = []
+                            nodes: allSystemTypes = []
                         } = {},
                         allSystemTags: {
-                            nodes: systemTags = []
+                            nodes: allSystemTags = []
                         } = {},
                         allInfillSizes: {
-                            nodes: infillSizes = []
+                            nodes: allInfillSizes = []
                         } = {},
                         allInfillPocketTypes: {
-                            nodes: infillPocketTypes = []
+                            nodes: allInfillPocketTypes = []
                         } = {},
                         allInfillPocketSizes: {
-                            nodes: infillPocketSizes = []
+                            nodes: allInfillPocketSizes = []
                         } = {},
                     }
                 }) => (
@@ -83,21 +91,14 @@ export default class SystemInfo extends Component {
                             id="SystemInfo"
                             title={`System - ${mnfgName} > ${systemName}`}
                         >
-                            {console.log({
-                                systemTypes,
-                                systemTags,
-                                infillSizes,
-                                infillPocketTypes,
-                                infillPocketSizes
-                            })}
                             <h6>Name</h6>
-                            <Creatable
-                                inputValue={systemName}
+                            <input
+                                value={systemName}
                             />
                             <h6>System Type</h6>
                             <Select
-                                options={systemTypes.map(({ id, type }) => ({ value: id, label: type }))}
-                                inputValue={systemType}
+                                options={allSystemTypes.map(({ id, type }) => ({ value: id, label: type }))}
+                                inputValue={systemTypeName}
                             />
                             <ListContainer
                                 title="System Tags"
@@ -109,6 +110,35 @@ export default class SystemInfo extends Component {
                                         title={type}
                                     />
                                 )}
+                                onAddItem={console.log}
+                            />
+                            <h6>System Depth</h6>
+                            <input
+                                value={systemDepth}
+                            />
+                            <h6>System Sightline</h6>
+                            <input
+                                value={systemDefaultSightline}
+                            />
+                            <h6>Caulk Joint Size</h6>
+                            <input
+                                value={systemShimSize}
+                            />
+                            <h6>Glass Bite</h6>
+                            <input
+                                value={systemDefaultGlassBite}
+                            />
+                            <ListContainer
+                                title="Infill Sizes"
+                                items={infillSizes}
+                                renderItem={({ nodeId, size }) => (
+                                    <Pill
+                                        key={nodeId}
+                                        nodeId={nodeId}
+                                        title={size}
+                                    />
+                                )}
+                                onAddItem={console.log}
                             />
                             <ListContainer
                                 title="Infill Pocket Types"
@@ -120,6 +150,7 @@ export default class SystemInfo extends Component {
                                         title={type}
                                     />
                                 )}
+                                onAddItem={console.log}
                             />
                             <ListContainer
                                 title="Infill Pocket Sizes"
@@ -131,6 +162,7 @@ export default class SystemInfo extends Component {
                                         title={size}
                                     />
                                 )}
+                                onAddItem={console.log}
                             />
                         </HeadedContainer>
                     )}

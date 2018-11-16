@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { HeadedContainer } from '../../../../../components';
+import {
+    HeadedListContainer
+} from '../../../../../components';
 
 export default class SystemOptions extends Component {
     render = () => {
         return (
-            <HeadedContainer
-                id="SystemOptions"
-                title="System Options"
-            >
+            <div>
+                <HeadedListContainer
+                    title="System Options"
+                    listItems={[]}
+                    renderListItem={() => null}
+                >
 
-            </HeadedContainer>
+                </HeadedListContainer>
+            </div>
         );
     }
 }

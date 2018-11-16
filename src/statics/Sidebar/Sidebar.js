@@ -41,11 +41,11 @@ class Sidebar extends Component {
                     exact,
                     path: parentPath,
                 }, i) => {
-                    const selected = exact ?
+                    const filteredSubroutes = subroutes.filter(({ path }) => path[1] !== ':');
+                    const selected = exact && !filteredSubroutes.length ?
                         pathname === parentPath
                         :
                         pathname.includes(parentPath);
-                    const filteredSubroutes = subroutes.filter(({ path }) => path[1] !== ':');
                     return filteredSubroutes.length ? (
                         <Dropdown
                             key={i}

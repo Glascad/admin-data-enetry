@@ -3,12 +3,12 @@ import gql from 'graphql-tag';
 export default gql`query{
     allSystems{
         nodes{
-            id
             nodeId
+            id
             name
             manufacturerByManufacturerId{
-                id
                 nodeId
+                id
                 name
             }
         }

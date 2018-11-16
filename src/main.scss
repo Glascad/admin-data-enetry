@@ -1,11 +1,46 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import './variables';
+
+button, input {
+    border: none;
+    outline: none;
+    padding: $xx-small $small;
+    border-radius: $xxx-small;
+    box-sizing: border-box;
+    
+    &:focus {
+        box-shadow: 0 0 3px 0.5px $blue;
+    }
+    
+    &.empty {
+        border: 1px solid $x-dark-gray;
+        color: $x-dark-gray;
+        
+        &.light {
+            border: 1px solid white;
+            color: white;
+        }
+    }
+}
 
 button {
-    border: none;
     background: none;
-    outline: none;
+    margin: $small;
+    
+    &.primary {
+        background: $green;
+        color: white;
+    }
 }
+
+input {
+    border: 1px solid $x-dark-gray;
+    margin: $x-small;
+    margin-left: 0;
+    width: $pill-width;
+}
+
 
 html, #root, body {
     font-family: 'Roboto Condensed';

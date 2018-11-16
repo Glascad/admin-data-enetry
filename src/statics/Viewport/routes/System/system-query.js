@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 export default gql`query System($systemNID: ID!){
     system(nodeId: $systemNID){
+        nodeId
         id
         name
         depth
@@ -18,10 +19,9 @@ export default gql`query System($systemNID: ID!){
             nodeId
             id
             type
-        }
-        systemTypeDetailTypesBySystemTypeId{
-            nodes{
-                nodeId
+            systemTypeDetailTypesBySystemTypeId{
+                nodes{
+                    nodeId
                     detailTypeByDetailTypeId{
                         nodeId
                         id
@@ -34,11 +34,12 @@ export default gql`query System($systemNID: ID!){
                                 required
                                 mirrorable
                                 configurationTypeByConfigurationTypeId{
-                                nodeId
-                                type
-                                door
-                                presentationLevel
-                                overrideLevel
+                                    nodeId
+                                    type
+                                    door
+                                    presentationLevel
+                                    overrideLevel
+                                }
                             }
                         }
                     }

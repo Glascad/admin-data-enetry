@@ -17,6 +17,11 @@
     .Dropdown, .item {
         background: $med-gray;
         color: white;
+        border-bottom: 1px solid white;
+
+        .selected {
+            font-weight: bold;
+        }
     }
     .item {
         width: 100%;

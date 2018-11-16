@@ -9,7 +9,7 @@
     right: 0;
     height: $header-height;
     background: white;
-    border-bottom: 1px solid $x-dark-gray;
+    border-bottom: 1px solid white;
     box-sizing: border-box;
     // padding: $small;
     display: flex;
@@ -17,10 +17,10 @@
     align-items: center;
 }
 
-#Viewport, #Sidebar {
+#Viewport, #Sidebar, #ViewportHeader {
     position: fixed;
     top: $header-height;
-    // border: 1px solid $x-dark-gray;
+    // border: 1px solid white;
     box-sizing: border-box;
     height: $viewport-height;
 }
@@ -28,7 +28,7 @@
 #Sidebar {
     left: 0;
     width: $sidebar-width;
-    border-right: 1px solid $x-dark-gray;
+    border-right: 1px solid white;
 }
 
 #Viewport {
@@ -37,11 +37,10 @@
     padding-top: $item-height;
 
     #ViewportHeader {
-        position: fixed;
-        top: $header-height;
         left: $sidebar-width;
         right: 0;
         height: $item-height;
         z-index: 1;
+        border-bottom: 1px solid white;
     }
 }

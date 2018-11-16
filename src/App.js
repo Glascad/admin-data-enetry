@@ -1,5 +1,6 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -9,8 +10,13 @@ import Header from './statics/Header/Header';
 import Sidebar from './statics/Sidebar/Sidebar';
 import Viewport from './statics/Viewport/Viewport';
 
+const cache = new InMemoryCache({
+    dataIdFromObject: ({ nodeId, id }) => nodeId || id || null,
+});
+
 const client = new ApolloClient({
-    uri: 'http://127.0.0.1:5001/graphql'
+    uri: 'http://127.0.0.1:5001/graphql',
+    cache,
 });
 
 export default function App() {

@@ -43,7 +43,6 @@ export default function System({
                         manufacturerByManufacturerId: manufacturer,
                         systemTagsBySystemId: systemTags,
                         systemTypeBySystemTypeId: systemType,
-                        systemTypeDetailTypesBySystemTypeId: detailTypes,
                         invalidSystemConfigurationTypesBySystemId: invalidConfigurationTypes,
                         systemConfigurationOverridesBySystemId: configurationOverrides,
                         systemInfillSizesBySystemId: infillSizes,
@@ -76,7 +75,6 @@ export default function System({
                         <SystemDetailTypes
                             {...{
                                 systemType,
-                                detailTypes,
                                 invalidConfigurationTypes,
                                 configurationOverrides,
                             }}

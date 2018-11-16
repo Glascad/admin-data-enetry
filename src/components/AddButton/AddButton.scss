@@ -3,6 +3,11 @@
 
 .AddButton {
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+
     button {
         height: $item-height;
         width: $item-height;
@@ -12,6 +17,23 @@
         background: $green;
         margin: $small $large;
         margin-left: 0;
+    }
+
+    &.large {
+        height: $pill-width;
+        width: $pill-width;
+        border-radius: $small;
+        border: 2px dashed $light-gray;
+        margin: $small $large;
+        margin-left: 0;
+        box-sizing: border-box;
+
+        button {
+            height: $pill-width * 3 / 4;
+            width: $pill-width * 3 / 4;
+            border-radius: $pill-width * 3 / 4;
+            margin: 0;
+        }
     }
 
     .vertical-plus {

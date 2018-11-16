@@ -36,8 +36,8 @@ export default function ListContainer({
                     .map(renderItem)}
                 {onAddItem ? (
                     <AddButton
-                        addButtonType={addButtonType}
-                        addButtonInputType={addButtonInputType}
+                        type={addButtonType}
+                        inputType={addButtonInputType}
                         onAdd={onAddItem}
                     />
                 ) : null}

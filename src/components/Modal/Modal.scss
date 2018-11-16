@@ -1,0 +1,59 @@
+
+@import '../../variables';
+
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .Modal {
+        min-width: 30%;
+        min-height: 30%;
+        max-width: 80%;
+        max-height: 80%;
+        border-radius: $small;
+        border: 1px solid $med-gray;
+        box-shadow: 3px 3px 5px $x-dark-gray;
+        background: $x-dark-gray;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        .HeadedContainer {
+            margin-top: $small; // NOT SURE WHY THIS IS NECESSARY
+            header {
+                border-bottom-color: white;
+            }
+        }
+        
+        .modal-buttons {
+            padding: $small;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    &.hidden {
+        display: none;
+        
+        .Modal {
+            .HeadedContainer {
+                header {
+
+                }
+            }
+
+            .modal-buttons {
+
+            }
+        }
+    }
+}
