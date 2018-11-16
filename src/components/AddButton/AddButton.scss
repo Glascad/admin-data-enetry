@@ -1,0 +1,37 @@
+
+@import '../../variables';
+
+.AddButton {
+
+    button {
+        height: $item-height;
+        width: $item-height;
+        border-radius: $item-height;
+        display: flex;
+        position: relative;
+        background: $green;
+        margin: $small $large;
+        margin-left: 0;
+    }
+
+    .vertical-plus {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10%;
+        height: 55%;
+        transform: translate(-50%, -50%);
+        background: white;
+    }
+
+    .horizontal-plus {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 55%;
+        height: 10%;
+        transform: translate(-50%, -50%);
+        background: white;
+    }
+
+}

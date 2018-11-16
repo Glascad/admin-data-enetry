@@ -5,7 +5,12 @@ import Creatable from 'react-select/lib/Creatable';
 
 import SYSTEM_INFO_QUERY from './system-info-query.js';
 
-import { HeadedContainer } from '../../../../../components';
+import {
+    HeadedContainer,
+    ListContainer,
+    Pill,
+} from '../../../../../components';
+
 
 export default class SystemInfo extends Component {
 
@@ -94,10 +99,38 @@ export default class SystemInfo extends Component {
                                 options={systemTypes.map(({ id, type }) => ({ value: id, label: type }))}
                                 inputValue={systemType}
                             />
-                            <h6>System Tags</h6>
-                            <Select
-                                options={systemTags.map(({ id, type }) => ({ value: id, label: type }))}
-                                isMulti={true}
+                            <ListContainer
+                                title="System Tags"
+                                items={systemTags}
+                                renderItem={({ nodeId, type }) => (
+                                    <Pill
+                                        key={nodeId}
+                                        nodeId={nodeId}
+                                        title={type}
+                                    />
+                                )}
+                            />
+                            <ListContainer
+                                title="Infill Pocket Types"
+                                items={infillPocketTypes}
+                                renderItem={({ nodeId, type }) => (
+                                    <Pill
+                                        key={nodeId}
+                                        nodeId={nodeId}
+                                        title={type}
+                                    />
+                                )}
+                            />
+                            <ListContainer
+                                title="Infill Pocket Sizes"
+                                items={infillPocketSizes}
+                                renderItem={({ nodeId, size }) => (
+                                    <Pill
+                                        key={nodeId}
+                                        nodeId={nodeId}
+                                        title={size}
+                                    />
+                                )}
                             />
                         </HeadedContainer>
                     )}

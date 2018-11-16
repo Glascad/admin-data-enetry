@@ -15,6 +15,7 @@ export default class Pill extends Component {
         deletable: PropTypes.bool,
         default: PropTypes.bool,
         draggable: PropTypes.bool,
+        invalid: PropTypes.bool,
         // STRINGS
         align: PropTypes.oneOf([
             'left',
@@ -70,6 +71,7 @@ export default class Pill extends Component {
                 deletable,
                 default: defaulted,
                 draggable,
+                invalid,
                 align,
                 title,
                 subtitle,
@@ -101,6 +103,8 @@ export default class Pill extends Component {
                     editing ? 'editing' : ''
                     } ${
                     align ? `align-${align}` : ''
+                    } ${
+                    invalid ? 'invalid' : ''
                     } ${
                     type === 'tile' ? 'tile' : ''
                     }`}

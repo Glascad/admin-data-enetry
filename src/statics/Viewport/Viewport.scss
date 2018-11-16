@@ -2,9 +2,16 @@
 @import '../../variables';
 
 #Viewport {
+    overflow-y: scroll;
+    padding-bottom: 120px;
+
     #ViewportHeader {
-        width: stretch;
-        height: $item-height;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        // right: 0;
+        // width: stretch;
+        // height: $item-height;
         background: $med-gray;
         color: white;
         display: flex;

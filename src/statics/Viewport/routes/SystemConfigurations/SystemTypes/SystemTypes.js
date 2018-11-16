@@ -11,7 +11,7 @@ export default class SystemTypes extends Component {
         selectedSystemTypeNID: "nodeId",
         selectedDetailTypeNID: "nodeId",
         selectedConfigurationTypeNID: "nodeId",
-    }
+    };
 
     selectSystemType = ({ nodeId }) => this.setState({
         selectedSystemTypeNID: nodeId
@@ -54,26 +54,44 @@ export default class SystemTypes extends Component {
                     } = {},
                 }) => {
                     const {
-                        type: selectedSystemTypeName,
+                        type: selectedSystemTypeName = '',
                         systemTypeDetailTypesBySystemTypeId: {
                             nodes: detailTypes = [],
                         } = {},
                         systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
                             nodes: systemTypeDetailTypeConfigurationTypes = []
                         } = {},
-                    } = systemTypes.find(({ nodeId }) => nodeId === selectedSystemTypeNID) || {};
+                    } = systemTypes
+                        .find(({
+                            nodeId
+                        }) => nodeId === selectedSystemTypeNID) || {};
 
                     const {
                         detailTypeByDetailTypeId: {
-                            type: selectedDetailTypeName,
+                            type: selectedDetailTypeName = '',
                         } = {},
-                    } = detailTypes.find(({ detailTypeByDetailTypeId: { nodeId } }) => nodeId === selectedDetailTypeNID) || {};
+                    } = detailTypes
+                        .find(({
+                            detailTypeByDetailTypeId: {
+                                nodeId
+                            }
+                        }) => nodeId === selectedDetailTypeNID) || {};
 
-                    const configurationTypes = systemTypeDetailTypeConfigurationTypes.filter(({ detailTypeByDetailTypeId: { nodeId } }) => nodeId === selectedDetailTypeNID);
+                    const configurationTypes = systemTypeDetailTypeConfigurationTypes
+                        .filter(({
+                            detailTypeByDetailTypeId: {
+                                nodeId
+                            }
+                        }) => nodeId === selectedDetailTypeNID);
 
                     const {
-                        type: selectedConfigurationTypeName,
-                    } = systemTypeDetailTypeConfigurationTypes.find(({ configurationTypeByConfigurationTypeId: { nodeId } }) => nodeId === selectedConfigurationTypeNID) || {};
+                        type: selectedConfigurationTypeName = '',
+                    } = systemTypeDetailTypeConfigurationTypes
+                        .find(({
+                            configurationTypeByConfigurationTypeId: {
+                                nodeId
+                            }
+                        }) => nodeId === selectedConfigurationTypeNID) || {};
 
                     return (
                         <div>
@@ -93,6 +111,7 @@ export default class SystemTypes extends Component {
                                             onSelect={selectSystemType}
                                         />
                                     )}
+                                onAddListItem={console.log}
                             />
                             <HeadedListContainer
                                 title={`Detail Types - ${selectedSystemTypeName}`}
@@ -152,7 +171,7 @@ export default class SystemTypes extends Component {
                                             tagname="li"
                                             title={type}
                                         />
-                                )}
+                                    )}
                             />
                         </div>
                     );

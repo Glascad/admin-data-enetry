@@ -36,8 +36,9 @@ export default function System({
                         defaultGlassSize,
                         defaultGlassBite,
                         manufacturerByManufacturerId: manufacturer,
-                        systemTypeBySystemTypeId: systemType,
                         systemTagsBySystemId: systemTags,
+                        systemTypeBySystemTypeId: systemType,
+                        systemTypeDetailTypesBySystemTypeId: detailTypes,
                         invalidSystemConfigurationTypesBySystemId: invalidConfigurationTypes,
                         systemConfigurationOverridesBySystemId: configurationOverrides,
                         systemInfillSizesBySystemId: infillSizes,
@@ -70,6 +71,7 @@ export default function System({
                         <SystemDetailTypes
                             {...{
                                 systemType,
+                                detailTypes,
                                 invalidConfigurationTypes,
                                 configurationOverrides,
                             }}

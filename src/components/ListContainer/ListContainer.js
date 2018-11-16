@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './ListContainer.scss';
+import AddButton from '../AddButton/AddButton';
 
 ListContainer.propTypes = {
     title: PropTypes.string,
     items: PropTypes.array.isRequired,
     renderItem: PropTypes.func.isRequired,
-    addItem: PropTypes.func,
+    addButtonType: PropTypes.string,
+    addButtonInputType: PropTypes.string,
+    onAddItem: PropTypes.func,
     filter: PropTypes.func,
     sort: PropTypes.func,
 };
@@ -15,7 +18,9 @@ export default function ListContainer({
     title,
     items,
     renderItem,
-    addItem,
+    addButtonType,
+    addButtonInputType,
+    onAddItem,
     filter = () => true,
     sort = () => 0,
 }) {
@@ -29,11 +34,11 @@ export default function ListContainer({
                     .sort(sort)
                     .filter(filter)
                     .map(renderItem)}
-                {addItem ? (
-                    <button
-                        className="add"
-                        children="+"
-                        onClick={addItem}
+                {onAddItem ? (
+                    <AddButton
+                        addButtonType={addButtonType}
+                        addButtonInputType={addButtonInputType}
+                        onAdd={onAddItem}
                     />
                 ) : null}
             </ul>

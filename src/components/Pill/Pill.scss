@@ -55,6 +55,9 @@
     &.default{
         border: 2px solid $x-dark-gray;
     }
+    &.invalid {
+        opacity: 0.67;
+    }
     &.editing {
 
     }

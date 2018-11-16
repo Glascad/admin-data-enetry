@@ -18,27 +18,27 @@ export default gql`query System($systemNID: ID!){
             nodeId
             id
             type
-            systemTypeDetailTypesBySystemTypeId{
-                nodes{
-                    nodeId
-                        detailTypeByDetailTypeId{
-                            nodeId
-                            id
-                            type
-                            entrance
-                            vertical
-                            systemTypeDetailTypeConfigurationTypesByDetailTypeId{
-                                nodes{
-                                    nodeId
-                                    required
-                                    mirrorable
-                                    configurationTypeByConfigurationTypeId{
-                                    nodeId
-                                    type
-                                    door
-                                    presentationLevel
-                                    overrideLevel
-                                }
+        }
+        systemTypeDetailTypesBySystemTypeId{
+            nodes{
+                nodeId
+                    detailTypeByDetailTypeId{
+                        nodeId
+                        id
+                        type
+                        entrance
+                        vertical
+                        systemTypeDetailTypeConfigurationTypesByDetailTypeId{
+                            nodes{
+                                nodeId
+                                required
+                                mirrorable
+                                configurationTypeByConfigurationTypeId{
+                                nodeId
+                                type
+                                door
+                                presentationLevel
+                                overrideLevel
                             }
                         }
                     }
