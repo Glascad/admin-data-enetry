@@ -100,4 +100,4 @@ class Modal extends Component {
 }
 
 export default Modal;
-export const AsyncModal = async(Modal, props => ({ ...props, onFinish: props.mutate }));
+export const AsyncModal = async(Modal, mutate => ({ onFinish: mutate }));

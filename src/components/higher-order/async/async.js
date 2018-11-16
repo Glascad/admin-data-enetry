@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-export default function async(SuperClass, transformProps) {
-    return class extends SuperClass {
+export default function async(SuperClass, mapMutateToProps) {
+    return class Async extends SuperClass {
+
+        static SuperClass = SuperClass;
 
         static propTypes = {
             mutation: PropTypes.object.isRequired,
             update: PropTypes.func.isRequired,
             variables: PropTypes.object.isRequired,
-            onFinish: PropTypes.object.isRequired,
         }
 
         render = () => {
@@ -29,10 +30,8 @@ export default function async(SuperClass, transformProps) {
                     {mutate => {
                         return (
                             <SuperClass
-                                {...transformProps({
-                                    ...props,
-                                    mutate: () => mutate({ variables })
-                                })}
+                                {...props}
+                                {...mapMutateToProps(() => mutate({ variables }))}
                             />
                         );
                     }}

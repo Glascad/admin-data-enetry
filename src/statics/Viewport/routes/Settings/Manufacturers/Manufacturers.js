@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {
-    Query,
-    Mutation,
-} from 'react-apollo';
+import { Query } from 'react-apollo';
 
-import MNFG_QUERY from './mnfg-query';
-import MNFG_MUTATION from './mnfg-mutation';
+import {
+    query,
+    create_mnfg,
+    update_mnfg,
+    delete_mnfg,
+} from './mnfg-gql';
 
 import {
     HeadedListContainer,
@@ -16,60 +17,61 @@ import {
 export default class Manufacturers extends Component {
 
     state = {
-        modal: false,
-        name: ''
+        selectedMnfgNID: 'nodeId',
+        modal: {},
+        name: '',
     };
 
-    renderModal = () => this.setState({
-        modal: true
+    renderDeleteModal = ({ nodeId, name }) => this.setState({
+        selectedMnfgNID: nodeId,
+        modal: delete_mnfg,
+        name,
+    })
+
+    renderUpdateModal = ({ nodeId, name }) => this.setState({
+        selectedMnfgNID: nodeId,
+        modal: update_mnfg,
+        name,
+    });
+
+    renderAddModal = () => this.setState({
+        selectedMnfgNID: "nodeId",
+        modal: create_mnfg,
+        name: ''
     });
 
     cancelModal = () => this.setState({
-        modal: false,
-        name: ''
+        selectedMnfgNID: "nodeId",
+        modal: {},
+        name: '',
     });
 
     handleInput = ({ target: { value } }) => this.setState({
-        name: value
+        name: value,
     });
-
-    update = (cache, {
-        data: {
-            createManufacturer: {
-                manufacturer
-            }
-        }
-    }) => {
-        const {
-            allManufacturers
-        } = cache.readQuery({ query: MNFG_QUERY });
-        cache.writeQuery({
-            query: MNFG_QUERY,
-            data: {
-                allManufacturers: {
-                    ...allManufacturers,
-                    nodes: allManufacturers.nodes.concat(manufacturer)
-                }
-            }
-        });
-        this.cancelModal();
-    }
 
     render = () => {
         const {
             state: {
-                modal,
+                selectedMnfgNID,
+                modal: {
+                    mutation: selectedMutation,
+                    update: selectedUpdate,
+                },
                 name,
             },
-            renderModal,
+            renderAddModal,
+            renderUpdateModal,
+            renderDeleteModal,
             cancelModal,
             handleInput,
-            update
         } = this;
+
+        console.log(this.state);
 
         return (
             <Query
-                query={MNFG_QUERY}
+                query={query}
             >
                 {({
                     loading,
@@ -97,31 +99,36 @@ export default class Manufacturers extends Component {
                             }) => (
                                     <Pill
                                         key={nodeId}
+                                        nodeId={nodeId}
                                         type="tile"
                                         align="left"
                                         tagname="li"
                                         title={name}
                                         footer="Last Updated:"
+                                        selected={selectedMnfgNID === nodeId}
+                                        onSelect={renderUpdateModal}
                                     />
                                 )}
-                            afterList={(
-                                <AsyncModal
-                                    mutation={MNFG_MUTATION}
-                                    variables={{ name }}
-                                    update={update}
-                                    display={modal}
-                                    title="New Manufacturer"
-                                    onCancel={cancelModal}
-                                >
-                                    <h6>Name</h6>
-                                    <input
-                                        value={name}
-                                        onChange={handleInput}
-                                    />
-                                </AsyncModal>
-                            )}
+                            afterList={[create_mnfg, update_mnfg, delete_mnfg]
+                                .map(({ mutation, update, title }, i) => (
+                                    <AsyncModal
+                                        key={i}
+                                        mutation={mutation}
+                                        variables={{ name }}
+                                        update={update}
+                                        display={mutation === selectedMutation}
+                                        title={title}
+                                        onCancel={cancelModal}
+                                    >
+                                        <h6>Name</h6>
+                                        <input
+                                            value={name}
+                                            onChange={handleInput}
+                                        />
+                                    </AsyncModal>
+                                ))}
                             addButtonType="large"
-                            onAddListItem={renderModal}
+                            onAddListItem={renderAddModal}
                         />
                     )}
             </Query>
