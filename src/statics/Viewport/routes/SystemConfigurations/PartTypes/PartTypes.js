@@ -1,14 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 
-import PART_TYPES_QUERY from './part-types-query';
+import {
+    query,
+    create_part_type,
+    update_part_type,
+    delete_part_type,
+} from './part-types-gql';
 
-import { HeadedListContainer, Pill } from '../../../../../components';
+import {
+    create_part_tag,
+    update_part_tag,
+    delete_part_tag,
+} from './part-tags-gql';
+
+import {
+    HeadedListContainer,
+    Pill,
+    AsyncModal,
+} from '../../../../../components';
 
 export default function PartTypes() {
+
+    const [displayCreateType, setDisplayCreateType] = useState({ nodeId: "" });
+    const [displayUpdateType, setDisplayUpdateType] = useState({ nodeId: "" });
+    const [displayDeleteType, setDisplayDeleteType] = useState({ nodeId: "" });
+    const [displayCreateTag, setDisplayCreateTag] = useState({ nodeId: "" });
+    const [displayUpdateTag, setDisplayUpdateTag] = useState({ nodeId: "" });
+    const [displayDeleteTag, setDisplayDeleteTag] = useState({ nodeId: "" });
+
+    const [input, setInput] = useState("");
+
+    const cancelOtherModals = (...setModalFns) => () => ([
+        setDisplayCreateType,
+        setDisplayUpdateType,
+        setDisplayDeleteType,
+        setDisplayCreateTag,
+        setDisplayUpdateTag,
+        setDisplayDeleteTag,
+    ]
+        .filter(fn => !setModalFns.includes(fn))
+        .forEach(fn => fn({ nodeId: "" })));
+
+    const cancelAllModals = () => {
+        cancelOtherModals()();
+        setInput("");
+    }
+
+    const handleInput = ({ target: { value } }) => setInput(value);
+
+    console.log({
+        displayCreateType,
+        displayUpdateType,
+        displayDeleteType,
+        displayCreateTag,
+        displayUpdateTag,
+        displayDeleteTag,
+        input,
+    });
+
     return (
         <Query
-            query={PART_TYPES_QUERY}
+            query={query}
         >
             {({
                 loading,
@@ -32,8 +85,12 @@ export default function PartTypes() {
                             }) => (
                                     <Pill
                                         key={nodeId}
+                                        nodeId={nodeId}
                                         tagname="li"
                                         title={type}
+                                        onSelect={setDisplayUpdateType}
+                                        onDelete={setDisplayDeleteType}
+                                        onblur={cancelOtherModals(setDisplayUpdateType, setDisplayDeleteType)}
                                     />
                                 )}
                         />
@@ -46,11 +103,72 @@ export default function PartTypes() {
                             }) => (
                                     <Pill
                                         key={nodeId}
+                                        nodeId={nodeId}
                                         tagname="li"
                                         title={tag}
+                                        onSelect={setDisplayUpdateTag}
+                                        onDelete={setDisplayDeleteTag}
+                                        onblur={cancelOtherModals(setDisplayUpdateTag, setDisplayDeleteTag)}
                                     />
                                 )}
                         />
+                        {[
+                            {
+                                ...create_part_type,
+                                ...displayCreateType,
+                            },
+                            {
+                                ...create_part_tag,
+                                ...displayCreateTag,
+                            },
+                            {
+                                ...update_part_type,
+                                ...displayUpdateType,
+                            },
+                            {
+                                ...update_part_tag,
+                                ...displayUpdateTag,
+                            },
+                            {
+                                ...delete_part_type,
+                                ...displayDeleteType,
+                            },
+                            {
+                                ...delete_part_tag,
+                                ...displayDeleteTag,
+                            },
+                        ]
+                            .map(({
+                                nodeId,
+                                mutation,
+                                update,
+                                ...props
+                            }, i) => (
+                                    <AsyncModal
+                                        key={i}
+                                        mutation={mutation}
+                                        variables={{
+                                            nodeId,
+                                            type: input,
+                                            tag: input,
+                                        }}
+                                        display={nodeId}
+                                        update={(...args) => {
+                                            update && update(...args);
+                                            cancelAllModals();
+                                        }}
+                                        onCancel={cancelAllModals}
+                                        {...props}
+                                    >
+                                        <div>
+                                            <h6>Name</h6>
+                                            <input
+                                                value={input}
+                                                onChange={handleInput}
+                                            />
+                                        </div>
+                                    </AsyncModal>
+                                ))}
                     </div>
                 )}
         </Query>

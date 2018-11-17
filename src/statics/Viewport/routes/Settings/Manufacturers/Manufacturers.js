@@ -124,7 +124,7 @@ export default class Manufacturers extends Component {
                                         mutation={mutation}
                                         variables={{ name, nodeId: selectedMnfgNID }}
                                         update={(...args) => {
-                                            update(...args);
+                                            update && update(...args);
                                             cancelModal();
                                         }}
                                         display={mutation === selectedMutation}

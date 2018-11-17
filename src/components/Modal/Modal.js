@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Modal.scss';
 import HeadedContainer from '../HeadedContainer/HeadedContainer';
-import async from '../higher-order/async/async';
+import async from '../-higher-order/async';
 
 class Modal extends Component {
 
     static propTypes = {
+        onReset: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
         onFinish: PropTypes.func.isRequired,
         display: PropTypes.bool.isRequired,
@@ -33,7 +34,7 @@ class Modal extends Component {
 
     stopPropagation = e => e.stopPropagation();
 
-    reset = () => this.props.reset(this.props);
+    reset = () => this.props.onReset(this.props);
 
     cancel = () => this.props.onCancel(this.props);
 
@@ -60,7 +61,11 @@ class Modal extends Component {
         } = this;
         return (
             <div
-                className={`modal-background ${display ? '' : 'hidden'}`}
+                className={`modal-background ${
+                    display ? '' : 'hidden'
+                    } ${
+                    danger ? 'danger' : ''
+                    }`}
                 onClick={cancel}
             >
                 <div
@@ -87,7 +92,7 @@ class Modal extends Component {
                                 {cancelButtonText}
                             </button>
                             <button
-                                className={`${finishButtonClassName} ${danger ? 'danger' : ''}`}
+                                className={finishButtonClassName}
                                 onClick={finish}
                             >
                                 {finishButtonText}

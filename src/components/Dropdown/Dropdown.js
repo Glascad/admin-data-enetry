@@ -39,7 +39,11 @@ export default class Dropdown extends Component {
 
         return (
             <details
-                className={`Dropdown ${className} ${!children || !children.length ? 'empty' : ''}`}
+                className={`Dropdown ${
+                    className
+                    } ${
+                    !children || !children.length ? 'empty' : ''
+                    }`}
                 onToggle={onToggle}
                 onBlur={onBlur}
                 onClick={onClick}

@@ -37,7 +37,15 @@ export default class AddButton extends Component {
         } = this;
 
         return (
-            <div className={`AddButton ${type} ${inputType ? `input-${inputType}` : ''} ${editing ? 'editing' : ''}`}>
+            <div
+                className={`AddButton ${
+                    type
+                    } ${
+                    inputType ? `input-${inputType}` : ''
+                    } ${
+                    editing ? 'editing' : ''
+                    }`}
+            >
                 <button
                     onClick={handleClick}
                 >

@@ -32,6 +32,7 @@ export default class Pill extends Component {
         contents: PropTypes.any,
         // CALLBACKS
         onSelect: PropTypes.func,
+        onBlur: PropTypes.func,
         onEdit: PropTypes.func,
         onDelete: PropTypes.func,
         onDrag: PropTypes.func,
@@ -67,6 +68,7 @@ export default class Pill extends Component {
                 type,
                 onSelect: selectable,
                 onDelete: deletable,
+                onBlur,
                 selected,
                 editable,
                 default: defaulted,
@@ -113,6 +115,7 @@ export default class Pill extends Component {
                     }`}
                 style={style}
                 onClick={handleClick}
+                onBlur={onBlur}
             >
                 {/* EDIT BUTTON */}
                 {editable ? (
@@ -148,7 +151,7 @@ export default class Pill extends Component {
                     <button
                         className="delete"
                         onClick={handleDeleteClick}
-                        children="delete"
+                        children="x"
                     />
                 ) : null}
             </tag.name>

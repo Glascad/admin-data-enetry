@@ -1,4 +1,3 @@
-import React from 'react';
 import gql from 'graphql-tag';
 
 export const query = gql`{
@@ -13,20 +12,19 @@ export const query = gql`{
 
 export const create_mnfg = {
     title: "New Manufacturer",
-    mutation: gql`
-        mutation CreateManufacturer($name:String!){
-            createManufacturer(input:{
-                manufacturer:{
-                    name:$name
-                }
-            }){
-                manufacturer{
-                    nodeId
-                    id
-                    name
-                }
+    mutation: gql`mutation CreateManufacturer($name:String!){
+        createManufacturer(input:{
+            manufacturer:{
+                name:$name
             }
-        }`,
+        }){
+            manufacturer{
+                nodeId
+                id
+                name
+            }
+        }
+    }`,
     update: (cache, {
         data: {
             createManufacturer: {
@@ -50,8 +48,7 @@ export const create_mnfg = {
 export const update_mnfg = {
     title: "Update Manufacturer",
     finishButtonText: "Save",
-    mutation: gql`
-    mutation UpdateManufacturer($nodeId:ID!,$name:String!){
+    mutation: gql`mutation UpdateManufacturer($nodeId:ID!,$name:String!){
         updateManufacturer(input:{
             nodeId:$nodeId
             manufacturerPatch:{
@@ -71,18 +68,17 @@ export const delete_mnfg = {
     title: "Delete Manufacturer",
     finishButtonText: "DELETE",
     danger: true,
-    mutation: gql`
-        mutation DeleteManufacturer($nodeId:ID!){
-            deleteManufacturer(input:{
-                nodeId:$nodeId
-            }){
-                manufacturer{
-                    nodeId
-                    id
-                    name
-                }
+    mutation: gql`mutation DeleteManufacturer($nodeId:ID!){
+        deleteManufacturer(input:{
+            nodeId:$nodeId
+        }){
+            manufacturer{
+                nodeId
+                id
+                name
             }
-        }`,
+        }
+    }`,
     update: (cache, {
         data: {
             deleteManufacturer: {

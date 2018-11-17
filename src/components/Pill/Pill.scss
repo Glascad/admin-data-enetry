@@ -16,30 +16,6 @@
     margin: $small $large;
     margin-left: 0;
 
-    &.tile {
-        flex-direction: column;
-        justify-content: space-between;
-        height: $pill-width;
-        border-radius: $small;
-
-        &.align-left {
-            align-items: flex-start;
-            justify-content: space-between;
-        }
-
-        .title {
-            margin-bottom: $small;
-        }
-
-        .subtitle {
-            
-        }
-        
-        .footer {
-            font-style: italic;
-        }
-    }
-
     &.align-left {
         justify-content: flex-start;
     }
@@ -82,11 +58,51 @@
             top: 50%;
             left: 16px;
             transform: translateY(-50%);
+            display: none;
         }
         &.delete {
             top: 50%;
             right: 16px;
             transform: translateY(-50%);
+            display: none;
+        }
+    }
+
+    &:hover {
+        button {
+            &.delete, &.edit {
+                display: flex;
+            }
+        }
+    }
+
+    &.tile {
+        flex-direction: column;
+        justify-content: space-between;
+        height: $pill-width;
+        border-radius: $small;
+
+        &.align-left {
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .title {
+            margin-bottom: $small;
+        }
+
+        .subtitle {
+            
+        }
+        
+        .footer {
+            font-style: italic;
+        }
+
+        button {
+            &.delete {
+                top: 16px;
+            }
         }
     }
 }

@@ -124,7 +124,13 @@ export default class SystemDetailTypes extends Component {
                         )}
                 />
                 <HeadedContainer
-                    title={`System Configuration Information - ${systemTypeName} ${selectedDetailTypeName} > ${selectedConfigurationTypeName}`}
+                    title={`System Configuration Information - ${
+                        systemTypeName
+                        } ${
+                        selectedDetailTypeName
+                        } > ${
+                        selectedConfigurationTypeName
+                        }`}
                 >
                     <input type="checkbox" checked={requiredOverride} />
                     <h6>Required</h6>

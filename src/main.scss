@@ -36,6 +36,10 @@ button {
         background: red;
         color: white;
     }
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 input {
