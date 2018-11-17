@@ -22,16 +22,16 @@ export default class Manufacturers extends Component {
         name: '',
     };
 
-    renderDeleteModal = ({ nodeId, name }) => this.setState({
+    renderDeleteModal = ({ nodeId, title }) => this.setState({
         selectedMnfgNID: nodeId,
         modal: delete_mnfg,
-        name,
+        name: title,
     })
 
-    renderUpdateModal = ({ nodeId, name }) => this.setState({
+    renderUpdateModal = ({ nodeId, title }) => this.setState({
         selectedMnfgNID: nodeId,
         modal: update_mnfg,
-        name,
+        name: title,
     });
 
     renderAddModal = () => this.setState({
@@ -54,6 +54,7 @@ export default class Manufacturers extends Component {
         const {
             state: {
                 selectedMnfgNID,
+                modal,
                 modal: {
                     mutation: selectedMutation,
                     update: selectedUpdate,
@@ -81,7 +82,12 @@ export default class Manufacturers extends Component {
                             nodes: manufacturers = [],
                         } = {},
                     } = {},
-                }) => (
+                }) => {
+                    const {
+                        name: selectedMnfgName
+                    } = manufacturers.find(({ nodeId }) => nodeId === selectedMnfgNID) || {};
+
+                    return (
                         <HeadedListContainer
                             id="Manufacturers"
                             title="Manufacturers"
@@ -107,30 +113,44 @@ export default class Manufacturers extends Component {
                                         footer="Last Updated:"
                                         selected={selectedMnfgNID === nodeId}
                                         onSelect={renderUpdateModal}
+                                        onDelete={renderDeleteModal}
+                                        danger={selectedMnfgNID === nodeId && modal === delete_mnfg}
                                     />
                                 )}
                             afterList={[create_mnfg, update_mnfg, delete_mnfg]
-                                .map(({ mutation, update, title }, i) => (
+                                .map(({ mutation, update, ...props }, i) => (
                                     <AsyncModal
                                         key={i}
                                         mutation={mutation}
-                                        variables={{ name }}
-                                        update={update}
+                                        variables={{ name, nodeId: selectedMnfgNID }}
+                                        update={(...args) => {
+                                            update(...args);
+                                            cancelModal();
+                                        }}
                                         display={mutation === selectedMutation}
-                                        title={title}
                                         onCancel={cancelModal}
+                                        {...props}
                                     >
-                                        <h6>Name</h6>
-                                        <input
-                                            value={name}
-                                            onChange={handleInput}
-                                        />
+                                        {i !== 2 ? (
+                                            <div>
+                                                <h6>Name</h6>
+                                                <input
+                                                    value={name}
+                                                    onChange={handleInput}
+                                                />
+                                            </div>
+                                        ) : (
+                                                <div className="warning">
+                                                    Are you sure you want to permanently delete Manufacturer: {selectedMnfgName}?
+                                                </div>
+                                            )}
                                     </AsyncModal>
                                 ))}
                             addButtonType="large"
                             onAddListItem={renderAddModal}
                         />
-                    )}
+                    )
+                }}
             </Query>
         );
     }

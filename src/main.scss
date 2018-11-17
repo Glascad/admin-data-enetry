@@ -32,6 +32,10 @@ button {
         background: $green;
         color: white;
     }
+    &.danger {
+        background: red;
+        color: white;
+    }
 }
 
 input {

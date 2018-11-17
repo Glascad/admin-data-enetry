@@ -16,7 +16,7 @@ class Modal extends Component {
         resetButtonClassName: PropTypes.string,
         cancelButtonClassName: PropTypes.string,
         finishButtonClassName: PropTypes.string,
-        done: PropTypes.bool,
+        danger: PropTypes.bool,
     };
 
     componentDidMount = () => window.addEventListener('keydown', this.cancelOnEsc);
@@ -45,6 +45,7 @@ class Modal extends Component {
                 title,
                 children,
                 display,
+                danger,
                 resetButtonText = 'Reset',
                 finishButtonText = 'Finish',
                 cancelButtonText = 'Cancel',
@@ -86,7 +87,7 @@ class Modal extends Component {
                                 {cancelButtonText}
                             </button>
                             <button
-                                className={finishButtonClassName}
+                                className={`${finishButtonClassName} ${danger ? 'danger' : ''}`}
                                 onClick={finish}
                             >
                                 {finishButtonText}

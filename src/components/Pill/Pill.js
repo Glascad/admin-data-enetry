@@ -11,9 +11,9 @@ export default class Pill extends Component {
         ]),
         // BOOLEANS
         selected: PropTypes.bool,
-        editable: PropTypes.bool,
         deletable: PropTypes.bool,
         default: PropTypes.bool,
+        danger: PropTypes.bool,
         draggable: PropTypes.bool,
         invalid: PropTypes.bool,
         // STRINGS
@@ -52,7 +52,7 @@ export default class Pill extends Component {
     handleDeleteClick = e => {
         e.stopPropagation();
         if (this.props.onDelete)
-            this.props.onDelete();
+            this.props.onDelete(this.props);
     }
 
     handleClick = e => {
@@ -66,10 +66,11 @@ export default class Pill extends Component {
             props: {
                 type,
                 onSelect: selectable,
+                onDelete: deletable,
                 selected,
                 editable,
-                deletable,
                 default: defaulted,
+                danger,
                 draggable,
                 invalid,
                 align,
@@ -78,7 +79,7 @@ export default class Pill extends Component {
                 contents,
                 footer,
                 style,
-                tagname
+                tagname,
             },
             state: {
                 editing,
@@ -99,6 +100,8 @@ export default class Pill extends Component {
                         selectable ? 'selectable' : ''
                     } ${
                     defaulted ? 'default' : ''
+                    } ${
+                    danger ? 'danger' : ''
                     } ${
                     editing ? 'editing' : ''
                     } ${

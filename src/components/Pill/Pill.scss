@@ -52,8 +52,11 @@
         background: $blue;
         color: white;
     }
-    &.default{
+    &.default {
         border: 2px solid $x-dark-gray;
+    }
+    &.danger {
+        background: red;
     }
     &.invalid {
         opacity: 0.67;
