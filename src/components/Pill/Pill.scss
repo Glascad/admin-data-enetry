@@ -58,6 +58,8 @@
             top: 50%;
             left: 16px;
             transform: translateY(-50%);
+            margin: 0;
+            height: $item-height * 0.75;
             display: none;
         }
         &.delete {
@@ -65,7 +67,7 @@
             right: 16px;
             transform: translateY(-50%);
             margin: 0;
-            height: $item-height * 3 / 4;
+            height: $item-height * 0.75;
             display: none;
         }
     }

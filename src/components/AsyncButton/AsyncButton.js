@@ -6,17 +6,22 @@ class AsyncButton extends Component {
 
     static propTypes = {
         onClick: PropTypes.func,
+        customMutation: PropTypes.func,
     };
 
     onClick = e => {
+        if (this.props.customMutation)
+            this.props.customMutation(this.props);
+        else
+            this.props.mutate(this.props);
         this.props.onClick && this.props.onClick(this.props);
-        this.props.mutate(this.props);
     }
 
     render = () => {
         const {
             props: {
                 mutate,
+                customMutation,
                 ...props
             },
             onClick,

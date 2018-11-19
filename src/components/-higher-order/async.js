@@ -22,6 +22,7 @@ export default mapMutateToProps => WrappedComponent => (
                 props: {
                     mutation,
                     variables,
+                    update: _update,
                     afterUpdate,
                     ...props
                 },

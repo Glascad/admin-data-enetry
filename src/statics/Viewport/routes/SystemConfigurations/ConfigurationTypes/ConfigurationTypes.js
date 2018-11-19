@@ -3,16 +3,7 @@ import { Query } from 'react-apollo';
 
 import {
     query,
-    create_configuration_type,
-    update_configuration_type,
-    delete_configuration_type,
 } from './configuration-types-query';
-
-import {
-    HeadedListContainer,
-    Pill,
-    AsyncModal,
-} from '../../../../../components';
 
 import ConfTypes from './ConfTypes';
 import PartTypes from './PartTypes';
@@ -54,9 +45,13 @@ export default class ConfigurationTypes extends Component {
                         allConfigurationTypes: {
                             nodes: configurationTypes = [],
                         } = {},
+                        allPartTypes: {
+                            nodes: allPartTypes = [],
+                        } = {},
                     } = {},
                 }) => {
                     const {
+                        id: selectedConfigurationTypeId,
                         type: selectedConfigurationTypeName = '',
                         configurationTypePartTypesByConfigurationTypeId: {
                             nodes: partTypes = [],
@@ -79,6 +74,8 @@ export default class ConfigurationTypes extends Component {
                             />
                             <PartTypes
                                 selectedConfigurationTypeName={selectedConfigurationTypeName}
+                                selectedConfigurationTypeId={selectedConfigurationTypeId}
+                                allPartTypes={allPartTypes}
                                 partTypes={partTypes}
                                 selectedNID={selectedPartTypeNID}
                                 selectPartType={selectPartType}

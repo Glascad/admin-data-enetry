@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import ConfTypes from './ConfTypes';
 
 export const query = gql`{
     allConfigurationTypes{
@@ -32,6 +33,13 @@ export const query = gql`{
             }
         }
     }
+    allPartTypes{
+        nodes{
+            nodeId
+            id
+            type
+        }
+    }
 }`;
 
 export const create_configuration_type = {
@@ -56,11 +64,49 @@ export const create_configuration_type = {
                 door
                 overrideLevel
                 presentationLevel
+                configurationTypePartTypesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        partTypeByPartTypeId{
+                            nodeId
+                            id
+                            type
+                        }
+                    }
+                }
+                configurationNameOverridesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        nameOverride
+                        manufacturerByManufacturerId{
+                            nodeId
+                            id
+                            name
+                        }
+                    }
+                }
             }
         }
     }`,
-    update: (cache, data) => {
+    update(cache, {
+        data,
+        data: {
+            createConfigurationType: {
+                configurationType,
+            }
+        }
+    }) {
         console.log(data);
+        const { allConfigurationTypes } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                allConfigurationTypes: {
+                    ...allConfigurationTypes,
+                    nodes: allConfigurationTypes.nodes.concat(configurationType)
+                }
+            }
+        });
     }
 };
 
@@ -88,9 +134,31 @@ export const update_configuration_type = {
                 door
                 overrideLevel
                 presentationLevel
+                configurationTypePartTypesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        partTypeByPartTypeId{
+                            nodeId
+                            id
+                            type
+                        }
+                    }
+                }
+                configurationNameOverridesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        nameOverride
+                        manufacturerByManufacturerId{
+                            nodeId
+                            id
+                            name
+                        }
+                    }
+                }
             }
         }
     }`,
+    update: console.log
 };
 
 export const delete_configuration_type = {
@@ -107,10 +175,48 @@ export const delete_configuration_type = {
                 door
                 overrideLevel
                 presentationLevel
+                configurationTypePartTypesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        partTypeByPartTypeId{
+                            nodeId
+                            id
+                            type
+                        }
+                    }
+                }
+                configurationNameOverridesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        nameOverride
+                        manufacturerByManufacturerId{
+                            nodeId
+                            id
+                            name
+                        }
+                    }
+                }
             }
         }
     }`,
-    update: (cache, data) => {
-        console.log(data);
+    update(cache, {
+        data: {
+            deleteConfigurationType: {
+                configurationType: {
+                    nodeId: deletedNID,
+                },
+            },
+        }
+    }) {
+        const { allConfigurationTypes } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                allConfigurationTypes: {
+                    ...allConfigurationTypes,
+                    nodes: allConfigurationTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                }
+            }
+        });
     }
 };

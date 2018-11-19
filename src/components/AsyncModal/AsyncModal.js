@@ -18,6 +18,7 @@ export default class AsyncModal extends Component {
             closed,
         ]),
         create: PropTypes.exact({
+            customMutation: PropTypes.object,
             mutation: PropTypes.object,
             update: PropTypes.func,
             afterUpdate: PropTypes.func,
@@ -25,6 +26,7 @@ export default class AsyncModal extends Component {
             onReset: PropTypes.func,
         }),
         update: PropTypes.exact({
+            customMutation: PropTypes.object,
             mutation: PropTypes.object,
             update: PropTypes.func,
             afterUpdate: PropTypes.func,
@@ -32,6 +34,7 @@ export default class AsyncModal extends Component {
             onReset: PropTypes.func,
         }),
         delete: PropTypes.exact({
+            customMutation: PropTypes.object,
             mutation: PropTypes.object,
             update: PropTypes.func,
             afterUpdate: PropTypes.func,
@@ -53,7 +56,7 @@ export default class AsyncModal extends Component {
         &&
         this.props.onUpdate(this.props);
 
-    cancelOnEsc = ({ key }) => key === 'Escape' && this.cancel();
+    cancelOnEsc = ({ key }) => key === 'Escape' && this.handleCancelClick();
 
     stopPropagation = e => e.stopPropagation();
 
@@ -61,7 +64,7 @@ export default class AsyncModal extends Component {
 
     handleCancelClick = () => this.props.onCancel(this.props);
 
-    onFinish = () => this.props.onFinish(this.props);
+    onFinish = () => this.props.onFinish && this.props.onFinish(this.props);
 
     render = () => {
         const {
@@ -69,18 +72,11 @@ export default class AsyncModal extends Component {
                 title,
                 children,
                 status = closed,
-                create: {
-                    mutation: createMutation,
-                    variables: createVariables,
-                } = {},
-                update: {
-                    mutation: updateMutation,
-                    variables: updateVariables,
-                } = {},
+                create: createProps,
+                update: updateProps,
                 delete: {
-                    mutation: deleteMutation,
-                    variables: deleteVariables,
-                    message: deleteMessage,
+                    deleteMessage,
+                    ...deleteProps
                 } = {},
                 reset: {
                     // text: resetText = 'Reset',
@@ -123,7 +119,7 @@ export default class AsyncModal extends Component {
                                         'Delete'
                                         :
                                         ''
-                            }${
+                            } ${
                             title
                             }`}
                     >
@@ -157,8 +153,7 @@ export default class AsyncModal extends Component {
                                     key="create"
                                     className={`finish primary`}
                                     afterUpdate={onFinish}
-                                    mutation={createMutation}
-                                    variables={createVariables}
+                                    {...createProps}
                                 >
                                     Create
                                 </AsyncButton>
@@ -167,8 +162,7 @@ export default class AsyncModal extends Component {
                                     key="update"
                                     className={`finish primary`}
                                     afterUpdate={onFinish}
-                                    mutation={updateMutation}
-                                    variables={updateVariables}
+                                    {...updateProps}
                                 >
                                     Save
                                 </AsyncButton>
@@ -177,8 +171,7 @@ export default class AsyncModal extends Component {
                                     key="delete"
                                     className={`finish danger primary`}
                                     afterUpdate={onFinish}
-                                    mutation={deleteMutation}
-                                    variables={deleteVariables}
+                                    {...deleteProps}
                                 >
                                     DELETE
                                 </AsyncButton>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
+import EditButton from '../EditButton/EditButton';
 
 export default class Pill extends Component {
 
@@ -36,6 +37,7 @@ export default class Pill extends Component {
         onSelect: PropTypes.func,
         onBlur: PropTypes.func,
         onEdit: PropTypes.func,
+        onEditComplete: PropTypes.func,
         onDelete: PropTypes.func,
         onDrag: PropTypes.func,
         onDrop: PropTypes.func,
@@ -49,7 +51,11 @@ export default class Pill extends Component {
 
     handleEditClick = e => {
         e.stopPropagation();
-        this.setState(({ editing }) => ({ editing: !editing }));
+        console.log(this.props);
+        if (this.props.editable)
+            this.setState(({ editing }) => ({ editing: !editing }));
+        if (this.props.onEdit)
+            this.props.onEdit(this.props);
     };
 
     handleDeleteClick = e => {
@@ -70,6 +76,7 @@ export default class Pill extends Component {
                 type,
                 onSelect: selectable,
                 onDelete: deletable,
+                onEdit,
                 onBlur,
                 selected,
                 editable,
@@ -120,8 +127,8 @@ export default class Pill extends Component {
                 onBlur={onBlur}
             >
                 {/* EDIT BUTTON */}
-                {editable ? (
-                    <button
+                {editable || onEdit ? (
+                    <EditButton
                         className="edit"
                         onClick={handleEditClick}
                         children="edit"

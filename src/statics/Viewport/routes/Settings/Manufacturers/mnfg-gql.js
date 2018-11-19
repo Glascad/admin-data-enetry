@@ -25,13 +25,13 @@ export const create_mnfg = {
             }
         }
     }`,
-    update: (cache, {
+    update(cache, {
         data: {
             createManufacturer: {
                 manufacturer
             }
         }
-    }) => {
+    }) {
         const { allManufacturers } = cache.readQuery({ query });
         cache.writeQuery({
             query,
@@ -79,7 +79,7 @@ export const delete_mnfg = {
             }
         }
     }`,
-    update: (cache, {
+    update(cache, {
         data: {
             deleteManufacturer: {
                 manufacturer: {
@@ -87,7 +87,7 @@ export const delete_mnfg = {
                 }
             }
         }
-    }) => {
+    }) {
         const { allManufacturers } = cache.readQuery({ query });
         cache.writeQuery({
             query,

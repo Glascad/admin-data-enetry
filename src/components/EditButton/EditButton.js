@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './DeleteButton.scss';
+import './EditButton.scss';
 
-export default function DeleteButton({
+export default function EditButton({
     className = '',
     onClick,
     ...props
@@ -13,12 +13,11 @@ export default function DeleteButton({
     }
     return (
         <button
-            className={`DeleteButton ${className}`}
+            className={`EditButton ${className}`}
             onClick={handleClick}
             {...props}
         >
-            <div className="left-x" />
-            <div className="right-x" />
+            <div className="edit-icon" />
         </button>
     );
 }

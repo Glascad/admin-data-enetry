@@ -4,7 +4,10 @@ import './ListContainer.scss';
 import AddButton from '../AddButton/AddButton';
 
 ListContainer.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+    ]),
     items: PropTypes.array.isRequired,
     renderItem: PropTypes.func.isRequired,
     addButtonType: PropTypes.string,
