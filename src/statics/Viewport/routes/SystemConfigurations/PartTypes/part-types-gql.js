@@ -31,6 +31,25 @@ export const create_part_type = {
             }
         }
     }`,
+    update: (cache, {
+        data: {
+            createPartType: {
+                partType
+            }
+        }
+    }) => {
+        const { allPartTypes, ...data } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                ...data,
+                allPartTypes: {
+                    ...allPartTypes,
+                    nodes: allPartTypes.nodes.concat(partType)
+                }
+            }
+        });
+    }
 };
 
 export const update_part_type = {
@@ -62,5 +81,26 @@ export const delete_part_type = {
             }
         }
     }`,
+    update: (cache, {
+        data: {
+            deletePartType: {
+                partType: {
+                    nodeId: deletedNID
+                }
+            }
+        }
+    }) => {
+        const { allPartTypes, ...data } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                ...data,
+                allPartTypes: {
+                    ...allPartTypes,
+                    nodes: allPartTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                }
+            }
+        });
+    }
 };
 

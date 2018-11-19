@@ -11,7 +11,7 @@ import {
 import {
     HeadedListContainer,
     Pill,
-    AsyncModal,
+    OldAsyncModal,
 } from '../../../../../components';
 
 export default class Manufacturers extends Component {
@@ -119,14 +119,12 @@ export default class Manufacturers extends Component {
                                 )}
                             afterList={[create_mnfg, update_mnfg, delete_mnfg]
                                 .map(({ mutation, update, ...props }, i) => (
-                                    <AsyncModal
+                                    <OldAsyncModal
                                         key={i}
                                         mutation={mutation}
                                         variables={{ name, nodeId: selectedMnfgNID }}
-                                        update={(...args) => {
-                                            update && update(...args);
-                                            cancelModal();
-                                        }}
+                                        update={update}
+                                        afterUpdate={cancelModal}
                                         display={mutation === selectedMutation}
                                         onCancel={cancelModal}
                                         {...props}
@@ -144,7 +142,7 @@ export default class Manufacturers extends Component {
                                                     Are you sure you want to permanently delete Manufacturer: {selectedMnfgName}?
                                                 </div>
                                             )}
-                                    </AsyncModal>
+                                    </OldAsyncModal>
                                 ))}
                             addButtonType="large"
                             onAddListItem={renderAddModal}

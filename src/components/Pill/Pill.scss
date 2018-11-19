@@ -64,11 +64,15 @@
             top: 50%;
             right: 16px;
             transform: translateY(-50%);
+            margin: 0;
+            height: $item-height * 3 / 4;
             display: none;
         }
     }
 
     &:hover {
+        cursor: default;
+
         button {
             &.delete, &.edit {
                 display: flex;

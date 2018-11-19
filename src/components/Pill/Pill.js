@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Pill.scss';
+import DeleteButton from '../DeleteButton/DeleteButton';
 
 export default class Pill extends Component {
 
@@ -12,6 +13,7 @@ export default class Pill extends Component {
         // BOOLEANS
         selected: PropTypes.bool,
         deletable: PropTypes.bool,
+        editable: PropTypes.bool,
         default: PropTypes.bool,
         danger: PropTypes.bool,
         draggable: PropTypes.bool,
@@ -148,7 +150,7 @@ export default class Pill extends Component {
                 ) : null}
                 {/* DELETE  BUTTON */}
                 {deletable ? (
-                    <button
+                    <DeleteButton
                         className="delete"
                         onClick={handleDeleteClick}
                         children="x"

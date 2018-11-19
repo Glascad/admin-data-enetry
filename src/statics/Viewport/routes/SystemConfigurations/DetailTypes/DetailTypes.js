@@ -1,14 +1,16 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import DETAIL_TYPES_QUERY from './detail-types-query';
+import {
+    query,
+} from './detail-types-gql';
 
 import { HeadedListContainer, Pill } from '../../../../../components';
 
 export default function DetailTypes() {
     return (
         <Query
-            query={DETAIL_TYPES_QUERY}
+            query={query}
         >
             {({
                 loading,

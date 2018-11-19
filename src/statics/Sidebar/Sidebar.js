@@ -43,7 +43,7 @@ class Sidebar extends Component {
                 }, i) => {
                     const filteredSubroutes = subroutes.filter(({ path }) => path[1] !== ':');
                     const selected = exact && !filteredSubroutes.length ?
-                        pathname === parentPath
+                        pathname === parentPath || pathname.includes(`${parentPath}/`)
                         :
                         pathname.includes(parentPath);
                     return filteredSubroutes.length ? (

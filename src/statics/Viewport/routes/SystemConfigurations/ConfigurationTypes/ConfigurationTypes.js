@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 
-import CONFIGURATION_TYPES_QUERY from './configuration-types-query';
+import {
+    query,
+    create_configuration_type,
+    update_configuration_type,
+    delete_configuration_type,
+} from './configuration-types-query';
 
-import { HeadedListContainer, Pill } from '../../../../../components';
+import {
+    HeadedListContainer,
+    Pill,
+    AsyncModal,
+} from '../../../../../components';
+
+import ConfTypes from './ConfTypes';
+import PartTypes from './PartTypes';
+import Overrides from './Overrides';
 
 export default class ConfigurationTypes extends Component {
 
     state = {
-        selectedConfigurationTypeNID: "nodeId",
-        selectedPartTypeNID: "nodeid"
+        selectedConfigurationTypeNID: "",
+        selectedPartTypeNID: "",
     }
 
     selectConfigurationType = ({ nodeId }) => this.setState({
@@ -32,7 +45,7 @@ export default class ConfigurationTypes extends Component {
 
         return (
             <Query
-                query={CONFIGURATION_TYPES_QUERY}
+                query={query}
             >
                 {({
                     loading,
@@ -51,71 +64,29 @@ export default class ConfigurationTypes extends Component {
                         configurationNameOverridesByConfigurationTypeId: {
                             nodes: configurationTypeNameOverrides = [],
                         } = {},
-                    } = configurationTypes.find(({ nodeId }) => nodeId === selectedConfigurationTypeNID) || {};
+                    } = configurationTypes.find(({ nodeId }) => nodeId === selectedConfigurationTypeNID)
+                    ||
+                    configurationTypes[0]
+                        ||
+                        {};
 
                     return (
                         <div>
-                            <HeadedListContainer
-                                title="Configuration Types"
-                                listItems={configurationTypes}
-                                renderListItem={({
-                                    nodeId,
-                                    type,
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            nodeId={nodeId}
-                                            tagname="li"
-                                            title={type}
-                                            selected={nodeId === selectedConfigurationTypeNID}
-                                            onSelect={selectConfigurationType}
-                                        />
-                                    )}
+                            <ConfTypes
+                                configurationTypes={configurationTypes}
+                                selectedNID={selectedConfigurationTypeNID}
+                                selectConfigurationType={selectConfigurationType}
                             />
-                            {selectedConfigurationTypeName ? (
-                                <HeadedListContainer
-                                    title={`Part Types - ${selectedConfigurationTypeName}`}
-                                    listItems={partTypes}
-                                    renderListItem={({
-                                        partTypeByPartTypeId: {
-                                            nodeId,
-                                            type,
-                                        }
-                                    }) => (
-                                            <Pill
-                                                key={nodeId}
-                                                nodeId={nodeId}
-                                                tagname="li"
-                                                title={type}
-                                                selected={nodeId === selectedPartTypeNID}
-                                                onSelect={selectPartType}
-                                            />
-                                        )}
-                                />
-                            ) : null}
-                            {selectedConfigurationTypeName ? (
-                                <HeadedListContainer
-                                    title={`Configuration Type Name Override - ${selectedConfigurationTypeName}`}
-                                    listItems={configurationTypeNameOverrides}
-                                    renderListItem={({
-                                        nodeId,
-                                        nameOverride,
-                                        manufacturerByManufacturerId: {
-                                            name: mnfgName,
-                                        }
-                                    }) => (
-                                            <Pill
-                                                key={nodeId}
-                                                tagname="li"
-                                                type="tile"
-                                                align="left"
-                                                title={mnfgName}
-                                                subtitle={nameOverride}
-                                                footer={selectedConfigurationTypeName}
-                                            />
-                                        )}
-                                />
-                            ) : null}
+                            <PartTypes
+                                selectedConfigurationTypeName={selectedConfigurationTypeName}
+                                partTypes={partTypes}
+                                selectedNID={selectedPartTypeNID}
+                                selectPartType={selectPartType}
+                            />
+                            <Overrides
+                                selectedConfigurationTypeName={selectedConfigurationTypeName}
+                                overrides={configurationTypeNameOverrides}
+                            />
                         </div>
                     );
                 }}

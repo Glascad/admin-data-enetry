@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { query } from './part-types-gql';
 
 export const create_part_tag = {
     mutation: gql`mutation CreatePartTag($tag:String!){
@@ -14,6 +15,25 @@ export const create_part_tag = {
             }
         }
     }`,
+    update: (cache, {
+        data: {
+            createPartTag: {
+                partTag
+            }
+        }
+    }) => {
+        const { allPartTags, ...data } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                ...data,
+                allPartTags: {
+                    ...allPartTags,
+                    nodes: allPartTags.nodes.concat(partTag)
+                }
+            }
+        });
+    }
 };
 
 export const update_part_tag = {
@@ -45,5 +65,26 @@ export const delete_part_tag = {
             }
         }
     }`,
+    update: (cache, {
+        data: {
+            deletePartTag: {
+                partTag: {
+                    nodeId: deletedNID
+                }
+            }
+        }
+    }) => {
+        const { allPartTags, ...data } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                ...data,
+                allPartTags: {
+                    ...allPartTags,
+                    nodes: allPartTags.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                }
+            }
+        });
+    }
 };
 

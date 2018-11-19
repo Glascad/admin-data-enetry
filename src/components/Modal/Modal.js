@@ -4,7 +4,7 @@ import './Modal.scss';
 import HeadedContainer from '../HeadedContainer/HeadedContainer';
 import async from '../-higher-order/async';
 
-class Modal extends Component {
+export default class Modal extends Component {
 
     static propTypes = {
         onReset: PropTypes.func.isRequired,
@@ -79,20 +79,24 @@ class Modal extends Component {
                     </HeadedContainer>
                     <div className="modal-buttons">
                         <button
-                            className={resetButtonClassName}
+                            className={`reset ${resetButtonClassName}`}
                             onClick={reset}
                         >
                             {resetButtonText}
                         </button>
                         <span>
                             <button
-                                className={cancelButtonClassName}
+                                className={`cancel ${cancelButtonClassName}`}
                                 onClick={cancel}
                             >
                                 {cancelButtonText}
                             </button>
                             <button
-                                className={finishButtonClassName}
+                                className={`finish ${
+                                    danger ? 'danger' : ''
+                                    } ${
+                                    finishButtonClassName
+                                    }`}
                                 onClick={finish}
                             >
                                 {finishButtonText}
@@ -105,5 +109,4 @@ class Modal extends Component {
     }
 }
 
-export default Modal;
-export const AsyncModal = async(Modal, mutate => ({ onFinish: mutate }));
+export const OldAsyncModal = async(mutate => ({ onFinish: mutate }))(Modal);

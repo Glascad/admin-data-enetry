@@ -1,0 +1,26 @@
+
+@import '../../variables';
+
+.DeleteButton {
+
+    position: relative;
+
+    .left-x, .right-x {
+        height: $large;
+        width: $xxxx-small;
+        background: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+    
+    .left-x {
+        transform: translate(-50%, -50%) rotate(45deg);
+        
+    }
+    
+    .right-x {
+        transform: translate(-50%, -50%) rotate(-45deg);
+
+    }
+}

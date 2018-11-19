@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`{
+export const query = gql`{
     allConfigurationTypes{
         nodes{
             nodeId
@@ -33,3 +33,84 @@ export default gql`{
         }
     }
 }`;
+
+export const create_configuration_type = {
+    mutation: gql`mutation CreateConfigurationType(
+        $type:String!,
+        $door:Boolean!,
+        $overrideLevel:Int!,
+        $presentationLevel:Int!
+    ){
+        createConfigurationType(input:{
+            configurationType:{
+                type:$type
+                door:$door
+                overrideLevel:$overrideLevel
+                presentationLevel:$presentationLevel
+            }
+        }){
+            configurationType{
+                nodeId
+                id
+                type
+                door
+                overrideLevel
+                presentationLevel
+            }
+        }
+    }`,
+    update: (cache, data) => {
+        console.log(data);
+    }
+};
+
+export const update_configuration_type = {
+    mutation: gql`mutation UpdateConfigurationType(
+        $nodeId:ID!,
+        $type:String!,
+        $door:Boolean!,
+        $overrideLevel:Int!,
+        $presentationLevel:Int!
+    ){
+        updateConfigurationType(input:{
+            nodeId:$nodeId
+            configurationTypePatch:{
+                type:$type
+                door:$door
+                overrideLevel:$overrideLevel
+                presentationLevel:$presentationLevel
+            }
+        }){
+            configurationType{
+                nodeId
+                id
+                type
+                door
+                overrideLevel
+                presentationLevel
+            }
+        }
+    }`,
+};
+
+export const delete_configuration_type = {
+    mutation: gql`mutation UpdateConfigurationType(
+        $nodeId:ID!
+    ){
+        deleteConfigurationType(input:{
+            nodeId:$nodeId
+        }){
+            configurationType{
+                nodeId
+                id
+                type
+                door
+                overrideLevel
+                presentationLevel
+            }
+        }
+    }`,
+    update: (cache, data) => {
+        console.log(data);
+    }
+};

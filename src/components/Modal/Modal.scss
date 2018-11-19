@@ -41,6 +41,16 @@
         }
     }
 
+    &.danger {
+        .Modal {
+            .modal-buttons {
+                .finish {
+                    
+                }
+            }
+        }
+    }
+
     &.hidden {
         display: none;
         

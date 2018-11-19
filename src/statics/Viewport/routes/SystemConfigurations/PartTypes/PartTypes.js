@@ -17,47 +17,64 @@ import {
 import {
     HeadedListContainer,
     Pill,
-    AsyncModal,
+    OldAsyncModal,
 } from '../../../../../components';
+
+const initialState = {
+    nodeId: "",
+    input: "",
+    modal: {},
+};
+
+const modalProps = [
+    {
+        ...create_part_type,
+        title: "New Part Type",
+    },
+    {
+        ...create_part_tag,
+        title: "New Part Tag",
+    },
+    {
+        ...update_part_type,
+        title: "Update Part Type",
+    },
+    {
+        ...update_part_tag,
+        title: "Update Part Tag",
+    },
+    {
+        ...delete_part_type,
+        title: "Delete Part Type",
+        danger: true,
+    },
+    {
+        ...delete_part_tag,
+        title: "Delete Part Tag",
+        danger: true,
+    },
+];
 
 export default function PartTypes() {
 
-    const [displayCreateType, setDisplayCreateType] = useState({ nodeId: "" });
-    const [displayUpdateType, setDisplayUpdateType] = useState({ nodeId: "" });
-    const [displayDeleteType, setDisplayDeleteType] = useState({ nodeId: "" });
-    const [displayCreateTag, setDisplayCreateTag] = useState({ nodeId: "" });
-    const [displayUpdateTag, setDisplayUpdateTag] = useState({ nodeId: "" });
-    const [displayDeleteTag, setDisplayDeleteTag] = useState({ nodeId: "" });
+    const [
+        {
+            nodeId: selectedNID,
+            input,
+            modal: {
+                mutation: selectedMutation,
+                update: selectedUpdate,
+            },
+        },
+        setModalState
+    ] = useState(initialState);
 
-    const [input, setInput] = useState("");
+    const handleInput = ({ target: { value } }) => setModalState(state => ({
+        ...state,
+        input: value
+    }));
 
-    const cancelOtherModals = (...setModalFns) => () => ([
-        setDisplayCreateType,
-        setDisplayUpdateType,
-        setDisplayDeleteType,
-        setDisplayCreateTag,
-        setDisplayUpdateTag,
-        setDisplayDeleteTag,
-    ]
-        .filter(fn => !setModalFns.includes(fn))
-        .forEach(fn => fn({ nodeId: "" })));
-
-    const cancelAllModals = () => {
-        cancelOtherModals()();
-        setInput("");
-    }
-
-    const handleInput = ({ target: { value } }) => setInput(value);
-
-    console.log({
-        displayCreateType,
-        displayUpdateType,
-        displayDeleteType,
-        displayCreateTag,
-        displayUpdateTag,
-        displayDeleteTag,
-        input,
-    });
+    const cancelModal = () => setModalState(initialState);
 
     return (
         <Query
@@ -88,14 +105,32 @@ export default function PartTypes() {
                                         nodeId={nodeId}
                                         tagname="li"
                                         title={type}
-                                        onSelect={setDisplayUpdateType}
-                                        onDelete={setDisplayDeleteType}
-                                        onblur={cancelOtherModals(setDisplayUpdateType, setDisplayDeleteType)}
+                                        selected={selectedNID === nodeId}
+                                        danger={(
+                                            selectedMutation === delete_part_type.mutation
+                                            &&
+                                            selectedNID === nodeId
+                                        )}
+                                        onSelect={() => setModalState({
+                                            nodeId,
+                                            input: type,
+                                            modal: update_part_type
+                                        })}
+                                        onDelete={() => setModalState({
+                                            nodeId,
+                                            input: type,
+                                            modal: delete_part_type
+                                        })}
                                     />
                                 )}
+                            onAddListItem={() => setModalState({
+                                nodeId: "",
+                                input: "",
+                                modal: create_part_type
+                            })}
                         />
                         <HeadedListContainer
-                            title="Part Types"
+                            title="Part Tags"
                             listItems={tags}
                             renderListItem={({
                                 nodeId,
@@ -106,60 +141,49 @@ export default function PartTypes() {
                                         nodeId={nodeId}
                                         tagname="li"
                                         title={tag}
-                                        onSelect={setDisplayUpdateTag}
-                                        onDelete={setDisplayDeleteTag}
-                                        onblur={cancelOtherModals(setDisplayUpdateTag, setDisplayDeleteTag)}
+                                        selected={selectedNID === nodeId}
+                                        danger={(
+                                            selectedMutation === delete_part_tag.mutation
+                                            &&
+                                            selectedNID === nodeId
+                                        )}
+                                        onSelect={() => setModalState({
+                                            nodeId,
+                                            input: tag,
+                                            modal: update_part_tag
+                                        })}
+                                        onDelete={() => setModalState({
+                                            nodeId,
+                                            input: tag,
+                                            modal: delete_part_tag
+                                        })}
                                     />
                                 )}
+                            onAddListItem={() => setModalState({
+                                nodeId: "",
+                                input: "",
+                                modal: create_part_tag
+                            })}
                         />
-                        {[
-                            {
-                                ...create_part_type,
-                                ...displayCreateType,
-                            },
-                            {
-                                ...create_part_tag,
-                                ...displayCreateTag,
-                            },
-                            {
-                                ...update_part_type,
-                                ...displayUpdateType,
-                            },
-                            {
-                                ...update_part_tag,
-                                ...displayUpdateTag,
-                            },
-                            {
-                                ...delete_part_type,
-                                ...displayDeleteType,
-                            },
-                            {
-                                ...delete_part_tag,
-                                ...displayDeleteTag,
-                            },
-                        ]
-                            .map(({
-                                nodeId,
-                                mutation,
-                                update,
-                                ...props
-                            }, i) => (
-                                    <AsyncModal
-                                        key={i}
-                                        mutation={mutation}
-                                        variables={{
-                                            nodeId,
-                                            type: input,
-                                            tag: input,
-                                        }}
-                                        display={nodeId}
-                                        update={(...args) => {
-                                            update && update(...args);
-                                            cancelAllModals();
-                                        }}
-                                        onCancel={cancelAllModals}
-                                        {...props}
-                                    >
+                        {modalProps.map(({
+                            mutation,
+                            update,
+                            ...props
+                        }, i) => (
+                                <OldAsyncModal
+                                    key={i}
+                                    mutation={mutation}
+                                    variables={{
+                                        nodeId: selectedNID,
+                                        type: input,
+                                        tag: input,
+                                    }}
+                                    display={selectedMutation === mutation}
+                                    update={update}
+                                    afterUpdate={cancelModal}
+                                    onCancel={cancelModal}
+                                    onReset={cancelModal}
+                                    children={(
                                         <div>
                                             <h6>Name</h6>
                                             <input
@@ -167,8 +191,11 @@ export default function PartTypes() {
                                                 onChange={handleInput}
                                             />
                                         </div>
-                                    </AsyncModal>
-                                ))}
+                                    )}
+                                    non={console.log({ mutation, update, ...props })}
+                                    {...props}
+                                />
+                            ))}
                     </div>
                 )}
         </Query>
