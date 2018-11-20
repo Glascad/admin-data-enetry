@@ -1,16 +1,36 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.16.4",
-    "postgraphile": "^4.0.1"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^6.1.0",
+        "express": "^4.16.4",
+        "postgraphile": "^4.0.1"
+    },
+    "nodemonConfig": {
+        "restartable": "rs",
+        "ignore": [
+            ".git",
+            "node_modules/**/node_modules",
+            "src"
+        ],
+        "watch": [
+            ".env",
+            "./",
+            "db/"
+        ],
+        "env": {
+            "NODE_ENV": "development"
+        },
+        "events": {},
+        "ext": "js,json,sql,env"
+    }
 }

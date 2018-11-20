@@ -18,7 +18,7 @@ export default function Home() {
                     allSystems: {
                         nodes: systems = [],
                     } = {},
-                },
+                } = {},
             }) => (
                     <HeadedListContainer
                         id="Home"

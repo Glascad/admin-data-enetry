@@ -2,22 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Modal.scss';
 import HeadedContainer from '../HeadedContainer/HeadedContainer';
-import async from '../-higher-order/async';
 
 export default class Modal extends Component {
 
     static propTypes = {
-        onReset: PropTypes.func.isRequired,
-        onCancel: PropTypes.func.isRequired,
-        onFinish: PropTypes.func.isRequired,
-        display: PropTypes.bool.isRequired,
-        resetButtonText: PropTypes.string,
-        cancelButtonText: PropTypes.string,
-        finishButtonText: PropTypes.string,
-        resetButtonClassName: PropTypes.string,
-        cancelButtonClassName: PropTypes.string,
-        finishButtonClassName: PropTypes.string,
-        danger: PropTypes.bool,
+        
     };
 
     componentDidMount = () => window.addEventListener('keydown', this.cancelOnEsc);
@@ -108,5 +97,3 @@ export default class Modal extends Component {
         );
     }
 }
-
-export const OldAsyncModal = async(({ mutate }) => ({ onFinish: mutate }))(Modal);

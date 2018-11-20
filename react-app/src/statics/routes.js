@@ -16,6 +16,8 @@ import PartOrientations from './Viewport/routes/Settings/PartOrientations/PartOr
 import Fasteners from './Viewport/routes/Settings/Fasteners/Fasteners';
 import InfillSizes from './Viewport/routes/Settings/InfillSizes/InfillSizes';
 import InfillTypes from './Viewport/routes/Settings/InfillTypes/InfillTypes';
+// PRACTICE
+import Practice from './Viewport/routes/Practice/Practice';
 
 export default [
     {
@@ -108,5 +110,10 @@ export default [
                 component: InfillTypes
             },
         ]
+    },
+    {
+        name: "PRACTICE",
+        path: "/practice",
+        component: Practice
     }
 ];
