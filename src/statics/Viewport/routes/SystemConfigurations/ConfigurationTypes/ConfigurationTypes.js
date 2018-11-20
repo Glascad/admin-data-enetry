@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 
 import {
     query,
-} from './configuration-types-query';
+} from './configuration-types-graphql';
 
 import ConfTypes from './ConfTypes';
 import PartTypes from './PartTypes';
@@ -81,6 +81,7 @@ export default class ConfigurationTypes extends Component {
                                 selectPartType={selectPartType}
                             />
                             <Overrides
+                                selectedConfigurationTypeId={selectedConfigurationTypeId}
                                 selectedConfigurationTypeName={selectedConfigurationTypeName}
                                 overrides={configurationTypeNameOverrides}
                             />

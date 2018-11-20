@@ -5,7 +5,7 @@ import {
     create_configuration_type,
     update_configuration_type,
     delete_configuration_type,
-} from './configuration-types-query';
+} from './configuration-types-graphql';
 
 import {
     HeadedListContainer,

@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
-import { query } from './configuration-types-query';
+import { query } from './configuration-types-graphql';
 
 export const update_configuration_type_part_type = {
     mutation: gql`mutation UpdateConfigurationTypePartType(
-        $deletePartTypeNID:ID,
-        $configurationTypeId:ID,
-        $partTypeId:ID
+        $deletePartTypeNID:ID!,
+        $configurationTypeId:Int!,
+        $partTypeId:Int!
     ){
         createConfigurationTypePartType(input:{
             configurationTypePartType:{

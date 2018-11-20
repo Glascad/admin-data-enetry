@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import './HeadedContainer.scss';
 
 HeadedContainer.propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    right: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
+    right: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]),
 };
 
 export default function HeadedContainer({

@@ -1,34 +1,55 @@
 {
-  "name": "admin-data-entry",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "apollo-boost": "^0.1.20",
-    "graphql": "^14.0.2",
-    "node-sass": "^4.10.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.7.0-alpha.0",
-    "react-apollo": "^2.2.4",
-    "react-dom": "^16.7.0-alpha.0",
-    "react-redux": "^5.1.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
-    "react-select": "^2.1.1",
-    "redux": "^4.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "name": "admin-data-entry",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "apollo-boost": "^0.1.20",
+        "graphql": "^14.0.2",
+        "node-sass": "^4.10.0",
+        "postgraphile": "^4.0.1",
+        "prop-types": "^15.6.2",
+        "react": "^16.7.0-alpha.0",
+        "react-apollo": "^2.2.4",
+        "react-dom": "^16.7.0-alpha.0",
+        "react-redux": "^5.1.1",
+        "react-router-dom": "^4.3.1",
+        "react-scripts": "2.1.1",
+        "react-select": "^2.1.1",
+        "redux": "^4.0.1"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "nodemonConfig": {
+        "restartable": "rs",
+        "ignore": [
+            ".git",
+            "node_modules/**/node_modules",
+            "src"
+        ],
+        "watch": [
+            ".env",
+            "./",
+            "db/"
+        ],
+        "env": {
+            "NODE_ENV": "development"
+        },
+        "events": {
+            "restart": "yarn test"
+        },
+        "ext": "js,json,sql,env"
+    }
 }

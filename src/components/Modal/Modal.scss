@@ -32,8 +32,18 @@
             header {
                 border-bottom-color: white;
             }
+            
+            .HeadedListContainer {
+                margin-left: 0;
+                margin-right: 0;
+                
+                header, .content {
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+            }
         }
-        
+            
         .modal-buttons {
             padding: $small;
             display: flex;

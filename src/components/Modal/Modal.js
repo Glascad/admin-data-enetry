@@ -109,4 +109,4 @@ export default class Modal extends Component {
     }
 }
 
-export const OldAsyncModal = async(mutate => ({ onFinish: mutate }))(Modal);
+export const OldAsyncModal = async(({ mutate }) => ({ onFinish: mutate }))(Modal);

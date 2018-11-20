@@ -7,7 +7,6 @@ import './HeadedListContainer.scss';
 export default class HeadedListContainer extends Component {
 
     static propTypes = {
-        title: PropTypes.string.isRequired,
         filters: PropTypes.arrayOf(PropTypes.exact({
             name: PropTypes.string.isRequired,
             callback: PropTypes.func.isRequired,

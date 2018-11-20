@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import async from '../-higher-order/async';
 
-class AsyncButton extends Component {
+class Button extends Component {
 
     static propTypes = {
         onClick: PropTypes.func,
@@ -26,6 +26,7 @@ class AsyncButton extends Component {
             },
             onClick,
         } = this;
+        console.log(this);
         return (
             <button
                 {...props}
@@ -35,4 +36,23 @@ class AsyncButton extends Component {
     }
 }
 
-export default async(mutate => ({ mutate }))(AsyncButton);
+const AsyncButton = async(({ mutate }) => ({ mutate }))(Button);
+
+export default AsyncButton;
+
+export const DualButton = async(({
+    firstMutation,
+    firstUpdate,
+    firstVariables,
+    afterUpdate,
+    variables,
+    mutate,
+}) => ({
+    mutation: firstMutation,
+    update: firstUpdate,
+    variables: firstVariables,
+    afterUpdate(props) {
+        mutate({ variables });
+        afterUpdate(props);
+    }
+}))(AsyncButton);

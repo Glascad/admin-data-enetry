@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import ConfTypes from './ConfTypes';
 
 export const query = gql`{
     allConfigurationTypes{

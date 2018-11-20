@@ -85,7 +85,7 @@ export default class SystemInfo extends Component {
                         allInfillPocketSizes: {
                             nodes: allInfillPocketSizes = []
                         } = {},
-                    }
+                    } = {}
                 }) => (
                         <HeadedContainer
                             id="SystemInfo"

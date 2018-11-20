@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
 
-export default mapMutateToProps => WrappedComponent => (
+export default transformProps => WrappedComponent => (
     class Async extends Component {
 
         static propTypes = {
@@ -36,7 +36,10 @@ export default mapMutateToProps => WrappedComponent => (
                     {mutate => (
                         <WrappedComponent
                             {...props}
-                            {...mapMutateToProps(() => mutate({ variables }))}
+                            {...transformProps({
+                                ...props,
+                                mutate: () => mutate({ variables })
+                            })}
                         />
                     )}
                 </Mutation>

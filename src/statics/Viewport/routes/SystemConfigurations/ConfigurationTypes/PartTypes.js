@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 
 import {
     update_configuration_type_part_type,
-} from './configuration-part-types-query';
+} from './configuration-part-types-graphql';
 
 import {
     HeadedListContainer,
@@ -119,10 +119,13 @@ export default class PartTypes extends Component {
                                     variables: {
                                         configurationTypeId: selectedConfigurationTypeId,
                                         partTypeId,
+                                        deletePartTypeNID: "",
                                     }
                                 }));
                                 deletedPartTypes.forEach(NID => mutate({
                                     variables: {
+                                        configurationTypeId: -1,
+                                        partTypeId: -1,
                                         deletePartTypeNID: NID,
                                     }
                                 }));
@@ -169,7 +172,6 @@ export default class PartTypes extends Component {
                                         id={id}
                                         nodeId={nodeId}
                                         title={type}
-                                        nodeId={nodeId}
                                         onSelect={handleModalAddClick}
                                     />
                                 )}
