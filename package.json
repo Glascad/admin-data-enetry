@@ -2,11 +2,10 @@
     "name": "admin-data-entry",
     "version": "0.1.0",
     "private": true,
+    "main": "server/index.js",
     "dependencies": {
         "apollo-boost": "^0.1.20",
-        "graphql": "^14.0.2",
         "node-sass": "^4.10.0",
-        "postgraphile": "^4.0.1",
         "prop-types": "^15.6.2",
         "react": "^16.7.0-alpha.0",
         "react-apollo": "^2.2.4",
@@ -47,9 +46,7 @@
         "env": {
             "NODE_ENV": "development"
         },
-        "events": {
-            "restart": "yarn test"
-        },
+        "events": {},
         "ext": "js,json,sql,env"
     }
 }
