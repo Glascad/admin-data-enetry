@@ -15,10 +15,7 @@ export default class HeadedListContainer extends Component {
             name: PropTypes.string.isRequired,
             callback: PropTypes.func.isRequired
         })),
-        listTitle: PropTypes.string,
-        listItems: PropTypes.array.isRequired,
-        renderListItem: PropTypes.func.isRequired,
-        onAddListItem: PropTypes.func,
+        list: PropTypes.object.isRequired,
     };
 
     state = {
@@ -46,12 +43,7 @@ export default class HeadedListContainer extends Component {
                         callback: currentSortCallback,
                     } = {}
                 } = [],
-                listTitle,
-                listItems,
-                renderListItem,
-                addButtonType,
-                addButtonInputType,
-                onAddListItem,
+                list,
                 beforeList,
                 afterList,
             },
@@ -87,12 +79,7 @@ export default class HeadedListContainer extends Component {
             >
                 {beforeList}
                 <ListContainer
-                    title={listTitle}
-                    items={listItems}
-                    renderItem={renderListItem}
-                    addButtonType={addButtonType}
-                    addButtonInputType={addButtonInputType}
-                    onAddItem={onAddListItem}
+                    {...list}
                     filter={currentFilterCallback}
                     sort={currentSortCallback}
                 />

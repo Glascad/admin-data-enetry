@@ -107,24 +107,28 @@ export default class ConfTypes extends Component {
         return (
             <HeadedListContainer
                 title="Configuration Types"
-                listItems={configurationTypes}
-                renderListItem={({
-                    nodeId,
-                    type,
-                }, i) => (
-                        <Pill
-                            key={nodeId}
-                            nodeId={nodeId}
-                            tagname="li"
-                            title={type}
-                            selected={nodeId === selectedNID || (!selectedNID && i === 0)}
-                            danger={nodeId === deletingNID}
-                            onSelect={selectConfigurationType}
-                            onEdit={handleEditClick}
-                            onDelete={handleDeleteClick}
-                        />
-                    )}
-                onAddListItem={handleAddClick}
+                list={{
+                    items: configurationTypes,
+                    addButton: {
+                        onAdd: handleAddClick
+                    },
+                    renderItem: ({
+                        nodeId,
+                        type,
+                    }, i) => (
+                            <Pill
+                                key={nodeId}
+                                nodeId={nodeId}
+                                tagname="li"
+                                title={type}
+                                selected={nodeId === selectedNID || (!selectedNID && i === 0)}
+                                danger={nodeId === deletingNID}
+                                onSelect={selectConfigurationType}
+                                onEdit={handleEditClick}
+                                onDelete={handleDeleteClick}
+                            />
+                        )
+                }}
                 afterList={(
                     <AsyncModal
                         title="Configuration Type"

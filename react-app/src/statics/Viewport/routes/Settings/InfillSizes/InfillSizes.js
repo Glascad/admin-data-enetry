@@ -49,16 +49,18 @@ export default function InfillSizes() {
                                 <button>Generate</button>
                             </div>
                         )}
-                        listItems={infillSizes}
-                        renderListItem={({
-                            size
-                        }) => (
-                                <Pill
-                                    key={size}
-                                    tagname="li"
-                                    title={`${size}"`}
-                                />
-                            )}
+                        list={{
+                            items: infillSizes,
+                            renderItem: ({
+                                size
+                            }) => (
+                                    <Pill
+                                        key={size}
+                                        tagname="li"
+                                        title={`${size}"`}
+                                    />
+                                )
+                        }}
                     />
                 )}
         </Query>

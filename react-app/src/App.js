@@ -11,7 +11,7 @@ import Sidebar from './statics/Sidebar/Sidebar';
 import Viewport from './statics/Viewport/Viewport';
 
 const cache = new InMemoryCache({
-    dataIdFromObject: ({ nodeId, id }) => nodeId || id || null,
+    dataIdFromObject: ({ nodeId }) => nodeId || null,
 });
 
 const client = new ApolloClient({
@@ -23,7 +23,6 @@ export default function App() {
     return (
         <Router>
             <ApolloProvider client={client}>
-                <div />
                 <Header />
                 <Sidebar />
                 <Viewport />

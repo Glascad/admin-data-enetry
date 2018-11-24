@@ -13,11 +13,9 @@ export default class Pill extends Component {
         ]),
         // BOOLEANS
         selected: PropTypes.bool,
-        deletable: PropTypes.bool,
-        editable: PropTypes.bool,
+        editing: PropTypes.bool,
         default: PropTypes.bool,
         danger: PropTypes.bool,
-        draggable: PropTypes.bool,
         invalid: PropTypes.bool,
         // STRINGS
         align: PropTypes.oneOf([
@@ -32,13 +30,15 @@ export default class Pill extends Component {
         ]).isRequired,
         subtitle: PropTypes.string,
         // CONTENT
-        contents: PropTypes.any,
+        children: PropTypes.any,
+        // BUTTONS
+        leftButton: PropTypes.any,
+        rightButton: PropTypes.any,
         // CALLBACKS
         onSelect: PropTypes.func,
         onBlur: PropTypes.func,
         onEdit: PropTypes.func,
         onEditComplete: PropTypes.func,
-        onDelete: PropTypes.func,
         onDrag: PropTypes.func,
         onDrop: PropTypes.func,
         // STYLES
@@ -51,7 +51,6 @@ export default class Pill extends Component {
 
     handleEditClick = e => {
         e.stopPropagation();
-        console.log(this.props);
         if (this.props.editable)
             this.setState(({ editing }) => ({ editing: !editing }));
         if (this.props.onEdit)
@@ -76,21 +75,23 @@ export default class Pill extends Component {
                 type,
                 onSelect: selectable,
                 onDelete: deletable,
+                editable,
                 onEdit,
                 onBlur,
+                onDrag,
                 selected,
-                editable,
                 default: defaulted,
                 danger,
-                draggable,
                 invalid,
                 align,
                 title,
                 subtitle,
-                contents,
+                children,
                 footer,
                 style,
                 tagname,
+                leftButton,
+                rightButton,
             },
             state: {
                 editing,
@@ -126,6 +127,12 @@ export default class Pill extends Component {
                 onClick={handleClick}
                 onBlur={onBlur}
             >
+                {/* LEFT BUTTON - instead of edit button */}
+                {leftButton ? (
+                    <div className="left-button">
+                        {leftButton}
+                    </div>
+                ) : null}
                 {/* EDIT BUTTON */}
                 {editable || onEdit ? (
                     <EditButton
@@ -143,17 +150,23 @@ export default class Pill extends Component {
                     ) : null}
                 </div>
                 {/* CONTENTS */}
-                {contents}
+                {children}
                 {/* FOOTER */}
                 {footer ? (
                     <h6 className="footer">{footer}</h6>
                 ) : null}
                 {/* DRAG BUTTON */}
-                {draggable ? (
+                {onDrag ? (
                     <button
                         className="drag"
                         children="drag"
                     />
+                ) : null}
+                {/* RIGHT BUTTON - instead of delete button */}
+                {rightButton ? (
+                    <div className="right-button">
+                        {rightButton}
+                    </div>
                 ) : null}
                 {/* DELETE  BUTTON */}
                 {deletable ? (

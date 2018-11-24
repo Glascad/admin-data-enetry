@@ -95,75 +95,83 @@ export default function PartTypes() {
                     <div>
                         <HeadedListContainer
                             title="Part Types"
-                            listItems={types}
-                            renderListItem={({
-                                nodeId,
-                                type
-                            }) => (
-                                    <Pill
-                                        key={nodeId}
-                                        nodeId={nodeId}
-                                        tagname="li"
-                                        title={type}
-                                        selected={selectedNID === nodeId}
-                                        danger={(
-                                            selectedMutation === delete_part_type.mutation
-                                            &&
-                                            selectedNID === nodeId
-                                        )}
-                                        onSelect={() => setModalState({
-                                            nodeId,
-                                            input: type,
-                                            modal: update_part_type
-                                        })}
-                                        onDelete={() => setModalState({
-                                            nodeId,
-                                            input: type,
-                                            modal: delete_part_type
-                                        })}
-                                    />
-                                )}
-                            onAddListItem={() => setModalState({
-                                nodeId: "",
-                                input: "",
-                                modal: create_part_type
-                            })}
+                            list={{
+                                items: types,
+                                addButton: {
+                                    onAdd: () => setModalState({
+                                        nodeId: "",
+                                        input: "",
+                                        modal: create_part_type
+                                    })
+                                },
+                                renderItem: ({
+                                    nodeId,
+                                    type
+                                }) => (
+                                        <Pill
+                                            key={nodeId}
+                                            nodeId={nodeId}
+                                            tagname="li"
+                                            title={type}
+                                            selected={selectedNID === nodeId}
+                                            danger={(
+                                                selectedMutation === delete_part_type.mutation
+                                                &&
+                                                selectedNID === nodeId
+                                            )}
+                                            onSelect={() => setModalState({
+                                                nodeId,
+                                                input: type,
+                                                modal: update_part_type
+                                            })}
+                                            onDelete={() => setModalState({
+                                                nodeId,
+                                                input: type,
+                                                modal: delete_part_type
+                                            })}
+                                        />
+                                    )
+                            }}
                         />
                         <HeadedListContainer
                             title="Part Tags"
-                            listItems={tags}
-                            renderListItem={({
-                                nodeId,
-                                tag
-                            }) => (
-                                    <Pill
-                                        key={nodeId}
-                                        nodeId={nodeId}
-                                        tagname="li"
-                                        title={tag}
-                                        selected={selectedNID === nodeId}
-                                        danger={(
-                                            selectedMutation === delete_part_tag.mutation
-                                            &&
-                                            selectedNID === nodeId
-                                        )}
-                                        onSelect={() => setModalState({
-                                            nodeId,
-                                            input: tag,
-                                            modal: update_part_tag
-                                        })}
-                                        onDelete={() => setModalState({
-                                            nodeId,
-                                            input: tag,
-                                            modal: delete_part_tag
-                                        })}
-                                    />
-                                )}
-                            onAddListItem={() => setModalState({
-                                nodeId: "",
-                                input: "",
-                                modal: create_part_tag
-                            })}
+                            list={{
+                                items: tags,
+                                addButton: {
+                                    onAdd: () => setModalState({
+                                        nodeId: "",
+                                        input: "",
+                                        modal: create_part_tag
+                                    })
+                                },
+                                renderItem: ({
+                                    nodeId,
+                                    tag
+                                }) => (
+                                        <Pill
+                                            key={nodeId}
+                                            nodeId={nodeId}
+                                            tagname="li"
+                                            title={tag}
+                                            selected={selectedNID === nodeId}
+                                            danger={(
+                                                selectedMutation === delete_part_tag.mutation
+                                                &&
+                                                selectedNID === nodeId
+                                            )}
+                                            onSelect={() => setModalState({
+                                                nodeId,
+                                                input: tag,
+                                                modal: update_part_tag
+                                            })}
+                                            onDelete={() => setModalState({
+                                                nodeId,
+                                                input: tag,
+                                                modal: delete_part_tag
+                                            })}
+                                        />
+                                    )
+                            }}
                         />
                         {modalProps.map(({
                             mutation,

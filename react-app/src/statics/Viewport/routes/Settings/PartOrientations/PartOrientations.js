@@ -6,27 +6,23 @@ export default function PartOrientations() {
         <HeadedListContainer
             id="PartOrientations"
             title="Part Orientations"
-            sorts={[
-                {
-                    name: "Alphabetical",
-                    callback: () => 0,
-                }
-            ]}
-            listItems={[
-                "top",
-                "bottom",
-                "front",
-                "back",
-                "left",
-                "right"
-            ]}
-            renderListItem={item => (
-                <Pill
-                    key={item}
-                    tagname="li"
-                    title={item}
-                />
-            )}
+            list={{
+                items: [
+                    "top",
+                    "bottom",
+                    "front",
+                    "back",
+                    "left",
+                    "right"
+                ],
+                renderItem: item => (
+                    <Pill
+                        key={item}
+                        tagname="li"
+                        title={item}
+                    />
+                )
+            }}
         />
     );
 }

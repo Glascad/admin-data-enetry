@@ -31,24 +31,26 @@ export default class Overrides extends Component {
         return (
             <HeadedListContainer
                 title={`Configuration Type Name Override - ${selectedConfigurationTypeName}`}
-                listItems={overrides}
-                renderListItem={({
-                    nodeId,
-                    nameOverride,
-                    manufacturerByManufacturerId: {
-                        name: mnfgName,
-                    }
-                }) => (
-                        <Pill
-                            key={nodeId}
-                            tagname="li"
-                            type="tile"
-                            align="left"
-                            title={mnfgName}
-                            subtitle={nameOverride}
-                            footer={selectedConfigurationTypeName}
-                        />
-                    )}
+                list={{
+                    items: overrides,
+                    renderItem: ({
+                        nodeId,
+                        nameOverride,
+                        manufacturerByManufacturerId: {
+                            name: mnfgName,
+                        }
+                    }) => (
+                            <Pill
+                                key={nodeId}
+                                tagname="li"
+                                type="tile"
+                                align="left"
+                                title={mnfgName}
+                                subtitle={nameOverride}
+                                footer={selectedConfigurationTypeName}
+                            />
+                        )
+                }}
             />
         );
     }

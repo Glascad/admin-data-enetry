@@ -23,30 +23,32 @@ export default function Home() {
                     <HeadedListContainer
                         id="Home"
                         title="Recently Updated Systems"
-                        listItems={systems}
-                        renderListItem={({
-                            nodeId: systemNID,
-                            name: systemName,
-                            manufacturerByManufacturerId: {
-                                nodeId: mnfgNID,
-                                name: mnfgName
-                            },
-                            id
-                        }) => (
-                                <Link
-                                    key={id}
-                                    to={`/system/${mnfgNID}/${systemNID}`}
-                                >
-                                    <Pill
-                                        tagname="li"
-                                        type="tile"
-                                        align="left"
-                                        title={mnfgName}
-                                        subtitle={systemName}
-                                        footer={`Last Updated: `}
-                                    />
-                                </Link>
-                            )}
+                        list={{
+                            items: systems,
+                            renderItem: ({
+                                nodeId: systemNID,
+                                name: systemName,
+                                manufacturerByManufacturerId: {
+                                    nodeId: mnfgNID,
+                                    name: mnfgName
+                                },
+                                id
+                            }) => (
+                                    <Link
+                                        key={id}
+                                        to={`/system/${mnfgNID}/${systemNID}`}
+                                    >
+                                        <Pill
+                                            tagname="li"
+                                            type="tile"
+                                            align="left"
+                                            title={mnfgName}
+                                            subtitle={systemName}
+                                            footer={`Last Updated: `}
+                                        />
+                                    </Link>
+                                )
+                        }}
                     />
                 )}
         </Query>

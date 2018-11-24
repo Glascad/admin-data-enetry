@@ -97,62 +97,73 @@ export default class SystemTypes extends Component {
                         <div>
                             <HeadedListContainer
                                 title="System Types"
-                                listItems={systemTypes}
-                                renderListItem={({
-                                    nodeId,
-                                    type,
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            nodeId={nodeId}
-                                            tagname="li"
-                                            title={type}
-                                            selected={nodeId === selectedSystemTypeNID}
-                                            onSelect={selectSystemType}
-                                        />
-                                    )}
-                                onAddListItem={console.log}
+                                list={{
+                                    items: systemTypes,
+                                    renderItem: ({
+                                        nodeId,
+                                        type,
+                                    }) => (
+                                            <Pill
+                                                key={nodeId}
+                                                nodeId={nodeId}
+                                                tagname="li"
+                                                title={type}
+                                                selected={nodeId === selectedSystemTypeNID}
+                                                onSelect={selectSystemType}
+                                            />
+                                        )
+                                }}
                             />
                             <HeadedListContainer
                                 title={`Detail Types - ${selectedSystemTypeName}`}
-                                listItems={detailTypes}
-                                renderListItem={({
-                                    detailTypeByDetailTypeId: {
-                                        nodeId,
-                                        type,
-                                    }
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            nodeId={nodeId}
-                                            tagname="li"
-                                            title={type}
-                                            selected={nodeId === selectedDetailTypeNID}
-                                            onSelect={selectDetailType}
-                                        />
-                                    )}
+                                list={{
+                                    items: detailTypes,
+                                    renderItem: ({
+                                        detailTypeByDetailTypeId: {
+                                            nodeId,
+                                            type,
+                                        }
+                                    }) => (
+                                            <Pill
+                                                key={nodeId}
+                                                nodeId={nodeId}
+                                                tagname="li"
+                                                title={type}
+                                                selected={nodeId === selectedDetailTypeNID}
+                                                onSelect={selectDetailType}
+                                            />
+                                        )
+                                }}
                             />
                             <HeadedListContainer
                                 title={`Configuration Types - ${selectedSystemTypeName} > ${selectedDetailTypeName}`}
-                                listItems={configurationTypes}
-                                renderListItem={({
-                                    configurationTypeByConfigurationTypeId: {
-                                        nodeId,
-                                        type
-                                    }
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            nodeId={nodeId}
-                                            tagname="li"
-                                            title={type}
-                                            selected={nodeId === selectedConfigurationTypeNID}
-                                            onSelect={selectConfigurationType}
-                                        />
-                                    )}
+                                list={{
+                                    items: configurationTypes,
+                                    renderItem: ({
+                                        configurationTypeByConfigurationTypeId: {
+                                            nodeId,
+                                            type
+                                        }
+                                    }) => (
+                                            <Pill
+                                                key={nodeId}
+                                                nodeId={nodeId}
+                                                tagname="li"
+                                                title={type}
+                                                selected={nodeId === selectedConfigurationTypeNID}
+                                                onSelect={selectConfigurationType}
+                                            />
+                                        )
+                                }}
                             />
                             <HeadedContainer
-                                title={`Configuration Type Information - ${selectedSystemTypeName} > ${selectedDetailTypeName} > ${selectedConfigurationTypeName}`}
+                                title={`Configuration Type Information - ${
+                                    selectedSystemTypeName
+                                    } > ${
+                                    selectedDetailTypeName
+                                    } > ${
+                                    selectedConfigurationTypeName
+                                    }`}
                             >
                                 <input type="checkbox" />
                                 <h6>Required</h6>
@@ -161,17 +172,19 @@ export default class SystemTypes extends Component {
                             </HeadedContainer>
                             <HeadedListContainer
                                 title="System Tags"
-                                listItems={systemTags}
-                                renderListItem={({
-                                    nodeId,
-                                    type
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            tagname="li"
-                                            title={type}
-                                        />
-                                    )}
+                                list={{
+                                    items: systemTags,
+                                    renderItem: ({
+                                        nodeId,
+                                        type
+                                    }) => (
+                                            <Pill
+                                                key={nodeId}
+                                                tagname="li"
+                                                title={type}
+                                            />
+                                        )
+                                }}
                             />
                         </div>
                     );

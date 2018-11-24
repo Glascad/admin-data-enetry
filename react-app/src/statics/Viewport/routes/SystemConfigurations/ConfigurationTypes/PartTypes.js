@@ -89,23 +89,27 @@ export default class PartTypes extends Component {
         return (
             <HeadedListContainer
                 title={`Part Types - ${selectedConfigurationTypeName}`}
-                listItems={partTypes}
-                renderListItem={({
-                    partTypeByPartTypeId: {
-                        nodeId,
-                        type,
-                    }
-                }) => (
-                        <Pill
-                            key={nodeId}
-                            nodeId={nodeId}
-                            tagname="li"
-                            title={type}
-                            selected={nodeId === selectedNID}
-                            onSelect={selectPartType}
-                        />
-                    )}
-                onAddListItem={handleAddClick}
+                list={{
+                    items: partTypes,
+                    addButton: {
+                        onAdd: handleAddClick
+                    },
+                    renderItem: ({
+                        partTypeByPartTypeId: {
+                            nodeId,
+                            type,
+                        }
+                    }) => (
+                            <Pill
+                                key={nodeId}
+                                nodeId={nodeId}
+                                tagname="li"
+                                title={type}
+                                selected={nodeId === selectedNID}
+                                onSelect={selectPartType}
+                            />
+                        )
+                }}
                 afterList={(
                     <AsyncModal
                         title="Configuration Type Part Types"
@@ -159,25 +163,26 @@ export default class PartTypes extends Component {
                                     <input />
                                 </div>
                             )}
-                            filters={[]}
-                            sorts={[]}
-                            listItems={availablePartTypes}
-                            renderListItem={({
-                                nodeId,
-                                id,
-                                type,
-                            }) => (
-                                    <Pill
-                                        key={nodeId}
-                                        id={id}
-                                        nodeId={nodeId}
-                                        title={type}
-                                        onSelect={handleModalAddClick}
-                                    />
-                                )}
+                            list={{
+                                items: availablePartTypes,
+                                renderItem: ({
+                                    nodeId,
+                                    id,
+                                    type,
+                                }) => (
+                                        <Pill
+                                            key={nodeId}
+                                            id={id}
+                                            nodeId={nodeId}
+                                            title={type}
+                                            onSelect={handleModalAddClick}
+                                        />
+                                    )
+                            }}
                         />
                     </AsyncModal>
-                )}
+                )
+                }
             />
         );
     }
