@@ -10,9 +10,7 @@ ListContainer.propTypes = {
     ]),
     items: PropTypes.array.isRequired,
     renderItem: PropTypes.func.isRequired,
-    addButtonType: PropTypes.string,
-    addButtonInputType: PropTypes.string,
-    onAddItem: PropTypes.func,
+    addButton: PropTypes.object,
     filter: PropTypes.func,
     sort: PropTypes.func,
 };
@@ -21,9 +19,7 @@ export default function ListContainer({
     title,
     items,
     renderItem,
-    addButtonType,
-    addButtonInputType,
-    onAddItem,
+    addButton,
     filter = () => true,
     sort = () => 0,
 }) {
@@ -37,11 +33,9 @@ export default function ListContainer({
                     .sort(sort)
                     .filter(filter)
                     .map(renderItem)}
-                {onAddItem ? (
+                {addButton ? (
                     <AddButton
-                        type={addButtonType}
-                        inputType={addButtonInputType}
-                        onAdd={onAddItem}
+                        {...addButton}
                     />
                 ) : null}
             </ul>

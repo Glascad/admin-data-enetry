@@ -16,27 +16,31 @@ export default function Fasteners() {
                     <div>
                         <HeadedListContainer
                             title="Fastener Types"
-                            sorts={[]}
-                            listItems={[]}
-                            renderListItem={() => null}
+                            list={{
+                                items: [],
+                                renderItem: () => null
+                            }}
                         />
                         <HeadedListContainer
                             title="Fastener Head Types"
-                            sorts={[]}
-                            listItems={[]}
-                            renderListItem={() => null}
+                            list={{
+                                items: [],
+                                renderItem: () => null
+                            }}
                         />
                         <HeadedListContainer
                             title="Fastener Thread Representations"
-                            sorts={[]}
-                            listItems={[]}
-                            renderListItem={() => null}
+                            list={{
+                                items: [],
+                                renderItem: () => null
+                            }}
                         />
                         <HeadedListContainer
                             title="Thread Diameters"
-                            sorts={[]}
-                            listItems={[]}
-                            renderListItem={() => null}
+                            list={{
+                                items: [],
+                                renderItem: () => null
+                            }}
                         />
                     </div>
                 )}

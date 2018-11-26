@@ -12,33 +12,81 @@ export const query = gql`{
     }
 }`;
 
-export const update_detail_type = {
-    mutation: gql`mutation UpdateDetailType(
-            $nodeId:ID!,
-            $type:String!,
-            $vertical:Bool!,
-            $entrance:Bool!
-        ){
-        updateDetailType(
+export const create_detail_type = {
+    mutation: gql`mutation CreateDetailType(
+        $type:String!,
+        $vertical:Boolean!,
+        $entrance:Boolean!
+    ){
+        createDetailType(
             input:{
-                nodeId:$nodeId
-                detailTypePatch:{
-                    detailType:{
-                        type:$type
-                        vertical:$vertical
-                        entrance:$entrance
-                    }
+                detailType:{
+                    type:$type
+                    vertical:$vertical
+                    entrance:$entrance
                 }
             }
         ){
             detailType{
-                nodes{
-                    nodeId
-                    id
-                    type
-                    vertical
-                    entrance
+                nodeId
+                id
+                type
+                vertical
+                entrance
+            }
+        }
+    }`,
+    update: (cache, {
+        data: {
+            createDetailType: {
+                detailType
+            }
+        }
+    }) => {
+        const { allDetailTypes, ...data } = cache.readQuery({ query });
+        console.log({
+            data: {
+                allDetailTypes,
+                ...data
+            },
+            detailType,
+        })
+        cache.writeQuery({
+            query,
+            data: {
+                ...data,
+                allDetailTypes: {
+                    ...allDetailTypes,
+                    nodes: allDetailTypes.nodes.concat(detailType)
                 }
+            }
+        })
+    }
+}
+
+export const update_detail_type = {
+    mutation: gql`mutation UpdateDetailType(
+        $nodeId:ID!,
+        $type:String!,
+        $vertical:Boolean!,
+        $entrance:Boolean!
+    ){
+        updateDetailType(
+            input:{
+                nodeId:$nodeId
+                detailTypePatch:{
+                    type:$type
+                    vertical:$vertical
+                    entrance:$entrance
+                }
+            }
+        ){
+            detailType{
+                nodeId
+                id
+                type
+                vertical
+                entrance
             }
         }
     }`
@@ -50,14 +98,34 @@ export const delete_detail_type = {
             nodeId:$nodeId
         }){
             detailType{
-                nodes{
-                    nodeId
-                    id
-                    type
-                    vertical
-                    entrance
-                }
+                nodeId
+                id
+                type
+                vertical
+                entrance
             }
         }
-    }`
+    }`,
+    update: (cache, {
+        data: {
+            deleteDetailType: {
+                detailType: {
+                    nodeId: deletedNID
+                }
+            }
+        },
+    }) => {
+        console.log(cache, deletedNID);
+        const { allDetailTypes, ...data } = cache.readQuery({ query });
+        cache.writeQuery({
+            query,
+            data: {
+                ...data,
+                allDetailTypes: {
+                    ...allDetailTypes,
+                    nodes: allDetailTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                }
+            }
+        })
+    }
 }

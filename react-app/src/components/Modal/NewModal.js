@@ -6,7 +6,14 @@ import HeadedContainer from '../HeadedContainer/HeadedContainer';
 export default class Modal extends Component {
 
     static propTypes = {
-        
+        title: PropTypes.any.isRequired,
+        display: PropTypes.bool.isRequired,
+        children: PropTypes.any.isRequired,
+        buttons: PropTypes.exact({
+            left: PropTypes.array,
+            right: PropTypes.array
+        }),
+        onCancel: PropTypes.func.isRequired,
     };
 
     componentDidMount = () => window.addEventListener('keydown', this.cancelOnEsc);
@@ -19,15 +26,9 @@ export default class Modal extends Component {
         &&
         this.props.onUpdate(this.props);
 
-    cancelOnEsc = ({ key }) => key === 'Escape' && this.cancel();
+    cancelOnEsc = ({ key }) => key === 'Escape' && this.props.onCancel();
 
     stopPropagation = e => e.stopPropagation();
-
-    reset = () => this.props.onReset(this.props);
-
-    cancel = () => this.props.onCancel(this.props);
-
-    finish = () => this.props.onFinish(this.props);
 
     render = () => {
         const {
@@ -35,27 +36,20 @@ export default class Modal extends Component {
                 title,
                 children,
                 display,
-                danger,
-                resetButtonText = 'Reset',
-                finishButtonText = 'Finish',
-                cancelButtonText = 'Cancel',
-                resetButtonClassName = 'empty light',
-                cancelButtonClassName = 'empty light',
-                finishButtonClassName = 'primary',
+                buttons: {
+                    left,
+                    right
+                } = {},
+                onCancel,
             },
-            reset,
-            cancel,
-            finish,
             stopPropagation,
         } = this;
         return (
             <div
                 className={`modal-background ${
                     display ? '' : 'hidden'
-                    } ${
-                    danger ? 'danger' : ''
                     }`}
-                onClick={cancel}
+                onClick={onCancel}
             >
                 <div
                     className="Modal"
@@ -67,30 +61,12 @@ export default class Modal extends Component {
                         {children}
                     </HeadedContainer>
                     <div className="modal-buttons">
-                        <button
-                            className={`reset ${resetButtonClassName}`}
-                            onClick={reset}
-                        >
-                            {resetButtonText}
-                        </button>
-                        <span>
-                            <button
-                                className={`cancel ${cancelButtonClassName}`}
-                                onClick={cancel}
-                            >
-                                {cancelButtonText}
-                            </button>
-                            <button
-                                className={`finish ${
-                                    danger ? 'danger' : ''
-                                    } ${
-                                    finishButtonClassName
-                                    }`}
-                                onClick={finish}
-                            >
-                                {finishButtonText}
-                            </button>
-                        </span>
+                        <div className="left-buttons">
+                            {left}
+                        </div>
+                        <div className="right-buttons">
+                            {right}
+                        </div>
                     </div>
                 </div>
             </div>

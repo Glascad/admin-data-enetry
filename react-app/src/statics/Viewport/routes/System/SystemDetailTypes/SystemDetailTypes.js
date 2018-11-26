@@ -4,6 +4,7 @@ import {
     Pill
 } from '../../../../../components';
 import HeadedContainer from '../../../../../components/HeadedContainer/HeadedContainer';
+import ConfTypes from '../../SystemConfigurations/ConfigurationTypes/ConfTypes';
 
 export default class SystemDetailTypes extends Component {
 
@@ -87,41 +88,45 @@ export default class SystemDetailTypes extends Component {
             <div>
                 <HeadedListContainer
                     title={`Detail Types - ${systemTypeName}`}
-                    listItems={detailTypes}
-                    renderListItem={({
-                        detailTypeByDetailTypeId: {
-                            nodeId,
-                            type,
-                        }
-                    }) => (
-                            <Pill
-                                key={nodeId}
-                                nodeId={nodeId}
-                                title={type}
-                                selected={nodeId === selectedDetailTypeNID}
-                                onSelect={selectDetailType}
-                            />
-                        )}
+                    list={{
+                        items: detailTypes,
+                        renderItem: ({
+                            detailTypeByDetailTypeId: {
+                                nodeId,
+                                type,
+                            }
+                        }) => (
+                                <Pill
+                                    key={nodeId}
+                                    nodeId={nodeId}
+                                    title={type}
+                                    selected={nodeId === selectedDetailTypeNID}
+                                    onSelect={selectDetailType}
+                                />
+                            )
+                    }}
                 />
                 <HeadedListContainer
                     title={`Configuration Types - ${selectedDetailTypeName}`}
-                    listItems={configurationTypes}
-                    renderListItem={({
-                        nodeId,
-                        id,
-                        type
-                    }) => (
-                            <Pill
-                                key={nodeId}
-                                nodeId={nodeId}
-                                title={type}
-                                selected={nodeId === selectedConfigurationTypeNID}
-                                onSelect={selectConfigurationType}
-                                invalid={invalidConfigurationTypes.some(({
-                                    invalidConfigurationTypeId
-                                }) => invalidConfigurationTypeId === id)}
-                            />
-                        )}
+                    list={{
+                        items: configurationTypes,
+                        renderItem: ({
+                            nodeId,
+                            id,
+                            type
+                        }) => (
+                                <Pill
+                                    key={nodeId}
+                                    nodeId={nodeId}
+                                    title={type}
+                                    selected={nodeId === selectedConfigurationTypeNID}
+                                    onSelect={selectConfigurationType}
+                                    invalid={invalidConfigurationTypes.some(({
+                                        invalidConfigurationTypeId
+                                    }) => invalidConfigurationTypeId === id)}
+                                />
+                            )
+                    }}
                 />
                 <HeadedContainer
                     title={`System Configuration Information - ${

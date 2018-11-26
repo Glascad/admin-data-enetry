@@ -9,11 +9,11 @@ export default class SystemOptions extends Component {
             <div>
                 <HeadedListContainer
                     title="System Options"
-                    listItems={[]}
-                    renderListItem={() => null}
-                >
-
-                </HeadedListContainer>
+                    list={{
+                        items: [],
+                        renderItem: () => null
+                    }}
+                />
             </div>
         );
     }

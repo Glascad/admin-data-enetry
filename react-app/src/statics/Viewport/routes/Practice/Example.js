@@ -76,11 +76,24 @@ export default function PartTypes() {
 
     const cancelModal = () => setModalState(initialState);
 
+
+    class Query extends Component {
+        render() {
+            /**
+             * Some asynchronous stuff
+             */
+            return this.props.children({
+                error,
+                loading,
+                data
+            });
+        }
+    }
+
     return (
         <Query
             query={query}
-        >
-            {({
+            children={({
                 loading,
                 error,
                 data: {
@@ -206,6 +219,43 @@ export default function PartTypes() {
                             ))}
                     </div>
                 )}
-        </Query>
+        />
     );
 }
+
+
+function Parent() {
+    return (
+        <button
+            children="TEXT"
+        />
+    );
+}
+
+React.createElement('button', {
+    ...props,
+    children: React.createElement('div', {
+        children: [
+            React.createElement('button', {
+                onClick: console.log
+            })
+        ]
+    })
+});
+
+function Parent({ children }) {
+    return (
+        <button>
+            TEXT
+        </button>
+    );
+}
+
+function GrandParent() {
+    return (
+        <Parent>
+            CHILDREN
+        </Parent>
+    );
+}
+

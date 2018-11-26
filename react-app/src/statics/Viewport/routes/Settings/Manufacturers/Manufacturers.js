@@ -91,32 +91,32 @@ export default class Manufacturers extends Component {
                         <HeadedListContainer
                             id="Manufacturers"
                             title="Manufacturers"
-                            sorts={[
-                                {
-                                    name: "Alphabetical",
-                                    callback: () => 0,
-                                }
-                            ]}
-                            listItems={manufacturers}
-                            renderListItem={({
-                                nodeId,
-                                id,
-                                name
-                            }) => (
-                                    <Pill
-                                        key={nodeId}
-                                        nodeId={nodeId}
-                                        type="tile"
-                                        align="left"
-                                        tagname="li"
-                                        title={name}
-                                        footer="Last Updated:"
-                                        selected={selectedMnfgNID === nodeId}
-                                        onSelect={renderUpdateModal}
-                                        onDelete={renderDeleteModal}
-                                        danger={selectedMnfgNID === nodeId && modal === delete_mnfg}
-                                    />
-                                )}
+                            list={{
+                                items: manufacturers,
+                                addButton: {
+                                    type: "large",
+                                    onAdd: renderAddModal,
+                                },
+                                renderItem: ({
+                                    nodeId,
+                                    id,
+                                    name
+                                }) => (
+                                        <Pill
+                                            key={nodeId}
+                                            nodeId={nodeId}
+                                            type="tile"
+                                            align="left"
+                                            tagname="li"
+                                            title={name}
+                                            footer="Last Updated:"
+                                            selected={selectedMnfgNID === nodeId}
+                                            onSelect={renderUpdateModal}
+                                            onDelete={renderDeleteModal}
+                                            danger={selectedMnfgNID === nodeId && modal === delete_mnfg}
+                                        />
+                                    )
+                            }}
                             afterList={[create_mnfg, update_mnfg, delete_mnfg]
                                 .map(({ mutation, update, ...props }, i) => (
                                     <OldAsyncModal
@@ -144,8 +144,6 @@ export default class Manufacturers extends Component {
                                             )}
                                     </OldAsyncModal>
                                 ))}
-                            addButtonType="large"
-                            onAddListItem={renderAddModal}
                         />
                     )
                 }}

@@ -5,7 +5,9 @@ import _ListContainer from './ListContainer/ListContainer';
 import _Pill from './Pill/Pill';
 import _SectionedListContainer from './SectionedListContainer/SectionedListContainer';
 import _Modal, { OldAsyncModal as _OldAsyncModal } from './Modal/Modal';
+import _NewModal from './Modal/NewModal';
 import _AsyncModal from './AsyncModal/AsyncModal';
+import _DeleteButton from './DeleteButton/DeleteButton';
 
 import _async from './-higher-order/async';
 
@@ -16,7 +18,9 @@ export const ListContainer = _ListContainer;
 export const Pill = _Pill;
 export const SectionedListContainer = _SectionedListContainer;
 export const Modal = _Modal;
+export const NewModal = _NewModal;
 export const OldAsyncModal = _OldAsyncModal;
 export const AsyncModal = _AsyncModal;
+export const DeleteButton = _DeleteButton;
 
 export const async = _async;

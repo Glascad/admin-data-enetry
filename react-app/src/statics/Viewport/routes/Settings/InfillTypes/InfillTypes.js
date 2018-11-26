@@ -25,31 +25,35 @@ export default function InfillTypes() {
                     <div>
                         <HeadedListContainer
                             title="Infill Pocket Types"
-                            listItems={types}
-                            renderListItem={({
-                                nodeId,
-                                type,
-                            }) => (
-                                    <Pill
-                                        key={nodeId}
-                                        tagname="li"
-                                        title={type}
-                                    />
-                                )}
+                            list={{
+                                items: types,
+                                renderItem: ({
+                                    nodeId,
+                                    type,
+                                }) => (
+                                        <Pill
+                                            key={nodeId}
+                                            tagname="li"
+                                            title={type}
+                                        />
+                                    )
+                            }}
                         />
                         <HeadedListContainer
                             title="Infill Pocket Sizes"
-                            listItems={sizes}
-                            renderListItem={({
-                                nodeId,
-                                size
-                            }) => (
-                                <Pill
-                                    key={nodeId}
-                                    tagname="li"
-                                    title={size}
-                                />
-                            )}
+                            list={{
+                                items: sizes,
+                                renderItem: ({
+                                    nodeId,
+                                    size
+                                }) => (
+                                        <Pill
+                                            key={nodeId}
+                                            tagname="li"
+                                            title={size}
+                                        />
+                                    )
+                            }}
                         />
                     </div>
                 )}
