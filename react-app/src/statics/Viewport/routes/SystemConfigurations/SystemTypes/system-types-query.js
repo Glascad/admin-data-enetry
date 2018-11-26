@@ -21,7 +21,6 @@ export default gql`{
             systemTypeDetailTypeConfigurationTypesBySystemTypeId{
                 nodes{
                     nodeId
-                    id
                     required
                     mirrorable
                     detailTypeByDetailTypeId{

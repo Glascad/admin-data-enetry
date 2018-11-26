@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     Query,
-    Mutation,
 } from 'react-apollo';
 
 import {
@@ -20,22 +19,22 @@ import {
 export default class DetailTypes extends Component {
 
     state = {
-        modal: null,
+        modalStatus: "",
         selectedDetailType: {}
     };
 
     cancelModal = () => this.setState({
-        modal: null,
+        modalStatus: "",
         selectedDetailType: {}
     })
 
     renderCreateModal = () => this.setState({
-        modal: "create",
+        modalStatus: "create",
         selectedDetailType: {}
     });
 
     renderUpdateModal = ({ nodeId, type, vertical, entrance }) => this.setState({
-        modal: "update",
+        modalStatus: "update",
         selectedDetailType: {
             nodeId,
             type,
@@ -45,7 +44,7 @@ export default class DetailTypes extends Component {
     });
 
     renderDeleteModal = ({ nodeId, type, vertical, entrance }) => this.setState({
-        modal: "delete",
+        modalStatus: "delete",
         selectedDetailType: {
             nodeId,
             type,
@@ -57,7 +56,7 @@ export default class DetailTypes extends Component {
     render = () => {
         const {
             state: {
-                modal,
+                modalStatus,
                 selectedDetailType,
                 selectedDetailType: {
                     nodeId: selectedNID,
@@ -102,7 +101,7 @@ export default class DetailTypes extends Component {
                                                 tagname="li"
                                                 title={type}
                                                 selected={nodeId === selectedNID}
-                                                danger={nodeId === selectedNID && modal === "delete"}
+                                                danger={nodeId === selectedNID && modalStatus === "delete"}
                                                 type={type}
                                                 vertical={vertical}
                                                 entrance={entrance}
@@ -113,16 +112,16 @@ export default class DetailTypes extends Component {
                                 }}
                             />
                             <CreateModal
-                                display={modal === "create"}
+                                display={modalStatus === "create"}
                                 onCancel={cancelModal}
                             />
                             <UpdateModal
-                                display={modal === "update"}
+                                display={modalStatus === "update"}
                                 onCancel={cancelModal}
                                 selectedDetailType={selectedDetailType}
                             />
                             <DeleteModal
-                                display={modal === "delete"}
+                                display={modalStatus === "delete"}
                                 onCancel={cancelModal}
                                 selectedDetailType={selectedDetailType}
                             />

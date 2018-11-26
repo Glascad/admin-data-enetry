@@ -5,9 +5,9 @@ import {
     query,
 } from './configuration-types-graphql';
 
-import ConfTypes from './ConfTypes';
-import PartTypes from './PartTypes';
-import Overrides from './Overrides';
+import ConfTypes from './ConfTypes/ConfTypes';
+import PartTypes from './PartTypes/PartTypes';
+import Overrides from './Overrides/Overrides';
 
 export default class ConfigurationTypes extends Component {
 
