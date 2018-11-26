@@ -67,11 +67,11 @@ export default class ConfigurationTypes extends Component {
 
                     return (
                         <div>
-                            <ConfTypes
+                            {/* <ConfTypes
                                 configurationTypes={configurationTypes}
                                 selectedNID={selectedConfigurationTypeNID}
                                 selectConfigurationType={selectConfigurationType}
-                            />
+                            /> */}
                             <PartTypes
                                 selectedConfigurationTypeName={selectedConfigurationTypeName}
                                 selectedConfigurationTypeId={selectedConfigurationTypeId}

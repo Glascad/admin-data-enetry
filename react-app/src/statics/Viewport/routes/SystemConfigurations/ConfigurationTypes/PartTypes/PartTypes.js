@@ -10,7 +10,7 @@ import {
     Pill,
     AsyncModal,
     ListContainer,
-} from '../../../../../components';
+} from '../../../../../../components';
 
 const initialState = {
     status: "closed",

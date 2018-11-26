@@ -5,13 +5,13 @@ import {
     create_configuration_type,
     update_configuration_type,
     delete_configuration_type,
-} from './configuration-types-graphql';
+} from '../configuration-types-graphql';
 
 import {
     HeadedListContainer,
     Pill,
     AsyncModal,
-} from '../../../../../components';
+} from '../../../../../../components';
 
 export default class Overrides extends Component {
 

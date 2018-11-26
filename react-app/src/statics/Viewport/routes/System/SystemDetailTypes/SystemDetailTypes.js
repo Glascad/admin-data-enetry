@@ -4,7 +4,6 @@ import {
     Pill
 } from '../../../../../components';
 import HeadedContainer from '../../../../../components/HeadedContainer/HeadedContainer';
-import ConfTypes from '../../SystemConfigurations/ConfigurationTypes/ConfTypes';
 
 export default class SystemDetailTypes extends Component {
 
