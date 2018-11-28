@@ -12,8 +12,10 @@ import {
     ListContainer,
 } from '../../../../../../components';
 
+import UpdateModal from './modals/Update';
+
 const initialState = {
-    status: "closed",
+    modalStatus: "",
     addedPartTypes: [],
     deletedPartTypes: []
 };
@@ -22,10 +24,10 @@ export default class PartTypes extends Component {
 
     state = initialState;
 
-    handleCancelClick = () => this.setState(initialState);
+    cancelModal = () => this.setState(initialState);
 
     handleAddClick = () => this.setState({
-        status: "updating",
+        modalStatus: "update",
     });
 
     handleModalAddClick = ({ nodeId, id, title }) => this.setState(({ addedPartTypes }) => ({
@@ -58,7 +60,7 @@ export default class PartTypes extends Component {
 
         const {
             state: {
-                status,
+                modalStatus,
                 addedPartTypes,
                 deletedPartTypes,
             },
@@ -71,7 +73,7 @@ export default class PartTypes extends Component {
                 selectPartType,
             },
             handleAddClick,
-            handleCancelClick,
+            cancelModal,
             handleModalAddClick,
             handleModalDeleteClick,
             // handleDeleteClick,
@@ -87,103 +89,106 @@ export default class PartTypes extends Component {
                 .some(({ id: appliedId }) => id === appliedId));
 
         return (
-            <HeadedListContainer
-                title={`Part Types - ${selectedConfigurationTypeName}`}
-                list={{
-                    items: partTypes,
-                    addButton: {
-                        onAdd: handleAddClick
-                    },
-                    renderItem: ({
-                        partTypeByPartTypeId: {
-                            nodeId,
-                            type,
-                        }
-                    }) => (
-                            <Pill
-                                key={nodeId}
-                                nodeId={nodeId}
-                                tagname="li"
-                                title={type}
-                                selected={nodeId === selectedNID}
-                                onSelect={selectPartType}
-                            />
-                        )
-                }}
-                afterList={(
-                    <AsyncModal
-                        title="Configuration Type Part Types"
-                        status={status}
-                        onCancel={handleCancelClick}
-                        onFinish={handleCancelClick}
-                        update={{
-                            ...update_configuration_type_part_type,
-                            customMutation({ mutate }) {
-                                addedPartTypes.forEach(({ id: partTypeId }) => mutate({
-                                    variables: {
-                                        configurationTypeId: selectedConfigurationTypeId,
-                                        partTypeId,
-                                        deletePartTypeNID: "",
-                                    }
-                                }));
-                                deletedPartTypes.forEach(NID => mutate({
-                                    variables: {
-                                        configurationTypeId: -1,
-                                        partTypeId: -1,
-                                        deletePartTypeNID: NID,
-                                    }
-                                }));
+            <div>
+                <HeadedListContainer
+                    title={`Part Types - ${selectedConfigurationTypeName}`}
+                    list={{
+                        items: partTypes,
+                        addButton: {
+                            onAdd: handleAddClick
+                        },
+                        renderItem: ({
+                            partTypeByPartTypeId: {
+                                nodeId,
+                                type,
                             }
-                        }}
-                    >
-                        <ListContainer
-                            items={appliedPartTypes}
-                            renderItem={({
+                        }) => (
+                                <Pill
+                                    key={nodeId}
+                                    nodeId={nodeId}
+                                    tagname="li"
+                                    title={type}
+                                    selected={nodeId === selectedNID}
+                                    onSelect={selectPartType}
+                                />
+                            )
+                    }}
+                />
+                <UpdateModal
+                    display={modalStatus === "update"}
+                    onCancel={cancelModal}
+                />
+                <AsyncModal
+                    title="Configuration Type Part Types"
+                    modalStatus={modalStatus}
+                    onCancel={cancelModal}
+                    onFinish={cancelModal}
+                    update={{
+                        ...update_configuration_type_part_type,
+                        customMutation({ mutate }) {
+                            addedPartTypes.forEach(({ id: partTypeId }) => mutate({
+                                variables: {
+                                    configurationTypeId: selectedConfigurationTypeId,
+                                    partTypeId,
+                                    deletePartTypeNID: "",
+                                }
+                            }));
+                            deletedPartTypes.forEach(NID => mutate({
+                                variables: {
+                                    configurationTypeId: -1,
+                                    partTypeId: -1,
+                                    deletePartTypeNID: NID,
+                                }
+                            }));
+                        }
+                    }}
+                >
+                    <ListContainer
+                        items={appliedPartTypes}
+                        renderItem={({
+                            nodeId,
+                            id,
+                            type,
+                            ...partType
+                        }) => (
+                                console.log({ nodeId, id, type, ...partType }) ||
+                                <Pill
+                                    key={nodeId}
+                                    id={id}
+                                    nodeId={nodeId}
+                                    title={type}
+                                    selected={true}
+                                    danger={deletedPartTypes.includes(nodeId)}
+                                    onDelete={handleModalDeleteClick}
+                                />
+                            )}
+                    />
+                    <HeadedListContainer
+                        title={(
+                            <div>
+                                <h6>Search</h6>
+                                <input />
+                            </div>
+                        )}
+                        list={{
+                            items: availablePartTypes,
+                            renderItem: ({
                                 nodeId,
                                 id,
                                 type,
-                                ...partType
                             }) => (
-                                    console.log({ nodeId, id, type, ...partType }) ||
                                     <Pill
                                         key={nodeId}
                                         id={id}
                                         nodeId={nodeId}
                                         title={type}
-                                        selected={true}
-                                        danger={deletedPartTypes.includes(nodeId)}
-                                        onDelete={handleModalDeleteClick}
+                                        onSelect={handleModalAddClick}
                                     />
-                                )}
-                        />
-                        <HeadedListContainer
-                            title={(
-                                <div>
-                                    <h6>Search</h6>
-                                    <input />
-                                </div>
-                            )}
-                            list={{
-                                items: availablePartTypes,
-                                renderItem: ({
-                                    nodeId,
-                                    id,
-                                    type,
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            id={id}
-                                            nodeId={nodeId}
-                                            title={type}
-                                            onSelect={handleModalAddClick}
-                                        />
-                                    )
-                            }}
-                        />
-                    </AsyncModal>
-                )
-                }
-            />
+                                )
+                        }}
+                    />
+                </AsyncModal>
+            </div>
         );
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './AddButton.scss';
+import ButtonTile from '../ButtonTile/ButtonTile';
 
 export default class AddButton extends Component {
 
@@ -10,8 +11,10 @@ export default class AddButton extends Component {
             'large',
             'input'
         ]),
+        text: PropTypes.string,
         inputType: PropTypes.string,
         onAdd: PropTypes.func.isRequired,
+        otherButtons: PropTypes.arrayOf(PropTypes.object)
     };
 
     state = {
@@ -29,9 +32,10 @@ export default class AddButton extends Component {
                 editing,
             },
             props: {
-                type = '',
-                inputType = '',
-                onAdd,
+                text = "Create",
+                type = "",
+                inputType = "",
+                otherButtons = [],
             },
             handleClick
         } = this;
@@ -47,11 +51,23 @@ export default class AddButton extends Component {
                     }`}
             >
                 <button
+                    className="add-button"
                     onClick={handleClick}
                 >
                     <div className="vertical-plus" />
                     <div className="horizontal-plus" />
                 </button>
+                {otherButtons.length ? (
+                    <ButtonTile
+                        buttonProps={[
+                            {
+                                text,
+                                onClick: handleClick
+                            },
+                            ...otherButtons
+                        ]}
+                    />
+                ) : null}
             </div>
         )
     }

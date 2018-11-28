@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { query } from './configuration-types-graphql';
+import { query } from '../configuration-types-graphql';
 
 export const update_configuration_type_part_type = {
     mutation: gql`mutation UpdateConfigurationTypePartType(

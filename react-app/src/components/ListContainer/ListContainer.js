@@ -13,6 +13,7 @@ ListContainer.propTypes = {
     addButton: PropTypes.object,
     filter: PropTypes.func,
     sort: PropTypes.func,
+    nestLevel: PropTypes.number,
 };
 
 export default function ListContainer({
@@ -22,9 +23,10 @@ export default function ListContainer({
     addButton,
     filter = () => true,
     sort = () => 0,
+    nestLevel = 0,
 }) {
-    return (//[
-        <div className="ListContainer">
+    return (
+        <div className={`ListContainer ${[...nestLevel].map(() => "nested").join("-") || ""}`}>
             {title ? (
                 <h5 className="title">{title}</h5>
             ) : null}
@@ -40,5 +42,5 @@ export default function ListContainer({
                 ) : null}
             </ul>
         </div>
-    );//];
+    );
 }

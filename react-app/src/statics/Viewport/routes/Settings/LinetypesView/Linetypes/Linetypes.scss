@@ -1,5 +1,5 @@
 
-@import '../../../../../variables';
+@import '../../../../../../variables';
 
 #Linetypes {
     .linetype {
@@ -7,5 +7,13 @@
         // flex-direction: column;
         // justify-content: center;
         // align-items: center;
+    }
+
+    .pattern {
+        display: flex;
+
+        input {
+            width: $xxx-large;
+        }
     }
 }

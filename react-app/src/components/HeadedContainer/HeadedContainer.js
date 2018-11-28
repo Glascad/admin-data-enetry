@@ -11,6 +11,7 @@ HeadedContainer.propTypes = {
         PropTypes.string,
         PropTypes.object
     ]),
+    nestLevel: PropTypes.number,
 };
 
 export default function HeadedContainer({
@@ -20,11 +21,12 @@ export default function HeadedContainer({
     title,
     right,
     children,
+    nestLevel = 0,
 }) {
     return (
         <div
             id={id}
-            className={`HeadedContainer ${className}`}
+            className={`HeadedContainer ${className} ${[...nestLevel].map(() => "nested").join("-") || ""}`}
             style={style}
         >
             <header>

@@ -4,14 +4,14 @@ import Home from './Viewport/routes/Home/Home';
 import System from './Viewport/routes/System/System';
 // SYSTEM CONFIGURATIONS
 // import SystemConfigurations from './Viewport/routes/SystemConfigurations/SystemConfigurations';
-import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
+// import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
 // import DetailTypes from './Viewport/routes/SystemConfigurations/DetailTypes/DetailTypes';
 // import ConfigurationTypes from './Viewport/routes/SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
 // import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
 // SETTINGS
 // import Settings from './Viewport/routes/Settings/Settings';
-// import Manufacturers from './Viewport/routes/Settings/Manufacturers/Manufacturers';
-// import Linetypes from './Viewport/routes/Settings/Linetypes/Linetypes';
+import Manufacturers from './Viewport/routes/Settings/Manufacturers/ManufacturersApollo';
+import Linetypes from './Viewport/routes/Settings/LinetypesView/LinetypesView';
 // import PartOrientations from './Viewport/routes/Settings/PartOrientations/PartOrientations';
 // import Fasteners from './Viewport/routes/Settings/Fasteners/Fasteners';
 // import InfillSizes from './Viewport/routes/Settings/InfillSizes/InfillSizes';
@@ -54,7 +54,7 @@ export default [
             {
                 name: "SYSTEM TYPES",
                 path: "/system types",
-                component: SystemTypes
+                // component: SystemTypes
             },
             {
                 name: "DETAIL TYPES",
@@ -82,12 +82,12 @@ export default [
             {
                 name: "MANUFACTURERS",
                 path: "/manufacturers",
-                // component: Manufacturers
+                component: Manufacturers
             },
             {
                 name: "LINETYPES",
                 path: "/linetypes",
-                // component: Linetypes
+                component: Linetypes
             },
             {
                 name: "PART ORIENTATIONS",

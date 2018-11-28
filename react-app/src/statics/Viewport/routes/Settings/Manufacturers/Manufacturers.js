@@ -1,153 +1,144 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
-
-import {
-    query,
-    create_mnfg,
-    update_mnfg,
-    delete_mnfg,
-} from './mnfg-gql';
 
 import {
     HeadedListContainer,
     Pill,
-    OldAsyncModal,
+    Modal,
 } from '../../../../../components';
 
 export default class Manufacturers extends Component {
 
     state = {
-        selectedMnfgNID: 'nodeId',
-        modal: {},
-        name: '',
+        deleteMnfg: {},
+        creating: false,
+        deleting: false,
     };
 
-    renderDeleteModal = ({ nodeId, title }) => this.setState({
-        selectedMnfgNID: nodeId,
-        modal: delete_mnfg,
-        name: title,
-    })
-
-    renderUpdateModal = ({ nodeId, title }) => this.setState({
-        selectedMnfgNID: nodeId,
-        modal: update_mnfg,
-        name: title,
-    });
-
-    renderAddModal = () => this.setState({
-        selectedMnfgNID: "nodeId",
-        modal: create_mnfg,
-        name: ''
-    });
-
     cancelModal = () => this.setState({
-        selectedMnfgNID: "nodeId",
-        modal: {},
-        name: '',
+        deleting: false,
     });
 
-    handleInput = ({ target: { value } }) => this.setState({
-        name: value,
+    handleAddClick = () => this.setState({
+        creating: true,
     });
+
+    handleAddBlur = () => this.setState({
+        creating: false,
+    });
+
+    handleCreate = ({ }, { input }) => {
+        this.props.onCreateUpdate(this.handleAddBlur);
+        this.props.createManufacturer({
+            variables: {
+                name: input,
+            }
+        });
+    }
+
+    handleEdit = ({ arguments: { nodeId } }, { input }) => this.props.updateManufacturer({
+        variables: {
+            nodeId,
+            name: input,
+        }
+    });
+
+    handleDeleteClick = ({ arguments: deleteMnfg }) => this.setState({
+        deleting: true,
+        deleteMnfg,
+    });
+
+    handleDelete = () => {
+        this.props.onDeleteUpdate(this.cancelModal);
+        this.props.deleteManufacturer({
+            variables: {
+                nodeId: this.state.deleteMnfg.nodeId
+            }
+        });
+    }
 
     render = () => {
         const {
             state: {
-                selectedMnfgNID,
-                modal,
-                modal: {
-                    mutation: selectedMutation,
-                    update: selectedUpdate,
-                },
-                name,
+                deleteMnfg,
+                creating,
+                deleting,
             },
-            renderAddModal,
-            renderUpdateModal,
-            renderDeleteModal,
+            props: {
+                manufacturers,
+            },
+            handleAddClick,
+            handleAddBlur,
+            handleEdit,
+            handleCreate,
+            handleDelete,
+            handleDeleteClick,
             cancelModal,
-            handleInput,
         } = this;
 
         console.log(this.state);
 
         return (
-            <Query
-                query={query}
-            >
-                {({
-                    loading,
-                    error,
-                    data: {
-                        allManufacturers: {
-                            nodes: manufacturers = [],
-                        } = {},
-                    } = {},
-                }) => {
-                    const {
-                        name: selectedMnfgName
-                    } = manufacturers.find(({ nodeId }) => nodeId === selectedMnfgNID) || {};
-
-                    return (
-                        <HeadedListContainer
-                            id="Manufacturers"
-                            title="Manufacturers"
-                            list={{
-                                items: manufacturers,
-                                addButton: {
-                                    type: "large",
-                                    onAdd: renderAddModal,
-                                },
-                                renderItem: ({
+            <div>
+                <HeadedListContainer
+                    id="Manufacturers"
+                    title="Manufacturers"
+                    list={{
+                        items: creating ?
+                            manufacturers.concat({ newItem: true })
+                            :
+                            manufacturers,
+                        renderItem: ({
+                            nodeId,
+                            name,
+                            newItem,
+                        }) => !newItem ? (
+                            // MANUFACTURER PILL
+                            <Pill
+                                key={nodeId}
+                                type="tile"
+                                align="left"
+                                tagname="li"
+                                title={name}
+                                footer="Last Updated:"
+                                arguments={{
                                     nodeId,
-                                    id,
-                                    name
-                                }) => (
-                                        <Pill
-                                            key={nodeId}
-                                            nodeId={nodeId}
-                                            type="tile"
-                                            align="left"
-                                            tagname="li"
-                                            title={name}
-                                            footer="Last Updated:"
-                                            selected={selectedMnfgNID === nodeId}
-                                            onSelect={renderUpdateModal}
-                                            onDelete={renderDeleteModal}
-                                            danger={selectedMnfgNID === nodeId && modal === delete_mnfg}
-                                        />
-                                    )
-                            }}
-                            afterList={[create_mnfg, update_mnfg, delete_mnfg]
-                                .map(({ mutation, update, ...props }, i) => (
-                                    <OldAsyncModal
-                                        key={i}
-                                        mutation={mutation}
-                                        variables={{ name, nodeId: selectedMnfgNID }}
-                                        update={update}
-                                        afterUpdate={cancelModal}
-                                        display={mutation === selectedMutation}
-                                        onCancel={cancelModal}
-                                        {...props}
-                                    >
-                                        {i !== 2 ? (
-                                            <div>
-                                                <h6>Name</h6>
-                                                <input
-                                                    value={name}
-                                                    onChange={handleInput}
-                                                />
-                                            </div>
-                                        ) : (
-                                                <div className="warning">
-                                                    Are you sure you want to permanently delete Manufacturer: {selectedMnfgName}?
-                                                </div>
-                                            )}
-                                    </OldAsyncModal>
-                                ))}
-                        />
-                    )
-                }}
-            </Query>
+                                    name,
+                                }}
+                                onEdit={handleEdit}
+                                onDelete={handleDeleteClick}
+                            />
+                        ) : (
+                                    // CREATE PILL
+                                    <Pill
+                                        key="new"
+                                        title=""
+                                        type="tile"
+                                        align="left"
+                                        tagname="li"
+                                        editing={true}
+                                        arguments={{
+                                            nodeId,
+                                        }}
+                                        onEdit={handleCreate}
+                                        onBlur={handleAddBlur}
+                                    />
+                                ),
+                        addButton: {
+                            type: "large",
+                            onAdd: handleAddClick,
+                        }
+                    }}
+                />
+                <Modal
+                    title={`Delete Manufacturer`}
+                    display={deleting}
+                    danger={true}
+                    onFinish={handleDelete}
+                    onCancel={cancelModal}
+                >
+                    Are you sure you want to delete Manufacturer: {deleteMnfg.name} ?
+                </Modal>
+            </div>
         );
     }
 }
