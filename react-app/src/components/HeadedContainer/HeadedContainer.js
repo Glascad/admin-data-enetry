@@ -26,6 +26,7 @@ export default function HeadedContainer({
     return (
         <div
             id={id}
+            // Number.prototype[Symbol.iterator] is in `public/index.html`
             className={`HeadedContainer ${className} ${[...nestLevel].map(() => "nested").join("-") || ""}`}
             style={style}
         >

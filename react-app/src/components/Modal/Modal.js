@@ -9,13 +9,11 @@ export default class Modal extends Component {
         title: PropTypes.any.isRequired,
         display: PropTypes.bool.isRequired,
         children: PropTypes.any.isRequired,
-        onCancel: PropTypes.func.isRequired,
         danger: PropTypes.bool,
+        onCancel: PropTypes.func.isRequired,
+        cancel: PropTypes.object,
         onReset: PropTypes.func,
         reset: PropTypes.object,
-        onReset: PropTypes.func.isRequired,
-        cancel: PropTypes.object,
-        onReset: PropTypes.func.isRequired,
         finish: PropTypes.object,
     };
 

@@ -17,9 +17,43 @@ export default class LinetypeInfo extends Component {
         if (nodeId !== this.props.linetype.nodeId) {
             this.setState({
                 lineWeight: this.props.linetype.lineWeight,
-                pattern: this.props.linetype.pattern.split(" "),
+                pattern: this.props.linetype.pattern
+                    .split(" ")
+                    .map(l => l || 0),
             });
         }
+    }
+
+    handleSelectChange = ({ value }) => this.setState({
+        lineWeight: value
+    });
+
+    handleSelectBlur = () => {
+        console.log(this.state);
+        this.props.updateLinetype({
+            variables: {
+                nodeId: this.props.linetype.nodeId,
+                lineWeight: this.state.lineWeight,
+                pattern: this.state.pattern.join(" "),
+            }
+        });
+    }
+
+    handlePatternInput = i => ({ target: { value } }) => {
+        this.setState({
+            // Array.prototype.replace is in `public/index.html`
+            pattern: this.state.pattern.replace(i, value)
+        });
+    }
+
+    handleAddPatternSet = () => {
+        const { pattern } = this.state;
+        this.setState({
+            pattern: pattern.length === 1 ?
+                pattern.concat(0, 0, 0)
+                :
+                pattern.concat(0, 0)
+        });
     }
 
     render = () => {
@@ -33,7 +67,11 @@ export default class LinetypeInfo extends Component {
                     name,
                 },
                 lineWeights,
-            }
+            },
+            handleSelectChange,
+            handleSelectBlur,
+            handlePatternInput,
+            handleAddPatternSet,
         } = this;
 
         console.log(this);
@@ -47,7 +85,8 @@ export default class LinetypeInfo extends Component {
                 label: name
             }));
 
-        const selectValue = selectOptions.find(({ value }) => value === lineWeight);
+        const selectValue = selectOptions
+            .find(({ value }) => value === lineWeight);
 
         return (
             <HeadedContainer
@@ -58,26 +97,32 @@ export default class LinetypeInfo extends Component {
                 <Select
                     options={selectOptions}
                     value={selectValue}
-                    onChange={({ value }) => this.setState({
-                        lineWeight: value
-                    })}
+                    onChange={handleSelectChange}
+                    onBlur={handleSelectBlur}
                 />
                 <ListContainer
                     className="pattern"
-                    items={pattern}
-                    renderItem={((weight, i) => (
-                        <div
+                    items={pattern.length > 1 ?
+                        pattern
+                        :
+                        pattern.length > 0 ?
+                            pattern.concat(0)
+                            :
+                            pattern.concat(0, 0)}
+                    renderItem={((length, i) => (
+                        <li
                             key={i}
                         >
                             <h6>{i % 2 === 0 ? "Dash" : "Gap"}</h6>
                             <input
-                                value={weight}
-                                onChange={console.log}
+                                type="number"
+                                value={length}
+                                onChange={handlePatternInput(i)}
                             />
-                        </div>
+                        </li>
                     ))}
                     addButton={{
-                        onAdd: console.log
+                        onAdd: handleAddPatternSet
                     }}
                 />
             </HeadedContainer>

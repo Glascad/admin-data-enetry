@@ -83,46 +83,41 @@ export default class Manufacturers extends Component {
                     id="Manufacturers"
                     title="Manufacturers"
                     list={{
-                        items: creating ?
-                            manufacturers.concat({ newItem: true })
-                            :
-                            manufacturers,
+                        items: manufacturers,
                         renderItem: ({
                             nodeId,
                             name,
-                            newItem,
-                        }) => !newItem ? (
-                            // MANUFACTURER PILL
+                        }) => (
+                                // MANUFACTURER PILL
+                                <Pill
+                                    key={nodeId}
+                                    type="tile"
+                                    align="left"
+                                    tagname="li"
+                                    title={name}
+                                    footer="Last Updated:"
+                                    arguments={{
+                                        nodeId,
+                                        name,
+                                    }}
+                                    onEdit={handleEdit}
+                                    onDelete={handleDeleteClick}
+                                />
+                            ),
+                        creating,
+                        createItem: (
+                            // CREATE MANUFACTURER PILL
                             <Pill
-                                key={nodeId}
+                                key="new"
+                                title=""
                                 type="tile"
                                 align="left"
                                 tagname="li"
-                                title={name}
-                                footer="Last Updated:"
-                                arguments={{
-                                    nodeId,
-                                    name,
-                                }}
-                                onEdit={handleEdit}
-                                onDelete={handleDeleteClick}
+                                editing={true}
+                                onEdit={handleCreate}
+                                onBlur={handleAddBlur}
                             />
-                        ) : (
-                                    // CREATE PILL
-                                    <Pill
-                                        key="new"
-                                        title=""
-                                        type="tile"
-                                        align="left"
-                                        tagname="li"
-                                        editing={true}
-                                        arguments={{
-                                            nodeId,
-                                        }}
-                                        onEdit={handleCreate}
-                                        onBlur={handleAddBlur}
-                                    />
-                                ),
+                        ),
                         addButton: {
                             type: "large",
                             onAdd: handleAddClick,

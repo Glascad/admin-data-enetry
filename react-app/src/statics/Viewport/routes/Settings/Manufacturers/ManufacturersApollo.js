@@ -13,12 +13,12 @@ export default class ManufacturersApollo extends Component {
 
     createUpdate = (...args) => {
         create.update(...args);
-        this.updateAfterCreate();
+        this.updateAfterCreate(...args);
     }
 
     deleteUpdate = (...args) => {
         _delete.update(...args);
-        this.updateAfterDelete();
+        this.updateAfterDelete(...args);
     }
 
     updateAfterCreate = () => { }

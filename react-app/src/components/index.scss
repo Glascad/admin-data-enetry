@@ -3,5 +3,6 @@
 
 .nested {
     border-left: $small solid $blue;
+    padding-left: $x-small;
     box-sizing: border-box;
 }

@@ -45,6 +45,11 @@
                 yield i;
             }
         }
+        Array.prototype.replace = function (i, val) {
+            const newArr = this.slice();
+            newArr[i] = val;
+            return newArr;
+        }
     </script>
 </body>
 

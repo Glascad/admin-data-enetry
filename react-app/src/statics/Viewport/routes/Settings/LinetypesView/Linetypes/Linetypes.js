@@ -25,6 +25,7 @@ export default class LineTypes extends Component {
     });
 
     handleAddClick = () => this.setState({
+        selectedNID: "",
         creating: true,
     });
 
@@ -33,10 +34,20 @@ export default class LineTypes extends Component {
     });
 
     handleCreate = ({ }, { input }) => {
-        this.props.onCreateUpdate(this.handleAddBlur);
+        this.props.onCreateUpdate((cache, {
+            data: {
+                createLinetype: {
+                    linetype: nodeId
+                }
+            }
+        }) => this.setState({
+            selectedNID: nodeId
+        }));
         this.props.createLinetype({
             variables: {
                 name: input,
+                lineWeight: this.props.lineWeights[0].weight,
+                pattern: ""
             },
         });
     }
@@ -66,6 +77,7 @@ export default class LineTypes extends Component {
         const {
             state: {
                 selectedNID,
+                creating,
             },
             props: {
                 linetypes,
@@ -73,10 +85,19 @@ export default class LineTypes extends Component {
                 updateLinetype,
             },
             handleSelect,
-            handleEdit
+            handleEdit,
+            handleCreate,
+            handleAddClick,
+            handleAddBlur,
         } = this;
 
-        const selectedLinetype = linetypes.find(({ nodeId }) => nodeId === selectedNID) || {};
+        const selectedLinetype = linetypes.find(({ nodeId }) => nodeId === selectedNID)
+            ||
+            !creating && linetypes[0]
+            ||
+            {
+                pattern: ""
+            };
 
         console.log(this.state);
 
@@ -109,7 +130,7 @@ export default class LineTypes extends Component {
                                             pattern,
                                         }}
                                         onEdit={handleEdit}
-                                        selected={nodeId === selectedNID}
+                                        selected={nodeId === selectedLinetype.nodeId}
                                         onSelect={handleSelect}
                                     />
                                     <svg
@@ -128,8 +149,17 @@ export default class LineTypes extends Component {
                                     </svg>
                                 </li>
                             ),
+                        creating,
+                        createItem: (
+                            <Pill
+                                selected={true}
+                                editing={true}
+                                onEdit={handleCreate}
+                                onBlur={handleAddBlur}
+                            />
+                        ),
                         addButton: {
-                            onAdd: console.log
+                            onAdd: handleAddClick,
                         }
                     }}
                 />
