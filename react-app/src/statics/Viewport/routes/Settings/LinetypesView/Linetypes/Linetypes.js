@@ -2,94 +2,93 @@ import React, { Component } from 'react';
 import './Linetypes.scss';
 
 import {
+    query,
+    create,
+    update,
+    _delete,
+} from './linetypes-graphql';
+
+import {
     HeadedListContainer,
     Pill,
+    Modal,
+    withSelect,
+    withCRUD,
 } from '../../../../../../components';
 
 import LinetypeInfo from './LinetypeInfo';
 
-export default class LineTypes extends Component {
-
-    state = {
-        selectedNID: "",
-        creating: false,
-        deleting: false,
-    };
-
-    cancelModal = () => this.setState({
-        deleting: false,
-    });
-
-    handleSelect = ({ arguments: { nodeId } }) => this.setState({
-        selectedNID: nodeId,
-    });
-
-    handleAddClick = () => this.setState({
-        selectedNID: "",
-        creating: true,
-    });
-
-    handleAddBlur = () => this.setState({
-        creating: false,
-    });
+class Linetypes extends Component {
 
     handleCreate = ({ }, { input }) => {
-        this.props.onCreateUpdate((cache, {
+        this.props.CRUD.onCreate((cache, {
             data: {
                 createLinetype: {
-                    linetype: nodeId
+                    linetype: {
+                        nodeId
+                    }
                 }
             }
-        }) => this.setState({
-            selectedNID: nodeId,
-            creating: false,
+        }) => this.props.withSelectProps.handleSelect({
+            arguments: {
+                nodeId,
+            }
         }));
-        this.props.createLinetype({
+        this.props.CRUD.createItem({
             variables: {
                 name: input,
-                lineWeight: this.props.lineWeights[0].weight,
+                lineWeight: this.props.CRUD.queryStatus.data.allLineWeights.nodes[0].weight,
                 pattern: ""
             },
         });
     }
 
-    handleEdit = ({ arguments: { nodeId } }, { input }) => this.props.updateLinetype({
+    handleEdit = ({ arguments: { nodeId } }, { input }) => this.props.CRUD.updateItem({
         variables: {
             nodeId,
             name: input,
         },
     });
 
-    handleDeleteClick = ({ arguments: { nodeId } }) => this.setState({
-        deleting: true,
-        selectedNID: nodeId,
-    });
-
     handleDelete = () => {
-        this.props.onDeleteUpdate(this.cancelModal);
-        this.props.deleteLinetype({
+        this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+        this.props.CRUD.deleteItem({
             variables: {
-                nodeId: this.state.selectedNID,
+                nodeId: this.props.withSelectProps.selectedNID,
+                null: console.log(this.props)
             },
         });
     }
 
     render = () => {
         const {
-            state: {
-                selectedNID,
-                creating,
-            },
             props: {
-                linetypes,
-                lineWeights,
-                updateLinetype,
+                CRUD: {
+                    queryStatus: {
+                        data: {
+                            allLinetypes: {
+                                nodes: linetypes = [],
+                            } = {},
+                            allLineWeights: {
+                                nodes: lineWeights = [],
+                            } = {},
+                        } = {},
+                    },
+                    updateItem,
+                },
+                withSelectProps: {
+                    selectedNID,
+                    creating,
+                    deleting,
+                    cancel,
+                    handleSelect,
+                    handleCreateClick,
+                    handleDeleteClick,
+                }
             },
-            handleSelect,
             handleEdit,
             handleCreate,
-            handleAddClick,
-            handleAddBlur,
+            handleDelete,
         } = this;
 
         const selectedLinetype = linetypes.find(({ nodeId }) => nodeId === selectedNID)
@@ -97,10 +96,9 @@ export default class LineTypes extends Component {
             !creating && linetypes[0]
             ||
             {
-                pattern: ""
+                pattern: "",
+                name: ""
             };
-
-        console.log(this.state);
 
         return (
             <div
@@ -118,6 +116,7 @@ export default class LineTypes extends Component {
                             pattern,
                         }) => (
                                 <Pill
+                                    key={nodeId}
                                     title={name}
                                     tagname="li"
                                     arguments={{
@@ -128,7 +127,9 @@ export default class LineTypes extends Component {
                                         pattern,
                                     }}
                                     onEdit={handleEdit}
+                                    onDelete={handleDeleteClick}
                                     selected={nodeId === selectedLinetype.nodeId}
+                                    danger={deleting && nodeId === selectedNID}
                                     onSelect={handleSelect}
                                 />
                             ),
@@ -138,22 +139,38 @@ export default class LineTypes extends Component {
                                 selected={true}
                                 editing={true}
                                 onEdit={handleCreate}
-                                onBlur={handleAddBlur}
+                                onBlur={cancel}
                             />
                         ),
                         addButton: {
-                            onAdd: handleAddClick,
+                            onAdd: handleCreateClick,
                         }
                     }}
                 />
                 <LinetypeInfo
                     {...{
-                        updateLinetype,
+                        updateItem,
                         linetype: selectedLinetype,
                         lineWeights,
                     }}
                 />
+                <Modal
+                    title="Delete Linetype"
+                    display={deleting}
+                    danger={true}
+                    onFinish={handleDelete}
+                    onCancel={cancel}
+                >
+                    Are you sure you want to delete Linetype: {selectedLinetype.name}?
+                </Modal>
             </div>
         );
     }
 }
+
+export default withCRUD({
+    query,
+    create,
+    update,
+    _delete,
+})(withSelect()(Linetypes));

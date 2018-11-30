@@ -211,6 +211,8 @@ export default class Pill extends Component {
                 ) : null}
                 {/* HOVER BUTTONS */}
                 {(
+                    type === 'tile'
+                    &&
                     (
                         hoverButtons.length
                         +

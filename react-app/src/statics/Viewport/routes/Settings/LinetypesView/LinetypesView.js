@@ -1,13 +1,13 @@
 import React from 'react';
 
-import LinetypesApollo from './Linetypes/LinetypesApollo';
-// import LineWeightsApollo from './LineWeights/LineWeightsApollo';
+import Linetypes from './Linetypes/Linetypes';
+import LineWeights from './LineWeights/LineWeights';
 
 export default function LinetypesView() {
     return (
         <div>
-            <LinetypesApollo />
-            {/* <LineWeightsApollo /> */}
+            <Linetypes />
+            <LineWeights />
         </div>
     )
 }

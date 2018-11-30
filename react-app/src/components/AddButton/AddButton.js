@@ -14,6 +14,7 @@ export default class AddButton extends Component {
         text: PropTypes.string,
         inputType: PropTypes.string,
         onAdd: PropTypes.func.isRequired,
+        onBlur: PropTypes.func,
         otherButtons: PropTypes.arrayOf(PropTypes.object)
     };
 
@@ -36,6 +37,7 @@ export default class AddButton extends Component {
                 type = "",
                 inputType = "",
                 otherButtons = [],
+                onBlur,
             },
             handleClick
         } = this;
@@ -49,6 +51,7 @@ export default class AddButton extends Component {
                     } ${
                     editing ? 'editing' : ''
                     }`}
+                onBlur={onBlur}
             >
                 <button
                     className="add-button"

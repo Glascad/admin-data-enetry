@@ -4,78 +4,76 @@ import {
     HeadedListContainer,
     Pill,
     Modal,
+    withSelect,
+    withCRUD,
 } from '../../../../../components';
 
-export default class Manufacturers extends Component {
+import {
+    query,
+    create,
+    update,
+    _delete,
+} from './manufacturers-graphql';
 
-    state = {
-        deleteMnfg: {},
-        creating: false,
-        deleting: false,
-    };
-
-    cancelModal = () => this.setState({
-        deleting: false,
-    });
-
-    handleAddClick = () => this.setState({
-        creating: true,
-    });
-
-    handleAddBlur = () => this.setState({
-        creating: false,
-    });
+class Manufacturers extends Component {
 
     handleCreate = ({ }, { input }) => {
-        this.props.onCreateUpdate(this.handleAddBlur);
-        this.props.createManufacturer({
+        this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+        this.props.CRUD.createItem({
             variables: {
                 name: input,
             }
         });
     }
 
-    handleEdit = ({ arguments: { nodeId } }, { input }) => this.props.updateManufacturer({
+    handleEdit = ({ arguments: { nodeId } }, { input }) => this.props.CRUD.updateItem({
         variables: {
             nodeId,
             name: input,
         }
     });
 
-    handleDeleteClick = ({ arguments: deleteMnfg }) => this.setState({
-        deleting: true,
-        deleteMnfg,
-    });
-
     handleDelete = () => {
-        this.props.onDeleteUpdate(this.cancelModal);
-        this.props.deleteManufacturer({
+        this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+        this.props.CRUD.deleteItem({
             variables: {
-                nodeId: this.state.deleteMnfg.nodeId
+                nodeId: this.props.withSelectProps.selectedNID
             }
         });
     }
 
     render = () => {
         const {
-            state: {
-                deleteMnfg,
-                creating,
-                deleting,
-            },
             props: {
-                manufacturers,
+                CRUD: {
+                    queryStatus: {
+                        data: {
+                            allManufacturers: {
+                                nodes: manufacturers = [],
+                            } = {},
+                        } = {}
+                    }
+                },
+                withSelectProps: {
+                    selectedNID,
+                    creating,
+                    deleting,
+                    cancel,
+                    handleCreateClick,
+                    handleDeleteClick,
+                }
             },
-            handleAddClick,
-            handleAddBlur,
             handleEdit,
             handleCreate,
             handleDelete,
-            handleDeleteClick,
-            cancelModal,
         } = this;
 
-        console.log(this.state);
+        const deleteMnfg = manufacturers
+            .find(({ nodeId }) => nodeId === selectedNID)
+            ||
+            manufacturers[0]
+            ||
+            {};
 
         return (
             <div>
@@ -101,6 +99,7 @@ export default class Manufacturers extends Component {
                                         name,
                                     }}
                                     onEdit={handleEdit}
+                                    danger={deleting && nodeId === selectedNID}
                                     onDelete={handleDeleteClick}
                                 />
                             ),
@@ -115,12 +114,12 @@ export default class Manufacturers extends Component {
                                 tagname="li"
                                 editing={true}
                                 onEdit={handleCreate}
-                                onBlur={handleAddBlur}
+                                onBlur={cancel}
                             />
                         ),
                         addButton: {
                             type: "large",
-                            onAdd: handleAddClick,
+                            onAdd: handleCreateClick,
                         }
                     }}
                 />
@@ -129,11 +128,18 @@ export default class Manufacturers extends Component {
                     display={deleting}
                     danger={true}
                     onFinish={handleDelete}
-                    onCancel={cancelModal}
+                    onCancel={cancel}
                 >
-                    Are you sure you want to delete Manufacturer: {deleteMnfg.name} ?
+                    Are you sure you want to delete Manufacturer: {deleteMnfg.name}?
                 </Modal>
             </div>
         );
     }
 }
+
+export default withCRUD({
+    query,
+    create,
+    update,
+    _delete,
+})(withSelect()(Manufacturers));

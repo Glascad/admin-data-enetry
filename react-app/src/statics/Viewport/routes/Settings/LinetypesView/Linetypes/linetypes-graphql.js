@@ -94,7 +94,7 @@ export const update = {
 
 export const _delete = {
     mutation: gql`mutation DeleteLinetype($nodeId:ID!){
-        updateLinetype(
+        deleteLinetype(
             input:{
                 nodeId:$nodeId
             }

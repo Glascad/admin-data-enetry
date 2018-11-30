@@ -28,7 +28,7 @@ export default function ListContainer({
     createItem,
     addButton,
     filter = () => true,
-    sort = () => 0,
+    sort = () => -1,
     nestLevel = 0,
 }) {
     return (

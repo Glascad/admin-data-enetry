@@ -13,13 +13,40 @@ export default class LinetypeInfo extends Component {
         pattern: [],
     };
 
-    componentDidUpdate = ({ linetype: { nodeId } }) => {
-        if (nodeId !== this.props.linetype.nodeId) {
+    componentDidUpdate = ({
+        linetype: {
+            nodeId,
+            pattern,
+            lineWeight
+        }
+    }, {
+        pattern: prevStatePattern,
+        lineWeight: prevStateLineWeight,
+    }) => {
+        if (
+            nodeId !== this.props.linetype.nodeId
+            ||
+            pattern !== this.props.linetype.pattern
+            ||
+            (
+                prevStatePattern === this.state.pattern
+                &&
+                pattern.trim() !== this.state.pattern.join(" ").trim()
+            )
+            ||
+            lineWeight !== this.props.linetype.lineWeight
+            ||
+            (
+                prevStateLineWeight === this.state.lineWeight
+                &&
+                lineWeight !== this.state.lineWeight
+            )
+        ) {
             this.setState({
                 lineWeight: this.props.linetype.lineWeight,
                 pattern: this.props.linetype.pattern
                     .split(" ")
-                    .map(l => l || 0),
+                    .map(length => length || 0),
             });
         }
     }
@@ -29,13 +56,14 @@ export default class LinetypeInfo extends Component {
     });
 
     handleBlur = () => {
-        console.log(this.state);
-        this.props.updateLinetype({
+        this.props.updateItem({
             variables: {
                 nodeId: this.props.linetype.nodeId,
                 lineWeight: this.state.lineWeight,
-                pattern: this.state.pattern.join(" "),
-            }
+                pattern: this.state.pattern
+                    .join(" ")
+                    .replace(/( +0*)*$/, ""),
+            },
         });
     }
 
@@ -56,6 +84,10 @@ export default class LinetypeInfo extends Component {
         });
     }
 
+    blurOnEnter = ({ key, target }) => {
+        if (key === "Enter") target.blur();
+    }
+
     render = () => {
         const {
             state: {
@@ -70,11 +102,10 @@ export default class LinetypeInfo extends Component {
             },
             handleSelectChange,
             handleBlur,
+            blurOnEnter,
             handlePatternInput,
             handleAddPatternSet,
         } = this;
-
-        console.log(this);
 
         const selectOptions = lineWeights
             .map(({
@@ -119,21 +150,22 @@ export default class LinetypeInfo extends Component {
                                 value={length}
                                 onChange={handlePatternInput(i)}
                                 onBlur={handleBlur}
+                                onKeyDown={blurOnEnter}
                             />
                         </li>
                     ))}
                     addButton={{
-                        onAdd: handleAddPatternSet
+                        onAdd: handleAddPatternSet,
                     }}
                 />
                 <svg
                     height={lineWeight}
-                    width="240"
+                    width="480"
                 >
                     <line
                         x1="0"
                         y1="0"
-                        x2="240"
+                        x2="480"
                         y2="0"
                         stroke="black"
                         strokeWidth={lineWeight}

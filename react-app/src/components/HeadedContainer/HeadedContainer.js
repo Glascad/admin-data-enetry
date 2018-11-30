@@ -22,10 +22,12 @@ export default function HeadedContainer({
     right,
     children,
     nestLevel = 0,
+    ref,
 }) {
     return (
         <div
             id={id}
+            ref={ref}
             // Number.prototype[Symbol.iterator] is in `public/index.html`
             className={`HeadedContainer ${className} ${[...nestLevel].map(() => "nested").join("-") || ""}`}
             style={style}

@@ -10,7 +10,7 @@ import System from './Viewport/routes/System/System';
 // import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
 // SETTINGS
 // import Settings from './Viewport/routes/Settings/Settings';
-import Manufacturers from './Viewport/routes/Settings/Manufacturers/ManufacturersApollo';
+import Manufacturers from './Viewport/routes/Settings/Manufacturers/Manufacturers';
 import Linetypes from './Viewport/routes/Settings/LinetypesView/LinetypesView';
 // import PartOrientations from './Viewport/routes/Settings/PartOrientations/PartOrientations';
 // import Fasteners from './Viewport/routes/Settings/Fasteners/Fasteners';
