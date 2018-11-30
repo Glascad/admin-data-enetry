@@ -41,7 +41,8 @@ export default class LineTypes extends Component {
                 }
             }
         }) => this.setState({
-            selectedNID: nodeId
+            selectedNID: nodeId,
+            creating: false,
         }));
         this.props.createLinetype({
             variables: {
@@ -116,38 +117,20 @@ export default class LineTypes extends Component {
                             lineWeight,
                             pattern,
                         }) => (
-                                <li
-                                    key={nodeId}
-                                    className="linetype"
-                                >
-                                    <Pill
-                                        title={name}
-                                        arguments={{
-                                            nodeId,
-                                            id,
-                                            name,
-                                            lineWeight,
-                                            pattern,
-                                        }}
-                                        onEdit={handleEdit}
-                                        selected={nodeId === selectedLinetype.nodeId}
-                                        onSelect={handleSelect}
-                                    />
-                                    <svg
-                                        height={lineWeight}
-                                        width="240"
-                                    >
-                                        <line
-                                            x1="0"
-                                            y1="0"
-                                            x2="240"
-                                            y2="0"
-                                            stroke="black"
-                                            strokeWidth={lineWeight}
-                                            strokeDasharray={pattern}
-                                        />
-                                    </svg>
-                                </li>
+                                <Pill
+                                    title={name}
+                                    tagname="li"
+                                    arguments={{
+                                        nodeId,
+                                        id,
+                                        name,
+                                        lineWeight,
+                                        pattern,
+                                    }}
+                                    onEdit={handleEdit}
+                                    selected={nodeId === selectedLinetype.nodeId}
+                                    onSelect={handleSelect}
+                                />
                             ),
                         creating,
                         createItem: (

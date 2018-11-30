@@ -28,7 +28,7 @@ export default class LinetypeInfo extends Component {
         lineWeight: value
     });
 
-    handleSelectBlur = () => {
+    handleBlur = () => {
         console.log(this.state);
         this.props.updateLinetype({
             variables: {
@@ -69,7 +69,7 @@ export default class LinetypeInfo extends Component {
                 lineWeights,
             },
             handleSelectChange,
-            handleSelectBlur,
+            handleBlur,
             handlePatternInput,
             handleAddPatternSet,
         } = this;
@@ -98,7 +98,7 @@ export default class LinetypeInfo extends Component {
                     options={selectOptions}
                     value={selectValue}
                     onChange={handleSelectChange}
-                    onBlur={handleSelectBlur}
+                    onBlur={handleBlur}
                 />
                 <ListContainer
                     className="pattern"
@@ -118,6 +118,7 @@ export default class LinetypeInfo extends Component {
                                 type="number"
                                 value={length}
                                 onChange={handlePatternInput(i)}
+                                onBlur={handleBlur}
                             />
                         </li>
                     ))}
@@ -125,6 +126,20 @@ export default class LinetypeInfo extends Component {
                         onAdd: handleAddPatternSet
                     }}
                 />
+                <svg
+                    height={lineWeight}
+                    width="240"
+                >
+                    <line
+                        x1="0"
+                        y1="0"
+                        x2="240"
+                        y2="0"
+                        stroke="black"
+                        strokeWidth={lineWeight}
+                        strokeDasharray={pattern.join(" ")}
+                    />
+                </svg>
             </HeadedContainer>
         );
     }
