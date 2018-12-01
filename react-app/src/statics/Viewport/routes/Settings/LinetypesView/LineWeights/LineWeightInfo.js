@@ -7,7 +7,7 @@ import {
 export default class LinetypeInfo extends Component {
 
     state = {
-        weight: this.props.lineWeight.weight
+        weight: this.props.lineWeight.weight || 0
     };
 
     componentDidUpdate = ({ lineWeight: { nodeId, weight } }) => {

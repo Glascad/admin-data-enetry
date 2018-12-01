@@ -30,25 +30,9 @@ export const create = {
             }
         }
     }`,
-    update(cache, {
-        data: {
-            createLineWeight: {
-                lineWeight
-            }
-        }
-    }) {
-        const { allLineWeights, ...data } = cache.readQuery({ query });
-        cache.writeQuery({
-            query,
-            data: {
-                ...data,
-                allLineWeights: {
-                    ...allLineWeights,
-                    nodes: allLineWeights.nodes.concat(lineWeight)
-                }
-            }
-        });
-    }
+    awaitRefetchQueries: true,
+    // Since `size` is the primary key, we need to completely refetch the query - we cannot update the cache automatically
+    refetchQueries: [{ query }],
 };
 
 export const update = {
@@ -72,7 +56,9 @@ export const update = {
                 weight
             }
         }
-    }`
+    }`,
+    awaitRefetchQueries: true,
+    refetchQueries: [{ query }],
 }
 
 export const _delete = {
@@ -89,25 +75,6 @@ export const _delete = {
             }
         }
     }`,
-    update(cache, {
-        data: {
-            deleteLineWeight: {
-                lineWeight: {
-                    nodeId: deleteNID
-                }
-            }
-        }
-    }) {
-        const { allLineWeights, ...data } = cache.readQuery({ query });
-        cache.writeQuery({
-            query,
-            data: {
-                ...data,
-                allLineWeights: {
-                    ...allLineWeights,
-                    nodes: allLineWeights.nodes.filter(({ nodeId }) => nodeId !== deleteNID)
-                }
-            }
-        });
-    }
+    awaitRefetchQueries: true,
+    refetchQueries: [{ query }],
 }

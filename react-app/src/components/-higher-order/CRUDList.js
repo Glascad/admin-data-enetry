@@ -9,7 +9,7 @@ import Modal from '../Modal/Modal';
 class CRUDList extends Component {
 
     static propTypes = {
-        name: PropTypes.string.isRequired,
+        itemClass: PropTypes.string.isRequired,
         extractList: PropTypes.func.isRequired,
         mapPillProps: PropTypes.func.isRequired,
         mapCreateVariables: PropTypes.func,
@@ -17,18 +17,26 @@ class CRUDList extends Component {
         defaultPillProps: PropTypes.object,
         addButtonProps: PropTypes.object,
         mapDetailsProps: PropTypes.func,
+        extractName: PropTypes.func,
         mapModalProps: PropTypes.func,
     };
 
     handleCreate = (...args) => {
-        this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+        const variables = this.props.mapCreateVariables(...args, this.props);
+        this.props.CRUD.onCreate(() => {
+            this.props.withSelectProps.handleSelect({
+                arguments: {
+                    nodeId: variables.nodeId
+                }
+            });
+        });
         this.props.CRUD.createItem({
-            variables: this.props.mapCreateVariables(...args)
+            variables
         });
     }
 
     handleEdit = (...args) => this.props.CRUD.updateItem({
-        variables: this.props.mapUpdateVariables(...args)
+        variables: this.props.mapUpdateVariables(...args, this.props)
     });
 
     handleDelete = () => {
@@ -44,15 +52,18 @@ class CRUDList extends Component {
         const {
             props,
             props: {
-                name,
+                itemClass,
                 filters,
                 sorts,
+                sortItems,
                 extractList,
                 mapPillProps = props => props,
                 defaultPillProps,
                 addButtonProps,
                 mapDetailsProps = props => props,
-                DetailsComponent,
+                BeforeList = () => null,
+                Details = () => null,
+                extractName = () => "",
                 mapModalProps = props => props,
                 CRUD,
                 CRUD: {
@@ -82,14 +93,29 @@ class CRUDList extends Component {
             ||
             {};
 
+        const detailsProps = mapDetailsProps({
+            ...props,
+            extractedList: items,
+            selectedItem,
+            data: queryStatus.data,
+        });
+
         return (
-            <div>
+            <div
+                id={`${itemClass.replace(/ /g, '')}s`}
+            >
                 <HeadedListContainer
-                    title={`${name}s`}
+                    title={`${itemClass}s`}
                     filters={filters}
                     sorts={sorts}
+                    beforeList={(
+                        <BeforeList
+                            {...detailsProps}
+                        />
+                    )}
                     list={{
                         items,
+                        sort: sortItems,
                         renderItem: item => {
                             const {
                                 nodeId,
@@ -124,39 +150,36 @@ class CRUDList extends Component {
                         }
                     }}
                 />
-                {DetailsComponent ? (
-                    <DetailsComponent
-                        {...mapDetailsProps(props)}
-                    />
-                ) : null}
+                <Details
+                    {...detailsProps}
+                />
                 <Modal
-                    title={`Delete ${name}`}
+                    title={`Delete ${itemClass}`}
                     display={deleting}
                     danger={true}
                     onFinish={handleDelete}
                     finishButtonText="Delete"
                     onCancel={cancel}
                     {...mapModalProps(selectedItem)}
-                />
+                >
+                    Are you sure you want to delete {itemClass} {extractName(selectedItem)}?
+                </Modal>
             </div>
         );
     }
 }
 
-export default (CRUDOptions, options = {}) => (
-    DetailsComponent
-) => (
-        withCRUD(CRUDOptions)(withSelect()(({
-            CRUD,
-            withSelectProps,
-        }) => (
-                <CRUDList
-                    {...{
-                        CRUD,
-                        withSelectProps,
-                        DetailsComponent,
-                        ...options,
-                    }}
-                />
-            )))
-    );
+export default (CRUDOptions, options) => (
+    withCRUD(CRUDOptions)(withSelect()(({
+        CRUD,
+        withSelectProps,
+    }) => (
+            <CRUDList
+                {...{
+                    CRUD,
+                    withSelectProps,
+                    ...options,
+                }}
+            />
+        )))
+);

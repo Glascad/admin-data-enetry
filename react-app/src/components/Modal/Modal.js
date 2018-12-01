@@ -106,7 +106,7 @@ export default class Modal extends Component {
                                     children="Finish"
                                     className={danger ? "danger" : "primary"}
                                     {...finish}
-                                    children={finishButtonText || finish.children}
+                                    children={finishButtonText || finish.children || "Finish"}
                                     onClick={handleFinishClick}
                                 />
                             ) : null}

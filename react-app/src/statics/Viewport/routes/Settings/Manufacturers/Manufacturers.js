@@ -12,53 +12,43 @@ import {
     CRUDList,
 } from '../../../../../components';
 
-import {
-    query,
-    create,
-    update,
-    _delete,
-} from './manufacturers-graphql';
+import * as CRUDOptions from './manufacturers-graphql';
 
-export default CRUDList({
-    query,
-    create,
-    update,
-    _delete,
-}, {
-        name: "Manufacturer",
-        extractList: ({
-            data: {
-                allManufacturers: {
-                    nodes = []
-                } = {}
-            } = {}
-        }) => nodes,
-        defaultPillProps: {
-            type: "tile",
-            align: "left",
-            footer: "Last Updated: ...",
-        },
-        mapPillProps: ({
+export default CRUDList(CRUDOptions, {
+    itemClass: "Manufacturer",
+    extractList: ({
+        data: {
+            allManufacturers: {
+                nodes = [],
+            } = {},
+        } = {},
+    }) => nodes,
+    defaultPillProps: {
+        type: "tile",
+        align: "left",
+        footer: "Last Updated: ...",
+        selectable: false,
+    },
+    mapPillProps: ({ nodeId, name, }) => ({
+        nodeId,
+        key: nodeId,
+        title: name,
+        arguments: {
             nodeId,
-            id,
-            name,
-        }) => ({
-            nodeId,
-            key: nodeId,
-            title: name,
-            arguments: {
-                nodeId,
-            },
-        }),
-        mapCreateVariables: ({ }, { input }) => ({ name: input }),
-        mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({ nodeId, name: input }),
-        addButtonProps: {
-            type: "large"
         },
-        mapModalProps: ({ name }) => ({
-            children: `Are you sure you want to delete Manufacturer ${name}?`
-        }),
-    })();
+    }),
+    mapCreateVariables: ({ }, { input }) => ({
+        name: input,
+    }),
+    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+        nodeId,
+        name: input,
+    }),
+    addButtonProps: {
+        type: "large",
+    },
+    extractName: ({ name }) => name,
+});
 
 // class Manufacturers extends Component {
 

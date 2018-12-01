@@ -49,6 +49,10 @@ input {
     width: $pill-width;
 }
 
+input[type="number"] {
+    width: $pill-width / 3;
+}
+
 
 html, #root, body {
     font-family: 'Roboto Condensed';

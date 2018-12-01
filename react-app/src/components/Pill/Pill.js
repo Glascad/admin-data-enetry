@@ -121,7 +121,8 @@ export default class Pill extends Component {
             props: {
                 type,
                 inputType = "text",
-                onSelect: selectable,
+                selectable,
+                onSelect,
                 onDelete: deletable,
                 onEdit: editable,
                 onDrag,
@@ -158,8 +159,10 @@ export default class Pill extends Component {
         return (
             <tag.name
                 className={`Pill ${
-                    selected ? 'selected' :
-                        selectable ? 'selectable' : ''
+                    selectable !== false ?
+                        selected ? 'selected' :
+                            onSelect ? 'selectable' : ''
+                        : ''
                     } ${
                     defaulted ? 'default' : ''
                     } ${
