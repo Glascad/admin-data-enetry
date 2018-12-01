@@ -5,7 +5,7 @@ import System from './Viewport/routes/System/System';
 // SYSTEM CONFIGURATIONS
 // import SystemConfigurations from './Viewport/routes/SystemConfigurations/SystemConfigurations';
 // import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
-// import DetailTypes from './Viewport/routes/SystemConfigurations/DetailTypes/DetailTypes';
+import DetailTypes from './Viewport/routes/SystemConfigurations/DetailTypes/DetailTypes';
 // import ConfigurationTypes from './Viewport/routes/SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
 // import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
 // SETTINGS
@@ -59,7 +59,7 @@ export default [
             {
                 name: "DETAIL TYPES",
                 path: "/detail types",
-                // component: DetailTypes
+                component: DetailTypes
             },
             {
                 name: "CONFIGURATION TYPES",

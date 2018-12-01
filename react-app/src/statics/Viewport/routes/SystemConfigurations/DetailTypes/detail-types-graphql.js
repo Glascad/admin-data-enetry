@@ -12,7 +12,7 @@ export const query = gql`{
     }
 }`;
 
-export const create_detail_type = {
+export const create = {
     mutation: gql`mutation CreateDetailType(
         $type:String!,
         $vertical:Boolean!,
@@ -44,13 +44,6 @@ export const create_detail_type = {
         }
     }) => {
         const { allDetailTypes, ...data } = cache.readQuery({ query });
-        console.log({
-            data: {
-                allDetailTypes,
-                ...data
-            },
-            detailType,
-        })
         cache.writeQuery({
             query,
             data: {
@@ -61,15 +54,16 @@ export const create_detail_type = {
                 }
             }
         })
+        return detailType.nodeId;
     }
 }
 
-export const update_detail_type = {
+export const update = {
     mutation: gql`mutation UpdateDetailType(
         $nodeId:ID!,
-        $type:String!,
-        $vertical:Boolean!,
-        $entrance:Boolean!
+        $type:String,
+        $vertical:Boolean,
+        $entrance:Boolean
     ){
         updateDetailType(
             input:{
@@ -92,7 +86,7 @@ export const update_detail_type = {
     }`
 };
 
-export const delete_detail_type = {
+export const _delete = {
     mutation: gql`mutation DeleteDetailType($nodeId:ID!){
         deleteDetailType(input:{
             nodeId:$nodeId
@@ -115,7 +109,6 @@ export const delete_detail_type = {
             }
         },
     }) => {
-        console.log(cache, deletedNID);
         const { allDetailTypes, ...data } = cache.readQuery({ query });
         cache.writeQuery({
             query,
@@ -126,6 +119,7 @@ export const delete_detail_type = {
                     nodes: allDetailTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
                 }
             }
-        })
+        });
+        return deletedNID;
     }
 }

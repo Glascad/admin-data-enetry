@@ -19,17 +19,22 @@ class CRUDList extends Component {
         mapDetailsProps: PropTypes.func,
         extractName: PropTypes.func,
         mapModalProps: PropTypes.func,
+        extractCreatedNID: PropTypes.func,
     };
 
     handleCreate = (...args) => {
         const variables = this.props.mapCreateVariables(...args, this.props);
-        this.props.CRUD.onCreate(() => {
-            this.props.withSelectProps.handleSelect({
-                arguments: {
-                    nodeId: variables.nodeId
-                }
+        if (this.props.extractCreatedNID) {
+            this.props.CRUD.onCreate((...updateArgs) => {
+                this.props.withSelectProps.handleSelect({
+                    arguments: {
+                        nodeId: this.props.extractCreatedNID(...updateArgs)
+                    }
+                });
             });
-        });
+        } else {
+            this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+        }
         this.props.CRUD.createItem({
             variables
         });
@@ -69,7 +74,6 @@ class CRUDList extends Component {
                 CRUD: {
                     queryStatus,
                 },
-                // withSelectProps,
                 withSelectProps: {
                     selectedNID,
                     creating,
@@ -170,16 +174,10 @@ class CRUDList extends Component {
 }
 
 export default (CRUDOptions, options) => (
-    withCRUD(CRUDOptions)(withSelect()(({
-        CRUD,
-        withSelectProps,
-    }) => (
-            <CRUDList
-                {...{
-                    CRUD,
-                    withSelectProps,
-                    ...options,
-                }}
-            />
-        )))
+    withCRUD(CRUDOptions)(withSelect()(props => (
+        <CRUDList
+            {...props}
+            {...options}
+        />
+    )))
 );
