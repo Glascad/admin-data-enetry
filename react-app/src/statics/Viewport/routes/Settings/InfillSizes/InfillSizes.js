@@ -1,4 +1,4 @@
-// import React, { Component } from 'react';
+import React from 'react';
 
 // import {
 //     query,
@@ -7,53 +7,96 @@
 //     _delete,
 // } from './infill-sizes-graphql';
 
-import { CRUDList } from '../../../../../components';
+import { CRUDListWrapper } from '../../../../../components';
 
-import * as CRUDOptions from './infill-sizes-graphql';
+import * as CRUDProps from './infill-sizes-graphql';
 
 import InfillSizesGenerator from './InfillSizesGenerator';
 
 import './InfillSizes.scss';
 
-export default CRUDList(CRUDOptions, {
-    itemClass: "Infill Size",
-    BeforeList: InfillSizesGenerator,
-    mapDetailsProps: ({
-        CRUD: {
-            createItem,
-        },
-    }) => ({
-        createItem,
-    }),
-    sortItems: ({ size: a }, { size: b }) => (+a - +b),
-    extractList: ({
-        data: {
-            allInfillSizes: {
-                nodes = [],
-            } = {},
-        } = {},
-    }) => nodes,
-    mapPillProps: ({
-        nodeId,
-        size,
-    }) => ({
-        nodeId,
-        key: nodeId,
-        title: size,
-        arguments: {
-            nodeId,
-            size,
-        },
-    }),
-    mapCreateVariables: ({ }, { input }) => ({
-        size: input,
-    }),
-    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-        nodeId,
-        size: input,
-    }),
-    extractName: ({ size }) => size,
-});
+export default function InfillSizes() {
+    return (
+        <CRUDListWrapper
+            CRUDProps={CRUDProps}
+            itemClass="Infill Size"
+            renderBeforeList={({
+                CRUD: {
+                    createItem,
+                },
+            }) => (
+                    <InfillSizesGenerator
+                        createItem={createItem}
+                    />
+                )}
+            sortItems={({ size: a }, { size: b }) => (+a - +b)}
+            extractList={({
+                allInfillSizes: {
+                    nodes = [],
+                } = {},
+            }) => nodes}
+            mapPillProps={({
+                size,
+            }) => ({
+                title: size,
+            })}
+            mapCreateVariables={({ }, { input }) => ({
+                size: input,
+            })}
+            extractCreatedNID={({
+                createInfillSize: {
+                    infillSize: {
+                        nodeId
+                    }
+                }
+            }) => nodeId}
+            mapUpdateVariables={({ input }) => ({
+                size: input,
+            })}
+            extractName={({ size }) => size}
+        />
+    )
+}
+
+// export default CRUDList(CRUDOptions, {
+//     itemClass: "Infill Size",
+//     BeforeList: InfillSizesGenerator,
+//     mapInfoProps: ({
+//         CRUD: {
+//             createItem,
+//         },
+//     }) => ({
+//         createItem,
+//     }),
+//     sortItems: ({ size: a }, { size: b }) => (+a - +b),
+//     extractList: ({
+//         data: {
+//             allInfillSizes: {
+//                 nodes = [],
+//             } = {},
+//         } = {},
+//     }) => nodes,
+//     mapPillProps: ({
+//         nodeId,
+//         size,
+//     }) => ({
+//         nodeId,
+//         key: nodeId,
+//         title: size,
+//         arguments: {
+//             nodeId,
+//             size,
+//         },
+//     }),
+//     mapCreateVariables: ({ }, { input }) => ({
+//         size: input,
+//     }),
+//     mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+//         nodeId,
+//         size: input,
+//     }),
+//     extractName: ({ size }) => size,
+// });
 
 // import {
 //     HeadedListContainer,

@@ -53,8 +53,7 @@ export const create = {
                     nodes: allDetailTypes.nodes.concat(detailType)
                 }
             }
-        })
-        return detailType.nodeId;
+        });
     }
 }
 
@@ -120,6 +119,5 @@ export const _delete = {
                 }
             }
         });
-        return deletedNID;
     }
 }

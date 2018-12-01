@@ -1,49 +1,96 @@
+import React from 'react';
 
 import {
-    CRUDList
+    CRUDListWrapper
 } from '../../../../../../components';
 
 import LineWeightInfo from './LineWeightInfo';
 
-import * as CRUDOptions from './line-weights-graphql';
+import * as CRUDProps from './line-weights-graphql';
 
-export default CRUDList(CRUDOptions, {
-    Details: LineWeightInfo,
-    mapDetailsProps: ({
-        selectedItem: lineWeight,
-        CRUD: {
-            updateItem,
-        },
-    }) => ({
-        lineWeight,
-        updateItem,
-    }),
-    itemClass: "Line Weight",
-    extractList: ({
-        data: {
-            allLineWeights: {
-                nodes = [],
-            } = {},
-        } = {},
-    }) => nodes,
-    mapPillProps: ({ nodeId, name, }) => ({
-        nodeId,
-        key: nodeId,
-        title: name,
-        arguments: {
-            nodeId,
-        },
-    }),
-    mapCreateVariables: ({ }, { input }) => ({
-        name: input,
-        weight: 0,
-    }),
-    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-        nodeId,
-        name: input,
-    }),
-    extractName: ({ name }) => name,
-});
+export default function LineWeights() {
+    return (
+        <CRUDListWrapper
+            CRUDProps={CRUDProps}
+            itemClass="Line Weight"
+            extractList={({
+                allLineWeights: {
+                    nodes = [],
+                } = {},
+            }) => nodes}
+            mapPillProps={({ name }) => ({
+                title: name,
+            })}
+            mapCreateVariables={({ }, { input }) => ({
+                name: input,
+                weight: 0,
+            })}
+            extractCreatedNID={({
+                createLineWeight: {
+                    lineWeight: {
+                        nodeId
+                    }
+                }
+            }) => nodeId}
+            mapUpdateVariables={({ input }) => ({
+                name: input,
+            })}
+            extractName={({ name }) => name}
+        >
+            {({
+                selectedItem: lineWeight,
+                CRUD: {
+                    updateItem,
+                },
+            }) => (
+                    <LineWeightInfo
+                        {...{
+                            lineWeight,
+                            updateItem,
+                        }}
+                    />
+                )}
+        </CRUDListWrapper>
+    );
+}
+
+// export default CRUDList(CRUDOptions, {
+    // Info: LineWeightInfo,
+    // mapInfoProps: ({
+    //     selectedItem: lineWeight,
+    //     CRUD: {
+    //         updateItem,
+    //     },
+    // }) => ({
+    //     lineWeight,
+    //     updateItem,
+    // }),
+    // itemClass: "Line Weight",
+    // extractList: ({
+    //     data: {
+    //         allLineWeights: {
+    //             nodes = [],
+    //         } = {},
+    //     } = {},
+    // }) => nodes,
+    // mapPillProps: ({ nodeId, name, }) => ({
+    //     nodeId,
+    //     key: nodeId,
+    //     title: name,
+    //     arguments: {
+    //         nodeId,
+    //     },
+    // }),
+    // mapCreateVariables: ({ }, { input }) => ({
+    //     name: input,
+    //     weight: 0,
+    // }),
+    // mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+    //     nodeId,
+    //     name: input,
+    // }),
+    // extractName: ({ name }) => name,
+// });
 
 /**
  

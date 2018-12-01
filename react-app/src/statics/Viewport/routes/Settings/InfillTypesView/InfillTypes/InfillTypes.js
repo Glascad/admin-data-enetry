@@ -1,42 +1,75 @@
-// import React, { Component } from 'react';
+import React from 'react';
 
 import {
-    CRUDList,
+    CRUDListWrapper
 } from '../../../../../../components';
 
-import * as CRUDOptions from './infill-types-graphql';
+import * as CRUDProps from './infill-types-graphql';
 
 
-export default CRUDList(CRUDOptions, {
-    itemClass: "Infill Type",
-    extractList: ({
-        data: {
-            allInfillPocketTypes: {
-                nodes = [],
-            } = {},
-        } = {},
-    }) => nodes,
-    mapPillProps: ({
-        nodeId,
-        type,
-    }) => ({
-        nodeId,
-        key: nodeId,
-        title: type,
-        arguments: {
-            nodeId,
-            type,
-        },
-    }),
-    mapCreateVariables: ({ }, { input }) => ({
-        type: input,
-    }),
-    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-        nodeId,
-        type: input,
-    }),
-    extractName: ({ type }) => type,
-});
+export default function InfillTypes() {
+    return (
+        <CRUDListWrapper
+            CRUDProps={CRUDProps}
+            itemClass={"Infill Pocket Type"}
+            extractList={({
+                allInfillPocketTypes: {
+                    nodes = [],
+                } = {},
+            }) => nodes}
+            mapPillProps={({
+                type,
+            }) => ({
+                title: type,
+            })}
+            mapCreateVariables={({ }, { input }) => ({
+                type: input,
+            })}
+            extractCreatedNID={({
+                createInfillPocketType: {
+                    infillPocketType: {
+                        nodeId
+                    }
+                }
+            }) => nodeId}
+            mapUpdateVariables={({ input }) => ({
+                type: input,
+            })}
+            extractName={({ type }) => type}
+        />
+    );
+}
+
+// export default CRUDList(CRUDProps, {
+//     itemClass: "Infill Type",
+//     extractList: ({
+//         data: {
+//             allInfillPocketTypes: {
+//                 nodes = [],
+//             } = {},
+//         } = {},
+//     }) => nodes,
+//     mapPillProps: ({
+//         nodeId,
+//         type,
+//     }) => ({
+//         nodeId,
+//         key: nodeId,
+//         title: type,
+//         arguments: {
+//             nodeId,
+//             type,
+//         },
+//     }),
+//     mapCreateVariables: ({ }, { input }) => ({
+//         type: input,
+//     }),
+//     mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+//         nodeId,
+//         type: input,
+//     }),
+//     extractName: ({ type }) => type,
+// });
 
 /**
  import {

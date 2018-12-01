@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import withSelect from './withSelect';
-import withCRUD from './withCRUD';
+// import withSelect from './withSelect';
+// import withCRUD from './withCRUD';
+import CRUDWrapper from './CRUDWrapper';
+import SelectionWrapper from './SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
 import Modal from '../Modal/Modal';
@@ -16,7 +18,6 @@ class CRUDList extends Component {
         mapUpdateVariables: PropTypes.func,
         defaultPillProps: PropTypes.object,
         addButtonProps: PropTypes.object,
-        mapDetailsProps: PropTypes.func,
         extractName: PropTypes.func,
         mapModalProps: PropTypes.func,
         extractCreatedNID: PropTypes.func,
@@ -25,10 +26,10 @@ class CRUDList extends Component {
     handleCreate = (...args) => {
         const variables = this.props.mapCreateVariables(...args, this.props);
         if (this.props.extractCreatedNID) {
-            this.props.CRUD.onCreate((...updateArgs) => {
+            this.props.CRUD.onCreate((cache, { data }) => {
                 this.props.withSelectProps.handleSelect({
                     arguments: {
-                        nodeId: this.props.extractCreatedNID(...updateArgs)
+                        nodeId: this.props.extractCreatedNID(data)
                     }
                 });
             });
@@ -40,8 +41,11 @@ class CRUDList extends Component {
         });
     }
 
-    handleEdit = (...args) => this.props.CRUD.updateItem({
-        variables: this.props.mapUpdateVariables(...args, this.props)
+    handleEdit = ({ arguments: { nodeId } }, pillState) => this.props.CRUD.updateItem({
+        variables: {
+            nodeId,
+            ...this.props.mapUpdateVariables(pillState, this.props)
+        }
     });
 
     handleDelete = () => {
@@ -65,14 +69,14 @@ class CRUDList extends Component {
                 mapPillProps = props => props,
                 defaultPillProps,
                 addButtonProps,
-                mapDetailsProps = props => props,
-                BeforeList = () => null,
-                Details = () => null,
+                renderBeforeList = () => null,
+                children = () => null,
                 extractName = () => "",
                 mapModalProps = props => props,
-                CRUD,
                 CRUD: {
-                    queryStatus,
+                    queryStatus: {
+                        data: queryData
+                    },
                 },
                 withSelectProps: {
                     selectedNID,
@@ -89,7 +93,7 @@ class CRUDList extends Component {
             handleDelete,
         } = this;
 
-        const items = extractList(queryStatus) || [];
+        const items = extractList(queryData) || [];
 
         const selectedItem = items.find(({ nodeId }) => nodeId === selectedNID)
             ||
@@ -97,12 +101,12 @@ class CRUDList extends Component {
             ||
             {};
 
-        const detailsProps = mapDetailsProps({
+        const infoProps = {
             ...props,
             extractedList: items,
             selectedItem,
-            data: queryStatus.data,
-        });
+            data: queryData,
+        };
 
         return (
             <div
@@ -112,27 +116,26 @@ class CRUDList extends Component {
                     title={`${itemClass}s`}
                     filters={filters}
                     sorts={sorts}
-                    beforeList={(
-                        <BeforeList
-                            {...detailsProps}
-                        />
-                    )}
+                    beforeList={renderBeforeList(infoProps)}
                     list={{
                         items,
                         sort: sortItems,
                         renderItem: item => {
                             const {
-                                nodeId,
+                                nodeId = item.nodeId,
+                                arguments: args = { nodeId: item.nodeId },
                                 ...pillProps
                             } = mapPillProps(item, selectedItem);
                             return (
                                 <Pill
+                                    key={nodeId}
                                     tagname="li"
                                     onEdit={handleEdit}
-                                    selected={nodeId === selectedItem.nodeId}
+                                    selected={!creating && nodeId === selectedItem.nodeId}
                                     danger={deleting && nodeId === selectedNID}
                                     onSelect={handleSelect}
                                     onDelete={handleDeleteClick}
+                                    arguments={args}
                                     {...defaultPillProps}
                                     {...pillProps}
                                 />
@@ -142,6 +145,7 @@ class CRUDList extends Component {
                         createItem: (
                             <Pill
                                 tagname="li"
+                                selected={true}
                                 editing={true}
                                 onEdit={handleCreate}
                                 onBlur={cancel}
@@ -154,9 +158,7 @@ class CRUDList extends Component {
                         }
                     }}
                 />
-                <Details
-                    {...detailsProps}
-                />
+                {children(infoProps)}
                 <Modal
                     title={`Delete ${itemClass}`}
                     display={deleting}
@@ -173,11 +175,40 @@ class CRUDList extends Component {
     }
 }
 
-export default (CRUDOptions, options) => (
-    withCRUD(CRUDOptions)(withSelect()(props => (
-        <CRUDList
-            {...props}
-            {...options}
-        />
-    )))
-);
+
+export default function CRUDListWrapper({
+    CRUDProps,
+    ...props
+}) {
+    return (
+        <CRUDWrapper
+            {...CRUDProps}
+        >
+            {CRUD => (
+                <SelectionWrapper>
+                    {withSelectProps => (
+                        <CRUDList
+                            {...{
+                                ...props,
+                                CRUD,
+                                withSelectProps,
+                            }}
+                        />
+                    )}
+                </SelectionWrapper>
+            )}
+        </CRUDWrapper>
+    );
+}
+
+
+// export default withSelect()(CRUDList);
+
+// export default (CRUDOptions, options) => (
+//     withCRUD(CRUDOptions)(withSelect()(props => (
+//         <CRUDList
+//             {...props}
+//             {...options}
+//         />
+//     )))
+// );

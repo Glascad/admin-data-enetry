@@ -17,7 +17,7 @@ export const query = gql`{
     }
 }`;
 
-export const create_part_type = {
+export const create = {
     mutation: gql`mutation CreatePartType($type:String!){
         createPartType(input:{
             partType:{
@@ -52,7 +52,7 @@ export const create_part_type = {
     }
 };
 
-export const update_part_type = {
+export const update = {
     mutation: gql`mutation UpdatePartType($nodeId:ID!,$type:String!){
         updatePartType(input:{
             nodeId:$nodeId
@@ -69,7 +69,7 @@ export const update_part_type = {
     }`,
 };
 
-export const delete_part_type = {
+export const _delete = {
     mutation: gql`mutation DeletePartType($nodeId:ID!){
         deletePartType(input:{
             nodeId:$nodeId

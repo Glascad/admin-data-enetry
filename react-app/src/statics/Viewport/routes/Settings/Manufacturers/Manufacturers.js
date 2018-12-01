@@ -8,47 +8,89 @@
 //     withCRUD,
 // } from '../../../../../components';
 
+import React from 'react';
+
 import {
-    CRUDList,
+    CRUDListWrapper,
 } from '../../../../../components';
 
-import * as CRUDOptions from './manufacturers-graphql';
+import * as CRUDProps from './manufacturers-graphql';
 
-export default CRUDList(CRUDOptions, {
-    itemClass: "Manufacturer",
-    extractList: ({
-        data: {
-            allManufacturers: {
-                nodes = [],
-            } = {},
-        } = {},
-    }) => nodes,
-    defaultPillProps: {
-        type: "tile",
-        align: "left",
-        footer: "Last Updated: ...",
-        selectable: false,
-    },
-    mapPillProps: ({ nodeId, name, }) => ({
-        nodeId,
-        key: nodeId,
-        title: name,
-        arguments: {
-            nodeId,
-        },
-    }),
-    mapCreateVariables: ({ }, { input }) => ({
-        name: input,
-    }),
-    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-        nodeId,
-        name: input,
-    }),
-    addButtonProps: {
-        type: "large",
-    },
-    extractName: ({ name }) => name,
-});
+export default function Manufacturers() {
+    return (
+        <CRUDListWrapper
+            CRUDProps={CRUDProps}
+            itemClass="Manufacturer"
+            extractList={({
+                allManufacturers: {
+                    nodes = [],
+                } = {},
+            }) => nodes}
+            defaultPillProps={{
+                type: "tile",
+                align: "left",
+                footer: "Last Updated: ...",
+                selectable: false,
+            }}
+            mapPillProps={({ name, }) => ({
+                title: name,
+            })}
+            mapCreateVariables={({ }, { input }) => ({
+                name: input,
+            })}
+            extractCreatedNID={({
+                createManufacturer: {
+                    manufacturer: {
+                        nodeId
+                    }
+                }
+            }) => nodeId}
+            mapUpdateVariables={({ input }) => ({
+                name: input,
+            })}
+            addButtonProps={{
+                type: "large",
+            }}
+            extractName={({ name }) => name}
+        />
+    );
+}
+
+// export default CRUDList(CRUDOptions, {
+//     itemClass: "Manufacturer",
+//     extractList: ({
+//         data: {
+//             allManufacturers: {
+//                 nodes = [],
+//             } = {},
+//         } = {},
+//     }) => nodes,
+//     defaultPillProps: {
+//         type: "tile",
+//         align: "left",
+//         footer: "Last Updated: ...",
+//         selectable: false,
+//     },
+//     mapPillProps: ({ nodeId, name, }) => ({
+//         nodeId,
+//         key: nodeId,
+//         title: name,
+//         arguments: {
+//             nodeId,
+//         },
+//     }),
+//     mapCreateVariables: ({ }, { input }) => ({
+//         name: input,
+//     }),
+//     mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+//         nodeId,
+//         name: input,
+//     }),
+//     addButtonProps: {
+//         type: "large",
+//     },
+//     extractName: ({ name }) => name,
+// });
 
 // class Manufacturers extends Component {
 

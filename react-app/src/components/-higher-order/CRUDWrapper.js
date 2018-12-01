@@ -5,28 +5,27 @@ import { Query, Mutation } from 'react-apollo';
 export default class CRUDWrapper extends Component {
 
     static propTypes = {
-        Component: PropTypes.any.isRequired,
+        children: PropTypes.func.isRequired,
         query: PropTypes.object,
         create: PropTypes.object,
         update: PropTypes.object,
         _delete: PropTypes.object,
-        mapProps: PropTypes.func,
     };
 
     createUpdate = (...args) => {
-        if (this.props.create.update)
+        if (this.props.create && this.props.create.update)
             this.props.create.update(...args);
         this.updateAfterCreate(...args);
     }
 
     updateUpdate = (...args) => {
-        if (this.props.update.update)
+        if (this.props.update && this.props.update.update)
             this.props.update.update(...args);
         this.updateAfterUpdate(...args);
     }
 
     deleteUpdate = (...args) => {
-        if (this.props._delete.update)
+        if (this.props._delete && this.props._delete.update)
             this.props._delete.update(...args);
         this.updateAfterDelete(...args);
     }
@@ -69,8 +68,7 @@ export default class CRUDWrapper extends Component {
         const {
             props,
             props: {
-                Component: WrappedComponent,
-                mapProps = props => props,
+                children,
                 query,
                 create,
                 update,
@@ -110,21 +108,18 @@ export default class CRUDWrapper extends Component {
                                         update={deleteUpdate}
                                     >
                                         {(deleteItem, deleteStatus) => (
-                                            <WrappedComponent
-                                                {...props}
-                                                {...mapProps({
-                                                    queryStatus,
-                                                    createStatus,
-                                                    updateStatus,
-                                                    deleteStatus,
-                                                    createItem,
-                                                    updateItem,
-                                                    deleteItem,
-                                                    onCreate,
-                                                    onUpdate,
-                                                    onDelete,
-                                                })}
-                                            />
+                                            children({
+                                                queryStatus,
+                                                createStatus,
+                                                updateStatus,
+                                                deleteStatus,
+                                                createItem,
+                                                updateItem,
+                                                deleteItem,
+                                                onCreate,
+                                                onUpdate,
+                                                onDelete,
+                                            })
                                         )}
                                     </Delete>
                                 )}

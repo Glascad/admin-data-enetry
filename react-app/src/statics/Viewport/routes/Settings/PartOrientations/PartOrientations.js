@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 
 // import {
 //     HeadedListContainer,
@@ -16,42 +16,73 @@
 // } from './part-orientations-graphql';
 
 import {
-    CRUDList
+    CRUDListWrapper
 } from '../../../../../components';
 
-import * as CRUDOptions from './part-orientations-graphql';
+import * as CRUDProps from './part-orientations-graphql';
 
 
-export default CRUDList(CRUDOptions, {
-    itemClass: "Part Orientation",
-    extractList: ({
-        data: {
-            allOrientations: {
-                nodes = [],
-            } = {},
-        } = {},
-    }) => nodes,
-    mapPillProps: ({
-        nodeId,
-        orientation,
-    }) => ({
-        nodeId,
-        key: nodeId,
-        title: orientation,
-        arguments: {
-            nodeId,
-            orientation,
-        },
-    }),
-    mapCreateVariables: ({ }, { input }) => ({
-        orientation: input,
-    }),
-    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-        nodeId,
-        orientation: input,
-    }),
-    extractName: ({ orientation }) => orientation,
-});
+export default function PartOrientations() {
+    return (
+        <CRUDListWrapper
+            CRUDProps={CRUDProps}
+            itemClass="Part Orientation"
+            extractList={({
+                allOrientations: {
+                    nodes = [],
+                } = {},
+            }) => nodes}
+            mapPillProps={({ orientation }) => ({
+                title: orientation,
+            })}
+            mapCreateVariables={({ }, { input }) => ({
+                orientation: input,
+            })}
+            extractCreatedNID={({
+                createOrientation: {
+                    orientation: {
+                        nodeId
+                    }
+                }
+            }) => nodeId}
+            mapUpdateVariables={({ input }) => ({
+                orientation: input,
+            })}
+            extractName={({ orientation }) => orientation}
+        />
+    );
+}
+
+// export default CRUDList(CRUDOptions, {
+//     itemClass: "Part Orientation",
+//     extractList: ({
+//         data: {
+//             allOrientations: {
+//                 nodes = [],
+//             } = {},
+//         } = {},
+//     }) => nodes,
+//     mapPillProps: ({
+//         nodeId,
+//         orientation,
+//     }) => ({
+//         nodeId,
+//         key: nodeId,
+//         title: orientation,
+//         arguments: {
+//             nodeId,
+//             orientation,
+//         },
+//     }),
+//     mapCreateVariables: ({ }, { input }) => ({
+//         orientation: input,
+//     }),
+//     mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+//         nodeId,
+//         orientation: input,
+//     }),
+//     extractName: ({ orientation }) => orientation,
+// });
 
 
 // function PartOrientations({

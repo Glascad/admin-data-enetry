@@ -1,41 +1,75 @@
+import React from 'react';
 
 import {
-    CRUDList,
+    CRUDListWrapper
 } from '../../../../../../components';
 
-import * as CRUDOptions from './infill-sizes-graphql';
+import * as CRUDProps from './infill-sizes-graphql';
+
+export default function InfillSizes() {
+    return (
+        <CRUDListWrapper
+            CRUDProps={CRUDProps}
+            itemClass="Infill Size"
+            extractList={({
+                allInfillPocketSizes: {
+                    nodes = [],
+                } = {},
+            }) => nodes}
+            mapPillProps={({
+                size,
+            }) => ({
+                title: `${size}"`,
+            })}
+            mapCreateVariables={({ }, { input }) => ({
+                size: input,
+            })}
+            extractCreatedNID={({
+                createInfillPocketSize: {
+                    infillPocketSize: {
+                        nodeId
+                    }
+                }
+            }) => nodeId}
+            mapUpdateVariables={({ input }) => ({
+                size: input,
+            })}
+            extractName={({ size }) => size}
+        />
+    );
+}
 
 
-export default CRUDList(CRUDOptions, {
-    itemClass: "Infill Size",
-    extractList: ({
-        data: {
-            allInfillPocketSizes: {
-                nodes = [],
-            } = {},
-        } = {},
-    }) => nodes,
-    mapPillProps: ({
-        nodeId,
-        size,
-    }) => ({
-        nodeId,
-        key: nodeId,
-        title: `${size}"`,
-        arguments: {
-            nodeId,
-            size,
-        },
-    }),
-    mapCreateVariables: ({ }, { input }) => ({
-        size: input,
-    }),
-    mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-        nodeId,
-        size: input,
-    }),
-    extractName: ({ size }) => size,
-});
+// export default CRUDList(CRUDOptions, {
+//     itemClass: "Infill Size",
+//     extractList: ({
+//         data: {
+//             allInfillPocketSizes: {
+//                 nodes = [],
+//             } = {},
+//         } = {},
+//     }) => nodes,
+//     mapPillProps: ({
+//         nodeId,
+//         size,
+//     }) => ({
+//         nodeId,
+//         key: nodeId,
+//         title: `${size}"`,
+//         arguments: {
+//             nodeId,
+//             size,
+//         },
+//     }),
+//     mapCreateVariables: ({ }, { input }) => ({
+//         size: input,
+//     }),
+//     mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
+//         nodeId,
+//         size: input,
+//     }),
+//     extractName: ({ size }) => size,
+// });
 
 
 

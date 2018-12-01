@@ -6,8 +6,8 @@ import System from './Viewport/routes/System/System';
 // import SystemConfigurations from './Viewport/routes/SystemConfigurations/SystemConfigurations';
 // import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
 import DetailTypes from './Viewport/routes/SystemConfigurations/DetailTypes/DetailTypes';
-// import ConfigurationTypes from './Viewport/routes/SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
-// import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
+import ConfigurationTypes from './Viewport/routes/SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
+import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
 // SETTINGS
 // import Settings from './Viewport/routes/Settings/Settings';
 import Manufacturers from './Viewport/routes/Settings/Manufacturers/Manufacturers';
@@ -64,12 +64,12 @@ export default [
             {
                 name: "CONFIGURATION TYPES",
                 path: "/configuration types",
-                // component: ConfigurationTypes
+                component: ConfigurationTypes
             },
             {
                 name: "PART TYPES",
                 path: "/part types",
-                // component: PartTypes
+                component: PartTypes
             }
         ]
     },
