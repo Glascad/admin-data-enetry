@@ -79,9 +79,9 @@ export default class HeadedListContainer extends Component {
             >
                 {beforeList}
                 <ListContainer
-                    {...list}
                     filter={currentFilterCallback}
                     sort={currentSortCallback}
+                    {...list}
                 />
                 {afterList}
             </HeadedContainer>

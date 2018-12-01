@@ -12,10 +12,10 @@ import System from './Viewport/routes/System/System';
 // import Settings from './Viewport/routes/Settings/Settings';
 import Manufacturers from './Viewport/routes/Settings/Manufacturers/Manufacturers';
 import Linetypes from './Viewport/routes/Settings/LinetypesView/LinetypesView';
-// import PartOrientations from './Viewport/routes/Settings/PartOrientations/PartOrientations';
+import PartOrientations from './Viewport/routes/Settings/PartOrientations/PartOrientations';
 // import Fasteners from './Viewport/routes/Settings/Fasteners/Fasteners';
-// import InfillSizes from './Viewport/routes/Settings/InfillSizes/InfillSizes';
-// import InfillTypes from './Viewport/routes/Settings/InfillTypes/InfillTypes';
+import InfillSizes from './Viewport/routes/Settings/InfillSizes/InfillSizes';
+import InfillTypes from './Viewport/routes/Settings/InfillTypesView/InfillTypesView';
 // PRACTICE
 import Practice from './Viewport/routes/Practice/Practice';
 
@@ -92,7 +92,7 @@ export default [
             {
                 name: "PART ORIENTATIONS",
                 path: "/part orientations",
-                // component: PartOrientations
+                component: PartOrientations
             },
             {
                 name: "FASTENERS",
@@ -102,12 +102,12 @@ export default [
             {
                 name: "INFILL SIZES",
                 path: "/infill sizes",
-                // component: InfillSizes
+                component: InfillSizes
             },
             {
                 name: "INFILL TYPES",
                 path: "/infill types",
-                // component: InfillTypes
+                component: InfillTypes
             },
         ]
     },

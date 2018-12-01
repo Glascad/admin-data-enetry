@@ -12,6 +12,7 @@ export default class Pill extends Component {
             'pill',
             'tile'
         ]),
+        inputValue: PropTypes.any,
         // BOOLEANS
         selected: PropTypes.bool,
         editing: PropTypes.bool,
@@ -19,6 +20,7 @@ export default class Pill extends Component {
         danger: PropTypes.bool,
         invalid: PropTypes.bool,
         // STRINGS
+        inputType: PropTypes.string,
         align: PropTypes.oneOf([
             'left',
             'right',
@@ -28,7 +30,7 @@ export default class Pill extends Component {
         title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
-        ]).isRequired,
+        ]),
         subtitle: PropTypes.string,
         // CONTENT
         children: PropTypes.any,
@@ -46,7 +48,7 @@ export default class Pill extends Component {
 
     state = {
         editing: this.props.editing || false,
-        input: "",
+        input: this.props.inputValue || this.props.title || "",
     };
 
     componentDidMount = () => {
@@ -57,9 +59,9 @@ export default class Pill extends Component {
         window.removeEventListener('keydown', this.blurOnEsc);
     }
 
-    blurOnEsc = ({ key }) => {
+    blurOnEsc = ({ key, target }) => {
         if (key === 'Escape')
-            this.handleBlur();
+            target.blur();
     }
 
     handleEditClick = e => {
@@ -75,7 +77,6 @@ export default class Pill extends Component {
         e.stopPropagation();
         this.setState({
             editing: true,
-            input: this.props.title
         });
     }
 
@@ -83,12 +84,13 @@ export default class Pill extends Component {
         input: value
     });
 
-    saveEditOnEnter = ({ key }) => {
+    saveEditOnEnter = ({ key, target }) => {
         if (key === "Enter") {
             this.setState({
                 editing: false
             });
             this.props.onEdit(this.props, this.state);
+            target.blur();
         }
     }
 
@@ -118,6 +120,7 @@ export default class Pill extends Component {
         const {
             props: {
                 type,
+                inputType = "text",
                 onSelect: selectable,
                 onDelete: deletable,
                 onEdit: editable,
@@ -178,6 +181,7 @@ export default class Pill extends Component {
                     {/* TITLE */}
                     {editing ? (
                         <input
+                            type={inputType}
                             className="title"
                             onChange={handleInput}
                             onKeyDown={saveEditOnEnter}
@@ -210,7 +214,7 @@ export default class Pill extends Component {
                     />
                 ) : null}
                 {/* HOVER BUTTONS */}
-                {(
+                {!editing ? (
                     type === 'tile'
                     &&
                     (
@@ -220,7 +224,7 @@ export default class Pill extends Component {
                         +
                         Boolean(deletable)
                     ) > 1
-                ) && !editing ? (
+                ) ? (
                         <ButtonTile
                             buttonProps={[
                                 ...hoverButtons,
@@ -242,7 +246,7 @@ export default class Pill extends Component {
                                 children="x"
                             />
                         ) : null
-                    )}
+                    ) : null}
             </tag.name>
         );
     }

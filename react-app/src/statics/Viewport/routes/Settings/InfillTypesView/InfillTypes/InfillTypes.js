@@ -5,47 +5,32 @@ import {
     create,
     update,
     _delete,
-} from './linetypes-graphql';
+} from './infill-types-graphql';
 
 import {
     HeadedListContainer,
     Pill,
     Modal,
-    withSelect,
     withCRUD,
+    withSelect,
 } from '../../../../../../components';
 
-import LinetypeInfo from './LinetypeInfo';
-
-class Linetypes extends Component {
+class InfillTypes extends Component {
 
     handleCreate = ({ }, { input }) => {
-        this.props.CRUD.onCreate((cache, {
-            data: {
-                createLinetype: {
-                    linetype: {
-                        nodeId
-                    }
-                }
-            }
-        }) => this.props.withSelectProps.handleSelect({
-            arguments: {
-                nodeId,
-            }
-        }));
+        this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+        console.log("CREATING", { input });
         this.props.CRUD.createItem({
             variables: {
-                name: input,
-                lineWeight: this.props.CRUD.queryStatus.data.allLineWeights.nodes[0].weight,
-                pattern: ""
+                type: input,
             },
         });
     }
 
-    handleEdit = ({ arguments: { nodeId } }, { input }) => this.props.CRUD.updateItem({
+    handleUpdate = ({ arguments: { nodeId } }, { input }) => this.props.CRUD.updateItem({
         variables: {
             nodeId,
-            name: input,
+            type: input,
         },
     });
 
@@ -54,7 +39,6 @@ class Linetypes extends Component {
         this.props.CRUD.deleteItem({
             variables: {
                 nodeId: this.props.withSelectProps.selectedNID,
-                null: console.log(this.props)
             },
         });
     }
@@ -65,15 +49,11 @@ class Linetypes extends Component {
                 CRUD: {
                     queryStatus: {
                         data: {
-                            allLinetypes: {
-                                nodes: linetypes = [],
-                            } = {},
-                            allLineWeights: {
-                                nodes: lineWeights = [],
+                            allInfillPocketTypes: {
+                                nodes: types = [],
                             } = {},
                         } = {},
                     },
-                    updateItem,
                 },
                 withSelectProps: {
                     selectedNID,
@@ -83,84 +63,69 @@ class Linetypes extends Component {
                     handleSelect,
                     handleCreateClick,
                     handleDeleteClick,
-                }
+                },
             },
-            handleEdit,
+            handleChange,
             handleCreate,
+            handleUpdate,
             handleDelete,
         } = this;
 
-        const selectedLinetype = linetypes.find(({ nodeId }) => nodeId === selectedNID)
+
+        const selectedType = types.find(({ nodeId }) => nodeId === selectedNID)
             ||
-            !creating && linetypes[0]
+            types[0]
             ||
-            {
-                pattern: "",
-                name: ""
-            };
+            {};
+
+        console.log(this);
 
         return (
-            <div
-                id="Linetypes"
-            >
+            <div>
                 <HeadedListContainer
-                    title="Linetypes"
+                    title="Infill Pocket Types"
                     list={{
-                        items: linetypes,
+                        items: types,
                         renderItem: ({
                             nodeId,
-                            id,
-                            name,
-                            lineWeight,
-                            pattern,
+                            type,
                         }) => (
                                 <Pill
                                     key={nodeId}
-                                    title={name}
                                     tagname="li"
+                                    title={type}
                                     arguments={{
-                                        nodeId,
-                                        id,
-                                        name,
-                                        lineWeight,
-                                        pattern,
+                                        nodeId
                                     }}
-                                    onEdit={handleEdit}
-                                    onDelete={handleDeleteClick}
-                                    selected={nodeId === selectedLinetype.nodeId}
+                                    selected={nodeId === selectedType.nodeId}
                                     danger={deleting && nodeId === selectedNID}
                                     onSelect={handleSelect}
+                                    onEdit={handleUpdate}
+                                    onDelete={handleDeleteClick}
                                 />
                             ),
                         creating,
                         createItem: (
                             <Pill
-                                selected={true}
-                                editing={true}
+                                tagname="li"
+                                editing={creating}
                                 onEdit={handleCreate}
                                 onBlur={cancel}
                             />
                         ),
                         addButton: {
-                            onAdd: handleCreateClick,
+                            onAdd: handleCreateClick
                         }
                     }}
                 />
-                <LinetypeInfo
-                    {...{
-                        updateItem,
-                        linetype: selectedLinetype,
-                        lineWeights,
-                    }}
-                />
                 <Modal
-                    title="Delete Linetype"
+                    title="Delete Infill Pocket Type"
                     display={deleting}
                     danger={true}
                     onFinish={handleDelete}
                     onCancel={cancel}
                 >
-                    Are you sure you want to delete Linetype: {selectedLinetype.name}?
+                    Are you sure you want to delete infill pocket type {selectedType.type}?
                 </Modal>
             </div>
         );
@@ -172,4 +137,4 @@ export default withCRUD({
     create,
     update,
     _delete,
-})(withSelect()(Linetypes));
+})(withSelect()(InfillTypes));

@@ -3,9 +3,9 @@ import { Query, Mutation } from 'react-apollo';
 
 export default ({
     query,
-    create,
-    update,
-    _delete,
+    create = {},
+    update = {},
+    _delete = {},
 },
     mapProps = (
         CRUD => ({ CRUD })
@@ -16,17 +16,20 @@ export default ({
             class WithCRUD extends Component {
 
                 createUpdate = (...args) => {
-                    create.update(...args);
+                    if (create.update)
+                        create.update(...args);
                     this.updateAfterCreate(...args);
                 }
 
                 updateUpdate = (...args) => {
-                    update.update(...args);
+                    if (update.update)
+                        update.update(...args);
                     this.updateAfterUpdate(...args);
                 }
 
                 deleteUpdate = (...args) => {
-                    _delete.update(...args);
+                    if (_delete.update)
+                        _delete.update(...args);
                     this.updateAfterDelete(...args);
                 }
 
@@ -50,15 +53,17 @@ export default ({
                         onDelete,
                     } = this;
 
-                    const RenderChildren = message => ({ children }) => children(() => new Error(message));
+                    const RenderChildren = message => ({ children }) => children(() => {
+                        throw new Error(message);
+                    });
 
                     const Read = query ? Query : RenderChildren("No QUERY specified");
 
-                    const Create = create ? Mutation : RenderChildren("No CREATE specified");
+                    const Create = create.mutation ? Mutation : RenderChildren("No CREATE specified");
 
-                    const Update = update ? Mutation : RenderChildren("No UPDATE specified");
+                    const Update = update.mutation ? Mutation : RenderChildren("No UPDATE specified");
 
-                    const Delete = _delete ? Mutation : RenderChildren("No DELETE specified");
+                    const Delete = _delete.mutation ? Mutation : RenderChildren("No DELETE specified");
 
                     return (
                         <Read
@@ -66,17 +71,17 @@ export default ({
                         >
                             {queryStatus => (
                                 <Create
-                                    mutation={create.mutation}
+                                    {...create}
                                     update={createUpdate}
                                 >
                                     {(createItem, createStatus) => (
                                         <Update
-                                            mutation={update.mutation}
+                                            {...update}
                                             update={update.update}
                                         >
                                             {(updateItem, updateStatus) => (
                                                 <Delete
-                                                    mutation={_delete.mutation}
+                                                    {..._delete}
                                                     update={deleteUpdate}
                                                 >
                                                     {(deleteItem, deleteStatus) => (

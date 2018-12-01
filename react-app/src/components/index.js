@@ -11,6 +11,7 @@ import _DeleteButton from './DeleteButton/DeleteButton';
 import _async from './-higher-order/async';
 import _withSelect from './-higher-order/withSelect';
 import _withCRUD from './-higher-order/withCRUD';
+import _CRUDList from './-higher-order/CRUDList';
 
 import './index.scss';
 
@@ -27,3 +28,4 @@ export const DeleteButton = _DeleteButton;
 export const async = _async;
 export const withSelect = _withSelect;
 export const withCRUD = _withCRUD;
+export const CRUDList = _CRUDList;

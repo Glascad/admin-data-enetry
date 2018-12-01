@@ -57,7 +57,8 @@ export default class Modal extends Component {
                 onCancel,
                 cancel,
                 onFinish,
-                finish,
+                finish = {},
+                finishButtonText,
                 danger,
             },
             stopPropagation,
@@ -105,6 +106,7 @@ export default class Modal extends Component {
                                     children="Finish"
                                     className={danger ? "danger" : "primary"}
                                     {...finish}
+                                    children={finishButtonText || finish.children}
                                     onClick={handleFinishClick}
                                 />
                             ) : null}
