@@ -57,9 +57,9 @@ class CRUDList extends Component {
 
     render = () => {
         const {
-            props,
             props: {
                 itemClass,
+                parentItem,
                 filters,
                 sorts,
                 sortItems,
@@ -71,11 +71,17 @@ class CRUDList extends Component {
                 children = () => null,
                 extractName = () => "",
                 mapModalProps = props => props,
+                canCreate,
+                canUpdate,
+                canDelete,
+                multiSelect,
+                CRUD,
                 CRUD: {
                     queryStatus: {
                         data: queryData
                     },
                 },
+                withSelectProps,
                 withSelectProps: {
                     selectedNID,
                     creating,
@@ -99,8 +105,9 @@ class CRUDList extends Component {
             ||
             {};
 
-        const infoProps = {
-            ...props,
+        const childProps = {
+            CRUD,
+            withSelectProps,
             extractedList: items,
             selectedItem,
             data: queryData,
@@ -111,10 +118,17 @@ class CRUDList extends Component {
                 id={`${itemClass.replace(/ /g, '')}s`}
             >
                 <HeadedListContainer
-                    title={`${itemClass}s`}
+                    title={`${
+                        itemClass
+                        }s${
+                        parentItem ?
+                            ` - ${parentItem}`
+                            :
+                            ''
+                        }`}
                     filters={filters}
                     sorts={sorts}
-                    beforeList={renderBeforeList(infoProps)}
+                    beforeList={renderBeforeList(childProps)}
                     list={{
                         items,
                         sort: sortItems,
@@ -128,18 +142,47 @@ class CRUDList extends Component {
                                 <Pill
                                     key={nodeId}
                                     tagname="li"
-                                    onEdit={handleEdit}
-                                    selected={!creating && nodeId === selectedItem.nodeId}
-                                    danger={deleting && nodeId === selectedNID}
+                                    onEdit={(
+                                        !multiSelect
+                                        &&
+                                        canUpdate
+                                    ) ?
+                                        handleEdit
+                                        :
+                                        () => { }
+                                    }
+                                    selected={(
+                                        !creating
+                                        &&
+                                        nodeId === selectedItem.nodeId
+                                    )}
+                                    danger={(
+                                        canDelete
+                                        &&
+                                        deleting
+                                        &&
+                                        nodeId === selectedNID
+                                    )}
                                     onSelect={handleSelect}
-                                    onDelete={handleDeleteClick}
+                                    onDelete={(
+                                        canDelete ?
+                                            handleDeleteClick
+                                            :
+                                            () => { }
+                                    )}
                                     arguments={args}
                                     {...defaultPillProps}
                                     {...pillProps}
                                 />
                             );
                         },
-                        creating,
+                        creating: !!(
+                            !multiSelect
+                            &&
+                            canCreate
+                            &&
+                            creating
+                        ),
                         createItem: (
                             <Pill
                                 tagname="li"
@@ -156,18 +199,20 @@ class CRUDList extends Component {
                         }
                     }}
                 />
-                {children(infoProps)}
-                <Modal
-                    title={`Delete ${itemClass}`}
-                    display={deleting}
-                    danger={true}
-                    onFinish={handleDelete}
-                    finishButtonText="Delete"
-                    onCancel={cancel}
-                    {...mapModalProps(selectedItem)}
-                >
-                    Are you sure you want to delete {itemClass} {extractName(selectedItem)}?
+                {children(childProps)}
+                {!multiSelect && canDelete ? (
+                    <Modal
+                        title={`Delete ${itemClass}`}
+                        display={deleting}
+                        danger={true}
+                        onFinish={handleDelete}
+                        finishButtonText="Delete"
+                        onCancel={cancel}
+                        {...mapModalProps(selectedItem)}
+                    >
+                        Are you sure you want to delete {itemClass} {extractName(selectedItem)}?
                 </Modal>
+                ) : null}
             </div>
         );
     }
@@ -176,6 +221,17 @@ class CRUDList extends Component {
 
 export default function CRUDListWrapper({
     CRUDProps,
+    CRUDProps: {
+        create: {
+            mutation: createMutation = false,
+        } = {},
+        update: {
+            mutation: updateMutation = false,
+        } = {},
+        _delete: {
+            mutation: deleteMutation = false,
+        } = {},
+    },
     ...props
 }) {
     return (
@@ -188,6 +244,9 @@ export default function CRUDListWrapper({
                         <CRUDList
                             {...{
                                 ...props,
+                                canCreate: !!createMutation,
+                                canUpdate: !!updateMutation,
+                                canDelete: !!deleteMutation,
                                 CRUD,
                                 withSelectProps,
                             }}

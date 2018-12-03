@@ -7,13 +7,16 @@ export default class Info extends Component {
 
     state = {
         door: false,
-        vertical: false,
-        presentationLevel: -1,
-        overrideLevel: -1,
+        presentationLevel: 0,
+        overrideLevel: 0,
     };
 
     handleChange = key => ({ target: { value } }) => this.setState({
         [key]: value,
+    });
+
+    handleCheckboxChange = key => ({ target: { checked } }) => this.setState({
+        [key]: checked,
     });
 
     handleBlur = () => {
@@ -22,21 +25,19 @@ export default class Info extends Component {
                 ...this.state,
                 nodeId: this.props.configurationType.nodeId,
             }
-        })
+        });
     }
 
     componentDidUpdate = ({ configurationType: { nodeId } }) => {
         if (nodeId !== this.props.configurationType.nodeId) {
             const {
                 door = false,
-                vertical = false,
-                presentationLevel = -1,
-                overrideLevel = -1,
+                presentationLevel = 0,
+                overrideLevel = 0,
             } = this.props.configurationType;
 
             this.setState({
                 door,
-                vertical,
                 presentationLevel,
                 overrideLevel,
             });
@@ -52,11 +53,12 @@ export default class Info extends Component {
             },
             state: {
                 door,
-                vertical,
                 presentationLevel,
                 overrideLevel,
             },
             handleChange,
+            handleCheckboxChange,
+            handleBlur,
         } = this;
 
         return (
@@ -66,28 +68,24 @@ export default class Info extends Component {
                 <h6>Door</h6>
                 <input
                     type="checkbox"
-                    value={door}
+                    // value={door}
                     checked={door}
-                    onChange={handleChange('door')}
-                />
-                <h6>Vertical</h6>
-                <input
-                    type="checkbox"
-                    value={vertical}
-                    checked={vertical}
-                    onChange={handleChange('vertical')}
+                    onChange={handleCheckboxChange('door')}
+                    onBlur={handleBlur}
                 />
                 <h6>Presentation Level</h6>
                 <input
                     type="number"
-                    value={presentationLevel}
+                    value={presentationLevel || 0}
                     onChange={handleChange('presentationLevel')}
+                    onBlur={handleBlur}
                 />
                 <h6>Override Level</h6>
                 <input
                     type="number"
-                    value={overrideLevel}
+                    value={overrideLevel || 0}
                     onChange={handleChange('overrideLevel')}
+                    onBlur={handleBlur}
                 />
             </HeadedContainer>
         );

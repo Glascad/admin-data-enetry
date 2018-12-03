@@ -48,9 +48,11 @@ export default function ConfigurationTypes() {
                             configurationType={configurationType}
                             updateConfigurationType={updateConfigurationType}
                         />
-                        <PartTypes
-                            configurationType={configurationType}
-                        />
+                        {configurationType.nodeId ? (
+                            <PartTypes
+                                configurationType={configurationType}
+                            />
+                        ) : null}
                         <Overrides
                             configurationType={configurationType}
                         />
