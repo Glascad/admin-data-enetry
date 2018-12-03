@@ -1,14 +1,19 @@
 import gql from 'graphql-tag';
 
-export const query = gql`{
-    allSystems{
-        nodes{
-            nodeId
-            id
+export const query = gql`
+  query Manufacurer($nodeId: ID!)
+  {   
+      manufacturer(nodeId: $nodeId) {
+        systemsByManufacturerId{
+          nodes{
             name
+            id
+            nodeId
+          }
         }
-    }
-}`;
+      }
+  }
+`;
 
 // export const create_mnfg = {
 //     title: "New Manufacturer",

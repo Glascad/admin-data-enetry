@@ -72,7 +72,10 @@ export default class Manufacturers extends Component {
 
         return (
             <Query
-                query={query}
+                query={
+                    query
+                    
+                }
             >
                 {({
                     loading,
