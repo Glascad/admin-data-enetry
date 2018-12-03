@@ -44,7 +44,7 @@ export default class SelectionWrapper extends Component {
             },
             props,
             props: {
-                children: Children,
+                children,
             },
             handleSelect,
             handleCreateClick,

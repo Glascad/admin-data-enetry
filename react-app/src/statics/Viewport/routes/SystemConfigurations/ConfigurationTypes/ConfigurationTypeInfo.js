@@ -16,6 +16,15 @@ export default class Info extends Component {
         [key]: value,
     });
 
+    handleBlur = () => {
+        this.props.updateConfigurationType({
+            variables: {
+                ...this.state,
+                nodeId: this.props.configurationType.nodeId,
+            }
+        })
+    }
+
     componentDidUpdate = ({ configurationType: { nodeId } }) => {
         if (nodeId !== this.props.configurationType.nodeId) {
             const {
