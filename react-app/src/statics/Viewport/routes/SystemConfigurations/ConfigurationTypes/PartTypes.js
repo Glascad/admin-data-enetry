@@ -34,8 +34,15 @@ export default function PartTypes({
                 }
             }) => ({
                 title: type
-                })}
-            multiSelect={true}
+            })}
+            multiSelect={{
+                // extractPreviousItems: ({
+                //     nodes, // fix later
+                // }) => nodes,
+                // extractAllItems: ({
+                //     nodes, // fix later
+                // }) => nodes,
+            }}
         />
     );
 }

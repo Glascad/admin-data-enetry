@@ -83,7 +83,7 @@ export default function InfillTypes() {
 class InfillTypes extends Component {
     
     handleCreate = ({ }, { input }) => {
-        this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+        this.props.CRUD.onCreate(this.props.selection.cancel);
         console.log("CREATING", { input });
         this.props.CRUD.createItem({
             variables: {
@@ -100,10 +100,10 @@ class InfillTypes extends Component {
     });
     
     handleDelete = () => {
-        this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+        this.props.CRUD.onDelete(this.props.selection.cancel);
         this.props.CRUD.deleteItem({
             variables: {
-                nodeId: this.props.withSelectProps.selectedNID,
+                nodeId: this.props.selection.selectedNID,
             },
         });
     }
@@ -120,7 +120,7 @@ class InfillTypes extends Component {
                         } = {},
                     },
                 },
-                withSelectProps: {
+                selection: {
                     selectedNID,
                     creating,
                     deleting,

@@ -13,7 +13,7 @@ export default class SelectionWrapper extends Component {
         deleting: false,
     };
 
-    state = SelectionWrapper.initialState
+    state = SelectionWrapper.initialState;
 
     cancel = () => this.setState(() => SelectionWrapper.initialState);
 

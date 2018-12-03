@@ -104,7 +104,7 @@ export default function PartOrientations() {
 //         onUpdate,
 //         onDelete,
 //     },
-//     withSelectProps: {
+//     selection: {
 //         selectedNID,
 //         creating,
 //         deleting,

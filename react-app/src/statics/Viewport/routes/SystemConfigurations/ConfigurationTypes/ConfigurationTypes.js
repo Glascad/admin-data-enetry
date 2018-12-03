@@ -39,22 +39,22 @@ export default function ConfigurationTypes() {
         >
             {({
                 CRUD: {
-                    updateItem: updateConfigurationType,
+                    updateItem,
                 },
-                selectedItem: configurationType,
+                selectedItem,
             }) => (
                     <div>
                         <ConfigurationTypeInfo
-                            configurationType={configurationType}
-                            updateConfigurationType={updateConfigurationType}
+                            configurationType={selectedItem}
+                            updateConfigurationType={updateItem}
                         />
-                        {configurationType.nodeId ? (
+                        {selectedItem.nodeId ? (
                             <PartTypes
-                                configurationType={configurationType}
+                                configurationType={selectedItem}
                             />
                         ) : null}
                         <Overrides
-                            configurationType={configurationType}
+                            configurationType={selectedItem}
                         />
                     </div>
                 )}
