@@ -7,6 +7,7 @@ export default class CRUDWrapper extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
         query: PropTypes.object,
+        queryVariables: PropTypes.object,
         create: PropTypes.object,
         update: PropTypes.object,
         _delete: PropTypes.object,
@@ -66,10 +67,10 @@ export default class CRUDWrapper extends Component {
 
     render = () => {
         const {
-            props,
             props: {
                 children,
                 query,
+                queryVariables,
                 create,
                 update,
                 _delete,
@@ -91,6 +92,7 @@ export default class CRUDWrapper extends Component {
         return (
             <Read
                 query={query}
+                variables={queryVariables}
             >
                 {queryStatus => (
                     <Create

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class SelectionWrapper extends Component {
@@ -44,7 +44,7 @@ export default class SelectionWrapper extends Component {
             },
             props,
             props: {
-                children,
+                children: Children,
             },
             handleSelect,
             handleCreateClick,

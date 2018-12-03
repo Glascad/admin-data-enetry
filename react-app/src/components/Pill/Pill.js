@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import ButtonTile from '../ButtonTile/ButtonTile';
-import { beginEdit } from 'fs';
 
 export default class Pill extends Component {
 

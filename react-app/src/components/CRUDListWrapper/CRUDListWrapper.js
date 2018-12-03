@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import withSelect from './withSelect';
-// import withCRUD from './withCRUD';
-import CRUDWrapper from './CRUDWrapper';
-import SelectionWrapper from './SelectionWrapper';
+import CRUDWrapper from '../CRUDWrapper/CRUDWrapper';
+import SelectionWrapper from '../SelectionWrapper/SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
 import Modal from '../Modal/Modal';

@@ -94,11 +94,11 @@ export default [
                 path: "/part orientations",
                 component: PartOrientations
             },
-            {
-                name: "FASTENERS",
-                path: "/fasteners",
-                // component: Fasteners
-            },
+            // {
+            //     name: "FASTENERS",
+            //     path: "/fasteners",
+            //     // component: Fasteners
+            // },
             {
                 name: "INFILL SIZES",
                 path: "/infill sizes",
