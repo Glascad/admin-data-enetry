@@ -124,7 +124,7 @@ export default function LineWeights() {
                         }
                     }
                 }
-            }) => this.props.withSelectProps.handleSelect({
+            }) => this.props.selection.handleSelect({
                 arguments: {
                     nodeId,
                 }
@@ -145,10 +145,10 @@ export default function LineWeights() {
         });
         
         handleDelete = () => {
-            this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+            this.props.CRUD.onDelete(this.props.selection.cancel);
             this.props.CRUD.deleteItem({
                 variables: {
-                    nodeId: this.props.withSelectProps.selectedNID,
+                    nodeId: this.props.selection.selectedNID,
                 },
             });
         }
@@ -166,7 +166,7 @@ export default function LineWeights() {
                         },
                         updateItem,
                     },
-                    withSelectProps: {
+                    selection: {
                         selectedNID,
                         creating,
                         deleting,

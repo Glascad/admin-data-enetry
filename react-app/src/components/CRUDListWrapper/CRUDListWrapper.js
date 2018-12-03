@@ -5,6 +5,7 @@ import SelectionWrapper from '../SelectionWrapper/SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
 import Modal from '../Modal/Modal';
+import MultiSelect from '../MultiSelect/MultiSelect';
 
 class CRUDList extends Component {
 
@@ -25,14 +26,14 @@ class CRUDList extends Component {
         const variables = this.props.mapCreateVariables(...args, this.props);
         if (this.props.extractCreatedNID) {
             this.props.CRUD.onCreate((cache, { data }) => {
-                this.props.withSelectProps.handleSelect({
+                this.props.selection.handleSelect({
                     arguments: {
                         nodeId: this.props.extractCreatedNID(data)
                     }
                 });
             });
         } else {
-            this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+            this.props.CRUD.onCreate(this.props.selection.cancel);
         }
         this.props.CRUD.createItem({
             variables
@@ -47,12 +48,16 @@ class CRUDList extends Component {
     });
 
     handleDelete = () => {
-        this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+        this.props.CRUD.onDelete(this.props.selection.cancel);
         this.props.CRUD.deleteItem({
             variables: {
-                nodeId: this.props.withSelectProps.selectedNID
+                nodeId: this.props.selection.selectedNID
             }
         });
+    }
+
+    handleMultiSelectFinish = ({ addedItems, deletedItems }) => {
+        console.log({ addedItems, deletedItems });
     }
 
     render = () => {
@@ -64,25 +69,30 @@ class CRUDList extends Component {
                 sorts,
                 sortItems,
                 extractList,
-                mapPillProps = props => props,
+                mapPillProps = () => null,
                 defaultPillProps,
                 addButtonProps,
                 renderBeforeList = () => null,
                 children = () => null,
                 extractName = () => "",
-                mapModalProps = props => props,
+                mapModalProps = () => null,
                 canCreate,
                 canUpdate,
                 canDelete,
                 multiSelect,
+                multiSelect: {
+                    extractPreviousItems = () => [],
+                    extractAllItems = () => [],
+                    mapProps: mapMultiSelectProps = () => null,
+                } = {},
                 CRUD,
                 CRUD: {
                     queryStatus: {
                         data: queryData
                     },
                 },
-                withSelectProps,
-                withSelectProps: {
+                selection,
+                selection: {
                     selectedNID,
                     creating,
                     deleting,
@@ -95,6 +105,7 @@ class CRUDList extends Component {
             handleCreate,
             handleEdit,
             handleDelete,
+            handleMultiSelectFinish,
         } = this;
 
         const items = extractList(queryData) || [];
@@ -107,10 +118,12 @@ class CRUDList extends Component {
 
         const childProps = {
             CRUD,
-            withSelectProps,
+            selection,
             extractedList: items,
             selectedItem,
             data: queryData,
+            creating,
+            deleting,
         };
 
         return (
@@ -152,6 +165,8 @@ class CRUDList extends Component {
                                         () => { }
                                     }
                                     selected={(
+                                        !multiSelect
+                                        &&
                                         !creating
                                         &&
                                         nodeId === selectedItem.nodeId
@@ -165,7 +180,11 @@ class CRUDList extends Component {
                                     )}
                                     onSelect={handleSelect}
                                     onDelete={(
-                                        canDelete ?
+                                        (
+                                            multiSelect
+                                            ||
+                                            canDelete
+                                        ) ?
                                             handleDeleteClick
                                             :
                                             () => { }
@@ -200,7 +219,23 @@ class CRUDList extends Component {
                     }}
                 />
                 {children(childProps)}
-                {!multiSelect && canDelete ? (
+                {multiSelect ? (
+                    <MultiSelect
+                        modalProps={{
+                            display: !!(
+                                deleting
+                                ||
+                                creating
+                            ),
+                            onCancel: cancel,
+                            onFinish: handleMultiSelectFinish,
+                            ...mapModalProps(selectedItem),
+                        }}
+                        previousItems={extractPreviousItems(queryData)}
+                        allItems={extractAllItems(queryData)}
+                        {...mapMultiSelectProps(childProps)}
+                    />
+                ) : canDelete ? (
                     <Modal
                         title={`Delete ${itemClass}`}
                         display={deleting}
@@ -211,7 +246,7 @@ class CRUDList extends Component {
                         {...mapModalProps(selectedItem)}
                     >
                         Are you sure you want to delete {itemClass} {extractName(selectedItem)}?
-                </Modal>
+                            </Modal>
                 ) : null}
             </div>
         );
@@ -240,16 +275,14 @@ export default function CRUDListWrapper({
         >
             {CRUD => (
                 <SelectionWrapper>
-                    {withSelectProps => (
+                    {selection => (
                         <CRUDList
-                            {...{
-                                ...props,
-                                canCreate: !!createMutation,
-                                canUpdate: !!updateMutation,
-                                canDelete: !!deleteMutation,
-                                CRUD,
-                                withSelectProps,
-                            }}
+                            {...props}
+                            canCreate={!!createMutation}
+                            canUpdate={!!updateMutation}
+                            canDelete={!!deleteMutation}
+                            selection={selection}
+                            CRUD={CRUD}
                         />
                     )}
                 </SelectionWrapper>

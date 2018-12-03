@@ -132,7 +132,7 @@ class Linetypes extends Component {
                     }
                 }
             }
-        }) => this.props.withSelectProps.handleSelect({
+        }) => this.props.selection.handleSelect({
             arguments: {
                 nodeId,
             }
@@ -154,10 +154,10 @@ class Linetypes extends Component {
     });
     
     handleDelete = () => {
-        this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+        this.props.CRUD.onDelete(this.props.selection.cancel);
         this.props.CRUD.deleteItem({
             variables: {
-                nodeId: this.props.withSelectProps.selectedNID,
+                nodeId: this.props.selection.selectedNID,
                 null: console.log(this.props)
             },
         });
@@ -179,7 +179,7 @@ class Linetypes extends Component {
                     },
                     updateItem,
                 },
-                withSelectProps: {
+                selection: {
                     selectedNID,
                     creating,
                     deleting,

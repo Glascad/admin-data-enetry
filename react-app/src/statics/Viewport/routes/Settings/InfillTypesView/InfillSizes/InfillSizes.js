@@ -93,7 +93,7 @@ export default function InfillSizes() {
 // class InfillSizes extends Component {
 
 //     handleCreate = ({ }, { input }) => {
-//         this.props.CRUD.onCreate(this.props.withSelectProps.cancel);
+//         this.props.CRUD.onCreate(this.props.selection.cancel);
 //         this.props.CRUD.createItem({
 //             variables: {
 //                 size: input,
@@ -109,10 +109,10 @@ export default function InfillSizes() {
 //     });
 
 //     handleDelete = () => {
-//         this.props.CRUD.onDelete(this.props.withSelectProps.cancel);
+//         this.props.CRUD.onDelete(this.props.selection.cancel);
 //         this.props.CRUD.deleteItem({
 //             variables: {
-//                 nodeId: this.props.withSelectProps.selectedNID,
+//                 nodeId: this.props.selection.selectedNID,
 //             },
 //         });
 //     }
@@ -130,7 +130,7 @@ export default function InfillSizes() {
 //                         } = {},
 //                     },
 //                 },
-//                 withSelectProps: {
+//                 selection: {
 //                     selectedNID,
 //                     creating,
 //                     deleting,
