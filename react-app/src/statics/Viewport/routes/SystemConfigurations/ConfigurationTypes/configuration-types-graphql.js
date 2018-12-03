@@ -41,12 +41,12 @@ export const query = gql`{
     }
 }`;
 
-export const create_configuration_type = {
+export const create = {
     mutation: gql`mutation CreateConfigurationType(
         $type:String!,
-        $door:Boolean!,
-        $overrideLevel:Int!,
-        $presentationLevel:Int!
+        $door:Boolean,
+        $overrideLevel:Int,
+        $presentationLevel:Int
     ){
         createConfigurationType(input:{
             configurationType:{
@@ -109,13 +109,13 @@ export const create_configuration_type = {
     }
 };
 
-export const update_configuration_type = {
+export const update = {
     mutation: gql`mutation UpdateConfigurationType(
         $nodeId:ID!,
-        $type:String!,
-        $door:Boolean!,
-        $overrideLevel:Int!,
-        $presentationLevel:Int!
+        $type:String,
+        $door:Boolean,
+        $overrideLevel:Int,
+        $presentationLevel:Int
     ){
         updateConfigurationType(input:{
             nodeId:$nodeId
@@ -157,10 +157,9 @@ export const update_configuration_type = {
             }
         }
     }`,
-    update: console.log
 };
 
-export const delete_configuration_type = {
+export const _delete = {
     mutation: gql`mutation UpdateConfigurationType(
         $nodeId:ID!
     ){

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
-import EditButton from '../EditButton/EditButton';
+import ButtonTile from '../ButtonTile/ButtonTile';
 
 export default class Pill extends Component {
 
@@ -11,6 +11,7 @@ export default class Pill extends Component {
             'pill',
             'tile'
         ]),
+        inputValue: PropTypes.any,
         // BOOLEANS
         selected: PropTypes.bool,
         editing: PropTypes.bool,
@@ -18,6 +19,7 @@ export default class Pill extends Component {
         danger: PropTypes.bool,
         invalid: PropTypes.bool,
         // STRINGS
+        inputType: PropTypes.string,
         align: PropTypes.oneOf([
             'left',
             'right',
@@ -27,35 +29,79 @@ export default class Pill extends Component {
         title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
-        ]).isRequired,
+        ]),
         subtitle: PropTypes.string,
         // CONTENT
         children: PropTypes.any,
-        // BUTTONS
-        leftButton: PropTypes.any,
-        rightButton: PropTypes.any,
+        // HOVER BUTTONS
+        hoverButtons: PropTypes.arrayOf(PropTypes.object),
         // CALLBACKS
         onSelect: PropTypes.func,
         onBlur: PropTypes.func,
         onEdit: PropTypes.func,
-        onEditComplete: PropTypes.func,
         onDrag: PropTypes.func,
         onDrop: PropTypes.func,
         // STYLES
-        style: PropTypes.object
+        style: PropTypes.object,
     };
 
     state = {
-        editing: false,
+        editing: this.props.editing || false,
+        input: this.props.inputValue || this.props.title || "",
     };
+
+    componentDidMount = () => {
+        window.addEventListener('keydown', this.blurOnEsc);
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener('keydown', this.blurOnEsc);
+    }
+
+    blurOnEsc = ({ key, target }) => {
+        if (key === 'Escape')
+            target.blur();
+    }
 
     handleEditClick = e => {
         e.stopPropagation();
-        if (this.props.editable)
-            this.setState(({ editing }) => ({ editing: !editing }));
-        if (this.props.onEdit)
-            this.props.onEdit(this.props);
-    };
+        if (this.props.selected || !this.props.onSelect) {
+            this.beginEdit(e);
+        } else {
+            this.handleClick(e);
+        }
+    }
+
+    beginEdit = e => {
+        e.stopPropagation();
+        this.setState({
+            editing: true,
+        });
+    }
+
+    handleInput = ({ target: { value } }) => this.setState({
+        input: value
+    });
+
+    saveEditOnEnter = ({ key, target }) => {
+        if (key === "Enter") {
+            this.setState({
+                editing: false
+            });
+            this.props.onEdit(this.props, this.state);
+            target.blur();
+        }
+    }
+
+    handleBlur = () => {
+        if (this.state.editing) {
+            this.setState({
+                editing: false
+            });
+            if (this.props.onBlur)
+                this.props.onBlur(this.props, this.state)
+        }
+    }
 
     handleDeleteClick = e => {
         e.stopPropagation();
@@ -73,11 +119,11 @@ export default class Pill extends Component {
         const {
             props: {
                 type,
-                onSelect: selectable,
+                inputType = "text",
+                selectable,
+                onSelect,
                 onDelete: deletable,
-                editable,
-                onEdit,
-                onBlur,
+                onEdit: editable,
                 onDrag,
                 selected,
                 default: defaulted,
@@ -90,15 +136,19 @@ export default class Pill extends Component {
                 footer,
                 style,
                 tagname,
-                leftButton,
-                rightButton,
+                hoverButtons = []
             },
             state: {
                 editing,
+                input,
             },
+            handleInput,
             handleClick,
             handleEditClick,
+            beginEdit,
+            saveEditOnEnter,
             handleDeleteClick,
+            handleBlur,
         } = this;
 
         const tag = {
@@ -108,8 +158,10 @@ export default class Pill extends Component {
         return (
             <tag.name
                 className={`Pill ${
-                    selected ? 'selected' :
-                        selectable ? 'selectable' : ''
+                    selectable !== false ?
+                        selected ? 'selected' :
+                            onSelect ? 'selectable' : ''
+                        : ''
                     } ${
                     defaulted ? 'default' : ''
                     } ${
@@ -125,25 +177,26 @@ export default class Pill extends Component {
                     }`}
                 style={style}
                 onClick={handleClick}
-                onBlur={onBlur}
+                onBlur={handleBlur}
             >
-                {/* LEFT BUTTON - instead of edit button */}
-                {leftButton ? (
-                    <div className="left-button">
-                        {leftButton}
-                    </div>
-                ) : null}
-                {/* EDIT BUTTON */}
-                {editable || onEdit ? (
-                    <EditButton
-                        className="edit"
-                        onClick={handleEditClick}
-                        children="edit"
-                    />
-                ) : null}
                 <div>
                     {/* TITLE */}
-                    <h5 className="title">{title}</h5>
+                    {editing ? (
+                        <input
+                            type={inputType}
+                            className="title"
+                            onChange={handleInput}
+                            onKeyDown={saveEditOnEnter}
+                            value={input}
+                            onBlur={handleBlur}
+                            autoFocus={true}
+                        />
+                    ) : (
+                            <h5
+                                className="title"
+                                onClick={handleEditClick}
+                            >{title}</h5>
+                        )}
                     {/* SUBTITLE */}
                     {subtitle ? (
                         <h6 className="subtitle">{subtitle}</h6>
@@ -162,20 +215,40 @@ export default class Pill extends Component {
                         children="drag"
                     />
                 ) : null}
-                {/* RIGHT BUTTON - instead of delete button */}
-                {rightButton ? (
-                    <div className="right-button">
-                        {rightButton}
-                    </div>
-                ) : null}
-                {/* DELETE  BUTTON */}
-                {deletable ? (
-                    <DeleteButton
-                        className="delete"
-                        onClick={handleDeleteClick}
-                        children="x"
-                    />
-                ) : null}
+                {/* HOVER BUTTONS */}
+                {!editing ? (
+                    type === 'tile'
+                    &&
+                    (
+                        hoverButtons.length
+                        +
+                        Boolean(editable)
+                        +
+                        Boolean(deletable)
+                    ) > 1
+                ) ? (
+                        <ButtonTile
+                            buttonProps={[
+                                ...hoverButtons,
+                                editable ? {
+                                    text: "Rename",
+                                    onClick: beginEdit
+                                } : null,
+                                deletable ? {
+                                    text: "Delete",
+                                    onClick: handleDeleteClick
+                                } : null,
+                            ]}
+                        />
+                    ) : (
+                        deletable ? (
+                            <DeleteButton
+                                className="delete"
+                                onClick={handleDeleteClick}
+                                children="x"
+                            />
+                        ) : null
+                    ) : null}
             </tag.name>
         );
     }

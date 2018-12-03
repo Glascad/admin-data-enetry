@@ -19,4 +19,8 @@
     .content {
         margin: $small;
     }
+
+    &.nested {
+        margin-left: $small + $small;
+    }
 }

@@ -7,11 +7,32 @@ import {
 
 import DetailTypes from './DetailTypes/DetailTypes';
 
+import CreateModal from './modals/Create';
+
 export default class SysTypes extends Component {
 
     state = {
+        modalStatus: "",
         selectedSystemType: {},
     };
+
+    cancelModal = () => this.setState({
+        modalStatus: ""
+    });
+
+    renderCreateModal = () => this.setState({
+        modalStatus: "create"
+    });
+
+    renderUpdateModal = ({ arguments: selectedSystemType }) => this.setState({
+        modalStatus: "update",
+        selectedSystemType,
+    });
+
+    renderDeleteModal = ({ arguments: selectedSystemType}) => this.setState({
+        modalStatus: "delete",
+        selectedSystemType,
+    });
 
     selectSystemType = ({ arguments: selectedSystemType }) => this.setState({
         selectedSystemType
@@ -21,10 +42,13 @@ export default class SysTypes extends Component {
         const {
             state: {
                 selectedSystemType,
+                modalStatus,
             },
             props: {
                 systemTypes
             },
+            cancelModal,
+            renderCreateModal,
             selectSystemType,
         } = this;
 
@@ -34,6 +58,9 @@ export default class SysTypes extends Component {
                     title="System Types"
                     list={{
                         items: systemTypes,
+                        addButton: {
+                            onAdd: renderCreateModal
+                        },
                         renderItem: ({
                             nodeId,
                             type,
@@ -53,6 +80,10 @@ export default class SysTypes extends Component {
                                 />
                             )
                     }}
+                />
+                <CreateModal
+                    display={modalStatus === "create"}
+                    onCancel={cancelModal}
                 />
                 <DetailTypes
                     systemType={selectedSystemType}

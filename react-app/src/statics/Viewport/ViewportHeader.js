@@ -7,7 +7,6 @@ function ViewportHeader({
     },
     right,
 }) {
-    console.log(arguments[0]);
     return (
         <header id="ViewportHeader">
             <span>

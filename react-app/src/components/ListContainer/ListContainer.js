@@ -8,23 +8,40 @@ ListContainer.propTypes = {
         PropTypes.string,
         PropTypes.object,
     ]),
+    className: PropTypes.string,
     items: PropTypes.array.isRequired,
     renderItem: PropTypes.func.isRequired,
+    creating: PropTypes.bool,
+    createItem: PropTypes.any,
     addButton: PropTypes.object,
     filter: PropTypes.func,
     sort: PropTypes.func,
+    nestLevel: PropTypes.number,
 };
 
 export default function ListContainer({
+    className,
     title,
     items,
     renderItem,
+    creating,
+    createItem,
     addButton,
     filter = () => true,
-    sort = () => 0,
+    sort = () => -1,
+    nestLevel = 0,
 }) {
-    return (//[
-        <div className="ListContainer">
+    return (
+        <div className={`ListContainer ${
+            className
+            } ${
+            // Number.prototype[Symbol.iterator] is in `public/index.html`
+            [...nestLevel]
+                .map(() => "nested")
+                .join("-")
+            ||
+            ""
+            }`}>
             {title ? (
                 <h5 className="title">{title}</h5>
             ) : null}
@@ -33,6 +50,7 @@ export default function ListContainer({
                     .sort(sort)
                     .filter(filter)
                     .map(renderItem)}
+                {creating ? createItem : null}
                 {addButton ? (
                     <AddButton
                         {...addButton}
@@ -40,5 +58,5 @@ export default function ListContainer({
                 ) : null}
             </ul>
         </div>
-    );//];
+    );
 }

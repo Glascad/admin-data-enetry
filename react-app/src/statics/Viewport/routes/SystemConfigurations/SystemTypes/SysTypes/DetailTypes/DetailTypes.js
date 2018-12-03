@@ -5,7 +5,7 @@ import {
     Pill
 } from '../../../../../../../components';
 
-import ConfTypes from './ConfTypes/Conftypes';
+import ConfTypes from './ConfTypes/ConfTypes';
 
 export default class DetailTypes extends Component {
 
