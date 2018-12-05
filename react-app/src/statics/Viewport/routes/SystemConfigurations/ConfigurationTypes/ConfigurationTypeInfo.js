@@ -3,7 +3,7 @@ import {
     HeadedContainer,
 } from '../../../../../components';
 
-export default class Info extends Component {
+export default class ConfigurationTypeInfo extends Component {
 
     state = {
         door: false,

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const query = gql`{
-    allPartTypes{
+    allSystemTags{
         nodes{
             nodeId
             id
@@ -11,13 +11,13 @@ export const query = gql`{
 }`;
 
 export const create = {
-    mutation: gql`mutation CreatePartType($type:String!){
-        createPartType(input:{
-            partType:{
+    mutation: gql`mutation CreateSystemTag($type:String!){
+        createSystemTag(input:{
+            systemTag:{
                 type:$type
             }
         }){
-            partType{
+            systemTag{
                 nodeId
                 id
                 type
@@ -26,19 +26,19 @@ export const create = {
     }`,
     update: (cache, {
         data: {
-            createPartType: {
-                partType
+            createSystemTag: {
+                systemTag
             }
         }
     }) => {
-        const { allPartTypes, ...data } = cache.readQuery({ query });
+        const { allSystemTags, ...data } = cache.readQuery({ query });
         cache.writeQuery({
             query,
             data: {
                 ...data,
-                allPartTypes: {
-                    ...allPartTypes,
-                    nodes: allPartTypes.nodes.concat(partType)
+                allSystemTags: {
+                    ...allSystemTags,
+                    nodes: allSystemTags.nodes.concat(systemTag)
                 }
             }
         });
@@ -46,14 +46,14 @@ export const create = {
 };
 
 export const update = {
-    mutation: gql`mutation UpdatePartType($nodeId:ID!,$type:String!){
-        updatePartType(input:{
+    mutation: gql`mutation UpdateSystemTag($nodeId:ID!,$type:String!){
+        updateSystemTag(input:{
             nodeId:$nodeId
-            partTypePatch:{
+            systemTagPatch:{
                 type:$type
             }
         }){
-            partType{
+            systemTag{
                 nodeId
                 id
                 type
@@ -63,34 +63,34 @@ export const update = {
 };
 
 export const _delete = {
-    mutation: gql`mutation DeletePartType($nodeId:ID!){
-        deletePartType(input:{
+    mutation: gql`mutation DeleteSystemTag($nodeId:ID!){
+        deleteSystemTag(input:{
             nodeId:$nodeId
         }){
-            partType{
+            systemTag{
                 nodeId
                 id
-                type
+                tag
             }
         }
     }`,
     update: (cache, {
         data: {
-            deletePartType: {
-                partType: {
+            deleteSystemTag: {
+                systemTag: {
                     nodeId: deletedNID
                 }
             }
         }
     }) => {
-        const { allPartTypes, ...data } = cache.readQuery({ query });
+        const { allSystemTags, ...data } = cache.readQuery({ query });
         cache.writeQuery({
             query,
             data: {
                 ...data,
-                allPartTypes: {
-                    ...allPartTypes,
-                    nodes: allPartTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                allSystemTags: {
+                    ...allSystemTags,
+                    nodes: allSystemTags.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
                 }
             }
         });

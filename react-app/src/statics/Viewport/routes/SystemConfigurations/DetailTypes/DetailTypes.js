@@ -3,6 +3,8 @@ import { CRUDListWrapper } from '../../../../../components';
 
 import * as CRUDProps from './detail-types-graphql';
 
+import DetailTypeInfo from './DetailTypeInfo';
+
 export default function DetailTypes() {
     return (
         <CRUDListWrapper
@@ -32,7 +34,19 @@ export default function DetailTypes() {
                 type: input,
             })}
             extractName={({ type }) => type}
-        />
+        >
+            {({
+                CRUD: {
+                    updateItem,
+                },
+                selectedItem,
+            }) => (
+                    <DetailTypeInfo
+                        detailType={selectedItem}
+                        updateDetailType={updateItem}
+                    />
+                )}
+        </CRUDListWrapper>
     );
 }
 

@@ -1,15 +1,15 @@
 import React from 'react';
 import { CRUDListWrapper } from '../../../../../components';
 
-import * as CRUDProps from './part-types-graphql';
+import * as CRUDProps from './system-tags-graphql';
 
-export default function PartTypes() {
+export default function SystemTags() {
     return (
         <CRUDListWrapper
             CRUDProps={CRUDProps}
-            itemClass="Part Type"
+            itemClass="System Tag"
             extractList={({
-                allPartTypes: {
+                allSystemTags: {
                     nodes = [],
                 } = {},
             }) => nodes}
@@ -21,8 +21,8 @@ export default function PartTypes() {
                 type: input,
             })}
             extractCreatedNID={({
-                createPartType: {
-                    partType: {
+                createSystemTag: {
+                    systemTag: {
                         nodeId
                     }
                 }

@@ -5,6 +5,8 @@ import Pill from '../Pill/Pill';
 import ListContainer from '../ListContainer/ListContainer';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 
+const removeDuplicateNIDs = list => list.filter((item, i) => i === list.findIndex(({ nodeId }) => nodeId === item.nodeId));
+
 export default class MultiSelect extends Component {
 
     state = {
@@ -12,24 +14,34 @@ export default class MultiSelect extends Component {
         deletedItems: [],
     };
 
+    componentDidUpdate = ({ modalProps: { display } }) => {
+        if (display !== this.props.modalProps.display) {
+            this.setState({
+                addedItems: [],
+                deletedItems: [],
+            });
+        }
+    }
+
     handleSelect = ({ arguments: item }) => this.setState(({ addedItems }) => ({
         addedItems: addedItems.concat(item)
     }));
 
     handleDeleteClick = ({ arguments: deletedItem }) => {
-        if (this.props.previousItems.includes(deletedItem)) {
+        if (this.props.previousItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
             this.setState(({ deletedItems }) => ({
                 deletedItems: deletedItems.concat(deletedItem)
             }));
         } else {
             this.setState(({ addedItems }) => ({
-                addedItems: addedItems.filter(item => item !== deletedItem)
+                addedItems: addedItems.filter(({ nodeId }) => nodeId !== deletedItem.nodeId)
             }));
         }
     }
 
     render = () => {
         const {
+            state,
             state: {
                 addedItems,
                 deletedItems,
@@ -44,18 +56,21 @@ export default class MultiSelect extends Component {
             handleDeleteClick,
         } = this;
 
-        const selectedItems = previousItems
-            .concat(addedItems);
+        const selectedItems = removeDuplicateNIDs(previousItems
+            .concat(addedItems));
 
         const nonSelectedItems = allItems
-            .filter(item => !selectedItems.includes(item));
+            .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
 
         console.log(this);
-
-        console.log(mapPillProps({ pillProps: "Pill Props" }));
+        console.log({
+            selectedItems,
+            nonSelectedItems,
+        });
 
         return (
             <Modal
+                arguments={state}
                 {...modalProps}
             >
                 <ListContainer

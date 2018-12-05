@@ -4,10 +4,12 @@ import Home from './Viewport/routes/Home/Home';
 import System from './Viewport/routes/System/System';
 // SYSTEM CONFIGURATIONS
 // import SystemConfigurations from './Viewport/routes/SystemConfigurations/SystemConfigurations';
-// import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
+import SystemTypes from './Viewport/routes/SystemConfigurations/SystemTypes/SystemTypes';
+import SystemTags from './Viewport/routes/SystemConfigurations/SystemTags/SystemTags';
 import DetailTypes from './Viewport/routes/SystemConfigurations/DetailTypes/DetailTypes';
 import ConfigurationTypes from './Viewport/routes/SystemConfigurations/ConfigurationTypes/ConfigurationTypes';
 import PartTypes from './Viewport/routes/SystemConfigurations/PartTypes/PartTypes';
+import PartTags from './Viewport/routes/SystemConfigurations/PartTags/PartTags';
 // SETTINGS
 // import Settings from './Viewport/routes/Settings/Settings';
 import Manufacturers from './Viewport/routes/Settings/Manufacturers/Manufacturers';
@@ -54,7 +56,12 @@ export default [
             {
                 name: "SYSTEM TYPES",
                 path: "/system types",
-                // component: SystemTypes
+                component: SystemTypes
+            },
+            {
+                name: "SYSTEM TAGS",
+                path: "/system tags",
+                component: SystemTags
             },
             {
                 name: "DETAIL TYPES",
@@ -70,7 +77,12 @@ export default [
                 name: "PART TYPES",
                 path: "/part types",
                 component: PartTypes
-            }
+            },
+            {
+                name: "PART TAGS",
+                path: "/part tags",
+                component: PartTags
+            },
         ]
     },
     {

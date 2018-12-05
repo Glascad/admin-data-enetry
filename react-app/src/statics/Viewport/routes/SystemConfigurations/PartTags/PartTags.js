@@ -1,36 +1,36 @@
 import React from 'react';
 import { CRUDListWrapper } from '../../../../../components';
 
-import * as CRUDProps from './part-types-graphql';
+import * as CRUDProps from './part-tags-graphql';
 
-export default function PartTypes() {
+export default function PartTags() {
     return (
         <CRUDListWrapper
             CRUDProps={CRUDProps}
-            itemClass="Part Type"
+            itemClass="Part Tag"
             extractList={({
-                allPartTypes: {
+                allPartTags: {
                     nodes = [],
                 } = {},
             }) => nodes}
             canSelect={false}
-            mapPillProps={({ type }) => ({
-                title: type,
+            mapPillProps={({ tag }) => ({
+                title: tag,
             })}
             mapCreateVariables={({ }, { input }) => ({
-                type: input,
+                tag: input,
             })}
             extractCreatedNID={({
-                createPartType: {
-                    partType: {
+                createPartTag: {
+                    partTag: {
                         nodeId
                     }
                 }
             }) => nodeId}
             mapUpdateVariables={({ input }) => ({
-                type: input,
+                tag: input,
             })}
-            extractName={({ type }) => type}
+            extractName={({ tag }) => tag}
         />
     );
 }

@@ -1,7 +1,16 @@
 import gql from 'graphql-tag';
-import { query } from './part-types-gql';
 
-export const create_part_tag = {
+export const query = gql`{
+    allPartTags{
+        nodes{
+            nodeId
+            id
+            tag
+        }
+    }
+}`;
+
+export const create = {
     mutation: gql`mutation CreatePartTag($tag:String!){
         createPartTag(input:{
             partTag:{
@@ -36,7 +45,7 @@ export const create_part_tag = {
     }
 };
 
-export const update_part_tag = {
+export const update = {
     mutation: gql`mutation UpdatePartTag($nodeId:ID!,$tag:String!){
         updatePartTag(input:{
             nodeId:$nodeId
@@ -53,7 +62,7 @@ export const update_part_tag = {
     }`,
 };
 
-export const delete_part_tag = {
+export const _delete = {
     mutation: gql`mutation DeletePartTag($nodeId:ID!){
         deletePartTag(input:{
             nodeId:$nodeId

@@ -182,15 +182,26 @@ export default class Pill extends Component {
                 <div>
                     {/* TITLE */}
                     {editing ? (
-                        <input
-                            type={inputType}
-                            className="title"
-                            onChange={handleInput}
-                            onKeyDown={saveEditOnEnter}
-                            value={input}
-                            onBlur={handleBlur}
-                            autoFocus={true}
-                        />
+                        inputType === 'select' ? (
+                            <select
+                                onChange={handleInput}
+                                onKeyDown={saveEditOnEnter}
+                                value={input}
+                                onBlur={handleBlur}
+                                autoFocus={true}
+                            >
+                            </select>
+                        ) : (
+                                <input
+                                    type={inputType}
+                                    className="title"
+                                    onChange={handleInput}
+                                    onKeyDown={saveEditOnEnter}
+                                    value={input}
+                                    onBlur={handleBlur}
+                                    autoFocus={true}
+                                />
+                            )
                     ) : (
                             <h5
                                 className="title"
