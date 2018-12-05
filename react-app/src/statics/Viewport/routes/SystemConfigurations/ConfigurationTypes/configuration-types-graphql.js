@@ -32,13 +32,6 @@ export const query = gql`{
             }
         }
     }
-    allPartTypes{
-        nodes{
-            nodeId
-            id
-            type
-        }
-    }
 }`;
 
 export const create = {

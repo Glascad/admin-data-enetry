@@ -22,6 +22,13 @@ export const query = gql`query ConfigurationType(
             }
         }
     }
+    allPartTypes{
+        nodes{
+            nodeId
+            id
+            type
+        }
+    }
 }`;
 
 export const create = {

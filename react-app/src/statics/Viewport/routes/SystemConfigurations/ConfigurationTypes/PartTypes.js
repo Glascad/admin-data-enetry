@@ -36,12 +36,23 @@ export default function PartTypes({
                 title: type
             })}
             multiSelect={{
-                // extractPreviousItems: ({
-                //     nodes, // fix later
-                // }) => nodes,
-                // extractAllItems: ({
-                //     nodes, // fix later
-                // }) => nodes,
+                extractPreviousItems: ({
+                    configurationType: {
+                        configurationTypePartTypesByConfigurationTypeId: {
+                            nodes = []
+                        } = {}
+                    } = {}
+                }) => nodes.map(({
+                    partTypeByPartTypeId: partType
+                }) => partType),
+                extractAllItems: ({
+                    allPartTypes: {
+                        nodes = []
+                    } = {}
+                }) => nodes,
+                mapPillProps: ({ type }) => ({
+                    title: type,
+                }),
             }}
         />
     );

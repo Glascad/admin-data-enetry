@@ -12,11 +12,11 @@ export default class MultiSelect extends Component {
         deletedItems: [],
     };
 
-    handleSelect = item => this.setState(({ addedItems }) => ({
+    handleSelect = ({ arguments: item }) => this.setState(({ addedItems }) => ({
         addedItems: addedItems.concat(item)
     }));
 
-    handleDeleteClick = deletedItem => {
+    handleDeleteClick = ({ arguments: deletedItem }) => {
         if (this.props.previousItems.includes(deletedItem)) {
             this.setState(({ deletedItems }) => ({
                 deletedItems: deletedItems.concat(deletedItem)
@@ -50,6 +50,10 @@ export default class MultiSelect extends Component {
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.includes(item));
 
+        console.log(this);
+
+        console.log(mapPillProps({ pillProps: "Pill Props" }));
+
         return (
             <Modal
                 {...modalProps}
@@ -77,6 +81,7 @@ export default class MultiSelect extends Component {
                                 key={item.nodeId}
                                 tagname="li"
                                 onSelect={handleSelect}
+                                arguments={item}
                                 {...mapPillProps(item, false)}
                             />
                         )

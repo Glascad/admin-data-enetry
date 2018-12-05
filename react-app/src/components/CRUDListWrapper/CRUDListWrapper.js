@@ -81,9 +81,10 @@ class CRUDList extends Component {
                 canDelete,
                 multiSelect,
                 multiSelect: {
-                    extractPreviousItems = () => [],
+                    extractPreviousItems = () => ({}),
                     extractAllItems = () => [],
-                    mapProps: mapMultiSelectProps = () => null,
+                    mapPillProps: mapMultiSelectPillProps,
+                    mapProps: mapMultiSelectProps = () => ({}),
                 } = {},
                 CRUD,
                 CRUD: {
@@ -222,6 +223,7 @@ class CRUDList extends Component {
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{
+                            title: `Update ${parentItem} ${itemClass}s`,
                             display: !!(
                                 deleting
                                 ||
@@ -233,6 +235,7 @@ class CRUDList extends Component {
                         }}
                         previousItems={extractPreviousItems(queryData)}
                         allItems={extractAllItems(queryData)}
+                        mapPillProps={mapMultiSelectPillProps}
                         {...mapMultiSelectProps(childProps)}
                     />
                 ) : canDelete ? (
