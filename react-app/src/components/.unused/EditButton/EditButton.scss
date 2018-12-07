@@ -1,0 +1,15 @@
+
+@import '../../styles/variables';
+
+.EditButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .edit-icon {
+        height: $large;
+        width: $xxxx-small;
+        background: $x-dark-gray;
+        transform: rotate(35deg);
+    }
+}

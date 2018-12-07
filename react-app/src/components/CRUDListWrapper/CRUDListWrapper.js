@@ -23,7 +23,7 @@ class CRUDList extends Component {
     };
 
     handleCreate = (...args) => {
-        const variables = this.props.mapCreateVariables(...args, this.props);
+        const variables = this.props.mapCreateVariables(...args, this.props.CRUD.queryStatus.data);
         if (this.props.extractCreatedNID) {
             this.props.CRUD.onCreate((cache, { data }) => {
                 this.props.selection.handleSelect({
@@ -56,8 +56,42 @@ class CRUDList extends Component {
         });
     }
 
-    handleMultiSelectFinish = ({ addedItems, deletedItems }) => {
+    handleMultiSelectFinish = ({ arguments: { addedItems, deletedItems } }) => {
         console.log({ addedItems, deletedItems });
+
+        // let count = addedItems.length + deletedItems.length;
+
+        // const onComplete = () => {
+        //     count--;
+        //     if (!count) {
+        //         this.props.selection.cancel();
+        //     }
+        // }
+
+        // this.props.CRUD.onCreate(onComplete);
+        // this.props.CRUD.onDelete(onComplete);
+
+        this.props.CRUD.onCreate(this.props.selection.cancel);
+        this.props.CRUD.onDelete(this.props.selection.cancel);
+
+        addedItems.forEach(item => {
+            console.log({
+                variables: this.props.mapCreateVariables(item)
+            });
+            this.props.CRUD.createItem({
+                variables: this.props.mapCreateVariables(item)
+            });
+        });
+
+        deletedItems.forEach(item => {
+            console.log("DELETING ITEM");
+            console.log({
+                variables: this.props.mapDeleteVariables(item)
+            });
+            this.props.CRUD.deleteItem({
+                variables: this.props.mapDeleteVariables(item)
+            });
+        });
     }
 
     render = () => {
@@ -65,6 +99,7 @@ class CRUDList extends Component {
             props: {
                 itemClass,
                 parentItem,
+                parentItems = [],
                 filters,
                 sorts,
                 sortItems,
@@ -72,18 +107,20 @@ class CRUDList extends Component {
                 mapPillProps = () => null,
                 defaultPillProps,
                 addButtonProps,
+                canSelect,
+                canCreate,
                 renderBeforeList = () => null,
                 children = () => null,
                 extractName = () => "",
                 mapModalProps = () => null,
-                canCreate,
                 canUpdate,
                 canDelete,
                 multiSelect,
                 multiSelect: {
-                    extractPreviousItems = () => [],
+                    extractPreviousItems = () => ({}),
                     extractAllItems = () => [],
-                    mapProps: mapMultiSelectProps = () => null,
+                    mapPillProps: mapMultiSelectPillProps,
+                    mapProps: mapMultiSelectProps = () => ({}),
                 } = {},
                 CRUD,
                 CRUD: {
@@ -126,21 +163,29 @@ class CRUDList extends Component {
             deleting,
         };
 
+        const titlePath = `${
+            itemClass
+            }s${
+            parentItem ?
+                ` - ${parentItem}`
+                :
+                parentItems ?
+                    ` - ${parentItems.join(' > ')}`
+                    :
+                    ''
+            }`;
+        
+        const nestLevel = parentItem ? 1 : parentItems.length;
+
         return (
             <div
                 id={`${itemClass.replace(/ /g, '')}s`}
             >
                 <HeadedListContainer
-                    title={`${
-                        itemClass
-                        }s${
-                        parentItem ?
-                            ` - ${parentItem}`
-                            :
-                            ''
-                        }`}
+                    title={titlePath}
                     filters={filters}
                     sorts={sorts}
+                    nestLevel={nestLevel}
                     beforeList={renderBeforeList(childProps)}
                     list={{
                         items,
@@ -165,11 +210,17 @@ class CRUDList extends Component {
                                         () => { }
                                     }
                                     selected={(
-                                        !multiSelect
-                                        &&
-                                        !creating
-                                        &&
                                         nodeId === selectedItem.nodeId
+                                        &&
+                                        (
+                                            canSelect === true
+                                            ||
+                                            (
+                                                !multiSelect
+                                                &&
+                                                !creating
+                                            )
+                                        )
                                     )}
                                     danger={(
                                         canDelete
@@ -222,6 +273,7 @@ class CRUDList extends Component {
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{
+                            title: `Update ${titlePath}`,
                             display: !!(
                                 deleting
                                 ||
@@ -231,8 +283,9 @@ class CRUDList extends Component {
                             onFinish: handleMultiSelectFinish,
                             ...mapModalProps(selectedItem),
                         }}
-                        previousItems={extractPreviousItems(queryData)}
+                        previousItems={items}
                         allItems={extractAllItems(queryData)}
+                        mapPillProps={mapMultiSelectPillProps}
                         {...mapMultiSelectProps(childProps)}
                     />
                 ) : canDelete ? (
