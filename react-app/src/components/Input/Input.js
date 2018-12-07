@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import './Input.scss';
 
 export default function Input({
     tagname = "div",
@@ -21,11 +22,10 @@ export default function Input({
     ) : null;
 
     return (
-        <tag.name>
-            {type !== "checkbox" ?
+        <tag.name className={`Input type-${type}`} >
+            {type !== "checkbox" ? (
                 LABEL
-                :
-                null}
+            ) : null}
             {type !== "select" ? (
                 <input
                     type={type}
@@ -36,10 +36,9 @@ export default function Input({
                         {...select}
                     />
                 )}
-            {type === "checkbox" ?
+            {type === "checkbox" ? (
                 LABEL
-                :
-                null}
+            ) : null}
         </tag.name>
     );
 }
