@@ -3,20 +3,28 @@
 
 #Viewport {
     overflow-y: scroll;
-    padding-bottom: 120px;
-
-    #ViewportHeader {
-        // position: absolute;
-        // top: 0;
-        // left: 0;
-        // right: 0;
-        // width: stretch;
-        // height: $item-height;
-        background: $med-gray;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 $small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: $item-height;
+    padding-bottom: $item-height * 4;
+    
+    .Card {
+        width: 90%;
     }
+
+    // #ViewportHeader {
+    //     // position: absolute;
+    //     // top: 0;
+    //     // left: 0;
+    //     // right: 0;
+    //     // width: stretch;
+    //     // height: $item-height;
+    //     background: $med-gray;
+    //     color: white;
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     padding: 0 $small;
+    // }
 }

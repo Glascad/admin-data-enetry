@@ -8,58 +8,69 @@ export default class Dropdown extends Component {
         title: PropTypes.string.isRequired,
         closeOnBlur: PropTypes.bool,
         content: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
-        onToggle: PropTypes.func,
         onClick: PropTypes.func,
-        onBlur: PropTypes.func,
-        reference: PropTypes.any,
     };
 
-    ref = createRef();
+    state = {
+        open: false
+    };
 
-    close = () => this.ref.current.open = false;
+    open = () => this.setState({
+        open: true
+    });
 
-    onBlur = e => {
-        if (this.props.closeOnBlur) this.close();
-        if (this.props.onBlur) this.props.onBlur(e);
+    close = () => this.setState({
+        open: false
+    });
+
+    componentDidUpdate = ({ open }) => {
+        if (!open && this.props.open) this.open();
+        if (open && !this.props.open) this.close();
+    }
+
+    handleClick = () => {
+        if (this.state.open) this.close();
+        else this.open();
     }
 
     render = () => {
         const {
+            state: {
+                open,
+            },
             props: {
                 title,
                 children,
                 className,
                 onClick,
-                onSummaryClick,
-                reference,
             },
-            onToggle,
-            onBlur,
+            handleClick,
         } = this;
 
         return (
-            <details
+            <div
                 className={`Dropdown ${
                     className
                     } ${
                     !children || !children.length ? 'empty' : ''
+                    } ${
+                    open ? 'open' : 'closed'
                     }`}
-                onToggle={onToggle}
-                onBlur={onBlur}
                 onClick={onClick}
-                ref={reference}
             >
-                <summary
-                    onClick={onSummaryClick}
+                <div
+                    className="title"
+                    onClick={handleClick}
                 >
+                    <div className="triangle" />
                     {title}
-                </summary>
-                {children ? (
+                </div>
+                {open && children ? (
                     <div className="content">
                         {children}
                     </div>
                 ) : null}
-            </details>
+            </div>
         );
     }
 }

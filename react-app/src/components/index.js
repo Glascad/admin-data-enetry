@@ -9,6 +9,8 @@ import _DeleteButton from './DeleteButton/DeleteButton';
 import _CRUDWrapper from './CRUDWrapper/CRUDWrapper';
 import _CRUDListWrapper from './CRUDListWrapper/CRUDListWrapper';
 import _SelectionWrapper from './SelectionWrapper/SelectionWrapper';
+import _Card from './Card/Card';
+import _Input from './Input/Input';
 // UNIVERSAL STYLES
 import './index.scss';
 
@@ -22,3 +24,5 @@ export const DeleteButton = _DeleteButton;
 export const CRUDWrapper = _CRUDWrapper;
 export const CRUDListWrapper = _CRUDListWrapper;
 export const SelectionWrapper = _SelectionWrapper;
+export const Card = _Card;
+export const Input = _Input;

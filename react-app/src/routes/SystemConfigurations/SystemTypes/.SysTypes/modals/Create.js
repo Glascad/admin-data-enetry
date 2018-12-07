@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo';
 import { NewModal } from '../../../../../components';
 
 import { create_system_type } from './system-types-gql';
+import Input from '../../../../../components/Input/Input';
 
 const {
     mutation,
@@ -96,8 +97,8 @@ export default class Create extends Component {
                             //     )
                             // }}
                             >
-                                <h6>Type</h6>
-                                <input
+                                <Input
+                                    label="Type"
                                     value={type}
                                     onChange={handleInput('type')}
                                 />

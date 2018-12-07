@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
-import { HeadedContainer } from '../../../components';
+import {
+    HeadedContainer,
+    Input,
+} from '../../../components';
 
 export default class DetailTypeInfo extends Component {
 
@@ -56,15 +59,15 @@ export default class DetailTypeInfo extends Component {
                 title={`Detail Types - ${type}`}
                 nestLevel={1}
             >
-                <h6>Vertical</h6>
-                <input
+                <Input
+                    label="Vertical"
                     type="checkbox"
                     checked={vertical}
                     onChange={handleCheckboxChange('vertical')}
                     onBlur={handleBlur}
                 />
-                <h6>Entrance</h6>
-                <input
+                <Input
+                    label="Entrance"
                     type="checkbox"
                     checked={entrance}
                     onChange={handleCheckboxChange('entrance')}

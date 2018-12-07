@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     HeadedContainer,
+    Input,
 } from '../../../../../../components';
 
 export default class ConfigurationTypeInfo extends Component {
@@ -62,15 +63,15 @@ export default class ConfigurationTypeInfo extends Component {
             <HeadedContainer
                 title={`Configuration Type - ${systemType.type} > ${detailType.type} > ${configurationType.type}`}
             >
-                <h6>Optional</h6>
-                <input
+                <Input
+                    label="Optional"
                     type="checkbox"
                     checked={optional}
                     onChange={handleCheckboxChange('optional')}
                     onBlur={handleBlur}
                 />
-                <h6>Mirror</h6>
-                <input
+                <Input
+                    label="Mirror"
                     type="checkbox"
                     checked={mirrorable}
                     onChange={handleCheckboxChange('mirrorable')}

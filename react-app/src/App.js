@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import './App.scss';
 
-import Header from './statics/Header/Header';
+// import Header from './statics/Header/Header';
 import Sidebar from './statics/Sidebar/Sidebar';
 import Viewport from './statics/Viewport/Viewport';
 
@@ -23,7 +23,7 @@ export default function App() {
     return (
         <Router>
             <ApolloProvider client={client}>
-                <Header />
+                {/* <Header /> */}
                 <Sidebar />
                 <Viewport />
             </ApolloProvider>

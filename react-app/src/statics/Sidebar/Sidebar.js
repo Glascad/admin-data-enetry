@@ -3,22 +3,22 @@ import { withRouter } from 'react-router-dom';
 import './Sidebar.scss';
 import { Link } from 'react-router-dom';
 import routes from '../../routes/routes';
-
+import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { Dropdown } from '../../components';
 
 class Sidebar extends Component {
 
-    routeRefs = routes.map(createRef);
+    // routeRefs = routes.map(createRef);
 
-    closeDropdowns = ({
-        target
-    }) => this.routeRefs
-        .forEach(({
-            current
-        }) => current !== target ?
-                current.open = false
-                :
-                null);
+    // closeDropdowns = ({
+    //     target
+    // }) => this.routeRefs
+    //     .forEach(({
+    //         current
+    //     }) => current !== target ?
+    //             current.open = false
+    //             :
+    //             null);
 
     goTo = pathname => this.props.history.push(pathname);
 
@@ -29,12 +29,14 @@ class Sidebar extends Component {
                     pathname
                 }
             },
-            routeRefs,
-            handleDropdownClick,
-            closeDropdowns,
+            // routeRefs,
+            // closeDropdowns,
         } = this;
         return (
             <div id="Sidebar">
+                <div id="sidebar-header">
+                    <Logo className="logo" />
+                </div>
                 {routes.map(({
                     name,
                     subroutes = [],
@@ -49,10 +51,11 @@ class Sidebar extends Component {
                     return filteredSubroutes.length ? (
                         <Dropdown
                             key={i}
-                            reference={routeRefs[i]}
+                            // reference={routeRefs[i]}
                             className={selected ? 'selected' : ''}
                             title={name}
-                            onSummaryClick={closeDropdowns}
+                            // onSummaryClick={closeDropdowns}
+                            open={selected}
                             children={filteredSubroutes.map(({
                                 exact,
                                 name,
@@ -75,11 +78,11 @@ class Sidebar extends Component {
                     ) : (
                             <Link
                                 key={i}
-                                ref={routeRefs[i]}
+                                // ref={routeRefs[i]}
                                 to={parentPath}
                                 className={`item ${selected ? 'selected' : ''}`}
+                                // onClick={closeDropdowns}
                                 children={name}
-                                onClick={closeDropdowns}
                             />
                         );
                 })}

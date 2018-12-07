@@ -12,6 +12,7 @@ import {
     HeadedListContainer,
     Pill,
     OldAsyncModal,
+    Input,
 } from '../../../components';
 
 export default class Manufacturers extends Component {
@@ -130,13 +131,11 @@ export default class Manufacturers extends Component {
                                         {...props}
                                     >
                                         {i !== 2 ? (
-                                            <div>
-                                                <h6>Name</h6>
-                                                <input
-                                                    value={name}
-                                                    onChange={handleInput}
-                                                />
-                                            </div>
+                                            <Input
+                                                label="Name"
+                                                value={name}
+                                                onChange={handleInput}
+                                            />
                                         ) : (
                                                 <div className="warning">
                                                     Are you sure you want to permanently delete Manufacturer: {selectedMnfgName}?

@@ -1,46 +1,48 @@
 
 @import './styles/variables';
 
-#Header {
-    width: 100%;
+    #Header {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: $header-height;
+        background: white;
+        border-bottom: 1px solid white;
+        box-sizing: border-box;
+        // padding: $small;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+#Viewport, #Sidebar {
     position: fixed;
+    // top: $header-height;
     top: 0;
     left: 0;
-    right: 0;
-    height: $header-height;
-    background: white;
-    border-bottom: 1px solid white;
-    box-sizing: border-box;
-    // padding: $small;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#Viewport, #Sidebar, #ViewportHeader {
-    position: fixed;
-    top: $header-height;
+    bottom: 0;
+    height: 100vh;
+    width: $sidebar-width;
     // border: 1px solid white;
     box-sizing: border-box;
-    height: $viewport-height;
 }
 
 #Sidebar {
-    left: 0;
-    width: $sidebar-width;
     border-right: 1px solid white;
 }
 
 #Viewport {
     left: $sidebar-width;
     width: $viewport-width;
-    padding-top: $item-height;
+    // padding-top: $item-height;
 
-    #ViewportHeader {
-        left: $sidebar-width;
-        right: 0;
-        height: $item-height;
-        z-index: 1;
-        border-bottom: 1px solid white;
-    }
+    // #ViewportHeader {
+    //     left: $sidebar-width;
+    //     right: 0;
+    //     height: $item-height;
+    //     z-index: 1;
+    //     border-bottom: 1px solid white;
+    // }
 }

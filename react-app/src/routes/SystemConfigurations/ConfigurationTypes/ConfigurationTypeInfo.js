@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     HeadedContainer,
+    Input,
 } from '../../../components';
 
 export default class ConfigurationTypeInfo extends Component {
@@ -65,23 +66,23 @@ export default class ConfigurationTypeInfo extends Component {
             <HeadedContainer
                 title={`Configuration Type - ${type}`}
             >
-                <h6>Door</h6>
-                <input
+                <Input
+                    label="Door"
                     type="checkbox"
                     // value={door}
                     checked={door}
                     onChange={handleCheckboxChange('door')}
                     onBlur={handleBlur}
                 />
-                <h6>Presentation Level</h6>
-                <input
+                <Input
+                    label="Presentation Level"
                     type="number"
                     value={presentationLevel || 0}
                     onChange={handleChange('presentationLevel')}
                     onBlur={handleBlur}
                 />
-                <h6>Override Level</h6>
-                <input
+                <Input
+                    label="Override Level"
                     type="number"
                     value={overrideLevel || 0}
                     onChange={handleChange('overrideLevel')}

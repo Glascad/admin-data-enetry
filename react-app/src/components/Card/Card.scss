@@ -1,0 +1,8 @@
+
+@import '../../styles/variables';
+
+.Card {
+    max-width: 70vw;
+    background: $x-light-gray;
+    border-top: $small solid $blue;
+}
