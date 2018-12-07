@@ -169,12 +169,12 @@ class CRUDList extends Component {
             parentItem ?
                 ` - ${parentItem}`
                 :
-                parentItems ?
+                parentItems.length ?
                     ` - ${parentItems.join(' > ')}`
                     :
                     ''
             }`;
-        
+
         const nestLevel = parentItem ? 1 : parentItems.length;
 
         return (
@@ -269,7 +269,9 @@ class CRUDList extends Component {
                         }
                     }}
                 />
-                {children(childProps)}
+                <div className="nested" >
+                    {children(childProps)}
+                </div>
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{

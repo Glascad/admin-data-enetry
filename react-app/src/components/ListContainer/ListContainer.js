@@ -29,18 +29,18 @@ export default function ListContainer({
     addButton,
     filter = () => true,
     sort = () => -1,
-    nestLevel = 0,
+    // nestLevel = 0,
 }) {
     return (
         <div className={`ListContainer ${
             className
-            } ${
+            // } ${
             // Number.prototype[Symbol.iterator] is in `public/index.html`
-            [...nestLevel]
-                .map(() => "nested")
-                .join("-")
-            ||
-            ""
+            // [...nestLevel]
+            //     .map(() => "nested")
+            //     .join("-")
+            // ||
+            // ""
             }`}>
             {title ? (
                 <h5 className="title">{title}</h5>

@@ -1,7 +1,7 @@
 // HOME
 import Home from './Home/Home';
 // SYSTEM
-import System from './System/System';
+// import System from './System/System';
 // SYSTEM CONFIGURATIONS
 // import SystemConfigurations from './SystemConfigurations/SystemConfigurations';
 import SystemTypes from './SystemConfigurations/SystemTypes/SystemTypes';
@@ -31,20 +31,50 @@ export default [
     {
         name: "SYSTEM",
         exact: true,
-        path: "/system",
-        component: System,
+        path: "/system/:systemNID",
+        // component: System,
         subroutes: [
+            // {
+            //     name: "SYSTEM",
+            //     exact: true,
+            //     path: "/:mnfgNID",
+            //     component: System
+            // },
+            // {
+            //     name: "SYSTEM",
+            //     path: "/:mnfgNID/:systemNID",
+            //     component: System
+            // },
             {
-                name: "SYSTEM",
-                exact: true,
-                path: "/:mnfgNID",
-                component: System
+                name: "SYSTEM INFO",
+                path: "/system info"
+                // component: 
             },
             {
-                name: "SYSTEM",
-                path: "/:mnfgNID/:systemNID",
-                component: System
-            }
+                name: "GLAZING INFO",
+                path: "/glazing info"
+                // component: 
+            },
+            {
+                name: "VALID TYPES",
+                path: "/valid types"
+                // component: 
+            },
+            {
+                name: "SYSTEM COMPATIBILITY",
+                path: "/system compatibility"
+                // component: 
+            },
+            {
+                name: "SYSTEM OPTIONS",
+                path: "/system options"
+                // component: 
+            },
+            {
+                name: "INVALID COMBINATIONS",
+                path: "/invalid combinations"
+                // component: 
+            },
         ]
     },
     {

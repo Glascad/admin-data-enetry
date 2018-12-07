@@ -3,6 +3,13 @@
 
 .nested {
     border-left: $small solid $blue;
-    padding-left: $x-small;
+    // padding-left: $x-small;
+    margin-left: $med;
     box-sizing: border-box;
+    .nested {
+        // margin-left: 0;
+        // border-left: $med + $small solid $blue;
+        border-left: none;
+        margin-left: 0;
+    }
 }

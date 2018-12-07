@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {
     HeadedContainer,
+    Input,
 } from '../../../../components';
 
 export default class LinetypeInfo extends Component {
@@ -59,8 +60,8 @@ export default class LinetypeInfo extends Component {
                 title={`Line Weight - ${name || ''}`}
                 nestLevel={1}
             >
-                <h6>Weight (mm)</h6>
-                <input
+                <Input
+                    label="Weight (mm)"
                     type="number"
                     value={weight}
                     onChange={handleWeightChange}

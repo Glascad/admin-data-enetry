@@ -3,17 +3,40 @@
 
 .Dropdown {
     margin: 0;
+    padding: $small;
     background: $light-gray;
     color: $x-dark-gray;
+    cursor: default;
     
     // &[open] {
     //     background: $med-gray;
     //     color: white;
     // }
-
+    
     &.empty {
         summary::webkit-details-marker {
             display: none;
+        }
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        
+        .triangle {
+            margin: $x-small;
+            width: 0;
+            border-left: $small solid white;
+            border-bottom: $x-small solid rgba(0, 0, 0, 0);
+            border-top: $x-small solid rgba(0, 0, 0, 0);
+        }
+    }
+
+    &.open {
+        .title {
+            .triangle {
+                transform: rotate(90deg);
+            }
         }
     }
     

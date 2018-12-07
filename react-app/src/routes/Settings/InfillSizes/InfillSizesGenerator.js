@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Input } from '../../../components';
 
 export default class InfillSizesGenerator extends Component {
 
@@ -63,30 +64,24 @@ export default class InfillSizesGenerator extends Component {
             <div
                 id="InfillSizesGenerator"
             >
-                <div>
-                    <h6>Starting At</h6>
-                    <input
-                        type="number"
-                        value={start}
-                        onChange={handleChange('start')}
-                    />
-                </div>
-                <div>
-                    <h6>Ending At</h6>
-                    <input
-                        type="number"
-                        value={end}
-                        onChange={handleChange('end')}
-                    />
-                </div>
-                <div>
-                    <h6>In Increments Of</h6>
-                    <input
-                        type="number"
-                        value={increment}
-                        onChange={handleChange('increment')}
-                    />
-                </div>
+                <Input
+                    label="Starting At"
+                    type="number"
+                    value={start}
+                    onChange={handleChange('start')}
+                />
+                <Input
+                    label="Ending At"
+                    type="number"
+                    value={end}
+                    onChange={handleChange('end')}
+                />
+                <Input
+                    label="In Increments Of"
+                    type="number"
+                    value={increment}
+                    onChange={handleChange('increment')}
+                />
                 <button
                     onClick={generate}
                     className="empty"

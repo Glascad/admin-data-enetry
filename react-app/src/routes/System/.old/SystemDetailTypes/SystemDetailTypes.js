@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
     HeadedListContainer,
-    Pill
+    Pill,
+    Input,
 } from '../../../components';
 import HeadedContainer from '../../../components/HeadedContainer/HeadedContainer';
 
@@ -136,10 +137,16 @@ export default class SystemDetailTypes extends Component {
                         selectedConfigurationTypeName
                         }`}
                 >
-                    <input type="checkbox" checked={requiredOverride} />
-                    <h6>Required</h6>
-                    <input type="checkbox" checked={mirrorableOverride} />
-                    <h6>Mirror Configuration With Detail</h6>
+                    <Input
+                        label="Required"
+                        type="checkbox"
+                        checked={requiredOverride}
+                    />
+                    <Input
+                        label="Mirror Configuration With Detail"
+                        type="checkbox"
+                        checked={mirrorableOverride}
+                    />
                 </HeadedContainer>
             </div>
         );

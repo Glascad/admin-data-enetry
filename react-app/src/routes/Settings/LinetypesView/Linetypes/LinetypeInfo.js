@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 
 import {
     HeadedContainer,
     ListContainer,
+    Input,
 } from '../../../../components';
 
 export default class LinetypeInfo extends Component {
@@ -124,12 +124,15 @@ export default class LinetypeInfo extends Component {
                 title={`Linetype - ${name || ''}`}
                 nestLevel={1}
             >
-                <h6>Line Weight</h6>
-                <Select
-                    options={selectOptions}
-                    value={selectValue}
-                    onChange={handleSelectChange}
-                    onBlur={handleBlur}
+                <Input
+                    label="Line Weight"
+                    type="select"
+                    select={{
+                        options: selectOptions,
+                        value: selectValue,
+                        onChange: handleSelectChange,
+                        onBlur: handleBlur,
+                    }}
                 />
                 <ListContainer
                     className="pattern"
@@ -141,18 +144,16 @@ export default class LinetypeInfo extends Component {
                             :
                             pattern.concat(0, 0)}
                     renderItem={((length, i) => (
-                        <li
+                        <Input
                             key={i}
-                        >
-                            <h6>{i % 2 === 0 ? "Dash" : "Gap"}</h6>
-                            <input
-                                type="number"
-                                value={length}
-                                onChange={handlePatternInput(i)}
-                                onBlur={handleBlur}
-                                onKeyDown={blurOnEnter}
-                            />
-                        </li>
+                            tagname="li"
+                            label={i % 2 === 0 ? "Dash" : "Gap"}
+                            type="number"
+                            value={length}
+                            onChange={handlePatternInput(i)}
+                            onBlur={handleBlur}
+                            onKeyDown={blurOnEnter}
+                        />
                     ))}
                     addButton={{
                         onAdd: handleAddPatternSet,

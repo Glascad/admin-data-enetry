@@ -2,7 +2,8 @@ import React from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import './Viewport.scss';
 import routes from '../../routes/routes';
-import ViewportHeader from './ViewportHeader';
+// import ViewportHeader from './ViewportHeader';
+import { Card } from '../../components';
 
 const createRoute = ({ path, component, exact }, parentPath) => (
     <Route
@@ -49,15 +50,17 @@ function Viewport({
     } = matchedRoute || {};
     return (
         <div id="Viewport">
-            <ViewportHeader
+            {/* <ViewportHeader
                 {...headerProps}
-            />
-            <Switch>
-                {routes.map(({ subroutes = [], ...route }) => [
-                    createRoute(route),
-                    ...subroutes.map(subroute => createRoute(subroute, route.path))
-                ])}
-            </Switch>
+            /> */}
+            <Card>
+                <Switch>
+                    {routes.map(({ subroutes = [], ...route }) => [
+                        createRoute(route),
+                        ...subroutes.map(subroute => createRoute(subroute, route.path))
+                    ])}
+                </Switch>
+            </Card>
         </div>
     );
 }

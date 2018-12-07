@@ -5,6 +5,12 @@
     background: $light-gray;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+
+    .logo {
+        height: 75%;
+        width: $header-height;
+    }
 
     header {
         background: $med-gray;
@@ -26,6 +32,7 @@
     .item {
         width: 100%;
         height: $item-height;
+        min-height: $item-height;
         display: flex;
         align-items: center;
         padding: 0 $small;
