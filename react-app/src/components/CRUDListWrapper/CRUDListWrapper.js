@@ -110,6 +110,7 @@ class CRUDList extends Component {
                 canSelect,
                 canCreate,
                 renderBeforeList = () => null,
+                renderAfterList = () => null,
                 children = () => null,
                 extractName = () => "",
                 mapModalProps = () => null,
@@ -187,6 +188,7 @@ class CRUDList extends Component {
                     sorts={sorts}
                     nestLevel={nestLevel}
                     beforeList={renderBeforeList(childProps)}
+                    afterList={renderAfterList(childProps)}
                     list={{
                         items,
                         sort: sortItems,
@@ -207,7 +209,7 @@ class CRUDList extends Component {
                                     ) ?
                                         handleEdit
                                         :
-                                        () => { }
+                                        undefined
                                     }
                                     selected={(
                                         nodeId === selectedItem.nodeId
@@ -238,7 +240,7 @@ class CRUDList extends Component {
                                         ) ?
                                             handleDeleteClick
                                             :
-                                            () => { }
+                                            undefined
                                     )}
                                     arguments={args}
                                     {...defaultPillProps}
@@ -263,10 +265,12 @@ class CRUDList extends Component {
                                 {...defaultPillProps}
                             />
                         ),
-                        addButton: {
-                            ...addButtonProps,
-                            onAdd: handleCreateClick,
-                        }
+                        addButton: canCreate ? (
+                            {
+                                ...addButtonProps,
+                                onAdd: handleCreateClick,
+                            }
+                        ) : undefined
                     }}
                 />
                 <div className="nested" >
@@ -301,7 +305,7 @@ class CRUDList extends Component {
                         {...mapModalProps(selectedItem)}
                     >
                         Are you sure you want to delete {itemClass} {extractName(selectedItem)}?
-                            </Modal>
+                    </Modal>
                 ) : null}
             </div>
         );
@@ -345,15 +349,3 @@ export default function CRUDListWrapper({
         </CRUDWrapper>
     );
 }
-
-
-// export default withSelect()(CRUDList);
-
-// export default (CRUDOptions, options) => (
-//     withCRUD(CRUDOptions)(withSelect()(props => (
-//         <CRUDList
-//             {...props}
-//             {...options}
-//         />
-//     )))
-// );

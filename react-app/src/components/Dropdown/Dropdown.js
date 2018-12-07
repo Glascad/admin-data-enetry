@@ -28,7 +28,7 @@ export default class Dropdown extends Component {
         if (open && !this.props.open) this.close();
     }
 
-    handleClick = () => {
+    handleClick = e => {
         if (this.state.open) this.close();
         else this.open();
     }
@@ -65,11 +65,9 @@ export default class Dropdown extends Component {
                     <div className="triangle" />
                     {title}
                 </div>
-                {open && children ? (
-                    <div className="content">
-                        {children}
-                    </div>
-                ) : null}
+                <div className="content">
+                    {children}
+                </div>
             </div>
         );
     }

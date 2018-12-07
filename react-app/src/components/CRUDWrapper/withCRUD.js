@@ -1,5 +1,5 @@
 import React from 'react';
-import CRUDWrapper from '../CRUDWrapper/CRUDWrapper';
+import CRUDWrapper from './CRUDWrapper';
 
 export default ({
     query,

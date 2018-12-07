@@ -110,6 +110,7 @@ export default class Pill extends Component {
     }
 
     handleClick = e => {
+        e.preventDefault();
         e.stopPropagation();
         if (this.props.onSelect)
             this.props.onSelect(this.props);

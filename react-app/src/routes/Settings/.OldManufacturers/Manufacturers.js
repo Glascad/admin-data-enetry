@@ -69,7 +69,7 @@ export default class Manufacturers extends Component {
             handleInput,
         } = this;
 
-        console.log(this.state);
+        // console.log(this.state);
 
         return (
             <Query

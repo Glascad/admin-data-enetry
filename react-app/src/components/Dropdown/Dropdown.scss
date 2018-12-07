@@ -39,6 +39,12 @@
             }
         }
     }
+
+    &.closed {
+        .content {
+            display: none;
+        }
+    }
     
     summary {
         padding: 0 $small;

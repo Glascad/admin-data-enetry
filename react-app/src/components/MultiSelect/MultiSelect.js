@@ -62,11 +62,11 @@ export default class MultiSelect extends Component {
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
 
-        console.log(this);
-        console.log({
-            selectedItems,
-            nonSelectedItems,
-        });
+        // console.log(this);
+        // console.log({
+        //     selectedItems,
+        //     nonSelectedItems,
+        // });
 
         return (
             <Modal
