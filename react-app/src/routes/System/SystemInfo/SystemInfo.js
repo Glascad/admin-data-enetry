@@ -19,6 +19,7 @@ class SystemInfo extends Component {
     }
 
     render = () => {
+        console.log(this);
         const {
             state: {
 

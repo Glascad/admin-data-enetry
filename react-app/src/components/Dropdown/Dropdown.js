@@ -12,7 +12,7 @@ export default class Dropdown extends Component {
     };
 
     state = {
-        open: false
+        open: this.props.open || false
     };
 
     open = () => this.setState({
@@ -24,8 +24,8 @@ export default class Dropdown extends Component {
     });
 
     componentDidUpdate = ({ open }) => {
-        if (!open && this.props.open) this.open();
-        if (open && !this.props.open) this.close();
+        if (!open && this.props.open === true) this.open();
+        if (open && this.props.open === false) this.close();
     }
 
     handleClick = e => {

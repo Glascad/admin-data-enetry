@@ -10,9 +10,9 @@
     align-items: center;
     position: relative;
 
-    width: $pill-width;
+    // width: $pill-width;
     border-radius: $pill-width;
-    padding: $med;
+    padding: $med $x-large;
     margin: $small $large;
     margin-left: 0;
 
@@ -117,6 +117,7 @@
         flex-direction: column;
         justify-content: space-between;
         height: $pill-width;
+        width: $pill-width;
         border-radius: $small;
 
         &.align-left {

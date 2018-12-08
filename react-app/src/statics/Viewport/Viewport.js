@@ -45,56 +45,56 @@ function Viewport() {
                     />
                     {/* SYSTEM */}
                     <Route
-                        path="/system/select system"
+                        path="/system/select-system"
                         component={SelectSystem}
                     />
                     <Route
-                        path="/system/system info/:systemNID"
+                        path="/system/system-info/:systemNID"
                         component={SystemInfo}
                     />
                     <Route
-                        path="/system/glazing info/:systemNID"
+                        path="/system/glazing-info/:systemNID"
                         component={GlazingInfo}
                     />
                     <Route
-                        path="/system/valid types/:systemNID"
+                        path="/system/valid-types/:systemNID"
                         component={ValidTypes}
                     />
                     <Route
-                        path="/system/system compatibility/:systemNID"
+                        path="/system/system-compatibility/:systemNID"
                         component={SystemCompatibility}
                     />
                     <Route
-                        path="/system/system options/:systemNID"
+                        path="/system/system-options/:systemNID"
                         component={SystemOptions}
                     />
                     <Route
-                        path="/system/invalid combinations/:systemNID"
+                        path="/system/invalid-combinations/:systemNID"
                         component={InvalidCombinations}
                     />
                     {/* SYSTEM CONFIGURATIONS */}
                     < Route
-                        path="/system configurations/system types"
+                        path="/system-configurations/system-types"
                         component={SystemTypes}
                     />
                     <Route
-                        path="/system configurations/system tags"
+                        path="/system-configurations/system-tags"
                         component={SystemTags}
                     />
                     <Route
-                        path="/system configurations/detail types"
+                        path="/system-configurations/detail-types"
                         component={DetailTypes}
                     />
                     <Route
-                        path="/system configurations/configuration types"
+                        path="/system-configurations/configuration-types"
                         component={ConfigurationTypes}
                     />
                     <Route
-                        path="/system configurations/part types"
+                        path="/system-configurations/part-types"
                         component={PartTypes}
                     />
                     <Route
-                        path="/system configurations/part tags"
+                        path="/system-configurations/part-tags"
                         component={PartTags}
                     />
                     {/* SETTINGS */}
@@ -107,15 +107,15 @@ function Viewport() {
                         component={Linetypes}
                     />
                     <Route
-                        path="/settings/part orientations"
+                        path="/settings/part-orientations"
                         component={PartOrientations}
                     />
                     <Route
-                        path="/settings/infill sizes"
+                        path="/settings/infill-sizes"
                         component={InfillSizes}
                     />
                     <Route
-                        path="/settings/infill types"
+                        path="/settings/infill-types"
                         component={InfillTypes}
                     />
                     <Route

@@ -5,61 +5,66 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { Dropdown } from '../../components';
 
-function checkElementForClass(className, element) {
-    const regex = new RegExp(`(^| )${className}( |$)`);
-    if (
-        element.className
-        &&
-        element.className.match(regex)
-    ) {
-        return true;
-    } else if (
-        element.childNodes
-        &&
-        element.childNodes.length
-    ) {
-        return [...element.childNodes].some(element => checkElementForClass(className, element));
-    } else {
-        return false;
-    }
-}
+// function checkElementForClass(className, element) {
+//     const regex = new RegExp(`(^| )${className}( |$)`);
+//     if (
+//         element.className
+//         &&
+//         element.className.match(regex)
+//     ) {
+//         return true;
+//     } else if (
+//         element.childNodes
+//         &&
+//         element.childNodes.length
+//     ) {
+//         return [...element.childNodes].some(element => checkElementForClass(className, element));
+//     } else {
+//         return false;
+//     }
+// }
 
-function checkChildrenForClass(className, element) {
-    if (
-        element.childNodes
-        &&
-        element.childNodes.length
-    ) {
-        return [...element.childNodes].some(childNode => checkElementForClass(className, childNode));
-    }
-}
+// function checkChildrenForClass(className, element) {
+//     if (
+//         element.childNodes
+//         &&
+//         element.childNodes.length
+//     ) {
+//         return [...element.childNodes].some(childNode => checkElementForClass(className, childNode));
+//     }
+// }
 
 class Sidebar extends Component {
 
-    state = {
-        selectedDropdown: -1
-    };
+    // state = {
+    //     selectedDropdown: -1
+    // };
 
-    componentDidMount = () => {
-        this.componentDidUpdate({ location: {} });
-    };
+    // componentDidMount = () => {
+    //     this.componentDidUpdate({ location: {} });
+    // };
 
-    componentDidUpdate = ({ location: { pathname } }) => {
-        if (pathname !== this.props.location.pathname) {
-            const dropdowns = [...document.querySelectorAll("#Sidebar .Dropdown")];
-            const selectedDropdown = dropdowns.findIndex((dropdown, i) => checkChildrenForClass('selected', dropdown));
-            if (selectedDropdown !== this.state.selectedDropdown) {
-                this.setState({
-                    selectedDropdown
-                });
-            }
-        }
-    }
+    // componentDidUpdate = ({ location: { pathname } }) => {
+    //     if (pathname !== this.props.location.pathname) {
+    //         const dropdowns = [...document.querySelectorAll("#Sidebar .Dropdown")];
+    //         const selectedDropdown = dropdowns.findIndex((dropdown, i) => checkChildrenForClass('selected', dropdown));
+    //         if (selectedDropdown !== this.state.selectedDropdown) {
+    //             this.setState({
+    //                 selectedDropdown
+    //             });
+    //         }
+    //     }
+    // }
 
     render = () => {
         const {
-            state: {
-                selectedDropdown
+            // state: {
+            //     selectedDropdown
+            // },
+            props: {
+                location: {
+                    pathname
+                }
             }
         } = this;
         return (
@@ -71,12 +76,19 @@ class Sidebar extends Component {
                     <Dropdown
                         key={i}
                         title={text}
-                        className={i - 1 === selectedDropdown ? 'selected' : ''}
+                        open={pathname.match(new RegExp(`^${link}/`)) || undefined}
+                        className={
+                            pathname.match(new RegExp(`^${link}/`)) ?
+                                'selected'
+                                :
+                                ''
+                            // i - 1 === selectedDropdown ? 'selected' : ''
+                        }
                     >
                         {subroutes.map(({ text: childText, link: childLink }, j) => (
                             <NavLink
                                 key={j}
-                                to={childLink}
+                                to={link + childLink}
                                 activeClassName="selected"
                             >
                                 {childText}
@@ -113,61 +125,61 @@ const links = [
         subroutes: [
             {
                 text: "SELECT SYSTEM",
-                link: "/system/select system",
+                link: "/select-system",
             },
             {
                 text: "SYSTEM INFO",
-                link: "/system/system info/:systemNID",
+                link: "/system-info/:systemNID",
             },
             {
                 text: "GLAZING INFO",
-                link: "/system/glazing info/:systemNID",
+                link: "/glazing-info/:systemNID",
             },
             {
                 text: "VALID TYPES",
-                link: "/system/valid types/:systemNID",
+                link: "/valid-types/:systemNID",
             },
             {
                 text: "SYSTEM COMPATIBILITY",
-                link: "/system/system compatibility/:systemNID",
+                link: "/system-compatibility/:systemNID",
             },
             {
                 text: "SYSTEM OPTIONS",
-                link: "/system/system options/:systemNID",
+                link: "/system-options/:systemNID",
             },
             {
                 text: "INVALID COMBINATIONS",
-                link: "/system/invalid combinations/:systemNID",
+                link: "/invalid-combinations/:systemNID",
             },
         ]
     },
     {
         text: "SYSTEM CONFIGURATIONS",
-        link: "/system configurations",
+        link: "/system-configurations",
         subroutes: [
             {
                 text: "SYSTEM TYPES",
-                link: "/system configurations/system types",
+                link: "/system-types",
             },
             {
                 text: "SYSTEM TAGS",
-                link: "/system configurations/system tags",
+                link: "/system-tags",
             },
             {
                 text: "DETAIL TYPES",
-                link: "/system configurations/detail types",
+                link: "/detail-types",
             },
             {
                 text: "CONFIGURATION TYPES",
-                link: "/system configurations/configuration types",
+                link: "/configuration-types",
             },
             {
                 text: "PART TYPES",
-                link: "/system configurations/part types",
+                link: "/part-types",
             },
             {
                 text: "PART TAGS",
-                link: "/system configurations/part tags",
+                link: "/part-tags",
             },
         ]
     },
@@ -177,23 +189,23 @@ const links = [
         subroutes: [
             {
                 text: "MANUFACTURERS",
-                link: "/settings/manufacturers",
+                link: "/manufacturers",
             },
             {
                 text: "LINETYPES",
-                link: "/settings/linetypes",
+                link: "/linetypes",
             },
             {
                 text: "PART ORIENTATIONS",
-                link: "/settings/part orientations",
+                link: "/part-orientations",
             },
             {
                 text: "INFILL SIZES",
-                link: "/settings/infill sizes",
+                link: "/infill-sizes",
             },
             {
                 text: "INFILL TYPES",
-                link: "/settings/infill types",
+                link: "/infill-types",
             },
         ]
     },

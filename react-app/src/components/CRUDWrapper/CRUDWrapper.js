@@ -65,6 +65,28 @@ export default class CRUDWrapper extends Component {
         :
         CRUDWrapper.RenderChildren("No DELETE specified");
 
+    // for the sake of destructuring in child components
+    removeNullValues = ({ data } = {}) => data === null ?
+        undefined
+        :
+        typeof data !== 'object' ?
+            {
+                data
+            }
+            :
+            {
+                data: Object
+                    .keys(data)
+                    .reduce((filteredData, key) => data[key] !== null ?
+                        {
+                            ...filteredData,
+                            [key]: data[key]
+                        }
+                        :
+                        filteredData,
+                        {})
+            };
+
     render = () => {
         const {
             props: {
@@ -75,6 +97,8 @@ export default class CRUDWrapper extends Component {
                 update,
                 _delete,
             },
+            // data filtering
+            removeNullValues,
             // components
             Read,
             Create,
@@ -111,10 +135,10 @@ export default class CRUDWrapper extends Component {
                                     >
                                         {(deleteItem, deleteStatus) => (
                                             children({
-                                                queryStatus,
-                                                createStatus,
-                                                updateStatus,
-                                                deleteStatus,
+                                                queryStatus: removeNullValues(queryStatus),
+                                                createStatus: removeNullValues(createStatus),
+                                                updateStatus: removeNullValues(updateStatus),
+                                                deleteStatus: removeNullValues(deleteStatus),
                                                 createItem,
                                                 updateItem,
                                                 deleteItem,
