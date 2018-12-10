@@ -10,6 +10,8 @@ import { ApolloBatchedWrapper } from '../../../components';
 
 import * as apolloProps from './system-info-graphql';
 
+import * as systemTagApolloProps from './system-tags-graphql';
+
 // import SystemTags from './SystemTags';
 
 export default function SystemInfo({ match: { params: { systemNID } } }) {
@@ -72,10 +74,19 @@ export default function SystemInfo({ match: { params: { systemNID } } }) {
                 {
                     label: "System Tags",
                     multiSelectList: {
+                        apolloProps: systemTagApolloProps,
+                        mapCreateVariables: ({ id: systemTagId }, { system: { id: systemId } }) => ({
+                            systemId,
+                            systemTagId,
+                        }),
+                        mapDeleteVariables: ({ systemSystemTagNID, ...arg }) => ({
+                            nodeId: systemSystemTagNID,
+                            n: console.log("ARGGGGGGGGGGGGGGGG\n\n\n\n\n\n\n\n\nARGGGGGGGGG", arg),
+                        }),
                         list: {
                             extractItems: ({
                                 system: {
-                                    systemTagsBySystemId: {
+                                    systemSystemTagsBySystemId: {
                                         nodes = []
                                     } = {}
                                 } = {}
@@ -102,7 +113,7 @@ export default function SystemInfo({ match: { params: { systemNID } } }) {
                                 // nodeId,
                                 // id,
                                 // type,
-                            })
+                            }),
                         },
                     }
                 },
