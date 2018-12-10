@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const query = gql`query SystemInfo($systemNID:ID!){
-    system(nodeId:$systemNID){
+export const query = gql`query SystemInfo($nodeId:ID!){
+    system(nodeId:$nodeId){
         nodeId
         id
         name
@@ -38,4 +38,66 @@ export const query = gql`query SystemInfo($systemNID:ID!){
             type
         }
     }
+    allSystemTags{
+        nodes{
+            nodeId
+            id
+            type
+        }
+    }
 }`;
+
+export const update = {
+    mutation: gql`mutation UpdateSystem(
+        $nodeId:ID!,
+        $name:String,
+        $depth:Float,
+        $defaultSightline:Float,
+        $shimSize:Float,
+        $defaultGlassBite:Float,
+        $systemTypeId:Int
+    ){
+        updateSystem(input:{
+            nodeId:$nodeId,
+            systemPatch:{
+                name:$name,
+                depth:$depth,
+                defaultSightline:$defaultSightline,
+                shimSize:$shimSize,
+                defaultGlassBite:$defaultGlassBite,
+                systemTypeId:$systemTypeId
+            }
+        }){
+            system{
+                nodeId
+                id
+                name
+                depth
+                defaultSightline
+                shimSize
+                defaultGlassSize
+                defaultGlassBite
+                manufacturerByManufacturerId{
+                    nodeId
+                    id
+                    name
+                }
+                systemTypeBySystemTypeId{
+                    nodeId
+                    id
+                    type
+                }
+                systemSystemTagsBySystemId{
+                    nodes{
+                        nodeId
+                        systemTagBySystemTagId{
+                            nodeId
+                            id
+                            type
+                        }
+                    }
+                }
+            }
+        }
+    }`,
+}

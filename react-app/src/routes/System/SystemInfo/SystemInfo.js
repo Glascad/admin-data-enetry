@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // import {
 //     ApolloWrapper,
@@ -10,15 +10,33 @@ import { ApolloBatchedWrapper } from '../../../components';
 
 import * as apolloProps from './system-info-graphql';
 
-import SystemTags from './SystemTags';
+// import SystemTags from './SystemTags';
 
 export default function SystemInfo({ match: { params: { systemNID } } }) {
     return (
         <ApolloBatchedWrapper
             apolloProps={{
                 ...apolloProps,
-                queryVariables: { systemNID }
+                queryVariables: { nodeId: systemNID }
             }}
+            title="System Info"
+            nodeId={systemNID}
+            mapUpdateVariables={({
+                "Name": name,
+                "System Type": {
+                    value: systemTypeId,
+                },
+                "System Depth": depth,
+                "System Sightline": defaultSightline,
+                "Caulk Joint Size": shimSize,
+            }) => ({
+                nodeId: systemNID,
+                name,
+                systemTypeId,
+                depth,
+                defaultSightline,
+                shimSize,
+            })}
             inputs={[
                 {
                     label: "Name",
@@ -53,8 +71,39 @@ export default function SystemInfo({ match: { params: { systemNID } } }) {
                 },
                 {
                     label: "System Tags",
-                    multiSelect: {
-                        extractItems: () => []
+                    multiSelectList: {
+                        list: {
+                            extractItems: ({
+                                system: {
+                                    systemTagsBySystemId: {
+                                        nodes = []
+                                    } = {}
+                                } = {}
+                            }) => nodes.map(({
+                                nodeId: systemSystemTagNID,
+                                systemTagBySystemTagId: systemTag,
+                            }) => ({
+                                systemSystemTagNID,
+                                ...systemTag,
+                            })),
+                            mapPillProps: ({ type }) => ({
+                                title: type,
+                            }),
+                        },
+                        multiSelect: {
+                            extractAllItems: ({
+                                allSystemTags: {
+                                    nodes = []
+                                } = {}
+                            }) => nodes,
+                            mapPillProps: ({ type }) => ({
+                                title: type,
+                                // systemSystemTagNID,
+                                // nodeId,
+                                // id,
+                                // type,
+                            })
+                        },
                     }
                 },
                 {

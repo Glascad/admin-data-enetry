@@ -10,6 +10,9 @@ import ListContainer from '../ListContainer/ListContainer';
 import Pill from '../Pill/Pill';
 
 
+const removeDuplicateNIDs = list => list.filter((item, i) => i === list.findIndex(({ nodeId }) => nodeId === item.nodeId));
+
+
 const shallowEquals = (obj1, obj2) => typeof obj1 === 'object' && typeof obj2 === 'object' ?
     Object.keys(obj1).reduce((equal, key) => equal && obj1[key] === obj2[key], true)
     :
@@ -32,15 +35,31 @@ class BatchedWrapper extends Component {
         state,
         {
             label,
-            multiSelect,
+            multiSelectList,
+            multiSelectList: {
+                list: {
+                    extractItems,
+                } = {},
+            } = {},
             extractValue
         }) => ({
             ...state,
-            [label]: multiSelect ? [] : extractValue({}),
+            [label]: multiSelectList ?
+                extractItems(this.props.apollo.queryStatus ?
+                    this.props.apollo.queryStatus.data
+                    :
+                    {})
+                :
+                extractValue(this.props.apollo.queryStatus ?
+                    this.props.apollo.queryStatus.data
+                    :
+                    {}),
         }),
         {});
 
     state = this.getInitialState();
+
+    mutation = -1;
 
     componentDidUpdate = ({
         apollo: {
@@ -50,11 +69,11 @@ class BatchedWrapper extends Component {
         }
     }) => {
         this.props.inputs.forEach(({
-            multiSelect,
+            multiSelectList,
             label,
             extractValue,
         }) => {
-            if (!multiSelect) {
+            if (!multiSelectList) {
                 const oldValue = extractValue(data);
                 const newValue = extractValue(this.props.apollo.queryStatus.data);
                 if (!shallowEquals(oldValue, newValue)) {
@@ -84,17 +103,51 @@ class BatchedWrapper extends Component {
         [label]: value
     });
 
-    handleBlur = () => {
+    // handleBlur = () => {
+    //     const newMutation = () => {
+    //         this.props.apollo.updateItem({
+    //             variables: this.props.mapUpdateVariables(this.state)
+    //         });
+    //     }
+    //     if (this.baseUpdateId === -1) {
+    //         this.baseUpdateId = this.props.apollo.batchMutation(newMutation);
+    //     } else {
+    //         this.props.apollo.replaceMutation(this.baseUpdateId, newMutation)
+    //     }
+    // }
 
+    handleReset = () => {
+        // this.props.apollo.resetMutations();
+        this.setState(this.getInitialState());
     }
 
-    // handleReset = () => this.setState(this.componentDidUpdate({
-    //     apollo: {
-    //         queryStatus: {
-    //             data: {}
-    //         }
-    //     }
-    // }));
+    handleSave = () => {
+        const newMutation = () => {
+            this.props.apollo.updateItem({
+                variables: this.props.mapUpdateVariables(this.state)
+            });
+        }
+        this.baseUpdateId = this.props.apollo.batchMutation(newMutation);
+        this.props.apollo.completeMutations();
+    }
+
+    handleModalFinish = (label, cancel) => ({ arguments: { addedItems, deletedItems } }) => {
+        console.log(label);
+        const oldList = this.state[label];
+        const newList = oldList
+            .concat(addedItems)
+            .filter(({ nodeId }) => !deletedItems.some(deletedItem => deletedItem.nodeId === nodeId));
+        console.log({
+            addedItems,
+            deletedItems,
+            oldList,
+            newList,
+        });
+        this.setState({
+            [label]: removeDuplicateNIDs(newList)
+        }, cancel);
+        this.props.apollo.batchMutation()
+    }
 
     render = () => {
         const {
@@ -105,12 +158,21 @@ class BatchedWrapper extends Component {
                     queryStatus: {
                         data: queryData,
                     },
+                    batchMutation,
+                    resetMutations,
+                    replaceMutation,
+                    completeMutations,
                 },
+                title,
                 inputs = [],
             },
+            handleModalFinish,
+            handleSave,
+            handleBlur,
             handleChange,
             handleCheckChange,
             handleSelectChange,
+            handleReset,
         } = this;
 
         console.log(this);
@@ -118,37 +180,76 @@ class BatchedWrapper extends Component {
 
         return (
             <HeadedContainer
-                title="System Info"
+                title={title}
             >
                 {inputs.map(({
                     label,
                     type,
                     extractValue,
                     extractOptions,
-                    multiSelect,
+                    multiSelectList,
+                    multiSelectList: {
+                        list: {
+                            extractItems,
+                            mapPillProps: mapListPills,
+                        } = {},
+                        multiSelect: {
+                            extractAllItems,
+                            mapModalProps = () => ({}),
+                            mapPillProps: mapSelectPills,
+                            ...multiSelect
+                        } = {},
+                    } = {},
                     ...input
-                }) => (multiSelect ?
+                }) => (multiSelectList ?
                     <SelectionWrapper
                         key={label}
                     >
-                        {selection => (
-                            <div>
-                                <ListContainer
-                                    items={[]}
-                                    renderItem={({ }) => (
-                                        <Pill
-
-                                        />
-                                    )}
-                                    addButton={{
-
-                                    }}
-                                />
-                                {/* <MultiSelect
-                                    {...multiSelect}
-                                /> */}
-                            </div>
-                        )}
+                        {({
+                            selectedNID,
+                            creating,
+                            deleting,
+                            handleCreateClick,
+                            cancel,
+                        }) => {
+                            // const items = extractItems(queryData);
+                            console.log(state[label]);
+                            return (
+                                <div>
+                                    <ListContainer
+                                        items={state[label]}
+                                        renderItem={(item) => (
+                                            <Pill
+                                                key={item.nodeId}
+                                                arguments={{
+                                                    nodeId: item.nodeId,
+                                                }}
+                                                {...mapListPills(item)}
+                                            />
+                                        )}
+                                        addButton={{
+                                            onAdd: handleCreateClick
+                                        }}
+                                    />
+                                    <MultiSelect
+                                        modalProps={{
+                                            display: creating || deleting,
+                                            onCancel: cancel,
+                                            onFinish: handleModalFinish(label, cancel),
+                                            ...mapModalProps({
+                                                selectedNID,
+                                                creating,
+                                                deleting,
+                                            }),
+                                        }}
+                                        previousItems={state[label]}
+                                        allItems={extractAllItems(queryData)}
+                                        mapPillProps={mapSelectPills}
+                                        {...multiSelect}
+                                    />
+                                </div>
+                            );
+                        }}
                     </SelectionWrapper>
                     :
                     <Input
@@ -168,6 +269,18 @@ class BatchedWrapper extends Component {
                         {...input}
                     />
                     ))}
+                <button
+                    className="empty"
+                    onClick={handleReset}
+                >
+                    Reset
+                </button>
+                <button
+                    className="primary"
+                    onClick={handleSave}
+                >
+                    Next
+                </button>
             </HeadedContainer>
         );
     }
@@ -175,6 +288,9 @@ class BatchedWrapper extends Component {
 
 export default function ApolloBatchedWrapper({
     apolloProps,
+    apolloProps: {
+        queryVariables
+    },
     ...props
 }) {
     return (
@@ -184,6 +300,7 @@ export default function ApolloBatchedWrapper({
             {apollo => (
                 <BatchedWrapper
                     {...props}
+                    variables={queryVariables}
                     apollo={apollo}
                 />
             )}
