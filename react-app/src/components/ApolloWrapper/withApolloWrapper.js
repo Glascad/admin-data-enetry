@@ -1,5 +1,5 @@
 import React from 'react';
-import CRUDWrapper from './CRUDWrapper';
+import ApolloWrapper from './ApolloWrapper';
 
 export default ({
     query,
@@ -7,12 +7,12 @@ export default ({
     update = {},
     _delete = {},
 },
-    mapProps = CRUD => ({ CRUD })
+    mapProps = apollo => ({ apollo })
 ) => (
     WrappedComponent
 ) => (
             props => (
-                <CRUDWrapper
+                <ApolloWrapper
                     {...{
                         query,
                         create,
@@ -20,12 +20,12 @@ export default ({
                         _delete,
                     }}
                 >
-                    {CRUDprops => (
+                    {apolloProps => (
                         <WrappedComponent
                             {...props}
-                            {...mapProps(CRUDprops)}
+                            {...mapProps(apolloProps)}
                         />
                     )}
-                </CRUDWrapper>
+                </ApolloWrapper>
             )
         );

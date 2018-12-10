@@ -1,15 +1,15 @@
 import React from 'react';
 
 import {
-    CRUDListWrapper,
+    ApolloListWrapper,
 } from '../../../components';
 
-import * as CRUDProps from './manufacturers-graphql';
+import * as apolloProps from './manufacturers-graphql';
 
 export default function Manufacturers() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Manufacturer"
             extractList={({
                 allManufacturers: {

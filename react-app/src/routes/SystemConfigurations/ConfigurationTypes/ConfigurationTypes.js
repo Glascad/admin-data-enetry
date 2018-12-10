@@ -1,7 +1,7 @@
 import React from 'react';
-import { CRUDListWrapper } from '../../../components';
+import { ApolloListWrapper } from '../../../components';
 
-import * as CRUDProps from './configuration-types-graphql';
+import * as apolloProps from './configuration-types-graphql';
 
 import ConfigurationTypeInfo from './ConfigurationTypeInfo';
 import PartTypes from './PartTypes/PartTypes';
@@ -9,8 +9,8 @@ import Overrides from './Overrides/Overrides';
 
 export default function ConfigurationTypes() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Configuration Type"
             extractList={({
                 allConfigurationTypes: {
@@ -38,7 +38,7 @@ export default function ConfigurationTypes() {
             extractName={({ type }) => type}
         >
             {({
-                CRUD: {
+                apollo: {
                     updateItem,
                 },
                 selectedItem,
@@ -60,6 +60,6 @@ export default function ConfigurationTypes() {
                         ) : null}
                     </div>
                 )}
-        </CRUDListWrapper>
+        </ApolloListWrapper>
     );
 }

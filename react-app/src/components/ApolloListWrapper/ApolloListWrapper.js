@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CRUDWrapper from '../CRUDWrapper/CRUDWrapper';
+import ApolloWrapper from '../ApolloWrapper/ApolloWrapper';
 import SelectionWrapper from '../SelectionWrapper/SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
 import Modal from '../Modal/Modal';
 import MultiSelect from '../MultiSelect/MultiSelect';
 
-class CRUDList extends Component {
+class ApolloList extends Component {
 
     static propTypes = {
         itemClass: PropTypes.string.isRequired,
@@ -23,9 +23,9 @@ class CRUDList extends Component {
     };
 
     handleCreate = (...args) => {
-        const variables = this.props.mapCreateVariables(...args, this.props.CRUD.queryStatus.data);
+        const variables = this.props.mapCreateVariables(...args, this.props.apollo.queryStatus.data);
         if (this.props.extractCreatedNID) {
-            this.props.CRUD.onCreate((cache, { data }) => {
+            this.props.apollo.onCreate((cache, { data }) => {
                 this.props.selection.handleSelect({
                     arguments: {
                         nodeId: this.props.extractCreatedNID(data)
@@ -33,14 +33,14 @@ class CRUDList extends Component {
                 });
             });
         } else {
-            this.props.CRUD.onCreate(this.props.selection.cancel);
+            this.props.apollo.onCreate(this.props.selection.cancel);
         }
-        this.props.CRUD.createItem({
+        this.props.apollo.createItem({
             variables
         });
     }
 
-    handleEdit = ({ arguments: { nodeId } }, pillState) => this.props.CRUD.updateItem({
+    handleEdit = ({ arguments: { nodeId } }, pillState) => this.props.apollo.updateItem({
         variables: {
             nodeId,
             ...this.props.mapUpdateVariables(pillState, this.props)
@@ -48,8 +48,8 @@ class CRUDList extends Component {
     });
 
     handleDelete = () => {
-        this.props.CRUD.onDelete(this.props.selection.cancel);
-        this.props.CRUD.deleteItem({
+        this.props.apollo.onDelete(this.props.selection.cancel);
+        this.props.apollo.deleteItem({
             variables: {
                 nodeId: this.props.selection.selectedNID
             }
@@ -68,17 +68,17 @@ class CRUDList extends Component {
         //     }
         // }
 
-        // this.props.CRUD.onCreate(onComplete);
-        // this.props.CRUD.onDelete(onComplete);
+        // this.props.apollo.onCreate(onComplete);
+        // this.props.apollo.onDelete(onComplete);
 
-        this.props.CRUD.onCreate(this.props.selection.cancel);
-        this.props.CRUD.onDelete(this.props.selection.cancel);
+        this.props.apollo.onCreate(this.props.selection.cancel);
+        this.props.apollo.onDelete(this.props.selection.cancel);
 
         addedItems.forEach(item => {
             console.log({
                 variables: this.props.mapCreateVariables(item)
             });
-            this.props.CRUD.createItem({
+            this.props.apollo.createItem({
                 variables: this.props.mapCreateVariables(item)
             });
         });
@@ -88,7 +88,7 @@ class CRUDList extends Component {
             console.log({
                 variables: this.props.mapDeleteVariables(item)
             });
-            this.props.CRUD.deleteItem({
+            this.props.apollo.deleteItem({
                 variables: this.props.mapDeleteVariables(item)
             });
         });
@@ -98,6 +98,7 @@ class CRUDList extends Component {
         const {
             props: {
                 itemClass,
+                plural,
                 parentItem,
                 parentItems = [],
                 filters,
@@ -123,8 +124,8 @@ class CRUDList extends Component {
                     mapPillProps: mapMultiSelectPillProps,
                     mapProps: mapMultiSelectProps = () => ({}),
                 } = {},
-                CRUD,
-                CRUD: {
+                apollo,
+                apollo: {
                     queryStatus: {
                         data: queryData
                     },
@@ -155,7 +156,7 @@ class CRUDList extends Component {
             {};
 
         const childProps = {
-            CRUD,
+            apollo,
             selection,
             extractedList: items,
             selectedItem,
@@ -164,9 +165,17 @@ class CRUDList extends Component {
             deleting,
         };
 
-        const titlePath = `${
+        const titlePath = typeof plural === 'string' ?
+            plural
+            :
+            `${
             itemClass
-            }s${
+            }${
+            plural !== false ?
+                's'
+                :
+                ''
+            }${
             parentItem ?
                 ` - ${parentItem}`
                 :
@@ -180,7 +189,7 @@ class CRUDList extends Component {
 
         return (
             <div
-                id={`${itemClass.replace(/ /g, '')}s`}
+                id={`${itemClass.replace(/ /g, '')}${plural !== false ? 's' : ''}`}
             >
                 <HeadedListContainer
                     title={titlePath}
@@ -267,8 +276,8 @@ class CRUDList extends Component {
                         ),
                         addButton: canCreate ? (
                             {
-                                ...addButtonProps,
                                 onAdd: handleCreateClick,
+                                ...addButtonProps,
                             }
                         ) : undefined
                     }}
@@ -313,9 +322,9 @@ class CRUDList extends Component {
 }
 
 
-export default function CRUDListWrapper({
-    CRUDProps,
-    CRUDProps: {
+export default function ApolloListWrapper({
+    apolloProps,
+    apolloProps: {
         create: {
             mutation: createMutation = false,
         } = {},
@@ -329,23 +338,23 @@ export default function CRUDListWrapper({
     ...props
 }) {
     return (
-        <CRUDWrapper
-            {...CRUDProps}
+        <ApolloWrapper
+            {...apolloProps}
         >
-            {CRUD => (
+            {apollo => (
                 <SelectionWrapper>
                     {selection => (
-                        <CRUDList
-                            {...props}
+                        <ApolloList
                             canCreate={!!createMutation}
                             canUpdate={!!updateMutation}
                             canDelete={!!deleteMutation}
                             selection={selection}
-                            CRUD={CRUD}
+                            apollo={apollo}
+                            {...props}
                         />
                     )}
                 </SelectionWrapper>
             )}
-        </CRUDWrapper>
+        </ApolloWrapper>
     );
 }

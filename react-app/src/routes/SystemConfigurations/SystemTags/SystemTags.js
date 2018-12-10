@@ -1,12 +1,12 @@
 import React from 'react';
-import { CRUDListWrapper } from '../../../components';
+import { ApolloListWrapper } from '../../../components';
 
-import * as CRUDProps from './system-tags-graphql';
+import * as apolloProps from './system-tags-graphql';
 
 export default function SystemTags() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="System Tag"
             extractList={({
                 allSystemTags: {

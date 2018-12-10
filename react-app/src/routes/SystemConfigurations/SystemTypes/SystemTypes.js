@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { CRUDListWrapper } from '../../../components';
+import { ApolloListWrapper } from '../../../components';
 
-import * as CRUDProps from './system-types-graphql';
+import * as apolloProps from './system-types-graphql';
 
 import DetailTypes from './DetailTypes/DetailTypes';
 
 export default function SystemTypes() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="System Type"
             extractList={({
                 allSystemTypes: {
@@ -40,7 +40,7 @@ export default function SystemTypes() {
                         systemType={selectedItem}
                     />
                 ) : null)}
-        </CRUDListWrapper>
+        </ApolloListWrapper>
     );
 }
 

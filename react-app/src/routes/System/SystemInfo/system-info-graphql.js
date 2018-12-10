@@ -31,4 +31,11 @@ export const query = gql`query SystemInfo($systemNID:ID!){
             }
         }
     }
+    allSystemTypes{
+        nodes{
+            nodeId
+            id
+            type
+        }
+    }
 }`;

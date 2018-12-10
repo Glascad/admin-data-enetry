@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { CRUDListWrapper } from '../../../../components';
+import { ApolloListWrapper } from '../../../../components';
 
 import LinetypeInfo from './LinetypeInfo';
 
-import * as CRUDProps from './linetypes-graphql';
+import * as apolloProps from './linetypes-graphql';
 
 export default function Linetypes() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Linetype"
             extractList={({
                 allLinetypes: {
@@ -43,7 +43,7 @@ export default function Linetypes() {
                         nodes: lineWeights = [],
                     } = {},
                 } = {},
-                CRUD: {
+                apollo: {
                     updateItem,
                 },
             }) => (
@@ -55,6 +55,6 @@ export default function Linetypes() {
                         }}
                     />
                 )}
-        </CRUDListWrapper>
+        </ApolloListWrapper>
     )
 }
