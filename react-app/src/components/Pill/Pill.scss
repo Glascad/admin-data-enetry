@@ -13,7 +13,7 @@
     border-radius: $pill-width;
     height: $item-height;
     //padding: $med; //Ray removed
-    margin: $large $large 0 0; //Ray changed
+    margin: 0 $large $large 0; //Ray changed
     // margin-left: 0; //Ray removed
 
     &.align-left {

@@ -16,7 +16,7 @@
         display: flex;
         position: relative;
         background: $green;
-        margin: $large $large 0 0; //Ray changed
+        margin: 0 $large $large 0; //Ray changed
         // margin-left: 0; //Ray removed
     }
 
@@ -25,7 +25,7 @@
         width: $pill-width;
         border-radius: $small;
         border: 2px dashed $pill-color;
-        margin: $large $large 0 0; //Ray changed
+        margin: 0 $large $large 0; //Ray changed
         // margin-left: 0; //Ray removed
         // box-sizing: border-box; //Ray removed
 

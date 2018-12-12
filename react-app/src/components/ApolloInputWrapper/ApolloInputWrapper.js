@@ -9,7 +9,7 @@ import SelectionWrapper from '../SelectionWrapper/SelectionWrapper';
 import ListContainer from '../ListContainer/ListContainer';
 import Pill from '../Pill/Pill';
 
-import './ApolloBatchedWrapper.scss';
+import './ApolloInputWrapper.scss';
 
 
 const removeDuplicateNIDs = list => list.filter((item, i) => i === list.findIndex(({ nodeId }) => nodeId === item.nodeId));
@@ -231,7 +231,7 @@ class BatchedWrapper extends Component {
         return (
             <HeadedContainer
                 title={title}
-                className="ApolloBatchedWrapper"
+                className="ApolloInputWrapper"
             >
                 {inputs.map(({
                     label,
@@ -290,7 +290,7 @@ class BatchedWrapper extends Component {
                                             // See React.Fragment documentation
                                             <>
                                                 <ListContainer
-                                                    title={label}
+                                                    label={label}
                                                     items={state[label]}
                                                     renderItem={item => (
                                                         <Pill
@@ -368,7 +368,7 @@ class BatchedWrapper extends Component {
     }
 }
 
-export default function ApolloBatchedWrapper({
+export default function ApolloInputWrapper({
     apolloProps,
     apolloProps: {
         queryVariables

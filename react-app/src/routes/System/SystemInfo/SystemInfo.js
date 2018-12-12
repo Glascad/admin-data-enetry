@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { ApolloBatchedWrapper } from '../../../components';
+import { ApolloInputWrapper } from '../../../components';
 
 import * as apolloProps from './system-info-graphql';
 import * as systemTagApolloProps from './system-tags-graphql';
 
 export default function SystemInfo({ match: { params: { systemNID } } }) {
     return (
-        <ApolloBatchedWrapper
+        <ApolloInputWrapper
             apolloProps={{
                 ...apolloProps,
                 queryVariables: { nodeId: systemNID }

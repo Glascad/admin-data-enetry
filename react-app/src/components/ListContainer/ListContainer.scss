@@ -2,8 +2,9 @@
 @import '../../styles/variables';
 
 .ListContainer {
-    > .title {
-        color: $med-gray;
+
+    &:last-child {
+        margin-bottom: -$large;
     }
 
     ul {

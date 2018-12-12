@@ -36,11 +36,7 @@ export default function ListContainer({
                 <h5 className="title">{title}</h5>
             ) : null}
             {label ? (
-                <span
-                    className="label"
-                >
-                    {label}
-                </span>
+                <span className="label">{label}</span>
             ) : null}
             <ul>
                 {items.slice()

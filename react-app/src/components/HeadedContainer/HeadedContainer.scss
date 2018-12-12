@@ -12,11 +12,11 @@
         border-bottom: 1px solid $border-color;
         margin-bottom: $large;
 
-        + .content {
-            .ListContainer:first-child {
-                margin-top: -$large;
-            }
-        }
+        // + .content {
+        //     .ListContainer:first-child {
+        //         margin-top: -$large;
+        //     }
+        // }
 
         .title {
             // font-weight: bold;

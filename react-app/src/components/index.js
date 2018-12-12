@@ -9,7 +9,7 @@ import _DeleteButton from './DeleteButton/DeleteButton';
 import _ApolloWrapper from './ApolloWrapper/ApolloWrapper';
 import _withApolloWrapper from './ApolloWrapper/withApolloWrapper';
 import _ApolloListWrapper from './ApolloListWrapper/ApolloListWrapper';
-import _ApolloBatchedWrapper from './ApolloBatchedWrapper/ApolloBatchedWrapper';
+import _ApolloInputWrapper from './ApolloInputWrapper/ApolloInputWrapper';
 import _SelectionWrapper from './SelectionWrapper/SelectionWrapper';
 import _Input from './Input/Input';
 // UNIVERSAL STYLES
@@ -25,6 +25,6 @@ export const DeleteButton = _DeleteButton;
 export const ApolloWrapper = _ApolloWrapper;
 export const withApolloWrapper = _withApolloWrapper;
 export const ApolloListWrapper = _ApolloListWrapper;
-export const ApolloBatchedWrapper = _ApolloBatchedWrapper;
+export const ApolloInputWrapper = _ApolloInputWrapper;
 export const SelectionWrapper = _SelectionWrapper;
 export const Input = _Input;
