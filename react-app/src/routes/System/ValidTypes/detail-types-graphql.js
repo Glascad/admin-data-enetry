@@ -1,0 +1,52 @@
+import gql from 'graphql-tag';
+
+export const query = gql`query SystemInfo($nodeId:ID!){
+    system(nodeId:$nodeId){
+        nodeId
+        id
+        name
+        manufacturerByManufacturerId{
+            nodeId
+            id
+            name
+        }
+        systemTypeBySystemTypeId{
+            nodeId
+            id
+            type
+            systemTypeDetailTypesBySystemTypeId{
+                nodes{
+                    nodeId
+                    detailTypeByDetailTypeId{
+                        nodeId
+                        id
+                        type
+                        vertical
+                        entrance
+                    }
+                }
+            }
+            systemTypeDetailTypeConfigurationTypesBySystemTypeId{
+                nodes{
+                    nodeId
+                    required
+                    mirrorable
+                    detailTypeId
+                    detailTypeByDetailTypeId{
+                        nodeId
+                        id
+                    }
+                    configurationTypeId
+                    configurationTypeByConfigurationTypeId{
+                        nodeId
+                        id
+                        type
+                        door
+                        overrideLevel
+                        presentationLevel
+                    }
+                }
+            }
+        }
+    }
+}`;

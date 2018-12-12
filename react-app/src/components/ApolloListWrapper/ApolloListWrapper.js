@@ -129,6 +129,7 @@ class ApolloList extends Component {
                     queryStatus: {
                         data: queryData
                     },
+                    completeMutations,
                 },
                 selection,
                 selection: {
@@ -163,6 +164,7 @@ class ApolloList extends Component {
             data: queryData,
             creating,
             deleting,
+            completeMutations,
         };
 
         const titlePath = typeof plural === 'string' ?

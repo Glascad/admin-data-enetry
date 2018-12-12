@@ -16,6 +16,9 @@ export default function InfillSizes() {
                     nodes = [],
                 } = {},
             }) => nodes}
+            defaultPillProps={{
+                inputType: "number"
+            }}
             mapPillProps={({
                 size,
             }) => ({

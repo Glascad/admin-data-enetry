@@ -6,6 +6,7 @@ export default class ApolloWrapper extends Component {
 
     static propTypes = {
         children: PropTypes.func.isRequired,
+        batchMutations: PropTypes.bool,
         query: PropTypes.object,
         queryVariables: PropTypes.object,
         create: PropTypes.object,
@@ -130,7 +131,8 @@ export default class ApolloWrapper extends Component {
     render = () => {
         const {
             props: {
-                children,
+                children = () => null,
+                batchMutations,
                 query,
                 queryVariables,
                 create,
@@ -212,9 +214,24 @@ export default class ApolloWrapper extends Component {
                                                         deleteStatus.data
                                                     )
                                                 },
-                                                createItem,
-                                                updateItem,
-                                                deleteItem,
+                                                createItem: batchMutations ?
+                                                    (...args) => batchMutation(() => {
+                                                        createItem(...args)
+                                                    })
+                                                    :
+                                                    createItem,
+                                                updateItem: batchMutations ?
+                                                    (...args) => batchMutation(() => {
+                                                        updateItem(...args)
+                                                    })
+                                                    :
+                                                    updateItem,
+                                                deleteItem: batchMutations ?
+                                                    (...args) => batchMutation(() => {
+                                                        deleteItem(...args)
+                                                    })
+                                                    :
+                                                    deleteItem,
                                                 onCreate,
                                                 onUpdate,
                                                 onDelete,

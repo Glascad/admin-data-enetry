@@ -214,6 +214,7 @@ class BatchedWrapper extends Component {
                 },
                 title,
                 inputs = [],
+                children = () => null,
             },
             handleModalFinish,
             handleSave,
@@ -338,6 +339,10 @@ class BatchedWrapper extends Component {
                             )}
                     </ApolloWrapper>
                     ))}
+                {children({
+                    batchMutation,
+                    replaceMutation,
+                })}
                 <div
                     className="button-wrapper"
                 >
