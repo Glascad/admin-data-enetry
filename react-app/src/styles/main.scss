@@ -9,7 +9,7 @@ button, input {
     border: none;
     outline: none;
     padding: $xx-small $small;
-    border-radius: $xxx-small;
+    border-radius: $xxxx-small;
     // box-sizing: border-box;
     
     &:focus {
@@ -46,10 +46,11 @@ button {
 }
 
 input {
-    border: 1px solid $x-dark-gray;
-    margin: $x-small;
-    margin-left: 0;
-    // width: $pill-width;
+    border: 1px solid $border-color; //Ray changed
+    height: $item-height; //Ray changed
+    // margin-right: $large; //Ray removed
+    font-size: $text-size; //Ray added
+
 }
 
 input[type="number"] {
@@ -59,7 +60,6 @@ input[type="number"] {
 
 html, #root, body {
     font-family: 'Roboto';
-    box-sizing: border-box; //Ray added
     font-size: $text-size; //Ray added
     font-weight: lighter;
 }
