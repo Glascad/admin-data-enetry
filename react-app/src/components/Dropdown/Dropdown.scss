@@ -3,9 +3,9 @@
 
 .Dropdown {
     margin: 0;
-    padding: $small;
-    background: $light-gray;
-    color: $x-dark-gray;
+    // padding: $small;
+    // background: $light-gray; //Ray removed
+    // color: $x-dark-gray; //Ray removed
     cursor: default;
     
     // &[open] {
@@ -24,15 +24,16 @@
         align-items: center;
         
         .triangle {
-            margin: $x-small;
+            // margin: $x-small;
             width: 0;
-            border-left: $small solid white;
+            border-left: $small solid $off-white;
             border-bottom: $x-small solid rgba(0, 0, 0, 0);
             border-top: $x-small solid rgba(0, 0, 0, 0);
         }
     }
 
     &.open {
+        color: red;
         .title {
             .triangle {
                 transform: rotate(90deg);
@@ -42,7 +43,7 @@
     
     summary {
         padding: 0 $small;
-        height: $item-height;
+        height: $item-height; //HELP:
         display: flex;
         align-items: center;
     }
@@ -50,20 +51,20 @@
     .content {
         display: flex;
         flex-direction: column;
-        min-height: $item-height;
+        min-height: $item-height; //HELP:
 
         > div, > a {
             margin: 0;
-            padding: $x-small $x-large;
+            padding: $text-size / 2 $large; //Ray changed
             // height: $item-height;
             display: flex;
             align-items: center;
             width: stretch;
             color: inherit;
             text-decoration: none;
-            // &:hover {
-            //     background: black;
-            // }
+            &:hover {
+                background: $menu-color;
+            }
         }
     }
 }

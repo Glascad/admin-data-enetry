@@ -24,10 +24,42 @@ $xxx-large: 2.75rem;
 $xxxx-large: 3rem;
 
 $header-height: 75px;
+$menu-height: 50px; //Ray added
 $viewport-height: calc(100vh - 75px);
 $sidebar-width: 17.5vw;
 $viewport-width: calc(100vw - 17.5vw);
 
-$item-height: 50px;
+$item-height: 40px; //Ray changed
+$pill-width: 200px; //Ray changed
 
-$pill-width: 240px;
+//Ray additions
+
+$warning-color: #D0021B;
+$selected-color: #209CEE;
+$action-color: #58BA48;
+$pill-color: #C8C8C8;
+$pill-hovered-color: #9B9B9B;
+$text-color: #666666;
+$card-color: #ECEFF1;
+$card-header-color: #4FC3F7;
+$text-color: #4A4A4A;
+$menu-color: #262F3D;
+$menu-open-color: #19212B;
+$border-color: #979797;
+$off-white: #ECEFF1;
+$current-color: #4FC3F7;
+
+$xx-small: 0.25rem;
+$x-small: 0.5rem;
+$small: 0.75rem;
+$base_size: 1rem;
+$large: 1.25rem;
+$x-large: 1.5rem;
+$xx-large: 1.75rem;
+$xxx-large: 2rem;
+$xxxx-large: 2.25rem;
+
+$text-size: $base_size * 0.875; 
+$h1-text-size: $base_size * 1.125; 
+
+//Add SCSS mixins here

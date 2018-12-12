@@ -1,4 +1,4 @@
-
+ 
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import './variables';
 
@@ -56,6 +56,8 @@ input[type="number"] {
 
 html, #root, body {
     font-family: 'Roboto Condensed';
+    box-sizing: border-box; //Ray added
+    font-size: $base-size; //Ray added
 }
 
 html {

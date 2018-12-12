@@ -23,13 +23,13 @@ import Practice from './Practice/Practice';
 
 export default [
     {
-        name: "HOME",
+        name: "Activity",
         exact: true,
         path: "/",
         component: Home,
     },
     {
-        name: "SYSTEM",
+        name: "System",
         exact: true,
         path: "/system/:systemNID",
         // component: System,
@@ -46,116 +46,121 @@ export default [
             //     component: System
             // },
             {
-                name: "SYSTEM INFO",
+                name: "System Explorer",
+                path: "/system explorer"
+                // component: 
+            },
+            {
+                name: "System Info",
                 path: "/system info"
                 // component: 
             },
             {
-                name: "GLAZING INFO",
+                name: "Glazing Info",
                 path: "/glazing info"
                 // component: 
             },
             {
-                name: "VALID TYPES",
+                name: "Valid Types",
                 path: "/valid types"
                 // component: 
             },
             {
-                name: "SYSTEM COMPATIBILITY",
+                name: "System Compatibility",
                 path: "/system compatibility"
                 // component: 
             },
             {
-                name: "SYSTEM OPTIONS",
+                name: "System Options",
                 path: "/system options"
                 // component: 
             },
             {
-                name: "INVALID COMBINATIONS",
+                name: "Invalid Combinations",
                 path: "/invalid combinations"
                 // component: 
             },
         ]
     },
     {
-        name: "SYSTEM CONFIGURATIONS",
+        name: "System Configurations",
         exact: true,
         path: "/system configurations",
         // component: SystemConfigurations,
         subroutes: [
             {
-                name: "SYSTEM TYPES",
+                name: "System Types",
                 path: "/system types",
                 component: SystemTypes
             },
             {
-                name: "SYSTEM TAGS",
+                name: "System Tags",
                 path: "/system tags",
                 component: SystemTags
             },
             {
-                name: "DETAIL TYPES",
+                name: "Detail Types",
                 path: "/detail types",
                 component: DetailTypes
             },
             {
-                name: "CONFIGURATION TYPES",
+                name: "Configuration Types",
                 path: "/configuration types",
                 component: ConfigurationTypes
             },
             {
-                name: "PART TYPES",
+                name: "Part Types",
                 path: "/part types",
                 component: PartTypes
             },
             {
-                name: "PART TAGS",
+                name: "Part Tags",
                 path: "/part tags",
                 component: PartTags
             },
         ]
     },
     {
-        name: "SETTINGS",
+        name: "Settings",
         exact: true,
         path: "/settings",
         // component: Settings,
         subroutes: [
             {
-                name: "MANUFACTURERS",
+                name: "Manufacturers",
                 path: "/manufacturers",
                 component: Manufacturers
             },
             {
-                name: "LINETYPES",
+                name: "Linetypes",
                 path: "/linetypes",
                 component: Linetypes
             },
             {
-                name: "PART ORIENTATIONS",
+                name: "Part Orientations",
                 path: "/part orientations",
                 component: PartOrientations
             },
             // {
-            //     name: "FASTENERS",
+            //     name: "Fasteners",
             //     path: "/fasteners",
             //     // component: Fasteners
             // },
             {
-                name: "INFILL SIZES",
+                name: "Infill Sizes",
                 path: "/infill sizes",
                 component: InfillSizes
             },
             {
-                name: "INFILL TYPES",
+                name: "Infill Types",
                 path: "/infill types",
                 component: InfillTypes
             },
         ]
     },
-    {
-        name: "PRACTICE",
-        path: "/practice",
-        component: Practice
-    }
+    // {
+    //     name: "PRACTICE",
+    //     path: "/practice",
+    //     component: Practice
+    // }
 ];

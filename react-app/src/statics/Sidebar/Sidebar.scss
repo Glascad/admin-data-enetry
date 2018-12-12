@@ -2,45 +2,56 @@
 @import '../../styles/variables';
 
 #Sidebar {
-    background: $light-gray;
+    background: $menu-color; //Ray changed
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
 
-    .logo {
-        height: 75%;
-        width: $header-height;
-    }
-
-    header {
-        background: $med-gray;
-        color: $x-dark-gray;
-        height: $item-height;
+    #sidebar-header {
+        background: $menu-color; //Ray changed
+        color: $off-white; //Ray changed
+        height: $header-height;
         display: flex;
         align-items: center;
-        padding: 0 $small;
+        // padding: 0 $small; //Ray removed
+        border-bottom: 1px solid $border-color;
+
+        .logo { //Ray added
+            height: 55%;
+        }
     }
     .Dropdown, .item {
-        background: $med-gray;
-        color: white;
-        border-bottom: 1px solid white;
+        background: $menu-color; //Ray changed
+        color: $off-white; //Ray changed
+        border-bottom: 1px solid $border-color;
 
         .selected {
-            font-weight: bold;
+            // font-weight: bold; //Ray removed
+            color: $current-color; //Ray added
         }
     }
     .item {
         width: 100%;
-        height: $item-height;
-        min-height: $item-height;
+        height: $menu-height;
+        // min-height: $item-height; //HELP: Why do we need?
         display: flex;
         align-items: center;
         padding: 0 $small;
         // padding-left: 27px;
-        box-sizing: border-box;
+        // box-sizing: border-box; //HELP: Need no longer?
     }
     .selected {
-        background: $dark-gray;
-        color: white;
+        // background: $dark-gray; //Ray removed
+        color: $off-white;
+        background: $menu-open-color; //Ray added
     }
+    
+    .open {
+        background: $menu-open-color; //Ray added
+    }
+    
+    .closed {
+        background: $menu-color; //Ray added
+    }
+
 }

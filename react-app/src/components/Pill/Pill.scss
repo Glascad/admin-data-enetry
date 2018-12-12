@@ -4,7 +4,7 @@
 .Pill {
     background: $light-gray;
     color: $x-dark-gray;
-    box-sizing: border-box;
+    //box-sizing: border-box; //Ray removed
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,9 +12,10 @@
 
     width: $pill-width;
     border-radius: $pill-width;
-    padding: $med;
-    margin: $small $large;
-    margin-left: 0;
+    height: $item-height;
+    //padding: $med; //Ray removed
+    margin: $large $large 0 0; //Ray changed
+    // margin-left: 0; //Ray removed
 
     &.align-left {
         justify-content: flex-start;
@@ -45,7 +46,7 @@
 
     }
     .title {
-        font-weight: bold;
+        // font-weight: bold; //Ray removed
     }
     .subtitle {
 

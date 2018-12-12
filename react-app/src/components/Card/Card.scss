@@ -3,6 +3,8 @@
 
 .Card {
     max-width: 70vw;
-    background: $x-light-gray;
-    border-top: $small solid $blue;
+    background: $card-color;
+    border-top: $small solid $current-color;
+    padding: $large; //Ray added
+    padding-bottom: 0;
 }

@@ -16,8 +16,8 @@
         display: flex;
         position: relative;
         background: $green;
-        margin: $small $large;
-        margin-left: 0;
+        margin: $large $large 0 0; //Ray changed
+        // margin-left: 0; //Ray removed
     }
 
     &.large {
@@ -25,8 +25,8 @@
         width: $pill-width;
         border-radius: $small;
         border: 2px dashed $light-gray;
-        margin: $small $large;
-        margin-left: 0;
+        margin: $large $large 0 $large; //Ray changed
+        // margin-left: 0; //Ray removed
         box-sizing: border-box;
 
         .add-button {

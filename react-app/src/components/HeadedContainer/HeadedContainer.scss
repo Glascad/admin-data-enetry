@@ -2,22 +2,24 @@
 @import '../../styles/variables';
 
 .HeadedContainer {
-    margin: $large $small $x-large;
+    // margin: $large $small $x-large; //Ray removed
         
     header {
-        margin: $small;
+        // margin: $small; //Ray removed
         display: flex;
         justify-content: space-between;
         padding-bottom: $x-small;
-        border-bottom: 1px solid $x-dark-gray;
+        border-bottom: 1px solid $border-color;
 
         .title {
             font-weight: bold;
+            font-size: $h1-text-size;
         }
     }
 
     .content {
-        margin: $small;
+        // margin: $small; //Ray removed
+        margin-bottom: $xxxx-large;
     }
 
     // &.nested {
