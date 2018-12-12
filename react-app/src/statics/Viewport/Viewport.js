@@ -119,7 +119,7 @@ function Viewport() {
                         component={InfillTypes}
                     />
                     <Route
-                        path="/settings/practice"
+                        path="/practice"
                         component={Practice}
                     />
                 </Switch>

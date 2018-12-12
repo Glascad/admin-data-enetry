@@ -6,9 +6,9 @@ import LineWeights from './LineWeights/LineWeights';
 
 export default function LinetypesView() {
     return (
-        <div>
+        <>
             <Linetypes />
             <LineWeights />
-        </div>
+        </>
     )
 }

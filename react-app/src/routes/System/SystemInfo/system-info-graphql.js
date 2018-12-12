@@ -8,8 +8,6 @@ export const query = gql`query SystemInfo($nodeId:ID!){
         depth
         defaultSightline
         shimSize
-        defaultGlassSize
-        defaultGlassBite
         manufacturerByManufacturerId{
             nodeId
             id
@@ -26,7 +24,7 @@ export const query = gql`query SystemInfo($nodeId:ID!){
                 systemTagBySystemTagId{
                     nodeId
                     id
-                    type
+                    tag
                 }
             }
         }
@@ -42,7 +40,7 @@ export const query = gql`query SystemInfo($nodeId:ID!){
         nodes{
             nodeId
             id
-            type
+            tag
         }
     }
 }`;
@@ -54,7 +52,6 @@ export const update = {
         $depth:Float,
         $defaultSightline:Float,
         $shimSize:Float,
-        $defaultGlassBite:Float,
         $systemTypeId:Int
     ){
         updateSystem(input:{
@@ -64,7 +61,6 @@ export const update = {
                 depth:$depth,
                 defaultSightline:$defaultSightline,
                 shimSize:$shimSize,
-                defaultGlassBite:$defaultGlassBite,
                 systemTypeId:$systemTypeId
             }
         }){
@@ -75,8 +71,6 @@ export const update = {
                 depth
                 defaultSightline
                 shimSize
-                defaultGlassSize
-                defaultGlassBite
                 manufacturerByManufacturerId{
                     nodeId
                     id
@@ -93,7 +87,7 @@ export const update = {
                         systemTagBySystemTagId{
                             nodeId
                             id
-                            type
+                            tag
                         }
                     }
                 }

@@ -14,11 +14,11 @@ export default function SystemTags() {
                 } = {},
             }) => nodes}
             canSelect={false}
-            mapPillProps={({ type }) => ({
-                title: type,
+            mapPillProps={({ tag }) => ({
+                title: tag,
             })}
             mapCreateVariables={({ }, { input }) => ({
-                type: input,
+                tag: input,
             })}
             extractCreatedNID={({
                 createSystemTag: {
@@ -28,9 +28,9 @@ export default function SystemTags() {
                 }
             }) => nodeId}
             mapUpdateVariables={({ input }) => ({
-                type: input,
+                tag: input,
             })}
-            extractName={({ type }) => type}
+            extractName={({ tag }) => tag}
         />
     );
 }

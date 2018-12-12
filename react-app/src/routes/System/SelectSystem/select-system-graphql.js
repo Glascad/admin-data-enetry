@@ -29,7 +29,7 @@ export const query = gql`{
                     systemTagBySystemTagId{
                         nodeId
                         id
-                        type
+                        tag
                     }
                 }
             }
@@ -89,7 +89,7 @@ export const create = {
                         systemTagBySystemTagId{
                             nodeId
                             id
-                            type
+                            tag
                         }
                     }
                 }

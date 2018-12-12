@@ -1,18 +1,11 @@
 import React from 'react';
 
-// import {
-//     ApolloWrapper,
-//     HeadedContainer,
-//     Input,
-// } from '../../../components';
-
-import { ApolloBatchedWrapper } from '../../../components';
+// import { ApolloBatchedWrapper } from '../../../components';
+import ApolloBatchedWrapper from '../../../components/ApolloBatchedWrapper/Old';
 
 import * as apolloProps from './system-info-graphql';
 
 import * as systemTagApolloProps from './system-tags-graphql';
-
-// import SystemTags from './SystemTags';
 
 export default function SystemInfo({ match: { params: { systemNID } } }) {
     return (
@@ -22,7 +15,6 @@ export default function SystemInfo({ match: { params: { systemNID } } }) {
                 queryVariables: { nodeId: systemNID }
             }}
             title="System Info"
-            nodeId={systemNID}
             mapUpdateVariables={({
                 "Name": name,
                 "System Type": {
@@ -81,40 +73,31 @@ export default function SystemInfo({ match: { params: { systemNID } } }) {
                         }),
                         mapDeleteVariables: ({ systemSystemTagNID, ...arg }) => ({
                             nodeId: systemSystemTagNID,
-                            n: console.log("ARGGGGGGGGGGGGGGGG\n\n\n\n\n\n\n\n\nARGGGGGGGGG", arg),
                         }),
-                        list: {
-                            extractItems: ({
-                                system: {
-                                    systemSystemTagsBySystemId: {
-                                        nodes = []
-                                    } = {}
-                                } = {}
-                            }) => nodes.map(({
-                                nodeId: systemSystemTagNID,
-                                systemTagBySystemTagId: systemTag,
-                            }) => ({
-                                systemSystemTagNID,
-                                ...systemTag,
-                            })),
-                            mapPillProps: ({ type }) => ({
-                                title: type,
-                            }),
-                        },
-                        multiSelect: {
-                            extractAllItems: ({
-                                allSystemTags: {
+                        extractItems: ({
+                            system: {
+                                systemSystemTagsBySystemId: {
                                     nodes = []
                                 } = {}
-                            }) => nodes,
-                            mapPillProps: ({ type }) => ({
-                                title: type,
-                                // systemSystemTagNID,
-                                // nodeId,
-                                // id,
-                                // type,
-                            }),
-                        },
+                            } = {}
+                        }) => nodes.map(({
+                            nodeId: systemSystemTagNID,
+                            systemTagBySystemTagId: systemTag,
+                        }) => ({
+                            systemSystemTagNID,
+                            ...systemTag,
+                        })),
+                        extractAllItems: ({
+                            allSystemTags: {
+                                nodes = []
+                            } = {}
+                        }) => nodes,
+                        mapListPillProps: ({ tag }) => ({
+                            title: tag,
+                        }),
+                        mapModalPillProps: ({ tag }) => ({
+                            title: tag,
+                        }),
                     }
                 },
                 {
@@ -148,100 +131,3 @@ export default function SystemInfo({ match: { params: { systemNID } } }) {
         />
     );
 }
-
-// class SystemInfo extends Component {
-
-//     state = {};
-
-//     componentDidUpdate = () => {
-
-//     }
-
-//     render = () => {
-//         console.log(this);
-//         const {
-//             state: {
-
-//             },
-//             props: {
-//                 apollo,
-//                 apollo: {
-//                     queryStatus: {
-//                         data: {
-//                             system,
-//                             system: {
-//                                 nodeId,
-//                                 id,
-//                                 name = "",
-//                                 depth = 0,
-//                                 defaultSightline,
-//                                 shimSize,
-//                                 systemTypeBySystemTypeId: systemType = {},
-//                                 systemTagsBySystemId: systemTags = [],
-//                             } = {},
-//                         } = {}
-//                     }
-//                 },
-//             }
-//         } = this;
-
-//         console.log(apollo);
-//         console.log({
-//             system,
-//             systemType,
-//             systemTags,
-//         });
-
-//         return (
-//             <HeadedContainer
-//                 title="System Info"
-//             >
-//                 <Input
-//                     label="Name"
-//                     value={name}
-//                     onChange={() => { }}
-//                 />
-//                 <Input
-//                     label="System Type"
-//                     value={systemType.type}
-//                     onChange={() => { }}
-//                 />
-//                 <SystemTags
-//                     systemTags={systemTags}
-//                 />
-//                 <div style={{ display: 'flex' }}>
-//                     <Input
-//                         label="System Depth"
-//                         value={depth}
-//                         onChange={() => { }}
-//                     />
-//                     <Input
-//                         label="System Sightline"
-//                         value={defaultSightline}
-//                         onChange={() => { }}
-//                     />
-//                 </div>
-//                 <Input
-//                     label="Caulk Joint Size"
-//                     value={shimSize}
-//                     onChange={() => { }}
-//                 />
-//             </HeadedContainer>
-//         );
-//     }
-// }
-
-// export default ({ match: { params: { systemNID } } }) => (
-//     <ApolloWrapper
-//         {...apolloProps}
-//         queryVariables={{
-//             systemNID
-//         }}
-//     >
-//         {apollo => (
-//             <SystemInfo
-//                 apollo={apollo}
-//             />
-//         )}
-//     </ApolloWrapper>
-// )

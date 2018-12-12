@@ -1,0 +1,74 @@
+import gql from 'graphql-tag';
+
+export const query = gql`query SystemInfo($nodeId:ID!){
+    system(nodeId:$nodeId){
+        nodeId
+        id
+        name
+        defaultGlassSize
+        defaultGlassBite
+        manufacturerByManufacturerId{
+            nodeId
+            id
+            name
+        }
+        systemInfillSizesBySystemId{
+            nodes{
+                nodeId
+                infillSize
+                infillSizeByInfillSize{
+                    nodeId
+                    size
+                }
+            }
+        }
+        systemInfillPocketTypesBySystemId{
+            nodes{
+                infillPocketTypeByInfillPocketTypeId{
+                    nodeId
+                    id
+                    type
+                    captured
+                    description
+                }
+            }
+        }
+    }
+    allInfillSizes{
+        nodes{
+            nodeId
+            size
+        }
+    }
+}`;
+
+export const update = {
+    mutation: gql`mutation UpdateSystem(
+        $nodeId:ID!,
+        $name:String,
+        $defaultGlassBite:Float,
+        $systemTypeId:Int
+    ){
+        updateSystem(input:{
+            nodeId:$nodeId,
+            systemPatch:{
+                name:$name,
+                defaultGlassBite:$defaultGlassBite,
+                systemTypeId:$systemTypeId
+            }
+        }){
+            system{
+                nodeId
+                id
+                name
+                defaultGlassSize
+                defaultGlassBite
+                manufacturerByManufacturerId{
+                    nodeId
+                    id
+                    name
+                }
+            }
+        }
+    }`,
+}

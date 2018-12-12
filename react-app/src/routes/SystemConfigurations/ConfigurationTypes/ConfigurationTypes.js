@@ -43,7 +43,7 @@ export default function ConfigurationTypes() {
                 },
                 selectedItem,
             }) => (
-                    <div>
+                    <>
                         <ConfigurationTypeInfo
                             configurationType={selectedItem}
                             updateConfigurationType={updateItem}
@@ -58,7 +58,7 @@ export default function ConfigurationTypes() {
                                 configurationType={selectedItem}
                             />
                         ) : null}
-                    </div>
+                    </>
                 )}
         </ApolloListWrapper>
     );

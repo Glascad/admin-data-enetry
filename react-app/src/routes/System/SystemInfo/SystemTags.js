@@ -14,11 +14,11 @@ export default function SystemTags({
             items={systemTags}
             renderItem={({
                 nodeId,
-                type,
+                tag,
             }) => (
                     <Pill
                         key={nodeId}
-                        title={type}
+                        title={tag}
                     />
                 )}
             addButtom={{
