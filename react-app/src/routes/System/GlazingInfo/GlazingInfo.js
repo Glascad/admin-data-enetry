@@ -66,11 +66,11 @@ export default function GlazingInfo({ match: { params: { systemNID } } }) {
                             }) => nodes,
                             mapListPillProps: ({ size, ...obj }) => ({
                                 title: size,
-                                n: console.log(obj)
+                                // n: console.log(obj)
                             }),
                             mapModalPillProps: ({ size, ...obj }) => ({
                                 title: size,
-                                n: console.log(obj)
+                                // n: console.log(obj)
                             }),
                         }}
                         extractValue={({

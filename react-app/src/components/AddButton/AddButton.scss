@@ -27,7 +27,7 @@
         border: 2px dashed $light-gray;
         margin: $large $large 0 $large; //Ray changed
         // margin-left: 0; //Ray removed
-        box-sizing: border-box;
+        // box-sizing: border-box;
 
         .add-button {
             height: $pill-width * 3 / 4;

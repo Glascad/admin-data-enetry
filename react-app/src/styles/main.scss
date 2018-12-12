@@ -7,7 +7,7 @@ button, input {
     outline: none;
     padding: $xx-small $small;
     border-radius: $xxx-small;
-    box-sizing: border-box;
+    // box-sizing: border-box;
     
     &:focus {
         box-shadow: 0 0 3px 0.5px $blue;
@@ -56,7 +56,7 @@ input[type="number"] {
 
 html, #root, body {
     font-family: 'Roboto Condensed';
-    box-sizing: border-box; //Ray added
+    // box-sizing: border-box; //Ray added
     font-size: $base-size; //Ray added
 }
 

@@ -236,113 +236,109 @@ class BatchedWrapper extends Component {
                 title={title}
                 className="ApolloBatchedWrapper"
             >
-                {
-                    // inputs.map
-                    (({
-                        label,
-                        type,
-                        extractValue,
-                        extractOptions,
-                        multiSelectList,
-                        multiSelectList: {
-                            apolloProps,
-                            mapCreateVariables,
-                            mapDeleteVariables,
-                            extractItems,
-                            extractAllItems,
-                            mapModalProps = () => ({}),
-                            mapListPillProps,
-                            mapModalPillProps,
-                            ...multiSelect
-                        } = {},
-                        ...input
-                    }) => (!multiSelectList ?
-                        <Input
-                            key={label}
-                            label={label}
-                            type={type}
-                            value={state[label]}
-                            onChange={type === "checkbox" ?
-                                handleCheckChange(label)
-                                :
-                                handleChange(label)}
-                            select={type === "select" ? {
-                                value: state[label],
-                                options: extractOptions(queryData),
-                                onChange: handleSelectChange(label),
-                            } : undefined}
-                            {...input}
-                        />
-                        :
-                        <ApolloWrapper
-                            {...apolloProps}
-                        >
-                            {({
-                                createItem,
-                                deleteItem,
-                            }) => (
-                                    <SelectionWrapper
-                                        key={label}
-                                    >
-                                        {({
-                                            selectedNID,
-                                            creating,
-                                            deleting,
-                                            handleCreateClick,
-                                            handleDeleteClick,
-                                            cancel,
-                                        }) => (
-                                                // See React.Fragment documentation
-                                                <>
-                                                    <ListContainer
-                                                        title={label}
-                                                        items={state[label]}
-                                                        renderItem={item => (
-                                                            <Pill
-                                                                key={item.nodeId}
-                                                                arguments={{
-                                                                    nodeId: item.nodeId,
-                                                                }}
-                                                                onDelete={handleDeleteClick}
-                                                                {...mapListPillProps(item)}
-                                                            />
-                                                        )}
-                                                        addButton={{
-                                                            onAdd: handleCreateClick
-                                                        }}
-                                                    />
-                                                    <MultiSelect
-                                                        modalProps={{
-                                                            display: creating || deleting,
-                                                            onCancel: cancel,
-                                                            onFinish: handleModalFinish({
-                                                                queryData,
-                                                                mapCreateVariables,
-                                                                mapDeleteVariables,
-                                                                createItem,
-                                                                deleteItem,
-                                                                label,
-                                                                cancel,
-                                                            }),
-                                                            ...mapModalProps({
-                                                                selectedNID,
-                                                                creating,
-                                                                deleting,
-                                                            }),
-                                                        }}
-                                                        previousItems={state[label]}
-                                                        allItems={extractAllItems(queryData)}
-                                                        mapPillProps={mapModalPillProps}
-                                                        {...multiSelect}
-                                                    />
-                                                </>
-                                            )}
-                                    </SelectionWrapper>
-                                )}
-                        </ApolloWrapper>
-                        )
-                    )
-                }
+                {inputs.map(({
+                    label,
+                    type,
+                    extractValue,
+                    extractOptions,
+                    multiSelectList,
+                    multiSelectList: {
+                        apolloProps,
+                        mapCreateVariables,
+                        mapDeleteVariables,
+                        extractItems,
+                        extractAllItems,
+                        mapModalProps = () => ({}),
+                        mapListPillProps,
+                        mapModalPillProps,
+                        ...multiSelect
+                    } = {},
+                    ...input
+                }) => (!multiSelectList ?
+                    <Input
+                        key={label}
+                        label={label}
+                        type={type}
+                        value={state[label]}
+                        onChange={type === "checkbox" ?
+                            handleCheckChange(label)
+                            :
+                            handleChange(label)}
+                        select={type === "select" ? {
+                            value: state[label],
+                            options: extractOptions(queryData),
+                            onChange: handleSelectChange(label),
+                        } : undefined}
+                        {...input}
+                    />
+                    :
+                    <ApolloWrapper
+                        {...apolloProps}
+                    >
+                        {({
+                            createItem,
+                            deleteItem,
+                        }) => (
+                                <SelectionWrapper
+                                    key={label}
+                                >
+                                    {({
+                                        selectedNID,
+                                        creating,
+                                        deleting,
+                                        handleCreateClick,
+                                        handleDeleteClick,
+                                        cancel,
+                                    }) => (
+                                            // See React.Fragment documentation
+                                            <>
+                                                <ListContainer
+                                                    title={label}
+                                                    items={state[label]}
+                                                    renderItem={item => (
+                                                        <Pill
+                                                            key={item.nodeId}
+                                                            arguments={{
+                                                                nodeId: item.nodeId,
+                                                            }}
+                                                            onDelete={handleDeleteClick}
+                                                            {...mapListPillProps(item)}
+                                                        />
+                                                    )}
+                                                    addButton={{
+                                                        onAdd: handleCreateClick
+                                                    }}
+                                                />
+                                                <MultiSelect
+                                                    modalProps={{
+                                                        display: creating || deleting,
+                                                        onCancel: cancel,
+                                                        onFinish: handleModalFinish({
+                                                            queryData,
+                                                            mapCreateVariables,
+                                                            mapDeleteVariables,
+                                                            createItem,
+                                                            deleteItem,
+                                                            label,
+                                                            cancel,
+                                                        }),
+                                                        ...mapModalProps({
+                                                            selectedNID,
+                                                            creating,
+                                                            deleting,
+                                                        }),
+                                                    }}
+                                                    previousItems={state[label]}
+                                                    allItems={extractAllItems(queryData)}
+                                                    mapPillProps={mapModalPillProps}
+                                                    {...multiSelect}
+                                                />
+                                            </>
+                                        )}
+                                </SelectionWrapper>
+                            )}
+                    </ApolloWrapper>
+                    ))}
                 <div
                     className="button-wrapper"
                 >
