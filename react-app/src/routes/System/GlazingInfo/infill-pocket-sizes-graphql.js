@@ -2,22 +2,22 @@ import gql from 'graphql-tag';
 import { query } from './glazing-info-graphql';
 
 export const create = {
-    mutation: gql`mutation CreateSystemInfillSize(
+    mutation: gql`mutation CreateSystemInfillPocketSize(
         $systemId:Int!,
-        $infillSize:Float!
+        $infillPocketSize:Int!
     ){
-        createSystemInfillSize(
+        createSystemInfillPocketSize(
             input:{
-                systemInfillSize:{
+                systemInfillPocketSize:{
                     systemId:$systemId,
-                    infillSize:$infillSize
+                    infillPocketSize:$infillPocketSize
                 }
             }
         ){
-            systemInfillSize{
+            systemInfillPocketSize{
                 nodeId
-                infillSize
-                infillSizeByInfillSize{
+                infillPocketSize
+                infillPocketSizeByInfillPocketSize{
                     nodeId
                     size
                 }
@@ -29,8 +29,8 @@ export const create = {
     }`,
     refetchQueries: ({
         data: {
-            createSystemInfillSize: {
-                systemInfillSize: {
+            createSystemInfillPocketSize: {
+                systemInfillPocketSize: {
                     systemBySystemId: {
                         nodeId
                     }
@@ -41,18 +41,18 @@ export const create = {
 };
 
 export const _delete = {
-    mutation: gql`mutation DeleteSystemInfillSize(
+    mutation: gql`mutation DeleteSystemInfillPocketSize(
         $nodeId:ID!
     ){
-        deleteSystemInfillSize(
+        deleteSystemInfillPocketSize(
             input:{
                 nodeId:$nodeId
             }
         ){
-            systemInfillSize{
+            systemInfillPocketSize{
                 nodeId
-                infillSize
-                infillSizeByInfillSize{
+                infillPocketSize
+                infillPocketSizeByInfillPocketSize{
                     nodeId
                     size
                 }
@@ -64,8 +64,8 @@ export const _delete = {
     }`,
     refetchQueries: ({
         data: {
-            deleteSystemInfillSize: {
-                systemInfillSize: {
+            deleteSystemInfillPocketSize: {
+                systemInfillPocketSize: {
                     systemBySystemId: {
                         nodeId
                     }
@@ -74,3 +74,4 @@ export const _delete = {
         }
     }) => [{ query, variables: { nodeId } }]
 };
+
