@@ -24,10 +24,10 @@
         height: $pill-width;
         width: $pill-width;
         border-radius: $small;
-        border: 2px dashed $light-gray;
-        margin: $large $large 0 $large; //Ray changed
+        border: 2px dashed $pill-color;
+        margin: $large $large 0 0; //Ray changed
         // margin-left: 0; //Ray removed
-        box-sizing: border-box;
+        // box-sizing: border-box; //Ray removed
 
         .add-button {
             height: $pill-width * 3 / 4;

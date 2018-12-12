@@ -2,14 +2,13 @@
 @import '../../styles/variables';
 
 .Pill {
-    background: $light-gray;
-    color: $x-dark-gray;
-    //box-sizing: border-box; //Ray removed
+    background: $pill-color;
+    color: $text-color;
+    box-sizing: border-box; //Ray removed
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-
     width: $pill-width;
     border-radius: $pill-width;
     height: $item-height;
