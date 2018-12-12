@@ -2,7 +2,7 @@
 @import '../../styles/variables';
 
 .HeadedContainer {
-    // margin: $large $small $x-large; //Ray removed
+    margin-left: $large; //Ray changed
         
     header {
         // margin: $small; //Ray removed
@@ -13,7 +13,7 @@
 
         .title {
             // font-weight: bold;
-            font-size: $h1-text-size;
+            font-size: $large;
         }
     }
 
