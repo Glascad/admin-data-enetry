@@ -24,22 +24,27 @@ const removeDuplicateNIDs = list => list.filter((item, i) => i === list.findInde
 
 export default class InputComponent extends Component {
 
-    getInitialState = ({
-        label,
+    getOriginalState = ({
         multiSelectList,
         multiSelectList: {
             extractItems,
         } = {},
         extractValue,
         queryData,
-    }) => ({
-        [label]: multiSelectList ?
-            extractItems(queryData)
-            :
-            extractValue(queryData)
-    });
+    } = this.props) => console.log("GOT ORIGINAL STATE: ", this.props.label) || (multiSelectList ?
+        console.log("extractItems") ||
+        extractItems(queryData)
+        :
+        console.log("extractValue") ||
+        extractValue(queryData)
+    );
 
-    state = this.getInitialState(this.props);
+    // updateState = (value, cb) => this.props.updateState(this.props.label)(value, cb);
+
+    // componentDidMount = () => this.updateState(this.getOriginalState());
+    componentDidMount = () => console.log("COMPONENT MOUNTED: ", this.props.label) || this.props.updateState({
+        [this.props.label]: this.getOriginalState()
+    });
 
     componentDidUpdate = ({
         label,
@@ -50,12 +55,17 @@ export default class InputComponent extends Component {
         extractValue,
         queryData,
     }) => {
-        const getValue = multiSelectList ? extractItems : extractValue;
+        const getValue = multiSelectList ?
+            extractItems
+            :
+            extractValue;
         const oldValue = getValue(queryData);
         const newValue = getValue(this.props.queryData);
         if (!shallowEquals(oldValue, newValue)) {
-            this.setState({
-                [label]: newValue
+            console.log(`UPDATING ${label} STATE TO`);
+            console.log(newValue);
+            this.props.updateState({
+                [this.props.label]: newValue
             });
         } else {
             console.log(`Key: "${label}" remained the same`);
@@ -67,7 +77,7 @@ export default class InputComponent extends Component {
         }
     }
 
-    handleChange = ({ target: { value, checked } = {}, ...selectValue }) => this.setState({
+    handleChange = ({ target: { value, checked } = {}, ...selectValue }) => this.props.updateState({
         [this.props.label]: this.props.type === "checkbox" ?
             checked
             :
@@ -91,7 +101,7 @@ export default class InputComponent extends Component {
         }
     }) => {
             console.log(label);
-            const oldList = this.state[label];
+            const oldList = this.state;
             const newList = oldList
                 .concat(addedItems)
                 .filter(({ nodeId }) => !deletedItems.some(deletedItem => deletedItem.nodeId === nodeId));
@@ -121,15 +131,19 @@ export default class InputComponent extends Component {
                     });
                 });
             }
-            this.setState({
-                [label]: removeDuplicateNIDs(newList)
+            this.props.updateState({
+                [this.props.label]: removeDuplicateNIDs(newList)
             }, cancel);
         }
 
     render = () => {
         const {
-            state,
             props: {
+                state,
+                state: {
+                    [this.props.label]: currentValue = this.getOriginalState(),
+                },
+                updateState,
                 label,
                 type,
                 extractValue,
@@ -153,15 +167,22 @@ export default class InputComponent extends Component {
             handleModalFinish,
         } = this;
 
+        console.log({
+            label,
+            state,
+            queryData,
+            currentValue,
+        });
+
         return (!multiSelectList ?
             <Input
                 key={label}
                 label={label}
                 type={type}
-                value={state[label]}
+                value={currentValue}
                 onChange={handleChange}
                 select={type === "select" ? {
-                    value: state[label],
+                    value: state,
                     options: extractOptions(queryData),
                     onChange: handleChange,
                 } : undefined}
@@ -190,7 +211,7 @@ export default class InputComponent extends Component {
                                     <>
                                         <ListContainer
                                             title={label}
-                                            items={state[label]}
+                                            items={currentValue}
                                             renderItem={item => (
                                                 <Pill
                                                     key={item.nodeId}
@@ -207,6 +228,7 @@ export default class InputComponent extends Component {
                                         />
                                         <MultiSelect
                                             modalProps={{
+                                                title: label,
                                                 display: creating || deleting,
                                                 onCancel: cancel,
                                                 onFinish: handleModalFinish({
@@ -224,7 +246,7 @@ export default class InputComponent extends Component {
                                                     deleting,
                                                 }),
                                             }}
-                                            previousItems={state[label]}
+                                            previousItems={currentValue}
                                             allItems={extractAllItems(queryData)}
                                             mapPillProps={mapModalPillProps}
                                             {...multiSelect}

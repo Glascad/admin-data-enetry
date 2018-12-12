@@ -24,6 +24,7 @@ export const query = gql`query SystemInfo($nodeId:ID!){
         }
         systemInfillPocketTypesBySystemId{
             nodes{
+                nodeId
                 infillPocketTypeByInfillPocketTypeId{
                     nodeId
                     id
@@ -33,8 +34,30 @@ export const query = gql`query SystemInfo($nodeId:ID!){
                 }
             }
         }
+        systemInfillPocketSizesBySystemId{
+            nodes{
+                nodeId
+                infillPocketSizeByInfillPocketSize{
+                    nodeId
+                    size
+                }
+            }
+        }
     }
     allInfillSizes{
+        nodes{
+            nodeId
+            size
+        }
+    }
+    allInfillPocketTypes{
+        nodes{
+            nodeId
+            id
+            type
+        }
+    }
+    allInfillPocketSizes{
         nodes{
             nodeId
             size
@@ -46,6 +69,7 @@ export const update = {
     mutation: gql`mutation UpdateSystem(
         $nodeId:ID!,
         $name:String,
+        $defaultGlassSize:Float,
         $defaultGlassBite:Float,
         $systemTypeId:Int
     ){
@@ -53,6 +77,7 @@ export const update = {
             nodeId:$nodeId,
             systemPatch:{
                 name:$name,
+                defaultGlassSize:$defaultGlassSize,
                 defaultGlassBite:$defaultGlassBite,
                 systemTypeId:$systemTypeId
             }

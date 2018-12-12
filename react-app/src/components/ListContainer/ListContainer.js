@@ -41,7 +41,7 @@ export default function ListContainer({
                 >
                     {label}
                 </span>
-            ):null}
+            ) : null}
             <ul>
                 {items.slice()
                     .sort(sort)
