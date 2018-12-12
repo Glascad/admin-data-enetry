@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { CRUDListWrapper } from '../../../../components';
+import { ApolloListWrapper } from '../../../../components';
 
-import * as CRUDProps from './overrides-graphql';
+import * as apolloProps from './overrides-graphql';
 
 export default function Overrides({
     configurationType: {
@@ -17,8 +17,8 @@ export default function Overrides({
     console.log(arguments);
 
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Configuration Name Override"
             parentItem={type}
             extractList={() => configurationNameOverrides}
@@ -52,6 +52,6 @@ export default function Overrides({
 
                 </div>
             )}
-        </CRUDListWrapper>
+        </ApolloListWrapper>
     );
 }

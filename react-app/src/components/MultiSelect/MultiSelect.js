@@ -56,21 +56,23 @@ export default class MultiSelect extends Component {
             handleDeleteClick,
         } = this;
 
-        const selectedItems = removeDuplicateNIDs(previousItems
-            .concat(addedItems));
+        const selectedItems = removeDuplicateNIDs(previousItems.concat(addedItems));
 
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
 
-        console.log(this);
-        console.log({
-            selectedItems,
-            nonSelectedItems,
-        });
+        // console.log(this);
+        // console.log({
+        //     selectedItems,
+        //     nonSelectedItems,
+        // });
 
         return (
             <Modal
-                arguments={state}
+                arguments={{
+                    ...state,
+                    previousItems,
+                }}
                 {...modalProps}
             >
                 <ListContainer

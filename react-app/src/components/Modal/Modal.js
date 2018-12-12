@@ -68,9 +68,7 @@ export default class Modal extends Component {
         } = this;
         return (
             <div
-                className={`modal-background ${
-                    display ? '' : 'hidden'
-                    }`}
+                className={`modal-background ${display ? '' : 'hidden'}`}
                 onClick={onCancel}
             >
                 <div

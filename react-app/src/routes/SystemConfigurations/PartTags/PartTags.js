@@ -1,12 +1,12 @@
 import React from 'react';
-import { CRUDListWrapper } from '../../../components';
+import { ApolloListWrapper } from '../../../components';
 
-import * as CRUDProps from './part-tags-graphql';
+import * as apolloProps from './part-tags-graphql';
 
 export default function PartTags() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Part Tag"
             extractList={({
                 allPartTags: {

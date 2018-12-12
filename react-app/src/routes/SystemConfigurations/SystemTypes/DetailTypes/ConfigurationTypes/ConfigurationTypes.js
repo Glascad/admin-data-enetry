@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { CRUDListWrapper } from '../../../../../components';
+import { ApolloListWrapper } from '../../../../../components';
 
-import * as CRUDProps from './configuration-types-graphql';
+import * as apolloProps from './configuration-types-graphql';
 
 import ConfigurationTypeInfo from './ConfigurationTypeInfo/ConfigurationTypeInfo';
 
@@ -37,8 +37,8 @@ export default function ConfigurationTypes({
     console.log(arguments);
 
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Configuration Type"
             parentItems={[systemTypeName, detailTypeName]}
             extractList={() => previousItems}
@@ -72,6 +72,6 @@ export default function ConfigurationTypes({
                     configurationType={selectedItem}
                 />
             )}
-        </CRUDListWrapper>
+        </ApolloListWrapper>
     );
 }

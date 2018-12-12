@@ -65,7 +65,7 @@ export default class Pill extends Component {
 
     handleEditClick = e => {
         e.stopPropagation();
-        if (this.props.onEdit && this.props.selected || !this.props.onSelect) {
+        if (this.props.onEdit && (this.props.selected || !this.props.onSelect)) {
             this.beginEdit(e);
         } else {
             this.handleClick(e);
@@ -110,6 +110,7 @@ export default class Pill extends Component {
     }
 
     handleClick = e => {
+        e.preventDefault();
         e.stopPropagation();
         if (this.props.onSelect)
             this.props.onSelect(this.props);

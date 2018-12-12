@@ -1,14 +1,14 @@
 import React from 'react';
-import { CRUDListWrapper } from '../../../components';
+import { ApolloListWrapper } from '../../../components';
 
-import * as CRUDProps from './detail-types-graphql';
+import * as apolloProps from './detail-types-graphql';
 
 import DetailTypeInfo from './DetailTypeInfo';
 
 export default function DetailTypes() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="Detail Type"
             extractList={({
                 allDetailTypes: {
@@ -36,7 +36,7 @@ export default function DetailTypes() {
             extractName={({ type }) => type}
         >
             {({
-                CRUD: {
+                apollo: {
                     updateItem,
                 },
                 selectedItem,
@@ -46,38 +46,6 @@ export default function DetailTypes() {
                         updateDetailType={updateItem}
                     />
                 )}
-        </CRUDListWrapper>
+        </ApolloListWrapper>
     );
 }
-
-// export default CRUDList(CRUDOptions, {
-//     itemClass: "Detail Type",
-//     extractList: ({
-//         data: {
-//             allDetailTypes: {
-//                 nodes = [],
-//             } = {},
-//         } = {},
-//     }) => nodes,
-//     mapPillProps: ({
-//         nodeId,
-//         type,
-//     }) => ({
-//         nodeId,
-//         key: nodeId,
-//         title: type,
-//         arguments: {
-//             nodeId,
-//         },
-//     }),
-//     mapCreateVariables: ({ }, { input }) => ({
-//         type: input,
-//         vertical: false,
-//         entrance: false,
-//     }),
-//     mapUpdateVariables: ({ arguments: { nodeId } }, { input }) => ({
-//         nodeId,
-//         type: input,
-//     }),
-//     extractName: ({ type }) => type,
-// });

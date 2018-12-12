@@ -1,0 +1,97 @@
+import gql from 'graphql-tag';
+
+export const query = gql`query SystemInfo($nodeId:ID!){
+    system(nodeId:$nodeId){
+        nodeId
+        id
+        name
+        depth
+        defaultSightline
+        shimSize
+        manufacturerByManufacturerId{
+            nodeId
+            id
+            name
+        }
+        systemTypeBySystemTypeId{
+            nodeId
+            id
+            type
+        }
+        systemSystemTagsBySystemId{
+            nodes{
+                nodeId
+                systemTagBySystemTagId{
+                    nodeId
+                    id
+                    tag
+                }
+            }
+        }
+    }
+    allSystemTypes{
+        nodes{
+            nodeId
+            id
+            type
+        }
+    }
+    allSystemTags{
+        nodes{
+            nodeId
+            id
+            tag
+        }
+    }
+}`;
+
+export const update = {
+    mutation: gql`mutation UpdateSystem(
+        $nodeId:ID!,
+        $name:String,
+        $depth:Float,
+        $defaultSightline:Float,
+        $shimSize:Float,
+        $systemTypeId:Int
+    ){
+        updateSystem(input:{
+            nodeId:$nodeId,
+            systemPatch:{
+                name:$name,
+                depth:$depth,
+                defaultSightline:$defaultSightline,
+                shimSize:$shimSize,
+                systemTypeId:$systemTypeId
+            }
+        }){
+            system{
+                nodeId
+                id
+                name
+                depth
+                defaultSightline
+                shimSize
+                manufacturerByManufacturerId{
+                    nodeId
+                    id
+                    name
+                }
+                systemTypeBySystemTypeId{
+                    nodeId
+                    id
+                    type
+                }
+                systemSystemTagsBySystemId{
+                    nodes{
+                        nodeId
+                        systemTagBySystemTagId{
+                            nodeId
+                            id
+                            tag
+                        }
+                    }
+                }
+            }
+        }
+    }`,
+}

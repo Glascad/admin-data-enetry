@@ -105,7 +105,7 @@ export default function PartTypes() {
                     } = {},
                 } = {}
             }) => (
-                    <div>
+                    <>
                         <HeadedListContainer
                             title="Part Types"
                             list={{
@@ -205,19 +205,19 @@ export default function PartTypes() {
                                     onCancel={cancelModal}
                                     onReset={cancelModal}
                                     children={(
-                                        <div>
+                                        <>
                                             <h6>Name</h6>
                                             <input
                                                 value={input}
                                                 onChange={handleInput}
                                             />
-                                        </div>
+                                        </>
                                     )}
                                     non={console.log({ mutation, update, ...props })}
                                     {...props}
                                 />
                             ))}
-                    </div>
+                    </>
                 )}
         />
     );

@@ -12,7 +12,7 @@ export default class Dropdown extends Component {
     };
 
     state = {
-        open: false
+        open: this.props.open || false
     };
 
     open = () => this.setState({
@@ -24,11 +24,11 @@ export default class Dropdown extends Component {
     });
 
     componentDidUpdate = ({ open }) => {
-        if (!open && this.props.open) this.open();
-        if (open && !this.props.open) this.close();
+        if (!open && this.props.open === true) this.open();
+        if (open && this.props.open === false) this.close();
     }
 
-    handleClick = () => {
+    handleClick = e => {
         if (this.state.open) this.close();
         else this.open();
     }
@@ -65,11 +65,9 @@ export default class Dropdown extends Component {
                     <div className="triangle" />
                     {title}
                 </div>
-                {open && children ? (
-                    <div className="content">
-                        {children}
-                    </div>
-                ) : null}
+                <div className="content">
+                    {children}
+                </div>
             </div>
         );
     }

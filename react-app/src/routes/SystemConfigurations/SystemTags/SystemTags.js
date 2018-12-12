@@ -1,12 +1,12 @@
 import React from 'react';
-import { CRUDListWrapper } from '../../../components';
+import { ApolloListWrapper } from '../../../components';
 
-import * as CRUDProps from './system-tags-graphql';
+import * as apolloProps from './system-tags-graphql';
 
 export default function SystemTags() {
     return (
-        <CRUDListWrapper
-            CRUDProps={CRUDProps}
+        <ApolloListWrapper
+            apolloProps={apolloProps}
             itemClass="System Tag"
             extractList={({
                 allSystemTags: {
@@ -14,11 +14,11 @@ export default function SystemTags() {
                 } = {},
             }) => nodes}
             canSelect={false}
-            mapPillProps={({ type }) => ({
-                title: type,
+            mapPillProps={({ tag }) => ({
+                title: tag,
             })}
             mapCreateVariables={({ }, { input }) => ({
-                type: input,
+                tag: input,
             })}
             extractCreatedNID={({
                 createSystemTag: {
@@ -28,9 +28,9 @@ export default function SystemTags() {
                 }
             }) => nodeId}
             mapUpdateVariables={({ input }) => ({
-                type: input,
+                tag: input,
             })}
-            extractName={({ type }) => type}
+            extractName={({ tag }) => tag}
         />
     );
 }

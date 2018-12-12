@@ -5,22 +5,22 @@ export const query = gql`{
         nodes{
             nodeId
             id
-            type
+            tag
         }
     }
 }`;
 
 export const create = {
-    mutation: gql`mutation CreateSystemTag($type:String!){
+    mutation: gql`mutation CreateSystemTag($tag:String!){
         createSystemTag(input:{
             systemTag:{
-                type:$type
+                tag:$tag
             }
         }){
             systemTag{
                 nodeId
                 id
-                type
+                tag
             }
         }
     }`,
@@ -46,17 +46,17 @@ export const create = {
 };
 
 export const update = {
-    mutation: gql`mutation UpdateSystemTag($nodeId:ID!,$type:String!){
+    mutation: gql`mutation UpdateSystemTag($nodeId:ID!,$tag:String!){
         updateSystemTag(input:{
             nodeId:$nodeId
             systemTagPatch:{
-                type:$type
+                tag:$tag
             }
         }){
             systemTag{
                 nodeId
                 id
-                type
+                tag
             }
         }
     }`,

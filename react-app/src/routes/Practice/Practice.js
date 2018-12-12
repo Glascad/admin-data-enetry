@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React, { Component } from 'react';
 // import { Query } from 'react-apollo';
 // import { query } from './practice-gql';
@@ -61,3 +62,27 @@
 //         )
 //     }
 // }
+=======
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import { query } from './practice-gql';
+import ModalExample from './ModalExample';
+
+export default class Practice extends Component {
+    state = {};
+    render = () => {
+        return <ModalExample />
+        // return (
+        //     <Query 
+        //         query={query}
+        //     >
+        //     {() => {
+        //         return (
+        //             <div></div>
+        //         )
+        //     }} 
+        //     </Query>
+        // )
+    }
+}
+>>>>>>> ae083bdca6a3a2b5fe9e8d46ee7f602b6981e233
