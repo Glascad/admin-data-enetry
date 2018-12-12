@@ -11,7 +11,6 @@ import _withApolloWrapper from './ApolloWrapper/withApolloWrapper';
 import _ApolloListWrapper from './ApolloListWrapper/ApolloListWrapper';
 import _ApolloBatchedWrapper from './ApolloBatchedWrapper/ApolloBatchedWrapper';
 import _SelectionWrapper from './SelectionWrapper/SelectionWrapper';
-import _Card from './Card/Card';
 import _Input from './Input/Input';
 // UNIVERSAL STYLES
 import './index.scss';
@@ -28,5 +27,4 @@ export const withApolloWrapper = _withApolloWrapper;
 export const ApolloListWrapper = _ApolloListWrapper;
 export const ApolloBatchedWrapper = _ApolloBatchedWrapper;
 export const SelectionWrapper = _SelectionWrapper;
-export const Card = _Card;
 export const Input = _Input;

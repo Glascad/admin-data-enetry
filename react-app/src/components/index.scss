@@ -13,3 +13,11 @@
         margin-left: 0;
     }
 }
+
+.card {
+    max-width: 70vw;
+    background: $card-color;
+    border-top: $small solid $current-color;
+    padding: $large; //Ray added
+    padding-bottom: 0;
+}

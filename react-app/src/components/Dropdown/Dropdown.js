@@ -63,7 +63,9 @@ export default class Dropdown extends Component {
                     onClick={handleClick}
                 >
                     <div className="triangle" />
-                    {title}
+                    <span>
+                        {title}
+                    </span>
                 </div>
                 <div className="content">
                     {children}

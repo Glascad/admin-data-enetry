@@ -116,101 +116,101 @@ export default withRouter(Sidebar);
 
 const links = [
     {
-        text: "HOME",
+        text: "Activity",
         link: "/",
     },
     {
-        text: "SYSTEM",
+        text: "System",
         link: "/system",
         subroutes: [
             {
-                text: "SELECT SYSTEM",
+                text: "Select System",
                 link: "/select-system",
             },
             {
-                text: "SYSTEM INFO",
+                text: "System Info",
                 link: "/system-info/:systemNID",
             },
             {
-                text: "GLAZING INFO",
+                text: "Glazing Info",
                 link: "/glazing-info/:systemNID",
             },
             {
-                text: "VALID TYPES",
+                text: "Valid Types",
                 link: "/valid-types/:systemNID",
             },
             {
-                text: "SYSTEM COMPATIBILITY",
+                text: "System Compatibility",
                 link: "/system-compatibility/:systemNID",
             },
             {
-                text: "SYSTEM OPTIONS",
+                text: "System Options",
                 link: "/system-options/:systemNID",
             },
             {
-                text: "INVALID COMBINATIONS",
+                text: "Invalid Combinations",
                 link: "/invalid-combinations/:systemNID",
             },
         ]
     },
     {
-        text: "SYSTEM CONFIGURATIONS",
+        text: "System Configurations",
         link: "/system-configurations",
         subroutes: [
             {
-                text: "SYSTEM TYPES",
+                text: "System Types",
                 link: "/system-types",
             },
             {
-                text: "SYSTEM TAGS",
+                text: "System Tags",
                 link: "/system-tags",
             },
             {
-                text: "DETAIL TYPES",
+                text: "Detail Types",
                 link: "/detail-types",
             },
             {
-                text: "CONFIGURATION TYPES",
+                text: "Configuration Types",
                 link: "/configuration-types",
             },
             {
-                text: "PART TYPES",
+                text: "Part Types",
                 link: "/part-types",
             },
             {
-                text: "PART TAGS",
+                text: "Part Tags",
                 link: "/part-tags",
             },
         ]
     },
     {
-        text: "SETTINGS",
+        text: "Settings",
         link: "/settings",
         subroutes: [
             {
-                text: "MANUFACTURERS",
+                text: "Manufacturers",
                 link: "/manufacturers",
             },
             {
-                text: "LINETYPES",
+                text: "Linetypes",
                 link: "/linetypes",
             },
             {
-                text: "PART ORIENTATIONS",
+                text: "Part Orientations",
                 link: "/part-orientations",
             },
             {
-                text: "INFILL SIZES",
+                text: "Infill Sizes",
                 link: "/infill-sizes",
             },
             {
-                text: "INFILL TYPES",
+                text: "Infill Types",
                 link: "/infill-types",
             },
         ]
     },
     {
-        text: "PRACTICE",
+        text: "Practice",
         link: "/practice",
     }
 ];

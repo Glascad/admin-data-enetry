@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import './Viewport.scss';
 // import routes from '../../routes/routes';
-import { Card } from '../../components';
 
 // HOME
 import Home from '../../routes/Home/Home';
@@ -35,7 +34,7 @@ import Practice from '../../routes/Practice/Practice';
 function Viewport() {
     return (
         <div id="Viewport">
-            <Card>
+            <div className="card">
                 <Switch>
                     {/* HOME */}
                     <Route
@@ -123,7 +122,7 @@ function Viewport() {
                         component={Practice}
                     />
                 </Switch>
-            </Card>
+            </div>
         </div>
     );
 }
