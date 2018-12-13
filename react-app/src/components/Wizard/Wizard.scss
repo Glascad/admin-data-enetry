@@ -1,0 +1,20 @@
+
+@import '../../styles/variables';
+
+.Wizard {
+    .button-wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $large;
+
+        button {
+            margin: 0;
+        }
+
+        .buttons-right {
+            button + button {
+                margin-left: $small;
+            }
+        }
+    }
+}

@@ -19,7 +19,7 @@ ListContainer.propTypes = {
 };
 
 export default function ListContainer({
-    className,
+    className = '',
     title,
     label,
     items,

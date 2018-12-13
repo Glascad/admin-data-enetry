@@ -26,7 +26,7 @@ const shallowEquals = (obj1, obj2) => typeof obj1 === 'object' && typeof obj2 ==
     obj1 === obj2;
 
 
-class BatchedWrapper extends Component {
+class InputWrapper extends Component {
 
     static propTypes = {
         inputs: PropTypes.array,
@@ -380,7 +380,7 @@ export default function ApolloInputWrapper({
             {...apolloProps}
         >
             {apollo => (
-                <BatchedWrapper
+                <InputWrapper
                     {...props}
                     variables={queryVariables}
                     apollo={apollo}

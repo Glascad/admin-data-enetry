@@ -14,6 +14,8 @@ export default class ApolloWrapper extends Component {
         _delete: PropTypes.object,
     };
 
+    // REFACTOR BATCHING OUT when done converting all components
+
     mutations = [];
 
     batchMutation = mutation => this.mutations.push(mutation);
@@ -138,6 +140,13 @@ export default class ApolloWrapper extends Component {
                 create,
                 update,
                 _delete,
+                batcher,
+                batcher: {
+                    propsBatchMutation,
+                    propsResetMutations,
+                    propsReplaceMutation,
+                    propsCompleteMutations,
+                } = {}
             },
             // data filtering
             filterData,
@@ -219,18 +228,33 @@ export default class ApolloWrapper extends Component {
                                                         createItem(...args)
                                                     })
                                                     :
-                                                    createItem,
+                                                    batcher ?
+                                                        (...args) => propsBatchMutation(() => {
+                                                            createItem(...args)
+                                                        })
+                                                        :
+                                                        createItem,
                                                 updateItem: batchMutations ?
                                                     (...args) => batchMutation(() => {
                                                         updateItem(...args)
                                                     })
                                                     :
+                                                    batcher ?
+                                                        (...args) => propsBatchMutation(() => {
+                                                            updateItem(...args)
+                                                        })
+                                                        :
                                                     updateItem,
                                                 deleteItem: batchMutations ?
                                                     (...args) => batchMutation(() => {
                                                         deleteItem(...args)
                                                     })
                                                     :
+                                                    batcher ?
+                                                        (...args) => propsBatchMutation(() => {
+                                                            deleteItem(...args)
+                                                        })
+                                                        :
                                                     deleteItem,
                                                 onCreate,
                                                 onUpdate,
