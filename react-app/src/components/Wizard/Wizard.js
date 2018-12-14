@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Batcher from '../Batcher/Batcher';
-import ApolloWrapper from '../ApolloWrapper/ApolloWrapper';
+import ApolloWrapper3 from '../ApolloWrapper/ApolloWrapper3';
 
 import './Wizard.scss';
 
@@ -12,6 +12,7 @@ class Wizard extends Component {
         const {
             props: {
                 children,
+                batcher,
                 batcher: {
                     batchMutation,
                     resetMutations,
@@ -27,13 +28,8 @@ class Wizard extends Component {
                 <header>
                     Wizard Header
                 </header>
-                <div className="card">
-                    {children({
-                        apollo,
-                        batchMutation,
-                        resetMutations,
-                        replaceMutation,
-                    })}
+                <div className="">
+                    {children(apollo)}
                     <div
                         className="button-wrapper"
                     >
@@ -61,23 +57,28 @@ class Wizard extends Component {
 }
 
 export default function ({
-    apolloProps,
+    query,
+    mutations,
     ...props
 }) {
     return (
         <Batcher>
             {batcher => (
-                <ApolloWrapper
-                    {...apolloProps}
+                <ApolloWrapper3
+                    {...{
+                        query,
+                        mutations,
+                        batcher,
+                    }}
                 >
                     {apollo => (
                         <Wizard
+                            {...props}
                             batcher={batcher}
                             apollo={apollo}
-                            {...props}
                         />
                     )}
-                </ApolloWrapper>
+                </ApolloWrapper3>
             )}
         </Batcher>
     )

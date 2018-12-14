@@ -109,27 +109,6 @@ export default class ApolloWrapper extends Component {
 
     filterData = obj => this.removeNullValues()(obj);
 
-    // removeNullValues = ({ data } = {}) => (data === null ?
-    //     undefined
-    //     :
-    //     typeof data !== 'object' ?
-    //         {
-    //             data
-    //         }
-    //         :
-    //         {
-    //             data: Object
-    //                 .keys(data)
-    //                 .reduce((filteredData, key) => data[key] !== null ?
-    //                     {
-    //                         ...filteredData,
-    //                         [key]: data[key]
-    //                     }
-    //                     :
-    //                     filteredData,
-    //                     {})
-    //         });
-
     render = () => {
         const {
             props: {
@@ -244,7 +223,7 @@ export default class ApolloWrapper extends Component {
                                                             updateItem(...args)
                                                         })
                                                         :
-                                                    updateItem,
+                                                        updateItem,
                                                 deleteItem: batchMutations ?
                                                     (...args) => batchMutation(() => {
                                                         deleteItem(...args)
@@ -255,7 +234,7 @@ export default class ApolloWrapper extends Component {
                                                             deleteItem(...args)
                                                         })
                                                         :
-                                                    deleteItem,
+                                                        deleteItem,
                                                 onCreate,
                                                 onUpdate,
                                                 onDelete,

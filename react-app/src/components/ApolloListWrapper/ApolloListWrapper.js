@@ -204,68 +204,51 @@ class ApolloList extends Component {
                         items,
                         sort: sortItems,
                         renderItem: item => {
+
                             const {
                                 nodeId = item.nodeId,
                                 arguments: args = { nodeId: item.nodeId },
                                 ...pillProps
                             } = mapPillProps(item, selectedItem);
+
+                            const onEdit = !multiSelect && canUpdate ?
+                                handleEdit
+                                :
+                                undefined;
+
+                            const selected = nodeId === selectedItem.nodeId && (
+                                canSelect === true
+                                ||
+                                (
+                                    !multiSelect
+                                    &&
+                                    !creating
+                                )
+                            );
+
+                            const danger = canDelete && deleting && nodeId === selectedNID;
+
+                            const onDelete = multiSelect || canDelete ?
+                                handleDeleteClick
+                                :
+                                undefined;
+
                             return (
                                 <Pill
                                     key={nodeId}
                                     tagname="li"
-                                    onEdit={(
-                                        !multiSelect
-                                        &&
-                                        canUpdate
-                                    ) ?
-                                        handleEdit
-                                        :
-                                        undefined
-                                    }
-                                    selected={(
-                                        nodeId === selectedItem.nodeId
-                                        &&
-                                        (
-                                            canSelect === true
-                                            ||
-                                            (
-                                                !multiSelect
-                                                &&
-                                                !creating
-                                            )
-                                        )
-                                    )}
-                                    danger={(
-                                        canDelete
-                                        &&
-                                        deleting
-                                        &&
-                                        nodeId === selectedNID
-                                    )}
+                                    onEdit={onEdit}
+                                    selected={selected}
+                                    danger={danger}
                                     onSelect={handleSelect}
-                                    onDelete={(
-                                        (
-                                            multiSelect
-                                            ||
-                                            canDelete
-                                        ) ?
-                                            handleDeleteClick
-                                            :
-                                            undefined
-                                    )}
+                                    onDelete={onDelete}
                                     arguments={args}
                                     {...defaultPillProps}
                                     {...pillProps}
                                 />
                             );
                         },
-                        creating: !!(
-                            !multiSelect
-                            &&
-                            canCreate
-                            &&
-                            creating
-                        ),
+                        creating: !!(!multiSelect && canCreate && creating),
                         createItem: (
                             <Pill
                                 tagname="li"
@@ -276,7 +259,7 @@ class ApolloList extends Component {
                                 {...defaultPillProps}
                             />
                         ),
-                        addButton: canCreate ? (
+                        addButton: canCreate &&!creating ? (
                             {
                                 onAdd: handleCreateClick,
                                 ...addButtonProps,
@@ -291,11 +274,7 @@ class ApolloList extends Component {
                     <MultiSelect
                         modalProps={{
                             title: `Update ${titlePath}`,
-                            display: !!(
-                                deleting
-                                ||
-                                creating
-                            ),
+                            display: !!(deleting || creating),
                             onCancel: cancel,
                             onFinish: handleMultiSelectFinish,
                             ...mapModalProps(selectedItem),
@@ -318,7 +297,7 @@ class ApolloList extends Component {
                         onCancel={cancel}
                         {...mapModalProps(selectedItem)}
                     >
-                        Are you sure you want to delete {itemClass} {extractName(selectedItem)}?
+                        Are you sure you want to delete {itemClass} "{extractName(selectedItem)}"?
                     </Modal>
                 ) : null}
             </div>

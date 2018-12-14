@@ -1,78 +1,240 @@
 import React from 'react';
 
 import {
+    Wizard,
     ApolloListWrapper,
     SelectionWrapper,
     HeadedListContainer,
+    Pill,
 } from '../../../components';
 
-import * as apolloProps from './detail-types-graphql';
-import * as configurationApolloProps from './configuration-types-graphql';
+import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
+
+import InputWrapper3 from '../../../components/ApolloInputWrapper/InputWrapper3'
+
+import { query, mutations } from './valid-types-graphql';
 
 export default function ValidTypes({ match: { params: { systemNID } } }) {
     return (
-        <ApolloListWrapper
-            apolloProps={{
-                ...apolloProps,
-                queryVariables: { nodeId: systemNID },
-            }}
-            itemClass="Valid Detail Types"
-            plural={false}
-            extractList={({
-                system: {
-                    systemTypeBySystemTypeId: {
-                        systemTypeDetailTypesBySystemTypeId: {
-                            nodes = []
-                        } = {}
-                    } = {}
-                } = {},
-            }) => nodes}
-            mapPillProps={({ detailTypeByDetailTypeId: { type } }) => ({
-                title: type,
-            })}
-        >
-            {({
-                apollo: {
-                    queryStatus: {
-                        data,
+        <Wizard
+            mutations={mutations}
+            query={{
+                query,
+                variables: {
+                    nodeId: systemNID,
+                },
+                mapProps: ({
+                    status: {
                         data: {
                             system: {
+                                manufacturerByManufacturerId: manufacturer,
                                 systemTypeBySystemTypeId: {
+                                    systemTypeDetailTypesBySystemTypeId: {
+                                        nodes: systemTypeDetailTypes = [],
+                                    } = {},
                                     systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
-                                        nodes: systemTypeDetailTypeConfigurationTypes = []
-                                    } = {}
-                                } = {}
+                                        nodes: systemTypeDetailTypeConfigurationTypes = [],
+                                    } = {},
+                                    ...systemType
+                                } = {},
+                                systemConfigurationOverridesBySystemId: {
+                                    nodes: systemConfigurationOverrides = [],
+                                } = {},
+                                invalidSystemConfigurationTypesBySystemId: {
+                                    nodes: invalidSystemConfigurationTypes = [],
+                                } = {},
+                                ...system
                             } = {}
-                        }
+                        } = {}
                     }
+                }) => ({
+                    system,
+                    systemType,
+                    manufacturer,
+                    systemTypeDetailTypes,
+                    systemTypeDetailTypeConfigurationTypes,
+                    systemConfigurationOverrides,
+                    invalidSystemConfigurationTypes,
+                }),
+            }}
+        >
+            {({
+                system,
+                system: {
+                    id: systemId
                 },
-                selectedItem,
+                systemType,
+                manufacturer,
+                systemTypeDetailTypes,
+                systemTypeDetailTypeConfigurationTypes,
+                systemConfigurationOverrides,
+                invalidSystemConfigurationTypes,
+                createInvalidSystemConfigurationType,
             }) => (
-                    <ApolloListWrapper
-                        n={console.log({
-                            systemTypeDetailTypeConfigurationTypes,
-                            selectedItem,
-                        })}
-                        apolloProps={{
-                            ...configurationApolloProps,
-                            batchMutations: true
-                        }}
-                        itemClass="Valid Configuration Types"
-                        plural={false}
-                        extractList={() => systemTypeDetailTypeConfigurationTypes
-                            .filter(({
-                                detailTypeByDetailTypeId: {
-                                    nodeId
-                                }
-                            }) => nodeId === selectedItem.detailTypeByDetailTypeId.nodeId)
-                        }
-                        mapPillProps={({ configurationTypeByConfigurationTypeId: { type } }) => ({
+                    <ListWrapper3
+                        title="Valid Detail Types"
+                        items={systemTypeDetailTypes}
+                        mapPillProps={({
+                            detailTypeByDetailTypeId: {
+                                type
+                            }
+                        }) => ({
                             title: type
                         })}
                     >
+                        {({
+                            detailTypeByDetailTypeId: {
+                                type: detailTypeName,
+                                nodeId: detailTypeNID,
+                            } = {}
+                        }) => (
+                                <ListWrapper3
+                                    title="Valid Configuration Types"
+                                    parent={detailTypeName}
+                                    items={systemTypeDetailTypeConfigurationTypes
+                                        .filter(({
+                                            detailTypeByDetailTypeId: {
+                                                nodeId
+                                            }
+                                        }) => nodeId === detailTypeNID)}
+                                    mapPillProps={({
+                                        configurationTypeByConfigurationTypeId: {
+                                            nodeId,
+                                            id,
+                                            type
+                                        }
+                                    }) => ({
+                                        title: type,
+                                        arguments: {
+                                            nodeId,
+                                            id,
+                                        }
+                                    })}
+                                    onDelete={({
+                                        arguments: {
+                                            id
+                                        }
+                                    }) => createInvalidSystemConfigurationType({
+                                        variables: {
+                                            systemId,
+                                            invalidConfigurationTypeId: id,
+                                        }
+                                    })}
+                                >
+                                    {({
+                                        required,
+                                        mirrorable,
+                                    }) => (
+                                            <InputWrapper3
+                                                inputs={[
+                                                    {
+                                                        label: "Required",
+                                                        type: "checkbox",
+                                                        value: required || false,
+                                                        // onChange: 
+                                                    },
+                                                    {
+                                                        label: "Mirrorable",
+                                                        type: "checkbox",
+                                                        value: mirrorable || false,
+                                                        // onChange: 
+                                                    }
+                                                ]}
+                                            />
+                                        )}
+                                </ListWrapper3>
+                            )}
+                    </ListWrapper3>
+                    // <SelectionWrapper>
+                    //     {({
+                    //         selectedNID,
+                    //         handleSelect,
+                    //     }) => (
+                    //             <HeadedListContainer
+                    //                 list={{
+                    //                     items: systemTypeDetailTypes,
+                    //                     renderItem: ({
+                    //                         nodeId,
+                    //                         detailTypeByDetailTypeId: {
+                    //                             type
+                    //                         }
+                    //                     }) => (
+                    //                             <Pill
+                    //                                 arguments={{ nodeId }}
+                    //                                 title={type}
+                    //                                 onSelect={handleSelect}
+                    //                             />
+                    //                         )
+                    //                 }}
+                    //             >
 
-                    </ApolloListWrapper>
+                    //             </HeadedListContainer>
+                    //         )}
+                    // </SelectionWrapper>
                 )}
-        </ApolloListWrapper>
+        </Wizard>
+        // <ApolloListWrapper
+        //     apolloProps={{
+        //         ...apolloProps,
+        //         queryVariables: { nodeId: systemNID },
+        //     }}
+        //     itemClass="Valid Detail Types"
+        //     plural={false}
+        //     extractList={({
+        //         system: {
+        //             systemTypeBySystemTypeId: {
+        //                 systemTypeDetailTypesBySystemTypeId: {
+        //                     nodes = []
+        //                 } = {}
+        //             } = {}
+        //         } = {},
+        //     }) => nodes}
+        //     mapPillProps={({ detailTypeByDetailTypeId: { type } }) => ({
+        //         title: type,
+        //     })}
+        // >
+        //     {({
+        //         apollo: {
+        //             queryStatus: {
+        //                 data,
+        //                 data: {
+        //                     system: {
+        //                         systemTypeBySystemTypeId: {
+        //                             systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
+        //                                 nodes: systemTypeDetailTypeConfigurationTypes = []
+        //                             } = {}
+        //                         } = {}
+        //                     } = {}
+        //                 }
+        //             }
+        //         },
+        //         selectedItem,
+        //     }) => (
+        //             <ApolloListWrapper
+        //                 n={console.log({
+        //                     systemTypeDetailTypeConfigurationTypes,
+        //                     selectedItem,
+        //                 })}
+        //                 apolloProps={{
+        //                     ...configurationApolloProps,
+        //                     batchMutations: true
+        //                 }}
+        //                 itemClass="Valid Configuration Types"
+        //                 plural={false}
+        //                 extractList={() => systemTypeDetailTypeConfigurationTypes
+        //                     .filter(({
+        //                         detailTypeByDetailTypeId: {
+        //                             nodeId
+        //                         }
+        //                     }) => nodeId === selectedItem.detailTypeByDetailTypeId.nodeId)
+        //                 }
+        //                 mapPillProps={({ configurationTypeByConfigurationTypeId: { type } }) => ({
+        //                     title: type
+        //                 })}
+        //             >
+
+        //             </ApolloListWrapper>
+        //         )}
+        // </ApolloListWrapper>
     );
 }
