@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ApolloWrapper from '../ApolloWrapper/ApolloWrapper';
 import HeadedContainer from '../HeadedContainer/HeadedContainer';
 
-import './ApolloBatchedWrapper.scss';
+import './ApolloInputWrapper.scss';
 
 import InputComponent from './InputComponent';
 
@@ -161,7 +161,7 @@ class BatchedWrapper extends Component {
         return (
             <HeadedContainer
                 title={title}
-                className="ApolloBatchedWrapper"
+                className="ApolloInputWrapper"
             >
                 {children(this.ChildComponent)}
                 <div
@@ -189,7 +189,7 @@ class BatchedWrapper extends Component {
     }
 }
 
-export default function ApolloBatchedWrapper({
+export default function ApolloInputWrapper({
     apolloProps,
     apolloProps: {
         queryVariables

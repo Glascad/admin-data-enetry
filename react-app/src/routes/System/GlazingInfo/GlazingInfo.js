@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ApolloBatchedWrapper } from '../../../components';
+import { ApolloInputWrapper } from '../../../components';
 
 import * as apolloProps from './glazing-info-graphql';
 import * as infillMaterialSizeApolloProps from './infill-material-sizes-graphql';
@@ -9,7 +9,7 @@ import * as infillPocketSizeApolloProps from './infill-pocket-sizes-graphql';
 
 export default function GlazingInfo({ match: { params: { systemNID } } }) {
     return (
-        <ApolloBatchedWrapper
+        <ApolloInputWrapper
             apolloProps={{
                 ...apolloProps,
                 queryVariables: { nodeId: systemNID }
@@ -174,7 +174,7 @@ export default function GlazingInfo({ match: { params: { systemNID } } }) {
 
 // import React from 'react';
 
-// import { ApolloBatchedWrapper } from '../../../components';
+// import { ApolloInputWrapper } from '../../../components';
 
 // import * as apolloProps from './glazing-info-graphql';
 // import * as infillMaterialSizeApolloProps from './infill-material-sizes-graphql';
@@ -184,7 +184,7 @@ export default function GlazingInfo({ match: { params: { systemNID } } }) {
 
 // export default function GlazingInfo({ match: { params: { systemNID } } }) {
 //     return (
-//         <ApolloBatchedWrapper
+//         <ApolloInputWrapper
 //             apolloProps={{
 //                 ...apolloProps,
 //                 queryVariables: { nodeId: systemNID }
@@ -351,6 +351,6 @@ export default function GlazingInfo({ match: { params: { systemNID } } }) {
 //                     /> */}
 //                 </>
 //             )}
-//         </ApolloBatchedWrapper>
+//         </ApolloInputWrapper>
 //     );
 // }

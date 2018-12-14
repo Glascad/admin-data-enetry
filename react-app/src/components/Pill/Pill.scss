@@ -14,7 +14,7 @@
     height: $item-height;
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
     //padding: $med; //Ray removed
-    margin: $large $large 0 0; //Ray changed
+    margin: 0 $large $large 0; //Ray changed
     // margin-left: 0; //Ray removed
 
     &.align-left {

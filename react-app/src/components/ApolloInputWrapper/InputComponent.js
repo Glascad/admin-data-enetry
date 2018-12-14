@@ -210,7 +210,7 @@ export default class InputComponent extends Component {
                                     // See React.Fragment documentation
                                     <>
                                         <ListContainer
-                                            title={label}
+                                            label={label}
                                             items={currentValue}
                                             renderItem={item => (
                                                 <Pill
