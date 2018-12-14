@@ -2,12 +2,11 @@
 @import '../styles/variables';
 
 .nested {
-    border-left: $small solid $blue;
+    border-left: $small solid $selected-color;
     // padding-left: $x-small;
     margin-left: $large;
     // box-sizing: border-box; //Ray removed
     .nested {
-        // margin-left: 0;
         // border-left: $med + $small solid $blue;
         border-left: none;
         margin-left: 0;

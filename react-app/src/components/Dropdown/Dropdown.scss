@@ -3,7 +3,7 @@
 
 .Dropdown {
     margin: 0;
-    // padding: $small;
+    // padding: $small; //Ray removed
     // background: $light-gray; //Ray removed
     // color: $x-dark-gray; //Ray removed
     cursor: default;
@@ -20,20 +20,25 @@
     }
 
     .title {
+        position: relative;
         display: flex;
         align-items: center;
-        
-        .triangle {
-            // margin: $x-small;
-            width: 0;
-            border-left: $small solid $off-white;
-            border-bottom: $x-small solid rgba(0, 0, 0, 0);
-            border-top: $x-small solid rgba(0, 0, 0, 0);
+        .triangle-wrapper {
+            position: absolute;
+            transform: translateY(-50%);
+            top: 50%;
+            left: $large;
+            .triangle {
+                // margin: $x-small; //Ray removed
+                width: 0;
+                border-left: $small solid $off-white;
+                border-bottom: $x-small solid rgba(0, 0, 0, 0);
+                border-top: $x-small solid rgba(0, 0, 0, 0);
+            }
         }
     }
 
     &.open {
-        color: red;
         .title {
             .triangle {
                 transform: rotate(90deg);
@@ -55,6 +60,7 @@
     }
 
     .content {
+        width: 100%;
         display: flex;
         flex-direction: column;
         min-height: $item-height; //HELP:
@@ -66,10 +72,13 @@
             display: flex;
             align-items: center;
             width: stretch;
-            color: inherit;
+            color: $border-color;
             text-decoration: none;
             &:hover {
                 background: $menu-color;
+            }
+            &:last-child {
+                margin-bottom: $x-large;
             }
         }
     }

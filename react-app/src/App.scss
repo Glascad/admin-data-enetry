@@ -1,21 +1,21 @@
 
 @import './styles/variables';
 
-    #Header {
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: $header-height;
-        background: white;
-        border-bottom: 1px solid white;
-        // box-sizing: border-box; //Ray removed
-        // padding: $small;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+// #Header {
+//     width: 100%;
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     height: $header-height;
+//     background: white;
+//     border-bottom: 1px solid white;
+//     // box-sizing: border-box; //Ray removed
+//     // padding: $small;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+// }
 
 #Viewport, #Sidebar {
     position: fixed;

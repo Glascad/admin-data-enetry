@@ -9,6 +9,8 @@
     // margin: $small 0;
     
     &.type-checkbox {
+        width: $x-small;
+        height: $x-small;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;

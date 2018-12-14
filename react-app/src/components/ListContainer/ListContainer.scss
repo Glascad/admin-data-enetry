@@ -2,10 +2,9 @@
 @import '../../styles/variables';
 
 .ListContainer {
-
-    &:last-child {
-        margin-bottom: -$large;
-    }
+    // > .title {
+    //     color: $med-gray;
+    // } //Ray removed
 
     ul {
         display: flex;

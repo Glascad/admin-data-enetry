@@ -18,19 +18,20 @@
         min-height: 30%;
         max-width: 80%;
         max-height: 80%;
-        border-radius: $small;
-        border: 1px solid $med-gray;
-        box-shadow: 3px 3px 5px $x-dark-gray;
-        background: $x-dark-gray;
-        color: white;
+        border-radius: $xx-small; //Ray changed
+        border: 1px solid $border-color; //Ray changed
+        box-shadow: $xx-small $xx-small $x-small $dark-gray; //Ray changed
+        background: $dark-gray; //Ray changed
+        color: $off-white; //Ray changed
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        padding: $large; //Ray changed
         
         .HeadedContainer {
-            margin-top: $small; // NOT SURE WHY THIS IS NECESSARY
+            // margin-top: $small; // Ray removed
             header {
-                border-bottom-color: white;
+                border-bottom-color: $border-color;
             }
             
             .HeadedListContainer {
@@ -45,7 +46,7 @@
         }
             
         .modal-buttons {
-            padding: $small;
+            // padding: $small; //Ray removed
             display: flex;
             justify-content: space-between;
         }
