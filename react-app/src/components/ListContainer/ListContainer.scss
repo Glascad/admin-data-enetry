@@ -2,9 +2,9 @@
 @import '../../styles/variables';
 
 .ListContainer {
-    > .title {
-        color: $med-gray;
-    }
+    // > .title {
+    //     color: $med-gray;
+    // } //Ray removed
 
     ul {
         display: flex;

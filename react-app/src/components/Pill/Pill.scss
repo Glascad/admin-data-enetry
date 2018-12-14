@@ -3,7 +3,7 @@
 
 .Pill {
     background: $pill-color;
-    color: $text-color;
+    color: $dark-gray;
     box-sizing: border-box; //Ray removed
     display: flex;
     justify-content: center;
@@ -12,6 +12,7 @@
     width: $pill-width;
     border-radius: $pill-width;
     height: $item-height;
+    box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
     //padding: $med; //Ray removed
     margin: $large $large 0 0; //Ray changed
     // margin-left: 0; //Ray removed
@@ -26,14 +27,16 @@
 
     &.selectable:hover {
         background: $dark-gray;
-        color: white;
+        color: $off-white;
+        box-shadow: none;
     }
     &.selected {
-        background: $blue;
-        color: white;
+        background: $selected-color;
+        color: $off-white;
+        box-shadow: none;
     }
     &.default {
-        border: 2px solid $x-dark-gray;
+        border: 2px solid $dark-gray;
     }
     &.danger {
         background: red;
@@ -52,7 +55,7 @@
     }
     button {
         position: absolute;
-        color: $x-dark-gray;
+        color: $dark-gray;
         &.drag {
             top: 50%;
             left: 50%;
@@ -68,7 +71,7 @@
         }
         &.delete {
             top: 50%;
-            right: 16px;
+            right: $x-small;
             transform: translateY(-50%);
             margin: 0;
             height: $item-height * 0.75;
@@ -101,6 +104,7 @@
 
     &:hover {
         cursor: default;
+        box-shadow: none;
 
         button {
             &.delete, &.edit {
@@ -109,8 +113,8 @@
         }
 
         .ButtonTile {
-            background: $off-white;
-            opacity: 0.625;
+            // background: $off-white;
+            // opacity: 0.625;
         }
     }
 

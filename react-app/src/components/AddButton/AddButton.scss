@@ -15,16 +15,23 @@
         border-radius: $item-height;
         display: flex;
         position: relative;
-        background: $green;
+        background: $action-color;
         margin: $large $large 0 0; //Ray changed
+        border: $icon-thickness $action-color solid;
         // margin-left: 0; //Ray removed
+        &:hover {
+            background: $card-color;
+            .vertical-plus, .horizontal-plus {
+                background: $action-color;
+            }
+        }
     }
 
     &.large {
         height: $pill-width;
         width: $pill-width;
         border-radius: $small;
-        border: 2px dashed $pill-color;
+        border: $xx-small dashed $pill-color;
         margin: $large $large 0 0; //Ray changed
         // margin-left: 0; //Ray removed
         // box-sizing: border-box; //Ray removed
@@ -33,6 +40,7 @@
             height: $pill-width * 3 / 4;
             width: $pill-width * 3 / 4;
             border-radius: $pill-width * 3 / 4;
+            border-width: $x-small;
             margin: 0;
         }
     }

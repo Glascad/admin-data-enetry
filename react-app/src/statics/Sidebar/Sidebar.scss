@@ -11,6 +11,8 @@
     #sidebar-header {
         background: $menu-color; //Ray changed
         color: $off-white; //Ray changed
+        font-family: 'Montserrat';
+        font-size: $base-size * 1.25;
         // height: $header-height;
         padding: $large;
         display: flex;
@@ -21,6 +23,7 @@
         .logo { //Ray added
             // height: 55%;
             height: $item-height;
+            padding-right: $base-size;
             width: auto;
             // margin-left: 0.45 * $header-height / 2;
             // margin-left: $large;
@@ -50,10 +53,19 @@
         height: $menu-height;
         // display: flex;
         // align-items: center;
-        padding: 0 $large;
+        padding: 0 $large * 2;
         // padding-left: 27px;
         // box-sizing: border-box; //HELP: Need no longer?
     }
+
+    .Dropdown {
+        .content {
+            > a {
+                padding-left: $large * 2;
+            }
+        }
+    }
+
     .selected {
         // background: $dark-gray; //Ray removed
         color: $off-white;

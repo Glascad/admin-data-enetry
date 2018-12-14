@@ -71,6 +71,7 @@ class Sidebar extends Component {
             <div id="Sidebar">
                 <div id="sidebar-header">
                     <Logo className="logo" />
+                    GLASCAD
                 </div>
                 {links.map(({ text, link, subroutes = [] }, i) => subroutes.length ? (
                     <Dropdown
@@ -99,8 +100,8 @@ class Sidebar extends Component {
                         <NavLink
                             key={i}
                             exact={true}
-                            to={link}
                             className="item"
+                            to={link}
                             activeClassName="selected"
                         >
                             {text}
@@ -209,8 +210,8 @@ const links = [
             },
         ]
     },
-    {
-        text: "Practice",
-        link: "/practice",
-    }
+    // {
+    //     text: "Practice",
+    //     link: "/practice",
+    // }
 ];
