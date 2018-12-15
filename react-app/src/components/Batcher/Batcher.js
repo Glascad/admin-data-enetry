@@ -5,18 +5,22 @@ export default class Batcher extends Component {
 
     state = {
         batchedMutations: {
-            mutationKey: {
-                mutate: () => { },
-                argumentSets: [
-                    {
-                        variables: {
-                            nodeId: ""
-                        }
-                    }
-                ]
-            }
+            // mutationKey: {
+            //     mutate: () => { },
+            //     argumentSets: [
+            //         {
+            //             variables: {
+            //                 nodeId: ""
+            //             }
+            //         }
+            //     ]
+            // }
         }
     };
+
+    nodeId = 1;
+
+    getNodeId = () => this.nodeId++;
 
     componentDidMount = () => window.addEventListener('keydown', this.save);
 
@@ -150,6 +154,7 @@ export default class Batcher extends Component {
             props: {
                 children,
             },
+            getNodeId,
             batchMutation,
             resetMutations,
             replaceMutation,
@@ -157,6 +162,7 @@ export default class Batcher extends Component {
         } = this;
 
         console.log({
+            getNodeId,
             batchedMutations,
             batchMutation,
             resetMutations,
@@ -165,6 +171,7 @@ export default class Batcher extends Component {
         });
 
         return children({
+            getNodeId,
             batchedMutations,
             batchMutation,
             resetMutations,

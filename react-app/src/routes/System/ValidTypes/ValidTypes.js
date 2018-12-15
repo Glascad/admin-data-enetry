@@ -91,6 +91,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                 <ListWrapper3
                                     title="Valid Configuration Types"
                                     parent={detailTypeName}
+                                    n={console.log(invalidSystemConfigurationTypes)}
                                     items={systemTypeDetailTypeConfigurationTypes
                                         .filter(({
                                             detailTypeByDetailTypeId: {
@@ -108,7 +109,12 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                         arguments: {
                                             nodeId,
                                             id,
-                                        }
+                                        },
+                                        disabled: invalidSystemConfigurationTypes.some(({
+                                            configurationTypeByInvalidConfigurationTypeId: {
+                                                nodeId: invalidNID
+                                            }
+                                        }) => invalidNID === nodeId)
                                     })}
                                     onDelete={({
                                         arguments: {

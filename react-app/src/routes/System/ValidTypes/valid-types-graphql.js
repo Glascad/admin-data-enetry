@@ -117,9 +117,9 @@ export const mutations = {
                 }
             }
         }`,
-        mapResultToProps: ({ variables }, props) => ({
+        mapResultToProps: (argSet, props) => ({
             ...props,
-            n: console.log({ variables, props })
-        })
+            n: console.log({ argSet, props }),
+        }),
     }
 };

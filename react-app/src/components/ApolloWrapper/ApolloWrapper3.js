@@ -18,6 +18,7 @@ export default class ApolloWrapper3 extends Component {
             props: {
                 batcher,
                 batcher: {
+                    getNodeId,
                     batchedMutations,
                     batchMutation,
                 } = {},
@@ -35,6 +36,8 @@ export default class ApolloWrapper3 extends Component {
 
         const nextMutation = mutations[mutationKeys[0]];
 
+        // REFACTOR TO USE A `Read` COMPONENT LIKE THE ApolloWrapper TO SIMPLIFY LOGIC
+
         if (query) {
             return (
                 <Query
@@ -45,14 +48,34 @@ export default class ApolloWrapper3 extends Component {
                             mutations={mutations}
                             batcher={batcher} // VERY IMPORTANT
                         >
-                            {accumulatedProps => (
-                                children({
-                                    ...accumulatedProps,
-                                    ...mapQueryProps({
-                                        status
-                                    })
-                                })
-                            )}
+                            {accumulatedProps => {
+                                // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
+                                // iterate through all batched mutations
+                                const batchedMutationKeys = Object.keys(batchedMutations);
+                                console.log(batchedMutationKeys);
+                                const childProps = batchedMutationKeys.reduce((mappedProps, mutationKey) => {
+                                    console.log(mappedProps);
+                                    const {
+                                        mapResultToProps = (res, props) => props
+                                    } = mutations[mutationKey] || {};
+                                    const {
+                                        argumentSets = []
+                                    } = batchedMutations[mutationKey] || {};
+                                    // iterate through all argument sets of batched mutations
+                                    return argumentSets.reduce((mappedProps, argSet) => {
+                                        console.log(argSet);
+                                        return mapResultToProps(argSet, mappedProps);
+                                    }, mappedProps);
+                                }, {
+                                        batcher,
+                                        ...accumulatedProps,
+                                        ...mapQueryProps({
+                                            status,
+                                        }),
+                                    });
+                                console.log(childProps);
+                                return children(childProps);
+                            }}
                         </ApolloWrapper3>
                     )}
                 </Query>
@@ -72,12 +95,19 @@ export default class ApolloWrapper3 extends Component {
                                 }), {})}
                             batcher={batcher} // VERY IMPORTANT
                         >
-                            {accumulatedProps => (
+                            {accumulatedProps => console.log(accumulatedProps) || (
                                 children({
                                     ...accumulatedProps,
                                     [mutationKeys[0]]: batcher ?
                                         (args) => batchMutation({
-                                            arguments: args,
+                                            arguments: {
+                                                nodeId: args.variables
+                                                    &&
+                                                    args.variables.nodeId
+                                                    ||
+                                                    getNodeId(),
+                                                ...args,
+                                            },
                                             mutate,
                                             mutationKey: mutationKeys[0],
                                         })
@@ -91,18 +121,11 @@ export default class ApolloWrapper3 extends Component {
                 </Mutation>
             )
         } else {
-            const batchedMutationKeys = Object.keys(batchedMutations);
-            const childProps = batchedMutationKeys.reduce((accumulatedProps, key) => {
-
-                return {
-                    ...accumulatedProps,
-                }
-            }, {
-                    batcher,
-                    ...props,
-                });
-
-            return children(childProps);
+            console.log(this);
+            return children({
+                batcher,
+                ...props,
+            });
         }
     }
 }
