@@ -33,6 +33,7 @@ export const query =
                         nodeId
                         required
                         mirrorable
+                        systemTypeId
                         detailTypeId
                         detailTypeByDetailTypeId{
                             nodeId
@@ -54,6 +55,7 @@ export const query =
             systemConfigurationOverridesBySystemId{
                 nodes{
                     nodeId
+                    systemId
                     detailTypeId
                     detailTypeByDetailTypeId{
                         nodeId
@@ -74,6 +76,7 @@ export const query =
             invalidSystemConfigurationTypesBySystemId{
                 nodes{
                     nodeId
+                    systemId
                     invalidConfigurationTypeId
                     configurationTypeByInvalidConfigurationTypeId{
                         nodeId
@@ -117,9 +120,92 @@ export const mutations = {
                 }
             }
         }`,
-        mapResultToProps: (argSet, props) => ({
-            ...props,
-            n: console.log({ argSet, props }),
-        }),
+        mapResultToProps: ({
+            nodeId,
+            systemId,
+            invalidConfigurationTypeId,
+        }, {
+            systemTypeDetailTypeConfigurationTypes,
+            invalidSystemConfigurationTypes,
+            ...props
+        }) => {
+            console.log({
+                nodeId,
+                systemId,
+                invalidConfigurationTypeId,
+                systemTypeDetailTypeConfigurationTypes,
+                invalidSystemConfigurationTypes,
+                ...props
+            });
+            const {
+                configurationTypeByConfigurationTypeId
+            } = systemTypeDetailTypeConfigurationTypes.find(({
+                configurationTypeId
+            }) => configurationTypeId === invalidConfigurationTypeId);
+            const invalidSystemConfigurationType = {
+                nodeId,
+                systemId,
+                invalidConfigurationTypeId,
+                configurationTypeByInvalidConfigurationTypeId: configurationTypeByConfigurationTypeId,
+            };
+            return {
+                invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
+                    .concat(invalidSystemConfigurationType)
+            };
+        },
+    },
+    deleteInvalidSystemConfigurationType: {
+        mutation: gql`mutation DeleteInvalidSystemConfigurationType(
+            $nodeId:ID!
+        ){
+            deleteInvalidSystemConfigurationType(
+                input:{
+                    nodeId:$nodeId
+                }
+            ){
+                invalidSystemConfigurationType{
+                    nodeId
+                    invalidConfigurationTypeId
+                    configurationTypeByInvalidConfigurationTypeId{
+                        nodeId
+                        id
+                        type
+                        door
+                        overrideLevel
+                        presentationLevel
+                    }
+                }
+            }
+        }`,
+        mapResultToProps: ({
+            nodeId,
+            systemId,
+            invalidConfigurationTypeId,
+            ...variables,
+        }, {
+            systemTypeDetailTypeConfigurationTypes,
+            invalidSystemConfigurationTypes,
+            ...props
+        }) => {
+            console.log({
+                variables: {
+                    nodeId,
+                    systemId,
+                    invalidConfigurationTypeId,
+                    ...variables,
+                },
+                systemTypeDetailTypeConfigurationTypes,
+                invalidSystemConfigurationTypes,
+                ...props
+            });
+            return {
+                invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
+                    .filter(invalid => invalid.nodeId !== nodeId && (
+                        invalid.systemId !== systemId
+                        ||
+                        invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
+                    ))
+            };
+        },
     }
 };

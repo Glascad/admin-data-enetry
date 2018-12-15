@@ -29,6 +29,7 @@ class ApolloList extends Component {
                 items,
                 mapPillProps,
                 canSelect = true,
+                onDisabledSelect,
                 onCreate,
                 onUpdate,
                 onDelete,
@@ -46,7 +47,7 @@ class ApolloList extends Component {
             }
         } = this;
 
-        console.log(this);
+        // console.log(this);
 
         const selectedItem = items.find(({ nodeId }) => nodeId === selectedNID)
             ||
@@ -85,6 +86,7 @@ class ApolloList extends Component {
                                     selected={selected}
                                     danger={danger}
                                     onSelect={handleSelect}
+                                    onDisabledSelect={onDisabledSelect}
                                     onEdit={onUpdate}
                                     onDelete={onDelete}
                                     arguments={args}

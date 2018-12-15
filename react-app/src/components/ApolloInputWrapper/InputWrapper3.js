@@ -178,7 +178,7 @@ class InputWrapper extends Component {
             handleReset,
         } = this;
 
-        console.log(this);
+        // console.log(this);
         // console.log(apollo);
 
         return (

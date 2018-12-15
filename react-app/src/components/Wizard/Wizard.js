@@ -23,7 +23,7 @@ class Wizard extends Component {
             },
         } = this;
 
-        console.log(apollo);
+        // console.log(apollo);
 
         return (
             <div className="Wizard" >

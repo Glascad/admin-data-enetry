@@ -70,6 +70,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                 systemConfigurationOverrides,
                 invalidSystemConfigurationTypes,
                 createInvalidSystemConfigurationType,
+                deleteInvalidSystemConfigurationType,
             }) => (
                     <ListWrapper3
                         title="Valid Detail Types"
@@ -91,7 +92,6 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                 <ListWrapper3
                                     title="Valid Configuration Types"
                                     parent={detailTypeName}
-                                    n={console.log(invalidSystemConfigurationTypes)}
                                     items={systemTypeDetailTypeConfigurationTypes
                                         .filter(({
                                             detailTypeByDetailTypeId: {
@@ -104,28 +104,36 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                             id,
                                             type
                                         }
-                                    }) => ({
-                                        title: type,
-                                        arguments: {
-                                            nodeId,
-                                            id,
-                                        },
-                                        disabled: invalidSystemConfigurationTypes.some(({
-                                            configurationTypeByInvalidConfigurationTypeId: {
-                                                nodeId: invalidNID
-                                            }
-                                        }) => invalidNID === nodeId)
-                                    })}
+                                    }) => {
+                                        const invalidSystemConfigurationType = invalidSystemConfigurationTypes
+                                            .find(({
+                                                configurationTypeByInvalidConfigurationTypeId: {
+                                                    nodeId: invalidNID,
+                                                }
+                                            }) => invalidNID === nodeId);
+                                        return {
+                                            title: type,
+                                            arguments: {
+                                                nodeId,
+                                                id,
+                                                invalidSystemConfigurationType,
+                                            },
+                                            disabled: !!invalidSystemConfigurationType
+                                        };
+                                    }}
                                     onDelete={({
                                         arguments: {
                                             id
                                         }
                                     }) => createInvalidSystemConfigurationType({
-                                        variables: {
-                                            systemId,
-                                            invalidConfigurationTypeId: id,
-                                        }
+                                        systemId,
+                                        invalidConfigurationTypeId: id,
                                     })}
+                                    onDisabledSelect={({
+                                        arguments: {
+                                            invalidSystemConfigurationType
+                                        }
+                                    }) => deleteInvalidSystemConfigurationType(invalidSystemConfigurationType)}
                                 >
                                     {({
                                         required,

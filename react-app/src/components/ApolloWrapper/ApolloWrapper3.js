@@ -52,9 +52,9 @@ export default class ApolloWrapper3 extends Component {
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
                                 // iterate through all batched mutations
                                 const batchedMutationKeys = Object.keys(batchedMutations);
-                                console.log(batchedMutationKeys);
+                                // console.log(batchedMutationKeys);
                                 const childProps = batchedMutationKeys.reduce((mappedProps, mutationKey) => {
-                                    console.log(mappedProps);
+                                    // console.log(mappedProps);
                                     const {
                                         mapResultToProps = (res, props) => props
                                     } = mutations[mutationKey] || {};
@@ -62,10 +62,10 @@ export default class ApolloWrapper3 extends Component {
                                         argumentSets = []
                                     } = batchedMutations[mutationKey] || {};
                                     // iterate through all argument sets of batched mutations
-                                    return argumentSets.reduce((mappedProps, argSet) => {
-                                        console.log(argSet);
-                                        return mapResultToProps(argSet, mappedProps);
-                                    }, mappedProps);
+                                    return argumentSets.reduce((mappedProps, argSet) => ({
+                                        ...mappedProps,
+                                        ...mapResultToProps(argSet, mappedProps),
+                                    }), mappedProps);
                                 }, {
                                         batcher,
                                         ...accumulatedProps,
@@ -73,7 +73,7 @@ export default class ApolloWrapper3 extends Component {
                                             status,
                                         }),
                                     });
-                                console.log(childProps);
+                                // console.log(childProps);
                                 return children(childProps);
                             }}
                         </ApolloWrapper3>
@@ -95,17 +95,13 @@ export default class ApolloWrapper3 extends Component {
                                 }), {})}
                             batcher={batcher} // VERY IMPORTANT
                         >
-                            {accumulatedProps => console.log(accumulatedProps) || (
+                            {accumulatedProps => (
                                 children({
                                     ...accumulatedProps,
                                     [mutationKeys[0]]: batcher ?
                                         (args) => batchMutation({
                                             arguments: {
-                                                nodeId: args.variables
-                                                    &&
-                                                    args.variables.nodeId
-                                                    ||
-                                                    getNodeId(),
+                                                nodeId: args.nodeId || getNodeId(),
                                                 ...args,
                                             },
                                             mutate,
@@ -121,7 +117,6 @@ export default class ApolloWrapper3 extends Component {
                 </Mutation>
             )
         } else {
-            console.log(this);
             return children({
                 batcher,
                 ...props,

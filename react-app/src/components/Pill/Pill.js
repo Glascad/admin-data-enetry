@@ -37,6 +37,7 @@ export default class Pill extends Component {
         hoverButtons: PropTypes.arrayOf(PropTypes.object),
         // CALLBACKS
         onSelect: PropTypes.func,
+        onDisabledSelect: PropTypes.func,
         onBlur: PropTypes.func,
         onEdit: PropTypes.func,
         onDrag: PropTypes.func,
@@ -124,14 +125,16 @@ export default class Pill extends Component {
     }
 
     handleClick = e => {
+        console.log(e);
         e.preventDefault();
         e.stopPropagation();
-        if (
-            !this.props.disabled
-            &&
-            this.props.onSelect
-        )
-            this.props.onSelect(this.props);
+        if (!this.props.disabled) {
+            if (this.props.onSelect)
+                this.props.onSelect(this.props);
+        } else {
+            if (this.props.onDisabledSelect)
+                this.props.onDisabledSelect(this.props);
+        }
     }
 
     render = () => {
