@@ -11,7 +11,7 @@ class ApolloList extends Component {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
-        parent: PropTypes.string.isRequired,
+        parent: PropTypes.string,
         items: PropTypes.array.isRequired,
         mapPillProps: PropTypes.func.isRequired,
         canSelect: PropTypes.bool,

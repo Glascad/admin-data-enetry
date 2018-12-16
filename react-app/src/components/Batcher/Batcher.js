@@ -16,16 +16,19 @@ export default class Batcher extends Component {
     componentWillUnmount = () => window.removeEventListener('keydown', this.save);
 
     batchMutation = ({ arguments: args, mutate, mutationKey }) => {
+        console.log("BATCHING A MUTATION");
         const previousMutation = this.state.batchedMutations[mutationKey];
-        console.log({ args, mutate, mutationKey });
+        console.log({ args, mutate, mutationKey, previousMutation });
         console.log(this.state);
         // CHECK FOR DELETING A PREVIOUSLY-CREATED ITEM
         if (mutationKey.match(/^delete/)) {
             const createKey = mutationKey.replace(/^delete/, 'create');
             const createMutation = this.state.batchedMutations[createKey];
+            console.log({ createKey, createMutation });
             if (createMutation) {
                 const deletedSet = createMutation.argumentSets
                     .find(({ nodeId }) => nodeId === args.nodeId);
+                console.log({ deletedSet });
                 if (deletedSet) {
                     console.log("REMOVING CREATE MUTATION");
                     this.setState({
@@ -46,9 +49,19 @@ export default class Batcher extends Component {
         if (mutationKey.match(/^create/)) {
             const deleteKey = mutationKey.replace(/^create/, 'delete');
             const deleteMutation = this.state.batchedMutations[deleteKey];
+            console.log({ deleteKey, deleteMutation });
             if (deleteMutation) {
                 const createdSet = deleteMutation.argumentSets
-                    .find(({ nodeId }) => nodeId === args.nodeId);
+                    .find(argSet => Object.keys(args)
+                        .every(key => (
+                            key === 'nodeId'
+                            ||
+                            argSet[key] === args[key]
+                            ||
+                            typeof args[key] === 'object'
+                        ))
+                    );
+                console.log({ createdSet });
                 if (createdSet) {
                     console.log("REMOVING DELETE MUTATION")
                     this.setState({
@@ -57,14 +70,7 @@ export default class Batcher extends Component {
                             [deleteKey]: {
                                 ...this.state.batchedMutations[deleteKey],
                                 argumentSets: this.state.batchedMutations[deleteKey].argumentSets
-                                    .filter(argSet => Object.keys(argSet)
-                                        .every(key => (
-                                            key === 'nodeId'
-                                            ||
-                                            createdSet[key] === argSet[key]
-                                            ||
-                                            typeof argSet[key] === 'object'
-                                        )))
+                                    .filter(argSet => argSet !== createdSet)
                             }
                         }
                     });
@@ -76,23 +82,10 @@ export default class Batcher extends Component {
         if (previousMutation) {
             const updatedSet = previousMutation.argumentSets
                 .find(({ nodeId }) => nodeId === args.nodeId);
+            console.log({ updatedSet });
             if (updatedSet) {
                 const updatedSetIndex = previousMutation.argumentSets.indexOf(updatedSet);
                 console.log("UPDATING MUTATION");
-                console.log({
-                    batchedMutations: {
-                        ...this.state.batchedMutations,
-                        [mutationKey]: {
-                            ...previousMutation,
-                            // See Array.prototype.replace in `public/index.html`
-                            argumentSets: previousMutation.argumentSets
-                                .replace(updatedSetIndex, {
-                                    ...updatedSet,
-                                    ...args,
-                                })
-                        }
-                    }
-                })
                 this.setState({
                     batchedMutations: {
                         ...this.state.batchedMutations,
@@ -140,18 +133,19 @@ export default class Batcher extends Component {
     });
 
     completeMutations = () => {
-        const mutationKeys = Object.keys(this.state.batchedMutations);
+        const batchedMutations = this.state.batchedMutations;
+        const mutationKeys = Object.keys(batchedMutations);
         mutationKeys.forEach(mutationKey => {
-            const mutation = this.state.batchedMutations[mutationKey];
+            const mutation = batchedMutations[mutationKey];
             mutation.argumentSets.forEach(async argSet => {
                 try {
                     await mutation.mutate({ variables: argSet });
                     this.setState({
                         batchedMutations: {
-                            ...this.state.batchedMutations,
+                            ...batchedMutations,
                             [mutationKey]: {
-                                ...this.state.batchedMutations[mutationKey],
-                                argumentSets: this.state.batchedMutations[mutationKey].argumentSets
+                                ...mutation,
+                                argumentSets: mutation.argumentSets
                                     .filter(set => set !== argSet)
                             }
                         }

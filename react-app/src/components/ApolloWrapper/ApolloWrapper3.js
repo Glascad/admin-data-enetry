@@ -108,7 +108,9 @@ export default class ApolloWrapper3 extends Component {
                                             mutationKey: mutationKeys[0],
                                         })
                                         :
-                                        mutate,
+                                        (args) => mutate({
+                                            variables: args,
+                                        }),
                                     [`${mutationKeys[0]}Status`]: status,
                                 })
                             )}
