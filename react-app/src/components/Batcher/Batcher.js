@@ -184,7 +184,7 @@ export default class Batcher extends Component {
             completeMutations,
         } = this;
 
-        console.log(this);
+        // console.log(this);
 
         return children({
             getNodeId,

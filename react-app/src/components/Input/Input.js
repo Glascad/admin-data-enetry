@@ -7,6 +7,7 @@ export default function Input({
     label,
     type = "text",
     select,
+    value,
     ...props
 }) {
     const tag = {
@@ -29,6 +30,18 @@ export default function Input({
             {type !== "select" ? (
                 <input
                     type={type}
+                    value={value || (
+                        type === 'text' ?
+                            ""
+                            :
+                            type === "number" ?
+                                0
+                                :
+                                type === "checkbox" ?
+                                    false
+                                    :
+                                    ""
+                    )}
                     {...props}
                 />
             ) : (
