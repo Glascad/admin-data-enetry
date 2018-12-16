@@ -2,10 +2,6 @@ import React from 'react';
 
 import {
     Wizard,
-    ApolloListWrapper,
-    SelectionWrapper,
-    HeadedListContainer,
-    Pill,
 } from '../../../components';
 
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
@@ -24,53 +20,54 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                     nodeId: systemNID,
                 },
                 mapProps: ({
-                    status: {
-                        data: {
-                            system: {
-                                manufacturerByManufacturerId: manufacturer,
-                                systemTypeBySystemTypeId: {
-                                    systemTypeDetailTypesBySystemTypeId: {
-                                        nodes: systemTypeDetailTypes = [],
-                                    } = {},
-                                    systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
-                                        nodes: systemTypeDetailTypeConfigurationTypes = [],
-                                    } = {},
-                                    ...systemType
+                    data: {
+                        system: {
+                            manufacturerByManufacturerId: manufacturer,
+                            systemTypeBySystemTypeId: {
+                                systemTypeDetailTypesBySystemTypeId: {
+                                    nodes: systemTypeDetailTypes = [],
                                 } = {},
-                                systemConfigurationOverridesBySystemId: {
-                                    nodes: systemConfigurationOverrides = [],
+                                systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
+                                    nodes: systemTypeDetailTypeConfigurationTypes = [],
                                 } = {},
-                                invalidSystemConfigurationTypesBySystemId: {
-                                    nodes: invalidSystemConfigurationTypes = [],
-                                } = {},
-                                ...system
-                            } = {}
+                                ...systemType
+                            } = {},
+                            systemConfigurationOverridesBySystemId: {
+                                nodes: systemConfigurationOverrides = [],
+                            } = {},
+                            invalidSystemConfigurationTypesBySystemId: {
+                                nodes: invalidSystemConfigurationTypes = [],
+                            } = {},
+                            ...system
                         } = {}
-                    }
+                    } = {}
                 }) => ({
                     system,
-                    systemType,
                     manufacturer,
                     systemTypeDetailTypes,
                     systemTypeDetailTypeConfigurationTypes,
+                    systemType,
                     systemConfigurationOverrides,
                     invalidSystemConfigurationTypes,
-                }),
+                })
             }}
         >
             {({
-                system,
-                system: {
-                    id: systemId
+                queryStatus: {
+                    system: {
+                        id: systemId
+                    },
+                    manufacturer,
+                    systemTypeDetailTypes,
+                    systemTypeDetailTypeConfigurationTypes,
+                    systemType,
+                    systemConfigurationOverrides,
+                    invalidSystemConfigurationTypes,
                 },
-                systemType,
-                manufacturer,
-                systemTypeDetailTypes,
-                systemTypeDetailTypeConfigurationTypes,
-                systemConfigurationOverrides,
-                invalidSystemConfigurationTypes,
-                createInvalidSystemConfigurationType,
-                deleteInvalidSystemConfigurationType,
+                mutations: {
+                    createInvalidSystemConfigurationType,
+                    deleteInvalidSystemConfigurationType,
+                },
             }) => (
                     <ListWrapper3
                         title="Valid Detail Types"
@@ -140,6 +137,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                         mirrorable,
                                     }) => (
                                             <InputWrapper3
+                                                title="System Configuration Type"
                                                 inputs={[
                                                     {
                                                         label: "Required",

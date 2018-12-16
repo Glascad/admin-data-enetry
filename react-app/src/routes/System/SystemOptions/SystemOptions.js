@@ -1,93 +1,63 @@
 import React from 'react';
-import gql from 'graphql-tag';
+
 import {
     Wizard,
+    ApolloListWrapper,
+    SelectionWrapper,
+    HeadedListContainer,
+    Pill,
 } from '../../../components';
 
-import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
+import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 
-export default function ManufacturerOptions() {
+import InputWrapper3 from '../../../components/ApolloInputWrapper/InputWrapper3'
+
+import { query, mutations } from './system-options-graphql';
+
+export default function ValidTypes({ match: { params: { systemNID } } }) {
     return (
         <Wizard
+            mutations={mutations}
             query={{
-                query: gql`{
-                        allManufacturers{
-                            nodes{
-                                nodeId
-                                id
-                                name
-                            }
-                        }
-                        allSystemTypes{
-                            nodes{
-                                nodeId
-                                id
-                                type
-                            }
-                        }
-                    }`,
-                mapProps: ({
-                    status: {
-                        data: {
-                            allManufacturers: {
-                                nodes: manufacturers = []
-                            } = {},
-                            allSystemTypes: {
-                                nodes: systemTypes = []
-                            } = {}
-                        } = {}
-                    } = {}
-                }) => ({
-                    manufacturers,
-                    systemTypes,
-                }),
-            }}
-            mutations={{
-                createManufacturer: {
-                    mutation: gql`mutation CreateManufacturer(
-                        $name:String!
-                    ){
-                        createManufacturer(
-                            input:{
-                                manufacturer:{
-                                    name:$name
-                                }
-                            }
-                        ){
-                            manufacturer{
-                                nodeId
-                                id
-                                name
-                            }
-                        }
-                    }`,
+                query,
+                variables: {
+                    nodeId: systemNID,
                 },
-                createSystemType: {
-                    mutation: gql`mutation CreateSystemType(
-                        $name:String!
-                    ){
-                        createSystemType(
-                            input:{
-                                systemType:{
-                                    name:$name
-                                }
-                            }
-                        ){
-                            systemType{
-                                nodeId
-                                id
-                                type
-                            }
-                        }
-                    }`
-                }
             }}
         >
-            {props => (
-                console.log(props)
-                ||
-                "DONE"
-            )}
+            {({
+                queryStatus: {
+                    data: {
+                        system: {
+                            id: systemId,
+                            systemOptionsBySystemId: {
+                                nodes: systemOptions = []
+                            } = {}
+                        } = {}
+                    }
+                },
+                mutations: {
+                    createSystemOption,
+                }
+            }) => (
+                    <ListWrapper3
+                        title="Valid Detail Types"
+                        items={systemOptions}
+                        mapPillProps={({
+                            ...item
+                        }) => ({
+                            n: console.log(item)
+                        })}
+                    >
+                        {({
+                        }) => (
+                                <InputWrapper3
+                                    title="Option"
+                                    inputs={[]}
+                                />
+                            )}
+                    </ListWrapper3>
+                )}
         </Wizard>
     );
 }

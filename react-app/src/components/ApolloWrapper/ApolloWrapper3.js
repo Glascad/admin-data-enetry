@@ -6,8 +6,8 @@ export default class ApolloWrapper3 extends Component {
 
     static propTypes = {
         query: PropTypes.shape({
-            mapProps: PropTypes.func.isRequired,
             query: PropTypes.object.isRequired,
+            mapProps: PropTypes.func,
             variables: PropTypes.object,
         }),
         mutations: PropTypes.objectOf(PropTypes.object),
@@ -24,7 +24,7 @@ export default class ApolloWrapper3 extends Component {
                 } = {},
                 query,
                 query: {
-                    mapProps: mapQueryProps,
+                    mapProps: mapQueryProps = props => props,
                 } = {},
                 mutations = {},
                 children,
@@ -46,15 +46,15 @@ export default class ApolloWrapper3 extends Component {
                     {status => (
                         <ApolloWrapper3
                             mutations={mutations}
-                            batcher={batcher} // VERY IMPORTANT
+                            batcher={batcher}
                         >
                             {accumulatedProps => {
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
                                 // iterate through all batched mutations
                                 const batchedMutationKeys = Object.keys(batchedMutations);
                                 // console.log(batchedMutationKeys);
-                                const childProps = batchedMutationKeys.reduce((mappedProps, mutationKey) => {
-                                    // console.log(mappedProps);
+                                const queryStatus = batchedMutationKeys.reduce((mappedStatus, mutationKey) => {
+                                    // console.log(mappedStatus);
                                     const {
                                         mapResultToProps = (res, props) => props
                                     } = mutations[mutationKey] || {};
@@ -62,17 +62,16 @@ export default class ApolloWrapper3 extends Component {
                                         argumentSets = []
                                     } = batchedMutations[mutationKey] || {};
                                     // iterate through all argument sets of batched mutations
-                                    return argumentSets.reduce((mappedProps, argSet) => ({
-                                        ...mappedProps,
-                                        ...mapResultToProps(argSet, mappedProps),
-                                    }), mappedProps);
-                                }, {
-                                        batcher,
-                                        ...accumulatedProps,
-                                        ...mapQueryProps({
-                                            status,
-                                        }),
-                                    });
+                                    return argumentSets.reduce((mappedStatus, argSet) => ({
+                                        ...mappedStatus,
+                                        ...mapResultToProps(argSet, mappedStatus),
+                                    }), mappedStatus);
+                                }, mapQueryProps(status));
+                                const childProps = {
+                                    ...accumulatedProps,
+                                    batcher,
+                                    queryStatus,
+                                };
                                 // console.log(childProps);
                                 return children(childProps);
                             }}
@@ -93,25 +92,28 @@ export default class ApolloWrapper3 extends Component {
                                     ...all,
                                     [key]: mutations[key],
                                 }), {})}
-                            batcher={batcher} // VERY IMPORTANT
+                            batcher={batcher}
                         >
                             {accumulatedProps => (
                                 children({
                                     ...accumulatedProps,
-                                    [mutationKeys[0]]: batcher ?
-                                        (args) => batchMutation({
-                                            arguments: {
-                                                nodeId: args.nodeId || getNodeId(),
-                                                ...args,
-                                            },
-                                            mutate,
-                                            mutationKey: mutationKeys[0],
-                                        })
-                                        :
-                                        (args) => mutate({
-                                            variables: args,
-                                        }),
-                                    [`${mutationKeys[0]}Status`]: status,
+                                    mutations: {
+                                        ...accumulatedProps.mutations,
+                                        [mutationKeys[0]]: batcher ?
+                                            (args) => batchMutation({
+                                                arguments: {
+                                                    nodeId: args.nodeId || getNodeId(),
+                                                    ...args,
+                                                },
+                                                mutate,
+                                                mutationKey: mutationKeys[0],
+                                            })
+                                            :
+                                            (args) => mutate({
+                                                variables: args,
+                                            }),
+                                        [`${mutationKeys[0]}Status`]: status,
+                                    }
                                 })
                             )}
                         </ApolloWrapper3>
