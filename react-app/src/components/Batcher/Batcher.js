@@ -15,41 +15,41 @@ export default class Batcher extends Component {
 
     componentWillUnmount = () => window.removeEventListener('keydown', this.save);
 
-    batchMutation = ({ arguments: args, mutate, mutationKey }) => {
+    batchMutation = ({ arguments: args, mutate, mutationKey }) => this.setState(({ batchedMutations }) => {
         console.log("BATCHING A MUTATION");
-        const previousMutation = this.state.batchedMutations[mutationKey];
-        console.log({ args, mutate, mutationKey, previousMutation });
-        console.log(this.state);
+        console.log({ args, mutate, mutationKey });
+        const previousMutation = batchedMutations[mutationKey];
+        // console.log({ args, mutate, mutationKey, previousMutation });
+        // console.log(this.state);
         // CHECK FOR DELETING A PREVIOUSLY-CREATED ITEM
         if (mutationKey.match(/^delete/)) {
             const createKey = mutationKey.replace(/^delete/, 'create');
-            const createMutation = this.state.batchedMutations[createKey];
-            console.log({ createKey, createMutation });
+            const createMutation = batchedMutations[createKey];
+            // console.log({ createKey, createMutation });
             if (createMutation) {
                 const deletedSet = createMutation.argumentSets
                     .find(({ nodeId }) => nodeId === args.nodeId);
-                console.log({ deletedSet });
+                // console.log({ deletedSet });
                 if (deletedSet) {
-                    console.log("REMOVING CREATE MUTATION");
-                    this.setState({
+                    // console.log("REMOVING CREATE MUTATION");
+                    return {
                         batchedMutations: {
-                            ...this.state.batchedMutations,
+                            ...batchedMutations,
                             [createKey]: {
                                 ...createMutation,
                                 argumentSets: createMutation.argumentSets
                                     .filter(argSet => argSet !== deletedSet)
                             }
                         }
-                    });
-                    return;
+                    };
                 }
             }
         }
         // CHECK FOR CREATING A PREVIOUSLY-DELETED ITEM
         if (mutationKey.match(/^create/)) {
             const deleteKey = mutationKey.replace(/^create/, 'delete');
-            const deleteMutation = this.state.batchedMutations[deleteKey];
-            console.log({ deleteKey, deleteMutation });
+            const deleteMutation = batchedMutations[deleteKey];
+            // console.log({ deleteKey, deleteMutation });
             if (deleteMutation) {
                 const createdSet = deleteMutation.argumentSets
                     .find(argSet => Object.keys(args)
@@ -61,20 +61,19 @@ export default class Batcher extends Component {
                             typeof args[key] === 'object'
                         ))
                     );
-                console.log({ createdSet });
+                // console.log({ createdSet });
                 if (createdSet) {
-                    console.log("REMOVING DELETE MUTATION")
-                    this.setState({
+                    // console.log("REMOVING DELETE MUTATION")
+                    return {
                         batchedMutations: {
-                            ...this.state.batchedMutations,
+                            ...batchedMutations,
                             [deleteKey]: {
-                                ...this.state.batchedMutations[deleteKey],
-                                argumentSets: this.state.batchedMutations[deleteKey].argumentSets
+                                ...batchedMutations[deleteKey],
+                                argumentSets: batchedMutations[deleteKey].argumentSets
                                     .filter(argSet => argSet !== createdSet)
                             }
                         }
-                    });
-                    return;
+                    };
                 }
             }
         }
@@ -82,13 +81,13 @@ export default class Batcher extends Component {
         if (previousMutation) {
             const updatedSet = previousMutation.argumentSets
                 .find(({ nodeId }) => nodeId === args.nodeId);
-            console.log({ updatedSet });
+            // console.log({ updatedSet });
             if (updatedSet) {
                 const updatedSetIndex = previousMutation.argumentSets.indexOf(updatedSet);
-                console.log("UPDATING MUTATION");
-                this.setState({
+                // console.log("UPDATING MUTATION");
+                return {
                     batchedMutations: {
-                        ...this.state.batchedMutations,
+                        ...batchedMutations,
                         [mutationKey]: {
                             ...previousMutation,
                             // See Array.prototype.replace in `public/index.html`
@@ -99,34 +98,32 @@ export default class Batcher extends Component {
                                 })
                         }
                     }
-                });
-                return;
+                };
             }
-            console.log("ADDING AN ARGSET");
-            this.setState({
+            // console.log("ADDING AN ARGSET");
+            return {
                 batchedMutations: {
-                    ...this.state.batchedMutations,
+                    ...batchedMutations,
                     [mutationKey]: {
                         ...previousMutation,
                         mutate,
                         argumentSets: previousMutation.argumentSets.concat(args)
                     }
                 }
-            });
-            return;
+            };
         }
         // CREATE A MUTATION
-        console.log("CREATING MUTATION");
-        this.setState({
+        // console.log("CREATING MUTATION");
+        return {
             batchedMutations: {
-                ...this.state.batchedMutations,
+                ...batchedMutations,
                 [mutationKey]: {
                     mutate,
                     argumentSets: [args]
                 }
             }
-        });
-    }
+        };
+    });
 
     resetMutations = () => this.setState({
         batchedMutations: {}
@@ -151,7 +148,7 @@ export default class Batcher extends Component {
                         }
                     });
                 } catch (err) {
-                    console.error(err);
+                    // console.error(err);
                 }
             });
         });
@@ -184,7 +181,7 @@ export default class Batcher extends Component {
             completeMutations,
         } = this;
 
-        // console.log(this);
+        console.log(this);
 
         return children({
             getNodeId,

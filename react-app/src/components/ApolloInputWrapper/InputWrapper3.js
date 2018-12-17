@@ -40,13 +40,13 @@ class InputWrapper extends Component {
             multiSelectList: {
                 initialItems,
             } = {},
-            initialValue
+            value
         }) => ({
             ...state,
             [label]: multiSelectList ?
                 initialItems
                 :
-                initialValue
+                value
         }),
         {});
 
@@ -62,16 +62,16 @@ class InputWrapper extends Component {
         }
     }
 
-    handleChange = label => ({ target: { initialValue } }) => this.setState({
-        [label]: initialValue
+    handleChange = label => ({ target: { value } }) => this.setState({
+        [label]: value
     });
 
     handleCheckChange = label => ({ target: { checked } }) => this.setState({
         [label]: checked
     });
 
-    handleSelectChange = label => initialValue => this.setState({
-        [label]: initialValue
+    handleSelectChange = label => value => this.setState({
+        [label]: value
     });
 
     // handleBlur = () => {

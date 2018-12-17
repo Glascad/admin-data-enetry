@@ -11,8 +11,6 @@ import {
 
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 
-import InputWrapper3 from '../../../components/ApolloInputWrapper/InputWrapper3'
-
 import { query, mutations } from './system-options-graphql';
 
 export default function ValidTypes({ match: { params: { systemNID } } }) {
@@ -31,11 +29,15 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                 nodes: systemOptions = [],
                             } = {},
                             ...system
-                        } = {}
+                        } = {},
+                        allConfigurationTypes: {
+                            nodes: allConfigurationTypes = []
+                        } = {},
                     }
                 }) => ({
                     system,
                     systemOptions,
+                    allConfigurationTypes,
                 })
             }}
         >
@@ -45,11 +47,16 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                         id: systemId,
                     },
                     systemOptions,
+                    allConfigurationTypes,
                 },
                 mutations: {
                     createSystemOption,
                     updateSystemOption,
                     createOptionValue,
+                    createSystemOptionConfigurationType,
+                },
+                batcher: {
+                    getNodeId,
                 }
             }) => (
                     <ListWrapper3
@@ -136,15 +143,24 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                     <ListWrapper3
                                         title="Affected Configuration Types"
                                         items={systemOptionConfigurationTypes}
-                                        mapPillProps={({ name }) => ({
-                                            title: name
+                                        mapPillProps={({ configurationTypeByConfigurationTypeId: { type } }) => ({
+                                            title: type
                                         })}
+                                        onCreate={({ id: configurationTypeId, ...configurationType }) => createSystemOptionConfigurationType({
+                                            systemOptionId,
+                                            configurationTypeId,
+                                        })}
+                                        onDelete={item => console.log(item)}
                                         multiSelect={{
                                             title: "",
                                             // initialItems: [],
-                                            allItems: [],
-                                            onCreate: () => { },
-                                            onDelete: () => { },
+                                            allItems: allConfigurationTypes
+                                                .map(configurationTypeByConfigurationTypeId => ({
+                                                    configurationTypeByConfigurationTypeId
+                                                })),
+                                            mapPillProps: ({ configurationTypeByConfigurationTypeId: { type } }) => ({
+                                                title: type
+                                            }),
                                         }}
                                     />
                                     <ListWrapper3
@@ -159,21 +175,6 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                         })}
                                     />
                                 </>
-                                // <InputWrapper3
-                                //     title="Option"
-                                //     inputs={[
-                                //         {
-                                //             label: "Option Name",
-                                //             initialValue: name,
-                                //         }
-                                //     ]}
-                                //     onBlur={({
-                                //         "Option Name": name,
-                                //     }) => updateSystemOption({
-                                //         ...option,
-                                //         name,
-                                //     })}
-                                // />
                             )}
                     </ListWrapper3>
                 )}

@@ -23,7 +23,30 @@ export const query = gql`query SystemOptions($nodeId:ID!){
                         value
                     }
                 }
+                systemOptionConfigurationTypesBySystemOptionId{
+                    nodes{
+                        nodeId
+                        configurationTypeId
+                        configurationTypeByConfigurationTypeId{
+                            nodeId
+                            type
+                            door
+                            overrideLevel
+                            presentationLevel
+                        }
+                    }
+                }
             }
+        }
+    }
+    allConfigurationTypes{
+        nodes{
+            nodeId
+            id
+            type
+            door
+            overrideLevel
+            presentationLevel
         }
     }
 }`;
@@ -142,6 +165,19 @@ export const mutations = {
                             value
                         }
                     }
+                    systemOptionConfigurationTypesBySystemOptionId{
+                        nodes{
+                            nodeId
+                            configurationTypeId
+                            configurationTypeByConfigurationTypeId{
+                                nodeId
+                                type
+                                door
+                                overrideLevel
+                                presentationLevel
+                            }
+                        }
+                    }
                 }
             }
         }`,
@@ -213,6 +249,63 @@ export const mutations = {
             data: {
                 createOptionValue: {
                     optionValue: {
+                        systemOptionBySystemOptionId: {
+                            systemBySystemId: {
+                                nodeId
+                            }
+                        }
+                    }
+                }
+            }
+        }) => [{ query, variables: { nodeId } }]
+    },
+    createSystemOptionConfigurationType: {
+        mutation: gql`mutation CreateSystemOptionConfigurationType(
+            $systemOptionId:Int!,
+            $configurationTypeId:Int!
+        ){
+            createSystemOptionConfigurationType(
+                input:{
+                    systemOptionConfigurationType:{
+                        systemOptionId:$systemOptionId,
+                        configurationTypeId:$configurationTypeId
+                    }
+                }
+            ){
+                systemOptionConfigurationType{
+                    nodeId
+                    systemOptionId
+                    systemOptionBySystemOptionId{
+                        nodeId
+                        systemBySystemId{
+                            nodeId
+                        }
+                    }
+                    configurationTypeId
+                    configurationTypeByConfigurationTypeId{
+                        nodeId
+                    }
+                }
+            }
+        }`,
+        mapResultToProps: (newSystemOptionConfigurationType, { systemOptions }) => ({
+            n: console.log({ newSystemOptionConfigurationType, systemOptions }),
+            systemOptions: systemOptions
+                .map(option => option.id === newSystemOptionConfigurationType.systemOptionId ?
+                    {
+                        ...option,
+                        systemOptionConfigurationTypesBySystemOptionId: {
+                            ...option.systemOptionConfigurationTypesBySystemOptionId,
+                            nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.concat(newSystemOptionConfigurationType)
+                        }
+                    }
+                    :
+                    option)
+        }),
+        refetchQueries: ({
+            data: {
+                createSystemOptionConfigurationType: {
+                    systemOptionConfigurationType: {
                         systemOptionBySystemOptionId: {
                             systemBySystemId: {
                                 nodeId

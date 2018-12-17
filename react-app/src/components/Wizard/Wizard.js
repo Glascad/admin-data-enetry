@@ -12,14 +12,13 @@ class Wizard extends Component {
         const {
             props: {
                 children,
-                batcher,
-                batcher: {
-                    batchMutation,
-                    resetMutations,
-                    replaceMutation,
-                    completeMutations,
-                },
                 apollo,
+                apollo: {
+                    batcher: {
+                        resetMutations,
+                        completeMutations,
+                    },
+                }
             },
         } = this;
 
@@ -76,7 +75,6 @@ export default function ({
                     {apollo => (
                         <Wizard
                             {...props}
-                            batcher={batcher}
                             apollo={apollo}
                         />
                     )}

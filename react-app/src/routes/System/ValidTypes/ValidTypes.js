@@ -142,13 +142,13 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                                     {
                                                         label: "Required",
                                                         type: "checkbox",
-                                                        initialValue: required || false,
+                                                        value: required || false,
                                                         // onChange: 
                                                     },
                                                     {
                                                         label: "Mirrorable",
                                                         type: "checkbox",
-                                                        initialValue: mirrorable || false,
+                                                        value: mirrorable || false,
                                                         // onChange: 
                                                     }
                                                 ]}

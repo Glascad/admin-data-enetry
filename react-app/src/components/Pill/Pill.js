@@ -125,7 +125,6 @@ export default class Pill extends Component {
     }
 
     handleClick = e => {
-        console.log(e);
         e.preventDefault();
         e.stopPropagation();
         if (!this.props.disabled) {

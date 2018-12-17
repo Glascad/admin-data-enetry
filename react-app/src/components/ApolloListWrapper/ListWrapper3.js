@@ -19,7 +19,24 @@ class ApolloList extends Component {
         onUpdate: PropTypes.func,
         onDelete: PropTypes.func,
         children: PropTypes.func,
+        multiSelect: PropTypes.shape({
+
+        })
     };
+
+    handleMultiSelectFinish = ({ arguments: { addedItems, deletedItems } }) => {
+        console.log({ addedItems, deletedItems });
+        addedItems
+            .map(item => { console.log(item); return item })
+            .map(this.props.multiSelect.mapAllItems)
+            .map(item => { console.log(item); return item })
+            .forEach(this.props.onCreate);
+        deletedItems
+            .map(item => { console.log(item); return item })
+            .map(this.props.multiSelect.mapAllItems)
+            .map(item => { console.log(item); return item })
+            .forEach(this.props.onDelete);
+    }
 
     render = () => {
         const {
@@ -33,6 +50,7 @@ class ApolloList extends Component {
                 onCreate,
                 onUpdate,
                 onDelete,
+                selection,
                 selection: {
                     selectedNID,
                     creating,
@@ -43,8 +61,17 @@ class ApolloList extends Component {
                     handleDeleteClick,
                 },
                 multiSelect,
+                multiSelect: {
+                    title: multiSelectTitle,
+                    allItems,
+                    // onCreate: onMultiSelectCreate,
+                    // onDelete: onMultiSelectDelete,
+                    mapPillProps: mapMultiSelectPillProps,
+                    mapPreviousItems = item => item,
+                } = {},
                 children = () => null,
-            }
+            },
+            handleMultiSelectFinish,
         } = this;
 
         // console.log(this);
@@ -79,6 +106,8 @@ class ApolloList extends Component {
 
                             const danger = onDelete && deleting && nodeId === selectedNID;
 
+                            const _delete = multiSelect ? handleDeleteClick : onDelete;
+
                             return (
                                 <Pill
                                     key={nodeId}
@@ -88,7 +117,7 @@ class ApolloList extends Component {
                                     onSelect={handleSelect}
                                     onDisabledSelect={onDisabledSelect}
                                     onEdit={onUpdate}
-                                    onDelete={onDelete}
+                                    onDelete={_delete}
                                     arguments={args}
                                     {...mapPillProps(item)}
                                 />
@@ -114,6 +143,22 @@ class ApolloList extends Component {
                 <div className="nested">
                     {children(selectedItem)}
                 </div>
+                {multiSelect ? (
+                    <MultiSelect
+                        modalProps={{
+                            title: multiSelectTitle || `Update ${title}`,
+                            display: !!(deleting || creating),
+                            onCancel: cancel,
+                            onFinish: handleMultiSelectFinish,
+                            // ...mapModalProps(selectedItem),
+                        }}
+                        selection={selection}
+                        previousItems={items.map(mapPreviousItems)}
+                        allItems={allItems}
+                        mapPillProps={mapMultiSelectPillProps}
+                    // {...mapMultiSelectProps(childProps)}
+                    />
+                ) : null}
             </div>
         );
     }
