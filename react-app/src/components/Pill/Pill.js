@@ -17,7 +17,7 @@ export default class Pill extends Component {
         editing: PropTypes.bool,
         default: PropTypes.bool,
         danger: PropTypes.bool,
-        invalid: PropTypes.bool,
+        disabled: PropTypes.bool,
         // STRINGS
         inputType: PropTypes.string,
         align: PropTypes.oneOf([
@@ -37,6 +37,7 @@ export default class Pill extends Component {
         hoverButtons: PropTypes.arrayOf(PropTypes.object),
         // CALLBACKS
         onSelect: PropTypes.func,
+        onDisabledSelect: PropTypes.func,
         onBlur: PropTypes.func,
         onEdit: PropTypes.func,
         onDrag: PropTypes.func,
@@ -65,7 +66,13 @@ export default class Pill extends Component {
 
     handleEditClick = e => {
         e.stopPropagation();
-        if (this.props.onEdit && (this.props.selected || !this.props.onSelect)) {
+        if (
+            !this.props.disabled
+            &&
+            this.props.onEdit
+            &&
+            (this.props.selected || !this.props.onSelect)
+        ) {
             this.beginEdit(e);
         } else {
             this.handleClick(e);
@@ -98,22 +105,35 @@ export default class Pill extends Component {
             this.setState({
                 editing: false
             });
-            if (this.props.onBlur)
+            if (
+                !this.props.disabled
+                &&
+                this.props.onBlur
+            )
                 this.props.onBlur(this.props, this.state)
         }
     }
 
     handleDeleteClick = e => {
         e.stopPropagation();
-        if (this.props.onDelete)
+        if (
+            !this.props.disabled
+            &&
+            this.props.onDelete
+        )
             this.props.onDelete(this.props);
     }
 
     handleClick = e => {
         e.preventDefault();
         e.stopPropagation();
-        if (this.props.onSelect)
-            this.props.onSelect(this.props);
+        if (!this.props.disabled) {
+            if (this.props.onSelect)
+                this.props.onSelect(this.props);
+        } else {
+            if (this.props.onDisabledSelect)
+                this.props.onDisabledSelect(this.props);
+        }
     }
 
     render = () => {
@@ -129,7 +149,7 @@ export default class Pill extends Component {
                 selected,
                 default: defaulted,
                 danger,
-                invalid,
+                disabled,
                 align,
                 title,
                 subtitle,
@@ -172,7 +192,7 @@ export default class Pill extends Component {
                     } ${
                     align ? `align-${align}` : ''
                     } ${
-                    invalid ? 'invalid' : ''
+                    disabled ? 'disabled' : ''
                     } ${
                     type === 'tile' ? 'tile' : ''
                     }`}

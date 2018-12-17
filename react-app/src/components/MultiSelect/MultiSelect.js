@@ -61,11 +61,11 @@ export default class MultiSelect extends Component {
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
 
-        // console.log(this);
-        // console.log({
-        //     selectedItems,
-        //     nonSelectedItems,
-        // });
+        console.log(this);
+        console.log({
+            selectedItems,
+            nonSelectedItems,
+        });
 
         return (
             <Modal
@@ -77,7 +77,7 @@ export default class MultiSelect extends Component {
             >
                 <ListContainer
                     items={selectedItems}
-                    renderItem={item => (
+                    renderItem={(item, i) => (
                         <Pill
                             key={item.nodeId}
                             tagname="li"
@@ -93,7 +93,7 @@ export default class MultiSelect extends Component {
                     title={""}
                     list={{
                         items: nonSelectedItems,
-                        renderItem: item => (
+                        renderItem: (item, i) => (
                             <Pill
                                 key={item.nodeId}
                                 tagname="li"

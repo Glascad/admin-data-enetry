@@ -11,7 +11,7 @@ class ApolloList extends Component {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
-        parent: PropTypes.string.isRequired,
+        parent: PropTypes.string,
         items: PropTypes.array.isRequired,
         mapPillProps: PropTypes.func.isRequired,
         canSelect: PropTypes.bool,
@@ -19,7 +19,16 @@ class ApolloList extends Component {
         onUpdate: PropTypes.func,
         onDelete: PropTypes.func,
         children: PropTypes.func,
+        multiSelect: PropTypes.shape({
+
+        })
     };
+
+    handleMultiSelectFinish = ({ arguments: { addedItems, deletedItems } }) => {
+        console.log({ addedItems, deletedItems });
+        addedItems.forEach(this.props.onCreate);
+        deletedItems.forEach(this.props.onDelete);
+    }
 
     render = () => {
         const {
@@ -29,9 +38,11 @@ class ApolloList extends Component {
                 items,
                 mapPillProps,
                 canSelect = true,
+                onDisabledSelect,
                 onCreate,
                 onUpdate,
                 onDelete,
+                selection,
                 selection: {
                     selectedNID,
                     creating,
@@ -42,11 +53,20 @@ class ApolloList extends Component {
                     handleDeleteClick,
                 },
                 multiSelect,
+                multiSelect: {
+                    title: multiSelectTitle,
+                    allItems,
+                    // onCreate: onMultiSelectCreate,
+                    // onDelete: onMultiSelectDelete,
+                    mapPillProps: mapMultiSelectPillProps,
+                    mapPreviousItems = item => item,
+                } = {},
                 children = () => null,
-            }
+            },
+            handleMultiSelectFinish,
         } = this;
 
-        console.log(this);
+        // console.log(this);
 
         const selectedItem = items.find(({ nodeId }) => nodeId === selectedNID)
             ||
@@ -78,6 +98,8 @@ class ApolloList extends Component {
 
                             const danger = onDelete && deleting && nodeId === selectedNID;
 
+                            const _delete = multiSelect ? handleDeleteClick : onDelete;
+
                             return (
                                 <Pill
                                     key={nodeId}
@@ -85,9 +107,11 @@ class ApolloList extends Component {
                                     selected={selected}
                                     danger={danger}
                                     onSelect={handleSelect}
+                                    onDisabledSelect={onDisabledSelect}
                                     onEdit={onUpdate}
-                                    onDelete={onDelete}
+                                    onDelete={_delete}
                                     arguments={args}
+                                    // n={console.log(item)}
                                     {...mapPillProps(item)}
                                 />
                             );
@@ -112,6 +136,22 @@ class ApolloList extends Component {
                 <div className="nested">
                     {children(selectedItem)}
                 </div>
+                {multiSelect ? (
+                    <MultiSelect
+                        modalProps={{
+                            title: multiSelectTitle || `Update ${title}`,
+                            display: !!(deleting || creating),
+                            onCancel: cancel,
+                            onFinish: handleMultiSelectFinish,
+                            // ...mapModalProps(selectedItem),
+                        }}
+                        selection={selection}
+                        previousItems={items.map(mapPreviousItems)}
+                        allItems={allItems}
+                        mapPillProps={mapMultiSelectPillProps}
+                    // {...mapMultiSelectProps(childProps)}
+                    />
+                ) : null}
             </div>
         );
     }

@@ -2,10 +2,6 @@ import React from 'react';
 
 import {
     Wizard,
-    ApolloListWrapper,
-    SelectionWrapper,
-    HeadedListContainer,
-    Pill,
 } from '../../../components';
 
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
@@ -24,52 +20,54 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                     nodeId: systemNID,
                 },
                 mapProps: ({
-                    status: {
-                        data: {
-                            system: {
-                                manufacturerByManufacturerId: manufacturer,
-                                systemTypeBySystemTypeId: {
-                                    systemTypeDetailTypesBySystemTypeId: {
-                                        nodes: systemTypeDetailTypes = [],
-                                    } = {},
-                                    systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
-                                        nodes: systemTypeDetailTypeConfigurationTypes = [],
-                                    } = {},
-                                    ...systemType
+                    data: {
+                        system: {
+                            manufacturerByManufacturerId: manufacturer,
+                            systemTypeBySystemTypeId: {
+                                systemTypeDetailTypesBySystemTypeId: {
+                                    nodes: systemTypeDetailTypes = [],
                                 } = {},
-                                systemConfigurationOverridesBySystemId: {
-                                    nodes: systemConfigurationOverrides = [],
+                                systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
+                                    nodes: systemTypeDetailTypeConfigurationTypes = [],
                                 } = {},
-                                invalidSystemConfigurationTypesBySystemId: {
-                                    nodes: invalidSystemConfigurationTypes = [],
-                                } = {},
-                                ...system
-                            } = {}
+                                ...systemType
+                            } = {},
+                            systemConfigurationOverridesBySystemId: {
+                                nodes: systemConfigurationOverrides = [],
+                            } = {},
+                            invalidSystemConfigurationTypesBySystemId: {
+                                nodes: invalidSystemConfigurationTypes = [],
+                            } = {},
+                            ...system
                         } = {}
-                    }
+                    } = {}
                 }) => ({
                     system,
-                    systemType,
                     manufacturer,
                     systemTypeDetailTypes,
                     systemTypeDetailTypeConfigurationTypes,
+                    systemType,
                     systemConfigurationOverrides,
                     invalidSystemConfigurationTypes,
-                }),
+                })
             }}
         >
             {({
-                system,
-                system: {
-                    id: systemId
+                queryStatus: {
+                    system: {
+                        id: systemId
+                    },
+                    manufacturer,
+                    systemTypeDetailTypes,
+                    systemTypeDetailTypeConfigurationTypes,
+                    systemType,
+                    systemConfigurationOverrides,
+                    invalidSystemConfigurationTypes,
                 },
-                systemType,
-                manufacturer,
-                systemTypeDetailTypes,
-                systemTypeDetailTypeConfigurationTypes,
-                systemConfigurationOverrides,
-                invalidSystemConfigurationTypes,
-                createInvalidSystemConfigurationType,
+                mutations: {
+                    createInvalidSystemConfigurationType,
+                    deleteInvalidSystemConfigurationType,
+                },
             }) => (
                     <ListWrapper3
                         title="Valid Detail Types"
@@ -103,29 +101,43 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                             id,
                                             type
                                         }
-                                    }) => ({
-                                        title: type,
-                                        arguments: {
-                                            nodeId,
-                                            id,
-                                        }
-                                    })}
+                                    }) => {
+                                        const invalidSystemConfigurationType = invalidSystemConfigurationTypes
+                                            .find(({
+                                                configurationTypeByInvalidConfigurationTypeId: {
+                                                    nodeId: invalidNID,
+                                                }
+                                            }) => invalidNID === nodeId);
+                                        return {
+                                            title: type,
+                                            arguments: {
+                                                nodeId,
+                                                id,
+                                                invalidSystemConfigurationType,
+                                            },
+                                            disabled: !!invalidSystemConfigurationType
+                                        };
+                                    }}
                                     onDelete={({
                                         arguments: {
                                             id
                                         }
                                     }) => createInvalidSystemConfigurationType({
-                                        variables: {
-                                            systemId,
-                                            invalidConfigurationTypeId: id,
-                                        }
+                                        systemId,
+                                        invalidConfigurationTypeId: id,
                                     })}
+                                    onDisabledSelect={({
+                                        arguments: {
+                                            invalidSystemConfigurationType
+                                        }
+                                    }) => deleteInvalidSystemConfigurationType(invalidSystemConfigurationType)}
                                 >
                                     {({
                                         required,
                                         mirrorable,
                                     }) => (
                                             <InputWrapper3
+                                                title="System Configuration Type"
                                                 inputs={[
                                                     {
                                                         label: "Required",
@@ -145,96 +157,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                 </ListWrapper3>
                             )}
                     </ListWrapper3>
-                    // <SelectionWrapper>
-                    //     {({
-                    //         selectedNID,
-                    //         handleSelect,
-                    //     }) => (
-                    //             <HeadedListContainer
-                    //                 list={{
-                    //                     items: systemTypeDetailTypes,
-                    //                     renderItem: ({
-                    //                         nodeId,
-                    //                         detailTypeByDetailTypeId: {
-                    //                             type
-                    //                         }
-                    //                     }) => (
-                    //                             <Pill
-                    //                                 arguments={{ nodeId }}
-                    //                                 title={type}
-                    //                                 onSelect={handleSelect}
-                    //                             />
-                    //                         )
-                    //                 }}
-                    //             >
-
-                    //             </HeadedListContainer>
-                    //         )}
-                    // </SelectionWrapper>
                 )}
         </Wizard>
-        // <ApolloListWrapper
-        //     apolloProps={{
-        //         ...apolloProps,
-        //         queryVariables: { nodeId: systemNID },
-        //     }}
-        //     itemClass="Valid Detail Types"
-        //     plural={false}
-        //     extractList={({
-        //         system: {
-        //             systemTypeBySystemTypeId: {
-        //                 systemTypeDetailTypesBySystemTypeId: {
-        //                     nodes = []
-        //                 } = {}
-        //             } = {}
-        //         } = {},
-        //     }) => nodes}
-        //     mapPillProps={({ detailTypeByDetailTypeId: { type } }) => ({
-        //         title: type,
-        //     })}
-        // >
-        //     {({
-        //         apollo: {
-        //             queryStatus: {
-        //                 data,
-        //                 data: {
-        //                     system: {
-        //                         systemTypeBySystemTypeId: {
-        //                             systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
-        //                                 nodes: systemTypeDetailTypeConfigurationTypes = []
-        //                             } = {}
-        //                         } = {}
-        //                     } = {}
-        //                 }
-        //             }
-        //         },
-        //         selectedItem,
-        //     }) => (
-        //             <ApolloListWrapper
-        //                 n={console.log({
-        //                     systemTypeDetailTypeConfigurationTypes,
-        //                     selectedItem,
-        //                 })}
-        //                 apolloProps={{
-        //                     ...configurationApolloProps,
-        //                     batchMutations: true
-        //                 }}
-        //                 itemClass="Valid Configuration Types"
-        //                 plural={false}
-        //                 extractList={() => systemTypeDetailTypeConfigurationTypes
-        //                     .filter(({
-        //                         detailTypeByDetailTypeId: {
-        //                             nodeId
-        //                         }
-        //                     }) => nodeId === selectedItem.detailTypeByDetailTypeId.nodeId)
-        //                 }
-        //                 mapPillProps={({ configurationTypeByConfigurationTypeId: { type } }) => ({
-        //                     title: type
-        //                 })}
-        //             >
-
-        //             </ApolloListWrapper>
-        //         )}
-        // </ApolloListWrapper>
     );
 }

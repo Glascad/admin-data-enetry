@@ -38,13 +38,13 @@ class InputWrapper extends Component {
             label,
             multiSelectList,
             multiSelectList: {
-                items,
+                initialItems,
             } = {},
             value
         }) => ({
             ...state,
             [label]: multiSelectList ?
-                items
+                initialItems
                 :
                 value
         }),
@@ -90,6 +90,11 @@ class InputWrapper extends Component {
     handleReset = () => {
         // this.props.apollo.resetMutations();
         this.setState(this.getInitialState());
+    }
+
+    handleBlur = () => {
+        console.log(this.state);
+        this.props.onBlur(this.state);
     }
 
     // handleSave = () => {
@@ -219,6 +224,7 @@ class InputWrapper extends Component {
                             // options: extractOptions(queryData),
                             onChange: handleSelectChange(label),
                         } : undefined}
+                        onBlur={handleBlur}
                         {...input}
                     />
                     :
