@@ -142,23 +142,25 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                     />
                                     <ListWrapper3
                                         title="Affected Configuration Types"
-                                        items={systemOptionConfigurationTypes}
-                                        mapPillProps={({ configurationTypeByConfigurationTypeId: { type } }) => ({
+                                        items={systemOptionConfigurationTypes
+                                            .map(({ nodeId, configurationTypeByConfigurationTypeId }) => ({
+                                                systomOptionConfigurationTypeNID: nodeId,
+                                                ...configurationTypeByConfigurationTypeId,
+                                            }))}
+                                        mapPillProps={({ type }) => ({
                                             title: type
                                         })}
-                                        onCreate={({ id: configurationTypeId, ...configurationType }) => createSystemOptionConfigurationType({
+                                        onCreate={configurationType => createSystemOptionConfigurationType({
                                             systemOptionId,
-                                            configurationTypeId,
+                                            configurationId: configurationType.id,
+                                            configurationTypeByConfigurationTypeId: configurationType
                                         })}
                                         onDelete={item => console.log(item)}
                                         multiSelect={{
                                             title: "",
                                             // initialItems: [],
-                                            allItems: allConfigurationTypes
-                                                .map(configurationTypeByConfigurationTypeId => ({
-                                                    configurationTypeByConfigurationTypeId
-                                                })),
-                                            mapPillProps: ({ configurationTypeByConfigurationTypeId: { type } }) => ({
+                                            allItems: allConfigurationTypes,
+                                            mapPillProps: ({ type }) => ({
                                                 title: type
                                             }),
                                         }}

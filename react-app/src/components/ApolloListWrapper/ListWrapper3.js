@@ -26,16 +26,8 @@ class ApolloList extends Component {
 
     handleMultiSelectFinish = ({ arguments: { addedItems, deletedItems } }) => {
         console.log({ addedItems, deletedItems });
-        addedItems
-            .map(item => { console.log(item); return item })
-            .map(this.props.multiSelect.mapAllItems)
-            .map(item => { console.log(item); return item })
-            .forEach(this.props.onCreate);
-        deletedItems
-            .map(item => { console.log(item); return item })
-            .map(this.props.multiSelect.mapAllItems)
-            .map(item => { console.log(item); return item })
-            .forEach(this.props.onDelete);
+        addedItems.forEach(this.props.onCreate);
+        deletedItems.forEach(this.props.onDelete);
     }
 
     render = () => {
@@ -81,6 +73,8 @@ class ApolloList extends Component {
             items[0]
             ||
             {};
+        
+        console.log(title);
 
         return (
             <div className="ListWrapper3">
@@ -119,6 +113,7 @@ class ApolloList extends Component {
                                     onEdit={onUpdate}
                                     onDelete={_delete}
                                     arguments={args}
+                                    n={console.log(item)}
                                     {...mapPillProps(item)}
                                 />
                             );
