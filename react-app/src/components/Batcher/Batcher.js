@@ -15,23 +15,19 @@ export default class Batcher extends Component {
 
     componentWillUnmount = () => window.removeEventListener('keydown', this.save);
 
+    // functional setstate is necessary when multiple are fired at once
     batchMutation = ({ arguments: args, mutate, mutationKey }) => this.setState(({ batchedMutations }) => {
         console.log("BATCHING A MUTATION");
         console.log({ args, mutate, mutationKey });
         const previousMutation = batchedMutations[mutationKey];
-        // console.log({ args, mutate, mutationKey, previousMutation });
-        // console.log(this.state);
-        // CHECK FOR DELETING A PREVIOUSLY-CREATED ITEM
+        // REMOVE A PREVIOUS CREATE ARGSET
         if (mutationKey.match(/^delete/)) {
             const createKey = mutationKey.replace(/^delete/, 'create');
             const createMutation = batchedMutations[createKey];
-            // console.log({ createKey, createMutation });
             if (createMutation) {
                 const deletedSet = createMutation.argumentSets
                     .find(({ nodeId }) => nodeId === args.nodeId);
-                // console.log({ deletedSet });
                 if (deletedSet) {
-                    // console.log("REMOVING CREATE MUTATION");
                     return {
                         batchedMutations: {
                             ...batchedMutations,
@@ -45,11 +41,10 @@ export default class Batcher extends Component {
                 }
             }
         }
-        // CHECK FOR CREATING A PREVIOUSLY-DELETED ITEM
+        // REMOVE A PREVIOUS DELETE ARGSET
         if (mutationKey.match(/^create/)) {
             const deleteKey = mutationKey.replace(/^create/, 'delete');
             const deleteMutation = batchedMutations[deleteKey];
-            // console.log({ deleteKey, deleteMutation });
             if (deleteMutation) {
                 const createdSet = deleteMutation.argumentSets
                     .find(argSet => Object.keys(args)
@@ -61,9 +56,7 @@ export default class Batcher extends Component {
                             typeof args[key] === 'object'
                         ))
                     );
-                // console.log({ createdSet });
                 if (createdSet) {
-                    // console.log("REMOVING DELETE MUTATION")
                     return {
                         batchedMutations: {
                             ...batchedMutations,
@@ -77,14 +70,12 @@ export default class Batcher extends Component {
                 }
             }
         }
-        // CHECK FOR UPDATING AN UPDATED ITEM
         if (previousMutation) {
             const updatedSet = previousMutation.argumentSets
-                .find(({ nodeId }) => nodeId === args.nodeId);
-            // console.log({ updatedSet });
+            .find(({ nodeId }) => nodeId === args.nodeId);
+            // UPDATE AN EXISTING ARGSET
             if (updatedSet) {
                 const updatedSetIndex = previousMutation.argumentSets.indexOf(updatedSet);
-                // console.log("UPDATING MUTATION");
                 return {
                     batchedMutations: {
                         ...batchedMutations,
@@ -100,7 +91,7 @@ export default class Batcher extends Component {
                     }
                 };
             }
-            // console.log("ADDING AN ARGSET");
+            // CREATE A NEW ARGSET IN AN EXISTING/PREVIOUSLY USED MUTATION
             return {
                 batchedMutations: {
                     ...batchedMutations,
@@ -112,8 +103,7 @@ export default class Batcher extends Component {
                 }
             };
         }
-        // CREATE A MUTATION
-        // console.log("CREATING MUTATION");
+        // CREATE A MUTATION WITH AN ARGSET
         return {
             batchedMutations: {
                 ...batchedMutations,
@@ -139,7 +129,8 @@ export default class Batcher extends Component {
                     console.log(`RUNNING MUTATION: ${mutationKey}`)
                     console.log(argSet);
                     await mutation.mutate({ variables: argSet });
-                    this.setState({
+                    // functional setstate is necessary when multiple are fired at once
+                    this.setState(({ batchedMutations }) => ({
                         batchedMutations: {
                             ...batchedMutations,
                             [mutationKey]: {
@@ -148,7 +139,7 @@ export default class Batcher extends Component {
                                     .filter(set => set !== argSet)
                             }
                         }
-                    });
+                    }));
                 } catch (err) {
                     console.error(err);
                 }

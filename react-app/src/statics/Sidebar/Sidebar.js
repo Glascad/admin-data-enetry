@@ -67,6 +67,9 @@ class Sidebar extends Component {
                 }
             }
         } = this;
+
+        const systemNID = pathname.replace(/^.*\/(.+)/, '$1');
+
         return (
             <div id="Sidebar">
                 <div id="sidebar-header">
@@ -89,7 +92,7 @@ class Sidebar extends Component {
                         {subroutes.map(({ text: childText, link: childLink }, j) => (
                             <NavLink
                                 key={j}
-                                to={link + childLink.replace(/:systemNID/, 'WyJzeXN0ZW1zIiwxXQ==')}
+                                to={link + childLink.replace(/:systemNID/, systemNID)}
                                 activeClassName="selected"
                             >
                                 {childText}
