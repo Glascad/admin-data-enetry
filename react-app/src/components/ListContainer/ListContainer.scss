@@ -5,10 +5,25 @@
     // > .title {
     //     color: $med-gray;
     // } //Ray removed
+    
+    margin-bottom: $large;
 
     ul {
         display: flex;
         flex-flow: row wrap;
-    }
+        margin-bottom: -$large;
 
+        input {
+            margin-bottom: $large;    
+        }
+        
+        .Pill {
+            margin: 0 $large $large 0; //Ray changed
+        }
+        
+        .AddButton {
+            margin-bottom: $large; //Ray changed
+        }
+    }
+    
 }

@@ -15,11 +15,11 @@ export default function Input({
     };
 
     const LABEL = label ? (
-        <span
+        <div
             className="label"
         >
             {label}
-        </span>
+        </div>
     ) : null;
 
     return (

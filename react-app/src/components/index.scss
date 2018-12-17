@@ -4,12 +4,21 @@
 .nested {
     border-left: $small solid $selected-color;
     // padding-left: $x-small;
-    margin-left: $large;
+    // margin-left: $large;
     // box-sizing: border-box; //Ray removed
+
+    > div {
+        margin-left: $large;
+    }
+
     .nested {
         // border-left: $med + $small solid $blue;
         border-left: none;
         margin-left: 0;
+
+        > div {
+            margin-left: 0;
+        }
     }
 }
 

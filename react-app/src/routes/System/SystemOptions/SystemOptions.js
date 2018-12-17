@@ -151,13 +151,11 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                             title: type
                                         })}
                                         onCreate={configurationType => createSystemOptionConfigurationType({
-                                            n: console.log(configurationType),
                                             systemOptionId,
                                             configurationTypeId: configurationType.id,
                                             configurationTypeByConfigurationTypeId: configurationType
                                         })}
                                         onDelete={({ systomOptionConfigurationTypeNID, ...configurationType }) => deleteSystemOptionConfigurationType({
-                                            n: console.log(configurationType),
                                             nodeId: systomOptionConfigurationTypeNID,
                                             systemOptionId,
                                             configurationTypeId: configurationType.id,

@@ -14,7 +14,6 @@
     height: $item-height;
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
     //padding: $med; //Ray removed
-    margin: 0 $large $large 0; //Ray changed
     // margin-left: 0; //Ray removed
 
     input {
@@ -38,10 +37,13 @@
         background: $selected-color;
         color: $off-white;
         box-shadow: none;
-        &:hover {
+        &:hover, &.editing {
             background: none;
             color: $selected-color;
             border: $icon-thickness $selected-color solid;
+            input {
+                color: $selected-color;
+            }
         }
 
         .left-x, .right-x {
