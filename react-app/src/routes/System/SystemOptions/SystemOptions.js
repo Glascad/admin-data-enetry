@@ -11,6 +11,8 @@ import {
 
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 
+import WizardButtons from '../WizardButtons';
+
 import { query, mutations } from './system-options-graphql';
 
 export default function ValidTypes({ match: { params: { systemNID } } }) {
@@ -33,13 +35,22 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                         allConfigurationTypes: {
                             nodes: allConfigurationTypes = []
                         } = {},
-                    }
+                    } = {},
                 }) => ({
                     system,
                     systemOptions,
                     allConfigurationTypes,
                 })
             }}
+            extractTitle={({
+                system: {
+                    name: sysName,
+                    manufacturerByManufacturerId: {
+                        name: mnfgName = ""
+                    } = {}
+                } = {}
+            }) => `${mnfgName} ${sysName}`}
+            buttons={<WizardButtons />}
         >
             {({
                 queryStatus,

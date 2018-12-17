@@ -5,6 +5,11 @@ export const query = gql`query SystemOptions($nodeId:ID!){
         nodeId
         id
         name
+        manufacturerByManufacturerId{
+            nodeId
+            id
+            name
+        }
         systemOptionsBySystemId {
             nodes {
                 nodeId

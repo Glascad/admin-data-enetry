@@ -92,7 +92,14 @@ class Sidebar extends Component {
                         {subroutes.map(({ text: childText, link: childLink }, j) => (
                             <NavLink
                                 key={j}
-                                to={link + childLink.replace(/:systemNID/, systemNID)}
+                                to={`${
+                                    link
+                                    }${
+                                    // !systemNID.match(/^[a-z\-]*$/) ?
+                                    childLink.replace(/:systemNID/, systemNID)
+                                    // :
+                                    // '/select-system'
+                                    }`}
                                 activeClassName="selected"
                             >
                                 {childText}

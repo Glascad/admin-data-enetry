@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ApolloWrapper from '../ApolloWrapper/ApolloWrapper';
 import SelectionWrapper from '../SelectionWrapper/SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
-import Modal from '../Modal/Modal';
 import MultiSelect from '../MultiSelect/MultiSelect';
 
-class ApolloList extends Component {
+class List extends Component {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
@@ -158,11 +156,11 @@ class ApolloList extends Component {
 }
 
 
-export default function ApolloListWrapper(props) {
+export default function ListWrapper3(props) {
     return (
         <SelectionWrapper>
             {selection => (
-                <ApolloList
+                <List
                     selection={selection}
                     {...props}
                 />

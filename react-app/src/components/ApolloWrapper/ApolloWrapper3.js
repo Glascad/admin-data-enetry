@@ -13,6 +13,31 @@ export default class ApolloWrapper3 extends Component {
         mutations: PropTypes.objectOf(PropTypes.object),
     };
 
+    // for the sake of destructuring in child components
+    removeNullValues = (prev = []) => obj => (obj === null ?
+        undefined
+        :
+        typeof obj !== 'object' || prev.includes(obj) ?
+            obj
+            :
+            Array.isArray(obj) ?
+                obj.map(this.removeNullValues([...prev, obj]))
+                :
+                Object.keys(obj)
+                    .reduce((filteredObj, key) => {
+                        const value = this.removeNullValues([...prev, obj])(obj[key]);
+                        return value === undefined ?
+                            console.log(`REMOVED KEY: \n "${key}" \n from object: \n`, obj)
+                            ||
+                            filteredObj
+                            :
+                            {
+                                ...filteredObj,
+                                [key]: value
+                            }
+                    }, {})
+    );
+
     render = () => {
         const {
             props: {
@@ -29,7 +54,8 @@ export default class ApolloWrapper3 extends Component {
                 mutations = {},
                 children,
                 ...props
-            }
+            },
+            removeNullValues,
         } = this;
 
         const mutationKeys = Object.keys(mutations);
@@ -66,7 +92,7 @@ export default class ApolloWrapper3 extends Component {
                                         ...mappedStatus,
                                         ...mapResultToProps(argSet, mappedStatus),
                                     }), mappedStatus);
-                                }, mapQueryProps(status));
+                                }, mapQueryProps(removeNullValues(status)));
                                 const childProps = {
                                     ...accumulatedProps,
                                     batcher,

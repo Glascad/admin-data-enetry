@@ -11,6 +11,8 @@ class Wizard extends Component {
 
         const {
             props: {
+                title,
+                buttons,
                 children,
                 apollo,
                 apollo: {
@@ -27,12 +29,20 @@ class Wizard extends Component {
         return (
             <div className="Wizard" >
                 <header>
-                    Wizard Header
+                    <h1>{title}</h1>
+                    <div className="title-buttons">
+                        {buttons}
+                        <button
+                            onClick={completeMutations}
+                        >
+                            Save
+                        </button>
+                    </div>
                 </header>
-                <div className="">
+                <div className="card">
                     {children(apollo)}
                     <div
-                        className="button-wrapper"
+                        className="bottom-buttons"
                     >
                         <button
                             className="empty"
@@ -60,6 +70,7 @@ class Wizard extends Component {
 export default function ({
     query,
     mutations,
+    extractTitle = () => "",
     ...props
 }) {
     return (
@@ -75,6 +86,7 @@ export default function ({
                     {apollo => (
                         <Wizard
                             {...props}
+                            title={extractTitle(apollo.queryStatus)}
                             apollo={apollo}
                         />
                     )}
