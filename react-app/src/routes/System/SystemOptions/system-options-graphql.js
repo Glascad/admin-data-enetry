@@ -29,6 +29,7 @@ export const query = gql`query SystemOptions($nodeId:ID!){
                         configurationTypeId
                         configurationTypeByConfigurationTypeId{
                             nodeId
+                            id
                             type
                             door
                             overrideLevel
@@ -305,6 +306,59 @@ export const mutations = {
         refetchQueries: ({
             data: {
                 createSystemOptionConfigurationType: {
+                    systemOptionConfigurationType: {
+                        systemOptionBySystemOptionId: {
+                            systemBySystemId: {
+                                nodeId
+                            }
+                        }
+                    }
+                }
+            }
+        }) => [{ query, variables: { nodeId } }]
+    },
+    deleteSystemOptionConfigurationType: {
+        mutation: gql`mutation DeleteSystemOptionConfigurationType(
+            $nodeId:ID!
+        ){
+            deleteSystemOptionConfigurationType(
+                input:{
+                    nodeId:$nodeId
+                }
+            ){
+                systemOptionConfigurationType{
+                    nodeId
+                    systemOptionId
+                    systemOptionBySystemOptionId{
+                        nodeId
+                        systemBySystemId{
+                            nodeId
+                        }
+                    }
+                    configurationTypeId
+                    configurationTypeByConfigurationTypeId{
+                        nodeId
+                    }
+                }
+            }
+        }`,
+        mapResultToProps: ({systemOptionId, nodeId}, { systemOptions }) => ({
+            n: console.log({ systemOptionId, nodeId, systemOptions }),
+            systemOptions: systemOptions
+                .map(option => option.id === systemOptionId ?
+                    {
+                        ...option,
+                        systemOptionConfigurationTypesBySystemOptionId: {
+                            ...option.systemOptionConfigurationTypesBySystemOptionId,
+                            nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.filter(soct => soct.nodeId !== nodeId)
+                        }
+                    }
+                    :
+                    option)
+        }),
+        refetchQueries: ({
+            data: {
+                deleteSystemOptionConfigurationType: {
                     systemOptionConfigurationType: {
                         systemOptionBySystemOptionId: {
                             systemBySystemId: {

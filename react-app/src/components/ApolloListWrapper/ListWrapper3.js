@@ -73,8 +73,6 @@ class ApolloList extends Component {
             items[0]
             ||
             {};
-        
-        console.log(title);
 
         return (
             <div className="ListWrapper3">
@@ -113,7 +111,7 @@ class ApolloList extends Component {
                                     onEdit={onUpdate}
                                     onDelete={_delete}
                                     arguments={args}
-                                    n={console.log(item)}
+                                    // n={console.log(item)}
                                     {...mapPillProps(item)}
                                 />
                             );

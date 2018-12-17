@@ -136,6 +136,8 @@ export default class Batcher extends Component {
             const mutation = batchedMutations[mutationKey];
             mutation.argumentSets.forEach(async argSet => {
                 try {
+                    console.log(`RUNNING MUTATION: ${mutationKey}`)
+                    console.log(argSet);
                     await mutation.mutate({ variables: argSet });
                     this.setState({
                         batchedMutations: {
@@ -148,7 +150,7 @@ export default class Batcher extends Component {
                         }
                     });
                 } catch (err) {
-                    // console.error(err);
+                    console.error(err);
                 }
             });
         });

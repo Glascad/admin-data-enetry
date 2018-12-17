@@ -42,6 +42,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
             }}
         >
             {({
+                queryStatus,
                 queryStatus: {
                     system: {
                         id: systemId,
@@ -54,10 +55,8 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                     updateSystemOption,
                     createOptionValue,
                     createSystemOptionConfigurationType,
+                    deleteSystemOptionConfigurationType,
                 },
-                batcher: {
-                    getNodeId,
-                }
             }) => (
                     <ListWrapper3
                         title="Valid Detail Types"
@@ -87,6 +86,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                             } = {},
                         }) => (
                                 <>
+                                    {console.log(queryStatus)}
                                     <Input
                                         label="Option Name"
                                         value={name}
@@ -151,11 +151,18 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                                             title: type
                                         })}
                                         onCreate={configurationType => createSystemOptionConfigurationType({
+                                            n: console.log(configurationType),
                                             systemOptionId,
-                                            configurationId: configurationType.id,
+                                            configurationTypeId: configurationType.id,
                                             configurationTypeByConfigurationTypeId: configurationType
                                         })}
-                                        onDelete={item => console.log(item)}
+                                        onDelete={({ systomOptionConfigurationTypeNID, ...configurationType }) => deleteSystemOptionConfigurationType({
+                                            n: console.log(configurationType),
+                                            nodeId: systomOptionConfigurationTypeNID,
+                                            systemOptionId,
+                                            configurationTypeId: configurationType.id,
+                                            configurationTypeByConfigurationTypeId: configurationType,
+                                        })}
                                         multiSelect={{
                                             title: "",
                                             // initialItems: [],
