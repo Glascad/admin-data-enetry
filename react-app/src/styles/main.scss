@@ -7,7 +7,7 @@
 button, input {
     border: none;
     outline: none;
-    padding: $xx-small $small;
+    padding: 0 $small; 
     border-radius: $xx-small;
     // box-sizing: border-box;
     
@@ -16,8 +16,8 @@ button, input {
     // }
     
     &.empty {
-        border: 1px solid $dark-gray;
-        color: $dark-gray;
+        border: 1px solid $off-white;
+        color: $off-white;
         
         &.light {
             border: 1px solid white;
@@ -49,7 +49,6 @@ input {
     height: $item-height; //Ray changed
     // margin-right: $large; //Ray removed
     font-size: $text-size; //Ray added
-
 }
 
 input[type="number"] {
