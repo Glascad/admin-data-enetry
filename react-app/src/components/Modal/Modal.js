@@ -94,7 +94,7 @@ export default class Modal extends Component {
                             {onCancel ? (
                                 <button
                                     children="Cancel"
-                                    className="empty light"
+                                    className="empty"
                                     {...cancel}
                                     onClick={handleCancelClick}
                                 />

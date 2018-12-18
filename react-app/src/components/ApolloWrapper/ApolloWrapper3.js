@@ -92,13 +92,14 @@ export default class ApolloWrapper3 extends Component {
                                         ...mappedStatus,
                                         ...mapResultToProps(argSet, mappedStatus),
                                     }), mappedStatus);
-                                }, mapQueryProps(removeNullValues(status)));
+                                }, mapQueryProps(removeNullValues()(status)));
                                 const childProps = {
                                     ...accumulatedProps,
                                     batcher,
                                     queryStatus,
                                 };
-                                // console.log(childProps);
+                                console.log(status);
+                                console.log(childProps);
                                 return children(childProps);
                             }}
                         </ApolloWrapper3>

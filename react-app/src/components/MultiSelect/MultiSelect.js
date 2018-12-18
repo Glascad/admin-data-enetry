@@ -28,10 +28,20 @@ export default class MultiSelect extends Component {
     }));
 
     handleDeleteClick = ({ arguments: deletedItem }) => {
+        console.log({
+            deletedItem,
+            previousItems: this.props.previousItems,
+        });
         if (this.props.previousItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
-            this.setState(({ deletedItems }) => ({
-                deletedItems: deletedItems.concat(deletedItem)
-            }));
+            if (this.state.deletedItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
+                this.setState(({ deletedItems }) => ({
+                    deletedItems: deletedItems.filter(({ nodeId }) => nodeId !== deletedItem.nodeId)
+                }));
+            } else {
+                this.setState(({ deletedItems }) => ({
+                    deletedItems: deletedItems.concat(deletedItem)
+                }));
+            }
         } else {
             this.setState(({ addedItems }) => ({
                 addedItems: addedItems.filter(({ nodeId }) => nodeId !== deletedItem.nodeId)
@@ -62,10 +72,8 @@ export default class MultiSelect extends Component {
             .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
 
         console.log(this);
-        console.log({
-            selectedItems,
-            nonSelectedItems,
-        });
+        console.log({ addedItems, deletedItems });
+        console.log({ selectedItems, nonSelectedItems, });
 
         return (
             <Modal
@@ -84,6 +92,7 @@ export default class MultiSelect extends Component {
                             selected={!previousItems.includes(item)}
                             danger={deletedItems.includes(item)}
                             arguments={item}
+                            onSelect={handleDeleteClick}
                             onDelete={handleDeleteClick}
                             {...mapPillProps(item, true)}
                         />

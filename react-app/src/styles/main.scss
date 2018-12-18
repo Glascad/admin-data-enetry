@@ -7,7 +7,6 @@
 button, input {
     border: none;
     outline: none;
-    padding: 0 $small; 
     border-radius: $xx-small;
     // box-sizing: border-box;
     
@@ -18,25 +17,55 @@ button, input {
     &.empty {
         border: 1px solid $dark-gray;
         color: $dark-gray;
-        
+        &:hover {
+            border: 1px solid $off-white;
+            color: $off-white;
+            background: $dark-gray;
+        }
+            
         &.light {
             border: 1px solid $off-white;
             color: $off-white;
+            &:hover {
+                border: 1px solid $dark-gray;
+                color: $dark-gray;
+            }
         }
     }
 }
 
 button {
     background: none;
-    margin: $small;
+    // margin: $small;
+    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $pill-width / 2;
+    height: $item-height;
+    font-size: $text-size;
+
+    + button {
+        margin-left: $small;
+    }
     
     &.primary {
+        color: $off-white;
         background: $action-color;
-        color: white;
+        &:hover {
+            border: 1px solid $action-color;
+            color: $action-color;
+            background: none;
+        }
     }
     &.danger {
-        background: red;
-        color: white;
+        background: $warning-color;
+        color: $off-white;
+        &:hover {
+            border: 1px solid $warning-color;
+            color: $warning-color;
+            background: none;
+        }
     }
 
     &:hover {
@@ -47,6 +76,7 @@ button {
 input {
     border: 1px solid $border-color; //Ray changed
     height: $item-height; //Ray changed
+    padding: 0 $small;
     // margin-right: $large; //Ray removed
     font-size: $text-size; //Ray added
 }

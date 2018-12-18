@@ -51,6 +51,8 @@ export default class Pill extends Component {
         input: this.props.inputValue || this.props.title || "",
     };
 
+    inputRef = createRef();
+
     componentDidMount = () => {
         window.addEventListener('keydown', this.blurOnEsc);
     }
@@ -86,9 +88,17 @@ export default class Pill extends Component {
         });
     }
 
-    handleInput = ({ target: { value } }) => this.setState({
-        input: value
-    });
+    handleInput = ({ target: { value } }) => {
+        const el = document.createElement("span");
+        const text = document.createTextNode(value);
+        el.appendChild(text);
+        console.log({ el });
+        const length = 0;
+        this.inputRef.current.style.width = `${length}em`;
+        this.setState({
+            input: value
+        });
+    }
 
     saveEditOnEnter = ({ key, target }) => {
         if (key === "Enter") {
@@ -163,6 +173,7 @@ export default class Pill extends Component {
                 editing,
                 input,
             },
+            inputRef,
             handleInput,
             handleClick,
             handleEditClick,
@@ -176,13 +187,29 @@ export default class Pill extends Component {
             name: tagname || 'div'
         };
 
+        const buttonTile = type === 'tile'
+            &&
+            (
+                hoverButtons.length
+                +
+                Boolean(editable)
+                +
+                Boolean(deletable)
+            ) > 1;
+
+
         return (
             <tag.name
                 className={`Pill ${
                     selectable !== false ?
                         selected ? 'selected' :
-                            onSelect ? 'selectable' : ''
+                            selectable === true
+                                || onSelect ? 'selectable' : ''
                         : ''
+                    } ${
+                    deletable ? 'deletable' : ''
+                    } ${
+                    editable ? 'editable' : ''
                     } ${
                     defaulted ? 'default' : ''
                     } ${
@@ -195,6 +222,8 @@ export default class Pill extends Component {
                     disabled ? 'disabled' : ''
                     } ${
                     type === 'tile' ? 'tile' : ''
+                    } ${
+                    buttonTile ? 'with-button-tile' : ''
                     }`}
                 style={style}
                 onClick={handleClick}
@@ -214,6 +243,7 @@ export default class Pill extends Component {
                             </select>
                         ) : (
                                 <input
+                                    ref={inputRef}
                                     type={inputType}
                                     className="title"
                                     onChange={handleInput}
@@ -248,17 +278,8 @@ export default class Pill extends Component {
                     />
                 ) : null}
                 {/* HOVER BUTTONS */}
-                {!editing ? (
-                    type === 'tile'
-                    &&
-                    (
-                        hoverButtons.length
-                        +
-                        Boolean(editable)
-                        +
-                        Boolean(deletable)
-                    ) > 1
-                ) ? (
+                {!editing ?
+                    buttonTile ? (
                         <ButtonTile
                             buttonProps={[
                                 ...hoverButtons,
@@ -273,14 +294,14 @@ export default class Pill extends Component {
                             ]}
                         />
                     ) : (
-                        deletable ? (
-                            <DeleteButton
-                                className="delete"
-                                onClick={handleDeleteClick}
-                                children="x"
-                            />
-                        ) : null
-                    ) : null}
+                            deletable ? (
+                                <DeleteButton
+                                    className="delete"
+                                    onClick={handleDeleteClick}
+                                    children="x"
+                                />
+                            ) : null
+                        ) : null}
             </tag.name>
         );
     }

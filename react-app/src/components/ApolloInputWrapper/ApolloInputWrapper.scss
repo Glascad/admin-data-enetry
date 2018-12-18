@@ -12,11 +12,5 @@
         button {
             margin: 0;
         }
-
-        .buttons-right {
-            button + button {
-                margin-left: $small;
-            }
-        }
     }
 }

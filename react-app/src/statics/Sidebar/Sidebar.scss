@@ -39,10 +39,6 @@
         align-items: flex-start;
         min-height: $menu-height; //HELP: Why do we need?
 
-        // .title {
-        //     padding-left: $large;
-        // }
-
         .selected {
             // font-weight: bold; //Ray removed
             color: $current-color; //Ray added

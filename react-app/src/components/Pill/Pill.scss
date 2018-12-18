@@ -3,13 +3,15 @@
 
 .Pill {
     background: $pill-color;
+    border: $icon-thickness solid $pill-color;
     color: $dark-gray;
     box-sizing: border-box; //Ray removed
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    width: $pill-width;
+    // width: $pill-width;
+    padding: 0 $item-height * 0.875;
     border-radius: $pill-width;
     height: $item-height;
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
@@ -18,6 +20,7 @@
 
     input {
         border: none;
+        // width: 0.5em;
     }
 
     &.align-left {
@@ -28,24 +31,33 @@
         }
     }
 
-    &.selectable:hover {
-        background: $dark-gray;
-        color: $off-white;
-        box-shadow: none;
+    &.selectable, &.deletable, &.editable {
+        &:hover{
+            // background: $dark-gray;
+            background: none;
+            border: $icon-thickness solid $dark-gray;
+            // color: $off-white;
+            box-shadow: none;
+        }
     }
-    &.selected {
+    &:hover {
+        .left-x, .right-x {
+            background: $dark-gray;
+        }
+    }
+    &.selected, &.editing {
         background: $selected-color;
+        border: $icon-thickness solid $selected-color;
         color: $off-white;
         box-shadow: none;
         &:hover, &.editing {
             background: none;
             color: $selected-color;
-            border: $icon-thickness $selected-color solid;
+            border: $icon-thickness solid $selected-color;
             input {
                 color: $selected-color;
             }
         }
-
         .left-x, .right-x {
             background: $selected-color;
         }
@@ -54,16 +66,26 @@
         border: 2px solid $dark-gray;
     }
     &.danger {
-        background: red;
+        background: $warning-color;
+        border: $icon-thickness solid $warning-color;
+        color: $off-white;
+        &:hover, &.editing {
+            background: none;
+            color: $warning-color;
+            border: $icon-thickness solid $warning-color;
+            input {
+                color: $warning-color;
+            }
+        }
+        .left-x, .right-x {
+            background: $warning-color;
+        }
     }
     &.disabled {
         opacity: 0.67;
     }
     &.editing {
         
-    }
-    .title {
-        // font-weight: bold; //Ray removed
     }
     .subtitle {
 
@@ -93,6 +115,19 @@
             display: none;
         }
     }
+    
+    &.with-button-tile {
+        &:hover {
+            .title, .subtitle, .footer {
+                opacity: 0.25;
+            }
+            &.editing {
+                .title, .subtitle, .footer {
+                    opacity: 1;
+                }
+            }
+        }
+    }
 
     .ButtonTile {
         opacity: 0;
@@ -101,6 +136,11 @@
         left: 0;
         right: 0;
         bottom: 0;
+        // background: $card-color;
+        border-radius: $small;
+        // &.selected{
+        //     background: $selected-color;
+        // }
 
         button {
             position: static;
@@ -134,11 +174,6 @@
 
         .ButtonTile {
             opacity: 1;
-            background: $dark-gray;
-            border-radius: $small;
-            &.selected{
-                background: $selected-color;
-            }
         }
     }
 
