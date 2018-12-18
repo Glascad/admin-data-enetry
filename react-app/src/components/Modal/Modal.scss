@@ -19,20 +19,15 @@
         max-width: 80%;
         max-height: 80%;
         width: 75%;
-        // height: 75%;
-        border-radius: $xx-small; //Ray changed
-        // border: 1px solid $border-color; //Ray changed
-        box-shadow: $xx-small $xx-small $x-small $dark-gray; //Ray changed
-        // background: $dark-gray; //Ray changed
+        border-radius: $xx-small;
+        box-shadow: $xx-small $xx-small $x-small $dark-gray;
         background: $card-color;
-        // color: $off-white; //Ray changed
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: $large; //Ray changed
+        padding: $large;
         
         .HeadedContainer {
-            // margin-top: $small; // Ray removed
             header {
                 border-bottom-color: $border-color;
             }
@@ -49,7 +44,6 @@
         }
             
         .modal-buttons {
-            // padding: $small; //Ray removed
             display: flex;
             justify-content: space-between;
             
@@ -59,29 +53,7 @@
         }
     }
 
-    &.danger {
-        .Modal {
-            .modal-buttons {
-                .finish {
-                    
-                }
-            }
-        }
-    }
-
     &.hidden {
         display: none;
-        
-        .Modal {
-            .HeadedContainer {
-                header {
-
-                }
-            }
-
-            .modal-buttons {
-
-            }
-        }
     }
 }

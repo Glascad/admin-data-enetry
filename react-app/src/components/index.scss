@@ -3,21 +3,28 @@
 
 .nested {
     border-left: $small solid $selected-color;
-    // padding-left: $x-small;
-    // margin-left: $large;
-    // box-sizing: border-box; //Ray removed
+    padding: $x-small 0;
+    margin: $xxxx-large 0;
 
-    > div {
+    > * {
         margin-left: $large;
+        + * {
+            margin-top: $xxxx-large;
+        }
     }
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+    
     .nested {
-        // border-left: $med + $small solid $blue;
         border-left: none;
         margin-left: 0;
+        margin-bottom: 0;
+        padding: 0;
 
         > div {
-            margin-left: 0;
+            margin: 0;
         }
     }
 }
@@ -26,11 +33,35 @@
     max-width: 70vw;
     background: $card-color;
     border-top: $small solid $current-color;
-    padding: $large; //Ray added
-    padding-bottom: 0;
+    padding: $large;
+    padding-bottom: $xxxx-large;
+
+    > * {
+        margin-bottom: $xxxx-large;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 
 .label {
     color: $label-color;
     margin-bottom: $x-small;
+}
+
+.input-wrapper {
+    > * {
+        margin-bottom: $large;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .input-group {
+        display: flex;
+        > * {
+            + * {
+                margin-left: $small;
+            }
+        }
+    }
 }

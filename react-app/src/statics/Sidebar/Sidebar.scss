@@ -2,56 +2,45 @@
 @import '../../styles/variables';
 
 #Sidebar {
-    background: $menu-color; //Ray changed
+    background: $menu-color;
     display: flex;
     flex-direction: column;
-    // overflow-y: scroll;
     overflow-x: hidden;
 
     #sidebar-header {
-        background: $menu-color; //Ray changed
-        color: $off-white; //Ray changed
+        background: $menu-color;
+        color: $off-white;
         font-family: 'Montserrat';
         font-size: $base-size * 1.25;
-        // height: $header-height;
         padding: $large;
         display: flex;
         align-items: center;
-        // padding: 0 $small; //Ray removed
         border-bottom: 1px solid $border-color;
 
-        .logo { //Ray added
-            // height: 55%;
+        .logo {
             height: $item-height;
             padding-right: $base-size;
             width: auto;
-            // margin-left: 0.45 * $header-height / 2;
-            // margin-left: $large;
         }
     }
     .Dropdown, .item {
-        background: $menu-color; //Ray changed
-        color: $off-white; //Ray changed
+        background: $menu-color;
+        color: $off-white;
         border-bottom: 1px solid $border-color;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
-        min-height: $menu-height; //HELP: Why do we need?
+        min-height: $menu-height;
 
         .selected {
-            // font-weight: bold; //Ray removed
-            color: $current-color; //Ray added
+            color: $current-color;
         }
     }
     .item, .title {
         width: 100%;
         height: $menu-height;
-        // display: flex;
-        // align-items: center;
         padding: 0 $large * 2;
-        // padding-left: 27px;
-        // box-sizing: border-box; //HELP: Need no longer?
     }
 
     .Dropdown {
@@ -63,17 +52,16 @@
     }
 
     .selected {
-        // background: $dark-gray; //Ray removed
         color: $off-white;
-        background: $menu-open-color; //Ray added
+        background: $menu-open-color;
     }
     
     .open {
-        background: $menu-open-color; //Ray added
+        background: $menu-open-color;
     }
     
     .closed {
-        background: $menu-color; //Ray added
+        background: $menu-color;
     }
 
 }

@@ -1,27 +1,13 @@
 // SIZES
 
-// $xxxx-small: 0.3rem;
-// $xxx-small: 0.35rem;
-// $xx-small: 0.4rem;
-// $x-small: 0.5rem;
-// $small: 0.75rem;
-// $med: 1rem;
-// $large: 1.25rem;
-// $x-large: 2.25rem;
-// $xx-large: 2.5rem;
-// $xxx-large: 2.75rem;
-// $xxxx-large: 3rem;
-
 $header-height: 75px;
-$menu-height: 50px; //Ray added
+$menu-height: 50px;
 $viewport-height: calc(100vh - 75px);
 $sidebar-width: 17.5vw;
 $viewport-width: calc(100vw - 17.5vw);
 
-$item-height: 40px; //Ray changed
-$pill-width: 200px; //Ray changed
-
-//Ray additions
+$item-height: 40px;
+$pill-width: 200px;
 
 //Single application colors
 $warning-color: #D0021B;
@@ -51,7 +37,7 @@ $xxx-large: 2rem;
 $xxxx-large: 2.25rem;
 
 $text-size: $base_size;
-$icon-thickness: .2rem; //Ray added
+$icon-thickness: .2rem;
 
 $checkbox-height: $item-height / 2;
 

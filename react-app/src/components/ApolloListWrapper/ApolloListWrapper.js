@@ -112,7 +112,7 @@ class ApolloList extends Component {
                 canCreate,
                 renderBeforeList = () => null,
                 renderAfterList = () => null,
-                children = () => null,
+                children,
                 extractName = () => "",
                 mapModalProps = () => null,
                 canUpdate,
@@ -259,7 +259,7 @@ class ApolloList extends Component {
                                 {...defaultPillProps}
                             />
                         ),
-                        addButton: canCreate &&!creating ? (
+                        addButton: canCreate && !creating ? (
                             {
                                 onAdd: handleCreateClick,
                                 ...addButtonProps,
@@ -267,9 +267,6 @@ class ApolloList extends Component {
                         ) : undefined
                     }}
                 />
-                <div className="nested" >
-                    {children(childProps)}
-                </div>
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{
@@ -297,6 +294,11 @@ class ApolloList extends Component {
                     >
                         Are you sure you want to delete {itemClass} "{extractName(selectedItem)}"?
                     </Modal>
+                ) : null}
+                {children ? (
+                    <div className="nested" >
+                        {children(childProps)}
+                    </div>
                 ) : null}
             </div>
         );

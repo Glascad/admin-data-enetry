@@ -5,23 +5,18 @@
     background: $pill-color;
     border: $icon-thickness solid $pill-color;
     color: $dark-gray;
-    box-sizing: border-box; //Ray removed
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    // width: $pill-width;
     padding: 0 $item-height * 0.875;
     border-radius: $pill-width;
     height: $item-height;
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
-    //padding: $med; //Ray removed
-    // margin-left: 0; //Ray removed
 
     input {
         border: none;
-        // width: 100%;
-        // width: 0.5em;
     }
 
     &.align-left {
@@ -34,10 +29,8 @@
 
     &.selectable, &.deletable, &.editable {
         &:hover{
-            // background: $dark-gray;
             background: none;
             border: $icon-thickness solid $dark-gray;
-            // color: $off-white;
             box-shadow: none;
         }
     }
@@ -138,11 +131,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        // background: $card-color;
         border-radius: $small;
-        // &.selected{
-        //     background: $selected-color;
-        // }
 
         button {
             position: static;
@@ -150,7 +139,6 @@
     }
 
     input {
-        // width: 100%;
         margin: 0;
         text-align: center;
         background: none;
@@ -164,7 +152,6 @@
     }
 
     &:hover {
-        // background: none;
         cursor: default;
         box-shadow: none;
 
@@ -194,10 +181,6 @@
 
         .title {
             margin-bottom: $small;
-        }
-
-        .subtitle {
-            
         }
         
         .footer {

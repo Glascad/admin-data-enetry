@@ -1,4 +1,3 @@
- 
 
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
@@ -8,12 +7,6 @@ button, input {
     border: none;
     outline: none;
     border-radius: $xx-small;
-    cursor: pointer;
-    // box-sizing: border-box;
-    
-    // &:focus {
-    //     box-shadow: 0 0 3px 0.5px $selected-color;
-    // }
     
     &.empty {
         border: 1px solid $dark-gray;
@@ -37,7 +30,6 @@ button, input {
 
 button {
     background: none;
-    // margin: $small;
     background: none;
     display: flex;
     justify-content: center;
@@ -45,6 +37,7 @@ button {
     width: $pill-width / 2;
     height: $item-height;
     font-size: $text-size;
+    cursor: pointer;
 
     + button {
         margin-left: $small;
@@ -71,11 +64,11 @@ button {
 }
 
 input {
-    border: 1px solid $border-color; //Ray changed
-    height: $item-height; //Ray changed
+    border: 1px solid $border-color;
+    height: $item-height;
+    width: $pill-width;
     padding: 0 $small;
-    // margin-right: $large; //Ray removed
-    font-size: $text-size; //Ray added
+    font-size: $text-size;
 }
 
 input[type=number] {
@@ -94,7 +87,7 @@ input[type=checkbox] {
 
 html, #root, body {
     font-family: 'Roboto';
-    font-size: $text-size; //Ray added
+    font-size: $text-size;
     font-weight: lighter;
 }
 
@@ -113,8 +106,3 @@ html {
 a {
     text-decoration: none;
 }
-
-// h5, h6 {
-//     margin-top: $med;
-//     margin-bottom: $x-small;
-// }

@@ -4,7 +4,9 @@
 #InfillSizesGenerator {
     display: flex;
     align-items: flex-end;
-    button {
-        margin-bottom: $large;
+    margin-bottom: $large;
+
+    .Input {
+        margin-right: $small;
     }
 }

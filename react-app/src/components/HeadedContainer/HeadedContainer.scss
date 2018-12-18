@@ -2,21 +2,14 @@
 @import '../../styles/variables';
 
 .HeadedContainer {
-    // margin-left: $large; //Ray removed
         
     header {
-        // margin: $small; //Ray removed
         display: flex;
         justify-content: space-between;
         padding-bottom: $x-small;
         border-bottom: 1px solid $border-color;
         margin-bottom: $large;
 
-        // + .content {
-        //     .ListContainer:first-child {
-        //         margin-top: -$large;
-        //     }
-        // }
         
         .title {
             font-size: $large;
@@ -25,11 +18,13 @@
 
 
     .content {
-        // margin: $small; //Ray removed
-        margin-bottom: $xxxx-large;
-    }
 
-    // &.nested {
-    //     margin-left: $small + $small;
-    // }
+        > * {
+            margin-bottom: $large;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
 }

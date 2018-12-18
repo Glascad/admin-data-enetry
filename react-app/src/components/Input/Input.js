@@ -3,7 +3,7 @@ import Select from 'react-select';
 import './Input.scss';
 
 export default function Input({
-    tagname = "label",
+    tagname = "div",
     label,
     type = "text",
     select,
@@ -11,7 +11,7 @@ export default function Input({
     ...props
 }) {
     const tag = {
-        name: tagname
+        name: type === "checkbox" ? "label" : tagname
     };
 
     const LABEL = label ? (
@@ -47,6 +47,7 @@ export default function Input({
             ) : (
                     <Select
                         {...select}
+                        className="Select"
                     />
                 )}
             {type === "checkbox" ? (

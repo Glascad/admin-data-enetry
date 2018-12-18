@@ -5,6 +5,7 @@ import {
     ApolloListWrapper,
     SelectionWrapper,
     HeadedListContainer,
+    HeadedContainer,
     Pill,
     Input,
 } from '../../../components';
@@ -15,7 +16,7 @@ import WizardButtons from '../WizardButtons';
 
 import { query, mutations } from './system-options-graphql';
 
-export default function ValidTypes({ match: { params: { systemNID } } }) {
+export default function SystemOptions({ match: { params: { systemNID } } }) {
     return (
         <Wizard
             mutations={mutations}
@@ -70,7 +71,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                 },
             }) => (
                     <ListWrapper3
-                        title="Valid Detail Types"
+                        title="System Options"
                         items={systemOptions}
                         mapPillProps={({
                             name
@@ -97,60 +98,64 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                             } = {},
                         }) => (
                                 <>
-                                    {console.log(queryStatus)}
-                                    <Input
-                                        label="Option Name"
-                                        value={name}
-                                        onChange={({ target: { value } }) => updateSystemOption({
-                                            nodeId,
-                                            name: value
-                                        })}
-                                    />
-                                    <div>
+                                    <HeadedContainer
+                                        title="Option"
+                                        className="input-wrapper"
+                                    >
                                         <Input
-                                            label="Presentation Level"
-                                            value={presentationLevel}
-                                            type="select"
-                                            select={{
-                                                value: {
-                                                    label: presentationLevel,
-                                                    value: presentationLevel,
-                                                },
-                                                options: [1, 2, 3, 4].map(n => ({
-                                                    value: n,
-                                                    label: n,
-                                                })),
-                                                onChange: ({ value }) => updateSystemOption({
-                                                    nodeId,
-                                                    presentationLevel: value
-                                                })
-                                            }}
+                                            label="Option Name"
+                                            value={name}
+                                            onChange={({ target: { value } }) => updateSystemOption({
+                                                nodeId,
+                                                name: value
+                                            })}
                                         />
+                                        <div className="input-group">
+                                            <Input
+                                                label="Presentation Level"
+                                                value={presentationLevel}
+                                                type="select"
+                                                select={{
+                                                    value: {
+                                                        label: presentationLevel,
+                                                        value: presentationLevel,
+                                                    },
+                                                    options: [1, 2, 3, 4].map(n => ({
+                                                        value: n,
+                                                        label: n,
+                                                    })),
+                                                    onChange: ({ value }) => updateSystemOption({
+                                                        nodeId,
+                                                        presentationLevel: value
+                                                    })
+                                                }}
+                                            />
+                                            <Input
+                                                label="Override Level"
+                                                value={overrideLevel}
+                                                type="select"
+                                                select={{
+                                                    value: {
+                                                        label: overrideLevel,
+                                                        value: overrideLevel,
+                                                    },
+                                                    options: [1, 2, 3, 4].map(n => ({
+                                                        value: n,
+                                                        label: n,
+                                                    })),
+                                                    onChange: ({ value }) => updateSystemOption({
+                                                        nodeId,
+                                                        overrideLevel: value
+                                                    })
+                                                }}
+                                            />
+                                        </div>
                                         <Input
-                                            label="Override Level"
-                                            value={overrideLevel}
-                                            type="select"
-                                            select={{
-                                                value: {
-                                                    label: overrideLevel,
-                                                    value: overrideLevel,
-                                                },
-                                                options: [1, 2, 3, 4].map(n => ({
-                                                    value: n,
-                                                    label: n,
-                                                })),
-                                                onChange: ({ value }) => updateSystemOption({
-                                                    nodeId,
-                                                    overrideLevel: value
-                                                })
-                                            }}
+                                            label="Mirrorable"
+                                            value={mirrorable}
+                                            type="checkbox"
                                         />
-                                    </div>
-                                    <Input
-                                        label="Mirrorable"
-                                        value={mirrorable}
-                                        type="checkbox"
-                                    />
+                                    </HeadedContainer>
                                     <ListWrapper3
                                         title="Affected Configuration Types"
                                         items={systemOptionConfigurationTypes

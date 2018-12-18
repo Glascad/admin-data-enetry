@@ -59,7 +59,7 @@ class List extends Component {
                     mapPillProps: mapMultiSelectPillProps,
                     mapPreviousItems = item => item,
                 } = {},
-                children = () => null,
+                children,
             },
             handleMultiSelectFinish,
         } = this;
@@ -131,9 +131,11 @@ class List extends Component {
                         ) : undefined
                     }}
                 />
-                <div className="nested">
-                    {children(selectedItem)}
-                </div>
+                {children ? (
+                    <div className="nested">
+                        {children(selectedItem)}
+                    </div>
+                ) : null}
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{

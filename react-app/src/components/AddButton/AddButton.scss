@@ -18,7 +18,6 @@
         background: $action-color;
         margin: 0;
         border: $icon-thickness $action-color solid;
-        // margin-left: 0; //Ray removed
         &:hover {
             background: $card-color;
             .vertical-plus, .horizontal-plus {
@@ -31,17 +30,13 @@
         height: $pill-width;
         width: $pill-width;
         border-radius: $small;
-        border: 3px dashed $pill-color;
-        margin: 0 $large $large 0; //Ray changed
-        // margin-left: 0; //Ray removed
-        // box-sizing: border-box; //Ray removed
+        border: $icon-thickness dashed $pill-color;
 
         .add-button {
             height: $pill-width * 3 / 4;
             width: $pill-width * 3 / 4;
             border-radius: $pill-width * 3 / 4;
             border-width: $x-small;
-            margin: 0;
         }
     }
 
