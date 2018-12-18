@@ -2,6 +2,7 @@
 @import '../../styles/variables';
 
 .Input {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,11 +10,43 @@
     // margin: $small 0; //Ray removed
     
     &.type-checkbox {
-        width: $x-small;
-        height: $x-small;
+        // width: $x-small;
+        // height: $x-small;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-    }
+        cursor: pointer;
 
+        .label {
+            margin: 0;
+        }
+
+        input:checked {
+
+            + .check {
+                background: $selected-color;
+                &:after {
+                    display: block;
+                }
+            }
+        }
+
+        .check {
+            margin-right: $x-small;
+            height: $checkbox-height;
+            width: $checkbox-height;
+            background: $pill-color;
+            border-radius: $xx-small;
+
+            &:after {
+                content: "";
+                display: none;
+                height: $checkbox-height / 3;
+                width: $checkbox-height / 2;
+                transform: rotate(-45deg)  translate(0.5px, 4.5px);
+                border-bottom: $icon-thickness solid $off-white;
+                border-left: $icon-thickness solid $off-white;
+            }
+        }
+    }
 }

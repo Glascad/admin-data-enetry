@@ -70,6 +70,7 @@
         background: $warning-color;
         border: $icon-thickness solid $warning-color;
         color: $off-white;
+        box-shadow: none;
         &:hover, &.editing {
             background: none;
             color: $warning-color;

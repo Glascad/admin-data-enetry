@@ -3,7 +3,7 @@ import Select from 'react-select';
 import './Input.scss';
 
 export default function Input({
-    tagname = "div",
+    tagname = "label",
     label,
     type = "text",
     select,
@@ -50,7 +50,10 @@ export default function Input({
                     />
                 )}
             {type === "checkbox" ? (
-                LABEL
+                <>
+                    <span className="check" />
+                    {LABEL}
+                </>
             ) : null}
         </tag.name>
     );

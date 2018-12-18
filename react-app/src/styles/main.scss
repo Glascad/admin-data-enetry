@@ -8,6 +8,7 @@ button, input {
     border: none;
     outline: none;
     border-radius: $xx-small;
+    cursor: pointer;
     // box-sizing: border-box;
     
     // &:focus {
@@ -67,10 +68,6 @@ button {
             background: none;
         }
     }
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 
 input {
@@ -90,6 +87,8 @@ input[type=number] {
 
 input[type=checkbox] {
     visibility: hidden;
+    height: 0;
+    width: 0;
 }
 
 
