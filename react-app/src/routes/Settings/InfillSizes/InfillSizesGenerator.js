@@ -36,12 +36,6 @@ export default class InfillSizesGenerator extends Component {
         }
         else {
             while (PROTECTION && size <= end + 0.00000005) {
-                // console.log({
-                //     start,
-                //     size,
-                //     end,
-                //     increment,
-                // });
                 this.props.createItem({ variables: { size } });
                 size += increment;
                 PROTECTION--;
@@ -65,19 +59,19 @@ export default class InfillSizesGenerator extends Component {
                 id="InfillSizesGenerator"
             >
                 <Input
-                    label="Starting At"
+                    label="Start"
                     type="number"
                     value={start}
                     onChange={handleChange('start')}
                 />
                 <Input
-                    label="Ending At"
+                    label="End"
                     type="number"
                     value={end}
                     onChange={handleChange('end')}
                 />
                 <Input
-                    label="In Increments Of"
+                    label="Increment"
                     type="number"
                     value={increment}
                     onChange={handleChange('increment')}

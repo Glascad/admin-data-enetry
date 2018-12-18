@@ -1,4 +1,10 @@
 
+@import '../../../styles/variables';
+
 #InfillSizesGenerator {
     display: flex;
+    align-items: flex-end;
+    button {
+        margin-bottom: $large;
+    }
 }

@@ -21,7 +21,7 @@ export default class MultiSelect extends Component {
                     selectedNID,
                     creating,
                     deleting
-                },
+                } = {},
                 modalProps: {
                     display: newDisplay
                 },
@@ -29,25 +29,11 @@ export default class MultiSelect extends Component {
             }
         } = this;
         if (display !== newDisplay) {
-            if (selectedNID) {
-                const selectedItem = previousItems.find(({ nodeId }) => nodeId === selectedNID);
-                if (creating) {
-                    this.setState({
-                        addedItems: [selectedItem],
-                        deletedItems: [],
-                    });
-                } else {
-                    this.setState({
-                        addedItems: [],
-                        deletedItems: [selectedItem],
-                    });
-                }
-            } else {
-                this.setState({
-                    addedItems: [],
-                    deletedItems: [],
-                });
-            }
+            const selectedItem = previousItems.find(({ nodeId }) => nodeId === selectedNID);
+            this.setState({
+                addedItems: creating && selectedItem ? [selectedItem] : [],
+                deletedItems: deleting && selectedItem ? [selectedItem] : [],
+            });
         }
     }
 

@@ -11,5 +11,9 @@
 
     .pattern {
         display: flex;
+
+        .AddButton {
+            align-items: flex-end;
+        }
     }
 }

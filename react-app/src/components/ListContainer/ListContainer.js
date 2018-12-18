@@ -28,7 +28,7 @@ export default function ListContainer({
     createItem,
     addButton,
     filter = () => true,
-    sort = () => -1,
+    sort = () => -1, // ({ nodeId: a }, { nodeId: b }) => a < b,
 }) {
     return (
         <div className={`ListContainer ${className}`}>
