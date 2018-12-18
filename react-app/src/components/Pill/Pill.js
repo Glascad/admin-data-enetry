@@ -51,7 +51,7 @@ export default class Pill extends Component {
         input: this.props.inputValue || this.props.title || "",
     };
 
-    inputRef = createRef();
+    ref = createRef();
 
     componentDidMount = () => {
         window.addEventListener('keydown', this.blurOnEsc);
@@ -88,17 +88,9 @@ export default class Pill extends Component {
         });
     }
 
-    handleInput = ({ target: { value } }) => {
-        const el = document.createElement("span");
-        const text = document.createTextNode(value);
-        el.appendChild(text);
-        console.log({ el });
-        const length = 0;
-        this.inputRef.current.style.width = `${length}em`;
-        this.setState({
-            input: value
-        });
-    }
+    handleInput = ({ target: { value } }) => this.setState({
+        input: value
+    });
 
     saveEditOnEnter = ({ key, target }) => {
         if (key === "Enter") {
@@ -173,7 +165,7 @@ export default class Pill extends Component {
                 editing,
                 input,
             },
-            inputRef,
+            ref,
             handleInput,
             handleClick,
             handleEditClick,
@@ -225,6 +217,7 @@ export default class Pill extends Component {
                     } ${
                     buttonTile ? 'with-button-tile' : ''
                     }`}
+                ref={ref}
                 style={style}
                 onClick={handleClick}
                 onBlur={handleBlur}
@@ -243,7 +236,6 @@ export default class Pill extends Component {
                             </select>
                         ) : (
                                 <input
-                                    ref={inputRef}
                                     type={inputType}
                                     className="title"
                                     onChange={handleInput}

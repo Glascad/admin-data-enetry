@@ -15,7 +15,10 @@ export default class SelectionWrapper extends Component {
 
     state = SelectionWrapper.initialState;
 
-    cancel = () => this.setState(() => SelectionWrapper.initialState);
+    cancel = () => this.setState(() => ({
+        creating: false,
+        deleting: false,
+    }));
 
     handleSelect = ({ arguments: { nodeId } }) => this.setState({
         selectedNID: nodeId,

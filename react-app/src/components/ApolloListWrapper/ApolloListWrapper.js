@@ -279,9 +279,7 @@ class ApolloList extends Component {
                             onFinish: handleMultiSelectFinish,
                             ...mapModalProps(selectedItem),
                         }}
-                        selectedNID={selectedNID}
-                        creating={creating}
-                        deleting={deleting}
+                        selection={selection}
                         previousItems={items}
                         allItems={extractAllItems(queryData)}
                         mapPillProps={mapMultiSelectPillProps}

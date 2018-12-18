@@ -7,10 +7,17 @@
     flex-direction: column;
     align-items: center;
     padding-top: $header-height;//Ray changed
-    padding-bottom: $header-height * 4; //Ray changed
+
+    .Wizard {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     
     .card {
         width: 90%;
+        margin-bottom: $header-height * 4;
     }
 
     // #ViewportHeader {
