@@ -15,11 +15,39 @@ export default class MultiSelect extends Component {
     };
 
     componentDidUpdate = ({ modalProps: { display } }) => {
-        if (display !== this.props.modalProps.display) {
-            this.setState({
-                addedItems: [],
-                deletedItems: [],
-            });
+        const {
+            props: {
+                selection: {
+                    selectedNID,
+                    creating,
+                    deleting
+                },
+                modalProps: {
+                    display: newDisplay
+                },
+                previousItems
+            }
+        } = this;
+        if (display !== newDisplay) {
+            if (selectedNID) {
+                const selectedItem = previousItems.find(({ nodeId }) => nodeId === selectedNID);
+                if (creating) {
+                    this.setState({
+                        addedItems: [selectedItem],
+                        deletedItems: [],
+                    });
+                } else {
+                    this.setState({
+                        addedItems: [],
+                        deletedItems: [selectedItem],
+                    });
+                }
+            } else {
+                this.setState({
+                    addedItems: [],
+                    deletedItems: [],
+                });
+            }
         }
     }
 

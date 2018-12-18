@@ -238,62 +238,63 @@ class InputWrapper extends Component {
                                 <SelectionWrapper
                                     key={label}
                                 >
-                                    {({
-                                        selectedNID,
-                                        creating,
-                                        deleting,
-                                        handleCreateClick,
-                                        handleDeleteClick,
-                                        cancel,
-                                    }) => (
-                                            // See React.Fragment documentation
-                                            <>
-                                                <ListContainer
-                                                    label={label}
-                                                    items={state[label]}
-                                                    renderItem={item => (
-                                                        <Pill
-                                                            key={item.nodeId}
-                                                            arguments={{
-                                                                nodeId: item.nodeId,
-                                                            }}
-                                                            onDelete={handleDeleteClick}
-                                                            {...mapListPillProps(item)}
-                                                        />
-                                                    )}
-                                                    addButton={{
-                                                        onAdd: handleCreateClick
-                                                    }}
-                                                />
-                                                <MultiSelect
-                                                    modalProps={{
-                                                        display: creating || deleting,
-                                                        onCancel: cancel,
-                                                        onFinish: handleModalFinish({
-                                                            // queryData,
-                                                            mapCreateVariables,
-                                                            mapDeleteVariables,
-                                                            createItem,
-                                                            deleteItem,
-                                                            label,
-                                                            cancel,
-                                                        }),
-                                                        ...mapModalProps({
-                                                            selectedNID,
-                                                            creating,
-                                                            deleting,
-                                                        }),
-                                                    }}
-                                                    selectedNID={selectedNID}
-                                                    creating={creating}
-                                                    deleting={deleting}
-                                                    previousItems={state[label]}
-                                                    // allItems={extractAllItems(queryData)}
-                                                    mapPillProps={mapModalPillProps}
-                                                    {...multiSelect}
-                                                />
-                                            </>
-                                        )}
+                                        {selection => {
+                                            const {
+                                                selectedNID,
+                                                creating,
+                                                deleting,
+                                                handleCreateClick,
+                                                handleDeleteClick,
+                                                cancel,
+                                            } = selection;
+                                            return (
+                                                // See React.Fragment documentation
+                                                <>
+                                                    <ListContainer
+                                                        label={label}
+                                                        items={state[label]}
+                                                        renderItem={item => (
+                                                            <Pill
+                                                                key={item.nodeId}
+                                                                arguments={{
+                                                                    nodeId: item.nodeId,
+                                                                }}
+                                                                onDelete={handleDeleteClick}
+                                                                {...mapListPillProps(item)}
+                                                            />
+                                                        )}
+                                                        addButton={{
+                                                            onAdd: handleCreateClick
+                                                        }}
+                                                    />
+                                                    <MultiSelect
+                                                        modalProps={{
+                                                            display: creating || deleting,
+                                                            onCancel: cancel,
+                                                            onFinish: handleModalFinish({
+                                                                // queryData,
+                                                                mapCreateVariables,
+                                                                mapDeleteVariables,
+                                                                createItem,
+                                                                deleteItem,
+                                                                label,
+                                                                cancel,
+                                                            }),
+                                                            ...mapModalProps({
+                                                                selectedNID,
+                                                                creating,
+                                                                deleting,
+                                                            }),
+                                                        }}
+                                                        selection={selection}
+                                                        previousItems={state[label]}
+                                                        // allItems={extractAllItems(queryData)}
+                                                        mapPillProps={mapModalPillProps}
+                                                        {...multiSelect}
+                                                    />
+                                                </>
+                                            );
+                                        }}
                                 </SelectionWrapper>
                             )}
                     </ApolloWrapper>
