@@ -23,7 +23,9 @@ export default function Input({
     ) : null;
 
     return (
-        <tag.name className={`Input type-${type}`} >
+        <tag.name
+            className={`Input type-${type}`}
+        >
             {type !== "checkbox" ? (
                 LABEL
             ) : null}
@@ -52,7 +54,9 @@ export default function Input({
                 )}
             {type === "checkbox" ? (
                 <>
-                    <span className="check" />
+                    <span
+                        className="check"
+                    />
                     {LABEL}
                 </>
             ) : null}

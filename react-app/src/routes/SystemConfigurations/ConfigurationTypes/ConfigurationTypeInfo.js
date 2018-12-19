@@ -14,13 +14,14 @@ export default class ConfigurationTypeInfo extends Component {
 
     handleChange = key => ({ target: { value } }) => this.setState({
         [key]: value,
-    });
+    }, this.handleBlur);
 
     handleCheckboxChange = key => ({ target: { checked } }) => this.setState({
         [key]: checked,
-    });
+    }, this.handleBlur);
 
     handleBlur = () => {
+        console.log("Updating configurationtype");
         this.props.updateConfigurationType({
             variables: {
                 ...this.state,
@@ -59,7 +60,6 @@ export default class ConfigurationTypeInfo extends Component {
             },
             handleChange,
             handleCheckboxChange,
-            handleBlur,
         } = this;
 
         return (
@@ -72,21 +72,18 @@ export default class ConfigurationTypeInfo extends Component {
                     // value={door}
                     checked={door}
                     onChange={handleCheckboxChange('door')}
-                    onBlur={handleBlur}
                 />
                 <Input
                     label="Presentation Level"
                     type="number"
                     value={presentationLevel || 0}
                     onChange={handleChange('presentationLevel')}
-                    onBlur={handleBlur}
                 />
                 <Input
                     label="Override Level"
                     type="number"
                     value={overrideLevel || 0}
                     onChange={handleChange('overrideLevel')}
-                    onBlur={handleBlur}
                 />
             </HeadedContainer>
         );

@@ -15,7 +15,8 @@ export default class ConfigurationTypeInfo extends Component {
         [key]: checked,
     });
 
-    handleBlur = () => {
+    handleChange = () => {
+        console.log("updating configuration type");
         this.props.updateConfigurationType({
             variables: {
                 ...this.state,
@@ -56,7 +57,7 @@ export default class ConfigurationTypeInfo extends Component {
                 mirrorable,
             },
             handleCheckboxChange,
-            handleBlur,
+            handleChange,
         } = this;
 
         return (
@@ -68,14 +69,14 @@ export default class ConfigurationTypeInfo extends Component {
                     type="checkbox"
                     checked={optional}
                     onChange={handleCheckboxChange('optional')}
-                    onBlur={handleBlur}
+                    onChange={handleChange}
                 />
                 <Input
                     label="Mirror"
                     type="checkbox"
                     checked={mirrorable}
                     onChange={handleCheckboxChange('mirrorable')}
-                    onBlur={handleBlur}
+                    onChange={handleChange}
                 />
             </HeadedContainer>
         );

@@ -33,7 +33,7 @@ export default function ConfigurationTypes({
             ...configurationType,
         }))
         .filter(item => item.detailTypeId === detailTypeId);
-    
+
     console.log(arguments);
 
     return (
@@ -42,6 +42,7 @@ export default function ConfigurationTypes({
             itemClass="Configuration Type"
             parentItems={[systemTypeName, detailTypeName]}
             extractList={() => previousItems}
+            canSelect={true}
             mapPillProps={({ type }) => ({
                 title: type,
             })}
@@ -65,13 +66,19 @@ export default function ConfigurationTypes({
                 nodeId
             })}
         >
-            {({ selectedItem }) => (
-                <ConfigurationTypeInfo
-                    systemType={systemType}
-                    detailType={detailType}
-                    configurationType={selectedItem}
-                />
-            )}
+            {({
+                selectedItem,
+                apollo: {
+                    updateItem,
+                },
+            }) => (
+                    <ConfigurationTypeInfo
+                        systemType={systemType}
+                        detailType={detailType}
+                        configurationType={selectedItem}
+                        updateConfigurationType={updateItem}
+                    />
+                )}
         </ApolloListWrapper>
     );
 }
