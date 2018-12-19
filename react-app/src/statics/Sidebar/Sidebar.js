@@ -150,10 +150,10 @@ const links = [
                 text: "Valid Types",
                 link: "/valid-types/:systemNID",
             },
-            {
-                text: "System Compatibility",
-                link: "/system-compatibility/:systemNID",
-            },
+            // {
+            //     text: "System Compatibility",
+            //     link: "/system-compatibility/:systemNID",
+            // },
             {
                 text: "System Options",
                 link: "/system-options/:systemNID",

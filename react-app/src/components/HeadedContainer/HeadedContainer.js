@@ -19,6 +19,7 @@ export default function HeadedContainer({
     className,
     style,
     title,
+    label,
     right,
     children,
     ref,
@@ -39,12 +40,16 @@ export default function HeadedContainer({
                 }`}
             style={style}
         >
-            <header>
-                <span className="title">{title}</span>
-                {right ? (
-                    <span className="">{right}</span>
-                ) : null}
-            </header>
+            {title ? (
+                <header>
+                    <span className="title">{title}</span>
+                    {right ? (
+                        <span className="">{right}</span>
+                    ) : null}
+                </header>
+            ) : label ? (
+                <div className="label">{label}</div>
+            ) : null}
             <div className="content">
                 {children}
             </div>

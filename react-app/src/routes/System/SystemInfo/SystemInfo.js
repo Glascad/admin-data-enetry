@@ -1,133 +1,171 @@
 import React from 'react';
 
-import { ApolloInputWrapper } from '../../../components';
+import {
+    ApolloInputWrapper,
+    Wizard,
+    HeadedContainer,
+    Input,
+} from '../../../components';
 
-import * as apolloProps from './system-info-graphql';
-import * as systemTagApolloProps from './system-tags-graphql';
+import { query, mutations } from './system-info-graphql';
+
+import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
+
+// import * as apolloProps from './system-info-graphql';
+// import * as systemTagApolloProps from './system-tags-graphql';
 
 export default function SystemInfo({ match: { params: { systemNID } } }) {
     return (
-        <div className="card">
-            <ApolloInputWrapper
-                apolloProps={{
-                    ...apolloProps,
-                    queryVariables: { nodeId: systemNID }
-                }}
-                title="System Info"
-                mapUpdateVariables={({
-                    "Name": name,
-                    "System Type": {
-                        value: systemTypeId,
-                    },
-                    "System Depth": depth,
-                    "System Sightline": defaultSightline,
-                    "Caulk Joint Size": shimSize,
+        <Wizard
+            query={{
+                query,
+                variables: {
+                    nodeId: systemNID
+                },
+                mapProps: ({
+                    data: {
+                        system: {
+                            manufacturerByManufacturerId: manufacturer,
+                            systemTypeBySystemTypeId: systemType,
+                            systemSystemTagsBySystemId: {
+                                nodes: systemSystemTags = []
+                            } = {},
+                            ...system
+                        } = {},
+                        allSystemTypes: {
+                            nodes: systemTypes = []
+                        } = {},
+                        allSystemTags: {
+                            nodes: systemTags = []
+                        } = {},
+                    } = {},
                 }) => ({
-                    nodeId: systemNID,
-                    name,
-                    systemTypeId,
-                    depth,
-                    defaultSightline,
-                    shimSize,
-                })}
-                inputs={[
-                    {
-                        label: "Name",
-                        extractValue: ({
-                            system: {
-                                name = ""
-                            } = {}
-                        }) => name,
-                    },
-                    {
-                        label: "System Type",
-                        type: "select",
-                        extractValue: ({
-                            system: {
-                                systemTypeBySystemTypeId: {
-                                    id = 0,
-                                    type = ""
-                                } = {}
-                            } = {}
-                        }) => ({
-                            value: id,
-                            label: type,
-                        }),
-                        extractOptions: ({
-                            allSystemTypes: {
-                                nodes = []
-                            } = {}
-                        }) => nodes.map(({ id, type }) => ({
-                            value: id,
-                            label: type,
-                        }))
-                    },
-                    {
-                        label: "System Tags",
-                        multiSelectList: {
-                            apolloProps: systemTagApolloProps,
-                            mapCreateVariables: ({ id: systemTagId }, { system: { id: systemId } }) => ({
-                                systemId,
-                                systemTagId,
-                            }),
-                            mapDeleteVariables: ({ systemSystemTagNID, ...arg }) => ({
-                                nodeId: systemSystemTagNID,
-                            }),
-                            extractItems: ({
-                                system: {
-                                    systemSystemTagsBySystemId: {
-                                        nodes = []
-                                    } = {}
-                                } = {}
-                            }) => nodes.map(({
+                    system,
+                    manufacturer,
+                    systemType,
+                    systemSystemTags,
+                    systemTypes,
+                    systemTags,
+                })
+            }}
+            mutations={mutations}
+        >
+            {({
+                queryStatus: {
+                    system: {
+                        nodeId: systemNID,
+                        id: systemId,
+                        name,
+                        depth,
+                        defaultSightline,
+                        shimSize,
+                    } = {},
+                    manufacturer,
+                    systemType: {
+                        id: systemTypeId,
+                        type: systemTypeName,
+                    } = {},
+                    systemSystemTags,
+                    systemTypes,
+                    systemTags,
+                },
+                mutations: {
+                    updateSystem,
+                    createSystemSystemTag,
+                    deleteSystemSystemTag,
+                },
+            }) => (
+                    <HeadedContainer
+                        title="System Info"
+                        className="input-wrapper"
+                    >
+                        <Input
+                            label="Name"
+                            value={name}
+                            onChange={({ target: { value } }) => updateSystem({
+                                nodeId: systemNID,
+                                name: value,
+                            })}
+                        />
+                        <Input
+                            label="System Type"
+                            type="select"
+                            select={{
+                                value: {
+                                    value: systemTypeId,
+                                    label: systemTypeName,
+                                },
+                                options: systemTypes.map(({ id, type }) => ({
+                                    value: id,
+                                    label: type,
+                                })),
+                                onChange: ({ value }) => updateSystem({
+                                    nodeId: systemNID,
+                                    systemTypeId: value,
+                                }),
+                            }}
+                        />
+                        <ListWrapper3
+                            label="System Tags"
+                            items={systemSystemTags.map(({
                                 nodeId: systemSystemTagNID,
                                 systemTagBySystemTagId: systemTag,
                             }) => ({
                                 systemSystemTagNID,
                                 ...systemTag,
-                            })),
-                            extractAllItems: ({
-                                allSystemTags: {
-                                    nodes = []
-                                } = {}
-                            }) => nodes,
-                            mapListPillProps: ({ tag }) => ({
+                            }))}
+                            mapPillProps={({ tag }) => ({
                                 title: tag,
-                            }),
-                            mapModalPillProps: ({ tag }) => ({
-                                title: tag,
-                            }),
-                        }
-                    },
-                    {
-                        label: "System Depth",
-                        type: "number",
-                        extractValue: ({
-                            system: {
-                                depth = 0
-                            } = {}
-                        }) => depth,
-                    },
-                    {
-                        label: "System Sightline",
-                        type: "number",
-                        extractValue: ({
-                            system: {
-                                defaultSightline = 0
-                            } = {}
-                        }) => defaultSightline,
-                    },
-                    {
-                        label: "Caulk Joint Size",
-                        type: "number",
-                        extractValue: ({
-                            system: {
-                                shimSize = 0,
-                            } = {}
-                        }) => shimSize,
-                    }
-                ]}
-            />
-        </div>
+                            })}
+                            onCreate={systemTag => createSystemSystemTag({
+                                systemTagId: systemTag.id,
+                                systemId,
+                                systemTagBySystemTagId:systemTag,
+                            })}
+                            onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
+                                nodeId: systemSystemTagNID,
+                                systemTagId: systemTag.id,
+                                systemId,
+                                systemTagBySystemTagId: systemTag,
+                            })}
+                            multiSelect={{
+                                allItems: systemTags,
+                                mapPillProps: ({ tag }) => ({
+                                    title: tag,
+                                })
+                            }}
+                        />
+                        <div className="input-group">
+                            <Input
+                                label="System Depth"
+                                type="number"
+                                value={depth}
+                                onChange={({ target: { value } }) => updateSystem({
+                                    nodeId: systemNID,
+                                    depth: value
+                                })}
+                            />
+                            <Input
+                                label="System Sightline"
+                                type="number"
+                                value={defaultSightline}
+                                onChange={({ target: { value } }) => updateSystem({
+                                    nodeId: systemNID,
+                                    defaultSightline: value,
+                                })}
+                            />
+                        </div>
+                        <Input
+                            label="Caulk Joint Size"
+                            type="number"
+                            value={shimSize}
+                            onChange={({ target: { value } }) => updateSystem({
+                                nodeId: systemNID,
+                                shimSize: value,
+                            })}
+                        />
+                    </HeadedContainer>
+                )}
+        </Wizard>
     );
 }

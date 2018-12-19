@@ -1,6 +1,12 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/** NOTES
+ * 
+ * onDelete requires all of the same props as onCreate, for the sake of managing the state.
+ *  -- maybe I should build some kind of flattened data structure like apollo, in order to find an item simply by nodeId
+ */
+
 export default class Batcher extends Component {
 
     state = {
@@ -134,14 +140,18 @@ export default class Batcher extends Component {
                         batchedMutations: {
                             ...batchedMutations,
                             [mutationKey]: {
-                                ...mutation,
-                                argumentSets: mutation.argumentSets
+                                // must reference `batchedMutations[mutationKey]` inside functional setstate instead of enclosed `mutation` var.
+                                ...batchedMutations[mutationKey],
+                                argumentSets: batchedMutations[mutationKey].argumentSets
                                     .filter(set => set !== argSet)
                             }
                         }
-                    }));
+                    }), () => console.log(`FILTERED OUT MUTATION: ${mutationKey}`, argSet, this.state));
                 } catch (err) {
+                    console.error(`ERROR WITH MUTATION: ${mutationKey}`)
                     console.error(err);
+                    console.error(argSet);
+                    console.error(this.state);
                 }
             });
         });

@@ -9,7 +9,8 @@ import SystemCompatibility from './SystemCompatibility/SystemCompatibility';
 import SystemOptions from './SystemOptions/SystemOptions';
 import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
-export default function SystemRouter() {
+export default function SystemRouter({ match: { params: { systemNID, ...params } } }) {
+    console.log({ systemNID, ...params });
     return (
         <Switch>
             <Route

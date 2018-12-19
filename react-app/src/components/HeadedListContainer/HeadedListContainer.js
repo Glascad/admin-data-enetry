@@ -29,7 +29,7 @@ export default class HeadedListContainer extends Component {
                 id,
                 className,
                 title,
-                nestLevel,
+                label,
                 filters,
                 filters: {
                     [currentFilterIndex]: {
@@ -58,10 +58,16 @@ export default class HeadedListContainer extends Component {
             <HeadedContainer
                 id={id}
                 className={`HeadedListContainer ${className}`}
-                title={(
-                    <span className="title">{title}{currentFilterCallback ? ` | ${currentFilterName}` : ''}</span>
-                )}
-                nestLevel={nestLevel}
+                title={title ? `${
+                    title
+                    }${
+                    currentFilterCallback ?
+                        ` | ${currentFilterName}`
+                        :
+                        ''
+                    }`
+                    : ''}
+                label={label}
                 right={(
                     <span>
                         {filters && filters.length ? (

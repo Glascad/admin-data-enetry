@@ -8,7 +8,8 @@ import MultiSelect from '../MultiSelect/MultiSelect';
 class List extends Component {
 
     static propTypes = {
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
+        label: PropTypes.string,
         parent: PropTypes.string,
         items: PropTypes.array.isRequired,
         mapPillProps: PropTypes.func.isRequired,
@@ -33,6 +34,7 @@ class List extends Component {
             props: {
                 title,
                 parent,
+                label,
                 items,
                 mapPillProps,
                 canSelect = true,
@@ -76,6 +78,7 @@ class List extends Component {
             <div className="ListWrapper3">
                 <HeadedListContainer
                     title={title}
+                    label={label}
                     list={{
                         items,
                         renderItem: item => {
