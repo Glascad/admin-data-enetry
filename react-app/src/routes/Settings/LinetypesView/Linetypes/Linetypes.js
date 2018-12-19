@@ -19,9 +19,9 @@ export default function Linetypes() {
             mapPillProps={({ name }) => ({
                 title: name,
             })}
-            mapCreateVariables={({ }, { input }, { data }) => ({
+            mapCreateVariables={({ }, { input }, { allLineWeights }) => ({
                 name: input,
-                lineWeight: data.allLineWeights.nodes[0].weight,
+                lineWeight: allLineWeights.nodes[0].weight,
                 pattern: "",
             })}
             extractCreatedNID={({

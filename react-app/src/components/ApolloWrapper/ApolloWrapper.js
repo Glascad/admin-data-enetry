@@ -96,8 +96,8 @@ export default class ApolloWrapper extends Component {
                     .reduce((filteredObj, key) => {
                         const value = this.removeNullValues([...prev, obj])(obj[key]);
                         return value === undefined ?
-                            console.log(`REMOVED KEY: \n "${key}" \n from object: \n`, obj)
-                            ||
+                            // console.log(`REMOVED KEY: \n "${key}" \n from object: \n`, obj)
+                            // ||
                             filteredObj
                             :
                             {

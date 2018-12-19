@@ -53,7 +53,7 @@ export const update = {
         $nodeId:ID!,
         $type:String,
         $description:String,
-        $captured:Bool
+        $captured:Boolean
     ){
         updateInfillPocketType(input:{
             nodeId:$nodeId

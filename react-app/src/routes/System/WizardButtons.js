@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function WizardButtons() {
     return (
         <>
-            <Link
+            {/* <Link
                 to="/system/select-system"
                 className=""
             >
@@ -19,7 +19,7 @@ export default function WizardButtons() {
                 }}
             >
                 New System
-            </Link>
+            </Link> */}
         </>
     );
 }
