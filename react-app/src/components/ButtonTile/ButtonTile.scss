@@ -7,8 +7,16 @@
     align-items: center;
     flex-direction: column;
     
-    button + button {
-        margin-left: 0;
-        margin-top: $small;
+    button {
+        + button {
+            margin-left: 0;
+            margin-top: $small;
+        }
+
+        &:hover {
+            background-color: $off-white !important;
+            border-color: $dark-gray;
+            color: $dark-gray;
+        }
     }
 }

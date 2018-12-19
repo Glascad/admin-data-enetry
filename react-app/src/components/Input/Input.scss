@@ -16,36 +16,55 @@
         .label {
             margin: 0;
         }
-
-        input {
-            margin: 0;
-        }
-
-        input:checked {
-
-            + .check {
-                background: $selected-color;
-                &:after {
-                    display: block;
-                }
-            }
-        }
-
+        
         .check {
             margin-right: $x-small;
             height: $checkbox-height;
             width: $checkbox-height;
             background: $pill-color;
             border-radius: $xx-small;
-
+            
             &:after {
                 content: "";
-                display: none;
+                display: block;
                 height: $checkbox-height / 3;
                 width: $checkbox-height / 2;
                 transform: rotate(-45deg)  translate(0.5px, 4.5px);
                 border-bottom: $icon-thickness solid $off-white;
                 border-left: $icon-thickness solid $off-white;
+                border-color: rgba(0, 0, 0, 0);
+            }
+        }
+        
+
+        input {
+            margin: 0;
+
+            &:checked {
+                + .check {
+                    background: $selected-color;
+                    &:after {
+                        border-color: $off-white;
+                    }
+                }
+            }
+        }
+        
+        &:hover {
+            .check {
+                &:after {
+                    border-color: $dark-gray;
+                }
+            }
+
+            input {
+                &:checked {
+                    + .check {
+                        &:after {
+                            border-color: rgba(0, 0, 0, 0);
+                        }
+                    }
+                }
             }
         }
     }

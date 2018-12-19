@@ -29,9 +29,14 @@
 
     &.selectable, &.deletable, &.editable {
         &:hover{
-            background: none;
+            background: $dark-gray;
             border: $icon-thickness solid $dark-gray;
             box-shadow: none;
+            color: $off-white;
+            
+            .left-x, .right-x {
+                background: $off-white;
+            }
         }
     }
     &:hover {

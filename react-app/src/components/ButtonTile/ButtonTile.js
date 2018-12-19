@@ -15,7 +15,7 @@ export default function ButtonTile({
                 .filter(Boolean)
                 .map((button, i) => (
                     <button
-                        className="empty"
+                        className="empty light"
                         {...button}
                         key={i}
                     >
