@@ -48,7 +48,9 @@ export const create = {
         $type:String!
     ){
         createSystemType(input:{
-            type:$type
+            systemType:{
+                type:$type
+            }
         }){
             systemType{
                 nodeId
@@ -88,6 +90,7 @@ export const create = {
             }
         }
     }`,
+    refetchQueries: [{ query }]
 };
 
 export const update = {
@@ -190,4 +193,5 @@ export const _delete = {
             }
         }
     }`,
+    refetchQueries: [{ query }]
 };

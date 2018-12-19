@@ -58,7 +58,6 @@ export default class LinetypeInfo extends Component {
         return (
             <HeadedContainer
                 title={`Line Weight - ${name || ''}`}
-                nestLevel={1}
             >
                 <Input
                     label="Weight (mm)"

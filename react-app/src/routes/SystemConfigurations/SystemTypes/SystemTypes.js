@@ -24,10 +24,10 @@ export default function SystemTypes() {
             })}
             extractCreatedNID={({
                 createSystemType: {
-                    configurationType: {
+                    systemType: {
                         nodeId,
-                    },
-                },
+                    } = {},
+                } = {},
             }) => nodeId}
             mapUpdateVariables={({ input }) => ({
                 type: input,
