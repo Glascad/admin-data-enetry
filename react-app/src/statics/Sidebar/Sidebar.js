@@ -126,10 +126,10 @@ export default withRouter(Sidebar);
 
 
 const links = [
-    {
-        text: "Activity",
-        link: "/",
-    },
+    // {
+    //     text: "Activity",
+    //     link: "/",
+    // },
     {
         text: "System",
         link: "/system",
