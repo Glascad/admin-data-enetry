@@ -5,6 +5,8 @@ import Pill from '../Pill/Pill';
 import ListContainer from '../ListContainer/ListContainer';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 
+import './MultiSelect.scss';
+
 const removeDuplicateNIDs = list => list.filter((item, i) => i === list.findIndex(({ nodeId }) => nodeId === item.nodeId));
 
 export default class MultiSelect extends Component {
@@ -42,10 +44,6 @@ export default class MultiSelect extends Component {
     }));
 
     handleDeleteClick = ({ arguments: deletedItem }) => {
-        console.log({
-            deletedItem,
-            previousItems: this.props.previousItems,
-        });
         if (this.props.previousItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
             if (this.state.deletedItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
                 this.setState(({ deletedItems }) => ({
@@ -75,6 +73,7 @@ export default class MultiSelect extends Component {
                 previousItems,
                 allItems,
                 mapPillProps = () => null,
+                listTitle,
             },
             handleSelect,
             handleDeleteClick,
@@ -85,12 +84,9 @@ export default class MultiSelect extends Component {
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
 
-        console.log(this);
-        console.log({ addedItems, deletedItems });
-        console.log({ selectedItems, nonSelectedItems, });
-
         return (
             <Modal
+                className="MultiSelect"
                 arguments={{
                     ...state,
                     previousItems,
@@ -113,7 +109,8 @@ export default class MultiSelect extends Component {
                     )}
                 />
                 <HeadedListContainer
-                    title={""}
+                    title={listTitle}
+                    // label={""}
                     list={{
                         items: nonSelectedItems,
                         renderItem: (item, i) => (

@@ -5,23 +5,11 @@ import './Wizard.scss';
 
 class WizardChild extends Component {
 
-    componentDidMount = () => {
-        this.props.updateCurrentRoute(this.props.index);
-    }
+    componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
 
-    componentWillUnmount = () => {
-        this.props.completeMutations();
-    }
+    componentWillUnmount = () => this.props.completeMutations();
 
-    render = () => {
-        const {
-            props: {
-                children,
-            },
-        } = this;
-
-        return children;
-    }
+    render = () => this.props.children;
 }
 
 export default class Wizard extends Component {
@@ -42,6 +30,8 @@ export default class Wizard extends Component {
             },
             props: {
                 title,
+                path,
+                url,
                 buttons,
                 routes,
                 batcher: {
@@ -59,6 +49,7 @@ export default class Wizard extends Component {
         const nextPath = (routes[nextRoute] || {}).path;
 
         console.log(routes);
+        console.log(path);
 
         return (
             <div className="Wizard" >
@@ -79,6 +70,7 @@ export default class Wizard extends Component {
                         {routes.map((route, i) => (
                             <Route
                                 {...route}
+                                path={path + route.path}
                                 render={routerProps => (
                                     <WizardChild
                                         key={route.path}
@@ -118,7 +110,7 @@ export default class Wizard extends Component {
                         >
                             {prevPath ? (
                                 <Link
-                                    to={prevPath}
+                                    to={url + prevPath}
                                 >
                                     <button
                                         className="empty"
@@ -129,7 +121,7 @@ export default class Wizard extends Component {
                             ) : null}
                             {nextPath ? (
                                 <Link
-                                    to={nextPath}
+                                    to={url + nextPath}
                                 >
                                     <button
                                         className="primary"

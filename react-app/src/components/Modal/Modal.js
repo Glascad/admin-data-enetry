@@ -49,6 +49,7 @@ export default class Modal extends Component {
     render = () => {
         const {
             props: {
+                className,
                 title,
                 children,
                 display,
@@ -72,7 +73,7 @@ export default class Modal extends Component {
                 onClick={onCancel}
             >
                 <div
-                    className="Modal"
+                    className={`Modal ${className}`}
                     onClick={stopPropagation}
                 >
                     <HeadedContainer

@@ -27,6 +27,7 @@ class List extends Component {
         console.log({ addedItems, deletedItems });
         addedItems.forEach(this.props.onCreate);
         deletedItems.forEach(this.props.onDelete);
+        this.props.selection.cancel();
     }
 
     render = () => {
@@ -101,13 +102,15 @@ class List extends Component {
 
                             const _delete = multiSelect ? handleDeleteClick : onDelete;
 
+                            const select = multiSelect ? handleDeleteClick : handleSelect;
+
                             return (
                                 <Pill
                                     key={nodeId}
                                     tagname="li"
                                     selected={selected}
                                     danger={danger}
-                                    onSelect={handleSelect}
+                                    onSelect={select}
                                     onDisabledSelect={onDisabledSelect}
                                     onEdit={onUpdate}
                                     onDelete={_delete}
@@ -142,12 +145,25 @@ class List extends Component {
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{
-                            title: multiSelectTitle || `Update ${title}`,
+                            title: multiSelectTitle || title ?
+                                `Update ${title}`
+                                :
+                                label ?
+                                    `Update ${label}`
+                                    :
+                                    '',
                             display: !!(deleting || creating),
                             onCancel: cancel,
                             onFinish: handleMultiSelectFinish,
                             // ...mapModalProps(selectedItem),
                         }}
+                        listTitle={title ?
+                            `All ${title}`
+                            :
+                            label ?
+                                `All ${label}`
+                                :
+                                ''}
                         selection={selection}
                         previousItems={items.map(mapPreviousItems)}
                         allItems={allItems}

@@ -17,7 +17,7 @@ import ApolloWrapper3 from '../../components/ApolloWrapper/ApolloWrapper3';
 import query from './-graphql/query';
 import mutations from './-graphql/mutations';
 
-export default function ({ history, match: { path, params: { systemNID } } }) {
+export default function ({ history, match: { url, path, params: { systemNID } } }) {
     console.log(arguments);
     return (
         <Batcher>
@@ -52,11 +52,13 @@ export default function ({ history, match: { path, params: { systemNID } } }) {
                                     } ${
                                     systemName || ''
                                     }`}
+                                path={path}
+                                url={url}
                                 history={history}
                                 batcher={batcher}
                                 routes={[
                                     {
-                                        path: `${path}/system-info`,
+                                        path: `/system-info`,
                                         render: () => (
                                             <SystemInfo
                                                 {...apollo}
@@ -64,7 +66,7 @@ export default function ({ history, match: { path, params: { systemNID } } }) {
                                         ),
                                     },
                                     {
-                                        path: `${path}/glazing-info`,
+                                        path: `/glazing-info`,
                                         render: () => (
                                             <GlazingInfo
                                                 {...apollo}
@@ -72,7 +74,7 @@ export default function ({ history, match: { path, params: { systemNID } } }) {
                                         ),
                                     },
                                     {
-                                        path: `${path}/valid-types`,
+                                        path: `/valid-types`,
                                         render: () => (
                                             "VALIDTYPES"
                                             // <ValidTypes
@@ -81,7 +83,7 @@ export default function ({ history, match: { path, params: { systemNID } } }) {
                                         ),
                                     },
                                     {
-                                        path: `${path}/system-compatibility`,
+                                        path: `/system-compatibility`,
                                         render: () => (
                                             "SYSTEMCOMPATIBILITY"
                                             // <SystemCompatibility
@@ -90,7 +92,7 @@ export default function ({ history, match: { path, params: { systemNID } } }) {
                                         ),
                                     },
                                     {
-                                        path: `${path}/system-options`,
+                                        path: `/system-options`,
                                         render: () => (
                                             "SYSTEMOPTIONS"
                                             // <SystemOptions
@@ -99,7 +101,7 @@ export default function ({ history, match: { path, params: { systemNID } } }) {
                                         ),
                                     },
                                     {
-                                        path: `${path}/invalid-combinations`,
+                                        path: `/invalid-combinations`,
                                         render: () => (
                                             "INVALIDCOMBINATIONS"
                                             // <InvalidCombinations
