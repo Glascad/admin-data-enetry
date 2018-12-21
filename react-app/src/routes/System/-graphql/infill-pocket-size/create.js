@@ -27,15 +27,7 @@ export default {
             }
         }
     }`,
-    // refetchQueries: ({
-    //     data: {
-    //         createSystemInfillPocketSize: {
-    //             systemInfillPocketSize: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
+    mapResultToProps: (newSystemInfillPocketSize, { systemInfillPocketSizes }) => ({
+        systemInfillPocketSizes: systemInfillPocketSizes.concat(newSystemInfillPocketSize)
+    })
 };

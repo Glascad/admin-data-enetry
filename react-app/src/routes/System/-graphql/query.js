@@ -88,6 +88,15 @@ export default {
                     }
                 }
             }
+            systemInfillPocketSizesBySystemId{
+                nodes{
+                    nodeId
+                    infillPocketSizeByInfillPocketSize{
+                        nodeId
+                        size
+                    }
+                }
+            }
             systemConfigurationOverridesBySystemId{
                 nodes{
                     nodeId
@@ -261,6 +270,9 @@ export default {
                 systemInfillPocketTypesBySystemId: {
                     nodes: systemInfillPocketTypes = []
                 } = {},
+                systemInfillPocketSizesBySystemId: {
+                    nodes: systemInfillPocketSizes = []
+                } = {},
                 systemConfigurationOverridesBySystemId: {
                     nodes: systemConfigurationOverrides = []
                 } = {},
@@ -304,6 +316,7 @@ export default {
         systemSystemTags,
         systemInfillSizes,
         systemInfillPocketTypes,
+        systemInfillPocketSizes,
         systemConfigurationOverrides,
         invalidSystemConfigurationTypes,
         systemOptions,

@@ -23,15 +23,7 @@ export default {
             }
         }
     }`,
-    // refetchQueries: ({
-    //     data: {
-    //         deleteSystemInfillSize: {
-    //             systemInfillSize: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
+    mapResultToProps: ({ nodeId: deletedNID }, { systemInfillSizes }) => ({
+        systemInfillSizes: systemInfillSizes.filter(({ nodeId }) => nodeId !== deletedNID)
+    })
 };

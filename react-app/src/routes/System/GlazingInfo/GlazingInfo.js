@@ -7,12 +7,6 @@ import {
 
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 
-
-// import * as apolloProps from './glazing-info-graphql';
-// import * as infillMaterialSizeApolloProps from './infill-material-sizes-graphql';
-// import * as infillPocketTypeApolloProps from './infill-pocket-types-graphql';
-// import * as infillPocketSizeApolloProps from './infill-pocket-sizes-graphql';
-
 export default function GlazingInfo({
     queryStatus: {
         system: {
@@ -25,6 +19,8 @@ export default function GlazingInfo({
         allInfillSizes,
         systemInfillPocketTypes,
         allInfillPocketTypes,
+        systemInfillPocketSizes,
+        allInfillPocketSizes,
     },
     mutations: {
         updateSystem,
@@ -32,6 +28,8 @@ export default function GlazingInfo({
         deleteSystemInfillSize,
         createSystemInfillPocketType,
         deleteSystemInfillPocketType,
+        createSystemInfillPocketSize,
+        deleteSystemInfillPocketSize,
     },
 }) {
     console.log(arguments);
@@ -123,164 +121,31 @@ export default function GlazingInfo({
             />
             <ListWrapper3
                 label="Infill Pocket Sizes"
-                items={[]}
-                mapPillProps={({ }) => ({
-
+                items={systemInfillPocketSizes
+                    .map(({
+                        nodeId: systemInfillPocketSizeNID,
+                        infillPocketSizeByInfillPocketSize,
+                    }) => ({
+                        systemInfillPocketSizeNID,
+                        ...infillPocketSizeByInfillPocketSize
+                    }))}
+                multiSelect={{
+                    allItems: allInfillPocketSizes
+                }}
+                mapPillProps={({ size }) => ({
+                    title: `${size}"`
+                })}
+                onCreate={infillPocketSize => createSystemInfillPocketSize({
+                    systemId,
+                    infillPocketSize: infillPocketSize.size,
+                    infillPocketSizeByInfillPocketSize: infillPocketSize,
+                })}
+                onDelete={({ systemInfillPocketSizeNID, ...infillPocketSize }) => deleteSystemInfillPocketSize({
+                    nodeId: systemInfillPocketSizeNID,
+                    infillPocketSize: infillPocketSize.size,
+                    infillPocketSizeByInfillPocketSize: infillPocketSize,
                 })}
             />
-            {[
-                // {
-                //     label: "Infill Material Sizes",
-                //     multiSelectList: {
-                //         apolloProps: infillMaterialSizeApolloProps,
-                //         mapCreateVariables: ({ size: infillSize }, { system: { id: systemId } }) => ({
-                //             systemId,
-                //             infillSize,
-                //         }),
-                //         mapDeleteVariables: ({ systemInfillSizeNID }) => ({
-                //             nodeId: systemInfillSizeNID,
-                //         }),
-                //         extractItems: ({
-                //             system: {
-                //                 systemInfillSizesBySystemId: {
-                //                     nodes = []
-                //                 } = {}
-                //             } = {}
-                //         }) => nodes.map(({
-                //             nodeId: systemInfillSizeNID,
-                //             infillSizeByInfillSize: infillSize,
-                //         }) => ({
-                //             systemInfillSizeNID,
-                //             ...infillSize,
-                //         })),
-                //         extractAllItems: ({
-                //             allInfillSizes: {
-                //                 nodes = []
-                //             } = {}
-                //         }) => nodes,
-                //         mapListPillProps: ({ size, ...obj }) => ({
-                //             title: size,
-                //         }),
-                //         mapModalPillProps: ({ size, ...obj }) => ({
-                //             title: size,
-                //         }),
-                //     },
-                // },
-                // {
-                //     label: "Default Infill Material Size",
-                //     type: "select",
-                //     extractValue: ({
-                //         system: {
-                //             defaultGlassSize = 0
-                //         } = {}
-                //     }) => ({
-                //         value: defaultGlassSize,
-                //         label: defaultGlassSize,
-                //     }),
-                //     extractOptions: ({
-                //         allInfillSizes: {
-                //             nodes = []
-                //         } = {}
-                //     }) => nodes.map(({ size }) => ({
-                //         value: size,
-                //         label: size,
-                //     })),
-                // },
-                // {
-                //     label: "Infill Pocket Types",
-                //     multiSelectList: {
-                //         apolloProps: infillPocketTypeApolloProps,
-                //         mapCreateVariables: ({ id: infillPocketTypeId }, { system: { id: systemId } }) => ({
-                //             systemId,
-                //             infillPocketTypeId,
-                //         }),
-                //         mapDeleteVariables: ({ systemInfillPocketTypeNID }) => ({
-                //             nodeId: systemInfillPocketTypeNID,
-                //         }),
-                //         extractItems: ({
-                //             system: {
-                //                 systemInfillPocketTypesBySystemId: {
-                //                     nodes = []
-                //                 } = {}
-                //             } = {}
-                //         }) => nodes.map(item => console.log(item) || item).map(({
-                //             nodeId: systemInfillPocketTypeNID,
-                //             infillPocketTypeByInfillPocketTypeId: infillPocketType,
-                //         }) => ({
-                //             systemInfillPocketTypeNID,
-                //             ...infillPocketType,
-                //         })),
-                //         extractAllItems: ({
-                //             allInfillPocketTypes: {
-                //                 nodes = []
-                //             } = {}
-                //         }) => nodes,
-                //         mapListPillProps: ({ type }) => ({
-                //             title: type,
-                //         }),
-                //         mapModalPillProps: ({ type }) => ({
-                //             title: type,
-                //         }),
-                //     },
-                // },
-                // {
-                //     label: "Infill Pocket Sizes",
-                //     multiSelectList: {
-                //         apolloProps: infillPocketSizeApolloProps,
-                //         mapCreateVariables: ({ size: infillPocketSize }, { system: { id: systemId } }) => ({
-                //             systemId,
-                //             infillPocketSize,
-                //         }),
-                //         mapDeleteVariables: ({ systemInfillPocketSizeNID }) => ({
-                //             nodeId: systemInfillPocketSizeNID,
-                //         }),
-                //         extractItems: ({
-                //             system: {
-                //                 systemInfillPocketSizesBySystemId: {
-                //                     nodes = []
-                //                 } = {}
-                //             } = {}
-                //         }) => nodes.map(({
-                //             nodeId: systemInfillPocketSizeNID,
-                //             infillPocketSizeByInfillPocketSize: infillPocketSize,
-                //         }) => ({
-                //             systemInfillPocketSizeNID,
-                //             ...infillPocketSize,
-                //         })),
-                //         extractAllItems: ({
-                //             allInfillPocketSizes: {
-                //                 nodes = []
-                //             } = {}
-                //         }) => nodes,
-                //         mapListPillProps: ({ size }) => ({
-                //             title: size,
-                //         }),
-                //         mapModalPillProps: ({ size }) => ({
-                //             title: size,
-                //         }),
-                //     }
-                // },
-            ].map(() => null)}
         </HeadedContainer>
-        // <div className="card">
-        //     <ApolloInputWrapper
-        //         apolloProps={{
-        //             ...apolloProps,
-        //             queryVariables: { nodeId: systemNID }
-        //         }}
-        //         title="Glazing Info"
-        //         mapUpdateVariables={({
-        //             "Glass Bite": defaultGlassBite,
-        //             "Default Infill Material Size": {
-        //                 value: defaultGlassSize,
-        //             },
-        //         }) => ({
-        //             nodeId: systemNID,
-        //             defaultGlassBite,
-        //             defaultGlassSize,
-        //         })}
-        //         inputs={}
-        //     />
-        // </div>
     );
 }
