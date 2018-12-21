@@ -2,7 +2,7 @@ import React from 'react';
 
 import SystemInfo from './SystemInfo/SystemInfo';
 import GlazingInfo from './GlazingInfo/GlazingInfo';
-// import ValidTypes from './ValidTypes/ValidTypes';
+import ValidTypes from './ValidTypes/ValidTypes';
 // import SystemCompatibility from './SystemCompatibility/SystemCompatibility';
 // import SystemOptions from './SystemOptions/SystemOptions';
 // import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
@@ -76,10 +76,9 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                     {
                                         path: `/valid-types`,
                                         render: () => (
-                                            "VALIDTYPES"
-                                            // <ValidTypes
-                                            //     {...apollo}
-                                            // />
+                                            <ValidTypes
+                                                {...apollo}
+                                            />
                                         ),
                                     },
                                     {
