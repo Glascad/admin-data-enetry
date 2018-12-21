@@ -23,15 +23,15 @@ export default {
             }
         }
     }`,
-    refetchQueries: ({
-        data: {
-            deleteSystemInfillSize: {
-                systemInfillSize: {
-                    systemBySystemId: {
-                        nodeId
-                    }
-                }
-            }
-        }
-    }) => [{ ...query, variables: { nodeId } }]
+    // refetchQueries: ({
+    //     data: {
+    //         deleteSystemInfillSize: {
+    //             systemInfillSize: {
+    //                 systemBySystemId: {
+    //                     nodeId
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }) => [{ ...query, variables: { nodeId } }]
 };

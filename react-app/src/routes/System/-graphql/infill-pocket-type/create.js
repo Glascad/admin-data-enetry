@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -27,15 +27,18 @@ export default {
             }
         }
     }`,
-     refetchQueries: ({
-         data: {
-             createSystemInfillPocketType: {
-                 systemInfillPocketType: {
-                     systemBySystemId: {
-                         nodeId
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
+    mapResultToProps: (newSystemInfillPocketType, { systemInfillPocketTypes }) => ({
+        systemInfillPocketTypes: systemInfillPocketTypes.concat(newSystemInfillPocketType)
+    }),
+    // refetchQueries: ({
+    //     data: {
+    //         createSystemInfillPocketType: {
+    //             systemInfillPocketType: {
+    //                 systemBySystemId: {
+    //                     nodeId
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }) => [{ ...query, variables: { nodeId } }]
 };

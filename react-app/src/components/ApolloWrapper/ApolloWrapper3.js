@@ -43,6 +43,7 @@ export default class ApolloWrapper3 extends Component {
             props: {
                 batcher,
                 batcher: {
+                    registerQueryRefetch = () => { },
                     getNodeId,
                     batchedMutations,
                     batchMutation,
@@ -51,7 +52,7 @@ export default class ApolloWrapper3 extends Component {
                 query: {
                     mapQueryToProps = props => props,
                 } = {},
-                refetchQuery,
+                refetch,
                 mutations = {},
                 children,
                 ...props
@@ -70,11 +71,13 @@ export default class ApolloWrapper3 extends Component {
                 <Query
                     {...query}
                 >
-                    {status => (
+                    {({ refetch, ...status }) => (
+                        registerQueryRefetch(refetch)
+                        ||
                         <ApolloWrapper3
                             mutations={mutations}
                             batcher={batcher}
-                            refetchQuery={query}
+                            refetch={refetch}
                         >
                             {accumulatedProps => {
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
@@ -112,7 +115,6 @@ export default class ApolloWrapper3 extends Component {
             return (
                 <Mutation
                     {...nextMutation}
-                    refetchQueries={[refetchQuery]}
                 >
                     {(mutate, status) => (
                         <ApolloWrapper3
@@ -123,7 +125,6 @@ export default class ApolloWrapper3 extends Component {
                                     [key]: mutations[key],
                                 }), {})}
                             batcher={batcher}
-                            refetchQuery={refetchQuery}
                         >
                             {accumulatedProps => (
                                 children({
@@ -131,7 +132,7 @@ export default class ApolloWrapper3 extends Component {
                                     mutations: {
                                         ...accumulatedProps.mutations,
                                         [mutationKeys[0]]: batcher ?
-                                            (args) => batchMutation({
+                                            args => batchMutation({
                                                 arguments: {
                                                     nodeId: args.nodeId || getNodeId(),
                                                     ...args,
@@ -140,9 +141,12 @@ export default class ApolloWrapper3 extends Component {
                                                 mutationKey: mutationKeys[0],
                                             })
                                             :
-                                            (args) => mutate({
-                                                variables: args,
-                                            }),
+                                            async args => {
+                                                await mutate({
+                                                    variables: args,
+                                                });
+                                                refetch();
+                                            },
                                         [`${mutationKeys[0]}Status`]: status,
                                     }
                                 })

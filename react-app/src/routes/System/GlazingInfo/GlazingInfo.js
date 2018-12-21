@@ -16,12 +16,22 @@ import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 export default function GlazingInfo({
     queryStatus: {
         system: {
+            nodeId: systemNID,
+            id: systemId,
             defaultGlassBite,
+            defaultGlassSize,
         },
         systemInfillSizes,
+        allInfillSizes,
+        systemInfillPocketTypes,
+        allInfillPocketTypes,
     },
     mutations: {
         updateSystem,
+        createSystemInfillSize,
+        deleteSystemInfillSize,
+        createSystemInfillPocketType,
+        deleteSystemInfillPocketType,
     },
 }) {
     console.log(arguments);
@@ -32,6 +42,10 @@ export default function GlazingInfo({
             <Input
                 label="Glass Bite"
                 value={defaultGlassBite}
+                onChange={({ target: { value } }) => updateSystem({
+                    nodeId: systemNID,
+                    defaultGlassBite: value,
+                })}
             />
             <ListWrapper3
                 label="Infill Material Sizes"
@@ -42,19 +56,69 @@ export default function GlazingInfo({
                     systemInfillSizeNID,
                     ...infillSizeByInfillSize,
                 }))}
-                // onCreate={}
+                multiSelect={{
+                    allItems: allInfillSizes
+                }}
                 mapPillProps={({ size }) => ({
                     title: `${size}"`
+                })}
+                onCreate={infillSize => createSystemInfillSize({
+                    systemId,
+                    infillSize: infillSize.size,
+                    infillSizeByInfillSize: infillSize,
+                })}
+                onDelete={({ systemInfillSizeNID, ...infillSize }) => deleteSystemInfillSize({
+                    nodeId: systemInfillSizeNID,
+                    systemId,
+                    infillSize: infillSize.size,
+                    infillSizeByInfillSize: infillSize,
                 })}
             />
             <Input
                 label="Default Infill Material Size"
+                type="select"
+                select={{
+                    options: systemInfillSizes
+                        .map(({ infillSizeByInfillSize: { size } }) => ({
+                            value: size,
+                            label: size,
+                        })),
+                    value: {
+                        label: defaultGlassSize,
+                        value: defaultGlassSize,
+                    },
+                    onChange: ({ value }) => updateSystem({
+                        nodeId: systemNID,
+                        defaultGlassSize: value,
+                    }),
+                }}
             />
             <ListWrapper3
                 label="Infill Pocket Types"
-                items={[]}
-                mapPillProps={({ }) => ({
-
+                items={systemInfillPocketTypes
+                    .map(({
+                        nodeId,
+                        infillPocketTypeByInfillPocketTypeId
+                    }) => ({
+                        systemInfillPocketTypeNID: nodeId,
+                        ...infillPocketTypeByInfillPocketTypeId,
+                    }))}
+                multiSelect={{
+                    allItems: allInfillPocketTypes
+                }}
+                mapPillProps={({ type }) => ({
+                    title: type,
+                })}
+                onCreate={infillPocketType => createSystemInfillPocketType({
+                    systemId,
+                    infillPocketTypeId: infillPocketType.id,
+                    infillPocketTypeByInfillPocketTypeId: infillPocketType,
+                })}
+                onDelete={({ systemInfillPocketTypeNID, ...infillPocketType }) => deleteSystemInfillPocketType({
+                    nodeId: systemInfillPocketTypeNID,
+                    systemId,
+                    infillPocketTypeId: infillPocketType.id,
+                    infillPocketTypeByInfillPocketTypeId: infillPocketType,
                 })}
             />
             <ListWrapper3

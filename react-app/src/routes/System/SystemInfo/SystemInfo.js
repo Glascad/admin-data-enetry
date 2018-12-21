@@ -88,9 +88,6 @@ export default function SystemInfo({
                 })}
                 multiSelect={{
                     allItems: allSystemTags,
-                    mapPillProps: ({ tag }) => ({
-                        title: tag,
-                    })
                 }}
             />
             <div className="input-group">

@@ -48,9 +48,6 @@ export default class Wizard extends Component {
         const prevPath = (routes[prevRoute] || {}).path;
         const nextPath = (routes[nextRoute] || {}).path;
 
-        console.log(routes);
-        console.log(path);
-
         return (
             <div className="Wizard" >
                 <header>

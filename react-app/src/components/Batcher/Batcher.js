@@ -21,8 +21,16 @@ export default class Batcher extends Component {
 
     componentWillUnmount = () => window.removeEventListener('keydown', this.save);
 
+    registerQueryRefetch = refetch => {
+        console.log("REGISTERING QUERY REFETCH");
+        this.refetchQuery = () => {
+            console.log("REFETCHING QUERY");
+            refetch();
+        };
+    }
+
     // functional setstate is necessary when multiple are fired at once
-    batchMutation = ({ arguments: args, mutate, mutationKey }) => this.setState(({ batchedMutations }) => {
+    batchMutation = ({ arguments: args, mutate, mutationKey }, refetch) => this.setState(({ batchedMutations }) => {
         console.log("BATCHING A MUTATION");
         console.log({ args, mutate, mutationKey });
         const previousMutation = batchedMutations[mutationKey];
@@ -115,6 +123,7 @@ export default class Batcher extends Component {
                 ...batchedMutations,
                 [mutationKey]: {
                     mutate,
+                    refetch,
                     argumentSets: [args]
                 }
             }
@@ -128,33 +137,38 @@ export default class Batcher extends Component {
     completeMutations = async () => {
         const batchedMutations = this.state.batchedMutations;
         const mutationKeys = Object.keys(batchedMutations);
-        return await mutationKeys.map(async mutationKey => {
-            const mutation = batchedMutations[mutationKey];
-            return await mutation.argumentSets.map(async argSet => {
-                try {
-                    console.log(`RUNNING MUTATION: ${mutationKey}`)
-                    console.log(argSet);
-                    await mutation.mutate({ variables: argSet });
-                    // functional setstate is necessary when multiple are fired at once
-                    this.setState(({ batchedMutations }) => ({
-                        batchedMutations: {
-                            ...batchedMutations,
-                            [mutationKey]: {
-                                // must reference `batchedMutations[mutationKey]` inside functional setstate instead of enclosed `mutation` var.
-                                ...batchedMutations[mutationKey],
-                                argumentSets: batchedMutations[mutationKey].argumentSets
-                                    .filter(set => set !== argSet)
-                            }
+        await Promise.all(mutationKeys
+            .map(async mutationKey => {
+                const mutation = batchedMutations[mutationKey];
+                return await Promise.all(mutation.argumentSets
+                    .map(async argSet => {
+                        try {
+                            console.log(`RUNNING MUTATION: ${mutationKey}`)
+                            console.log(argSet);
+                            await mutation.mutate({ variables: argSet });
+                            // functional setstate is necessary when multiple are fired at once
+                            this.setState(({ batchedMutations }) => ({
+                                batchedMutations: {
+                                    ...batchedMutations,
+                                    [mutationKey]: {
+                                        // must reference `batchedMutations[mutationKey]` inside functional setstate instead of enclosed `mutation` var.
+                                        ...batchedMutations[mutationKey],
+                                        argumentSets: batchedMutations[mutationKey].argumentSets
+                                            .filter(set => set !== argSet)
+                                    }
+                                }
+                            }), () => console.log(`FILTERED OUT MUTATION: ${mutationKey}`, argSet, this.state));
+                        } catch (err) {
+                            console.error(`ERROR WITH MUTATION: ${mutationKey}`)
+                            console.error(err);
+                            console.error(argSet);
+                            console.error(this.state);
                         }
-                    }), () => console.log(`FILTERED OUT MUTATION: ${mutationKey}`, argSet, this.state));
-                } catch (err) {
-                    console.error(`ERROR WITH MUTATION: ${mutationKey}`)
-                    console.error(err);
-                    console.error(argSet);
-                    console.error(this.state);
-                }
-            });
-        });
+                    }));
+            }));
+        if (this.refetchQuery) {
+            return await this.refetchQuery();
+        }
     }
 
     save = e => {
@@ -178,6 +192,7 @@ export default class Batcher extends Component {
                 children,
             },
             getNodeId,
+            registerQueryRefetch,
             batchMutation,
             resetMutations,
             replaceMutation,
@@ -188,6 +203,7 @@ export default class Batcher extends Component {
 
         return children({
             getNodeId,
+            registerQueryRefetch,
             batchedMutations,
             batchMutation,
             resetMutations,

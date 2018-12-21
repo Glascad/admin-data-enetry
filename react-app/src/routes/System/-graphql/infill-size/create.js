@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -27,15 +27,15 @@ export default {
             }
         }
     }`,
-     refetchQueries: ({
-         data: {
-             createSystemInfillSize: {
-                 systemInfillSize: {
-                     systemBySystemId: {
-                         nodeId
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
+    // refetchQueries: ({
+    //     data: {
+    //         createSystemInfillSize: {
+    //             systemInfillSize: {
+    //                 systemBySystemId: {
+    //                     nodeId
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }) => [{ ...query, variables: { nodeId } }]
 };

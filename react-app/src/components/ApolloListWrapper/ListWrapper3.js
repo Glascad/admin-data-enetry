@@ -59,7 +59,6 @@ class List extends Component {
                     allItems,
                     // onCreate: onMultiSelectCreate,
                     // onDelete: onMultiSelectDelete,
-                    mapPillProps: mapMultiSelectPillProps,
                     mapPreviousItems = item => item,
                 } = {},
                 children,
@@ -167,7 +166,7 @@ class List extends Component {
                         selection={selection}
                         previousItems={items.map(mapPreviousItems)}
                         allItems={allItems}
-                        mapPillProps={mapMultiSelectPillProps}
+                        mapPillProps={mapPillProps}
                     // {...mapMultiSelectProps(childProps)}
                     />
                 ) : null}

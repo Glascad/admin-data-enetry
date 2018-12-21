@@ -23,16 +23,16 @@ export default {
             }
         }
     }`,
-    refetchQueries: ({
-        data: {
-            deleteSystemInfillPocketSize: {
-                systemInfillPocketSize: {
-                    systemBySystemId: {
-                        nodeId
-                    }
-                }
-            }
-        }
-    }) => [{ ...query, variables: { nodeId } }]
+    // refetchQueries: ({
+    //     data: {
+    //         deleteSystemInfillPocketSize: {
+    //             systemInfillPocketSize: {
+    //                 systemBySystemId: {
+    //                     nodeId
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }) => [{ ...query, variables: { nodeId } }]
 };
 
