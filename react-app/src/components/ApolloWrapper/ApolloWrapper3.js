@@ -7,7 +7,7 @@ export default class ApolloWrapper3 extends Component {
     static propTypes = {
         query: PropTypes.shape({
             query: PropTypes.object.isRequired,
-            mapProps: PropTypes.func,
+            mapQueryToProps: PropTypes.func,
             variables: PropTypes.object,
         }),
         mutations: PropTypes.objectOf(PropTypes.object),
@@ -49,8 +49,9 @@ export default class ApolloWrapper3 extends Component {
                 } = {},
                 query,
                 query: {
-                    mapProps: mapQueryProps = props => props,
+                    mapQueryToProps = props => props,
                 } = {},
+                refetchQuery,
                 mutations = {},
                 children,
                 ...props
@@ -73,6 +74,7 @@ export default class ApolloWrapper3 extends Component {
                         <ApolloWrapper3
                             mutations={mutations}
                             batcher={batcher}
+                            refetchQuery={query}
                         >
                             {accumulatedProps => {
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
@@ -92,7 +94,7 @@ export default class ApolloWrapper3 extends Component {
                                         ...mappedStatus,
                                         ...mapResultToProps(argSet, mappedStatus),
                                     }), mappedStatus);
-                                }, mapQueryProps(removeNullValues()(status)));
+                                }, mapQueryToProps(removeNullValues()(status)));
                                 const childProps = {
                                     ...accumulatedProps,
                                     batcher,
@@ -110,6 +112,7 @@ export default class ApolloWrapper3 extends Component {
             return (
                 <Mutation
                     {...nextMutation}
+                    refetchQueries={[refetchQuery]}
                 >
                     {(mutate, status) => (
                         <ApolloWrapper3
@@ -120,6 +123,7 @@ export default class ApolloWrapper3 extends Component {
                                     [key]: mutations[key],
                                 }), {})}
                             batcher={batcher}
+                            refetchQuery={refetchQuery}
                         >
                             {accumulatedProps => (
                                 children({

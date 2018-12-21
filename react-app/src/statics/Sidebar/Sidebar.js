@@ -68,7 +68,9 @@ class Sidebar extends Component {
             }
         } = this;
 
-        const systemNID = pathname.replace(/^.*\/(.+)/, '$1');
+        const systemNID = pathname.replace(/^\/system\/(.*)\/.*$/, '$1');
+
+        console.log({ systemNID });
 
         return (
             <div id="Sidebar">
@@ -140,27 +142,27 @@ const links = [
             },
             {
                 text: "System Info",
-                link: "/system-info/:systemNID",
+                link: "/:systemNID/system-info",
             },
             {
                 text: "Glazing Info",
-                link: "/glazing-info/:systemNID",
+                link: "/:systemNID/glazing-info",
             },
             {
                 text: "Valid Types",
-                link: "/valid-types/:systemNID",
+                link: "/:systemNID/valid-types",
             },
             // {
             //     text: "System Compatibility",
-            //     link: "/system-compatibility/:systemNID",
+            //     link: "/:systemNID/system-compatibility",
             // },
             {
                 text: "System Options",
-                link: "/system-options/:systemNID",
+                link: "/:systemNID/system-options",
             },
             {
                 text: "Invalid Combinations",
-                link: "/invalid-combinations/:systemNID",
+                link: "/:systemNID/invalid-combinations",
             },
         ]
     },

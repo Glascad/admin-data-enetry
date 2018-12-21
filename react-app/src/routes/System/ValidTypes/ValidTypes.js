@@ -19,7 +19,7 @@ export default function ValidTypes({ match: { params: { systemNID } } }) {
                 variables: {
                     nodeId: systemNID,
                 },
-                mapProps: ({
+                mapQueryToProps: ({
                     data,
                     data: {
                         system: {

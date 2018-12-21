@@ -78,7 +78,7 @@ export default class Batcher extends Component {
         }
         if (previousMutation) {
             const updatedSet = previousMutation.argumentSets
-            .find(({ nodeId }) => nodeId === args.nodeId);
+                .find(({ nodeId }) => nodeId === args.nodeId);
             // UPDATE AN EXISTING ARGSET
             if (updatedSet) {
                 const updatedSetIndex = previousMutation.argumentSets.indexOf(updatedSet);
@@ -125,12 +125,12 @@ export default class Batcher extends Component {
         batchedMutations: {}
     });
 
-    completeMutations = () => {
+    completeMutations = async () => {
         const batchedMutations = this.state.batchedMutations;
         const mutationKeys = Object.keys(batchedMutations);
-        mutationKeys.forEach(mutationKey => {
+        return await mutationKeys.map(async mutationKey => {
             const mutation = batchedMutations[mutationKey];
-            mutation.argumentSets.forEach(async argSet => {
+            return await mutation.argumentSets.map(async argSet => {
                 try {
                     console.log(`RUNNING MUTATION: ${mutationKey}`)
                     console.log(argSet);

@@ -25,7 +25,7 @@ export default function SystemOptions({ match: { params: { systemNID } } }) {
                 variables: {
                     nodeId: systemNID,
                 },
-                mapProps: ({
+                mapQueryToProps: ({
                     data: {
                         system: {
                             systemOptionsBySystemId: {

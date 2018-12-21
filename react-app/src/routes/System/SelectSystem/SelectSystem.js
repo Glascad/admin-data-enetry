@@ -27,7 +27,7 @@ function SelectSystem({
                     align: "left",
                     footer: "Last Updated: ...",
                     selectable: false,
-                    onSelect: ({ arguments: { nodeId } }) => history.push(`/system/system-info/${nodeId}`)
+                    onSelect: ({ arguments: { nodeId } }) => history.push(`/system/${nodeId}/system-info`)
                 }}
                 mapPillProps={({
                     name: systemName,
