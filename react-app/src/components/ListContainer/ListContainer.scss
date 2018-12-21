@@ -6,16 +6,16 @@
     ul {
         display: flex;
         flex-flow: row wrap;
-        margin-bottom: -$large;
+        margin-bottom: -$base_size;
 
         > * {
-            margin: 0 $large $large 0;
+            margin: 0 $base_size $base_size 0;
         }
 
         .Input {
-            margin: 0 $small $large 0;
+            margin: 0 $base_size $base_size 0;
             + .AddButton {
-                margin: 0 $small $large 0;
+                margin: 0 $base_size $base_size 0;
             }
         }
     }
