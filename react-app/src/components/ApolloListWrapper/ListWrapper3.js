@@ -66,8 +66,6 @@ class List extends Component {
             handleMultiSelectFinish,
         } = this;
 
-        // console.log(this);
-
         const selectedItem = items.find(({ nodeId }) => nodeId === selectedNID)
             ||
             items[0]
@@ -83,7 +81,7 @@ class List extends Component {
                         items,
                         renderItem: item => {
 
-                            const nodeId = item.nodeId;
+                            const { nodeId } = item;
 
                             const args = { nodeId };
 

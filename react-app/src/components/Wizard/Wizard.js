@@ -3,6 +3,8 @@ import { Link, Route, Switch } from 'react-router-dom';
 
 import './Wizard.scss';
 
+
+
 class WizardChild extends Component {
 
     componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
@@ -11,6 +13,8 @@ class WizardChild extends Component {
 
     render = () => this.props.children;
 }
+
+
 
 export default class Wizard extends Component {
 

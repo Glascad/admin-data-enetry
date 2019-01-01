@@ -7,8 +7,6 @@ import {
 
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 
-import InputWrapper3 from '../../../components/ApolloInputWrapper/InputWrapper3'
-
 export default function ValidTypes({
     queryStatus: {
         system: {
@@ -40,13 +38,13 @@ export default function ValidTypes({
         >
             {({
                 detailTypeByDetailTypeId: {
-                    type: detailTypeName,
+                    type: detailTypeName = '',
                     nodeId: detailTypeNID,
                 } = {}
             }) => (
                     <ListWrapper3
-                        title="Valid Configuration Types"
-                        parent={detailTypeName}
+                        title={`Valid Configuration Types - ${detailTypeName}`}
+                        // parent={detailTypeName}
                         items={systemTypeDetailTypeConfigurationTypes
                             .filter(({
                                 detailTypeByDetailTypeId: {
@@ -54,8 +52,9 @@ export default function ValidTypes({
                                 }
                             }) => nodeId === detailTypeNID)}
                         mapPillProps={({
+                            nodeId,
                             configurationTypeByConfigurationTypeId: {
-                                nodeId,
+                                nodeId: configurationTypeNID,
                                 id,
                                 type
                             }
@@ -65,7 +64,7 @@ export default function ValidTypes({
                                     configurationTypeByInvalidConfigurationTypeId: {
                                         nodeId: invalidNID,
                                     }
-                                }) => invalidNID === nodeId);
+                                }) => invalidNID === configurationTypeNID);
                             return {
                                 title: type,
                                 arguments: {
@@ -93,10 +92,14 @@ export default function ValidTypes({
                         {({
                             required,
                             mirrorable,
+                            configurationTypeByConfigurationTypeId: {
+                                type: configurationTypeName = '',
+                            } = {},
                             ...data
                         }) => (
                                 <HeadedContainer
-                                    title="System Configuration Type"
+                                    title={`System Configuration Type - ${configurationTypeName}`}
+                                // parent={configurationTypeName}
                                 >
                                     <Input
                                         label="Required"
@@ -107,24 +110,16 @@ export default function ValidTypes({
                                             checked,
                                         })}
                                     />
+                                    <Input
+                                        label="Mirrorable"
+                                        type="checkbox"
+                                        value={required}
+                                        onChange={({ target: { checked } }) => console.log({
+                                            data,
+                                            checked,
+                                        })}
+                                    />
                                 </HeadedContainer>
-                                // <InputWrapper3
-                                //     title="System Configuration Type"
-                                //     inputs={[
-                                //         {
-                                //             label: "Required",
-                                //             type: "checkbox",
-                                //             value: required || false,
-                                //             // onChange: 
-                                //         },
-                                //         {
-                                //             label: "Mirrorable",
-                                //             type: "checkbox",
-                                //             value: mirrorable || false,
-                                //             // onChange: 
-                                //         }
-                                //     ]}
-                                // />
                             )}
                     </ListWrapper3>
                 )}
