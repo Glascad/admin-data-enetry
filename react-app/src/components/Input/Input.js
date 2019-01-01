@@ -8,6 +8,7 @@ export default function Input({
     type = "text",
     select,
     value,
+    checked = false,
     ...props
 }) {
     const tag = {
@@ -44,6 +45,7 @@ export default function Input({
                                     :
                                     ""
                     )}
+                    checked={checked}
                     {...props}
                 />
             ) : (

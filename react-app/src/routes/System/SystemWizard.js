@@ -4,7 +4,7 @@ import SystemInfo from './SystemInfo/SystemInfo';
 import GlazingInfo from './GlazingInfo/GlazingInfo';
 import ValidTypes from './ValidTypes/ValidTypes';
 // import SystemCompatibility from './SystemCompatibility/SystemCompatibility';
-// import SystemOptions from './SystemOptions/SystemOptions';
+import SystemOptions from './SystemOptions/SystemOptions';
 // import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
@@ -81,22 +81,21 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                             />
                                         ),
                                     },
-                                    {
-                                        path: `/system-compatibility`,
-                                        render: () => (
-                                            "SYSTEMCOMPATIBILITY"
-                                            // <SystemCompatibility
-                                            //     {...apollo}
-                                            // />
-                                        ),
-                                    },
+                                    // {
+                                    //     path: `/system-compatibility`,
+                                    //     render: () => (
+                                    //         "SYSTEMCOMPATIBILITY"
+                                    //         // <SystemCompatibility
+                                    //         //     {...apollo}
+                                    //         // />
+                                    //     ),
+                                    // },
                                     {
                                         path: `/system-options`,
                                         render: () => (
-                                            "SYSTEMOPTIONS"
-                                            // <SystemOptions
-                                            //     {...apollo}
-                                            // />
+                                            <SystemOptions
+                                                {...apollo}
+                                            />
                                         ),
                                     },
                                     {

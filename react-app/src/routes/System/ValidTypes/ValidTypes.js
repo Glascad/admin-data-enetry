@@ -104,7 +104,7 @@ export default function ValidTypes({
                                     <Input
                                         label="Required"
                                         type="checkbox"
-                                        value={required || false}
+                                        checked={required || false}
                                         onChange={({ target: { checked } }) => console.log({
                                             data,
                                             checked,
@@ -113,7 +113,7 @@ export default function ValidTypes({
                                     <Input
                                         label="Mirrorable"
                                         type="checkbox"
-                                        value={required}
+                                        checked={required}
                                         onChange={({ target: { checked } }) => console.log({
                                             data,
                                             checked,

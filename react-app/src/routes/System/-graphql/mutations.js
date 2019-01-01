@@ -11,7 +11,8 @@ import createInvalidSystemConfigurationType from './invalid-configuration-type/c
 import deleteInvalidSystemConfigurationType from './invalid-configuration-type/delete';
 
 import createSystemOption from './option/create';
-import deleteSystemOption from './option/update';
+import updateSystemOption from './option/update';
+// import deleteSystemOption from './option/delete';
 
 import createSystemOptionConfigurationType from './option-configuration-type/create';
 import deleteSystemOptionConfigurationType from './option-configuration-type/delete';
@@ -34,7 +35,8 @@ export default {
     createInvalidSystemConfigurationType,
     deleteInvalidSystemConfigurationType,
     createSystemOption,
-    deleteSystemOption,
+    updateSystemOption,
+    // deleteSystemOption,
     createSystemOptionConfigurationType,
     deleteSystemOptionConfigurationType,
     createOptionValue,
