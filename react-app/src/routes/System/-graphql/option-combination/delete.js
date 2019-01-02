@@ -2,52 +2,33 @@ import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
-    mutation: gql`mutation DeleteInvalidSystemConfigurationType(
+    mutation: gql`mutation DeleteOptionCombination(
             $nodeId:ID!
         ){
-            deleteInvalidSystemConfigurationType(
+            deleteOptionCombination(
                 input:{
                     nodeId:$nodeId
                 }
             ){
-                invalidSystemConfigurationType{
+                optionCombination{
                     nodeId
                     systemId
                     systemBySystemId{
                         nodeId
                     }
-                    invalidConfigurationTypeId
-                    configurationTypeByInvalidConfigurationTypeId{
-                        nodeId
-                        id
-                        type
-                        door
-                        overrideLevel
-                        presentationLevel
-                    }
                 }
             }
         }`,
-    mapResultToProps: ({
-        nodeId,
-        systemId,
-        invalidConfigurationTypeId,
-    }, {
-        invalidSystemConfigurationTypes,
-    }) => {
+    mapResultToProps: ({ nodeId }, { optionCombinations }) => {
         return {
-            invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
-                .filter(invalid => invalid.nodeId !== nodeId && (
-                    invalid.systemId !== systemId
-                    ||
-                    invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
-                ))
+            optionCombinations: optionCombinations
+                .filter(combination => combination.nodeId !== nodeId)
         };
     },
     refetchQueries: ({
         data: {
-            deleteInvalidSystemConfigurationType: {
-                invalidSystemConfigurationType: {
+            deleteOptionCombination: {
+                optionCombination: {
                     systemBySystemId: {
                         nodeId
                     }

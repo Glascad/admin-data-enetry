@@ -14,6 +14,7 @@ export default function ValidTypes({
     },
     mutations: {
         createOptionCombination,
+        deleteOptionCombination,
         createOptionCombinationOptionValue,
         deleteOptionCombinationOptionValue,
         createOptionCombinationConfigurationType,
@@ -33,6 +34,7 @@ export default function ValidTypes({
                 } = {},
             }) => ({
                 type: "tile",
+                align: "left",
                 title: !configurationTypes.length && !optionValues.length ?
                     "Empty"
                     : configurationTypes.map(({
@@ -52,6 +54,9 @@ export default function ValidTypes({
                 }) => (
                         <span>{optionName}: {optionValueName}</span>
                     )),
+                })}
+            onDelete={({ arguments: { nodeId } }) => deleteOptionCombination({
+                nodeId,
             })}
             addButton={{
                 type: "large",
