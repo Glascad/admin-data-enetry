@@ -10,6 +10,22 @@ export default {
                     nodeId:$nodeId
                 }
             ){
+                optionCombinationOptionValue{
+                    nodeId
+                    optionValueId
+                    optionValueByOptionValueId{
+                        nodeId
+                        value
+                        name
+                    }
+                    optionCombinationId
+                    optionCombinationByOptionCombinationId{
+                        nodeId
+                        systemBySystemId{
+                            nodeId
+                        }
+                    }
+                }
             }
         }`,
     // mapResultToProps: ({

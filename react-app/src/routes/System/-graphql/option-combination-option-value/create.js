@@ -32,8 +32,18 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOptionCombination, { optionCombinations }) => ({
-        optionCombinations: optionCombinations.concat(newOptionCombination)
+    mapResultToProps: (newOptionCombinationOptionValue, { optionCombinations }) => ({
+        optionCombinations: optionCombinations.map(combination => (
+            combination.id === newOptionCombinationOptionValue.optionCombinationId
+        ) ?
+            {
+                ...combination,
+                optionCombinationOptionValuesByOptionCombinationId: {
+                    ...combination.optionCombinationOptionValuesByOptionCombinationId,
+                    nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.concat(newOptionCombinationOptionValue)
+                }
+            }
+            : combination)
     }),
     // refetchQueries: ({
     //     data: {

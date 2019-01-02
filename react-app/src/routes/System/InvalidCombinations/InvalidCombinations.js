@@ -12,7 +12,9 @@ export default function ValidTypes({
         optionCombinations,
     },
     mutations: {
-        createOptionCombination
+        createOptionCombination,
+        createOptionCombinationOptionValue,
+        deleteOptionCombinationOptionValue,
     }
 }) {
     return (
@@ -49,6 +51,7 @@ export default function ValidTypes({
                     )),
             })}
             addButton={{
+                type: "large",
                 onAdd: () => createOptionCombination({ systemId }),
             }}
         >
@@ -59,6 +62,7 @@ export default function ValidTypes({
                 optionCombinationOptionValuesByOptionCombinationId: {
                     nodes: optionValues = [],
                 } = {},
+                id: optionCombinationId,
                 ...optionCombination
             }) => (
                     <>
@@ -92,11 +96,18 @@ export default function ValidTypes({
                             }) => ({
                                 title: `${optionName}: ${name || value}`
                             })}
-                            onCreate={({ }) => console.log({
-
+                            onCreate={optionValue => createOptionCombinationOptionValue({
+                                optionCombinationId,
+                                optionValueId: optionValue.id,
+                                optionValueByOptionValueId: optionValue,
                             })}
-                            onDelete={({ }) => console.log({
-
+                            onDelete={({
+                                optionCombinationOptionValueNID,
+                                ...optionValue
+                            }) => deleteOptionCombinationOptionValue({
+                                nodeId: optionCombinationOptionValueNID,
+                                optionValueId: optionValue.id,
+                                optionValueByOptionValueId: optionValue
                             })}
                             multiSelect={{
                                 title: "",

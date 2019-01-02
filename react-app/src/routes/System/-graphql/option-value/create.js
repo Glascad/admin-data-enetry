@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -43,17 +43,17 @@ export default {
                 :
                 option)
     }),
-     refetchQueries: ({
-         data: {
-             createOptionValue: {
-                 optionValue: {
-                     systemOptionBySystemOptionId: {
-                         systemBySystemId: {
-                             nodeId
-                         }
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
+    refetchQueries: ({
+        data: {
+            createOptionValue: {
+                optionValue: {
+                    systemOptionBySystemOptionId: {
+                        systemBySystemId: {
+                            nodeId
+                        }
+                    }
+                }
+            }
+        }
+    }) => [{ ...query, variables: { nodeId } }]
 };
