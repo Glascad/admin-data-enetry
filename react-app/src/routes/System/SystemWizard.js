@@ -5,7 +5,7 @@ import GlazingInfo from './GlazingInfo/GlazingInfo';
 import ValidTypes from './ValidTypes/ValidTypes';
 // import SystemCompatibility from './SystemCompatibility/SystemCompatibility';
 import SystemOptions from './SystemOptions/SystemOptions';
-// import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
+import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
     Batcher,
@@ -101,10 +101,9 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                     {
                                         path: `/invalid-combinations`,
                                         render: () => (
-                                            "INVALIDCOMBINATIONS"
-                                            // <InvalidCombinations
-                                            //     {...apollo}
-                                            // />
+                                            <InvalidCombinations
+                                                {...apollo}
+                                            />
                                         ),
                                     },
                                 ]}

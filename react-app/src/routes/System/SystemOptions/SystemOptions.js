@@ -151,9 +151,6 @@ export default function SystemOptions({
                                 title: "",
                                 // initialItems: [],
                                 allItems: allConfigurationTypes,
-                                mapPillProps: ({ type }) => ({
-                                    title: type
-                                }),
                             }}
                         />
                         <ListWrapper3

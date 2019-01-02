@@ -38,6 +38,7 @@ class List extends Component {
                 label,
                 items,
                 mapPillProps,
+                addButton,
                 canSelect = true,
                 onDisabledSelect,
                 onCreate,
@@ -127,9 +128,10 @@ class List extends Component {
                                 onBlur={cancel}
                             />
                         ),
-                        addButton: onCreate && !creating ? (
+                        addButton: (onCreate || addButton) && !creating ? (
                             {
                                 onAdd: handleCreateClick,
+                                ...addButton,
                             }
                         ) : undefined
                     }}

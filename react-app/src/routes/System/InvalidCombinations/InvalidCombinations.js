@@ -1,100 +1,123 @@
 import React from 'react';
 
-import {
-    Wizard,
-} from '../../../components';
-
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 
-import { query, mutations } from './invalid-combinations-graphql';
-
-export default function ValidTypes({ match: { params: { systemNID } } }) {
+export default function ValidTypes({
+    queryStatus: {
+        system: {
+            id: systemId,
+        },
+        system,
+        systemOptions,
+        optionCombinations,
+    },
+    mutations: {
+        createOptionCombination
+    }
+}) {
     return (
-        <Wizard
-            mutations={mutations}
-            query={{
-                query,
-                variables: {
-                    nodeId: systemNID,
-                },
-                mapQueryToProps: ({
-                    data: {
-                        system: {
-                            optionCombinationsBySystemId: {
-                                nodes: optionCombinations = [],
-                            } = {},
-                            systemOptionsBySystemId: {
-                                nodes: systemOptions = [],
-                            } = {},
-                            ...system
-                        } = {}
-                    } = {}
-                }) => ({
-                    system,
-                    systemOptions,
-                    optionCombinations,
-                })
+        <ListWrapper3
+            title="Invalid Combinations"
+            items={optionCombinations}
+            mapPillProps={({
+                optionCombinationConfigurationTypesByOptionCombinationId: {
+                    nodes: configurationTypes = [],
+                } = {},
+                optionCombinationOptionValuesByOptionCombinationId: {
+                    nodes: optionValues = [],
+                } = {},
+            }) => ({
+                type: "tile",
+                title: !configurationTypes.length && !optionValues.length ?
+                    "Empty"
+                    : configurationTypes.map(({
+                        configurationTypeByConfigurationTypeId: {
+                            type
+                        }
+                    }) => (
+                            <span key={type}>{type}</span>
+                        )),
+                children: optionValues.map(({
+                    optionValueByOptionValueId: {
+                        systemOptionBySystemOptionId: {
+                            name: optionName
+                        },
+                        name: optionValueName,
+                    }
+                }) => (
+                        <span>{optionName}: {optionValueName}</span>
+                    )),
+            })}
+            addButton={{
+                onAdd: () => createOptionCombination({ systemId }),
             }}
         >
             {({
-                queryStatus: {
-                    system: {
-                        id: systemId,
-                    },
-                    system,
-                    systemOptions,
-                    optionCombinations,
-                },
-                // mutations: {}
+                optionCombinationConfigurationTypesByOptionCombinationId: {
+                    nodes: configurationTypes = [],
+                } = {},
+                optionCombinationOptionValuesByOptionCombinationId: {
+                    nodes: optionValues = [],
+                } = {},
+                ...optionCombination
             }) => (
-                    <ListWrapper3
-                        title="Invalid Combinations"
-                        items={optionCombinations}
-                        mapPillProps={({
-                            optionCombinationConfigurationTypesByOptionCombinationId: {
-                                nodes: configurationTypes,
-                            },
-                            optionCombinationOptionValuesByOptionCombinationId: {
-                                nodes: optionValues,
-                            },
-                        }) => ({
-                            title: configurationTypes.map(({
-                                configurationTypeByConfigurationTypeId: {
-                                    type
-                                }
-                            }) => (
-                                    <span key={type}>{type}</span>
-                                )),
-                            children: optionValues.map(({
-                                optionValueByOptionValueId: {
-                                    systemOptionBySystemOptionId: {
-                                        name: optionName
-                                    },
-                                    name: optionValueName,
-                                }
-                            }) => (
-                                    <span>{optionName}: {optionValueName}</span>
-                                )),
+                    <>
+                        {console.log({
+                            optionCombination,
+                            configurationTypes,
+                            optionValues,
+                            systemOptions,
                         })}
-                    >
-                        {({ }) => (
-                            <>
-                                <ListWrapper3
-                                    title="Configuration Types"
-                                    items={[]}
-                                >
+                        <ListWrapper3
+                            title="Configuration Types"
+                            items={configurationTypes}
+                            mapPillProps={({ }) => ({
 
-                                </ListWrapper3>
-                                <ListWrapper3
-                                    title="Options"
-                                    items={[]}
-                                >
+                            })}
+                        >
 
-                                </ListWrapper3>
-                            </>
-                        )}
-                    </ListWrapper3>
+                        </ListWrapper3>
+                        <ListWrapper3
+                            title="Options"
+                            items={optionValues.map(({ nodeId, optionValueByOptionValueId }) => ({
+                                optionCombinationOptionValueNID: nodeId,
+                                ...optionValueByOptionValueId,
+                            }))}
+                            mapPillProps={({
+                                value,
+                                name,
+                                systemOptionBySystemOptionId: {
+                                    name: optionName
+                                }
+                            }) => ({
+                                title: `${optionName}: ${name || value}`
+                            })}
+                            onCreate={({ }) => console.log({
+
+                            })}
+                            onDelete={({ }) => console.log({
+
+                            })}
+                            multiSelect={{
+                                title: "",
+                                allItems: systemOptions.reduce((allItems, {
+                                    optionValuesBySystemOptionId: {
+                                        nodes: systemOptionValues,
+                                    },
+                                    ...systemOptionBySystemOptionId
+                                }) => ([
+                                    ...allItems,
+                                    ...systemOptionValues.map(systemOptionValue => ({
+                                        ...systemOptionValue,
+                                        systemOptionBySystemOptionId
+                                    }))
+                                ]), []),
+                            }}
+                        >
+
+                        </ListWrapper3>
+                    </>
                 )}
-        </Wizard>
+        </ListWrapper3>
     );
 }

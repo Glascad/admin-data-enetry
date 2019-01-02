@@ -14,6 +14,9 @@ import createSystemOption from './option/create';
 import updateSystemOption from './option/update';
 // import deleteSystemOption from './option/delete';
 
+import createOptionCombination from './option-combination/create';
+import deleteOptionCombination from './option-combination/delete';
+
 import createSystemOptionConfigurationType from './option-configuration-type/create';
 import deleteSystemOptionConfigurationType from './option-configuration-type/delete';
 
@@ -41,6 +44,8 @@ export default {
     deleteSystemOptionConfigurationType,
     createOptionValue,
     deleteOptionValue,
+    createOptionCombination,
+    deleteOptionCombination,
     updateSystem,
     createSystemSystemTag,
     deleteSystemSystemTag,

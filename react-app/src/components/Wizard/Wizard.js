@@ -70,11 +70,11 @@ export default class Wizard extends Component {
                     <Switch>
                         {routes.map((route, i) => (
                             <Route
+                                key={route.path}
                                 {...route}
                                 path={path + route.path}
                                 render={routerProps => (
                                     <WizardChild
-                                        key={route.path}
                                         completeMutations={completeMutations}
                                         index={i}
                                         updateCurrentRoute={updateCurrentRoute}
