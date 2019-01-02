@@ -10,11 +10,14 @@ export default function ValidTypes({
         system,
         systemOptions,
         optionCombinations,
+        allConfigurationTypes,
     },
     mutations: {
         createOptionCombination,
         createOptionCombinationOptionValue,
         deleteOptionCombinationOptionValue,
+        createOptionCombinationConfigurationType,
+        deleteOptionCombinationConfigurationType,
     }
 }) {
     return (
@@ -74,10 +77,28 @@ export default function ValidTypes({
                         })}
                         <ListWrapper3
                             title="Configuration Types"
-                            items={configurationTypes}
-                            mapPillProps={({ }) => ({
-
+                            items={configurationTypes.map(({ nodeId, configurationTypeByConfigurationTypeId }) => ({
+                                optionCombinationConfigurationTypeNID: nodeId,
+                                ...configurationTypeByConfigurationTypeId,
+                            }))}
+                            mapPillProps={({ type }) => ({
+                                title: type
                             })}
+                            onCreate={configurationType => createOptionCombinationConfigurationType({
+                                optionCombinationId,
+                                configurationTypeId: configurationType.id,
+                                configurationTypeByConfigurationTypeId: configurationType,
+                            })}
+                            onDelete={({ optionCombinationConfigurationTypeNID, ...configurationType }) => deleteOptionCombinationConfigurationType({
+                                optionCombinationId,
+                                nodeId: optionCombinationConfigurationTypeNID,
+                                configurationTypeId: configurationType.id,
+                                configurationTypeByConfigurationTypeId: configurationType,
+                            })}
+                            multiSelect={{
+                                title: "",
+                                allItems: allConfigurationTypes
+                            }}
                         >
 
                         </ListWrapper3>

@@ -20,6 +20,9 @@ import deleteOptionCombination from './option-combination/delete';
 import createOptionCombinationOptionValue from './option-combination-option-value/create';
 import deleteOptionCombinationOptionValue from './option-combination-option-value/delete';
 
+import createOptionCombinationConfigurationType from './option-combination-configuration-type/create';
+import deleteOptionCombinationConfigurationType from './option-combination-configuration-type/delete';
+
 import createSystemOptionConfigurationType from './option-configuration-type/create';
 import deleteSystemOptionConfigurationType from './option-configuration-type/delete';
 
@@ -51,6 +54,8 @@ export default {
     deleteOptionCombination,
     createOptionCombinationOptionValue,
     deleteOptionCombinationOptionValue,
+    createOptionCombinationConfigurationType,
+    deleteOptionCombinationConfigurationType,
     updateSystem,
     createSystemSystemTag,
     deleteSystemSystemTag,

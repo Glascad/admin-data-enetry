@@ -2,57 +2,42 @@ import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
-    mutation: gql`mutation DeleteInvalidSystemConfigurationType(
+    mutation: gql`mutation DeleteOptionCombinationConfigurationType(
             $nodeId:ID!
         ){
-            deleteInvalidSystemConfigurationType(
+            deleteOptionCombinationConfigurationType(
                 input:{
                     nodeId:$nodeId
                 }
             ){
-                invalidSystemConfigurationType{
+                optionCombinationConfigurationType{
                     nodeId
-                    systemId
-                    systemBySystemId{
+                    configurationTypeId
+                    configurationTypeByConfigurationTypeId{
                         nodeId
-                    }
-                    invalidConfigurationTypeId
-                    configurationTypeByInvalidConfigurationTypeId{
-                        nodeId
-                        id
                         type
-                        door
-                        overrideLevel
-                        presentationLevel
+                    }
+                    optionCombinationId
+                    optionCombinationByOptionCombinationId{
+                        nodeId
+                        systemBySystemId{
+                            nodeId
+                        }
                     }
                 }
             }
         }`,
-    mapResultToProps: ({
-        nodeId,
-        systemId,
-        invalidConfigurationTypeId,
-    }, {
-        invalidSystemConfigurationTypes,
-    }) => {
-        return {
-            invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
-                .filter(invalid => invalid.nodeId !== nodeId && (
-                    invalid.systemId !== systemId
-                    ||
-                    invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
-                ))
-        };
-    },
-    refetchQueries: ({
-        data: {
-            deleteInvalidSystemConfigurationType: {
-                invalidSystemConfigurationType: {
-                    systemBySystemId: {
-                        nodeId
-                    }
+    mapResultToProps: (deletedOptionCombinationConfigurationType, { optionCombinations }) => ({
+        optionCombinations: optionCombinations.map(combination => (
+            combination.id === deletedOptionCombinationConfigurationType.optionCombinationId
+        ) ?
+            {
+                ...combination,
+                optionCombinationConfigurationTypesByOptionCombinationId: {
+                    ...combination.optionCombinationConfigurationTypesByOptionCombinationId,
+                    nodes: combination.optionCombinationConfigurationTypesByOptionCombinationId.nodes.filter(ocov => ocov.nodeId !== deletedOptionCombinationConfigurationType.nodeId)
                 }
             }
-        }
-    }) => [{ ...query, variables: { nodeId } }]
+            : combination)
+    }),
 };
