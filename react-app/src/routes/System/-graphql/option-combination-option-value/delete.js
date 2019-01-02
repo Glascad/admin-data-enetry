@@ -28,20 +28,17 @@ export default {
                 }
             }
         }`,
-    // mapResultToProps: ({
-    //     nodeId,
-    //     systemId,
-    //     invalidConfigurationTypeId,
-    // }, {
-    //     invalidSystemConfigurationTypes,
-    // }) => {
-    //     return {
-    //         invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
-    //             .filter(invalid => invalid.nodeId !== nodeId && (
-    //                 invalid.systemId !== systemId
-    //                 ||
-    //                 invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
-    //             ))
-    //     };
-    // },
+    mapResultToProps: (deletedOptionCombinationOptionValue, { optionCombinations }) => ({
+        optionCombinations: optionCombinations.map(combination => (
+            combination.id === deletedOptionCombinationOptionValue.optionCombinationId
+        ) ?
+            {
+                ...combination,
+                optionCombinationOptionValuesByOptionCombinationId: {
+                    ...combination.optionCombinationOptionValuesByOptionCombinationId,
+                    nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.filter(ocov => ocov.nodeId !== deletedOptionCombinationOptionValue.nodeId)
+                }
+            }
+            : combination)
+    }),
 };

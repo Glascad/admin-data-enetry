@@ -105,6 +105,7 @@ export default function ValidTypes({
                                 optionCombinationOptionValueNID,
                                 ...optionValue
                             }) => deleteOptionCombinationOptionValue({
+                                optionCombinationId,
                                 nodeId: optionCombinationOptionValueNID,
                                 optionValueId: optionValue.id,
                                 optionValueByOptionValueId: optionValue
