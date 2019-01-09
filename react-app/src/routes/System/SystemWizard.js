@@ -56,7 +56,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                 url={url}
                                 history={history}
                                 batcher={batcher}
-                                navigation="tabs"
+                                navigation="both"
                                 routes={[
                                     {
                                         name: "System Info",

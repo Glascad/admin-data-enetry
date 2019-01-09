@@ -34,6 +34,7 @@ export default class Wizard extends Component {
         navigation: PropTypes.oneOf([
             "tabs",
             "linear",
+            "both",
         ]),
     };
 
@@ -66,11 +67,11 @@ export default class Wizard extends Component {
             updateCurrentRoute,
         } = this;
 
-        const prevRoute = currentRoute - 1;
-        const nextRoute = currentRoute + 1;
+        const prevIndex = currentRoute - 1;
+        const nextIndex = currentRoute + 1;
 
-        const prevPath = (routes[prevRoute] || {}).path;
-        const nextPath = (routes[nextRoute] || {}).path;
+        const prevRoute = routes[prevIndex];
+        const nextRoute = routes[nextIndex];
 
         return (
             <div className="Wizard" >
@@ -79,6 +80,12 @@ export default class Wizard extends Component {
                     <div className="title-buttons">
                         {buttons}
                         <button
+                            onClick={resetMutations}
+                            className="empty"
+                        >
+                            Reset
+                        </button>
+                        <button
                             onClick={completeMutations}
                             className="primary"
                         >
@@ -86,9 +93,9 @@ export default class Wizard extends Component {
                         </button>
                     </div>
                 </header>
-                <div className="card">
-                    {navigation === "tabs" ? (
-                        <div className="tabs">
+                <div className={`card ${navigation === "tabs" || navigation === "both" ? "with-tabs" : ""}`}>
+                    {navigation === "tabs" || navigation === "both" ? (
+                        <div className="tab-container">
                             {routes.map(route => (
                                 <NavLink
                                     to={url + route.path}
@@ -130,7 +137,7 @@ export default class Wizard extends Component {
                             }}
                         />
                     </Switch>
-                    {navigation === "linear" ? (
+                    {navigation === "linear" || navigation === "both" ? (
                         <div
                             className="bottom-buttons"
                         >
@@ -139,30 +146,38 @@ export default class Wizard extends Component {
                                 onClick={resetMutations}
                             >
                                 Reset
-                        </button>
+                            </button>
                             <div
                                 className="buttons-right"
                             >
-                                {prevPath ? (
+                                {prevRoute ? (
                                     <Link
-                                        to={url + prevPath}
+                                        to={url + prevRoute.path}
                                     >
                                         <button
                                             className="empty"
                                         >
-                                            Previous
-                                    </button>
+                                            {
+                                                // prevRoute.name
+                                                // ||
+                                                "Previous"
+                                            }
+                                        </button>
                                     </Link>
                                 ) : null}
-                                {nextPath ? (
+                                {nextRoute ? (
                                     <Link
-                                        to={url + nextPath}
+                                        to={url + nextRoute.path}
                                     >
                                         <button
                                             className="primary"
                                         >
-                                            Next
-                                    </button>
+                                            {
+                                                // nextRoute.name
+                                                // ||
+                                                "Next"
+                                            }
+                                        </button>
                                     </Link>
                                 ) : null}
                             </div>

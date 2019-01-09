@@ -16,6 +16,10 @@
 
         margin-bottom: calc(#{$item-height} + #{$large});
 
+        .title-buttons {
+            display: flex;
+        }
+
     }
     .bottom-buttons {
         display: flex;
@@ -35,5 +39,19 @@
     .card {
         position: static;
         padding-bottom: $large;
+
+        .tab-container {
+            .tab {
+                // border: 1px solid black;
+                padding: $x-small;
+                border-radius: $xx-small;
+                color: black;
+
+                &.current-tab {
+                    background: $current-color;
+                    // color: $off-white;
+                }
+            }
+        }
     }
 }
