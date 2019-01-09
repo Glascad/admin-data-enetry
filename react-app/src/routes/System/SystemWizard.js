@@ -9,7 +9,7 @@ import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
     Batcher,
-    TabContainer,
+    Wizard,
 } from '../../components';
 
 import ApolloWrapper3 from '../../components/ApolloWrapper/ApolloWrapper3';
@@ -46,7 +46,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                         } = apollo;
 
                         return (
-                            <TabContainer
+                            <Wizard
                                 title={`${
                                     mnfgName || 'Loading...'
                                     } ${
@@ -56,8 +56,10 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                 url={url}
                                 history={history}
                                 batcher={batcher}
+                                navigation="tabs"
                                 routes={[
                                     {
+                                        name: "System Info",
                                         path: `/system-info`,
                                         render: () => (
                                             <SystemInfo
@@ -66,6 +68,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                         ),
                                     },
                                     {
+                                        name: "Glazing Info",
                                         path: `/glazing-info`,
                                         render: () => (
                                             <GlazingInfo
@@ -74,6 +77,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                         ),
                                     },
                                     {
+                                        name: "Valid Types",
                                         path: `/valid-types`,
                                         render: () => (
                                             <ValidTypes
@@ -82,6 +86,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                         ),
                                     },
                                     // {
+                                        // name: "System Compatibility",
                                     //     path: `/system-compatibility`,
                                     //     render: () => (
                                     //         "SYSTEMCOMPATIBILITY"
@@ -91,6 +96,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                     //     ),
                                     // },
                                     {
+                                        name: "System Options",
                                         path: `/system-options`,
                                         render: () => (
                                             <SystemOptions
@@ -99,6 +105,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                         ),
                                     },
                                     {
+                                        name: "Invalid Combinations",
                                         path: `/invalid-combinations`,
                                         render: () => (
                                             <InvalidCombinations

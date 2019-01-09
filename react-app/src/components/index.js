@@ -13,7 +13,7 @@ import _withApolloWrapper from './ApolloWrapper/withApolloWrapper';
 import _ApolloListWrapper from './ApolloListWrapper/ApolloListWrapper';
 import _ApolloInputWrapper from './ApolloInputWrapper/ApolloInputWrapper';
 import _SelectionWrapper from './SelectionWrapper/SelectionWrapper';
-import _TabContainer from './TabContainer/TabContainer';
+import _Wizard from './Wizard/Wizard';
 import _Input from './Input/Input';
 // UNIVERSAL STYLES
 import './index.scss';
@@ -32,5 +32,5 @@ export const withApolloWrapper = _withApolloWrapper;
 export const ApolloListWrapper = _ApolloListWrapper;
 export const ApolloInputWrapper = _ApolloInputWrapper;
 export const SelectionWrapper = _SelectionWrapper;
-export const TabContainer = _TabContainer;
+export const Wizard = _Wizard;
 export const Input = _Input;

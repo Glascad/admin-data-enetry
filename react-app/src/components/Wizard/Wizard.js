@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {
+    Link,
+    NavLink,
+    Route,
+    Switch,
+} from 'react-router-dom';
 
 import './Wizard.scss';
 
@@ -18,6 +24,19 @@ class WizardChild extends Component {
 
 export default class Wizard extends Component {
 
+    static propTypes = {
+        title: PropTypes.string,
+        path: PropTypes.string,
+        url: PropTypes.string,
+        buttons: PropTypes.array,
+        routes: PropTypes.array.isRequired,
+        batcher: PropTypes.object,
+        navigation: PropTypes.oneOf([
+            "tabs",
+            "linear",
+        ]),
+    };
+
     state = {
         currentRoute: -1,
     };
@@ -33,6 +52,7 @@ export default class Wizard extends Component {
                 currentRoute,
             },
             props: {
+                navigation = "linear",
                 title,
                 path,
                 url,
@@ -67,6 +87,19 @@ export default class Wizard extends Component {
                     </div>
                 </header>
                 <div className="card">
+                    {navigation === "tabs" ? (
+                        <div className="tabs">
+                            {routes.map(route => (
+                                <NavLink
+                                    to={url + route.path}
+                                    className="tab"
+                                    activeClassName="current-tab"
+                                >
+                                    {route.name}
+                                </NavLink>
+                            ))}
+                        </div>
+                    ) : null}
                     <Switch>
                         {routes.map((route, i) => (
                             <Route
@@ -97,42 +130,44 @@ export default class Wizard extends Component {
                             }}
                         />
                     </Switch>
-                    <div
-                        className="bottom-buttons"
-                    >
-                        <button
-                            className="empty"
-                            onClick={resetMutations}
-                        >
-                            Reset
-                        </button>
+                    {navigation === "linear" ? (
                         <div
-                            className="buttons-right"
+                            className="bottom-buttons"
                         >
-                            {prevPath ? (
-                                <Link
-                                    to={url + prevPath}
-                                >
-                                    <button
-                                        className="empty"
+                            <button
+                                className="empty"
+                                onClick={resetMutations}
+                            >
+                                Reset
+                        </button>
+                            <div
+                                className="buttons-right"
+                            >
+                                {prevPath ? (
+                                    <Link
+                                        to={url + prevPath}
                                     >
-                                        Previous
+                                        <button
+                                            className="empty"
+                                        >
+                                            Previous
                                     </button>
-                                </Link>
-                            ) : null}
-                            {nextPath ? (
-                                <Link
-                                    to={url + nextPath}
-                                >
-                                    <button
-                                        className="primary"
+                                    </Link>
+                                ) : null}
+                                {nextPath ? (
+                                    <Link
+                                        to={url + nextPath}
                                     >
-                                        Next
+                                        <button
+                                            className="primary"
+                                        >
+                                            Next
                                     </button>
-                                </Link>
-                            ) : null}
+                                    </Link>
+                                ) : null}
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
                 </div>
             </div>
         );

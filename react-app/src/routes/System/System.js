@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import SelectSystem from './SelectSystem/SelectSystem';
 
 import SystemSVG from './SystemSVG/SystemSVG';
-import SystemTabContainer from './SystemTabContainer';
+import SystemWizard from './SystemWizard';
 
 export default function SystemRouter() {
     return (
@@ -20,7 +20,7 @@ export default function SystemRouter() {
             />
             <Route
                 path="/system/:systemNID"
-                component={SystemTabContainer}
+                component={SystemWizard}
             />
         </Switch>
     );
