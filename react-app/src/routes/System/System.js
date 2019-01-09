@@ -3,7 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import SelectSystem from './SelectSystem/SelectSystem';
 
-import SystemWizard from './SystemWizard';
+import SystemSVG from './SystemSVG/SystemSVG';
+import SystemTabContainer from './SystemTabContainer';
 
 export default function SystemRouter() {
     return (
@@ -14,8 +15,12 @@ export default function SystemRouter() {
                 component={SelectSystem}
             />
             <Route
+                path="/system/:systemNID/svg"
+                component={SystemSVG}
+            />
+            <Route
                 path="/system/:systemNID"
-                component={SystemWizard}
+                component={SystemTabContainer}
             />
         </Switch>
     );

@@ -12,15 +12,19 @@
         color: $off-white;
         font-family: 'Montserrat';
         font-size: $base-size * 1.25;
-        padding: $large;
+        // padding: $large;
+        padding: $small;
         display: flex;
         align-items: center;
         border-bottom: 1px solid $border-color;
 
         .logo {
             height: $item-height;
-            padding-right: $base-size;
             width: auto;
+        }
+        
+        span {
+            padding-left: $base-size;
         }
     }
     .Dropdown, .item {
@@ -64,4 +68,28 @@
         background: $menu-color;
     }
 
+    .sidebar-toggle {
+        padding: 0;
+        padding-right: $small;
+        align-items: flex-end;
+        border: none;
+    }
+
+    &.closed {
+        #sidebar-header {
+            span {
+                display: none;
+            }
+        }
+        .Dropdown {
+            > * {
+                display: none;
+            }
+        }
+        .sidebar-toggle {
+            .arrow {
+                transform: rotate(180deg);
+            }
+        }
+    }
 }

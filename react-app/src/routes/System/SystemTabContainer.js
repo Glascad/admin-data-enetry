@@ -9,7 +9,7 @@ import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
     Batcher,
-    Wizard,
+    TabContainer,
 } from '../../components';
 
 import ApolloWrapper3 from '../../components/ApolloWrapper/ApolloWrapper3';
@@ -46,7 +46,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                         } = apollo;
 
                         return (
-                            <Wizard
+                            <TabContainer
                                 title={`${
                                     mnfgName || 'Loading...'
                                     } ${

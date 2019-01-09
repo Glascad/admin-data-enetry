@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 
-import './Wizard.scss';
+import './TabContainer.scss';
 
 
 
-class WizardChild extends Component {
+class TabContainerChild extends Component {
 
     componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
 
@@ -16,7 +16,7 @@ class WizardChild extends Component {
 
 
 
-export default class Wizard extends Component {
+export default class TabContainer extends Component {
 
     state = {
         currentRoute: -1,
@@ -53,7 +53,7 @@ export default class Wizard extends Component {
         const nextPath = (routes[nextRoute] || {}).path;
 
         return (
-            <div className="Wizard" >
+            <div className="TabContainer" >
                 <header>
                     <h1>{title}</h1>
                     <div className="title-buttons">
@@ -74,7 +74,7 @@ export default class Wizard extends Component {
                                 {...route}
                                 path={path + route.path}
                                 render={routerProps => (
-                                    <WizardChild
+                                    <TabContainerChild
                                         completeMutations={completeMutations}
                                         index={i}
                                         updateCurrentRoute={updateCurrentRoute}
@@ -84,11 +84,11 @@ export default class Wizard extends Component {
                                             :
                                             <route.component {...routerProps} />
                                         }
-                                    </WizardChild>
+                                    </TabContainerChild>
                                 )}
                             />
                         ))}
-                        <WizardChild
+                        <TabContainerChild
                             completeMutations={completeMutations}
                             index={-1}
                             updateCurrentRoute={updateCurrentRoute}

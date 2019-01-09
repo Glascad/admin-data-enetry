@@ -1,43 +1,6 @@
 import gql from 'graphql-tag';
 
-export const query = gql`{
-    allSystems{
-        nodes{
-            nodeId
-            id
-            name
-            depth
-            defaultSightline
-            shimSize
-            defaultGlassSize
-            defaultGlassBite
-            manufacturerId
-            systemTypeId
-            manufacturerByManufacturerId{
-                nodeId
-                id
-                name
-            }
-            systemTypeBySystemTypeId{
-                nodeId
-                id
-                type
-            }
-            systemSystemTagsBySystemId{
-                nodes{
-                    nodeId
-                    systemTagBySystemTagId{
-                        nodeId
-                        id
-                        tag
-                    }
-                }
-            }
-        }
-    }
-}`;
-
-export const create = {
+export default {
     mutation: gql`mutation CreateSystem(
         $name:String!,
         $manufacturerId:Int,
@@ -96,4 +59,4 @@ export const create = {
             }
         }
     }`,
-}
+};

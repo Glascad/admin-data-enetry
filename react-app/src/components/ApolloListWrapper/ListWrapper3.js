@@ -37,6 +37,7 @@ class List extends Component {
                 parent,
                 label,
                 items,
+                defaultPillProps,
                 mapPillProps,
                 addButton,
                 canSelect = true,
@@ -114,6 +115,7 @@ class List extends Component {
                                     onDelete={_delete}
                                     arguments={args}
                                     // n={console.log(item)}
+                                    {...defaultPillProps}
                                     {...mapPillProps(item)}
                                 />
                             );
@@ -121,6 +123,7 @@ class List extends Component {
                         creating: !!(!multiSelect && onCreate && creating),
                         createItem: (
                             <Pill
+                                {...defaultPillProps}
                                 tagname="li"
                                 selected={true}
                                 editing={true}

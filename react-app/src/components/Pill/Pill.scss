@@ -27,7 +27,7 @@
         }
     }
 
-    &.selectable, &.deletable, &.editable {
+    &.selectable, &.deletable, &.editable, &.with-button-tile {
         &:hover{
             background: $dark-gray;
             border: $icon-thickness solid $dark-gray;

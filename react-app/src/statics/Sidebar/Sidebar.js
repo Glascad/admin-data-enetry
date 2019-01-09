@@ -3,69 +3,32 @@ import './Sidebar.scss';
 import { NavLink, withRouter } from 'react-router-dom';
 // import routes from '../../routes/routes';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
-import { Dropdown } from '../../components';
-
-// function checkElementForClass(className, element) {
-//     const regex = new RegExp(`(^| )${className}( |$)`);
-//     if (
-//         element.className
-//         &&
-//         element.className.match(regex)
-//     ) {
-//         return true;
-//     } else if (
-//         element.childNodes
-//         &&
-//         element.childNodes.length
-//     ) {
-//         return [...element.childNodes].some(element => checkElementForClass(className, element));
-//     } else {
-//         return false;
-//     }
-// }
-
-// function checkChildrenForClass(className, element) {
-//     if (
-//         element.childNodes
-//         &&
-//         element.childNodes.length
-//     ) {
-//         return [...element.childNodes].some(childNode => checkElementForClass(className, childNode));
-//     }
-// }
+import {
+    Dropdown,
+    DoubleArrow,
+} from '../../components';
 
 class Sidebar extends Component {
 
-    // state = {
-    //     selectedDropdown: -1
-    // };
+    state = {
+        open: true,
+    };
 
-    // componentDidMount = () => {
-    //     this.componentDidUpdate({ location: {} });
-    // };
-
-    // componentDidUpdate = ({ location: { pathname } }) => {
-    //     if (pathname !== this.props.location.pathname) {
-    //         const dropdowns = [...document.querySelectorAll("#Sidebar .Dropdown")];
-    //         const selectedDropdown = dropdowns.findIndex((dropdown, i) => checkChildrenForClass('selected', dropdown));
-    //         if (selectedDropdown !== this.state.selectedDropdown) {
-    //             this.setState({
-    //                 selectedDropdown
-    //             });
-    //         }
-    //     }
-    // }
+    toggle = () => this.setState({
+        open: !this.state.open,
+    });
 
     render = () => {
         const {
-            // state: {
-            //     selectedDropdown
-            // },
+            state: {
+                open,
+            },
             props: {
                 location: {
                     pathname
                 }
-            }
+            },
+            toggle,
         } = this;
 
         const systemNID = pathname.replace(/^\/system\/(.*)\/.*$/, '$1');
@@ -73,10 +36,10 @@ class Sidebar extends Component {
         console.log({ systemNID });
 
         return (
-            <div id="Sidebar">
+            <div id="Sidebar" className={open ? "" : "closed"}>
                 <div id="sidebar-header">
                     <Logo className="logo" />
-                    GLASCAD
+                    <span>GLASCAD</span>
                 </div>
                 {links.map(({ text, link, subroutes = [] }, i) => subroutes.length ? (
                     <Dropdown
@@ -119,6 +82,11 @@ class Sidebar extends Component {
                             {text}
                         </NavLink>
                     ))}
+                <div className="item sidebar-toggle">
+                    <DoubleArrow
+                        onClick={toggle}
+                    />
+                </div>
             </div>
         );
     }

@@ -45,7 +45,7 @@ export default class ApolloWrapper3 extends Component {
                 batcher: {
                     registerQueryRefetch = () => { },
                     getNodeId,
-                    batchedMutations,
+                    batchedMutations = {},
                     batchMutation,
                 } = {},
                 query,
