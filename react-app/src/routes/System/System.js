@@ -6,21 +6,52 @@ import SelectSystem from './SelectSystem/SelectSystem';
 import SystemSVG from './SystemSVG/SystemSVG';
 import SystemWizard from './SystemWizard';
 
+export const links = {
+    text: "System",
+    link: "/system",
+    subroutes: [
+        {
+            text: "Activity",
+            link: "/activity"
+        },
+        {
+            text: "Search",
+            link: "/search",
+        },
+        {
+            text: "Database",
+            link: "/database"
+        },
+        {
+            text: "Details",
+            link: "/details"
+        },
+        {
+            text: "New",
+            link: "/new"
+        }
+    ]
+};
+
 export default function SystemRouter() {
     return (
         <Switch>
             <Route
                 exact
-                path="/system/select-system"
+                path="/system/search"
                 component={SelectSystem}
             />
             <Route
-                path="/system/:systemNID/svg"
-                component={SystemSVG}
+                path="/system/activity"
+                component={() => "System Activity"}
             />
             <Route
-                path="/system/:systemNID"
+                path="/system/database"
                 component={SystemWizard}
+            />
+            <Route
+                path="/system/details"
+                component={SystemSVG}
             />
         </Switch>
     );

@@ -179,15 +179,33 @@ class List extends Component {
 }
 
 
-export default function ListWrapper3(props) {
-    return (
-        <SelectionWrapper>
-            {selection => (
-                <List
-                    selection={selection}
-                    {...props}
-                />
-            )}
-        </SelectionWrapper>
-    );
+export default function ListWrapper3({
+    stateManager,
+    stateManager: {
+        id,
+        props: {
+            state,
+            update,
+        } = {},
+    } = {},
+    ...props
+}) {
+    return stateManager ? (
+        <List
+            selection={{
+                selectedNID: state[id] && state[id].nodeId,
+                handleSelect: update(id),
+            }}
+            {...props}
+        />
+    ) : (
+            <SelectionWrapper>
+                {selection => (
+                    <List
+                        selection={selection}
+                        {...props}
+                    />
+                )}
+            </SelectionWrapper>
+        );
 }

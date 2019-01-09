@@ -47,11 +47,11 @@ export default function SelectSystem({
                                 hoverButtons: [
                                     {
                                         text: "Edit",
-                                        onClick: () => history.push(`/system/${nodeId}/system-info`)
+                                        onClick: () => history.push(`/system/database/system-info?systemNID=${nodeId}`)
                                     },
                                     {
                                         text: "Build",
-                                        onClick: () => history.push(`/system/${nodeId}/svg`)
+                                        onClick: () => history.push(`/system/details?systemNID=${nodeId}`)
                                     }
                                 ]
                             })}

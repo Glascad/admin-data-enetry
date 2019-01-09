@@ -7,6 +7,33 @@ import PartOrientations from './PartOrientations/PartOrientations';
 import InfillSizes from './InfillSizes/InfillSizes';
 import InfillTypes from './InfillTypesView/InfillTypesView';
 
+export const links = {
+    text: "Settings",
+    link: "/settings",
+    subroutes: [
+        {
+            text: "Manufacturers",
+            link: "/manufacturers",
+        },
+        {
+            text: "Linetypes",
+            link: "/linetypes",
+        },
+        {
+            text: "Part Orientations",
+            link: "/part-orientations",
+        },
+        {
+            text: "Infill Sizes",
+            link: "/infill-sizes",
+        },
+        {
+            text: "Infill Types",
+            link: "/infill-types",
+        },
+    ]
+};
+
 export default function SettingsRouter() {
     return (
         <div className="card">

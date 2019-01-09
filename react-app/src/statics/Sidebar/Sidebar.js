@@ -8,6 +8,18 @@ import {
     DoubleArrow,
 } from '../../components';
 
+import { links as systemLinks } from '../../routes/System/System';
+import { links as systemConfigurationsLinks } from '../../routes/SystemConfigurations/SystemConfigurations';
+import { links as settingsLinks } from '../../routes/Settings/Settings';
+import parseSearch from '../../utils/search-parser';
+
+const links = [
+    // homeLinks,
+    systemLinks,
+    systemConfigurationsLinks,
+    settingsLinks,
+];
+
 class Sidebar extends Component {
 
     state = {
@@ -25,13 +37,18 @@ class Sidebar extends Component {
             },
             props: {
                 location: {
-                    pathname
+                    pathname,
+                    search,
+                },
+                match: {
+                    url
                 }
             },
             toggle,
         } = this;
 
-        const systemNID = pathname.replace(/^\/system\/(.*)\/.*$/, '$1');
+        // const systemNID = pathname.replace(/^\/system\/(.*)\/.*$/, '$1');
+        const { systemNID } = parseSearch(search);
 
         console.log({ systemNID });
 
@@ -57,13 +74,18 @@ class Sidebar extends Component {
                         {subroutes.map(({ text: childText, link: childLink }, j) => (
                             <NavLink
                                 key={j}
+                                // n={console.log(`${url.replace(/^\//, "")}${link}${childLink}`)}
+                                // isActive={(_, { pathname }) => pathname == `${url.replace(/^\//, "")}${link}${childLink}`}
+                                isActive={(_,{pathname})=>pathname.includes(`${link}${childLink}`)}
                                 to={`${
                                     link
                                     }${
                                     // !systemNID.match(/^[a-z\-]*$/) ?
-                                    childLink.replace(/:systemNID/, systemNID)
+                                    childLink // .replace(/:systemNID/, systemNID)
                                     // :
                                     // '/select-system'
+                                    }${
+                                    search
                                     }`}
                                 activeClassName="selected"
                             >
@@ -76,7 +98,10 @@ class Sidebar extends Component {
                             key={i}
                             exact={true}
                             className="item"
-                            to={link}
+                            to={`${
+                                link
+                                }${
+                                search}`}
                             activeClassName="selected"
                         >
                             {text}
@@ -93,105 +118,3 @@ class Sidebar extends Component {
 }
 
 export default withRouter(Sidebar);
-
-
-const links = [
-    // {
-    //     text: "Activity",
-    //     link: "/",
-    // },
-    {
-        text: "System",
-        link: "/system",
-        subroutes: [
-            {
-                text: "Select System",
-                link: "/select-system",
-            },
-            {
-                text: "System Info",
-                link: "/:systemNID/system-info",
-            },
-            {
-                text: "Glazing Info",
-                link: "/:systemNID/glazing-info",
-            },
-            {
-                text: "Valid Types",
-                link: "/:systemNID/valid-types",
-            },
-            // {
-            //     text: "System Compatibility",
-            //     link: "/:systemNID/system-compatibility",
-            // },
-            {
-                text: "System Options",
-                link: "/:systemNID/system-options",
-            },
-            {
-                text: "Invalid Combinations",
-                link: "/:systemNID/invalid-combinations",
-            },
-        ]
-    },
-    {
-        text: "System Configurations",
-        link: "/system-configurations",
-        subroutes: [
-            {
-                text: "System Types",
-                link: "/system-types",
-            },
-            {
-                text: "System Tags",
-                link: "/system-tags",
-            },
-            {
-                text: "Detail Types",
-                link: "/detail-types",
-            },
-            {
-                text: "Configuration Types",
-                link: "/configuration-types",
-            },
-            {
-                text: "Part Types",
-                link: "/part-types",
-            },
-            {
-                text: "Part Tags",
-                link: "/part-tags",
-            },
-        ]
-    },
-    {
-        text: "Settings",
-        link: "/settings",
-        subroutes: [
-            {
-                text: "Manufacturers",
-                link: "/manufacturers",
-            },
-            {
-                text: "Linetypes",
-                link: "/linetypes",
-            },
-            {
-                text: "Part Orientations",
-                link: "/part-orientations",
-            },
-            {
-                text: "Infill Sizes",
-                link: "/infill-sizes",
-            },
-            {
-                text: "Infill Types",
-                link: "/infill-types",
-            },
-        ]
-    },
-    // {
-    //     text: "Practice",
-    //     link: "/practice",
-    // }
-];

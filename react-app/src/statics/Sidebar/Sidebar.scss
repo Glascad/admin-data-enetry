@@ -82,8 +82,9 @@
             }
         }
         .Dropdown {
+            display: none;
             > * {
-                display: none;
+                // display: none;
             }
         }
         .sidebar-toggle {

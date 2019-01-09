@@ -8,6 +8,37 @@ import ConfigurationTypes from './ConfigurationTypes/ConfigurationTypes';
 import PartTypes from './PartTypes/PartTypes';
 import PartTags from './PartTags/PartTags';
 
+export const links = {
+    text: "System Configurations",
+    link: "/system-configurations",
+    subroutes: [
+        {
+            text: "System Types",
+            link: "/system-types",
+        },
+        {
+            text: "System Tags",
+            link: "/system-tags",
+        },
+        {
+            text: "Detail Types",
+            link: "/detail-types",
+        },
+        {
+            text: "Configuration Types",
+            link: "/configuration-types",
+        },
+        {
+            text: "Part Types",
+            link: "/part-types",
+        },
+        {
+            text: "Part Tags",
+            link: "/part-tags",
+        },
+    ]
+};
+
 export default function SystemConfigurationsRouter() {
     return (
         <div className="card">

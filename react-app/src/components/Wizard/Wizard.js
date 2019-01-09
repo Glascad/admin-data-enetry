@@ -55,10 +55,18 @@ export default class Wizard extends Component {
             props: {
                 navigation = "linear",
                 title,
-                path,
-                url,
                 buttons,
                 routes,
+                routerProps: {
+                    history,
+                    location: {
+                        search,
+                    },
+                    match: {
+                        path,
+                        url,
+                    }
+                },
                 batcher: {
                     completeMutations,
                     resetMutations,
@@ -67,6 +75,16 @@ export default class Wizard extends Component {
             updateCurrentRoute,
         } = this;
 
+        if (currentRoute === -1) {
+            history.push(`${
+                url
+                }${
+                routes[0].path
+                }${
+                search
+                }`);
+        }
+
         const prevIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;
 
@@ -74,7 +92,13 @@ export default class Wizard extends Component {
         const nextRoute = routes[nextIndex];
 
         return (
-            <div className="Wizard" >
+            <div className={`Wizard ${
+                navigation === "tabs" || navigation === "both"
+                    ?
+                    "with-tabs"
+                    :
+                    ""
+                }`} >
                 <header>
                     <h1>{title}</h1>
                     <div className="title-buttons">
@@ -93,20 +117,35 @@ export default class Wizard extends Component {
                         </button>
                     </div>
                 </header>
-                <div className={`card ${navigation === "tabs" || navigation === "both" ? "with-tabs" : ""}`}>
-                    {navigation === "tabs" || navigation === "both" ? (
-                        <div className="tab-container">
-                            {routes.map(route => (
-                                <NavLink
-                                    to={url + route.path}
-                                    className="tab"
-                                    activeClassName="current-tab"
-                                >
-                                    {route.name}
-                                </NavLink>
-                            ))}
-                        </div>
-                    ) : null}
+                {navigation === "tabs" || navigation === "both" ? (
+                    <div className="tab-container">
+                        {routes.map(route => (
+                            <NavLink
+                                isActive={(_, { pathname }) => pathname == `${url}${route.path}`}
+                                to={`${
+                                    url
+                                    }${
+                                    route.path
+                                    }${
+                                    search
+                                    }`}
+                                className="tab"
+                                activeClassName="current-tab"
+                            >
+                                {route.name}
+                            </NavLink>
+                        ))}
+                    </div>
+                ) : null}
+                <div
+                    className="card"
+                // className={`card ${
+                //     navigation === "tabs" || navigation === "both" ?
+                //         "with-tabs"
+                //         :
+                //         ""
+                //     }`}
+                >
                     <Switch>
                         {routes.map((route, i) => (
                             <Route
@@ -118,6 +157,7 @@ export default class Wizard extends Component {
                                         completeMutations={completeMutations}
                                         index={i}
                                         updateCurrentRoute={updateCurrentRoute}
+                                        history={history}
                                     >
                                         {route.render ?
                                             route.render(routerProps)

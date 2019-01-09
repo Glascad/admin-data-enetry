@@ -17,8 +17,22 @@ import ApolloWrapper3 from '../../components/ApolloWrapper/ApolloWrapper3';
 import query from './-graphql/query';
 import mutations from './-graphql/mutations';
 
-export default function ({ history, match: { url, path, params: { systemNID } } }) {
+import { parseSearch } from '../../utils';
+
+export default function ({
+    history,
+    location: {
+        search
+    },
+    match: {
+        url,
+        path,
+    }
+}) {
+    const { systemNID } = parseSearch(search);
+
     console.log(arguments);
+
     return (
         <Batcher>
             {batcher => (
@@ -52,9 +66,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                     } ${
                                     systemName || ''
                                     }`}
-                                path={path}
-                                url={url}
-                                history={history}
+                                routerProps={arguments[0]}
                                 batcher={batcher}
                                 navigation="both"
                                 routes={[
@@ -86,7 +98,7 @@ export default function ({ history, match: { url, path, params: { systemNID } } 
                                         ),
                                     },
                                     // {
-                                        // name: "System Compatibility",
+                                    // name: "System Compatibility",
                                     //     path: `/system-compatibility`,
                                     //     render: () => (
                                     //         "SYSTEMCOMPATIBILITY"

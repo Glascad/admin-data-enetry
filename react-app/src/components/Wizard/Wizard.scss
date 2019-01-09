@@ -10,11 +10,13 @@
         justify-content: space-between;
         width: 90%;
         max-width: 70vw;
-        height: auto;
+        // height: auto;
+        height: $item-height;
+        min-height: $item-height;
         font-size: $item-height;
         // padding-left: $large; // better without ?
 
-        margin-bottom: calc(#{$item-height} + #{$large});
+        margin-bottom: $large;
 
         .title-buttons {
             display: flex;
@@ -36,22 +38,55 @@
             }
         }
     }
+
+    .tab-container {
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        // right: 0;
+        width: 90%;
+        max-width: 70vw;
+        background: $current-color;
+        display: flex;
+        height: $menu-height;
+        min-height: $menu-height;
+        z-index: 1;
+        
+        .tab {
+            // border: 1px solid black;
+            padding: 0 $large;
+            // border-top-left-radius: $xx-small;
+            // border-top-right-radius: $xx-small;
+            display: flex;
+            align-items: center;
+            color: $off-white;
+            // width: fill;
+            
+            + .tab {
+                border-left: 1px solid $off-white;
+            }
+            
+            &.current-tab {
+                background: $card-color;
+                // color: black;
+                color: $current-color;
+            }
+        }
+    }
+
     .card {
-        position: static;
+        position: relative;
         padding-bottom: $large;
 
-        .tab-container {
-            .tab {
-                // border: 1px solid black;
-                padding: $x-small;
-                border-radius: $xx-small;
-                color: black;
+        // &.with-tabs {
+        //     border: none;
+        //     padding-top: 0;
+        // }
+    }
 
-                &.current-tab {
-                    background: $current-color;
-                    // color: $off-white;
-                }
-            }
+    &.with-tabs {
+        .card {
+            border: none;
         }
     }
 }
