@@ -13,9 +13,13 @@ export default function ButtonTile({
         <div className="ButtonTile" >
             {buttonProps
                 .filter(Boolean)
-                .map((button, i) => (
+                .map(({ className, ...button }, i) => (
                     <button
-                        className="empty light"
+                        className={`button ${
+                            className
+                            ||
+                            "empty light"
+                            }`}
                         {...button}
                         key={i}
                     >

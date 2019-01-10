@@ -281,6 +281,7 @@ export default class Pill extends Component {
                                 } : null,
                                 deletable ? {
                                     text: "Delete",
+                                    className: "danger",
                                     onClick: handleDeleteClick
                                 } : null,
                             ]}

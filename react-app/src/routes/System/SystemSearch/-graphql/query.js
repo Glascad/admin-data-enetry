@@ -36,14 +36,47 @@ export default {
                 }
             }
         }
+        allManufacturers{
+            nodes{
+                nodeId
+                id
+                name
+            }
+        }
+        allSystemTypes{
+            nodes{
+                nodeId
+                id
+                type
+            }
+        }
+        allSystemTags{
+            nodes{
+                nodeId
+                id
+                tag
+            }
+        }
     }`,
     mapQueryToProps: ({
         data: {
             allSystems: {
                 nodes: allSystems = [],
             } = {},
+            allManufacturers: {
+                nodes: allManufacturers = [],
+            } = {},
+            allSystemTypes: {
+                nodes: allSystemTypes = [],
+            } = {},
+            allSystemTags: {
+                nodes: allSystemTags = [],
+            } = {},
         } = {},
     }) => ({
         allSystems,
+        allManufacturers,
+        allSystemTypes,
+        allSystemTags,
     }),
 };

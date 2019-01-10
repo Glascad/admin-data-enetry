@@ -4,9 +4,12 @@ export default class StateManager extends Component {
 
     state = {};
 
-    update = key => ({ arguments: args }) => this.setState({
-        [key]: args,
-    });
+    update = key => ({ arguments: args }) => {
+        console.log();
+        this.setState({
+            [key]: args,
+        });
+    }
 
     render = () => {
         const {

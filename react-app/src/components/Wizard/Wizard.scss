@@ -22,6 +22,10 @@
             display: flex;
         }
 
+        + .tab-container {
+            border-top-left-radius: $x-small;
+            border-top-right-radius: $x-small;
+        }
     }
     .bottom-buttons {
         display: flex;
@@ -52,9 +56,6 @@
         min-height: $menu-height;
         overflow: hidden;
         z-index: 1;
-
-        // border-top-left-radius: $x-small;
-        // border-top-right-radius: $x-small;
         
         .tab {
             // border: 1px solid black;
@@ -80,6 +81,7 @@
                 background: $card-color;
                 // color: black;
                 color: $current-color;
+                font-weight: bold;
             }
         }
     }

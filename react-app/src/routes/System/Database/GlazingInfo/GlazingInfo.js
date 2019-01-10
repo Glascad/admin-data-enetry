@@ -65,6 +65,7 @@ export default function GlazingInfo({
                     infillSize: infillSize.size,
                     infillSizeByInfillSize: infillSize,
                 })}
+                
                 onDelete={({ systemInfillSizeNID, ...infillSize }) => deleteSystemInfillSize({
                     nodeId: systemInfillSizeNID,
                     systemId,

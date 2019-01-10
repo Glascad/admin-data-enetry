@@ -7,16 +7,26 @@
     align-items: center;
     flex-direction: column;
     
-    button {
-        + button {
+    .button {
+
+        width: 67%;
+
+        + .button {
             margin-left: 0;
             margin-top: $small;
         }
 
         &:hover {
-            background-color: $off-white !important;
+            background-color: $off-white;
             border-color: $dark-gray;
             color: $dark-gray;
+
+            &.danger {
+                // color: $warning-color;
+                border-color: $warning-color;
+                color: $off-white;
+                background: $warning-color;
+            }
         }
     }
 }

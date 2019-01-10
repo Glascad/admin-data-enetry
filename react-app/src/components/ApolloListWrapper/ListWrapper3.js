@@ -4,6 +4,7 @@ import SelectionWrapper from '../SelectionWrapper/SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
+import Modal from '../Modal/Modal';
 
 class List extends Component {
 
@@ -22,6 +23,12 @@ class List extends Component {
 
         })
     };
+
+    handleDelete = () => this.props.onDelete({
+        arguments: {
+            nodeId: this.props.selection.selectedNID
+        }
+    });
 
     handleMultiSelectFinish = ({ arguments: { addedItems, deletedItems } }) => {
         console.log({ addedItems, deletedItems });
@@ -45,6 +52,11 @@ class List extends Component {
                 onCreate,
                 onUpdate,
                 onDelete,
+                deleteModal,
+                deleteModal: {
+                    name: modalName,
+                    extractName,
+                } = {},
                 selection,
                 selection: {
                     selectedNID,
@@ -66,6 +78,7 @@ class List extends Component {
                 children,
             },
             handleMultiSelectFinish,
+            handleDelete,
         } = this;
 
         const selectedItem = items.find(({ nodeId }) => nodeId === selectedNID)
@@ -99,9 +112,15 @@ class List extends Component {
 
                             const danger = onDelete && deleting && nodeId === selectedNID;
 
-                            const _delete = multiSelect ? handleDeleteClick : onDelete;
+                            const _delete = multiSelect || deleteModal ?
+                                handleDeleteClick
+                                :
+                                onDelete;
 
-                            const select = multiSelect ? handleDeleteClick : handleSelect;
+                            const select = multiSelect ?
+                                handleDeleteClick
+                                :
+                                handleSelect;
 
                             return (
                                 <Pill
@@ -172,6 +191,17 @@ class List extends Component {
                         mapPillProps={mapPillProps}
                     // {...mapMultiSelectProps(childProps)}
                     />
+                ) : deleteModal ? (
+                    <Modal
+                        {...deleteModal}
+                        title={`Delete ${modalName}`}
+                        display={deleting}
+                        onCancel={cancel}
+                        onFinish={handleDelete}
+                        danger={true}
+                    >
+                        Are you sure you want to delete {modalName.toLowerCase()}: {extractName(selectedItem)}?
+                        </Modal>
                 ) : null}
             </div>
         );
