@@ -68,7 +68,7 @@ export default function Database({
                                     }`}
                                 routerProps={arguments[0]}
                                 batcher={batcher}
-                                navigation="both"
+                                navigation="tabs"
                                 routes={[
                                     {
                                         name: "System Info",

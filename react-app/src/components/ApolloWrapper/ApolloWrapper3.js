@@ -134,8 +134,8 @@ export default class ApolloWrapper3 extends Component {
                                         [mutationKeys[0]]: batcher ?
                                             args => batchMutation({
                                                 arguments: {
-                                                    nodeId: args.nodeId || getNodeId(),
                                                     ...args,
+                                                    nodeId: args.nodeId || getNodeId(),
                                                 },
                                                 mutate,
                                                 mutationKey: mutationKeys[0],

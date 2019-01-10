@@ -13,7 +13,7 @@ export default function () {
     return (
         <Wizard
             routerProps={arguments[0]}
-            navigation="both"
+            navigation="tabs"
             routes={[
                 {
                     name: "System Types",

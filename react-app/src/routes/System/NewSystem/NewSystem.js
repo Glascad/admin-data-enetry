@@ -10,8 +10,8 @@ import {
 
 import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
 
-import query from './-graphql/query';
-import mutations from './-graphql/mutations';
+import query from './new-system-graphql/query';
+import mutations from './new-system-graphql/mutations';
 
 import { parseSearch } from '../../../utils';
 
@@ -48,10 +48,10 @@ export default function Database({
                         }
                     }) => (
                             <Wizard
-                                title={"New System"}
+                                displayHeader={false}
                                 routerProps={arguments[0]}
                                 batcher={batcher}
-                                navigation="both"
+                                navigation="tabs"
                                 routes={[
                                     {
                                         name: "Create System",

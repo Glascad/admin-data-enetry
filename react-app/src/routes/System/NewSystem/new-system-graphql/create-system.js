@@ -59,4 +59,10 @@ export default {
             }
         }
     }`,
+    mapResultToProps: (newSystem, { system }) => ({
+        system: {
+            ...system,
+            ...newSystem,
+        }
+    })
 };

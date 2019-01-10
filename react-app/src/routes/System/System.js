@@ -25,7 +25,7 @@ export const links = {
         },
         {
             text: "Details",
-            link: "/system-details"
+            link: "/details"
         },
         {
             text: "New",

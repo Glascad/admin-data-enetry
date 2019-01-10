@@ -55,6 +55,7 @@ export default class Wizard extends Component {
             props: {
                 navigation = "linear",
                 title,
+                displayHeader = true,
                 buttons,
                 routes,
                 routerProps: {
@@ -100,7 +101,7 @@ export default class Wizard extends Component {
                     :
                     ""
                 }`} >
-                {title || batcher || buttons ? (
+                {displayHeader && (title || batcher || buttons) ? (
                     <header>
                         <h1>{title}</h1>
                         <div className="title-buttons">
@@ -184,7 +185,7 @@ export default class Wizard extends Component {
                             }}
                         />
                     </Switch>
-                    {navigation === "linear" || navigation === "both" ? (
+                    {batcher || navigation !== "tabs" ? (
                         <div
                             className="bottom-buttons"
                         >
@@ -193,42 +194,55 @@ export default class Wizard extends Component {
                                     className="empty"
                                     onClick={resetMutations}
                                 >
-                                    Reset
-                                </button>
+                                    Cancel
+                            </button>
                             ) : <div />}
                             <div
                                 className="buttons-right"
                             >
-                                {prevRoute ? (
-                                    <Link
-                                        to={url + prevRoute.path}
-                                    >
-                                        <button
-                                            className="empty"
-                                        >
-                                            {
-                                                // prevRoute.name
-                                                // ||
-                                                "Previous"
-                                            }
-                                        </button>
-                                    </Link>
-                                ) : null}
-                                {nextRoute ? (
-                                    <Link
-                                        to={url + nextRoute.path}
-                                    >
+                                {navigation === "tabs" ? (
+                                    batcher ? (
                                         <button
                                             className="primary"
+                                            onClick={completeMutations}
                                         >
-                                            {
-                                                // nextRoute.name
-                                                // ||
-                                                "Next"
-                                            }
-                                        </button>
-                                    </Link>
-                                ) : null}
+                                            Save
+                                    </button>
+                                    ) : null
+                                ) : (
+                                        <>
+                                            {prevRoute ? (
+                                                <Link
+                                                    to={url + prevRoute.path}
+                                                >
+                                                    <button
+                                                        className="empty"
+                                                    >
+                                                        {
+                                                            // prevRoute.name
+                                                            // ||
+                                                            "Previous"
+                                                        }
+                                                    </button>
+                                                </Link>
+                                            ) : null}
+                                            {nextRoute ? (
+                                                <Link
+                                                    to={url + nextRoute.path}
+                                                >
+                                                    <button
+                                                        className="primary"
+                                                    >
+                                                        {
+                                                            // nextRoute.name
+                                                            // ||
+                                                            "Next"
+                                                        }
+                                                    </button>
+                                                </Link>
+                                            ) : null}
+                                        </>
+                                    )}
                             </div>
                         </div>
                     ) : null}

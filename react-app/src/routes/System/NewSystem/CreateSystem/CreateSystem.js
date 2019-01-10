@@ -8,34 +8,34 @@ import {
 import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function CreateSystem({
-    // queryStatus: {
-    //     system: {
-    //         nodeId: systemNID,
-    //         id: systemId,
-    //         name,
-    //         depth,
-    //         defaultSightline,
-    //         shimSize,
-    //     },
-    //     manufacturer: {
-    //         id: manufacturerId,
-    //         name: manufacturerName,
-    //     },
-    //     systemType: {
-    //         id: systemTypeId,
-    //         type: systemTypeName,
-    //     },
-    //     allSystems,
-    //     systemSystemTags,
-    //     allManufacturers,
-    //     allSystemTypes,
-    //     allSystemTags,
-    // },
-    // mutations: {
-    //     createSystem,
-    //     createSystemSystemTag,
-    //     deleteSystemSystemTag,
-    // },
+    queryStatus: {
+        system: {
+            nodeId: systemNID,
+            id: systemId,
+            name,
+            depth,
+            defaultSightline,
+            shimSize,
+            manufacturerId,
+            manufacturerByManufacturerId: {
+                name: manufacturerName,
+            } = {},
+            systemTypeId,
+            systemTypeBySystemTypeId: {
+                type: systemTypeName,
+            } = {},
+        } = {},
+        // allSystems,
+        // systemSystemTags,
+        allManufacturers,
+        allSystemTypes,
+        // allSystemTags,
+    },
+    mutations: {
+        createSystem,
+        // createSystemSystemTag,
+        // deleteSystemSystemTag,
+    },
 }) {
     console.log(arguments);
     return (
@@ -43,7 +43,15 @@ export default function CreateSystem({
             title="New System"
             className="input-wrapper"
         >
-            {/* <Input
+            <Input
+                label="Name"
+                value={name}
+                onChange={({ target: { value } }) => createSystem({
+                    nodeId: systemNID,
+                    name: value,
+                })}
+            />
+            <Input
                 label="Manufacturer"
                 select={{
                     value: {
@@ -54,19 +62,14 @@ export default function CreateSystem({
                         value: id,
                         label: name,
                     })),
-                    onChange: ({ value }) => createSystem({
+                    onChange: ({ value, label }) => createSystem({
                         nodeId: systemNID,
                         manufacturerId: value,
+                        manufacturerByManufacturerId: {
+                            name: label,
+                        }
                     }),
                 }}
-            />
-            <Input
-                label="Name"
-                value={name}
-                onChange={({ target: { value } }) => createSystem({
-                    nodeId: systemNID,
-                    name: value,
-                })}
             />
             <Input
                 label="System Type"
@@ -79,12 +82,16 @@ export default function CreateSystem({
                         value: id,
                         label: type,
                     })),
-                    onChange: ({ value }) => createSystem({
+                    onChange: ({ value, label }) => createSystem({
                         nodeId: systemNID,
                         systemTypeId: value,
+                        systemTypeBySystemTypeId: {
+                            type: label
+                        }
                     }),
                 }}
             />
+            {/*
             <ListWrapper3
                 label="System Tags"
                 items={systemSystemTags.map(({
@@ -112,6 +119,7 @@ export default function CreateSystem({
                     allItems: allSystemTags,
                 }}
             />
+        */}
             <div className="input-group">
                 <Input
                     label="System Depth"
@@ -140,7 +148,7 @@ export default function CreateSystem({
                     nodeId: systemNID,
                     shimSize: value,
                 })}
-            /> */}
+            />
         </HeadedContainer>
     );
 }

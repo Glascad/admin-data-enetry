@@ -78,9 +78,10 @@ export default {
         allManufacturers,
         allSystemTypes,
         allSystemTags,
-        system: {},
-        systemSystemTags: [],
-        manufacturer: {},
-        systemType: {},
+        system: {
+            manufacturerByManufacturerId: {},
+            systemSystemTagsBySystemId: {},
+            systemTypeBySystemTypeId: {}
+        },
     }),
 };
