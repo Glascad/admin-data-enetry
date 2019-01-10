@@ -96,5 +96,10 @@
                 display: none;
             }
         }
+
+        &.multi {
+            // min-width: $pill-width;
+            width: fill;
+        }
     }
 }

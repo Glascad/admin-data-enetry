@@ -45,7 +45,6 @@ export default function CreateSystem({
         >
             {/* <Input
                 label="Manufacturer"
-                type="select"
                 select={{
                     value: {
                         value: manufacturerId,
@@ -71,7 +70,6 @@ export default function CreateSystem({
             />
             <Input
                 label="System Type"
-                type="select"
                 select={{
                     value: {
                         value: systemTypeId,

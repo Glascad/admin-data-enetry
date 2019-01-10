@@ -45,30 +45,29 @@ export default function SystemSearch({
                                         >
                                             <Input
                                                 label="Search"
-                                                value={state.input}
-                                                onChange={({ target: { value } }) => update("input")({
+                                                value={state.name}
+                                                placeholder={"System Name"}
+                                                onChange={({ target: { value } }) => update("name")({
                                                     arguments: value
                                                 })}
                                             />
-                                            <Input
-                                                label="Manufacturer"
-                                                type="select"
-                                                select={{
-                                                    options: allManufacturers
-                                                        .map(({ nodeId, name }) => ({
-                                                            value: nodeId,
-                                                            label: name,
-                                                        })),
-                                                    value: state.manufacturer,
-                                                    onChange: selection => update("manufacturer")({
-                                                        arguments: selection
-                                                    })
-                                                }}
-                                            />
                                             <div className="input-group">
                                                 <Input
+                                                    label="Manufacturer"
+                                                    select={{
+                                                        options: allManufacturers
+                                                            .map(({ nodeId, name }) => ({
+                                                                value: nodeId,
+                                                                label: name,
+                                                            })),
+                                                        value: state.manufacturer,
+                                                        onChange: selection => update("manufacturer")({
+                                                            arguments: selection
+                                                        })
+                                                    }}
+                                                />
+                                                <Input
                                                     label="System Type"
-                                                    type="select"
                                                     select={{
                                                         options: allSystemTypes
                                                             .map(({ nodeId, type }) => ({
@@ -81,22 +80,22 @@ export default function SystemSearch({
                                                         })
                                                     }}
                                                 />
-                                                <Input
-                                                    label="System Tags"
-                                                    type="select"
-                                                    select={{
-                                                        options: allSystemTags
-                                                            .map(({ nodeId, tag }) => ({
-                                                                value: nodeId,
-                                                                label: tag,
-                                                            })),
-                                                        value: state.systemTag,
-                                                        onChange: selection => update("systemTag")({
-                                                            arguments: selection
-                                                        })
-                                                    }}
-                                                />
                                             </div>
+                                            <Input
+                                                label="System Tags"
+                                                select={{
+                                                    isMulti: true,
+                                                    options: allSystemTags
+                                                        .map(({ nodeId, tag }) => ({
+                                                            value: nodeId,
+                                                            label: tag,
+                                                        })),
+                                                    value: state.systemTags,
+                                                    onChange: selection => update("systemTags")({
+                                                        arguments: selection
+                                                    })
+                                                }}
+                                            />
                                             {/* <div className="input-group">
                                                 <Input
                                                     label="System Option"
@@ -108,13 +107,58 @@ export default function SystemSearch({
                                         </HeadedContainer>
                                         <ListWrapper3
                                             title="Search Results"
-                                            items={allSystems}
+                                            items={allSystems.filter(({
+                                                name,
+                                                manufacturerByManufacturerId: {
+                                                    nodeId: manufacturerNID
+                                                },
+                                                systemTypeBySystemTypeId: {
+                                                    nodeId: systemTypeNID,
+                                                },
+                                                systemSystemTagsBySystemId: {
+                                                    nodes: systemTags,
+                                                },
+                                            }) => (
+                                                    name.toLowerCase().includes(state.name ?
+                                                        state.name.toLowerCase()
+                                                        :
+                                                        "")
+                                                    &&
+                                                    (
+                                                        !state.manufacturer
+                                                        ||
+                                                        !state.manufacturer.value
+                                                        ||
+                                                        state.manufacturer.value === manufacturerNID
+                                                    )
+                                                    &&
+                                                    (
+                                                        !state.systemType
+                                                        ||
+                                                        !state.systemType.value
+                                                        ||
+                                                        state.systemType.value === systemTypeNID
+                                                    )
+                                                    &&
+                                                    (
+                                                        !state.systemTags
+                                                        ||
+                                                        !state.systemTags.length
+                                                        ||
+                                                        state.systemTags.every(({ value }) => (
+                                                            systemTags.some(({
+                                                                systemTagBySystemTagId: {
+                                                                    nodeId
+                                                                }
+                                                            }) => value === nodeId)
+                                                        ))
+                                                    )
+                                                ))}
                                             defaultPillProps={{
                                                 type: "tile",
                                                 align: "left",
                                                 footer: "Last Updated: ...",
                                                 selectable: false,
-                                                // onSelect: ({ arguments: { nodeId } }) => history.push(`/system/${nodeId}/system-info`),
                                             }}
                                             mapPillProps={({
                                                 nodeId,

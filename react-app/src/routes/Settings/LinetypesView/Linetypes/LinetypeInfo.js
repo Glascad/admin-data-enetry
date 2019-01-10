@@ -126,7 +126,6 @@ export default class LinetypeInfo extends Component {
             >
                 <Input
                     label="Line Weight"
-                    type="select"
                     select={{
                         options: selectOptions,
                         value: selectValue,

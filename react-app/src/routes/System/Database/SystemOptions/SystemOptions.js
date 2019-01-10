@@ -80,7 +80,6 @@ export default function SystemOptions({
                                 <Input
                                     label="Presentation Level"
                                     value={presentationLevel}
-                                    type="select"
                                     select={{
                                         value: {
                                             label: presentationLevel,
@@ -99,7 +98,6 @@ export default function SystemOptions({
                                 <Input
                                     label="Override Level"
                                     value={overrideLevel}
-                                    type="select"
                                     select={{
                                         value: {
                                             label: overrideLevel,

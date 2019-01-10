@@ -30,7 +30,7 @@ export default function Input({
             {type !== "checkbox" ? (
                 LABEL
             ) : null}
-            {type !== "select" ? (
+            {!select ? (
                 <input
                     type={type}
                     value={value || (
@@ -51,7 +51,7 @@ export default function Input({
             ) : (
                     <Select
                         {...select}
-                        className="Select"
+                        className={`Select ${select.isMulti ? "multi" : ""}`}
                     />
                 )}
             {type === "checkbox" ? (

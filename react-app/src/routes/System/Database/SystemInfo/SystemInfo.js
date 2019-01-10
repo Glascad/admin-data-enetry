@@ -47,7 +47,6 @@ export default function SystemInfo({
             />
             <Input
                 label="System Type"
-                type="select"
                 select={{
                     value: {
                         value: systemTypeId,

@@ -75,7 +75,6 @@ export default function GlazingInfo({
             />
             <Input
                 label="Default Infill Material Size"
-                type="select"
                 select={{
                     options: systemInfillSizes
                         .map(({ infillSizeByInfillSize: { size } }) => ({
