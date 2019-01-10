@@ -5,7 +5,6 @@ import './Viewport.scss';
 import Home from '../../routes/Home/Home';
 
 import SystemRouter from '../../routes/System/System';
-import SystemConfigurationsRouter from '../../routes/SystemConfigurations/SystemConfigurations';
 import SettingsRouter from '../../routes/Settings/Settings';
 
 export default function Viewport() {
@@ -22,11 +21,6 @@ export default function Viewport() {
                 <Route
                     path="/system"
                     component={SystemRouter}
-                />
-                {/* SYSTEM CONFIGURATIONS */}
-                <Route
-                    path="/system-configurations"
-                    component={SystemConfigurationsRouter}
                 />
                 {/* SETTINGS */}
                 <Route

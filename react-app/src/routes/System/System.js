@@ -1,10 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import SelectSystem from './SelectSystem/SelectSystem';
+import SystemSearch from './SystemSearch/SystemSearch';
 
-import SystemSVG from './SystemSVG/SystemSVG';
-import SystemWizard from './SystemWizard';
+import SystemDetails from './SystemDetails/SystemDetails';
+import Database from './Database/Database';
+import NewSystem from './NewSystem/NewSystem';
 
 export const links = {
     text: "System",
@@ -24,7 +25,7 @@ export const links = {
         },
         {
             text: "Details",
-            link: "/details"
+            link: "/system-details"
         },
         {
             text: "New",
@@ -39,7 +40,7 @@ export default function SystemRouter() {
             <Route
                 exact
                 path="/system/search"
-                component={SelectSystem}
+                component={SystemSearch}
             />
             <Route
                 path="/system/activity"
@@ -47,11 +48,15 @@ export default function SystemRouter() {
             />
             <Route
                 path="/system/database"
-                component={SystemWizard}
+                component={Database}
             />
             <Route
                 path="/system/details"
-                component={SystemSVG}
+                component={SystemDetails}
+            />
+            <Route
+                path="/system/new"
+                component={NewSystem}
             />
         </Switch>
     );

@@ -15,7 +15,7 @@ class WizardChild extends Component {
 
     componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
 
-    componentWillUnmount = () => this.props.completeMutations();
+    componentWillUnmount = () => this.props.completeMutations && this.props.completeMutations();
 
     render = () => this.props.children || "It looks like you found an invalid route";
 }
@@ -67,10 +67,11 @@ export default class Wizard extends Component {
                         url,
                     }
                 },
+                batcher,
                 batcher: {
                     completeMutations,
                     resetMutations,
-                },
+                } = {},
             },
             updateCurrentRoute,
         } = this;
@@ -99,24 +100,30 @@ export default class Wizard extends Component {
                     :
                     ""
                 }`} >
-                <header>
-                    <h1>{title}</h1>
-                    <div className="title-buttons">
-                        {buttons}
-                        <button
-                            onClick={resetMutations}
-                            className="empty"
-                        >
-                            Reset
-                        </button>
-                        <button
-                            onClick={completeMutations}
-                            className="primary"
-                        >
-                            Save
-                        </button>
-                    </div>
-                </header>
+                {title || batcher || buttons ? (
+                    <header>
+                        <h1>{title}</h1>
+                        <div className="title-buttons">
+                            {buttons}
+                            {batcher ? (
+                                <>
+                                    <button
+                                        onClick={resetMutations}
+                                        className="empty"
+                                    >
+                                        Reset
+                                </button>
+                                    <button
+                                        onClick={completeMutations}
+                                        className="primary"
+                                    >
+                                        Save
+                                </button>
+                                </>
+                            ) : null}
+                        </div>
+                    </header>
+                ) : null}
                 {navigation === "tabs" || navigation === "both" ? (
                     <div className="tab-container">
                         {routes.map(route => (
@@ -147,7 +154,7 @@ export default class Wizard extends Component {
                 //     }`}
                 >
                     <Switch>
-                        {routes.map((route, i) => (
+                        {routes.map(({ component: RouteChild, ...route }, i) => (
                             <Route
                                 key={route.path}
                                 {...route}
@@ -162,7 +169,7 @@ export default class Wizard extends Component {
                                         {route.render ?
                                             route.render(routerProps)
                                             :
-                                            <route.component {...routerProps} />
+                                            <RouteChild {...routerProps} />
                                         }
                                     </WizardChild>
                                 )}
@@ -181,12 +188,14 @@ export default class Wizard extends Component {
                         <div
                             className="bottom-buttons"
                         >
-                            <button
-                                className="empty"
-                                onClick={resetMutations}
-                            >
-                                Reset
-                            </button>
+                            {batcher ? (
+                                <button
+                                    className="empty"
+                                    onClick={resetMutations}
+                                >
+                                    Reset
+                                </button>
+                            ) : <div />}
                             <div
                                 className="buttons-right"
                             >

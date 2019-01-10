@@ -9,14 +9,12 @@ import {
 } from '../../components';
 
 import { links as systemLinks } from '../../routes/System/System';
-import { links as systemConfigurationsLinks } from '../../routes/SystemConfigurations/SystemConfigurations';
 import { links as settingsLinks } from '../../routes/Settings/Settings';
 import parseSearch from '../../utils/search-parser';
 
 const links = [
     // homeLinks,
     systemLinks,
-    systemConfigurationsLinks,
     settingsLinks,
 ];
 

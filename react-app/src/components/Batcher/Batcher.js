@@ -30,7 +30,11 @@ export default class Batcher extends Component {
     }
 
     // functional setstate is necessary when multiple are fired at once
-    batchMutation = ({ arguments: args, mutate, mutationKey }, refetch) => this.setState(({ batchedMutations }) => {
+    batchMutation = ({
+        arguments: args,
+        mutate,
+        mutationKey
+    }, refetch) => this.setState(({ batchedMutations }) => {
         console.log("BATCHING A MUTATION");
         console.log({ args, mutate, mutationKey });
         const previousMutation = batchedMutations[mutationKey];
