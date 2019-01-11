@@ -31,9 +31,9 @@ class List extends Component {
                     nodeId: this.props.selection.selectedNID
                 }
             });
+            this.props.selection.cancel();
         } catch (err) {
             console.error(err);
-            this.props.selection.cancel();
         }
     }
 

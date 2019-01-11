@@ -25,7 +25,16 @@
         height: $item-height;
         min-height: $item-height;
         font-size: $item-height;
-        margin-bottom: $large;
+        margin-bottom: $small;
+
+        > *, .right-buttons {
+            display: flex;
+            > * {
+                + * {
+                    margin-left: $base_size;
+                }
+            }
+        }
     }
 
     > * {

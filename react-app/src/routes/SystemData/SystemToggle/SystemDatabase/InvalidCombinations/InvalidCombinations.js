@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
+import ListWrapper3 from '../../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function ValidTypes({
     queryStatus: {

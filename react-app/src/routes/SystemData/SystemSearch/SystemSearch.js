@@ -26,15 +26,15 @@ export default function SystemSearch({
             <header>
                 <div>Select System</div>
                 <div className="buttons-right">
-                    <button
-                        className="primary"
+                    <Link
+                        to={`/system-data/new/create${search}`}
                     >
-                        <Link
-                            to={`/system-data/new/create${search}`}
+                        <button
+                            className="primary"
                         >
                             New System
-                        </Link>
-                    </button>
+                        </button>
+                    </Link>
                 </div>
             </header>
             <div className="card">
@@ -189,11 +189,11 @@ export default function SystemSearch({
                                                     hoverButtons: [
                                                         {
                                                             text: "Edit Database",
-                                                            onClick: () => history.push(`/system-data/database/system-info?systemNID=${nodeId}`)
+                                                            onClick: () => history.push(`/system-data/info/database/system-info?systemNID=${nodeId}`)
                                                         },
                                                         {
                                                             text: "Edit Details",
-                                                            onClick: () => history.push(`/system-data/details?systemNID=${nodeId}`)
+                                                            onClick: () => history.push(`/system-data/info/details?systemNID=${nodeId}`)
                                                         },
                                                     ],
                                                 })}

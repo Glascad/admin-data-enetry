@@ -17,6 +17,7 @@ function TabNavigator({
         url,
     },
     routes,
+    children,
 }) {
 
     return (
@@ -46,6 +47,7 @@ function TabNavigator({
                     </div>
                     <div className="card">
                         {currentRoute}
+                        {children}
                     </div>
                 </div >
             )}

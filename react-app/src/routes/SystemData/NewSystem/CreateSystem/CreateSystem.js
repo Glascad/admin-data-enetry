@@ -10,7 +10,7 @@ import {
     Input,
 } from '../../../../components';
 
-import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
+// import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function CreateSystem({
     routerProps: {
@@ -177,15 +177,18 @@ export default function CreateSystem({
                     />
                 </div>
                 <div className="bottom-buttons">
-                    <div>
-                        <Link
-                            to="/system-data"
+                    <Link
+                        to="/system-data"
+                    >
+                        <button
+                            className="empty"
                         >
                             Cancel
+                        </button>
                     </Link>
-                    </div>
                     <div>
                         <button
+                            className="primary"
                             onClick={completeMutations}
                         >
                             Create
