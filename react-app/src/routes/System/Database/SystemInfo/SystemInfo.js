@@ -108,16 +108,16 @@ export default function SystemInfo({
                         defaultSightline: value,
                     })}
                 />
+                <Input
+                    label="Caulk Joint Size"
+                    type="number"
+                    value={shimSize}
+                    onChange={({ target: { value } }) => updateSystem({
+                        nodeId: systemNID,
+                        shimSize: value,
+                    })}
+                />
             </div>
-            <Input
-                label="Caulk Joint Size"
-                type="number"
-                value={shimSize}
-                onChange={({ target: { value } }) => updateSystem({
-                    nodeId: systemNID,
-                    shimSize: value,
-                })}
-            />
         </HeadedContainer>
     );
 }

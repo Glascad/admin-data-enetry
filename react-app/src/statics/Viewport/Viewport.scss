@@ -19,4 +19,16 @@
         width: 90%;
         margin-bottom: $header-height * 4;
     }
+
+    > header {
+        display: flex;
+        justify-content: space-between;
+        min-height: $item-height;
+        margin-bottom: $large;
+    }
+
+    > * {
+        width: 90%;
+        max-width: 70vw;
+    }
 }

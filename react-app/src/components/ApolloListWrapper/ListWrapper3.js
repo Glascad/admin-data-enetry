@@ -24,16 +24,31 @@ class List extends Component {
         })
     };
 
-    handleDelete = () => this.props.onDelete({
-        arguments: {
-            nodeId: this.props.selection.selectedNID
+    handleDelete = async () => {
+        try {
+            await this.props.onDelete({
+                arguments: {
+                    nodeId: this.props.selection.selectedNID
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            this.props.selection.cancel();
         }
-    });
+    }
 
-    handleMultiSelectFinish = ({ arguments: { addedItems, deletedItems } }) => {
+    handleMultiSelectFinish = async ({ arguments: { addedItems, deletedItems } }) => {
         console.log({ addedItems, deletedItems });
-        addedItems.forEach(this.props.onCreate);
-        deletedItems.forEach(this.props.onDelete);
+        try {
+            await Promise.all(addedItems.map(this.props.onCreate));
+        } catch (err) {
+            console.error(err);
+        }
+        try {
+            await Promise.all(deletedItems.map(this.props.onDelete));
+        } catch (err) {
+            console.error(err);
+        }
         this.props.selection.cancel();
     }
 

@@ -139,16 +139,16 @@ export default function CreateSystem({
                         defaultSightline: value,
                     })}
                 />
+                <Input
+                    label="Caulk Joint Size"
+                    type="number"
+                    value={shimSize}
+                    onChange={({ target: { value } }) => createSystem({
+                        nodeId: systemNID,
+                        shimSize: value,
+                    })}
+                />
             </div>
-            <Input
-                label="Caulk Joint Size"
-                type="number"
-                value={shimSize}
-                onChange={({ target: { value } }) => createSystem({
-                    nodeId: systemNID,
-                    shimSize: value,
-                })}
-            />
         </HeadedContainer>
     );
 }

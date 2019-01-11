@@ -15,7 +15,7 @@ class WizardChild extends Component {
 
     componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
 
-    componentWillUnmount = () => this.props.completeMutations && this.props.completeMutations();
+    // componentWillUnmount = () => this.props.completeMutations && this.props.completeMutations();
 
     render = () => this.props.children || "It looks like you found an invalid route";
 }
@@ -112,14 +112,14 @@ export default class Wizard extends Component {
                                         onClick={resetMutations}
                                         className="empty"
                                     >
-                                        Reset
-                                </button>
+                                        Cancel
+                                    </button>
                                     <button
                                         onClick={completeMutations}
                                         className="primary"
                                     >
                                         Save
-                                </button>
+                                    </button>
                                 </>
                             ) : null}
                         </div>
