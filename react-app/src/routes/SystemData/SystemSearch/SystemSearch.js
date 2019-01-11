@@ -9,7 +9,6 @@ import StateManager from '../../../components/SelectionWrapper/StateManager';
 
 import {
     Input,
-    HeadedContainer
 } from '../../../components'
 
 import query from './-graphql/query';
@@ -25,13 +24,13 @@ export default function SystemSearch({
     return (
         <>
             <header>
-                <div />
+                <div>Select System</div>
                 <div className="buttons-right">
                     <button
                         className="primary"
                     >
                         <Link
-                            to={`/system/new/create${search}`}
+                            to={`/system-data/new/create${search}`}
                         >
                             New System
                         </Link>
@@ -60,10 +59,7 @@ export default function SystemSearch({
                                     update,
                                 }) => (
                                         <>
-                                            <HeadedContainer
-                                                title="Select System"
-                                                className="input-wrapper"
-                                            >
+                                            <div className="input-wrapper">
                                                 <Input
                                                     label="Search"
                                                     value={state.name}
@@ -119,13 +115,13 @@ export default function SystemSearch({
                                                 />
                                                 {/* <div className="input-group">
                                                 <Input
-                                                    label="System Option"
+                                                label="System Option"
                                                 />
                                                 <Input
-                                                    label="Option Value"
+                                                label="Option Value"
                                                 />
                                             </div> */}
-                                            </HeadedContainer>
+                                            </div>
                                             <ListWrapper3
                                                 title="Search Results"
                                                 items={allSystems.filter(({
@@ -193,11 +189,11 @@ export default function SystemSearch({
                                                     hoverButtons: [
                                                         {
                                                             text: "Edit",
-                                                            onClick: () => history.push(`/system/database/system-info?systemNID=${nodeId}`)
+                                                            onClick: () => history.push(`/system-data/database/system-info?systemNID=${nodeId}`)
                                                         },
                                                         {
                                                             text: "Build",
-                                                            onClick: () => history.push(`/system/details?systemNID=${nodeId}`)
+                                                            onClick: () => history.push(`/system-data/details?systemNID=${nodeId}`)
                                                         },
                                                     ],
                                                 })}

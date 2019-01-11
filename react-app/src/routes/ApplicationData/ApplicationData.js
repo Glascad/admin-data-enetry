@@ -5,34 +5,22 @@ import Manufacturers from './Manufacturers/Manufacturers';
 import Linetypes from './LinetypesView/LinetypesView';
 import PartOrientations from './PartOrientations/PartOrientations';
 import InfillSizes from './InfillSizes/InfillSizes';
-import InfillTypes from './InfillTypesView/InfillTypesView';
+import InfillPockets from './InfillPockets/InfillPockets';
 import SystemTags from './SystemTags/SystemTags';
 import PartTags from './PartTags/PartTags';
-import TypesWizard from './Types/TypesWizard';
+import Types from './Types/Types';
 
 export const links = {
-    text: "Settings",
-    link: "/settings",
+    text: "Application Data",
+    link: "/application-data",
     subroutes: [
         {
             text: "Manufacturers",
             link: "/manufacturers",
         },
         {
-            text: "Linetypes",
-            link: "/linetypes",
-        },
-        {
-            text: "Part Orientations",
-            link: "/part-orientations",
-        },
-        {
-            text: "Infill Sizes",
-            link: "/infill-sizes",
-        },
-        {
-            text: "Infill Types",
-            link: "/infill-types",
+            text: "Types",
+            link: "/types"
         },
         {
             text: "System Tags",
@@ -43,49 +31,61 @@ export const links = {
             link: "/part-tags",
         },
         {
-            text: "Types",
-            link: "/types"
-        }
+            text: "Infill Pockets",
+            link: "/infill-pockets",
+        },
+        {
+            text: "Infill Sizes",
+            link: "/infill-sizes",
+        },
+        {
+            text: "Linetypes",
+            link: "/linetypes",
+        },
+        {
+            text: "Part Orientations",
+            link: "/part-orientations",
+        },
     ]
 };
 
-export default function SettingsRouter() {
+export default function ApplicationDataRouter() {
     return (
         <Switch>
             <Route
-                path="/settings/types"
-                component={TypesWizard}
+                path="/application-data/types"
+                component={Types}
             />
             <Route
                 render={() => (
                     <div className="card">
                         <Switch>
                             <Route
-                                path="/settings/manufacturers"
+                                path="/application-data/manufacturers"
                                 component={Manufacturers}
                             />
                             <Route
-                                path="/settings/linetypes"
+                                path="/application-data/linetypes"
                                 component={Linetypes}
                             />
                             <Route
-                                path="/settings/part-orientations"
+                                path="/application-data/part-orientations"
                                 component={PartOrientations}
                             />
                             <Route
-                                path="/settings/infill-sizes"
+                                path="/application-data/infill-sizes"
                                 component={InfillSizes}
                             />
                             <Route
-                                path="/settings/infill-types"
-                                component={InfillTypes}
+                                path="/application-data/infill-pockets"
+                                component={InfillPockets}
                             />
                             <Route
-                                path="/settings/system-tags"
+                                path="/application-data/system-tags"
                                 component={SystemTags}
                             />
                             <Route
-                                path="/settings/part-tags"
+                                path="/application-data/part-tags"
                                 component={PartTags}
                             />
                         </Switch>

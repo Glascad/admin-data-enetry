@@ -1,33 +1,10 @@
 
 @import '../../styles/variables';
 
-.Wizard {
+.TabNavigator {
     display: flex;
     flex-direction: column;
 
-    > header {
-        display: flex;
-        justify-content: space-between;
-        width: 90%;
-        max-width: 70vw;
-        // height: auto;
-        height: $item-height;
-        min-height: $item-height;
-        font-size: $item-height;
-        // padding-left: $large; // better without ?
-
-        margin-bottom: $large;
-
-        .title-buttons {
-            display: flex;
-        }
-
-        + .tab-container {
-            border-top-left-radius: $x-small;
-            border-top-right-radius: $x-small;
-        }
-    }
-    
     .bottom-buttons {
         display: flex;
         justify-content: space-between;
@@ -49,7 +26,7 @@
         // top: 0;
         // left: 0;
         // right: 0;
-        width: 90%;
+        width: 100%;
         max-width: 70vw;
         background: $current-color;
         display: flex;
@@ -88,6 +65,7 @@
     }
 
     .card {
+        border: none;
         position: relative;
         padding-bottom: $large;
 
@@ -95,11 +73,5 @@
         //     border: none;
         //     padding-top: 0;
         // }
-    }
-
-    &.with-tabs {
-        .card {
-            border: none;
-        }
     }
 }

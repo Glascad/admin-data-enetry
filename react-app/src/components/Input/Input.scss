@@ -6,6 +6,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    &:focus-within {
+        input {
+            box-shadow: 0 0 1px 1px $current-color;
+        }
+        .Select {
+            box-shadow: 0 0 1px 1px $current-color;
+            
+            input {
+                box-shadow: none;
+            }
+        }
+    }
     
     &.type-checkbox {
         flex-direction: row;
@@ -13,7 +26,7 @@
         align-items: center;
         width: fit-content;
         cursor: pointer;
-
+        
         .label {
             margin: 0;
         }
@@ -37,7 +50,7 @@
             }
         }
         
-
+        
         input {
             margin: 0;
             padding: 0;
@@ -58,7 +71,7 @@
                     border-color: $dark-gray;
                 }
             }
-
+            
             input {
                 &:checked {
                     + .check {
@@ -70,11 +83,13 @@
             }
         }
     }
-
+    
     .Select {
         box-sizing: border-box;
         width: $pill-width;
         height: $item-height;
+        border-radius: $xx-small;
+        
         > div {
             &:first-of-type{
                 height: $item-height;

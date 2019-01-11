@@ -8,15 +8,9 @@ import {
     DoubleArrow,
 } from '../../components';
 
-import { links as systemLinks } from '../../routes/System/System';
-import { links as settingsLinks } from '../../routes/Settings/Settings';
-import parseSearch from '../../utils/search-parser';
+import links from '../../routes/routes';
 
-const links = [
-    // homeLinks,
-    systemLinks,
-    settingsLinks,
-];
+import parseSearch from '../../utils/search-parser';
 
 class Sidebar extends Component {
 

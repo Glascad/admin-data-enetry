@@ -6,11 +6,11 @@ import {
 
 import * as apolloProps from './infill-sizes-graphql';
 
-export default function InfillSizes() {
+export default function InfillPocketSizes() {
     return (
         <ApolloListWrapper
             apolloProps={apolloProps}
-            itemClass="Infill Size"
+            itemClass="Infill Pocket Size"
             extractList={({
                 allInfillPocketSizes: {
                     nodes = [],

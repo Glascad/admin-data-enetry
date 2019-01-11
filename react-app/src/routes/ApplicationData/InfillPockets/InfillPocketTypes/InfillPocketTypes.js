@@ -7,7 +7,7 @@ import {
 import * as apolloProps from './infill-types-graphql';
 
 
-export default function InfillTypes() {
+export default function InfillPocketTypes() {
     return (
         <ApolloListWrapper
             apolloProps={apolloProps}

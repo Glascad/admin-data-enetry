@@ -6,6 +6,7 @@ import CopySystem from './CopySystem/CopySystem';
 import {
     Batcher,
     Wizard,
+    TabNavigator,
 } from '../../../components';
 
 import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
@@ -47,11 +48,7 @@ export default function Database({
 
                         }
                     }) => (
-                            <Wizard
-                                displayHeader={false}
-                                routerProps={arguments[0]}
-                                batcher={batcher}
-                                navigation="tabs"
+                            <TabNavigator
                                 routes={[
                                     {
                                         name: "Create System",

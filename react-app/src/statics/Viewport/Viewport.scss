@@ -16,14 +16,15 @@
     }
     
     .card {
-        width: 90%;
         margin-bottom: $header-height * 4;
     }
 
     > header {
         display: flex;
         justify-content: space-between;
+        height: $item-height;
         min-height: $item-height;
+        font-size: $item-height;
         margin-bottom: $large;
     }
 

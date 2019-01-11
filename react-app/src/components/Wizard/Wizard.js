@@ -15,8 +15,6 @@ class WizardChild extends Component {
 
     componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
 
-    // componentWillUnmount = () => this.props.completeMutations && this.props.completeMutations();
-
     render = () => this.props.children || "It looks like you found an invalid route";
 }
 

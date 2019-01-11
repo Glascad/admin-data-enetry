@@ -20,20 +20,24 @@
             position: absolute;
             transform: translateY(-50%);
             top: 50%;
-            left: $large;
+            // left: $large;
+            right: $large;
             .triangle {
+                // opacity: 0;
                 width: 0;
-                border-left: 9px solid $off-white;
+                border-right: 9px solid $border-color;
                 border-bottom: 7px solid rgba(0, 0, 0, 0);
                 border-top: 7px solid rgba(0, 0, 0, 0);
             }
         }
     }
-
+    
     &.open {
         .title {
             .triangle {
-                transform: rotate(90deg);
+                // opacity: 1;
+                // border-right: 9px solid $off-white;
+                transform: rotate(-90deg);
             }
         }
     }

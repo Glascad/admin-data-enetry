@@ -6,14 +6,12 @@ import ConfigurationTypes from './ConfigurationTypes/ConfigurationTypes';
 import PartTypes from './PartTypes/PartTypes';
 
 import {
-    Wizard,
+    TabNavigator,
 } from '../../../components';
 
 export default function () {
     return (
-        <Wizard
-            routerProps={arguments[0]}
-            navigation="tabs"
+        <TabNavigator
             routes={[
                 {
                     name: "System Types",

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './Viewport.scss';
-// HOME
-import Home from '../../routes/Home/Home';
 
-import SystemRouter from '../../routes/System/System';
-import SettingsRouter from '../../routes/Settings/Settings';
+import ActivityRouter from '../../routes/Activity/Activity';
+import SystemDataRouter from '../../routes/SystemData/SystemData';
+import ApplicationDataRouter from '../../routes/ApplicationData/ApplicationData';
+import PartDataRouter from '../../routes/PartData/PartData';
 
 export default function Viewport() {
     return (
@@ -15,17 +15,21 @@ export default function Viewport() {
                 <Route
                     exact={true}
                     path="/"
-                    component={Home}
+                    component={ActivityRouter}
                 />
                 {/* SYSTEM */}
                 <Route
-                    path="/system"
-                    component={SystemRouter}
+                    path="/system-data"
+                    component={SystemDataRouter}
                 />
                 {/* SETTINGS */}
                 <Route
-                    path="/settings"
-                    component={SettingsRouter}
+                    path="/application-data"
+                    component={ApplicationDataRouter}
+                />
+                <Route
+                    path="/part-data"
+                    component={PartDataRouter}
                 />
             </Switch>
         </div>
