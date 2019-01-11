@@ -53,9 +53,11 @@ export default function Database({
                                     {
                                         name: "Create System",
                                         path: `/create`,
-                                        render: () => (
+                                        render: routerProps => (
                                             <CreateSystem
                                                 {...{
+                                                    routerProps,
+                                                    batcher,
                                                     queryStatus,
                                                     mutations,
                                                 }}
@@ -65,9 +67,11 @@ export default function Database({
                                     {
                                         name: "Copy System",
                                         path: `/copy`,
-                                        render: () => (
+                                        render: routerProps => (
                                             <CopySystem
                                                 {...{
+                                                    routerProps,
+                                                    batcher,
                                                     queryStatus,
                                                     mutations,
                                                 }}

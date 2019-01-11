@@ -43,6 +43,14 @@ button {
     + button {
         margin-left: $small;
     }
+
+    &.primary, &.empty, &.danger, &.toggle-button {
+        height: $item-height;
+        width: fit-content;
+        min-width: $pill-width / 2;
+        padding: 0 $base_size;
+        white-space: nowrap;
+    }
     
     &.primary {
         color: $off-white;

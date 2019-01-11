@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, withRouter } from 'react-router-dom';
+import {
+    NavLink,
+    withRouter,
+} from 'react-router-dom';
 
 import Navigator from '../Navigator/Navigator';
 
@@ -25,6 +28,7 @@ function TabNavigator({
                     <div className="tab-container">
                         {routes.map(route => (
                             <NavLink
+                                key={route.path}
                                 isActive={(_, { pathname }) => pathname == `${url}${route.path}`}
                                 to={`${
                                     url

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+    Redirect,
     Route,
     Switch,
     withRouter,
@@ -20,7 +21,7 @@ class NavigatorChild extends Component {
 class Navigator extends Component {
 
     state = {
-        currentRoute: -1,
+        currentRoute: 0,
     };
 
     updateCurrentRoute = index => this.setState({
@@ -34,7 +35,8 @@ class Navigator extends Component {
             },
             props: {
                 location: {
-                    search
+                    pathname,
+                    search,
                 },
                 match: {
                     path,
@@ -55,48 +57,59 @@ class Navigator extends Component {
 
         const previousLink = url + previousRoute.path;
         const nextLink = url + nextRoute.path;
-        
-        if (currentRoute === -1) {
-            history.push(`${
-                url
-                }${
-                routes[0].path
-                }${
-                search
-                }`);
-        }
 
-        return (
-            <Switch>
-                {routes.map(({ component: RouteChild, ...route }, i) => (
-                    <Route
-                        key={route.path}
-                        {...route}
-                        path={path + route.path}
-                        render={routerProps => children({
-                            ...routerProps,
-                            previousLink,
-                            nextLink,
-                        },
-                            <NavigatorChild
-                                index={i}
-                                updateCurrentRoute={updateCurrentRoute}
-                            >
-                                {RouteChild ?
-                                    <RouteChild {...routerProps} />
-                                    :
-                                    route.render(routerProps)
-                                }
-                            </NavigatorChild>
-                        )}
-                    />
-                ))}
-                <NavigatorChild
-                    index={-1}
-                    updateCurrentRoute={updateCurrentRoute}
+        const redirectTo = `${
+            url
+            }${
+            routes[0].path
+            }${
+            search
+            }`;
+
+        if (
+            currentRoute === -1
+            &&
+            pathname + search !== redirectTo
+        ) {
+            console.log(redirectTo);
+            return (
+                <Redirect
+                    to={redirectTo}
                 />
-            </Switch>
-        )
+            )
+        } else {
+            return (
+                <Switch>
+                    {routes.map(({ component: RouteChild, ...route }, i) => (
+                        <Route
+                            key={route.path}
+                            {...route}
+                            path={path + route.path}
+                            render={routerProps => children({
+                                ...routerProps,
+                                previousLink,
+                                nextLink,
+                            },
+                                <NavigatorChild
+                                    index={i}
+                                    updateCurrentRoute={updateCurrentRoute}
+                                >
+                                    {RouteChild ?
+                                        <RouteChild {...routerProps} />
+                                        :
+                                        route.render(routerProps)
+                                    }
+                                </NavigatorChild>
+                            )}
+                        />
+                    ))}
+                    <NavigatorChild
+                        index={-1}
+                        updateCurrentRoute={updateCurrentRoute}
+                    />
+                </Switch>
+            );
+        }
     }
 }
 

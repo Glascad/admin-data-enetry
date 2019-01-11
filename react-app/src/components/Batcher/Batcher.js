@@ -141,15 +141,15 @@ export default class Batcher extends Component {
     completeMutations = async () => {
         const batchedMutations = this.state.batchedMutations;
         const mutationKeys = Object.keys(batchedMutations);
-        await Promise.all(mutationKeys
+        const result = await Promise.all(mutationKeys
             .map(async mutationKey => {
                 const mutation = batchedMutations[mutationKey];
-                return await Promise.all(mutation.argumentSets
+                const subResult = await Promise.all(mutation.argumentSets
                     .map(async argSet => {
                         try {
                             console.log(`RUNNING MUTATION: ${mutationKey}`)
                             console.log(argSet);
-                            await mutation.mutate({ variables: argSet });
+                            const subSubResult = await mutation.mutate({ variables: argSet });
                             // functional setstate is necessary when multiple are fired at once
                             this.setState(({ batchedMutations }) => ({
                                 batchedMutations: {
@@ -162,17 +162,25 @@ export default class Batcher extends Component {
                                     }
                                 }
                             }), () => console.log(`FILTERED OUT MUTATION: ${mutationKey}`, argSet, this.state));
+                            console.log({ subSubResult })
+                            return subSubResult;
                         } catch (err) {
                             console.error(`ERROR WITH MUTATION: ${mutationKey}`)
-                            console.error(err);
-                            console.error(argSet);
+                            console.error({ err });
+                            console.error({ argSet });
                             console.error(this.state);
+                            return err;
                         }
                     }));
+                console.log({ subResult });
+                return subResult;
             }));
         if (this.refetchQuery) {
-            return await this.refetchQuery();
+            const refetch = await this.refetchQuery();
+            console.log({ refetch });
         }
+        console.log({ result })
+        return result;
     }
 
     save = e => {

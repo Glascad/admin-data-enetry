@@ -14,6 +14,7 @@ export default function Toggle({
                 ...button
             }) => (
                     <button
+                        key={text}
                         className={`toggle-button ${
                             selected ? "selected" : ""
                             } ${

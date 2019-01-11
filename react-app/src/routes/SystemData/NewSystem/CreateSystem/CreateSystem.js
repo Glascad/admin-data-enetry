@@ -1,6 +1,11 @@
 import React from 'react';
 
 import {
+    Link,
+    Redirect,
+} from 'react-router-dom';
+
+import {
     HeadedContainer,
     Input,
 } from '../../../../components';
@@ -8,6 +13,9 @@ import {
 import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function CreateSystem({
+    routerProps: {
+        history,
+    },
     queryStatus: {
         system: {
             nodeId: systemNID,
@@ -33,65 +41,84 @@ export default function CreateSystem({
     },
     mutations: {
         createSystem,
+        createSystemStatus: {
+            data: {
+                createSystem: {
+                    system: {
+                        nodeId: createdSystemNID,
+                    } = {}
+                } = {}
+            } = {}
+        } = {},
         // createSystemSystemTag,
         // deleteSystemSystemTag,
     },
+    batcher: {
+        completeMutations
+    },
 }) {
     console.log(arguments);
-    return (
-        <HeadedContainer
-            title="New System"
-            className="input-wrapper"
-        >
-            <Input
-                label="Name"
-                value={name}
-                onChange={({ target: { value } }) => createSystem({
-                    nodeId: systemNID,
-                    name: value,
-                })}
+    if (createdSystemNID) {
+        return (
+            <Redirect
+                to={`/system-data/database?systemNID=${createdSystemNID}`}
             />
-            <Input
-                label="Manufacturer"
-                select={{
-                    value: {
-                        value: manufacturerId,
-                        label: manufacturerName,
-                    },
-                    options: allManufacturers.map(({ id, name }) => ({
-                        value: id,
-                        label: name,
-                    })),
-                    onChange: ({ value, label }) => createSystem({
+        )
+    } else {
+        return (
+            <HeadedContainer
+                title="New System"
+                className="input-wrapper"
+            >
+                <Input
+                    label="Name"
+                    value={name}
+                    onChange={({ target: { value } }) => createSystem({
                         nodeId: systemNID,
-                        manufacturerId: value,
-                        manufacturerByManufacturerId: {
-                            name: label,
-                        }
-                    }),
-                }}
-            />
-            <Input
-                label="System Type"
-                select={{
-                    value: {
-                        value: systemTypeId,
-                        label: systemTypeName,
-                    },
-                    options: allSystemTypes.map(({ id, type }) => ({
-                        value: id,
-                        label: type,
-                    })),
-                    onChange: ({ value, label }) => createSystem({
-                        nodeId: systemNID,
-                        systemTypeId: value,
-                        systemTypeBySystemTypeId: {
-                            type: label
-                        }
-                    }),
-                }}
-            />
-            {/*
+                        name: value,
+                    })}
+                />
+                <Input
+                    label="Manufacturer"
+                    select={{
+                        value: {
+                            value: manufacturerId,
+                            label: manufacturerName,
+                        },
+                        options: allManufacturers.map(({ id, name }) => ({
+                            value: id,
+                            label: name,
+                        })),
+                        onChange: ({ value, label }) => createSystem({
+                            nodeId: systemNID,
+                            manufacturerId: value,
+                            manufacturerByManufacturerId: {
+                                name: label,
+                            }
+                        }),
+                    }}
+                />
+                <Input
+                    label="System Type"
+                    select={{
+                        value: {
+                            value: systemTypeId,
+                            label: systemTypeName,
+                        },
+                        options: allSystemTypes.map(({ id, type }) => ({
+                            value: id,
+                            label: type,
+                        })),
+                        onChange: ({ value, label }) => createSystem({
+                            nodeId: systemNID,
+                            systemTypeId: value,
+                            systemTypeBySystemTypeId: {
+                                type: label
+                            }
+                        }),
+                    }}
+                />
+                {/*
             <ListWrapper3
                 label="System Tags"
                 items={systemSystemTags.map(({
@@ -120,35 +147,52 @@ export default function CreateSystem({
                 }}
             />
         */}
-            <div className="input-group">
-                <Input
-                    label="System Depth"
-                    type="number"
-                    value={depth}
-                    onChange={({ target: { value } }) => createSystem({
-                        nodeId: systemNID,
-                        depth: value
-                    })}
-                />
-                <Input
-                    label="System Sightline"
-                    type="number"
-                    value={defaultSightline}
-                    onChange={({ target: { value } }) => createSystem({
-                        nodeId: systemNID,
-                        defaultSightline: value,
-                    })}
-                />
-                <Input
-                    label="Caulk Joint Size"
-                    type="number"
-                    value={shimSize}
-                    onChange={({ target: { value } }) => createSystem({
-                        nodeId: systemNID,
-                        shimSize: value,
-                    })}
-                />
-            </div>
-        </HeadedContainer>
-    );
+                <div className="input-group">
+                    <Input
+                        label="System Depth"
+                        type="number"
+                        value={depth}
+                        onChange={({ target: { value } }) => createSystem({
+                            nodeId: systemNID,
+                            depth: value
+                        })}
+                    />
+                    <Input
+                        label="System Sightline"
+                        type="number"
+                        value={defaultSightline}
+                        onChange={({ target: { value } }) => createSystem({
+                            nodeId: systemNID,
+                            defaultSightline: value,
+                        })}
+                    />
+                    <Input
+                        label="Caulk Joint Size"
+                        type="number"
+                        value={shimSize}
+                        onChange={({ target: { value } }) => createSystem({
+                            nodeId: systemNID,
+                            shimSize: value,
+                        })}
+                    />
+                </div>
+                <div className="bottom-buttons">
+                    <div>
+                        <Link
+                            to="/system-data"
+                        >
+                            Cancel
+                    </Link>
+                    </div>
+                    <div>
+                        <button
+                            onClick={completeMutations}
+                        >
+                            Create
+                    </button>
+                    </div>
+                </div>
+            </HeadedContainer>
+        );
+    }
 }

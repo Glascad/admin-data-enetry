@@ -188,11 +188,11 @@ export default function SystemSearch({
                                                     subtitle: systemName,
                                                     hoverButtons: [
                                                         {
-                                                            text: "Edit",
+                                                            text: "Edit Database",
                                                             onClick: () => history.push(`/system-data/database/system-info?systemNID=${nodeId}`)
                                                         },
                                                         {
-                                                            text: "Build",
+                                                            text: "Edit Details",
                                                             onClick: () => history.push(`/system-data/details?systemNID=${nodeId}`)
                                                         },
                                                     ],
