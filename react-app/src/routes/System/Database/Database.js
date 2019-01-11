@@ -14,8 +14,8 @@ import {
 
 import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
 
-import query from './-graphql/query';
-import mutations from './-graphql/mutations';
+import query from './database-graphql/query';
+import mutations from './database-graphql/mutations';
 
 import { parseSearch } from '../../../utils';
 

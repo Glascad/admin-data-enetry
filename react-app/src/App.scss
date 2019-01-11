@@ -16,11 +16,14 @@
     #Sidebar {
 
         // left: 0;
-        // width: $sidebar-width;
+        width: $sidebar-width;
+        min-width: $sidebar-width;
         
-        // &.closed {
-        //     width: $closed-sidebar-width;
-        // }
+        &.closed {
+            min-width: calc(#{$large * 2} + #{$item-height});
+            width: calc(#{$large * 2} + #{$item-height});
+            max-width: calc(#{$large * 2} + #{$item-height});
+        }
     }
     
     #Viewport {

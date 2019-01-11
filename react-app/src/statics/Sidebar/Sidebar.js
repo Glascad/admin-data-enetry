@@ -105,11 +105,11 @@ class Sidebar extends Component {
                             {text}
                         </NavLink>
                     ))}
-                <div className="item sidebar-toggle">
+                {/* <div className="item sidebar-toggle">
                     <DoubleArrow
                         onClick={toggle}
                     />
-                </div>
+                </div> */}
             </div>
         );
     }

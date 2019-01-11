@@ -2,7 +2,7 @@ import React from 'react';
 
 import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
 
-import query from '../-graphql/query';
+import query from './details-graphql/query';
 import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
 import HeadedContainer from '../../../components/HeadedContainer/HeadedContainer';
 import StateManager from '../../../components/SelectionWrapper/StateManager';
