@@ -7,7 +7,7 @@ import {
 import {
     Batcher,
     Toggle,
-    TabNavigator,
+    Navigator,
 } from '../../../components';
 
 import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
@@ -90,22 +90,26 @@ export default function SystemInfo({
                                         />
                                     </div>
                                 </header>
-                                <Route
-                                    path="/system-data/info/database"
-                                    render={() => (
-                                        <SystemDatabase
-                                            {...apollo}
-                                            batcher={batcher}
-                                        />
-                                    )}
-                                />
-                                <Route
-                                    path="/system-data/info/details"
-                                    render={() => (
-                                        <SystemDetails
-                                            {...apollo}
-                                        />
-                                    )}
+                                <Navigator
+                                    routes={[
+                                        {
+                                            path: "/database",
+                                            render: () => (
+                                                <SystemDatabase
+                                                    {...apollo}
+                                                    batcher={batcher}
+                                                />
+                                            ),
+                                        },
+                                        {
+                                            path: "/details",
+                                            render: () => (
+                                                <SystemDetails
+                                                    {...apollo}
+                                                />
+                                            ),
+                                        }
+                                    ]}
                                 />
                             </>
                         );

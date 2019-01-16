@@ -70,34 +70,25 @@ const routes = {
 
 function ApplicationDataRouter() {
     return (
-        <Switch>
-            <Route
-                path={`${path}/types`}
-                component={Types}
-            />
-            <Route
-                render={() => (
-                    <div className="card">
-                        <Navigator
-                            parentPath={path}
-                            routes={routes.subroutes}
-                        />
-                        {/* <Switch>
-                            {routes.subroutes.map(({
-                                path: childPath,
-                                component,
-                            }) => (
-                                    <Route
-                                        key={path}
-                                        path={`${path}${childPath}`}
-                                        component={component}
-                                    />
-                                ))}
-                        </Switch> */}
-                    </div>
-                )}
-            />
-        </Switch>
+        <Navigator
+            routes={[
+                {
+                    path: `${path}/types`,
+                    component: Types,
+                },
+                {
+                    path: "/",
+                    render: () => (
+                        <div className="card">
+                            <Navigator
+                                log={true}
+                                routes={routes.subroutes}
+                            />
+                        </div>
+                    ),
+                },
+            ]}
+        />
     );
 }
 

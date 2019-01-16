@@ -8,6 +8,8 @@ import {
 } from 'react-router-dom';
 
 
+const validatePath = path => path.replace(/\/+/g, '/');
+
 
 class NavigatorChild extends Component {
 
@@ -58,13 +60,15 @@ class Navigator extends Component {
         const previousLink = url + previousRoute.path;
         const nextLink = url + nextRoute.path;
 
-        const redirectTo = `${
+        this.props.log && console.log(this);
+
+        const redirectTo = validatePath(`${
             url
             }${
             routes[0].path
             }${
             search
-            }`.replace(/\/+/g, '/');
+            }`);
 
         if (
             currentRoute === -1
@@ -82,15 +86,14 @@ class Navigator extends Component {
                 <Switch>
                     {routes.map(({ exact, component: RouteChild, ...route }, i) => (
                         <Route
-                            n={console.log({ exact, RouteChild, ...route })}
                             key={route.path}
                             {...route}
                             exact={exact}
-                            path={`${
+                            path={validatePath(`${
                                 path
                                 }${
                                 route.path
-                                }`.replace(/\/+/, '/')}
+                                }`)}
                             render={routerProps => children({
                                 ...routerProps,
                                 previousLink,
