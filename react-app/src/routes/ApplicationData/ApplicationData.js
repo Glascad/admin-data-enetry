@@ -64,11 +64,12 @@ const routes = {
 };
 
 function ApplicationDataRouter() {
+    
     return (
         <Navigator
             routes={[
                 {
-                    path: `${path}/types`,
+                    path: "/types",
                     component: Types,
                 },
                 {
@@ -77,7 +78,7 @@ function ApplicationDataRouter() {
                         <div className="card">
                             <Navigator
                                 log={true}
-                                routes={routes.subroutes}
+                                routes={routes.subroutes.filter(({ name }) => name !== "Types")}
                             />
                         </div>
                     ),

@@ -9,15 +9,21 @@
         display: flex;
         justify-content: space-between;
         margin-top: $xxxx-large;
-
+        
         .buttons-right {
             display: flex;
-
+            
             a {
                 + a {
                     margin-left: $small;
                 }
             }
+        }
+    }
+    
+    .card {
+        .bottom-buttons {
+            margin-bottom: -$base_size;
         }
     }
 
@@ -67,7 +73,7 @@
     .card {
         border: none;
         position: relative;
-        padding-bottom: $large;
+        // padding-bottom: $large;
 
         // &.with-tabs {
         //     border: none;
