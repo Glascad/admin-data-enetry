@@ -198,7 +198,6 @@ export default function SystemSearch({
                                                 })}
                                                 deleteModal={{
                                                     name: "System",
-                                                    extractName: selectedItem => selectedItem.name
                                                 }}
                                                 onDelete={({ arguments: { nodeId } }) => deleteSystem({ nodeId })}
                                             />

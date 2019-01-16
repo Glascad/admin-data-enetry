@@ -1,43 +1,50 @@
 import React from 'react';
 
 import {
-    ApolloListWrapper
+    ApolloWrapper3,
+    ListWrapper3,
 } from '../../../../components';
 
-import * as apolloProps from './infill-sizes-graphql';
+import {
+    query,
+    mutations,
+} from './infill-sizes-graphql';
 
 export default function InfillPocketSizes() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Infill Pocket Size"
-            extractList={({
-                allInfillPocketSizes: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            defaultPillProps={{
-                inputType: "number"
-            }}
-            mapPillProps={({
-                size,
-            }) => ({
-                title: `${size}"`,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                size: input,
-            })}
-            extractCreatedNID={({
-                createInfillPocketSize: {
-                    infillPocketSize: {
-                        nodeId
-                    }
-                }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                size: input,
-            })}
-            extractName={({ size }) => size}
-        />
+        <ApolloWrapper3
+            query={query}
+            mutations={mutations}
+        >
+            {({
+                queryStatus: {
+                    infillPocketSizes,
+                },
+                mutations: {
+                    createInfillPocketSize,
+                    deleteInfillPocketSize,
+                },
+            }) => (
+                    <ListWrapper3
+                        title="Infill Pocket Sizes"
+                        items={infillPocketSizes}
+                        defaultPillProps={{
+                            inputType: "number"
+                        }}
+                        mapPillProps={({ size }) => ({
+                            title: size
+                        })}
+                        onCreate={({ }, { input }) => createInfillPocketSize({
+                            size: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteInfillPocketSize({
+                            nodeId
+                        })}
+                        deleteModal={{
+                            name: "Infill Pocket Size",
+                        }}
+                    />
+                )}
+        </ApolloWrapper3>
     );
 }

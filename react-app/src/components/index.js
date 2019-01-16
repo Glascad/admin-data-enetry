@@ -9,7 +9,6 @@ import _DeleteButton from './ui/DeleteButton/DeleteButton';
 import _DoubleArrow from './ui/DoubleArrow/DoubleArrow';
 import _ApolloListWrapper from './ui/ApolloListWrapper/ApolloListWrapper';
 import _ListWrapper3 from './ui/ApolloListWrapper/ListWrapper3';
-import _ApolloInputWrapper from './ui/ApolloInputWrapper/ApolloInputWrapper';
 import _TabNavigator from './ui/TabNavigator/TabNavigator';
 import _Wizard from './ui/Wizard/Wizard';
 import _Toggle from './ui/Toggle/Toggle';
@@ -23,8 +22,8 @@ import _Navigator from './state/Navigator/Navigator';
 import _StateManager from './state/SelectionWrapper/StateManager';
 
 // UNIVERSAL STYLES
-import './index.scss';
 import './cheat-sheet.scss';
+import './index.scss';
 
 // UI
 export const Dropdown = _Dropdown;
@@ -37,7 +36,6 @@ export const DeleteButton = _DeleteButton;
 export const DoubleArrow = _DoubleArrow;
 export const ApolloListWrapper = _ApolloListWrapper;
 export const ListWrapper3 = _ListWrapper3;
-export const ApolloInputWrapper = _ApolloInputWrapper;
 export const TabNavigator = _TabNavigator;
 export const Wizard = _Wizard;
 export const Toggle = _Toggle;

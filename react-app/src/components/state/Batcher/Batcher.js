@@ -1,10 +1,24 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-/** NOTES
+/**
+ * PURPOSE
+ * 
+ * The Batcher creates a layer of abstraction between updating the state of the UI and actually sending mutations to the database. It provides its children with methods to batch a mutation, to reset all batched mutations, and to complete all batched mutations. When the mutations are completed, a query may be refetched, if it has been registered through the `registerQueryRefetch` prop.
+ * 
+ * 
+ * USAGE
+ * 
+ * The ApolloWrapper3 is built to be used with (or without) a Batcher. It will automatically wrap mutations in the `batchMutation` prop so that children may treat the mutations the same regardless of whether there is or isn't a Batcher.
+ * 
+ * In order to update the UI after batching a mutation, each mutation object given to the ApolloWrapper3 must contain a `mapResultToProps` method. -- This ought to be refactored to use Apollo's `optimisticResult` and `update` methods to update the cache.
+ * 
+ * 
+ * NOTES
  * 
  * onDelete requires all of the same props as onCreate, for the sake of managing the state.
  *  -- maybe I should build some kind of flattened data structure like apollo, in order to find an item simply by nodeId
+ * 
  */
 
 export default class Batcher extends Component {
@@ -207,7 +221,6 @@ export default class Batcher extends Component {
             registerQueryRefetch,
             batchMutation,
             resetMutations,
-            replaceMutation,
             completeMutations,
         } = this;
 
@@ -219,7 +232,6 @@ export default class Batcher extends Component {
             batchedMutations,
             batchMutation,
             resetMutations,
-            replaceMutation,
             completeMutations,
         });
     }

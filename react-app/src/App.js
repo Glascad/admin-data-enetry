@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
@@ -18,13 +18,30 @@ const client = new ApolloClient({
     cache,
 });
 
-export default function App() {
-    return (
-        <Router>
-            <ApolloProvider client={client}>
-                <Sidebar />
-                <Viewport />
-            </ApolloProvider>
-        </Router>
-    );
+export default class App extends Component {
+    render = () => {
+        return (
+            <Router>
+                <ApolloProvider client={client}>
+                    <Sidebar />
+                    <Viewport />
+                    <button
+                        className="cheat-sheet-button"
+                        onClick={() => {
+                            const wcs = "with-cheat-sheet";
+                            const body = document.querySelector("body");
+                            const { className } = body;
+                            if (className.includes(wcs)) {
+                                body.className = className.replace(wcs, "");
+                            } else {
+                                body.className = `${className} ${wcs}`
+                            }
+                        }}
+                    >
+                        CHEAT
+                        </button>
+                </ApolloProvider>
+            </Router>
+        );
+    }
 }

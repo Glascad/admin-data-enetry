@@ -36,7 +36,7 @@ export default class InfillSizesGenerator extends Component {
         }
         else {
             while (PROTECTION && size <= end + 0.00000005) {
-                this.props.createItem({ variables: { size } });
+                this.props.createItem({ size });
                 size += increment;
                 PROTECTION--;
             }

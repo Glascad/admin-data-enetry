@@ -24,7 +24,7 @@ function TabNavigator({
         <Navigator
             routes={routes}
         >
-            {({ nextLink, previousLink }, currentRoute) => (
+            {(_, currentRoute) => (
                 <div className="TabNavigator">
                     <div className="tab-container">
                         {routes.map(route => (

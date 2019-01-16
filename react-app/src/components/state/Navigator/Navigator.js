@@ -8,6 +8,21 @@ import {
 } from 'react-router-dom';
 
 
+/**
+ * PURPOSE
+ * 
+ * The Navigator takes an array of routes and wraps them in a Switch. It also tracks which route is currently selected, as well as which routes are previous and next - for the sake of previous and next buttons.
+ * 
+ * If no routes are matched, it will redirect to the first route in the array.
+ * 
+ * 
+ * USAGE
+ * 
+ * This component is used inside the TabNavigator, and the Wizard component will be refactored to use a Navigator once (if) we need to use a Wizard in the future.
+ * 
+ */
+
+
 const validatePath = path => path.replace(/\/+/g, '/');
 
 

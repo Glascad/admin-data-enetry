@@ -1,8 +1,16 @@
 import React from 'react';
 
-import { ApolloListWrapper } from '../../../components';
+import {
+    // ApolloListWrapper,
+    ApolloWrapper3,
+    ListWrapper3,
+    HeadedContainer,
+} from '../../../components';
 
-import * as apolloProps from './infill-sizes-graphql';
+import {
+    query,
+    mutations,
+} from './infill-sizes-graphql';
 
 import InfillSizesGenerator from './InfillSizesGenerator';
 
@@ -10,43 +18,46 @@ import './InfillSizes.scss';
 
 export default function InfillSizes() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Infill Size"
-            renderBeforeList={({
-                apollo: {
-                    createItem,
+        // "Infill Sizes"
+        <ApolloWrapper3
+            query={query}
+            mutations={mutations}
+        >
+            {({
+                queryStatus: {
+                    infillSizes
+                },
+                mutations: {
+                    createInfillSize,
+                    deleteInfillSize,
                 },
             }) => (
-                    <InfillSizesGenerator
-                        createItem={createItem}
-                    />
+                    <HeadedContainer
+                        title="Infill Sizes"
+                    >
+                        <InfillSizesGenerator
+                            createItem={createInfillSize}
+                        />
+                        <ListWrapper3
+                            items={infillSizes}
+                            defaultPillProps={{
+                                inputType: "number",
+                            }}
+                            mapPillProps={({ size }) => ({
+                                title: size
+                            })}
+                            onCreate={({ }, { input }) => createInfillSize({
+                                size: input,
+                            })}
+                            onDelete={({ arguments: { nodeId } }) => deleteInfillSize({
+                                nodeId,
+                            })}
+                            deleteModal={{
+                                name: "Infill Size",
+                            }}
+                        />
+                    </HeadedContainer>
                 )}
-            sortItems={({ size: a }, { size: b }) => (+a - +b)}
-            extractList={({
-                allInfillSizes: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({
-                size,
-            }) => ({
-                title: size,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                size: input,
-            })}
-            extractCreatedNID={({
-                createInfillSize: {
-                    infillSize: {
-                        nodeId
-                    }
-                }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                size: input,
-            })}
-            extractName={({ size }) => size}
-        />
-    )
+        </ApolloWrapper3>
+    );
 }

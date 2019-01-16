@@ -2,6 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 
+/**
+ * PURPOSE
+ * 
+ * The ApolloWrapper3 provides a simplified interface for interacting with Apollo's `Query` and `Mutation` components. It takes props `query` and `mutations`. This way you can wrap your component in one ApolloWrapper3 and gain access to the results of a query and to multiple mutation functions instead of having to use a `Query` and a `Mutation` for each mutation.
+ * 
+ * 
+ * BATCHER
+ * 
+ * This component is built to interface with the Batcher component. It interfaces with the Batcher component in such a way that its children don't need to know if there is or isn't a Batcher.
+ * 
+ * 
+ * NOTE
+ * 
+ * This component is recursive, meaning it will continue to render itself until all the mutations have been created.
+ * 
+ */
+
 export default class ApolloWrapper3 extends Component {
 
     static propTypes = {
@@ -125,6 +142,7 @@ export default class ApolloWrapper3 extends Component {
                                     [key]: mutations[key],
                                 }), {})}
                             batcher={batcher}
+                            refetch={refetch}
                         >
                             {accumulatedProps => (
                                 children({

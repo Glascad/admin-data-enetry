@@ -215,7 +215,7 @@ class List extends Component {
                         onFinish={handleDelete}
                         danger={true}
                     >
-                        Are you sure you want to delete {modalName.toLowerCase()}: {extractName(selectedItem)}?
+                        Are you sure you want to delete {modalName.toLowerCase()}: {mapPillProps(selectedItem).title}?
                         </Modal>
                 ) : null}
             </div>

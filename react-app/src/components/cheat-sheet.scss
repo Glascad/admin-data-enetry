@@ -1,48 +1,104 @@
 
-// // COMPONENTS
-// .Pill,
-// .ButtonTile,
-// .AddButton,
-// .DeleteButton,
-// .Toggle,
-// .Dropdown,
-// .Input,
-// .Modal
-// {
-//     box-shadow: inset 0 0 3px 2px red !important;
-// }
+@import '../styles/variables';
 
-// // WRAPPER COMPONENTS
-// .ListContainer,
-// .HeadedContainer,
-// .HeadedListContainer,
-// .MultiSelect,
-// .TabNavigator,
-// .Wizard
-// {
-//     box-shadow: inset 0 0 3px 2px orange !important;
-// }
+@mixin label($name) {
+    position: relative;
+    &::before {
+        content: $name;
+        background: rgba(0, 0, 0, 0.55);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+        padding: $xx-small;
+        z-index: 3;
+        font-size: $small;
+    }
+}
 
-// // CLASSNAMES
-// .card,
-// .nested
-// {
-//     box-shadow: inset 0 0 3px 2px cyan !important;
-// }
+.cheat-sheet-button {
+    position: fixed !important;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    color: black;
+}
 
-// // TAGNAMES
-// button,
-// input,
-// header
-// {
-//     box-shadow: inset 0 0 3px 2px green !important;
-// }
+.with-cheat-sheet {
+    
+    // COMPONENTS
+    .Pill,
+    .ButtonTile,
+    .AddButton,
+    .DeleteButton,
+    .Toggle,
+    .Dropdown,
+    .Input,
+    .Modal
+    {
+        box-shadow: inset 0 0 3px 2px red !important;
+    }
+    
+    .Pill { @include label("Pill"); }
+    .ButtonTile { @include label("ButtonTile"); }
+    .AddButton { @include label("AddButton"); }
+    .DeleteButton { @include label("DeleteButton"); }
+    .Toggle { @include label("Toggle"); }
+    .Dropdown { @include label("Dropdown"); }
+    .Input { @include label("Input"); }
+    .Modal { @include label("Modal"); }
+    
+    // WRAPPER COMPONENTS
+    .ListContainer,
+    .HeadedContainer,
+    .HeadedListContainer,
+    .MultiSelect,
+    .TabNavigator,
+    .Wizard
+    {
+        box-shadow: inset 0 0 3px 2px orange !important;
+    }
+    
+    .ListContainer { @include label("ListContainer"); }
+    .HeadedContainer { @include label("HeadedContainer"); }
+    .HeadedListContainer { @include label("HeadedListContainer"); }
+    .MultiSelect { @include label("MultiSelect"); }
+    .TabNavigator { @include label("TabNavigator"); }
+    .Wizard { @include label("Wizard"); }
+    
+    // CLASSNAMES
+    .card,
+    .nested
+    {
+        box-shadow: inset 0 0 3px 2px cyan !important;
+    }
+    
+    .card { @include label("card"); }
+    .nested { @include label("nested"); }
+    
+    // TAGNAMES
+    a,
+    button,
+    input,
+    header
+    {
+        box-shadow: inset 0 0 3px 2px green !important;
+    }
+    
+    a { @include label("<a>"); }
+    button { @include label("<button>"); }
+    input { @include label("<input>"); }
+    header { @include label("<header>"); }
+    
+    // IDS
+    #Sidebar,
+    #Viewport
+    {
+        box-shadow: inset 0 0 3px 2px yellow !important;
+    }
+    
+    #Sidebar { @include label("Sidebar"); }
+    #Viewport { @include label("Viewport"); }
 
-// // IDS
-// #Sidebar,
-// #Viewport
-// {
-//     box-shadow: inset 0 0 3px 2px yellow !important;
-// }
-
-
+}
+    

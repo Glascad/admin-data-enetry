@@ -1,41 +1,53 @@
 import React from 'react';
 
 import {
-    ApolloListWrapper
+    ApolloWrapper3,
+    ListWrapper3,
 } from '../../../../components';
 
-import * as apolloProps from './infill-types-graphql';
+import {
+    query,
+    mutations,
+} from './infill-types-graphql';
 
 
 export default function InfillPocketTypes() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass={"Infill Pocket Type"}
-            extractList={({
-                allInfillPocketTypes: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({
-                type,
-            }) => ({
-                title: type,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                type: input,
-            })}
-            extractCreatedNID={({
-                createInfillPocketType: {
-                    infillPocketType: {
-                        nodeId
-                    }
-                }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                type: input,
-            })}
-            extractName={({ type }) => type}
-        />
+        <ApolloWrapper3
+            query={query}
+            mutations={mutations}
+        >
+            {({
+                queryStatus: {
+                    infillPocketTypes,
+                },
+                mutations: {
+                    createInfillPocketType,
+                    updateInfillPocketType,
+                    deleteInfillPocketType,
+                },
+            }) => (
+                    <ListWrapper3
+                        title="Infill Pocket Types"
+                        items={infillPocketTypes}
+                        mapPillProps={({ type }) => ({
+                            title: type
+                        })}
+                        onCreate={({ }, { input }) => createInfillPocketType({
+                            type: input,
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateInfillPocketType({
+                            nodeId,
+                            type: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteInfillPocketType({
+                            nodeId,
+                        })}
+                        deleteModal={{
+                            name: "Infill Pocket Type"
+                        }}
+                    />
+                )}
+        </ApolloWrapper3>
     );
 }
