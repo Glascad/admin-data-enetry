@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
+
 import './Sidebar.scss';
+
 import {
     Link,
     NavLink,
     withRouter,
 } from 'react-router-dom';
-// import routes from '../../routes/routes';
+
 import { ReactComponent as Logo } from '../../assets/logo.svg';
+
 import {
     Dropdown,
-    DoubleArrow,
+    // DoubleArrow,
 } from '../../components';
 
 import routes from '../../routes/routes';
@@ -43,10 +46,7 @@ class Sidebar extends Component {
             toggle,
         } = this;
 
-        // const systemNID = pathname.replace(/^\/system\/(.*)\/.*$/, '$1');
         const { systemNID } = parseSearch(search);
-
-        console.log({ systemNID });
 
         return (
             <div id="Sidebar" className={open ? "" : "closed"}>
@@ -68,22 +68,16 @@ class Sidebar extends Component {
                                 'selected'
                                 :
                                 ''
-                            // i - 1 === selectedDropdown ? 'selected' : ''
                         }
                     >
                         {subroutes.map(({ name: childName, path: childPath }, j) => (
                             <NavLink
                                 key={j}
-                                // n={console.log(`${url.replace(/^\//, "")}${path}${childPath}`)}
-                                // isActive={(_, { pathname }) => pathname == `${url.replace(/^\//, "")}${path}${childPath}`}
                                 isActive={(_, { pathname }) => pathname.includes(`${path}${childPath}`)}
                                 to={`${
                                     path
                                     }${
-                                    // !systemNID.match(/^[a-z\-]*$/) ?
-                                    childPath // .replace(/:systemNID/, systemNID)
-                                    // :
-                                    // '/select-system'
+                                    childPath
                                     }${
                                     search
                                     }`}
@@ -94,20 +88,16 @@ class Sidebar extends Component {
                         ))}
                     </Dropdown>
                 ) : (
-                            // <NavLink
                             <Link
                                 key={i}
-                                // exact={true}
                                 className="item"
                                 to={`${
                                     path
                                     }${
                                     search}`}
-                                // activeClassName="selected"
                             >
                                 {name}
                             </Link>
-                            // </NavLink>
                         ))}
                 {/* <div className="item sidebar-toggle">
                     <DoubleArrow
