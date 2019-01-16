@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './Sidebar.scss';
-import { NavLink, withRouter } from 'react-router-dom';
+import {
+    Link,
+    NavLink,
+    withRouter,
+} from 'react-router-dom';
 // import routes from '../../routes/routes';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import {
@@ -8,7 +12,7 @@ import {
     DoubleArrow,
 } from '../../components';
 
-import links from '../../routes/routes';
+import routes from '../../routes/routes';
 
 import parseSearch from '../../utils/search-parser';
 
@@ -50,30 +54,34 @@ class Sidebar extends Component {
                     <Logo className="logo" />
                     <span>GLASCAD</span>
                 </div>
-                {links.map(({ text, link, subroutes = [] }, i) => subroutes.length ? (
+                {routes.map(({
+                    name,
+                    path,
+                    subroutes = []
+                }, i) => subroutes.length ? (
                     <Dropdown
                         key={i}
-                        title={text}
-                        open={pathname.match(new RegExp(`^${link}/`)) || undefined}
+                        title={name}
+                        open={pathname.match(new RegExp(`^${path}/`)) || undefined}
                         className={
-                            pathname.match(new RegExp(`^${link}/`)) ?
+                            pathname.match(new RegExp(`^${path}/`)) ?
                                 'selected'
                                 :
                                 ''
                             // i - 1 === selectedDropdown ? 'selected' : ''
                         }
                     >
-                        {subroutes.map(({ text: childText, link: childLink }, j) => (
+                        {subroutes.map(({ name: childName, path: childPath }, j) => (
                             <NavLink
                                 key={j}
-                                // n={console.log(`${url.replace(/^\//, "")}${link}${childLink}`)}
-                                // isActive={(_, { pathname }) => pathname == `${url.replace(/^\//, "")}${link}${childLink}`}
-                                isActive={(_,{pathname})=>pathname.includes(`${link}${childLink}`)}
+                                // n={console.log(`${url.replace(/^\//, "")}${path}${childPath}`)}
+                                // isActive={(_, { pathname }) => pathname == `${url.replace(/^\//, "")}${path}${childPath}`}
+                                isActive={(_, { pathname }) => pathname.includes(`${path}${childPath}`)}
                                 to={`${
-                                    link
+                                    path
                                     }${
                                     // !systemNID.match(/^[a-z\-]*$/) ?
-                                    childLink // .replace(/:systemNID/, systemNID)
+                                    childPath // .replace(/:systemNID/, systemNID)
                                     // :
                                     // '/select-system'
                                     }${
@@ -81,24 +89,26 @@ class Sidebar extends Component {
                                     }`}
                                 activeClassName="selected"
                             >
-                                {childText}
+                                {childName}
                             </NavLink>
                         ))}
                     </Dropdown>
                 ) : (
-                        <NavLink
-                            key={i}
-                            exact={true}
-                            className="item"
-                            to={`${
-                                link
-                                }${
-                                search}`}
-                            activeClassName="selected"
-                        >
-                            {text}
-                        </NavLink>
-                    ))}
+                            // <NavLink
+                            <Link
+                                key={i}
+                                // exact={true}
+                                className="item"
+                                to={`${
+                                    path
+                                    }${
+                                    search}`}
+                                // activeClassName="selected"
+                            >
+                                {name}
+                            </Link>
+                            // </NavLink>
+                        ))}
                 {/* <div className="item sidebar-toggle">
                     <DoubleArrow
                         onClick={toggle}

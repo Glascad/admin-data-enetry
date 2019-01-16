@@ -1,6 +1,14 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-// SETTINGS
+
+import {
+    Switch,
+    Route,
+} from 'react-router-dom';
+
+import {
+    Navigator,
+} from '../../components';
+
 import Manufacturers from './Manufacturers/Manufacturers';
 import Linetypes from './LinetypesView/LinetypesView';
 import PartOrientations from './PartOrientations/PartOrientations';
@@ -10,88 +18,87 @@ import SystemTags from './SystemTags/SystemTags';
 import PartTags from './PartTags/PartTags';
 import Types from './Types/Types';
 
-export const links = {
-    text: "Application Data",
-    link: "/application-data",
+const path = '/application-data';
+
+const routes = {
+    name: "Application Data",
+    path,
+    component: ApplicationDataRouter,
     subroutes: [
         {
-            text: "Manufacturers",
-            link: "/manufacturers",
+            name: "Manufacturers",
+            path: "/manufacturers",
+            component: Manufacturers,
         },
         {
-            text: "Types",
-            link: "/types"
+            name: "Types",
+            path: "/types",
+            component: Types,
         },
         {
-            text: "System Tags",
-            link: "/system-tags",
+            name: "System Tags",
+            path: "/system-tags",
+            component: SystemTags,
         },
         {
-            text: "Part Tags",
-            link: "/part-tags",
+            name: "Part Tags",
+            path: "/part-tags",
+            component: PartTags,
         },
         {
-            text: "Infill Pockets",
-            link: "/infill-pockets",
+            name: "Infill Pockets",
+            path: "/infill-pockets",
+            component: InfillPockets,
         },
         {
-            text: "Infill Sizes",
-            link: "/infill-sizes",
+            name: "Infill Sizes",
+            path: "/infill-sizes",
+            component: InfillSizes,
         },
         {
-            text: "Linetypes",
-            link: "/linetypes",
+            name: "Linetypes",
+            path: "/linetypes",
+            component: Linetypes,
         },
         {
-            text: "Part Orientations",
-            link: "/part-orientations",
+            name: "Part Orientations",
+            path: "/part-orientations",
+            component: PartOrientations,
         },
-    ]
+    ],
 };
 
-export default function ApplicationDataRouter() {
+function ApplicationDataRouter() {
     return (
         <Switch>
             <Route
-                path="/application-data/types"
+                path={`${path}/types`}
                 component={Types}
             />
             <Route
                 render={() => (
                     <div className="card">
-                        <Switch>
-                            <Route
-                                path="/application-data/manufacturers"
-                                component={Manufacturers}
-                            />
-                            <Route
-                                path="/application-data/linetypes"
-                                component={Linetypes}
-                            />
-                            <Route
-                                path="/application-data/part-orientations"
-                                component={PartOrientations}
-                            />
-                            <Route
-                                path="/application-data/infill-sizes"
-                                component={InfillSizes}
-                            />
-                            <Route
-                                path="/application-data/infill-pockets"
-                                component={InfillPockets}
-                            />
-                            <Route
-                                path="/application-data/system-tags"
-                                component={SystemTags}
-                            />
-                            <Route
-                                path="/application-data/part-tags"
-                                component={PartTags}
-                            />
-                        </Switch>
+                        <Navigator
+                            parentPath={path}
+                            routes={routes.subroutes}
+                        />
+                        {/* <Switch>
+                            {routes.subroutes.map(({
+                                path: childPath,
+                                component,
+                            }) => (
+                                    <Route
+                                        key={path}
+                                        path={`${path}${childPath}`}
+                                        component={component}
+                                    />
+                                ))}
+                        </Switch> */}
                     </div>
                 )}
             />
         </Switch>
     );
 }
+
+export default routes;

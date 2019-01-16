@@ -1,19 +1,36 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import {
+    Navigator,
+} from '../../components';
 
-export const links = {
-    text: "Part Data",
-    link: "/part-data",
+const path = "/part-data";
+
+const routes = {
+    name: "Part Data",
+    path,
+    component: PartDataRouter,
     subroutes: [
         {
-            text: "Part Data",
-            link: "",
-        }
-    ]
+            name: "Part Data",
+            path: "/",
+            component: PartData,
+        },
+    ],
 };
 
-export default function PartData() {
+function PartData() {
     return (
         "Part Data"
     );
 }
+
+function PartDataRouter() {
+    return (
+        <Navigator
+            parentPath={path}
+            routes={routes.subroutes}
+        />
+    );
+}
+
+export default routes;

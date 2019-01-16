@@ -24,7 +24,7 @@ class Navigator extends Component {
         currentRoute: 0,
     };
 
-    updateCurrentRoute = index => this.setState({
+    updateCurrentRoute = index => this.props.trackCurrentRoute !== false && this.setState({
         currentRoute: index,
     });
 
@@ -42,9 +42,9 @@ class Navigator extends Component {
                     path,
                     url,
                 },
-                history,
+                parentPath,
                 routes,
-                children,
+                children = (_, Children) => Children,
             },
             updateCurrentRoute,
         } = this;
@@ -64,14 +64,14 @@ class Navigator extends Component {
             routes[0].path
             }${
             search
-            }`;
+            }`.replace(/\/+/g, '/');
 
         if (
             currentRoute === -1
             &&
             pathname + search !== redirectTo
         ) {
-            console.log(redirectTo);
+            console.log({ redirectTo });
             return (
                 <Redirect
                     to={redirectTo}
@@ -80,11 +80,17 @@ class Navigator extends Component {
         } else {
             return (
                 <Switch>
-                    {routes.map(({ component: RouteChild, ...route }, i) => (
+                    {routes.map(({ exact, component: RouteChild, ...route }, i) => (
                         <Route
+                            n={console.log({ exact, RouteChild, ...route })}
                             key={route.path}
                             {...route}
-                            path={path + route.path}
+                            exact={exact}
+                            path={`${
+                                path
+                                }${
+                                route.path
+                                }`.replace(/\/+/, '/')}
                             render={routerProps => children({
                                 ...routerProps,
                                 previousLink,

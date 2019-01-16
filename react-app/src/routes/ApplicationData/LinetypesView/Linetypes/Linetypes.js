@@ -37,7 +37,9 @@ export default function Linetypes() {
             extractName={({ name }) => name}
         >
             {({
-                selectedItem: linetype,
+                selectedItem: linetype = {
+                    pattern: "",
+                },
                 data: {
                     allLineWeights: {
                         nodes: lineWeights = [],
@@ -46,15 +48,15 @@ export default function Linetypes() {
                 apollo: {
                     updateItem,
                 },
-            }) => (
-                    <LinetypeInfo
-                        {...{
-                            linetype,
-                            lineWeights,
-                            updateItem,
-                        }}
-                    />
-                )}
+            }) => linetype ? (
+                <LinetypeInfo
+                    {...{
+                        linetype,
+                        lineWeights,
+                        updateItem,
+                    }}
+                />
+            ) : null}
         </ApolloListWrapper>
     )
 }

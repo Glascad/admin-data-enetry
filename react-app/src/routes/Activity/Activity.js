@@ -1,12 +1,14 @@
 import React from 'react';
 
-export const links = {
-    text: "Activity",
-    link: "/"
-}
-
-export default function Activity() {
+function Activity() {
     return (
         "Activity"
     );
+}
+
+export default {
+    name: "Activity",
+    exact: true,
+    path: "/",
+    component: Activity,
 }

@@ -9,7 +9,7 @@ import {
     TabNavigator,
 } from '../../../components';
 
-export default function () {
+export default function Types() {
     return (
         <TabNavigator
             routes={[

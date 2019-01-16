@@ -5,7 +5,29 @@ import HeadedContainer from '../../../../components/HeadedContainer/HeadedContai
 import StateManager from '../../../../components/SelectionWrapper/StateManager';
 import HeadedListContainer from '../../../../components/HeadedListContainer/HeadedListContainer';
 
-export default function SystemSVG({
+/**
+ * THINGS NEEDED TO SELECT CONFIGURATIONS IN A DETAIL
+ * 
+ *  - System
+ *      - System Type
+ *          - System Type Detail Types
+ *          - System Type Detail Type Configuration Types
+ *              - Required
+ *              - Mirrorable
+ *      - Invalid Configuration Types
+ *      - Option Values
+ *          - Affecting certain Configuration Types
+ *      - ? Infill Pocket Types ?
+ *          - ? Infill Pocket Type Detail Types ?
+ *      - Configuration Overrides
+ *          - required
+ *          - optional
+ *          - ...
+ *      - Configuration (Name) Overrides
+ *      - Invalid Combinations
+ */
+
+export default function SystemDetails({
     queryStatus: {
         system,
         systemOptions,
