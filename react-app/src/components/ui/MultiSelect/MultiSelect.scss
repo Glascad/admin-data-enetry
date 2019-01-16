@@ -1,0 +1,13 @@
+
+@import '../../../styles/variables';
+
+.MultiSelect {
+    .ListContainer {
+        + .HeadedListContainer {
+            margin-top: $xxxx-large;
+        }
+    }
+    .modal-buttons {
+        margin-top: $xxxx-large;
+    }
+}

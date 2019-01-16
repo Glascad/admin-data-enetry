@@ -1,0 +1,28 @@
+
+@import '../../../styles/variables';
+
+.DeleteButton {
+    width: $item-height / 2;
+    height: $item-height;
+    position: relative;
+    padding: 0;
+
+    .left-x, .right-x {
+        height: $base-size;
+        width: $icon-thickness;
+        background: $off-white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+    
+    .left-x {
+        transform: translate(-50%, -50%) rotate(45deg);
+        
+    }
+    
+    .right-x {
+        transform: translate(-50%, -50%) rotate(-45deg);
+
+    }
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Route,
     Link,
 } from 'react-router-dom';
 
@@ -8,9 +7,8 @@ import {
     Batcher,
     Toggle,
     Navigator,
+    ApolloWrapper3,
 } from '../../../components';
-
-import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
 
 import query from './system-graphql/query';
 import mutations from './system-graphql/mutations';

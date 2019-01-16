@@ -5,11 +5,9 @@ import CopySystem from './CopySystem/CopySystem';
 
 import {
     Batcher,
-    Wizard,
     TabNavigator,
+    ApolloWrapper3,
 } from '../../../components';
-
-import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
 
 import query from './new-system-graphql/query';
 import mutations from './new-system-graphql/mutations';

@@ -1,9 +1,11 @@
 import React from 'react';
 
-import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
-import HeadedContainer from '../../../../components/HeadedContainer/HeadedContainer';
-import StateManager from '../../../../components/SelectionWrapper/StateManager';
-import HeadedListContainer from '../../../../components/HeadedListContainer/HeadedListContainer';
+import {
+    ListWrapper3,
+    HeadedContainer,
+    StateManager,
+    HeadedListContainer,
+} from '../../../../components';
 
 /**
  * THINGS NEEDED TO SELECT CONFIGURATIONS IN A DETAIL

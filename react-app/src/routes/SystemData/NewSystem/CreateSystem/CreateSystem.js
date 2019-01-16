@@ -8,9 +8,8 @@ import {
 import {
     HeadedContainer,
     Input,
+    // ListWrapper3,
 } from '../../../../components';
-
-// import ListWrapper3 from '../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function CreateSystem({
     routerProps: {
@@ -118,35 +117,33 @@ export default function CreateSystem({
                         }),
                     }}
                 />
-                {/*
-            <ListWrapper3
-                label="System Tags"
-                items={systemSystemTags.map(({
-                    nodeId: systemSystemTagNID,
-                    systemTagBySystemTagId: systemTag,
-                }) => ({
-                    systemSystemTagNID,
-                    ...systemTag,
-                }))}
-                mapPillProps={({ tag }) => ({
-                    title: tag,
-                })}
-                onCreate={systemTag => createSystemSystemTag({
-                    systemTagId: systemTag.id,
-                    systemId,
-                    systemTagBySystemTagId: systemTag,
-                })}
-                onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
-                    nodeId: systemSystemTagNID,
-                    systemTagId: systemTag.id,
-                    systemId,
-                    systemTagBySystemTagId: systemTag,
-                })}
-                multiSelect={{
-                    allItems: allSystemTags,
-                }}
-            />
-        */}
+                {/* <ListWrapper3
+                    label="System Tags"
+                    items={systemSystemTags.map(({
+                        nodeId: systemSystemTagNID,
+                        systemTagBySystemTagId: systemTag,
+                    }) => ({
+                        systemSystemTagNID,
+                        ...systemTag,
+                    }))}
+                    mapPillProps={({ tag }) => ({
+                        title: tag,
+                    })}
+                    onCreate={systemTag => createSystemSystemTag({
+                        systemTagId: systemTag.id,
+                        systemId,
+                        systemTagBySystemTagId: systemTag,
+                    })}
+                    onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
+                        nodeId: systemSystemTagNID,
+                        systemTagId: systemTag.id,
+                        systemId,
+                        systemTagBySystemTagId: systemTag,
+                    })}
+                    multiSelect={{
+                        allItems: allSystemTags,
+                    }}
+                />*/}
                 <div className="input-group">
                     <Input
                         label="System Depth"

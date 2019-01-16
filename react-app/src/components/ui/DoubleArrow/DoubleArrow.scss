@@ -1,0 +1,19 @@
+
+@import '../../../styles/variables';
+
+.DoubleArrow {
+    width: unset;
+    height: unset;
+    
+    .arrow {
+        height: 0;
+        width: 0;
+        border-top: $x-small solid rgba(0, 0, 0, 0);
+        border-bottom: $x-small solid rgba(0, 0, 0, 0);
+        border-right: $x-small solid $off-white;
+
+        + .arrow {
+
+        }
+    }
+}

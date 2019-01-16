@@ -1,0 +1,80 @@
+
+@import '../../../styles/variables';
+
+.Dropdown {
+    margin: 0;
+    cursor: default;
+    
+    
+    &.empty {
+        summary::webkit-details-marker {
+            display: none;
+        }
+    }
+
+    .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        .triangle-wrapper {
+            position: absolute;
+            transform: translateY(-50%);
+            top: 50%;
+            // left: $large;
+            right: $large;
+            .triangle {
+                // opacity: 0;
+                width: 0;
+                border-right: 9px solid $border-color;
+                border-bottom: 7px solid rgba(0, 0, 0, 0);
+                border-top: 7px solid rgba(0, 0, 0, 0);
+            }
+        }
+    }
+    
+    &.open {
+        .title {
+            .triangle {
+                // opacity: 1;
+                // border-right: 9px solid $off-white;
+                transform: rotate(-90deg);
+            }
+        }
+    }
+
+    &.closed {
+        .content {
+            display: none;
+        }
+    }
+    
+    summary {
+        padding: 0 $small;
+        height: $item-height;
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: $item-height;
+
+        > div, > a {
+            margin: 0;
+            padding: $text-size / 2 $large;
+            display: flex;
+            align-items: center;
+            width: stretch;
+            color: $border-color;
+            text-decoration: none;
+            &:hover {
+                background: $menu-color;
+            }
+            &:last-child {
+                margin-bottom: $x-large;
+            }
+        }
+    }
+}

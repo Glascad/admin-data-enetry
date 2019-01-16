@@ -1,6 +1,8 @@
 import React from 'react';
 
-import ListWrapper3 from '../../../../../components/ApolloListWrapper/ListWrapper3';
+import {
+    ListWrapper3,
+} from '../../../../../components';
 
 export default function ValidTypes({
     queryStatus: {
@@ -54,7 +56,7 @@ export default function ValidTypes({
                 }) => (
                         <span>{optionName}: {optionValueName}</span>
                     )),
-                })}
+            })}
             onDelete={({ arguments: { nodeId } }) => deleteOptionCombination({
                 nodeId,
             })}

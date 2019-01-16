@@ -3,9 +3,8 @@ import React from 'react';
 import {
     Input,
     HeadedContainer,
+    ListWrapper3,
 } from '../../../../../components';
-
-import ListWrapper3 from '../../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function GlazingInfo({
     queryStatus: {

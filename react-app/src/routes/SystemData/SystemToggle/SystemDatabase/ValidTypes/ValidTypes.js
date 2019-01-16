@@ -3,9 +3,8 @@ import React from 'react';
 import {
     HeadedContainer,
     Input,
+    ListWrapper3,
 } from '../../../../../components';
-
-import ListWrapper3 from '../../../../../components/ApolloListWrapper/ListWrapper3';
 
 export default function ValidTypes({
     queryStatus: {

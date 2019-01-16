@@ -3,12 +3,11 @@ import {
     Link
 } from 'react-router-dom';
 
-import ApolloWrapper3 from '../../../components/ApolloWrapper/ApolloWrapper3';
-import ListWrapper3 from '../../../components/ApolloListWrapper/ListWrapper3';
-import StateManager from '../../../components/SelectionWrapper/StateManager';
-
 import {
     Input,
+    ApolloWrapper3,
+    ListWrapper3,
+    StateManager,
 } from '../../../components'
 
 import query from './-graphql/query';

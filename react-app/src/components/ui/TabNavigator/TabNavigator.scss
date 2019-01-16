@@ -1,0 +1,83 @@
+
+@import '../../../styles/variables';
+
+.TabNavigator {
+    display: flex;
+    flex-direction: column;
+
+    .bottom-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: $xxxx-large;
+        
+        .buttons-right {
+            display: flex;
+            
+            a {
+                + a {
+                    margin-left: $small;
+                }
+            }
+        }
+    }
+    
+    .card {
+        .bottom-buttons {
+            margin-bottom: -$base_size;
+        }
+    }
+
+    .tab-container {
+        // position: absolute;
+        // top: 0;
+        // left: 0;
+        // right: 0;
+        width: 100%;
+        max-width: 70vw;
+        background: $current-color;
+        display: flex;
+        height: $menu-height;
+        min-height: $menu-height;
+        overflow: hidden;
+        z-index: 1;
+        
+        .tab {
+            // border: 1px solid black;
+            padding: 0 $large;
+            display: flex;
+            align-items: center;
+            color: $off-white;
+            // width: fill;
+            
+            + .tab {
+                border-left: 1px solid $off-white;
+            }
+            
+            // &:first-child {
+            //     border-top-left-radius: $x-small;
+            // }
+            
+            // &:last-child {
+            //     border-top-right-radius: $x-small;
+            // }
+            
+            &.current-tab {
+                background: $card-color;
+                // color: black;
+                color: $current-color;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .card {
+        border: none;
+        position: relative;
+        // padding-bottom: $large;
+
+        // &.with-tabs {
+        //     border: none;
+        //     padding-top: 0;
+        // }
+    }
+}
