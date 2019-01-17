@@ -65,17 +65,22 @@
     }
 }
 
-.broken {
+.unfinished {
     border: 2px solid red;
     padding: $small;
     position: relative;
+    min-height: $item-height;
 
     &::before {
-        content: "BROKEN";
+        content: "UNFINISHED";
         position: absolute;
         background: rgba(255, 0, 0, 0.75);
         top: 0;
         right: 0;
         padding: $x-small;
+    }
+
+    > * {
+        opacity: 0.25;
     }
 }

@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default () => <div className="broken" />;
+export default () => <div className="unfinished" />;

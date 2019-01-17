@@ -124,7 +124,7 @@ export default function ConfigurationTypes() {
                                             name: `${type} Part Type`
                                         }}
                                     />
-                                    <div className="broken">
+                                    <div className="unfinished">
                                         <ListWrapper
                                             title={`Name Overrides - ${type}`}
                                             items={overrides}

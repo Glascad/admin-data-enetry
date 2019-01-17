@@ -118,7 +118,7 @@ export default function SystemTypes() {
                                                 {({
                                                     type: configurationTypeName = '',
                                                 }) => (
-                                                        <div className="broken">
+                                                        <div className="unfinished">
                                                             <HeadedContainer
                                                                 title={`Configuration Type - ${
                                                                     systemTypeName

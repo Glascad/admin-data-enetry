@@ -96,7 +96,7 @@ export default function ValidTypes({
                             } = {},
                             ...data
                         }) => (
-                                <div className="broken">
+                                <div className="unfinished">
                                     <HeadedContainer
                                         title={`System Configuration Type - ${configurationTypeName}`}
                                     // parent={configurationTypeName}

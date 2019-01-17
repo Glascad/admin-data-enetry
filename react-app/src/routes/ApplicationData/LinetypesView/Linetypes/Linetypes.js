@@ -50,7 +50,7 @@ export default function Linetypes() {
                         }}
                     >
                         {linetype => (
-                            <div className="broken">
+                            <div className="unfinished">
                                 LINETYPE INFO
                             </div>
                         )}

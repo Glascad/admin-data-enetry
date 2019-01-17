@@ -4,6 +4,7 @@ import './Toggle.scss';
 
 export default function Toggle({
     buttons,
+    component: ButtonComponent,
 }) {
     return (
         <div className="Toggle">
@@ -13,17 +14,29 @@ export default function Toggle({
                 className = "",
                 ...button
             }) => (
-                    <button
-                        key={text}
-                        className={`toggle-button ${
-                            selected ? "selected" : "empty"
-                            } ${
-                            className
-                            }`}
-                        {...button}
-                    >
-                        {text}
-                    </button>
+                    ButtonComponent ? (
+                        <ButtonComponent
+                            {...{
+                                text,
+                                selected,
+                                className: `toggle-button ${className}`,
+                                ...button,
+                            }}
+                        />
+                    )
+                        : (
+                            <button
+                                key={text}
+                                className={`toggle-button ${
+                                    selected ? "selected" : "empty"
+                                    } ${
+                                    className
+                                    }`}
+                                {...button}
+                            >
+                                {text}
+                            </button>
+                        )
                 ))}
         </div>
     );

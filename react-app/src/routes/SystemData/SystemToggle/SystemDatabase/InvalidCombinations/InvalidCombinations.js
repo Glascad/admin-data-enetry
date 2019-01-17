@@ -24,7 +24,7 @@ export default function ValidTypes({
     }
 }) {
     return (
-        <div className="broken">
+        <div className="unfinished">
             <ListWrapper
                 title="Invalid Combinations"
                 items={optionCombinations}

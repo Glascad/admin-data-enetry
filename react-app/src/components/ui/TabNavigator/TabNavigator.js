@@ -27,23 +27,26 @@ function TabNavigator({
             {(_, currentRoute) => (
                 <div className="TabNavigator">
                     <div className="tab-container">
-                        {routes.map(route => (
-                            <NavLink
-                                key={route.path}
-                                isActive={(_, { pathname }) => pathname == `${url}${route.path}`}
-                                to={`${
-                                    url
-                                    }${
-                                    route.path
-                                    }${
-                                    search
-                                    }`}
-                                className="tab"
-                                activeClassName="current-tab"
-                            >
-                                {route.name}
-                            </NavLink>
-                        ))}
+                        {routes.map(({
+                            path,
+                            name,
+                        }) => (
+                                <NavLink
+                                    key={path}
+                                    isActive={(_, { pathname }) => pathname.match(`${url}${path}`)}
+                                    to={`${
+                                        url
+                                        }${
+                                        path
+                                        }${
+                                        search
+                                        }`}
+                                    className="tab"
+                                    activeClassName="current-tab"
+                                >
+                                    {name}
+                                </NavLink>
+                            ))}
                     </div>
                     <div className="card">
                         {currentRoute}

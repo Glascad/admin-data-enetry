@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
+
 import {
     Redirect,
     Route,
     Switch,
     withRouter,
 } from 'react-router-dom';
+
+import {
+    validatePath,
+} from '../../../utils';
 
 
 /**
@@ -23,7 +29,6 @@ import {
  */
 
 
-const validatePath = path => path.replace(/\/+/g, '/');
 
 
 class NavigatorChild extends Component {

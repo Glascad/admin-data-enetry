@@ -112,7 +112,7 @@ export default function SystemSearch({
                                                         })
                                                     }}
                                                 />
-                                                <div className="broken">
+                                                <div className="unfinished">
                                                     <div className="input-group">
                                                         <Input
                                                             label="System Option"

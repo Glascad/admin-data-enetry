@@ -140,7 +140,7 @@ export default function SystemOptions({
                                 allItems: allConfigurationTypes,
                             }}
                         />
-                        <div className="broken">
+                        <div className="unfinished">
                             <ListWrapper
                                 title="Values"
                                 items={optionValues}
