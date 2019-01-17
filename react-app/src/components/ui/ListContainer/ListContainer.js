@@ -86,7 +86,7 @@ export default class ListContainer extends Component {
 
         return (
             <div className={`ListContainer ${className}`}>
-                {titleBar ? (
+                {titleBar && titleBar.title ? (
                     <TitleBar
                         {...titleBar}
                         right={(

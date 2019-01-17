@@ -18,9 +18,11 @@ export default function TitleBar({
                 </span>
                 {selections.map((item, i) => (
                     <span>
-                        <span>
-                            {i === 0 ? ' - ' : ' > '}
-                        </span>
+                        {i === 0 ?
+                            <span>&nbsp;-&nbsp;</span>
+                            :
+                            <span>&nbsp;>&nbsp;</span>
+                        }
                         <span className="title-bar-item">
                             {item}
                         </span>
