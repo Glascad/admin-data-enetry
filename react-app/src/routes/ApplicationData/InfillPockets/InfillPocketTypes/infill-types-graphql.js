@@ -26,20 +26,20 @@ export const query = {
 export const mutations = {
     createInfillPocketType: {
         mutation: gql`mutation CreateInfillPocketType($type:String!){
-        createInfillPocketType(input:{
-            infillPocketType:{
-                type:$type
+            createInfillPocketType(input:{
+                infillPocketType:{
+                    type:$type
+                }
+            }){
+                infillPocketType{
+                    nodeId
+                    id
+                    type
+                    description
+                    captured
+                }
             }
-        }){
-            infillPocketType{
-                nodeId
-                id
-                type
-                description
-                captured
-            }
-        }
-    }`,
+        }`,
         update(cache, {
             data: {
                 createInfillPocketType: {
@@ -47,9 +47,9 @@ export const mutations = {
                 }
             }
         }) {
-            const { allInfillPocketTypes } = cache.readQuery({ query });
+            const { allInfillPocketTypes } = cache.readQuery(query);
             cache.writeQuery({
-                query,
+                ...query,
                 data: {
                     allInfillPocketTypes: {
                         ...allInfillPocketTypes,
@@ -107,9 +107,9 @@ export const mutations = {
                 }
             }
         }) {
-            const { allInfillPocketTypes } = cache.readQuery({ query });
+            const { allInfillPocketTypes } = cache.readQuery(query);
             cache.writeQuery({
-                query,
+                ...query,
                 data: {
                     allInfillPocketTypes: {
                         ...allInfillPocketTypes,

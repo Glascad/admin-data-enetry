@@ -1,55 +1,71 @@
 import React from 'react';
 
 import {
-    ApolloListWrapper
+    ApolloWrapper3,
+    ListWrapper3,
+    HeadedContainer,
+    Input,
 } from '../../../../components';
-
-import LineWeightInfo from './LineWeightInfo';
 
 import * as apolloProps from './line-weights-graphql';
 
 export default function LineWeights() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Line Weight"
-            extractList={({
-                allLineWeights: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({ name }) => ({
-                title: name,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                name: input,
-                weight: 0,
-            })}
-            extractCreatedNID={({
-                createLineWeight: {
-                    lineWeight: {
-                        nodeId
-                    }
-                }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                name: input,
-            })}
-            extractName={({ name }) => name}
+        <ApolloWrapper3
+            {...apolloProps}
         >
             {({
-                selectedItem: lineWeight,
-                apollo: {
-                    updateItem,
+                queryStatus: {
+                    lineWeights,
+                },
+                mutations: {
+                    createLineWeight,
+                    updateLineWeight,
+                    deleteLineWeight,
                 },
             }) => (
-                    <LineWeightInfo
-                        {...{
-                            lineWeight,
-                            updateItem,
+                    <ListWrapper3
+                        title="Line Weights"
+                        items={lineWeights}
+                        mapPillProps={({ name }) => ({
+                            title: name,
+                        })}
+                        onCreate={({ }, { input }) => createLineWeight({
+                            name: input,
+                            weight: 1 + +lineWeights.reduce((max, { weight }) => Math.max(max, weight), 0)
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateLineWeight({
+                            name: input,
+                            nodeId,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteLineWeight({
+                            nodeId,
+                        })}
+                        deleteModal={{
+                            name: "Line Weight"
                         }}
-                    />
+                    >
+                        {({
+                            nodeId,
+                            name,
+                            weight = 0,
+                        }) => (
+                                <HeadedContainer
+                                    title={`Line Weight - ${name || ''}`}
+                                >
+                                    <Input
+                                        label="Weight (mm)"
+                                        type="number"
+                                        initialValue={weight}
+                                        onBlur={({ target: { value } }) => updateLineWeight({
+                                            weight: value,
+                                            nodeId,
+                                        })}
+                                    />
+                                </HeadedContainer>
+                            )}
+                    </ListWrapper3>
                 )}
-        </ApolloListWrapper>
+        </ApolloWrapper3>
     );
 }

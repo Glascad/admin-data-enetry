@@ -1,99 +1,110 @@
 import gql from 'graphql-tag';
 
-export const query = gql`{
-    allManufacturers{
-        nodes{
-            nodeId
-            id
-            name
-        }
-    }
-}`;
-
-export const create = {
-    mutation: gql`mutation CreateManufacturer($name:String!){
-        createManufacturer(input:{
-            manufacturer:{
-                name:$name
-            }
-        }){
-            manufacturer{
+export const query = {
+    query: gql`{
+        allManufacturers{
+            nodes{
                 nodeId
                 id
                 name
             }
         }
     }`,
-    update(cache, {
+    mapQueryToProps: ({
         data: {
-            createManufacturer: {
-                manufacturer
-            }
-        }
-    }) {
-        const { allManufacturers } = cache.readQuery({ query });
-        cache.writeQuery({
-            query,
-            data: {
-                allManufacturers: {
-                    ...allManufacturers,
-                    nodes: allManufacturers.nodes.concat(manufacturer)
-                }
-            }
-        });
-    }
+            allManufacturers: {
+                nodes: manufacturers = [],
+            } = {}
+        } = {}
+    }) => ({
+        manufacturers,
+    }),
 };
 
-export const update = {
-    mutation: gql`mutation UpdateManufacturer(
-        $nodeId:ID!,
-        $name:String!
-    ){
-        updateManufacturer(input:{
-            nodeId:$nodeId
-            manufacturerPatch:{
-                name:$name
-            }
-        }){
-            manufacturer{
-                nodeId
-                id
-                name
-            }
-        }
-    }`,
-}
-
-export const _delete = {
-    mutation: gql`mutation DeleteManufacturer($nodeId:ID!){
-        deleteManufacturer(input:{
-            nodeId:$nodeId
-        }){
-            manufacturer{
-                nodeId
-                id
-                name
-            }
-        }
-    }`,
-    update(cache, {
-        data: {
-            deleteManufacturer: {
-                manufacturer: {
-                    nodeId: deletedNID
+export const mutations = {
+    createManufacturer: {
+        mutation: gql`mutation CreateManufacturer($name:String!){
+            createManufacturer(input:{
+                manufacturer:{
+                    name:$name
+                }
+            }){
+                manufacturer{
+                    nodeId
+                    id
+                    name
                 }
             }
-        }
-    }) {
-        const { allManufacturers } = cache.readQuery({ query });
-        cache.writeQuery({
-            query,
+        }`,
+        update(cache, {
             data: {
-                allManufacturers: {
-                    ...allManufacturers,
-                    nodes: allManufacturers.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                createManufacturer: {
+                    manufacturer
                 }
             }
-        })
+        }) {
+            const { allManufacturers } = cache.readQuery(query);
+            cache.writeQuery({
+                ...query,
+                data: {
+                    allManufacturers: {
+                        ...allManufacturers,
+                        nodes: allManufacturers.nodes.concat(manufacturer)
+                    }
+                }
+            });
+        }
+    },
+    updateManufacturer: {
+        mutation: gql`mutation UpdateManufacturer(
+            $nodeId:ID!,
+            $name:String!
+        ){
+            updateManufacturer(input:{
+                nodeId:$nodeId
+                manufacturerPatch:{
+                    name:$name
+                }
+            }){
+                manufacturer{
+                    nodeId
+                    id
+                    name
+                }
+            }
+        }`,
+    },
+    deleteManufacturer: {
+        mutation: gql`mutation DeleteManufacturer($nodeId:ID!){
+            deleteManufacturer(input:{
+                nodeId:$nodeId
+            }){
+                manufacturer{
+                    nodeId
+                    id
+                    name
+                }
+            }
+        }`,
+        update(cache, {
+            data: {
+                deleteManufacturer: {
+                    manufacturer: {
+                        nodeId: deletedNID
+                    }
+                }
+            }
+        }) {
+            const { allManufacturers } = cache.readQuery(query);
+            cache.writeQuery({
+                ...query,
+                data: {
+                    allManufacturers: {
+                        ...allManufacturers,
+                        nodes: allManufacturers.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                    }
+                }
+            })
+        }
     }
 };

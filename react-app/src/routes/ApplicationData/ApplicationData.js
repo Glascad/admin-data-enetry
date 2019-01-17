@@ -50,11 +50,11 @@ const routes = {
             path: "/infill-sizes",
             component: InfillSizes,
         },
-        // {
-        //     name: "Linetypes",
-        //     path: "/linetypes",
-        //     component: Linetypes,
-        // },
+        {
+            name: "Linetypes",
+            path: "/linetypes",
+            component: Linetypes,
+        },
         {
             name: "Part Orientations",
             path: "/part-orientations",
