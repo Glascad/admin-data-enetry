@@ -5,6 +5,7 @@ import {
     Input,
     ListWrapper,
 } from '../../../../../components';
+import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 export default function ValidTypes({
     queryStatus: {
@@ -24,7 +25,9 @@ export default function ValidTypes({
 }) {
     return (
         <ListWrapper
-            title="Valid Detail Types"
+            titleBar={{
+                title: "Valid Detail Types"
+            }}
             items={systemTypeDetailTypes}
             mapPillProps={({
                 detailType: {
@@ -41,8 +44,10 @@ export default function ValidTypes({
                 } = {}
             }) => (
                     <ListWrapper
-                        title={`Valid Configuration Types - ${detailTypeName}`}
-                        // parent={detailTypeName}
+                        titleBar={{
+                            title: "Valid Configuration Types",
+                            selections: [detailTypeName]
+                        }}
                         items={systemTypeDetailTypeConfigurationTypes
                             .filter(({
                                 detailType: {
@@ -96,9 +101,11 @@ export default function ValidTypes({
                             ...data
                         }) => (
                                 <div className="unfinished">
-                                    <HeadedContainer
-                                        title={`System Configuration Type - ${configurationTypeName}`}
-                                    >
+                                    <>
+                                        <TitleBar
+                                            title="System Configuration Type"
+                                            selections={[configurationTypeName]}
+                                        />
                                         <Input
                                             label="Required"
                                             type="checkbox"
@@ -117,7 +124,7 @@ export default function ValidTypes({
                                                 checked,
                                             })}
                                         />
-                                    </HeadedContainer>
+                                    </>
                                 </div>
                             )}
                     </ListWrapper>

@@ -27,6 +27,11 @@ const normalizeResponse = ({ data }) => removeNullValues()(
  * This component is built to interface with the Batcher component. It interfaces with the Batcher component in such a way that its children don't need to know if there is or isn't a Batcher.
  * 
  * 
+ * NORMALIZED RESPONSE
+ * 
+ * The every response provided by Apollo is automatically normalized by the ApolloWrapper. All `nodes` keys are removed, all `null` values are deleted, and the `by___id` part of every key is removed.
+ * 
+ * 
  * NOTE
  * 
  * This component is recursive, meaning it will continue to render itself until all the mutations have been created.

@@ -1,0 +1,16 @@
+
+@import '../../../styles/variables';
+
+.TitleBar {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: $x-small;
+    margin-bottom: $large;
+}
+
+.card {
+    .TitleBar {
+        font-size: $large;
+        border-bottom: 1px solid $border-color;
+    }
+}

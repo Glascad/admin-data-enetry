@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SelectionWrapper from '../../state/SelectionWrapper';
-import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
+import TitleBar from '../TitleBar/TitleBar';
 import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
 import Modal from '../Modal/Modal';
+import ListContainer from '../ListContainer/ListContainer';
+import AddButton from '../AddButton/AddButton';
 
 class List extends Component {
 
@@ -55,6 +57,7 @@ class List extends Component {
         const {
             props: {
                 title,
+                titleBar,
                 parent,
                 label,
                 items,
@@ -103,73 +106,69 @@ class List extends Component {
 
         return (
             <div className="ListWrapper">
-                <HeadedListContainer
-                    title={title}
+                <ListContainer
+                    titleBar={titleBar}
                     label={label}
-                    list={{
-                        items,
-                        renderItem: item => {
+                    items={items}
+                    renderItem={item => {
 
-                            const { nodeId } = item;
+                        const { nodeId } = item;
 
-                            const args = { nodeId };
+                        const args = { nodeId };
 
-                            const selected = nodeId === selectedItem.nodeId && (
-                                canSelect
-                                ||
-                                (
-                                    !multiSelect
-                                    &&
-                                    !creating
-                                )
-                            );
+                        const selected = nodeId === selectedItem.nodeId && (
+                            canSelect
+                            ||
+                            (
+                                !multiSelect
+                                &&
+                                !creating
+                            )
+                        );
 
-                            const danger = onDelete && deleting && nodeId === selectedNID;
+                        const danger = onDelete && deleting && nodeId === selectedNID;
 
-                            const _delete = multiSelect || deleteModal ?
-                                handleDeleteClick
-                                :
-                                onDelete;
+                        const _delete = multiSelect || deleteModal ?
+                            handleDeleteClick
+                            :
+                            onDelete;
 
-                            const select = multiSelect ?
-                                handleDeleteClick
-                                :
-                                handleSelect;
+                        const select = multiSelect ?
+                            handleDeleteClick
+                            :
+                            handleSelect;
 
-                            return (
-                                <Pill
-                                    key={nodeId}
-                                    tagname="li"
-                                    selected={selected}
-                                    danger={danger}
-                                    onSelect={select}
-                                    onDisabledSelect={onDisabledSelect}
-                                    onEdit={onUpdate}
-                                    onDelete={_delete}
-                                    arguments={args}
-                                    {...defaultPillProps}
-                                    {...mapPillProps(item)}
-                                />
-                            );
-                        },
-                        creating: !!(!multiSelect && onCreate && creating),
-                        createItem: (
+                        return (
                             <Pill
-                                {...defaultPillProps}
+                                key={nodeId}
                                 tagname="li"
-                                selected={true}
-                                editing={true}
-                                onEdit={onCreate}
-                                onBlur={cancel}
+                                selected={selected}
+                                danger={danger}
+                                onSelect={select}
+                                onDisabledSelect={onDisabledSelect}
+                                onEdit={onUpdate}
+                                onDelete={_delete}
+                                arguments={args}
+                                {...defaultPillProps}
+                                {...mapPillProps(item)}
                             />
-                        ),
-                        addButton: (onCreate || addButton) && !creating ? (
-                            {
-                                onAdd: handleCreateClick,
-                                ...addButton,
-                            }
-                        ) : undefined
+                        );
                     }}
+                    afterList={(!multiSelect && onCreate && creating) ? (
+                        <Pill
+                            {...defaultPillProps}
+                            tagname="li"
+                            selected={true}
+                            editing={true}
+                            onEdit={onCreate}
+                            onBlur={cancel}
+                        />
+                    ) : (onCreate || addButton) && !creating ? (
+                        <AddButton
+                            {...addButton}
+                            onAdd={handleCreateClick}
+                        />
+                    ) : null}
                 />
                 {children ? (
                     <div className="nested">
@@ -179,8 +178,8 @@ class List extends Component {
                 {multiSelect ? (
                     <MultiSelect
                         modalProps={{
-                            title: multiSelectTitle || title ?
-                                `Update ${title}`
+                            title: multiSelectTitle || titleBar ?
+                                `Update ${titleBar.title}`
                                 :
                                 label ?
                                     `Update ${label}`
@@ -207,7 +206,9 @@ class List extends Component {
                 ) : deleteModal ? (
                     <Modal
                         {...deleteModal}
-                        title={`Delete ${modalName}`}
+                        titleBar={{
+                            title: `Delete ${modalName}`
+                        }}
                         display={deleting}
                         onCancel={cancel}
                         onFinish={handleDelete}
