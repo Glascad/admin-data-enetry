@@ -18,9 +18,9 @@ export default function ConfigurationTypes() {
         >
             {({
                 queryStatus: {
-                    configurationTypes,
-                    allManufacturers,
-                    allPartTypes,
+                    allConfigurationTypes = [],
+                    allManufacturers = [],
+                    allPartTypes = [],
                 },
                 mutations: {
                     createConfigurationType,
@@ -35,7 +35,7 @@ export default function ConfigurationTypes() {
             }) => (
                     <ListWrapper
                         title="Configuration Types"
-                        items={configurationTypes}
+                        items={allConfigurationTypes}
                         mapPillProps={({ type }) => ({
                             title: type
                         })}
@@ -60,12 +60,8 @@ export default function ConfigurationTypes() {
                             door,
                             presentationLevel,
                             overrideLevel,
-                            configurationTypePartTypesByConfigurationTypeId: {
-                                nodes: configurationTypePartTypes = []
-                            } = {},
-                            configurationNameOverridesByConfigurationTypeId: {
-                                nodes: overrides = [],
-                            } = {},
+                            configurationTypePartTypes = [],
+                            configurationNameOverrides = [],
                         }) => (
                                 <HeadedContainer
                                     title={`Configuration Type - ${type}`}
@@ -102,10 +98,10 @@ export default function ConfigurationTypes() {
                                         items={configurationTypePartTypes
                                             .map(({
                                                 nodeId,
-                                                partTypeByPartTypeId,
+                                                partType,
                                             }) => ({
                                                 configurationTypePartTypeNID: nodeId,
-                                                ...partTypeByPartTypeId
+                                                ...partType
                                             }))}
                                         multiSelect={{
                                             allItems: allPartTypes,
@@ -127,7 +123,7 @@ export default function ConfigurationTypes() {
                                     <div className="unfinished">
                                         <ListWrapper
                                             title={`Name Overrides - ${type}`}
-                                            items={overrides}
+                                            items={configurationNameOverrides}
                                             mapPillProps={() => ({})}
                                         />
                                     </div>

@@ -31,10 +31,13 @@ import {
 
 export default function SystemDetails({
     queryStatus: {
-        system,
-        systemOptions,
-        systemTypeDetailTypes,
-        systemTypeDetailTypeConfigurationTypes,
+        system: {
+            systemOptions = [],
+            systemType: {
+                systemTypeDetailTypes = [],
+                systemTypeDetailTypeConfigurationTypes = [],
+            } = {}
+        } = {},
     }
 }) {
     return (
@@ -49,9 +52,7 @@ export default function SystemDetails({
                             .map(({
                                 nodeId,
                                 name,
-                                optionValuesBySystemOptionId: {
-                                    nodes: values,
-                                }
+                                optionValues
                             }) => (
                                     <ListWrapper
                                         key={nodeId}
@@ -64,7 +65,7 @@ export default function SystemDetails({
                                         //     handleSelect: select(nodeId),
                                         // }}
                                         label={name}
-                                        items={values}
+                                        items={optionValues}
                                         mapPillProps={({ name }) => ({
                                             title: name
                                         })}
@@ -78,7 +79,7 @@ export default function SystemDetails({
                             }}
                             items={systemTypeDetailTypes}
                             mapPillProps={({
-                                detailTypeByDetailTypeId: {
+                                detailType: {
                                     type
                                 }
                             }) => ({
@@ -86,7 +87,7 @@ export default function SystemDetails({
                             })}
                         >
                             {({
-                                detailTypeByDetailTypeId: {
+                                detailType: {
                                     nodeId: selectedDetailTypeNID = "",
                                     type = "",
                                 } = {},
@@ -97,21 +98,19 @@ export default function SystemDetails({
                                             items: systemOptions,
                                             filter: ({
                                                 presentationLevel,
-                                                systemOptionConfigurationTypesBySystemOptionId: {
-                                                    nodes: configurationTypes,
-                                                }
+                                                systemOptionConfigurationTypes = []
                                             }) => (
                                                     presentationLevel >= 2
                                                     &&
-                                                    configurationTypes.some(({
-                                                        configurationTypeByConfigurationTypeId: {
+                                                    systemOptionConfigurationTypes.some(({
+                                                        configurationType: {
                                                             nodeId
                                                         }
                                                     }) => systemTypeDetailTypeConfigurationTypes.some(({
-                                                        detailTypeByDetailTypeId: {
+                                                        detailType: {
                                                             nodeId: detailTypeNID,
                                                         },
-                                                        configurationTypeByConfigurationTypeId: {
+                                                        configurationType: {
                                                             nodeId: configurationTypeNID,
                                                         }
                                                     }) => (
@@ -124,9 +123,7 @@ export default function SystemDetails({
                                             renderItem: ({
                                                 nodeId,
                                                 name,
-                                                optionValuesBySystemOptionId: {
-                                                    nodes: values,
-                                                }
+                                                optionValues = [],
                                             }) => (
                                                     <ListWrapper
                                                         key={nodeId}
@@ -135,7 +132,7 @@ export default function SystemDetails({
                                                             props: managerProps
                                                         }}
                                                         label={name}
-                                                        items={values}
+                                                        items={optionValues}
                                                         mapPillProps={({ name }) => ({
                                                             title: name
                                                         })}
@@ -148,7 +145,7 @@ export default function SystemDetails({
                         </ListWrapper>
                         <div className="configuration-display">
                             EMPTY
-                                        </div>
+                        </div>
                     </HeadedContainer>
                 )}
             </StateManager>

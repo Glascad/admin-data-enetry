@@ -8,35 +8,32 @@ import {
 import {
     HeadedContainer,
     Input,
-    // ListWrapper,
+    ListWrapper,
 } from '../../../../components';
 
 export default function CreateSystem({
-    routerProps: {
-        history,
-    },
     queryStatus: {
         system: {
             nodeId: systemNID,
             id: systemId,
-            name,
-            depth,
-            defaultSightline,
-            shimSize,
+            name = "",
+            depth = 0,
+            defaultSightline = 0,
+            shimSize = 0,
             manufacturerId,
-            manufacturerByManufacturerId: {
-                name: manufacturerName,
+            manufacturer: {
+                name: manufacturerName = "",
             } = {},
             systemTypeId,
-            systemTypeBySystemTypeId: {
-                type: systemTypeName,
+            systemType: {
+                type: systemTypeName = "",
             } = {},
+            systemSystemTags = [],
         } = {},
         // allSystems,
-        // systemSystemTags,
-        allManufacturers,
-        allSystemTypes,
-        // allSystemTags,
+        allManufacturers = [],
+        allSystemTypes = [],
+        allSystemTags = [],
     },
     mutations: {
         createSystem,
@@ -49,14 +46,13 @@ export default function CreateSystem({
                 } = {}
             } = {}
         } = {},
-        // createSystemSystemTag,
-        // deleteSystemSystemTag,
+        createSystemSystemTag,
+        deleteSystemSystemTag,
     },
     batcher: {
         completeMutations
     },
 }) {
-    console.log(arguments);
     if (createdSystemNID) {
         return (
             <Redirect
@@ -91,7 +87,7 @@ export default function CreateSystem({
                         onChange: ({ value, label }) => createSystem({
                             nodeId: systemNID,
                             manufacturerId: value,
-                            manufacturerByManufacturerId: {
+                            manufacturer: {
                                 name: label,
                             }
                         }),
@@ -111,39 +107,41 @@ export default function CreateSystem({
                         onChange: ({ value, label }) => createSystem({
                             nodeId: systemNID,
                             systemTypeId: value,
-                            systemTypeBySystemTypeId: {
+                            systemType: {
                                 type: label
                             }
                         }),
                     }}
                 />
-                {/* <ListWrapper
-                    label="System Tags"
-                    items={systemSystemTags.map(({
-                        nodeId: systemSystemTagNID,
-                        systemTagBySystemTagId: systemTag,
-                    }) => ({
-                        systemSystemTagNID,
-                        ...systemTag,
-                    }))}
-                    mapPillProps={({ tag }) => ({
-                        title: tag,
-                    })}
-                    onCreate={systemTag => createSystemSystemTag({
-                        systemTagId: systemTag.id,
-                        systemId,
-                        systemTagBySystemTagId: systemTag,
-                    })}
-                    onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
-                        nodeId: systemSystemTagNID,
-                        systemTagId: systemTag.id,
-                        systemId,
-                        systemTagBySystemTagId: systemTag,
-                    })}
-                    multiSelect={{
-                        allItems: allSystemTags,
-                    }}
-                />*/}
+                <div className="unfinished">
+                    <ListWrapper
+                        label="System Tags"
+                        items={systemSystemTags.map(({
+                            nodeId: systemSystemTagNID,
+                            systemTag,
+                        }) => ({
+                            systemSystemTagNID,
+                            ...systemTag,
+                        }))}
+                        mapPillProps={({ tag }) => ({
+                            title: tag,
+                        })}
+                        onCreate={systemTag => createSystemSystemTag({
+                            systemTagId: systemTag.id,
+                            systemId,
+                            systemTag,
+                        })}
+                        onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
+                            nodeId: systemSystemTagNID,
+                            systemTagId: systemTag.id,
+                            systemId,
+                            systemTag,
+                        })}
+                        multiSelect={{
+                            allItems: allSystemTags,
+                        }}
+                    />
+                </div>
                 <div className="input-group">
                     <Input
                         label="System Depth"

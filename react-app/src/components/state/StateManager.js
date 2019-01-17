@@ -14,7 +14,6 @@ export default class StateManager extends Component {
     state = {};
 
     update = key => ({ arguments: args }) => {
-        console.log();
         this.setState({
             [key]: args,
         });
@@ -29,8 +28,6 @@ export default class StateManager extends Component {
             },
             update,
         } = this;
-
-        console.log(state);
 
         return children({
             ...props,

@@ -15,7 +15,7 @@ export default function DetailTypes() {
         >
             {({
                 queryStatus: {
-                    detailTypes,
+                    allDetailTypes = [],
                 },
                 mutations: {
                     createDetailType,
@@ -25,7 +25,7 @@ export default function DetailTypes() {
             }) => (
                     <ListWrapper
                         title="Detail Types"
-                        items={detailTypes}
+                        items={allDetailTypes}
                         mapPillProps={({ type }) => ({
                             title: type
                         })}

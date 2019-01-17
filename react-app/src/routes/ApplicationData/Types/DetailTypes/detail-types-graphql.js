@@ -12,15 +12,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allDetailTypes: {
-                nodes: detailTypes = []
-            } = {}
-        } = {}
-    }) => ({
-        detailTypes,
-    })
 };
 
 export const mutations = {

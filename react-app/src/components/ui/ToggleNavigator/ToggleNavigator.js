@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Toggle from '../Toggle/Toggle';
-import Navigator from '../../state/Navigator/Navigator';
+import Navigator from '../../state/Navigator';
 
 function ToggleNavigator({
     history,

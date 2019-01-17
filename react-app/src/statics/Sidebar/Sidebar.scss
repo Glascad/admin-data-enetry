@@ -32,6 +32,11 @@
             padding-left: $base-size;
         }
     }
+
+    #SystemLink {
+        border: none;
+    }
+
     .Dropdown, .item {
         background: $menu-color;
         color: $off-white;

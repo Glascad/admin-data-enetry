@@ -20,8 +20,8 @@ export default function Linetypes() {
         >
             {({
                 queryStatus: {
-                    linetypes,
-                    lineWeights,
+                    allLinetypes = [],
+                    allLineWeights = [],
                 },
                 mutations: {
                     createLinetype,
@@ -31,7 +31,7 @@ export default function Linetypes() {
             }) => (
                     <ListWrapper
                         title="Linetypes"
-                        items={linetypes}
+                        items={allLinetypes}
                         mapPillProps={({ name }) => ({
                             title: name
                         })}

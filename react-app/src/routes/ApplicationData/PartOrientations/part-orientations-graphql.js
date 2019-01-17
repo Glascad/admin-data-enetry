@@ -10,15 +10,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allOrientations: {
-                nodes: orientations = [],
-            } = {},
-        } = {},
-    }) => ({
-        orientations,
-    }),
 };
 
 export const mutations = {

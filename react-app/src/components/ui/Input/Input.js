@@ -2,7 +2,11 @@ import React, {
     Component,
     createRef,
 } from 'react';
+
 import Select from 'react-select';
+
+// import FlipSwitch from '../FlipSwitch/FlipSwitch';
+
 import './Input.scss';
 
 export default class Input extends Component {
@@ -26,6 +30,7 @@ export default class Input extends Component {
 
     render = () => {
         const {
+            props: allProps,
             props: {
                 tagname = "div",
                 label,
@@ -60,54 +65,65 @@ export default class Input extends Component {
             </div>
         ) : null;
 
-        if (type === "checkbox") {
-            console.log(this);
-        }
+        const booleanTypes = [
+            "switch",
+            "checkbox",
+        ];
 
         return (
             <tag.name
                 className={`Input type-${type}`}
             >
-                {type !== "checkbox" ? (
+                {!booleanTypes.includes(type) ? (
                     LABEL
                 ) : null}
-                {!select ? (
-                    <input
+                {select ? (
+                    <Select
+                        {...select}
                         ref={ref}
-                        type={type}
-                        value={initialValue === undefined ?
-                            value || (
-                                type === 'text' ?
-                                    ""
-                                    :
-                                    type === "number" ?
-                                        0
-                                        :
-                                        type === "checkbox" ?
-                                            false
-                                            :
-                                            ""
-                            )
-                            :
-                            undefined}
-                        checked={type === "checkbox" ?
-                            checked
-                            :
-                            undefined}
-                        onKeyDown={blurOnEnter}
-                        {...props}
+                        className={`Select ${select.isMulti ? "multi" : ""}`}
                     />
                 ) : (
-                        <Select
-                            {...select}
+                        // type === "switch" ? (
+                        //     <FlipSwitch
+                        //         {...allProps}
+                        //     />
+                        // ) : (
+                        <input
                             ref={ref}
-                            className={`Select ${select.isMulti ? "multi" : ""}`}
+                            type={type}
+                            value={initialValue === undefined ?
+                                value || (
+                                    type === 'text' ?
+                                        ""
+                                        :
+                                        type === "number" ?
+                                            0
+                                            :
+                                            booleanTypes.includes(type) ?
+                                                undefined
+                                                :
+                                                ""
+                                )
+                                :
+                                undefined}
+                            checked={booleanTypes.includes(type) ?
+                                checked
+                                :
+                                undefined}
+                            onKeyDown={blurOnEnter}
+                            {...props}
                         />
-                    )}
-                {type === "checkbox" ? (
+                        // )
+                    )
+                }
+                {booleanTypes.includes(type) ? (
                     <>
                         <span
-                            className="check"
+                            className={type === "checkbox" ?
+                                "check"
+                                :
+                                "switch"}
                         />
                         {LABEL}
                     </>

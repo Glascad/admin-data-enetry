@@ -10,9 +10,9 @@ export default function SystemOptions({
     queryStatus: {
         system: {
             id: systemId,
-        },
-        systemOptions,
-        allConfigurationTypes,
+            systemOptions = [],
+        } = {},
+        allConfigurationTypes = [],
     },
     mutations: {
         createSystemOption,
@@ -37,6 +37,13 @@ export default function SystemOptions({
                 systemId,
                 name: input,
             })}
+            onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemOption({
+                nodeId,
+                name: input,
+            })}
+            onDelete={({ arguments: { nodeId } }) => ({
+                nodeId,
+            })}
         >
             {({
                 nodeId,
@@ -45,26 +52,22 @@ export default function SystemOptions({
                 presentationLevel,
                 overrideLevel,
                 mirrorable,
-                systemOptionConfigurationTypesBySystemOptionId: {
-                    nodes: systemOptionConfigurationTypes = []
-                } = {},
-                optionValuesBySystemOptionId: {
-                    nodes: optionValues = []
-                } = {},
+                systemOptionConfigurationTypes = [],
+                optionValues = [],
             }) => (
                     <>
                         <HeadedContainer
                             title="Option"
                             className="input-wrapper"
                         >
-                            <Input
+                            {/* <Input
                                 label="Option Name"
                                 value={name}
                                 onChange={({ target: { value } }) => updateSystemOption({
                                     nodeId,
                                     name: value
                                 })}
-                            />
+                            /> */}
                             <div className="input-group">
                                 <Input
                                     label="Presentation Level"
@@ -116,9 +119,9 @@ export default function SystemOptions({
                         <ListWrapper
                             title="Affected Configuration Types"
                             items={systemOptionConfigurationTypes
-                                .map(({ nodeId, configurationTypeByConfigurationTypeId }) => ({
+                                .map(({ nodeId, configurationType }) => ({
                                     systomOptionConfigurationTypeNID: nodeId,
-                                    ...configurationTypeByConfigurationTypeId,
+                                    ...configurationType,
                                 }))}
                             mapPillProps={({ type }) => ({
                                 title: type
@@ -126,13 +129,13 @@ export default function SystemOptions({
                             onCreate={configurationType => createSystemOptionConfigurationType({
                                 systemOptionId,
                                 configurationTypeId: configurationType.id,
-                                configurationTypeByConfigurationTypeId: configurationType
+                                configurationType
                             })}
                             onDelete={({ systomOptionConfigurationTypeNID, ...configurationType }) => deleteSystemOptionConfigurationType({
                                 nodeId: systomOptionConfigurationTypeNID,
                                 systemOptionId,
                                 configurationTypeId: configurationType.id,
-                                configurationTypeByConfigurationTypeId: configurationType,
+                                configurationType,
                             })}
                             multiSelect={{
                                 title: "",

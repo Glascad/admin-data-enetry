@@ -7,6 +7,5 @@ export default function parseSearch(url = window.location.search) {
             ...search,
             [pair.replace(/=.*/, "")]: pair.replace(/^.*?=/, "")
         }), {});
-    console.log(result);
     return result;
 }

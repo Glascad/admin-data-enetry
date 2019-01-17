@@ -48,21 +48,4 @@ export default {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allConfigurationTypes: {
-                nodes: configurationTypes = [],
-            } = {},
-            allPartTypes: {
-                nodes: allPartTypes = [],
-            } = {},
-            allManufacturers: {
-                nodes: allManufacturers = [],
-            } = {},
-        } = {},
-    }) => ({
-            configurationTypes,
-            allPartTypes,
-            allManufacturers,
-    }),
 };

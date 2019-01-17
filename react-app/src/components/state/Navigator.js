@@ -11,7 +11,7 @@ import {
 
 import {
     validatePath,
-} from '../../../utils';
+} from '../../utils';
 
 
 /**
@@ -80,8 +80,6 @@ class Navigator extends Component {
         const previousLink = url + previousRoute.path;
         const nextLink = url + nextRoute.path;
 
-        this.props.log && console.log(this);
-
         const redirectTo = validatePath(`${
             url
             }${
@@ -95,7 +93,6 @@ class Navigator extends Component {
             &&
             pathname + search !== redirectTo
         ) {
-            console.log({ redirectTo });
             return (
                 <Redirect
                     to={redirectTo}

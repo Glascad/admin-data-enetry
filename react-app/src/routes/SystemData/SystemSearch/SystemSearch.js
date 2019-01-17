@@ -19,7 +19,6 @@ export default function SystemSearch({
         search
     }
 }) {
-    console.log(arguments[0]);
     return (
         <>
             <header>
@@ -43,10 +42,10 @@ export default function SystemSearch({
                 >
                     {({
                         queryStatus: {
-                            allSystems,
-                            allManufacturers,
-                            allSystemTypes,
-                            allSystemTags,
+                            allSystems = [],
+                            allManufacturers = [],
+                            allSystemTypes = [],
+                            allSystemTags = [],
                         },
                         mutations: {
                             deleteSystem
@@ -127,15 +126,13 @@ export default function SystemSearch({
                                                 title="Search Results"
                                                 items={allSystems.filter(({
                                                     name,
-                                                    manufacturerByManufacturerId: {
+                                                    manufacturer: {
                                                         nodeId: manufacturerNID
                                                     } = {},
-                                                    systemTypeBySystemTypeId: {
+                                                    systemType: {
                                                         nodeId: systemTypeNID,
                                                     } = {},
-                                                    systemSystemTagsBySystemId: {
-                                                        nodes: systemTags,
-                                                    },
+                                                    systemSystemTags,
                                                 }) => (
                                                         name.toLowerCase().includes(state.name ?
                                                             state.name.toLowerCase()
@@ -159,13 +156,13 @@ export default function SystemSearch({
                                                         )
                                                         &&
                                                         (
-                                                            !state.systemTags
+                                                            !state.systemSystemTags
                                                             ||
-                                                            !state.systemTags.length
+                                                            !state.systemSystemTags.length
                                                             ||
-                                                            state.systemTags.every(({ value }) => (
-                                                                systemTags.some(({
-                                                                    systemTagBySystemTagId: {
+                                                            state.systemSystemTags.every(({ value }) => (
+                                                                systemSystemTags.some(({
+                                                                    systemTag: {
                                                                         nodeId
                                                                     }
                                                                 }) => value === nodeId)
@@ -181,7 +178,7 @@ export default function SystemSearch({
                                                 mapPillProps={({
                                                     nodeId,
                                                     name: systemName,
-                                                    manufacturerByManufacturerId: {
+                                                    manufacturer: {
                                                         name: mnfgName,
                                                     } = {}
                                                 }) => ({

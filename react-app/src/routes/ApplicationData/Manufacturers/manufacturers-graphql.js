@@ -10,15 +10,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allManufacturers: {
-                nodes: manufacturers = [],
-            } = {}
-        } = {}
-    }) => ({
-        manufacturers,
-    }),
 };
 
 export const mutations = {

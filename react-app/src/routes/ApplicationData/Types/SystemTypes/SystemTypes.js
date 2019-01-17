@@ -17,9 +17,9 @@ export default function SystemTypes() {
         >
             {({
                 queryStatus: {
-                    systemTypes,
-                    allDetailTypes,
-                    allConfigurationTypes,
+                    allSystemTypes = [],
+                    allDetailTypes = [],
+                    allConfigurationTypes = [],
                 },
                 mutations: {
                     createSystemType,
@@ -33,7 +33,7 @@ export default function SystemTypes() {
             }) => (
                     <ListWrapper
                         title="System Types"
-                        items={systemTypes}
+                        items={allSystemTypes}
                         mapPillProps={({ type }) => ({
                             title: type,
                         })}
@@ -51,22 +51,18 @@ export default function SystemTypes() {
                         {({
                             id: systemTypeId,
                             type: systemTypeName = '',
-                            systemTypeDetailTypesBySystemTypeId: {
-                                nodes: detailTypes = []
-                            } = {},
-                            systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
-                                nodes: configurationTypes = [],
-                            } = {},
+                            systemTypeDetailTypes = [],
+                            systemTypeDetailTypeConfigurationTypes = [],
                         }) => (
                                 <ListWrapper
                                     title={`Detail Types - ${systemTypeName}`}
-                                    items={detailTypes
+                                    items={systemTypeDetailTypes
                                         .map(({
                                             nodeId,
-                                            detailTypeByDetailTypeId
+                                            detailType,
                                         }) => ({
                                             systemTypeDetailTypeNID: nodeId,
-                                            ...detailTypeByDetailTypeId,
+                                            ...detailType,
                                         }))}
                                     mapPillProps={({ type }) => ({
                                         title: type,
@@ -92,13 +88,13 @@ export default function SystemTypes() {
                                                     } > ${
                                                     detailTypeName
                                                     }`}
-                                                items={configurationTypes
+                                                items={systemTypeDetailTypeConfigurationTypes
                                                     .map(({
                                                         nodeId,
-                                                        configurationTypeByConfigurationTypeId,
+                                                        configurationType,
                                                     }) => ({
                                                         systemTypeDetailTypeConfigurationTypeNID: nodeId,
-                                                        ...configurationTypeByConfigurationTypeId,
+                                                        ...configurationType,
                                                     }))}
                                                 mapPillProps={({ type }) => ({
                                                     title: type

@@ -9,15 +9,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allInfillPocketSizes: {
-                nodes: infillPocketSizes = []
-            } = {}
-        } = {}
-    }) => ({
-        infillPocketSizes,
-    }),
 };
 
 export const mutations = {

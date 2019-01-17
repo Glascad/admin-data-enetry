@@ -13,7 +13,7 @@ export default function PartTags() {
         >
             {({
                 queryStatus: {
-                    partTags,
+                    allPartTags = [],
                 },
                 mutations: {
                     createPartTag,
@@ -23,7 +23,7 @@ export default function PartTags() {
             }) => (
                     <ListWrapper
                         title="Part Tags"
-                        items={partTags}
+                        items={allPartTags}
                         mapPillProps={({ tag }) => ({
                             title: tag
                         })}

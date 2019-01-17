@@ -10,15 +10,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allPartTags: {
-                nodes: partTags = [],
-            } = {}
-        } = {}
-    }) => ({
-        partTags,
-    }),
 };
 
 export const mutations = {

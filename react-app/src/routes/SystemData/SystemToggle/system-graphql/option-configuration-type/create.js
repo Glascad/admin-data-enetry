@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -31,7 +31,6 @@ export default {
             }
         }`,
     mapResultToProps: (newSystemOptionConfigurationType, { systemOptions }) => ({
-        n: console.log({ newSystemOptionConfigurationType, systemOptions }),
         systemOptions: systemOptions
             .map(option => option.id === newSystemOptionConfigurationType.systemOptionId ?
                 {
@@ -44,17 +43,17 @@ export default {
                 :
                 option)
     }),
-     refetchQueries: ({
-         data: {
-             createSystemOptionConfigurationType: {
-                 systemOptionConfigurationType: {
-                     systemOptionBySystemOptionId: {
-                         systemBySystemId: {
-                             nodeId
-                         }
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
+    refetchQueries: ({
+        data: {
+            createSystemOptionConfigurationType: {
+                systemOptionConfigurationType: {
+                    systemOptionBySystemOptionId: {
+                        systemBySystemId: {
+                            nodeId
+                        }
+                    }
+                }
+            }
+        }
+    }) => [{ ...query, variables: { nodeId } }]
 };

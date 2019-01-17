@@ -18,7 +18,7 @@ export default function InfillPocketSizes() {
         >
             {({
                 queryStatus: {
-                    infillPocketSizes,
+                    allInfillPocketSizes = [],
                 },
                 mutations: {
                     createInfillPocketSize,
@@ -27,7 +27,7 @@ export default function InfillPocketSizes() {
             }) => (
                     <ListWrapper
                         title="Infill Pocket Sizes"
-                        items={infillPocketSizes}
+                        items={allInfillPocketSizes}
                         defaultPillProps={{
                             inputType: "number"
                         }}

@@ -24,7 +24,7 @@ export default function InfillSizes() {
         >
             {({
                 queryStatus: {
-                    infillSizes
+                    allInfillSizes = [],
                 },
                 mutations: {
                     createInfillSize,
@@ -38,7 +38,7 @@ export default function InfillSizes() {
                             createItem={createInfillSize}
                         />
                         <ListWrapper
-                            items={infillSizes}
+                            items={allInfillSizes}
                             defaultPillProps={{
                                 inputType: "number",
                             }}

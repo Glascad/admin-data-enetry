@@ -58,25 +58,4 @@ export default {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allSystems: {
-                nodes: allSystems = [],
-            } = {},
-            allManufacturers: {
-                nodes: allManufacturers = [],
-            } = {},
-            allSystemTypes: {
-                nodes: allSystemTypes = [],
-            } = {},
-            allSystemTags: {
-                nodes: allSystemTags = [],
-            } = {},
-        } = {},
-    }) => ({
-        allSystems,
-        allManufacturers,
-        allSystemTypes,
-        allSystemTags,
-    }),
 };

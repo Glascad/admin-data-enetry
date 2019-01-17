@@ -9,14 +9,13 @@ import {
 export default function ValidTypes({
     queryStatus: {
         system: {
-            id: systemId
-        },
-        manufacturer,
-        systemTypeDetailTypes,
-        systemTypeDetailTypeConfigurationTypes,
-        systemType,
-        systemConfigurationOverrides,
-        invalidSystemConfigurationTypes,
+            id: systemId,
+            systemType: {
+                systemTypeDetailTypes = [],
+                systemTypeDetailTypeConfigurationTypes = [],
+            } = {},
+            invalidSystemConfigurationTypes = [],
+        } = {},
     },
     mutations: {
         createInvalidSystemConfigurationType,
@@ -28,7 +27,7 @@ export default function ValidTypes({
             title="Valid Detail Types"
             items={systemTypeDetailTypes}
             mapPillProps={({
-                detailTypeByDetailTypeId: {
+                detailType: {
                     type
                 }
             }) => ({
@@ -36,7 +35,7 @@ export default function ValidTypes({
             })}
         >
             {({
-                detailTypeByDetailTypeId: {
+                detailType: {
                     type: detailTypeName = '',
                     nodeId: detailTypeNID,
                 } = {}
@@ -46,13 +45,13 @@ export default function ValidTypes({
                         // parent={detailTypeName}
                         items={systemTypeDetailTypeConfigurationTypes
                             .filter(({
-                                detailTypeByDetailTypeId: {
+                                detailType: {
                                     nodeId
                                 }
                             }) => nodeId === detailTypeNID)}
                         mapPillProps={({
                             nodeId,
-                            configurationTypeByConfigurationTypeId: {
+                            configurationType: {
                                 nodeId: configurationTypeNID,
                                 id,
                                 type
@@ -60,7 +59,7 @@ export default function ValidTypes({
                         }) => {
                             const invalidSystemConfigurationType = invalidSystemConfigurationTypes
                                 .find(({
-                                    configurationTypeByInvalidConfigurationTypeId: {
+                                    configurationType: {
                                         nodeId: invalidNID,
                                     }
                                 }) => invalidNID === configurationTypeNID);
@@ -91,7 +90,7 @@ export default function ValidTypes({
                         {({
                             required,
                             mirrorable,
-                            configurationTypeByConfigurationTypeId: {
+                            configurationType: {
                                 type: configurationTypeName = '',
                             } = {},
                             ...data
@@ -99,13 +98,12 @@ export default function ValidTypes({
                                 <div className="unfinished">
                                     <HeadedContainer
                                         title={`System Configuration Type - ${configurationTypeName}`}
-                                    // parent={configurationTypeName}
                                     >
                                         <Input
                                             label="Required"
                                             type="checkbox"
                                             checked={required || false}
-                                            onChange={({ target: { checked } }) => console.log({
+                                            onChange={({ target: { checked } }) => ({
                                                 data,
                                                 checked,
                                             })}
@@ -114,7 +112,7 @@ export default function ValidTypes({
                                             label="Mirrorable"
                                             type="checkbox"
                                             checked={required}
-                                            onChange={({ target: { checked } }) => console.log({
+                                            onChange={({ target: { checked } }) => ({
                                                 data,
                                                 checked,
                                             })}

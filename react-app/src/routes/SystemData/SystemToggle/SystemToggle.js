@@ -40,15 +40,14 @@ export default function SystemToggle({
                     }}
                 >
                     {apollo => {
-                        console.log({ apollo });
                         const {
                             queryStatus: {
                                 system: {
                                     name: systemName = "",
-                                },
-                                manufacturer: {
-                                    name: mnfgName = ""
-                                },
+                                    manufacturer: {
+                                        name: mnfgName = ""
+                                    } = {},
+                                } = {},
                             }
                         } = apollo;
 

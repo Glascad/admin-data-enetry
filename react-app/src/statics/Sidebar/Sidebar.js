@@ -15,9 +15,13 @@ import {
     // DoubleArrow,
 } from '../../components';
 
+import {
+    parseSearch,
+} from '../../utils';
+
 import routes from '../../routes/routes';
 
-import parseSearch from '../../utils/search-parser';
+import SystemLink from './SystemLink';
 
 class Sidebar extends Component {
 
@@ -104,6 +108,11 @@ class Sidebar extends Component {
                         onClick={toggle}
                     />
                 </div> */}
+                {systemNID ? (
+                    <SystemLink
+                        systemNID={systemNID}
+                    />
+                ) : null}
             </div>
         );
     }

@@ -53,7 +53,6 @@ export default {
         }
     }`,
     mapResultToProps: (newOptionCombination, { optionCombinations }) => ({
-        n: console.log({ newOptionCombination, optionCombinations }),
         optionCombinations: optionCombinations.concat(newOptionCombination)
     }),
     // refetchQueries: ({

@@ -62,21 +62,4 @@ export default {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allSystemTypes: {
-                nodes: systemTypes = []
-            } = {},
-            allDetailTypes: {
-                nodes: allDetailTypes = []
-            } = {},
-            allConfigurationTypes: {
-                nodes: allConfigurationTypes = []
-            } = {},
-        } = {},
-    }) => ({
-            systemTypes,
-            allDetailTypes,
-            allConfigurationTypes,
-    }),
 };

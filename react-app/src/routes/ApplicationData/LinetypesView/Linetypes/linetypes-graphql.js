@@ -19,19 +19,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allLinetypes: {
-                nodes: linetypes = [],
-            } = {},
-            allLineWeights: {
-                nodes: lineWeights = [],
-            } = {},
-        } = {}
-    }) => ({
-        linetypes,
-        lineWeights,
-    }),
 };
 
 export const mutations = {

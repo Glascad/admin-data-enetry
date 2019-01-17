@@ -10,15 +10,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allSystemTags: {
-                nodes: systemTags = [],
-            } = {}
-        } = {}
-    }) => ({
-        systemTags,
-    }),
 };
 
 export const mutations = {

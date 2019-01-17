@@ -15,7 +15,7 @@ export default function PartOrientations() {
         >
             {({
                 queryStatus: {
-                    orientations,
+                    allOrientations = [],
                 },
                 mutations: {
                     createOrientation,
@@ -25,7 +25,7 @@ export default function PartOrientations() {
             }) => (
                     <ListWrapper
                         title="Part Orientations"
-                        items={orientations}
+                        items={allOrientations}
                         mapPillProps={({ orientation }) => ({
                             title: orientation
                         })}
@@ -40,7 +40,7 @@ export default function PartOrientations() {
                             nodeId
                         })}
                         deleteModal={{
-                            name: "Part Orientation"
+                            name: " Orientation"
                         }}
                     />
                 )}

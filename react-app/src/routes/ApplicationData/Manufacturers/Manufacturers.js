@@ -14,7 +14,7 @@ export default function Manufacturers() {
         >
             {({
                 queryStatus: {
-                    manufacturers,
+                    allManufacturers = [],
                 },
                 mutations: {
                     createManufacturer,
@@ -24,7 +24,7 @@ export default function Manufacturers() {
             }) => (
                     <ListWrapper
                         title="Manufacturers"
-                        items={manufacturers}
+                        items={allManufacturers}
                         defaultPillProps={{
                             type: "tile",
                             footer: "Last Updated: ...",

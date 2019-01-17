@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SelectionWrapper from '../../state/SelectionWrapper/SelectionWrapper';
+import SelectionWrapper from '../../state/SelectionWrapper';
 import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
@@ -38,7 +38,6 @@ class List extends Component {
     }
 
     handleMultiSelectFinish = async ({ arguments: { addedItems, deletedItems } }) => {
-        console.log({ addedItems, deletedItems });
         try {
             await Promise.all(addedItems.map(this.props.onCreate));
         } catch (err) {
@@ -148,7 +147,6 @@ class List extends Component {
                                     onEdit={onUpdate}
                                     onDelete={_delete}
                                     arguments={args}
-                                    // n={console.log(item)}
                                     {...defaultPillProps}
                                     {...mapPillProps(item)}
                                 />

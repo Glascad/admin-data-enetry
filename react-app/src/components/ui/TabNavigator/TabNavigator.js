@@ -5,7 +5,7 @@ import {
     withRouter,
 } from 'react-router-dom';
 
-import Navigator from '../../state/Navigator/Navigator';
+import Navigator from '../../state/Navigator';
 
 import './TabNavigator.scss';
 

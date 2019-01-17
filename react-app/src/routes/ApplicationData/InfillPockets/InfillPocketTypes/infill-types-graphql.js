@@ -12,15 +12,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allInfillPocketTypes: {
-                nodes: infillPocketTypes = [],
-            } = {},
-        } = {}
-    }) => ({
-        infillPocketTypes,
-    }),
 };
 
 export const mutations = {

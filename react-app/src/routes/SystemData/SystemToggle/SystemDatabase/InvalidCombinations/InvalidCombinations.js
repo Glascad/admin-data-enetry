@@ -8,11 +8,10 @@ export default function ValidTypes({
     queryStatus: {
         system: {
             id: systemId,
-        },
-        system,
-        systemOptions,
-        optionCombinations,
-        allConfigurationTypes,
+            systemOptions = [],
+            optionCombinations = [],
+        } = {},
+        allConfigurationTypes = [],
     },
     mutations: {
         createOptionCombination,
@@ -28,28 +27,26 @@ export default function ValidTypes({
             <ListWrapper
                 title="Invalid Combinations"
                 items={optionCombinations}
-                mapPillProps={({
-                    optionCombinationConfigurationTypesByOptionCombinationId: {
-                        nodes: configurationTypes = [],
-                    } = {},
-                    optionCombinationOptionValuesByOptionCombinationId: {
-                        nodes: optionValues = [],
-                    } = {},
-                }) => ({
+                defaultPillProps={{
                     type: "tile",
                     align: "left",
-                    title: !configurationTypes.length && !optionValues.length ?
+                }}
+                mapPillProps={({
+                    optionCombinationConfigurationTypes,
+                    optionCombinationOptionValues,
+                }) => ({
+                    title: !optionCombinationConfigurationTypes.length && !optionCombinationOptionValues.length ?
                         "Empty"
-                        : configurationTypes.map(({
-                            configurationTypeByConfigurationTypeId: {
+                        : optionCombinationConfigurationTypes.map(({
+                            configurationType: {
                                 type
                             }
                         }) => (
                                 <span key={type}>{type}</span>
                             )),
-                    children: optionValues.map(({
-                        optionValueByOptionValueId: {
-                            systemOptionBySystemOptionId: {
+                    children: optionCombinationOptionValues.map(({
+                        optionValue: {
+                            systemOption: {
                                 name: optionName
                             },
                             name: optionValueName,
@@ -67,27 +64,16 @@ export default function ValidTypes({
                 }}
             >
                 {({
-                    optionCombinationConfigurationTypesByOptionCombinationId: {
-                        nodes: configurationTypes = [],
-                    } = {},
-                    optionCombinationOptionValuesByOptionCombinationId: {
-                        nodes: optionValues = [],
-                    } = {},
                     id: optionCombinationId,
-                    ...optionCombination
+                    optionCombinationConfigurationTypes,
+                    optionCombinationOptionValues,
                 }) => (
                         <>
-                            {console.log({
-                                optionCombination,
-                                configurationTypes,
-                                optionValues,
-                                systemOptions,
-                            })}
                             <ListWrapper
                                 title="Configuration Types"
-                                items={configurationTypes.map(({ nodeId, configurationTypeByConfigurationTypeId }) => ({
+                                items={optionCombinationConfigurationTypes.map(({ nodeId, configurationType }) => ({
                                     optionCombinationConfigurationTypeNID: nodeId,
-                                    ...configurationTypeByConfigurationTypeId,
+                                    ...configurationType,
                                 }))}
                                 mapPillProps={({ type }) => ({
                                     title: type
@@ -95,13 +81,13 @@ export default function ValidTypes({
                                 onCreate={configurationType => createOptionCombinationConfigurationType({
                                     optionCombinationId,
                                     configurationTypeId: configurationType.id,
-                                    configurationTypeByConfigurationTypeId: configurationType,
+                                    configurationType,
                                 })}
                                 onDelete={({ optionCombinationConfigurationTypeNID, ...configurationType }) => deleteOptionCombinationConfigurationType({
                                     optionCombinationId,
                                     nodeId: optionCombinationConfigurationTypeNID,
                                     configurationTypeId: configurationType.id,
-                                    configurationTypeByConfigurationTypeId: configurationType,
+                                    configurationType,
                                 })}
                                 multiSelect={{
                                     title: "",
@@ -112,14 +98,14 @@ export default function ValidTypes({
                             </ListWrapper>
                             <ListWrapper
                                 title="Options"
-                                items={optionValues.map(({ nodeId, optionValueByOptionValueId }) => ({
+                                items={optionCombinationOptionValues.map(({ nodeId, optionValue }) => ({
                                     optionCombinationOptionValueNID: nodeId,
-                                    ...optionValueByOptionValueId,
+                                    ...optionValue,
                                 }))}
                                 mapPillProps={({
                                     value,
                                     name,
-                                    systemOptionBySystemOptionId: {
+                                    systemOption: {
                                         name: optionName
                                     }
                                 }) => ({
@@ -128,7 +114,7 @@ export default function ValidTypes({
                                 onCreate={optionValue => createOptionCombinationOptionValue({
                                     optionCombinationId,
                                     optionValueId: optionValue.id,
-                                    optionValueByOptionValueId: optionValue,
+                                    optionValue,
                                 })}
                                 onDelete={({
                                     optionCombinationOptionValueNID,
@@ -137,20 +123,18 @@ export default function ValidTypes({
                                     optionCombinationId,
                                     nodeId: optionCombinationOptionValueNID,
                                     optionValueId: optionValue.id,
-                                    optionValueByOptionValueId: optionValue
+                                    optionValue
                                 })}
                                 multiSelect={{
                                     title: "",
                                     allItems: systemOptions.reduce((allItems, {
-                                        optionValuesBySystemOptionId: {
-                                            nodes: systemOptionValues,
-                                        },
-                                        ...systemOptionBySystemOptionId
+                                        optionValues,
+                                        ...systemOption
                                     }) => ([
                                         ...allItems,
-                                        ...systemOptionValues.map(systemOptionValue => ({
-                                            ...systemOptionValue,
-                                            systemOptionBySystemOptionId
+                                        ...optionValues.map(optionValue => ({
+                                            ...optionValue,
+                                            systemOption
                                         }))
                                     ]), []),
                                 }}

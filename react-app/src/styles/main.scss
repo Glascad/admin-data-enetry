@@ -44,6 +44,10 @@ button {
         margin-left: $small;
     }
 
+    &:focus, &:focus-within {
+        box-shadow: 0 0 1px 1px $current-color;
+    }
+
     &.primary, &.empty, &.danger, &.toggle-button {
         height: $item-height;
         width: fit-content;

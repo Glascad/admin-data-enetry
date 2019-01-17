@@ -9,15 +9,6 @@ export const query = {
             }
         }
     }`,
-    mapQueryToProps: ({
-        data: {
-            allInfillSizes: {
-                nodes: infillSizes = []
-            } = {}
-        } = {}
-    }) => ({
-        infillSizes,
-    }),
 };
 
 export const mutations = {

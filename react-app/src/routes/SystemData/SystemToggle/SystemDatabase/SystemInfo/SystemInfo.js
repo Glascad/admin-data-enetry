@@ -11,18 +11,18 @@ export default function SystemInfo({
         system: {
             nodeId: systemNID,
             id: systemId,
-            name,
-            depth,
-            defaultSightline,
-            shimSize,
+            name = "",
+            depth = 0,
+            defaultSightline = 0,
+            shimSize = 0,
+            systemType: {
+                id: systemTypeId,
+                type: systemTypeName = "",
+            } = {},
+            systemSystemTags = [],
         } = {},
-        systemType: {
-            id: systemTypeId,
-            type: systemTypeName,
-        } = {},
-        systemSystemTags,
-        allSystemTypes,
-        allSystemTags,
+        allSystemTypes = [],
+        allSystemTags = [],
     },
     mutations: {
         updateSystem,
@@ -30,7 +30,6 @@ export default function SystemInfo({
         deleteSystemSystemTag,
     },
 }) {
-    console.log(arguments);
     return (
         <HeadedContainer
             title="System Info"
@@ -65,7 +64,7 @@ export default function SystemInfo({
                 label="System Tags"
                 items={systemSystemTags.map(({
                     nodeId: systemSystemTagNID,
-                    systemTagBySystemTagId: systemTag,
+                    systemTag,
                 }) => ({
                     systemSystemTagNID,
                     ...systemTag,
@@ -76,13 +75,13 @@ export default function SystemInfo({
                 onCreate={systemTag => createSystemSystemTag({
                     systemTagId: systemTag.id,
                     systemId,
-                    systemTagBySystemTagId: systemTag,
+                    systemTag,
                 })}
                 onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
                     nodeId: systemSystemTagNID,
                     systemTagId: systemTag.id,
                     systemId,
-                    systemTagBySystemTagId: systemTag,
+                    systemTag,
                 })}
                 multiSelect={{
                     allItems: allSystemTags,

@@ -15,14 +15,16 @@ import _Toggle from './ui/Toggle/Toggle';
 import _Input from './ui/Input/Input';
 
 // STATE COMPONENTS
-import _Batcher from './state/Batcher/Batcher';
-import _ApolloWrapper from './state/ApolloWrapper/ApolloWrapper';
-import _SelectionWrapper from './state/SelectionWrapper/SelectionWrapper';
-import _Navigator from './state/Navigator/Navigator';
-import _StateManager from './state/StateManager/StateManager';
+import _Batcher from './state/Batcher';
+import _ApolloWrapper from './state/ApolloWrapper';
+import _SelectionWrapper from './state/SelectionWrapper';
+import _Navigator from './state/Navigator';
+import _StateManager from './state/StateManager';
+
+// DEVELOPMENT TOOLS
+import _CheatSheet from './dev/CheatSheet/CheatSheet';
 
 // UNIVERSAL STYLES
-import './cheat-sheet.scss';
 import './index.scss';
 
 // UI
@@ -47,3 +49,6 @@ export const ApolloWrapper = _ApolloWrapper;
 export const SelectionWrapper = _SelectionWrapper;
 export const Navigator = _Navigator;
 export const StateManager = _StateManager;
+
+// CHEAT SHEET
+export const CheatSheet = _CheatSheet;

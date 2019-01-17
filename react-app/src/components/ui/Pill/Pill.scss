@@ -172,7 +172,8 @@
         height: $pill-width;
         width: $pill-width;
         border-radius: $x-small;
-        padding: $base-size;
+        // padding: $base-size;
+        padding: $small;
 
         &.align-left {
             align-items: flex-start;

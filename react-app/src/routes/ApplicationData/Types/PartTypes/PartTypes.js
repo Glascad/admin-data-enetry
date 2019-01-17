@@ -13,7 +13,7 @@ export default function PartTypes() {
         >
             {({
                 queryStatus: {
-                    partTypes,
+                    allPartTypes = [],
                 },
                 mutations: {
                     createPartType,
@@ -23,7 +23,7 @@ export default function PartTypes() {
             }) => (
                     <ListWrapper
                         title="Part Types"
-                        items={partTypes}
+                        items={allPartTypes}
                         mapPillProps={({ type }) => ({
                             title: type
                         })}

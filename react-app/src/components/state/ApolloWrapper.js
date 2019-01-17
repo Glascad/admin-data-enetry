@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 
+import {
+    removeNullValues,
+    flattenNodeArrays,
+    replaceByKeys,
+} from '../../utils';
+
+const normalizeResponse = ({ data }) => removeNullValues()(
+    flattenNodeArrays(
+        replaceByKeys(
+            data
+        )
+    )
+);
+
 /**
  * PURPOSE
  * 
@@ -24,36 +38,10 @@ export default class ApolloWrapper extends Component {
     static propTypes = {
         query: PropTypes.shape({
             query: PropTypes.object.isRequired,
-            mapQueryToProps: PropTypes.func,
             variables: PropTypes.object,
         }),
         mutations: PropTypes.objectOf(PropTypes.object),
     };
-
-    // for the sake of destructuring in child components
-    removeNullValues = (prev = []) => obj => (obj === null ?
-        undefined
-        :
-        typeof obj !== 'object' || prev.includes(obj) ?
-            obj
-            :
-            Array.isArray(obj) ?
-                obj.map(this.removeNullValues([...prev, obj]))
-                :
-                Object.keys(obj)
-                    .reduce((filteredObj, key) => {
-                        const value = this.removeNullValues([...prev, obj])(obj[key]);
-                        return value === undefined ?
-                            // console.log(`REMOVED KEY: \n "${key}" \n from object: \n`, obj)
-                            // ||
-                            filteredObj
-                            :
-                            {
-                                ...filteredObj,
-                                [key]: value
-                            }
-                    }, {})
-    );
 
     render = () => {
         const {
@@ -66,15 +54,14 @@ export default class ApolloWrapper extends Component {
                     batchMutation,
                 } = {},
                 query,
-                query: {
-                    mapQueryToProps = props => props,
-                } = {},
+                // query: {
+                //     mapQueryToProps = props => props,
+                // } = {},
                 refetch,
                 mutations = {},
                 children,
                 ...props
             },
-            removeNullValues,
         } = this;
 
         const mutationKeys = Object.keys(mutations);
@@ -100,9 +87,7 @@ export default class ApolloWrapper extends Component {
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
                                 // iterate through all batched mutations
                                 const batchedMutationKeys = Object.keys(batchedMutations);
-                                // console.log(batchedMutationKeys);
                                 const queryStatus = batchedMutationKeys.reduce((mappedStatus, mutationKey) => {
-                                    // console.log(mappedStatus);
                                     const {
                                         mapResultToProps = (res, props) => props
                                     } = mutations[mutationKey] || {};
@@ -114,14 +99,12 @@ export default class ApolloWrapper extends Component {
                                         ...mappedStatus,
                                         ...mapResultToProps(argSet, mappedStatus),
                                     }), mappedStatus);
-                                }, mapQueryToProps(removeNullValues()(status)));
+                                }, normalizeResponse(status));
                                 const childProps = {
                                     ...accumulatedProps,
                                     batcher,
                                     queryStatus,
                                 };
-                                console.log(status);
-                                console.log(childProps);
                                 return children(childProps);
                             }}
                         </ApolloWrapper>

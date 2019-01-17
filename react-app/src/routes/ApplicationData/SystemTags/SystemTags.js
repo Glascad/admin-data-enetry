@@ -13,7 +13,7 @@ export default function SystemTags() {
         >
             {({
                 queryStatus: {
-                    systemTags,
+                    allSystemTags = [],
                 },
                 mutations: {
                     createSystemTag,
@@ -23,7 +23,7 @@ export default function SystemTags() {
             }) => (
                     <ListWrapper
                         title="System Tags"
-                        items={systemTags}
+                        items={allSystemTags}
                         mapPillProps={({ tag }) => ({
                             title: tag
                         })}

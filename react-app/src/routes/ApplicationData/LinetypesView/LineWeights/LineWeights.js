@@ -16,7 +16,7 @@ export default function LineWeights() {
         >
             {({
                 queryStatus: {
-                    lineWeights,
+                    allLineWeights = [],
                 },
                 mutations: {
                     createLineWeight,
@@ -26,13 +26,13 @@ export default function LineWeights() {
             }) => (
                     <ListWrapper
                         title="Line Weights"
-                        items={lineWeights}
+                        items={allLineWeights}
                         mapPillProps={({ name }) => ({
                             title: name,
                         })}
                         onCreate={({ }, { input }) => createLineWeight({
                             name: input,
-                            weight: 1 + +lineWeights.reduce((max, { weight }) => Math.max(max, weight), 0)
+                            weight: 1 + +allLineWeights.reduce((max, { weight }) => Math.max(max, weight), 0)
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateLineWeight({
                             name: input,

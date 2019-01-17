@@ -11,15 +11,15 @@ export default function GlazingInfo({
         system: {
             nodeId: systemNID,
             id: systemId,
-            defaultGlassBite,
-            defaultGlassSize,
-        },
-        systemInfillSizes,
-        allInfillSizes,
-        systemInfillPocketTypes,
-        allInfillPocketTypes,
-        systemInfillPocketSizes,
-        allInfillPocketSizes,
+            defaultGlassBite = 0,
+            defaultGlassSize = 0,
+            systemInfillSizes = [],
+            systemInfillPocketTypes = [],
+            systemInfillPocketSizes = [],
+        } = {},
+        allInfillSizes = [],
+        allInfillPocketTypes = [],
+        allInfillPocketSizes = [],
     },
     mutations: {
         updateSystem,
@@ -31,7 +31,6 @@ export default function GlazingInfo({
         deleteSystemInfillPocketSize,
     },
 }) {
-    console.log(arguments);
     return (
         <HeadedContainer
             title="Glazing Info"
@@ -48,10 +47,10 @@ export default function GlazingInfo({
                 label="Infill Material Sizes"
                 items={systemInfillSizes.map(({
                     nodeId: systemInfillSizeNID,
-                    infillSizeByInfillSize,
+                    infillSize,
                 }) => ({
                     systemInfillSizeNID,
-                    ...infillSizeByInfillSize,
+                    ...infillSize,
                 }))}
                 multiSelect={{
                     allItems: allInfillSizes
@@ -62,21 +61,21 @@ export default function GlazingInfo({
                 onCreate={infillSize => createSystemInfillSize({
                     systemId,
                     infillSize: infillSize.size,
-                    infillSizeByInfillSize: infillSize,
+                    infillSize: infillSize,
                 })}
-                
+
                 onDelete={({ systemInfillSizeNID, ...infillSize }) => deleteSystemInfillSize({
                     nodeId: systemInfillSizeNID,
                     systemId,
                     infillSize: infillSize.size,
-                    infillSizeByInfillSize: infillSize,
+                    infillSize: infillSize,
                 })}
             />
             <Input
                 label="Default Infill Material Size"
                 select={{
                     options: systemInfillSizes
-                        .map(({ infillSizeByInfillSize: { size } }) => ({
+                        .map(({ infillSize: { size } }) => ({
                             value: size,
                             label: size,
                         })),
@@ -95,10 +94,10 @@ export default function GlazingInfo({
                 items={systemInfillPocketTypes
                     .map(({
                         nodeId,
-                        infillPocketTypeByInfillPocketTypeId
+                        infillPocketType
                     }) => ({
                         systemInfillPocketTypeNID: nodeId,
-                        ...infillPocketTypeByInfillPocketTypeId,
+                        ...infillPocketType,
                     }))}
                 multiSelect={{
                     allItems: allInfillPocketTypes
@@ -109,13 +108,13 @@ export default function GlazingInfo({
                 onCreate={infillPocketType => createSystemInfillPocketType({
                     systemId,
                     infillPocketTypeId: infillPocketType.id,
-                    infillPocketTypeByInfillPocketTypeId: infillPocketType,
+                    infillPocketType,
                 })}
                 onDelete={({ systemInfillPocketTypeNID, ...infillPocketType }) => deleteSystemInfillPocketType({
                     nodeId: systemInfillPocketTypeNID,
                     systemId,
                     infillPocketTypeId: infillPocketType.id,
-                    infillPocketTypeByInfillPocketTypeId: infillPocketType,
+                    infillPocketType,
                 })}
             />
             <ListWrapper
@@ -123,10 +122,10 @@ export default function GlazingInfo({
                 items={systemInfillPocketSizes
                     .map(({
                         nodeId: systemInfillPocketSizeNID,
-                        infillPocketSizeByInfillPocketSize,
+                        infillPocketSize,
                     }) => ({
                         systemInfillPocketSizeNID,
-                        ...infillPocketSizeByInfillPocketSize
+                        ...infillPocketSize
                     }))}
                 multiSelect={{
                     allItems: allInfillPocketSizes
@@ -134,15 +133,13 @@ export default function GlazingInfo({
                 mapPillProps={({ size }) => ({
                     title: `${size}"`
                 })}
-                onCreate={infillPocketSize => createSystemInfillPocketSize({
+                onCreate={({ size }) => createSystemInfillPocketSize({
                     systemId,
-                    infillPocketSize: infillPocketSize.size,
-                    infillPocketSizeByInfillPocketSize: infillPocketSize,
+                    infillPocketSize: size,
                 })}
-                onDelete={({ systemInfillPocketSizeNID, ...infillPocketSize }) => deleteSystemInfillPocketSize({
+                onDelete={({ systemInfillPocketSizeNID, size }) => deleteSystemInfillPocketSize({
                     nodeId: systemInfillPocketSizeNID,
-                    infillPocketSize: infillPocketSize.size,
-                    infillPocketSizeByInfillPocketSize: infillPocketSize,
+                    infillPocketSize: size,
                 })}
             />
         </HeadedContainer>

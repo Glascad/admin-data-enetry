@@ -19,7 +19,7 @@ export default function InfillPocketTypes() {
         >
             {({
                 queryStatus: {
-                    infillPocketTypes,
+                    allInfillPocketTypes = [],
                 },
                 mutations: {
                     createInfillPocketType,
@@ -29,7 +29,7 @@ export default function InfillPocketTypes() {
             }) => (
                     <ListWrapper
                         title="Infill Pocket Types"
-                        items={infillPocketTypes}
+                        items={allInfillPocketTypes}
                         mapPillProps={({ type }) => ({
                             title: type
                         })}
