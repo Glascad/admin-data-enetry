@@ -96,29 +96,31 @@ export default function ValidTypes({
                             } = {},
                             ...data
                         }) => (
-                                <HeadedContainer
-                                    title={`System Configuration Type - ${configurationTypeName}`}
-                                // parent={configurationTypeName}
-                                >
-                                    <Input
-                                        label="Required"
-                                        type="checkbox"
-                                        checked={required || false}
-                                        onChange={({ target: { checked } }) => console.log({
-                                            data,
-                                            checked,
-                                        })}
-                                    />
-                                    <Input
-                                        label="Mirrorable"
-                                        type="checkbox"
-                                        checked={required}
-                                        onChange={({ target: { checked } }) => console.log({
-                                            data,
-                                            checked,
-                                        })}
-                                    />
-                                </HeadedContainer>
+                                <div className="broken">
+                                    <HeadedContainer
+                                        title={`System Configuration Type - ${configurationTypeName}`}
+                                    // parent={configurationTypeName}
+                                    >
+                                        <Input
+                                            label="Required"
+                                            type="checkbox"
+                                            checked={required || false}
+                                            onChange={({ target: { checked } }) => console.log({
+                                                data,
+                                                checked,
+                                            })}
+                                        />
+                                        <Input
+                                            label="Mirrorable"
+                                            type="checkbox"
+                                            checked={required}
+                                            onChange={({ target: { checked } }) => console.log({
+                                                data,
+                                                checked,
+                                            })}
+                                        />
+                                    </HeadedContainer>
+                                </div>
                             )}
                     </ListWrapper>
                 )}

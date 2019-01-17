@@ -53,16 +53,6 @@ export default function SystemOptions({
                 } = {},
             }) => (
                     <>
-                        {console.log({
-                            nodeId,
-                            systemOptionId,
-                            name,
-                            presentationLevel,
-                            overrideLevel,
-                            mirrorable,
-                            systemOptionConfigurationTypes,
-                            optionValues,
-                        })}
                         <HeadedContainer
                             title="Option"
                             className="input-wrapper"
@@ -150,17 +140,19 @@ export default function SystemOptions({
                                 allItems: allConfigurationTypes,
                             }}
                         />
-                        <ListWrapper
-                            title="Values"
-                            items={optionValues}
-                            mapPillProps={({ name }) => ({
-                                title: name
-                            })}
-                            onCreate={({ }, { input }) => createOptionValue({
-                                systemOptionId,
-                                name: input
-                            })}
-                        />
+                        <div className="broken">
+                            <ListWrapper
+                                title="Values"
+                                items={optionValues}
+                                mapPillProps={({ name }) => ({
+                                    title: name
+                                })}
+                                onCreate={({ }, { input }) => createOptionValue({
+                                    systemOptionId,
+                                    name: input
+                                })}
+                            />
+                        </div>
                     </>
                 )}
         </ListWrapper>
