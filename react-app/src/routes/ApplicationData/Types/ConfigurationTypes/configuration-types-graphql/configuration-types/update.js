@@ -1,0 +1,51 @@
+import gql from 'graphql-tag';
+
+export default {
+    mutation: gql`mutation UpdateConfigurationType(
+        $nodeId:ID!,
+        $type:String,
+        $door:Boolean,
+        $overrideLevel:Int,
+        $presentationLevel:Int
+    ){
+        updateConfigurationType(input:{
+            nodeId:$nodeId
+            configurationTypePatch:{
+                type:$type
+                door:$door
+                overrideLevel:$overrideLevel
+                presentationLevel:$presentationLevel
+            }
+        }){
+            configurationType{
+                nodeId
+                id
+                type
+                door
+                overrideLevel
+                presentationLevel
+                configurationTypePartTypesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        partTypeByPartTypeId{
+                            nodeId
+                            id
+                            type
+                        }
+                    }
+                }
+                configurationNameOverridesByConfigurationTypeId{
+                    nodes{
+                        nodeId
+                        nameOverride
+                        manufacturerByManufacturerId{
+                            nodeId
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    }`,
+};

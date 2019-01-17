@@ -3,7 +3,7 @@ import React from 'react';
 import {
     HeadedContainer,
     Input,
-    ListWrapper3,
+    ListWrapper,
 } from '../../../../../components';
 
 export default function SystemInfo({
@@ -61,7 +61,7 @@ export default function SystemInfo({
                     }),
                 }}
             />
-            <ListWrapper3
+            <ListWrapper
                 label="System Tags"
                 items={systemSystemTags.map(({
                     nodeId: systemSystemTagNID,

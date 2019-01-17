@@ -1,65 +1,141 @@
 import React from 'react';
-import { ApolloListWrapper } from '../../../../components';
 
-import * as apolloProps from './configuration-types-graphql';
+import {
+    ApolloWrapper,
+    ListWrapper,
+    HeadedContainer,
+    Input,
+} from '../../../../components';
 
-import ConfigurationTypeInfo from './ConfigurationTypeInfo';
-import PartTypes from './PartTypes/PartTypes';
-import Overrides from './Overrides/Overrides';
+import query from './configuration-types-graphql/query';
+import mutations from './configuration-types-graphql/mutations';
 
 export default function ConfigurationTypes() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Configuration Type"
-            extractList={({
-                allConfigurationTypes: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({ type }) => ({
-                title: type,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                type: input,
-                door: false,
-                vertical: false,
-            })}
-            extractCreatedNID={({
-                createConfigurationType: {
-                    configurationType: {
-                        nodeId,
-                    },
-                },
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                type: input,
-            })}
-            extractName={({ type }) => type}
+        <ApolloWrapper
+            query={query}
+            mutations={mutations}
         >
             {({
-                apollo: {
-                    updateItem,
+                queryStatus: {
+                    configurationTypes,
+                    allManufacturers,
+                    allPartTypes,
                 },
-                selectedItem,
+                mutations: {
+                    createConfigurationType,
+                    updateConfigurationType,
+                    deleteConfigurationType,
+                    createConfigurationTypePartType,
+                    deleteConfigurationTypePartType,
+                    createConfigurationNameOverride,
+                    updateConfigurationNameOverride,
+                    deleteConfigurationNameOverride,
+                },
             }) => (
-                    <>
-                        <ConfigurationTypeInfo
-                            configurationType={selectedItem}
-                            updateConfigurationType={updateItem}
-                        />
-                        {selectedItem.nodeId ? (
-                            <PartTypes
-                                configurationType={selectedItem}
-                            />
-                        ) : null}
-                        {selectedItem.nodeId ? (
-                            <Overrides
-                                configurationType={selectedItem}
-                            />
-                        ) : null}
-                    </>
+                    <ListWrapper
+                        title="Configuration Types"
+                        items={configurationTypes}
+                        mapPillProps={({ type }) => ({
+                            title: type
+                        })}
+                        onCreate={({ }, { input }) => createConfigurationType({
+                            type: input
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateConfigurationType({
+                            nodeId,
+                            type: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteConfigurationType({
+                            nodeId
+                        })}
+                        deleteModal={{
+                            name: "Configuration Type"
+                        }}
+                    >
+                        {({
+                            nodeId,
+                            id: configurationTypeId,
+                            type,
+                            door,
+                            presentationLevel,
+                            overrideLevel,
+                            configurationTypePartTypesByConfigurationTypeId: {
+                                nodes: configurationTypePartTypes = []
+                            } = {},
+                            configurationNameOverridesByConfigurationTypeId: {
+                                nodes: overrides = [],
+                            } = {},
+                        }) => (
+                                <HeadedContainer
+                                    title={`Configuration Type - ${type}`}
+                                >
+                                    <Input
+                                        label="Door"
+                                        type="checkbox"
+                                        checked={door}
+                                        onChange={({ target: { checked } }) => updateConfigurationType({
+                                            nodeId,
+                                            door: checked,
+                                        })}
+                                    />
+                                    <Input
+                                        label="Presentation Level"
+                                        type="number"
+                                        initialValue={presentationLevel || 0}
+                                        onBlur={({ target: { value } }) => updateConfigurationType({
+                                            nodeId,
+                                            presentationLevel: value,
+                                        })}
+                                    />
+                                    <Input
+                                        label="Override Level"
+                                        type="number"
+                                        initialValue={overrideLevel || 0}
+                                        onBlur={({ target: { value } }) => updateConfigurationType({
+                                            nodeId,
+                                            overrideLevel: value,
+                                        })}
+                                    />
+                                    <ListWrapper
+                                        title={`Part Types - ${type}`}
+                                        items={configurationTypePartTypes
+                                            .map(({
+                                                nodeId,
+                                                partTypeByPartTypeId,
+                                            }) => ({
+                                                configurationTypePartTypeNID: nodeId,
+                                                ...partTypeByPartTypeId
+                                            }))}
+                                        multiSelect={{
+                                            allItems: allPartTypes,
+                                        }}
+                                        mapPillProps={({ type }) => ({
+                                            title: type
+                                        })}
+                                        onCreate={({ id }) => createConfigurationTypePartType({
+                                            configurationTypeId,
+                                            partTypeId: id,
+                                        })}
+                                        onDelete={({ configurationTypePartTypeNID }) => deleteConfigurationTypePartType({
+                                            nodeId: configurationTypePartTypeNID
+                                        })}
+                                        deleteModal={{
+                                            name: `${type} Part Type`
+                                        }}
+                                    />
+                                    <div className="broken">
+                                        <ListWrapper
+                                            title={`Name Overrides - ${type}`}
+                                            items={overrides}
+                                            mapPillProps={() => ({})}
+                                        />
+                                    </div>
+                                </HeadedContainer>
+                            )
+                        }
+                    </ListWrapper >
                 )}
-        </ApolloListWrapper>
+        </ApolloWrapper >
     );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    ListWrapper3,
+    ListWrapper,
 } from '../../../../../components';
 
 export default function ValidTypes({
@@ -24,7 +24,7 @@ export default function ValidTypes({
     }
 }) {
     return (
-        <ListWrapper3
+        <ListWrapper
             title="Invalid Combinations"
             items={optionCombinations}
             mapPillProps={({
@@ -82,7 +82,7 @@ export default function ValidTypes({
                             optionValues,
                             systemOptions,
                         })}
-                        <ListWrapper3
+                        <ListWrapper
                             title="Configuration Types"
                             items={configurationTypes.map(({ nodeId, configurationTypeByConfigurationTypeId }) => ({
                                 optionCombinationConfigurationTypeNID: nodeId,
@@ -108,8 +108,8 @@ export default function ValidTypes({
                             }}
                         >
 
-                        </ListWrapper3>
-                        <ListWrapper3
+                        </ListWrapper>
+                        <ListWrapper
                             title="Options"
                             items={optionValues.map(({ nodeId, optionValueByOptionValueId }) => ({
                                 optionCombinationOptionValueNID: nodeId,
@@ -155,9 +155,9 @@ export default function ValidTypes({
                             }}
                         >
 
-                        </ListWrapper3>
+                        </ListWrapper>
                     </>
                 )}
-        </ListWrapper3>
+        </ListWrapper>
     );
 }

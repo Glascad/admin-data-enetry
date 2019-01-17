@@ -3,7 +3,7 @@ import React from 'react';
 import {
     HeadedContainer,
     Input,
-    ListWrapper3,
+    ListWrapper,
 } from '../../../../../components';
 
 export default function SystemOptions({
@@ -25,7 +25,7 @@ export default function SystemOptions({
     }
 }) {
     return (
-        <ListWrapper3
+        <ListWrapper
             title="System Options"
             items={systemOptions}
             mapPillProps={({
@@ -123,7 +123,7 @@ export default function SystemOptions({
                                 })}
                             />
                         </HeadedContainer>
-                        <ListWrapper3
+                        <ListWrapper
                             title="Affected Configuration Types"
                             items={systemOptionConfigurationTypes
                                 .map(({ nodeId, configurationTypeByConfigurationTypeId }) => ({
@@ -150,7 +150,7 @@ export default function SystemOptions({
                                 allItems: allConfigurationTypes,
                             }}
                         />
-                        <ListWrapper3
+                        <ListWrapper
                             title="Values"
                             items={optionValues}
                             mapPillProps={({ name }) => ({
@@ -163,6 +163,6 @@ export default function SystemOptions({
                         />
                     </>
                 )}
-        </ListWrapper3>
+        </ListWrapper>
     );
 }

@@ -1,99 +1,110 @@
 import gql from 'graphql-tag';
 
-export const query = gql`{
-    allPartTypes{
-        nodes{
-            nodeId
-            id
-            type
-        }
-    }
-}`;
-
-export const create = {
-    mutation: gql`mutation CreatePartType($type:String!){
-        createPartType(input:{
-            partType:{
-                type:$type
-            }
-        }){
-            partType{
+export const query = {
+    query: gql`{
+        allPartTypes{
+            nodes{
                 nodeId
                 id
                 type
             }
         }
     }`,
-    update: (cache, {
+    mapQueryToProps: ({
         data: {
-            createPartType: {
-                partType
-            }
-        }
-    }) => {
-        const { allPartTypes, ...data } = cache.readQuery({ query });
-        cache.writeQuery({
-            query,
-            data: {
-                ...data,
-                allPartTypes: {
-                    ...allPartTypes,
-                    nodes: allPartTypes.nodes.concat(partType)
-                }
-            }
-        });
-    }
+            allPartTypes: {
+                nodes: partTypes = [],
+            } = {}
+        } = {}
+    }) => ({
+        partTypes,
+    }),
 };
 
-export const update = {
-    mutation: gql`mutation UpdatePartType($nodeId:ID!,$type:String!){
-        updatePartType(input:{
-            nodeId:$nodeId
-            partTypePatch:{
-                type:$type
-            }
-        }){
-            partType{
-                nodeId
-                id
-                type
-            }
-        }
-    }`,
-};
-
-export const _delete = {
-    mutation: gql`mutation DeletePartType($nodeId:ID!){
-        deletePartType(input:{
-            nodeId:$nodeId
-        }){
-            partType{
-                nodeId
-                id
-                type
-            }
-        }
-    }`,
-    update: (cache, {
-        data: {
-            deletePartType: {
-                partType: {
-                    nodeId: deletedNID
+export const mutations = {
+    createPartType: {
+        mutation: gql`mutation CreatePartType($type:String!){
+            createPartType(input:{
+                partType:{
+                    type:$type
+                }
+            }){
+                partType{
+                    nodeId
+                    id
+                    type
                 }
             }
-        }
-    }) => {
-        const { allPartTypes, ...data } = cache.readQuery({ query });
-        cache.writeQuery({
-            query,
+        }`,
+        update: (cache, {
             data: {
-                ...data,
-                allPartTypes: {
-                    ...allPartTypes,
-                    nodes: allPartTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                createPartType: {
+                    partType
                 }
             }
-        });
-    }
+        }) => {
+            const { allPartTypes, ...data } = cache.readQuery(query);
+            cache.writeQuery({
+                ...query,
+                data: {
+                    ...data,
+                    allPartTypes: {
+                        ...allPartTypes,
+                        nodes: allPartTypes.nodes.concat(partType)
+                    }
+                }
+            });
+        }
+    },
+    updatePartType: {
+        mutation: gql`mutation UpdatePartType($nodeId:ID!,$type:String!){
+            updatePartType(input:{
+                nodeId:$nodeId
+                partTypePatch:{
+                    type:$type
+                }
+            }){
+                partType{
+                    nodeId
+                    id
+                    type
+                }
+            }
+        }`,
+    },
+    deletePartType: {
+        mutation: gql`mutation DeletePartType($nodeId:ID!){
+            deletePartType(input:{
+                nodeId:$nodeId
+            }){
+                partType{
+                    nodeId
+                    id
+                    type
+                }
+            }
+        }`,
+        update: (cache, {
+            data: {
+                deletePartType: {
+                    partType: {
+                        nodeId: deletedNID
+                    }
+                }
+            }
+        }) => {
+            const { allPartTypes, ...data } = cache.readQuery(query);
+            cache.writeQuery({
+                ...query,
+                data: {
+                    ...data,
+                    allPartTypes: {
+                        ...allPartTypes,
+                        nodes: allPartTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
+                    }
+                }
+            });
+        },
+    },
 };
 

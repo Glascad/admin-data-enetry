@@ -1,9 +1,8 @@
 import React from 'react';
 
 import {
-    // ApolloListWrapper,
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
     HeadedContainer,
 } from '../../../components';
 
@@ -19,7 +18,7 @@ import './InfillSizes.scss';
 export default function InfillSizes() {
     return (
         // "Infill Sizes"
-        <ApolloWrapper3
+        <ApolloWrapper
             query={query}
             mutations={mutations}
         >
@@ -38,7 +37,7 @@ export default function InfillSizes() {
                         <InfillSizesGenerator
                             createItem={createInfillSize}
                         />
-                        <ListWrapper3
+                        <ListWrapper
                             items={infillSizes}
                             defaultPillProps={{
                                 inputType: "number",
@@ -58,6 +57,6 @@ export default function InfillSizes() {
                         />
                     </HeadedContainer>
                 )}
-        </ApolloWrapper3>
+        </ApolloWrapper>
     );
 }

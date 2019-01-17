@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
 } from '../../../components';
 
 import * as apolloProps from './part-orientations-graphql';
@@ -10,7 +10,7 @@ import * as apolloProps from './part-orientations-graphql';
 
 export default function PartOrientations() {
     return (
-        <ApolloWrapper3
+        <ApolloWrapper
             {...apolloProps}
         >
             {({
@@ -23,7 +23,7 @@ export default function PartOrientations() {
                     deleteOrientation,
                 },
             }) => (
-                    <ListWrapper3
+                    <ListWrapper
                         title="Part Orientations"
                         items={orientations}
                         mapPillProps={({ orientation }) => ({
@@ -44,6 +44,6 @@ export default function PartOrientations() {
                         }}
                     />
                 )}
-        </ApolloWrapper3>
+        </ApolloWrapper>
     );
 }

@@ -103,7 +103,7 @@ class List extends Component {
             {};
 
         return (
-            <div className="ListWrapper3">
+            <div className="ListWrapper">
                 <HeadedListContainer
                     title={title}
                     label={label}
@@ -228,7 +228,7 @@ class List extends Component {
 }
 
 
-export default function ListWrapper3({
+export default function ListWrapper({
     stateManager,
     stateManager: {
         id,

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
     HeadedContainer,
     Input,
 } from '../../../../components';
@@ -11,7 +11,7 @@ import * as apolloProps from './line-weights-graphql';
 
 export default function LineWeights() {
     return (
-        <ApolloWrapper3
+        <ApolloWrapper
             {...apolloProps}
         >
             {({
@@ -24,7 +24,7 @@ export default function LineWeights() {
                     deleteLineWeight,
                 },
             }) => (
-                    <ListWrapper3
+                    <ListWrapper
                         title="Line Weights"
                         items={lineWeights}
                         mapPillProps={({ name }) => ({
@@ -64,8 +64,8 @@ export default function LineWeights() {
                                     />
                                 </HeadedContainer>
                             )}
-                    </ListWrapper3>
+                    </ListWrapper>
                 )}
-        </ApolloWrapper3>
+        </ApolloWrapper>
     );
 }

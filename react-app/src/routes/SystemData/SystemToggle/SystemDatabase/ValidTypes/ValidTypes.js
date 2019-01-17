@@ -3,7 +3,7 @@ import React from 'react';
 import {
     HeadedContainer,
     Input,
-    ListWrapper3,
+    ListWrapper,
 } from '../../../../../components';
 
 export default function ValidTypes({
@@ -24,7 +24,7 @@ export default function ValidTypes({
     },
 }) {
     return (
-        <ListWrapper3
+        <ListWrapper
             title="Valid Detail Types"
             items={systemTypeDetailTypes}
             mapPillProps={({
@@ -41,7 +41,7 @@ export default function ValidTypes({
                     nodeId: detailTypeNID,
                 } = {}
             }) => (
-                    <ListWrapper3
+                    <ListWrapper
                         title={`Valid Configuration Types - ${detailTypeName}`}
                         // parent={detailTypeName}
                         items={systemTypeDetailTypeConfigurationTypes
@@ -120,8 +120,8 @@ export default function ValidTypes({
                                     />
                                 </HeadedContainer>
                             )}
-                    </ListWrapper3>
+                    </ListWrapper>
                 )}
-        </ListWrapper3>
+        </ListWrapper>
     );
 }

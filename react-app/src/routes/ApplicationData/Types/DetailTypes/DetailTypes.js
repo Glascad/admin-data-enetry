@@ -1,51 +1,80 @@
 import React from 'react';
-import { ApolloListWrapper } from '../../../../components';
+import {
+    ApolloWrapper,
+    ListWrapper,
+    Input,
+    HeadedContainer,
+} from '../../../../components';
 
 import * as apolloProps from './detail-types-graphql';
 
-import DetailTypeInfo from './DetailTypeInfo';
-
 export default function DetailTypes() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Detail Type"
-            extractList={({
-                allDetailTypes: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({ type }) => ({
-                title: type,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                type: input,
-                vertical: false,
-                entrance: false,
-            })}
-            extractCreatedNID={({
-                createDetailType: {
-                    detailType: {
-                        nodeId
-                    }
-                }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                type: input,
-            })}
-            extractName={({ type }) => type}
+        <ApolloWrapper
+            {...apolloProps}
         >
             {({
-                apollo: {
-                    updateItem,
+                queryStatus: {
+                    detailTypes,
                 },
-                selectedItem,
+                mutations: {
+                    createDetailType,
+                    updateDetailType,
+                    deleteDetailType,
+                },
             }) => (
-                    <DetailTypeInfo
-                        detailType={selectedItem}
-                        updateDetailType={updateItem}
-                    />
+                    <ListWrapper
+                        title="Detail Types"
+                        items={detailTypes}
+                        mapPillProps={({ type }) => ({
+                            title: type
+                        })}
+                        onCreate={({ }, { input }) => createDetailType({
+                            type: input
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateDetailType({
+                            nodeId,
+                            type: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteDetailType({
+                            nodeId
+                        })}
+                        deleteModal={{
+                            name: "Detail Type"
+                        }}
+                    >
+                        {({
+                            nodeId,
+                            type,
+                            vertical,
+                            entrance,
+                        }) => (
+                                <HeadedContainer
+                                    title={`Detail Types - ${type}`}
+                                    nestLevel={1}
+                                >
+                                    <Input
+                                        label="Vertical"
+                                        type="checkbox"
+                                        checked={vertical}
+                                        onChange={({ target: { checked } }) => updateDetailType({
+                                            nodeId,
+                                            vertical: checked,
+                                        })}
+                                    />
+                                    <Input
+                                        label="Entrance"
+                                        type="checkbox"
+                                        checked={entrance}
+                                        onChange={({ target: { checked } }) => updateDetailType({
+                                            nodeId,
+                                            entrance: checked
+                                        })}
+                                    />
+                                </HeadedContainer>
+                            )}
+                    </ListWrapper>
                 )}
-        </ApolloListWrapper>
+        </ApolloWrapper>
     );
 }

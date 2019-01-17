@@ -1,0 +1,50 @@
+import gql from 'graphql-tag';
+
+export default {
+    mutation: gql`mutation DeleteSystemType(
+        $nodeId:ID!
+    ){
+        deleteSystemType(
+            input:{
+                nodeId:$nodeId
+            }
+        ){
+            systemType{
+                nodeId
+                id
+                type
+                systemTypeDetailTypesBySystemTypeId{
+                    nodes{
+                        nodeId
+                        detailTypeByDetailTypeId{
+                            nodeId
+                            id
+                            type
+                            vertical
+                            entrance
+                        }
+                    }
+                }
+                systemTypeDetailTypeConfigurationTypesBySystemTypeId{
+                    nodes{
+                        nodeId
+                        required
+                        mirrorable
+                        detailTypeByDetailTypeId{
+                            nodeId
+                            id
+                        }
+                        configurationTypeByConfigurationTypeId{
+                            nodeId
+                            id
+                            type
+                            door
+                            overrideLevel
+                            presentationLevel
+                        }
+                    }
+                }
+            }
+        }
+    }`,
+};

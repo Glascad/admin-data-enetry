@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
  * 
  * USAGE
  * 
- * The ApolloWrapper3 is built to be used with (or without) a Batcher. It will automatically wrap mutations in the `batchMutation` prop so that children may treat the mutations the same regardless of whether there is or isn't a Batcher.
+ * The ApolloWrapper is built to be used with (or without) a Batcher. It will automatically wrap mutations in the `batchMutation` prop so that children may treat the mutations the same regardless of whether there is or isn't a Batcher.
  * 
- * In order to update the UI after batching a mutation, each mutation object given to the ApolloWrapper3 must contain a `mapResultToProps` method. -- This ought to be refactored to use Apollo's `optimisticResult` and `update` methods to update the cache.
+ * In order to update the UI after batching a mutation, each mutation object given to the ApolloWrapper must contain a `mapResultToProps` method. -- This ought to be refactored to use Apollo's `optimisticResult` and `update` methods to update the cache.
  * 
  * 
  * NOTES

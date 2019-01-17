@@ -1,36 +1,47 @@
 import React from 'react';
-import { ApolloListWrapper } from '../../../components';
+import {
+    ApolloWrapper,
+    ListWrapper,
+} from '../../../components';
 
 import * as apolloProps from './part-tags-graphql';
 
 export default function PartTags() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Part Tag"
-            extractList={({
-                allPartTags: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            canSelect={false}
-            mapPillProps={({ tag }) => ({
-                title: tag,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                tag: input,
-            })}
-            extractCreatedNID={({
-                createPartTag: {
-                    partTag: {
-                        nodeId
-                    }
+        <ApolloWrapper
+            {...apolloProps}
+        >
+            {({
+                queryStatus: {
+                    partTags,
+                },
+                mutations: {
+                    createPartTag,
+                    updatePartTag,
+                    deletePartTag,
                 }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                tag: input,
-            })}
-            extractName={({ tag }) => tag}
-        />
+            }) => (
+                    <ListWrapper
+                        title="Part Tags"
+                        items={partTags}
+                        mapPillProps={({ tag }) => ({
+                            title: tag
+                        })}
+                        onCreate={({ }, { input }) => createPartTag({
+                            tag: input,
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updatePartTag({
+                            nodeId,
+                            tag: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deletePartTag({
+                            nodeId,
+                        })}
+                        deleteModal={{
+                            name: "Part Tag"
+                        }}
+                    />
+                )}
+        </ApolloWrapper>
     );
 }

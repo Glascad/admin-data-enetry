@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
  * 
  * NOTE / REFACTOR
  * 
- * This component will eventually be merged into the ListWrapper3 component, because that is the only place that it will be used... (except maybe in the ListContainer component (maybe we will move it instead into the ListContainer component))
+ * This component will eventually be merged into the ListWrapper component, because that is the only place that it will be used... (except maybe in the ListContainer component (maybe we will move it instead into the ListContainer component))
  * 
  */
 

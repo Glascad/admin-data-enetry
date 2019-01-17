@@ -1,16 +1,15 @@
 import React from 'react';
 
 import {
-    ApolloListWrapper,
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
 } from '../../../components';
 
 import * as apolloProps from './manufacturers-graphql';
 
 export default function Manufacturers() {
     return (
-        <ApolloWrapper3
+        <ApolloWrapper
             {...apolloProps}
         >
             {({
@@ -23,7 +22,7 @@ export default function Manufacturers() {
                     deleteManufacturer,
                 },
             }) => (
-                    <ListWrapper3
+                    <ListWrapper
                         title="Manufacturers"
                         items={manufacturers}
                         defaultPillProps={{
@@ -52,6 +51,6 @@ export default function Manufacturers() {
                         }}
                     />
                 )}
-        </ApolloWrapper3>
+        </ApolloWrapper>
     );
 }

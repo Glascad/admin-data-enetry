@@ -1,82 +1,144 @@
 import React from 'react';
 
-import { ApolloListWrapper } from '../../../../components';
+import {
+    ApolloWrapper,
+    ListWrapper,
+    HeadedContainer,
+} from '../../../../components';
 
-import * as apolloProps from './system-types-graphql';
-
-import DetailTypes from './DetailTypes/DetailTypes';
+import query from './system-types-graphql/query';
+import mutations from './system-types-graphql/mutations';
 
 export default function SystemTypes() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="System Type"
-            extractList={({
-                allSystemTypes: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({ type }) => ({
-                title: type,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                type: input,
-            })}
-            extractCreatedNID={({
-                createSystemType: {
-                    systemType: {
-                        nodeId,
-                    } = {},
-                } = {},
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                type: input,
-            })}
-            extractName={({ type }) => type}
+        <ApolloWrapper
+            query={query}
+            mutations={mutations}
         >
-            {({ selectedItem }) => (
-                selectedItem.nodeId ? (
-                    <DetailTypes
-                        systemType={selectedItem}
-                    />
-                ) : null)}
-        </ApolloListWrapper>
+            {({
+                queryStatus: {
+                    systemTypes,
+                    allDetailTypes,
+                    allConfigurationTypes,
+                },
+                mutations: {
+                    createSystemType,
+                    updateSystemType,
+                    deleteSystemType,
+                    createSystemTypeDetailType,
+                    deleteSystemTypeDetailType,
+                    createSystemTypeDetailTypeConfigurationType,
+                    deleteSystemTypeDetailTypeConfigurationType,
+                },
+            }) => (
+                    <ListWrapper
+                        title="System Types"
+                        items={systemTypes}
+                        mapPillProps={({ type }) => ({
+                            title: type,
+                        })}
+                        onCreate={({ }, { input }) => createSystemType({
+                            type: input,
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemType({
+                            nodeId,
+                            type: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteSystemType({
+                            nodeId,
+                        })}
+                    >
+                        {({
+                            id: systemTypeId,
+                            type: systemTypeName = '',
+                            systemTypeDetailTypesBySystemTypeId: {
+                                nodes: detailTypes = []
+                            } = {},
+                            systemTypeDetailTypeConfigurationTypesBySystemTypeId: {
+                                nodes: configurationTypes = [],
+                            } = {},
+                        }) => (
+                                <ListWrapper
+                                    title={`Detail Types - ${systemTypeName}`}
+                                    items={detailTypes
+                                        .map(({
+                                            nodeId,
+                                            detailTypeByDetailTypeId
+                                        }) => ({
+                                            systemTypeDetailTypeNID: nodeId,
+                                            ...detailTypeByDetailTypeId,
+                                        }))}
+                                    mapPillProps={({ type }) => ({
+                                        title: type,
+                                    })}
+                                    multiSelect={{
+                                        allItems: allDetailTypes,
+                                    }}
+                                    onCreate={({ id }) => createSystemTypeDetailType({
+                                        systemTypeId,
+                                        detailTypeId: id,
+                                    })}
+                                    onDelete={({ systemTypeDetailTypeNID }) => deleteSystemTypeDetailType({
+                                        nodeId: systemTypeDetailTypeNID
+                                    })}
+                                >
+                                    {({
+                                        id: detailTypeId,
+                                        type: detailTypeName = '',
+                                    }) => (
+                                            <ListWrapper
+                                                title={`Configuration Types - ${
+                                                    systemTypeName
+                                                    } > ${
+                                                    detailTypeName
+                                                    }`}
+                                                items={configurationTypes
+                                                    .map(({
+                                                        nodeId,
+                                                        configurationTypeByConfigurationTypeId,
+                                                    }) => ({
+                                                        systemTypeDetailTypeConfigurationTypeNID: nodeId,
+                                                        ...configurationTypeByConfigurationTypeId,
+                                                    }))}
+                                                mapPillProps={({ type }) => ({
+                                                    title: type
+                                                })}
+                                                multiSelect={{
+                                                    allItems: allConfigurationTypes,
+                                                }}
+                                                onCreate={({ id }) => createSystemTypeDetailTypeConfigurationType({
+                                                    systemTypeId,
+                                                    detailTypeId,
+                                                    configurationTypeId: id,
+                                                })}
+                                                onDelete={({ systemTypeDetailTypeConfigurationTypeNID }) => deleteSystemTypeDetailTypeConfigurationType({
+                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID
+                                                })}
+                                            >
+                                                {({
+                                                    type: configurationTypeName = '',
+                                                }) => (
+                                                        <div className="broken">
+                                                            <HeadedContainer
+                                                                title={`Configuration Type - ${
+                                                                    systemTypeName
+                                                                    } > ${
+                                                                    detailTypeName
+                                                                    } > ${
+                                                                    configurationTypeName
+                                                                    }`}
+                                                            >
+
+                                                            </HeadedContainer>
+                                                        </div>
+                                                    )}
+                                            </ListWrapper>
+                                        )}
+                                </ListWrapper>
+                            )}
+                    </ListWrapper>
+                )
+            }
+        </ApolloWrapper >
     );
 }
-
-// import { Query } from 'react-apollo';
-
-// import query from './query';
-
-// import SysTypes from './SysTypes/SysTypes';
-// import SysTags from './SysTags/SysTags';
-
-// export default function SystemTypes() {
-//     return (
-//         <Query
-//             query={query}
-//         >
-//             {({
-//                 loading,
-//                 error,
-//                 data: {
-//                     allSystemTypes: {
-//                         nodes: systemTypes = [],
-//                     } = {},
-//                     allSystemTags: {
-//                         nodes: systemTags = []
-//                     } = {}
-//                 } = {},
-//             }) => (
-//                     <div>
-//                         <SysTypes
-//                             systemTypes={systemTypes}
-//                         />
-//                         <SysTags
-//                             systemTags={systemTags}
-//                         />
-//                     </div>
-//                 )}
-//         </Query>
-//     );
-// }

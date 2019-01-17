@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
 } from '../../../../components';
 
 import {
@@ -12,7 +12,7 @@ import {
 
 export default function InfillPocketSizes() {
     return (
-        <ApolloWrapper3
+        <ApolloWrapper
             query={query}
             mutations={mutations}
         >
@@ -25,7 +25,7 @@ export default function InfillPocketSizes() {
                     deleteInfillPocketSize,
                 },
             }) => (
-                    <ListWrapper3
+                    <ListWrapper
                         title="Infill Pocket Sizes"
                         items={infillPocketSizes}
                         defaultPillProps={{
@@ -45,6 +45,6 @@ export default function InfillPocketSizes() {
                         }}
                     />
                 )}
-        </ApolloWrapper3>
+        </ApolloWrapper>
     );
 }

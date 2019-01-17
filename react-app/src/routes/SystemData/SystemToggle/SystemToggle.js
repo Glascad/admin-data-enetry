@@ -7,7 +7,7 @@ import {
     Batcher,
     Toggle,
     Navigator,
-    ApolloWrapper3,
+    ApolloWrapper,
 } from '../../../components';
 
 import query from './system-graphql/query';
@@ -31,7 +31,7 @@ export default function SystemInfo({
     return (
         <Batcher>
             {batcher => (
-                <ApolloWrapper3
+                <ApolloWrapper
                     batcher={batcher}
                     mutations={mutations}
                     query={{
@@ -112,7 +112,7 @@ export default function SystemInfo({
                             </>
                         );
                     }}
-                </ApolloWrapper3>
+                </ApolloWrapper>
             )}
         </Batcher>
     );

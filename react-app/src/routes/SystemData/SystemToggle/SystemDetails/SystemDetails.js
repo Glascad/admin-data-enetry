@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    ListWrapper3,
+    ListWrapper,
     HeadedContainer,
     StateManager,
     HeadedListContainer,
@@ -53,7 +53,7 @@ export default function SystemDetails({
                                     nodes: values,
                                 }
                             }) => (
-                                    <ListWrapper3
+                                    <ListWrapper
                                         key={nodeId}
                                         stateManager={{
                                             id: nodeId,
@@ -70,7 +70,7 @@ export default function SystemDetails({
                                         })}
                                     />
                                 ))}
-                        <ListWrapper3
+                        <ListWrapper
                             title="Detail Types"
                             stateManager={{
                                 id: "detailTypeNID",
@@ -128,7 +128,7 @@ export default function SystemDetails({
                                                     nodes: values,
                                                 }
                                             }) => (
-                                                    <ListWrapper3
+                                                    <ListWrapper
                                                         key={nodeId}
                                                         stateManager={{
                                                             id: nodeId,
@@ -145,7 +145,7 @@ export default function SystemDetails({
                                     >
                                     </HeadedListContainer>
                                 )}
-                        </ListWrapper3>
+                        </ListWrapper>
                         <div className="configuration-display">
                             EMPTY
                                         </div>

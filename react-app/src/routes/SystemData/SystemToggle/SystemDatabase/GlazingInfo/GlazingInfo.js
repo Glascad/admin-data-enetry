@@ -3,7 +3,7 @@ import React from 'react';
 import {
     Input,
     HeadedContainer,
-    ListWrapper3,
+    ListWrapper,
 } from '../../../../../components';
 
 export default function GlazingInfo({
@@ -44,7 +44,7 @@ export default function GlazingInfo({
                     defaultGlassBite: value,
                 })}
             />
-            <ListWrapper3
+            <ListWrapper
                 label="Infill Material Sizes"
                 items={systemInfillSizes.map(({
                     nodeId: systemInfillSizeNID,
@@ -90,7 +90,7 @@ export default function GlazingInfo({
                     }),
                 }}
             />
-            <ListWrapper3
+            <ListWrapper
                 label="Infill Pocket Types"
                 items={systemInfillPocketTypes
                     .map(({
@@ -118,7 +118,7 @@ export default function GlazingInfo({
                     infillPocketTypeByInfillPocketTypeId: infillPocketType,
                 })}
             />
-            <ListWrapper3
+            <ListWrapper
                 label="Infill Pocket Sizes"
                 items={systemInfillPocketSizes
                     .map(({

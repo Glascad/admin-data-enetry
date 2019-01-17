@@ -5,8 +5,8 @@ import {
 
 import {
     Input,
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
     StateManager,
 } from '../../../components'
 
@@ -37,7 +37,7 @@ export default function SystemSearch({
                 </div>
             </header>
             <div className="card">
-                <ApolloWrapper3
+                <ApolloWrapper
                     query={query}
                     mutations={mutations}
                 >
@@ -121,7 +121,7 @@ export default function SystemSearch({
                                                 />
                                             </div> */}
                                             </div>
-                                            <ListWrapper3
+                                            <ListWrapper
                                                 title="Search Results"
                                                 items={allSystems.filter(({
                                                     name,
@@ -205,7 +205,7 @@ export default function SystemSearch({
                                     )}
                             </StateManager>
                         )}
-                </ApolloWrapper3>
+                </ApolloWrapper>
             </div>
         </>
     );

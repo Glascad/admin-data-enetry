@@ -1,36 +1,47 @@
 import React from 'react';
-import { ApolloListWrapper } from '../../../components';
+import {
+    ApolloWrapper,
+    ListWrapper,
+} from '../../../components';
 
 import * as apolloProps from './system-tags-graphql';
 
 export default function SystemTags() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="System Tag"
-            extractList={({
-                allSystemTags: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            canSelect={false}
-            mapPillProps={({ tag }) => ({
-                title: tag,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                tag: input,
-            })}
-            extractCreatedNID={({
-                createSystemTag: {
-                    systemTag: {
-                        nodeId
-                    }
+        <ApolloWrapper
+            {...apolloProps}
+        >
+            {({
+                queryStatus: {
+                    systemTags,
+                },
+                mutations: {
+                    createSystemTag,
+                    updateSystemTag,
+                    deleteSystemTag,
                 }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                tag: input,
-            })}
-            extractName={({ tag }) => tag}
-        />
+            }) => (
+                    <ListWrapper
+                        title="System Tags"
+                        items={systemTags}
+                        mapPillProps={({ tag }) => ({
+                            title: tag
+                        })}
+                        onCreate={({ }, { input }) => createSystemTag({
+                            tag: input,
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemTag({
+                            nodeId,
+                            tag: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteSystemTag({
+                            nodeId,
+                        })}
+                        deleteModal={{
+                            name: "System Tag"
+                        }}
+                    />
+                )}
+        </ApolloWrapper>
     );
 }

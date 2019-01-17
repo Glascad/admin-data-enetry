@@ -60,6 +60,10 @@ export default class Input extends Component {
             </div>
         ) : null;
 
+        if (type === "checkbox") {
+            console.log(this);
+        }
+
         return (
             <tag.name
                 className={`Input type-${type}`}
@@ -86,7 +90,10 @@ export default class Input extends Component {
                             )
                             :
                             undefined}
-                        checked={checked}
+                        checked={type === "checkbox" ?
+                            checked
+                            :
+                            undefined}
                         onKeyDown={blurOnEnter}
                         {...props}
                     />

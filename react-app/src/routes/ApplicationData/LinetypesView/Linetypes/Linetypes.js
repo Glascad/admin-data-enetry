@@ -1,9 +1,8 @@
 import React from 'react';
 
 import {
-    ApolloListWrapper,
-    ApolloWrapper3,
-    ListWrapper3,
+    ApolloWrapper,
+    ListWrapper,
 } from '../../../../components';
 
 import LinetypeInfo from './LinetypeInfo';
@@ -15,7 +14,7 @@ import {
 
 export default function Linetypes() {
     return (
-        <ApolloWrapper3
+        <ApolloWrapper
             query={query}
             mutations={mutations}
         >
@@ -30,7 +29,7 @@ export default function Linetypes() {
                     deleteLinetype,
                 },
             }) => (
-                    <ListWrapper3
+                    <ListWrapper
                         title="Linetypes"
                         items={linetypes}
                         mapPillProps={({ name }) => ({
@@ -60,58 +59,8 @@ export default function Linetypes() {
                             //     }}
                             // />
                         )}
-                    </ListWrapper3>
+                    </ListWrapper>
                 )}
-        </ApolloWrapper3>
-        // <ApolloListWrapper
-        //     apolloProps={apolloProps}
-        //     itemClass="Linetype"
-        //     extractList={({
-        //         allLinetypes: {
-        //             nodes = [],
-        //         } = {},
-        //     }) => nodes}
-        //     mapPillProps={({ name }) => ({
-        //         title: name,
-        //     })}
-        //     mapCreateVariables={({ }, { input }, { allLineWeights }) => ({
-        //         name: input,
-        //         lineWeight: allLineWeights.nodes[0].weight,
-        //         pattern: "",
-        //     })}
-        //     extractCreatedNID={({
-        //         createLinetype: {
-        //             linetype: {
-        //                 nodeId,
-        //             },
-        //         },
-        //     }) => nodeId}
-        //     mapUpdateVariables={({ input }) => ({
-        //         name: input,
-        //     })}
-        //     extractName={({ name }) => name}
-        // >
-        //     {({
-        //         selectedItem: linetype = {
-        //             pattern: "",
-        //         },
-        //         data: {
-        //             allLineWeights: {
-        //                 nodes: lineWeights = [],
-        //             } = {},
-        //         } = {},
-        //         apollo: {
-        //             updateItem,
-        //         },
-        //     }) => linetype ? (
-        //         <LinetypeInfo
-        //             {...{
-        //                 linetype,
-        //                 lineWeights,
-        //                 updateItem,
-        //             }}
-        //         />
-        //     ) : null}
-        // </ApolloListWrapper>
+        </ApolloWrapper>
     );
 }

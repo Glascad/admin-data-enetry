@@ -6,7 +6,7 @@ import CopySystem from './CopySystem/CopySystem';
 import {
     Batcher,
     TabNavigator,
-    ApolloWrapper3,
+    ApolloWrapper,
 } from '../../../components';
 
 import query from './new-system-graphql/query';
@@ -31,7 +31,7 @@ export default function Database({
     return (
         <Batcher>
             {batcher => (
-                <ApolloWrapper3
+                <ApolloWrapper
                     batcher={batcher}
                     mutations={mutations}
                     query={query}
@@ -80,7 +80,7 @@ export default function Database({
                             />
                         )
                     }
-                </ApolloWrapper3>
+                </ApolloWrapper>
             )}
         </Batcher>
     );
