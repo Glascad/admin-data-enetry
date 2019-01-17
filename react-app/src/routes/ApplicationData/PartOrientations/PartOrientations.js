@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {
-    ApolloListWrapper
+    ApolloWrapper3,
+    ListWrapper3,
 } from '../../../components';
 
 import * as apolloProps from './part-orientations-graphql';
@@ -9,31 +10,40 @@ import * as apolloProps from './part-orientations-graphql';
 
 export default function PartOrientations() {
     return (
-        <ApolloListWrapper
-            apolloProps={apolloProps}
-            itemClass="Part Orientation"
-            extractList={({
-                allOrientations: {
-                    nodes = [],
-                } = {},
-            }) => nodes}
-            mapPillProps={({ orientation }) => ({
-                title: orientation,
-            })}
-            mapCreateVariables={({ }, { input }) => ({
-                orientation: input,
-            })}
-            extractCreatedNID={({
-                createOrientation: {
-                    orientation: {
-                        nodeId
-                    }
-                }
-            }) => nodeId}
-            mapUpdateVariables={({ input }) => ({
-                orientation: input,
-            })}
-            extractName={({ orientation }) => orientation}
-        />
+        <ApolloWrapper3
+            {...apolloProps}
+        >
+            {({
+                queryStatus: {
+                    orientations,
+                },
+                mutations: {
+                    createOrientation,
+                    updateOrientation,
+                    deleteOrientation,
+                },
+            }) => (
+                    <ListWrapper3
+                        title="Part Orientations"
+                        items={orientations}
+                        mapPillProps={({ orientation }) => ({
+                            title: orientation
+                        })}
+                        onCreate={({ }, { input }) => createOrientation({
+                            orientation: input
+                        })}
+                        onUpdate={({ arguments: { nodeId } }, { input }) => updateOrientation({
+                            nodeId,
+                            orientation: input,
+                        })}
+                        onDelete={({ arguments: { nodeId } }) => deleteOrientation({
+                            nodeId
+                        })}
+                        deleteModal={{
+                            name: "Part Orientation"
+                        }}
+                    />
+                )}
+        </ApolloWrapper3>
     );
 }
