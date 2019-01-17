@@ -112,14 +112,16 @@ export default function SystemSearch({
                                                         })
                                                     }}
                                                 />
-                                                {/* <div className="input-group">
-                                                <Input
-                                                label="System Option"
-                                                />
-                                                <Input
-                                                label="Option Value"
-                                                />
-                                            </div> */}
+                                                <div className="broken">
+                                                    <div className="input-group">
+                                                        <Input
+                                                            label="System Option"
+                                                        />
+                                                        <Input
+                                                            label="Option Value"
+                                                        />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <ListWrapper
                                                 title="Search Results"

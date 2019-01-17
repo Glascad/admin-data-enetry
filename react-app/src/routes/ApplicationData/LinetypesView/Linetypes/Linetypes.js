@@ -50,14 +50,9 @@ export default function Linetypes() {
                         }}
                     >
                         {linetype => (
-                            <span>LINETYPE INFO</span>
-                            // <LinetypeInfo
-                            //     {...{
-                            //         linetype,
-                            //         lineWeights,
-                            //         updateLinetype,
-                            //     }}
-                            // />
+                            <div className="broken">
+                                LINETYPE INFO
+                            </div>
                         )}
                     </ListWrapper>
                 )}
