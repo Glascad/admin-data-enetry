@@ -26,7 +26,9 @@ export default function LineWeights() {
                 },
             }) => (
                     <ListWrapper
-                        title="Line Weights"
+                        titleBar={{
+                            title: "Line Weights"
+                        }}
                         items={allLineWeights}
                         mapPillProps={({ name }) => ({
                             title: name,

@@ -13,7 +13,7 @@ export default function TitleBar({
             className={`TitleBar ${className}`}
         >
             <div className="title">
-                <span>
+                <span className="title-bar-title">
                     {title}
                 </span>
                 {selections.map((item, i) => (
@@ -21,7 +21,7 @@ export default function TitleBar({
                         <span>
                             {i === 0 ? ' - ' : ' > '}
                         </span>
-                        <span>
+                        <span className="title-bar-item">
                             {item}
                         </span>
                     </span>

@@ -5,6 +5,7 @@ import {
     Input,
     ListWrapper,
 } from '../../../../../components';
+import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemOptions({
     queryStatus: {
@@ -56,10 +57,10 @@ export default function SystemOptions({
                 optionValues = [],
             }) => (
                     <>
-                        <HeadedContainer
-                            title="Option"
-                            className="input-wrapper"
-                        >
+                        <div className="input-wrapper">
+                            <TitleBar
+                                title="Option"
+                            />
                             {/* <Input
                                 label="Option Name"
                                 value={name}
@@ -115,7 +116,7 @@ export default function SystemOptions({
                                     mirrorable: checked
                                 })}
                             />
-                        </HeadedContainer>
+                        </div>
                         <ListWrapper
                             title="Affected Configuration Types"
                             items={systemOptionConfigurationTypes

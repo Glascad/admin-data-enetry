@@ -1,6 +1,7 @@
 // UI COMPONENTS
 import _Dropdown from './ui/Dropdown/Dropdown';
 import _HeadedContainer from './ui/HeadedContainer/HeadedContainer';
+import _TitleBar from './ui/TitleBar/TitleBar';
 import _ListContainer from './ui/ListContainer/ListContainer';
 import _Pill from './ui/Pill/Pill';
 import _Modal from './ui/Modal/Modal';
@@ -29,6 +30,7 @@ import './index.scss';
 // UI
 export const Dropdown = _Dropdown;
 export const HeadedContainer = _HeadedContainer;
+export const TitleBar = _TitleBar;
 export const ListContainer = _ListContainer;
 export const Pill = _Pill;
 export const Modal = _Modal;

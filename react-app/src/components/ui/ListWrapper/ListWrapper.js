@@ -107,7 +107,7 @@ class List extends Component {
         return (
             <div className="ListWrapper">
                 <ListContainer
-                    titleBar={titleBar}
+                    titleBar={titleBar || { title }}
                     label={label}
                     items={items}
                     renderItem={item => {

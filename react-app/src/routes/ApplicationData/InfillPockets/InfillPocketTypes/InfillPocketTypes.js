@@ -28,7 +28,9 @@ export default function InfillPocketTypes() {
                 },
             }) => (
                     <ListWrapper
-                        title="Infill Pocket Types"
+                        titleBar={{
+                            title: "Infill Pocket Types"
+                        }}
                         items={allInfillPocketTypes}
                         mapPillProps={({ type }) => ({
                             title: type

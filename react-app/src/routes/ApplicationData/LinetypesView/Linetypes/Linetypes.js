@@ -30,7 +30,9 @@ export default function Linetypes() {
                 },
             }) => (
                     <ListWrapper
-                        title="Linetypes"
+                        titleBar={{
+                            title: "Linetypes"
+                        }}
                         items={allLinetypes}
                         mapPillProps={({ name }) => ({
                             title: name

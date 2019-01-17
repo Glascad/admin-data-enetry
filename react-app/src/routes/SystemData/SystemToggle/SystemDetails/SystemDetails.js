@@ -5,6 +5,7 @@ import {
     HeadedContainer,
     StateManager,
     ListContainer,
+    TitleBar,
 } from '../../../../components';
 
 /**
@@ -44,9 +45,10 @@ export default function SystemDetails({
         <div className="card">
             <StateManager>
                 {managerProps => (
-                    <HeadedContainer
-                        title="System Level Options"
-                    >
+                    <>
+                        <TitleBar
+                            title="System Level Options"
+                        />
                         {systemOptions
                             .filter(({ presentationLevel }) => presentationLevel === 1)
                             .map(({
@@ -147,7 +149,7 @@ export default function SystemDetails({
                         <div className="configuration-display">
                             EMPTY
                         </div>
-                    </HeadedContainer>
+                    </>
                 )}
             </StateManager>
         </div >

@@ -26,7 +26,9 @@ export default function InfillPocketSizes() {
                 },
             }) => (
                     <ListWrapper
-                        title="Infill Pocket Sizes"
+                        titleBar={{
+                            title: "Infill Pocket Sizes"
+                        }}
                         items={allInfillPocketSizes}
                         defaultPillProps={{
                             inputType: "number"

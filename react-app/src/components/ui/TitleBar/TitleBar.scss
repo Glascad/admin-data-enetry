@@ -6,6 +6,14 @@
     justify-content: space-between;
     padding-bottom: $x-small;
     margin-bottom: $large;
+
+    .title-bar-title {
+        display: flex;
+        
+        span {
+            display: flex;
+        }
+    }
 }
 
 .card {

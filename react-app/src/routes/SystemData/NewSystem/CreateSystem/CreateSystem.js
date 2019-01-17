@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import {
-    HeadedContainer,
+    TitleBar,
     Input,
     ListWrapper,
 } from '../../../../components';
@@ -61,10 +61,10 @@ export default function CreateSystem({
         )
     } else {
         return (
-            <HeadedContainer
-                title="New System"
-                className="input-wrapper"
-            >
+            <div className="input-wrapper">
+                <TitleBar
+                    title="New System"
+                />
                 <Input
                     label="Name"
                     value={name}
@@ -187,10 +187,10 @@ export default function CreateSystem({
                             onClick={completeMutations}
                         >
                             Create
-                    </button>
+                        </button>
                     </div>
                 </div>
-            </HeadedContainer>
+            </div>
         );
     }
 }
