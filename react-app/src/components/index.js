@@ -1,5 +1,6 @@
 // UI COMPONENTS
 import _Dropdown from './ui/Dropdown/Dropdown';
+import _NavMenu from './ui/NavMenu/NavMenu';
 import _TitleBar from './ui/TitleBar/TitleBar';
 import _ListContainer from './ui/ListContainer/ListContainer';
 import _Pill from './ui/Pill/Pill';
@@ -28,6 +29,7 @@ import './index.scss';
 
 // UI
 export const Dropdown = _Dropdown;
+export const NavMenu = _NavMenu;
 export const TitleBar = _TitleBar;
 export const ListContainer = _ListContainer;
 export const Pill = _Pill;

@@ -28,7 +28,7 @@ export default class Dropdown extends Component {
         if (open && this.props.open === false) this.close();
     }
 
-    handleClick = e => {
+    handleClick = () => {
         if (this.state.open) this.close();
         else this.open();
     }
@@ -43,6 +43,7 @@ export default class Dropdown extends Component {
                 children,
                 className,
                 onClick,
+                triangle = true,
             },
             handleClick,
         } = this;
@@ -62,16 +63,20 @@ export default class Dropdown extends Component {
                     className="title"
                     onClick={handleClick}
                 >
-                    <div className="triangle-wrapper">
-                        <div className="triangle" />
-                    </div>
+                    {triangle ? (
+                        <div className="triangle-wrapper">
+                            <div className="triangle" />
+                        </div>
+                    ) : null}
                     <span>
                         {title}
                     </span>
                 </div>
-                <div className="content">
-                    {children}
-                </div>
+                {open ? (
+                    <div className="content">
+                        {children}
+                    </div>
+                ) : null}
             </div>
         );
     }

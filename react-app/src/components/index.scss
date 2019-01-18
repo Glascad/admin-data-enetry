@@ -32,7 +32,6 @@
     
     .label {
         color: $rule-color;
-        // margin-bottom: $x-small;
         + * {
             margin-top: $x-small;
         }
