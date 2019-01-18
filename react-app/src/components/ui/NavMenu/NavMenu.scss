@@ -19,6 +19,15 @@
             }
         }
     }
+    
+    .item {
+        &.matched {
+            background: $darker-blue;
+            color: $light-blue;
+            font-weight: bold;
+        }
+    }
+    
     .Dropdown, .item {
         background: $dark-blue;
         color: $off-white;
@@ -34,13 +43,6 @@
         width: 100%;
         height: $menu-height;
         padding: 0 $large;
-    }
-
-    .item {
-        &.matched {
-            color: white;
-            font-weight: bold;
-        }
     }
     
     .open {
