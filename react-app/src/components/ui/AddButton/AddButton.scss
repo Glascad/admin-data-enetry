@@ -19,7 +19,7 @@
         margin: 0;
         border: $icon-thickness $action-color solid;
         &:hover {
-            background: $card-color;
+            background: none;
             .vertical-plus, .horizontal-plus {
                 background: $action-color;
             }
@@ -63,7 +63,7 @@
         width: 10%;
         height: 55%;
         transform: translate(-50%, -50%);
-        background: white;
+        background: $off-white;
     }
 
     .horizontal-plus {
@@ -73,7 +73,7 @@
         width: 55%;
         height: 10%;
         transform: translate(-50%, -50%);
-        background: white;
+        background: $off-white;
     }
 
 }

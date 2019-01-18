@@ -85,7 +85,8 @@ export default class ListContainer extends Component {
         const groupKeys = Object.keys(grouped);
 
         return (
-            <div className={`ListContainer ${className}`}>
+            // <div className={`ListContainer ${className}`}>
+            <>
                 {titleBar && titleBar.title ? (
                     <TitleBar
                         {...titleBar}
@@ -144,7 +145,7 @@ export default class ListContainer extends Component {
                         {label}
                     </div>
                 ) : null}
-                <ul>
+                <ul className="list-container">
                     {groupKeys.length > 1 ? (
                         groupKeys.map(label => {
                             const list = grouped[label];
@@ -164,7 +165,8 @@ export default class ListContainer extends Component {
                         )}
                     {afterList}
                 </ul>
-            </div>
+            </>
+            // </div>
         );
     }
 }

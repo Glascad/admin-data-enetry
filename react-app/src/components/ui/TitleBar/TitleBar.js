@@ -5,6 +5,7 @@ import './TitleBar.scss';
 export default function TitleBar({
     className = "",
     title = "",
+    left,
     right,
     selections = [],
 }) {
@@ -12,8 +13,8 @@ export default function TitleBar({
         <header
             className={`TitleBar ${className}`}
         >
-            <div className="title">
-                <span className="title-bar-title">
+            <div className="title-bar-left">
+                <span className="title">
                     {title}
                 </span>
                 {selections.map((item, i) => (
@@ -28,6 +29,9 @@ export default function TitleBar({
                         </span>
                     </span>
                 ))}
+                <span className="left">
+                    {left}
+                </span>
             </div>
             <div className="title-bar-right">
                 {right}

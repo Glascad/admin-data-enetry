@@ -61,7 +61,7 @@ export default function CreateSystem({
         )
     } else {
         return (
-            <div className="input-wrapper">
+            <>
                 <TitleBar
                     title="New System"
                 />
@@ -190,7 +190,7 @@ export default function CreateSystem({
                         </button>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }

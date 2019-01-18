@@ -101,30 +101,28 @@ export default function ValidTypes({
                             ...data
                         }) => (
                                 <div className="unfinished">
-                                    <>
-                                        <TitleBar
-                                            title="System Configuration Type"
-                                            selections={[configurationTypeName]}
-                                        />
-                                        <Input
-                                            label="Required"
-                                            type="checkbox"
-                                            checked={required || false}
-                                            onChange={({ target: { checked } }) => ({
-                                                data,
-                                                checked,
-                                            })}
-                                        />
-                                        <Input
-                                            label="Mirrorable"
-                                            type="checkbox"
-                                            checked={required}
-                                            onChange={({ target: { checked } }) => ({
-                                                data,
-                                                checked,
-                                            })}
-                                        />
-                                    </>
+                                    <TitleBar
+                                        title="System Configuration Type"
+                                        selections={[configurationTypeName]}
+                                    />
+                                    <Input
+                                        label="Required"
+                                        type="checkbox"
+                                        checked={required || false}
+                                        onChange={({ target: { checked } }) => ({
+                                            data,
+                                            checked,
+                                        })}
+                                    />
+                                    <Input
+                                        label="Mirrorable"
+                                        type="checkbox"
+                                        checked={required}
+                                        onChange={({ target: { checked } }) => ({
+                                            data,
+                                            checked,
+                                        })}
+                                    />
                                 </div>
                             )}
                     </ListWrapper>

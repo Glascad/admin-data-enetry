@@ -22,10 +22,10 @@
             color: $dark-gray;
 
             &.danger {
-                // color: $warning-color;
-                border-color: $warning-color;
+                // color: $danger-color;
+                border-color: $danger-color;
                 color: $off-white;
-                background: $warning-color;
+                background: $danger-color;
             }
         }
     }

@@ -105,7 +105,7 @@ class List extends Component {
             {};
 
         return (
-            <div className="ListWrapper">
+            <>
                 <ListContainer
                     titleBar={titleBar || { title }}
                     label={label}
@@ -221,7 +221,7 @@ class List extends Component {
                         }?
                     </Modal>
                 ) : null}
-            </div>
+            </>
         );
     }
 }

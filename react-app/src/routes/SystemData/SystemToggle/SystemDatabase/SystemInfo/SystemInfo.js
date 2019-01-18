@@ -32,7 +32,7 @@ export default function SystemInfo({
     },
 }) {
     return (
-        <div className="input-wrapper">
+        <>
             <TitleBar
                 title="System Info"
             />
@@ -117,6 +117,6 @@ export default function SystemInfo({
                     })}
                 />
             </div>
-        </div>
+        </>
     );
 }

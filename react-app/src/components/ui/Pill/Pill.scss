@@ -39,41 +39,36 @@
             background: $off-white;
         }
     }
-    &.selected, &.editing {
-        background: $selected-color;
+    &.selected {
+
+        @include selected();
         border: $icon-thickness solid $selected-color;
-        color: $off-white;
-        box-shadow: none;
-        &:hover, &.editing {
-            background: none;
-            color: $selected-color;
-            border: $icon-thickness solid $selected-color;
-            input {
-                color: $selected-color;
-            }
-        }
+
         .left-x, .right-x {
             background: $selected-color;
         }
+    }
+    &.editing {
+        @include selected-hovered();
     }
     &.default {
         border: 2px solid $dark-gray;
     }
     &.danger {
-        background: $warning-color;
-        border: $icon-thickness solid $warning-color;
+        background: $danger-color;
+        border: $icon-thickness solid $danger-color;
         color: $off-white;
         box-shadow: none;
         &:hover, &.editing {
             background: none;
-            color: $warning-color;
-            border: $icon-thickness solid $warning-color;
+            color: $danger-color;
+            border: $icon-thickness solid $danger-color;
             input {
-                color: $warning-color;
+                color: $danger-color;
             }
         }
         .left-x, .right-x {
-            background: $warning-color;
+            background: $danger-color;
         }
     }
     &.disabled {

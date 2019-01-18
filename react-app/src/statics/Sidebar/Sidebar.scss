@@ -2,13 +2,13 @@
 @import '../../styles/variables';
 
 #Sidebar {
-    background: $menu-color;
+    background: $dark-blue;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
 
     #sidebar-header {
-        background: $menu-color;
+        background: $dark-blue;
         color: $off-white;
         font-family: 'Montserrat';
         font-size: $x-large;
@@ -16,7 +16,7 @@
         height: $header-height;
         display: flex;
         align-items: center;
-        border-bottom: 1px solid $border-color;
+        border-bottom: 1px solid $rule-color;
 
         .logo {
             height: $item-height;
@@ -38,9 +38,9 @@
     }
 
     .Dropdown, .item {
-        background: $menu-color;
+        background: $dark-blue;
         color: $off-white;
-        border-bottom: 1px solid $border-color;
+        border-bottom: 1px solid $rule-color;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -48,7 +48,7 @@
         min-height: $menu-height;
 
         .selected {
-            color: $current-color;
+            color: $light-blue;
         }
     }
     .item, .title {
@@ -67,15 +67,15 @@
 
     .selected {
         color: $off-white;
-        background: $menu-open-color;
+        background: $darker-blue;
     }
     
     .open {
-        background: $menu-open-color;
+        background: $darker-blue;
     }
     
     .closed {
-        background: $menu-color;
+        background: $dark-blue;
     }
 
     .sidebar-toggle {

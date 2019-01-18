@@ -94,56 +94,57 @@ export default function SystemDetails({
                                     type = "",
                                 } = {},
                             }) => (
-                                    <ListContainer
-                                        titleBar={{
-                                            title: "Detail Level Options",
-                                            selections: [type]
-                                        }}
-                                        items={systemOptions}
-                                        filter={({
-                                            presentationLevel,
-                                            systemOptionConfigurationTypes = []
-                                        }) => (
-                                                presentationLevel >= 2
-                                                &&
-                                                systemOptionConfigurationTypes.some(({
-                                                    configurationType: {
-                                                        nodeId
-                                                    }
-                                                }) => systemTypeDetailTypeConfigurationTypes.some(({
-                                                    detailType: {
-                                                        nodeId: detailTypeNID,
-                                                    },
-                                                    configurationType: {
-                                                        nodeId: configurationTypeNID,
-                                                    }
-                                                }) => (
-                                                        detailTypeNID === selectedDetailTypeNID
-                                                        &&
-                                                        configurationTypeNID === nodeId
-                                                    )
-                                                ))
+                                    <>
+                                        <TitleBar
+                                            title="Detail Level Options"
+                                            selections={[type]}
+                                        />
+                                        {systemOptions
+                                            .filter(({
+                                                presentationLevel,
+                                                systemOptionConfigurationTypes = []
+                                            }) => (
+                                                    presentationLevel >= 2
+                                                    &&
+                                                    systemOptionConfigurationTypes.some(({
+                                                        configurationType: {
+                                                            nodeId
+                                                        }
+                                                    }) => systemTypeDetailTypeConfigurationTypes.some(({
+                                                        detailType: {
+                                                            nodeId: detailTypeNID,
+                                                        },
+                                                        configurationType: {
+                                                            nodeId: configurationTypeNID,
+                                                        }
+                                                    }) => (
+                                                            detailTypeNID === selectedDetailTypeNID
+                                                            &&
+                                                            configurationTypeNID === nodeId
+                                                        )
+                                                    ))
+                                                )
+                                            )
+                                            .map(({
+                                                nodeId,
+                                                name,
+                                                optionValues = [],
+                                            }) => (
+                                                    <ListWrapper
+                                                        key={nodeId}
+                                                        stateManager={{
+                                                            id: nodeId,
+                                                            props: managerProps
+                                                        }}
+                                                        label={name}
+                                                        items={optionValues}
+                                                        mapPillProps={({ name }) => ({
+                                                            title: name
+                                                        })}
+                                                    />
+                                                )
                                             )}
-                                        renderItem={({
-                                            nodeId,
-                                            name,
-                                            optionValues = [],
-                                        }) => (
-                                                <ListWrapper
-                                                    key={nodeId}
-                                                    stateManager={{
-                                                        id: nodeId,
-                                                        props: managerProps
-                                                    }}
-                                                    label={name}
-                                                    items={optionValues}
-                                                    mapPillProps={({ name }) => ({
-                                                        title: name
-                                                    })}
-                                                />
-                                            )}
-                                    >
-                                    </ListContainer>
+                                    </>
                                 )}
                         </ListWrapper>
                         <div className="configuration-display">

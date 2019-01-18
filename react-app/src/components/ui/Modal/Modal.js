@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Modal.scss';
-import HeadedContainer from '../HeadedContainer/HeadedContainer';
 import TitleBar from '../TitleBar/TitleBar';
 
 export default class Modal extends Component {
@@ -80,7 +79,7 @@ export default class Modal extends Component {
                     <TitleBar
                         {...titleBar}
                     />
-                        {children}
+                    {children}
                     <div className="modal-buttons">
                         <span>
                             {onReset ? (

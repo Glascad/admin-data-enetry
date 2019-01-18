@@ -21,7 +21,7 @@
         width: 55%;
         border-radius: $xx-small;
         box-shadow: $xx-small $xx-small $x-small $dark-gray;
-        background: $card-color;
+        background: $off-white;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -29,7 +29,7 @@
         
         .HeadedContainer {
             header {
-                border-bottom-color: $border-color;
+                border-bottom-color: $rule-color;
             }
             
             .HeadedListContainer {

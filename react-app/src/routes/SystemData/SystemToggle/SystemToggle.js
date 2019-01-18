@@ -53,17 +53,15 @@ export default function SystemToggle({
 
                         return (
                             <ToggleNavigator
-                                title={(
-                                    <>
-                                        <span>
-                                            {`${
-                                                mnfgName
-                                                } ${
-                                                systemName
-                                                }`.trim()
-                                                ||
-                                                'Loading...'}
-                                        </span>
+                                titleBar={{
+                                    title: `${
+                                        mnfgName
+                                        } ${
+                                        systemName
+                                        }`.trim()
+                                        ||
+                                        'Loading...',
+                                    left: (
                                         <Link
                                             to="/system-data"
                                         >
@@ -71,8 +69,8 @@ export default function SystemToggle({
                                                 Change System
                                             </button>
                                         </Link>
-                                    </>
-                                )}
+                                    )
+                                }}
                                 routes={[
                                     {
                                         name: "Database",

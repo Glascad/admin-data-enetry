@@ -1,28 +1,31 @@
 
 @import '../../../styles/variables';
 
+
 .TitleBar {
     display: flex;
     justify-content: space-between;
-    padding-bottom: $x-small;
-    margin-bottom: $large;
-
-    .title {
+    height: $item-height;
+    min-height: $item-height;
+    font-size: $item-height;
+    margin-bottom: $small;
+    
+    .title-bar-left {
         display: flex;
         
-        .title-bar-title {
-            display: flex;
-            
-            span {
-                display: flex;
-            }
+        .left {
+            margin-left: $small;
         }
     }
 }
 
 .card {
     .TitleBar {
+        height: auto;
+        min-height: auto;
         font-size: $large;
-        border-bottom: 1px solid $border-color;
+        padding-bottom: $x-small;
+        margin-bottom: $large;
+        border-bottom: 1px solid $rule-color;
     }
 }

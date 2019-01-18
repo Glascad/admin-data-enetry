@@ -19,17 +19,16 @@ function ToggleNavigator({
         url,
     },
     routes,
-    title,
-    titleButtons,
+    titleBar,
     rightButtons,
 }) {
 
     return (
         <>
             <TitleBar
-                title={title}
+                {...titleBar}
                 right={(
-                    <div className="right-buttons">
+                    <>
                         {rightButtons}
                         <Toggle
                             component={NavLink}
@@ -53,8 +52,9 @@ function ToggleNavigator({
                                 }))
                             }
                         />
-                    </div>
-                )}
+                    </>
+                )
+                }
             />
             <Navigator
                 routes={routes}

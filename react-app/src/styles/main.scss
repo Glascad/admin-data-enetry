@@ -45,7 +45,7 @@ button {
     }
 
     &:focus, &:focus-within {
-        box-shadow: 0 0 1px 1px $current-color;
+        box-shadow: 0 0 1px 1px $selected-color;
     }
 
     &.primary, &.empty, &.danger, &.toggle-button {
@@ -75,23 +75,23 @@ button {
         }
     }
     &.danger {
-        background: $warning-color;
+        background: $danger-color;
         color: $off-white;
         &:hover {
-            border: 1px solid $warning-color;
-            color: $warning-color;
+            border: 1px solid $danger-color;
+            color: $danger-color;
             background: none;
         }
         &.empty {
-            border: 1px solid $warning-color;
-            color: $warning-color;
+            border: 1px solid $danger-color;
+            color: $danger-color;
             background: none;
         }
     }
 }
 
 input {
-    border: 1px solid $border-color;
+    border: 1px solid $dark-gray;
     height: $item-height;
     width: $pill-width;
     padding: 0 $small;
