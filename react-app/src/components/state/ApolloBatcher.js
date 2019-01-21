@@ -1,5 +1,6 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ApolloWrapper from './ApolloWrapper';
 
 /**
  * PURPOSE
@@ -21,7 +22,7 @@ import PropTypes from 'prop-types';
  * 
  */
 
-export default class Batcher extends Component {
+class Batcher extends Component {
 
     state = {
         batchedMutations: {}
@@ -287,4 +288,17 @@ export default class Batcher extends Component {
             completeMutations,
         });
     }
+}
+
+export default function ApolloBatcher(props) {
+    return (
+        <Batcher>
+            {batcher => (
+                <ApolloWrapper
+                    {...props}
+                    batcher={batcher}
+                />
+            )}
+        </Batcher>
+    )
 }

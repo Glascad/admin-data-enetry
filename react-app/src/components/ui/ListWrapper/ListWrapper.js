@@ -55,9 +55,8 @@ class List extends Component {
     render = () => {
         const {
             props: {
-                title,
+                title = this.props.titleBar && this.props.titleBar.title || "",
                 titleBar,
-                parent,
                 label,
                 items,
                 defaultPillProps,
@@ -70,7 +69,6 @@ class List extends Component {
                 deleteModal,
                 deleteModal: {
                     name: modalName,
-                    extractName,
                 } = {},
                 selection,
                 selection: {
@@ -81,6 +79,7 @@ class List extends Component {
                     handleSelect,
                     handleCreateClick,
                     handleDeleteClick,
+                    selectable,
                 },
                 multiSelect,
                 multiSelect: {
@@ -127,7 +126,11 @@ class List extends Component {
                             &&
                             !creating
                             &&
-                            children;
+                            (
+                                children
+                                ||
+                                selectable
+                            );
 
                         return (
                             <Pill
@@ -231,6 +234,7 @@ export default function ListWrapper({
             selection={{
                 selectedNID: state[id] && state[id].nodeId,
                 handleSelect: update(id),
+                selectable: true,
             }}
             {...props}
         />

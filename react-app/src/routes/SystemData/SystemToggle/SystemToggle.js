@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import {
-    Batcher,
+    ApolloBatcher,
     ToggleNavigator,
     ApolloWrapper,
 } from '../../../components';
@@ -27,76 +27,70 @@ export default function SystemToggle({
     const { systemNID } = parseSearch(search);
 
     return (
-        <Batcher>
-            {batcher => (
-                <ApolloWrapper
-                    batcher={batcher}
-                    mutations={mutations}
-                    query={{
-                        ...query,
-                        variables: {
-                            nodeId: systemNID
-                        },
-                    }}
-                >
-                    {apollo => {
-                        const {
-                            queryStatus: {
-                                system: {
-                                    name: systemName = "",
-                                    manufacturer: {
-                                        name: mnfgName = ""
-                                    } = {},
-                                } = {},
-                            }
-                        } = apollo;
+        <ApolloBatcher
+            mutations={mutations}
+            query={{
+                ...query,
+                variables: {
+                    nodeId: systemNID
+                },
+            }}
+        >
+            {apollo => {
+                const {
+                    queryStatus: {
+                        system: {
+                            name: systemName = "",
+                            manufacturer: {
+                                name: mnfgName = ""
+                            } = {},
+                        } = {},
+                    }
+                } = apollo;
 
-                        return (
-                            <ToggleNavigator
-                                titleBar={{
-                                    title: `${
-                                        mnfgName
-                                        } ${
-                                        systemName
-                                        }`.trim()
-                                        ||
-                                        'Loading...',
-                                    left: (
-                                        <Link
-                                            to="/system-data"
-                                        >
-                                            <button className="empty">
-                                                Change System
+                return (
+                    <ToggleNavigator
+                        titleBar={{
+                            title: `${
+                                mnfgName
+                                } ${
+                                systemName
+                                }`.trim()
+                                ||
+                                'Loading...',
+                            left: (
+                                <Link
+                                    to="/system-data"
+                                >
+                                    <button className="empty">
+                                        Change System
                                             </button>
-                                        </Link>
-                                    )
-                                }}
-                                routes={[
-                                    {
-                                        name: "Database",
-                                        path: "/database",
-                                        render: () => (
-                                            <SystemDatabase
-                                                {...apollo}
-                                                batcher={batcher}
-                                            />
-                                        ),
-                                    },
-                                    {
-                                        name: "Details",
-                                        path: "/details",
-                                        render: () => (
-                                            <SystemDetails
-                                                {...apollo}
-                                            />
-                                        ),
-                                    }
-                                ]}
-                            />
-                        );
-                    }}
-                </ApolloWrapper>
-            )}
-        </Batcher>
+                                </Link>
+                            )
+                        }}
+                        routes={[
+                            {
+                                name: "Database",
+                                path: "/database",
+                                render: () => (
+                                    <SystemDatabase
+                                        {...apollo}
+                                    />
+                                ),
+                            },
+                            {
+                                name: "Details",
+                                path: "/details",
+                                render: () => (
+                                    <SystemDetails
+                                        {...apollo}
+                                    />
+                                ),
+                            }
+                        ]}
+                    />
+                );
+            }}
+        </ApolloBatcher>
     );
 }
