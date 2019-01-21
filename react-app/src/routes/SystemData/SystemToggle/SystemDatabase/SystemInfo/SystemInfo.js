@@ -5,6 +5,7 @@ import {
     Input,
     ListWrapper,
 } from '../../../../../components';
+import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemInfo({
     queryStatus: {
@@ -31,10 +32,10 @@ export default function SystemInfo({
     },
 }) {
     return (
-        <HeadedContainer
-            title="System Info"
-            className="input-wrapper"
-        >
+        <>
+            <TitleBar
+                title="System Info"
+            />
             <Input
                 label="Name"
                 value={name}
@@ -116,6 +117,6 @@ export default function SystemInfo({
                     })}
                 />
             </div>
-        </HeadedContainer>
+        </>
     );
 }

@@ -13,6 +13,7 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import {
     Dropdown,
     // DoubleArrow,
+    NavMenu,
 } from '../../components';
 
 import {
@@ -58,51 +59,9 @@ class Sidebar extends Component {
                     <Logo className="logo" />
                     <span>GLASCAD</span>
                 </div>
-                {routes.map(({
-                    name,
-                    path,
-                    subroutes = []
-                }, i) => subroutes.length ? (
-                    <Dropdown
-                        key={i}
-                        title={name}
-                        open={pathname.match(new RegExp(`^${path}/`)) || undefined}
-                        className={
-                            pathname.match(new RegExp(`^${path}/`)) ?
-                                'selected'
-                                :
-                                ''
-                        }
-                    >
-                        {subroutes.map(({ name: childName, path: childPath }, j) => (
-                            <NavLink
-                                key={j}
-                                isActive={(_, { pathname }) => pathname.includes(`${path}${childPath}`)}
-                                to={`${
-                                    path
-                                    }${
-                                    childPath
-                                    }${
-                                    search
-                                    }`}
-                                activeClassName="selected"
-                            >
-                                {childName}
-                            </NavLink>
-                        ))}
-                    </Dropdown>
-                ) : (
-                            <Link
-                                key={i}
-                                className="item"
-                                to={`${
-                                    path
-                                    }${
-                                    search}`}
-                            >
-                                {name}
-                            </Link>
-                        ))}
+                <NavMenu
+                    routes={routes}
+                />
                 {/* <div className="item sidebar-toggle">
                     <DoubleArrow
                         onClick={toggle}

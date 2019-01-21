@@ -7,6 +7,7 @@ import {
 
 import Toggle from '../Toggle/Toggle';
 import Navigator from '../../state/Navigator';
+import TitleBar from '../TitleBar/TitleBar';
 
 function ToggleNavigator({
     history,
@@ -18,48 +19,43 @@ function ToggleNavigator({
         url,
     },
     routes,
-    title,
-    titleButtons,
+    titleBar,
     rightButtons,
 }) {
 
     return (
         <>
-            <header>
-                <div>
-                    <h1>
-                        {title}
-                    </h1>
-                    <div>
-                        {titleButtons}
-                    </div>
-                </div>
-                <div className="right-buttons">
-                    {rightButtons}
-                    <Toggle
-                        component={NavLink}
-                        buttons={
-                            routes.map(({
-                                path,
-                                name,
-                            }) => ({
-                                key: path,
-                                to: `${
-                                    url
-                                    }${
-                                    path
-                                    }${
-                                    search
-                                    }`,
-                                isActive: (_, { pathname }) => pathname.match(`${url}${path}`),
-                                className: "empty",
-                                activeClassName: "selected",
-                                children: name,
-                            }))
-                        }
-                    />
-                </div>
-            </header>
+            <TitleBar
+                {...titleBar}
+                right={(
+                    <>
+                        {rightButtons}
+                        <Toggle
+                            component={NavLink}
+                            buttons={
+                                routes.map(({
+                                    path,
+                                    name,
+                                }) => ({
+                                    key: path,
+                                    to: `${
+                                        url
+                                        }${
+                                        path
+                                        }${
+                                        search
+                                        }`,
+                                    isActive: (_, { pathname }) => pathname.match(`${url}${path}`),
+                                    className: "empty",
+                                    activeClassName: "selected",
+                                    children: name,
+                                }))
+                            }
+                        />
+                    </>
+                )
+                }
+            />
             <Navigator
                 routes={routes}
             />

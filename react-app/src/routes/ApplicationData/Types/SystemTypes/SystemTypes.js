@@ -8,6 +8,7 @@ import {
 
 import query from './system-types-graphql/query';
 import mutations from './system-types-graphql/mutations';
+import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemTypes() {
     return (
@@ -55,7 +56,10 @@ export default function SystemTypes() {
                             systemTypeDetailTypeConfigurationTypes = [],
                         }) => (
                                 <ListWrapper
-                                    title={`Detail Types - ${systemTypeName}`}
+                                    titleBar={{
+                                        title: "Detail Types",
+                                        selections: [systemTypeName],
+                                    }}
                                     items={systemTypeDetailTypes
                                         .map(({
                                             nodeId,
@@ -79,16 +83,24 @@ export default function SystemTypes() {
                                     })}
                                 >
                                     {({
+                                        nodeId: detailTypeNID,
                                         id: detailTypeId,
                                         type: detailTypeName = '',
                                     }) => (
                                             <ListWrapper
-                                                title={`Configuration Types - ${
-                                                    systemTypeName
-                                                    } > ${
-                                                    detailTypeName
-                                                    }`}
+                                                titleBar={{
+                                                    title: "Configuration Types",
+                                                    selections: [
+                                                        systemTypeName,
+                                                        detailTypeName,
+                                                    ]
+                                                }}
                                                 items={systemTypeDetailTypeConfigurationTypes
+                                                    .filter(({
+                                                        detailType: {
+                                                            nodeId
+                                                        }
+                                                    }) => nodeId === detailTypeNID)
                                                     .map(({
                                                         nodeId,
                                                         configurationType,
@@ -115,17 +127,14 @@ export default function SystemTypes() {
                                                     type: configurationTypeName = '',
                                                 }) => (
                                                         <div className="unfinished">
-                                                            <HeadedContainer
-                                                                title={`Configuration Type - ${
-                                                                    systemTypeName
-                                                                    } > ${
-                                                                    detailTypeName
-                                                                    } > ${
-                                                                    configurationTypeName
-                                                                    }`}
-                                                            >
-
-                                                            </HeadedContainer>
+                                                            <TitleBar
+                                                                title="Configuration Type"
+                                                                selections={[
+                                                                    systemTypeName,
+                                                                    detailTypeName,
+                                                                    configurationTypeName,
+                                                                ]}
+                                                            />
                                                         </div>
                                                     )}
                                             </ListWrapper>

@@ -7,6 +7,7 @@ import {
 } from '../../../../components';
 
 import * as apolloProps from './detail-types-graphql';
+import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function DetailTypes() {
     return (
@@ -49,10 +50,11 @@ export default function DetailTypes() {
                             vertical,
                             entrance,
                         }) => (
-                                <HeadedContainer
-                                    title={`Detail Types - ${type}`}
-                                    nestLevel={1}
-                                >
+                                <>
+                                    <TitleBar
+                                        title="Detail Types"
+                                        selections={[type]}
+                                    />
                                     <Input
                                         label="Vertical"
                                         type="checkbox"
@@ -71,7 +73,7 @@ export default function DetailTypes() {
                                             entrance: checked
                                         })}
                                     />
-                                </HeadedContainer>
+                                </>
                             )}
                     </ListWrapper>
                 )}

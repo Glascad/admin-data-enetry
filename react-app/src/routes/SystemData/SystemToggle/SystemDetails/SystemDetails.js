@@ -4,7 +4,8 @@ import {
     ListWrapper,
     HeadedContainer,
     StateManager,
-    HeadedListContainer,
+    ListContainer,
+    TitleBar,
 } from '../../../../components';
 
 /**
@@ -44,9 +45,10 @@ export default function SystemDetails({
         <div className="card">
             <StateManager>
                 {managerProps => (
-                    <HeadedContainer
-                        title="System Level Options"
-                    >
+                    <>
+                        <TitleBar
+                            title="System Level Options"
+                        />
                         {systemOptions
                             .filter(({ presentationLevel }) => presentationLevel === 1)
                             .map(({
@@ -92,11 +94,13 @@ export default function SystemDetails({
                                     type = "",
                                 } = {},
                             }) => (
-                                    <HeadedListContainer
-                                        title={`Detail Level Options - ${type}`}
-                                        list={{
-                                            items: systemOptions,
-                                            filter: ({
+                                    <>
+                                        <TitleBar
+                                            title="Detail Level Options"
+                                            selections={[type]}
+                                        />
+                                        {systemOptions
+                                            .filter(({
                                                 presentationLevel,
                                                 systemOptionConfigurationTypes = []
                                             }) => (
@@ -119,8 +123,9 @@ export default function SystemDetails({
                                                             configurationTypeNID === nodeId
                                                         )
                                                     ))
-                                                ),
-                                            renderItem: ({
+                                                )
+                                            )
+                                            .map(({
                                                 nodeId,
                                                 name,
                                                 optionValues = [],
@@ -138,15 +143,14 @@ export default function SystemDetails({
                                                         })}
                                                     />
                                                 )
-                                        }}
-                                    >
-                                    </HeadedListContainer>
+                                            )}
+                                    </>
                                 )}
                         </ListWrapper>
                         <div className="configuration-display">
                             EMPTY
                         </div>
-                    </HeadedContainer>
+                    </>
                 )}
             </StateManager>
         </div >

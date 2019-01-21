@@ -12,6 +12,7 @@ import {
 
 import query from './-graphql/query';
 import mutations from './-graphql/mutations';
+import TitleBar from '../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemSearch({
     history,
@@ -21,9 +22,9 @@ export default function SystemSearch({
 }) {
     return (
         <>
-            <header>
-                <div>Select System</div>
-                <div className="buttons-right">
+            <TitleBar
+                title="Select System"
+                right={(
                     <Link
                         to={`/system-data/new/create${search}`}
                     >
@@ -33,8 +34,8 @@ export default function SystemSearch({
                             New System
                         </button>
                     </Link>
-                </div>
-            </header>
+                )}
+            />
             <div className="card">
                 <ApolloWrapper
                     query={query}
@@ -57,69 +58,67 @@ export default function SystemSearch({
                                     update,
                                 }) => (
                                         <>
-                                            <div className="input-wrapper">
+                                            <Input
+                                                label="Search"
+                                                value={state.name}
+                                                placeholder={"System Name"}
+                                                onChange={({ target: { value } }) => update("name")({
+                                                    arguments: value
+                                                })}
+                                            />
+                                            <div className="input-group">
                                                 <Input
-                                                    label="Search"
-                                                    value={state.name}
-                                                    placeholder={"System Name"}
-                                                    onChange={({ target: { value } }) => update("name")({
-                                                        arguments: value
-                                                    })}
-                                                />
-                                                <div className="input-group">
-                                                    <Input
-                                                        label="Manufacturer"
-                                                        select={{
-                                                            options: allManufacturers
-                                                                .map(({ nodeId, name }) => ({
-                                                                    value: nodeId,
-                                                                    label: name,
-                                                                })),
-                                                            value: state.manufacturer,
-                                                            onChange: selection => update("manufacturer")({
-                                                                arguments: selection
-                                                            })
-                                                        }}
-                                                    />
-                                                    <Input
-                                                        label="System Type"
-                                                        select={{
-                                                            options: allSystemTypes
-                                                                .map(({ nodeId, type }) => ({
-                                                                    value: nodeId,
-                                                                    label: type,
-                                                                })),
-                                                            value: state.systemType,
-                                                            onChange: selection => update("systemType")({
-                                                                arguments: selection
-                                                            })
-                                                        }}
-                                                    />
-                                                </div>
-                                                <Input
-                                                    label="System Tags"
+                                                    label="Manufacturer"
                                                     select={{
-                                                        isMulti: true,
-                                                        options: allSystemTags
-                                                            .map(({ nodeId, tag }) => ({
+                                                        options: allManufacturers
+                                                            .map(({ nodeId, name }) => ({
                                                                 value: nodeId,
-                                                                label: tag,
+                                                                label: name,
                                                             })),
-                                                        value: state.systemTags,
-                                                        onChange: selection => update("systemTags")({
+                                                        value: state.manufacturer,
+                                                        onChange: selection => update("manufacturer")({
                                                             arguments: selection
                                                         })
                                                     }}
                                                 />
-                                                <div className="unfinished">
-                                                    <div className="input-group">
-                                                        <Input
-                                                            label="System Option"
-                                                        />
-                                                        <Input
-                                                            label="Option Value"
-                                                        />
-                                                    </div>
+                                                <Input
+                                                    label="System Type"
+                                                    select={{
+                                                        options: allSystemTypes
+                                                            .map(({ nodeId, type }) => ({
+                                                                value: nodeId,
+                                                                label: type,
+                                                            })),
+                                                        value: state.systemType,
+                                                        onChange: selection => update("systemType")({
+                                                            arguments: selection
+                                                        })
+                                                    }}
+                                                />
+                                            </div>
+                                            <Input
+                                                label="System Tags"
+                                                select={{
+                                                    isMulti: true,
+                                                    options: allSystemTags
+                                                        .map(({ nodeId, tag }) => ({
+                                                            value: nodeId,
+                                                            label: tag,
+                                                        })),
+                                                    value: state.systemTags,
+                                                    onChange: selection => update("systemTags")({
+                                                        arguments: selection
+                                                    })
+                                                }}
+                                            />
+                                            <div className="unfinished">
+                                                <div className="input-group">
+                                                    <Input
+                                                        label="System Option"
+                                                    />
+                                                    <Input
+                                                        label="Option Value"
+                                                    />
                                                 </div>
                                             </div>
                                             <ListWrapper

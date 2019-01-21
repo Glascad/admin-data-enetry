@@ -14,6 +14,7 @@ import {
 import InfillSizesGenerator from './InfillSizesGenerator';
 
 import './InfillSizes.scss';
+import TitleBar from '../../../components/ui/TitleBar/TitleBar';
 
 export default function InfillSizes() {
     return (
@@ -31,9 +32,10 @@ export default function InfillSizes() {
                     deleteInfillSize,
                 },
             }) => (
-                    <HeadedContainer
-                        title="Infill Sizes"
-                    >
+                    <>
+                        <TitleBar
+                            title="Infill Sizes"
+                        />
                         <InfillSizesGenerator
                             createItem={createInfillSize}
                         />
@@ -55,7 +57,7 @@ export default function InfillSizes() {
                                 name: "Infill Size",
                             }}
                         />
-                    </HeadedContainer>
+                    </>
                 )}
         </ApolloWrapper>
     );

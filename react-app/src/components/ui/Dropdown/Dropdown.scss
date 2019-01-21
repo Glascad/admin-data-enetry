@@ -25,7 +25,7 @@
             .triangle {
                 // opacity: 0;
                 width: 0;
-                border-right: 9px solid $border-color;
+                border-right: 9px solid $rule-color;
                 border-bottom: 7px solid rgba(0, 0, 0, 0);
                 border-top: 7px solid rgba(0, 0, 0, 0);
             }
@@ -67,10 +67,10 @@
             display: flex;
             align-items: center;
             width: stretch;
-            color: $border-color;
+            color: $rule-color;
             text-decoration: none;
             &:hover {
-                background: $menu-color;
+                background: $dark-blue;
             }
             &:last-child {
                 margin-bottom: $x-large;

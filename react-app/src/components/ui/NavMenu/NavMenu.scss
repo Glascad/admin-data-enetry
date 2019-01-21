@@ -1,0 +1,57 @@
+
+@import '../../../styles/variables';
+
+.NavMenu {
+    
+    .Dropdown, .item {
+        background: $dark-blue;
+        color: $off-white;
+        border-bottom: 1px solid $rule-color;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: $menu-height;
+        
+    }
+    .item, .title {
+        width: 100%;
+        height: $menu-height;
+        padding: 0 $large;
+    }
+    
+    .open {
+        background: $darker-blue;
+    }
+    
+    .closed {
+        background: $dark-blue;
+    }
+
+    .matched {
+        font-weight: bold;
+        background: $darker-blue;
+    }
+
+    .Dropdown {
+        &.matched {
+            .title {
+                color: white;
+            }
+        }
+        .content {
+            > a {
+                padding-left: $large * 2;
+                &.matched {
+                    color: $light-blue;
+                }
+            }
+        }
+    }
+    
+    .item {
+        &.matched {
+            color: $light-blue;
+        }
+    }
+}

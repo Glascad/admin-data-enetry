@@ -8,6 +8,7 @@ import {
 } from '../../../../components';
 
 import * as apolloProps from './line-weights-graphql';
+import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function LineWeights() {
     return (
@@ -25,7 +26,9 @@ export default function LineWeights() {
                 },
             }) => (
                     <ListWrapper
-                        title="Line Weights"
+                        titleBar={{
+                            title: "Line Weights"
+                        }}
                         items={allLineWeights}
                         mapPillProps={({ name }) => ({
                             title: name,
@@ -50,9 +53,11 @@ export default function LineWeights() {
                             name,
                             weight = 0,
                         }) => (
-                                <HeadedContainer
-                                    title={`Line Weight - ${name || ''}`}
-                                >
+                                <>
+                                    <TitleBar
+                                        title="Line Weight"
+                                        selections={[name]}
+                                    />
                                     <Input
                                         label="Weight (mm)"
                                         type="number"
@@ -62,7 +67,7 @@ export default function LineWeights() {
                                             nodeId,
                                         })}
                                     />
-                                </HeadedContainer>
+                                </>
                             )}
                     </ListWrapper>
                 )}

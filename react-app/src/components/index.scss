@@ -1,16 +1,50 @@
 
 @import '../styles/variables';
 
+.card {
+    background: $off-white;
+    border-top: $small solid $light-blue;
+    padding: $large;
+    padding-bottom: $xxxx-large;
+}
+
+.card, .card .nested {
+
+    .TitleBar {
+        margin-top: $xxxx-large;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    > * {
+        margin-top: $large;
+        
+        &:first-child {
+            margin-top: 0;
+        }
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    
+    .label {
+        color: $rule-color;
+        + * {
+            margin-top: $x-small;
+        }
+    }
+}
+
 .nested {
     border-left: $small solid $selected-color;
     padding: $x-small 0;
-    margin: $xxxx-large 0;
+    margin: $xxxx-large 0 0;
 
     > * {
         margin-left: $large;
-        + * {
-            margin-top: $xxxx-large;
-        }
     }
 
     &:last-child {
@@ -18,49 +52,19 @@
     }
     
     .nested {
+        margin-top: $xxxx-large;
         border-left: none;
         margin-left: 0;
         margin-bottom: 0;
         padding: 0;
-
-        > div {
-            margin: 0;
-        }
     }
 }
 
-.card {
-    background: $card-color;
-    border-top: $small solid $current-color;
-    padding: $large;
-    padding-bottom: $xxxx-large;
-
+.input-group {
+    display: flex;
     > * {
-        margin-bottom: $xxxx-large;
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
-}
-
-.label {
-    color: $label-color;
-    margin-bottom: $x-small;
-}
-
-.input-wrapper {
-    > * {
-        margin-bottom: $large;
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
-    .input-group {
-        display: flex;
-        > * {
-            + * {
-                margin-left: $small;
-            }
+        + * {
+            margin-left: $small;
         }
     }
 }

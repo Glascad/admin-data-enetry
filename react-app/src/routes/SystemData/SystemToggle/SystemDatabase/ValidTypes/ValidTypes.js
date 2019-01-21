@@ -5,6 +5,7 @@ import {
     Input,
     ListWrapper,
 } from '../../../../../components';
+import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 export default function ValidTypes({
     queryStatus: {
@@ -24,7 +25,9 @@ export default function ValidTypes({
 }) {
     return (
         <ListWrapper
-            title="Valid Detail Types"
+            titleBar={{
+                title: "Valid Detail Types"
+            }}
             items={systemTypeDetailTypes}
             mapPillProps={({
                 detailType: {
@@ -41,8 +44,10 @@ export default function ValidTypes({
                 } = {}
             }) => (
                     <ListWrapper
-                        title={`Valid Configuration Types - ${detailTypeName}`}
-                        // parent={detailTypeName}
+                        titleBar={{
+                            title: "Valid Configuration Types",
+                            selections: [detailTypeName]
+                        }}
                         items={systemTypeDetailTypeConfigurationTypes
                             .filter(({
                                 detailType: {
@@ -96,28 +101,28 @@ export default function ValidTypes({
                             ...data
                         }) => (
                                 <div className="unfinished">
-                                    <HeadedContainer
-                                        title={`System Configuration Type - ${configurationTypeName}`}
-                                    >
-                                        <Input
-                                            label="Required"
-                                            type="checkbox"
-                                            checked={required || false}
-                                            onChange={({ target: { checked } }) => ({
-                                                data,
-                                                checked,
-                                            })}
-                                        />
-                                        <Input
-                                            label="Mirrorable"
-                                            type="checkbox"
-                                            checked={required}
-                                            onChange={({ target: { checked } }) => ({
-                                                data,
-                                                checked,
-                                            })}
-                                        />
-                                    </HeadedContainer>
+                                    <TitleBar
+                                        title="System Configuration Type"
+                                        selections={[configurationTypeName]}
+                                    />
+                                    <Input
+                                        label="Required"
+                                        type="checkbox"
+                                        checked={required || false}
+                                        onChange={({ target: { checked } }) => ({
+                                            data,
+                                            checked,
+                                        })}
+                                    />
+                                    <Input
+                                        label="Mirrorable"
+                                        type="checkbox"
+                                        checked={required}
+                                        onChange={({ target: { checked } }) => ({
+                                            data,
+                                            checked,
+                                        })}
+                                    />
                                 </div>
                             )}
                     </ListWrapper>

@@ -9,6 +9,7 @@ import {
 
 import query from './configuration-types-graphql/query';
 import mutations from './configuration-types-graphql/mutations';
+import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function ConfigurationTypes() {
     return (
@@ -63,9 +64,11 @@ export default function ConfigurationTypes() {
                             configurationTypePartTypes = [],
                             configurationNameOverrides = [],
                         }) => (
-                                <HeadedContainer
-                                    title={`Configuration Type - ${type}`}
-                                >
+                                <>
+                                    <TitleBar
+                                        title="Configuration Type"
+                                        selections={[type]}
+                                    />
                                     <Input
                                         label="Door"
                                         type="checkbox"
@@ -94,7 +97,10 @@ export default function ConfigurationTypes() {
                                         })}
                                     />
                                     <ListWrapper
-                                        title={`Part Types - ${type}`}
+                                        titleBar={{
+                                            title: "Part Types",
+                                            selections: [type]
+                                        }}
                                         items={configurationTypePartTypes
                                             .map(({
                                                 nodeId,
@@ -122,12 +128,15 @@ export default function ConfigurationTypes() {
                                     />
                                     <div className="unfinished">
                                         <ListWrapper
-                                            title={`Name Overrides - ${type}`}
+                                            titleBar={{
+                                                title: "Name Overrides",
+                                                selection: [type],
+                                            }}
                                             items={configurationNameOverrides}
                                             mapPillProps={() => ({})}
                                         />
                                     </div>
-                                </HeadedContainer>
+                                </>
                             )
                         }
                     </ListWrapper >

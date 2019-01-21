@@ -51,7 +51,7 @@
         // right: 0;
         width: 90%;
         max-width: 70vw;
-        background: $current-color;
+        background: $light-blue;
         display: flex;
         height: $menu-height;
         min-height: $menu-height;
@@ -79,9 +79,9 @@
             // }
             
             &.current-tab {
-                background: $card-color;
+                background: $off-white;
                 // color: black;
-                color: $current-color;
+                color: $light-blue;
                 font-weight: bold;
             }
         }

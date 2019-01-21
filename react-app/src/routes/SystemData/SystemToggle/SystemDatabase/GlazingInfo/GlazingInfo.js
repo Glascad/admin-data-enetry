@@ -5,6 +5,7 @@ import {
     HeadedContainer,
     ListWrapper,
 } from '../../../../../components';
+import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 export default function GlazingInfo({
     queryStatus: {
@@ -32,9 +33,10 @@ export default function GlazingInfo({
     },
 }) {
     return (
-        <HeadedContainer
-            title="Glazing Info"
-        >
+        <>
+            <TitleBar
+                title="Glazing Info"
+            />
             <Input
                 label="Glass Bite"
                 value={defaultGlassBite}
@@ -142,6 +144,6 @@ export default function GlazingInfo({
                     infillPocketSize: size,
                 })}
             />
-        </HeadedContainer>
+        </>
     );
 }

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Modal from '../Modal/Modal';
 import Pill from '../Pill/Pill';
 import ListContainer from '../ListContainer/ListContainer';
-import HeadedListContainer from '../HeadedListContainer/HeadedListContainer';
 
 import './MultiSelect.scss';
 
@@ -108,21 +107,20 @@ export default class MultiSelect extends Component {
                         />
                     )}
                 />
-                <HeadedListContainer
-                    title={listTitle}
-                    // label={""}
-                    list={{
-                        items: nonSelectedItems,
-                        renderItem: (item, i) => (
-                            <Pill
-                                key={item.nodeId}
-                                tagname="li"
-                                onSelect={handleSelect}
-                                arguments={item}
-                                {...mapPillProps(item, false)}
-                            />
-                        )
+                <ListContainer
+                    titleBar={{
+                        title: listTitle
                     }}
+                    items={nonSelectedItems}
+                    renderItem={(item, i) => (
+                        <Pill
+                            key={item.nodeId}
+                            tagname="li"
+                            onSelect={handleSelect}
+                            arguments={item}
+                            {...mapPillProps(item, false)}
+                        />
+                    )}
                 />
             </Modal>
         );

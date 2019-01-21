@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 import {
-    HeadedContainer,
     ListContainer,
     Input,
 } from '../../../../components';
+import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default class LinetypeInfo extends Component {
 
@@ -120,10 +120,11 @@ export default class LinetypeInfo extends Component {
             .find(({ value }) => value === lineWeight);
 
         return (
-            <HeadedContainer
-                title={`Linetype - ${name || ''}`}
-                nestLevel={1}
-            >
+            <>
+                <TitleBar
+                    title="Linetype"
+                    selections={[name]}
+                />
                 <Input
                     label="Line Weight"
                     select={{
@@ -172,7 +173,7 @@ export default class LinetypeInfo extends Component {
                         strokeDasharray={pattern.join(" ")}
                     />
                 </svg>
-            </HeadedContainer>
+            </>
         );
     }
 }
