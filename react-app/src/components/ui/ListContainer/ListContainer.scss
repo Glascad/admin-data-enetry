@@ -9,11 +9,4 @@
     > * {
         margin: 0 $base_size $base_size 0;
     }
-
-    .Input {
-        margin: 0 $base_size $base_size 0;
-        + .AddButton {
-            margin: 0 $base_size $base_size 0;
-        }
-    }
 }
