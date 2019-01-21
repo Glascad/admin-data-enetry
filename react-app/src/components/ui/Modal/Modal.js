@@ -102,7 +102,7 @@ export default class Modal extends Component {
                             {onFinish ? (
                                 <button
                                     children="Finish"
-                                    className={danger ? "danger" : "primary"}
+                                    className={danger ? "danger" : "action"}
                                     {...finish}
                                     children={finishButtonText || finish.children || "Finish"}
                                     onClick={handleFinishClick}

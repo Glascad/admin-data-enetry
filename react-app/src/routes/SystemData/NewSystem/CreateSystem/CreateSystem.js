@@ -183,7 +183,7 @@ export default function CreateSystem({
                     </Link>
                     <div>
                         <button
-                            className="primary"
+                            className="action"
                             onClick={completeMutations}
                         >
                             Create

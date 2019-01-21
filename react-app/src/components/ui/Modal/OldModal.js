@@ -52,7 +52,7 @@ export default class Modal extends Component {
                 cancelButtonText = 'Cancel',
                 resetButtonClassName = 'empty light',
                 cancelButtonClassName = 'empty light',
-                finishButtonClassName = 'primary',
+                finishButtonClassName = 'action',
             },
             reset,
             cancel,

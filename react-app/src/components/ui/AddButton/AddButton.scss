@@ -10,20 +10,14 @@
     padding: 0;
 
     .add-button {
+        @extend .action;
         height: $item-height;
         width: $item-height;
         border-radius: $item-height;
         display: flex;
         position: relative;
-        background: $action-color;
         margin: 0;
-        border: $icon-thickness $action-color solid;
-        &:hover {
-            background: none;
-            .vertical-plus, .horizontal-plus {
-                background: $action-color;
-            }
-        }
+        border-width: $icon-thickness;
     }
 
     &.large {
@@ -63,7 +57,6 @@
         width: 10%;
         height: 55%;
         transform: translate(-50%, -50%);
-        background: $off-white;
     }
 
     .horizontal-plus {
@@ -73,7 +66,6 @@
         width: 55%;
         height: 10%;
         transform: translate(-50%, -50%);
-        background: $off-white;
     }
 
 }

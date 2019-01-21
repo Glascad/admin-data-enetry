@@ -17,8 +17,8 @@ export default function DeleteButton({
             onClick={handleClick}
             {...props}
         >
-            <div className="left-x" />
-            <div className="right-x" />
+            <div className="left-x text-color" />
+            <div className="right-x text-color" />
         </button>
     );
 }

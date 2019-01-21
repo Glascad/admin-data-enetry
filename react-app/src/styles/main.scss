@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import './variables';
@@ -10,25 +9,26 @@ button, input {
     
     &.empty {
         border: 1px solid $dark-gray;
-        color: $dark-gray;
+        // color: $dark-gray;
         &:hover {
             border: 1px solid $off-white;
-            color: $off-white;
+            // color: $off-white;
             background: $dark-gray;
         }
             
         &.light {
             border: 1px solid $off-white;
-            color: $off-white;
+            // color: $off-white;
             &:hover {
                 border: 1px solid $dark-gray;
-                color: $dark-gray;
+                // color: $dark-gray;
             }
         }
     }
 }
 
 button {
+
     background: none;
     display: flex;
     justify-content: center;
@@ -47,46 +47,46 @@ button {
         box-shadow: 0 0 1px 1px $selected-color;
     }
 
-    &.primary, &.empty, &.danger, &.toggle-button {
-        height: $item-height;
-        width: fit-content;
-        min-width: $pill-width / 2;
-        padding: 0 $base_size;
-        white-space: nowrap;
-    }
+    // &.action, &.empty, &.danger, &.toggle-button {
+    //     height: $item-height;
+    //     width: fit-content;
+    //     min-width: $pill-width / 2;
+    //     padding: 0 $base_size;
+    //     white-space: nowrap;
+    // }
     
-    &.primary {
-        color: $off-white;
-        background: $action-color;
-        &:hover {
-            border: 1px solid $action-color;
-            color: $action-color;
-            background: none;
-        }
-        &.empty {
-            color: $action-color;
-            background: none;
-            &:hover {
-                border: 1px solid $off-white;
-                color: $off-white;
-                background: $action-color;
-            }
-        }
-    }
-    &.danger {
-        background: $danger-color;
-        color: $off-white;
-        &:hover {
-            border: 1px solid $danger-color;
-            color: $danger-color;
-            background: none;
-        }
-        &.empty {
-            border: 1px solid $danger-color;
-            color: $danger-color;
-            background: none;
-        }
-    }
+    // &.action {
+    //     // color: $off-white;
+    //     background: $action-color;
+    //     &:hover {
+    //         border: 1px solid $action-color;
+    //         // color: $action-color;
+    //         background: none;
+    //     }
+    //     &.empty {
+    //         // color: $action-color;
+    //         background: none;
+    //         &:hover {
+    //             border: 1px solid $off-white;
+    //             // color: $off-white;
+    //             background: $action-color;
+    //         }
+    //     }
+    // }
+    // &.danger {
+    //     background: $danger-color;
+        // color: $off-white;
+    //     &:hover {
+    //         border: 1px solid $danger-color;
+            // color: $danger-color;
+    //         background: none;
+    //     }
+    //     &.empty {
+    //         border: 1px solid $danger-color;
+            // color: $danger-color;
+    //         background: none;
+    //     }
+    // }
 }
 
 input {
@@ -115,18 +115,6 @@ html, #root, body {
     font-family: 'Roboto';
     font-size: $text-size;
     font-weight: lighter;
-}
-
-html {
-    details {
-        outline: none;
-        &:hover {
-            cursor: default;
-        }
-        summary {
-            outline: none;
-        }
-    }
 }
 
 a {

@@ -1,10 +1,10 @@
-
 @import '../../../styles/variables';
 
 .Pill {
-    background: $pill-color;
-    border: $icon-thickness solid $pill-color;
-    color: $dark-gray;
+    @include two-colors($dark-gray, $pill-color, false);    // background: $pill-color;
+    // border: $icon-thickness solid $pill-color;
+    border-width: $icon-thickness !important;
+    // color: $dark-gray;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -27,62 +27,76 @@
         }
     }
 
-    &.selectable, &.deletable, &.editable, &.with-button-tile {
-        &:hover{
-            background: $dark-gray;
-            border: $icon-thickness solid $dark-gray;
-            box-shadow: none;
-            color: $off-white;
-        }
-            
-        .left-x, .right-x {
-            background: $off-white;
-        }
+    &.selected, &.danger, &.editing {
+        box-shadow: none;
     }
-    &.selected {
 
-        @include selected();
-        border: $icon-thickness solid $selected-color;
-
-        .left-x, .right-x {
-            background: $selected-color;
-        }
-    }
     &.editing {
-        @include selected-hovered();
+        border-color: $selected-color;
+        color: $selected-color;
+        background: none;
+        input {
+            color: $selected-color;
+        }    
+    }
+
+    // &.selectable, &.deletable, &.editable, &.with-button-tile {
+    //     &:hover{
+    //         background: $dark-gray;
+    //         border: $icon-thickness solid $dark-gray;
+    //         box-shadow: none;
+    //         color: $off-white;
+    //     }
+            
+    //     .left-x, .right-x {
+    //         background: $off-white;
+    //     }
+    // }
+    // &.selected {
+
+    //     @include selected();
+    //     border: $icon-thickness solid $selected-color;
+
+    //     .left-x, .right-x {
+    //         background: $selected-color;
+    //     }
+    // }
+
+    &.editing {
+        // @include selected-hovered();
     }
     &.default {
         border: 2px solid $dark-gray;
     }
-    &.danger {
-        background: $danger-color;
-        border: $icon-thickness solid $danger-color;
-        color: $off-white;
-        box-shadow: none;
-        &:hover, &.editing {
-            background: none;
-            color: $danger-color;
-            border: $icon-thickness solid $danger-color;
-            input {
-                color: $danger-color;
-            }
-        }
-        .left-x, .right-x {
-            background: $danger-color;
-        }
-    }
+    // &.danger {
+    //     background: $danger-color;
+    //     border: $icon-thickness solid $danger-color;
+    //     color: $off-white;
+    //     box-shadow: none;
+    //     &:hover, &.editing {
+    //         background: none;
+    //         color: $danger-color;
+    //         border: $icon-thickness solid $danger-color;
+    //         input {
+    //             color: $danger-color;
+    //         }
+    //     }
+    //     .left-x, .right-x {
+    //         background: $danger-color;
+    //     }
+    // }
     &.disabled {
         opacity: 0.67;
     }
     &.editing {
-        padding: 0;
+        // padding: 0;
     }
     .subtitle {
 
     }
     button {
         position: absolute;
-        color: $dark-gray;
+        // color: $dark-gray;
         &.drag {
             top: 50%;
             left: 50%;
@@ -149,6 +163,12 @@
     &:hover {
         cursor: default;
         box-shadow: none;
+        border-color: $dark-gray;
+        background-color: $dark-gray;
+        color: $off-white;
+        .text-color {
+            background: $off-white;
+        }
 
         button {
             &.delete, &.edit {

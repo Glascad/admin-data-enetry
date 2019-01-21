@@ -57,8 +57,8 @@ export default class AddButton extends Component {
                     className="add-button"
                     onClick={handleClick}
                 >
-                    <div className="vertical-plus" />
-                    <div className="horizontal-plus" />
+                    <div className="vertical-plus text-color" />
+                    <div className="horizontal-plus text-color" />
                 </button>
                 {otherButtons.length ? (
                     <ButtonTile

@@ -114,7 +114,7 @@ export default class Wizard extends Component {
                                     </button>
                                     <button
                                         onClick={completeMutations}
-                                        className="primary"
+                                        className="action"
                                     >
                                         Save
                                     </button>
@@ -201,7 +201,7 @@ export default class Wizard extends Component {
                                 {navigation === "tabs" ? (
                                     batcher ? (
                                         <button
-                                            className="primary"
+                                            className="action"
                                             onClick={completeMutations}
                                         >
                                             Save
@@ -229,7 +229,7 @@ export default class Wizard extends Component {
                                                     to={url + nextRoute.path}
                                                 >
                                                     <button
-                                                        className="primary"
+                                                        className="action"
                                                     >
                                                         {
                                                             // nextRoute.name

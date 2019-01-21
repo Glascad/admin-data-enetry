@@ -29,7 +29,7 @@ export default function SystemSearch({
                         to={`/system-data/new/create${search}`}
                     >
                         <button
-                            className="primary"
+                            className="action"
                         >
                             New System
                         </button>

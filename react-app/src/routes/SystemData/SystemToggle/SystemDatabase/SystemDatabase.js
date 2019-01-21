@@ -75,7 +75,7 @@ export default function SystemDatabase({
                     Reset
                     </button>
                 <button
-                    className="primary"
+                    className="action"
                     onClick={completeMutations}
                 >
                     Save

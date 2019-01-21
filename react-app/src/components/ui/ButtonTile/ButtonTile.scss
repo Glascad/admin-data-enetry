@@ -16,17 +16,17 @@
             margin-top: $small;
         }
 
-        &:hover {
-            background-color: $off-white;
-            border-color: $dark-gray;
-            color: $dark-gray;
+        // &:hover {
+        //     background-color: $off-white;
+        //     border-color: $dark-gray;
+        //     color: $dark-gray;
 
-            &.danger {
-                // color: $danger-color;
-                border-color: $danger-color;
-                color: $off-white;
-                background: $danger-color;
-            }
-        }
+        //     &.danger {
+        //         // color: $danger-color;
+        //         border-color: $danger-color;
+        //         color: $off-white;
+        //         background: $danger-color;
+        //     }
+        // }
     }
 }
