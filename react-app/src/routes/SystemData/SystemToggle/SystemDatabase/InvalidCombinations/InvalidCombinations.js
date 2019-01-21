@@ -22,6 +22,7 @@ export default function ValidTypes({
         deleteOptionCombinationConfigurationType,
     }
 }) {
+    console.log(arguments[0]);
     return (
         <div className="unfinished">
             <ListWrapper
@@ -65,8 +66,8 @@ export default function ValidTypes({
             >
                 {({
                     id: optionCombinationId,
-                    optionCombinationConfigurationTypes,
-                    optionCombinationOptionValues,
+                    optionCombinationConfigurationTypes = [],
+                    optionCombinationOptionValues = [],
                 }) => (
                         <>
                             <ListWrapper

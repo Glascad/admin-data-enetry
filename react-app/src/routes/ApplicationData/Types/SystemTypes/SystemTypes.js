@@ -83,6 +83,7 @@ export default function SystemTypes() {
                                     })}
                                 >
                                     {({
+                                        nodeId: detailTypeNID,
                                         id: detailTypeId,
                                         type: detailTypeName = '',
                                     }) => (
@@ -95,6 +96,11 @@ export default function SystemTypes() {
                                                     ]
                                                 }}
                                                 items={systemTypeDetailTypeConfigurationTypes
+                                                    .filter(({
+                                                        detailType: {
+                                                            nodeId
+                                                        }
+                                                    }) => nodeId === detailTypeNID)
                                                     .map(({
                                                         nodeId,
                                                         configurationType,

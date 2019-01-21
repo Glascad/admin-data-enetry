@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Navigator,
+    Navigator, TitleBar,
 } from '../../components';
 
 const path = "/part-data";
@@ -26,10 +26,17 @@ function PartData() {
 
 function PartDataRouter() {
     return (
-        <Navigator
-            parentPath={path}
-            routes={routes.subroutes}
-        />
+        <>
+            <TitleBar
+                title="Part Data"
+            />
+            <div className="card">
+                <Navigator
+                    parentPath={path}
+                    routes={routes.subroutes}
+                />
+            </div>
+        </>
     );
 }
 

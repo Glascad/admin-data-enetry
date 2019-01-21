@@ -133,10 +133,7 @@ class List extends Component {
                             :
                             onDelete;
 
-                        const select = multiSelect ?
-                            handleDeleteClick
-                            :
-                            handleSelect;
+                        const select = handleSelect;
 
                         return (
                             <Pill

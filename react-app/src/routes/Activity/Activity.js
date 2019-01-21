@@ -1,8 +1,14 @@
 import React from 'react';
+import TitleBar from '../../components/ui/TitleBar/TitleBar';
 
 function Activity() {
     return (
-        "Activity"
+        <>
+            <TitleBar
+                title="Activity"
+            />
+            <div className="card" />
+        </>
     );
 }
 
