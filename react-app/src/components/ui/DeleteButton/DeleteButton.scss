@@ -3,9 +3,16 @@
 
 .DeleteButton {
     width: $item-height / 2;
+    min-width: 0;
+    background: none;
     height: $item-height;
     position: relative;
     padding: 0;
+    border: none;
+
+    &:hover {
+        background: none;
+    }
 
     .left-x, .right-x {
         height: $base-size;

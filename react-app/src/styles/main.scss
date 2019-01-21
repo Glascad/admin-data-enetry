@@ -3,93 +3,49 @@
 @import './variables';
 
 button, input {
-    border: none;
     outline: none;
     border-radius: $xx-small;
-    
-    &.empty {
-        border: 1px solid $dark-gray;
-        // color: $dark-gray;
-        &:hover {
-            border: 1px solid $off-white;
-            // color: $off-white;
-            background: $dark-gray;
-        }
-            
-        &.light {
-            border: 1px solid $off-white;
-            // color: $off-white;
-            &:hover {
-                border: 1px solid $dark-gray;
-                // color: $dark-gray;
-            }
-        }
-    }
 }
 
 button {
-
+    @include two-colors($dark-gray, $off-white);
+    border-color: $dark-gray;
     background: none;
     display: flex;
     justify-content: center;
     align-items: center;
     height: $item-height;
-    width: $pill-width / 2;
-    padding: 0 $small;
+    min-width: $pill-width / 2;
+    padding: 0 $large;
     font-size: $text-size;
     cursor: pointer;
 
     + button {
         margin-left: $small;
     }
-
+    
     &:focus, &:focus-within {
         box-shadow: 0 0 1px 1px $selected-color;
     }
 
-    // &.action, &.empty, &.danger, &.toggle-button {
-    //     height: $item-height;
-    //     width: fit-content;
-    //     min-width: $pill-width / 2;
-    //     padding: 0 $base_size;
-    //     white-space: nowrap;
-    // }
-    
-    // &.action {
-    //     // color: $off-white;
-    //     background: $action-color;
-    //     &:hover {
-    //         border: 1px solid $action-color;
-    //         // color: $action-color;
-    //         background: none;
-    //     }
-    //     &.empty {
-    //         // color: $action-color;
-    //         background: none;
-    //         &:hover {
-    //             border: 1px solid $off-white;
-    //             // color: $off-white;
-    //             background: $action-color;
-    //         }
-    //     }
-    // }
-    // &.danger {
-    //     background: $danger-color;
-        // color: $off-white;
-    //     &:hover {
-    //         border: 1px solid $danger-color;
-            // color: $danger-color;
-    //         background: none;
-    //     }
-    //     &.empty {
-    //         border: 1px solid $danger-color;
-            // color: $danger-color;
-    //         background: none;
-    //     }
-    // }
+    &.light {
+        border-color: $off-white;
+        background: none;
+    }
+    &.selected {
+        &:hover {
+            @include two-colors($off-white, $selected-color, false);
+        }
+    }
+    &.danger, &.action {
+        &:hover {
+            background: none;
+        }
+    }
 }
 
 input {
+    border: none;
     border: 1px solid $dark-gray;
     height: $item-height;
     width: $pill-width;

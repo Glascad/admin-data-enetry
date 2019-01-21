@@ -55,10 +55,25 @@ export default class Pill extends Component {
 
     componentDidMount = () => {
         window.addEventListener('keydown', this.blurOnEsc);
+        this.componentDidUpdate();
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.blurOnEsc);
+    }
+
+    componentDidUpdate = () => {
+        const { ref } = this;
+        if (
+            ref
+            &&
+            ref.current
+            &&
+            ref.current.style
+        ) {
+            ref.current.style.width = 0;
+            ref.current.style.width = `${ref.current.scrollWidth}px`;
+        }
     }
 
     blurOnEsc = ({ key, target }) => {
@@ -88,9 +103,11 @@ export default class Pill extends Component {
         });
     }
 
-    handleInput = ({ target: { value } }) => this.setState({
-        input: value
-    });
+    handleInput = ({ target: { value } }) => {
+        this.setState({
+            input: value,
+        });
+    }
 
     saveEditOnEnter = ({ key, target }) => {
         if (key === "Enter") {
@@ -143,13 +160,10 @@ export default class Pill extends Component {
             props: {
                 type,
                 inputType = "text",
-                selectable,
-                onSelect,
                 onDelete: deletable,
                 onEdit: editable,
                 onDrag,
                 selected,
-                default: defaulted,
                 danger,
                 disabled,
                 align,
@@ -165,7 +179,6 @@ export default class Pill extends Component {
                 editing,
                 input,
             },
-            ref,
             handleInput,
             handleClick,
             handleEditClick,
@@ -173,6 +186,7 @@ export default class Pill extends Component {
             saveEditOnEnter,
             handleDeleteClick,
             handleBlur,
+            ref,
         } = this;
 
         const tag = {
@@ -189,21 +203,10 @@ export default class Pill extends Component {
                 Boolean(deletable)
             ) > 1;
 
-
         return (
             <tag.name
                 className={`Pill ${
-                    selectable !== false ?
-                        selected ? 'selected' :
-                            selectable === true
-                                || onSelect ? 'selectable' : ''
-                        : ''
-                    } ${
-                    deletable ? 'deletable' : ''
-                    } ${
-                    editable ? 'editable' : ''
-                    } ${
-                    defaulted ? 'default' : ''
+                    selected ? 'selected' : ''
                     } ${
                     danger ? 'danger' : ''
                     } ${
@@ -217,7 +220,6 @@ export default class Pill extends Component {
                     } ${
                     buttonTile ? 'with-button-tile' : ''
                     }`}
-                ref={ref}
                 style={style}
                 onClick={handleClick}
                 onBlur={handleBlur}
@@ -236,6 +238,7 @@ export default class Pill extends Component {
                             </select>
                         ) : (
                                 <input
+                                    ref={ref}
                                     type={inputType}
                                     className="title"
                                     onChange={handleInput}

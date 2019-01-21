@@ -1,43 +1,33 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 
 import './Toggle.scss';
 
 export default function Toggle({
     buttons,
-    component: ButtonComponent,
 }) {
     return (
         <div className="Toggle">
-            {buttons.map(({
-                text,
-                selected,
-                className = "",
-                ...button
-            }) => (
-                    ButtonComponent ? (
-                        <ButtonComponent
-                            {...{
-                                text,
-                                selected,
-                                className: `toggle-button ${className}`,
-                                ...button,
-                            }}
-                        />
-                    )
-                        : (
-                            <button
-                                key={text}
-                                className={`toggle-button ${
-                                    selected ? "selected" : "empty"
-                                    } ${
-                                    className
-                                    }`}
-                                {...button}
-                            >
-                                {text}
-                            </button>
-                        )
-                ))}
+            {buttons.map((button, i) => {
+                const {
+                    text,
+                    selected,
+                    className = "",
+                    ...buttonProps
+                } = button;
+                return (
+                    <button
+                        key={text || i}
+                        className={`toggle-button ${
+                            selected ? "selected" : "empty"
+                            } ${
+                            className
+                            }`}
+                        {...buttonProps}
+                    >
+                        {text}
+                    </button>
+                )
+            })}
         </div>
     );
 }

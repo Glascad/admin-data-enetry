@@ -29,14 +29,13 @@
     }
 
     .matched {
-        font-weight: bold;
         background: $darker-blue;
     }
-
+    
     .Dropdown {
         &.matched {
             .title {
-                color: white;
+                font-weight: bold;
             }
         }
         .content {

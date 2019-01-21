@@ -16,7 +16,6 @@ class List extends Component {
         parent: PropTypes.string,
         items: PropTypes.array.isRequired,
         mapPillProps: PropTypes.func.isRequired,
-        canSelect: PropTypes.bool,
         onCreate: PropTypes.func,
         onUpdate: PropTypes.func,
         onDelete: PropTypes.func,
@@ -64,7 +63,6 @@ class List extends Component {
                 defaultPillProps,
                 mapPillProps,
                 addButton,
-                canSelect = true,
                 onDisabledSelect,
                 onCreate,
                 onUpdate,
@@ -116,15 +114,7 @@ class List extends Component {
 
                         const args = { nodeId };
 
-                        const selected = nodeId === selectedItem.nodeId && (
-                            canSelect
-                            ||
-                            (
-                                !multiSelect
-                                &&
-                                !creating
-                            )
-                        );
+                        const select = handleSelect;
 
                         const danger = onDelete && deleting && nodeId === selectedNID;
 
@@ -133,7 +123,11 @@ class List extends Component {
                             :
                             onDelete;
 
-                        const select = handleSelect;
+                        const selected = nodeId === selectedItem.nodeId
+                            &&
+                            !creating
+                            &&
+                            children;
 
                         return (
                             <Pill
@@ -155,7 +149,6 @@ class List extends Component {
                         <Pill
                             {...defaultPillProps}
                             tagname="li"
-                            selected={true}
                             editing={true}
                             onEdit={onCreate}
                             onBlur={cancel}

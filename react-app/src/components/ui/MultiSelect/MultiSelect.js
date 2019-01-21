@@ -112,7 +112,7 @@ export default class MultiSelect extends Component {
                 <ListContainer
                     titleBar={titleBar}
                     items={nonSelectedItems}
-                    renderItem={(item, i) => (
+                    renderItem={item => (
                         <Pill
                             key={item.nodeId}
                             tagname="li"

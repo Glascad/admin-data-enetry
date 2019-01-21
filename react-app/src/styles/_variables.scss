@@ -41,53 +41,47 @@ $icon-thickness: .2rem;
 
 $checkbox-height: $item-height / 2;
 
-//SCSS Mixins
+// SCSS Mixins
 
-@mixin two-colors($text, $background, $invert: true, $empty-hover: false) {
-  color: $text;
-  @if $background == none {
-    
-  }
-  background-color: $background;
-  border: 1px solid $background;
-  .text-color {
-    background-color: $text;
-  }
-  .background-color {
+@mixin two-colors($text, $background, $invert: true) {
+    color: $text;
     background-color: $background;
-  }
-  @if $invert {
-    &:hover {
-      color: $background;
-      border-color: $background;
-      @if $empty-hover {
-        background: none;
-      }
-      @else {
+    border: 1px solid $background;
+    .text-color {
         background-color: $text;
-      }
-      .text-color {
-              background-color: $background;
-          }
-          .background-color {
-              background-color: $text;
-          }
-      }
-  }
+    }
+    .background-color {
+        background-color: $background;
+    }
+    @if $invert {
+        &:hover {
+            color: $background;
+            border-color: $background;
+            background-color: $text;
+                .text-color {
+                background-color: $background;
+            }
+            .background-color {
+                background-color: $text;
+            }
+        }
+    }
 }
 
+// Base Classes/Extendable Classes
+
 .light {
-  @include two-colors($off-white, );    
+    @include two-colors($off-white, $dark-gray);
 }
 
 .selected {
-  @include two-colors($off-white, $selected-color);    
+    @include two-colors($off-white, $selected-color);    
 }
 
 .danger {
-  @include two-colors($off-white, $danger-color);    
+    @include two-colors($off-white, $danger-color);    
 }
 
 .action {
-  @include two-colors($off-white, $action-color);
+    @include two-colors($off-white, $action-color);
 }

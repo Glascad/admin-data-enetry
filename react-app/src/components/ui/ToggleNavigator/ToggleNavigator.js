@@ -31,24 +31,20 @@ function ToggleNavigator({
                     <>
                         {rightButtons}
                         <Toggle
-                            component={NavLink}
                             buttons={
                                 routes.map(({
                                     path,
                                     name,
                                 }) => ({
-                                    key: path,
-                                    to: `${
+                                    selected: pathname.match(`${url}${path}`),
+                                    text: name,
+                                    onClick: () => history.push(`${
                                         url
                                         }${
                                         path
                                         }${
                                         search
-                                        }`,
-                                    isActive: (_, { pathname }) => pathname.match(`${url}${path}`),
-                                    className: "empty",
-                                    activeClassName: "selected",
-                                    children: name,
+                                        }`),
                                 }))
                             }
                         />

@@ -1,10 +1,8 @@
 @import '../../../styles/variables';
 
 .Pill {
-    @include two-colors($dark-gray, $pill-color, false);    // background: $pill-color;
-    // border: $icon-thickness solid $pill-color;
+    @include two-colors($dark-gray, $pill-color, false);
     border-width: $icon-thickness !important;
-    // color: $dark-gray;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -15,82 +13,40 @@
     height: $item-height;
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
 
-    input {
-        border: none;
-    }
-
     &.align-left {
         justify-content: flex-start;
-
+        
         input {
             text-align: left;
         }
     }
-
+    
     &.selected, &.danger, &.editing {
         box-shadow: none;
     }
-
-    &.editing {
+    
+    &.editing, &.editing:hover {
         border-color: $selected-color;
         color: $selected-color;
         background: none;
+        padding: $small;
         input {
+            border: none;
             color: $selected-color;
-        }    
+            margin: 0;
+            width: 2rem;
+            text-align: center;
+            background: none;
+            &.selected{
+                color: $selected-color;
+            }
+        }
     }
 
-    // &.selectable, &.deletable, &.editable, &.with-button-tile {
-    //     &:hover{
-    //         background: $dark-gray;
-    //         border: $icon-thickness solid $dark-gray;
-    //         box-shadow: none;
-    //         color: $off-white;
-    //     }
-            
-    //     .left-x, .right-x {
-    //         background: $off-white;
-    //     }
-    // }
-    // &.selected {
-
-    //     @include selected();
-    //     border: $icon-thickness solid $selected-color;
-
-    //     .left-x, .right-x {
-    //         background: $selected-color;
-    //     }
-    // }
-
-    &.editing {
-        // @include selected-hovered();
-    }
-    &.default {
-        border: 2px solid $dark-gray;
-    }
-    // &.danger {
-    //     background: $danger-color;
-    //     border: $icon-thickness solid $danger-color;
-    //     color: $off-white;
-    //     box-shadow: none;
-    //     &:hover, &.editing {
-    //         background: none;
-    //         color: $danger-color;
-    //         border: $icon-thickness solid $danger-color;
-    //         input {
-    //             color: $danger-color;
-    //         }
-    //     }
-    //     .left-x, .right-x {
-    //         background: $danger-color;
-    //     }
-    // }
     &.disabled {
-        opacity: 0.67;
+        opacity: 0.5;
     }
-    &.editing {
-        // padding: 0;
-    }
+
     .subtitle {
 
     }
@@ -144,15 +100,6 @@
 
         button {
             position: static;
-        }
-    }
-
-    input {
-        margin: 0;
-        text-align: center;
-        background: none;
-        &.selected{
-            color: $selected-color;
         }
     }
 
