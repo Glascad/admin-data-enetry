@@ -15,7 +15,7 @@ export default class MultiSelect extends Component {
         deletedItems: [],
     };
 
-    componentDidUpdate = ({ modalProps: { display } }) => {
+    componentDidUpdate = ({ modal: { display } }) => {
         const {
             props: {
                 selection: {
@@ -23,7 +23,7 @@ export default class MultiSelect extends Component {
                     creating,
                     deleting
                 } = {},
-                modalProps: {
+                modal: {
                     display: newDisplay
                 },
                 previousItems
@@ -68,11 +68,13 @@ export default class MultiSelect extends Component {
                 deletedItems,
             },
             props: {
-                modalProps,
+                modal,
                 previousItems,
                 allItems,
                 mapPillProps = () => null,
-                listTitle,
+                list: {
+                    titleBar,
+                },
             },
             handleSelect,
             handleDeleteClick,
@@ -90,7 +92,7 @@ export default class MultiSelect extends Component {
                     ...state,
                     previousItems,
                 }}
-                {...modalProps}
+                {...modal}
             >
                 <ListContainer
                     items={selectedItems}
@@ -108,9 +110,7 @@ export default class MultiSelect extends Component {
                     )}
                 />
                 <ListContainer
-                    titleBar={{
-                        title: listTitle
-                    }}
+                    titleBar={titleBar}
                     items={nonSelectedItems}
                     renderItem={(item, i) => (
                         <Pill
