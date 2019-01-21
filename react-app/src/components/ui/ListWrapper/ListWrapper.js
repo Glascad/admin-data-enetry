@@ -167,38 +167,31 @@ class List extends Component {
                         />
                     ) : null}
                 />
-                {children ? (
-                    <div className="nested">
-                        {children(selectedItem)}
-                    </div>
-                ) : null}
                 {multiSelect ? (
                     <MultiSelect
-                        modalProps={{
-                            title: multiSelectTitle || titleBar ?
-                                `Update ${titleBar.title}`
-                                :
-                                label ?
-                                    `Update ${label}`
+                        modal={{
+                            titleBar: {
+                                title: multiSelectTitle || titleBar ?
+                                    `Update ${titleBar.title}`
                                     :
-                                    '',
+                                    label ?
+                                        `Update ${label}`
+                                        :
+                                        '',
+                            },
                             display: !!(deleting || creating),
                             onCancel: cancel,
                             onFinish: handleMultiSelectFinish,
-                            // ...mapModalProps(selectedItem),
                         }}
-                        listTitle={title ?
-                            `All ${title}`
-                            :
-                            label ?
-                                `All ${label}`
-                                :
-                                ''}
+                        list={{
+                            titleBar: {
+                                title: `All ${title || label || ''}`,
+                            },
+                        }}
                         selection={selection}
                         previousItems={items.map(mapPreviousItems)}
                         allItems={allItems}
                         mapPillProps={mapPillProps}
-                    // {...mapMultiSelectProps(childProps)}
                     />
                 ) : deleteModal ? (
                     <Modal
@@ -217,6 +210,11 @@ class List extends Component {
                             mapPillProps(selectedItem).title
                         }?
                     </Modal>
+                ) : null}
+                {children ? (
+                    <div className="nested">
+                        {children(selectedItem)}
+                    </div>
                 ) : null}
             </>
         );
