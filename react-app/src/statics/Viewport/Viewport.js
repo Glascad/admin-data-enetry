@@ -12,6 +12,7 @@ export default function Viewport() {
     return (
         <div id="Viewport">
             <Navigator
+                defaultRoute="/"
                 routes={routes}
             />
         </div>

@@ -21,6 +21,7 @@ function ToggleNavigator({
     routes,
     titleBar,
     rightButtons,
+    ...props
 }) {
 
     return (
@@ -54,6 +55,7 @@ function ToggleNavigator({
             />
             <Navigator
                 routes={routes}
+                {...props}
             />
         </>
     );

@@ -9,6 +9,26 @@
 
 [End Client Application](#client)
 
+### How To Select A Configuration To Edit (SVG Data Entry)
+
+- Select a System
+    - System Type
+        - System Type Detail Types
+        - System Type Detail Type Configuration Types
+            - Required/Optional
+            - Mirrorable
+    - System Configuration Overrides (overrides system type detail type configuration types)
+        - Required/Optional
+        - Mirrorable
+    - Invalid System Configuration Types (overrides system type detail type configuration types)
+        (Maybe should converge with sytem configuration overrides)
+    - System Option Values
+        - Configuration Option Values
+        - Mirrorable
+    - System Infill Pocket Types
+        - System Infill Pocket Type Detail Types
+    - Manufacturer Configuration Name Overrides
+
 ### Overall issues:
 - Routing
     - Switching between applications

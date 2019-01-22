@@ -18,11 +18,13 @@ function TabNavigator({
     },
     routes,
     children,
+    ...props
 }) {
 
     return (
         <Navigator
             routes={routes}
+            {...props}
         >
             {(_, currentRoute) => (
                 <div className="TabNavigator">

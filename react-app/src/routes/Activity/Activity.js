@@ -15,6 +15,6 @@ function Activity() {
 export default {
     name: "Activity",
     exact: true,
-    path: "/",
+    path: "/activity",
     component: Activity,
 }
