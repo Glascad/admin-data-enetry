@@ -106,6 +106,24 @@ export default function ValidTypes({
                                         selections={[configurationTypeName]}
                                     />
                                     <Input
+                                        label="Invalid"
+                                        type="checkbox"
+                                    />
+                                    <Input
+                                        label="Required"
+                                        type="checkbox"
+                                    />
+                                    <Input
+                                        label="Mirrorable"
+                                        type="checkbox"
+                                    />
+                                    <Input
+                                        label="Presentation Level"
+                                    />
+                                    <Input
+                                        label="Override Level"
+                                    />
+                                    {/* <Input
                                         label="Required"
                                         type="checkbox"
                                         checked={required || false}
@@ -122,7 +140,7 @@ export default function ValidTypes({
                                             data,
                                             checked,
                                         })}
-                                    />
+                                    /> */}
                                 </div>
                             )}
                     </ListWrapper>

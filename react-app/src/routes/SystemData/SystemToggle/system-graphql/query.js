@@ -20,21 +20,11 @@ export default {
                 nodeId
                 id
                 type
-                systemTypeDetailTypesBySystemTypeId{
-                    nodes{
-                        nodeId
-                        detailTypeByDetailTypeId{
-                            nodeId
-                            id
-                            type
-                            vertical
-                            entrance
-                        }
-                    }
-                }
                 systemTypeDetailTypeConfigurationTypesBySystemTypeId{
                     nodes{
                         nodeId
+                        presentationLevel
+                        overrideLevel
                         required
                         mirrorable
                         systemTypeId
@@ -50,9 +40,26 @@ export default {
                             id
                             type
                             door
-                            overrideLevel
-                            presentationLevel
                         }
+                    }
+                }
+            }
+            systemConfigurationOverridesBySystemId{
+                nodes{
+                    nodeId
+                    systemId
+                    detailTypeId
+                    detailTypeByDetailTypeId{
+                        nodeId
+                    }
+                    configurationTypeId
+                    configurationTypeByConfigurationTypeId{
+                        nodeId
+                        id
+                        type
+                        door
+                        overrideLevel
+                        presentationLevel
                     }
                 }
             }
@@ -94,27 +101,6 @@ export default {
                     infillPocketSizeByInfillPocketSize{
                         nodeId
                         size
-                    }
-                }
-            }
-            systemConfigurationOverridesBySystemId{
-                nodes{
-                    nodeId
-                    systemId
-                    detailTypeId
-                    detailTypeByDetailTypeId{
-                        nodeId
-                        id
-                        type
-                    }
-                    configurationTypeId
-                    configurationTypeByConfigurationTypeId{
-                        nodeId
-                        id
-                        type
-                        door
-                        overrideLevel
-                        presentationLevel
                     }
                 }
             }

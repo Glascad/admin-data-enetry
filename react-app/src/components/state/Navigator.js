@@ -33,7 +33,10 @@ import {
 
 class NavigatorChild extends Component {
 
-    componentDidMount = () => this.props.updateCurrentRoute(this.props.index);
+    componentDidMount = () => {
+        console.log('child updating route' + this.props.index);
+        this.props.updateCurrentRoute(this.props.index);
+    }
 
     render = () => this.props.children || "It looks like you found an invalid route";
 }
@@ -46,9 +49,17 @@ class Navigator extends Component {
         currentRoute: 0,
     };
 
-    updateCurrentRoute = index => this.props.trackCurrentRoute !== false && this.setState({
-        currentRoute: index,
-    });
+    updateCurrentRoute = index => {
+        console.log('navigator updating route');
+        if (this.props.trackCurrentRoute !== false) {
+            console.log('navigator updating route');
+            this.setState({
+                currentRoute: index,
+            });
+        } else {
+            console.log('navigator not updating route');
+        }
+    }
 
     render = () => {
         const {
@@ -87,6 +98,8 @@ class Navigator extends Component {
             }${
             search
             }`);
+        
+        console.log(pathname + search);
 
         if (
             currentRoute === -1

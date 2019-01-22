@@ -4,6 +4,7 @@ import {
     ApolloWrapper,
     ListWrapper,
     HeadedContainer,
+    Input,
 } from '../../../../components';
 
 import query from './system-types-graphql/query';
@@ -134,6 +135,24 @@ export default function SystemTypes() {
                                                                     detailTypeName,
                                                                     configurationTypeName,
                                                                 ]}
+                                                            />
+                                                            <Input
+                                                                label="Invalid"
+                                                                type="checkbox"
+                                                            />
+                                                            <Input
+                                                                label="Required"
+                                                                type="checkbox"
+                                                            />
+                                                            <Input
+                                                                label="Mirrorable"
+                                                                type="checkbox"
+                                                            />
+                                                            <Input
+                                                                label="Presentation Level"
+                                                            />
+                                                            <Input
+                                                                label="Override Level"
                                                             />
                                                         </div>
                                                     )}

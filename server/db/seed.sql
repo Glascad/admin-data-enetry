@@ -1,6 +1,6 @@
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-GRANT ALL ON SCHEMA public TO public;
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
+-- GRANT ALL ON SCHEMA public TO public;
 
 
 CREATE TABLE
@@ -378,28 +378,34 @@ invalid_system_configuration_types(
 );
 
 CREATE TABLE
-system_type_detail_types(
-    system_type_id INTEGER REFERENCES system_types,
-    detail_type_id INTEGER REFERENCES detail_types,
-    PRIMARY KEY (system_type_id, detail_type_id)
-);
-
-CREATE TABLE
 system_type_detail_type_configuration_types(
     system_type_id INTEGER REFERENCES system_types,
     detail_type_id INTEGER REFERENCES detail_types,
     configuration_type_id INTEGER REFERENCES configuration_types,
     required BOOLEAN,
     mirrorable BOOLEAN,
+    presentation_level INTEGER,
+    override_level INTEGER,
     PRIMARY KEY (system_type_id, detail_type_id, configuration_type_id)
 );
 
 CREATE TABLE
 system_configuration_overrides(
-    system_id INTEGER REFERENCES systems,
-    detail_type_id INTEGER REFERENCES detail_types,
-    configuration_type_id INTEGER REFERENCES configuration_types,
+    system_id INTEGER,
+    system_type_id INTEGER,
+    detail_type_id INTEGER,
+    configuration_type_id INTEGER,
     required_override BOOLEAN,
     mirrorable_override BOOLEAN,
-    PRIMARY KEY (system_id, detail_type_id, configuration_type_id)
+    PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
+    FOREIGN KEY (
+        system_type_id, 
+        detail_type_id, 
+        configuration_type_id
+    )
+    REFERENCES system_type_detail_type_configuration_types (
+        system_type_id,
+        detail_type_id,
+        configuration_type_id
+    )
 );

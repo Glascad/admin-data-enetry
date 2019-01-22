@@ -7,27 +7,16 @@ export default {
                 nodeId
                 id
                 type
-                systemTypeDetailTypesBySystemTypeId{
-                    nodes{
-                        nodeId
-                        detailTypeByDetailTypeId{
-                            nodeId
-                            id
-                            type
-                            vertical
-                            entrance
-                        }
-                    }
-                }
                 systemTypeDetailTypeConfigurationTypesBySystemTypeId{
                     nodes{
                         nodeId
+                        overrideLevel
+                        presentationLevel
                         required
                         mirrorable
                         detailTypeId
                         detailTypeByDetailTypeId{
                             nodeId
-                            id
                         }
                         configurationTypeId
                         configurationTypeByConfigurationTypeId{
@@ -35,8 +24,6 @@ export default {
                             id
                             type
                             door
-                            overrideLevel
-                            presentationLevel
                         }
                     }
                 }
