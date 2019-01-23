@@ -112,12 +112,11 @@ export default class ApolloWrapper extends Component {
 
                                     }, normalizeResponse(status) || {}) || {};
 
-                                const childProps = {
+                                return children({
                                     ...accumulatedProps,
                                     batcher,
                                     queryStatus,
-                                };
-                                return children(childProps);
+                                });
                             }}
                         </ApolloWrapper>
                     )}
