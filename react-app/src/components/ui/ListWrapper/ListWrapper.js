@@ -113,9 +113,24 @@ class List extends Component {
 
                         const args = { nodeId };
 
-                        const select = handleSelect;
+                        const canSelect = !creating
+                            &&
+                            (
+                                children
+                                ||
+                                selectable
+                            );
 
-                        const danger = onDelete && deleting && nodeId === selectedNID;
+                        const onSelect = canSelect ?
+                            handleSelect
+                            :
+                            undefined;
+
+                        const danger = onDelete
+                            &&
+                            deleting
+                            &&
+                            nodeId === selectedNID;
 
                         const _delete = multiSelect || deleteModal ?
                             handleDeleteClick
@@ -124,13 +139,7 @@ class List extends Component {
 
                         const selected = nodeId === selectedItem.nodeId
                             &&
-                            !creating
-                            &&
-                            (
-                                children
-                                ||
-                                selectable
-                            );
+                            canSelect;
 
                         return (
                             <Pill
@@ -138,7 +147,7 @@ class List extends Component {
                                 tagname="li"
                                 selected={selected}
                                 danger={danger}
-                                onSelect={select}
+                                onSelect={onSelect}
                                 onDisabledSelect={onDisabledSelect}
                                 onEdit={onUpdate}
                                 onDelete={_delete}

@@ -8,12 +8,13 @@ import {
     replaceByKeys,
 } from '../../utils';
 
-const normalizeResponse = ({ data }) => removeNullValues()(
+const normalizeResponse = ({ data }, config = {}) => removeNullValues(
     flattenNodeArrays(
         replaceByKeys(
             data
         )
-    )
+    ),
+    config.leave,
 );
 
 /**
@@ -115,7 +116,9 @@ export default class ApolloWrapper extends Component {
                                             ...mapResultToProps(argSet, mappedStatus),
                                         }), mappedStatus);
 
-                                    }, normalizeResponse(status));
+                                    }, normalizeResponse(status, {
+                                        leave: ['queryStatus', 'mutations'],
+                                    }));
 
                                 const childProps = {
                                     ...accumulatedProps,
