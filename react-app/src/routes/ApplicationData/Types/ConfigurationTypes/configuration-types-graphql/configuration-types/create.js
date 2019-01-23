@@ -4,15 +4,11 @@ export default {
     mutation: gql`mutation CreateConfigurationType(
         $type:String!,
         $door:Boolean,
-        $overrideLevel:Int,
-        $presentationLevel:Int
     ){
         createConfigurationType(input:{
             configurationType:{
                 type:$type
                 door:$door
-                overrideLevel:$overrideLevel
-                presentationLevel:$presentationLevel
             }
         }){
             configurationType{
@@ -20,8 +16,6 @@ export default {
                 id
                 type
                 door
-                overrideLevel
-                presentationLevel
                 configurationTypePartTypesByConfigurationTypeId{
                     nodes{
                         nodeId

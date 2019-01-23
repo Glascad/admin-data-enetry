@@ -103,8 +103,6 @@ export default {
                         id
                         type
                         door
-                        overrideLevel
-                        presentationLevel
                     }
                 }
             }
@@ -114,7 +112,6 @@ export default {
                     id
                     name
                     systemId
-                    mirrorable
                     optionOrder
                     overrideLevel
                     presentationLevel
@@ -135,8 +132,6 @@ export default {
                                 id
                                 type
                                 door
-                                overrideLevel
-                                presentationLevel
                             }
                         }
                     }
@@ -155,8 +150,6 @@ export default {
                                 id
                                 type
                                 door
-                                overrideLevel
-                                presentationLevel
                             }
                         }
                     }
@@ -218,8 +211,6 @@ export default {
                 id
                 type
                 door
-                overrideLevel
-                presentationLevel
             }
         }
     }`,

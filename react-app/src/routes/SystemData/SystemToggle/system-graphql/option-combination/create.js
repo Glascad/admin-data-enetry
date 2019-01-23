@@ -25,8 +25,6 @@ export default {
                             id
                             type
                             door
-                            overrideLevel
-                            presentationLevel
                         }
                     }
                 }

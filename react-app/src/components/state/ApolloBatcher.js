@@ -6,6 +6,7 @@ import ApolloWrapper from './ApolloWrapper';
  * PURPOSE
  * 
  * The Batcher creates a layer of abstraction between updating the state of the UI and actually sending mutations to the database. It provides its children with methods to batch a mutation, to reset all batched mutations, and to complete all batched mutations. When the mutations are completed, a query may be refetched, if it has been registered through the `registerQueryRefetch` prop.
+ * console.log("t has been registered through the `registerQueryRefetch` pr");
  * 
  * 
  * USAGE
@@ -66,11 +67,14 @@ class Batcher extends Component {
 
             // REMOVE A PREVIOUS CREATE ARGSET
             if (mutationKey.match(/^delete/)) {
+                console.log("mutationKey.match(/^delete/)");
                 if (createMutation) {
+                    console.log("createMutation");
                     const { argumentSets } = createMutation;
                     const deletedSet = argumentSets
                         .find(({ nodeId }) => nodeId === args.nodeId);
                     if (deletedSet) {
+                        console.log("deletedSet");
                         console.log(`removing create argset: ${createKey}`)
                         return {
                             batchedMutations: {
@@ -87,7 +91,9 @@ class Batcher extends Component {
             }
             // REMOVE A PREVIOUS DELETE ARGSET
             if (mutationKey.match(/^create/)) {
+                console.log("mutationKey.match(/^create/)");
                 if (deleteMutation) {
+                    console.log("deleteMutation");
                     const { argumentSets } = deleteMutation;
                     const createdSet = argumentSets
                         .find(argSet => Object.keys(args)
@@ -100,6 +106,7 @@ class Batcher extends Component {
                             ))
                         );
                     if (createdSet) {
+                        console.log("createdSet");
                         console.log(`removing delete argset ${deleteKey}`);
                         return {
                             batchedMutations: {
@@ -114,13 +121,16 @@ class Batcher extends Component {
                     }
                 }
             }
-            if (mutationKey.match(/^update/)) {
+            if (mutationKey.match(/^update|^create/)) {
+                console.log("mutationKey.match(/^update|^create/)");
                 if (currentMutation) {
+                    console.log("currentMutation");
                     const { argumentSets } = currentMutation;
                     const updatedSet = argumentSets
                         .find(({ nodeId }) => nodeId === args.nodeId);
                     // UPDATE AN EXISTING ARGSET
                     if (updatedSet) {
+                        console.log("updatedSet");
                         const updatedSetIndex = argumentSets.indexOf(updatedSet);
                         console.log(`updating update argset ${mutationKey}`);
                         return {
@@ -153,6 +163,7 @@ class Batcher extends Component {
                 }
                 // UPDATE A CREATE ARGSET
                 if (createMutation) {
+                    console.log("createMutation");
                     const { argumentSets } = createMutation;
                     const createdSet = argumentSets
                         .find(argSet => Object.keys(args)
@@ -165,6 +176,7 @@ class Batcher extends Component {
                             ))
                         );
                     if (createdSet) {
+                        console.log("createdSet");
                         const createdSetIndex = argumentSets.indexOf(createdSet);
                         console.log(`updating create argset ${createKey}`);
                         return {
@@ -243,6 +255,7 @@ class Batcher extends Component {
                 return subResult;
             }));
         if (this.refetchQuery) {
+            console.log("this.refetchQuery");
             const refetch = await this.refetchQuery();
             // console.log({ refetch });
         }
@@ -257,6 +270,7 @@ class Batcher extends Component {
             metaKey,
         } = e;
         if (key === "s" && (ctrlKey || metaKey)) {
+            console.log("key === 's' && (ctrlKey || metaKey)");
             e.preventDefault();
             this.completeMutations();
         }
