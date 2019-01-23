@@ -8,13 +8,12 @@ import {
     replaceByKeys,
 } from '../../utils';
 
-const normalizeResponse = ({ data }, config = {}) => removeNullValues(
+const normalizeResponse = ({ data }) => removeNullValues(
     flattenNodeArrays(
         replaceByKeys(
-            data
-        )
+            data,
+        ),
     ),
-    config.leave,
 );
 
 /**
@@ -105,20 +104,13 @@ export default class ApolloWrapper extends Component {
                                             argumentSets = []
                                         } = batchedMutations[mutationKey] || {};
 
-                                        const log = arg => {
-                                            console.log(arg);
-                                            return arg;
-                                        }
-
                                         // iterate through all argument sets of batched mutations
-                                        return argumentSets.reduce((mappedStatus, argSet) => log({
+                                        return argumentSets.reduce((mappedStatus, argSet) => ({
                                             ...mappedStatus,
                                             ...mapResultToProps(argSet, mappedStatus),
                                         }), mappedStatus);
 
-                                    }, normalizeResponse(status, {
-                                        leave: ['queryStatus', 'mutations'],
-                                    }));
+                                    }, normalizeResponse(status) || {}) || {};
 
                                 const childProps = {
                                     ...accumulatedProps,
