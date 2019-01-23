@@ -39,6 +39,7 @@ export default function GlazingInfo({
             />
             <Input
                 label="Glass Bite"
+                type="number"
                 value={defaultGlassBite}
                 onChange={({ target: { value } }) => updateSystem({
                     nodeId: systemNID,

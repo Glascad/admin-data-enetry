@@ -33,26 +33,19 @@ export default {
         systemId,
         invalidConfigurationTypeId,
     }, {
-        invalidSystemConfigurationTypes,
-    }) => {
-        return {
+        system,
+        system: {
+            invalidSystemConfigurationTypes,
+        }
+    }) => ({
+        system: {
+            ...system,
             invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
                 .filter(invalid => invalid.nodeId !== nodeId && (
                     invalid.systemId !== systemId
                     ||
                     invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
                 ))
-        };
-    },
-    refetchQueries: ({
-        data: {
-            deleteInvalidSystemConfigurationType: {
-                invalidSystemConfigurationType: {
-                    systemBySystemId: {
-                        nodeId
-                    }
-                }
-            }
         }
-    }) => [{ ...query, variables: { nodeId } }]
+    }),
 };

@@ -17,6 +17,10 @@ export default {
                         detailTypeId
                         detailTypeByDetailTypeId{
                             nodeId
+                            id
+                            type
+                            entrance
+                            vertical
                         }
                         configurationTypeId
                         configurationTypeByConfigurationTypeId{

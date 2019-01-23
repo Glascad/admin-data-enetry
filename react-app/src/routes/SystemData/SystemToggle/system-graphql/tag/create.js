@@ -24,21 +24,19 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemTag, { systemSystemTags, allSystemTags }) => ({
-        systemSystemTags: systemSystemTags.concat({
-            ...newSystemTag,
-            systemTagBySystemTagId: allSystemTags.find(({ id }) => id === newSystemTag.systemTagId)
-        }),
+    mapResultToProps: (newSystemTag, {
+        system,
+        system: {
+            systemSystemTags,
+        },
+        allSystemTags,
+    }) => ({
+        system: {
+            ...system,
+            systemSystemTags: systemSystemTags.concat({
+                ...newSystemTag,
+                systemTagBySystemTagId: allSystemTags.find(({ id }) => id === newSystemTag.systemTagId)
+            }),
+        }
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         createSystemSystemTag: {
-    //             systemSystemTag: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

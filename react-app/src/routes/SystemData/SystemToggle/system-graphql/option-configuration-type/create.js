@@ -30,30 +30,25 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: (newSystemOptionConfigurationType, { systemOptions }) => ({
-        systemOptions: systemOptions
-            .map(option => option.id === newSystemOptionConfigurationType.systemOptionId ?
-                {
-                    ...option,
-                    systemOptionConfigurationTypesBySystemOptionId: {
-                        ...option.systemOptionConfigurationTypesBySystemOptionId,
-                        nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.concat(newSystemOptionConfigurationType)
-                    }
-                }
-                :
-                option)
-    }),
-    refetchQueries: ({
-        data: {
-            createSystemOptionConfigurationType: {
-                systemOptionConfigurationType: {
-                    systemOptionBySystemOptionId: {
-                        systemBySystemId: {
-                            nodeId
+    mapResultToProps: (newSystemOptionConfigurationType, {
+        system,
+        system: {
+            systemOptions,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemOptions: systemOptions
+                .map(option => option.id === newSystemOptionConfigurationType.systemOptionId ?
+                    {
+                        ...option,
+                        systemOptionConfigurationTypesBySystemOptionId: {
+                            ...option.systemOptionConfigurationTypesBySystemOptionId,
+                            nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.concat(newSystemOptionConfigurationType)
                         }
                     }
-                }
-            }
+                    :
+                    option)
         }
-    }) => [{ ...query, variables: { nodeId } }]
+    }),
 };

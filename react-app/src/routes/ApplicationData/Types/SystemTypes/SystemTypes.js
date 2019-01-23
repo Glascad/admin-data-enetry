@@ -27,9 +27,10 @@ export default function SystemTypes() {
                     createSystemType,
                     updateSystemType,
                     deleteSystemType,
-                    createSystemTypeDetailType,
-                    deleteSystemTypeDetailType,
+                    // createSystemTypeDetailType,
+                    // deleteSystemTypeDetailType,
                     createSystemTypeDetailTypeConfigurationType,
+                    updateSystemTypeDetailTypeConfigurationType,
                     deleteSystemTypeDetailTypeConfigurationType,
                 },
             }) => (
@@ -53,7 +54,6 @@ export default function SystemTypes() {
                         {({
                             id: systemTypeId,
                             type: systemTypeName = '',
-                            systemTypeDetailTypes = [],
                             systemTypeDetailTypeConfigurationTypes = [],
                         }) => (
                                 <ListWrapper
@@ -61,12 +61,15 @@ export default function SystemTypes() {
                                         title: "Detail Types",
                                         selections: [systemTypeName],
                                     }}
-                                    items={systemTypeDetailTypes
+                                    items={systemTypeDetailTypeConfigurationTypes
+                                        .filter(({
+                                            configurationType,
+                                        }) => !configurationType)
                                         .map(({
                                             nodeId,
                                             detailType,
                                         }) => ({
-                                            systemTypeDetailTypeNID: nodeId,
+                                            systemTypeDetailTypeConfigurationTypeNID: nodeId,
                                             ...detailType,
                                         }))}
                                     mapPillProps={({ type }) => ({
@@ -75,12 +78,12 @@ export default function SystemTypes() {
                                     multiSelect={{
                                         allItems: allDetailTypes,
                                     }}
-                                    onCreate={({ id }) => createSystemTypeDetailType({
+                                    onCreate={({ id }) => createSystemTypeDetailTypeConfigurationType({
                                         systemTypeId,
                                         detailTypeId: id,
                                     })}
-                                    onDelete={({ systemTypeDetailTypeNID }) => deleteSystemTypeDetailType({
-                                        nodeId: systemTypeDetailTypeNID
+                                    onDelete={({ systemTypeDetailTypeConfigurationTypeNID }) => deleteSystemTypeDetailTypeConfigurationType({
+                                        nodeId: systemTypeDetailTypeConfigurationTypeNID
                                     })}
                                 >
                                     {({
@@ -100,14 +103,23 @@ export default function SystemTypes() {
                                                     .filter(({
                                                         detailType: {
                                                             nodeId
-                                                        }
-                                                    }) => nodeId === detailTypeNID)
+                                                        },
+                                                        configurationType,
+                                                    }) => configurationType && nodeId === detailTypeNID)
                                                     .map(({
                                                         nodeId,
                                                         configurationType,
+                                                        mirrorable,
+                                                        required,
+                                                        presentationLevel,
+                                                        overrideLevel,
                                                     }) => ({
                                                         systemTypeDetailTypeConfigurationTypeNID: nodeId,
                                                         ...configurationType,
+                                                        mirrorable,
+                                                        required,
+                                                        presentationLevel,
+                                                        overrideLevel,
                                                     }))}
                                                 mapPillProps={({ type }) => ({
                                                     title: type
@@ -125,9 +137,14 @@ export default function SystemTypes() {
                                                 })}
                                             >
                                                 {({
+                                                    systemTypeDetailTypeConfigurationTypeNID,
                                                     type: configurationTypeName = '',
+                                                    mirrorable,
+                                                    required,
+                                                    presentationLevel,
+                                                    overrideLevel,
                                                 }) => (
-                                                        <div className="unfinished">
+                                                        <>
                                                             <TitleBar
                                                                 title="Configuration Type"
                                                                 selections={[
@@ -136,25 +153,54 @@ export default function SystemTypes() {
                                                                     configurationTypeName,
                                                                 ]}
                                                             />
-                                                            <Input
-                                                                label="Invalid"
-                                                                type="checkbox"
-                                                            />
+                                                            <div className="unfinished">
+                                                                <Input
+                                                                    label="Invalid"
+                                                                    type="checkbox"
+                                                                // onBlur={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                //     nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                //     invalid: checked,
+                                                                // })}
+                                                                />
+                                                            </div>
                                                             <Input
                                                                 label="Required"
                                                                 type="checkbox"
+                                                                checked={required}
+                                                                onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                    required: checked,
+                                                                })}
                                                             />
                                                             <Input
                                                                 label="Mirrorable"
                                                                 type="checkbox"
+                                                                checked={mirrorable}
+                                                                onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                    mirrorable: checked,
+                                                                })}
+                                                                onChange={({ target }) => console.log({ target })}
                                                             />
                                                             <Input
                                                                 label="Presentation Level"
+                                                                type="number"
+                                                                initialValue={presentationLevel}
+                                                                onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                    presentationLevel: value,
+                                                                })}
                                                             />
                                                             <Input
                                                                 label="Override Level"
+                                                                type="number"
+                                                                initialValue={overrideLevel}
+                                                                onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                    overrideLevel: value,
+                                                                })}
                                                             />
-                                                        </div>
+                                                        </>
                                                     )}
                                             </ListWrapper>
                                         )}

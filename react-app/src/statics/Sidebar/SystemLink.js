@@ -3,6 +3,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { NavLink } from 'react-router-dom';
 
+import { removeNullValues } from '../../utils';
+
 export default function SystemLink({
     systemNID,
 }) {
@@ -24,30 +26,33 @@ export default function SystemLink({
                 systemNID
             }}
         >
-            {({
-                data,
-                data: {
-                    system: {
-                        nodeId,
-                        name = "",
-                        manufacturerByManufacturerId: {
-                            name: mnfgName = "",
+            {status => {
+                const {
+                    data,
+                    data: {
+                        system: {
+                            nodeId,
+                            name = "",
+                            manufacturerByManufacturerId: {
+                                name: mnfgName = "",
+                            } = {},
                         } = {},
                     } = {},
-                } = {},
-            }) => name && mnfgName ? (
-                <NavLink
-                    to={`/system-data/info/database?systemNID=${nodeId}`}
-                    id="SystemLink"
-                    className="item"
-                >
-                    {
-                        mnfgName
-                    } {
-                        name
-                    }
-                </NavLink>
-            ) : null}
+                } = removeNullValues(status);
+                return (name || mnfgName ? (
+                    <NavLink
+                        to={`/system-data/info/database?systemNID=${nodeId}`}
+                        id="SystemLink"
+                        className="item"
+                    >
+                        {
+                            mnfgName
+                        } {
+                            name
+                        }
+                    </NavLink>
+                ) : null);
+            }}
         </Query>
     );
 }

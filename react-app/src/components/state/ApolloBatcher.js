@@ -277,7 +277,7 @@ class Batcher extends Component {
             completeMutations,
         } = this;
 
-        // console.log(this);
+        console.log(this.state.batchedMutations);
 
         return children({
             getNodeId,

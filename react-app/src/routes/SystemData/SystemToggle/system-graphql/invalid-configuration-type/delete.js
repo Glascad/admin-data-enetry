@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -33,26 +33,21 @@ export default {
         systemId,
         invalidConfigurationTypeId,
     }, {
-        invalidSystemConfigurationTypes,
+        system,
+        system: {
+            invalidSystemConfigurationTypes,
+        }
     }) => {
         return {
-            invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
-                .filter(invalid => invalid.nodeId !== nodeId && (
-                    invalid.systemId !== systemId
-                    ||
-                    invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
-                ))
+            system: {
+                ...system,
+                invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
+                    .filter(invalid => invalid.nodeId !== nodeId && (
+                        invalid.systemId !== systemId
+                        ||
+                        invalid.invalidConfigurationTypeId !== invalidConfigurationTypeId
+                    )),
+            }
         };
     },
-     refetchQueries: ({
-         data: {
-             deleteInvalidSystemConfigurationType: {
-                 invalidSystemConfigurationType: {
-                     systemBySystemId: {
-                         nodeId
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
 };

@@ -28,17 +28,25 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: (deletedOptionCombinationOptionValue, { optionCombinations }) => ({
-        optionCombinations: optionCombinations.map(combination => (
-            combination.id === deletedOptionCombinationOptionValue.optionCombinationId
-        ) ?
-            {
-                ...combination,
-                optionCombinationOptionValuesByOptionCombinationId: {
-                    ...combination.optionCombinationOptionValuesByOptionCombinationId,
-                    nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.filter(ocov => ocov.nodeId !== deletedOptionCombinationOptionValue.nodeId)
+    mapResultToProps: (deletedOptionCombinationOptionValue, {
+        system,
+        system: {
+            optionCombinations,
+        }
+    }) => ({
+        system: {
+            ...system,
+            optionCombinations: optionCombinations.map(combination => (
+                combination.id === deletedOptionCombinationOptionValue.optionCombinationId
+            ) ?
+                {
+                    ...combination,
+                    optionCombinationOptionValuesByOptionCombinationId: {
+                        ...combination.optionCombinationOptionValuesByOptionCombinationId,
+                        nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.filter(ocov => ocov.nodeId !== deletedOptionCombinationOptionValue.nodeId)
+                    }
                 }
-            }
-            : combination)
+                : combination)
+        },
     }),
 };

@@ -12,7 +12,6 @@ export default function ValidTypes({
         system: {
             id: systemId,
             systemType: {
-                systemTypeDetailTypes = [],
                 systemTypeDetailTypeConfigurationTypes = [],
             } = {},
             invalidSystemConfigurationTypes = [],
@@ -23,12 +22,14 @@ export default function ValidTypes({
         deleteInvalidSystemConfigurationType,
     },
 }) {
+    console.log(arguments[0]);
     return (
         <ListWrapper
             titleBar={{
                 title: "Valid Detail Types"
             }}
-            items={systemTypeDetailTypes}
+            items={systemTypeDetailTypeConfigurationTypes
+                .filter(({ configurationType }) => !configurationType)}
             mapPillProps={({
                 detailType: {
                     type
@@ -52,47 +53,45 @@ export default function ValidTypes({
                             .filter(({
                                 detailType: {
                                     nodeId
-                                }
-                            }) => nodeId === detailTypeNID)}
-                        mapPillProps={({
-                            nodeId,
-                            configurationType: {
+                                },
+                                configurationType,
+                            }) => configurationType && nodeId === detailTypeNID)
+                            .map(({
                                 nodeId: configurationTypeNID,
-                                id,
+                                ...systemTypeDetailTypeConfigurationType
+                            }) => {
+                                const {
+                                    nodeId: invalidSystemConfigurationTypeNID
+                                } = invalidSystemConfigurationTypes
+                                    .find(({
+                                        configurationType: {
+                                            nodeId: invalidNID,
+                                        }
+                                    }) => invalidNID === configurationTypeNID)
+                                    ||
+                                    {};
+
+                                return {
+                                    nodeId: configurationTypeNID,
+                                    ...systemTypeDetailTypeConfigurationType,
+                                    invalid: !!invalidSystemConfigurationTypeNID,
+                                    invalidSystemConfigurationTypeNID,
+                                };
+                            })}
+                        mapPillProps={({
+                            invalid,
+                            configurationType: {
                                 type
                             }
-                        }) => {
-                            const invalidSystemConfigurationType = invalidSystemConfigurationTypes
-                                .find(({
-                                    configurationType: {
-                                        nodeId: invalidNID,
-                                    }
-                                }) => invalidNID === configurationTypeNID);
-                            return {
-                                title: type,
-                                arguments: {
-                                    nodeId,
-                                    id,
-                                    invalidSystemConfigurationType,
-                                },
-                                disabled: !!invalidSystemConfigurationType
-                            };
-                        }}
-                        onDelete={({
-                            arguments: {
-                                id
-                            }
-                        }) => createInvalidSystemConfigurationType({
-                            systemId,
-                            invalidConfigurationTypeId: id,
+                        }) => ({
+                            title: type,
+                            disabled: invalid,
                         })}
-                        onDisabledSelect={({
-                            arguments: {
-                                invalidSystemConfigurationType
-                            }
-                        }) => deleteInvalidSystemConfigurationType(invalidSystemConfigurationType)}
                     >
                         {({
+                            configurationTypeId,
+                            invalid,
+                            invalidSystemConfigurationTypeNID,
                             required,
                             mirrorable,
                             configurationType: {
@@ -105,9 +104,32 @@ export default function ValidTypes({
                                         title="System Configuration Type"
                                         selections={[configurationTypeName]}
                                     />
+                                    {console.log({
+                                        invalid,
+                                        invalidSystemConfigurationTypeNID,
+                                        required,
+                                        mirrorable,
+                                        configurationType: {
+                                            type: configurationTypeName,
+                                        } = {},
+                                        ...data
+                                    })}
                                     <Input
                                         label="Invalid"
                                         type="checkbox"
+                                        checked={invalid}
+                                        onChange={({ target: { checked } }) => checked ?
+                                            createInvalidSystemConfigurationType({
+                                                nodeId: invalidSystemConfigurationTypeNID,
+                                                systemId,
+                                                invalidConfigurationTypeId: configurationTypeId,
+                                            })
+                                            :
+                                            deleteInvalidSystemConfigurationType({
+                                                nodeId: invalidSystemConfigurationTypeNID,
+                                                systemId,
+                                                invalidConfigurationTypeId: configurationTypeId,
+                                            })}
                                     />
                                     <Input
                                         label="Required"

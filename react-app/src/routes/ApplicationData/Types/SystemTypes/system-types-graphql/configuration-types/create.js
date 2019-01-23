@@ -4,7 +4,7 @@ export default {
     mutation: gql`mutation CreateSystemTypeDetailTypeConfigurationType(
         $systemTypeId:Int!,
         $detailTypeId:Int!,
-        $configurationTypeId:Int!
+        $configurationTypeId:Int
     ){
         createSystemTypeDetailTypeConfigurationType(input:{
             systemTypeDetailTypeConfigurationType:{

@@ -8,8 +8,6 @@ export default {
                 id
                 type
                 door
-                overrideLevel
-                presentationLevel
                 configurationTypePartTypesByConfigurationTypeId{
                     nodes{
                         nodeId

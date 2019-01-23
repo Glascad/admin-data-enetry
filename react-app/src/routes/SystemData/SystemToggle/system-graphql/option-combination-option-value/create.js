@@ -32,18 +32,26 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOptionCombinationOptionValue, { optionCombinations }) => ({
-        optionCombinations: optionCombinations.map(combination => (
-            combination.id === newOptionCombinationOptionValue.optionCombinationId
-        ) ?
-            {
-                ...combination,
-                optionCombinationOptionValuesByOptionCombinationId: {
-                    ...combination.optionCombinationOptionValuesByOptionCombinationId,
-                    nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.concat(newOptionCombinationOptionValue)
+    mapResultToProps: (newOptionCombinationOptionValue, {
+        system,
+        system: {
+            optionCombinations,
+        }
+    }) => ({
+        system: {
+            ...system,
+            optionCombinations: optionCombinations.map(combination => (
+                combination.id === newOptionCombinationOptionValue.optionCombinationId
+            ) ?
+                {
+                    ...combination,
+                    optionCombinationOptionValuesByOptionCombinationId: {
+                        ...combination.optionCombinationOptionValuesByOptionCombinationId,
+                        nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.concat(newOptionCombinationOptionValue)
+                    }
                 }
-            }
-            : combination)
+                : combination)
+        }
     }),
     // refetchQueries: ({
     //     data: {

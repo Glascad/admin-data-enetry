@@ -1,6 +1,6 @@
--- DROP SCHEMA public CASCADE;
--- CREATE SCHEMA public;
--- GRANT ALL ON SCHEMA public TO public;
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO public;
 
 
 CREATE TABLE
@@ -117,9 +117,7 @@ CREATE TABLE
 configuration_types(
     id SERIAL PRIMARY KEY,
     type VARCHAR(50),
-    door BOOLEAN,
-    override_level INTEGER,
-    presentation_level INTEGER
+    door BOOLEAN
 );
 
 
@@ -379,6 +377,7 @@ invalid_system_configuration_types(
 
 CREATE TABLE
 system_type_detail_type_configuration_types(
+    id SERIAL PRIMARY KEY,
     system_type_id INTEGER REFERENCES system_types,
     detail_type_id INTEGER REFERENCES detail_types,
     configuration_type_id INTEGER REFERENCES configuration_types,
@@ -386,7 +385,7 @@ system_type_detail_type_configuration_types(
     mirrorable BOOLEAN,
     presentation_level INTEGER,
     override_level INTEGER,
-    PRIMARY KEY (system_type_id, detail_type_id, configuration_type_id)
+    UNIQUE (system_type_id, detail_type_id, configuration_type_id)
 );
 
 CREATE TABLE

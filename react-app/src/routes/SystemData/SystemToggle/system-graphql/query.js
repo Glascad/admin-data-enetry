@@ -41,25 +41,14 @@ export default {
                             type
                             door
                         }
-                    }
-                }
-            }
-            systemConfigurationOverridesBySystemId{
-                nodes{
-                    nodeId
-                    systemId
-                    detailTypeId
-                    detailTypeByDetailTypeId{
-                        nodeId
-                    }
-                    configurationTypeId
-                    configurationTypeByConfigurationTypeId{
-                        nodeId
-                        id
-                        type
-                        door
-                        overrideLevel
-                        presentationLevel
+                        systemConfigurationOverridesBySystemTypeIdAndDetailTypeIdAndConfigurationTypeId{
+                            nodes{
+                                nodeId
+                                systemId
+                                detailTypeId
+                                configurationTypeId
+                            }
+                        }
                     }
                 }
             }

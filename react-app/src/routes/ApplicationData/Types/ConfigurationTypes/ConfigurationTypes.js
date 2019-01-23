@@ -59,12 +59,24 @@ export default function ConfigurationTypes() {
                             id: configurationTypeId,
                             type,
                             door,
-                            presentationLevel,
-                            overrideLevel,
+                            // presentationLevel,
+                            // overrideLevel,
                             configurationTypePartTypes = [],
                             configurationNameOverrides = [],
+                            ...data
                         }) => (
                                 <>
+                                    {console.log({
+                                        nodeId,
+                                        id: configurationTypeId,
+                                        type,
+                                        door,
+                                        // presentationLevel,
+                                        // overrideLevel,
+                                        configurationTypePartTypes,
+                                        configurationNameOverrides,
+                                        ...data
+                                    })}
                                     <TitleBar
                                         title="Configuration Type"
                                         selections={[type]}
@@ -78,7 +90,7 @@ export default function ConfigurationTypes() {
                                             door: checked,
                                         })}
                                     />
-                                    <Input
+                                    {/* <Input
                                         label="Presentation Level"
                                         type="number"
                                         initialValue={presentationLevel || 0}
@@ -86,8 +98,8 @@ export default function ConfigurationTypes() {
                                             nodeId,
                                             presentationLevel: value,
                                         })}
-                                    />
-                                    <Input
+                                    /> */}
+                                    {/* <Input
                                         label="Override Level"
                                         type="number"
                                         initialValue={overrideLevel || 0}
@@ -95,7 +107,7 @@ export default function ConfigurationTypes() {
                                             nodeId,
                                             overrideLevel: value,
                                         })}
-                                    />
+                                    /> */}
                                     <ListWrapper
                                         titleBar={{
                                             title: "Part Types",

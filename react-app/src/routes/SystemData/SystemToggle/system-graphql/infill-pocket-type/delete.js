@@ -23,18 +23,15 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({ nodeId: deletedNID }, { systemInfillPocketTypes }) => ({
-        systemInfillPocketTypes: systemInfillPocketTypes.filter(({ nodeId }) => nodeId !== deletedNID)
+    mapResultToProps: ({ nodeId: deletedNID }, {
+        system,
+        system: {
+            systemInfillPocketTypes,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemInfillPocketTypes: systemInfillPocketTypes.filter(({ nodeId }) => nodeId !== deletedNID)
+        }
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         deleteSystemInfillPocketType: {
-    //             systemInfillPocketType: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

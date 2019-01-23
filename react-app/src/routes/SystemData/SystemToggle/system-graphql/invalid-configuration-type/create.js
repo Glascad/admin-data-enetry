@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -32,39 +32,45 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: ({
+    mapResultToProps({
         nodeId,
         systemId,
         invalidConfigurationTypeId,
     }, {
-        systemTypeDetailTypeConfigurationTypes,
-        invalidSystemConfigurationTypes,
-    }) => {
+        system,
+        system: {
+            systemType: {
+                systemTypeDetailTypeConfigurationTypes,
+            },
+            invalidSystemConfigurationTypes,
+        }
+    }) {
+        console.log(arguments);
+
         const {
-            configurationTypeByConfigurationTypeId
+            configurationType
         } = systemTypeDetailTypeConfigurationTypes.find(({
             configurationTypeId
         }) => configurationTypeId === invalidConfigurationTypeId);
+
         const invalidSystemConfigurationType = {
             nodeId,
             systemId,
             invalidConfigurationTypeId,
-            configurationTypeByInvalidConfigurationTypeId: configurationTypeByConfigurationTypeId,
+            configurationType
         };
+
+        console.log({
+            configurationType,
+            invalidSystemConfigurationType,
+        });
+
         return {
-            invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
-                .concat(invalidSystemConfigurationType)
+            system: {
+                ...system,
+                invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
+                    .concat(invalidSystemConfigurationType)
+            }
         };
     },
-     refetchQueries: ({
-         data: {
-             createInvalidSystemConfigurationType: {
-                 invalidSystemConfigurationType: {
-                     systemBySystemId: {
-                         nodeId
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
 };

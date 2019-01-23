@@ -23,7 +23,17 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({ nodeId: deletedNID }, { systemInfillSizes }) => ({
-        systemInfillSizes: systemInfillSizes.filter(({ nodeId }) => nodeId !== deletedNID)
+    mapResultToProps: ({
+        nodeId: deletedNID
+    }, {
+        system,
+        system: {
+            systemInfillSizes,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemInfillSizes: systemInfillSizes.filter(({ nodeId }) => nodeId !== deletedNID)
+        }
     })
 };

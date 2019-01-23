@@ -20,18 +20,15 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({ nodeId: deletedNID }, { systemSystemTags }) => ({
-        systemSystemTags: systemSystemTags.filter(({ nodeId }) => nodeId !== deletedNID)
+    mapResultToProps: ({ nodeId: deletedNID }, {
+        system,
+        system: {
+            systemSystemTags,
+        },
+    }) => ({
+        system: {
+            ...system,
+            systemSystemTags: systemSystemTags.filter(({ nodeId }) => nodeId !== deletedNID)
+        },
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         deleteSystemSystemTag: {
-    //             systemSystemTag: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

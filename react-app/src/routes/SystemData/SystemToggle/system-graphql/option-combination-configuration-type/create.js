@@ -31,28 +31,25 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOptionCombinationConfigurationType, { optionCombinations }) => ({
-        optionCombinations: optionCombinations.map(combination => (
-            combination.id === newOptionCombinationConfigurationType.optionCombinationId
-        ) ?
-            {
-                ...combination,
-                optionCombinationConfigurationTypesByOptionCombinationId: {
-                    ...combination.optionCombinationConfigurationTypesByOptionCombinationId,
-                    nodes: combination.optionCombinationConfigurationTypesByOptionCombinationId.nodes.concat(newOptionCombinationConfigurationType)
+    mapResultToProps: (newOptionCombinationConfigurationType, {
+        system,
+        system: {
+            optionCombinations,
+        }
+    }) => ({
+        system: {
+            ...system,
+            optionCombinations: optionCombinations.map(combination => (
+                combination.id === newOptionCombinationConfigurationType.optionCombinationId
+            ) ?
+                {
+                    ...combination,
+                    optionCombinationConfigurationTypesByOptionCombinationId: {
+                        ...combination.optionCombinationConfigurationTypesByOptionCombinationId,
+                        nodes: combination.optionCombinationConfigurationTypesByOptionCombinationId.nodes.concat(newOptionCombinationConfigurationType)
+                    }
                 }
-            }
-            : combination)
+                : combination)
+        }
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         createOptionCombination: {
-    //             optionCombination: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

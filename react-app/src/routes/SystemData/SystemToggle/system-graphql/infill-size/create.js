@@ -27,7 +27,15 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemInfillSize, { systemInfillSizes }) => ({
-        systemInfillSizes: systemInfillSizes.concat(newSystemInfillSize)
-    })
+    mapResultToProps: (newSystemInfillSize, {
+        system,
+        system: {
+            systemInfillSizes,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemInfillSizes: systemInfillSizes.concat(newSystemInfillSize)
+        }
+    }),
 };

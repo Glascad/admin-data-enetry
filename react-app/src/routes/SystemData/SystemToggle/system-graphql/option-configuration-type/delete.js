@@ -26,30 +26,25 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({ systemOptionId, nodeId }, { systemOptions }) => ({
-        systemOptions: systemOptions
-            .map(option => option.id === systemOptionId ?
-                {
-                    ...option,
-                    systemOptionConfigurationTypesBySystemOptionId: {
-                        ...option.systemOptionConfigurationTypesBySystemOptionId,
-                        nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.filter(soct => soct.nodeId !== nodeId)
-                    }
-                }
-                :
-                option)
-    }),
-    refetchQueries: ({
-        data: {
-            deleteSystemOptionConfigurationType: {
-                systemOptionConfigurationType: {
-                    systemOptionBySystemOptionId: {
-                        systemBySystemId: {
-                            nodeId
+    mapResultToProps: ({ systemOptionId, nodeId }, {
+        system,
+        system: {
+            systemOptions,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemOptions: systemOptions
+                .map(option => option.id === systemOptionId ?
+                    {
+                        ...option,
+                        systemOptionConfigurationTypesBySystemOptionId: {
+                            ...option.systemOptionConfigurationTypesBySystemOptionId,
+                            nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.filter(soct => soct.nodeId !== nodeId)
                         }
                     }
-                }
-            }
+                    :
+                    option)
         }
-    }) => [{ ...query, variables: { nodeId } }]
+    }),
 };

@@ -91,20 +91,32 @@ export default class ApolloWrapper extends Component {
                             {accumulatedProps => {
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
                                 // iterate through all batched mutations
-                                const batchedMutationKeys = Object.keys(batchedMutations);
-                                const queryStatus = batchedMutationKeys.reduce((mappedStatus, mutationKey) => {
-                                    const {
-                                        mapResultToProps = (res, props) => props
-                                    } = mutations[mutationKey] || {};
-                                    const {
-                                        argumentSets = []
-                                    } = batchedMutations[mutationKey] || {};
-                                    // iterate through all argument sets of batched mutations
-                                    return argumentSets.reduce((mappedStatus, argSet) => ({
-                                        ...mappedStatus,
-                                        ...mapResultToProps(argSet, mappedStatus),
-                                    }), mappedStatus);
-                                }, normalizeResponse(status));
+                                const queryStatus = Object.keys(batchedMutations)
+                                    .reduce((mappedStatus, mutationKey) => {
+
+                                        console.log(`mapping result of ${mutationKey} to props`);
+
+                                        const {
+                                            mapResultToProps = (res, props) => props
+                                        } = mutations[mutationKey] || {};
+
+                                        const {
+                                            argumentSets = []
+                                        } = batchedMutations[mutationKey] || {};
+
+                                        const log = arg => {
+                                            console.log(arg);
+                                            return arg;
+                                        }
+
+                                        // iterate through all argument sets of batched mutations
+                                        return argumentSets.reduce((mappedStatus, argSet) => log({
+                                            ...mappedStatus,
+                                            ...mapResultToProps(argSet, mappedStatus),
+                                        }), mappedStatus);
+
+                                    }, normalizeResponse(status));
+
                                 const childProps = {
                                     ...accumulatedProps,
                                     batcher,

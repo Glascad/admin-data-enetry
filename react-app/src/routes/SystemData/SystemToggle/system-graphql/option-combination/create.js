@@ -52,8 +52,16 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOptionCombination, { optionCombinations }) => ({
-        optionCombinations: optionCombinations.concat(newOptionCombination)
+    mapResultToProps: (newOptionCombination, {
+        system,
+        system: {
+            optionCombinations,
+        }
+    }) => ({
+        system: {
+            ...system,
+            optionCombinations: optionCombinations.concat(newOptionCombination)
+        }
     }),
     // refetchQueries: ({
     //     data: {

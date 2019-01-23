@@ -27,18 +27,15 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemInfillPocketType, { systemInfillPocketTypes }) => ({
-        systemInfillPocketTypes: systemInfillPocketTypes.concat(newSystemInfillPocketType)
+    mapResultToProps: (newSystemInfillPocketType, {
+        system,
+        system: {
+            systemInfillPocketTypes,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemInfillPocketTypes: systemInfillPocketTypes.concat(newSystemInfillPocketType)
+        }
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         createSystemInfillPocketType: {
-    //             systemInfillPocketType: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

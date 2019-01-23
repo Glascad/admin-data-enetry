@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -24,30 +24,25 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (deletedOptionValue, { systemOptions }) => ({
-        systemOptions: systemOptions
-            .map(option => option.id === deletedOptionValue.systemOptionId ?
-                {
-                    ...option,
-                    optionValuesBySystemOptionId: {
-                        ...option.optionValuesBySystemOptionId,
-                        nodes: option.optionValuesBySystemOptionId.nodes.filter(ov => ov.nodeId !== deletedOptionValue.nodeId)
+    mapResultToProps: (deletedOptionValue, {
+        system,
+        system: {
+            systemOptions,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemOptions: systemOptions
+                .map(option => option.id === deletedOptionValue.systemOptionId ?
+                    {
+                        ...option,
+                        optionValuesBySystemOptionId: {
+                            ...option.optionValuesBySystemOptionId,
+                            nodes: option.optionValuesBySystemOptionId.nodes.filter(ov => ov.nodeId !== deletedOptionValue.nodeId)
+                        }
                     }
-                }
-                :
-                option)
+                    :
+                    option)
+        }
     }),
-     refetchQueries: ({
-         data: {
-             deleteOptionValue: {
-                 optionValue: {
-                     systemOptionBySystemOptionId: {
-                         systemBySystemId: {
-                             nodeId
-                         }
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
 };

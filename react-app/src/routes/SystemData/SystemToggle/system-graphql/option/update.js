@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -58,25 +58,22 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (updatedOption, { systemOptions }) => ({
-        systemOptions: systemOptions
-            .map(option => option.nodeId === updatedOption.nodeId ?
-                {
-                    ...option,
-                    ...updatedOption
-                }
-                :
-                option)
+    mapResultToProps: (updatedOption, {
+        system,
+        system: {
+            systemOptions,
+        }
+    }) => ({
+        system: {
+            ...system,
+            systemOptions: systemOptions
+                .map(option => option.nodeId === updatedOption.nodeId ?
+                    {
+                        ...option,
+                        ...updatedOption
+                    }
+                    :
+                    option)
+        }
     }),
-     refetchQueries: ({
-         data: {
-             updateSystemOption: {
-                 systemOption: {
-                     systemBySystemId: {
-                         nodeId
-                     }
-                 }
-             }
-         }
-     }) => [{ ...query, variables: { nodeId } }]
 };

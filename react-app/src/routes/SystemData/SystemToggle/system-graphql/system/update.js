@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'; 
+import gql from 'graphql-tag';
 import query from '../query';
 
 export default {
@@ -36,11 +36,17 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (updatedSystem, { system, systemType, allSystemTypes }) => ({
+    mapResultToProps: (updatedSystem, {
+        system,
+        system: {
+            systemType,
+        },
+        allSystemTypes,
+    }) => ({
         system: {
             ...system,
             ...updatedSystem,
+            systemType: allSystemTypes.find(({ id }) => id === updatedSystem.systemTypeId) || systemType,
         },
-        systemType: allSystemTypes.find(({ id }) => id === updatedSystem.systemTypeId) || systemType,
     }),
 };

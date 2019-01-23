@@ -19,21 +19,16 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: ({ nodeId }, { optionCombinations }) => {
-        return {
+    mapResultToProps: ({ nodeId }, {
+        system,
+        system: {
+            optionCombinations,
+        }
+    }) => ({
+        system: {
+            ...system,
             optionCombinations: optionCombinations
                 .filter(combination => combination.nodeId !== nodeId)
-        };
-    },
-    refetchQueries: ({
-        data: {
-            deleteOptionCombination: {
-                optionCombination: {
-                    systemBySystemId: {
-                        nodeId
-                    }
-                }
-            }
         }
-    }) => [{ ...query, variables: { nodeId } }]
+    }),
 };

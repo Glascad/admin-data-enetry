@@ -39,6 +39,7 @@ export default class Input extends Component {
                 value,
                 initialValue,
                 checked = false,
+                onChange,
                 ...props
             },
             ref,
@@ -84,15 +85,10 @@ export default class Input extends Component {
                         className={`Select ${select.isMulti ? "multi" : ""}`}
                     />
                 ) : (
-                        // type === "switch" ? (
-                        //     <FlipSwitch
-                        //         {...allProps}
-                        //     />
-                        // ) : (
                         <input
                             ref={ref}
                             type={type}
-                            value={initialValue === undefined ?
+                            value={onChange ?
                                 value || (
                                     type === 'text' ?
                                         ""
@@ -100,21 +96,16 @@ export default class Input extends Component {
                                         type === "number" ?
                                             0
                                             :
-                                            booleanTypes.includes(type) ?
-                                                undefined
-                                                :
-                                                ""
-                                )
-                                :
-                                undefined}
+                                            undefined
+                                ) : undefined}
                             checked={booleanTypes.includes(type) ?
                                 checked
                                 :
                                 undefined}
                             onKeyDown={blurOnEnter}
+                            onChange={onChange}
                             {...props}
                         />
-                        // )
                     )
                 }
                 {booleanTypes.includes(type) ? (
