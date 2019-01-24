@@ -23,10 +23,10 @@ export default {
                 systemTypeDetailTypeConfigurationTypesBySystemTypeId{
                     nodes{
                         nodeId
+                        mirrorable
+                        required
                         presentationLevel
                         overrideLevel
-                        required
-                        mirrorable
                         systemTypeId
                         detailTypeId
                         detailTypeByDetailTypeId{
@@ -44,7 +44,12 @@ export default {
                         systemConfigurationOverridesBySystemTypeIdAndDetailTypeIdAndConfigurationTypeId{
                             nodes{
                                 nodeId
+                                mirrorableOverride
+                                requiredOverride
+                                presentationLevelOverride
+                                overrideLevelOverride
                                 systemId
+                                systemTypeId
                                 detailTypeId
                                 configurationTypeId
                             }

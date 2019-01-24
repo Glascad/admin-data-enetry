@@ -59,9 +59,6 @@ export default class ApolloWrapper extends Component {
                     batchMutation,
                 } = {},
                 query,
-                // query: {
-                //     mapQueryToProps = props => props,
-                // } = {},
                 refetch,
                 mutations = {},
                 children,

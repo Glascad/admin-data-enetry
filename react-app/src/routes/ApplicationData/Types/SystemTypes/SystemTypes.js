@@ -153,16 +153,6 @@ export default function SystemTypes() {
                                                                     configurationTypeName,
                                                                 ]}
                                                             />
-                                                            <div className="unfinished">
-                                                                <Input
-                                                                    label="Invalid"
-                                                                    type="checkbox"
-                                                                // onBlur={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
-                                                                //     nodeId: systemTypeDetailTypeConfigurationTypeNID,
-                                                                //     invalid: checked,
-                                                                // })}
-                                                                />
-                                                            </div>
                                                             <Input
                                                                 label="Required"
                                                                 type="checkbox"
@@ -180,7 +170,6 @@ export default function SystemTypes() {
                                                                     nodeId: systemTypeDetailTypeConfigurationTypeNID,
                                                                     mirrorable: checked,
                                                                 })}
-                                                                onChange={({ target }) => console.log({ target })}
                                                             />
                                                             <Input
                                                                 label="Presentation Level"

@@ -2,7 +2,7 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-} from '../../../components';
+} from '../../../../components';
 
 import * as apolloProps from './part-tags-graphql';
 

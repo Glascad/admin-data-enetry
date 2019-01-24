@@ -7,6 +7,8 @@ import {
 
 import LinetypeInfo from './LinetypeInfo';
 
+import './Linetypes.scss';
+
 import {
     query,
     mutations,

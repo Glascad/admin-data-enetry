@@ -84,8 +84,6 @@ export default class Pill extends Component {
     handleEditClick = e => {
         e.stopPropagation();
         if (
-            !this.props.disabled
-            &&
             this.props.onEdit
             &&
             (this.props.selected || !this.props.onSelect)
@@ -125,8 +123,6 @@ export default class Pill extends Component {
                 editing: false
             });
             if (
-                !this.props.disabled
-                &&
                 this.props.onBlur
             )
                 this.props.onBlur(this.props, this.state)
@@ -136,8 +132,6 @@ export default class Pill extends Component {
     handleDeleteClick = e => {
         e.stopPropagation();
         if (
-            !this.props.disabled
-            &&
             this.props.onDelete
         )
             this.props.onDelete(this.props);
@@ -146,13 +140,8 @@ export default class Pill extends Component {
     handleClick = e => {
         e.preventDefault();
         e.stopPropagation();
-        if (!this.props.disabled) {
-            if (this.props.onSelect)
-                this.props.onSelect(this.props);
-        } else {
-            if (this.props.onDisabledSelect)
-                this.props.onDisabledSelect(this.props);
-        }
+        if (this.props.onSelect)
+            this.props.onSelect(this.props);
     }
 
     render = () => {

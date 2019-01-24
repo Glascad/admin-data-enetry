@@ -60,6 +60,10 @@
     }
 }
 
+.disabled {
+    opacity: 0.3;
+}
+
 .input-group {
     display: flex;
     > * {

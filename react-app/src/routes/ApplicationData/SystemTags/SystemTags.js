@@ -21,26 +21,28 @@ export default function SystemTags() {
                     deleteSystemTag,
                 }
             }) => (
-                    <ListWrapper
-                        title="System Tags"
-                        items={allSystemTags}
-                        mapPillProps={({ tag }) => ({
-                            title: tag
-                        })}
-                        onCreate={({ }, { input }) => createSystemTag({
-                            tag: input,
-                        })}
-                        onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemTag({
-                            nodeId,
-                            tag: input,
-                        })}
-                        onDelete={({ arguments: { nodeId } }) => deleteSystemTag({
-                            nodeId,
-                        })}
-                        deleteModal={{
-                            name: "System Tag"
-                        }}
-                    />
+                    <div className="card">
+                        <ListWrapper
+                            title="System Tags"
+                            items={allSystemTags}
+                            mapPillProps={({ tag }) => ({
+                                title: tag
+                            })}
+                            onCreate={({ }, { input }) => createSystemTag({
+                                tag: input,
+                            })}
+                            onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemTag({
+                                nodeId,
+                                tag: input,
+                            })}
+                            onDelete={({ arguments: { nodeId } }) => deleteSystemTag({
+                                nodeId,
+                            })}
+                            deleteModal={{
+                                name: "System Tag"
+                            }}
+                        />
+                    </div>
                 )}
         </ApolloWrapper>
     );

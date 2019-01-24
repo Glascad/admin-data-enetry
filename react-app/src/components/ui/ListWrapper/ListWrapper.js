@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SelectionWrapper from '../../state/SelectionWrapper';
-import TitleBar from '../TitleBar/TitleBar';
 import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
 import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import AddButton from '../AddButton/AddButton';
+
+import './ListWrapper.scss';
 
 class List extends Component {
 
@@ -137,9 +138,9 @@ class List extends Component {
                             :
                             onDelete;
 
-                        const selected = nodeId === selectedItem.nodeId
+                        const selected = !!(nodeId === selectedItem.nodeId
                             &&
-                            canSelect;
+                            canSelect);
 
                         return (
                             <Pill
@@ -217,7 +218,12 @@ class List extends Component {
                     </Modal>
                 ) : null}
                 {children ? (
-                    <div className="nested">
+                    <div className={`nested ${
+                        Object.keys(selectedItem).length === 0 ?
+                            "disabled"
+                            :
+                            ""
+                        }`} >
                         {children(selectedItem)}
                     </div>
                 ) : null}
