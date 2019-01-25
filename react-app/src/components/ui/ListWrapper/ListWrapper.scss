@@ -1,0 +1,28 @@
+
+@import '../../../styles/variables';
+
+.nested {
+    &.disabled {
+        // opacity: 0.3;
+        opacity: 1;
+        position: relative;
+        &:after {
+            position: absolute;
+            top: -$x-small;
+            left: -$small;
+            right: 0;
+            bottom: -$x-small;
+            background: $off-white;
+            // background: green;
+            opacity: 0.7;
+            content: "";
+        }
+        .nested {
+            &.disabled {
+                &:after {
+                    background: none;
+                }
+            }
+        }
+    }
+}

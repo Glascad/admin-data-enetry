@@ -5,7 +5,6 @@ export default {
     mutation: gql`mutation CreateSystemOption(
         $systemId:Int!,
         $name:String!,
-        $mirrorable:Boolean,
         $optionOrder:Int,
         $overrideLevel:Int,
         $presentationLevel:Int
@@ -15,7 +14,6 @@ export default {
                 systemOption:{
                     systemId:$systemId,
                     name:$name,
-                    mirrorable:$mirrorable,
                     optionOrder:$optionOrder,
                     overrideLevel:$overrideLevel,
                     presentationLevel:$presentationLevel
@@ -30,7 +28,6 @@ export default {
                 systemBySystemId{
                     nodeId
                 }
-                mirrorable
                 optionOrder
                 overrideLevel
                 presentationLevel
@@ -50,8 +47,6 @@ export default {
                             nodeId
                             type
                             door
-                            overrideLevel
-                            presentationLevel
                         }
                     }
                 }

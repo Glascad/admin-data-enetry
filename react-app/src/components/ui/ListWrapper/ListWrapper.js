@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SelectionWrapper from '../../state/SelectionWrapper';
-import TitleBar from '../TitleBar/TitleBar';
 import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
 import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import AddButton from '../AddButton/AddButton';
+
+import './ListWrapper.scss';
 
 class List extends Component {
 
@@ -113,18 +114,7 @@ class List extends Component {
 
                         const args = { nodeId };
 
-                        const select = handleSelect;
-
-                        const danger = onDelete && deleting && nodeId === selectedNID;
-
-                        const _delete = multiSelect || deleteModal ?
-                            handleDeleteClick
-                            :
-                            onDelete;
-
-                        const selected = nodeId === selectedItem.nodeId
-                            &&
-                            !creating
+                        const canSelect = !creating
                             &&
                             (
                                 children
@@ -132,13 +122,33 @@ class List extends Component {
                                 selectable
                             );
 
+                        const onSelect = canSelect ?
+                            handleSelect
+                            :
+                            undefined;
+
+                        const danger = onDelete
+                            &&
+                            deleting
+                            &&
+                            nodeId === selectedNID;
+
+                        const _delete = multiSelect || deleteModal ?
+                            handleDeleteClick
+                            :
+                            onDelete;
+
+                        const selected = !!(nodeId === selectedItem.nodeId
+                            &&
+                            canSelect);
+
                         return (
                             <Pill
                                 key={nodeId}
                                 tagname="li"
                                 selected={selected}
                                 danger={danger}
-                                onSelect={select}
+                                onSelect={onSelect}
                                 onDisabledSelect={onDisabledSelect}
                                 onEdit={onUpdate}
                                 onDelete={_delete}
@@ -208,7 +218,12 @@ class List extends Component {
                     </Modal>
                 ) : null}
                 {children ? (
-                    <div className="nested">
+                    <div className={`nested ${
+                        Object.keys(selectedItem).length === 0 ?
+                            "disabled"
+                            :
+                            ""
+                        }`} >
                         {children(selectedItem)}
                     </div>
                 ) : null}

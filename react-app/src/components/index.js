@@ -2,6 +2,7 @@
 import _Dropdown from './ui/Dropdown/Dropdown';
 import _NavMenu from './ui/NavMenu/NavMenu';
 import _TitleBar from './ui/TitleBar/TitleBar';
+import _GroupingBox from './ui/GroupingBox/GroupingBox';
 import _ListContainer from './ui/ListContainer/ListContainer';
 import _Pill from './ui/Pill/Pill';
 import _Modal from './ui/Modal/Modal';
@@ -31,6 +32,7 @@ import './index.scss';
 export const Dropdown = _Dropdown;
 export const NavMenu = _NavMenu;
 export const TitleBar = _TitleBar;
+export const GroupingBox = _GroupingBox;
 export const ListContainer = _ListContainer;
 export const Pill = _Pill;
 export const Modal = _Modal;

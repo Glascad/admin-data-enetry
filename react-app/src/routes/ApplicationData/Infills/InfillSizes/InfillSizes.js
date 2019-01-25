@@ -4,7 +4,7 @@ import {
     ApolloWrapper,
     ListWrapper,
     HeadedContainer,
-} from '../../../components';
+} from '../../../../components';
 
 import {
     query,
@@ -14,7 +14,7 @@ import {
 import InfillSizesGenerator from './InfillSizesGenerator';
 
 import './InfillSizes.scss';
-import TitleBar from '../../../components/ui/TitleBar/TitleBar';
+import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function InfillSizes() {
     return (

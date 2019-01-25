@@ -22,34 +22,36 @@ export default function Manufacturers() {
                     deleteManufacturer,
                 },
             }) => (
-                    <ListWrapper
-                        title="Manufacturers"
-                        items={allManufacturers}
-                        defaultPillProps={{
-                            type: "tile",
-                            footer: "Last Updated: ...",
-                            align: "left"
-                        }}
-                        mapPillProps={({ name }) => ({
-                            title: name
-                        })}
-                        onCreate={({ }, { input }) => createManufacturer({
-                            name: input
-                        })}
-                        onUpdate={({ arguments: { nodeId } }, { input }) => updateManufacturer({
-                            nodeId,
-                            name: input,
-                        })}
-                        onDelete={({ arguments: { nodeId } }) => deleteManufacturer({
-                            nodeId,
-                        })}
-                        deleteModal={{
-                            name: "Manufacturer"
-                        }}
-                        addButton={{
-                            type: "large"
-                        }}
-                    />
+                    <div className="card">
+                        <ListWrapper
+                            title="Manufacturers"
+                            items={allManufacturers}
+                            defaultPillProps={{
+                                type: "tile",
+                                footer: "Last Updated: ...",
+                                align: "left"
+                            }}
+                            mapPillProps={({ name }) => ({
+                                title: name
+                            })}
+                            onCreate={({ }, { input }) => createManufacturer({
+                                name: input
+                            })}
+                            onUpdate={({ arguments: { nodeId } }, { input }) => updateManufacturer({
+                                nodeId,
+                                name: input,
+                            })}
+                            onDelete={({ arguments: { nodeId } }) => deleteManufacturer({
+                                nodeId,
+                            })}
+                            deleteModal={{
+                                name: "Manufacturer"
+                            }}
+                            addButton={{
+                                type: "large"
+                            }}
+                        />
+                    </div>
                 )}
         </ApolloWrapper>
     );

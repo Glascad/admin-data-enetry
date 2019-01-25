@@ -69,7 +69,6 @@ system_options(
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems,
     name VARCHAR(50),
-    mirrorable BOOLEAN,
     presentation_level INTEGER,
     override_level INTEGER,
     option_order INTEGER
@@ -83,6 +82,11 @@ option_values(
     value FLOAT,
     value_order INTEGER
 );
+
+ALTER TABLE
+option_values
+ADD COLUMN
+mirror_from_option_value_id INTEGER REFERENCES option_values;
 
 CREATE TABLE
 option_combinations(
@@ -340,7 +344,6 @@ CREATE TABLE
 configuration_option_values(
     configuration_id INTEGER REFERENCES configurations,
     option_value_id INTEGER REFERENCES option_values,
-    mirrored BOOLEAN,
     PRIMARY KEY (configuration_id, option_value_id)
 );
 
@@ -390,12 +393,14 @@ system_type_detail_type_configuration_types(
 
 CREATE TABLE
 system_configuration_overrides(
-    system_id INTEGER,
+    system_id INTEGER REFERENCES systems,
     system_type_id INTEGER,
     detail_type_id INTEGER,
     configuration_type_id INTEGER,
     required_override BOOLEAN,
     mirrorable_override BOOLEAN,
+    presentation_level_override INTEGER,
+    override_level_override INTEGER,
     PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
     FOREIGN KEY (
         system_type_id, 

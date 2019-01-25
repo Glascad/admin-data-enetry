@@ -52,7 +52,7 @@ export default function DetailTypes() {
                         }) => (
                                 <>
                                     <TitleBar
-                                        title="Detail Types"
+                                        title="Detail Type Settings"
                                         selections={[type]}
                                     />
                                     <Input

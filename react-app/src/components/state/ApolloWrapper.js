@@ -8,12 +8,12 @@ import {
     replaceByKeys,
 } from '../../utils';
 
-const normalizeResponse = ({ data }) => removeNullValues()(
+const normalizeResponse = ({ data }) => removeNullValues(
     flattenNodeArrays(
         replaceByKeys(
-            data
-        )
-    )
+            data,
+        ),
+    ),
 );
 
 /**
@@ -59,9 +59,6 @@ export default class ApolloWrapper extends Component {
                     batchMutation,
                 } = {},
                 query,
-                // query: {
-                //     mapQueryToProps = props => props,
-                // } = {},
                 refetch,
                 mutations = {},
                 children,
@@ -104,25 +101,19 @@ export default class ApolloWrapper extends Component {
                                             argumentSets = []
                                         } = batchedMutations[mutationKey] || {};
 
-                                        const log = arg => {
-                                            console.log(arg);
-                                            return arg;
-                                        }
-
                                         // iterate through all argument sets of batched mutations
-                                        return argumentSets.reduce((mappedStatus, argSet) => log({
+                                        return argumentSets.reduce((mappedStatus, argSet) => ({
                                             ...mappedStatus,
                                             ...mapResultToProps(argSet, mappedStatus),
                                         }), mappedStatus);
 
-                                    }, normalizeResponse(status));
+                                    }, normalizeResponse(status) || {}) || {};
 
-                                const childProps = {
+                                return children({
                                     ...accumulatedProps,
                                     batcher,
                                     queryStatus,
-                                };
-                                return children(childProps);
+                                });
                             }}
                         </ApolloWrapper>
                     )}
@@ -151,13 +142,13 @@ export default class ApolloWrapper extends Component {
                                         ...accumulatedProps.mutations,
                                         [mutationKeys[0]]: batcher ?
                                             args => batchMutation({
-                                                arguments: {
-                                                    ...args,
-                                                    nodeId: args.nodeId || getNodeId(),
-                                                },
-                                                mutate,
-                                                mutationKey: mutationKeys[0],
-                                            })
+                                                    arguments: {
+                                                        ...args,
+                                                        nodeId: args && args.nodeId || getNodeId(),
+                                                    },
+                                                    mutate,
+                                                    mutationKey: mutationKeys[0],
+                                                })
                                             :
                                             async args => {
                                                 await mutate({

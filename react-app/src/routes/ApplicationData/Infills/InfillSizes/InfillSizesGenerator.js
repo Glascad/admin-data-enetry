@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from '../../../components';
+import { Input } from '../../../../components';
 
 export default class InfillSizesGenerator extends Component {
 

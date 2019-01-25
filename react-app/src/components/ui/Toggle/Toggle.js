@@ -4,30 +4,46 @@ import './Toggle.scss';
 
 export default function Toggle({
     buttons,
+    label,
+    title,
+    className = "",
 }) {
     return (
-        <div className="Toggle">
-            {buttons.map((button, i) => {
-                const {
-                    text,
-                    selected,
-                    className = "",
-                    ...buttonProps
-                } = button;
-                return (
-                    <button
-                        key={text || i}
-                        className={`toggle-button ${
-                            selected ? "selected" : "empty"
-                            } ${
-                            className
-                            }`}
-                        {...buttonProps}
-                    >
-                        {text}
-                    </button>
-                )
-            })}
-        </div>
+        <>
+            {title ? (
+                <div className="title">
+                    {title}
+                </div>
+            ) : label ? (
+                <div className="label">
+                    {label}
+                </div>
+            ) : null}
+            <div
+                className={`Toggle ${className}`}
+            >
+                {buttons.map((button, i) => {
+                    const {
+                        text,
+                        selected,
+                        className = "",
+                        ...buttonProps
+                    } = button;
+                    return (
+                        <button
+                            key={text || i}
+                            className={`toggle-button ${
+                                selected ? "selected" : "empty"
+                                } ${
+                                className
+                                }`}
+                            {...buttonProps}
+                        >
+                            {text}
+                        </button>
+                    )
+                })}
+            </div>
+        </>
     );
 }

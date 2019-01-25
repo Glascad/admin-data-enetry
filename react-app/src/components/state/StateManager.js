@@ -11,7 +11,16 @@ import { Component } from 'react';
 
 export default class StateManager extends Component {
 
-    state = {};
+    state = this.props.initialState || {};
+
+    componentDidUpdate = ({ initialState }) => {
+        if (
+            !Object.keys(initialState || {})
+                .every(key => initialState[key] === this.props.initialState[key])
+        ) {
+            this.setState(this.props.initialState)
+        }
+    }
 
     update = key => ({ arguments: args }) => {
         this.setState({

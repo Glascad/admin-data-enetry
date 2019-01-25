@@ -3,12 +3,12 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-} from '../../../components';
+} from '../../../../components';
 
-import * as apolloProps from './part-orientations-graphql';
+import * as apolloProps from './orientations-graphql';
 
 
-export default function PartOrientations() {
+export default function Orientations() {
     return (
         <ApolloWrapper
             {...apolloProps}

@@ -52,13 +52,13 @@ export default function SystemOptions({
                 name,
                 presentationLevel,
                 overrideLevel,
-                mirrorable,
                 systemOptionConfigurationTypes = [],
                 optionValues = [],
             }) => (
                     <>
                         <TitleBar
                             title="Option"
+                            selections={[name]}
                         />
                         {/* <Input
                                 label="Option Name"
@@ -106,7 +106,7 @@ export default function SystemOptions({
                                 }}
                             />
                         </div>
-                        <Input
+                        {/* <Input
                             label="Mirrorable"
                             checked={mirrorable}
                             type="checkbox"
@@ -114,7 +114,7 @@ export default function SystemOptions({
                                 nodeId,
                                 mirrorable: checked
                             })}
-                        />
+                        /> */}
                         <ListWrapper
                             title="Affected Configuration Types"
                             items={systemOptionConfigurationTypes

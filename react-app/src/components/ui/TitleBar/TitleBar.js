@@ -17,8 +17,10 @@ export default function TitleBar({
                 <span className="title">
                     {title}
                 </span>
-                {selections.map((item, i) => (
-                    <span>
+                {selections.map((item, i) => item ? (
+                    <span
+                        key={i}
+                    >
                         {i === 0 ?
                             <span>&nbsp;-&nbsp;</span>
                             :
@@ -28,7 +30,7 @@ export default function TitleBar({
                             {item}
                         </span>
                     </span>
-                ))}
+                ) : null)}
                 <span className="left">
                     {left}
                 </span>

@@ -23,10 +23,10 @@ export default {
                 systemTypeDetailTypeConfigurationTypesBySystemTypeId{
                     nodes{
                         nodeId
+                        mirrorable
+                        required
                         presentationLevel
                         overrideLevel
-                        required
-                        mirrorable
                         systemTypeId
                         detailTypeId
                         detailTypeByDetailTypeId{
@@ -41,15 +41,20 @@ export default {
                             type
                             door
                         }
-                        systemConfigurationOverridesBySystemTypeIdAndDetailTypeIdAndConfigurationTypeId{
-                            nodes{
-                                nodeId
-                                systemId
-                                detailTypeId
-                                configurationTypeId
-                            }
-                        }
                     }
+                }
+            }
+            systemConfigurationOverridesBySystemId{
+                nodes{
+                    nodeId
+                    mirrorableOverride
+                    requiredOverride
+                    presentationLevelOverride
+                    overrideLevelOverride
+                    systemId
+                    systemTypeId
+                    detailTypeId
+                    configurationTypeId
                 }
             }
             systemSystemTagsBySystemId{
@@ -103,8 +108,6 @@ export default {
                         id
                         type
                         door
-                        overrideLevel
-                        presentationLevel
                     }
                 }
             }
@@ -114,7 +117,6 @@ export default {
                     id
                     name
                     systemId
-                    mirrorable
                     optionOrder
                     overrideLevel
                     presentationLevel
@@ -135,8 +137,6 @@ export default {
                                 id
                                 type
                                 door
-                                overrideLevel
-                                presentationLevel
                             }
                         }
                     }
@@ -155,8 +155,6 @@ export default {
                                 id
                                 type
                                 door
-                                overrideLevel
-                                presentationLevel
                             }
                         }
                     }
@@ -218,8 +216,6 @@ export default {
                 id
                 type
                 door
-                overrideLevel
-                presentationLevel
             }
         }
     }`,
