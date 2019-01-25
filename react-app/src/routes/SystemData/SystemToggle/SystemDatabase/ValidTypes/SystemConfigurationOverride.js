@@ -55,6 +55,12 @@ export default class SystemConfigurationOverride extends Component {
     render = () => {
         const {
             props: {
+                defaultValues: {
+                    mirrorable,
+                    required,
+                    presentationLevel,
+                    overrideLevel,
+                },
                 systemConfigurationOverride: {
                     mirrorableOverride,
                     requiredOverride,
@@ -72,13 +78,19 @@ export default class SystemConfigurationOverride extends Component {
                 <Input
                     label="Mirrorable"
                     type="checkbox"
-                    checked={mirrorableOverride}
+                    checked={mirrorableOverride === undefined ?
+                        mirrorable
+                        :
+                        mirrorableOverride}
                     onChange={({ target: { checked } }) => handleChange("mirrorableOverride", checked)}
                 />
                 <Input
                     label="Required"
                     type="checkbox"
-                    checked={requiredOverride}
+                    checked={requiredOverride === undefined ?
+                        required
+                        :
+                        requiredOverride}
                     onChange={({ target: { checked } }) => handleChange("requiredOverride", checked)}
                 />
                 <Input
@@ -88,7 +100,7 @@ export default class SystemConfigurationOverride extends Component {
                         value: presentationLevels
                             .find(({ value }) => value === presentationLevelOverride),
                         defaultValue: presentationLevels
-                            .find(({ value }) => value === presentationLevelOverride),
+                            .find(({ value }) => value === presentationLevel),
                         options: presentationLevels,
                         onChange: ({ value }) => handleChange("presentationLevelOverride", value)
                     }}
@@ -100,7 +112,7 @@ export default class SystemConfigurationOverride extends Component {
                         value: presentationLevels
                             .find(({ value }) => value === overrideLevelOverride),
                         defaultValue: presentationLevels
-                            .find(({ value }) => value === overrideLevelOverride),
+                            .find(({ value }) => value === overrideLevel),
                         options: presentationLevels,
                         onChange: ({ value }) => handleChange("overrideLevelOverride", value)
                     }}
