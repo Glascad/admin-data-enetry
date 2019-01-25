@@ -6,7 +6,7 @@ export default {
     ){
         deleteSystemConfigurationOverride(
             input:{
-                nodeID:$nodeId
+                nodeId:$nodeId
             }
         ){
             systemConfigurationOverride{

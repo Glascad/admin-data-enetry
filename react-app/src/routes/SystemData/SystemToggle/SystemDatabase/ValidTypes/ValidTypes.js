@@ -182,6 +182,7 @@ export default function ValidTypes({
                                         */}
                                         <GroupingBox
                                             title="Default Settings"
+                                            className="disabled"
                                             toggle={{
                                                 buttons: [
                                                     {

@@ -50,5 +50,20 @@
             }
         }
     }
+
+    &.disabled {
+        opacity: 1;
+
+        &:after {
+            content: "";
+            position: absolute;
+            background: $off-white;
+            opacity: 0.5;
+            top: $large;
+            bottom: $small;
+            left: $small;
+            right: $small;
+        }
+    }
 }
         

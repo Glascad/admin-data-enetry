@@ -9,9 +9,12 @@ export default function GroupingBox({
     toggle,
     addButton,
     children,
+    className = "",
 }) {
     return (
-        <div className="GroupingBox">
+        <div
+            className={`GroupingBox ${className}`}
+        >
             <div className="title">
                 {title}
             </div>
