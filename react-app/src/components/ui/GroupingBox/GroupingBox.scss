@@ -1,0 +1,54 @@
+
+@import '../../../styles/variables';
+
+.GroupingBox {
+    position: relative;
+    border: 1px solid $dark-gray;
+    border-radius: $x-small;
+    padding-bottom: $xx-large !important;
+    width: fill;
+    
+    // button {
+    //     &:not(.danger) {
+    //         background: $off-white;
+    //     }
+    // }
+    
+    .title {
+        position: absolute;
+        top: -$text-size / 2;
+        left: $large;
+        margin: 0;
+        background: $off-white;
+        box-shadow: 0 0 0 $x-small $off-white;
+        
+    }
+
+    .toggle-background, .add-button-background {
+        position: absolute;
+        top: -$item-height / 4;
+        right: $large - $x-small;
+        margin: 0 !important;
+        background: $off-white;
+        padding: 0 $x-small;
+        
+        .Toggle, .AddButton {
+            height: $x-large;
+            max-height: $x-large;
+            // box-shadow: 0 0 0 $x-small $off-white;
+            
+            > button {
+                height: $x-large;
+                font-size: $x-large * .6;
+                // max-height: $x-large;
+            }
+        }
+        
+        .AddButton {
+            > button {
+                width: $item-height / 2;
+            }
+        }
+    }
+}
+        

@@ -13,8 +13,8 @@ export default {
         $overrideLevelOverride:Int
     ){
         updateSystemConfigurationOverride(
-            nodeId:$nodeId
             input:{
+                nodeId:$nodeId
                 systemConfigurationOverridePatch:{
                     requiredOverride:$requiredOverride
                     mirrorableOverride:$mirrorableOverride
@@ -36,37 +36,26 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemConfigurationOverride, {
+    mapResultToProps: (updatedSystemConfigurationOverride, {
         system,
         system: {
-            systemType,
-            systemType: {
-                systemTypeDetailTypeConfigurationTypes,
-            },
+            systemConfigurationOverrides,
         },
     }) => ({
         system: {
             ...system,
-            systemType: {
-                ...systemType,
-                systemTypeDetailTypeConfigurationTypes: systemTypeDetailTypeConfigurationTypes.map(stdtct => (
-                    stdtct.detailTypeId === newSystemConfigurationOverride.detailTypeId
+            systemConfigurationOverrides: systemConfigurationOverrides
+                .map(override => (
+                    override.systemTypeId === updatedSystemConfigurationOverride.systemTypeId
                     &&
-                    stdtct.configurationTypeId === newSystemConfigurationOverride.configurationTypeId
+                    override.detailTypeId === updatedSystemConfigurationOverride.detailTypeId
+                    &&
+                    override.configurationTypeId === updatedSystemConfigurationOverride.configurationTypeId
                 ) ?
-                    {
-                        ...stdtct,
-                        systemConfigurationOverrides: stdtct.systemConfigurationOverrides
-                            .map(override => (
-                                override.systemId === newSystemConfigurationOverride.systemId ?
-                                    newSystemConfigurationOverride
-                                    :
-                                    override
-                            )),
-                    }
+                    updatedSystemConfigurationOverride
                     :
-                    stdtct)
-            },
+                    override
+                ),
         },
     }),
 }

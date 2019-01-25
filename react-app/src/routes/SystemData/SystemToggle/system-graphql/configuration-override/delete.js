@@ -5,7 +5,9 @@ export default {
         $nodeId:ID!
     ){
         deleteSystemConfigurationOverride(
-            nodeID:$nodeId
+            input:{
+                nodeID:$nodeId
+            }
         ){
             systemConfigurationOverride{
                 nodeId
@@ -23,28 +25,19 @@ export default {
     mapResultToProps: (deletedSystemConfigurationOverride, {
         system,
         system: {
-            systemType,
-            systemType: {
-                systemTypeDetailTypeConfigurationTypes,
-            },
+            systemConfigurationOverrides,
         },
     }) => ({
         system: {
             ...system,
-            systemType: {
-                ...systemType,
-                systemTypeDetailTypeConfigurationTypes: systemTypeDetailTypeConfigurationTypes.map(stdtct => (
-                    stdtct.detailTypeId === deletedSystemConfigurationOverride.detailTypeId
+            systemConfigurationOverrides: systemConfigurationOverrides
+                .filter(override => !(
+                    override.systemTypeId === deletedSystemConfigurationOverride.systemTypeId
                     &&
-                    stdtct.configurationTypeId === deletedSystemConfigurationOverride.configurationTypeId
-                ) ?
-                    {
-                        ...stdtct,
-                        systemConfigurationOverrides: [],
-                    }
-                    :
-                    stdtct)
-            },
+                    override.detailTypeId === deletedSystemConfigurationOverride.detailTypeId
+                    &&
+                    override.configurationTypeId === deletedSystemConfigurationOverride.configurationTypeId
+                )),
         },
     }),
 }

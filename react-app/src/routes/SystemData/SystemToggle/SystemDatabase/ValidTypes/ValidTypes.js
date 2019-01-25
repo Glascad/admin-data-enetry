@@ -1,11 +1,18 @@
 import React from 'react';
 
 import {
-    HeadedContainer,
+    GroupingBox,
     Input,
     ListWrapper,
+    Toggle,
+    TitleBar,
 } from '../../../../../components';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
+
+import {
+    presentationLevels,
+} from '../../../../../business-logic';
+import StateManager from '../../../../../components/state/StateManager';
+import SystemConfigurationOverride from './SystemConfigurationOverride';
 
 export default function ValidTypes({
     queryStatus: {
@@ -16,11 +23,13 @@ export default function ValidTypes({
                 systemTypeDetailTypeConfigurationTypes = [],
             } = {},
             invalidSystemConfigurationTypes = [],
+            systemConfigurationOverrides = [],
         } = {},
     },
     mutations: {
         createInvalidSystemConfigurationType,
         deleteInvalidSystemConfigurationType,
+        deleteSystemConfigurationOverride,
         updateSystemConfigurationOverride,
         createSystemConfigurationOverride,
     },
@@ -61,7 +70,6 @@ export default function ValidTypes({
                             }) => configurationType && id === detailTypeId)
                             .map(({
                                 configurationTypeId,
-                                systemConfigurationOverrides,
                                 ...systemTypeDetailTypeConfigurationType
                             }) => {
 
@@ -73,8 +81,16 @@ export default function ValidTypes({
 
                                 const systemConfigurationOverride = systemConfigurationOverrides
                                     .find(({
-                                        systemId: id
-                                    }) => id === systemId);
+                                        systemTypeId: stId,
+                                        detailTypeId: dtId,
+                                        configurationTypeId: ctId,
+                                    }) => (
+                                            stId === systemTypeId
+                                            &&
+                                            dtId === detailTypeId
+                                            &&
+                                            ctId === configurationTypeId
+                                        ));
 
                                 return ({
                                     configurationTypeId,
@@ -95,7 +111,6 @@ export default function ValidTypes({
                         })}
                     >
                         {({
-                            nodeId,
                             invalidSystemConfigurationType: {
                                 invalid = true,
                                 nodeId: invalidSystemConfigurationTypeNID
@@ -114,27 +129,9 @@ export default function ValidTypes({
                                 id: detailTypeId,
                                 type: detailTypeName = '',
                             } = {},
-                            systemConfigurationOverride: {
-                                nodeId: systemConfigurationOverrideNID,
-                                requiredOverride,
-                                mirrorableOverride,
-                                presentationLevelOverride,
-                                overrideLevelOverride,
-                            } = {},
-                            systemConfigurationOverrides,
-                            invalidSystemConfigurationType,
-                            ...data
+                            systemConfigurationOverride,
                         }) => (
                                 <>
-                                    {console.log({
-                                        required,
-                                        mirrorable,
-                                        presentationLevel,
-                                        overrideLevel,
-                                        systemConfigurationOverrides,
-                                        invalidSystemConfigurationType,
-                                        ...data,
-                                    })}
                                     <TitleBar
                                         title="System Configuration Type"
                                         selections={[
@@ -162,157 +159,114 @@ export default function ValidTypes({
                                                 invalidConfigurationTypeId: configurationTypeId,
                                             })}
                                     />
+                                    {/* <StateManager
+                                        initialState={{
+                                            overriding: !!systemConfigurationOverride,
+                                        }}
+                                    >
+                                        {({ state: { overriding }, update }) => ( */}
                                     <div
                                         className={`nested ${invalid ? "disabled" : ""}`}
-                                        style={{ marginTop: "1.25rem" }}
+                                        style={{
+                                            marginTop: "1.25rem",
+                                            display: "flex",
+                                            flexDirection: "row",
+                                        }}
                                     >
                                         {/**
                                             The following items depend upon entries in both the systemTypeDetailTypeConfigurationTypes table and the systemConfigurationOverrides table.
-
+                                            
                                             If there is an entry in the overrides table, it will override whatever value is in the stdtct table, and any changes made will update the overrides table. However, if the changes made to the overrides table make it identical to the stdtct table, the entry will simply be deleted since it is unnecessary.
-
+                                            
                                             If there is no entry in the overrides table, any change will create an entry.
                                         */}
-                                        <Input
-                                            label="Mirrorable"
-                                            type="checkbox"
-                                            checked={mirrorableOverride ?
-                                                mirrorableOverride
-                                                :
-                                                mirrorable}
-                                            onChange={({ target: { checked } }) => (
-                                                typeof systemConfigurationOverrideNID === "string" ?
-                                                    updateSystemConfigurationOverride({
-                                                        systemId,
-                                                        systemTypeId,
-                                                        detailTypeId,
-                                                        configurationTypeId,
-                                                        nodeId: systemConfigurationOverrideNID,
-                                                        mirrorableOverride: checked === mirrorable ?
-                                                            undefined
+                                        <GroupingBox
+                                            title="Default Settings"
+                                            toggle={{
+                                                buttons: [
+                                                    {
+                                                        text: "Override",
+                                                        selected: false,
+                                                        className: systemConfigurationOverride ?
+                                                            "selected"
                                                             :
-                                                            checked,
-                                                    })
-                                                    :
-                                                    createSystemConfigurationOverride({
-                                                        systemId,
-                                                        systemTypeId,
-                                                        detailTypeId,
-                                                        configurationTypeId,
-                                                        nodeId: systemConfigurationOverrideNID,
-                                                        mirrorableOverride: checked,
-                                                    })
-                                            )}
-                                        />
-                                        <Input
-                                            label="Required"
-                                            type="checkbox"
-                                            checked={requiredOverride ?
-                                                requiredOverride
-                                                :
-                                                required}
-                                            onChange={({ target: { checked } }) => (
-                                                typeof systemConfigurationOverrideNID === "string" ?
-                                                    updateSystemConfigurationOverride({
-                                                        systemId,
-                                                        systemTypeId,
-                                                        detailTypeId,
-                                                        configurationTypeId,
-                                                        nodeId: systemConfigurationOverrideNID,
-                                                        requiredOverride: checked === required ?
-                                                            undefined
+                                                            "danger",
+                                                        onClick: systemConfigurationOverride ?
+                                                            () => deleteSystemConfigurationOverride({
+                                                                ...systemConfigurationOverride,
+                                                                systemId,
+                                                                systemTypeId,
+                                                                detailTypeId,
+                                                                configurationTypeId,
+                                                            })
                                                             :
-                                                            checked,
-                                                    })
-                                                    :
-                                                    createSystemConfigurationOverride({
-                                                        systemId,
-                                                        systemTypeId,
-                                                        detailTypeId,
-                                                        configurationTypeId,
-                                                        nodeId: systemConfigurationOverrideNID,
-                                                        requiredOverride: checked,
-                                                    })
-                                            )}
-                                        />
-                                        <div
-                                            className={`nested ${
-                                                (
-                                                    requiredOverride === undefined ?
-                                                        required
-                                                        :
-                                                        requiredOverride
-                                                ) ?
-                                                    "disabled"
-                                                    :
-                                                    ""
-                                                }`}
-                                            style={{ marginTop: "1.25rem" }}
+                                                            () => createSystemConfigurationOverride({
+                                                                ...systemConfigurationOverride,
+                                                                systemId,
+                                                                systemTypeId,
+                                                                detailTypeId,
+                                                                configurationTypeId,
+                                                            })
+                                                    }
+                                                ]
+                                            }}
                                         >
                                             <Input
+                                                label="Mirrorable"
+                                                type="checkbox"
+                                                checked={mirrorable}
+                                                readOnly={true}
+                                            />
+                                            <Input
+                                                label="Required"
+                                                type="checkbox"
+                                                checked={required}
+                                                readOnly={true}
+                                            />
+                                            <Input
                                                 label="Presentation Level"
-                                                type="number"
-                                                value={presentationLevelOverride ?
-                                                    presentationLevelOverride
-                                                    :
-                                                    presentationLevel}
-                                                onChange={({ target: { value } }) => (
-                                                    typeof systemConfigurationOverrideNID === "string" ?
-                                                        updateSystemConfigurationOverride({
-                                                            systemId,
-                                                            systemTypeId,
-                                                            detailTypeId,
-                                                            configurationTypeId,
-                                                            nodeId: systemConfigurationOverrideNID,
-                                                            presentationLevelOverride: value === presentationLevel ?
-                                                                undefined
-                                                                :
-                                                                value,
-                                                        })
-                                                        :
-                                                        createSystemConfigurationOverride({
-                                                            systemId,
-                                                            systemTypeId,
-                                                            detailTypeId,
-                                                            configurationTypeId,
-                                                            nodeId: systemConfigurationOverrideNID,
-                                                            presentationLevelOverride: value,
-                                                        })
-                                                )}
+                                                type="select"
+                                                select={{
+                                                    isDisabled: true,
+                                                    value: presentationLevels
+                                                        .find(({ value }) => value === presentationLevel),
+                                                    defaultValue: presentationLevels
+                                                        .find(({ value }) => value === presentationLevel),
+                                                    options: presentationLevels
+                                                }}
                                             />
                                             <Input
                                                 label="Override Level"
-                                                type="number"
-                                                value={overrideLevelOverride ?
-                                                    overrideLevelOverride
-                                                    :
-                                                    overrideLevel}
-                                                onChange={({ target: { value } }) => (
-                                                    typeof systemConfigurationOverrideNID === "string" ?
-                                                        updateSystemConfigurationOverride({
-                                                            systemId,
-                                                            systemTypeId,
-                                                            detailTypeId,
-                                                            configurationTypeId,
-                                                            nodeId: systemConfigurationOverrideNID,
-                                                            overrideLevelOverride: value === overrideLevel ?
-                                                                undefined
-                                                                :
-                                                                value,
-                                                        })
-                                                        :
-                                                        createSystemConfigurationOverride({
-                                                            systemId,
-                                                            systemTypeId,
-                                                            detailTypeId,
-                                                            configurationTypeId,
-                                                            nodeId: systemConfigurationOverrideNID,
-                                                            overrideLevelOverride: value,
-                                                        })
-                                                )}
+                                                type="select"
+                                                select={{
+                                                    isDisabled: true,
+                                                    value: presentationLevels
+                                                        .find(({ value }) => value === overrideLevel),
+                                                    defaultValue: presentationLevels
+                                                        .find(({ value }) => value === overrideLevel),
+                                                    options: presentationLevels
+                                                }}
                                             />
-                                        </div>
+                                        </GroupingBox>
+                                        {systemConfigurationOverride ? (
+                                            <SystemConfigurationOverride
+                                                {...{
+                                                    defaultValues: {
+                                                        mirrorable,
+                                                        required,
+                                                        presentationLevel,
+                                                        overrideLevel,
+                                                    },
+                                                    systemConfigurationOverride,
+                                                    createSystemConfigurationOverride,
+                                                    updateSystemConfigurationOverride,
+                                                    deleteSystemConfigurationOverride,
+                                                }}
+                                            />
+                                        ) : null}
                                     </div>
+                                    {/* )}
+                                    </StateManager> */}
                                 </>
                             )}
                     </ListWrapper>

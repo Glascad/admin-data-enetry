@@ -41,29 +41,13 @@ export default {
     mapResultToProps: (newSystemConfigurationOverride, {
         system,
         system: {
-            systemType,
-            systemType: {
-                systemTypeDetailTypeConfigurationTypes,
-            },
+            systemConfigurationOverrides,
         },
     }) => ({
         system: {
             ...system,
-            systemType: {
-                ...systemType,
-                systemTypeDetailTypeConfigurationTypes: systemTypeDetailTypeConfigurationTypes.map(stdtct => (
-                    stdtct.detailTypeId === newSystemConfigurationOverride.detailTypeId
-                    &&
-                    stdtct.configurationTypeId === newSystemConfigurationOverride.configurationTypeId
-                ) ?
-                    {
-                        ...stdtct,
-                        systemConfigurationOverrides: stdtct.systemConfigurationOverrides
-                            .concat(newSystemConfigurationOverride),
-                    }
-                    :
-                    stdtct)
-            },
+            systemConfigurationOverrides: systemConfigurationOverrides
+                .concat(newSystemConfigurationOverride)
         },
     }),
 }

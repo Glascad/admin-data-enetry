@@ -393,7 +393,7 @@ system_type_detail_type_configuration_types(
 
 CREATE TABLE
 system_configuration_overrides(
-    system_id INTEGER,
+    system_id INTEGER REFERENCES systems,
     system_type_id INTEGER,
     detail_type_id INTEGER,
     configuration_type_id INTEGER,

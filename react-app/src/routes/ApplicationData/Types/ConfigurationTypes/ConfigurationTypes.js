@@ -20,7 +20,7 @@ export default function ConfigurationTypes() {
             {({
                 queryStatus: {
                     allConfigurationTypes = [],
-                    allManufacturers = [],
+                    // allManufacturers = [],
                     allPartTypes = [],
                 },
                 mutations: {
@@ -29,9 +29,9 @@ export default function ConfigurationTypes() {
                     deleteConfigurationType,
                     createConfigurationTypePartType,
                     deleteConfigurationTypePartType,
-                    createConfigurationNameOverride,
-                    updateConfigurationNameOverride,
-                    deleteConfigurationNameOverride,
+                    // createConfigurationNameOverride,
+                    // updateConfigurationNameOverride,
+                    // deleteConfigurationNameOverride,
                 },
             }) => (
                     <ListWrapper
@@ -62,23 +62,11 @@ export default function ConfigurationTypes() {
                             // presentationLevel,
                             // overrideLevel,
                             configurationTypePartTypes = [],
-                            configurationNameOverrides = [],
-                            ...data
+                            // configurationNameOverrides = [],
                         }) => (
                                 <>
-                                    {console.log({
-                                        nodeId,
-                                        id: configurationTypeId,
-                                        type,
-                                        door,
-                                        // presentationLevel,
-                                        // overrideLevel,
-                                        configurationTypePartTypes,
-                                        configurationNameOverrides,
-                                        ...data
-                                    })}
                                     <TitleBar
-                                        title="Configuration Type"
+                                        title="Configuration Type Settings"
                                         selections={[type]}
                                     />
                                     <Input
@@ -109,10 +97,11 @@ export default function ConfigurationTypes() {
                                         })}
                                     /> */}
                                     <ListWrapper
-                                        titleBar={{
-                                            title: "Part Types",
-                                            selections: [type]
-                                        }}
+                                        label="Part Types"
+                                        // titleBar={{
+                                        //     title: "Part Types",
+                                        //     selections: [type]
+                                        // }}
                                         items={configurationTypePartTypes
                                             .map(({
                                                 nodeId,
@@ -138,7 +127,7 @@ export default function ConfigurationTypes() {
                                             name: `${type} Part Type`
                                         }}
                                     />
-                                    <div className="unfinished">
+                                    {/* <div className="unfinished">
                                         <ListWrapper
                                             titleBar={{
                                                 title: "Name Overrides",
@@ -147,7 +136,7 @@ export default function ConfigurationTypes() {
                                             items={configurationNameOverrides}
                                             mapPillProps={() => ({})}
                                         />
-                                    </div>
+                                    </div> */}
                                 </>
                             )
                         }

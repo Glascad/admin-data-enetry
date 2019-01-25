@@ -146,21 +146,12 @@ export default function SystemTypes() {
                                                 }) => (
                                                         <>
                                                             <TitleBar
-                                                                title="Configuration Type"
+                                                                title="Configuration Type Settings"
                                                                 selections={[
                                                                     systemTypeName,
                                                                     detailTypeName,
                                                                     configurationTypeName,
                                                                 ]}
-                                                            />
-                                                            <Input
-                                                                label="Required"
-                                                                type="checkbox"
-                                                                checked={required}
-                                                                onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
-                                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID,
-                                                                    required: checked,
-                                                                })}
                                                             />
                                                             <Input
                                                                 label="Mirrorable"
@@ -172,23 +163,42 @@ export default function SystemTypes() {
                                                                 })}
                                                             />
                                                             <Input
-                                                                label="Presentation Level"
-                                                                type="number"
-                                                                initialValue={presentationLevel}
-                                                                onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                label="Required"
+                                                                type="checkbox"
+                                                                checked={required}
+                                                                onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
                                                                     nodeId: systemTypeDetailTypeConfigurationTypeNID,
-                                                                    presentationLevel: value,
+                                                                    required: checked,
                                                                 })}
                                                             />
-                                                            <Input
-                                                                label="Override Level"
-                                                                type="number"
-                                                                initialValue={overrideLevel}
-                                                                onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
-                                                                    nodeId: systemTypeDetailTypeConfigurationTypeNID,
-                                                                    overrideLevel: value,
-                                                                })}
-                                                            />
+                                                            <div
+                                                                className={`nested ${
+                                                                    required ?
+                                                                        "disabled"
+                                                                        :
+                                                                        ""
+                                                                    }`}
+                                                                style={{ marginTop: "1.25rem" }}
+                                                            >
+                                                                <Input
+                                                                    label="Presentation Level"
+                                                                    type="number"
+                                                                    initialValue={presentationLevel}
+                                                                    onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                        presentationLevel: value,
+                                                                    })}
+                                                                />
+                                                                <Input
+                                                                    label="Override Level"
+                                                                    type="number"
+                                                                    initialValue={overrideLevel}
+                                                                    onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                        overrideLevel: value,
+                                                                    })}
+                                                                />
+                                                            </div>
                                                         </>
                                                     )}
                                             </ListWrapper>

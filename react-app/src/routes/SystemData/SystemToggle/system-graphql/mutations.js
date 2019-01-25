@@ -10,9 +10,9 @@ import deleteSystemInfillSize from './infill-size/delete';
 import createInvalidSystemConfigurationType from './invalid-configuration-type/create';
 import deleteInvalidSystemConfigurationType from './invalid-configuration-type/delete';
 
-import createSystemConfigurationOverride from './configuration-overrides/create';
-import updateSystemConfigurationOverride from './configuration-overrides/update';
-import deleteSystemConfigurationOverride from './configuration-overrides/delete';
+import createSystemConfigurationOverride from './configuration-override/create';
+import updateSystemConfigurationOverride from './configuration-override/update';
+import deleteSystemConfigurationOverride from './configuration-override/delete';
 
 import createSystemOption from './option/create';
 import updateSystemOption from './option/update';
