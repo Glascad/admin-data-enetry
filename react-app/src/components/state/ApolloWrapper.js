@@ -142,13 +142,13 @@ export default class ApolloWrapper extends Component {
                                         ...accumulatedProps.mutations,
                                         [mutationKeys[0]]: batcher ?
                                             args => batchMutation({
-                                                arguments: {
-                                                    ...args,
-                                                    nodeId: args.nodeId || getNodeId(),
-                                                },
-                                                mutate,
-                                                mutationKey: mutationKeys[0],
-                                            })
+                                                    arguments: {
+                                                        ...args,
+                                                        nodeId: args && args.nodeId || getNodeId(),
+                                                    },
+                                                    mutate,
+                                                    mutationKey: mutationKeys[0],
+                                                })
                                             :
                                             async args => {
                                                 await mutate({

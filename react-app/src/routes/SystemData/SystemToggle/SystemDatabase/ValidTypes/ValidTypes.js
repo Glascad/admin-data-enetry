@@ -147,17 +147,23 @@ export default function ValidTypes({
                                         type="checkbox"
                                         checked={invalid}
                                         onChange={({ target: { checked } }) => checked ?
-                                            createInvalidSystemConfigurationType({
-                                                nodeId: invalidSystemConfigurationTypeNID,
-                                                systemId,
-                                                invalidConfigurationTypeId: configurationTypeId,
-                                            })
+                                            [
+                                                createInvalidSystemConfigurationType({
+                                                    nodeId: invalidSystemConfigurationTypeNID,
+                                                    systemId,
+                                                    invalidConfigurationTypeId: configurationTypeId,
+                                                }),
+                                                deleteSystemConfigurationOverride(systemConfigurationOverride)
+                                            ]
                                             :
-                                            deleteInvalidSystemConfigurationType({
-                                                nodeId: invalidSystemConfigurationTypeNID,
-                                                systemId,
-                                                invalidConfigurationTypeId: configurationTypeId,
-                                            })}
+                                            [
+                                                deleteInvalidSystemConfigurationType({
+                                                    nodeId: invalidSystemConfigurationTypeNID,
+                                                    systemId,
+                                                    invalidConfigurationTypeId: configurationTypeId,
+                                                }),
+                                                createSystemConfigurationOverride(systemConfigurationOverride)
+                                            ]}
                                     />
                                     {/* <StateManager
                                         initialState={{
