@@ -67,7 +67,7 @@ export default class Modal extends Component {
             handleCancelClick,
             handleFinishClick,
         } = this;
-        return (
+        return display ? (
             <div
                 className={`modal-background ${display ? '' : 'hidden'}`}
                 onClick={onCancel}
@@ -112,6 +112,6 @@ export default class Modal extends Component {
                     </div>
                 </div>
             </div>
-        );
+        ) : null;
     }
 }
