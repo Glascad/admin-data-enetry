@@ -8,12 +8,9 @@ import SystemSearch from './SystemSearch/SystemSearch';
 import NewSystem from './NewSystem/NewSystem';
 import SystemToggle from './SystemToggle/SystemToggle';
 
-const path = "/system-data";
-
 function SystemDataRouter() {
     return (
         <Navigator
-            parentPath={path}
             routes={[
                 {
                     exact: true,
@@ -35,6 +32,6 @@ function SystemDataRouter() {
 
 export default {
     name: "System Data",
-    path,
+    path: "/system-data",
     component: SystemDataRouter,
 };

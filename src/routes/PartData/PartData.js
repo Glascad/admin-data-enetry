@@ -3,11 +3,9 @@ import {
     Navigator, TitleBar,
 } from '../../components';
 
-const path = "/part-data";
-
 const routes = {
     name: "Part Data",
-    path,
+    path: "/part-data",
     component: PartDataRouter,
     subroutes: [
         {
@@ -32,7 +30,6 @@ function PartDataRouter() {
             />
             <div className="card">
                 <Navigator
-                    parentPath={path}
                     routes={routes.subroutes}
                 />
             </div>

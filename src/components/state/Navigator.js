@@ -75,7 +75,6 @@ class Navigator extends Component {
                     path,
                     url,
                 },
-                parentPath,
                 routes,
                 children = (_, Children) => Children,
             },
