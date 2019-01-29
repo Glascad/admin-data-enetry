@@ -6,7 +6,7 @@ export default {
         name: "Elevation 1",
         hzRO: 300,
         vtRO: 150,
-        sightline: 15,
+        sightline: 10,
         elevationContainers: [
             {
                 nodeId: "sldkfjsldkfjlskdjflskdjflskdfj",
@@ -15,12 +15,12 @@ export default {
                 container: {
                     nodeId: "weoiuweoiruwoieruwoeiurwoiru",
                     id: 1,
-                    DLO: 50,
+                    DLO: (300 - (15 * 4)) / 3,
                     infill: undefined,
                     containers: [
                         {
                             nodeId: "oeisfodkwjkoefksdjfkksdjfowjefoksdjkf",
-                            id: 3,
+                            id: 4,
                             parentContainerId: 1,
                             DLO: 50,
                             infill: "glass",
@@ -32,9 +32,9 @@ export default {
                         },
                         {
                             nodeId: "lskdjfwoiejklfweoif",
-                            id: 4,
+                            id: 5,
                             parentContainerId: 1,
-                            DLO: 85,
+                            DLO: undefined,
                             infill: "glass",
                             bottomFrameId: 6,
                             leftFrameId: 2,
@@ -52,13 +52,13 @@ export default {
                 container: {
                     nodeId: "lsdkfjweoifjsdklf",
                     id: 2,
-                    DLO: 100,
+                    DLO: (300 - (15 * 4)) / 3,
                     containers: [
                         {
                             nodeId: "sldkfjswoeijfklsdmflsjeo",
-                            id: 5,
+                            id: 6,
                             parentContainerId: 2,
-                            DLO: 50,
+                            DLO: 25,
                             infill: "glass",
                             bottomFrameId: 1,
                             leftFrameId: 5,
@@ -68,9 +68,9 @@ export default {
                         },
                         {
                             nodeId: "lsdkfjsldkfj",
-                            id: 6,
+                            id: 7,
                             parentContainerId: 2,
-                            DLO: 85,
+                            DLO: undefined,
                             infill: "glass",
                             bottomFrameId: 7,
                             leftFrameId: 5,
@@ -86,8 +86,8 @@ export default {
                 elevationId: 1,
                 containerId: 7,
                 container: {
-                    id: 7,
-                    DLO: 120,
+                    id: 3,
+                    DLO: undefined,
                     containers: [
                         {
                             nodeId: "slkdfsmclkdsdfsdc",
@@ -100,7 +100,7 @@ export default {
                             nodeId: "sldkfjwoeivewme",
                             id: 9,
                             parentContainerId: 7,
-                            DLO: 85,
+                            DLO: undefined,
                             fill: "purple",
                         },
                     ],

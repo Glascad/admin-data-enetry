@@ -4,15 +4,14 @@ import Frame from './Frame';
 
 var PROTECTION = 30;
 
-const colors = [...10].map(n => `rgb(0, ${255 * n / 10}, ${255 * n / 10})`).reverse();
-
-var i = 0;
 
 export default function Container({
-    fill,
+    nestLevel = 1,
     horizontal,
-    offset,
-    dimensions,
+    origin,
+    origin: [ox, oy],
+    corner,
+    corner: [cx, cy],
     sightline,
     childContainers = [],
     framesToRender: {
@@ -32,96 +31,105 @@ export default function Container({
 
     if (PROTECTION-- < 0) return null;
 
-    const color = colors[i++] || colors[i = 0];
-
     const leftFrame = {
-        offset: {
-            x: offset.x - sightline,
-            y: offset.y - sightline,
-        },
-        dimensions: {
-            x: sightline,
-            y: dimensions.y + sightline * 2,
-        },
+        origin,
+        corner: [ox + sightline, cy],
     };
 
     const rightFrame = {
-        offset: {
-            x: offset.x + dimensions.x,
-            y: leftFrame.offset.y,
-        },
-        dimensions: leftFrame.dimensions,
+        origin: [cx - sightline, oy],
+        corner,
     };
 
     const topFrame = {
-        offset: {
-            x: offset.x,
-            y: offset.y + dimensions.y, // + sightline,
-        },
-        dimensions: {
-            x: dimensions.x,
-            y: sightline,
-        },
+        origin: [ox + sightline, cy - sightline],
+        corner: [cx - sightline, cy],
     };
 
     const bottomFrame = {
-        offset: {
-            x: topFrame.offset.x,
-            y: offset.y - sightline,
-        },
-        dimensions: topFrame.dimensions,
+        origin: [ox + sightline, oy],
+        corner: [cx - sightline, oy + sightline],
     };
 
-    const offsetChildContainers = childContainers
-        .reduce(({ all, offset }, container) => ({
-            all: all.concat({
-                container,
-                offset,
-            }),
-            offset: horizontal ? {
-                x: offset.x + (container.DLO || 0) + sightline,
-                y: offset.y,
-            } : {
-                    x: offset.x,
-                    y: offset.y + (container.DLO || 0) + sightline,
-                },
-        }), {
-                all: [],
-                offset
-            })
-        .all;
+    const placedChildren = horizontal ?
+        childContainers.map((container, i, arr) => ({
+            origin: [
+                arr
+                    .slice(0, i)
+                    .reduce((sum, { DLO }) => sum + DLO + sightline,
+                        ox),
+                oy,
+            ],
+            corner: i === arr.length - 1 ?
+                corner
+                :
+                [
+                    arr
+                        .slice(0, i)
+                        .reduce((sum, { DLO }) => sum + DLO + sightline,
+                            ox + container.DLO + sightline * 2),
+                    cy,
+                ],
+            container,
+        }))
+        :
+        childContainers.map((container, i, arr) => ({
+            origin: [
+                ox,
+                arr
+                    .slice(0, i)
+                    .reduce((sum, { DLO }) => sum + DLO + sightline,
+                        oy),
+            ],
+            corner: i === arr.length - 1 ?
+                corner
+                :
+                [
+                    cx,
+                    arr
+                        .slice(0, i)
+                        .reduce((sum, { DLO }) => sum + DLO + sightline,
+                            oy + container.DLO + sightline * 2),
+                ],
+            container,
+        }));
 
     return (
-        <g>
-            <Frame
-                offset={offset}
-                dimensions={dimensions}
+        <g
+            className="Container"
+            // style={{
+            //     opacity: 1 / nestLevel,
+            // }}
+        >
+            {/* <Frame
+                origin={origin}
+                corner={corner}
                 fill={fill}
+            /> */}
+            {/* {left ? ( */}
+            <Frame
+                {...leftFrame}
+                className="left-frame"
             />
-            {left ? (
-                <Frame
-                    {...leftFrame}
-                    stroke="green"
-                />
-            ) : null}
-            {right ? (
-                <Frame
-                    {...rightFrame}
-                    stroke="yellow"
-                />
-            ) : null}
-            {top ? (
-                <Frame
-                    {...topFrame}
-                    stroke="cyan"
-                />
-            ) : null}
-            {bottom ? (
-                <Frame
-                    {...bottomFrame}
-                    stroke="blue"
-                />
-            ) : null}
+            {/* ) : null} */}
+            {/* {right ? ( */}
+            <Frame
+                {...rightFrame}
+                className="right-frame"
+            />
+            {/* ) : null} */}
+            {/* {top ? ( */}
+            <Frame
+                {...topFrame}
+                className="top-frame"
+            />
+            {/* ) : null} */}
+            {/* {bottom ? ( */}
+            <Frame
+                {...bottomFrame}
+                className="bottom-frame"
+            />
+            {/* ) : null} */}
             {/* ORIGIN */}
             <circle
                 cx="0"
@@ -132,13 +140,31 @@ export default function Container({
             />
             {/* OFFSET ORIGIN */}
             <circle
-                cx={offset.x}
-                cy={offset.y}
+                cx={ox}
+                cy={oy}
                 r="5"
                 fill="rgba(0, 0, 255, 0.25"
                 stroke="blue"
             />
-            {offsetChildContainers.map(({ container, offset }, i, { length }) => (
+            <circle
+                cx={cx}
+                cy={cy}
+                r="5"
+                fill={`rgba(0, 255, 0, ${1 / nestLevel})`}
+                stroke="green"
+            />
+            {placedChildren.map(({ container: { id, containers }, origin, corner }) => (
+                <Container
+                    key={id}
+                    origin={origin}
+                    corner={corner}
+                    horizontal={!horizontal}
+                    sightline={sightline}
+                    childContainers={containers}
+                    nestLevel={nestLevel + 1}
+                />
+            ))}
+            {/* {offsetChildContainers.map(({ container, offset }, i, { length }) => (
                 <Container
                     fill={container.fill}
                     offset={offset}
@@ -164,9 +190,13 @@ export default function Container({
                             false
                             :
                             i < length - 1,
+                        // left: false,
+                        // right: false,
+                        // bottom: true,
+                        // top:true,
                     }}
                 />
-            ))}
+            ))} */}
         </g>
     );
 }

@@ -1,0 +1,38 @@
+
+@import '../../styles/variables';
+
+.Elevation {
+    .Container {
+        .Frame {
+            &.top-frame {
+                fill: orangered;
+            }
+            &.bottom-frame {
+                fill: rosybrown;
+            }
+            &.left-frame {
+                fill: blanchedalmond;
+            }
+            &.right-frame {
+                fill: darkgoldenrod;
+            }
+            &:hover {
+                fill: darkblue !important;
+                border: 2px solid olivedrab;
+            }
+        }
+        // &:hover {
+        //     > circle, > .Frame {
+        //         // fill: purple;
+        //     }
+            .Container {
+                &:hover {
+                    > circle, > .Frame {
+                        fill: blue;
+                        z-index: 6 !important;
+                    }
+                }
+            }
+        // }
+    }
+}
