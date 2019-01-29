@@ -29,11 +29,28 @@ export default function Frame({
         y: yOffset,
     } = {},
     className = '',
+    nodeId,
+    selectedNID,
+    handleSelect,
     ...props
 }) {
+    console.log({ nodeId });
     return (
         <path
-            className={`Frame ${className}`}
+            className={`Frame ${
+                className
+                } ${
+                nodeId === selectedNID ?
+                    'selected'
+                    :
+                    ''
+                }`}
+            onClick={e => {
+                e.stopPropagation();
+                console.log(e.target);
+                console.log({ nodeId });
+                handleSelect({ arguments: { nodeId } });
+            }}
             // stroke="red"
             // fill="rgba(255, 0, 0, 0.5)"
             {...props}

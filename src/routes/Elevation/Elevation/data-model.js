@@ -22,13 +22,25 @@ export default {
                             nodeId: "oeisfodkwjkoefksdjfkksdjfowjefoksdjkf",
                             id: 4,
                             parentContainerId: 1,
-                            DLO: 50,
+                            DLO: 100,
                             infill: "glass",
                             bottomFrameId: 1,
+                            bottomFrame:{
+                                nodeId: "sldkfjweoisdfsdffjkxcmlskdnvwieo"
+                            },
                             leftFrameId: 2,
+                            leftFrame: {
+                                nodeId: "lskdmcoismewiovnoweivnwoevinlsdkfmsldkf"
+                            },
                             topFrameId: 6,
+                            topFrame:{
+                                nodeId: "lsdkjfsldkfjioweicmdsmsokmdlkcmsldkms"
+                            },
                             rightFrameId: 5,
-                            fill:"yellow",
+                            rightFrame:{
+                                nodeId: "lsdkmcwoiemciomewomwemsdscdso"
+                            },
+                            fill: "yellow",
                         },
                         {
                             nodeId: "lskdjfwoiejklfweoif",
@@ -37,10 +49,22 @@ export default {
                             DLO: undefined,
                             infill: "glass",
                             bottomFrameId: 6,
+                            bottomFrame:{
+                                nodeId: "sldkfjweoifjkxcmlskdnvwieo"
+                            },
                             leftFrameId: 2,
+                            leftFrame: {
+                                nodeId: "lskdmcoissdfwecdscdsmewiovnoweivnwoevin"
+                            },
                             topFrameId: 3,
+                            topFrame:{
+                                nodeId: "lsdkjfsldkfjioweicmsdvsdsdfdsvdsmsokmdlkcm"
+                            },
                             rightFrameId: 5,
-                            fill:"orange",
+                            rightFrame:{
+                                nodeId: "lsdkmcwoiemciomewomwemolsldkcmsc"
+                            },
+                            fill: "orange",
                         },
                     ],
                 },
@@ -58,26 +82,68 @@ export default {
                             nodeId: "sldkfjswoeijfklsdmflsjeo",
                             id: 6,
                             parentContainerId: 2,
-                            DLO: 25,
+                            DLO: 45,
                             infill: "glass",
                             bottomFrameId: 1,
+                            bottomFrame:{
+                                nodeId: "sldkfjweoifjkxcmlskdnvwieoslkdfj",
+                            },
                             leftFrameId: 5,
+                            leftFrame: {
+                                nodeId: "lskdmcoismewiovnoweivnwoevin"
+                            },
                             topFrameId: 7,
+                            topFrame:{
+                                nodeId: "lsdkjfsldkfjsdvasfvsdsdvsioweicmdsmsokmdlkcm"
+                            },
                             rightFrameId: 4,
+                            rightFrame:{
+                                nodeId: "lsdkmcwoiemcsdvsdvsdvsdiomewomwemo"
+                            },
                             fill: "orange",
                         },
                         {
                             nodeId: "lsdkfjsldkfj",
                             id: 7,
                             parentContainerId: 2,
-                            DLO: undefined,
+                            DLO: 45,
                             infill: "glass",
                             bottomFrameId: 7,
+                            bottomFrame:{
+                                nodeId: "sldkfjweoifjkxsdfsdsdfcmlskdnvwieo"
+                            },
                             leftFrameId: 5,
+                            leftFrame: {
+                                nodeId: "lskdmcoismewiovnoweivnwoevin"
+                            },
                             topFrameId: 3,
+                            topFrame:{
+                                nodeId: "lsdkjfssdvsvsvldkfjisccoweicmdsmsokmdlkcm"
+                            },
                             rightFrameId: 4,
+                            rightFrame:{
+                                nodeId: "lsdkmcwoisdvsdvsdvemciomewomwemo"
+                            },
                             fill: "red",
                         },
+                        {
+                            nodeId: "slkdfjlskdjfxcvxcvx",
+                            id: 10,
+                            parentContainerId: 2,
+                            DLO: undefined,
+                            bottomFrame: {
+                                nodeId: "sldkfjweoifjkdsfsdfsxsdfsdsdfcmlskdnvwieo"
+                            },
+                            leftFrame: {
+                                nodeId: "lskdmcoismewiovnowefesdxcweivnwoevin"
+                            },
+                            topFrame: {
+                                nodeId: "lsdkjfssdvsvsvldkfjxcvxisccoweicmdsmsokmdlkcm"
+                            },
+                            rightFrame: {
+                                nodeId: "lsdkmcwoisdvsdvsdsdfwevemciomewomwemo"
+                            },
+                        }
                     ],
                 },
             },
@@ -86,6 +152,7 @@ export default {
                 elevationId: 1,
                 containerId: 7,
                 container: {
+                    nodeId:"sldkmcslkmsdknlsdknviweonisd",
                     id: 3,
                     DLO: undefined,
                     containers: [
@@ -93,8 +160,20 @@ export default {
                             nodeId: "slkdfsmclkdsdfsdc",
                             id: 8,
                             parentContainerId: 7,
-                            DLO: 50,
+                            DLO: 100,
                             fill: "red",
+                            bottomFrame: {
+                                nodeId: "sldkfjweoifjkxsdscxvfsdsdfcmlskdnvwieo"
+                            },
+                            leftFrame: {
+                                nodeId: "lskdmcoismewiovnoweivnwvbnbvoevin"
+                            },
+                            topFrame: {
+                                nodeId: "lsdkjfssdvsvsvldkfjisfgbefccoweicmdsmsokmdlkcm"
+                            },
+                            rightFrame: {
+                                nodeId: "lsdkmcwoisdvsdvsdvemciervdfvomewomwemo"
+                            },
                         },
                         {
                             nodeId: "sldkfjwoeivewme",
@@ -102,6 +181,18 @@ export default {
                             parentContainerId: 7,
                             DLO: undefined,
                             fill: "purple",
+                            bottomFrame: {
+                                nodeId: "sldkfjweoifjkxsdfdbdfdvdfvsdsdfcmlskdnvwieo"
+                            },
+                            leftFrame: {
+                                nodeId: "lskdmcoismewiovnoweivnhgnghnnwoevin"
+                            },
+                            topFrame: {
+                                nodeId: "lsdkjfssdvsvsvldkfjiscfgbfgbcoweicmdsmsokmdlkcm"
+                            },
+                            rightFrame: {
+                                nodeId: "lsdkmcwoisdvsdvsdventynghnghmciomewomwemo"
+                            },
                         },
                     ],
                 },

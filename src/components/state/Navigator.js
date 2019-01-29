@@ -34,7 +34,7 @@ import {
 class NavigatorChild extends Component {
 
     componentDidMount = () => {
-        console.log('child updating route' + this.props.index);
+        // console.log('child updating route' + this.props.index);
         this.props.updateCurrentRoute(this.props.index);
     }
 
@@ -50,14 +50,14 @@ class Navigator extends Component {
     };
 
     updateCurrentRoute = index => {
-        console.log('navigator updating route');
+        // console.log('navigator updating route');
         if (this.props.trackCurrentRoute !== false) {
-            console.log('navigator updating route');
+            // console.log('navigator updating route');
             this.setState({
                 currentRoute: index,
             });
         } else {
-            console.log('navigator not updating route');
+            // console.log('navigator not updating route');
         }
     }
 
@@ -98,7 +98,7 @@ class Navigator extends Component {
             search
             }`);
         
-        console.log(pathname + search);
+        // console.log(pathname + search);
 
         if (
             currentRoute === -1

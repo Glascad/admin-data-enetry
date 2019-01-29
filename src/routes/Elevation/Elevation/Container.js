@@ -25,6 +25,22 @@ export default function Container({
         top: true,
         bottom: true,
     },
+    leftFrame: {
+        nodeId: leftNID,
+    } = {},
+    rightFrame: {
+        nodeId: rightNID,
+    } = {},
+    topFrame: {
+        nodeId: topNID,
+    } = {},
+    bottomFrame: {
+        nodeId: bottomNID,
+    } = {},
+    nodeId,
+    selectedNID,
+    handleSelect,
+    ...props
 }) {
 
     console.log(arguments[0]);
@@ -96,40 +112,54 @@ export default function Container({
 
     return (
         <g
-            className="Container"
-            // style={{
-            //     opacity: 1 / nestLevel,
-            // }}
+            className={`Container ${nodeId === selectedNID ? 'selected' : ''}`}
+            onClick={e => {
+                e.stopPropagation();
+                console.log(e.target);
+                console.log({ nodeId });
+                handleSelect({ arguments: { nodeId } });
+            }}
+        // style={{
+        //     opacity: 1 / nestLevel,
+        // }}
         >
             {/* <Frame
                 origin={origin}
                 corner={corner}
                 fill={fill}
             /> */}
-            {/* {left ? ( */}
+            {leftNID ? (
             <Frame
                 {...leftFrame}
+                nodeId={leftNID}
                 className="left-frame"
+                handleSelect={handleSelect}
             />
-            {/* ) : null} */}
-            {/* {right ? ( */}
+            ) : null}
+            {rightNID ? (
             <Frame
                 {...rightFrame}
+                nodeId={rightNID}
                 className="right-frame"
+                handleSelect={handleSelect}
             />
-            {/* ) : null} */}
-            {/* {top ? ( */}
+            ) : null}
+            {topNID ? (
             <Frame
                 {...topFrame}
+                nodeId={topNID}
                 className="top-frame"
+                handleSelect={handleSelect}
             />
-            {/* ) : null} */}
-            {/* {bottom ? ( */}
+            ) : null}
+            {bottomNID ? (
             <Frame
                 {...bottomFrame}
+                nodeId={bottomNID}
                 className="bottom-frame"
+                handleSelect={handleSelect}
             />
-            {/* ) : null} */}
+            ) : null}
             {/* ORIGIN */}
             <circle
                 cx="0"
@@ -153,15 +183,19 @@ export default function Container({
                 fill={`rgba(0, 255, 0, ${1 / nestLevel})`}
                 stroke="green"
             />
-            {placedChildren.map(({ container: { id, containers }, origin, corner }) => (
+            {placedChildren.map(({ container, container: { nodeId, containers }, origin, corner }, i) => (
                 <Container
-                    key={id}
+                    {...container}
+                    nodeId={nodeId}
+                    key={nodeId || i}
                     origin={origin}
                     corner={corner}
                     horizontal={!horizontal}
                     sightline={sightline}
                     childContainers={containers}
                     nestLevel={nestLevel + 1}
+                    handleSelect={handleSelect}
+                    selectedNID={selectedNID}
                 />
             ))}
             {/* {offsetChildContainers.map(({ container, offset }, i, { length }) => (

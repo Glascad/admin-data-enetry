@@ -2,22 +2,28 @@
 @import '../../styles/variables';
 
 .Elevation {
+    .selected {
+        background: orange !important;
+        fill: orangered !important;
+    }
     .Container {
         .Frame {
+            fill: red;
+
             &.top-frame {
-                fill: orangered;
+                // fill: orangered;
             }
             &.bottom-frame {
-                fill: rosybrown;
+                // fill: rosybrown;
             }
             &.left-frame {
-                fill: blanchedalmond;
+                // fill: blanchedalmond;
             }
             &.right-frame {
-                fill: darkgoldenrod;
+                // fill: darkgoldenrod;
             }
             &:hover {
-                fill: darkblue !important;
+                // fill: darkblue !important;
                 border: 2px solid olivedrab;
             }
         }
