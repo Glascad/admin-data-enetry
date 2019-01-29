@@ -7,8 +7,8 @@ import elevation from '../routes/Elevation/Elevation';
 
 export default [
     activity,
-    elevation,
     systemData,
     applicationData,
     partData,
+    elevation,
 ];

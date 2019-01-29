@@ -4,14 +4,14 @@
 .card {
     background: $off-white;
     border-top: $small solid $light-blue;
-    padding: $large;
-    padding-bottom: $xxxx-large;
+    padding: $x-large;
+    padding-bottom: $xxxxx-large;
 }
 
 .card, .card .nested, .card .GroupingBox {
 
     .TitleBar {
-        margin-top: $xxxx-large;
+        margin-top: $xxxxx-large;
 
         &:first-child {
             margin-top: 0;
@@ -19,7 +19,7 @@
     }
 
     > * {
-        margin-top: $large;
+        margin-top: $x-large;
         
         &:first-child {
             margin-top: 0;

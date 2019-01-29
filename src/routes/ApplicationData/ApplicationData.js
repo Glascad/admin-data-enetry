@@ -19,11 +19,9 @@ function ApplicationDataRouter() {
     );
 }
 
-const path = '/application-data';
-
 const routes = {
     name: "Application Data",
-    path,
+    path: '/application-data',
     component: ApplicationDataRouter,
     subroutes: [
         {

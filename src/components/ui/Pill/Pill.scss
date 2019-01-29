@@ -14,9 +14,13 @@
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
 
     &.empty:not(.selected) {
-        @include two-colors($dark-gray, $off-white);
-        border: 1px solid $dark-gray;
+        @include two-colors($selected-color, $off-white, false);
+        border-color: $selected-color;
         background: none;
+        
+        &:hover {
+            background: $pill-color;
+        }
     }
 
     &.align-left {

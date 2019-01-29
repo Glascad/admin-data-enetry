@@ -81,11 +81,17 @@ class Navigator extends Component {
             updateCurrentRoute,
         } = this;
 
+        const mappedRoutes = routes.map(route => typeof route === 'function' ?
+            route(this.props)
+            :
+            route
+        );
+
         const previousIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;
 
-        const previousRoute = routes[previousIndex] || {};
-        const nextRoute = routes[nextIndex] || {};
+        const previousRoute = mappedRoutes[previousIndex] || {};
+        const nextRoute = mappedRoutes[nextIndex] || {};
 
         const previousLink = url + previousRoute.path;
         const nextLink = url + nextRoute.path;
@@ -93,11 +99,11 @@ class Navigator extends Component {
         const redirectTo = validatePath(`${
             url
             }${
-            routes[0].path
+            mappedRoutes[0].path
             }${
             search
             }`);
-        
+
         // console.log(pathname + search);
 
         if (
@@ -113,34 +119,37 @@ class Navigator extends Component {
         } else {
             return (
                 <Switch>
-                    {routes.map(({ exact, component: RouteChild, ...route }, i) => (
-                        <Route
-                            key={route.path}
-                            {...route}
-                            exact={exact}
-                            path={validatePath(`${
-                                path
-                                }${
-                                route.path
-                                }`)}
-                            render={routerProps => children({
-                                ...routerProps,
-                                previousLink,
-                                nextLink,
-                            },
-                                <NavigatorChild
-                                    index={i}
-                                    updateCurrentRoute={updateCurrentRoute}
-                                >
-                                    {RouteChild ?
-                                        <RouteChild {...routerProps} />
-                                        :
-                                        route.render(routerProps)
-                                    }
-                                </NavigatorChild>
-                            )}
-                        />
-                    ))}
+                    {mappedRoutes
+                        .map(route => typeof route === 'function' ? route(this.props) : route)
+                        // .filter(Boolean)
+                        .map(({ exact, component: RouteChild, ...route }, i) => (
+                            <Route
+                                key={route.path}
+                                {...route}
+                                exact={exact}
+                                path={validatePath(`${
+                                    path
+                                    }${
+                                    route.path
+                                    }`)}
+                                render={routerProps => children({
+                                    ...routerProps,
+                                    previousLink,
+                                    nextLink,
+                                },
+                                    <NavigatorChild
+                                        index={i}
+                                        updateCurrentRoute={updateCurrentRoute}
+                                    >
+                                        {RouteChild ?
+                                            <RouteChild {...routerProps} />
+                                            :
+                                            route.render(routerProps)
+                                        }
+                                    </NavigatorChild>
+                                )}
+                            />
+                        ))}
                     <NavigatorChild
                         index={-1}
                         updateCurrentRoute={updateCurrentRoute}

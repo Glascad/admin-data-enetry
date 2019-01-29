@@ -8,8 +8,8 @@ button, input {
 }
 
 button {
-    @include two-colors($dark-gray, $off-white);
-    border-color: $dark-gray;
+    @include two-colors($selected-color, $off-white);
+    border-color: $selected-color;
     background: none;
     display: flex;
     justify-content: center;

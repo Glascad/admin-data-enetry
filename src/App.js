@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ApolloClient from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';

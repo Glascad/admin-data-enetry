@@ -35,6 +35,7 @@ $x-large: 1.5rem;
 $xx-large: 1.75rem;
 $xxx-large: 2rem;
 $xxxx-large: 2.25rem;
+$xxxxx-large: 2.5rem;
 
 $text-size: $base_size;
 $icon-thickness: .2rem;
@@ -46,7 +47,7 @@ $checkbox-height: $item-height / 2;
 @mixin two-colors($text, $background, $invert: true) {
     color: $text;
     background-color: $background;
-    border: 1px solid $background;
+    border: 2px solid $background;
     .text-color {
         background-color: $text;
     }
@@ -58,7 +59,7 @@ $checkbox-height: $item-height / 2;
             color: $background;
             border-color: $background;
             background-color: $text;
-                .text-color {
+            .text-color {
                 background-color: $background;
             }
             .background-color {

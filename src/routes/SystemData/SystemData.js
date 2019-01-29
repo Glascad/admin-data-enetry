@@ -11,27 +11,41 @@ import SystemToggle from './SystemToggle/SystemToggle';
 function SystemDataRouter() {
     return (
         <Navigator
-            routes={[
-                {
-                    exact: true,
-                    path: "/",
-                    component: SystemSearch,
-                },
-                {
-                    path: "/new",
-                    component: NewSystem,
-                },
-                {
-                    path: "/info",
-                    component: SystemToggle,
-                },
-            ]}
+            routes={routes.subroutes}
         />
     );
 }
 
-export default {
+const routes = {
     name: "System Data",
     path: "/system-data",
     component: SystemDataRouter,
+    subroutes: [
+        {
+            name: "System Search",
+            path: "/search",
+            component: SystemSearch,
+        },
+        {
+            name: "New System",
+            path: "/new",
+            component: NewSystem,
+        },
+        ({
+            queryStatus: {
+                system: {
+                    name = '',
+                } = {},
+            } = {},
+            location: {
+                search,
+            },
+        }) => ({
+            name,
+            path: "/info/database",
+            component: SystemToggle,
+        }),
+    ],
 };
+
+export default routes;

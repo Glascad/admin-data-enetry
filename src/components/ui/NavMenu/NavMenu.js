@@ -35,26 +35,29 @@ function NavMenu({
                             ''
                     }
                 >
-                    {subroutes.map(({ name: childName, path: childPath }, j) => (
-                        <NavLink
-                            key={j}
-                            isActive={(_, { pathname }) => exact ?
-                                pathname === `${path}${childPath}`
-                                :
-                                pathname.includes(`${path}${childPath}`)
-                            }
-                            to={`${
-                                path
-                                }${
-                                childPath
-                                }${
-                                search
-                                }`}
-                            activeClassName="matched"
-                        >
-                            {childName}
-                        </NavLink>
-                    ))}
+                    {subroutes
+                        .map(route => typeof route === 'function' ? route(...arguments) : route)
+                        .filter(({ name }) => name)
+                        .map(({ name: childName, path: childPath }, j) => (
+                            <NavLink
+                                key={j}
+                                isActive={(_, { pathname }) => exact ?
+                                    pathname === `${path}${childPath}`
+                                    :
+                                    pathname.includes(`${path}${childPath}`)
+                                }
+                                to={`${
+                                    path
+                                    }${
+                                    childPath
+                                    }${
+                                    search
+                                    }`}
+                                activeClassName="matched"
+                            >
+                                {childName}
+                            </NavLink>
+                        ))}
                 </Dropdown>
             ) : (
                         <NavLink
@@ -73,7 +76,8 @@ function NavMenu({
                         >
                             {name}
                         </NavLink>
-                    ))}
+                    )
+            )}
         </div>
     );
 }

@@ -58,15 +58,15 @@ export default function SystemToggle({
                                 }`.trim()
                                 ||
                                 'Loading...',
-                            left: (
-                                <Link
-                                    to="/system-data"
-                                >
-                                    <button className="empty">
-                                        Change System
-                                            </button>
-                                </Link>
-                            )
+                            // left: (
+                            //     <Link
+                            //         to="/system-data"
+                            //     >
+                            //         <button className="empty">
+                            //             Change System
+                            //                 </button>
+                            //     </Link>
+                            // )
                         }}
                         routes={[
                             {

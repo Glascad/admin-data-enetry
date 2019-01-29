@@ -10,21 +10,7 @@ export default function SystemLink({
 }) {
     return (
         <Query
-            query={gql`query System($systemNID:ID!){
-                system(nodeId:$systemNID){
-                    nodeId
-                    id
-                    name
-                    manufacturerByManufacturerId{
-                        nodeId
-                        id
-                        name
-                    }
-                }
-            }`}
-            variables={{
-                systemNID
-            }}
+            
         >
             {status => {
                 const {
