@@ -2,7 +2,7 @@
 
 .Pill {
     @include two-colors($dark-gray, $pill-color, false);
-    border-width: $icon-thickness !important;
+    // border-width: $icon-thickness !important;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -13,6 +13,12 @@
     height: $item-height;
     box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
 
+    &.empty:not(.selected) {
+        @include two-colors($dark-gray, $off-white);
+        border: 1px solid $dark-gray;
+        background: none;
+    }
+
     &.align-left {
         justify-content: flex-start;
         
@@ -21,7 +27,7 @@
         }
     }
     
-    &.selected, &.danger, &.editing {
+    &.selected, &.danger, &.editing, &.empty {
         box-shadow: none;
     }
     

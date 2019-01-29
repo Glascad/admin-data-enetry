@@ -147,6 +147,7 @@ export default class Pill extends Component {
     render = () => {
         const {
             props: {
+                className,
                 type,
                 inputType = "text",
                 onDelete: deletable,
@@ -195,6 +196,8 @@ export default class Pill extends Component {
         return (
             <tag.name
                 className={`Pill ${
+                    className
+                    } ${
                     selected ? 'selected' : ''
                     } ${
                     danger ? 'danger' : ''

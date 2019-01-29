@@ -142,8 +142,14 @@ class List extends Component {
                             &&
                             canSelect);
 
+                        const className = children ?
+                            "empty"
+                            :
+                            ""
+
                         return (
                             <Pill
+                                className={className}
                                 key={nodeId}
                                 tagname="li"
                                 selected={selected}
