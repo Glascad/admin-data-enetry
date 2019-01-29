@@ -35,14 +35,17 @@ const routes = {
             queryStatus: {
                 system: {
                     name = '',
+                    manufacturer: {
+                        name: mnfgName='',
+                    }={},
                 } = {},
             } = {},
             location: {
                 search,
             },
         }) => ({
-            name,
-            path: "/info/database",
+            name: `${mnfgName} ${name}`,
+            path: "/info",
             component: SystemToggle,
         }),
     ],

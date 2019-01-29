@@ -56,7 +56,7 @@ export default function CreateSystem({
     if (createdSystemNID) {
         return (
             <Redirect
-                to={`/system-data/database?systemNID=${createdSystemNID}`}
+                to={`/system-data/info/database?systemNID=${createdSystemNID}`}
             />
         )
     } else {

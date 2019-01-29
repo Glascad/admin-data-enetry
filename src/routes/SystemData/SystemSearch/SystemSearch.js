@@ -22,7 +22,7 @@ export default function SystemSearch({
 }) {
     return (
         <>
-            <TitleBar
+            {/* <TitleBar
                 title="Select System"
                 right={(
                     <Link
@@ -35,7 +35,7 @@ export default function SystemSearch({
                         </button>
                     </Link>
                 )}
-            />
+            /> */}
             <div className="card">
                 <ApolloWrapper
                     query={query}
@@ -58,6 +58,9 @@ export default function SystemSearch({
                                     update,
                                 }) => (
                                         <>
+                                            <TitleBar
+                                                title="Select System"
+                                            />
                                             <Input
                                                 label="Search"
                                                 value={state.name}
