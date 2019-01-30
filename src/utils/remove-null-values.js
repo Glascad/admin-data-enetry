@@ -1,6 +1,8 @@
 
 /**
  * Removes all `null` values from a graphql response, to allow default values.
+ * 
+ * Recursively searches through the object, protecting against circular structures using the `prev` array.
  */
 
 const removeNullValues = (obj, prev = []) => (obj === null ?

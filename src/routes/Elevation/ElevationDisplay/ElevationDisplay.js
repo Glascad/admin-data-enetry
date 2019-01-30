@@ -8,7 +8,7 @@ import {
 
 import query from '../elevation-graphql/query';
 
-export default function Elevation() {
+export default function ElevationDisplay() {
     return (
         <SelectionWrapper>
             {({
@@ -35,7 +35,7 @@ export default function Elevation() {
                             } = {},
                         }) => (
                                 <svg
-                                    className="Elevation"
+                                    className="ElevationDisplay"
                                     transform="scale(1, -1)"
                                     height={vtRO + sightline * 6}
                                     width={hzRO + sightline * 6}

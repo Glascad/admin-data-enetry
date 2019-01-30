@@ -1,9 +1,13 @@
 
 /**
- * This function replaces keys such as `systemTypeBySystemTypeId` with `systemType`, removing the `By` part of the key;
+ * This function replaces keys such as `systemTypeBySystemTypeId` with `systemType`, removing the `By` part of the key.
+ * 
+ * It recursively searches through the object.
+ * 
+ * There is no circular structure protection yet.
  */
 
-const replaceByKeys = obj => (
+const replaceByKeys =  obj => (
     !obj
     ||
     typeof obj !== "object"

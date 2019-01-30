@@ -6,7 +6,7 @@ import {
     TitleBar,
 } from '../../components';
 
-import Elevation from './Elevation/Elevation';
+import ElevationDisplay from './ElevationDisplay/ElevationDisplay';
 
 
 function ElevationRouter() {
@@ -16,7 +16,7 @@ function ElevationRouter() {
                 title="Elevation"
             />
             <div className="card">
-                <Elevation />
+                <ElevationDisplay />
             </div>
         </>
     );

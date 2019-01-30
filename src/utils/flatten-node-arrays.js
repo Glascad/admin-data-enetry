@@ -23,6 +23,8 @@
         ]
     }
 };
+ * It recursively moves through the object, with currently no circular structure protection.
+ * This protection may be inserted at a later date.
 */
 
 const flattenNodeArrays = obj => (

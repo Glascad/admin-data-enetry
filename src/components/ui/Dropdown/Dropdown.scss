@@ -16,16 +16,18 @@
         position: relative;
         display: flex;
         align-items: center;
+
         .triangle-wrapper {
             position: absolute;
             transform: translateY(-50%);
             top: 50%;
-            // left: $large;
-            right: $large;
+            left: $base_size;
+            // right: $large;
+
             .triangle {
                 // opacity: 0;
                 width: 0;
-                border-right: 9px solid $rule-color;
+                border-left: 9px solid $rule-color;
                 border-bottom: 7px solid rgba(0, 0, 0, 0);
                 border-top: 7px solid rgba(0, 0, 0, 0);
             }
@@ -37,7 +39,7 @@
             .triangle {
                 // opacity: 1;
                 // border-right: 9px solid $off-white;
-                transform: rotate(-90deg);
+                transform: rotate(90deg);
             }
         }
     }
@@ -48,12 +50,12 @@
         }
     }
     
-    summary {
-        padding: 0 $small;
-        height: $item-height;
-        display: flex;
-        align-items: center;
-    }
+    // summary {
+    //     padding: 0 $small;
+    //     height: $item-height;
+    //     display: flex;
+    //     align-items: center;
+    // }
 
     .content {
         width: 100%;
