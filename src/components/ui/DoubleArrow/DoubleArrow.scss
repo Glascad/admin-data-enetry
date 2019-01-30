@@ -3,7 +3,13 @@
 
 .DoubleArrow {
     width: unset;
+    min-width: unset;
     height: unset;
+    background: none;
+    border: none;
+    padding: 0;
+    outline: none;
+    box-shadow: none;
     
     .arrow {
         height: 0;
@@ -15,5 +21,15 @@
         + .arrow {
 
         }
+    }
+
+    &:hover {
+        background: none;
+    }
+    &:active {
+        box-shadow: none;
+    }
+    &:focus {
+        box-shadow: none;
     }
 }

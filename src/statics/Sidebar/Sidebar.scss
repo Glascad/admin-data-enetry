@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    position: relative;
 
     #sidebar-header {
         background: $dark-blue;
@@ -33,22 +34,36 @@
         }
     }
 
-    #SystemLink {
-        border: none;
+    .DoubleArrow {
+        position: absolute;
+        top: calc(#{$header-height} + #{$x-small});
+        right: 0;
+        height: calc(#{$menu-height} - #{$base-size});
+        width: $menu-height;
+        border-left: 1px solid $rule-color;
+        border-radius: 0;
     }
 
-    .sidebar-toggle {
-        padding: 0;
-        padding-right: $small;
-        align-items: flex-end;
-        border: none;
-    }
-
+    // .sidebar-toggle {
+    //     padding: 0;
+    //     padding-right: $small;
+    //     align-items: flex-end;
+    //     border: none;
+    // }
+    
     &.closed {
-        .sidebar-toggle {
+        .DoubleArrow {
+            z-index: 1;
+            border: none;
+            right: $base_size;
+
             .arrow {
                 transform: rotate(180deg);
             }
+        }
+
+        .NavMenu, span {
+            opacity: 0;
         }
     }
 }

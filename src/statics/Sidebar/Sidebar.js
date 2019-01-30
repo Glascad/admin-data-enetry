@@ -6,14 +6,13 @@ import './Sidebar.scss';
 
 import {
     Link,
-    NavLink,
     withRouter,
 } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 
 import {
-    // DoubleArrow,
+    DoubleArrow,
     NavMenu,
     ApolloWrapper,
 } from '../../components';
@@ -23,8 +22,6 @@ import {
 } from '../../utils';
 
 import routes from '../../routes/routes';
-
-// import SystemLink from './SystemLink';
 
 class Sidebar extends Component {
 
@@ -43,12 +40,8 @@ class Sidebar extends Component {
             },
             props: {
                 location: {
-                    pathname,
                     search,
                 },
-                match: {
-                    url
-                }
             },
             toggle,
         } = this;
@@ -78,19 +71,21 @@ class Sidebar extends Component {
                 {
                     apollo => (
                         <div id="Sidebar" className={open ? "" : "closed"}>
-                            <div id="sidebar-header">
+                            <Link
+                                id="sidebar-header"
+                                to="/"
+                            >
                                 <Logo className="logo" />
                                 <span>GLASCAD</span>
-                            </div>
+                            </Link>
+                            <DoubleArrow
+                                onClick={toggle}
+                            />
                             <NavMenu
                                 {...apollo}
                                 routes={routes}
+                                closed={!open}
                             />
-                            {/* <div className="item sidebar-toggle">
-                            <DoubleArrow
-                            onClick={toggle}
-                            />
-                        </div> */}
                         </div>
                     )
                 }

@@ -15,6 +15,7 @@ function NavMenu({
         search,
     },
     routes = [arguments[0].route].filter(Boolean),
+    closed,
 }) {
     return (
         <div className="NavMenu">
@@ -27,7 +28,7 @@ function NavMenu({
                 <Dropdown
                     key={i}
                     title={name}
-                    open={pathname.includes(path) || undefined}
+                    open={closed === true ? false : pathname.includes(path) || undefined}
                     className={
                         pathname.includes(path) ?
                             'matched'

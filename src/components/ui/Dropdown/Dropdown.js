@@ -23,7 +23,7 @@ export default class Dropdown extends Component {
         open: false
     });
 
-    componentDidUpdate = ({ open }) => {
+    componentDidUpdate = ({ }, { open }) => {
         if (!open && this.props.open === true) this.open();
         if (open && this.props.open === false) this.close();
     }
