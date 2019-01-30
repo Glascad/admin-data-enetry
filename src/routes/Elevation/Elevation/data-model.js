@@ -17,6 +17,22 @@ export default {
                     id: 1,
                     DLO: (300 - (15 * 4)) / 3,
                     infill: undefined,
+                    // bottomFrameId: 1,
+                    // bottomFrame: {
+                    //     nodeId: "sldkfjweoisdfsdffjkxcmlskdnvwieosdfsdfsdf"
+                    // },
+                    // leftFrameId: 2,
+                    // leftFrame: {
+                    //     nodeId: "lskdmcoismewiovnowxvcxcvxceivnwoevinlsdkfmsldkf"
+                    // },
+                    // topFrameId: 6,
+                    // topFrame: {
+                    //     nodeId: "lsdkjfsldkfjioweicmdwevdsvsdsmsokmdlkcmsldkms"
+                    // },
+                    // rightFrameId: 5,
+                    // rightFrame: {
+                    //     nodeId: "lsdkmcwoiemciomewsdvxcvsdomwemsdscdso"
+                    // },
                     containers: [
                         {
                             nodeId: "oeisfodkwjkoefksdjfkksdjfowjefoksdjkf",
@@ -25,7 +41,7 @@ export default {
                             DLO: 100,
                             infill: "glass",
                             bottomFrameId: 1,
-                            bottomFrame:{
+                            bottomFrame: {
                                 nodeId: "sldkfjweoisdfsdffjkxcmlskdnvwieo"
                             },
                             leftFrameId: 2,
@@ -33,11 +49,11 @@ export default {
                                 nodeId: "lskdmcoismewiovnoweivnwoevinlsdkfmsldkf"
                             },
                             topFrameId: 6,
-                            topFrame:{
+                            topFrame: {
                                 nodeId: "lsdkjfsldkfjioweicmdsmsokmdlkcmsldkms"
                             },
                             rightFrameId: 5,
-                            rightFrame:{
+                            rightFrame: {
                                 nodeId: "lsdkmcwoiemciomewomwemsdscdso"
                             },
                             fill: "yellow",
@@ -49,7 +65,7 @@ export default {
                             DLO: undefined,
                             infill: "glass",
                             bottomFrameId: 6,
-                            bottomFrame:{
+                            bottomFrame: {
                                 nodeId: "sldkfjweoifjkxcmlskdnvwieo"
                             },
                             leftFrameId: 2,
@@ -57,11 +73,11 @@ export default {
                                 nodeId: "lskdmcoissdfwecdscdsmewiovnoweivnwoevin"
                             },
                             topFrameId: 3,
-                            topFrame:{
+                            topFrame: {
                                 nodeId: "lsdkjfsldkfjioweicmsdvsdsdfdsvdsmsokmdlkcm"
                             },
                             rightFrameId: 5,
-                            rightFrame:{
+                            rightFrame: {
                                 nodeId: "lsdkmcwoiemciomewomwemolsldkcmsc"
                             },
                             fill: "orange",
@@ -77,6 +93,22 @@ export default {
                     nodeId: "lsdkfjweoifjsdklf",
                     id: 2,
                     DLO: (300 - (15 * 4)) / 3,
+                    // bottomFrameId: 1,
+                    // bottomFrame: {
+                    //     nodeId: "sldkfjwesdfdsfwecdscoifjkxcmlskdnvwieoslkdfj",
+                    // },
+                    // leftFrameId: 5,
+                    // leftFrame: {
+                    //     nodeId: "lskdmcoismewiovsdvdscnoweivnwoevin"
+                    // },
+                    // topFrameId: 7,
+                    // topFrame: {
+                    //     nodeId: "lsdkjfsldkfjsdvasvwevdcwvfvsdsdvsioweicmdsmsokmdlkcm"
+                    // },
+                    // rightFrameId: 4,
+                    // rightFrame: {
+                    //     nodeId: "lsdkmcwoiemcsdvsdsdvcesdcvsvsdvsdiomewomwemo"
+                    // },
                     containers: [
                         {
                             nodeId: "sldkfjswoeijfklsdmflsjeo",
@@ -85,7 +117,7 @@ export default {
                             DLO: 45,
                             infill: "glass",
                             bottomFrameId: 1,
-                            bottomFrame:{
+                            bottomFrame: {
                                 nodeId: "sldkfjweoifjkxcmlskdnvwieoslkdfj",
                             },
                             leftFrameId: 5,
@@ -93,11 +125,11 @@ export default {
                                 nodeId: "lskdmcoismewiovnoweivnwoevin"
                             },
                             topFrameId: 7,
-                            topFrame:{
+                            topFrame: {
                                 nodeId: "lsdkjfsldkfjsdvasfvsdsdvsioweicmdsmsokmdlkcm"
                             },
                             rightFrameId: 4,
-                            rightFrame:{
+                            rightFrame: {
                                 nodeId: "lsdkmcwoiemcsdvsdvsdvsdiomewomwemo"
                             },
                             fill: "orange",
@@ -109,7 +141,7 @@ export default {
                             DLO: 45,
                             infill: "glass",
                             bottomFrameId: 7,
-                            bottomFrame:{
+                            bottomFrame: {
                                 nodeId: "sldkfjweoifjkxsdfsdsdfcmlskdnvwieo"
                             },
                             leftFrameId: 5,
@@ -117,11 +149,11 @@ export default {
                                 nodeId: "lskdmcoismewiovnoweivnwoevin"
                             },
                             topFrameId: 3,
-                            topFrame:{
+                            topFrame: {
                                 nodeId: "lsdkjfssdvsvsvldkfjisccoweicmdsmsokmdlkcm"
                             },
                             rightFrameId: 4,
-                            rightFrame:{
+                            rightFrame: {
                                 nodeId: "lsdkmcwoisdvsdvsdvemciomewomwemo"
                             },
                             fill: "red",
@@ -152,9 +184,25 @@ export default {
                 elevationId: 1,
                 containerId: 7,
                 container: {
-                    nodeId:"sldkmcslkmsdknlsdknviweonisd",
+                    nodeId: "sldkmcslkmsdknlsdknviweonisd",
                     id: 3,
                     DLO: undefined,
+                    // bottomFrameId: 1,
+                    // bottomFrame: {
+                    //     nodeId: "sldkfjweoifjkxsdcwevvdscmlskdnvwieoslkdfj",
+                    // },
+                    // leftFrameId: 5,
+                    // leftFrame: {
+                    //     nodeId: "lskdmcoismewidvddrefovnoweivnwoevin"
+                    // },
+                    // topFrameId: 7,
+                    // topFrame: {
+                    //     nodeId: "lsdkjfsldkfjsdvasdfbefcddsfvsdsdvsioweicmdsmsokmdlkcm"
+                    // },
+                    // rightFrameId: 4,
+                    // rightFrame: {
+                    //     nodeId: "lsdkmcwoiemcsdvsddvwesdfvsdvsdiomewomwemo"
+                    // },
                     containers: [
                         {
                             nodeId: "slkdfsmclkdsdfsdc",

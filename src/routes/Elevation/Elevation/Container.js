@@ -2,9 +2,6 @@ import React from 'react';
 
 import Frame from './Frame';
 
-var PROTECTION = 30;
-
-
 export default function Container({
     nestLevel = 1,
     horizontal,
@@ -40,12 +37,9 @@ export default function Container({
     nodeId,
     selectedNID,
     handleSelect,
-    ...props
 }) {
 
     console.log(arguments[0]);
-
-    if (PROTECTION-- < 0) return null;
 
     const leftFrame = {
         origin,
@@ -129,36 +123,40 @@ export default function Container({
                 fill={fill}
             /> */}
             {leftNID ? (
-            <Frame
-                {...leftFrame}
-                nodeId={leftNID}
-                className="left-frame"
-                handleSelect={handleSelect}
-            />
+                <Frame
+                    {...leftFrame}
+                    nodeId={leftNID || "leftNID"}
+                    className="left-frame"
+                    handleSelect={handleSelect}
+                    selectedNID={selectedNID}
+                />
             ) : null}
             {rightNID ? (
-            <Frame
-                {...rightFrame}
-                nodeId={rightNID}
-                className="right-frame"
-                handleSelect={handleSelect}
-            />
+                <Frame
+                    {...rightFrame}
+                    nodeId={rightNID || "rightNID"}
+                    className="right-frame"
+                    handleSelect={handleSelect}
+                    selectedNID={selectedNID}
+                />
             ) : null}
             {topNID ? (
-            <Frame
-                {...topFrame}
-                nodeId={topNID}
-                className="top-frame"
-                handleSelect={handleSelect}
-            />
+                <Frame
+                    {...topFrame}
+                    nodeId={topNID || "topNID"}
+                    className="top-frame"
+                    handleSelect={handleSelect}
+                    selectedNID={selectedNID}
+                />
             ) : null}
             {bottomNID ? (
-            <Frame
-                {...bottomFrame}
-                nodeId={bottomNID}
-                className="bottom-frame"
-                handleSelect={handleSelect}
-            />
+                <Frame
+                    {...bottomFrame}
+                    nodeId={bottomNID || "bottomNID"}
+                    className="bottom-frame"
+                    handleSelect={handleSelect}
+                    selectedNID={selectedNID}
+                />
             ) : null}
             {/* ORIGIN */}
             <circle

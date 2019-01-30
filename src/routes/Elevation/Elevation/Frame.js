@@ -34,7 +34,7 @@ export default function Frame({
     handleSelect,
     ...props
 }) {
-    console.log({ nodeId });
+    console.log({ nodeId, selectedNID });
     return (
         <path
             className={`Frame ${

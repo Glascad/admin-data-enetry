@@ -22,7 +22,7 @@ class Elevation extends Component {
                     nodeId,
                     hzRO,
                     vtRO,
-                    elevationContainers,
+                    elevationContainers = [],
                     sightline,
                 },
             },

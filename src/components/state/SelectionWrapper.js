@@ -37,7 +37,7 @@ export default class SelectionWrapper extends Component {
         deleting: false,
     }));
 
-    handleSelect = ({ arguments: { nodeId } }) => console.log({ nodeId }) || this.setState({
+    handleSelect = ({ arguments: { nodeId } }) => nodeId !== this.state.selectedNID && this.setState({
         selectedNID: nodeId,
         creating: false,
         deleting: false,
