@@ -413,3 +413,41 @@ system_configuration_overrides(
         configuration_type_id
     )
 );
+
+
+-- ELEVATIONS
+
+CREATE TABLE
+elevations(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    horizontal_rough_opening FLOAT,
+    vertical_rough_opening FLOAT
+);
+
+CREATE TABLE
+frames(
+    id SERIAL PRIMARY KEY
+);
+
+CREATE TABLE
+containers(
+    id SERIAL PRIMARY KEY,
+    size FLOAT,
+    left_frame_id INTEGER REFERENCES frames,
+    right_frame_id INTEGER REFERENCES frames,
+    top_frame_id INTEGER REFERENCES frames,
+    bottom_frame_id INTEGER REFERENCES frames
+);
+
+ALTER TABLE
+containers
+ADD COLUMN
+parent_container_id INTEGER REFERENCES containers;
+
+CREATE TABLE
+elevation_containers(
+    elevation_id INTEGER REFERENCES elevations,
+    container_id INTEGER REFERENCES containers,
+    PRIMARY KEY (elevation_id, container_id)
+);

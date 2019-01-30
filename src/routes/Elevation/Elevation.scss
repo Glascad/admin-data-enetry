@@ -27,18 +27,11 @@
                 border: 2px solid olivedrab;
             }
         }
-        // &:hover {
-        //     > circle, > .Frame {
-        //         // fill: purple;
-        //     }
-            .Container {
-                &:hover {
-                    > circle, > .Frame {
-                        fill: blue;
-                        z-index: 6 !important;
-                    }
-                }
+        &:hover {
+            > .Frame {
+                fill: blue;
+                z-index: 6 !important;
             }
-        // }
+        }
     }
 }
