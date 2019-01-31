@@ -1,50 +1,50 @@
 import React, { Component, createRef } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import ButtonTile from '../ButtonTile/ButtonTile';
 
 export default class Pill extends Component {
 
-    static propTypes = {
-        type: PropTypes.oneOf([
-            'pill',
-            'tile'
-        ]),
-        inputValue: PropTypes.any,
-        // BOOLEANS
-        selected: PropTypes.bool,
-        editing: PropTypes.bool,
-        default: PropTypes.bool,
-        danger: PropTypes.bool,
-        disabled: PropTypes.bool,
-        // STRINGS
-        inputType: PropTypes.string,
-        align: PropTypes.oneOf([
-            'left',
-            'right',
-            'center'
-        ]),
-        tagname: PropTypes.string,
-        title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]),
-        subtitle: PropTypes.string,
-        // CONTENT
-        children: PropTypes.any,
-        // HOVER BUTTONS
-        hoverButtons: PropTypes.arrayOf(PropTypes.object),
-        // CALLBACKS
-        onSelect: PropTypes.func,
-        onDisabledSelect: PropTypes.func,
-        onBlur: PropTypes.func,
-        onEdit: PropTypes.func,
-        onDrag: PropTypes.func,
-        onDrop: PropTypes.func,
-        // STYLES
-        style: PropTypes.object,
-    };
+    // static propTypes = {
+    //     type: PropTypes.oneOf([
+    //         'pill',
+    //         'tile'
+    //     ]),
+    //     inputValue: PropTypes.any,
+    //     // BOOLEANS
+    //     selected: PropTypes.bool,
+    //     editing: PropTypes.bool,
+    //     default: PropTypes.bool,
+    //     danger: PropTypes.bool,
+    //     disabled: PropTypes.bool,
+    //     // STRINGS
+    //     inputType: PropTypes.string,
+    //     align: PropTypes.oneOf([
+    //         'left',
+    //         'right',
+    //         'center'
+    //     ]),
+    //     tagname: PropTypes.string,
+    //     title: PropTypes.oneOfType([
+    //         PropTypes.string,
+    //         PropTypes.number,
+    //     ]),
+    //     subtitle: PropTypes.string,
+    //     // CONTENT
+    //     children: PropTypes.any,
+    //     // HOVER BUTTONS
+    //     hoverButtons: PropTypes.arrayOf(PropTypes.object),
+    //     // CALLBACKS
+    //     onSelect: PropTypes.func,
+    //     onDisabledSelect: PropTypes.func,
+    //     onBlur: PropTypes.func,
+    //     onEdit: PropTypes.func,
+    //     onDrag: PropTypes.func,
+    //     onDrop: PropTypes.func,
+    //     // STYLES
+    //     style: PropTypes.object,
+    // };
 
     state = {
         editing: this.props.editing || false,

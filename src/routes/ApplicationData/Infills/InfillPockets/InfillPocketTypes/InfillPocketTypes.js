@@ -35,7 +35,7 @@ export default function InfillPocketTypes() {
                         mapPillProps={({ type }) => ({
                             title: type
                         })}
-                        onCreate={({ }, { input }) => createInfillPocketType({
+                        onCreate={(_, { input }) => createInfillPocketType({
                             type: input,
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateInfillPocketType({

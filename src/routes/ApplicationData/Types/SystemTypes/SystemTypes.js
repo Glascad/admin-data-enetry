@@ -3,7 +3,6 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-    HeadedContainer,
     Input,
 } from '../../../../components';
 
@@ -40,7 +39,7 @@ export default function SystemTypes() {
                         mapPillProps={({ type }) => ({
                             title: type,
                         })}
-                        onCreate={({ }, { input }) => createSystemType({
+                        onCreate={(_, { input }) => createSystemType({
                             type: input,
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemType({

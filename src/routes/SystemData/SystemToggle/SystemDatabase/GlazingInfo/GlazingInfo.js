@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
     Input,
-    HeadedContainer,
     ListWrapper,
 } from '../../../../../components';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
@@ -63,14 +62,13 @@ export default function GlazingInfo({
                 })}
                 onCreate={infillSize => createSystemInfillSize({
                     systemId,
-                    infillSize: infillSize.size,
+                    // infillSize: infillSize.size,
                     infillSize: infillSize,
                 })}
-
                 onDelete={({ systemInfillSizeNID, ...infillSize }) => deleteSystemInfillSize({
                     nodeId: systemInfillSizeNID,
                     systemId,
-                    infillSize: infillSize.size,
+                    // infillSize: infillSize.size,
                     infillSize: infillSize,
                 })}
             />

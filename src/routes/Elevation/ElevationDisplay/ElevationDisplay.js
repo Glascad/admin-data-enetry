@@ -8,6 +8,8 @@ import {
 
 import query from '../elevation-graphql/query';
 
+import data from './data-model';
+
 export default function ElevationDisplay() {
     return (
         <SelectionWrapper>
@@ -16,20 +18,20 @@ export default function ElevationDisplay() {
                 handleSelect,
             }) => (
                     <ApolloBatcher
-                        query={{query}}
+                        query={{ query }}
                     >
                         {({
                             queryStatus,
                             queryStatus: {
-                                elevation,
+                                elevation = data.elevation,
                                 elevation: {
                                     nodeId,
                                     hzRO,
                                     vtRO,
                                     elevationContainers = [],
                                     sightline,
-                                } = {},
-                            } = {},
+                                } = data.elevation,
+                            } = data,
                             mutations: {
 
                             } = {},
@@ -42,8 +44,10 @@ export default function ElevationDisplay() {
                                 >
                                     {console.log(queryStatus)}
                                     <Container
-                                        origin={[0, 0]}
-                                        corner={[hzRO, vtRO]}
+                                        x={0}
+                                        y={0}
+                                        height={vtRO}
+                                        width={hzRO}
                                         childContainers={elevationContainers.map(({ container }) => container)}
                                         sightline={sightline}
                                         horizontal={true}

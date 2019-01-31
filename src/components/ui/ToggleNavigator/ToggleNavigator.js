@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
     withRouter,
-    NavLink,
+    // NavLink,
 } from 'react-router-dom';
 
 import Toggle from '../Toggle/Toggle';

@@ -1,37 +1,18 @@
 
 @import '../../styles/variables';
 
-.Elevation {
-    .selected {
-        background: orange !important;
-        fill: orangered !important;
+.ElevationDisplay {
+    .infill {
+        fill: rgba(0, 127, 255, 0.25);
     }
-    .Container {
-        .Frame {
-            fill: rgba(255, 0, 0, 0.25);
 
-            &.top-frame {
-                // fill: orangered;
-            }
-            &.bottom-frame {
-                // fill: rosybrown;
-            }
-            &.left-frame {
-                // fill: blanchedalmond;
-            }
-            &.right-frame {
-                // fill: darkgoldenrod;
-            }
-            &:hover {
-                // fill: darkblue !important;
-                border: 2px solid olivedrab;
-            }
-        }
-        &:hover {
-            > .Frame {
-                fill: blue;
-                z-index: 6 !important;
-            }
-        }
+    .member {
+        fill: rgba(255, 255, 255, 0.25);
+        stroke: black;
+    }
+    
+    .selected {
+        background: orange;
+        fill: orangered;
     }
 }

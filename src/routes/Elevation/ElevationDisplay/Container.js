@@ -1,17 +1,21 @@
 import React from 'react';
 
-import Frame from './Frame';
+const select = (handleSelect, nodeId) => e => {
+    e.stopPropagation();
+    handleSelect({ arguments: { nodeId } });
+}
 
 export default function Container({
     nestLevel = 1,
     horizontal,
-    origin,
-    origin: [ox, oy],
-    corner,
-    corner: [cx, cy],
+    x,
+    y,
+    width,
+    height,
     sightline,
+    infill,
     childContainers = [],
-    framesToRender: {
+    membersToRender: {
         left = false,
         right = false,
         top = false,
@@ -22,16 +26,16 @@ export default function Container({
         top: true,
         bottom: true,
     },
-    leftFrame: {
+    leftMember: {
         nodeId: leftNID,
     } = {},
-    rightFrame: {
+    rightMember: {
         nodeId: rightNID,
     } = {},
-    topFrame: {
+    topMember: {
         nodeId: topNID,
     } = {},
-    bottomFrame: {
+    bottomMember: {
         nodeId: bottomNID,
     } = {},
     nodeId,
@@ -41,121 +45,126 @@ export default function Container({
 
     console.log(arguments[0]);
 
-    const leftFrame = {
-        origin,
-        corner: [ox + sightline, cy],
+    const leftMember = {
+        x,
+        y,
+        height,
+        width: sightline,
     };
 
-    const rightFrame = {
-        origin: [cx - sightline, oy],
-        corner,
+    const rightMember = {
+        ...leftMember,
+        x: x + width - sightline,
     };
 
-    const topFrame = {
-        origin: [ox + sightline, cy - sightline],
-        corner: [cx - sightline, cy],
+    const topMember = {
+        x: x + sightline,
+        y: y + height - sightline,
+        width: width - sightline * 2,
+        height: sightline,
     };
 
-    const bottomFrame = {
-        origin: [ox + sightline, oy],
-        corner: [cx - sightline, oy + sightline],
+    const bottomMember = {
+        ...topMember,
+        y,
     };
 
     const placedChildren = horizontal ?
         childContainers.map((container, i, arr) => ({
-            origin: [
+            x: arr
+                .slice(0, i)
+                .reduce((sum, { DLO }) => sum + DLO + sightline, x),
+            y,
+            height,
+            width: container.DLO === undefined ?
                 arr
                     .slice(0, i)
-                    .reduce((sum, { DLO }) => sum + DLO + sightline,
-                        ox),
-                oy,
-            ],
-            corner: i === arr.length - 1 ?
-                corner
+                    .reduce((total, { DLO }) => total - sightline - DLO, width)
                 :
-                [
-                    arr
-                        .slice(0, i)
-                        .reduce((sum, { DLO }) => sum + DLO + sightline,
-                            ox + container.DLO + sightline * 2),
-                    cy,
-                ],
+                container.DLO + sightline * 2,
             container,
         }))
         :
         childContainers.map((container, i, arr) => ({
-            origin: [
-                ox,
+            x,
+            y: arr
+                .slice(0, i)
+                .reduce((sum, { DLO }) => sum + DLO + sightline, y),
+            height: container.DLO === undefined ?
                 arr
                     .slice(0, i)
-                    .reduce((sum, { DLO }) => sum + DLO + sightline,
-                        oy),
-            ],
-            corner: i === arr.length - 1 ?
-                corner
+                    .reduce((total, { DLO }) => total - sightline - DLO, height)
                 :
-                [
-                    cx,
-                    arr
-                        .slice(0, i)
-                        .reduce((sum, { DLO }) => sum + DLO + sightline,
-                            oy + container.DLO + sightline * 2),
-                ],
+                container.DLO + sightline * 2,
             container,
-        }));
+            width,
+        }))
 
     return (
         <g
             className={`Container ${nodeId === selectedNID ? 'selected' : ''}`}
-            onClick={e => {
-                e.stopPropagation();
-                console.log(e.target);
-                console.log({ nodeId });
-                handleSelect({ arguments: { nodeId } });
-            }}
-        // style={{
-        //     opacity: 1 / nestLevel,
-        // }}
         >
-            {/* <Frame
-                origin={origin}
-                corner={corner}
-                fill={fill}
-            /> */}
+            {!childContainers.length ? (
+                <rect
+                    className={`infill ${
+                        selectedNID === nodeId ?
+                            "selected"
+                            :
+                            ""
+                        }`}
+                    x={x + sightline}
+                    y={y + sightline}
+                    height={height - sightline * 2}
+                    width={width - sightline * 2}
+                    onClick={select(handleSelect, nodeId)}
+                />
+            ) : null}
             {leftNID ? (
-                <Frame
-                    {...leftFrame}
-                    nodeId={leftNID || "leftNID"}
-                    className="left-frame"
-                    handleSelect={handleSelect}
-                    selectedNID={selectedNID}
+                <rect
+                    {...leftMember}
+                    className={`member ${
+                        selectedNID === leftNID ?
+                            "selected"
+                            :
+                            ""
+                        }`}
+                    onClick={select(handleSelect, leftNID)}
                 />
             ) : null}
             {rightNID ? (
-                <Frame
-                    {...rightFrame}
-                    nodeId={rightNID || "rightNID"}
-                    className="right-frame"
-                    handleSelect={handleSelect}
-                    selectedNID={selectedNID}
+                <rect
+                    {...rightMember}
+                    className={`member ${
+                        selectedNID === rightNID ?
+                            "selected"
+                            :
+                            ""
+                        }`}
+                    onClick={select(handleSelect, rightNID)}
                 />
             ) : null}
             {topNID ? (
-                <Frame
-                    {...topFrame}
-                    nodeId={topNID || "topNID"}
-                    className="top-frame"
-                    handleSelect={handleSelect}
-                    selectedNID={selectedNID}
+                <rect
+                    {...topMember}
+                    className={`member ${
+                        selectedNID === topNID ?
+                            "selected"
+                            :
+                            ""
+                        }`}
+                    onClick={select(handleSelect, topNID)}
                 />
             ) : null}
             {bottomNID ? (
-                <Frame
-                    {...bottomFrame}
-                    nodeId={bottomNID || "bottomNID"}
-                    className="bottom-frame"
-                    handleSelect={handleSelect}
-                    selectedNID={selectedNID}
+                <rect
+                    {...bottomMember}
+                    className={`member ${
+                        selectedNID === bottomNID ?
+                            "selected"
+                            :
+                            ""
+                        }`}
+                    onClick={select(handleSelect, bottomNID)}
                 />
             ) : null}
             {/* ORIGIN */}
@@ -164,10 +173,9 @@ export default function Container({
                 cy="0"
                 r="5"
                 fill="rgba(0, 0, 0, 0.25)"
-                stroke="black"
             />
             {/* OFFSET ORIGIN */}
-            <circle
+            {/* <circle
                 cx={ox}
                 cy={oy}
                 r="5"
@@ -180,14 +188,13 @@ export default function Container({
                 r="5"
                 fill={`rgba(0, 255, 0, ${1 / nestLevel})`}
                 stroke="green"
-            />
-            {placedChildren.map(({ container, container: { nodeId, containers }, origin, corner }, i) => (
+            /> */}
+            {placedChildren.map(({ container, container: { nodeId, containers }, ...coordinates }, i) => (
                 <Container
                     {...container}
+                    {...coordinates}
                     nodeId={nodeId}
                     key={nodeId || i}
-                    origin={origin}
-                    corner={corner}
                     horizontal={!horizontal}
                     sightline={sightline}
                     childContainers={containers}
@@ -213,7 +220,7 @@ export default function Container({
                     childContainers={container.containers}
                     sightline={sightline}
                     horizontal={!horizontal}
-                    framesToRender={{
+                    membersToRender={{
                         right: horizontal ?
                             i < length - 1
                             :

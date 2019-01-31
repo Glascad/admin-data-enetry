@@ -6,7 +6,6 @@ import CopySystem from './CopySystem/CopySystem';
 import {
     ApolloBatcher,
     TabNavigator,
-    ApolloWrapper,
 } from '../../../components';
 
 import query from './new-system-graphql/query';

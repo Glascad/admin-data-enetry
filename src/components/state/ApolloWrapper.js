@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 
 import {
@@ -40,13 +40,13 @@ const normalizeResponse = ({ data }) => removeNullValues(
 
 export default class ApolloWrapper extends Component {
 
-    static propTypes = {
-        query: PropTypes.shape({
-            query: PropTypes.object.isRequired,
-            variables: PropTypes.object,
-        }),
-        mutations: PropTypes.objectOf(PropTypes.object),
-    };
+    // static propTypes = {
+    //     query: PropTypes.shape({
+    //         query: PropTypes.object.isRequired,
+    //         variables: PropTypes.object,
+    //     }),
+    //     mutations: PropTypes.objectOf(PropTypes.object),
+    // };
 
     render = () => {
         const {
@@ -144,7 +144,7 @@ export default class ApolloWrapper extends Component {
                                             args => batchMutation({
                                                     arguments: {
                                                         ...args,
-                                                        nodeId: args && args.nodeId || getNodeId(),
+                                                        nodeId: (args && args.nodeId) || getNodeId(),
                                                     },
                                                     mutate,
                                                     mutationKey: mutationKeys[0],

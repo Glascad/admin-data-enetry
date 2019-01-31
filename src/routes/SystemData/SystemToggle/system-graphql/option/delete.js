@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import query from '../query';
 
 export default {
     mutation: gql`mutation DeleteInvalidSystemConfigurationType(

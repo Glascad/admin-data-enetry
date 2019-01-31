@@ -3,7 +3,6 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-    HeadedContainer,
 } from '../../../../components';
 
 import {
@@ -18,7 +17,6 @@ import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function InfillSizes() {
     return (
-        // "Infill Sizes"
         <ApolloWrapper
             query={query}
             mutations={mutations}
@@ -47,7 +45,7 @@ export default function InfillSizes() {
                             mapPillProps={({ size }) => ({
                                 title: size
                             })}
-                            onCreate={({ }, { input }) => createInfillSize({
+                            onCreate={(_, { input }) => createInfillSize({
                                 size: input,
                             })}
                             onDelete={({ arguments: { nodeId } }) => deleteInfillSize({

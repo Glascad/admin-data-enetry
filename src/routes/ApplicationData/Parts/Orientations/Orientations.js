@@ -29,7 +29,7 @@ export default function Orientations() {
                         mapPillProps={({ orientation }) => ({
                             title: orientation
                         })}
-                        onCreate={({ }, { input }) => createOrientation({
+                        onCreate={(_, { input }) => createOrientation({
                             orientation: input
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateOrientation({

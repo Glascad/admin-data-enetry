@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './AddButton.scss';
 import ButtonTile from '../ButtonTile/ButtonTile';
 
 export default class AddButton extends Component {
 
-    static propTypes = {
-        type: PropTypes.oneOf([
-            'small',
-            'large',
-            'input'
-        ]),
-        text: PropTypes.string,
-        inputType: PropTypes.string,
-        onAdd: PropTypes.func.isRequired,
-        onBlur: PropTypes.func,
-        otherButtons: PropTypes.arrayOf(PropTypes.object)
-    };
+    // static propTypes = {
+    //     type: PropTypes.oneOf([
+    //         'small',
+    //         'large',
+    //         'input'
+    //     ]),
+    //     text: PropTypes.string,
+    //     inputType: PropTypes.string,
+    //     onAdd: PropTypes.func.isRequired,
+    //     onBlur: PropTypes.func,
+    //     otherButtons: PropTypes.arrayOf(PropTypes.object)
+    // };
 
     state = {
         editing: false

@@ -3,7 +3,6 @@ import {
     ApolloWrapper,
     ListWrapper,
     Input,
-    HeadedContainer,
 } from '../../../../components';
 
 import * as apolloProps from './detail-types-graphql';
@@ -30,7 +29,7 @@ export default function DetailTypes() {
                         mapPillProps={({ type }) => ({
                             title: type
                         })}
-                        onCreate={({ }, { input }) => createDetailType({
+                        onCreate={(_, { input }) => createDetailType({
                             type: input
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateDetailType({

@@ -39,7 +39,7 @@ export default function Linetypes() {
                         mapPillProps={({ name }) => ({
                             title: name
                         })}
-                        onCreate={({ }, { input }) => createLinetype({
+                        onCreate={(_, { input }) => createLinetype({
                             name: input,
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateLinetype({

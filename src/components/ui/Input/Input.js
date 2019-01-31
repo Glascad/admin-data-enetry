@@ -30,7 +30,6 @@ export default class Input extends Component {
 
     render = () => {
         const {
-            props: allProps,
             props: {
                 tagname = "div",
                 label,

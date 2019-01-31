@@ -9,76 +9,76 @@ export default {
         sightline: 10,
         elevationContainers: [
             {
-                nodeId: "sldkfjsldkfjlskdjflskdjflskdfj",
+                nodeId: "sldkfjsldkfjlskdjflsdvcwevskdjflskdfj",
                 elevationId: 1,
                 containerId: 1,
                 container: {
-                    nodeId: "weoiuweoiruwoieruwoeiurwoiru",
+                    nodeId: "weoiuweoiruwoieruwrtnboeiurwoiru",
                     id: 1,
                     DLO: (300 - (15 * 4)) / 3,
                     infill: undefined,
-                    // bottomFrameId: 1,
-                    // bottomFrame: {
-                    //     nodeId: "sldkfjweoisdfsdffjkxcmlskdnvwieosdfsdfsdf"
-                    // },
-                    // leftFrameId: 2,
-                    // leftFrame: {
-                    //     nodeId: "lskdmcoismewiovnowxvcxcvxceivnwoevinlsdkfmsldkf"
-                    // },
-                    // topFrameId: 6,
-                    // topFrame: {
-                    //     nodeId: "lsdkjfsldkfjioweicmdwevdsvsdsmsokmdlkcmsldkms"
-                    // },
-                    // rightFrameId: 5,
-                    // rightFrame: {
-                    //     nodeId: "lsdkmcwoiemciomewsdvxcvsdomwemsdscdso"
-                    // },
+                    bottomMemberId: 1,
+                    bottomMember: {
+                        nodeId: "sldkfjweoisdfsdffjkxerbncmlskdnvwieosdfsdfsdf"
+                    },
+                    leftMemberId: 2,
+                    leftMember: {
+                        nodeId: "lskdmcoismewiovnowxvcxcvxcetymmrivnwoevinlsdkfmsldkf"
+                    },
+                    topMemberId: 6,
+                    topMember: {
+                        nodeId: "lsdkjfsldkfjioweicmdwevdsvsynfgdsmsokmdlkcmsldkms"
+                    },
+                    rightMemberId: 5,
+                    rightMember: {
+                        nodeId: "lsdkmcwoiemciomewsdvxcvsdomweerbngnemsdscdso"
+                    },
                     containers: [
                         {
-                            nodeId: "oeisfodkwjkoefksdjfkksdjfowjefoksdjkf",
+                            nodeId: "oeisfodkwjkoefksdjfkksdjfowjeerbebwgwfoksdjkf",
                             id: 4,
                             parentContainerId: 1,
                             DLO: 100,
                             infill: "glass",
-                            bottomFrameId: 1,
-                            bottomFrame: {
-                                nodeId: "sldkfjweoisdfsdffjkxcmlskdnvwieo"
+                            bottomMemberId: 1,
+                            bottomMember: {
+                                nodeId: "sldkfjweoisdfsdfwethytfjkxcmlskdnvwieo"
                             },
-                            leftFrameId: 2,
-                            leftFrame: {
-                                nodeId: "lskdmcoismewiovnoweivnwoevinlsdkfmsldkf"
+                            leftMemberId: 2,
+                            leftMember: {
+                                nodeId: "lskdmcoismewiovnoweityjyignvnwoevinlsdkfmsldkf"
                             },
-                            topFrameId: 6,
-                            topFrame: {
-                                nodeId: "lsdkjfsldkfjioweicmdsmsokmdlkcmsldkms"
+                            topMemberId: 6,
+                            topMember: {
+                                nodeId: "lsdkjfsldkfjioweicmdsmsuilukhjokmdlkcmsldkms"
                             },
-                            rightFrameId: 5,
-                            rightFrame: {
-                                nodeId: "lsdkmcwoiemciomewomwemsdscdso"
+                            rightMemberId: 5,
+                            rightMember: {
+                                nodeId: "lsdkmcwoiemciomewomweyuiuyhnhffmsdscdso"
                             },
                             fill: "yellow",
                         },
                         {
-                            nodeId: "lskdjfwoiejklfweoif",
+                            nodeId: "lskdjfwoiejklfwertenrtfboif",
                             id: 5,
                             parentContainerId: 1,
                             DLO: undefined,
                             infill: "glass",
-                            bottomFrameId: 6,
-                            bottomFrame: {
-                                nodeId: "sldkfjweoifjkxcmlskdnvwieo"
+                            bottomMemberId: 6,
+                            bottomMember: {
+                                nodeId: "sldkfjweoifjkxcmlfbgnrtnrtskdnvwieo"
                             },
-                            leftFrameId: 2,
-                            leftFrame: {
-                                nodeId: "lskdmcoissdfwecdscdsmewiovnoweivnwoevin"
+                            leftMemberId: 2,
+                            leftMember: {
+                                nodeId: "lskdmcoissdfwecdscdsmewt34hrhtbwiovnoweivnwoevin"
                             },
-                            topFrameId: 3,
-                            topFrame: {
-                                nodeId: "lsdkjfsldkfjioweicmsdvsdsdfdsvdsmsokmdlkcm"
+                            topMemberId: 3,
+                            topMember: {
+                                nodeId: "lsdkjfsldkfjioweicmsdvsdsdbfcvbnjtdfdsvdsmsokmdlkcm"
                             },
-                            rightFrameId: 5,
-                            rightFrame: {
-                                nodeId: "lsdkmcwoiemciomewomwemolsldkcmsc"
+                            rightMemberId: 5,
+                            rightMember: {
+                                nodeId: "lsdkmcwoiemciomewomwemolslddhgngrhtbgfkcmsc"
                             },
                             fill: "orange",
                         },
@@ -86,51 +86,51 @@ export default {
                 },
             },
             {
-                nodeId: "sldkjsldkfjlskfjslkfjewifj",
+                nodeId: "sldkjsldkfjlskfjslkfgnfgdvbetnefjewifj",
                 elevationId: 1,
                 containerId: 2,
                 container: {
-                    nodeId: "lsdkfjweoifjsdklf",
+                    nodeId: "lsdkfjweoifewtwegrjsdklf",
                     id: 2,
                     DLO: (300 - (15 * 4)) / 3,
-                    // bottomFrameId: 1,
-                    // bottomFrame: {
-                    //     nodeId: "sldkfjwesdfdsfwecdscoifjkxcmlskdnvwieoslkdfj",
-                    // },
-                    // leftFrameId: 5,
-                    // leftFrame: {
-                    //     nodeId: "lskdmcoismewiovsdvdscnoweivnwoevin"
-                    // },
-                    // topFrameId: 7,
-                    // topFrame: {
-                    //     nodeId: "lsdkjfsldkfjsdvasvwevdcwvfvsdsdvsioweicmdsmsokmdlkcm"
-                    // },
-                    // rightFrameId: 4,
-                    // rightFrame: {
-                    //     nodeId: "lsdkmcwoiemcsdvsdsdvcesdcvsvsdvsdiomewomwemo"
-                    // },
+                    bottomMemberId: 1,
+                    bottomMember: {
+                        nodeId: "sldkfjwesdfdsfwecdscoifjwetgdcbgnmkxcmlskdnvwieoslkdfj",
+                    },
+                    leftMemberId: 5,
+                    leftMember: {
+                        nodeId: "lskdmcoismewiovsdvdscnoweivnuyjkiluoiwoevin"
+                    },
+                    topMemberId: 7,
+                    topMember: {
+                        nodeId: "lsdkjfsldkfjsdvghkiuasvwevdcwvfvsdsdvsioweicmdsmsokmdlkcm"
+                    },
+                    rightMemberId: 4,
+                    rightMember: {
+                        nodeId: "lsdkmcwgkhliukjhnoiemcsdvsdsdvcesdcvsvsdvsdiomewomwemo"
+                    },
                     containers: [
                         {
-                            nodeId: "sldkfjswoeijfklsdmflsjeo",
+                            nodeId: "sldkfjswm,ukjhnoeijfklsdmflsjeo",
                             id: 6,
                             parentContainerId: 2,
                             DLO: 45,
                             infill: "glass",
-                            bottomFrameId: 1,
-                            bottomFrame: {
-                                nodeId: "sldkfjweoifjkxcmlskdnvwieoslkdfj",
+                            bottomMemberId: 1,
+                            bottomMember: {
+                                nodeId: "sldkfjweoifjkxcmlskdnuioiuijhmvwieoslkdfj",
                             },
-                            leftFrameId: 5,
-                            leftFrame: {
-                                nodeId: "lskdmcoismewiovnoweivnwoevin"
+                            leftMemberId: 5,
+                            leftMember: {
+                                nodeId: "lskdmcoismewiovnoweivnwmhj,klokijuhnoevin"
                             },
-                            topFrameId: 7,
-                            topFrame: {
-                                nodeId: "lsdkjfsldkfjsdvasfvsdsdvsioweicmdsmsokmdlkcm"
+                            topMemberId: 7,
+                            topMember: {
+                                nodeId: "lsdkjfsldkfjsdvasfvsdsdvsimjhgbnmoweicmdsmsokmdlkcm"
                             },
-                            rightFrameId: 4,
-                            rightFrame: {
-                                nodeId: "lsdkmcwoiemcsdvsdvsdvsdiomewomwemo"
+                            rightMemberId: 4,
+                            rightMember: {
+                                nodeId: "lsdkmcwoiemcsdvsdvsdvsdityjmhjng bvomewomwemo"
                             },
                             fill: "orange",
                         },
@@ -140,21 +140,21 @@ export default {
                             parentContainerId: 2,
                             DLO: 45,
                             infill: "glass",
-                            bottomFrameId: 7,
-                            bottomFrame: {
-                                nodeId: "sldkfjweoifjkxsdfsdsdfcmlskdnvwieo"
+                            bottomMemberId: 7,
+                            bottomMember: {
+                                nodeId: "sldkfjweoifjkxsdfsdsdftyjgnhb cmlskdnvwieo"
                             },
-                            leftFrameId: 5,
-                            leftFrame: {
-                                nodeId: "lskdmcoismewiovnoweivnwoevin"
+                            leftMemberId: 5,
+                            leftMember: {
+                                nodeId: "lskdmcoismewiovnoweivmjyhgtnwoevin"
                             },
-                            topFrameId: 3,
-                            topFrame: {
-                                nodeId: "lsdkjfssdvsvsvldkfjisccoweicmdsmsokmdlkcm"
+                            topMemberId: 3,
+                            topMember: {
+                                nodeId: "lsdkjfssdvsvsvlrthgnbgvvdkfjisccoweicmdsmsokmdlkcm"
                             },
-                            rightFrameId: 4,
-                            rightFrame: {
-                                nodeId: "lsdkmcwoisdvsdvsdvemciomewomwemo"
+                            rightMemberId: 4,
+                            rightMember: {
+                                nodeId: "lsdkmcwoisdvsdvsdvemmjhytrgfvciomewomwemo"
                             },
                             fill: "red",
                         },
@@ -163,83 +163,83 @@ export default {
                             id: 10,
                             parentContainerId: 2,
                             DLO: undefined,
-                            bottomFrame: {
-                                nodeId: "sldkfjweoifjkdsfsdfsxsdfsdsdfcmlskdnvwieo"
+                            bottomMember: {
+                                nodeId: "sldkfjweoifjkdsfsdfsxsngfhmdfsdsdfcmlskdnvwieo"
                             },
-                            leftFrame: {
-                                nodeId: "lskdmcoismewiovnowefesdxcweivnwoevin"
+                            leftMember: {
+                                nodeId: "lskdmcoismewiovnowefesgnh bgdxcweivnwoevin"
                             },
-                            topFrame: {
-                                nodeId: "lsdkjfssdvsvsvldkfjxcvxisccoweicmdsmsokmdlkcm"
+                            topMember: {
+                                nodeId: "lsdkjfssdvsvsvldkfjxcvxifgnfbsccoweicmdsmsokmdlkcm"
                             },
-                            rightFrame: {
-                                nodeId: "lsdkmcwoisdvsdvsdsdfwevemciomewomwemo"
+                            rightMember: {
+                                nodeId: "lsdkmcwoisdvsdvsdsdfwfgnfevemciomewomwemo"
                             },
                         }
                     ],
                 },
             },
             {
-                nodeId: "sldkfjwoeidslkmm",
+                nodeId: "sldkfjwoeerfvdfbgnrhtidslkmm",
                 elevationId: 1,
                 containerId: 7,
                 container: {
-                    nodeId: "sldkmcslkmsdknlsdknviweonisd",
+                    nodeId: "sldkmcslkmsdknlsdergvfdcknviweonisd",
                     id: 3,
                     DLO: undefined,
-                    // bottomFrameId: 1,
-                    // bottomFrame: {
-                    //     nodeId: "sldkfjweoifjkxsdcwevvdscmlskdnvwieoslkdfj",
-                    // },
-                    // leftFrameId: 5,
-                    // leftFrame: {
-                    //     nodeId: "lskdmcoismewidvddrefovnoweivnwoevin"
-                    // },
-                    // topFrameId: 7,
-                    // topFrame: {
-                    //     nodeId: "lsdkjfsldkfjsdvasdfbefcddsfvsdsdvsioweicmdsmsokmdlkcm"
-                    // },
-                    // rightFrameId: 4,
-                    // rightFrame: {
-                    //     nodeId: "lsdkmcwoiemcsdvsddvwesdfvsdvsdiomewomwemo"
-                    // },
+                    bottomMemberId: 1,
+                    bottomMember: {
+                        nodeId: "sldkfjweoifjkxsdcwevvdssfgdhntyhrgcmlskdnvwieoslkdfj",
+                    },
+                    leftMemberId: 5,
+                    leftMember: {
+                        nodeId: "lskdmcoismewidvddrefovndfb vcdfgoweivnwoevin"
+                    },
+                    topMemberId: 7,
+                    topMember: {
+                        nodeId: "lsdkjfsldkfjsdvasdfbefcddsfvsdsbfvc bbsdvsioweicmdsmsokmdlkcm"
+                    },
+                    rightMemberId: 4,
+                    rightMember: {
+                        nodeId: "lsdkmcwoiemcsdvsddvwesdfvyukjthgfbsdvsdiomewomwemo"
+                    },
                     containers: [
                         {
-                            nodeId: "slkdfsmclkdsdfsdc",
+                            nodeId: "slkdfsmclkdsddgnhthyrgfsdc",
                             id: 8,
                             parentContainerId: 7,
                             DLO: 100,
                             fill: "red",
-                            bottomFrame: {
-                                nodeId: "sldkfjweoifjkxsdscxvfsdsdfcmlskdnvwieo"
+                            bottomMember: {
+                                nodeId: "sldkfjweoifntyhgbfvdjkxsdscxvfsdsdfcmlskdnvwieo"
                             },
-                            leftFrame: {
-                                nodeId: "lskdmcoismewiovnoweivnwvbnbvoevin"
+                            leftMember: {
+                                nodeId: "lskdmcoismewiovnowebnmjhygivnwvbnbvoevin"
                             },
-                            topFrame: {
-                                nodeId: "lsdkjfssdvsvsvldkfjisfgbefccoweicmdsmsokmdlkcm"
+                            topMember: {
+                                nodeId: "lsdkjfssdvsvsvldkfjisfgbefccoweicmsfgndhjmdsmsokmdlkcm"
                             },
-                            rightFrame: {
-                                nodeId: "lsdkmcwoisdvsdvsdvemciervdfvomewomwemo"
+                            rightMember: {
+                                nodeId: "lsdkmcwoisdvsdvsdvemcienghd jmyujthrvdfvomewomwemo"
                             },
                         },
                         {
-                            nodeId: "sldkfjwoeivewme",
+                            nodeId: "sldkfjwoeivewfgdnh jfme",
                             id: 9,
                             parentContainerId: 7,
                             DLO: undefined,
                             fill: "purple",
-                            bottomFrame: {
-                                nodeId: "sldkfjweoifjkxsdfdbdfdvdfvsdsdfcmlskdnvwieo"
+                            bottomMember: {
+                                nodeId: "sldkfjweoifjkxsdfdsdfgdhfjnbbdfdvdfvsdsdfcmlskdnvwieo"
                             },
-                            leftFrame: {
-                                nodeId: "lskdmcoismewiovnoweivnhgnghnnwoevin"
+                            leftMember: {
+                                nodeId: "lskdmcoismewiovnowevxcbngjivnhgnghnnwoevin"
                             },
-                            topFrame: {
-                                nodeId: "lsdkjfssdvsvsvldkfjiscfgbfgbcoweicmdsmsokmdlkcm"
+                            topMember: {
+                                nodeId: "lsdkjfssdvsvsvldkfjgsyttiscfgbfgbcoweicmdsmsokmdlkcm"
                             },
-                            rightFrame: {
-                                nodeId: "lsdkmcwoisdvsdvsdventynghnghmciomewomwemo"
+                            rightMember: {
+                                nodeId: "lsdkmcwoisdvsdvsdventretbgfynghnghmciomewomwemo"
                             },
                         },
                     ],

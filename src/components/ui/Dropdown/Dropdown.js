@@ -1,15 +1,15 @@
-import React, { Component, createRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import './Dropdown.scss';
 
 export default class Dropdown extends Component {
 
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        closeOnBlur: PropTypes.bool,
-        content: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
-        onClick: PropTypes.func,
-    };
+    // static propTypes = {
+    //     title: PropTypes.string.isRequired,
+    //     closeOnBlur: PropTypes.bool,
+    //     content: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
+    //     onClick: PropTypes.func,
+    // };
 
     state = {
         open: this.props.open || false
@@ -23,7 +23,7 @@ export default class Dropdown extends Component {
         open: false
     });
 
-    componentDidUpdate = ({ }, { open }) => {
+    componentDidUpdate = (_, { open }) => {
         if (!open && this.props.open === true) this.open();
         if (open && this.props.open === false) this.close();
     }

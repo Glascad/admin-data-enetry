@@ -1,9 +1,5 @@
 import gql from 'graphql-tag';
 
-import {
-    removeNullValues,
-} from '../../../../../utils';
-
 export default {
     mutation: gql`mutation UpdateSystemConfigurationOverride(
         $nodeId:ID!,

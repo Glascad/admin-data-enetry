@@ -3,7 +3,6 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-    HeadedContainer,
     Input,
 } from '../../../../components';
 
@@ -33,7 +32,7 @@ export default function LineWeights() {
                         mapPillProps={({ name }) => ({
                             title: name,
                         })}
-                        onCreate={({ }, { input }) => createLineWeight({
+                        onCreate={(_, { input }) => createLineWeight({
                             name: input,
                             weight: 1 + +allLineWeights.reduce((max, { weight }) => Math.max(max, weight), 0)
                         })}

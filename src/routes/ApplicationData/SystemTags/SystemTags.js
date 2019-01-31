@@ -28,7 +28,7 @@ export default function SystemTags() {
                             mapPillProps={({ tag }) => ({
                                 title: tag
                             })}
-                            onCreate={({ }, { input }) => createSystemTag({
+                            onCreate={(_, { input }) => createSystemTag({
                                 tag: input,
                             })}
                             onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemTag({

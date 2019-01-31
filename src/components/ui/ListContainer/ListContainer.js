@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './ListContainer.scss';
 import _ from 'lodash';
 
@@ -25,20 +25,20 @@ const noGroupBy = {
 
 export default class ListContainer extends Component {
 
-    static propTypes = {
-        title: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object,
-        ]),
-        className: PropTypes.string,
-        items: PropTypes.array.isRequired,
-        renderItem: PropTypes.func.isRequired,
-        creating: PropTypes.bool,
-        createItem: PropTypes.any,
-        addButton: PropTypes.object,
-        filter: PropTypes.func,
-        sort: PropTypes.func,
-    };
+    // static propTypes = {
+    //     title: PropTypes.oneOfType([
+    //         PropTypes.string,
+    //         PropTypes.object,
+    //     ]),
+    //     className: PropTypes.string,
+    //     items: PropTypes.array.isRequired,
+    //     renderItem: PropTypes.func.isRequired,
+    //     creating: PropTypes.bool,
+    //     createItem: PropTypes.any,
+    //     addButton: PropTypes.object,
+    //     filter: PropTypes.func,
+    //     sort: PropTypes.func,
+    // };
 
     state = {
         selectedFilter: noFilter,

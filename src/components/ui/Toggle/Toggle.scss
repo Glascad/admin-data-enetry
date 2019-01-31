@@ -44,5 +44,9 @@
             background: $pill-color;
             color: $selected-color;
         }
+
+        &:focus {
+            box-shadow: none;
+        }
     }
 }

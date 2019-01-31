@@ -3,7 +3,6 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-    HeadedContainer,
     Input,
 } from '../../../../components';
 
@@ -40,7 +39,7 @@ export default function ConfigurationTypes() {
                         mapPillProps={({ type }) => ({
                             title: type
                         })}
-                        onCreate={({ }, { input }) => createConfigurationType({
+                        onCreate={(_, { input }) => createConfigurationType({
                             type: input
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updateConfigurationType({

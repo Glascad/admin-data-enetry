@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-    Link
-} from 'react-router-dom';
 
 import {
     Input,
@@ -22,20 +19,6 @@ export default function SystemSearch({
 }) {
     return (
         <>
-            {/* <TitleBar
-                title="Select System"
-                right={(
-                    <Link
-                        to={`/system-data/new/create${search}`}
-                    >
-                        <button
-                            className="action"
-                        >
-                            New System
-                        </button>
-                    </Link>
-                )}
-            /> */}
             <div className="card">
                 <ApolloWrapper
                     query={query}

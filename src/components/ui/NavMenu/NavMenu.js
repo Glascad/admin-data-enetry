@@ -38,7 +38,7 @@ function NavMenu({
                 >
                     {subroutes
                         .map(route => typeof route === 'function' ? route(...arguments) : route)
-                        .filter(({ name }) => name)
+                        .filter(({ name }) => name.trim())
                         .map(({ name: childName, path: childPath }, j) => (
                             <NavLink
                                 key={j}

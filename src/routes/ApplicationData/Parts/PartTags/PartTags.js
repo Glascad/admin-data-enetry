@@ -27,7 +27,7 @@ export default function PartTags() {
                         mapPillProps={({ tag }) => ({
                             title: tag
                         })}
-                        onCreate={({ }, { input }) => createPartTag({
+                        onCreate={(_, { input }) => createPartTag({
                             tag: input,
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updatePartTag({

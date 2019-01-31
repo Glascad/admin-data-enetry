@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './Modal.scss';
 import TitleBar from '../TitleBar/TitleBar';
 
 export default class Modal extends Component {
 
-    static propTypes = {
-        title: PropTypes.any.isRequired,
-        display: PropTypes.bool.isRequired,
-        children: PropTypes.any.isRequired,
-        danger: PropTypes.bool,
-        onCancel: PropTypes.func.isRequired,
-        cancel: PropTypes.object,
-        onReset: PropTypes.func,
-        reset: PropTypes.object,
-        finish: PropTypes.object,
-    };
+    // static propTypes = {
+    //     title: PropTypes.any.isRequired,
+    //     display: PropTypes.bool.isRequired,
+    //     children: PropTypes.any.isRequired,
+    //     danger: PropTypes.bool,
+    //     onCancel: PropTypes.func.isRequired,
+    //     cancel: PropTypes.object,
+    //     onReset: PropTypes.func,
+    //     reset: PropTypes.object,
+    //     finish: PropTypes.object,
+    // };
 
     componentDidMount = () => window.addEventListener('keydown', this.cancelOnEsc);
 
@@ -101,7 +101,6 @@ export default class Modal extends Component {
                             ) : null}
                             {onFinish ? (
                                 <button
-                                    children="Finish"
                                     className={danger ? "danger" : "action"}
                                     {...finish}
                                     children={finishButtonText || finish.children || "Finish"}

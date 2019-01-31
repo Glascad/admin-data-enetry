@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 /**
  * PURPOSE
@@ -20,9 +20,9 @@ import PropTypes from 'prop-types';
 
 export default class SelectionWrapper extends Component {
 
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    };
+    // static propTypes = {
+    //     children: PropTypes.func.isRequired,
+    // };
 
     static initialState = {
         selectedNID: "",

@@ -27,7 +27,7 @@ export default function PartTypes() {
                         mapPillProps={({ type }) => ({
                             title: type
                         })}
-                        onCreate={({ }, { input }) => createPartType({
+                        onCreate={(_, { input }) => createPartType({
                             type: input
                         })}
                         onUpdate={({ arguments: { nodeId } }, { input }) => updatePartType({

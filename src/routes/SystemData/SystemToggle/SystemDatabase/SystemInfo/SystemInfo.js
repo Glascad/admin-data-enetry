@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-    HeadedContainer,
     Input,
     ListWrapper,
 } from '../../../../../components';
@@ -31,7 +30,6 @@ export default function SystemInfo({
         deleteSystemSystemTag,
     },
 }) {
-    console.log(arguments[0]);
     return (
         <>
             <TitleBar

@@ -4,7 +4,7 @@ import {
     ListWrapper,
 } from '../../../../../components';
 
-export default function ValidTypes({
+export default function InvalidCombinations({
     queryStatus: {
         system: {
             id: systemId,

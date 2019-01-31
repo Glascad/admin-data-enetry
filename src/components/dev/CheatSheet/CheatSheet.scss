@@ -51,8 +51,6 @@
     
     // WRAPPER COMPONENTS
     .ListContainer,
-    .HeadedContainer,
-    .HeadedListContainer,
     .MultiSelect,
     .TabNavigator,
     .Wizard
@@ -61,8 +59,6 @@
     }
     
     .ListContainer { @include label("ListContainer"); }
-    .HeadedContainer { @include label("HeadedContainer"); }
-    .HeadedListContainer { @include label("HeadedListContainer"); }
     .MultiSelect { @include label("MultiSelect"); }
     .TabNavigator { @include label("TabNavigator"); }
     .Wizard { @include label("Wizard"); }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import SelectionWrapper from '../../state/SelectionWrapper';
 import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
@@ -11,20 +11,20 @@ import './ListWrapper.scss';
 
 class List extends Component {
 
-    static propTypes = {
-        title: PropTypes.string,
-        label: PropTypes.string,
-        parent: PropTypes.string,
-        items: PropTypes.array.isRequired,
-        mapPillProps: PropTypes.func.isRequired,
-        onCreate: PropTypes.func,
-        onUpdate: PropTypes.func,
-        onDelete: PropTypes.func,
-        children: PropTypes.func,
-        multiSelect: PropTypes.shape({
+    // static propTypes = {
+    //     title: PropTypes.string,
+    //     label: PropTypes.string,
+    //     parent: PropTypes.string,
+    //     items: PropTypes.array.isRequired,
+    //     mapPillProps: PropTypes.func.isRequired,
+    //     onCreate: PropTypes.func,
+    //     onUpdate: PropTypes.func,
+    //     onDelete: PropTypes.func,
+    //     children: PropTypes.func,
+    //     multiSelect: PropTypes.shape({
 
-        })
-    };
+    //     })
+    // };
 
     handleDelete = async () => {
         try {
@@ -56,7 +56,7 @@ class List extends Component {
     render = () => {
         const {
             props: {
-                title = this.props.titleBar && this.props.titleBar.title || "",
+                title = (this.props.titleBar && this.props.titleBar.title) || "",
                 titleBar,
                 label,
                 items,

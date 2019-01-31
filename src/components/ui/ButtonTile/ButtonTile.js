@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './ButtonTile.scss';
 
-ButtonTile.propTypes = {
-    buttonProps: PropTypes.arrayOf(PropTypes.object).isRequired
-};
+// ButtonTile.propTypes = {
+//     buttonProps: PropTypes.arrayOf(PropTypes.object).isRequired
+// };
 
 export default function ButtonTile({
     buttonProps = []

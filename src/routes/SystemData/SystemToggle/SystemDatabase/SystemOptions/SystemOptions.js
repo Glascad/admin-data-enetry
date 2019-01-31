@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-    HeadedContainer,
     Input,
     ListWrapper,
 } from '../../../../../components';
@@ -34,7 +33,7 @@ export default function SystemOptions({
             }) => ({
                 title: name
             })}
-            onCreate={({ }, { input }) => createSystemOption({
+            onCreate={(_, { input }) => createSystemOption({
                 systemId,
                 name: input,
             })}
@@ -149,7 +148,7 @@ export default function SystemOptions({
                                 mapPillProps={({ name }) => ({
                                     title: name
                                 })}
-                                onCreate={({ }, { input }) => createOptionValue({
+                                onCreate={(_, { input }) => createOptionValue({
                                     systemOptionId,
                                     name: input
                                 })}

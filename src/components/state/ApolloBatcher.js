@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import ApolloWrapper from './ApolloWrapper';
 
 /**
@@ -256,7 +256,8 @@ class Batcher extends Component {
             }));
         if (this.refetchQuery) {
             console.log("this.refetchQuery");
-            const refetch = await this.refetchQuery();
+            // const refetch =
+            await this.refetchQuery();
             // console.log({ refetch });
         }
         // console.log({ result })

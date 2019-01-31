@@ -34,7 +34,7 @@ export default function Manufacturers() {
                             mapPillProps={({ name }) => ({
                                 title: name
                             })}
-                            onCreate={({ }, { input }) => createManufacturer({
+                            onCreate={(_, { input }) => createManufacturer({
                                 name: input
                             })}
                             onUpdate={({ arguments: { nodeId } }, { input }) => updateManufacturer({

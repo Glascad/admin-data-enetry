@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
     ListWrapper,
-    HeadedContainer,
     StateManager,
     ListContainer,
     TitleBar,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
     Link,
     NavLink,
@@ -22,19 +22,19 @@ class WizardChild extends Component {
 
 export default class Wizard extends Component {
 
-    static propTypes = {
-        title: PropTypes.string,
-        path: PropTypes.string,
-        url: PropTypes.string,
-        buttons: PropTypes.array,
-        routes: PropTypes.array.isRequired,
-        batcher: PropTypes.object,
-        navigation: PropTypes.oneOf([
-            "tabs",
-            "linear",
-            "both",
-        ]),
-    };
+    // static propTypes = {
+    //     title: PropTypes.string,
+    //     path: PropTypes.string,
+    //     url: PropTypes.string,
+    //     buttons: PropTypes.array,
+    //     routes: PropTypes.array.isRequired,
+    //     batcher: PropTypes.object,
+    //     navigation: PropTypes.oneOf([
+    //         "tabs",
+    //         "linear",
+    //         "both",
+    //     ]),
+    // };
 
     state = {
         currentRoute: -1,

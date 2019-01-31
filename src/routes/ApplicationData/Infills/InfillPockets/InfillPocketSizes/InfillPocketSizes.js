@@ -36,7 +36,7 @@ export default function InfillPocketSizes() {
                         mapPillProps={({ size }) => ({
                             title: size
                         })}
-                        onCreate={({ }, { input }) => createInfillPocketSize({
+                        onCreate={(_, { input }) => createInfillPocketSize({
                             size: input,
                         })}
                         onDelete={({ arguments: { nodeId } }) => deleteInfillPocketSize({

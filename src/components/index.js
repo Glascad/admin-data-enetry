@@ -11,7 +11,7 @@ import _DoubleArrow from './ui/DoubleArrow/DoubleArrow';
 import _ListWrapper from './ui/ListWrapper/ListWrapper';
 import _TabNavigator from './ui/TabNavigator/TabNavigator';
 import _ToggleNavigator from './ui/ToggleNavigator/ToggleNavigator';
-import _Wizard from './ui/Wizard/Wizard';
+// import _Wizard from './ui/Wizard/Wizard';
 import _Toggle from './ui/Toggle/Toggle';
 import _Input from './ui/Input/Input';
 
@@ -41,7 +41,7 @@ export const DoubleArrow = _DoubleArrow;
 export const ListWrapper = _ListWrapper;
 export const TabNavigator = _TabNavigator;
 export const ToggleNavigator = _ToggleNavigator;
-export const Wizard = _Wizard;
+// export const Wizard = _Wizard;
 export const Toggle = _Toggle;
 export const Input = _Input;
 
