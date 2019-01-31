@@ -2,63 +2,45 @@ import React from 'react';
 
 import Container from './Container';
 
-import {
-    SelectionWrapper, ApolloBatcher,
-} from '../../../components';
-
-import query from '../elevation-graphql/query';
-
-import data from './data-model';
+import ElevationInterface from '../ElevationInterface/ElevationInterface';
 
 export default function ElevationDisplay() {
     return (
-        <SelectionWrapper>
+        <ElevationInterface>
             {({
-                selectedNID,
-                handleSelect,
+                elevation: {
+                    nodeId,
+                    vtRO,
+                    hzRO,
+                    elevationContainers,
+                    sightline,
+                },
             }) => (
-                    <ApolloBatcher
-                        query={{ query }}
+                    <svg
+                        className="ElevationDisplay"
+                        transform="scale(1, -1)"
+                        height={vtRO}
+                        width={hzRO}
                     >
-                        {({
-                            queryStatus,
-                            queryStatus: {
-                                elevation = data.elevation,
-                                elevation: {
-                                    nodeId,
-                                    hzRO,
-                                    vtRO,
-                                    elevationContainers = [],
-                                    sightline,
-                                } = data.elevation,
-                            } = data,
-                            mutations: {
-
-                            } = {},
-                        }) => (
-                                <svg
-                                    className="ElevationDisplay"
-                                    transform="scale(1, -1)"
-                                    height={vtRO + sightline * 6}
-                                    width={hzRO + sightline * 6}
-                                >
-                                    {console.log(queryStatus)}
-                                    <Container
-                                        x={0}
-                                        y={0}
-                                        height={vtRO}
-                                        width={hzRO}
-                                        childContainers={elevationContainers.map(({ container }) => container)}
-                                        sightline={sightline}
-                                        horizontal={true}
-                                        nodeId={nodeId}
-                                        selectedNID={selectedNID}
-                                        handleSelect={handleSelect}
-                                    />
-                                </svg>
-                            )}
-                    </ApolloBatcher>
+                        <circle
+                            cx="0"
+                            cy="0"
+                            r="5"
+                            fill="rgba(0, 0, 0, 0.25)"
+                            stroke="black"
+                        />
+                        <Container
+                            x={0}
+                            y={0}
+                            height={vtRO}
+                            width={hzRO}
+                            childContainers={elevationContainers.map(({ container }) => container)}
+                            sightline={sightline}
+                            horizontal={true}
+                            nodeId={nodeId}
+                        />
+                    </svg>
                 )}
-        </SelectionWrapper>
+        </ElevationInterface>
     );
 }

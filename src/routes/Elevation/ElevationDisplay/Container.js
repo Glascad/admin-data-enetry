@@ -15,7 +15,7 @@ export default function Container({
     sightline,
     infill,
     childContainers = [],
-    membersToRender: {
+    framesToRender: {
         left = false,
         right = false,
         top = false,
@@ -26,16 +26,16 @@ export default function Container({
         top: true,
         bottom: true,
     },
-    leftMember: {
+    leftFrame: {
         nodeId: leftNID,
     } = {},
-    rightMember: {
+    rightFrame: {
         nodeId: rightNID,
     } = {},
-    topMember: {
+    topFrame: {
         nodeId: topNID,
     } = {},
-    bottomMember: {
+    bottomFrame: {
         nodeId: bottomNID,
     } = {},
     nodeId,
@@ -45,27 +45,27 @@ export default function Container({
 
     console.log(arguments[0]);
 
-    const leftMember = {
+    const leftFrame = {
         x,
         y,
         height,
         width: sightline,
     };
 
-    const rightMember = {
-        ...leftMember,
+    const rightFrame = {
+        ...leftFrame,
         x: x + width - sightline,
     };
 
-    const topMember = {
+    const topFrame = {
         x: x + sightline,
         y: y + height - sightline,
         width: width - sightline * 2,
         height: sightline,
     };
 
-    const bottomMember = {
-        ...topMember,
+    const bottomFrame = {
+        ...topFrame,
         y,
     };
 
@@ -119,10 +119,10 @@ export default function Container({
                     onClick={select(handleSelect, nodeId)}
                 />
             ) : null}
-            {leftNID ? (
+            {left && leftNID ? (
                 <rect
-                    {...leftMember}
-                    className={`member ${
+                    {...leftFrame}
+                    className={`frame ${
                         selectedNID === leftNID ?
                             "selected"
                             :
@@ -131,10 +131,10 @@ export default function Container({
                     onClick={select(handleSelect, leftNID)}
                 />
             ) : null}
-            {rightNID ? (
+            {right && rightNID ? (
                 <rect
-                    {...rightMember}
-                    className={`member ${
+                    {...rightFrame}
+                    className={`frame ${
                         selectedNID === rightNID ?
                             "selected"
                             :
@@ -143,10 +143,10 @@ export default function Container({
                     onClick={select(handleSelect, rightNID)}
                 />
             ) : null}
-            {topNID ? (
+            {top && topNID ? (
                 <rect
-                    {...topMember}
-                    className={`member ${
+                    {...topFrame}
+                    className={`frame ${
                         selectedNID === topNID ?
                             "selected"
                             :
@@ -155,10 +155,10 @@ export default function Container({
                     onClick={select(handleSelect, topNID)}
                 />
             ) : null}
-            {bottomNID ? (
+            {bottom && bottomNID ? (
                 <rect
-                    {...bottomMember}
-                    className={`member ${
+                    {...bottomFrame}
+                    className={`frame ${
                         selectedNID === bottomNID ?
                             "selected"
                             :
@@ -167,29 +167,7 @@ export default function Container({
                     onClick={select(handleSelect, bottomNID)}
                 />
             ) : null}
-            {/* ORIGIN */}
-            <circle
-                cx="0"
-                cy="0"
-                r="5"
-                fill="rgba(0, 0, 0, 0.25)"
-            />
-            {/* OFFSET ORIGIN */}
-            {/* <circle
-                cx={ox}
-                cy={oy}
-                r="5"
-                fill="rgba(0, 0, 255, 0.25"
-                stroke="blue"
-            />
-            <circle
-                cx={cx}
-                cy={cy}
-                r="5"
-                fill={`rgba(0, 255, 0, ${1 / nestLevel})`}
-                stroke="green"
-            /> */}
-            {placedChildren.map(({ container, container: { nodeId, containers }, ...coordinates }, i) => (
+            {placedChildren.map(({ container, container: { nodeId, containers }, ...coordinates }, i, { length }) => (
                 <Container
                     {...container}
                     {...coordinates}
@@ -201,41 +179,14 @@ export default function Container({
                     nestLevel={nestLevel + 1}
                     handleSelect={handleSelect}
                     selectedNID={selectedNID}
+                    framesToRender={{
+                        right: (!right || !rightNID) || (horizontal && i < length - 1),
+                        left: (!left || !leftNID),
+                        top: (!top || !topNID) || (!horizontal && i < length - 1),
+                        bottom: (!bottom || !bottomNID),
+                    }}
                 />
             ))}
-            {/* {offsetChildContainers.map(({ container, offset }, i, { length }) => (
-                <Container
-                    fill={container.fill}
-                    offset={offset}
-                    dimensions={{
-                        x: horizontal ?
-                            container.DLO
-                            :
-                            dimensions.x,
-                        y: horizontal ?
-                            dimensions.y
-                            :
-                            container.DLO,
-                    }}
-                    childContainers={container.containers}
-                    sightline={sightline}
-                    horizontal={!horizontal}
-                    membersToRender={{
-                        right: horizontal ?
-                            i < length - 1
-                            :
-                            false,
-                        top: horizontal ?
-                            false
-                            :
-                            i < length - 1,
-                        // left: false,
-                        // right: false,
-                        // bottom: true,
-                        // top:true,
-                    }}
-                />
-            ))} */}
         </g>
     );
 }

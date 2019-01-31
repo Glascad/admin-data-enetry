@@ -422,7 +422,8 @@ elevations(
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     horizontal_rough_opening FLOAT,
-    vertical_rough_opening FLOAT
+    vertical_rough_opening FLOAT,
+    finished_floor_offset FLOAT
 );
 
 CREATE TABLE
@@ -433,21 +434,26 @@ frames(
 CREATE TABLE
 containers(
     id SERIAL PRIMARY KEY,
+    horizontal BOOLEAN,
     size FLOAT,
+    infill VARCHAR(50),
     left_frame_id INTEGER REFERENCES frames,
     right_frame_id INTEGER REFERENCES frames,
     top_frame_id INTEGER REFERENCES frames,
-    bottom_frame_id INTEGER REFERENCES frames
+    bottom_frame_id INTEGER REFERENCES frames,
+    UNIQUE (horizontal, id)
 );
 
 ALTER TABLE
 containers
-ADD COLUMN
-parent_container_id INTEGER REFERENCES containers;
+ADD COLUMN parent_container_id INTEGER REFERENCES containers;
 
 CREATE TABLE
 elevation_containers(
     elevation_id INTEGER REFERENCES elevations,
-    container_id INTEGER REFERENCES containers,
-    PRIMARY KEY (elevation_id, container_id)
+    container_id INTEGER,
+    horizontal BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (elevation_id, container_id),
+    FOREIGN KEY (horizontal, container_id) REFERENCES containers (horizontal, id),
+    CHECK (horizontal = FALSE) -- can only add vertical containers as root level containers
 );
