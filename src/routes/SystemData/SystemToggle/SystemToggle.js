@@ -20,7 +20,7 @@ SystemToggle.navigationOptions = ({
         } = {},
     } = {},
 } = {}) => ({
-    name: name,
+    name,
     path: "/info",
 });
 
