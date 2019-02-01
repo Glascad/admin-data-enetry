@@ -3,26 +3,21 @@ import {
     Navigator, TitleBar,
 } from '../../components';
 
-const routes = {
-    name: "Part Data",
-    path: "/part-data",
-    component: PartDataRouter,
-    subroutes: [
-        {
-            name: "Part Data",
-            path: "/",
-            component: PartData,
-        },
-    ],
-};
-
-function PartData() {
+function _PartData() {
     return (
         "Part Data"
     );
 }
 
-function PartDataRouter() {
+const subroutes = [
+    _PartData,
+];
+
+PartData.navigationOptions = {
+    subroutes,
+};
+
+export default function PartData() {
     return (
         <>
             <TitleBar
@@ -30,11 +25,9 @@ function PartDataRouter() {
             />
             <div className="card">
                 <Navigator
-                    routes={routes.subroutes}
+                    routes={subroutes}
                 />
             </div>
         </>
     );
 }
-
-export default routes;

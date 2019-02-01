@@ -10,6 +10,20 @@ import {
     TabNavigator,
 } from '../../../../components';
 
+const subroutes = [
+    SystemInfo,
+    GlazingInfo,
+    ValidTypes,
+    SystemOptions,
+    InvalidCombinations,
+];
+
+SystemDatabase.navigationOptions = {
+    name: "Database",
+    path: "/database",
+    subroutes,
+};
+
 export default function SystemDatabase({
     batcher: {
         completeMutations,
@@ -19,53 +33,8 @@ export default function SystemDatabase({
 }) {
     return (
         <TabNavigator
-            routes={[
-                {
-                    name: "System Info",
-                    path: `/system-info`,
-                    render: () => (
-                        <SystemInfo
-                            {...apollo}
-                        />
-                    ),
-                },
-                {
-                    name: "Glazing Info",
-                    path: `/glazing-info`,
-                    render: () => (
-                        <GlazingInfo
-                            {...apollo}
-                        />
-                    ),
-                },
-                {
-                    name: "Valid Types",
-                    path: `/valid-types`,
-                    render: () => (
-                        <ValidTypes
-                            {...apollo}
-                        />
-                    ),
-                },
-                {
-                    name: "System Options",
-                    path: `/system-options`,
-                    render: () => (
-                        <SystemOptions
-                            {...apollo}
-                        />
-                    ),
-                },
-                {
-                    name: "Invalid Combinations",
-                    path: `/invalid-combinations`,
-                    render: () => (
-                        <InvalidCombinations
-                            {...apollo}
-                        />
-                    ),
-                },
-            ]}
+            routeProps={apollo}
+            routes={subroutes}
         >
             <div className="bottom-buttons">
                 <button

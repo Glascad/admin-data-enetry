@@ -25,39 +25,42 @@ function ToggleNavigator({
 }) {
 
     return (
-        <>
-            <TitleBar
-                {...titleBar}
-                right={(
-                    <>
-                        {rightButtons}
-                        <Toggle
-                            buttons={
-                                routes.map(({
-                                    path,
-                                    name,
-                                }) => ({
-                                    selected: pathname.match(`${url}${path}`),
-                                    text: name,
-                                    onClick: () => history.push(`${
-                                        url
-                                        }${
-                                        path
-                                        }${
-                                        search
-                                        }`),
-                                }))
-                            }
-                        />
-                    </>
-                )
-                }
-            />
-            <Navigator
-                routes={routes}
-                {...props}
-            />
-        </>
+        <Navigator
+            routes={routes}
+            {...props}
+        >
+            {({ mappedRoutes }, currentRoute) => (
+                <>
+                    <TitleBar
+                        {...titleBar}
+                        right={(
+                            <>
+                                {rightButtons}
+                                <Toggle
+                                    buttons={
+                                        mappedRoutes.map(({
+                                            path,
+                                            name,
+                                        }) => ({
+                                            selected: pathname.match(`${url}${path}`),
+                                            text: name,
+                                            onClick: () => history.push(`${
+                                                url
+                                                }${
+                                                path
+                                                }${
+                                                search
+                                                }`),
+                                        }))
+                                    }
+                                />
+                            </>
+                        )}
+                    />
+                    {currentRoute}
+                </>
+            )}
+        </Navigator>
     );
 }
 

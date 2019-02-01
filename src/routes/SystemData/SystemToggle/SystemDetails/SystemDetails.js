@@ -3,7 +3,6 @@ import React from 'react';
 import {
     ListWrapper,
     StateManager,
-    ListContainer,
     TitleBar,
 } from '../../../../components';
 
@@ -28,6 +27,11 @@ import {
  *      - Configuration (Name) Overrides
  *      - Invalid Combinations
  */
+
+SystemDetails.navigationOptions = {
+    name: "Details",
+    path: "/details",
+};
 
 export default function SystemDetails({
     queryStatus: {
@@ -61,10 +65,6 @@ export default function SystemDetails({
                                             id: nodeId,
                                             props: managerProps
                                         }}
-                                        // selection={{
-                                        //     selectedNID: state[nodeId],
-                                        //     handleSelect: select(nodeId),
-                                        // }}
                                         label={name}
                                         items={optionValues}
                                         mapPillProps={({ name }) => ({

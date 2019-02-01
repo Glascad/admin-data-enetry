@@ -5,50 +5,21 @@ import {
 } from '../../components';
 
 import SystemSearch from './SystemSearch/SystemSearch';
-import NewSystem from './NewSystem/NewSystem';
 import SystemToggle from './SystemToggle/SystemToggle';
 
-function SystemDataRouter() {
+const subroutes = [
+    SystemSearch,
+    SystemToggle,
+];
+
+SystemData.navigationOptions = {
+    subroutes,
+};
+
+export default function SystemData() {
     return (
         <Navigator
-            routes={routes.subroutes}
+            routes={subroutes}
         />
     );
 }
-
-const routes = {
-    name: "System Data",
-    path: "/system-data",
-    component: SystemDataRouter,
-    subroutes: [
-        {
-            name: "System Search",
-            path: "/search",
-            component: SystemSearch,
-        },
-        {
-            name: "New System",
-            path: "/new",
-            component: NewSystem,
-        },
-        ({
-            queryStatus: {
-                system: {
-                    name = '',
-                    manufacturer: {
-                        name: mnfgName='',
-                    }={},
-                } = {},
-            } = {},
-            location: {
-                search,
-            },
-        }) => ({
-            name: `${mnfgName} ${name}`,
-            path: "/info",
-            component: SystemToggle,
-        }),
-    ],
-};
-
-export default routes;

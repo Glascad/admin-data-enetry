@@ -12,6 +12,7 @@ import {
 import {
     validatePath,
 } from '../../utils';
+import extractNavigationOptions from '../../utils/extract-navigation-options';
 
 
 /**
@@ -75,17 +76,14 @@ class Navigator extends Component {
                     path,
                     url,
                 },
+                routeProps,
                 routes,
                 children = (_, Children) => Children,
             },
             updateCurrentRoute,
         } = this;
 
-        const mappedRoutes = routes.map(route => typeof route === 'function' ?
-            route(this.props)
-            :
-            route
-        );
+        const mappedRoutes = routes.map(route => extractNavigationOptions(route, routeProps));
 
         const previousIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;
@@ -104,8 +102,6 @@ class Navigator extends Component {
             search
             }`);
 
-        // console.log(pathname + search);
-
         if (
             currentRoute === -1
             &&
@@ -120,7 +116,7 @@ class Navigator extends Component {
             return (
                 <Switch>
                     {mappedRoutes
-                        .map(route => typeof route === 'function' ? route(this.props) : route)
+                        // .map(route => typeof route === 'function' ? route(this.props) : route)
                         // .filter(Boolean)
                         .map(({ exact, component: RouteChild, ...route }, i) => (
                             <Route
@@ -132,21 +128,23 @@ class Navigator extends Component {
                                     }${
                                     route.path
                                     }`)}
-                                render={routerProps => children({
-                                    ...routerProps,
+                                render={reactRouterProps => children({
+                                    ...reactRouterProps,
                                     previousLink,
                                     nextLink,
-                                },
-                                    <NavigatorChild
-                                        index={i}
-                                        updateCurrentRoute={updateCurrentRoute}
-                                    >
-                                        {RouteChild ?
-                                            <RouteChild {...routerProps} />
-                                            :
-                                            route.render(routerProps)
-                                        }
-                                    </NavigatorChild>
+                                    mappedRoutes,
+                                }, (
+                                        <NavigatorChild
+                                            index={i}
+                                            updateCurrentRoute={updateCurrentRoute}
+                                        >
+                                            {RouteChild ?
+                                                <RouteChild {...reactRouterProps} {...routeProps} />
+                                                :
+                                                route.render(reactRouterProps)
+                                            }
+                                        </NavigatorChild>
+                                    )
                                 )}
                             />
                         ))}

@@ -1,9 +1,5 @@
 import React from 'react';
 
-// import {
-//     Link,
-// } from 'react-router-dom';
-
 import {
     ApolloBatcher,
     ToggleNavigator,
@@ -16,6 +12,17 @@ import { parseSearch } from '../../../utils';
 
 import SystemDatabase from './SystemDatabase/SystemDatabase';
 import SystemDetails from './SystemDetails/SystemDetails';
+
+SystemToggle.navigationOptions = ({
+    queryStatus: {
+        system: {
+            name = '',
+        } = {},
+    } = {},
+} = {}) => ({
+    name: name,
+    path: "/info",
+});
 
 export default function SystemToggle({
     location: {
@@ -57,35 +64,11 @@ export default function SystemToggle({
                                 }`.trim()
                                 ||
                                 'Loading...',
-                            // left: (
-                            //     <Link
-                            //         to="/system-data"
-                            //     >
-                            //         <button className="empty">
-                            //             Change System
-                            //                 </button>
-                            //     </Link>
-                            // )
                         }}
+                        routeProps={apollo}
                         routes={[
-                            {
-                                name: "Database",
-                                path: "/database",
-                                render: () => (
-                                    <SystemDatabase
-                                        {...apollo}
-                                    />
-                                ),
-                            },
-                            {
-                                name: "Details",
-                                path: "/details",
-                                render: () => (
-                                    <SystemDetails
-                                        {...apollo}
-                                    />
-                                ),
-                            }
+                            SystemDatabase,
+                            SystemDetails,
                         ]}
                     />
                 );

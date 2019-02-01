@@ -13,9 +13,6 @@ import TitleBar from '../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemSearch({
     history,
-    location: {
-        search
-    }
 }) {
     return (
         <>

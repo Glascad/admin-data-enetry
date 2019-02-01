@@ -8,6 +8,7 @@ import {
 import Dropdown from '../Dropdown/Dropdown';
 
 import './NavMenu.scss';
+import { extractNavigationOptions } from '../../../utils';
 
 function NavMenu({
     location: {
@@ -19,66 +20,68 @@ function NavMenu({
 }) {
     return (
         <div className="NavMenu">
-            {routes.map(({
-                exact,
-                name,
-                path,
-                subroutes = []
-            }, i) => subroutes.length ? (
-                <Dropdown
-                    key={i}
-                    title={name}
-                    open={closed === true ? false : pathname.includes(path) || undefined}
-                    className={
-                        pathname.includes(path) ?
-                            'matched'
-                            :
-                            ''
-                    }
-                >
-                    {subroutes
-                        .map(route => typeof route === 'function' ? route(...arguments) : route)
-                        .filter(({ name }) => name.trim())
-                        .map(({ name: childName, path: childPath }, j) => (
+            {routes
+                .map(route => extractNavigationOptions(route, ...arguments))
+                .map(({
+                    exact,
+                    name,
+                    path,
+                    subroutes = []
+                }, i) => subroutes.length ? (
+                    <Dropdown
+                        key={i}
+                        title={name}
+                        open={closed === true ? false : pathname.includes(path) || undefined}
+                        className={
+                            pathname.includes(path) ?
+                                'matched'
+                                :
+                                ''
+                        }
+                    >
+                        {subroutes
+                            .map(route => extractNavigationOptions(route, ...arguments))
+                            .filter(({ name }) => name.trim())
+                            .map(({ name: childName, path: childPath }, j) => (
+                                <NavLink
+                                    key={j}
+                                    isActive={(_, { pathname }) => exact ?
+                                        pathname === `${path}${childPath}`
+                                        :
+                                        pathname.includes(`${path}${childPath}`)
+                                    }
+                                    to={`${
+                                        path
+                                        }${
+                                        childPath
+                                        }${
+                                        search
+                                        }`}
+                                    activeClassName="matched"
+                                >
+                                    {childName}
+                                </NavLink>
+                            ))}
+                    </Dropdown>
+                ) : (
                             <NavLink
-                                key={j}
+                                key={i}
                                 isActive={(_, { pathname }) => exact ?
-                                    pathname === `${path}${childPath}`
+                                    pathname === path
                                     :
-                                    pathname.includes(`${path}${childPath}`)
+                                    pathname.includes(path)
                                 }
                                 to={`${
                                     path
                                     }${
-                                    childPath
-                                    }${
-                                    search
-                                    }`}
+                                    search}`}
+                                className="item"
                                 activeClassName="matched"
                             >
-                                {childName}
+                                {name}
                             </NavLink>
-                        ))}
-                </Dropdown>
-            ) : (
-                        <NavLink
-                            key={i}
-                            isActive={(_, { pathname }) => exact ?
-                                pathname === path
-                                :
-                                pathname.includes(path)
-                            }
-                            to={`${
-                                path
-                                }${
-                                search}`}
-                            className="item"
-                            activeClassName="matched"
-                        >
-                            {name}
-                        </NavLink>
-                    )
-            )}
+                        )
+                )}
         </div>
     );
 }

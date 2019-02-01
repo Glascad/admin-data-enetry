@@ -26,10 +26,10 @@ function TabNavigator({
             routes={routes}
             {...props}
         >
-            {(_, currentRoute) => (
+            {({ mappedRoutes }, currentRoute) => (
                 <div className="TabNavigator">
                     <div className="tab-container">
-                        {routes.map(({
+                        {mappedRoutes.map(({
                             path,
                             name,
                         }) => (

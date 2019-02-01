@@ -8,26 +8,20 @@ import {
     TabNavigator,
 } from '../../../components';
 
+const subroutes = [
+    SystemTypes,
+    DetailTypes,
+    ConfigurationTypes,
+];
+
+Types.navigationOptions = {
+    subroutes,
+};
+
 export default function Types() {
     return (
         <TabNavigator
-            routes={[
-                {
-                    name: "Configuration Types",
-                    path: "/configuration",
-                    component: ConfigurationTypes
-                },
-                {
-                    name: "Detail Types",
-                    path: "/detail",
-                    component: DetailTypes
-                },
-                {
-                    name: "System Types",
-                    path: "/system",
-                    component: SystemTypes
-                },
-            ]}
-            />
+            routes={subroutes}
+        />
     );
 }

@@ -8,8 +8,7 @@ import {
 
 import ElevationDisplay from './ElevationDisplay/ElevationDisplay';
 
-
-function ElevationRouter() {
+export default function Elevation() {
     return (
         <>
             <TitleBar
@@ -21,9 +20,3 @@ function ElevationRouter() {
         </>
     );
 }
-
-export default {
-    name: "Elevation",
-    path: "/elevation",
-    component: ElevationRouter,
-};

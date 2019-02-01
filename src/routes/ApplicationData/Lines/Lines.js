@@ -7,21 +7,19 @@ import {
 import Linetypes from './Linetypes/Linetypes';
 import LineWeights from './LineWeights/LineWeights';
 
-export default function LinetypesView() {
+const subroutes = [
+    Linetypes,
+    LineWeights,
+];
+
+Lines.navigationOptions = {
+    subroutes,
+};
+
+export default function Lines() {
     return (
         <TabNavigator
-            routes={[
-                {
-                    name: "Line Types",
-                    path: "/types",
-                    component: Linetypes,
-                },
-                {
-                    name: "Line Weights",
-                    path: "/weights",
-                    component: LineWeights,
-                },
-            ]}
+            routes={subroutes}
         />
     )
 }

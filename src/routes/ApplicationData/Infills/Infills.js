@@ -7,20 +7,12 @@ import {
     TabNavigator,
 } from '../../../components';
 
-export default function () {
+export default function Infills() {
     return (
         <TabNavigator
             routes={[
-                {
-                    name: "Infill Sizes",
-                    path: "/sizes",
-                    component: InfillSizes,
-                },
-                {
-                    name: "Infill Pockets",
-                    path: "/pockets",
-                    component: InfillPockets,
-                },
+                InfillSizes,
+                InfillPockets,
             ]}
         />
     );

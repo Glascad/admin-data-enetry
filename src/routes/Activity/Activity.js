@@ -1,7 +1,11 @@
 import React from 'react';
 import TitleBar from '../../components/ui/TitleBar/TitleBar';
 
-function Activity() {
+Activity.navigationOptions = {
+    exact: true,
+};
+
+export default function Activity() {
     return (
         <>
             <TitleBar
@@ -10,11 +14,4 @@ function Activity() {
             <div className="card" />
         </>
     );
-}
-
-export default {
-    name: "Activity",
-    exact: true,
-    path: "/activity",
-    component: Activity,
 }

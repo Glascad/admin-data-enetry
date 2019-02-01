@@ -1,7 +1,7 @@
 import createSystem from './create-system';
-import createNewSystem from './create-new-system';
+import createnewsystem from './create-new-system';
 
 export default {
     createSystem,
-    createNewSystem,
+    createnewsystem,
 };
