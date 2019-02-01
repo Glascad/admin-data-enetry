@@ -36,21 +36,20 @@ export default function CreateSystem({
         allSystemTags = [],
     },
     mutations: {
-        createSystem,
-        createSystemStatus: {
+        createnewsystem,
+        createnewsystemStatus: {
             data: {
-                createSystem: {
-                    system: {
+                createnewsystem: {
+                    systems: {
                         nodeId: createdSystemNID,
                     } = {}
                 } = {}
             } = {}
         } = {},
-        createSystemSystemTag,
-        deleteSystemSystemTag,
     },
     batcher: {
-        completeMutations
+        completeMutations,
+        resetMutations,
     },
 }) {
     if (createdSystemNID) {
@@ -68,7 +67,7 @@ export default function CreateSystem({
                 <Input
                     label="Name"
                     value={name}
-                    onChange={({ target: { value } }) => createSystem({
+                    onChange={({ target: { value } }) => createnewsystem({
                         nodeId: systemNID,
                         name: value,
                     })}
@@ -84,9 +83,9 @@ export default function CreateSystem({
                             value: id,
                             label: name,
                         })),
-                        onChange: ({ value, label }) => createSystem({
+                        onChange: ({ value, label }) => createnewsystem({
                             nodeId: systemNID,
-                            manufacturerId: value,
+                            manufacturerid: value,
                             manufacturer: {
                                 name: label,
                             }
@@ -104,10 +103,10 @@ export default function CreateSystem({
                             value: id,
                             label: type,
                         })),
-                        onChange: ({ value, label }) => createSystem({
+                        onChange: ({ value, label }) => createnewsystem({
                             nodeId: systemNID,
-                            systemTypeId: value,
-                            systemType: {
+                            systemtypeid: value,
+                            systemtype: {
                                 type: label
                             }
                         }),
@@ -126,16 +125,17 @@ export default function CreateSystem({
                         mapPillProps={({ tag }) => ({
                             title: tag,
                         })}
-                        onCreate={systemTag => createSystemSystemTag({
-                            systemTagId: systemTag.id,
-                            systemId,
-                            systemTag,
+                        onCreate={({ id }) => createnewsystem({
+                            nodeId: systemNID,
+                            systemtags: systemSystemTags
+                                .map(({ systemTagId }) => systemTagId)
+                                .concat(id),
                         })}
-                        onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
-                            nodeId: systemSystemTagNID,
-                            systemTagId: systemTag.id,
-                            systemId,
-                            systemTag,
+                        onDelete={({ id }) => createnewsystem({
+                            nodeId: systemNID,
+                            systemtags: systemSystemTags
+                                .map(({ systemTagId }) => systemTagId)
+                                .fill(stid => stid !== id),
                         })}
                         multiSelect={{
                             allItems: allSystemTags,
@@ -147,7 +147,7 @@ export default function CreateSystem({
                         label="System Depth"
                         type="number"
                         value={depth}
-                        onChange={({ target: { value } }) => createSystem({
+                        onChange={({ target: { value } }) => createnewsystem({
                             nodeId: systemNID,
                             depth: value
                         })}
@@ -156,7 +156,7 @@ export default function CreateSystem({
                         label="System Sightline"
                         type="number"
                         value={defaultSightline}
-                        onChange={({ target: { value } }) => createSystem({
+                        onChange={({ target: { value } }) => createnewsystem({
                             nodeId: systemNID,
                             defaultSightline: value,
                         })}
@@ -165,7 +165,7 @@ export default function CreateSystem({
                         label="Caulk Joint Size"
                         type="number"
                         value={shimSize}
-                        onChange={({ target: { value } }) => createSystem({
+                        onChange={({ target: { value } }) => createnewsystem({
                             nodeId: systemNID,
                             shimSize: value,
                         })}
@@ -174,6 +174,7 @@ export default function CreateSystem({
                 <div className="bottom-buttons">
                     <Link
                         to="/system-data"
+                        onClick={resetMutations}
                     >
                         <button
                             className="empty"
