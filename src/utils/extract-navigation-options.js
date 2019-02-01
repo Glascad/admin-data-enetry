@@ -12,9 +12,12 @@
  * }
  */
 
-export default (component, props) => {
+const extractNavigationOptions = (component, props, log = false) => {
     const {
         navigationOptions = {},
+        navigationOptions: {
+            subroutes: unmappedSubroutes = [],
+        } = {},
         name: functionName = "",
     } = component;
 
@@ -23,7 +26,7 @@ export default (component, props) => {
         :
         navigationOptions;
 
-    const name = options.name ?
+    const name = typeof options.name !== 'undefined' ?
         options.name
         :
         functionName
@@ -33,12 +36,29 @@ export default (component, props) => {
     const path = options.path ?
         options.path
         :
-        `/${name.replace(' ', '-').toLowerCase()}`;
+        `/${name.replace(/ +/g, '-').toLowerCase()}`;
+    
+    const subroutes = unmappedSubroutes.map(route => extractNavigationOptions(route, props, log));
+
+    if (log) {
+        console.log({
+            name,
+            path,
+            functionName,
+            navigationOptions,
+            options,
+            props,
+            subroutes,
+        });
+    }
 
     return {
         ...options,
         component,
         name,
         path,
+        subroutes,
     };
 }
+
+export default extractNavigationOptions;

@@ -12,6 +12,8 @@
     
     .title-bar-left {
         display: flex;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         
         .left {
             margin-left: $small;

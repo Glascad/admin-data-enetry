@@ -15,13 +15,15 @@ function NavMenu({
         pathname,
         search,
     },
+    routeProps,
     routes = [arguments[0].route].filter(Boolean),
     closed,
 }) {
     return (
         <div className="NavMenu">
             {routes
-                .map(route => extractNavigationOptions(route, ...arguments))
+                .map(route => extractNavigationOptions(route, routeProps))
+                .filter(({ name }) => name.trim())
                 .map(({
                     exact,
                     name,
@@ -40,7 +42,6 @@ function NavMenu({
                         }
                     >
                         {subroutes
-                            .map(route => extractNavigationOptions(route, ...arguments))
                             .filter(({ name }) => name.trim())
                             .map(({ name: childName, path: childPath }, j) => (
                                 <NavLink

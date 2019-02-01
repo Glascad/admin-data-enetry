@@ -16,11 +16,16 @@ import SystemDetails from './SystemDetails/SystemDetails';
 SystemToggle.navigationOptions = ({
     queryStatus: {
         system: {
+            nodeId,
             name = '',
         } = {},
     } = {},
+    systemNID,
 } = {}) => ({
-    name,
+    name: systemNID === nodeId ?
+        name
+        :
+        "",
     path: "/info",
 });
 

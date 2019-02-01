@@ -56,11 +56,6 @@ class Sidebar extends Component {
                             nodeId
                             id
                             name
-                            manufacturerByManufacturerId{
-                                nodeId
-                                id
-                                name
-                            }
                         }
                     }`,
                     variables: {
@@ -82,7 +77,10 @@ class Sidebar extends Component {
                                 onClick={toggle}
                             />
                             <NavMenu
-                                {...apollo}
+                                routeProps={{
+                                    ...apollo,
+                                    systemNID,
+                                }}
                                 routes={routes}
                                 closed={!open}
                             />
