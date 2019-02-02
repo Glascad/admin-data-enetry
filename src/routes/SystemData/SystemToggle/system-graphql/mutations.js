@@ -38,6 +38,10 @@ import updateSystem from './system/update';
 import createSystemSystemTag from './tag/create';
 import deleteSystemSystemTag from './tag/delete';
 
+
+import updateEntireSystem from './update-entire-system';
+
+
 export default {
     createSystemInfillPocketSize,
     deleteSystemInfillPocketSize,
@@ -66,4 +70,5 @@ export default {
     updateSystem,
     createSystemSystemTag,
     deleteSystemSystemTag,
+    updateEntireSystem,
 }

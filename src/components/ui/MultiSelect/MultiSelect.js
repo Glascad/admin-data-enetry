@@ -6,7 +6,7 @@ import ListContainer from '../ListContainer/ListContainer';
 
 import './MultiSelect.scss';
 
-const removeDuplicateNIDs = list => list.filter((item, i) => i === list.findIndex(({ nodeId }) => nodeId === item.nodeId));
+const removeDuplicateNIDs = (list, identifier = 'nodeId') => list.filter((item, i) => i === list.findIndex(({ [identifier]: id }) => id === item[identifier]));
 
 export default class MultiSelect extends Component {
 
@@ -21,16 +21,17 @@ export default class MultiSelect extends Component {
                 selection: {
                     selectedNID,
                     creating,
-                    deleting
+                    deleting,
                 } = {},
                 modal: {
-                    display: newDisplay
+                    display: newDisplay,
                 },
-                previousItems
-            }
+                identifier = 'nodeId',
+                previousItems,
+            },
         } = this;
         if (display !== newDisplay) {
-            const selectedItem = previousItems.find(({ nodeId }) => nodeId === selectedNID);
+            const selectedItem = previousItems.find(({ [identifier]: id }) => id === selectedNID);
             this.setState({
                 addedItems: creating && selectedItem ? [selectedItem] : [],
                 deletedItems: deleting && selectedItem ? [selectedItem] : [],
@@ -43,10 +44,17 @@ export default class MultiSelect extends Component {
     }));
 
     handleDeleteClick = ({ arguments: deletedItem }) => {
-        if (this.props.previousItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
-            if (this.state.deletedItems.some(({ nodeId }) => nodeId === deletedItem.nodeId)) {
+        const {
+            props: {
+                identifier = 'nodeId',
+            },
+        } = this;
+        console.log({ deletedItem, identifier });
+        if (this.props.previousItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
+            if (this.state.deletedItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
                 this.setState(({ deletedItems }) => ({
-                    deletedItems: deletedItems.filter(({ nodeId }) => nodeId !== deletedItem.nodeId)
+                    deletedItems: deletedItems
+                        .filter(({ [identifier]: id }) => id !== deletedItem[identifier])
                 }));
             } else {
                 this.setState(({ deletedItems }) => ({
@@ -55,7 +63,8 @@ export default class MultiSelect extends Component {
             }
         } else {
             this.setState(({ addedItems }) => ({
-                addedItems: addedItems.filter(({ nodeId }) => nodeId !== deletedItem.nodeId)
+                addedItems: addedItems
+                    .filter(({ [identifier]: id }) => id !== deletedItem[identifier])
             }));
         }
     }
@@ -67,6 +76,7 @@ export default class MultiSelect extends Component {
                 addedItems,
                 deletedItems,
             },
+            props,
             props: {
                 modal,
                 previousItems,
@@ -75,6 +85,7 @@ export default class MultiSelect extends Component {
                 list: {
                     titleBar,
                 },
+                identifier = 'nodeId',
             },
             handleSelect,
             handleDeleteClick,
@@ -83,7 +94,12 @@ export default class MultiSelect extends Component {
         const selectedItems = removeDuplicateNIDs(previousItems.concat(addedItems));
 
         const nonSelectedItems = allItems
-            .filter(item => !selectedItems.some(({ nodeId }) => nodeId === item.nodeId));
+            .filter(item => !selectedItems.some(({ [identifier]: id }) => id === item[identifier]));
+
+        console.log({
+            state,
+            props,
+        });
 
         return (
             <Modal
@@ -98,7 +114,7 @@ export default class MultiSelect extends Component {
                     items={selectedItems}
                     renderItem={(item, i) => (
                         <Pill
-                            key={item.nodeId}
+                            key={item[identifier]}
                             tagname="li"
                             selected={!previousItems.includes(item)}
                             danger={deletedItems.includes(item)}
@@ -114,7 +130,7 @@ export default class MultiSelect extends Component {
                     items={nonSelectedItems}
                     renderItem={item => (
                         <Pill
-                            key={item.nodeId}
+                            key={item[identifier]}
                             tagname="li"
                             onSelect={handleSelect}
                             arguments={item}

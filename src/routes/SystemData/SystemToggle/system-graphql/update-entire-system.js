@@ -2,23 +2,23 @@ import gql from 'graphql-tag';
 
 export default {
     mutation: gql`mutation UpdateEntireSystem(
-        $id: INTEGER,
-        $newName: TEXT,
-        $newManufacturerId: INTEGER,
-        $newSystemTypeId: INTEGER,
-        $newDepth: FLOAT,
-        $newDefaultSightline: FLOAT,
-        $newShimSize: FLOAT,
-        $newDefaultGlassSize: FLOAT,
-        $newDefaultGlassBite: FLOAT,
-        $newSystemTags: [INTEGER],
-        $oldSystemTags: [INTEGER],
-        $newInfillSizes: [FLOAT],
-        $oldInfillSizes: [FLOAT],
-        $newInfillPocketSizes: [FLOAT],
-        $oldInfillPocketSizes: [FLOAT],
-        $newInfillPocketTypes: [INTEGER],
-        $oldInfillPocketTypes: [INTEGER]
+        $id: Int,
+        $newName: String,
+        $newManufacturerId: Int,
+        $newSystemTypeId: Int,
+        $newDepth: Float,
+        $newDefaultSightline: Float,
+        $newShimSize: Float,
+        $newDefaultGlassSize: Float,
+        $newDefaultGlassBite: Float,
+        $newSystemTags: [Int],
+        $oldSystemTags: [Int],
+        $newInfillSizes: [Float],
+        $oldInfillSizes: [Float],
+        $newInfillPocketSizes: [Float],
+        $oldInfillPocketSizes: [Float],
+        $newInfillPocketTypes: [Int],
+        $oldInfillPocketTypes: [Int]
     ){
         updateEntireSystem(
             input:{
@@ -218,10 +218,91 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystem, { system }) => ({
+    mapResultToProps: ({
+        newName,
+        newManufacturerId,
+        newSystemTypeId,
+        newDepth,
+        newDefaultSightline,
+        newShimSize,
+        newDefaultGlassSize,
+        newDefaultGlassBite,
+        newSystemTags = [],
+        oldSystemTags = [],
+        newInfillSizes = [],
+        oldInfillSizes = [],
+        newInfillPocketSizes = [],
+        oldInfillPocketSizes = [],
+        newInfillPocketTypes = [],
+        oldInfillPocketTypes = [],
+    }, {
+        system,
+        system: {
+            name,
+            depth,
+            defaultSightline,
+            shimSize,
+            defaultGlassSize,
+            defaultGlassBite,
+            manufacturer,
+            systemType,
+            systemSystemTags,
+            systemInfillSizes,
+            systemInfillPocketSizes,
+            systemInfillPocketTypes,
+        },
+        allManufacturers,
+        allSystemTypes,
+        allSystemTags,
+        allInfillSizes,
+        allInfillPocketTypes,
+        allInfillPocketSizes,
+    }) => ({
         system: {
             ...system,
-            ...newSystem,
+            name: newName === undefined ? name : newName,
+            manufacturer: newManufacturerId ?
+                allManufacturers.find(({ id }) => id === newManufacturerId)
+                :
+                manufacturer,
+            systemType: newSystemTypeId ?
+                allSystemTypes.find(({ id }) => id === newSystemTypeId)
+                :
+                systemType,
+            depth: newDepth || depth,
+            defaultSightline: newDefaultSightline || defaultSightline,
+            shimSize: newShimSize || shimSize,
+            defaultGlassSize: newDefaultGlassSize || defaultGlassSize,
+            defaultGlassBite: newDefaultGlassBite | defaultGlassBite,
+            systemSystemTags: systemSystemTags
+                .filter(({ systemTag: { id } }) => !oldSystemTags.includes(id))
+                .concat(newSystemTags
+                    .map(systemTagId => ({
+                        systemTag: allSystemTags
+                            .find(({ id }) => id === systemTagId),
+                    }))
+                ),
+            systemInfillSizes: systemInfillSizes
+                .filter(({ infillSize }) => !oldInfillSizes.includes(infillSize))
+                .concat(newInfillSizes
+                    .map(infillSize => allInfillSizes
+                        .find(({ size }) => size === infillSize)
+                    )
+                ),
+            systemInfillPocketSizes: systemInfillPocketSizes
+                .filter(({ infillPocketSize }) => !oldInfillPocketSizes.includes(infillPocketSize))
+                .concat(newInfillPocketSizes
+                    .map(infillPocketSize => allInfillPocketSizes
+                        .find(({ size }) => size === infillPocketSize)
+                    )
+                ),
+            systemInfillPocketTypes: systemInfillPocketTypes
+                .filter(({ infillPocketTypeId }) => !oldInfillPocketTypes.includes(infillPocketTypeId))
+                .concat(newInfillPocketTypes
+                    .map(infillPocketTypeId => allInfillPocketTypes
+                        .find(({ id }) => id === infillPocketTypeId)
+                    )
+                ),
         }
     })
 };

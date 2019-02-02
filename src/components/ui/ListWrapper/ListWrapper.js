@@ -27,13 +27,23 @@ class List extends Component {
     // };
 
     handleDelete = async () => {
+        const {
+            props: {
+                selection: {
+                    cancel,
+                    selectedNID,
+                },
+                onDelete,
+                identifier = 'nodeId',
+            },
+        } = this;
         try {
-            await this.props.onDelete({
+            await onDelete({
                 arguments: {
-                    nodeId: this.props.selection.selectedNID
-                }
+                    [identifier]: selectedNID,
+                },
             });
-            this.props.selection.cancel();
+            cancel();
         } catch (err) {
             console.error(err);
         }
@@ -59,6 +69,7 @@ class List extends Component {
                 title = (this.props.titleBar && this.props.titleBar.title) || "",
                 titleBar,
                 label,
+                identifier = 'nodeId',
                 items,
                 defaultPillProps,
                 mapPillProps,
@@ -85,7 +96,6 @@ class List extends Component {
                 multiSelect,
                 multiSelect: {
                     title: multiSelectTitle,
-                    allItems,
                     // onCreate: onMultiSelectCreate,
                     // onDelete: onMultiSelectDelete,
                     mapPreviousItems = item => item,
@@ -96,7 +106,7 @@ class List extends Component {
             handleDelete,
         } = this;
 
-        const selectedItem = items.find(({ nodeId }) => nodeId === selectedNID)
+        const selectedItem = items.find(({ [identifier]: id }) => id === selectedNID)
             ||
             items[0]
             ||
@@ -110,9 +120,9 @@ class List extends Component {
                     items={items}
                     renderItem={item => {
 
-                        const { nodeId } = item;
+                        const { [identifier]: id } = item;
 
-                        const args = { nodeId };
+                        const args = { [identifier]: id };
 
                         const canSelect = !creating
                             &&
@@ -131,14 +141,14 @@ class List extends Component {
                             &&
                             deleting
                             &&
-                            nodeId === selectedNID;
+                            id === selectedNID;
 
                         const _delete = multiSelect || deleteModal ?
                             handleDeleteClick
                             :
                             onDelete;
 
-                        const selected = !!(nodeId === selectedItem.nodeId
+                        const selected = !!(id === selectedItem[identifier]
                             &&
                             canSelect);
 
@@ -150,7 +160,7 @@ class List extends Component {
                         return (
                             <Pill
                                 className={className}
-                                key={nodeId}
+                                key={id}
                                 tagname="li"
                                 selected={selected}
                                 danger={danger}
@@ -181,6 +191,7 @@ class List extends Component {
                 />
                 {multiSelect ? (
                     <MultiSelect
+                        {...multiSelect}
                         modal={{
                             titleBar: {
                                 title: multiSelectTitle || titleBar ?
@@ -202,7 +213,6 @@ class List extends Component {
                         }}
                         selection={selection}
                         previousItems={items.map(mapPreviousItems)}
-                        allItems={allItems}
                         mapPillProps={mapPillProps}
                     />
                 ) : deleteModal ? (
@@ -248,15 +258,17 @@ export default function ListWrapper({
             update,
         } = {},
     } = {},
+    identifier = 'nodeId',
     ...props
 }) {
     return stateManager ? (
         <List
             selection={{
-                selectedNID: state[id] && state[id].nodeId,
+                selectedNID: state[id] && state[id][identifier],
                 handleSelect: update(id),
                 selectable: true,
             }}
+            identifier={identifier}
             {...props}
         />
     ) : (

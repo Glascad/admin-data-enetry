@@ -13,6 +13,7 @@ import { parseSearch } from '../../../utils';
 import SystemDatabase from './SystemDatabase/SystemDatabase';
 import SystemDetails from './SystemDetails/SystemDetails';
 
+// THIS IS FOR RENDERING THE CORRECT NAME IN THE SIDEBAR
 SystemToggle.navigationOptions = ({
     queryStatus: {
         system: {
@@ -62,13 +63,12 @@ export default function SystemToggle({
                 return (
                     <ToggleNavigator
                         titleBar={{
-                            title: `${
-                                mnfgName
-                                } ${
-                                systemName
-                                }`.trim()
+                            title: systemNID ?
+                                `${mnfgName} ${systemName}`.trim()
                                 ||
-                                'Loading...',
+                                'Loading...'
+                                :
+                                "New System",
                         }}
                         routeProps={apollo}
                         routes={[

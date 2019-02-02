@@ -42,7 +42,7 @@ export default function SystemDatabase({
                     onClick={resetMutations}
                 >
                     Reset
-                    </button>
+                </button>
                 <button
                     className="action"
                     onClick={completeMutations}

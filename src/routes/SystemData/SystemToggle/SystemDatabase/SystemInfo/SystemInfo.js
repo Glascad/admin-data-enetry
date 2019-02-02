@@ -25,11 +25,12 @@ export default function SystemInfo({
         allSystemTags = [],
     },
     mutations: {
-        updateSystem,
+        updateEntireSystem,
         createSystemSystemTag,
         deleteSystemSystemTag,
     },
 }) {
+    console.log(arguments[0]);
     return (
         <>
             <TitleBar
@@ -38,9 +39,10 @@ export default function SystemInfo({
             <Input
                 label="Name"
                 value={name}
-                onChange={({ target: { value } }) => updateSystem({
+                onChange={({ target: { value } }) => updateEntireSystem({
+                    id: systemId,
                     nodeId: systemNID,
-                    name: value,
+                    newName: value,
                 })}
             />
             <Input
@@ -54,34 +56,29 @@ export default function SystemInfo({
                         value: id,
                         label: type,
                     })),
-                    onChange: ({ value }) => updateSystem({
+                    onChange: ({ value }) => updateEntireSystem({
+                        id: systemId,
                         nodeId: systemNID,
-                        systemTypeId: value,
+                        newSystemTypeId: value,
                     }),
                 }}
             />
             <ListWrapper
                 label="System Tags"
-                items={systemSystemTags.map(({
-                    nodeId: systemSystemTagNID,
-                    systemTag,
-                }) => ({
-                    systemSystemTagNID,
-                    ...systemTag,
-                }))}
+                identifier="id"
+                items={systemSystemTags.map(({ systemTag }) => ({ ...systemTag }))}
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}
-                onCreate={systemTag => createSystemSystemTag({
-                    systemTagId: systemTag.id,
-                    systemId,
-                    systemTag,
+                onCreate={({ id }) => updateEntireSystem({
+                    id: systemId,
+                    nodeId: systemNID,
+                    newSystemTags: [id],
                 })}
-                onDelete={({ systemSystemTagNID, ...systemTag }) => deleteSystemSystemTag({
-                    nodeId: systemSystemTagNID,
-                    systemTagId: systemTag.id,
-                    systemId,
-                    systemTag,
+                onDelete={({ id }) => updateEntireSystem({
+                    id: systemId,
+                    nodeId: systemNID,
+                    oldSystemTags: [id],
                 })}
                 multiSelect={{
                     allItems: allSystemTags,
@@ -92,27 +89,30 @@ export default function SystemInfo({
                     label="System Depth"
                     type="number"
                     value={depth}
-                    onChange={({ target: { value } }) => updateSystem({
+                    onChange={({ target: { value } }) => updateEntireSystem({
+                        id: systemId,
                         nodeId: systemNID,
-                        depth: value
+                        newDepth: value
                     })}
                 />
                 <Input
                     label="System Sightline"
                     type="number"
                     value={defaultSightline}
-                    onChange={({ target: { value } }) => updateSystem({
+                    onChange={({ target: { value } }) => updateEntireSystem({
+                        id: systemId,
                         nodeId: systemNID,
-                        defaultSightline: value,
+                        newDefaultSightline: value,
                     })}
                 />
                 <Input
                     label="Caulk Joint Size"
                     type="number"
                     value={shimSize}
-                    onChange={({ target: { value } }) => updateSystem({
+                    onChange={({ target: { value } }) => updateEntireSystem({
+                        id: systemId,
                         nodeId: systemNID,
-                        shimSize: value,
+                        newShimSize: value,
                     })}
                 />
             </div>
