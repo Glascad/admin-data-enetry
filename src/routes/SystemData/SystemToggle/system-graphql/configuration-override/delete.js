@@ -25,12 +25,12 @@ export default {
     mapResultToProps: (deletedSystemConfigurationOverride, {
         system,
         system: {
-            systemConfigurationOverrides,
+            _systemConfigurationOverrides,
         },
     }) => ({
         system: {
             ...system,
-            systemConfigurationOverrides: systemConfigurationOverrides
+            _systemConfigurationOverrides: _systemConfigurationOverrides
                 .filter(override => !(
                     override.systemTypeId === deletedSystemConfigurationOverride.systemTypeId
                     &&

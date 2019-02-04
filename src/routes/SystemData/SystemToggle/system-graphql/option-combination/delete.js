@@ -21,12 +21,12 @@ export default {
     mapResultToProps: ({ nodeId }, {
         system,
         system: {
-            optionCombinations,
+            _optionCombinations,
         }
     }) => ({
         system: {
             ...system,
-            optionCombinations: optionCombinations
+            _optionCombinations: _optionCombinations
                 .filter(combination => combination.nodeId !== nodeId)
         }
     }),

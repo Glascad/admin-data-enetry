@@ -60,7 +60,7 @@ export default function ConfigurationTypes() {
                             door,
                             // presentationLevel,
                             // overrideLevel,
-                            configurationTypePartTypes = [],
+                            _configurationTypePartTypes = [],
                             // configurationNameOverrides = [],
                         }) => (
                                 <>
@@ -101,13 +101,13 @@ export default function ConfigurationTypes() {
                                         //     title: "Part Types",
                                         //     selections: [type]
                                         // }}
-                                        items={configurationTypePartTypes
+                                        items={_configurationTypePartTypes
                                             .map(({
                                                 nodeId,
-                                                partType,
+                                                _partType,
                                             }) => ({
                                                 configurationTypePartTypeNID: nodeId,
-                                                ...partType
+                                                ..._partType
                                             }))}
                                         multiSelect={{
                                             allItems: allPartTypes,

@@ -118,14 +118,14 @@ export default function SystemSearch({
                                             <ListWrapper
                                                 title="Search Results"
                                                 items={allSystems.filter(({
-                                                    name,
-                                                    manufacturer: {
+                                                    name = "",
+                                                    _manufacturer: {
                                                         nodeId: manufacturerNID
                                                     } = {},
-                                                    systemType: {
+                                                    _systemType: {
                                                         nodeId: systemTypeNID,
                                                     } = {},
-                                                    systemSystemTags,
+                                                    _systemSystemTags,
                                                 }) => (
                                                         name.toLowerCase().includes(state.name ?
                                                             state.name.toLowerCase()
@@ -154,7 +154,7 @@ export default function SystemSearch({
                                                             !state.systemSystemTags.length
                                                             ||
                                                             state.systemSystemTags.every(({ value }) => (
-                                                                systemSystemTags.some(({
+                                                                _systemSystemTags.some(({
                                                                     systemTag: {
                                                                         nodeId
                                                                     }
@@ -171,7 +171,7 @@ export default function SystemSearch({
                                                 mapPillProps={({
                                                     nodeId,
                                                     name: systemName,
-                                                    manufacturer: {
+                                                    _manufacturer: {
                                                         name: mnfgName,
                                                     } = {}
                                                 }) => ({

@@ -40,6 +40,13 @@ export default class ListContainer extends Component {
     //     sort: PropTypes.func,
     // };
 
+    static defaultProps = {
+        className: "",
+        filters: [],
+        sorts: [],
+        groups: [],
+    };
+
     state = {
         selectedFilter: noFilter,
         selectedSort: noSort,
@@ -66,14 +73,14 @@ export default class ListContainer extends Component {
                 },
             },
             props: {
-                className = '',
+                className,
                 titleBar,
                 label,
                 items,
                 renderItem,
-                filters = [],
-                sorts = [],
-                groups = [],
+                filters,
+                sorts,
+                groups,
                 afterList,
             },
         } = this;

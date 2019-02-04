@@ -34,17 +34,25 @@ import extractNavigationOptions from '../../utils/extract-navigation-options';
 
 class NavigatorChild extends Component {
 
+    static defaultProps = {
+        children: "It looks like you found an invalid route",
+    };
+
     componentDidMount = () => {
         // console.log('child updating route' + this.props.index);
         this.props.updateCurrentRoute(this.props.index);
     }
 
-    render = () => this.props.children || "It looks like you found an invalid route";
+    render = () => this.props.children;
 }
 
 
 
 class Navigator extends Component {
+
+    static defaultProps = {
+        children: (_, Children) => Children,
+    };
 
     state = {
         currentRoute: 0,
@@ -78,7 +86,7 @@ class Navigator extends Component {
                 },
                 routeProps,
                 routes,
-                children = (_, Children) => Children,
+                children,
             },
             updateCurrentRoute,
         } = this;

@@ -48,6 +48,10 @@ export default class ApolloWrapper extends Component {
     //     mutations: PropTypes.objectOf(PropTypes.object),
     // };
 
+    static defaultProps = {
+        mutations: {},
+    };
+
     render = () => {
         const {
             props: {
@@ -60,7 +64,7 @@ export default class ApolloWrapper extends Component {
                 } = {},
                 query,
                 refetch,
-                mutations = {},
+                mutations,
                 children,
                 ...props
             },

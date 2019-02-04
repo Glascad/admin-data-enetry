@@ -2,11 +2,15 @@ import React from 'react';
 
 import './Toggle.scss';
 
+Toggle.defaultProps = {
+    className: "",
+};
+
 export default function Toggle({
     buttons,
     label,
     title,
-    className = "",
+    className,
 }) {
     return (
         <>

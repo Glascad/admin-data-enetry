@@ -244,12 +244,12 @@ export default {
             shimSize,
             defaultGlassSize,
             defaultGlassBite,
-            manufacturer,
-            systemType,
-            systemSystemTags,
-            systemInfillSizes,
-            systemInfillPocketSizes,
-            systemInfillPocketTypes,
+            _manufacturer,
+            _systemType,
+            _systemSystemTags,
+            _systemInfillSizes,
+            _systemInfillPocketSizes,
+            _systemInfillPocketTypes,
         },
         allManufacturers,
         allSystemTypes,
@@ -261,20 +261,20 @@ export default {
         system: {
             ...system,
             name: newName === undefined ? name : newName,
-            manufacturer: newManufacturerId ?
+            _manufacturer: newManufacturerId ?
                 allManufacturers.find(({ id }) => id === newManufacturerId)
                 :
-                manufacturer,
-            systemType: newSystemTypeId ?
+                _manufacturer,
+            _systemType: newSystemTypeId ?
                 allSystemTypes.find(({ id }) => id === newSystemTypeId)
                 :
-                systemType,
+                _systemType,
             depth: newDepth || depth,
             defaultSightline: newDefaultSightline || defaultSightline,
             shimSize: newShimSize || shimSize,
             defaultGlassSize: newDefaultGlassSize || defaultGlassSize,
             defaultGlassBite: newDefaultGlassBite | defaultGlassBite,
-            systemSystemTags: systemSystemTags
+            _systemSystemTags: _systemSystemTags
                 .filter(({ systemTag: { id } }) => !oldSystemTags.includes(id))
                 .concat(newSystemTags
                     .map(systemTagId => ({
@@ -282,21 +282,21 @@ export default {
                             .find(({ id }) => id === systemTagId),
                     }))
                 ),
-            systemInfillSizes: systemInfillSizes
+            _systemInfillSizes: _systemInfillSizes
                 .filter(({ infillSize }) => !oldInfillSizes.includes(infillSize))
                 .concat(newInfillSizes
                     .map(infillSize => allInfillSizes
                         .find(({ size }) => size === infillSize)
                     )
                 ),
-            systemInfillPocketSizes: systemInfillPocketSizes
+            _systemInfillPocketSizes: _systemInfillPocketSizes
                 .filter(({ infillPocketSize }) => !oldInfillPocketSizes.includes(infillPocketSize))
                 .concat(newInfillPocketSizes
                     .map(infillPocketSize => allInfillPocketSizes
                         .find(({ size }) => size === infillPocketSize)
                     )
                 ),
-            systemInfillPocketTypes: systemInfillPocketTypes
+            _systemInfillPocketTypes: _systemInfillPocketTypes
                 .filter(({ infillPocketTypeId }) => !oldInfillPocketTypes.includes(infillPocketTypeId))
                 .concat(newInfillPocketTypes
                     .map(infillPocketTypeId => allInfillPocketTypes

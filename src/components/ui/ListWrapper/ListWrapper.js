@@ -26,6 +26,10 @@ class List extends Component {
     //     })
     // };
 
+    static defaultProps = {
+        identifier: "nodeId",
+    };
+
     handleDelete = async () => {
         const {
             props: {
@@ -34,7 +38,7 @@ class List extends Component {
                     selectedNID,
                 },
                 onDelete,
-                identifier = 'nodeId',
+                identifier,
             },
         } = this;
         try {
@@ -69,7 +73,7 @@ class List extends Component {
                 title = (this.props.titleBar && this.props.titleBar.title) || "",
                 titleBar,
                 label,
-                identifier = 'nodeId',
+                identifier,
                 items,
                 defaultPillProps,
                 mapPillProps,
@@ -258,7 +262,7 @@ export default function ListWrapper({
             update,
         } = {},
     } = {},
-    identifier = 'nodeId',
+    identifier,
     ...props
 }) {
     return stateManager ? (

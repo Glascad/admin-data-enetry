@@ -8,8 +8,8 @@ export default function InvalidCombinations({
     queryStatus: {
         system: {
             id: systemId,
-            systemOptions = [],
-            optionCombinations = [],
+            _systemOptions = [],
+            _optionCombinations = [],
         } = {},
         allConfigurationTypes = [],
     },
@@ -27,27 +27,27 @@ export default function InvalidCombinations({
         <div className="unfinished">
             <ListWrapper
                 title="Invalid Combinations"
-                items={optionCombinations}
+                items={_optionCombinations}
                 defaultPillProps={{
                     type: "tile",
                     align: "left",
                 }}
                 mapPillProps={({
-                    optionCombinationConfigurationTypes,
-                    optionCombinationOptionValues,
+                    _optionCombinationConfigurationTypes,
+                    _optionCombinationOptionValues,
                 }) => ({
-                    title: !optionCombinationConfigurationTypes.length && !optionCombinationOptionValues.length ?
+                    title: !_optionCombinationConfigurationTypes.length && !_optionCombinationOptionValues.length ?
                         "Empty"
-                        : optionCombinationConfigurationTypes.map(({
-                            configurationType: {
+                        : _optionCombinationConfigurationTypes.map(({
+                            _configurationType: {
                                 type
                             }
                         }) => (
                                 <span key={type}>{type}</span>
                             )),
-                    children: optionCombinationOptionValues.map(({
-                        optionValue: {
-                            systemOption: {
+                    children: _optionCombinationOptionValues.map(({
+                        _optionValue: {
+                            _systemOption: {
                                 name: optionName
                             },
                             name: optionValueName,
@@ -66,29 +66,29 @@ export default function InvalidCombinations({
             >
                 {({
                     id: optionCombinationId,
-                    optionCombinationConfigurationTypes = [],
-                    optionCombinationOptionValues = [],
+                    _optionCombinationConfigurationTypes = [],
+                    _optionCombinationOptionValues = [],
                 }) => (
                         <>
                             <ListWrapper
                                 title="Configuration Types"
-                                items={optionCombinationConfigurationTypes.map(({ nodeId, configurationType }) => ({
+                                items={_optionCombinationConfigurationTypes.map(({ nodeId, _configurationType }) => ({
                                     optionCombinationConfigurationTypeNID: nodeId,
-                                    ...configurationType,
+                                    ..._configurationType,
                                 }))}
                                 mapPillProps={({ type }) => ({
                                     title: type
                                 })}
-                                onCreate={configurationType => createOptionCombinationConfigurationType({
+                                onCreate={_configurationType => createOptionCombinationConfigurationType({
                                     optionCombinationId,
-                                    configurationTypeId: configurationType.id,
-                                    configurationType,
+                                    configurationTypeId: _configurationType.id,
+                                    _configurationType,
                                 })}
-                                onDelete={({ optionCombinationConfigurationTypeNID, ...configurationType }) => deleteOptionCombinationConfigurationType({
+                                onDelete={({ optionCombinationConfigurationTypeNID, ..._configurationType }) => deleteOptionCombinationConfigurationType({
                                     optionCombinationId,
                                     nodeId: optionCombinationConfigurationTypeNID,
-                                    configurationTypeId: configurationType.id,
-                                    configurationType,
+                                    configurationTypeId: _configurationType.id,
+                                    _configurationType,
                                 })}
                                 multiSelect={{
                                     title: "",
@@ -99,43 +99,43 @@ export default function InvalidCombinations({
                             </ListWrapper>
                             <ListWrapper
                                 title="Options"
-                                items={optionCombinationOptionValues.map(({ nodeId, optionValue }) => ({
+                                items={_optionCombinationOptionValues.map(({ nodeId, optionValue }) => ({
                                     optionCombinationOptionValueNID: nodeId,
                                     ...optionValue,
                                 }))}
                                 mapPillProps={({
                                     value,
                                     name,
-                                    systemOption: {
+                                    _systemOption: {
                                         name: optionName
                                     }
                                 }) => ({
                                     title: `${optionName}: ${name || value}`
                                 })}
-                                onCreate={optionValue => createOptionCombinationOptionValue({
+                                onCreate={_optionValue => createOptionCombinationOptionValue({
                                     optionCombinationId,
-                                    optionValueId: optionValue.id,
-                                    optionValue,
+                                    optionValueId: _optionValue.id,
+                                    _optionValue,
                                 })}
                                 onDelete={({
                                     optionCombinationOptionValueNID,
-                                    ...optionValue
+                                    ..._optionValue
                                 }) => deleteOptionCombinationOptionValue({
                                     optionCombinationId,
                                     nodeId: optionCombinationOptionValueNID,
-                                    optionValueId: optionValue.id,
-                                    optionValue
+                                    optionValueId: _optionValue.id,
+                                    _optionValue,
                                 })}
                                 multiSelect={{
                                     title: "",
-                                    allItems: systemOptions.reduce((allItems, {
+                                    allItems: _systemOptions.reduce((allItems, {
                                         optionValues,
-                                        ...systemOption
+                                        ..._systemOption
                                     }) => ([
                                         ...allItems,
                                         ...optionValues.map(optionValue => ({
                                             ...optionValue,
-                                            systemOption
+                                            _systemOption
                                         }))
                                     ]), []),
                                 }}

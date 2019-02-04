@@ -4,12 +4,16 @@ import './GroupingBox.scss';
 import { Toggle } from '../..';
 import AddButton from '../AddButton/AddButton';
 
+GroupingBox.defaultProps = {
+    className: "",
+};
+
 export default function GroupingBox({
     title,
     toggle,
     addButton,
     children,
-    className = "",
+    className,
 }) {
     return (
         <div

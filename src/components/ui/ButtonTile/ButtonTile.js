@@ -6,8 +6,12 @@ import './ButtonTile.scss';
 //     buttonProps: PropTypes.arrayOf(PropTypes.object).isRequired
 // };
 
+ButtonTile.defaultProps = {
+    buttonProps: [],
+};
+
 export default function ButtonTile({
-    buttonProps = []
+    buttonProps,
 }) {
     return (
         <div className="ButtonTile" >

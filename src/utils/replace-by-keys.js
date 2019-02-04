@@ -1,13 +1,15 @@
 
 /**
- * This function replaces keys such as `systemTypeBySystemTypeId` with `systemType`, removing the `By` part of the key.
+ * This function replaces keys such as `systemTypeBySystemTypeId` with `_systemType`, removing the `By` part of the key and adding an `_` to the start.
  * 
  * It recursively searches through the object.
  * 
  * There is no circular structure protection yet.
  */
 
-const replaceByKeys =  obj => (
+const matchBy = /(^.*)By.+$/;
+
+const replaceByKeys = obj => (
     !obj
     ||
     typeof obj !== "object"
@@ -20,7 +22,7 @@ const replaceByKeys =  obj => (
         Object.keys(obj)
             .reduce((filteredObj, key) => ({
                 ...filteredObj,
-                [key.replace(/By.*/, '')]: replaceByKeys(obj[key]),
+                [key.match(matchBy) ? key.replace(matchBy, '_$1') : key]: replaceByKeys(obj[key]),
             }), {});
 
 export default replaceByKeys;

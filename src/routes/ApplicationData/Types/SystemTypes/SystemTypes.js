@@ -53,23 +53,23 @@ export default function SystemTypes() {
                         {({
                             id: systemTypeId,
                             type: systemTypeName = '',
-                            systemTypeDetailTypeConfigurationTypes = [],
+                            _systemTypeDetailTypeConfigurationTypes = [],
                         }) => (
                                 <ListWrapper
                                     titleBar={{
                                         title: "Detail Types",
                                         selections: [systemTypeName],
                                     }}
-                                    items={systemTypeDetailTypeConfigurationTypes
+                                    items={_systemTypeDetailTypeConfigurationTypes
                                         .filter(({
-                                            configurationType,
-                                        }) => !configurationType)
+                                            _configurationType,
+                                        }) => !_configurationType)
                                         .map(({
                                             nodeId,
-                                            detailType,
+                                            _detailType,
                                         }) => ({
                                             systemTypeDetailTypeConfigurationTypeNID: nodeId,
-                                            ...detailType,
+                                            ..._detailType,
                                         }))}
                                     mapPillProps={({ type }) => ({
                                         title: type,
@@ -98,23 +98,23 @@ export default function SystemTypes() {
                                                         detailTypeName,
                                                     ]
                                                 }}
-                                                items={systemTypeDetailTypeConfigurationTypes
+                                                items={_systemTypeDetailTypeConfigurationTypes
                                                     .filter(({
-                                                        detailType: {
+                                                        _detailType: {
                                                             nodeId
                                                         },
-                                                        configurationType,
-                                                    }) => configurationType && nodeId === detailTypeNID)
+                                                        _configurationType,
+                                                    }) => _configurationType && nodeId === detailTypeNID)
                                                     .map(({
                                                         nodeId,
-                                                        configurationType,
+                                                        _configurationType,
                                                         mirrorable,
                                                         required,
                                                         presentationLevel,
                                                         overrideLevel,
                                                     }) => ({
                                                         systemTypeDetailTypeConfigurationTypeNID: nodeId,
-                                                        ...configurationType,
+                                                        ..._configurationType,
                                                         mirrorable,
                                                         required,
                                                         presentationLevel,

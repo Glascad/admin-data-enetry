@@ -1,8 +1,12 @@
 import React from 'react';
 import './DoubleArrow.scss';
 
+DoubleArrow.defaultProps = {
+    className: "",
+};
+
 export default function DoubleArrow({
-    className = '',
+    className,
     ...props
 }) {
     return (
@@ -10,8 +14,8 @@ export default function DoubleArrow({
             className={`DoubleArrow ${className}`}
             {...props}
         >
-            <div className="arrow"/>
-            <div className="arrow"/>
+            <div className="arrow" />
+            <div className="arrow" />
         </button>
     );
 }

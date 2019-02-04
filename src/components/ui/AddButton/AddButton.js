@@ -18,6 +18,13 @@ export default class AddButton extends Component {
     //     otherButtons: PropTypes.arrayOf(PropTypes.object)
     // };
 
+    static defaultProps = {
+        text: "Create",
+        type: "",
+        inputType: "",
+        otherButtons: [],
+    };
+
     state = {
         editing: false
     };
@@ -33,10 +40,10 @@ export default class AddButton extends Component {
                 editing,
             },
             props: {
-                text = "Create",
-                type = "",
-                inputType = "",
-                otherButtons = [],
+                text,
+                type,
+                inputType,
+                otherButtons,
                 onBlur,
             },
             handleClick

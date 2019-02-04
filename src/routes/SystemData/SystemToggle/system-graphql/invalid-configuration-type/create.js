@@ -36,17 +36,17 @@ export default {
     }, {
         system,
         system: {
-            systemType: {
-                systemTypeDetailTypeConfigurationTypes,
+            _systemType: {
+                _systemTypeDetailTypeConfigurationTypes,
             },
-            invalidSystemConfigurationTypes,
+            _invalidSystemConfigurationTypes,
         }
     }) {
         console.log(arguments);
 
         const {
-            configurationType
-        } = systemTypeDetailTypeConfigurationTypes.find(({
+            _configurationType
+        } = _systemTypeDetailTypeConfigurationTypes.find(({
             configurationTypeId
         }) => configurationTypeId === invalidConfigurationTypeId);
 
@@ -54,18 +54,18 @@ export default {
             nodeId,
             systemId,
             invalidConfigurationTypeId,
-            configurationType
+            _configurationType,
         };
 
         console.log({
-            configurationType,
+            _configurationType,
             invalidSystemConfigurationType,
         });
 
         return {
             system: {
                 ...system,
-                invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
+                _invalidSystemConfigurationTypes: _invalidSystemConfigurationTypes
                     .concat(invalidSystemConfigurationType)
             }
         };

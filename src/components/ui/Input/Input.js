@@ -11,6 +11,12 @@ import './Input.scss';
 
 export default class Input extends Component {
 
+    static defaultProps = {
+        tagname: "div",
+        type: "text",
+        checked: false,
+    };
+
     ref = createRef();
 
     componentDidUpdate = ({ initialValue }) => {
@@ -31,13 +37,13 @@ export default class Input extends Component {
     render = () => {
         const {
             props: {
-                tagname = "div",
+                tagname,
                 label,
-                type = "text",
+                type,
                 select,
                 value,
                 initialValue,
-                checked = false,
+                checked,
                 onChange,
                 ...props
             },

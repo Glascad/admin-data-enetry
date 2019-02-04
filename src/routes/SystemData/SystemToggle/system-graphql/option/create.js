@@ -55,12 +55,12 @@ export default {
     mapResultToProps: (newOption, {
         system,
         system: {
-            systemOptions,
+            _systemOptions,
         }
     }) => ({
         system: {
             ...system,
-            systemOptions: systemOptions.concat(newOption)
+            _systemOptions: _systemOptions.concat(newOption)
         }
     }),
 };

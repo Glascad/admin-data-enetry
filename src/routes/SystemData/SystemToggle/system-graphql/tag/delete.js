@@ -22,12 +22,12 @@ export default {
     mapResultToProps: ({ nodeId: deletedNID }, {
         system,
         system: {
-            systemSystemTags,
+            _systemSystemTags,
         },
     }) => ({
         system: {
             ...system,
-            systemSystemTags: systemSystemTags.filter(({ nodeId }) => nodeId !== deletedNID)
+            _systemSystemTags: _systemSystemTags.filter(({ nodeId }) => nodeId !== deletedNID)
         },
     }),
 };

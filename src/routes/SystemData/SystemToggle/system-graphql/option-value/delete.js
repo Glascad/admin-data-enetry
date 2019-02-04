@@ -26,18 +26,18 @@ export default {
     mapResultToProps: (deletedOptionValue, {
         system,
         system: {
-            systemOptions,
+            _systemOptions,
         }
     }) => ({
         system: {
             ...system,
-            systemOptions: systemOptions
+            _systemOptions: _systemOptions
                 .map(option => option.id === deletedOptionValue.systemOptionId ?
                     {
                         ...option,
-                        optionValuesBySystemOptionId: {
-                            ...option.optionValuesBySystemOptionId,
-                            nodes: option.optionValuesBySystemOptionId.nodes.filter(ov => ov.nodeId !== deletedOptionValue.nodeId)
+                        _optionValues: {
+                            ...option._optionValues,
+                            nodes: option._optionValues.nodes.filter(ov => ov.nodeId !== deletedOptionValue.nodeId)
                         }
                     }
                     :

@@ -15,7 +15,7 @@ export default class SystemConfigurationOverride extends Component {
 
     handleChange = (key, value) => {
         const updatedSystemConfigurationOverride = {
-            ...this.props.systemConfigurationOverride,
+            ...this.props._systemConfigurationOverride,
             [key]: value,
         };
         const identical = Object.keys(updatedSystemConfigurationOverride)
@@ -61,7 +61,7 @@ export default class SystemConfigurationOverride extends Component {
                     presentationLevel,
                     overrideLevel,
                 },
-                systemConfigurationOverride: {
+                _systemConfigurationOverride: {
                     mirrorableOverride,
                     requiredOverride,
                     presentationLevelOverride,

@@ -2,8 +2,12 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import './DeleteButton.scss';
 
+DeleteButton.defaultProps = {
+    className: "",
+};
+
 export default function DeleteButton({
-    className = '',
+    className,
     onClick,
     ...props
 }) {

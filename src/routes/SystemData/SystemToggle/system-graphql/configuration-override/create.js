@@ -41,12 +41,12 @@ export default {
     mapResultToProps: (newSystemConfigurationOverride, {
         system,
         system: {
-            systemConfigurationOverrides,
+            _systemConfigurationOverrides,
         },
     }) => ({
         system: {
             ...system,
-            systemConfigurationOverrides: systemConfigurationOverrides
+            _systemConfigurationOverrides: _systemConfigurationOverrides
                 .concat(newSystemConfigurationOverride)
         },
     }),

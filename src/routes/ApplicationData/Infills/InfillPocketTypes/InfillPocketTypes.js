@@ -3,7 +3,7 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
-} from '../../../../../components';
+} from '../../../../components';
 
 import {
     query,

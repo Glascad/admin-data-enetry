@@ -32,13 +32,13 @@ export default {
     }, {
         system,
         system: {
-            invalidSystemConfigurationTypes,
+            _invalidSystemConfigurationTypes,
         }
     }) => {
         return {
             system: {
                 ...system,
-                invalidSystemConfigurationTypes: invalidSystemConfigurationTypes
+                _invalidSystemConfigurationTypes: _invalidSystemConfigurationTypes
                     .filter(invalid => invalid.nodeId !== nodeId && (
                         invalid.systemId !== systemId
                         ||

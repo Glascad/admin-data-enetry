@@ -33,19 +33,19 @@ export default {
     mapResultToProps: (newOptionCombinationConfigurationType, {
         system,
         system: {
-            optionCombinations,
+            _optionCombinations,
         }
     }) => ({
         system: {
             ...system,
-            optionCombinations: optionCombinations.map(combination => (
+            _optionCombinations: _optionCombinations.map(combination => (
                 combination.id === newOptionCombinationConfigurationType.optionCombinationId
             ) ?
                 {
                     ...combination,
-                    optionCombinationConfigurationTypesByOptionCombinationId: {
-                        ...combination.optionCombinationConfigurationTypesByOptionCombinationId,
-                        nodes: combination.optionCombinationConfigurationTypesByOptionCombinationId.nodes.concat(newOptionCombinationConfigurationType)
+                    _optionCombinationConfigurationTypes: {
+                        ...combination._optionCombinationConfigurationTypes,
+                        nodes: combination._optionCombinationConfigurationTypes.nodes.concat(newOptionCombinationConfigurationType)
                     }
                 }
                 : combination)

@@ -29,12 +29,12 @@ export default {
     mapResultToProps: (newSystemInfillPocketSize, {
         system,
         system: {
-            systemInfillPocketSizes,
+            _systemInfillPocketSizes,
         }
     }) => ({
         system: {
             ...system,
-            systemInfillPocketSizes: systemInfillPocketSizes.concat(newSystemInfillPocketSize)
+            _systemInfillPocketSizes: _systemInfillPocketSizes.concat(newSystemInfillPocketSize)
         }
     })
 };

@@ -38,14 +38,14 @@ export default {
     mapResultToProps: (updatedSystem, {
         system,
         system: {
-            systemType,
+            _systemType,
         },
         allSystemTypes,
     }) => ({
         system: {
             ...system,
             ...updatedSystem,
-            systemType: allSystemTypes.find(({ id }) => id === updatedSystem.systemTypeId) || systemType,
+            _systemType: allSystemTypes.find(({ id }) => id === updatedSystem.systemTypeId) || _systemType,
         },
     }),
 };

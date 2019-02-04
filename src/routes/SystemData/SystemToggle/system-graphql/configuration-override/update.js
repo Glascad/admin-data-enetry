@@ -35,12 +35,12 @@ export default {
     mapResultToProps: (updatedSystemConfigurationOverride, {
         system,
         system: {
-            systemConfigurationOverrides,
+            _systemConfigurationOverrides,
         },
     }) => ({
         system: {
             ...system,
-            systemConfigurationOverrides: systemConfigurationOverrides
+            _systemConfigurationOverrides: _systemConfigurationOverrides
                 .map(override => (
                     override.systemTypeId === updatedSystemConfigurationOverride.systemTypeId
                     &&

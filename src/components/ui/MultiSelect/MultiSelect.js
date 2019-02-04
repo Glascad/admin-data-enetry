@@ -10,6 +10,11 @@ const removeDuplicateNIDs = (list, identifier = 'nodeId') => list.filter((item, 
 
 export default class MultiSelect extends Component {
 
+    static defaultProps = {
+        identifier: 'nodeId',
+        mapPillProps: () => null,
+    };
+
     state = {
         addedItems: [],
         deletedItems: [],
@@ -26,7 +31,7 @@ export default class MultiSelect extends Component {
                 modal: {
                     display: newDisplay,
                 },
-                identifier = 'nodeId',
+                identifier,
                 previousItems,
             },
         } = this;
@@ -46,7 +51,7 @@ export default class MultiSelect extends Component {
     handleDeleteClick = ({ arguments: deletedItem }) => {
         const {
             props: {
-                identifier = 'nodeId',
+                identifier,
             },
         } = this;
         console.log({ deletedItem, identifier });
@@ -81,11 +86,11 @@ export default class MultiSelect extends Component {
                 modal,
                 previousItems,
                 allItems,
-                mapPillProps = () => null,
+                mapPillProps,
                 list: {
                     titleBar,
                 },
-                identifier = 'nodeId',
+                identifier,
             },
             handleSelect,
             handleDeleteClick,

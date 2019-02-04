@@ -32,18 +32,18 @@ export default {
     mapResultToProps: (newOptionValue, {
         system,
         system: {
-            systemOptions,
+            _systemOptions,
         }
     }) => ({
         system: {
             ...system,
-            systemOptions: systemOptions
+            _systemOptions: _systemOptions
                 .map(option => option.id === newOptionValue.systemOptionId ?
                     {
                         ...option,
-                        optionValuesBySystemOptionId: {
-                            ...option.optionValuesBySystemOptionId,
-                            nodes: option.optionValuesBySystemOptionId.nodes.concat(newOptionValue)
+                        _optionValues: {
+                            ...option._optionValues,
+                            nodes: option._optionValues.nodes.concat(newOptionValue)
                         }
                     }
                     :

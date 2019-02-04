@@ -36,10 +36,10 @@ SystemDetails.navigationOptions = {
 export default function SystemDetails({
     queryStatus: {
         system: {
-            systemOptions = [],
-            systemType: {
-                systemTypeDetailTypes = [],
-                systemTypeDetailTypeConfigurationTypes = [],
+            _systemOptions = [],
+            _systemType: {
+                _systemTypeDetailTypes = [],
+                _systemTypeDetailTypeConfigurationTypes = [],
             } = {}
         } = {},
     }
@@ -52,12 +52,12 @@ export default function SystemDetails({
                         <TitleBar
                             title="System Level Options"
                         />
-                        {systemOptions
+                        {_systemOptions
                             .filter(({ presentationLevel }) => presentationLevel === 1)
                             .map(({
                                 nodeId,
                                 name,
-                                optionValues
+                                _optionValues
                             }) => (
                                     <ListWrapper
                                         key={nodeId}
@@ -66,7 +66,7 @@ export default function SystemDetails({
                                             props: managerProps
                                         }}
                                         label={name}
-                                        items={optionValues}
+                                        items={_optionValues}
                                         mapPillProps={({ name }) => ({
                                             title: name
                                         })}
@@ -78,9 +78,9 @@ export default function SystemDetails({
                                 id: "detailTypeNID",
                                 props: managerProps
                             }}
-                            items={systemTypeDetailTypes}
+                            items={_systemTypeDetailTypes}
                             mapPillProps={({
-                                detailType: {
+                                _detailType: {
                                     type
                                 }
                             }) => ({
@@ -88,7 +88,7 @@ export default function SystemDetails({
                             })}
                         >
                             {({
-                                detailType: {
+                                _detailType: {
                                     nodeId: selectedDetailTypeNID = "",
                                     type = "",
                                 } = {},
@@ -98,22 +98,22 @@ export default function SystemDetails({
                                             title="Detail Level Options"
                                             selections={[type]}
                                         />
-                                        {systemOptions
+                                        {_systemOptions
                                             .filter(({
                                                 presentationLevel,
-                                                systemOptionConfigurationTypes = []
+                                                _systemOptionConfigurationTypes = []
                                             }) => (
                                                     presentationLevel >= 2
                                                     &&
-                                                    systemOptionConfigurationTypes.some(({
-                                                        configurationType: {
+                                                    _systemOptionConfigurationTypes.some(({
+                                                        _configurationType: {
                                                             nodeId
                                                         }
-                                                    }) => systemTypeDetailTypeConfigurationTypes.some(({
-                                                        detailType: {
+                                                    }) => _systemTypeDetailTypeConfigurationTypes.some(({
+                                                        _detailType: {
                                                             nodeId: detailTypeNID,
                                                         },
-                                                        configurationType: {
+                                                        _configurationType: {
                                                             nodeId: configurationTypeNID,
                                                         }
                                                     }) => (
@@ -127,7 +127,7 @@ export default function SystemDetails({
                                             .map(({
                                                 nodeId,
                                                 name,
-                                                optionValues = [],
+                                                _optionValues = [],
                                             }) => (
                                                     <ListWrapper
                                                         key={nodeId}
@@ -136,7 +136,7 @@ export default function SystemDetails({
                                                             props: managerProps
                                                         }}
                                                         label={name}
-                                                        items={optionValues}
+                                                        items={_optionValues}
                                                         mapPillProps={({ name }) => ({
                                                             title: name
                                                         })}

@@ -53,7 +53,7 @@ export default function SystemToggle({
                     queryStatus: {
                         system: {
                             name: systemName = "",
-                            manufacturer: {
+                            _manufacturer: {
                                 name: mnfgName = ""
                             } = {},
                         } = {},

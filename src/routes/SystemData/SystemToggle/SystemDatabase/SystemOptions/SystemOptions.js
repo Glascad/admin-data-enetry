@@ -10,7 +10,7 @@ export default function SystemOptions({
     queryStatus: {
         system: {
             id: systemId,
-            systemOptions = [],
+            _systemOptions = [],
         } = {},
         allConfigurationTypes = [],
     },
@@ -27,7 +27,7 @@ export default function SystemOptions({
     return (
         <ListWrapper
             title="System Options"
-            items={systemOptions}
+            items={_systemOptions}
             mapPillProps={({
                 name
             }) => ({
@@ -51,8 +51,8 @@ export default function SystemOptions({
                 name,
                 presentationLevel,
                 overrideLevel,
-                systemOptionConfigurationTypes = [],
-                optionValues = [],
+                _systemOptionConfigurationTypes = [],
+                _optionValues = [],
             }) => (
                     <>
                         <TitleBar
@@ -116,24 +116,24 @@ export default function SystemOptions({
                         /> */}
                         <ListWrapper
                             title="Affected Configuration Types"
-                            items={systemOptionConfigurationTypes
-                                .map(({ nodeId, configurationType }) => ({
+                            items={_systemOptionConfigurationTypes
+                                .map(({ nodeId, _configurationType }) => ({
                                     systomOptionConfigurationTypeNID: nodeId,
-                                    ...configurationType,
+                                    ..._configurationType,
                                 }))}
                             mapPillProps={({ type }) => ({
                                 title: type
                             })}
-                            onCreate={configurationType => createSystemOptionConfigurationType({
+                            onCreate={_configurationType => createSystemOptionConfigurationType({
                                 systemOptionId,
-                                configurationTypeId: configurationType.id,
-                                configurationType
+                                configurationTypeId: _configurationType.id,
+                                _configurationType
                             })}
-                            onDelete={({ systomOptionConfigurationTypeNID, ...configurationType }) => deleteSystemOptionConfigurationType({
+                            onDelete={({ systomOptionConfigurationTypeNID, ..._configurationType }) => deleteSystemOptionConfigurationType({
                                 nodeId: systomOptionConfigurationTypeNID,
                                 systemOptionId,
-                                configurationTypeId: configurationType.id,
-                                configurationType,
+                                configurationTypeId: _configurationType.id,
+                                _configurationType,
                             })}
                             multiSelect={{
                                 title: "",
@@ -144,7 +144,7 @@ export default function SystemOptions({
                         <div className="unfinished">
                             <ListWrapper
                                 title="Values"
-                                items={optionValues}
+                                items={_optionValues}
                                 mapPillProps={({ name }) => ({
                                     title: name
                                 })}

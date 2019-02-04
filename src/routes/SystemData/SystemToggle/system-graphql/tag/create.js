@@ -26,15 +26,15 @@ export default {
     mapResultToProps: (newSystemTag, {
         system,
         system: {
-            systemSystemTags,
+            _systemSystemTags,
         },
         allSystemTags,
     }) => ({
         system: {
             ...system,
-            systemSystemTags: systemSystemTags.concat({
+            _systemSystemTags: _systemSystemTags.concat({
                 ...newSystemTag,
-                systemTagBySystemTagId: allSystemTags.find(({ id }) => id === newSystemTag.systemTagId)
+                _systemTag: allSystemTags.find(({ id }) => id === newSystemTag.systemTagId)
             }),
         }
     }),

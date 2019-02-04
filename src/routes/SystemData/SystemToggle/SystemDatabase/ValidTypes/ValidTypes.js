@@ -17,12 +17,12 @@ export default function ValidTypes({
     queryStatus: {
         system: {
             id: systemId,
-            systemType: {
+            _systemType: {
                 id: systemTypeId,
-                systemTypeDetailTypeConfigurationTypes = [],
+                _systemTypeDetailTypeConfigurationTypes = [],
             } = {},
-            invalidSystemConfigurationTypes = [],
-            systemConfigurationOverrides = [],
+            _invalidSystemConfigurationTypes = [],
+            _systemConfigurationOverrides = [],
         } = {},
     },
     mutations: {
@@ -39,11 +39,11 @@ export default function ValidTypes({
             titleBar={{
                 title: "Valid Detail Types"
             }}
-            items={systemTypeDetailTypeConfigurationTypes
+            items={_systemTypeDetailTypeConfigurationTypes
                 //find only the detail types
-                .filter(({ configurationType }) => !configurationType)}
+                .filter(({ _configurationType }) => !_configurationType)}
             mapPillProps={({
-                detailType: {
+                _detailType: {
                     type
                 }
             }) => ({
@@ -51,7 +51,7 @@ export default function ValidTypes({
             })}
         >
             {({
-                detailType: {
+                _detailType: {
                     type: detailTypeName = '',
                     id: detailTypeId,
                 } = {}
@@ -61,24 +61,24 @@ export default function ValidTypes({
                             title: "Valid Configuration Types",
                             selections: [detailTypeName]
                         }}
-                        items={systemTypeDetailTypeConfigurationTypes
+                        items={_systemTypeDetailTypeConfigurationTypes
                             .filter(({
                                 detailTypeId: id,
-                                configurationType,
+                                _configurationType,
                                 // find only the configuration types
-                            }) => configurationType && id === detailTypeId)
+                            }) => _configurationType && id === detailTypeId)
                             .map(({
                                 configurationTypeId,
-                                ...systemTypeDetailTypeConfigurationType
+                                ..._systemTypeDetailTypeConfigurationType
                             }) => {
 
                                 // find if the configuration has been marked invalid in the system
-                                const invalidSystemConfigurationType = invalidSystemConfigurationTypes
+                                const _invalidSystemConfigurationType = _invalidSystemConfigurationTypes
                                     .find(({
                                         invalidConfigurationTypeId,
                                     }) => invalidConfigurationTypeId === configurationTypeId);
 
-                                const systemConfigurationOverride = systemConfigurationOverrides
+                                const _systemConfigurationOverride = _systemConfigurationOverrides
                                     .find(({
                                         systemTypeId: stId,
                                         detailTypeId: dtId,
@@ -93,26 +93,26 @@ export default function ValidTypes({
 
                                 return ({
                                     configurationTypeId,
-                                    ...systemTypeDetailTypeConfigurationType,
-                                    invalidSystemConfigurationType,
-                                    systemConfigurationOverride,
+                                    ..._systemTypeDetailTypeConfigurationType,
+                                    _invalidSystemConfigurationType,
+                                    _systemConfigurationOverride,
                                 });
                             })
                             .map(item => { console.log(item); return item; })}
                         mapPillProps={({
-                            invalidSystemConfigurationType,
-                            configurationType: {
+                            _invalidSystemConfigurationType,
+                            _configurationType: {
                                 type
                             }
                         }) => ({
                             title: type,
-                            disabled: !!invalidSystemConfigurationType,
+                            disabled: !!_invalidSystemConfigurationType,
                         })}
                     >
                         {({
-                            invalidSystemConfigurationType: {
+                            _invalidSystemConfigurationType: {
                                 invalid = true,
-                                nodeId: invalidSystemConfigurationTypeNID
+                                nodeId: _invalidSystemConfigurationTypeNID
                             } = {
                                 invalid: false,
                             },
@@ -120,26 +120,26 @@ export default function ValidTypes({
                             mirrorable,
                             presentationLevel,
                             overrideLevel,
-                            configurationType: {
+                            _configurationType: {
                                 id: configurationTypeId,
-                                type: configurationTypeName = '',
+                                type: _configurationTypeName = '',
                             } = {},
-                            detailType: {
+                            _detailType: {
                                 id: detailTypeId,
                                 type: detailTypeName = '',
                             } = {},
-                            systemConfigurationOverride,
+                            _systemConfigurationOverride,
                         }) => (
                                 <>
                                     <TitleBar
                                         title="System Configuration Type"
                                         selections={[
                                             detailTypeName,
-                                            configurationTypeName,
+                                            _configurationTypeName,
                                         ]}
                                     />
                                     {/**
-                                        This item is dependent on the presence of an entry in the invalidSystemConfigurationTypes table linking the selected system to the selected configuration type.
+                                        This item is dependent on the presence of an entry in the _invalidSystemConfigurationTypes table linking the selected system to the selected configuration type.
                                     */}
                                     <Input
                                         label="Invalid"
@@ -148,25 +148,25 @@ export default function ValidTypes({
                                         onChange={({ target: { checked } }) => checked ?
                                             [
                                                 createInvalidSystemConfigurationType({
-                                                    nodeId: invalidSystemConfigurationTypeNID,
+                                                    nodeId: _invalidSystemConfigurationTypeNID,
                                                     systemId,
                                                     invalidConfigurationTypeId: configurationTypeId,
                                                 }),
-                                                deleteSystemConfigurationOverride(systemConfigurationOverride)
+                                                deleteSystemConfigurationOverride(_systemConfigurationOverride)
                                             ]
                                             :
                                             [
                                                 deleteInvalidSystemConfigurationType({
-                                                    nodeId: invalidSystemConfigurationTypeNID,
+                                                    nodeId: _invalidSystemConfigurationTypeNID,
                                                     systemId,
                                                     invalidConfigurationTypeId: configurationTypeId,
                                                 }),
-                                                createSystemConfigurationOverride(systemConfigurationOverride)
+                                                createSystemConfigurationOverride(_systemConfigurationOverride)
                                             ]}
                                     />
                                     {/* <StateManager
                                         initialState={{
-                                            overriding: !!systemConfigurationOverride,
+                                            overriding: !!_systemConfigurationOverride,
                                         }}
                                     >
                                         {({ state: { overriding }, update }) => ( */}
@@ -179,7 +179,7 @@ export default function ValidTypes({
                                         }}
                                     >
                                         {/**
-                                            The following items depend upon entries in both the systemTypeDetailTypeConfigurationTypes table and the systemConfigurationOverrides table.
+                                            The following items depend upon entries in both the _systemTypeDetailTypeConfigurationTypes table and the _systemConfigurationOverrides table.
                                             
                                             If there is an entry in the overrides table, it will override whatever value is in the stdtct table, and any changes made will update the overrides table. However, if the changes made to the overrides table make it identical to the stdtct table, the entry will simply be deleted since it is unnecessary.
                                             
@@ -193,13 +193,13 @@ export default function ValidTypes({
                                                     {
                                                         text: "Override",
                                                         selected: false,
-                                                        className: systemConfigurationOverride ?
+                                                        className: _systemConfigurationOverride ?
                                                             "selected"
                                                             :
                                                             "danger",
-                                                        onClick: systemConfigurationOverride ?
+                                                        onClick: _systemConfigurationOverride ?
                                                             () => deleteSystemConfigurationOverride({
-                                                                ...systemConfigurationOverride,
+                                                                ..._systemConfigurationOverride,
                                                                 systemId,
                                                                 systemTypeId,
                                                                 detailTypeId,
@@ -207,7 +207,7 @@ export default function ValidTypes({
                                                             })
                                                             :
                                                             () => createSystemConfigurationOverride({
-                                                                ...systemConfigurationOverride,
+                                                                ..._systemConfigurationOverride,
                                                                 systemId,
                                                                 systemTypeId,
                                                                 detailTypeId,
@@ -254,7 +254,7 @@ export default function ValidTypes({
                                                 }}
                                             />
                                         </GroupingBox>
-                                        {systemConfigurationOverride ? (
+                                        {_systemConfigurationOverride ? (
                                             <SystemConfigurationOverride
                                                 {...{
                                                     defaultValues: {
@@ -263,7 +263,7 @@ export default function ValidTypes({
                                                         presentationLevel,
                                                         overrideLevel,
                                                     },
-                                                    systemConfigurationOverride,
+                                                    _systemConfigurationOverride,
                                                     createSystemConfigurationOverride,
                                                     updateSystemConfigurationOverride,
                                                     deleteSystemConfigurationOverride,

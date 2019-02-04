@@ -27,12 +27,12 @@ export default {
     }, {
         system,
         system: {
-            systemInfillSizes,
+            _systemInfillSizes,
         }
     }) => ({
         system: {
             ...system,
-            systemInfillSizes: systemInfillSizes.filter(({ nodeId }) => nodeId !== deletedNID)
+            _systemInfillSizes: _systemInfillSizes.filter(({ nodeId }) => nodeId !== deletedNID)
         }
     })
 };

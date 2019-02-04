@@ -21,14 +21,14 @@ export default function CreateSystem({
             defaultSightline = 0,
             shimSize = 0,
             manufacturerId,
-            manufacturer: {
+            _manufacturer: {
                 name: manufacturerName = "",
             } = {},
             systemTypeId,
-            systemType: {
+            _systemType: {
                 type: systemTypeName = "",
             } = {},
-            systemSystemTags = [],
+            _systemSystemTags = [],
         } = {},
         // allSystems,
         allManufacturers = [],
@@ -105,8 +105,8 @@ export default function CreateSystem({
                         })),
                         onChange: ({ value, label }) => createnewsystem({
                             nodeId: systemNID,
-                            systemtypeid: value,
-                            systemtype: {
+                            systemtypeId: value,
+                            systemType: {
                                 type: label
                             }
                         }),
@@ -115,7 +115,7 @@ export default function CreateSystem({
                 <div className="unfinished">
                     <ListWrapper
                         label="System Tags"
-                        items={systemSystemTags.map(({
+                        items={_systemSystemTags.map(({
                             nodeId: systemSystemTagNID,
                             systemTag,
                         }) => ({
@@ -127,13 +127,13 @@ export default function CreateSystem({
                         })}
                         onCreate={({ id }) => createnewsystem({
                             nodeId: systemNID,
-                            systemtags: systemSystemTags
+                            systemtags: _systemSystemTags
                                 .map(({ systemTagId }) => systemTagId)
                                 .concat(id),
                         })}
                         onDelete={({ id }) => createnewsystem({
                             nodeId: systemNID,
-                            systemtags: systemSystemTags
+                            systemtags: _systemSystemTags
                                 .map(({ systemTagId }) => systemTagId)
                                 .fill(stid => stid !== id),
                         })}

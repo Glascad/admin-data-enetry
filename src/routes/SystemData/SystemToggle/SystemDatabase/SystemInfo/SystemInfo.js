@@ -15,19 +15,17 @@ export default function SystemInfo({
             depth = 0,
             defaultSightline = 0,
             shimSize = 0,
-            systemType: {
+            _systemType: {
                 id: systemTypeId,
                 type: systemTypeName = "",
             } = {},
-            systemSystemTags = [],
+            _systemSystemTags = [],
         } = {},
         allSystemTypes = [],
         allSystemTags = [],
     },
     mutations: {
         updateEntireSystem,
-        createSystemSystemTag,
-        deleteSystemSystemTag,
     },
 }) {
     console.log(arguments[0]);
@@ -66,7 +64,7 @@ export default function SystemInfo({
             <ListWrapper
                 label="System Tags"
                 identifier="id"
-                items={systemSystemTags.map(({ systemTag }) => ({ ...systemTag }))}
+                items={_systemSystemTags.map(({ _systemTag }) => ({ ..._systemTag }))}
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}

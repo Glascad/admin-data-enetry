@@ -51,7 +51,7 @@ systems(
 CREATE TABLE
 system_infill_sizes(
     system_id INTEGER REFERENCES systems,
-    infill_size INTEGER REFERENCES infill_sizes,
+    infill_size FLOAT REFERENCES infill_sizes,
     PRIMARY KEY (system_id, infill_size)
 );
 

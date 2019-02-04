@@ -36,24 +36,4 @@ export default {
             }
         }
     }`,
-    // update(cache, {
-    //     data: {
-    //         deleteConfigurationType: {
-    //             configurationType: {
-    //                 nodeId: deletedNID,
-    //             },
-    //         },
-    //     }
-    // }) {
-    //     const { allConfigurationTypes } = cache.readQuery({ query });
-    //     cache.writeQuery({
-    //         query,
-    //         data: {
-    //             allConfigurationTypes: {
-    //                 ...allConfigurationTypes,
-    //                 nodes: allConfigurationTypes.nodes.filter(({ nodeId }) => nodeId !== deletedNID)
-    //             }
-    //         }
-    //     });
-    // }
 };

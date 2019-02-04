@@ -29,19 +29,19 @@ export default {
     mapResultToProps: (deletedOptionCombinationConfigurationType, {
         system,
         system: {
-            optionCombinations,
+            _optionCombinations,
         }
     }) => ({
         system: {
             ...system,
-            optionCombinations: optionCombinations.map(combination => (
+            _optionCombinations: _optionCombinations.map(combination => (
                 combination.id === deletedOptionCombinationConfigurationType.optionCombinationId
             ) ?
                 {
                     ...combination,
-                    optionCombinationConfigurationTypesByOptionCombinationId: {
-                        ...combination.optionCombinationConfigurationTypesByOptionCombinationId,
-                        nodes: combination.optionCombinationConfigurationTypesByOptionCombinationId.nodes.filter(ocov => ocov.nodeId !== deletedOptionCombinationConfigurationType.nodeId)
+                    _optionCombinationConfigurationTypes: {
+                        ...combination._optionCombinationConfigurationTypes,
+                        nodes: combination._optionCombinationConfigurationTypes.nodes.filter(ocov => ocov.nodeId !== deletedOptionCombinationConfigurationType.nodeId)
                     }
                 }
                 : combination)

@@ -25,12 +25,12 @@ export default {
     mapResultToProps: ({ nodeId: deletedNID }, {
         system,
         system: {
-            systemInfillPocketSizes,
+            _systemInfillPocketSizes,
         }
     }) => ({
         system: {
             ...system,
-            systemInfillPocketSizes: systemInfillPocketSizes.filter(({ nodeId }) => nodeId !== deletedNID)
+            _systemInfillPocketSizes: _systemInfillPocketSizes.filter(({ nodeId }) => nodeId !== deletedNID)
         }
     })
 };

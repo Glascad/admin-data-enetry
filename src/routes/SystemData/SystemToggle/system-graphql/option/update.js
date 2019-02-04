@@ -55,12 +55,12 @@ export default {
     mapResultToProps: (updatedOption, {
         system,
         system: {
-            systemOptions,
+            _systemOptions,
         }
     }) => ({
         system: {
             ...system,
-            systemOptions: systemOptions
+            _systemOptions: _systemOptions
                 .map(option => option.nodeId === updatedOption.nodeId ?
                     {
                         ...option,

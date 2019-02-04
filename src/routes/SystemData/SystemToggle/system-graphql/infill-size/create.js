@@ -29,12 +29,12 @@ export default {
     mapResultToProps: (newSystemInfillSize, {
         system,
         system: {
-            systemInfillSizes,
+            _systemInfillSizes,
         }
     }) => ({
         system: {
             ...system,
-            systemInfillSizes: systemInfillSizes.concat(newSystemInfillSize)
+            _systemInfillSizes: _systemInfillSizes.concat(newSystemInfillSize)
         }
     }),
 };

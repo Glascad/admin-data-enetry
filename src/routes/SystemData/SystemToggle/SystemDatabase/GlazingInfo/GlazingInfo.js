@@ -13,9 +13,9 @@ export default function GlazingInfo({
             id: systemId,
             defaultGlassBite = 0,
             defaultGlassSize = 0,
-            systemInfillSizes = [],
-            systemInfillPocketTypes = [],
-            systemInfillPocketSizes = [],
+            _systemInfillSizes = [],
+            _systemInfillPocketTypes = [],
+            _systemInfillPocketSizes = [],
         } = {},
         allInfillSizes = [],
         allInfillPocketTypes = [],
@@ -47,12 +47,12 @@ export default function GlazingInfo({
             />
             <ListWrapper
                 label="Infill Material Sizes"
-                items={systemInfillSizes.map(({
+                items={_systemInfillSizes.map(({
                     nodeId: systemInfillSizeNID,
-                    infillSize,
+                    _infillSize,
                 }) => ({
                     systemInfillSizeNID,
-                    ...infillSize,
+                    ..._infillSize,
                 }))}
                 multiSelect={{
                     allItems: allInfillSizes
@@ -60,23 +60,23 @@ export default function GlazingInfo({
                 mapPillProps={({ size }) => ({
                     title: `${size}"`
                 })}
-                onCreate={infillSize => createSystemInfillSize({
+                onCreate={_infillSize => createSystemInfillSize({
                     systemId,
-                    // infillSize: infillSize.size,
-                    infillSize: infillSize,
+                    infillSize: _infillSize.size,
+                    _infillSize,
                 })}
-                onDelete={({ systemInfillSizeNID, ...infillSize }) => deleteSystemInfillSize({
+                onDelete={({ systemInfillSizeNID, ..._infillSize }) => deleteSystemInfillSize({
                     nodeId: systemInfillSizeNID,
                     systemId,
-                    // infillSize: infillSize.size,
-                    infillSize: infillSize,
+                    infillSize: _infillSize.size,
+                    _infillSize,
                 })}
             />
             <Input
                 label="Default Infill Material Size"
                 select={{
-                    options: systemInfillSizes
-                        .map(({ infillSize: { size } }) => ({
+                    options: _systemInfillSizes
+                        .map(({ _infillSize: { size } }) => ({
                             value: size,
                             label: size,
                         })),
@@ -92,13 +92,13 @@ export default function GlazingInfo({
             />
             <ListWrapper
                 label="Infill Pocket Types"
-                items={systemInfillPocketTypes
+                items={_systemInfillPocketTypes
                     .map(({
                         nodeId,
-                        infillPocketType
+                        _infillPocketType
                     }) => ({
                         systemInfillPocketTypeNID: nodeId,
-                        ...infillPocketType,
+                        ..._infillPocketType,
                     }))}
                 multiSelect={{
                     allItems: allInfillPocketTypes
@@ -106,27 +106,27 @@ export default function GlazingInfo({
                 mapPillProps={({ type }) => ({
                     title: type,
                 })}
-                onCreate={infillPocketType => createSystemInfillPocketType({
+                onCreate={_infillPocketType => createSystemInfillPocketType({
                     systemId,
-                    infillPocketTypeId: infillPocketType.id,
-                    infillPocketType,
+                    infillPocketTypeId: _infillPocketType.id,
+                    _infillPocketType,
                 })}
-                onDelete={({ systemInfillPocketTypeNID, ...infillPocketType }) => deleteSystemInfillPocketType({
+                onDelete={({ systemInfillPocketTypeNID, ..._infillPocketType }) => deleteSystemInfillPocketType({
                     nodeId: systemInfillPocketTypeNID,
                     systemId,
-                    infillPocketTypeId: infillPocketType.id,
-                    infillPocketType,
+                    infillPocketTypeId: _infillPocketType.id,
+                    _infillPocketType,
                 })}
             />
             <ListWrapper
                 label="Infill Pocket Sizes"
-                items={systemInfillPocketSizes
+                items={_systemInfillPocketSizes
                     .map(({
                         nodeId: systemInfillPocketSizeNID,
-                        infillPocketSize,
+                        _infillPocketSize,
                     }) => ({
                         systemInfillPocketSizeNID,
-                        ...infillPocketSize
+                        ..._infillPocketSize
                     }))}
                 multiSelect={{
                     allItems: allInfillPocketSizes

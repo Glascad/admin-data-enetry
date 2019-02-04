@@ -1,7 +1,8 @@
 import React from 'react';
 
 import InfillSizes from './InfillSizes/InfillSizes';
-import InfillPockets from './InfillPockets/InfillPockets';
+import InfillPocketTypes from './InfillPocketTypes/InfillPocketTypes';
+import InfillPocketSizes from './InfillPocketSizes/InfillPocketSizes';
 
 import {
     TabNavigator,
@@ -12,7 +13,8 @@ export default function Infills() {
         <TabNavigator
             routes={[
                 InfillSizes,
-                InfillPockets,
+                InfillPocketTypes,
+                InfillPocketSizes,
             ]}
         />
     );

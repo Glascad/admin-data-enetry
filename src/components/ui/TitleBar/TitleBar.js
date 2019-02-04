@@ -2,12 +2,18 @@ import React from 'react';
 
 import './TitleBar.scss';
 
+TitleBar.defaultProps = {
+    className: "",
+    title: "",
+    selections: [],
+}
+
 export default function TitleBar({
-    className = "",
-    title = "",
+    className,
+    title,
     left,
     right,
-    selections = [],
+    selections,
 }) {
     return (
         <header

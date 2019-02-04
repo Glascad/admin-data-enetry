@@ -46,9 +46,16 @@ export default class Pill extends Component {
     //     style: PropTypes.object,
     // };
 
+    static defaultProps = {
+        editing: false,
+        inputType: "text",
+        hoverButtons: [],
+        title: "",
+    };
+
     state = {
-        editing: this.props.editing || false,
-        input: this.props.inputValue || this.props.title || "",
+        editing: this.props.editing,
+        input: this.props.inputValue || this.props.title,
     };
 
     ref = createRef();
@@ -149,7 +156,7 @@ export default class Pill extends Component {
             props: {
                 className,
                 type,
-                inputType = "text",
+                inputType,
                 onDelete: deletable,
                 onEdit: editable,
                 onDrag,
@@ -163,7 +170,7 @@ export default class Pill extends Component {
                 footer,
                 style,
                 tagname,
-                hoverButtons = []
+                hoverButtons,
             },
             state: {
                 editing,

@@ -34,33 +34,22 @@ export default {
     mapResultToProps: (newOptionCombinationOptionValue, {
         system,
         system: {
-            optionCombinations,
+            _optionCombinations,
         }
     }) => ({
         system: {
             ...system,
-            optionCombinations: optionCombinations.map(combination => (
+            _optionCombinations: _optionCombinations.map(combination => (
                 combination.id === newOptionCombinationOptionValue.optionCombinationId
             ) ?
                 {
                     ...combination,
-                    optionCombinationOptionValuesByOptionCombinationId: {
-                        ...combination.optionCombinationOptionValuesByOptionCombinationId,
-                        nodes: combination.optionCombinationOptionValuesByOptionCombinationId.nodes.concat(newOptionCombinationOptionValue)
+                    _optionCombinationOptionValues: {
+                        ...combination._optionCombinationOptionValues,
+                        nodes: combination._optionCombinationOptionValues.nodes.concat(newOptionCombinationOptionValue)
                     }
                 }
                 : combination)
         }
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         createOptionCombination: {
-    //             optionCombination: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

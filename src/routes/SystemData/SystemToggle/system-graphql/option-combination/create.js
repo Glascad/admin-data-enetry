@@ -52,23 +52,12 @@ export default {
     mapResultToProps: (newOptionCombination, {
         system,
         system: {
-            optionCombinations,
+            _optionCombinations,
         }
     }) => ({
         system: {
             ...system,
-            optionCombinations: optionCombinations.concat(newOptionCombination)
+            _optionCombinations: _optionCombinations.concat(newOptionCombination)
         }
     }),
-    // refetchQueries: ({
-    //     data: {
-    //         createOptionCombination: {
-    //             optionCombination: {
-    //                 systemBySystemId: {
-    //                     nodeId
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }) => [{ ...query, variables: { nodeId } }]
 };

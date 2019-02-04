@@ -28,18 +28,18 @@ export default {
     mapResultToProps: ({ systemOptionId, nodeId }, {
         system,
         system: {
-            systemOptions,
+            _systemOptions,
         }
     }) => ({
         system: {
             ...system,
-            systemOptions: systemOptions
+            _systemOptions: _systemOptions
                 .map(option => option.id === systemOptionId ?
                     {
                         ...option,
-                        systemOptionConfigurationTypesBySystemOptionId: {
-                            ...option.systemOptionConfigurationTypesBySystemOptionId,
-                            nodes: option.systemOptionConfigurationTypesBySystemOptionId.nodes.filter(soct => soct.nodeId !== nodeId)
+                        _systemOptionConfigurationTypes: {
+                            ...option._systemOptionConfigurationTypes,
+                            nodes: option._systemOptionConfigurationTypes.nodes.filter(soct => soct.nodeId !== nodeId)
                         }
                     }
                     :

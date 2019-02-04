@@ -11,6 +11,11 @@ export default class Dropdown extends Component {
     //     onClick: PropTypes.func,
     // };
 
+    static defaultProps = {
+        className: "",
+        triangle: true,
+    };
+
     state = {
         open: this.props.open || false
     };
@@ -43,7 +48,7 @@ export default class Dropdown extends Component {
                 children,
                 className,
                 onClick,
-                triangle = true,
+                triangle,
             },
             handleClick,
         } = this;
