@@ -29,11 +29,10 @@ export default function SystemDatabase({
         completeMutations,
         resetMutations,
     },
-    ...apollo
 }) {
     return (
         <TabNavigator
-            routeProps={apollo}
+            routeProps={arguments[0]}
             routes={subroutes}
         >
             <div className="bottom-buttons">

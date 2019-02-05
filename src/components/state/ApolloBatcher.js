@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import ApolloWrapper from './ApolloWrapper';
 
+import {
+    arraysContainEqualValues,
+    mergeArguments,
+} from '../../utils';
+
 /**
  * PURPOSE
  * 
@@ -33,183 +38,319 @@ class Batcher extends Component {
 
     getNodeId = () => this.nodeId++;
 
-    componentDidMount = () => window.addEventListener('keydown', this.save);
+    componentDidMount = () => window.addEventListener('keydown', this._saveOnCtrlS);
 
-    componentWillUnmount = () => window.removeEventListener('keydown', this.save);
+    componentWillUnmount = () => window.removeEventListener('keydown', this._saveOnCtrlS);
 
     registerQueryRefetch = refetch => {
-        // console.log("REGISTERING QUERY REFETCH");
         this.refetchQuery = () => {
-            // console.log("REFETCHING QUERY");
             refetch();
         };
     }
 
-    // removeDeleteMutation({})
+    _getAllArgumentSets = ({ batchedMutations } = this.state) => Object.values(batchedMutations)
+        .reduce((all, { mutate, mutationKey, argumentSets }) => all.concat(argumentSets
+            .map(argumentSet => ({
+                mutate,
+                mutationKey,
+                argumentSet,
+            }))), []);
+
+    _removeOppositeMutation = ({
+        mutation: {
+            arguments: args,
+            mutationKey
+        },
+        batchedMutations,
+    }) => {
+        const [oppositeKey, deleting] = mutationKey.match(/^delete/) ?
+            [mutationKey.replace(/^delete/, 'create'), true]
+            :
+            [mutationKey.replace(/^create/, 'delete'), false];
+
+        if (oppositeKey === mutationKey) return false;
+
+        const { [oppositeKey]: oppositeMutation } = batchedMutations;
+
+        if (!oppositeMutation) return false;
+
+        const { argumentSets } = oppositeMutation;
+
+        const argumentSetToRemove = argumentSets
+            .find(deleting ?
+                ({ nodeId }) => nodeId === args.nodeId
+                :
+                set => Object.keys(set)
+                    .every(key => key === 'nodeId'
+                        ||
+                        (
+                            typeof set[key] === 'object'
+                            &&
+                            (
+                                !Array.isArray(set[key])
+                                ||
+                                arraysContainEqualValues(set[key], args[key])
+                            )
+                        )
+                        ||
+                        set[key] === args[key]
+                    )
+            );
+
+        if (!argumentSetToRemove) return false;
+
+        return {
+            batchedMutations: {
+                ...batchedMutations,
+                [oppositeKey]: {
+                    ...oppositeMutation,
+                    argumentSets: argumentSets
+                        .filter(set => set === argumentSetToRemove)
+                }
+            },
+        };
+    }
+
+    _updateExistingMutation = ({
+        mutation: {
+            arguments: args,
+            mutationKey,
+        },
+        batchedMutations,
+    }) => {
+
+        const createKey = mutationKey.match(/^update/) ?
+            mutationKey.replace(/^update/, 'create')
+            :
+            mutationKey;
+
+        const {
+            [mutationKey]: existingMutation,
+            [createKey]: createMutation,
+        } = batchedMutations;
+
+        if (!existingMutation && !createMutation) return false;
+
+        const updateMutation = existingMutation || createMutation;
+
+        const { argumentSets } = updateMutation;
+
+        const updateKey = existingMutation ? mutationKey : createKey;
+
+        const argumentSetToUpdate = argumentSets
+            .find(({ nodeId }) => nodeId === args.nodeId);
+
+        const updateIndex = argumentSets.indexOf(argumentSetToUpdate);
+
+        if (!argumentSetToUpdate) return false;
+
+        const updatedArguments = mergeArguments(argumentSetToUpdate, args);
+
+        return {
+            batchedMutations: {
+                ...batchedMutations,
+                [updateKey]: {
+                    ...updateMutation,
+                    argumentSets: argumentSets
+                        .replace(updateIndex, updatedArguments),
+                },
+            },
+        };
+    }
+
+    _addNewMutation = ({
+        mutation: {
+            mutationKey,
+            mutate,
+            arguments: args,
+        },
+        batchedMutations,
+        refetch,
+    }) => ({
+        batchedMutations: {
+            ...batchedMutations,
+            [mutationKey]: {
+                mutationKey,
+                mutate,
+                argumentSets: [args],
+                refetch,
+            },
+        },
+    });
+
+    batchMutation = (mutation, refetch) => this.setState(({ batchedMutations }) => (
+        this._removeOppositeMutation({ mutation, batchedMutations, refetch })
+        ||
+        this._updateExistingMutation({ mutation, batchedMutations, refetch })
+        ||
+        this._addNewMutation({ mutation, batchedMutations, refetch })
+    ));
+
 
     // functional setstate is necessary when multiple are fired at once
-    batchMutation = ({
-        arguments: args,
-        mutate,
-        mutationKey
-    }, refetch) => {
-        this.setState(({ batchedMutations }) => {
-            // console.log("BATCHING A MUTATION");
-            // console.log({ args, mutate, mutationKey });
+    // oldBatchMutation = ({
+    //     arguments: args,
+    //     mutate,
+    //     mutationKey
+    // }, refetch) => {
+    //     this.setState(({ batchedMutations }) => {
+    //         // console.log("BATCHING A MUTATION");
+    //         // console.log({ args, mutate, mutationKey });
 
-            const currentMutation = batchedMutations[mutationKey];
+    //         const currentMutation = batchedMutations[mutationKey];
 
-            const createKey = mutationKey.replace(/^(delete|update)/, 'create');
-            const deleteKey = mutationKey.replace(/^create/, 'delete');
+    //         const createKey = mutationKey.replace(/^(delete|update)/, 'create');
+    //         const deleteKey = mutationKey.replace(/^create/, 'delete');
 
-            const createMutation = batchedMutations[createKey];
-            const deleteMutation = batchedMutations[deleteKey];
+    //         const createMutation = batchedMutations[createKey];
+    //         const deleteMutation = batchedMutations[deleteKey];
 
-            // REMOVE A PREVIOUS CREATE ARGSET
-            if (mutationKey.match(/^delete/)) {
-                // console.log("mutationKey.match(/^delete/)");
-                if (createMutation) {
-                    // console.log("createMutation");
-                    const { argumentSets } = createMutation;
-                    const deletedSet = argumentSets
-                        .find(({ nodeId }) => nodeId === args.nodeId);
-                    if (deletedSet) {
-                        // console.log("deletedSet");
-                        // console.log(`removing create argset: ${createKey}`)
-                        return {
-                            batchedMutations: {
-                                ...batchedMutations,
-                                [createKey]: {
-                                    ...createMutation,
-                                    argumentSets: argumentSets
-                                        .filter(argSet => argSet !== deletedSet)
-                                }
-                            }
-                        };
-                    }
-                }
-            }
-            // REMOVE A PREVIOUS DELETE ARGSET
-            if (mutationKey.match(/^create/)) {
-                // console.log("mutationKey.match(/^create/)");
-                if (deleteMutation) {
-                    // console.log("deleteMutation");
-                    const { argumentSets } = deleteMutation;
-                    const createdSet = argumentSets
-                        .find(argSet => Object.keys(args)
-                            .every(key => (
-                                key === 'nodeId'
-                                ||
-                                typeof args[key] === 'object'
-                                ||
-                                argSet[key] === args[key]
-                            ))
-                        );
-                    if (createdSet) {
-                        // console.log("createdSet");
-                        // console.log(`removing delete argset ${deleteKey}`);
-                        return {
-                            batchedMutations: {
-                                ...batchedMutations,
-                                [deleteKey]: {
-                                    ...deleteMutation,
-                                    argumentSets: argumentSets
-                                        .filter(argSet => argSet !== createdSet)
-                                }
-                            }
-                        };
-                    }
-                }
-            }
-            if (mutationKey.match(/^update|^create/)) {
-                // console.log("mutationKey.match(/^update|^create/)");
-                if (currentMutation) {
-                    // console.log("currentMutation");
-                    const { argumentSets } = currentMutation;
-                    const updatedSet = argumentSets
-                        .find(({ nodeId }) => nodeId === args.nodeId);
-                    // UPDATE AN EXISTING ARGSET
-                    if (updatedSet) {
-                        // console.log("updatedSet");
-                        const updatedSetIndex = argumentSets.indexOf(updatedSet);
-                        // console.log(`updating update argset ${mutationKey}`);
-                        return {
-                            batchedMutations: {
-                                ...batchedMutations,
-                                [mutationKey]: {
-                                    ...currentMutation,
-                                    // See Array.prototype.replace in `public/index.html`
-                                    argumentSets: argumentSets
-                                        .replace(updatedSetIndex, {
-                                            ...updatedSet,
-                                            ...args,
-                                        })
-                                }
-                            }
-                        };
-                    }
-                    // CREATE A NEW ARGSET IN AN EXISTING/PREVIOUSLY USED MUTATION
-                    // console.log(`creating update argset ${mutationKey}`);
-                    return {
-                        batchedMutations: {
-                            ...batchedMutations,
-                            [mutationKey]: {
-                                ...currentMutation,
-                                mutate,
-                                argumentSets: currentMutation.argumentSets.concat(args)
-                            }
-                        }
-                    };
-                }
-                // UPDATE A CREATE ARGSET
-                if (createMutation) {
-                    // console.log("createMutation");
-                    const { argumentSets } = createMutation;
-                    const createdSet = argumentSets
-                        .find(argSet => Object.keys(args)
-                            .every(key => (
-                                key === 'nodeId'
-                                ||
-                                typeof args[key] === 'object'
-                                ||
-                                argSet[key] === args[key]
-                            ))
-                        );
-                    if (createdSet) {
-                        // console.log("createdSet");
-                        const createdSetIndex = argumentSets.indexOf(createdSet);
-                        // console.log(`updating create argset ${createKey}`);
-                        return {
-                            batchedMutations: {
-                                ...batchedMutations,
-                                [mutationKey]: {
-                                    ...currentMutation,
-                                    // See Array.prototype.replace in `public/index.html`
-                                    argumentSets: argumentSets
-                                        .replace(createdSetIndex, {
-                                            ...createdSet,
-                                            ...args,
-                                        })
-                                }
-                            }
-                        };
-                    }
-                }
-            }
-            // CREATE A MUTATION WITH AN ARGSET
-            // console.log(`creating new mutation key ${mutationKey}`);
-            return {
-                batchedMutations: {
-                    ...batchedMutations,
-                    [mutationKey]: {
-                        mutate,
-                        refetch,
-                        argumentSets: [args]
-                    }
-                }
-            };
-        });
-    }
+    //         // REMOVE A PREVIOUS CREATE ARGSET
+    //         if (mutationKey.match(/^delete/)) {
+    //             // console.log("mutationKey.match(/^delete/)");
+    //             if (createMutation) {
+    //                 // console.log("createMutation");
+    //                 const { argumentSets } = createMutation;
+    //                 const deletedSet = argumentSets
+    //                     .find(({ nodeId }) => nodeId === args.nodeId);
+    //                 if (deletedSet) {
+    //                     // console.log("deletedSet");
+    //                     // console.log(`removing create argset: ${createKey}`)
+    //                     return {
+    //                         batchedMutations: {
+    //                             ...batchedMutations,
+    //                             [createKey]: {
+    //                                 ...createMutation,
+    //                                 argumentSets: argumentSets
+    //                                     .filter(argSet => argSet !== deletedSet)
+    //                             }
+    //                         }
+    //                     };
+    //                 }
+    //             }
+    //         }
+    //         // REMOVE A PREVIOUS DELETE ARGSET
+    //         if (mutationKey.match(/^create/)) {
+    //             // console.log("mutationKey.match(/^create/)");
+    //             if (deleteMutation) {
+    //                 // console.log("deleteMutation");
+    //                 const { argumentSets } = deleteMutation;
+    //                 const createdSet = argumentSets
+    //                     .find(argSet => Object.keys(args)
+    //                         .every(key => (
+    //                             key === 'nodeId'
+    //                             ||
+    //                             typeof args[key] === 'object'
+    //                             ||
+    //                             argSet[key] === args[key]
+    //                         ))
+    //                     );
+    //                 if (createdSet) {
+    //                     // console.log("createdSet");
+    //                     // console.log(`removing delete argset ${deleteKey}`);
+    //                     return {
+    //                         batchedMutations: {
+    //                             ...batchedMutations,
+    //                             [deleteKey]: {
+    //                                 ...deleteMutation,
+    //                                 argumentSets: argumentSets
+    //                                     .filter(argSet => argSet !== createdSet)
+    //                             }
+    //                         }
+    //                     };
+    //                 }
+    //             }
+    //         }
+    //         if (mutationKey.match(/^update|^create/)) {
+    //             // console.log("mutationKey.match(/^update|^create/)");
+    //             if (currentMutation) {
+    //                 // console.log("currentMutation");
+    //                 const { argumentSets } = currentMutation;
+    //                 const updatedSet = argumentSets
+    //                     .find(({ nodeId }) => nodeId === args.nodeId);
+    //                 // UPDATE AN EXISTING ARGSET
+    //                 if (updatedSet) {
+    //                     // console.log("updatedSet");
+    //                     const updatedSetIndex = argumentSets.indexOf(updatedSet);
+    //                     // console.log(`updating update argset ${mutationKey}`);
+    //                     return {
+    //                         batchedMutations: {
+    //                             ...batchedMutations,
+    //                             [mutationKey]: {
+    //                                 ...currentMutation,
+    //                                 // See Array.prototype.replace in `public/index.html`
+    //                                 argumentSets: argumentSets
+    //                                     .replace(updatedSetIndex, {
+    //                                         ...updatedSet,
+    //                                         ...args,
+    //                                     })
+    //                             }
+    //                         }
+    //                     };
+    //                 }
+    //                 // CREATE A NEW ARGSET IN AN EXISTING/PREVIOUSLY USED MUTATION
+    //                 // console.log(`creating update argset ${mutationKey}`);
+    //                 return {
+    //                     batchedMutations: {
+    //                         ...batchedMutations,
+    //                         [mutationKey]: {
+    //                             ...currentMutation,
+    //                             mutate,
+    //                             argumentSets: currentMutation.argumentSets.concat(args)
+    //                         }
+    //                     }
+    //                 };
+    //             }
+    //             // UPDATE A CREATE ARGSET
+    //             if (createMutation) {
+    //                 // console.log("createMutation");
+    //                 const { argumentSets } = createMutation;
+    //                 const createdSet = argumentSets
+    //                     .find(argSet => Object.keys(args)
+    //                         .every(key => (
+    //                             key === 'nodeId'
+    //                             ||
+    //                             typeof args[key] === 'object'
+    //                             ||
+    //                             argSet[key] === args[key]
+    //                         ))
+    //                     );
+    //                 if (createdSet) {
+    //                     // console.log("createdSet");
+    //                     const createdSetIndex = argumentSets.indexOf(createdSet);
+    //                     // console.log(`updating create argset ${createKey}`);
+    //                     return {
+    //                         batchedMutations: {
+    //                             ...batchedMutations,
+    //                             [mutationKey]: {
+    //                                 ...currentMutation,
+    //                                 // See Array.prototype.replace in `public/index.html`
+    //                                 argumentSets: argumentSets
+    //                                     .replace(createdSetIndex, {
+    //                                         ...createdSet,
+    //                                         ...args,
+    //                                     })
+    //                             }
+    //                         }
+    //                     };
+    //                 }
+    //             }
+    //         }
+    //         // CREATE A MUTATION WITH AN ARGSET
+    //         // console.log(`creating new mutation key ${mutationKey}`);
+    //         return {
+    //             batchedMutations: {
+    //                 ...batchedMutations,
+    //                 [mutationKey]: {
+    //                     mutationKey,
+    //                     mutate,
+    //                     refetch,
+    //                     argumentSets: [args]
+    //                 }
+    //             }
+    //         };
+    //     });
+    // }
 
     resetMutations = () => this.setState({
         batchedMutations: {}
@@ -264,7 +405,7 @@ class Batcher extends Component {
         return result;
     }
 
-    save = e => {
+    _saveOnCtrlS = e => {
         const {
             key,
             ctrlKey,
@@ -291,6 +432,8 @@ class Batcher extends Component {
             resetMutations,
             completeMutations,
         } = this;
+
+        console.log(this._getAllArgumentSets());
 
         // console.log(this.state.batchedMutations);
 

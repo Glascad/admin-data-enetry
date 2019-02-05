@@ -275,10 +275,12 @@ export default {
             defaultGlassSize: newDefaultGlassSize || defaultGlassSize,
             defaultGlassBite: newDefaultGlassBite | defaultGlassBite,
             _systemSystemTags: _systemSystemTags
-                .filter(({ systemTag: { id } }) => !oldSystemTags.includes(id))
+                // remove `old` items
+                .filter(({ _systemTag: { id } }) => !oldSystemTags.includes(id))
+                // add `new` items
                 .concat(newSystemTags
                     .map(systemTagId => ({
-                        systemTag: allSystemTags
+                        _systemTag: allSystemTags
                             .find(({ id }) => id === systemTagId),
                     }))
                 ),
