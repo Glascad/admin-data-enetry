@@ -23,12 +23,6 @@ export default function GlazingInfo({
     },
     mutations: {
         updateEntireSystem,
-        createSystemInfillSize,
-        deleteSystemInfillSize,
-        createSystemInfillPocketType,
-        deleteSystemInfillPocketType,
-        createSystemInfillPocketSize,
-        deleteSystemInfillPocketSize,
     },
 }) {
     console.log(arguments[0]);

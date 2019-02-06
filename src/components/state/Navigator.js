@@ -126,7 +126,7 @@ class Navigator extends Component {
                     {mappedRoutes
                         // .map(route => typeof route === 'function' ? route(this.props) : route)
                         // .filter(Boolean)
-                        .map(({ exact, component: RouteChild, ...route }, i) => (
+                        .map(({ exact, component: RouteChild, disabled, ...route }, i) => !disabled && (
                             <Route
                                 key={route.path}
                                 {...route}

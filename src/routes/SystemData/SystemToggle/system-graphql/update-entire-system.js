@@ -244,6 +244,8 @@ export default {
             shimSize,
             defaultGlassSize,
             defaultGlassBite,
+            manufacturerId,
+            systemTypeId,
             _manufacturer,
             _systemType,
             _systemSystemTags,
@@ -261,11 +263,11 @@ export default {
         system: {
             ...system,
             name: newName === undefined ? name : newName,
-            _manufacturer: newManufacturerId ?
+            _manufacturer: newManufacturerId && newManufacturerId !== manufacturerId ?
                 allManufacturers.find(({ id }) => id === newManufacturerId)
                 :
                 _manufacturer,
-            _systemType: newSystemTypeId ?
+            _systemType: newSystemTypeId && newSystemTypeId !== systemTypeId ?
                 allSystemTypes.find(({ id }) => id === newSystemTypeId)
                 :
                 _systemType,

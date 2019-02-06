@@ -11,6 +11,8 @@ export default {
             depth
             defaultSightline
             shimSize
+            manufacturerId
+            systemTypeId
             manufacturerByManufacturerId{
                 nodeId
                 id

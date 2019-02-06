@@ -41,7 +41,9 @@ function ToggleNavigator({
                                         mappedRoutes.map(({
                                             path,
                                             name,
+                                            disabled,
                                         }) => ({
+                                            className: disabled && "disabled",
                                             selected: pathname.match(`${url}${path}`),
                                             text: name,
                                             onClick: () => history.push(`${

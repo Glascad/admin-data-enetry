@@ -117,8 +117,6 @@ class List extends Component {
             ||
             {};
 
-        console.log({ identifier });
-
         return (
             <>
                 <ListContainer

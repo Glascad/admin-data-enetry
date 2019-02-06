@@ -32,6 +32,7 @@ function TabNavigator({
                         {mappedRoutes.map(({
                             path,
                             name,
+                            disabled,
                         }) => (
                                 <NavLink
                                     key={path}
@@ -43,7 +44,7 @@ function TabNavigator({
                                         }${
                                         search
                                         }`}
-                                    className="tab"
+                                    className={`tab ${disabled ? "disabled" : ""}`}
                                     activeClassName="current-tab"
                                 >
                                     {name}

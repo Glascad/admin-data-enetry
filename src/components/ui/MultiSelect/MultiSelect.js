@@ -39,7 +39,7 @@ export default class MultiSelect extends Component {
 
         if (display !== newDisplay) {
             const selectedItem = previousItems.find(({ [identifier]: id }) => id === selectedNID);
-            console.log({ newDisplay, previousItems, selectedItem, selectedNID });
+            // console.log({ newDisplay, previousItems, selectedItem, selectedNID });
             this.setState({
                 addedItems: creating && selectedItem ? [selectedItem] : [],
                 deletedItems: deleting && selectedItem ? [selectedItem] : [],
@@ -57,7 +57,7 @@ export default class MultiSelect extends Component {
                 identifier,
             },
         } = this;
-        console.log({ deletedItem, identifier });
+        // console.log({ deletedItem, identifier });
         if (this.props.previousItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
             if (this.state.deletedItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
                 this.setState(({ deletedItems }) => ({
@@ -104,14 +104,14 @@ export default class MultiSelect extends Component {
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ [identifier]: id }) => id === item[identifier]));
         
-        console.log({
-            identifier,
-            previousItems,
-            addedItems,
-            deletedItems,
-            selectedItems,
-            nonSelectedItems,
-        });
+        // console.log({
+        //     identifier,
+        //     previousItems,
+        //     addedItems,
+        //     deletedItems,
+        //     selectedItems,
+        //     nonSelectedItems,
+        // });
 
         return (
             <Modal
