@@ -21,6 +21,7 @@ export default class MultiSelect extends Component {
     };
 
     componentDidUpdate = ({ modal: { display } }) => {
+        
         const {
             props: {
                 selection: {
@@ -35,6 +36,7 @@ export default class MultiSelect extends Component {
                 previousItems,
             },
         } = this;
+
         if (display !== newDisplay) {
             const selectedItem = previousItems.find(({ [identifier]: id }) => id === selectedNID);
             this.setState({

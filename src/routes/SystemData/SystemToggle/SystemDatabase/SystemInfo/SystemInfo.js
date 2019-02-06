@@ -68,16 +68,22 @@ export default function SystemInfo({
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}
-                onCreate={({ id }) => updateEntireSystem({
+                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
                     id: systemId,
                     nodeId: systemNID,
-                    newSystemTags: [id],
+                    newSystemTags: addedItems.map(({ id }) => id),
+                    oldSystemTags: deletedItems.map(({ id }) => id),
                 })}
-                onDelete={({ id }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    oldSystemTags: [id],
-                })}
+                // onCreate={({ id }) => updateEntireSystem({
+                //     id: systemId,
+                //     nodeId: systemNID,
+                //     newSystemTags: [id],
+                // })}
+                // onDelete={({ id }) => updateEntireSystem({
+                //     id: systemId,
+                //     nodeId: systemNID,
+                //     oldSystemTags: [id],
+                // })}
                 multiSelect={{
                     allItems: allSystemTags,
                 }}

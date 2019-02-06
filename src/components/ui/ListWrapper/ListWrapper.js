@@ -55,12 +55,13 @@ class List extends Component {
 
     handleMultiSelectFinish = async ({ arguments: { addedItems, deletedItems } }) => {
         try {
-            await Promise.all(addedItems.map(this.props.onCreate));
-        } catch (err) {
-            console.error(err);
-        }
-        try {
-            await Promise.all(deletedItems.map(this.props.onDelete));
+            await this.props.onFinish ?
+                this.props.onFinish({ addedItems, deletedItems })
+                :
+                Promise.all([
+                    ...addedItems.map(this.props.onCreate),
+                    ...deletedItems.map(this.props.onDelete),
+                ]);
         } catch (err) {
             console.error(err);
         }
@@ -186,7 +187,7 @@ class List extends Component {
                             onEdit={onCreate}
                             onBlur={cancel}
                         />
-                    ) : (onCreate || addButton) && !creating ? (
+                    ) : (onCreate || multiSelect || addButton) && !creating ? (
                         <AddButton
                             {...addButton}
                             onAdd={handleCreateClick}
