@@ -74,16 +74,6 @@ export default function SystemInfo({
                     newSystemTags: addedItems.map(({ id }) => id),
                     oldSystemTags: deletedItems.map(({ id }) => id),
                 })}
-                // onCreate={({ id }) => updateEntireSystem({
-                //     id: systemId,
-                //     nodeId: systemNID,
-                //     newSystemTags: [id],
-                // })}
-                // onDelete={({ id }) => updateEntireSystem({
-                //     id: systemId,
-                //     nodeId: systemNID,
-                //     oldSystemTags: [id],
-                // })}
                 multiSelect={{
                     allItems: allSystemTags,
                 }}

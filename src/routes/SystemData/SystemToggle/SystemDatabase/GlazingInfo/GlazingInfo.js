@@ -22,7 +22,7 @@ export default function GlazingInfo({
         allInfillPocketSizes = [],
     },
     mutations: {
-        updateSystem,
+        updateEntireSystem,
         createSystemInfillSize,
         deleteSystemInfillSize,
         createSystemInfillPocketType,
@@ -31,6 +31,7 @@ export default function GlazingInfo({
         deleteSystemInfillPocketSize,
     },
 }) {
+    console.log(arguments[0]);
     return (
         <>
             <TitleBar
@@ -40,43 +41,34 @@ export default function GlazingInfo({
                 label="Glass Bite"
                 type="number"
                 value={defaultGlassBite}
-                onChange={({ target: { value } }) => updateSystem({
+                onChange={({ target: { value } }) => updateEntireSystem({
+                    id: systemId,
                     nodeId: systemNID,
                     defaultGlassBite: value,
                 })}
             />
             <ListWrapper
                 label="Infill Material Sizes"
-                items={_systemInfillSizes.map(({
-                    nodeId: systemInfillSizeNID,
-                    _infillSize,
-                }) => ({
-                    systemInfillSizeNID,
-                    ..._infillSize,
-                }))}
-                multiSelect={{
-                    allItems: allInfillSizes
-                }}
+                items={_systemInfillSizes.map(sis => ({ ...sis, size: sis.infillSize }))}
+                identifier="size"
                 mapPillProps={({ size }) => ({
-                    title: `${size}"`
+                    title: `${size}"`,
                 })}
-                onCreate={_infillSize => createSystemInfillSize({
-                    systemId,
-                    infillSize: _infillSize.size,
-                    _infillSize,
-                })}
-                onDelete={({ systemInfillSizeNID, ..._infillSize }) => deleteSystemInfillSize({
-                    nodeId: systemInfillSizeNID,
-                    systemId,
-                    infillSize: _infillSize.size,
-                    _infillSize,
+                multiSelect={{
+                    allItems: allInfillSizes,
+                }}
+                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
+                    id: systemId,
+                    nodeId: systemNID,
+                    newInfillSizes: addedItems.map(({ size }) => size),
+                    oldInfillSizes: deletedItems.map(({ size }) => size),
                 })}
             />
             <Input
                 label="Default Infill Material Size"
                 select={{
                     options: _systemInfillSizes
-                        .map(({ _infillSize: { size } }) => ({
+                        .map(({ size }) => ({
                             value: size,
                             label: size,
                         })),
@@ -84,7 +76,7 @@ export default function GlazingInfo({
                         label: defaultGlassSize,
                         value: defaultGlassSize,
                     },
-                    onChange: ({ value }) => updateSystem({
+                    onChange: ({ value }) => updateEntireSystem({
                         nodeId: systemNID,
                         defaultGlassSize: value,
                     }),
@@ -92,55 +84,36 @@ export default function GlazingInfo({
             />
             <ListWrapper
                 label="Infill Pocket Types"
-                items={_systemInfillPocketTypes
-                    .map(({
-                        nodeId,
-                        _infillPocketType
-                    }) => ({
-                        systemInfillPocketTypeNID: nodeId,
-                        ..._infillPocketType,
-                    }))}
+                items={_systemInfillPocketTypes.map(({ _infillPocketType }) => ({ ..._infillPocketType }))}
+                identifier="id"
                 multiSelect={{
                     allItems: allInfillPocketTypes
                 }}
                 mapPillProps={({ type }) => ({
                     title: type,
                 })}
-                onCreate={_infillPocketType => createSystemInfillPocketType({
-                    systemId,
-                    infillPocketTypeId: _infillPocketType.id,
-                    _infillPocketType,
-                })}
-                onDelete={({ systemInfillPocketTypeNID, ..._infillPocketType }) => deleteSystemInfillPocketType({
-                    nodeId: systemInfillPocketTypeNID,
-                    systemId,
-                    infillPocketTypeId: _infillPocketType.id,
-                    _infillPocketType,
+                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
+                    id: systemId,
+                    nodeId: systemNID,
+                    newInfillPocketTypes: addedItems.map(({ id }) => id),
+                    oldInfillPocketTypes: deletedItems.map(({ id }) => id),
                 })}
             />
             <ListWrapper
                 label="Infill Pocket Sizes"
-                items={_systemInfillPocketSizes
-                    .map(({
-                        nodeId: systemInfillPocketSizeNID,
-                        _infillPocketSize,
-                    }) => ({
-                        systemInfillPocketSizeNID,
-                        ..._infillPocketSize
-                    }))}
+                items={_systemInfillPocketSizes.map(sips => ({ ...sips, size: sips.infillPocketSize }))}
+                identifier="size"
                 multiSelect={{
                     allItems: allInfillPocketSizes
                 }}
                 mapPillProps={({ size }) => ({
                     title: `${size}"`
                 })}
-                onCreate={({ size }) => createSystemInfillPocketSize({
-                    systemId,
-                    infillPocketSize: size,
-                })}
-                onDelete={({ systemInfillPocketSizeNID, size }) => deleteSystemInfillPocketSize({
-                    nodeId: systemInfillPocketSizeNID,
-                    infillPocketSize: size,
+                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
+                    id: systemId,
+                    nodeId: systemNID,
+                    newInfillPocketSizes: addedItems.map(({ size }) => size),
+                    oldInfillPocketSizes: deletedItems.map(({ size }) => size),
                 })}
             />
         </>

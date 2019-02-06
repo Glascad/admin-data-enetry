@@ -117,6 +117,8 @@ class List extends Component {
             ||
             {};
 
+        console.log({ identifier });
+
         return (
             <>
                 <ListContainer
@@ -211,6 +213,7 @@ class List extends Component {
                             onCancel: cancel,
                             onFinish: handleMultiSelectFinish,
                         }}
+                        identifier={identifier}
                         list={{
                             titleBar: {
                                 title: `All ${title || label || ''}`,
@@ -264,24 +267,24 @@ export default function ListWrapper({
         } = {},
     } = {},
     identifier,
-    ...props
 }) {
     return stateManager ? (
         <List
+            {...arguments[0]}
             selection={{
                 selectedNID: state[id] && state[id][identifier],
                 handleSelect: update(id),
                 selectable: true,
             }}
-            identifier={identifier}
-            {...props}
         />
     ) : (
-            <SelectionWrapper>
+            <SelectionWrapper
+                identifier={identifier}
+            >
                 {selection => (
                     <List
+                        {...arguments[0]}
                         selection={selection}
-                        {...props}
                     />
                 )}
             </SelectionWrapper>

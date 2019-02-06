@@ -6,7 +6,7 @@ import ListContainer from '../ListContainer/ListContainer';
 
 import './MultiSelect.scss';
 
-const removeDuplicateNIDs = (list, identifier = 'nodeId') => list.filter((item, i) => i === list.findIndex(({ [identifier]: id }) => id === item[identifier]));
+const removeDuplicates = (list, identifier = 'nodeId') => list.filter((item, i) => i === list.findIndex(({ [identifier]: id }) => id === item[identifier]));
 
 export default class MultiSelect extends Component {
 
@@ -39,6 +39,7 @@ export default class MultiSelect extends Component {
 
         if (display !== newDisplay) {
             const selectedItem = previousItems.find(({ [identifier]: id }) => id === selectedNID);
+            console.log({ newDisplay, previousItems, selectedItem, selectedNID });
             this.setState({
                 addedItems: creating && selectedItem ? [selectedItem] : [],
                 deletedItems: deleting && selectedItem ? [selectedItem] : [],
@@ -98,14 +99,18 @@ export default class MultiSelect extends Component {
             handleDeleteClick,
         } = this;
 
-        const selectedItems = removeDuplicateNIDs(previousItems.concat(addedItems));
+        const selectedItems = removeDuplicates(previousItems.concat(addedItems), identifier);
 
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ [identifier]: id }) => id === item[identifier]));
-
+        
         console.log({
-            state,
-            props,
+            identifier,
+            previousItems,
+            addedItems,
+            deletedItems,
+            selectedItems,
+            nonSelectedItems,
         });
 
         return (

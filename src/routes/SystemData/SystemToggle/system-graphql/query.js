@@ -79,6 +79,7 @@ export default {
             }
             systemInfillPocketTypesBySystemId{
                 nodes{
+                    infillPocketTypeId
                     nodeId
                     infillPocketTypeByInfillPocketTypeId{
                         nodeId
@@ -92,6 +93,7 @@ export default {
             systemInfillPocketSizesBySystemId{
                 nodes{
                     nodeId
+                    infillPocketSize
                     infillPocketSizeByInfillPocketSize{
                         nodeId
                         size

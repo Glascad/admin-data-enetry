@@ -281,30 +281,28 @@ export default {
                 .concat(newSystemTags
                     .map(systemTagId => ({
                         _systemTag: allSystemTags
-                            .find(({ id }) => id === systemTagId),
+                            .find(({ id }) => id === systemTagId)
                     }))
                 ),
             _systemInfillSizes: _systemInfillSizes
                 .filter(({ infillSize }) => !oldInfillSizes.includes(infillSize))
                 .concat(newInfillSizes
-                    .map(infillSize => allInfillSizes
-                        .find(({ size }) => size === infillSize)
-                    )
-                ),
-            _systemInfillPocketSizes: _systemInfillPocketSizes
-                .filter(({ infillPocketSize }) => !oldInfillPocketSizes.includes(infillPocketSize))
-                .concat(newInfillPocketSizes
-                    .map(infillPocketSize => allInfillPocketSizes
-                        .find(({ size }) => size === infillPocketSize)
-                    )
+                    .map(infillSize => ({ infillSize }))
                 ),
             _systemInfillPocketTypes: _systemInfillPocketTypes
                 .filter(({ infillPocketTypeId }) => !oldInfillPocketTypes.includes(infillPocketTypeId))
                 .concat(newInfillPocketTypes
-                    .map(infillPocketTypeId => allInfillPocketTypes
-                        .find(({ id }) => id === infillPocketTypeId)
-                    )
+                    .map(infillPocketTypeId => ({
+                        infillPocketTypeId,
+                        _infillPocketType: allInfillPocketTypes
+                            .find(({ id }) => id === infillPocketTypeId)
+                    }))
                 ),
-        }
+            _systemInfillPocketSizes: _systemInfillPocketSizes
+                .filter(({ infillPocketSize }) => !oldInfillPocketSizes.includes(infillPocketSize))
+                .concat(newInfillPocketSizes
+                    .map(infillPocketSize => ({ infillPocketSize }))
+                ),
+        },
     })
 };
