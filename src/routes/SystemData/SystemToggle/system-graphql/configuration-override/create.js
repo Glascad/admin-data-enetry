@@ -38,7 +38,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemConfigurationOverride, {
+    mapMutationArgumentsToProps: (newSystemConfigurationOverride, {
         system,
         system: {
             _systemConfigurationOverrides,

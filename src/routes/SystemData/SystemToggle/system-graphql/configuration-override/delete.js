@@ -22,7 +22,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (deletedSystemConfigurationOverride, {
+    mapMutationArgumentsToProps: (deletedSystemConfigurationOverride, {
         system,
         system: {
             _systemConfigurationOverrides,

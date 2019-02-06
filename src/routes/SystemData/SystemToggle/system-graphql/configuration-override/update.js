@@ -32,7 +32,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (updatedSystemConfigurationOverride, {
+    mapMutationArgumentsToProps: (updatedSystemConfigurationOverride, {
         system,
         system: {
             _systemConfigurationOverrides,

@@ -23,7 +23,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemTag, {
+    mapMutationArgumentsToProps: (newSystemTag, {
         system,
         system: {
             _systemSystemTags,

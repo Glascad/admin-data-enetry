@@ -7,7 +7,7 @@
  * There is no circular structure protection yet.
  */
 
-const matchBy = /(^.*)By.+$/;
+const matchBy = /(^.*)(By)(.+$)/;
 
 const replaceByKeys = obj => (
     !obj
@@ -22,7 +22,18 @@ const replaceByKeys = obj => (
         Object.keys(obj)
             .reduce((filteredObj, key) => ({
                 ...filteredObj,
-                [key.match(matchBy) ? key.replace(matchBy, '_$1') : key]: replaceByKeys(obj[key]),
+                ...(key.match(matchBy) ?
+                    {
+                        [key.replace(matchBy, '_$1')]: {
+                            ...replaceByKeys(obj[key]),
+                            __by__: key.replace(matchBy, '$3'),
+                        },
+                    }
+                    :
+                    {
+                        [key]: replaceByKeys(obj[key]),
+                    }
+                ),
             }), {});
 
 export default replaceByKeys;

@@ -49,7 +49,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOptionCombination, {
+    mapMutationArgumentsToProps: (newOptionCombination, {
         system,
         system: {
             _optionCombinations,

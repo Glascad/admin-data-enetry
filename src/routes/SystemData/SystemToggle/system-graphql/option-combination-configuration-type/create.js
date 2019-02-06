@@ -30,7 +30,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOptionCombinationConfigurationType, {
+    mapMutationArgumentsToProps: (newOptionCombinationConfigurationType, {
         system,
         system: {
             _optionCombinations,

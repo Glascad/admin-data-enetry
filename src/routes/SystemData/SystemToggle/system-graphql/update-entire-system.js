@@ -41,7 +41,7 @@ export default {
                 oldInfillPocketTypes: $oldInfillPocketTypes
             }
         ){
-            systems{
+            system:systems{
                 nodeId
                 id
                 name
@@ -218,7 +218,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({
+    mapMutationArgumentsToProps: ({
         newName,
         newManufacturerId,
         newSystemTypeId,
@@ -256,9 +256,7 @@ export default {
         allManufacturers,
         allSystemTypes,
         allSystemTags,
-        allInfillSizes,
         allInfillPocketTypes,
-        allInfillPocketSizes,
     }) => ({
         system: {
             ...system,
@@ -306,5 +304,5 @@ export default {
                     .map(infillPocketSize => ({ infillPocketSize }))
                 ),
         },
-    })
+    }),
 };

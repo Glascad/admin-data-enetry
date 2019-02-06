@@ -52,7 +52,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newOption, {
+    mapMutationArgumentsToProps: (newOption, {
         system,
         system: {
             _systemOptions,

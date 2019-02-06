@@ -25,7 +25,7 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: ({
+    mapMutationArgumentsToProps: ({
         nodeId,
         systemId,
         invalidConfigurationTypeId,

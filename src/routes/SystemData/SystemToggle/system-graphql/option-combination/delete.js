@@ -18,7 +18,7 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: ({ nodeId }, {
+    mapMutationArgumentsToProps: ({ nodeId }, {
         system,
         system: {
             _optionCombinations,

@@ -29,7 +29,7 @@ export default {
                 }
             }
         }`,
-    mapResultToProps: (newSystemOptionConfigurationType, {
+    mapMutationArgumentsToProps: (newSystemOptionConfigurationType, {
         system,
         system: {
             _systemOptions,

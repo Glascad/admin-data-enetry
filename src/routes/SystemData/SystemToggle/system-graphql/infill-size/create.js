@@ -26,7 +26,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (newSystemInfillSize, {
+    mapMutationArgumentsToProps: (newSystemInfillSize, {
         system,
         system: {
             _systemInfillSizes,

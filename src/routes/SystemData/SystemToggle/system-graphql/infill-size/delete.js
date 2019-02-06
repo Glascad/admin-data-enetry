@@ -22,7 +22,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({
+    mapMutationArgumentsToProps: ({
         nodeId: deletedNID
     }, {
         system,

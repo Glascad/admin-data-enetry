@@ -40,7 +40,6 @@ BEGIN
         JOIN (
             SELECT system_tag_id FROM UNNEST (new_system_tags) AS system_tag_id
         ) AS system_system_tag ON TRUE
-        -- ON CONFLICT DO NOTHING
     ),
     old_system_tags AS (
         DELETE FROM system_system_tags
@@ -50,7 +49,6 @@ BEGIN
         AND system_tag_id IN (
             SELECT system_tag_id FROM UNNEST (old_system_tags) AS system_tag_id
         )
-        -- ON CONFLICT DO NOTHING
     ),
     new_infill_sizes AS (
         INSERT INTO system_infill_sizes
@@ -59,7 +57,6 @@ BEGIN
         JOIN (
             SELECT infill_size FROM UNNEST (new_infill_sizes) AS infill_size
         ) AS system_infill_size ON TRUE
-        -- ON CONFLICT DO NOTHING
     ),
     old_infill_sizes AS (
         DELETE FROM system_infill_sizes
@@ -69,7 +66,6 @@ BEGIN
         AND infill_size IN (
             SELECT infill_size FROM UNNEST (old_infill_sizes) AS infill_size
         )
-        -- ON CONFLICT DO NOTHING
     ),
     new_infill_pocket_sizes AS (
         INSERT INTO system_infill_pocket_sizes
@@ -78,7 +74,6 @@ BEGIN
         JOIN (
             SELECT infill_pocket_size FROM UNNEST (new_infill_pocket_sizes) AS infill_pocket_size
         ) AS system_infill_pocket_size ON TRUE
-        -- ON CONFLICT DO NOTHING
     ),
     old_infill_pocket_sizes AS (
         DELETE FROM system_infill_pocket_sizes
@@ -88,7 +83,6 @@ BEGIN
         AND infill_pocket_size IN (
             SELECT infill_pocket_size FROM UNNEST (old_infill_pocket_sizes) AS infill_pocket_size
         )
-        -- ON CONFLICT DO NOTHING
     ),
     new_infill_pocket_types AS (
         INSERT INTO system_infill_pocket_types
@@ -97,7 +91,6 @@ BEGIN
         JOIN (
             SELECT infill_pocket_type_id FROM UNNEST (new_infill_pocket_types) AS infill_pocket_type_id
         ) AS system_infill_pocket_type ON TRUE
-        -- ON CONFLICT DO NOTHING
     ),
     old_infill_pocket_types AS (
         DELETE FROM system_infill_pocket_types
@@ -107,7 +100,6 @@ BEGIN
         AND infill_pocket_type_id IN (
             SELECT infill_pocket_type_id FROM UNNEST (old_infill_pocket_types) AS infill_pocket_type_id
         )
-        -- ON CONFLICT DO NOTHING
     )
     SELECT * FROM updated_system;
 END;

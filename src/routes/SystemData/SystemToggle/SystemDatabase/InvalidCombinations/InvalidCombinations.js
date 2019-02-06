@@ -129,11 +129,11 @@ export default function InvalidCombinations({
                                 multiSelect={{
                                     title: "",
                                     allItems: _systemOptions.reduce((allItems, {
-                                        optionValues,
+                                        _optionValues,
                                         ..._systemOption
                                     }) => ([
                                         ...allItems,
-                                        ...optionValues.map(optionValue => ({
+                                        ..._optionValues.map(optionValue => ({
                                             ...optionValue,
                                             _systemOption
                                         }))

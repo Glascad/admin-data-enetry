@@ -98,17 +98,17 @@ export default class ApolloWrapper extends Component {
                                         console.log(`mapping result of ${mutationKey} to props`);
 
                                         const {
-                                            mapResultToProps = (res, props) => props
+                                            mapMutationArgumentsToProps = (res, props) => props
                                         } = mutations[mutationKey] || {};
 
                                         const {
-                                            argumentSets = []
+                                            argumentSets = [],
                                         } = batchedMutations[mutationKey] || {};
 
                                         // iterate through all argument sets of batched mutations
                                         return argumentSets.reduce((mappedStatus, argSet) => ({
                                             ...mappedStatus,
-                                            ...mapResultToProps(argSet, mappedStatus),
+                                            ...mapMutationArgumentsToProps(argSet, mappedStatus),
                                         }), mappedStatus);
 
                                     }, normalizeResponse(status) || {}) || {};
@@ -146,13 +146,14 @@ export default class ApolloWrapper extends Component {
                                         ...accumulatedProps.mutations,
                                         [mutationKeys[0]]: batcher ?
                                             args => batchMutation({
-                                                    arguments: {
-                                                        ...args,
-                                                        nodeId: (args && args.nodeId) || getNodeId(),
-                                                    },
-                                                    mutate,
-                                                    mutationKey: mutationKeys[0],
-                                                })
+                                                arguments: {
+                                                    ...args,
+                                                    nodeId: (args && args.nodeId) || getNodeId(),
+                                                },
+                                                mutate,
+                                                mutationKey: mutationKeys[0],
+                                                transformArgumentsBeforeMutation: nextMutation.transformArgumentsBeforeMutation,
+                                            })
                                             :
                                             async args => {
                                                 await mutate({

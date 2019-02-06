@@ -35,7 +35,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (updatedSystem, {
+    mapMutationArgumentsToProps: (updatedSystem, {
         system,
         system: {
             _systemType,

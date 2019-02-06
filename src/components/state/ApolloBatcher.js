@@ -18,7 +18,7 @@ import {
  * 
  * The ApolloWrapper is built to be used with (or without) a Batcher. It will automatically wrap mutations in the `batchMutation` prop so that children may treat the mutations the same regardless of whether there is or isn't a Batcher.
  * 
- * In order to update the UI after batching a mutation, each mutation object given to the ApolloWrapper must contain a `mapResultToProps` method. -- This ought to be refactored to use Apollo's `optimisticResult` and `update` methods to update the cache.
+ * In order to update the UI after batching a mutation, each mutation object given to the ApolloWrapper must contain a `mapMutationArgumentsToProps` method. -- This ought to be refactored to use Apollo's `optimisticResult` and `update` methods to update the cache.
  * 
  * 
  * NOTES
@@ -42,6 +42,18 @@ class Batcher extends Component {
 
     componentWillUnmount = () => window.removeEventListener('keydown', this._saveOnCtrlS);
 
+    _saveOnCtrlS = e => {
+        const {
+            key,
+            ctrlKey,
+            metaKey,
+        } = e;
+        if (key === "s" && (ctrlKey || metaKey)) {
+            e.preventDefault();
+            this.completeMutations();
+        }
+    }
+
     registerQueryRefetch = refetch => {
         this.refetchQuery = () => {
             refetch();
@@ -49,12 +61,64 @@ class Batcher extends Component {
     }
 
     _getAllArgumentSets = ({ batchedMutations } = this.state) => Object.values(batchedMutations)
-        .reduce((all, { mutate, mutationKey, argumentSets }) => all.concat(argumentSets
-            .map(argumentSet => ({
+        .reduce((all, { mutate, mutationKey, argumentSets, transformArgumentsBeforeMutation, refetch }) => all
+            .concat(argumentSets
+                .map(argumentSet => ({
+                    mutate,
+                    mutationKey,
+                    argumentSet,
+                    transformArgumentsBeforeMutation,
+                    refetch,
+                }))
+            ), []);
+
+    completeMutations = async () => {
+        await Promise.all(this._getAllArgumentSets()
+            .map(async ({
                 mutate,
                 mutationKey,
                 argumentSet,
-            }))), []);
+                transformArgumentsBeforeMutation = a => a,
+            }) => {
+                try {
+                    await mutate({
+                        variables: transformArgumentsBeforeMutation(argumentSet)
+                    });
+                    this.setState(({
+                        batchedMutations,
+                        batchedMutations: {
+                            [mutationKey]: mutation,
+                            [mutationKey]: {
+                                argumentSets,
+                            },
+                        },
+                    }) => ({
+                        batchedMutations: {
+                            ...batchedMutations,
+                            [mutationKey]: {
+                                ...mutation,
+                                argumentSets: argumentSets
+                                    .filter(set => set !== argumentSet),
+                            },
+                        },
+                    }));
+                } catch (err) {
+                    console.error(err);
+                    console.error(`ERROR WITH MUTATION: ${mutationKey}`)
+                    console.error({ err });
+                    console.error({ argumentSet });
+                    console.error(this.state);
+                }
+            }));
+
+        try {
+            if (this.refetchQuery) {
+                this.refetchQuery();
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     _removeOppositeMutation = ({
         mutation: {
@@ -163,6 +227,7 @@ class Batcher extends Component {
             mutationKey,
             mutate,
             arguments: args,
+            transformArgumentsBeforeMutation,
         },
         batchedMutations,
         refetch,
@@ -173,6 +238,7 @@ class Batcher extends Component {
                 mutationKey,
                 mutate,
                 argumentSets: [args],
+                transformArgumentsBeforeMutation,
                 refetch,
             },
         },
@@ -191,68 +257,6 @@ class Batcher extends Component {
         batchedMutations: {}
     });
 
-    completeMutations = async () => {
-        const batchedMutations = this.state.batchedMutations;
-        const mutationKeys = Object.keys(batchedMutations);
-        const result = await Promise.all(mutationKeys
-            .map(async mutationKey => {
-                const mutation = batchedMutations[mutationKey];
-                const subResult = await Promise.all(mutation.argumentSets
-                    .map(async argSet => {
-                        try {
-                            // console.log(`RUNNING MUTATION: ${mutationKey}`)
-                            // console.log(argSet);
-                            const subSubResult = await mutation.mutate({ variables: argSet });
-                            // functional setstate is necessary when multiple are fired at once
-                            this.setState(({ batchedMutations }) => ({
-                                batchedMutations: {
-                                    ...batchedMutations,
-                                    [mutationKey]: {
-                                        // must reference `batchedMutations[mutationKey]` inside functional setstate instead of enclosed `mutation` var.
-                                        ...batchedMutations[mutationKey],
-                                        argumentSets: batchedMutations[mutationKey].argumentSets
-                                            .filter(set => set !== argSet)
-                                    }
-                                }
-                            }),
-                                // () => console.log(`FILTERED OUT MUTATION: ${mutationKey}`, argSet, this.state)
-                            );
-                            // console.log({ subSubResult })
-                            return subSubResult;
-                        } catch (err) {
-                            console.error(`ERROR WITH MUTATION: ${mutationKey}`)
-                            console.error({ err });
-                            console.error({ argSet });
-                            console.error(this.state);
-                            return err;
-                        }
-                    }));
-                // console.log({ subResult });
-                return subResult;
-            }));
-        if (this.refetchQuery) {
-            // console.log("this.refetchQuery");
-            // const refetch =
-            await this.refetchQuery();
-            // console.log({ refetch });
-        }
-        // console.log({ result })
-        return result;
-    }
-
-    _saveOnCtrlS = e => {
-        const {
-            key,
-            ctrlKey,
-            metaKey,
-        } = e;
-        if (key === "s" && (ctrlKey || metaKey)) {
-            // console.log("key === 's' && (ctrlKey || metaKey)");
-            e.preventDefault();
-            this.completeMutations();
-        }
-    }
-
     render = () => {
         const {
             state: {
@@ -267,10 +271,6 @@ class Batcher extends Component {
             resetMutations,
             completeMutations,
         } = this;
-
-        console.log(this._getAllArgumentSets());
-
-        // console.log(this.state.batchedMutations);
 
         return children({
             getNodeId,

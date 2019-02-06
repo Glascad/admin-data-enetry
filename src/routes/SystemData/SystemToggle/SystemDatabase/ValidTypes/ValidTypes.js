@@ -17,9 +17,11 @@ ValidTypes.navigationOptions = ({
     batcher: {
         batchedMutations: {
             updateEntireSystem: {
-                argumentSets: [{
-                    newSystemTypeId,
-                }] = [{}],
+                argumentSets: [
+                    {
+                        newSystemTypeId,
+                    } = {},
+                ] = [],
             } = {},
         },
     },

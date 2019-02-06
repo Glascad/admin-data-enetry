@@ -22,7 +22,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: ({ nodeId: deletedNID }, {
+    mapMutationArgumentsToProps: ({ nodeId: deletedNID }, {
         system,
         system: {
             _systemInfillPocketTypes,

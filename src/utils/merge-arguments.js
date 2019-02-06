@@ -46,21 +46,21 @@
 const matchOld = /(^old)(.+$)/;
 const matchNew = /(^new)(.+$)/;
 
-const divide = (arr, cb) => arr.reduce(([T, F], item) => cb(item) ?
+const divide = (arr, cb) => arr.reduce(([T, F], item) => cb(item, T, F) ?
     [T.concat(item), F]
     :
     [T, F.concat(item)],
     [[], []]);
 
-const allocate = (arr, T = [], F = []) => {
-    const [toRemove, toAdd] = divide(arr, item => F.includes(item));
+const allocate = (arr, T = [], F = [], compare = (item, T, F) => F.includes(item)) => {
+    const [toRemove, toAdd] = divide(arr, compare);
     return [
         T.concat(toAdd),
         F.filter(item => !toRemove.includes(item)),
     ];
 }
 
-const mergeArguments = (prevArgs, incomingArgs) => ({
+const mergeArguments = (prevArgs, incomingArgs, compare) => ({
     ...prevArgs,
     ...Object.keys(incomingArgs)
         .reduce((merged, key) => {
@@ -109,7 +109,9 @@ const mergeArguments = (prevArgs, incomingArgs) => ({
                             incomingValue || [],
                             prevValue || [],
                             prevOpposite || [],
+                            compare,
                         ).reverse(),
+                        compare,
                     );
 
                     return {

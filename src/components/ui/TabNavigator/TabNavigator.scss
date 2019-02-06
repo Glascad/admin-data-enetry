@@ -52,6 +52,11 @@
                 color: $light-blue;
                 font-weight: bold;
             }
+
+            &.disabled {
+                opacity: 1;
+                color: rgba(255, 255, 255, 0.4);
+            }
         }
     }
 

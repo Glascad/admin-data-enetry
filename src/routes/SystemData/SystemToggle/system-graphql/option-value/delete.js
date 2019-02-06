@@ -23,7 +23,7 @@ export default {
             }
         }
     }`,
-    mapResultToProps: (deletedOptionValue, {
+    mapMutationArgumentsToProps: (deletedOptionValue, {
         system,
         system: {
             _systemOptions,
