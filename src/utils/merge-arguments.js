@@ -2,6 +2,20 @@
 const matchOld = /(^old)(.+$)/;
 const matchNew = /(^new)(.+$)/;
 
+const divide = (arr, cb) => arr.reduce(([T, F], item) => cb(item) ?
+    [T.concat(item), F]
+    :
+    [T, F.concat(item)],
+    [[], []]);
+
+const allocate = (arr, T = [], F = []) => {
+    const [toRemove, toAdd] = divide(arr, item => F.includes(item));
+    return [
+        T.concat(toAdd),
+        F.filter(item => !toRemove.includes(item)),
+    ];
+}
+
 const mergeArguments = (prevArgs, incomingArgs) => ({
     ...prevArgs,
     ...Object.keys(incomingArgs)
@@ -37,19 +51,7 @@ const mergeArguments = (prevArgs, incomingArgs) => ({
                     };
                 } else {
 
-                    const [
-                        outgoingOpposite,
-                        outgoingValue,
-                    ] = incomingValue.reduce(([outgoingOpposite = [], outgoingValue = []], id) => outgoingOpposite.includes(id) ?
-                        [
-                            outgoingOpposite.filter(i => i !== id),
-                            outgoingValue,
-                        ]
-                        :
-                        [
-                            outgoingOpposite,
-                            outgoingValue.concat(id)
-                        ], [prevOpposite, prevValue]);
+                    const [outgoingValue, outgoingOpposite] = allocate(incomingValue, prevValue, prevOpposite);
 
                     return {
                         ...merged,
@@ -61,6 +63,4 @@ const mergeArguments = (prevArgs, incomingArgs) => ({
         }, {}),
 });
 
-// export default mergeArguments;
-
-export default (a, b) => Object.assign({}, a, b);
+export default mergeArguments;
