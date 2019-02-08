@@ -24,6 +24,7 @@ export default function SystemOptions({
         deleteOptionValue,
     }
 }) {
+    console.log(arguments[0]);
     return (
         <ListWrapper
             title="System Options"

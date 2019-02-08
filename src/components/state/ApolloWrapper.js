@@ -82,6 +82,8 @@ export default class ApolloWrapper extends Component {
                     {...query}
                 >
                     {({ refetch, ...status }) => (
+                        console.log(status)
+                        ||
                         registerQueryRefetch(refetch)
                         ||
                         <ApolloWrapper

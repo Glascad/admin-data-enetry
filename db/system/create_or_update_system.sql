@@ -38,36 +38,36 @@ BEGIN
     ON CONFLICT (id) DO UPDATE
         SET
             name = CASE
-                WHEN new_name IS NOT NULL
-                    THEN new_name
+                WHEN EXCLUDED.name IS NOT NULL
+                    THEN EXCLUDED.name
                 ELSE systems.name END,
             manufacturer_id = CASE
-                WHEN new_manufacturer_id IS NOT NULL
-                    THEN new_manufacturer_id
+                WHEN EXCLUDED.manufacturer_id IS NOT NULL
+                    THEN EXCLUDED.manufacturer_id
                 ELSE systems.manufacturer_id END,
             system_type_id = CASE
-                WHEN new_system_type_id IS NOT NULL
-                    THEN new_system_type_id
+                WHEN EXCLUDED.system_type_id IS NOT NULL
+                    THEN EXCLUDED.system_type_id
                 ELSE systems.system_type_id END,
             depth = CASE
-                WHEN new_depth IS NOT NULL
-                    THEN new_depth
+                WHEN EXCLUDED.depth IS NOT NULL
+                    THEN EXCLUDED.depth
                 ELSE systems.depth END,
             default_sightline = CASE
-                WHEN new_default_sightline IS NOT NULL
-                    THEN new_default_sightline
+                WHEN EXCLUDED.default_sightline IS NOT NULL
+                    THEN EXCLUDED.default_sightline
                 ELSE systems.default_sightline END,
             shim_size = CASE
-                WHEN new_shim_size IS NOT NULL
-                    THEN new_shim_size
+                WHEN EXCLUDED.shim_size IS NOT NULL
+                    THEN EXCLUDED.shim_size
                 ELSE systems.shim_size END,
             default_glass_size = CASE
-                WHEN new_default_glass_size IS NOT NULL
-                    THEN new_default_glass_size
+                WHEN EXCLUDED.default_glass_size IS NOT NULL
+                    THEN EXCLUDED.default_glass_size
                 ELSE systems.default_glass_size END,
             default_glass_bite = CASE
-                WHEN new_default_glass_bite IS NOT NULL
-                    THEN new_default_glass_bite
+                WHEN EXCLUDED.default_glass_bite IS NOT NULL
+                    THEN EXCLUDED.default_glass_bite
                 ELSE systems.default_glass_bite END
         WHERE systems.id = system_id
     RETURNING *;

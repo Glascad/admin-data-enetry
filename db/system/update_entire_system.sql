@@ -10,14 +10,14 @@ CREATE OR REPLACE FUNCTION update_entire_system (
     new_shim_size FLOAT,
     new_default_glass_size FLOAT,
     new_default_glass_bite FLOAT,
-    new_system_tags INTEGER[],
-    old_system_tags INTEGER[],
+    new_system_tag_ids INTEGER[],
+    old_system_tag_ids INTEGER[],
     new_infill_sizes FLOAT[],
     old_infill_sizes FLOAT[],
     new_infill_pocket_sizes FLOAT[],
     old_infill_pocket_sizes FLOAT[],
-    new_infill_pocket_types INTEGER[],
-    old_infill_pocket_types INTEGER[]
+    new_infill_pocket_type_ids INTEGER[],
+    old_infill_pocket_type_ids INTEGER[]
 ) RETURNS SETOF systems AS $$
 BEGIN
     RETURN QUERY WITH updated_system AS (
@@ -38,17 +38,16 @@ BEGIN
         SELECT updated_system.id AS system_id, system_tag_id
         FROM updated_system
         JOIN (
-            SELECT system_tag_id FROM UNNEST (new_system_tags) AS system_tag_id
+            SELECT system_tag_id FROM UNNEST (new_system_tag_ids) AS system_tag_id
         ) AS system_system_tag ON TRUE
+        ON CONFLICT (system_id, system_tag_id) DO NOTHING
     ),
     old_system_tags AS (
         DELETE FROM system_system_tags
         WHERE system_id IN (
             SELECT updated_system.id FROM updated_system
         )
-        AND system_tag_id IN (
-            SELECT system_tag_id FROM UNNEST (old_system_tags) AS system_tag_id
-        )
+        AND system_tag_id IN (old_system_tag_ids)
     ),
     new_infill_sizes AS (
         INSERT INTO system_infill_sizes
@@ -57,15 +56,14 @@ BEGIN
         JOIN (
             SELECT infill_size FROM UNNEST (new_infill_sizes) AS infill_size
         ) AS system_infill_size ON TRUE
+        ON CONFLICT (system_id, infill_size) DO NOTHING
     ),
     old_infill_sizes AS (
         DELETE FROM system_infill_sizes
         WHERE system_id IN (
             SELECT updated_system.id FROM updated_system
         )
-        AND infill_size IN (
-            SELECT infill_size FROM UNNEST (old_infill_sizes) AS infill_size
-        )
+        AND infill_size IN (old_infill_sizes)
     ),
     new_infill_pocket_sizes AS (
         INSERT INTO system_infill_pocket_sizes
@@ -74,32 +72,30 @@ BEGIN
         JOIN (
             SELECT infill_pocket_size FROM UNNEST (new_infill_pocket_sizes) AS infill_pocket_size
         ) AS system_infill_pocket_size ON TRUE
+        ON CONFLICT (system_id, infill_pocket_size) DO NOTHING
     ),
     old_infill_pocket_sizes AS (
         DELETE FROM system_infill_pocket_sizes
         WHERE system_id IN (
             SELECT updated_system.id FROM updated_system
         )
-        AND infill_pocket_size IN (
-            SELECT infill_pocket_size FROM UNNEST (old_infill_pocket_sizes) AS infill_pocket_size
-        )
+        AND infill_pocket_size IN (old_infill_pocket_sizes)
     ),
     new_infill_pocket_types AS (
         INSERT INTO system_infill_pocket_types
         SELECT updated_system.id AS system_id, infill_pocket_type_id
         FROM updated_system
         JOIN (
-            SELECT infill_pocket_type_id FROM UNNEST (new_infill_pocket_types) AS infill_pocket_type_id
+            SELECT infill_pocket_type_id FROM UNNEST (new_infill_pocket_type_ids) AS infill_pocket_type_id
         ) AS system_infill_pocket_type ON TRUE
+        ON CONFLICT (system_id, infill_pocket_type_id) DO NOTHING
     ),
     old_infill_pocket_types AS (
         DELETE FROM system_infill_pocket_types
         WHERE system_id IN (
             SELECT updated_system.id FROM updated_system
         )
-        AND infill_pocket_type_id IN (
-            SELECT infill_pocket_type_id FROM UNNEST (old_infill_pocket_types) AS infill_pocket_type_id
-        )
+        AND infill_pocket_type_id IN (old_infill_pocket_type_ids)
     )
     SELECT * FROM updated_system;
 END;
