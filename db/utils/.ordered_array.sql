@@ -2,19 +2,6 @@ DROP FUNCTION IF EXISTS order_array(FLOAT[]);
 DROP FUNCTION IF EXISTS order_array(TEXT[]);
 
 
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'ordered_array')
-    THEN
-        CREATE TYPE ordered_array AS (
-            id INTEGER,
-            name TEXT,
-            value FLOAT
-        );
-    END IF;
-END$$;
-
-
 CREATE OR REPLACE FUNCTION order_array (
     array_param FLOAT[]
 ) RETURNS SETOF ordered_array AS $$

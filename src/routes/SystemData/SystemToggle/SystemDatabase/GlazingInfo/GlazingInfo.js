@@ -89,8 +89,8 @@ export default function GlazingInfo({
                 onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
                     id: systemId,
                     nodeId: systemNID,
-                    newInfillPocketTypes: addedItems.map(({ id }) => id),
-                    oldInfillPocketTypes: deletedItems.map(({ id }) => id),
+                    newInfillPocketTypeIds: addedItems.map(({ id }) => id),
+                    oldInfillPocketTypeIds: deletedItems.map(({ id }) => id),
                 })}
             />
             <ListWrapper

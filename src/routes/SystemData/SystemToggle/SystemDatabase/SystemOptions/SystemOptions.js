@@ -60,14 +60,6 @@ export default function SystemOptions({
                             title="Option"
                             selections={[name]}
                         />
-                        {/* <Input
-                                label="Option Name"
-                                value={name}
-                                onChange={({ target: { value } }) => updateSystemOption({
-                                    nodeId,
-                                    name: value
-                                })}
-                            /> */}
                         <div className="input-group">
                             <Input
                                 label="Presentation Level"

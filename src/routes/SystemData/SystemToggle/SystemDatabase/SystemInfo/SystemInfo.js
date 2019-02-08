@@ -71,8 +71,8 @@ export default function SystemInfo({
                 onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
                     id: systemId,
                     nodeId: systemNID,
-                    newSystemTags: addedItems.map(({ id }) => id),
-                    oldSystemTags: deletedItems.map(({ id }) => id),
+                    newSystemTagIds: addedItems.map(({ id }) => id),
+                    oldSystemTagIds: deletedItems.map(({ id }) => id),
                 })}
                 multiSelect={{
                     allItems: allSystemTags,

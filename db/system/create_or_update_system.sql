@@ -1,20 +1,14 @@
 DROP FUNCTION IF EXISTS create_or_update_system;
 
 CREATE OR REPLACE FUNCTION create_or_update_system (
-    system_id INTEGER,
-    new_name TEXT,
-    new_manufacturer_id INTEGER,
-    new_system_type_id INTEGER,
-    new_depth FLOAT,
-    new_default_sightline FLOAT,
-    new_shim_size FLOAT,
-    new_default_glass_size FLOAT,
-    new_default_glass_bite FLOAT
+    system entire_system
 ) RETURNS SETOF systems AS $$
+DECLARE
+    s ALIAS FOR system;
 BEGIN
-    RETURN QUERY
+    IF s.id IS NULL
+    THEN RETURN QUERY
         INSERT INTO systems(
-            id,
             name,
             manufacturer_id,
             system_type_id,
@@ -25,51 +19,52 @@ BEGIN
             default_glass_bite
         )
         VALUES (
-            system_id,
-            new_name,
-            new_manufacturer_id,
-            new_system_type_id,
-            new_depth,
-            new_default_sightline,
-            new_shim_size,
-            new_default_glass_bite,
-            new_default_glass_size
+            s.name,
+            s.manufacturer_id,
+            s.system_type_id,
+            s.depth,
+            s.default_sightline,
+            s.shim_size,
+            s.default_glass_bite,
+            s.default_glass_size
         )
-    ON CONFLICT (id) DO UPDATE
-        SET
+        RETURNING *;
+    ELSE RETURN QUERY
+        UPDATE systems SET
             name = CASE
-                WHEN EXCLUDED.name IS NOT NULL
-                    THEN EXCLUDED.name
+                WHEN s.name IS NOT NULL
+                    THEN s.name
                 ELSE systems.name END,
             manufacturer_id = CASE
-                WHEN EXCLUDED.manufacturer_id IS NOT NULL
-                    THEN EXCLUDED.manufacturer_id
+                WHEN s.manufacturer_id IS NOT NULL
+                    THEN s.manufacturer_id
                 ELSE systems.manufacturer_id END,
             system_type_id = CASE
-                WHEN EXCLUDED.system_type_id IS NOT NULL
-                    THEN EXCLUDED.system_type_id
+                WHEN s.system_type_id IS NOT NULL
+                    THEN s.system_type_id
                 ELSE systems.system_type_id END,
             depth = CASE
-                WHEN EXCLUDED.depth IS NOT NULL
-                    THEN EXCLUDED.depth
+                WHEN s.depth IS NOT NULL
+                    THEN s.depth
                 ELSE systems.depth END,
             default_sightline = CASE
-                WHEN EXCLUDED.default_sightline IS NOT NULL
-                    THEN EXCLUDED.default_sightline
+                WHEN s.default_sightline IS NOT NULL
+                    THEN s.default_sightline
                 ELSE systems.default_sightline END,
             shim_size = CASE
-                WHEN EXCLUDED.shim_size IS NOT NULL
-                    THEN EXCLUDED.shim_size
+                WHEN s.shim_size IS NOT NULL
+                    THEN s.shim_size
                 ELSE systems.shim_size END,
             default_glass_size = CASE
-                WHEN EXCLUDED.default_glass_size IS NOT NULL
-                    THEN EXCLUDED.default_glass_size
+                WHEN s.default_glass_size IS NOT NULL
+                    THEN s.default_glass_size
                 ELSE systems.default_glass_size END,
             default_glass_bite = CASE
-                WHEN EXCLUDED.default_glass_bite IS NOT NULL
-                    THEN EXCLUDED.default_glass_bite
+                WHEN s.default_glass_bite IS NOT NULL
+                    THEN s.default_glass_bite
                 ELSE systems.default_glass_bite END
-        WHERE systems.id = system_id
-    RETURNING *;
+        WHERE systems.id = s.id
+        RETURNING *;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;

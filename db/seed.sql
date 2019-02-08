@@ -1,6 +1,52 @@
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-GRANT ALL ON SCHEMA public TO public;
+DROP TABLE IF EXISTS manufacturers CASCADE;
+DROP TABLE IF EXISTS system_tags CASCADE;
+DROP TABLE IF EXISTS system_types CASCADE;
+DROP TABLE IF EXISTS infill_sizes CASCADE;
+DROP TABLE IF EXISTS systems CASCADE;
+DROP TABLE IF EXISTS system_infill_sizes CASCADE;
+DROP TABLE IF EXISTS system_system_tags CASCADE;
+DROP TABLE IF EXISTS system_options CASCADE;
+DROP TABLE IF EXISTS option_values CASCADE;
+DROP TABLE IF EXISTS option_combinations CASCADE;
+DROP TABLE IF EXISTS detail_types CASCADE;
+DROP TABLE IF EXISTS configuration_types CASCADE;
+DROP TABLE IF EXISTS line_weights CASCADE;
+DROP TABLE IF EXISTS linetypes CASCADE;
+DROP TABLE IF EXISTS orientations CASCADE;
+DROP TABLE IF EXISTS part_types CASCADE;
+DROP TABLE IF EXISTS part_tags CASCADE;
+DROP TABLE IF EXISTS infill_pocket_types CASCADE;
+DROP TABLE IF EXISTS infill_pocket_sizes CASCADE;
+DROP TABLE IF EXISTS fastener_types CASCADE;
+DROP TABLE IF EXISTS fastener_head_types CASCADE;
+DROP TABLE IF EXISTS thread_representations CASCADE;
+DROP TABLE IF EXISTS parts CASCADE;
+DROP TABLE IF EXISTS part_orientations CASCADE;
+DROP TABLE IF EXISTS thermal_pocket_types CASCADE;
+DROP TABLE IF EXISTS thermal_pockets CASCADE;
+DROP TABLE IF EXISTS brake_metal_pockets CASCADE;
+DROP TABLE IF EXISTS fastener_locations CASCADE;
+DROP TABLE IF EXISTS infill_pocket_locations CASCADE;
+DROP TABLE IF EXISTS part_part_types CASCADE;
+DROP TABLE IF EXISTS part_part_tags CASCADE;
+DROP TABLE IF EXISTS configuration_type_part_types CASCADE;
+DROP TABLE IF EXISTS configurations CASCADE;
+DROP TABLE IF EXISTS configuration_transformations CASCADE;
+DROP TABLE IF EXISTS configuration_parts CASCADE;
+DROP TABLE IF EXISTS option_combination_option_values CASCADE;
+DROP TABLE IF EXISTS option_combination_configuration_types CASCADE;
+DROP TABLE IF EXISTS system_option_configuration_types CASCADE;
+DROP TABLE IF EXISTS configuration_option_values CASCADE;
+DROP TABLE IF EXISTS configuration_name_override CASCADE;
+DROP TABLE IF EXISTS system_infill_pocket_types CASCADE;
+DROP TABLE IF EXISTS system_infill_pocket_sizes CASCADE;
+DROP TABLE IF EXISTS invalid_system_configuration_types CASCADE;
+DROP TABLE IF EXISTS system_type_detail_type_configuration_types CASCADE;
+DROP TABLE IF EXISTS system_configuration_overrides CASCADE;
+DROP TABLE IF EXISTS elevations CASCADE;
+DROP TABLE IF EXISTS frames CASCADE;
+DROP TABLE IF EXISTS containers CASCADE;
+elevation_containers
 
 
 CREATE TABLE

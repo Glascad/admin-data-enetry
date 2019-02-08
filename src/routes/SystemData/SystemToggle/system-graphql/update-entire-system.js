@@ -11,14 +11,14 @@ export default {
         $newShimSize: Float,
         $newDefaultGlassSize: Float,
         $newDefaultGlassBite: Float,
-        $newSystemTags: [Int],
-        $oldSystemTags: [Int],
+        $newSystemTagIds: [Int],
+        $oldSystemTagIds: [Int],
         $newInfillSizes: [Float],
         $oldInfillSizes: [Float],
         $newInfillPocketSizes: [Float],
         $oldInfillPocketSizes: [Float],
-        $newInfillPocketTypes: [Int],
-        $oldInfillPocketTypes: [Int]
+        $newInfillPocketTypeIds: [Int],
+        $oldInfillPocketTypeIds: [Int]
     ){
         updateEntireSystem(
             input:{
@@ -31,14 +31,14 @@ export default {
                 newShimSize: $newShimSize,
                 newDefaultGlassSize: $newDefaultGlassSize,
                 newDefaultGlassBite: $newDefaultGlassBite,
-                newSystemTags: $newSystemTags,
-                oldSystemTags: $oldSystemTags,
+                newSystemTagIds: $newSystemTagIds,
+                oldSystemTagIds: $oldSystemTagIds,
                 newInfillSizes: $newInfillSizes,
                 oldInfillSizes: $oldInfillSizes,
                 newInfillPocketSizes: $newInfillPocketSizes,
                 oldInfillPocketSizes: $oldInfillPocketSizes,
-                newInfillPocketTypes: $newInfillPocketTypes,
-                oldInfillPocketTypes: $oldInfillPocketTypes
+                newInfillPocketTypeIds: $newInfillPocketTypeIds,
+                oldInfillPocketTypeIds: $oldInfillPocketTypeIds
             }
         ){
             system:systems{
@@ -227,14 +227,14 @@ export default {
         newShimSize,
         newDefaultGlassSize,
         newDefaultGlassBite,
-        newSystemTags = [],
-        oldSystemTags = [],
+        newSystemTagIds = [],
+        oldSystemTagIds = [],
         newInfillSizes = [],
         oldInfillSizes = [],
         newInfillPocketSizes = [],
         oldInfillPocketSizes = [],
-        newInfillPocketTypes = [],
-        oldInfillPocketTypes = [],
+        newInfillPocketTypeIds = [],
+        oldInfillPocketTypeIds = [],
     }, {
         system,
         system: {
@@ -276,9 +276,9 @@ export default {
             defaultGlassBite: newDefaultGlassBite | defaultGlassBite,
             _systemSystemTags: _systemSystemTags
                 // remove `old` items
-                .filter(({ _systemTag: { id } }) => !oldSystemTags.includes(id))
+                .filter(({ _systemTag: { id } }) => !oldSystemTagIds.includes(id))
                 // add `new` items
-                .concat(newSystemTags
+                .concat(newSystemTagIds
                     .map(systemTagId => ({
                         _systemTag: allSystemTags
                             .find(({ id }) => id === systemTagId)
@@ -290,8 +290,8 @@ export default {
                     .map(infillSize => ({ infillSize }))
                 ),
             _systemInfillPocketTypes: _systemInfillPocketTypes
-                .filter(({ infillPocketTypeId }) => !oldInfillPocketTypes.includes(infillPocketTypeId))
-                .concat(newInfillPocketTypes
+                .filter(({ infillPocketTypeId }) => !oldInfillPocketTypeIds.includes(infillPocketTypeId))
+                .concat(newInfillPocketTypeIds
                     .map(infillPocketTypeId => ({
                         infillPocketTypeId,
                         _infillPocketType: allInfillPocketTypes
