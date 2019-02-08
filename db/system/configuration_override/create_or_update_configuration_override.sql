@@ -1,10 +1,14 @@
 DROP FUNCTION IF EXISTS create_or_update_configuration_override;
 
 CREATE OR REPLACE FUNCTION create_or_update_configuration_override(
-    system_configuration_override entire_system_configuration_override
+    system_configuration_override entire_system_configuration_override,
+    system_id INTEGER
 ) RETURNS SETOF system_configuration_overrides AS $$
 DECLARE
     sco ALIAS FOR system_configuration_override;
+    sid INTEGER = CASE WHEN system_id IS NOT NULL
+        THEN system_id
+        ELSE sco.system_id END;
 BEGIN
     RETURN QUERY INSERT INTO system_configuration_overrides (
         system_id,
@@ -17,7 +21,7 @@ BEGIN
         override_level_override
     )
     VALUES (
-        sco.system_id,
+        sid,
         sco.system_type_id,
         sco.detail_type_id,
         sco.configuration_type_id,
@@ -60,6 +64,10 @@ BEGIN
                 WHEN sco.override_level_override IS NOT NULL
                     THEN sco.override_level_override
                 ELSE system_configuration_overrides.override_level_override END
+        WHERE system_id = sid
+        AND system_type_id = sco.system_type_id
+        AND detail_type_id = sco.detail_type_id
+        AND configuration_type_id = sco.configuration_type_id
     RETURNING *;
 END;
 $$ LANGUAGE plpgsql;

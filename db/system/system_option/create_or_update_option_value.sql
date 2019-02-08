@@ -1,10 +1,14 @@
 DROP FUNCTION IF EXISTS create_or_update_option_value;
 
 CREATE OR REPLACE FUNCTION create_or_update_option_value (
-    option_value entire_option_value
+    option_value entire_option_value,
+    system_option_id INTEGER
 ) RETURNS SETOF option_values AS $$
 DECLARE
     ov ALIAS FOR option_value;
+    soid INTEGER = CASE WHEN system_option_id IS NOT NULL
+        THEN system_option_id
+        ELSE ov.system_option_id END;
 BEGIN
     IF ov.id IS NULL
     THEN RETURN QUERY
@@ -16,7 +20,7 @@ BEGIN
             mirror_from_option_value_id
         )
         VALUES (
-            ov.system_option_id,
+            soid,
             ov.name,
             ov.value,
             ov.value_order,
@@ -42,7 +46,7 @@ BEGIN
                     THEN ov.mirror_from_option_value_id
                 ELSE option_values.mirror_from_option_value_id END
         WHERE option_values.id = ov.id
-        AND option_values.system_option_id = ov.system_option_id
+        AND option_values.system_option_id = soid
         RETURNING *;
     END IF;
 END;

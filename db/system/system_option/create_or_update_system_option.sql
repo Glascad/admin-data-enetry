@@ -1,10 +1,14 @@
 DROP FUNCTION IF EXISTS create_or_update_system_option;
 
 CREATE OR REPLACE FUNCTION create_or_update_system_option (
-    entire_system_option entire_system_option
+    entire_system_option entire_system_option,
+    system_id INTEGER
 ) RETURNS SETOF system_options AS $$
 DECLARE
     eso ALIAS FOR entire_system_option;
+    sid INTEGER = CASE WHEN eso.system_id IS NOT NULL
+        THEN eso.system_id
+        ELSE system_id END;
 BEGIN
     IF eso.id IS NULL
     THEN RETURN QUERY
@@ -16,7 +20,7 @@ BEGIN
             option_order
         )
         VALUES (
-            eso.system_id,
+            sid,
             eso.name,
             eso.presentation_level,
             eso.override_level,
@@ -41,7 +45,8 @@ BEGIN
                 WHEN eso.option_order IS NOT NULL
                     THEN eso.option_order
                 ELSE system_options.option_order END
-        WHERE system_options.id = system_option_id
+        WHERE system_options.system_id = sid
+        AND system_options.id = system_option_id
         RETURNING *;
     END IF;
 END;

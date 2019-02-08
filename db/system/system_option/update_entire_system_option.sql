@@ -3,23 +3,27 @@ DROP FUNCTION IF EXISTS update_entire_system_option;
 
 
 CREATE OR REPLACE FUNCTION update_entire_system_option (
-    system_option entire_system_option
+    system_option entire_system_option,
+    system_id INTEGER
 ) RETURNS SETOF system_options AS $$
 DECLARE
     -- OPTION
     so ALIAS FOR system_option;
+    sid INTEGER = CASE WHEN system_id IS NOT NULL
+        THEN system_id
+        ELSE so.system_id END;
     -- LOOP
     ov entire_option_value;
     ___ INTEGER;
     -- OUT
     uso system_options%ROWTYPE;
 BEGIN
-    SELECT * FROM create_or_update_system_option(so) INTO uso;
+    SELECT * FROM create_or_update_system_option(so, sid) INTO uso;
 
     -- OPTION VALUES
     FOREACH ov IN ARRAY so.option_values
     LOOP
-        SELECT id FROM create_or_update_option_value(ov) INTO ___;
+        SELECT id FROM create_or_update_option_value(ov, uso.id) INTO ___;
     END LOOP;
 
     DELETE FROM option_values
