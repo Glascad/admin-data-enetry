@@ -3,42 +3,48 @@ import gql from 'graphql-tag';
 export default {
     mutation: gql`mutation UpdateEntireSystem(
         $id: Int,
-        $newName: String,
-        $newManufacturerId: Int,
-        $newSystemTypeId: Int,
-        $newDepth: Float,
-        $newDefaultSightline: Float,
-        $newShimSize: Float,
-        $newDefaultGlassSize: Float,
-        $newDefaultGlassBite: Float,
-        $newSystemTagIds: [Int],
-        $oldSystemTagIds: [Int],
-        $newInfillSizes: [Float],
-        $oldInfillSizes: [Float],
-        $newInfillPocketSizes: [Float],
-        $oldInfillPocketSizes: [Float],
-        $newInfillPocketTypeIds: [Int],
-        $oldInfillPocketTypeIds: [Int]
+        $name: String,
+        $manufacturerId: Int,
+        $systemTypeId: Int,
+        $depth: Float,
+        $defaultSightline: Float,
+        $shimSize: Float,
+        $defaultGlassSize: Float,
+        $defaultGlassBite: Float,
+        $systemTagIds: [Int],
+        $systemTagIdsToDelete: [Int],
+        $infillSizes: [Float],
+        $infillSizesToDelete: [Float],
+        $infillPocketSizes: [Float],
+        $infillPocketSizesToDelete: [Float],
+        $infillPocketTypeIds: [Int],
+        $infillPocketTypeIdsToDelete: [Int],
+        $systemOptions: [EntireSystemOptionInput],
+        $systemOptionsToDelete: [Int]
     ){
         updateEntireSystem(
             input:{
-                id: $id,
-                newName: $newName,
-                newManufacturerId: $newManufacturerId,
-                newSystemTypeId: $newSystemTypeId,
-                newDepth: $newDepth,
-                newDefaultSightline: $newDefaultSightline,
-                newShimSize: $newShimSize,
-                newDefaultGlassSize: $newDefaultGlassSize,
-                newDefaultGlassBite: $newDefaultGlassBite,
-                newSystemTagIds: $newSystemTagIds,
-                oldSystemTagIds: $oldSystemTagIds,
-                newInfillSizes: $newInfillSizes,
-                oldInfillSizes: $oldInfillSizes,
-                newInfillPocketSizes: $newInfillPocketSizes,
-                oldInfillPocketSizes: $oldInfillPocketSizes,
-                newInfillPocketTypeIds: $newInfillPocketTypeIds,
-                oldInfillPocketTypeIds: $oldInfillPocketTypeIds
+                system:{
+                    id: $id,
+                    name: $name,
+                    manufacturerId: $manufacturerId,
+                    systemTypeId: $systemTypeId,
+                    depth: $depth,
+                    defaultSightline: $defaultSightline,
+                    shimSize: $shimSize,
+                    defaultGlassSize: $defaultGlassSize,
+                    defaultGlassBite: $defaultGlassBite,
+                    systemTagIds: $systemTagIds,
+                    systemTagIdsToDelete: $systemTagIdsToDelete,
+                    infillSizes: $infillSizes,
+                    infillSizesToDelete: $infillSizesToDelete,
+                    infillPocketSizes: $infillPocketSizes,
+                    infillPocketSizesToDelete: $infillPocketSizesToDelete,
+                    infillPocketTypeIds: $infillPocketTypeIds,
+                    infillPocketTypeIdsToDelete: $infillPocketTypeIdsToDelete,
+                    systemOptions:$systemOptions,
+                    systemOptionsToDelete:$systemOptionsToDelete
+                }
             }
         ){
             system:systems{
@@ -218,91 +224,91 @@ export default {
             }
         }
     }`,
-    mapMutationArgumentsToProps: ({
-        newName,
-        newManufacturerId,
-        newSystemTypeId,
-        newDepth,
-        newDefaultSightline,
-        newShimSize,
-        newDefaultGlassSize,
-        newDefaultGlassBite,
-        newSystemTagIds = [],
-        oldSystemTagIds = [],
-        newInfillSizes = [],
-        oldInfillSizes = [],
-        newInfillPocketSizes = [],
-        oldInfillPocketSizes = [],
-        newInfillPocketTypeIds = [],
-        oldInfillPocketTypeIds = [],
-    }, {
-        system,
-        system: {
-            name,
-            depth,
-            defaultSightline,
-            shimSize,
-            defaultGlassSize,
-            defaultGlassBite,
-            manufacturerId,
-            systemTypeId,
-            _manufacturer,
-            _systemType,
-            _systemSystemTags,
-            _systemInfillSizes,
-            _systemInfillPocketSizes,
-            _systemInfillPocketTypes,
-        },
-        allManufacturers,
-        allSystemTypes,
-        allSystemTags,
-        allInfillPocketTypes,
-    }) => ({
-        system: {
-            ...system,
-            name: newName === undefined ? name : newName,
-            _manufacturer: newManufacturerId && newManufacturerId !== manufacturerId ?
-                allManufacturers.find(({ id }) => id === newManufacturerId)
-                :
-                _manufacturer,
-            _systemType: newSystemTypeId && newSystemTypeId !== systemTypeId ?
-                allSystemTypes.find(({ id }) => id === newSystemTypeId)
-                :
-                _systemType,
-            depth: newDepth || depth,
-            defaultSightline: newDefaultSightline || defaultSightline,
-            shimSize: newShimSize || shimSize,
-            defaultGlassSize: newDefaultGlassSize || defaultGlassSize,
-            defaultGlassBite: newDefaultGlassBite | defaultGlassBite,
-            _systemSystemTags: _systemSystemTags
-                // remove `old` items
-                .filter(({ _systemTag: { id } }) => !oldSystemTagIds.includes(id))
-                // add `new` items
-                .concat(newSystemTagIds
-                    .map(systemTagId => ({
-                        _systemTag: allSystemTags
-                            .find(({ id }) => id === systemTagId)
-                    }))
-                ),
-            _systemInfillSizes: _systemInfillSizes
-                .filter(({ infillSize }) => !oldInfillSizes.includes(infillSize))
-                .concat(newInfillSizes
-                    .map(infillSize => ({ infillSize }))
-                ),
-            _systemInfillPocketTypes: _systemInfillPocketTypes
-                .filter(({ infillPocketTypeId }) => !oldInfillPocketTypeIds.includes(infillPocketTypeId))
-                .concat(newInfillPocketTypeIds
-                    .map(infillPocketTypeId => ({
-                        infillPocketTypeId,
-                        _infillPocketType: allInfillPocketTypes
-                            .find(({ id }) => id === infillPocketTypeId)
-                    }))
-                ),
-            _systemInfillPocketSizes: _systemInfillPocketSizes
-                .filter(({ infillPocketSize }) => !oldInfillPocketSizes.includes(infillPocketSize))
-                .concat(newInfillPocketSizes
-                    .map(infillPocketSize => ({ infillPocketSize }))
-                ),
-        },
-    }),
+    // mapMutationArgumentsToProps: ({
+    //     name,
+    //     manufacturerId,
+    //     systemTypeId,
+    //     depth,
+    //     defaultSightline,
+    //     shimSize,
+    //     defaultGlassSize,
+    //     defaultGlassBite,
+    //     systemTagIds = [],
+    //     systemTagIdsToDelete = [],
+    //     infillSizes = [],
+    //     infillSizesToDelete = [],
+    //     infillPocketSizes = [],
+    //     infillPocketSizesToDelete = [],
+    //     infillPocketTypeIds = [],
+    //     infillPocketTypeIdsToDelete = [],
+    // }, {
+    //     system,
+    //     system: {
+    //         name,
+    //         depth,
+    //         defaultSightline,
+    //         shimSize,
+    //         defaultGlassSize,
+    //         defaultGlassBite,
+    //         manufacturerId,
+    //         systemTypeId,
+    //         _manufacturer,
+    //         _systemType,
+    //         _systemSystemTags,
+    //         _systemInfillSizes,
+    //         _systemInfillPocketSizes,
+    //         _systemInfillPocketTypes,
+    //     },
+    //     allManufacturers,
+    //     allSystemTypes,
+    //     allSystemTags,
+    //     allInfillPocketTypes,
+    // }) => ({
+    //     system: {
+    //         ...system,
+    //         name: name === undefined ? name : name,
+    //         _manufacturer: manufacturerId && manufacturerId !== manufacturerId ?
+    //             allManufacturers.find(({ id }) => id === manufacturerId)
+    //             :
+    //             _manufacturer,
+    //         _systemType: systemTypeId && systemTypeId !== systemTypeId ?
+    //             allSystemTypes.find(({ id }) => id === systemTypeId)
+    //             :
+    //             _systemType,
+    //         depth: depth || depth,
+    //         defaultSightline: defaultSightline || defaultSightline,
+    //         shimSize: shimSize || shimSize,
+    //         defaultGlassSize: defaultGlassSize || defaultGlassSize,
+    //         defaultGlassBite: defaultGlassBite | defaultGlassBite,
+    //         _systemSystemTags: _systemSystemTags
+    //             // remove `` items
+    //             .filter(({ _systemTag: { id } }) => !systemTagIdsToDelete.includes(id))
+    //             // add `` items
+    //             .concat(systemTagIds
+    //                 .map(systemTagId => ({
+    //                     _systemTag: allSystemTags
+    //                         .find(({ id }) => id === systemTagId)
+    //                 }))
+    //             ),
+    //         _systemInfillSizes: _systemInfillSizes
+    //             .filter(({ infillSize }) => !infillSizesToDelete.includes(infillSize))
+    //             .concat(infillSizes
+    //                 .map(infillSize => ({ infillSize }))
+    //             ),
+    //         _systemInfillPocketTypes: _systemInfillPocketTypes
+    //             .filter(({ infillPocketTypeId }) => !infillPocketTypeIdsToDelete.includes(infillPocketTypeId))
+    //             .concat(infillPocketTypeIds
+    //                 .map(infillPocketTypeId => ({
+    //                     infillPocketTypeId,
+    //                     _infillPocketType: allInfillPocketTypes
+    //                         .find(({ id }) => id === infillPocketTypeId)
+    //                 }))
+    //             ),
+    //         _systemInfillPocketSizes: _systemInfillPocketSizes
+    //             .filter(({ infillPocketSize }) => !infillPocketSizesToDelete.includes(infillPocketSize))
+    //             .concat(infillPocketSizes
+    //                 .map(infillPocketSize => ({ infillPocketSize }))
+    //             ),
+    //     },
+    // }),
 };

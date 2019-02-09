@@ -3,13 +3,13 @@ SELECT * FROM update_entire_system(
     ROW(
         -- SYSTEM INFO
         -- id INTEGER,
-        NULL,
+        40,
         -- manufacturer_id INTEGER,
         1,
         -- system_type_id INTEGER,
         1,
         -- name VARCHAR(50),
-        'Testing SQL Functions',
+        'Testing SQL Functions #1',
         -- depth FLOAT,
         NULL,
         -- default_glass_size FLOAT,
@@ -62,7 +62,41 @@ SELECT * FROM update_entire_system(
         NULL,
         -- -- OPTIONS
         -- system_options entire_system_option[],
-        NULL,
+        ARRAY[ROW(
+            -- id INTEGER,
+            50,
+            -- system_id INTEGER,
+            NULL,
+            -- name VARCHAR(50),
+            NULL,
+            -- presentation_level INTEGER,
+            NULL,
+            -- override_level INTEGER,
+            NULL,
+            -- option_order INTEGER,
+            NULL,
+            -- option_values entire_option_value[],
+            ARRAY[ROW(
+                -- id INTEGER,
+                NULL,
+                -- system_option_id INTEGER,
+                NULL,
+                -- name TEXT,
+                'Test Option Value #1',
+                -- value FLOAT,
+                NULL,
+                -- value_order INTEGER,
+                1,
+                -- mirror_from_option_value_id INTEGER
+                NULL
+            )::entire_option_value],
+            -- option_value_ids_to_delete INTEGER[],
+            NULL,
+            -- configuration_type_ids INTEGER[],
+            NULL,
+            -- configuration_type_ids_to_delete INTEGER[]
+            NULL
+        )::entire_system_option],
         -- system_option_ids_to_delete INTEGER[]
         NULL
     )::entire_system
