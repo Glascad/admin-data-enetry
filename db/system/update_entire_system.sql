@@ -139,7 +139,8 @@ BEGIN
     THEN
         FOREACH so IN ARRAY s.system_options
         LOOP
-            SELECT id FROM create_or_update_system_option(so, us.id) INTO ___;
+            RAISE NOTICE 'Creating System Option: %', us.id;
+            SELECT id FROM update_entire_system_option(so, us.id) INTO ___;
         END LOOP;
     END IF;
 

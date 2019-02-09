@@ -46,7 +46,7 @@ BEGIN
                     THEN eso.option_order
                 ELSE system_options.option_order END
         WHERE system_options.system_id = sid
-        AND system_options.id = system_option_id
+        AND system_options.id = eso.id
         RETURNING *;
     END IF;
 END;

@@ -10,6 +10,7 @@ DECLARE
         THEN system_option_id
         ELSE ov.system_option_id END;
 BEGIN
+    RAISE NOTICE 'Creating Option Value: %', soid;
     IF ov.id IS NULL
     THEN RETURN QUERY
         INSERT INTO option_values (        
