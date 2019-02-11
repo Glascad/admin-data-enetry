@@ -28,6 +28,7 @@ import {
  * 
  */
 
+
 class Batcher extends Component {
 
     state = {
@@ -208,7 +209,10 @@ class Batcher extends Component {
 
         if (!argumentSetToUpdate) return false;
 
-        const updatedArguments = mergeArguments(argumentSetToUpdate, args);
+        const updatedArguments = mergeArguments({
+            previous: argumentSetToUpdate,
+            incoming: args,
+        });
 
         return {
             batchedMutations: {

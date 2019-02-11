@@ -1,15 +1,14 @@
 import gql from 'graphql-tag';
+import { MANUFACTURER_FIELDS } from '../../../graphql/fragments';
 
 export const query = {
     query: gql`{
         allManufacturers{
             nodes{
-                nodeId
-                id
-                name
+                ...ManufacurerFields
             }
         }
-    }`,
+    } ${MANUFACTURER_FIELDS}`,
 };
 
 export const mutations = {
@@ -21,12 +20,10 @@ export const mutations = {
                 }
             }){
                 manufacturer{
-                    nodeId
-                    id
-                    name
+                    ...ManufacurerFields
                 }
             }
-        }`,
+        } ${MANUFACTURER_FIELDS}`,
         update(cache, {
             data: {
                 createManufacturer: {

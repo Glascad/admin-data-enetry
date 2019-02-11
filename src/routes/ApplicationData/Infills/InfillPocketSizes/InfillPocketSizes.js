@@ -8,7 +8,7 @@ import {
 import {
     query,
     mutations,
-} from './infill-sizes-graphql';
+} from './infill-pocket-sizes-graphql';
 
 export default function InfillPocketSizes() {
     return (
@@ -37,7 +37,7 @@ export default function InfillPocketSizes() {
                             title: size
                         })}
                         onCreate={(_, { input }) => createInfillPocketSize({
-                            size: input,
+                            size: +input,
                         })}
                         onDelete={({ arguments: { nodeId } }) => deleteInfillPocketSize({
                             nodeId

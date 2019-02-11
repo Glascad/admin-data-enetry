@@ -8,7 +8,7 @@ import {
 import {
     query,
     mutations,
-} from './infill-types-graphql';
+} from './infill-pocket-types-graphql';
 
 
 export default function InfillPocketTypes() {

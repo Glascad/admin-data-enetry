@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {
-    ApolloBatcher,
+    ApolloWrapper,
     ToggleNavigator,
 } from '../../../components';
 
 import query from './system-graphql/query';
-import mutations from './system-graphql/mutations';
+// import mutations from './system-graphql/mutations';
 
 import { parseSearch } from '../../../utils';
 
@@ -39,10 +39,10 @@ export default function SystemToggle({
     const { systemNID } = parseSearch(search);
 
     return (
-        <ApolloBatcher
-            mutations={mutations}
+        <ApolloWrapper
+            // mutations={mutations}
             query={{
-                ...query,
+                query,
                 variables: {
                     nodeId: systemNID
                 },
@@ -70,7 +70,7 @@ export default function SystemToggle({
                                 :
                                 "New System",
                         }}
-                        routeProps={apollo}
+                        routeProps={{ ...apollo, mutations: {} }}
                         routes={[
                             SystemDatabase,
                             SystemDetails,
@@ -78,6 +78,6 @@ export default function SystemToggle({
                     />
                 );
             }}
-        </ApolloBatcher>
+        </ApolloWrapper>
     );
 }

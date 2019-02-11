@@ -46,7 +46,7 @@ export default function InfillSizes() {
                                 title: size
                             })}
                             onCreate={(_, { input }) => createInfillSize({
-                                size: input,
+                                size: +input,
                             })}
                             onDelete={({ arguments: { nodeId } }) => deleteInfillSize({
                                 nodeId,

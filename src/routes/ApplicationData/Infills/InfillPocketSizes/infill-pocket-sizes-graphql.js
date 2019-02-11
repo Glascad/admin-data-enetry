@@ -1,14 +1,16 @@
 import gql from 'graphql-tag';
+import {
+    INFILL_POCKET_SIZE_FIELDS,
+} from '../../../../graphql/fragments';
 
 export const query = {
     query: gql`{
         allInfillPocketSizes(orderBy:SIZE_ASC){
             nodes{
-                nodeId
-                size
+                ...InfillPocketSizeFields
             }
         }
-    }`,
+    } ${INFILL_POCKET_SIZE_FIELDS}`,
 };
 
 export const mutations = {
@@ -24,11 +26,10 @@ export const mutations = {
                 }
             ){
                 infillPocketSize{
-                    nodeId
-                    size
+                    ...InfillPocketSizeFields
                 }
             }
-        }`,
+        } ${INFILL_POCKET_SIZE_FIELDS}`,
     },
 
     updateInfillPocketSize: {
@@ -45,11 +46,10 @@ export const mutations = {
                 }
             ){
                 infillPocketSize{
-                    nodeId
-                    size
+                    ...InfillPocketSizeFields
                 }
             }
-        }`,
+        } ${INFILL_POCKET_SIZE_FIELDS}`,
     },
 
     deleteInfillPocketSize: {
@@ -60,10 +60,9 @@ export const mutations = {
                 }
             ){
                 infillPocketSize{
-                    nodeId
-                    size
+                    ...InfillPocketSizeFields
                 }
             }
-        }`,
+        } ${INFILL_POCKET_SIZE_FIELDS}`,
     },
 };

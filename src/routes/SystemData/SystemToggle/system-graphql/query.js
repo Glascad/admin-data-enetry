@@ -1,226 +1,53 @@
 import gql from 'graphql-tag';
+import {
+    ENTIRE_SYSTEM,
+    SYSTEM_TYPE_FIELDS,
+    SYSTEM_TAG_FIELDS,
+    INFILL_SIZE_FIELDS,
+    INFILL_POCKET_SIZE_FIELDS,
+    INFILL_POCKET_TYPE_FIELDS,
+} from '../../../../graphql/fragments';
 
-export default {
-    query: gql`query System($nodeId:ID!){
+export default gql`
+    query System($nodeId:ID!){
         system(nodeId:$nodeId){
-            nodeId
-            id
-            name
-            defaultGlassSize
-            defaultGlassBite
-            depth
-            defaultSightline
-            shimSize
-            manufacturerId
-            systemTypeId
-            manufacturerByManufacturerId{
-                nodeId
-                id
-                name
-            }
-            systemTypeBySystemTypeId{
-                nodeId
-                id
-                type
-                systemTypeDetailTypeConfigurationTypesBySystemTypeId{
-                    nodes{
-                        nodeId
-                        mirrorable
-                        required
-                        presentationLevel
-                        overrideLevel
-                        systemTypeId
-                        detailTypeId
-                        detailTypeByDetailTypeId{
-                            nodeId
-                            id
-                            type
-                        }
-                        configurationTypeId
-                        configurationTypeByConfigurationTypeId{
-                            nodeId
-                            id
-                            type
-                            door
-                        }
-                    }
-                }
-            }
-            systemConfigurationOverridesBySystemId{
-                nodes{
-                    nodeId
-                    mirrorableOverride
-                    requiredOverride
-                    presentationLevelOverride
-                    overrideLevelOverride
-                    systemId
-                    systemTypeId
-                    detailTypeId
-                    configurationTypeId
-                }
-            }
-            systemSystemTagsBySystemId{
-                nodes{
-                    nodeId
-                    systemTagBySystemTagId{
-                        nodeId
-                        id
-                        tag
-                    }
-                }
-            }
-            systemInfillSizesBySystemId{
-                nodes{
-                    nodeId
-                    infillSize
-                    infillSizeByInfillSize{
-                        nodeId
-                        size
-                    }
-                }
-            }
-            systemInfillPocketTypesBySystemId{
-                nodes{
-                    infillPocketTypeId
-                    nodeId
-                    infillPocketTypeByInfillPocketTypeId{
-                        nodeId
-                        id
-                        type
-                        captured
-                        description
-                    }
-                }
-            }
-            systemInfillPocketSizesBySystemId{
-                nodes{
-                    nodeId
-                    infillPocketSize
-                    infillPocketSizeByInfillPocketSize{
-                        nodeId
-                        size
-                    }
-                }
-            }
-            invalidSystemConfigurationTypesBySystemId{
-                nodes{
-                    nodeId
-                    systemId
-                    invalidConfigurationTypeId
-                    configurationTypeByInvalidConfigurationTypeId{
-                        nodeId
-                        id
-                        type
-                        door
-                    }
-                }
-            }
-            systemOptionsBySystemId {
-                nodes {
-                    nodeId
-                    id
-                    name
-                    systemId
-                    optionOrder
-                    overrideLevel
-                    presentationLevel
-                    optionValuesBySystemOptionId {
-                        nodes {
-                            nodeId
-                            id
-                            name
-                            value
-                        }
-                    }
-                    systemOptionConfigurationTypesBySystemOptionId{
-                        nodes{
-                            nodeId
-                            configurationTypeId
-                            configurationTypeByConfigurationTypeId{
-                                nodeId
-                                id
-                                type
-                                door
-                            }
-                        }
-                    }
-                }
-            }
-            optionCombinationsBySystemId{
-                nodes{
-                    nodeId
-                    id
-                    invalid
-                    optionCombinationConfigurationTypesByOptionCombinationId{
-                        nodes{
-                            nodeId
-                            configurationTypeByConfigurationTypeId{
-                                nodeId
-                                id
-                                type
-                                door
-                            }
-                        }
-                    }
-                    optionCombinationOptionValuesByOptionCombinationId{
-                        nodes{
-                            nodeId
-                            optionValueByOptionValueId{
-                                nodeId
-                                id
-                                name
-                                value
-                                systemOptionBySystemOptionId{
-                                    nodeId
-                                    id
-                                    name
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            ...EntireSystem
         }
         allSystemTypes{
             nodes{
-                nodeId
-                id
-                type
+                ...SystemTypeFields
             }
         }
         allSystemTags{
             nodes{
-                nodeId
-                id
-                tag
+                ...SystemTagFields
             }
         }
         allInfillSizes{
             nodes{
-                nodeId
-                size
+                ...InfillSizeFields
             }
         }
         allInfillPocketTypes{
             nodes{
-                nodeId
-                id
-                type
+                ...InfillPocketTypeFields
             }
         }
         allInfillPocketSizes{
             nodes{
-                nodeId
-                size
+                ...InfillPocketSizeFields
             }
         }
         allConfigurationTypes{
             nodes{
-                nodeId
-                id
-                type
-                door
+                ...ConfigurationTypeFields
             }
         }
-    }`,
-};
+    }
+    ${ENTIRE_SYSTEM}
+    ${SYSTEM_TYPE_FIELDS}
+    ${SYSTEM_TAG_FIELDS}
+    ${INFILL_SIZE_FIELDS}
+    ${INFILL_POCKET_SIZE_FIELDS}
+    ${INFILL_POCKET_TYPE_FIELDS}
+`;

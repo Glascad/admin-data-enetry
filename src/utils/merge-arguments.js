@@ -44,30 +44,40 @@
  */
 
 const matchOld = /(^old)(.+$)/;
+const replaceOld = 'new$2';
 const matchNew = /(^new)(.+$)/;
+const replaceNew = 'old$2';
 
-const divide = (arr, cb) => arr.reduce(([T, F], item) => cb(item, T, F) ?
-    [T.concat(item), F]
+const divide = (arr, cb) => arr.reduce(([L, R], item) => cb(item, L, R) ?
+    [L.concat(item), R]
     :
-    [T, F.concat(item)],
+    [L, R.concat(item)],
     [[], []]);
 
-const allocate = (arr, T = [], F = [], compare = (item, T, F) => F.includes(item)) => {
-    const [toRemove, toAdd] = divide(arr, compare);
+const allocate = (arr, L = [], R = [], allocateItemRight = (item, L, R) => R.includes(item)) => {
+    const [toRemove, toAdd] = divide(arr, allocateItemRight);
     return [
-        T.concat(toAdd),
-        F.filter(item => !toRemove.includes(item)),
+        L.concat(toAdd),
+        R.filter(item => !toRemove.includes(item)),
     ];
 }
 
-const mergeArguments = (prevArgs, incomingArgs, compare) => ({
-    ...prevArgs,
-    ...Object.keys(incomingArgs)
+const mergeArguments = ({
+    previous,
+    incoming,
+    getOppositeKey = key => key.match(matchNew) ?
+        key.replace(matchNew, replaceNew)
+        :
+        key.replace(matchOld, replaceOld),
+    allocateItemRight,
+}) => ({
+    ...previous,
+    ...Object.keys(incoming)
         .reduce((merged, key) => {
 
             if (merged.__merged__ && merged.__merged__.includes(key)) return merged;
 
-            const incomingValue = incomingArgs[key];
+            const incomingValue = incoming[key];
 
             if (!Array.isArray(incomingValue)) {
                 return {
@@ -76,19 +86,16 @@ const mergeArguments = (prevArgs, incomingArgs, compare) => ({
                 };
             } else {
 
-                const prevValue = prevArgs[key];
+                const prevValue = previous[key];
 
                 if (prevValue !== undefined && !Array.isArray(prevValue)) {
                     console.error({ prevValue, incomingValue });
                     throw new Error(`Received differing data types previous value: ${prevValue}, incoming value: ${incomingValue.join(", ")}`);
                 }
 
-                const opposite = key.match(matchNew) ?
-                    key.replace(matchNew, 'old$2')
-                    :
-                    key.replace(matchOld, 'new$2');
+                const opposite = getOppositeKey(key);
 
-                const prevOpposite = prevArgs[opposite];
+                const prevOpposite = previous[opposite];
 
                 if (!Array.isArray(prevOpposite)) {
                     return {
@@ -97,7 +104,7 @@ const mergeArguments = (prevArgs, incomingArgs, compare) => ({
                     };
                 } else {
 
-                    const incomingOpposite = incomingArgs[opposite];
+                    const incomingOpposite = incoming[opposite];
 
                     // const [outgoingValue, outgoingOpposite] = allocate(incomingValue, prevValue, prevOpposite);
 
@@ -109,9 +116,9 @@ const mergeArguments = (prevArgs, incomingArgs, compare) => ({
                             incomingValue || [],
                             prevValue || [],
                             prevOpposite || [],
-                            compare,
+                            allocateItemRight,
                         ).reverse(),
-                        compare,
+                        allocateItemRight,
                     );
 
                     return {
@@ -124,4 +131,5 @@ const mergeArguments = (prevArgs, incomingArgs, compare) => ({
             }
         }, {}),
 });
+
 export default mergeArguments;

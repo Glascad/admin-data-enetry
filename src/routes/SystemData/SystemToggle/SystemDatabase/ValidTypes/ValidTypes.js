@@ -13,26 +13,26 @@ import {
 import StateManager from '../../../../../components/state/StateManager';
 import SystemConfigurationOverride from './SystemConfigurationOverride';
 
-ValidTypes.navigationOptions = ({
-    batcher: {
-        batchedMutations: {
-            updateEntireSystem: {
-                argumentSets: [
-                    {
-                        newSystemTypeId,
-                    } = {},
-                ] = [],
-            } = {},
-        },
-    },
-    queryStatus: {
-        system: {
-            systemTypeId,
-        } = {}
-    },
-}) => ({
-    disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
-});
+// ValidTypes.navigationOptions = ({
+//     batcher: {
+//         batchedMutations: {
+//             updateEntireSystem: {
+//                 argumentSets: [
+//                     {
+//                         newSystemTypeId,
+//                     } = {},
+//                 ] = [],
+//             } = {},
+//         },
+//     },
+//     queryStatus: {
+//         system: {
+//             systemTypeId,
+//         } = {}
+//     },
+// }) => ({
+//     disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
+// });
 
 export default function ValidTypes({
     queryStatus: {
