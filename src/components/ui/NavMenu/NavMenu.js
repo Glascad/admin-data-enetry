@@ -8,7 +8,9 @@ import {
 import Dropdown from '../Dropdown/Dropdown';
 
 import './NavMenu.scss';
+
 import { extractNavigationOptions } from '../../../utils';
+
 
 function NavMenu({
     location: {
@@ -19,6 +21,7 @@ function NavMenu({
     routes = [arguments[0].route].filter(Boolean),
     closed,
 }) {
+    console.log(arguments[0]);
     return (
         <div className="NavMenu">
             {routes

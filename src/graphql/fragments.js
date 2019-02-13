@@ -137,6 +137,153 @@ export const SYSTEM_FIELDS = gql`
     }
 `;
 
+// ALL OF TYPE
+
+export const ALL_MANUFACTURERS = gql`
+    fragment AllManufacturers on Query {
+        allManufacturers {
+            nodes {
+                ...ManufacturerFields
+            }
+        }
+    }
+    ${MANUFACTURER_FIELDS}
+`;
+
+export const ALL_SYSTEM_TYPES = gql`
+    fragment AllSystemTypes on Query {
+        allSystemTypes {
+            nodes {
+                ...SystemTypeFields
+            }
+        }
+    }
+    ${SYSTEM_TYPE_FIELDS}
+`;
+
+export const ALL_SYSTEM_TAGS = gql`
+    fragment AllSystemTags on Query {
+        allSystemTags {
+            nodes {
+                ...SystemTagFields
+            }
+        }
+    }
+    ${SYSTEM_TAG_FIELDS}
+`;
+
+export const ALL_DETAIL_TYPES = gql`
+    fragment AllDetailTypes on Query {
+        allDetailTypes {
+            nodes {
+                ...DetailTypeFields
+            }
+        }
+    }
+    ${DETAIL_TYPE_FIELDS}
+`;
+
+export const ALL_CONFIGURATION_TYPES = gql`
+    fragment AllConfigurationTypes on Query {
+        allConfigurationTypes {
+            nodes {
+                ...ConfigurationTypeFields
+            }
+        }
+    }
+    ${CONFIGURATION_TYPE_FIELDS}
+`;
+
+export const ALL_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPES = gql`
+    fragment AllSystemTypeDetailTypeConfigurationTypes on Query {
+        allSystemTypeDetailTypeConfigurationTypes {
+            nodes {
+                ...SystemTypeDetailTypeConfigurationTypeFields
+            }
+        }
+    }
+    ${SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
+`;
+
+export const ALL_SYSTEM_CONFIGURATION_OVERRIDES = gql`
+    fragment AllSystemConfigurationOverrides on Query {
+        allSystemConfigurationOverrides {
+            nodes {
+                ...SystemConfigurationOverrideFields
+            }
+        }
+    }
+    ${SYSTEM_CONFIGURATION_OVERRIDE_FIELDS}
+`;
+
+export const ALL_SYSTEM_OPTIONS = gql`
+    fragment AllSystemOptions on Query {
+        allSystemOptions {
+            nodes {
+                ...SystemOptionFields
+            }
+        }
+    }
+    ${SYSTEM_OPTION_FIELDS}
+`;
+
+export const ALL_OPTION_VALUES = gql`
+    fragment AllOptionValues on Query {
+        allOptionValues {
+            nodes {
+                ...OptionValueFields
+            }
+        }
+    }
+    ${OPTION_VALUE_FIELDS}
+`;
+
+export const ALL_INFILL_SIZES = gql`
+    fragment AllInfillSizes on Query {
+        allInfillSizes {
+            nodes {
+                ...InfillSizeFields
+            }
+        }
+    }
+    ${INFILL_SIZE_FIELDS}
+`;
+
+export const ALL_INFILL_POCKET_SIZES = gql`
+    fragment AllInfillPocketSizes on Query {
+        allInfillPocketSizes {
+            nodes {
+                ...InfillPocketSizeFields
+            }
+        }
+    }
+    ${INFILL_POCKET_SIZE_FIELDS}
+`;
+
+export const ALL_INFILL_POCKET_TYPES = gql`
+    fragment AllInfillPocketTypes on Query {
+        allInfillPocketTypes {
+            nodes {
+                ...InfillPocketTypeFields
+            }
+        }
+    }
+    ${INFILL_POCKET_TYPE_FIELDS}
+`;
+
+export const ALL_SYSTEMS = gql`
+    fragment AllSystems on Query {
+        allSystems {
+            nodes {
+                ...SystemFields
+            }
+        }
+    }
+    ${SYSTEM_FIELDS}
+`;
+
+
+
 // COMPOSED FRAGMENTS
 
 export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`

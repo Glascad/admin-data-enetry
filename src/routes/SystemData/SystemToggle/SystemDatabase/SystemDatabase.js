@@ -10,6 +10,8 @@ import {
     TabNavigator,
 } from '../../../../components';
 
+import SystemUpdate from './SystemUpdate';
+
 const subroutes = [
     SystemInfo,
     GlazingInfo,
@@ -27,55 +29,82 @@ export default class SystemDatabase extends Component {
     };
 
     state = {
-        systemUpdate: {
-            // system fields
-            id: undefined,
-            manufacturerId: undefined,
-            systemTypeId: undefined,
-            name: undefined,
-            depth: undefined,
-            shimSize: undefined,
-            defaultGlassSize: undefined,
-            defaultGlassBite: undefined,
-            defaultSightline: undefined,
-            inset: undefined,
-            frontInset: undefined,
-            topGap: undefined,
-            bottomGap: undefined,
-            sideGap: undefined,
-            glassGap: undefined,
-            meetingStileGap: undefined,
-            // lists
-            systemOptions: [],
-            invalidSystemConfigurationTypeIds: [],
-            systemConfigurationOverrides: [],
-            // deletion lists
-            systemOptionIdsToDelete: [],
-            invalidSystemConfigurationTypeIdsToDelete: [],
-            systemConfigurationOverridesToDelete: [],
-        },
+        system: new SystemUpdate(),
     };
 
-    save = () => { }
+    handleChange = (key, value) => this.setState(({ system: { update } }) => ({
+        system: update(key, value),
+    }));
+
+    handleOptionChange = (optionId, key, value) => this.setState(({ system: { updateOption } }) => ({
+        system: updateOption(optionId, key, value),
+    }));
+
+    handleOptionValueChange = (optionId, valueId, key, value) => this.setState(({ system: { updateOptionValue } }) => ({
+        system: updateOptionValue(optionId, valueId, key, value),
+    }));
+
+    createOption = name => this.setState(({ system: { createOption } }) => ({
+        system: createOption(name),
+    }));
+
+    createOptionValue = (optionId, name) => this.setState(({ system: { createOptionValue } }) => ({
+        system: createOptionValue(optionId, name),
+    }));
+
+    deleteOption = id => this.setState(({ system: { deleteOption } }) => ({
+        system: deleteOption(id),
+    }));
+
+    deleteOptionValue = id => this.setState(({ system: { deleteOptionValue } }) => ({
+        system: deleteOptionValue(id),
+    }));
+
+    _mergeUpdatedSystem = (systemUpdate, system) => ({
+        // equivalent of mapresulttoprops
+        // fix later
+        ...system,
+        ...systemUpdate,
+    });
+
+    save = () => this.props.mutations.updateEntireSystem(this.state)
 
     reset = () => { }
 
     render = () => {
         const {
+            state: {
+                system: systemUpdate,
+            },
             props,
-            // props: {
-            //     batcher: {
-            //         completeMutations,
-            //         resetMutations,
-            //     },
-            // },
+            props: {
+                queryStatus: {
+                    system,
+                },
+                mutations: {
+                    updateEntireSystem,
+                },
+                // batcher: {
+                //     completeMutations,
+                //     resetMutations,
+                // },
+            },
+            // handleChange,
             save,
             reset,
+            _mergeUpdatedSystem,
         } = this;
+
+        console.log(this);
 
         return (
             <TabNavigator
-                routeProps={props}
+                routeProps={{
+                    queryStatus: _mergeUpdatedSystem(systemUpdate, system),
+                    mutations: {
+                        updateEntireSystem
+                    },
+                }}
                 routes={subroutes}
             >
                 <div className="bottom-buttons">

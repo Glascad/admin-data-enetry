@@ -1,11 +1,12 @@
 import gql from 'graphql-tag';
 import {
     ENTIRE_SYSTEM,
-    SYSTEM_TYPE_FIELDS,
-    SYSTEM_TAG_FIELDS,
-    INFILL_SIZE_FIELDS,
-    INFILL_POCKET_SIZE_FIELDS,
-    INFILL_POCKET_TYPE_FIELDS,
+    ALL_SYSTEM_TYPES,
+    ALL_SYSTEM_TAGS,
+    ALL_INFILL_SIZES,
+    ALL_INFILL_POCKET_SIZES,
+    ALL_INFILL_POCKET_TYPES,
+    ALL_CONFIGURATION_TYPES,
 } from '../../../../graphql/fragments';
 
 export default gql`
@@ -13,41 +14,18 @@ export default gql`
         system(nodeId:$nodeId){
             ...EntireSystem
         }
-        allSystemTypes{
-            nodes{
-                ...SystemTypeFields
-            }
-        }
-        allSystemTags{
-            nodes{
-                ...SystemTagFields
-            }
-        }
-        allInfillSizes{
-            nodes{
-                ...InfillSizeFields
-            }
-        }
-        allInfillPocketTypes{
-            nodes{
-                ...InfillPocketTypeFields
-            }
-        }
-        allInfillPocketSizes{
-            nodes{
-                ...InfillPocketSizeFields
-            }
-        }
-        allConfigurationTypes{
-            nodes{
-                ...ConfigurationTypeFields
-            }
-        }
+        ...AllSystemTypes
+        ...AllSystemTags
+        ...AllInfillSizes
+        ...AllInfillPocketTypes
+        ...AllInfillPocketSizes
+        ...AllConfigurationTypes
     }
     ${ENTIRE_SYSTEM}
-    ${SYSTEM_TYPE_FIELDS}
-    ${SYSTEM_TAG_FIELDS}
-    ${INFILL_SIZE_FIELDS}
-    ${INFILL_POCKET_SIZE_FIELDS}
-    ${INFILL_POCKET_TYPE_FIELDS}
+    ${ALL_SYSTEM_TYPES}
+    ${ALL_SYSTEM_TAGS}
+    ${ALL_INFILL_SIZES}
+    ${ALL_INFILL_POCKET_SIZES}
+    ${ALL_INFILL_POCKET_TYPES}
+    ${ALL_CONFIGURATION_TYPES}
 `;

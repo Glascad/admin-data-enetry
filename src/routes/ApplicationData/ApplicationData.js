@@ -20,11 +20,11 @@ const subroutes = [
     Lines,
 ];
 
-ApplicationData.navigationOptions = {
+ApplicationsData.navigationOptions = {
     subroutes,
 };
 
-export default function ApplicationData() {
+export default function ApplicationsData() {
     return (
         <Navigator
             routes={subroutes}

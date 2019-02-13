@@ -77,11 +77,11 @@ export default class Dropdown extends Component {
                         {title}
                     </span>
                 </div>
-                {open ? (
+                {/* {open ? ( */}
                     <div className="content">
                         {children}
                     </div>
-                ) : null}
+                {/* ) : null} */}
             </div>
         );
     }
