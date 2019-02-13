@@ -240,7 +240,7 @@ export const ALL_OPTION_VALUES = gql`
 
 export const ALL_INFILL_SIZES = gql`
     fragment AllInfillSizes on Query {
-        allInfillSizes {
+        allInfillSizes(orderBy:SIZE_ASC) {
             nodes {
                 ...InfillSizeFields
             }
@@ -251,7 +251,7 @@ export const ALL_INFILL_SIZES = gql`
 
 export const ALL_INFILL_POCKET_SIZES = gql`
     fragment AllInfillPocketSizes on Query {
-        allInfillPocketSizes {
+        allInfillPocketSizes(orderBy:SIZE_ASC) {
             nodes {
                 ...InfillPocketSizeFields
             }

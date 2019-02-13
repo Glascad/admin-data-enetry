@@ -1,36 +1,29 @@
 import gql from 'graphql-tag';
+import {
+    ALL_INFILL_POCKET_TYPES,
+    INFILL_POCKET_TYPE_FIELDS,
+} from '../../../../graphql/fragments';
 
 export const query = {
-    query: gql`{
-        allInfillPocketTypes{
-            nodes{
-                nodeId
-                id
-                type
-                description
-                captured
-            }
-        }
-    }`,
+    query: gql`{ ...AllInfillPocketTypes } ${ALL_INFILL_POCKET_TYPES}`,
 };
 
 export const mutations = {
     createInfillPocketType: {
-        mutation: gql`mutation CreateInfillPocketType($type:String!){
-            createInfillPocketType(input:{
-                infillPocketType:{
-                    type:$type
-                }
-            }){
-                infillPocketType{
-                    nodeId
-                    id
-                    type
-                    description
-                    captured
+        mutation: gql`
+            mutation CreateInfillPocketType($type:String!){
+                createInfillPocketType(input:{
+                    infillPocketType:{
+                        type:$type
+                    }
+                }){
+                    infillPocketType{
+                        ...InfillPocketTypeFields
+                    }
                 }
             }
-        }`,
+            ${INFILL_POCKET_TYPE_FIELDS}
+        `,
         update(cache, {
             data: {
                 createInfillPocketType: {
@@ -51,44 +44,42 @@ export const mutations = {
         }
     },
     updateInfillPocketType: {
-        mutation: gql`mutation UpdateInfillPocketType(
-            $nodeId:ID!,
-            $type:String,
-            $description:String,
-            $captured:Boolean
-        ){
-            updateInfillPocketType(input:{
-                nodeId:$nodeId
-                infillPocketTypePatch:{
-                    type:$type
-                    description:$description
-                    captured:$captured
-                }
-            }){
-                infillPocketType{
-                    nodeId
-                    id
-                    type
-                    description
-                    captured
+        mutation: gql`
+            mutation UpdateInfillPocketType(
+                $nodeId:ID!,
+                $type:String,
+                $description:String,
+                $captured:Boolean
+            ){
+                updateInfillPocketType(input:{
+                    nodeId:$nodeId
+                    infillPocketTypePatch:{
+                        type:$type
+                        description:$description
+                        captured:$captured
+                    }
+                }){
+                    infillPocketType{
+                        ...InfillPocketTypeFields
+                    }
                 }
             }
-        }`,
+            ${INFILL_POCKET_TYPE_FIELDS}
+        `,
     },
     deleteInfillPocketType: {
-        mutation: gql`mutation DeleteInfillPocketType($nodeId:ID!){
-            deleteInfillPocketType(input:{
-                nodeId:$nodeId
-            }){
-                infillPocketType{
-                    nodeId
-                    id
-                    type
-                    description
-                    captured
+        mutation: gql`
+            mutation DeleteInfillPocketType($nodeId:ID!){
+                deleteInfillPocketType(input:{
+                    nodeId:$nodeId
+                }){
+                    infillPocketType{
+                        ...InfillPocketTypeFields
+                    }
                 }
             }
-        }`,
+            ${INFILL_POCKET_TYPE_FIELDS}
+        `,
         update(cache, {
             data: {
                 deleteInfillPocketType: {

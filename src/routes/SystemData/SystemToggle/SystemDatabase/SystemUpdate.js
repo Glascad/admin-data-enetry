@@ -36,6 +36,7 @@ export default class SystemUpdate {
 
     constructor(system) {
         Object.assign(this, defaultSystem, system);
+        console.log({ system: this });
     }
 
 
@@ -177,54 +178,54 @@ export default class SystemUpdate {
 
     // DELETES
 
-    deleteOption = id => this.setState(({
-        system,
-        system: {
-            systemOptions,
-            systemOptionIdsToDelete,
-        },
-    }) => {
-        const createdOption = systemOptions.find(option => option.id === id);
+    deleteOption = id => {
+        // find option in state
+        const createdOption = this.systemOptions.find(option => option.id === id);
+        const optionIndex = this.systemOptions.indexOf(createdOption);
+        // remove option from state
+        if (createdOption) {
+            // check if option previously existed
+            if (typeof createdOption.id === 'string') {
+                // only remove from options if option did not previously exist
+                return new SystemUpdate({
+                    ...this,
+                    systemOptions: this.systemOptions.filter(option => option !== createdOption),
+                });
+            } else {
+                // remove update from options and add to delete array if did previously exist
+                return new SystemUpdate({
+                    ...this,
+                    systemOptions: this.systemOptions.filter(option => option !== createdOption),
+                    systemOptionIdsToDelete: this.systemOptionIdsToDelete.concat(id)
+                });
+            }
+        } else {
+            // add option to list of deletions
+            return new SystemUpdate({
+                ...this,
+                systemOptionIdsToDelete: this.systemOptionIdsToDelete.concat(id)
+            });
+        }
+    };
 
-        // if (!createdOption || )
-        // return createdOption ? {
-        //     system: {
-        //         ...system,
-        //         systemOptions: systemOptions.filter(option => option !== createdOption),
-        //     },
-        // } : {
-        //         system: {
-        //             ...system,
-        //             systemOptionIdsToDelete: systemOptionIdsToDelete.concat(id),
-        //         },
-        //     };
-    });
-
-    deleteOptionValue = (optionId, valueId) => this.setState(({
-        system,
-        system: {
-            systemOptions,
-        },
-    }) => {
-        const updatedOption = systemOptions.find(option => option.id === optionId);
+    deleteOptionValue = (optionId, valueId) => {
+        const updatedOption = this.systemOptions.find(option => option.id === optionId);
         if (!updatedOption) {
             return {
                 system: {
-                    ...system,
-                    systemOptions: systemOptions.concat({
+                    systemOptions: this.systemOptions.concat({
                         id: optionId,
                         optionValueIdsToDelete: [valueId],
                     }),
                 },
             };
         } else {
-            const optionIndex = systemOptions.indexOf(updatedOption);
+            const optionIndex = this.systemOptions.indexOf(updatedOption);
             const optionValue = updatedOption.optionValues.find(value => value.id === valueId);
             if (!optionValue) {
                 return {
                     system: {
-                        ...system,
-                        systemOptions: systemOptions.replace(optionIndex, {
+                        systemOptions: this.systemOptions.replace(optionIndex, {
                             ...updatedOption,
                             // optionValues: updatedOption.optionValues.replace()
                             optionValueIdsToDelete: (updatedOption.optionValueIdsToDelete || []).concat(valueId),
@@ -237,8 +238,7 @@ export default class SystemUpdate {
         }
         return {
             system: {
-                ...system,
-                systemOptions: systemOptions.map(option => {
+                systemOptions: this.systemOptions.map(option => {
                     if (option.id !== optionId) return option;
                     else {
                         const {
@@ -254,6 +254,6 @@ export default class SystemUpdate {
                 }),
             },
         };
-    });
+    };
 
 }
