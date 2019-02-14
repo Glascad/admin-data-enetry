@@ -14,10 +14,10 @@ import SystemUpdate from './SystemUpdate';
 
 const subroutes = [
     SystemInfo,
-    GlazingInfo,
-    ValidTypes,
-    SystemOptions,
-    InvalidCombinations,
+    // GlazingInfo,
+    // ValidTypes,
+    // SystemOptions,
+    // InvalidCombinations,
 ];
 
 export default class SystemDatabase extends Component {
@@ -34,6 +34,10 @@ export default class SystemDatabase extends Component {
 
     handleChange = (key, value) => this.setState(({ system: { update } }) => ({
         system: update(key, value),
+    }));
+
+    handleListChange = (key, addedItems, deletedItems) => this.setState(({ system: { updateList } }) => ({
+        system: updateList(key, addedItems, deletedItems),
     }));
 
     handleOptionChange = (optionId, key, value) => this.setState(({ system: { updateOption } }) => ({
@@ -60,13 +64,6 @@ export default class SystemDatabase extends Component {
         system: deleteOptionValue(id),
     }));
 
-    _mergeUpdatedSystem = (systemUpdate, system) => ({
-        // equivalent of mapresulttoprops
-        // fix later
-        ...system,
-        ...systemUpdate,
-    });
-
     save = () => this.props.mutations.updateEntireSystem(this.state)
 
     reset = () => { }
@@ -74,25 +71,23 @@ export default class SystemDatabase extends Component {
     render = () => {
         const {
             state: {
-                system: systemUpdate,
+                system: {
+                    mergeUpdate,
+                },
             },
-            props,
             props: {
-                queryStatus: {
-                    system,
-                },
-                mutations: {
-                    updateEntireSystem,
-                },
-                // batcher: {
-                //     completeMutations,
-                //     resetMutations,
-                // },
+                queryStatus,
             },
-            // handleChange,
             save,
             reset,
-            _mergeUpdatedSystem,
+            handleChange,
+            handleListChange,
+            handleOptionChange,
+            handleOptionValueChange,
+            createOption,
+            createOptionValue,
+            deleteOption,
+            deleteOptionValue,
         } = this;
 
         console.log(this);
@@ -100,9 +95,16 @@ export default class SystemDatabase extends Component {
         return (
             <TabNavigator
                 routeProps={{
-                    queryStatus: _mergeUpdatedSystem(systemUpdate, system),
-                    mutations: {
-                        updateEntireSystem
+                    queryStatus: mergeUpdate(queryStatus),
+                    methods: {
+                        handleChange,
+                        handleListChange,
+                        handleOptionChange,
+                        handleOptionValueChange,
+                        createOption,
+                        createOptionValue,
+                        deleteOption,
+                        deleteOptionValue,
                     },
                 }}
                 routes={subroutes}

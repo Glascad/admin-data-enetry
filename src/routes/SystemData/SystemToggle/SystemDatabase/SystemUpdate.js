@@ -1,4 +1,9 @@
 
+import {
+    allocateItems,
+    removeNullValues,
+} from '../../../../utils';
+
 const defaultSystem = {
     // system fields
     manufacturerId: undefined,
@@ -17,12 +22,25 @@ const defaultSystem = {
     glassGap: undefined,
     meetingStileGap: undefined,
     // lists
+    systemTagIds: [],
+    systemTagIdsToDelete: [],
+
+    infillSizes: [],
+    infillSizesToDelete: [],
+
+    infillPocketSizes: [],
+    infillPocketSizesToDelete: [],
+
+    infillPocketTypeIds: [],
+    infillPocketTypeIdsToDelete: [],
+
     systemOptions: [],
-    invalidSystemConfigurationTypeIds: [],
-    systemConfigurationOverrides: [],
-    // deletion lists
     systemOptionIdsToDelete: [],
+
+    invalidSystemConfigurationTypeIds: [],
     invalidSystemConfigurationTypeIdsToDelete: [],
+
+    systemConfigurationOverrides: [],
     systemConfigurationOverridesToDelete: [],
 };
 
@@ -36,6 +54,7 @@ export default class SystemUpdate {
 
     constructor(system) {
         Object.assign(this, defaultSystem, system);
+        console.log({ incomingSystem: system });
         console.log({ system: this });
     }
 
@@ -52,6 +71,26 @@ export default class SystemUpdate {
         ...this,
         [key]: value,
     });
+
+    updateList = (key, addedItems, deletedItems) => {
+        if (!this.hasOwnProperty(key)) throw new Error(`key: ${key} does not exist in SystemUpdate`);
+        const deleteKey = key + 'ToDelete';
+        const currentAddedItems = this[key];
+        const currentDeletedItems = this[deleteKey];
+        const [newDeletedItems, newAddedItems] = allocateItems(
+            deletedItems,
+            ...allocateItems(
+                addedItems,
+                currentAddedItems,
+                currentDeletedItems,
+            ).reverse(),
+        );
+        return new SystemUpdate({
+            ...this,
+            [key]: newAddedItems,
+            [deleteKey]: newDeletedItems,
+        });
+    }
 
     updateOption = (id, key, value) => {
         // find option in state
@@ -209,51 +248,172 @@ export default class SystemUpdate {
     };
 
     deleteOptionValue = (optionId, valueId) => {
-        const updatedOption = this.systemOptions.find(option => option.id === optionId);
-        if (!updatedOption) {
-            return {
-                system: {
-                    systemOptions: this.systemOptions.concat({
-                        id: optionId,
-                        optionValueIdsToDelete: [valueId],
-                    }),
-                },
-            };
-        } else {
-            const optionIndex = this.systemOptions.indexOf(updatedOption);
-            const optionValue = updatedOption.optionValues.find(value => value.id === valueId);
-            if (!optionValue) {
-                return {
-                    system: {
+        // find option in state
+        const updatedOption = this._getOption(optionId);
+        const optionIndex = this.systemOptions.indexOf(updatedOption);
+        if (updatedOption) {
+            // find value in option
+            const createdValue = updatedOption.optionValues.find(value => value.id === valueId);
+            const optionValueIndex = updatedOption.optionValues.indexOf(createdValue);
+            if (createdValue) {
+                // check if value previously existed
+                if (typeof createdValue.id === 'string') {
+                    // only remove from list
+                    return new SystemUpdate({
+                        ...this,
                         systemOptions: this.systemOptions.replace(optionIndex, {
                             ...updatedOption,
-                            // optionValues: updatedOption.optionValues.replace()
-                            optionValueIdsToDelete: (updatedOption.optionValueIdsToDelete || []).concat(valueId),
+                            optionValues: updatedOption.optionValues.filter(value => value !== createdValue),
                         }),
-                    },
-                };
+                    });
+                } else {
+                    // remove update from list and add id to deletions
+                    return new SystemUpdate({
+                        ...this,
+                        systemOptions: this.systemOptions.replace(optionIndex, {
+                            ...updatedOption,
+                            optionValues: updatedOption.optionValues.filter(value => value !== createdValue),
+                            optionValueIdsToDelete: updatedOption.optionValueIdsToDelete.concat(valueId),
+                        }),
+                    });
+                }
             } else {
-
+                // add value to delete array
+                return new SystemUpdate({
+                    ...this,
+                    systemOptions: this.systemOptions.replace(optionIndex, {
+                        ...updatedOption,
+                        // optionValues: updatedOption.optionValues.replace()
+                        optionValueIdsToDelete: (updatedOption.optionValueIdsToDelete || []).concat(valueId),
+                    }),
+                });
             }
-        }
-        return {
-            system: {
-                systemOptions: this.systemOptions.map(option => {
-                    if (option.id !== optionId) return option;
-                    else {
-                        const {
-                            optionValues,
-                            optionValueIdsToDelete,
-                        } = option;
-                        // const createdOptionValue = 
-                        return {
-                            ...option,
-                            optionValues
-                        };
-                    }
+        } else {
+            // add option with deleted value to state
+            return new SystemUpdate({
+                ...this,
+                systemOptions: this.systemOptions.concat({
+                    id: optionId,
+                    optionValues: [],
+                    optionValueIdsToDelete: [valueId],
                 }),
-            },
-        };
+            });
+        }
     };
 
+    mergeUpdate = ({
+        system: {
+            // lists
+            _systemTags = [],
+            _infillSizes = [],
+            _infillPocketSizes = [],
+            _infillPocketTypeIds = [],
+            _systemOptions = [],
+            _invalidSystemConfigurationTypeIds = [],
+            _systemConfigurationOverrides = [],
+            // other keys
+            systemTypeId,
+            _systemType,
+            ...system
+        } = {},
+        allSystemTypes = [],
+        allSystemTags = [],
+        allInfillSizes = [],
+        allInfillPocketTypes = [],
+        allInfillPocketSizes = [],
+        allConfigurationTypes = [],
+    }, {
+        // lists
+        systemTagIds,
+        systemTagIdsToDelete,
+        infillSizes,
+        infillSizesToDelete,
+        infillPocketSizes,
+        infillPocketSizesToDelete,
+        infillPocketTypeIds,
+        infillPocketTypeIdsToDelete,
+        systemOptions,
+        systemOptionIdsToDelete,
+        invalidSystemConfigurationTypeIds,
+        invalidSystemConfigurationTypeIdsToDelete,
+        systemConfigurationOverrides,
+        systemConfigurationOverridesToDelete,
+        // other keys
+        ...systemUpdate
+    } = removeNullValues(this)) => ({
+        n: console.log({
+            system,
+            systemUpdate,
+        }),
+        allSystemTypes,
+        allSystemTags,
+        allInfillSizes,
+        allInfillPocketTypes,
+        allInfillPocketSizes,
+        allConfigurationTypes,
+        system: {
+            // other keys
+            ...system,
+            ...systemUpdate,
+            // lists
+            _systemTags: _systemTags
+                .filter(({ id }) => !systemTagIdsToDelete
+                    .includes(id))
+                .concat(systemTagIds
+                    .map(id => allSystemTags
+                        .find(st => st.id === id))),
+            _infillSizes: _infillSizes
+                .filter(({ size }) => !infillSizesToDelete
+                    .includes(size))
+                .concat(infillSizes
+                    .map(size => allInfillSizes
+                        .find(is => is.size === size))),
+            _infillPocketSizes: _infillPocketSizes
+                .filter(({ size }) => !infillPocketSizesToDelete
+                    .includes(size))
+                .concat(infillPocketSizes
+                    .map(size => allInfillPocketSizes
+                        .find(ips => ips.size === size))),
+            _infillPocketTypeIds: _infillPocketTypeIds
+                .filter(({ id }) => !infillPocketTypeIdsToDelete
+                    .includes(id))
+                .concat(infillPocketTypeIds
+                    .map(id => allInfillPocketTypes
+                        .find(ipt => ipt.id === id))),
+            _systemOptions: _systemOptions
+                .filter(({ id }) => !systemOptionIdsToDelete
+                    .includes(id))
+                .map(so => {
+                    const updatedOption = systemOptions.find(({ id }) => id === so.id);
+                    return updatedOption ? {
+                        ...so,
+                        ...removeNullValues(updatedOption),
+                        _optionValues: so._optionValues
+                            .filter(({ id }) => !updatedOption.optionValueIdsToDelete
+                                .includes(id))
+                            .map(ov => {
+                                const updatedValue = updatedOption.optionValues.find(({ id }) => id === ov.id);
+                                return updatedValue ? {
+                                    ...ov,
+                                    ...removeNullValues(updatedValue),
+                                } : ov;
+                            })
+                            .concat(updatedOption.optionValues
+                                .filter(({ id }) => typeof id === 'string')),
+                    } : so;
+                })
+                .concat(systemOptions
+                    .filter(({ id }) => typeof id === 'string')
+                    .map(so => ({
+                        ...so,
+                        _optionValues: so.optionValues,
+                    }))),
+            // _invalidSystemConfigurationTypeIds: _invalidSystemConfigurationTypeIds
+            //     .filter()
+            //     .concat(),
+            // _systemConfigurationOverrides: _systemConfigurationOverrides
+            //     .filter()
+            //     .concat(),
+        }
+    });
 }
