@@ -10,7 +10,17 @@ import {
     TabNavigator,
 } from '../../../../components';
 
-import SystemUpdate from './SystemUpdate';
+import createNewSystemUpdate, {
+    updateSystem,
+    updateSystemList,
+    updateSystemOption,
+    updateOptionValue,
+    createSystemOption,
+    createOptionValue,
+    deleteSystemOption,
+    deleteOptionValue,
+    mergeSystemUpdate,
+} from './SystemUpdate';
 
 const subroutes = [
     SystemInfo,
@@ -29,39 +39,39 @@ export default class SystemDatabase extends Component {
     };
 
     state = {
-        system: new SystemUpdate(),
+        system: createNewSystemUpdate(),
     };
 
-    handleChange = (key, value) => this.setState(({ system: { update } }) => ({
-        system: update(key, value),
+    handleChange = (key, value) => this.setState(({ system }) => ({
+        system: updateSystem(system, key, value),
     }));
 
-    handleListChange = (key, addedItems, deletedItems) => this.setState(({ system: { updateList } }) => ({
-        system: updateList(key, addedItems, deletedItems),
+    handleListChange = (key, addedItems, deletedItems) => this.setState(({ system }) => ({
+        system: updateSystemList(system, key, addedItems, deletedItems),
     }));
 
-    handleOptionChange = (optionId, key, value) => this.setState(({ system: { updateOption } }) => ({
-        system: updateOption(optionId, key, value),
+    handleOptionChange = (optionId, key, value) => this.setState(({ system }) => ({
+        system: updateSystemOption(system, optionId, key, value),
     }));
 
-    handleOptionValueChange = (optionId, valueId, key, value) => this.setState(({ system: { updateOptionValue } }) => ({
-        system: updateOptionValue(optionId, valueId, key, value),
+    handleOptionValueChange = (optionId, valueId, key, value) => this.setState(({ system }) => ({
+        system: updateOptionValue(system, optionId, valueId, key, value),
     }));
 
-    createOption = name => this.setState(({ system: { createOption } }) => ({
-        system: createOption(name),
+    createOption = name => this.setState(({ system }) => ({
+        system: createSystemOption(system, name),
     }));
 
-    createOptionValue = (optionId, name) => this.setState(({ system: { createOptionValue } }) => ({
-        system: createOptionValue(optionId, name),
+    createOptionValue = (optionId, name) => this.setState(({ system }) => ({
+        system: createOptionValue(system, optionId, name),
     }));
 
-    deleteOption = id => this.setState(({ system: { deleteOption } }) => ({
-        system: deleteOption(id),
+    deleteOption = id => this.setState(({ system }) => ({
+        system: deleteSystemOption(system, id),
     }));
 
-    deleteOptionValue = id => this.setState(({ system: { deleteOptionValue } }) => ({
-        system: deleteOptionValue(id),
+    deleteOptionValue = id => this.setState(({ system }) => ({
+        system: deleteOptionValue(system, id),
     }));
 
     save = () => this.props.mutations.updateEntireSystem(this.state)
@@ -71,9 +81,7 @@ export default class SystemDatabase extends Component {
     render = () => {
         const {
             state: {
-                system: {
-                    mergeUpdate,
-                },
+                system,
             },
             props: {
                 queryStatus,
@@ -95,7 +103,7 @@ export default class SystemDatabase extends Component {
         return (
             <TabNavigator
                 routeProps={{
-                    queryStatus: mergeUpdate(queryStatus),
+                    queryStatus: mergeSystemUpdate(system, queryStatus),
                     methods: {
                         handleChange,
                         handleListChange,
