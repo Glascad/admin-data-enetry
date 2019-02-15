@@ -11,13 +11,12 @@ import {
 } from '../../../../components';
 
 import defaultSystem from './system-manager/default-system';
-import SM from './system-manager/system-manager';
-import mapUpdateToProps from './system-manager/map-update-to-props';
+import mergeSystemUpdate from './system-manager/merge-system-update';
 
 const subroutes = [
     SystemInfo,
-    // GlazingInfo,
-    // ValidTypes,
+    GlazingInfo,
+    ValidTypes,
     // SystemOptions,
     // InvalidCombinations,
 ];
@@ -34,62 +33,7 @@ export default class SystemDatabase extends Component {
         system: defaultSystem,
     };
 
-    handleChange = (key, value) => this.setState(
-        state => SM.UPDATE_SYSTEM(state, {
-            key,
-            value,
-        }),
-    );
-
-    handleListChange = (key, addedItems, deletedItems) => this.setState(
-        state => SM.UPDATE_SYSTEM_LIST(state, {
-            key,
-            addedItems,
-            deletedItems,
-        }),
-    );
-
-    handleOptionChange = (optionId, key, value) => this.setState(
-        state => SM.UPDATE_SYSTEM_OPTION(state, {
-            optionId,
-            key,
-            value,
-        }),
-    );
-
-    handleOptionValueChange = (optionId, valueId, key, value) => this.setState(
-        state => SM.UPDATE_OPTION_VALUE(state, {
-            optionId,
-            valueId,
-            key,
-            value,
-        }),
-    );
-
-    createOption = name => this.setState(
-        state => SM.CREATE_SYSTEM_OPTION(state, {
-            name,
-        }),
-    );
-
-    createOptionValue = (optionId, name) => this.setState(
-        state => SM.CREATE_OPTION_VALUE(state, {
-            optionId,
-            name,
-        }),
-    );
-
-    deleteOption = optionId => this.setState(
-        state => SM.DELETE_SYSTEM_OPTION(state, {
-            optionId,
-        }),
-    );
-
-    deleteOptionValue = valueId => this.setState(
-        state => SM.DELETE_OPTION_VALUE(state, {
-            valueId,
-        }),
-    );
+    updateSystem = (MERGE, payload) => this.setState(state => MERGE(state, payload));
 
     save = async () => {
         await this.props.mutations.updateEntireSystem({
@@ -98,10 +42,10 @@ export default class SystemDatabase extends Component {
                 id: this.props.queryStatus.system.id,
             },
         });
-        this.setState({ system: defaultSystem });
+        this.reset();
     }
 
-    reset = () => { }
+    reset = () => this.setState({ system: defaultSystem });
 
     render = () => {
         const {
@@ -110,36 +54,23 @@ export default class SystemDatabase extends Component {
             },
             props: {
                 queryStatus,
+                mutations,
             },
             save,
             reset,
-            handleChange,
-            handleListChange,
-            handleOptionChange,
-            handleOptionValueChange,
-            createOption,
-            createOptionValue,
-            deleteOption,
-            deleteOptionValue,
+            updateSystem,
         } = this;
 
-        console.log(this);
+        const routeProps = {
+            queryStatus,
+            mutations,
+            system: mergeSystemUpdate(system, queryStatus),
+            updateSystem,
+        };
 
         return (
             <TabNavigator
-                routeProps={{
-                    queryStatus: mapUpdateToProps(system, queryStatus),
-                    methods: {
-                        handleChange,
-                        handleListChange,
-                        handleOptionChange,
-                        handleOptionValueChange,
-                        createOption,
-                        createOptionValue,
-                        deleteOption,
-                        deleteOptionValue,
-                    },
-                }}
+                routeProps={routeProps}
                 routes={subroutes}
             >
                 <div className="bottom-buttons">

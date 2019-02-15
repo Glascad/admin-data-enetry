@@ -45,6 +45,7 @@ function NavMenu({
                         }
                     >
                         {subroutes
+                            .map(route => extractNavigationOptions(route, routeProps))
                             .filter(({ name }) => name.trim())
                             .map(({ name: childName, path: childPath }, j) => (
                                 <NavLink

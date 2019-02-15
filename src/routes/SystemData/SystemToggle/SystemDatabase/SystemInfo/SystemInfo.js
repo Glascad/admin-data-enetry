@@ -1,39 +1,34 @@
 import React from 'react';
 
+
 import {
     Input,
     ListWrapper,
+    TitleBar,
 } from '../../../../../components';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
+import {
+    UPDATE_SYSTEM,
+    UPDATE_SYSTEM_LIST,
+} from '../system-manager/system-actions';
 
 export default function SystemInfo({
-    queryStatus: {
-        system: {
-            name = "",
-            depth = 0,
-            defaultSightline = 0,
-            shimSize = 0,
-            _systemType: {
-                id: systemTypeId,
-                type: systemTypeName = "",
-            } = {},
-            _systemSystemTags = [],
+    system: {
+        name = "",
+        depth = 0,
+        defaultSightline = 0,
+        shimSize = 0,
+        _systemType: {
+            id: systemTypeId,
+            type: systemTypeName = "",
         } = {},
+        _systemSystemTags = [],
+    } = {},
+    queryStatus: {
         allSystemTypes = [],
         allSystemTags = [],
     },
-    methods: {
-        handleChange,
-        handleListChange,
-        handleOptionChange,
-        handleOptionValueChange,
-        createOption,
-        createOptionValue,
-        deleteOption,
-        deleteOptionValue,
-    },
+    updateSystem,
 }) {
-    console.log(arguments[0]);
     return (
         <>
             <TitleBar
@@ -42,7 +37,7 @@ export default function SystemInfo({
             <Input
                 label="Name"
                 value={name}
-                onChange={({ target: { value } }) => handleChange('name', value)}
+                onChange={({ target: { value } }) => updateSystem(UPDATE_SYSTEM, { name: value })}
             />
             <Input
                 label="System Type"
@@ -55,7 +50,7 @@ export default function SystemInfo({
                         value: id,
                         label: type,
                     })),
-                    onChange: ({ value }) => handleChange('systemTypeId', value),
+                    onChange: ({ value }) => updateSystem(UPDATE_SYSTEM, { systemTypeId: value }),
                 }}
             />
             <ListWrapper
@@ -65,10 +60,12 @@ export default function SystemInfo({
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}
-                onFinish={({ addedItems, deletedItems }) => handleListChange('systemTagIds',
-                    addedItems.map(({ id }) => id),
-                    deletedItems.map(({ id }) => id),
-                )}
+                onFinish={({ addedItems, deletedItems }) => updateSystem(UPDATE_SYSTEM_LIST, {
+                    systemTagIds: {
+                        addedItems: addedItems.map(({ id }) => id),
+                        deletedItems: deletedItems.map(({ id }) => id),
+                    },
+                })}
                 multiSelect={{
                     allItems: allSystemTags,
                 }}
@@ -78,19 +75,19 @@ export default function SystemInfo({
                     label="System Depth"
                     type="number"
                     value={depth}
-                    onChange={({ target: { value } }) => handleChange('depth', value)}
+                    onChange={({ target: { value } }) => updateSystem(UPDATE_SYSTEM, { depth: value })}
                 />
                 <Input
                     label="System Sightline"
                     type="number"
                     value={defaultSightline}
-                    onChange={({ target: { value } }) => handleChange('defaultSightline', value)}
+                    onChange={({ target: { value } }) => updateSystem(UPDATE_SYSTEM, { defaultSightline: value })}
                 />
                 <Input
                     label="Caulk Joint Size"
                     type="number"
                     value={shimSize}
-                    onChange={({ target: { value } }) => handleChange('shimSize', value)}
+                    onChange={({ target: { value } }) => updateSystem(UPDATE_SYSTEM, { shimSize: value })}
                 />
             </div>
         </>
