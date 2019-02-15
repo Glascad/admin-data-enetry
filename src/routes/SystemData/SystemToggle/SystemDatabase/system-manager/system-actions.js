@@ -364,7 +364,29 @@ export function CREATE_CONFIGURATION_OVERRIDE({
         systemConfigurationOverrides,
     },
 }, {
-    
+
 }) {
-    
+
+}
+
+
+export function UPDATE_CONFIGURATION_OVERRIDE({
+    system,
+    system: {
+        systemConfigurationOverrides,
+    },
+}, {
+
+}) {
+
+}
+
+
+export function DELETE_CONFIGURATION_OVERRIDE({
+    system,
+    system: {
+        systemConfigurationOverrides,
+    },
+}) {
+
 }

@@ -14,8 +14,10 @@ import {
 import SystemConfigurationOverride from './SystemConfigurationOverride';
 
 import {
-    UPDATE_SYSTEM,
     UPDATE_SYSTEM_LIST,
+    CREATE_CONFIGURATION_OVERRIDE,
+    UPDATE_CONFIGURATION_OVERRIDE,
+    DELETE_CONFIGURATION_OVERRIDE,
 } from '../system-manager/system-actions';
 
 ValidTypes.navigationOptions = ({
@@ -28,16 +30,12 @@ ValidTypes.navigationOptions = ({
             systemTypeId,
         } = {},
     },
-    ...args
 }) => ({
     disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
 });
 
-// ValidTypes.navigationOptions = args => console.trace(args) || {};
-
 export default function ValidTypes({
     system: {
-        id: systemId,
         _systemType: {
             id: systemTypeId,
             _systemTypeDetailTypeConfigurationTypes = [],
@@ -85,6 +83,8 @@ export default function ValidTypes({
                             }) => configurationTypeId && id === detailTypeId)
                             .map(({
                                 configurationTypeId,
+                                _detailType,
+                                _configurationType,
                                 ..._systemTypeDetailTypeConfigurationType
                             }) => {
 
@@ -109,7 +109,9 @@ export default function ValidTypes({
 
                                 return ({
                                     configurationTypeId,
-                                    ..._systemTypeDetailTypeConfigurationType,
+                                    _detailType,
+                                    _configurationType,
+                                    _systemTypeDetailTypeConfigurationType,
                                     _invalidSystemConfigurationType,
                                     _systemConfigurationOverride,
                                 });
@@ -127,18 +129,22 @@ export default function ValidTypes({
                         {({
                             _invalidSystemConfigurationType: {
                                 invalid = true,
-                                nodeId: _invalidSystemConfigurationTypeNID
                             } = {
                                 invalid: false,
                             },
-                            required,
-                            mirrorable,
-                            presentationLevel,
-                            overrideLevel,
+                            _systemTypeDetailTypeConfigurationType,
+                            _systemTypeDetailTypeConfigurationType: {
+                                required,
+                                mirrorable,
+                                presentationLevel,
+                                overrideLevel,
+                            } = {},
+                            _configurationType,
                             _configurationType: {
                                 id: configurationTypeId,
                                 type: configurationTypeName = '',
                             } = {},
+                            _detailType,
                             _detailType: {
                                 id: detailTypeId,
                                 type: detailTypeName = '',
@@ -166,23 +172,6 @@ export default function ValidTypes({
                                                 deletedItems: checked ? [] : [configurationTypeId],
                                             }
                                         })}
-                                    // [
-                                    //     createInvalidSystemConfigurationType({
-                                    //         nodeId: _invalidSystemConfigurationTypeNID,
-                                    //         systemId,
-                                    //         invalidConfigurationTypeId: configurationTypeId,
-                                    //     }),
-                                    //     deleteSystemConfigurationOverride(_systemConfigurationOverride)
-                                    // ]
-                                    // :
-                                    //     [
-                                    //         deleteInvalidSystemConfigurationType({
-                                    //             nodeId: _invalidSystemConfigurationTypeNID,
-                                    //             systemId,
-                                    //             invalidConfigurationTypeId: configurationTypeId,
-                                    //         }),
-                                    //         createSystemConfigurationOverride(_systemConfigurationOverride)
-                                    //     ]
                                     />
                                     <div
                                         className={`nested ${invalid ? "disabled" : ""}`}
@@ -211,24 +200,15 @@ export default function ValidTypes({
                                                             "selected"
                                                             :
                                                             "danger",
-                                                        // onClick: _systemConfigurationOverride ?
-                                                        //     () => deleteSystemConfigurationOverride({
-                                                        //         ..._systemConfigurationOverride,
-                                                        //         systemId,
-                                                        //         systemTypeId,
-                                                        //         detailTypeId,
-                                                        //         configurationTypeId,
-                                                        //     })
-                                                        //     :
-                                                        //     () => createSystemConfigurationOverride({
-                                                        //         ..._systemConfigurationOverride,
-                                                        //         systemId,
-                                                        //         systemTypeId,
-                                                        //         detailTypeId,
-                                                        //         configurationTypeId,
-                                                        //     })
-                                                    }
-                                                ]
+                                                        onClick: () => updateSystem(_systemConfigurationOverride ?
+                                                            DELETE_CONFIGURATION_OVERRIDE
+                                                            :
+                                                            CREATE_CONFIGURATION_OVERRIDE, {
+                                                                detailTypeId,
+                                                                configurationTypeId,
+                                                            }),
+                                                    },
+                                                ],
                                             }}
                                         >
                                             <Input
@@ -264,23 +244,18 @@ export default function ValidTypes({
                                                         .find(({ value }) => value === overrideLevel),
                                                     defaultValue: presentationLevels
                                                         .find(({ value }) => value === overrideLevel),
-                                                    options: presentationLevels
+                                                    options: presentationLevels,
                                                 }}
                                             />
                                         </GroupingBox>
                                         {_systemConfigurationOverride ? (
                                             <SystemConfigurationOverride
                                                 {...{
-                                                    defaultValues: {
-                                                        mirrorable,
-                                                        required,
-                                                        presentationLevel,
-                                                        overrideLevel,
-                                                    },
+                                                    _systemTypeDetailTypeConfigurationType,
+                                                    _detailType,
+                                                    _configurationType,
                                                     _systemConfigurationOverride,
-                                                    // createSystemConfigurationOverride,
-                                                    // updateSystemConfigurationOverride,
-                                                    // deleteSystemConfigurationOverride,
+                                                    updateSystem,
                                                 }}
                                             />
                                         ) : null}

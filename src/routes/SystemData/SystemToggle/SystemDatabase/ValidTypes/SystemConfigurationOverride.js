@@ -14,17 +14,23 @@ const isNullOrUndefined = item => item === undefined || item === null;
 export default class SystemConfigurationOverride extends Component {
 
     handleChange = (key, value) => {
+        const {
+            props: {
+                _systemConfigurationOverride,
+                _systemTypeDetailTypeConfigurationType,
+            },
+        } = this;
         const updatedSystemConfigurationOverride = {
-            ...this.props._systemConfigurationOverride,
+            ..._systemConfigurationOverride,
             [key]: value,
         };
-        const identical = Object.keys(updatedSystemConfigurationOverride)
-            .every(key => {
+        const identical = Object.entries(updatedSystemConfigurationOverride)
+            .every(([key, value]) => {
                 const regex = /Override/;
-                if (!key.match(regex)) return true;
+                if (!key.match(regex) || typeof value === 'object') return true;
                 else {
                     const updatedValue = updatedSystemConfigurationOverride[key];
-                    const previousValue = this.props.defaultValues[key.replace(regex, '')];
+                    const previousValue = _systemTypeDetailTypeConfigurationType[key.replace(regex, '')];
                     return (
                         isNullOrUndefined(updatedValue)
                         ||
@@ -36,26 +42,26 @@ export default class SystemConfigurationOverride extends Component {
         console.log({
             updatedSystemConfigurationOverride,
             identical,
-            defaultValues: this.props.defaultValues,
+            _systemTypeDetailTypeConfigurationType: _systemTypeDetailTypeConfigurationType,
         });
 
         // if the override is identical to the systemtypedetailtypeconfigurationtype
-        if (identical)
-            this.props.deleteSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        // if (identical)
+        //     deleteSystemConfigurationOverride(updatedSystemConfigurationOverride);
 
-        // if we are working with a newly-created override
-        else if (typeof updatedSystemConfigurationOverride.nodeId === 'number')
-            this.props.createSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        // // if we are working with a newly-created override
+        // else if (typeof updatedSystemConfigurationOverride.nodeId === 'number')
+        //     createSystemConfigurationOverride(updatedSystemConfigurationOverride);
 
-        // if we are working with a previously-created override
-        else
-            this.props.updateSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        // // if we are working with a previously-created override
+        // else
+        //     updateSystemConfigurationOverride(updatedSystemConfigurationOverride);
     }
 
     render = () => {
         const {
             props: {
-                defaultValues: {
+                _systemTypeDetailTypeConfigurationType: {
                     mirrorable,
                     required,
                     presentationLevel,
