@@ -6,6 +6,7 @@ import {
 } from '../../../components';
 
 import query from './system-graphql/query';
+import updateEntireSystem from './system-graphql/update-entire-system';
 // import mutations from './system-graphql/mutations';
 
 import { parseSearch } from '../../../utils';
@@ -40,7 +41,9 @@ export default function SystemToggle({
 
     return (
         <ApolloWrapper
-            // mutations={mutations}
+            mutations={{
+                updateEntireSystem,
+            }}
             query={{
                 query,
                 variables: {
@@ -57,7 +60,7 @@ export default function SystemToggle({
                                 name: mnfgName = ""
                             } = {},
                         } = {},
-                    }
+                    },
                 } = apollo;
 
                 return (
@@ -70,7 +73,7 @@ export default function SystemToggle({
                                 :
                                 "New System",
                         }}
-                        routeProps={{ ...apollo, mutations: {} }}
+                        routeProps={apollo}
                         routes={[
                             SystemDatabase,
                             SystemDetails,

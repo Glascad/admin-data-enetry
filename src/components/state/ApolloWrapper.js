@@ -154,10 +154,11 @@ export default class ApolloWrapper extends Component {
                                                 },
                                                 mutate,
                                                 mutationKey: mutationKeys[0],
-                                                transformArgumentsBeforeMutation: nextMutation.transformArgumentsBeforeMutation,
+                                                // transformArgumentsBeforeMutation: nextMutation.transformArgumentsBeforeMutation,
                                             })
                                             :
                                             async args => {
+                                                console.log(args);
                                                 await mutate({
                                                     variables: args,
                                                 });

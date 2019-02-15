@@ -10,17 +10,9 @@ import {
     TabNavigator,
 } from '../../../../components';
 
-import createNewSystemUpdate, {
-    updateSystem,
-    updateSystemList,
-    updateSystemOption,
-    updateOptionValue,
-    createSystemOption,
-    createOptionValue,
-    deleteSystemOption,
-    deleteOptionValue,
-    mergeSystemUpdate,
-} from './SystemUpdate';
+import defaultSystem from './system-manager/default-system';
+import SM from './system-manager/system-manager';
+import mapUpdateToProps from './system-manager/map-update-to-props';
 
 const subroutes = [
     SystemInfo,
@@ -39,42 +31,75 @@ export default class SystemDatabase extends Component {
     };
 
     state = {
-        system: createNewSystemUpdate(),
+        system: defaultSystem,
     };
 
-    handleChange = (key, value) => this.setState(({ system }) => ({
-        system: updateSystem(system, key, value),
-    }));
+    handleChange = (key, value) => this.setState(
+        state => SM.UPDATE_SYSTEM(state, {
+            key,
+            value,
+        }),
+    );
 
-    handleListChange = (key, addedItems, deletedItems) => this.setState(({ system }) => ({
-        system: updateSystemList(system, key, addedItems, deletedItems),
-    }));
+    handleListChange = (key, addedItems, deletedItems) => this.setState(
+        state => SM.UPDATE_SYSTEM_LIST(state, {
+            key,
+            addedItems,
+            deletedItems,
+        }),
+    );
 
-    handleOptionChange = (optionId, key, value) => this.setState(({ system }) => ({
-        system: updateSystemOption(system, optionId, key, value),
-    }));
+    handleOptionChange = (optionId, key, value) => this.setState(
+        state => SM.UPDATE_SYSTEM_OPTION(state, {
+            optionId,
+            key,
+            value,
+        }),
+    );
 
-    handleOptionValueChange = (optionId, valueId, key, value) => this.setState(({ system }) => ({
-        system: updateOptionValue(system, optionId, valueId, key, value),
-    }));
+    handleOptionValueChange = (optionId, valueId, key, value) => this.setState(
+        state => SM.UPDATE_OPTION_VALUE(state, {
+            optionId,
+            valueId,
+            key,
+            value,
+        }),
+    );
 
-    createOption = name => this.setState(({ system }) => ({
-        system: createSystemOption(system, name),
-    }));
+    createOption = name => this.setState(
+        state => SM.CREATE_SYSTEM_OPTION(state, {
+            name,
+        }),
+    );
 
-    createOptionValue = (optionId, name) => this.setState(({ system }) => ({
-        system: createOptionValue(system, optionId, name),
-    }));
+    createOptionValue = (optionId, name) => this.setState(
+        state => SM.CREATE_OPTION_VALUE(state, {
+            optionId,
+            name,
+        }),
+    );
 
-    deleteOption = id => this.setState(({ system }) => ({
-        system: deleteSystemOption(system, id),
-    }));
+    deleteOption = optionId => this.setState(
+        state => SM.DELETE_SYSTEM_OPTION(state, {
+            optionId,
+        }),
+    );
 
-    deleteOptionValue = id => this.setState(({ system }) => ({
-        system: deleteOptionValue(system, id),
-    }));
+    deleteOptionValue = valueId => this.setState(
+        state => SM.DELETE_OPTION_VALUE(state, {
+            valueId,
+        }),
+    );
 
-    save = () => this.props.mutations.updateEntireSystem(this.state)
+    save = async () => {
+        await this.props.mutations.updateEntireSystem({
+            system: {
+                ...this.state.system,
+                id: this.props.queryStatus.system.id,
+            },
+        });
+        this.setState({ system: defaultSystem });
+    }
 
     reset = () => { }
 
@@ -103,7 +128,7 @@ export default class SystemDatabase extends Component {
         return (
             <TabNavigator
                 routeProps={{
-                    queryStatus: mergeSystemUpdate(system, queryStatus),
+                    queryStatus: mapUpdateToProps(system, queryStatus),
                     methods: {
                         handleChange,
                         handleListChange,

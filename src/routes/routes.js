@@ -4,7 +4,6 @@ import ApplicationData from '../routes/ApplicationData/ApplicationData';
 import PartData from '../routes/PartData/PartData';
 import Elevation from '../routes/Elevation/Elevation';
 
-
 export default [
     Activity,
     SystemData,

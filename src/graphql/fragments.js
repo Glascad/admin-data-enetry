@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 
 export const MANUFACTURER_FIELDS = gql`
     fragment ManufacturerFields on Manufacturer {
+        __typename
         nodeId
         id
         name
@@ -12,6 +13,7 @@ export const MANUFACTURER_FIELDS = gql`
 
 export const SYSTEM_TYPE_FIELDS = gql`
     fragment SystemTypeFields on SystemType {
+        __typename
         nodeId
         id
         type
@@ -20,6 +22,7 @@ export const SYSTEM_TYPE_FIELDS = gql`
 
 export const SYSTEM_TAG_FIELDS = gql`
     fragment SystemTagFields on SystemTag {
+        __typename
         nodeId
         id
         tag
@@ -28,6 +31,7 @@ export const SYSTEM_TAG_FIELDS = gql`
 
 export const DETAIL_TYPE_FIELDS = gql`
     fragment DetailTypeFields on DetailType {
+        __typename
         nodeId
         id
         type
@@ -38,6 +42,7 @@ export const DETAIL_TYPE_FIELDS = gql`
 
 export const CONFIGURATION_TYPE_FIELDS = gql`
     fragment ConfigurationTypeFields on ConfigurationType {
+        __typename
         nodeId
         id
         type
@@ -47,6 +52,7 @@ export const CONFIGURATION_TYPE_FIELDS = gql`
 
 export const SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS = gql`
     fragment SystemTypeDetailTypeConfigurationTypeFields on SystemTypeDetailTypeConfigurationType {
+        __typename
         nodeId
         mirrorable
         required
@@ -60,6 +66,7 @@ export const SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS = gql`
 
 export const SYSTEM_CONFIGURATION_OVERRIDE_FIELDS = gql`
     fragment SystemConfigurationOverrideFields on SystemConfigurationOverride {
+        __typename
         nodeId
         mirrorableOverride
         requiredOverride
@@ -74,6 +81,7 @@ export const SYSTEM_CONFIGURATION_OVERRIDE_FIELDS = gql`
 
 export const SYSTEM_OPTION_FIELDS = gql`
     fragment SystemOptionFields on SystemOption {
+        __typename
         nodeId
         id
         name
@@ -86,6 +94,7 @@ export const SYSTEM_OPTION_FIELDS = gql`
 
 export const OPTION_VALUE_FIELDS = gql`
     fragment OptionValueFields on OptionValue {
+        __typename
         nodeId
         id
         name
@@ -95,6 +104,7 @@ export const OPTION_VALUE_FIELDS = gql`
 
 export const INFILL_SIZE_FIELDS = gql`
     fragment InfillSizeFields on InfillSize {
+        __typename
         nodeId
         size
     }
@@ -102,6 +112,7 @@ export const INFILL_SIZE_FIELDS = gql`
 
 export const INFILL_POCKET_SIZE_FIELDS = gql`
     fragment InfillPocketSizeFields on InfillPocketSize {
+        __typename
         nodeId
         size
     }
@@ -109,6 +120,7 @@ export const INFILL_POCKET_SIZE_FIELDS = gql`
 
 export const INFILL_POCKET_TYPE_FIELDS = gql`
     fragment InfillPocketTypeFields on InfillPocketType {
+        __typename
         nodeId
         id
         type
@@ -117,6 +129,7 @@ export const INFILL_POCKET_TYPE_FIELDS = gql`
 
 export const SYSTEM_FIELDS = gql`
     fragment SystemFields on System {
+        __typename
         nodeId
         id
         manufacturerId
@@ -141,6 +154,7 @@ export const SYSTEM_FIELDS = gql`
 
 export const ALL_MANUFACTURERS = gql`
     fragment AllManufacturers on Query {
+        __typename
         allManufacturers {
             nodes {
                 ...ManufacturerFields
@@ -152,6 +166,7 @@ export const ALL_MANUFACTURERS = gql`
 
 export const ALL_SYSTEM_TYPES = gql`
     fragment AllSystemTypes on Query {
+        __typename
         allSystemTypes {
             nodes {
                 ...SystemTypeFields
@@ -163,6 +178,7 @@ export const ALL_SYSTEM_TYPES = gql`
 
 export const ALL_SYSTEM_TAGS = gql`
     fragment AllSystemTags on Query {
+        __typename
         allSystemTags {
             nodes {
                 ...SystemTagFields
@@ -174,6 +190,7 @@ export const ALL_SYSTEM_TAGS = gql`
 
 export const ALL_DETAIL_TYPES = gql`
     fragment AllDetailTypes on Query {
+        __typename
         allDetailTypes {
             nodes {
                 ...DetailTypeFields
@@ -185,6 +202,7 @@ export const ALL_DETAIL_TYPES = gql`
 
 export const ALL_CONFIGURATION_TYPES = gql`
     fragment AllConfigurationTypes on Query {
+        __typename
         allConfigurationTypes {
             nodes {
                 ...ConfigurationTypeFields
@@ -196,6 +214,7 @@ export const ALL_CONFIGURATION_TYPES = gql`
 
 export const ALL_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPES = gql`
     fragment AllSystemTypeDetailTypeConfigurationTypes on Query {
+        __typename
         allSystemTypeDetailTypeConfigurationTypes {
             nodes {
                 ...SystemTypeDetailTypeConfigurationTypeFields
@@ -207,6 +226,7 @@ export const ALL_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPES = gql`
 
 export const ALL_SYSTEM_CONFIGURATION_OVERRIDES = gql`
     fragment AllSystemConfigurationOverrides on Query {
+        __typename
         allSystemConfigurationOverrides {
             nodes {
                 ...SystemConfigurationOverrideFields
@@ -218,6 +238,7 @@ export const ALL_SYSTEM_CONFIGURATION_OVERRIDES = gql`
 
 export const ALL_SYSTEM_OPTIONS = gql`
     fragment AllSystemOptions on Query {
+        __typename
         allSystemOptions {
             nodes {
                 ...SystemOptionFields
@@ -229,6 +250,7 @@ export const ALL_SYSTEM_OPTIONS = gql`
 
 export const ALL_OPTION_VALUES = gql`
     fragment AllOptionValues on Query {
+        __typename
         allOptionValues {
             nodes {
                 ...OptionValueFields
@@ -240,6 +262,7 @@ export const ALL_OPTION_VALUES = gql`
 
 export const ALL_INFILL_SIZES = gql`
     fragment AllInfillSizes on Query {
+        __typename
         allInfillSizes(orderBy:SIZE_ASC) {
             nodes {
                 ...InfillSizeFields
@@ -251,6 +274,7 @@ export const ALL_INFILL_SIZES = gql`
 
 export const ALL_INFILL_POCKET_SIZES = gql`
     fragment AllInfillPocketSizes on Query {
+        __typename
         allInfillPocketSizes(orderBy:SIZE_ASC) {
             nodes {
                 ...InfillPocketSizeFields
@@ -262,6 +286,7 @@ export const ALL_INFILL_POCKET_SIZES = gql`
 
 export const ALL_INFILL_POCKET_TYPES = gql`
     fragment AllInfillPocketTypes on Query {
+        __typename
         allInfillPocketTypes {
             nodes {
                 ...InfillPocketTypeFields
@@ -273,6 +298,7 @@ export const ALL_INFILL_POCKET_TYPES = gql`
 
 export const ALL_SYSTEMS = gql`
     fragment AllSystems on Query {
+        __typename
         allSystems {
             nodes {
                 ...SystemFields
@@ -288,6 +314,7 @@ export const ALL_SYSTEMS = gql`
 
 export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`
     fragment EntireSystemTypeDetailTypeConfigurationType on SystemTypeDetailTypeConfigurationType {
+        __typename
         ...SystemTypeDetailTypeConfigurationTypeFields
         detailTypeByDetailTypeId {
             ...DetailTypeFields
@@ -303,6 +330,7 @@ export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`
 
 export const ENTIRE_SYSTEM_TYPE = gql`
     fragment EntireSystemType on SystemType {
+        __typename
         ...SystemTypeFields
         systemTypeDetailTypeConfigurationTypesBySystemTypeId {
             nodes {
@@ -332,6 +360,7 @@ export const ENTIRE_SYSTEM_TYPE = gql`
 
 export const ENTIRE_SYSTEM_OPTION = gql`
     fragment EntireSystemOption on SystemOption {
+        __typename
         ...SystemOptionFields
         optionValuesBySystemOptionId {
             nodes {
@@ -355,6 +384,7 @@ export const ENTIRE_SYSTEM_OPTION = gql`
 
 export const ENTIRE_SYSTEM = gql`
     fragment EntireSystem on System {
+        __typename
         ...SystemFields
         manufacturerByManufacturerId {
             ...ManufacturerFields
