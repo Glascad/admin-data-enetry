@@ -1,5 +1,5 @@
-export default {
-    // system fields
+export const system = {
+
     manufacturerId: undefined,
     systemTypeId: undefined,
     name: undefined,
@@ -15,7 +15,7 @@ export default {
     sideGap: undefined,
     glassGap: undefined,
     meetingStileGap: undefined,
-    // lists
+
     systemTagIds: [],
     systemTagIdsToDelete: [],
 
@@ -36,4 +36,26 @@ export default {
 
     configurationOverrides: [],
     configurationOverridesToDelete: [],
+};
+
+export const option = {
+    id: '1',
+    name: undefined,
+    presentationLevel: undefined,
+    overrideLevel: undefined,
+    optionOrder: undefined,
+
+    configurationTypeIds: [],
+    configurationTypeIdsToDelete: [],
+
+    optionValues: [],
+    optionValueIdsToDelete: [],
+};
+
+export const value = {
+    id: '1',
+    name: undefined,
+    value: undefined,
+    valueOrder: undefined,
+    mirrorFromOptionValueId: undefined,
 };

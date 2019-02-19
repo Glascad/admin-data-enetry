@@ -10,14 +10,15 @@ import {
     TabNavigator,
 } from '../../../../components';
 
-import defaultSystem from './system-manager/default-system';
+import { system as defaultSystem } from './system-manager/default-system';
 import mergeSystemUpdate from './system-manager/merge-system-update';
+import { _removeFakeIds } from './system-manager/system-actions';
 
 const subroutes = [
     SystemInfo,
     GlazingInfo,
     ValidTypes,
-    // SystemOptions,
+    SystemOptions,
     // InvalidCombinations,
 ];
 
@@ -33,16 +34,38 @@ export default class SystemDatabase extends Component {
         system: defaultSystem,
     };
 
-    updateSystem = (MERGE, payload) => this.setState(state => MERGE(state, payload));
+    updateSystem = (ACTION, payload) => this.setState(state => ACTION(state, payload));
 
     save = async () => {
-        await this.props.mutations.updateEntireSystem({
+        const {
+            state: {
+                system,
+            },
+            props: {
+                queryStatus: {
+                    system: {
+                        id,
+                    } = {},
+                },
+                mutations: {
+                    updateEntireSystem,
+                },
+            },
+            reset,
+        } = this;
+
+        const update = _removeFakeIds(system);
+
+        console.log({ update });
+
+        await updateEntireSystem({
             system: {
-                ...this.state.system,
-                id: this.props.queryStatus.system.id,
+                ...update,
+                id,
             },
         });
-        this.reset();
+
+        reset();
     }
 
     reset = () => this.setState({ system: defaultSystem });

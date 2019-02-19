@@ -1,0 +1,62 @@
+{
+    "name": "System One",
+    "depth": "4",
+    "defaultSightline": "2",
+    "systemTagIds": [
+        6
+    ],
+    "systemTagIdsToDelete": [
+        5,
+        1
+    ],
+    "infillSizes": [],
+    "infillSizesToDelete": [],
+    "infillPocketSizes": [],
+    "infillPocketSizesToDelete": [],
+    "infillPocketTypeIds": [
+        2
+    ],
+    "infillPocketTypeIdsToDelete": [],
+    "systemOptions": [
+        {
+            "id": "New System Option",
+            "name": "New System Option",
+            "optionValues": [
+                {
+                    "id": "New Option Value",
+                    "name": "New Option Value"
+                },
+                {
+                    "id": "Other New Option Value",
+                    "name": "Other New Option Value"
+                }
+            ],
+            "optionValueIdsToDelete": []
+        },
+        {
+            "id": 4,
+            "name": "Updated System Option",
+            "overrideLevel": 2,
+            "optionValues": [
+                {
+                    "id": "New Option Value",
+                    "name": "New Option Value"
+                },
+                {
+                    "id": 7,
+                    "name": "Updated Option Value"
+                }
+            ],
+            "optionValueIdsToDelete": [
+                11
+            ]
+        }
+    ],
+    "systemOptionIdsToDelete": [
+        3
+    ],
+    "invalidConfigurationTypeIds": [],
+    "invalidConfigurationTypeIdsToDelete": [],
+    "configurationOverrides": [],
+    "configurationOverridesToDelete": []
+}

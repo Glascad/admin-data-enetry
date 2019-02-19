@@ -13,18 +13,12 @@ import {
 
 import SystemConfigurationOverride from './SystemConfigurationOverride';
 
-import {
-    UPDATE_SYSTEM_LIST,
-    CREATE_CONFIGURATION_OVERRIDE,
-    UPDATE_CONFIGURATION_OVERRIDE,
-    DELETE_CONFIGURATION_OVERRIDE,
-} from '../system-manager/system-actions';
+import ACTIONS from '../system-manager/system-actions';
 
 ValidTypes.navigationOptions = ({
     system: {
         systemTypeId: newSystemTypeId,
     } = {},
-    queryStatus,
     queryStatus: {
         system: {
             systemTypeId,
@@ -42,7 +36,7 @@ export default function ValidTypes({
         } = {},
         _invalidSystemConfigurationTypes = [],
         _systemConfigurationOverrides = [],
-    } = {},
+    },
     updateSystem,
 }) {
     console.log(arguments[0]);
@@ -166,7 +160,7 @@ export default function ValidTypes({
                                         label="Invalid"
                                         type="checkbox"
                                         checked={invalid}
-                                        onChange={({ target: { checked } }) => updateSystem(UPDATE_SYSTEM_LIST, {
+                                        onChange={({ target: { checked } }) => updateSystem(ACTIONS.UPDATE_LIST, {
                                             invalidConfigurationTypeIds: {
                                                 addedItems: checked ? [configurationTypeId] : [],
                                                 deletedItems: checked ? [] : [configurationTypeId],
@@ -201,9 +195,9 @@ export default function ValidTypes({
                                                             :
                                                             "danger",
                                                         onClick: () => updateSystem(_systemConfigurationOverride ?
-                                                            DELETE_CONFIGURATION_OVERRIDE
+                                                            ACTIONS.OVERRIDE.DELETE
                                                             :
-                                                            CREATE_CONFIGURATION_OVERRIDE, {
+                                                            ACTIONS.OVERRIDE.CREATE, {
                                                                 detailTypeId,
                                                                 configurationTypeId,
                                                             }),

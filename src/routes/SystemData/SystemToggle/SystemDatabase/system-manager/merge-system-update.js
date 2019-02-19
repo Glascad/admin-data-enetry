@@ -93,6 +93,15 @@ export default function mergeSystemUpdate({
                 return updatedOption ? {
                     ...so,
                     ...removeNullValues(updatedOption),
+                    _systemOptionConfigurationTypes: so._systemOptionConfigurationTypes
+                        .filter(({ configurationTypeId }) => !updatedOption.invalidConfigurationTypeIdsToDelete
+                            .includes(configurationTypeId))
+                        .concat(updatedOption.configurationTypeIds
+                            .map(configurationTypeId => ({
+                                configurationTypeId,
+                                _configurationType: allConfigurationTypes
+                                    .find(({ id }) => id === configurationTypeId),
+                            }))),
                     _optionValues: so._optionValues
                         .filter(({ id }) => !updatedOption.optionValueIdsToDelete
                             .includes(id))
@@ -112,6 +121,12 @@ export default function mergeSystemUpdate({
                 .filter(({ id }) => typeof id === 'string')
                 .map(so => ({
                     ...so,
+                    _systemOptionConfigurationTypes: so.configurationTypeIds
+                        .map(configurationTypeId => ({
+                            configurationTypeId,
+                            _configurationType: allConfigurationTypes
+                                .find(({ id }) => id === configurationTypeId),
+                        })),
                     _optionValues: so.optionValues,
                 }))),
         _invalidSystemConfigurationTypes: _invalidSystemConfigurationTypes

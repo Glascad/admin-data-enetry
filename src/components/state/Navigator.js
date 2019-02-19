@@ -91,7 +91,7 @@ class Navigator extends Component {
             updateCurrentRoute,
         } = this;
 
-        console.log({ routes, routeProps });
+        // console.log({ routes, routeProps });
 
         const mappedRoutes = routes.map(route => extractNavigationOptions(route, routeProps, false));
 

@@ -3,20 +3,19 @@ import React from 'react';
 import {
     Input,
     ListWrapper,
+    TitleBar,
 } from '../../../../../components';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
-import { UPDATE_SYSTEM, UPDATE_SYSTEM_LIST } from '../system-manager/system-actions';
+
+import ACTIONS from '../system-manager/system-actions';
 
 export default function GlazingInfo({
     system: {
-        nodeId: systemNID,
-        id: systemId,
         defaultGlassBite = 0,
         defaultGlassSize = 0,
         _systemInfillSizes = [],
         _systemInfillPocketTypes = [],
         _systemInfillPocketSizes = [],
-    } = {},
+    },
     queryStatus: {
         allInfillSizes = [],
         allInfillPocketTypes = [],
@@ -35,7 +34,7 @@ export default function GlazingInfo({
                 label="Glass Bite"
                 type="number"
                 value={defaultGlassBite}
-                onChange={({ target: { value } }) => updateSystem(UPDATE_SYSTEM, {
+                onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
                     defaultGlassBite: +value,
                 })}
             />
@@ -49,7 +48,7 @@ export default function GlazingInfo({
                 multiSelect={{
                     allItems: allInfillSizes,
                 }}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(UPDATE_SYSTEM_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
                     infillSizes: {
                         addedItems: addedItems.map(({ size }) => size),
                         deletedItems: deletedItems.map(({ size }) => size),
@@ -68,7 +67,7 @@ export default function GlazingInfo({
                         label: defaultGlassSize,
                         value: defaultGlassSize,
                     },
-                    onChange: ({ value }) => updateSystem(UPDATE_SYSTEM, {
+                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE, {
                         defaultGlassSize: value,
                     }),
                 }}
@@ -83,7 +82,7 @@ export default function GlazingInfo({
                 mapPillProps={({ type }) => ({
                     title: type,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(UPDATE_SYSTEM_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
                     infillPocketTypeIds: {
                         addedItems: addedItems.map(({ id }) => id),
                         deletedItems: deletedItems.map(({ id }) => id),
@@ -100,7 +99,7 @@ export default function GlazingInfo({
                 mapPillProps={({ size }) => ({
                     title: `${size}"`,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(UPDATE_SYSTEM_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
                     infillPocketSizes: {
                         addedItems: addedItems.map(({ size }) => +size),
                         deletedItems: deletedItems.map(({ size }) => +size),

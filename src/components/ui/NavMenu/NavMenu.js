@@ -21,7 +21,7 @@ function NavMenu({
     routes = [arguments[0].route].filter(Boolean),
     closed,
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     return (
         <div className="NavMenu">
             {routes
