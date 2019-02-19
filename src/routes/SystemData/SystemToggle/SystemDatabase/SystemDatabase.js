@@ -34,7 +34,11 @@ export default class SystemDatabase extends Component {
         system: defaultSystem,
     };
 
-    updateSystem = (ACTION, payload) => this.setState(state => ACTION(state, payload));
+    updateSystem = (ACTION, payload) => this.setState(state => {
+        const newState = ACTION(state, payload);
+        console.log({ newState });
+        return newState;
+    });
 
     save = async () => {
         const {

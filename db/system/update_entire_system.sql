@@ -122,7 +122,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides
         LOOP
-            SELECT system_id FROM create_or_update_configuration_override(sco, us.id) INTO ___;
+            SELECT system_id FROM create_or_update_configuration_override(sco, us) INTO ___;
         END LOOP;
     END IF;
 
@@ -130,7 +130,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides_to_delete
         LOOP
-            SELECT system_id FROM delete_configuration_override(sco, us.id) INTO ___;
+            SELECT system_id FROM delete_configuration_override(sco, us) INTO ___;
         END LOOP;
     END IF;
 

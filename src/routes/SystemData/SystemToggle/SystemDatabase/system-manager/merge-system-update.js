@@ -94,7 +94,7 @@ export default function mergeSystemUpdate({
                     ...so,
                     ...removeNullValues(updatedOption),
                     _systemOptionConfigurationTypes: so._systemOptionConfigurationTypes
-                        .filter(({ configurationTypeId }) => !updatedOption.invalidConfigurationTypeIdsToDelete
+                        .filter(({ configurationTypeId }) => !updatedOption.configurationTypeIdsToDelete
                             .includes(configurationTypeId))
                         .concat(updatedOption.configurationTypeIds
                             .map(configurationTypeId => ({

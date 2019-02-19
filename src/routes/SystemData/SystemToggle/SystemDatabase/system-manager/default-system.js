@@ -38,6 +38,17 @@ export const system = {
     configurationOverridesToDelete: [],
 };
 
+export const override = {
+    systemId: undefined,
+    systemTypeId: undefined,
+    detailTypeId: undefined,
+    configurationTypeId: undefined,
+    requiredOverride: undefined,
+    mirrorableOverride: undefined,
+    presentationLevelOverride: undefined,
+    overrideLevelOverride: undefined,
+};
+
 export const option = {
     id: '1',
     name: undefined,

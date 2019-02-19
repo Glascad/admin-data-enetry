@@ -2,13 +2,17 @@ DROP FUNCTION IF EXISTS create_or_update_configuration_override;
 
 CREATE OR REPLACE FUNCTION create_or_update_configuration_override(
     system_configuration_override entire_system_configuration_override,
-    system_id INTEGER
+    system entire_system
 ) RETURNS SETOF system_configuration_overrides AS $$
 DECLARE
+    s ALIAS FOR system;
     sco ALIAS FOR system_configuration_override;
-    sid INTEGER = CASE WHEN system_id IS NOT NULL
-        THEN system_id
+    sid INTEGER = CASE WHEN s IS NOT NULL
+        THEN s.id
         ELSE sco.system_id END;
+    stid INTEGER = CASE WHEN s IS NOT NULL
+        THEN s.system_type_id
+        ELSE sco.system_type_id END;
 BEGIN
     RETURN QUERY INSERT INTO system_configuration_overrides (
         system_id,
@@ -22,7 +26,7 @@ BEGIN
     )
     VALUES (
         sid,
-        sco.system_type_id,
+        stid,
         sco.detail_type_id,
         sco.configuration_type_id,
         sco.required_override,
@@ -33,12 +37,12 @@ BEGIN
     ON CONFLICT (system_id, system_type_id, detail_type_id, configuration_type_id)
         DO UPDATE SET
             system_id = CASE
-                WHEN sco.system_id IS NOT NULL
-                    THEN sco.system_id
+                WHEN sid IS NOT NULL
+                    THEN sid
                 ELSE system_configuration_overrides.system_id END,
             system_type_id = CASE
-                WHEN sco.system_type_id IS NOT NULL
-                    THEN sco.system_type_id
+                WHEN stid IS NOT NULL
+                    THEN stid
                 ELSE system_configuration_overrides.system_type_id END,
             detail_type_id = CASE
                 WHEN sco.detail_type_id IS NOT NULL
@@ -65,7 +69,7 @@ BEGIN
                     THEN sco.override_level_override
                 ELSE system_configuration_overrides.override_level_override END
         WHERE system_id = sid
-        AND system_type_id = sco.system_type_id
+        AND system_type_id = stid
         AND detail_type_id = sco.detail_type_id
         AND configuration_type_id = sco.configuration_type_id
     RETURNING *;

@@ -10,22 +10,12 @@ import ACTIONS from '../system-manager/system-actions';
 
 export default function SystemOptions({
     system: {
-        id: systemId,
         _systemOptions = [],
     },
     queryStatus: {
         allConfigurationTypes = [],
     },
     updateSystem,
-    // mutations: {
-    //     createSystemOption,
-    //     updateSystemOption,
-    //     deleteSystemOption,
-    //     createSystemOptionConfigurationType,
-    //     deleteSystemOptionConfigurationType,
-    //     createOptionValue,
-    //     deleteOptionValue,
-    // }
 }) {
     console.log(arguments[0]);
     return (
@@ -42,27 +32,15 @@ export default function SystemOptions({
             onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.CREATE, {
                 name: input,
             })}
-            // onCreate={(_, { input }) => createSystemOption({
-            //     systemId,
-            //     name: input,
-            // })}
             onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.OPTION.UPDATE, {
                 optionId: id,
                 name: input,
             })}
-            // onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemOption({
-            //     nodeId,
-            //     name: input,
-            // })}
             onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.OPTION.DELETE, {
                 optionId: id,
             })}
-        // onDelete={({ arguments: { nodeId } }) => ({
-        //     nodeId,
-        // })}
         >
             {({
-                nodeId,
                 id: optionId,
                 name,
                 presentationLevel,
@@ -92,10 +70,6 @@ export default function SystemOptions({
                                         optionId,
                                         presentationLevel: value,
                                     }),
-                                    // onChange: ({ value }) => updateSystemOption({
-                                    //     nodeId,
-                                    //     presentationLevel: value
-                                    // })
                                 }}
                             />
                             <Input
@@ -114,22 +88,9 @@ export default function SystemOptions({
                                         optionId,
                                         overrideLevel: value,
                                     }),
-                                    // onChange: ({ value }) => updateSystemOption({
-                                    //     nodeId,
-                                    //     overrideLevel: value
-                                    // })
                                 }}
                             />
                         </div>
-                        {/* <Input
-                            label="Mirrorable"
-                            checked={mirrorable}
-                            type="checkbox"
-                            onChange={({ target: { checked } }) => updateSystemOption({
-                                nodeId,
-                                mirrorable: checked
-                            })}
-                        /> */}
                         <ListWrapper
                             title="Affected Configuration Types"
                             items={_systemOptionConfigurationTypes
@@ -147,20 +108,8 @@ export default function SystemOptions({
                                     deletedItems: deletedItems.map(({ id }) => id),
                                 },
                             })}
-                            // onCreate={_configurationType => createSystemOptionConfigurationType({
-                            //     optionId,
-                            //     configurationTypeId: _configurationType.id,
-                            //     _configurationType
-                            // })}
-                            // onDelete={({ systomOptionConfigurationTypeNID, ..._configurationType }) => deleteSystemOptionConfigurationType({
-                            //     nodeId: systomOptionConfigurationTypeNID,
-                            //     optionId,
-                            //     configurationTypeId: _configurationType.id,
-                            //     _configurationType,
-                            // })}
                             multiSelect={{
                                 title: "",
-                                // initialItems: [],
                                 allItems: allConfigurationTypes,
                             }}
                         />

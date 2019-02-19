@@ -1,7 +1,8 @@
 
 import {
-    allocateItems,
+    allocate,
 } from '../../../../../utils';
+
 import {
     system as defaultSystem,
     option as defaultSystemOption,
@@ -70,14 +71,19 @@ export default {
         const deleteKey = key + 'ToDelete';
         const currentAddedItems = system[key];
         const currentDeletedItems = system[deleteKey];
-        const [newDeletedItems, newAddedItems] = allocateItems(
-            deletedItems,
-            ...allocateItems(
+        const {
+            addedItems: newAddedItems,
+            deletedItems: newDeletedItems,
+        } = allocate({
+            existing: {
+                addedItems: currentAddedItems,
+                deletedItems: currentDeletedItems,
+            },
+            incoming: {
                 addedItems,
-                currentAddedItems,
-                currentDeletedItems,
-            ).reverse(),
-        );
+                deletedItems,
+            },
+        });
         return {
             system: {
                 ...system,
@@ -96,7 +102,9 @@ export default {
                 systemConfigurationOverrides,
             },
         }, {
-
+            systemTypeId,
+            detailTypeId,
+            configurationTypeId,
         }) {
 
         },
@@ -176,9 +184,8 @@ export default {
                     system: {
                         ...system,
                         systemOptions: systemOptions.concat({
+                            ...defaultSystemOption,
                             id: optionId,
-                            optionValues: [],
-                            optionValueIdsToDelete: [],
                             ...update,
                         }),
                     },
@@ -194,25 +201,30 @@ export default {
             optionId,
             ...update
         }) {
-            console.log(arguments);
+            console.trace(arguments);
+            const [[key, { addedItems, deletedItems }], tooMany] = Object.entries(update);
+            if (tooMany) throw new Error('Cannot update multiple lists at once: ' + JSON.stringify(update));
+            _validateKey(key);
+            const deleteKey = key + 'ToDelete';
             // find option in state
             const option = systemOptions.find(({ id }) => id === optionId);
             if (option) {
                 const optionIndex = systemOptions.indexOf(option);
-                const [[key, { addedItems, deletedItems }], tooMany] = Object.entries(update);
-                if (tooMany) throw new Error('Cannot update multiple lists at once: ' + JSON.stringify(update));
-                _validateKey(key);
-                const deleteKey = key + 'ToDelete';
                 const currentAddedItems = option[key];
                 const currentDeletedItems = option[deleteKey];
-                const [newDeletedItems, newAddedItems] = allocateItems(
-                    deletedItems,
-                    ...allocateItems(
+                const {
+                    addedItems: newAddedItems,
+                    deletedItems: newDeletedItems,
+                } = allocate({
+                    existing: {
+                        addedItems: currentAddedItems,
+                        deletedItems: currentDeletedItems,
+                    },
+                    incoming: {
                         addedItems,
-                        currentAddedItems,
-                        currentDeletedItems,
-                    ).reverse(),
-                );
+                        deletedItems,
+                    },
+                });
                 console.log({
                     key,
                     deleteKey,
@@ -234,7 +246,17 @@ export default {
                     },
                 };
             } else {
-
+                return {
+                    system: {
+                        ...system,
+                        systemOptions: systemOptions.concat({
+                            ...defaultSystemOption,
+                            id: optionId,
+                            [key]: addedItems,
+                            [deleteKey]: deletedItems,
+                        }),
+                    },
+                };
             }
         },
         DELETE({
@@ -318,12 +340,12 @@ export default {
                         system: {
                             ...system,
                             systemOptions: systemOptions.concat({
+                                ...defaultSystemOption,
                                 id: optionId,
                                 optionValues: [{
                                     id: _getFakeId(),
                                     ...value,
                                 }],
-                                optionValueIdsToDelete: [],
                             }),
                         },
                     };
@@ -384,12 +406,12 @@ export default {
                         system: {
                             ...system,
                             systemOptions: systemOptions.concat({
+                                ...defaultSystemOption,
                                 id: optionId,
                                 optionValues: [{
                                     id: valueId,
                                     ...value,
                                 }],
-                                optionValueIdsToDelete: [],
                             }),
                         },
                     };
@@ -459,8 +481,8 @@ export default {
                         system: {
                             ...system,
                             systemOptions: systemOptions.concat({
+                                ...defaultSystemOption,
                                 id: optionId,
-                                optionValues: [],
                                 optionValueIdsToDelete: [valueId],
                             }),
                         },

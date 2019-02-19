@@ -76,6 +76,30 @@ export const allocateItems = (arr, L = [], R = [], allocateLeft) => {
     ];
 }
 
+export const allocate = ({
+    incoming: {
+        addedItems,
+        deletedItems,
+    },
+    existing: {
+        addedItems: currentAddedItems,
+        deletedItems: currentDeletedItems,
+    },
+}) => {
+    const [newAddedItems, newDeletedItems] = allocateItems(
+        addedItems,
+        ...allocateItems(
+            deletedItems,
+            currentDeletedItems,
+            currentAddedItems,
+        ).reverse(),
+    );
+    return {
+        addedItems: newAddedItems,
+        deletedItems: newDeletedItems,
+    };
+}
+
 
 /**
  * mergeArguments...
