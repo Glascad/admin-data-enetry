@@ -2,7 +2,9 @@ import gql from 'graphql-tag';
 
 import { recursiveQuery } from '../../../utils';
 
-const query = recursiveQuery`{
+// CAN ONLY GO SIX LEVELS DEEP. MUST UPDATE WHEN MORE LEVELS NECESSARY
+
+export default gql`${recursiveQuery`{
     allElevations{
         nodes{
             nodeId
@@ -13,10 +15,13 @@ const query = recursiveQuery`{
             elevationContainersByElevationId{
                 nodes{
                     nodeId
-                    containerByContainerId{
+                    horizontal
+                    containerByHorizontalAndContainerId{
                         nodeId
                         id
                         size
+                        infill
+                        horizontal
                         leftFrameId
                         rightFrameId
                         topFrameId
@@ -31,7 +36,7 @@ const query = recursiveQuery`{
                                 rightFrameId
                                 topFrameId
                                 bottomFrameId
-                                ${10}
+                                ${5}
                             }
                         }
                         ${"end"}
@@ -40,6 +45,4 @@ const query = recursiveQuery`{
             }
         }
     }
-}`;
-
-export default gql([query]);
+}`}`;

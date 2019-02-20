@@ -27,7 +27,7 @@ export default function SystemOptions({
                 name,
                 id,
             }) => ({
-                title: name + ' ' + id,
+                title: name,
             })}
             onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.CREATE, {
                 name: input,
@@ -118,7 +118,7 @@ export default function SystemOptions({
                             items={_optionValues}
                             identifier="id"
                             mapPillProps={({ name, id }) => ({
-                                title: name + ' ' + id,
+                                title: name,
                             })}
                             onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.VALUE.CREATE, {
                                 optionId,

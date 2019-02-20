@@ -68,7 +68,7 @@ export default function GlazingInfo({
                         value: defaultGlassSize,
                     },
                     onChange: ({ value }) => updateSystem(ACTIONS.UPDATE, {
-                        defaultGlassSize: value,
+                        defaultGlassSize: +value,
                     }),
                 }}
             />

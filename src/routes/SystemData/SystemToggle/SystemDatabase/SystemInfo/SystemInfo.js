@@ -72,19 +72,25 @@ export default function SystemInfo({
                     label="System Depth"
                     type="number"
                     value={depth}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, { depth: value })}
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                        depth: +value,
+                    })}
                 />
                 <Input
                     label="System Sightline"
                     type="number"
                     value={defaultSightline}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, { defaultSightline: value })}
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                        defaultSightline: +value,
+                    })}
                 />
                 <Input
                     label="Caulk Joint Size"
                     type="number"
                     value={shimSize}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, { shimSize: value })}
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                        shimSize: +value,
+                    })}
                 />
             </div>
         </>

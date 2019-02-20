@@ -4,7 +4,7 @@ import SystemInfo from './SystemInfo/SystemInfo';
 import GlazingInfo from './GlazingInfo/GlazingInfo';
 import ValidTypes from './ValidTypes/ValidTypes';
 import SystemOptions from './SystemOptions/SystemOptions';
-import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
+// import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
     TabNavigator,

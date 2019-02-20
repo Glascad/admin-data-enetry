@@ -66,22 +66,22 @@ export default function mergeSystemUpdate({
                         .find(st => st.id === id)
                 }))),
         _systemInfillSizes: _systemInfillSizes
-            .filter(({ size }) => !infillSizesToDelete
-                .includes(size))
+            .filter(({ infillSize }) => !infillSizesToDelete
+                .includes(infillSize))
             .concat(infillSizes
                 .map(size => ({
                     infillSize: size,
                 }))),
         _systemInfillPocketSizes: _systemInfillPocketSizes
-            .filter(({ size }) => !infillPocketSizesToDelete
-                .includes(size))
+            .filter(({ infillPocketSize }) => !infillPocketSizesToDelete
+                .includes(infillPocketSize))
             .concat(infillPocketSizes
                 .map(size => ({
                     infillPocketSize: size,
                 }))),
         _systemInfillPocketTypes: _systemInfillPocketTypes
-            .filter(({ id }) => !infillPocketTypeIdsToDelete
-                .includes(id))
+            .filter(({ infillPocketTypeId }) => !infillPocketTypeIdsToDelete
+                .includes(infillPocketTypeId))
             .concat(infillPocketTypeIds
                 .map(id => ({
                     _infillPocketType: allInfillPocketTypes
