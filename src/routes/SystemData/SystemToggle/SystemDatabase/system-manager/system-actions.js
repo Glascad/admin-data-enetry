@@ -7,6 +7,7 @@ import {
     system as defaultSystem,
     option as defaultSystemOption,
     value as defaultOptionValue,
+    override as defaultOverride,
 } from './default-system';
 
 
@@ -20,8 +21,9 @@ export const _removeFakeIds = obj => !obj || typeof obj !== 'object' ?
     :
     Object.entries(obj).reduce((result, [key, value]) => ({
         ...result,
-        [key]: key === 'id' ?
-            typeof value === 'number' ? value
+        [key]: key === 'id' || key === '__created' ?
+            typeof value === 'number' ?
+                value
                 :
                 undefined
             :
@@ -99,34 +101,115 @@ export default {
         CREATE({
             system,
             system: {
-                systemConfigurationOverrides,
+                configurationOverrides,
+                configurationOverridesToDelete,
             },
         }, {
-            systemTypeId,
             detailTypeId,
             configurationTypeId,
         }) {
-
+            const deletedOverride = configurationOverridesToDelete.find(o => o.detailTypeId === detailTypeId
+                &&
+                o.configurationTypeId === configurationTypeId);
+            if (deletedOverride) {
+                return {
+                    system: {
+                        ...system,
+                        configurationOverridesToDelete: configurationOverridesToDelete
+                            .filter(o => o !== deletedOverride),
+                    },
+                };
+            } else {
+                return {
+                    system: {
+                        ...system,
+                        configurationOverrides: configurationOverrides
+                            .concat({
+                                ...defaultOverride,
+                                __created: true,
+                                detailTypeId,
+                                configurationTypeId,
+                            }),
+                    },
+                };
+            }
         },
         UPDATE({
             system,
             system: {
-                systemConfigurationOverrides,
+                configurationOverrides,
             },
         }, {
-
+            detailTypeId,
+            configurationTypeId,
+            ...update
         }) {
-
+            console.log(arguments);
+            const override = configurationOverrides.find(o => o.detailTypeId === detailTypeId
+                &&
+                o.configurationTypeId === configurationTypeId);
+            if (override) {
+                const overrideIndex = configurationOverrides.indexOf(override);
+                return {
+                    system: {
+                        ...system,
+                        configurationOverrides: configurationOverrides
+                            .replace(overrideIndex, {
+                                ...override,
+                                ...update,
+                            }),
+                    },
+                };
+            } else {
+                return {
+                    system: {
+                        ...system,
+                        configurationOverrides: configurationOverrides
+                            .concat({
+                                ...defaultOverride,
+                                detailTypeId,
+                                configurationTypeId,
+                                ...update,
+                            }),
+                    },
+                };
+            }
         },
         DELETE({
             system,
             system: {
-                systemConfigurationOverrides,
+                configurationOverrides,
+                configurationOverridesToDelete,
             },
         }, {
-
+            detailTypeId,
+            configurationTypeId,
         }) {
-
+            const override = configurationOverrides
+                .find(o => o.detailTypeId === detailTypeId
+                    &&
+                    o.configurationTypeId === configurationTypeId);
+            if (override) {
+                return {
+                    system: {
+                        ...system,
+                        configurationOverrides: configurationOverrides
+                            .filter(o => o !== override),
+                    },
+                };
+            } else {
+                return {
+                    system: {
+                        ...system,
+                        configurationOverridesToDelete: configurationOverridesToDelete
+                            .concat({
+                                ...defaultOverride,
+                                detailTypeId,
+                                configurationTypeId,
+                            }),
+                    },
+                };
+            }
         },
     },
 
@@ -145,11 +228,12 @@ export default {
                 system: {
                     // add new option
                     ...system,
-                    systemOptions: systemOptions.concat({
-                        ...defaultSystemOption,
-                        id: _getFakeId(),
-                        ...option,
-                    }),
+                    systemOptions: systemOptions
+                        .concat({
+                            ...defaultSystemOption,
+                            id: _getFakeId(),
+                            ...option,
+                        }),
                 },
             };
         },
@@ -165,17 +249,20 @@ export default {
             console.log(arguments);
             Object.keys(update).forEach(_validateKey);
             // find option in state
-            const option = systemOptions.find(({ id }) => id === optionId);
+            const option = systemOptions
+                .find(({ id }) => id === optionId);
             if (option) {
-                const optionIndex = systemOptions.indexOf(option);
+                const optionIndex = systemOptions
+                    .indexOf(option);
                 // update key on option in state
                 return {
                     system: {
                         ...system,
-                        systemOptions: systemOptions.replace(optionIndex, {
-                            ...option,
-                            ...update,
-                        }),
+                        systemOptions: systemOptions
+                            .replace(optionIndex, {
+                                ...option,
+                                ...update,
+                            }),
                     },
                 };
             } else {
@@ -183,11 +270,12 @@ export default {
                 return {
                     system: {
                         ...system,
-                        systemOptions: systemOptions.concat({
-                            ...defaultSystemOption,
-                            id: optionId,
-                            ...update,
-                        }),
+                        systemOptions: systemOptions
+                            .concat({
+                                ...defaultSystemOption,
+                                id: optionId,
+                                ...update,
+                            }),
                     },
                 };
             }
@@ -207,9 +295,11 @@ export default {
             _validateKey(key);
             const deleteKey = key + 'ToDelete';
             // find option in state
-            const option = systemOptions.find(({ id }) => id === optionId);
+            const option = systemOptions
+                .find(({ id }) => id === optionId);
             if (option) {
-                const optionIndex = systemOptions.indexOf(option);
+                const optionIndex = systemOptions
+                    .indexOf(option);
                 const currentAddedItems = option[key];
                 const currentDeletedItems = option[deleteKey];
                 const {
@@ -238,23 +328,25 @@ export default {
                 return {
                     system: {
                         ...system,
-                        systemOptions: systemOptions.replace(optionIndex, {
-                            ...option,
-                            [key]: newAddedItems,
-                            [deleteKey]: newDeletedItems,
-                        }),
+                        systemOptions: systemOptions
+                            .replace(optionIndex, {
+                                ...option,
+                                [key]: newAddedItems,
+                                [deleteKey]: newDeletedItems,
+                            }),
                     },
                 };
             } else {
                 return {
                     system: {
                         ...system,
-                        systemOptions: systemOptions.concat({
-                            ...defaultSystemOption,
-                            id: optionId,
-                            [key]: addedItems,
-                            [deleteKey]: deletedItems,
-                        }),
+                        systemOptions: systemOptions
+                            .concat({
+                                ...defaultSystemOption,
+                                id: optionId,
+                                [key]: addedItems,
+                                [deleteKey]: deletedItems,
+                            }),
                     },
                 };
             }
@@ -269,7 +361,8 @@ export default {
             optionId,
         }) {
             console.log(arguments);
-            const createdOption = systemOptions.find(option => option.id === optionId);
+            const createdOption = systemOptions
+                .find(option => option.id === optionId);
             // remove option from state
             if (createdOption) {
                 // check if option previously existed
@@ -278,7 +371,8 @@ export default {
                     return {
                         system: {
                             ...system,
-                            systemOptions: systemOptions.filter(option => option !== createdOption),
+                            systemOptions: systemOptions
+                                .filter(option => option !== createdOption),
                         },
                     };
                 } else {
@@ -286,7 +380,8 @@ export default {
                     return {
                         system: {
                             ...system,
-                            systemOptions: systemOptions.filter(option => option !== createdOption),
+                            systemOptions: systemOptions
+                                .filter(option => option !== createdOption),
                             systemOptionIdsToDelete: systemOptionIdsToDelete.concat(optionId)
                         },
                     };
@@ -317,21 +412,25 @@ export default {
                 console.log(arguments);
                 Object.keys(value).forEach(_validateKey)
                 // find option
-                const option = systemOptions.find(({ id }) => id === optionId);
+                const option = systemOptions
+                    .find(({ id }) => id === optionId);
                 if (option) {
-                    const optionIndex = systemOptions.indexOf(option);
+                    const optionIndex = systemOptions
+                        .indexOf(option);
                     // add value to option
                     return {
                         system: {
                             ...system,
-                            systemOptions: systemOptions.replace(optionIndex, {
-                                ...option,
-                                optionValues: option.optionValues.concat({
-                                    ...defaultOptionValue,
-                                    id: _getFakeId(),
-                                    ...value,
+                            systemOptions: systemOptions
+                                .replace(optionIndex, {
+                                    ...option,
+                                    optionValues: option.optionValues
+                                        .concat({
+                                            ...defaultOptionValue,
+                                            id: _getFakeId(),
+                                            ...value,
+                                        }),
                                 }),
-                            }),
                         },
                     };
                 } else {
@@ -339,14 +438,15 @@ export default {
                     return {
                         system: {
                             ...system,
-                            systemOptions: systemOptions.concat({
-                                ...defaultSystemOption,
-                                id: optionId,
-                                optionValues: [{
-                                    id: _getFakeId(),
-                                    ...value,
-                                }],
-                            }),
+                            systemOptions: systemOptions
+                                .concat({
+                                    ...defaultSystemOption,
+                                    id: optionId,
+                                    optionValues: [{
+                                        id: _getFakeId(),
+                                        ...value,
+                                    }],
+                                }),
                         },
                     };
                 }
@@ -364,9 +464,11 @@ export default {
                 console.log(arguments);
                 Object.keys(value).forEach(_validateKey)
                 // find option in state
-                const option = systemOptions.find(({ id }) => id === optionId);
+                const option = systemOptions
+                    .find(({ id }) => id === optionId);
                 if (option) {
-                    const optionIndex = systemOptions.indexOf(option);
+                    const optionIndex = systemOptions
+                        .indexOf(option);
                     const { optionValues } = option;
                     // find value in option
                     const optionValue = optionValues.find(({ id }) => id === valueId);
@@ -376,13 +478,15 @@ export default {
                         return {
                             system: {
                                 ...system,
-                                systemOptions: systemOptions.replace(optionIndex, {
-                                    ...option,
-                                    optionValues: option.optionValues.replace(optionValueIndex, {
-                                        ...optionValue,
-                                        ...value,
+                                systemOptions: systemOptions
+                                    .replace(optionIndex, {
+                                        ...option,
+                                        optionValues: option.optionValues
+                                            .replace(optionValueIndex, {
+                                                ...optionValue,
+                                                ...value,
+                                            }),
                                     }),
-                                }),
                             },
                         };
                     } else {
@@ -390,13 +494,15 @@ export default {
                         return {
                             system: {
                                 ...system,
-                                systemOptions: systemOptions.replace(optionIndex, {
-                                    ...option,
-                                    optionValues: option.optionValues.concat({
-                                        id: valueId,
-                                        ...value,
+                                systemOptions: systemOptions
+                                    .replace(optionIndex, {
+                                        ...option,
+                                        optionValues: option.optionValues
+                                            .concat({
+                                                id: valueId,
+                                                ...value,
+                                            }),
                                     }),
-                                }),
                             },
                         };
                     }
@@ -405,14 +511,15 @@ export default {
                     return {
                         system: {
                             ...system,
-                            systemOptions: systemOptions.concat({
-                                ...defaultSystemOption,
-                                id: optionId,
-                                optionValues: [{
-                                    id: valueId,
-                                    ...value,
-                                }],
-                            }),
+                            systemOptions: systemOptions
+                                .concat({
+                                    ...defaultSystemOption,
+                                    id: optionId,
+                                    optionValues: [{
+                                        id: valueId,
+                                        ...value,
+                                    }],
+                                }),
                         },
                     };
                 }
@@ -427,8 +534,10 @@ export default {
                 valueId,
             }) {
                 console.log(arguments);
-                const updatedOption = systemOptions.find(({ id }) => id === optionId);
-                const optionIndex = systemOptions.indexOf(updatedOption);
+                const updatedOption = systemOptions
+                    .find(({ id }) => id === optionId);
+                const optionIndex = systemOptions
+                    .indexOf(updatedOption);
                 if (updatedOption) {
                     // find value in option
                     const {
@@ -443,10 +552,12 @@ export default {
                             return {
                                 system: {
                                     ...system,
-                                    systemOptions: systemOptions.replace(optionIndex, {
-                                        ...updatedOption,
-                                        optionValues: optionValues.filter(value => value !== createdValue),
-                                    }),
+                                    systemOptions: systemOptions
+                                        .replace(optionIndex, {
+                                            ...updatedOption,
+                                            optionValues: optionValues
+                                                .filter(value => value !== createdValue),
+                                        }),
                                 },
                             };
                         } else {
@@ -454,11 +565,13 @@ export default {
                             return {
                                 system: {
                                     ...system,
-                                    systemOptions: systemOptions.replace(optionIndex, {
-                                        ...updatedOption,
-                                        optionValues: optionValues.filter(value => value !== createdValue),
-                                        optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
-                                    }),
+                                    systemOptions: systemOptions
+                                        .replace(optionIndex, {
+                                            ...updatedOption,
+                                            optionValues: optionValues
+                                                .filter(value => value !== createdValue),
+                                            optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
+                                        }),
                                 },
                             };
                         }
@@ -467,11 +580,12 @@ export default {
                         return {
                             system: {
                                 ...system,
-                                systemOptions: systemOptions.replace(optionIndex, {
-                                    ...updatedOption,
-                                    // optionValues: optionValues.replace()
-                                    optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
-                                }),
+                                systemOptions: systemOptions
+                                    .replace(optionIndex, {
+                                        ...updatedOption,
+                                        // optionValues: optionValues.replace()
+                                        optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
+                                    }),
                             },
                         };
                     }
@@ -480,11 +594,12 @@ export default {
                     return {
                         system: {
                             ...system,
-                            systemOptions: systemOptions.concat({
-                                ...defaultSystemOption,
-                                id: optionId,
-                                optionValueIdsToDelete: [valueId],
-                            }),
+                            systemOptions: systemOptions
+                                .concat({
+                                    ...defaultSystemOption,
+                                    id: optionId,
+                                    optionValueIdsToDelete: [valueId],
+                                }),
                         },
                     };
                 }

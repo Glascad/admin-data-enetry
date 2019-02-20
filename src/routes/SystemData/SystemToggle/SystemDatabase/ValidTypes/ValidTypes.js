@@ -1,16 +1,12 @@
 import React from 'react';
 
 import {
-    GroupingBox,
     Input,
     ListWrapper,
     TitleBar,
 } from '../../../../../components';
 
-import {
-    presentationLevels,
-} from '../../../../../business-logic';
-
+import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
 import SystemConfigurationOverride from './SystemConfigurationOverride';
 
 import ACTIONS from '../system-manager/system-actions';
@@ -39,7 +35,6 @@ export default function ValidTypes({
     },
     updateSystem,
 }) {
-    console.log(arguments[0]);
     return (
         <ListWrapper
             titleBar={{
@@ -67,6 +62,7 @@ export default function ValidTypes({
                             title: "Valid Configuration Types",
                             selections: [detailTypeName]
                         }}
+                        identifier="configurationTypeId"
                         items={_systemTypeDetailTypeConfigurationTypes
                             .filter(({
                                 detailTypeId: id,
@@ -79,7 +75,7 @@ export default function ValidTypes({
                                 configurationTypeId,
                                 _detailType,
                                 _configurationType,
-                                ..._systemTypeDetailTypeConfigurationType
+                                ...defaultValues
                             }) => {
 
                                 // find if the configuration has been marked invalid in the system
@@ -105,7 +101,7 @@ export default function ValidTypes({
                                     configurationTypeId,
                                     _detailType,
                                     _configurationType,
-                                    _systemTypeDetailTypeConfigurationType,
+                                    defaultValues,
                                     _invalidSystemConfigurationType,
                                     _systemConfigurationOverride,
                                 });
@@ -126,8 +122,8 @@ export default function ValidTypes({
                             } = {
                                 invalid: false,
                             },
-                            _systemTypeDetailTypeConfigurationType,
-                            _systemTypeDetailTypeConfigurationType: {
+                            defaultValues,
+                            defaultValues: {
                                 required,
                                 mirrorable,
                                 presentationLevel,
@@ -182,70 +178,19 @@ export default function ValidTypes({
                                             
                                             If there is no entry in the overrides table, any change will create an entry.
                                         */}
-                                        <GroupingBox
-                                            title="Default Settings"
-                                            className="disabled"
-                                            toggle={{
-                                                buttons: [
-                                                    {
-                                                        text: "Override",
-                                                        selected: false,
-                                                        className: _systemConfigurationOverride ?
-                                                            "selected"
-                                                            :
-                                                            "danger",
-                                                        onClick: () => updateSystem(_systemConfigurationOverride ?
-                                                            ACTIONS.OVERRIDE.DELETE
-                                                            :
-                                                            ACTIONS.OVERRIDE.CREATE, {
-                                                                detailTypeId,
-                                                                configurationTypeId,
-                                                            }),
-                                                    },
-                                                ],
+                                        <SystemTypeDetailTypeConfigurationType
+                                            {...{
+                                                _systemConfigurationOverride,
+                                                defaultValues,
+                                                _detailType,
+                                                _configurationType,
+                                                updateSystem,
                                             }}
-                                        >
-                                            <Input
-                                                label="Mirrorable"
-                                                type="checkbox"
-                                                checked={mirrorable}
-                                                readOnly={true}
-                                            />
-                                            <Input
-                                                label="Required"
-                                                type="checkbox"
-                                                checked={required}
-                                                readOnly={true}
-                                            />
-                                            <Input
-                                                label="Presentation Level"
-                                                type="select"
-                                                select={{
-                                                    isDisabled: true,
-                                                    value: presentationLevels
-                                                        .find(({ value }) => value === presentationLevel),
-                                                    defaultValue: presentationLevels
-                                                        .find(({ value }) => value === presentationLevel),
-                                                    options: presentationLevels
-                                                }}
-                                            />
-                                            <Input
-                                                label="Override Level"
-                                                type="select"
-                                                select={{
-                                                    isDisabled: true,
-                                                    value: presentationLevels
-                                                        .find(({ value }) => value === overrideLevel),
-                                                    defaultValue: presentationLevels
-                                                        .find(({ value }) => value === overrideLevel),
-                                                    options: presentationLevels,
-                                                }}
-                                            />
-                                        </GroupingBox>
+                                        />
                                         {_systemConfigurationOverride ? (
                                             <SystemConfigurationOverride
                                                 {...{
-                                                    _systemTypeDetailTypeConfigurationType,
+                                                    defaultValues,
                                                     _detailType,
                                                     _configurationType,
                                                     _systemConfigurationOverride,

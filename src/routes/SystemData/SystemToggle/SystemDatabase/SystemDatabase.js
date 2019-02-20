@@ -88,10 +88,18 @@ export default class SystemDatabase extends Component {
             updateSystem,
         } = this;
 
+        const updatedSystem = mergeSystemUpdate(system, queryStatus);
+
+        console.log({
+            queryStatus,
+            system,
+            updatedSystem,
+        });
+
         const routeProps = {
             queryStatus,
             mutations,
-            system: mergeSystemUpdate(system, queryStatus),
+            system: updatedSystem,
             updateSystem,
         };
 

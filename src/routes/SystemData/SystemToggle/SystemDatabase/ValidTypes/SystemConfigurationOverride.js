@@ -9,6 +9,8 @@ import {
     presentationLevels,
 } from '../../../../../business-logic';
 
+import ACTIONS from '../system-manager/system-actions';
+
 const isNullOrUndefined = item => item === undefined || item === null;
 
 export default class SystemConfigurationOverride extends Component {
@@ -17,51 +19,67 @@ export default class SystemConfigurationOverride extends Component {
         const {
             props: {
                 _systemConfigurationOverride,
-                _systemTypeDetailTypeConfigurationType,
+                _detailType: {
+                    id: detailTypeId,
+                },
+                _configurationType: {
+                    id: configurationTypeId,
+                },
+                defaultValues,
+                updateSystem,
             },
         } = this;
         const updatedSystemConfigurationOverride = {
             ..._systemConfigurationOverride,
             [key]: value,
         };
+        const regex = /Override/;
         const identical = Object.entries(updatedSystemConfigurationOverride)
-            .every(([key, value]) => {
-                const regex = /Override/;
-                if (!key.match(regex) || typeof value === 'object') return true;
-                else {
-                    const updatedValue = updatedSystemConfigurationOverride[key];
-                    const previousValue = _systemTypeDetailTypeConfigurationType[key.replace(regex, '')];
-                    return (
-                        isNullOrUndefined(updatedValue)
-                        ||
-                        updatedValue === previousValue
-                    );
-                }
-            });
+            .every(([key, value]) => !key.match(regex)
+                ||
+                typeof value === 'object'
+                ||
+                isNullOrUndefined(updatedSystemConfigurationOverride[key])
+                ||
+                updatedSystemConfigurationOverride[key] === defaultValues[key.replace(regex, '')]
+            );
 
         console.log({
             updatedSystemConfigurationOverride,
             identical,
-            _systemTypeDetailTypeConfigurationType: _systemTypeDetailTypeConfigurationType,
+            defaultValues,
         });
 
-        // if the override is identical to the systemtypedetailtypeconfigurationtype
-        // if (identical)
-        //     deleteSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        const {
+            mirrorableOverride,
+            requiredOverride,
+            presentationLevelOverride,
+            overrideLevelOverride,
+        } = updatedSystemConfigurationOverride;
 
-        // // if we are working with a newly-created override
-        // else if (typeof updatedSystemConfigurationOverride.nodeId === 'number')
-        //     createSystemConfigurationOverride(updatedSystemConfigurationOverride);
-
-        // // if we are working with a previously-created override
-        // else
-        //     updateSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        if (identical) {
+            // if the override is identical to the systemtypedetailtypeconfigurationtype
+            updateSystem(ACTIONS.OVERRIDE.DELETE, {
+                detailTypeId,
+                configurationTypeId,
+            });
+        } else {
+            // if we are working with a newly-created override
+            updateSystem(ACTIONS.OVERRIDE.UPDATE, {
+                detailTypeId,
+                configurationTypeId,
+                mirrorableOverride,
+                requiredOverride,
+                presentationLevelOverride,
+                overrideLevelOverride,
+            });
+        }
     }
 
     render = () => {
         const {
             props: {
-                _systemTypeDetailTypeConfigurationType: {
+                defaultValues: {
                     mirrorable,
                     required,
                     presentationLevel,
@@ -76,6 +94,8 @@ export default class SystemConfigurationOverride extends Component {
             },
             handleChange,
         } = this;
+
+        console.log(this.props);
 
         return (
             <GroupingBox

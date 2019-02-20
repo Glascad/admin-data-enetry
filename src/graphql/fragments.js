@@ -437,6 +437,11 @@ export const ENTIRE_SYSTEM = gql`
                 }
             }
         }
+        systemConfigurationOverridesBySystemId {
+            nodes {
+                ...SystemConfigurationOverrideFields
+            }
+        }
         systemOptionsBySystemId {
             nodes {
                 ...EntireSystemOption
@@ -451,5 +456,6 @@ export const ENTIRE_SYSTEM = gql`
     ${INFILL_POCKET_SIZE_FIELDS}
     ${INFILL_POCKET_TYPE_FIELDS}
     ${CONFIGURATION_TYPE_FIELDS}
+    ${SYSTEM_CONFIGURATION_OVERRIDE_FIELDS}
     ${ENTIRE_SYSTEM_OPTION}
 `;

@@ -30,10 +30,13 @@ export default function mergeSystemUpdate({
         _systemInfillPocketTypes = [],
         _systemOptions = [],
         _invalidSystemConfigurationTypes = [],
-        _configurationOverrides = [],
+        _systemConfigurationOverrides = [],
         // other keys
         systemTypeId,
         _systemType,
+        _systemType: {
+            _systemTypeDetailTypeConfigurationTypes = [],
+        } = {},
         ...system
     } = {},
     allSystemTypes = [],
@@ -138,8 +141,35 @@ export default function mergeSystemUpdate({
                     _invalidConfigurationType: allConfigurationTypes
                         .find(({ id }) => id === invalidConfigurationTypeId),
                 }))),
-        // _configurationOverrides: _configurationOverrides
-        //     .filter()
-        //     .concat(),
+        _systemConfigurationOverrides: _systemConfigurationOverrides
+            .filter(({
+                systemTypeId: stid,
+                detailTypeId,
+                configurationTypeId,
+            }) => stid === (newSystemTypeId || systemTypeId)
+                &&
+                !configurationOverridesToDelete
+                    .some(o => o.detailTypeId === detailTypeId
+                        &&
+                        o.configurationTypeId === configurationTypeId))
+            .map(o => {
+                const updatedOverride = configurationOverrides
+                    .find(({ detailTypeId, configurationTypeId }) => o.detailTypeId === detailTypeId
+                        &&
+                        o.configurationTypeId === configurationTypeId);
+                return updatedOverride ? {
+                    ...o,
+                    ...removeNullValues(updatedOverride),
+                } : o;
+            })
+            .concat(configurationOverrides
+                .filter(o => !_systemConfigurationOverrides
+                    .find(({ detailTypeId, configurationTypeId }) => o.detailTypeId === detailTypeId
+                        &&
+                        o.configurationTypeId === configurationTypeId))
+                .map(o => ({
+                    ...o,
+                    systemTypeId: (newSystemTypeId || systemTypeId),
+                }))),
     };
 }
