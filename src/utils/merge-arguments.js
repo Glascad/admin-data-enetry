@@ -48,19 +48,62 @@ const replaceOld = 'new$2';
 const matchNew = /(^new)(.+$)/;
 const replaceNew = 'old$2';
 
-const divide = (arr, cb) => arr.reduce(([L, R], item) => cb(item, L, R) ?
+
+/**
+ * divideArray takes an array and a callback and returns an array of two arrays, the first containing all items from the original array with which the callback returned true, and the second array contains all other items from the original array.
+ * 
+ * the callback should return a boolean value.
+ */
+
+export const divideArray = (arr, allocateLeft) => arr.reduce(([L, R], item) => allocateLeft(item, L, R) ?
     [L.concat(item), R]
     :
     [L, R.concat(item)],
     [[], []]);
 
-const allocate = (arr, L = [], R = [], allocateItemRight = (item, L, R) => R.includes(item)) => {
-    const [toRemove, toAdd] = divide(arr, allocateItemRight);
+
+/**
+ * allocateItems takes a single item and two arrays and returns a new set of two arrays, either filtering the item out of the second array, or else adding it to the first.
+ * 
+ * it also takes an optional callback which is used to decide whether the item should be added to the second or removed from the third.
+ */
+
+export const allocateItems = (arr, L = [], R = [], allocateLeft) => {
+    const [toRemove, toAdd] = divideArray(arr, allocateLeft || (item => R.includes(item)));
     return [
         L.concat(toAdd),
         R.filter(item => !toRemove.includes(item)),
     ];
 }
+
+export const allocate = ({
+    incoming: {
+        addedItems,
+        deletedItems,
+    },
+    existing: {
+        addedItems: currentAddedItems,
+        deletedItems: currentDeletedItems,
+    },
+}) => {
+    const [newAddedItems, newDeletedItems] = allocateItems(
+        addedItems,
+        ...allocateItems(
+            deletedItems,
+            currentDeletedItems,
+            currentAddedItems,
+        ).reverse(),
+    );
+    return {
+        addedItems: newAddedItems,
+        deletedItems: newDeletedItems,
+    };
+}
+
+
+/**
+ * mergeArguments...
+ */
 
 const mergeArguments = ({
     previous,
@@ -69,7 +112,7 @@ const mergeArguments = ({
         key.replace(matchNew, replaceNew)
         :
         key.replace(matchOld, replaceOld),
-    allocateItemRight,
+    removeItem,
 }) => ({
     ...previous,
     ...Object.keys(incoming)
@@ -106,19 +149,15 @@ const mergeArguments = ({
 
                     const incomingOpposite = incoming[opposite];
 
-                    // const [outgoingValue, outgoingOpposite] = allocate(incomingValue, prevValue, prevOpposite);
-
-                    // const [newOutgoingOpposite, newOutgoingValue] = allocate(incomingOpposite, outgoingOpposite, outgoingValue);
-
-                    const [outgoingOpposite, outgoingValue] = allocate(
+                    const [outgoingOpposite, outgoingValue] = allocateItems(
                         incomingOpposite || [],
-                        ...allocate(
+                        ...allocateItems(
                             incomingValue || [],
                             prevValue || [],
                             prevOpposite || [],
-                            allocateItemRight,
+                            removeItem,
                         ).reverse(),
-                        allocateItemRight,
+                        removeItem,
                     );
 
                     return {

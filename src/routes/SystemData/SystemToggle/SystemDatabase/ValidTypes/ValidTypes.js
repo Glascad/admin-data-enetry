@@ -1,60 +1,40 @@
 import React from 'react';
 
 import {
-    GroupingBox,
     Input,
     ListWrapper,
     TitleBar,
 } from '../../../../../components';
 
-import {
-    presentationLevels,
-} from '../../../../../business-logic';
-import StateManager from '../../../../../components/state/StateManager';
+import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
 import SystemConfigurationOverride from './SystemConfigurationOverride';
 
-// ValidTypes.navigationOptions = ({
-//     batcher: {
-//         batchedMutations: {
-//             updateEntireSystem: {
-//                 argumentSets: [
-//                     {
-//                         newSystemTypeId,
-//                     } = {},
-//                 ] = [],
-//             } = {},
-//         },
-//     },
-//     queryStatus: {
-//         system: {
-//             systemTypeId,
-//         } = {}
-//     },
-// }) => ({
-//     disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
-// });
+import ACTIONS from '../system-manager/system-actions';
 
-export default function ValidTypes({
+ValidTypes.navigationOptions = ({
+    system: {
+        systemTypeId: newSystemTypeId,
+    } = {},
     queryStatus: {
         system: {
-            id: systemId,
-            _systemType: {
-                id: systemTypeId,
-                _systemTypeDetailTypeConfigurationTypes = [],
-            } = {},
-            _invalidSystemConfigurationTypes = [],
-            _systemConfigurationOverrides = [],
+            systemTypeId,
         } = {},
     },
-    mutations: {
-        createInvalidSystemConfigurationType,
-        deleteInvalidSystemConfigurationType,
-        deleteSystemConfigurationOverride,
-        updateSystemConfigurationOverride,
-        createSystemConfigurationOverride,
+}) => ({
+    disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
+});
+
+export default function ValidTypes({
+    system: {
+        _systemType: {
+            id: systemTypeId,
+            _systemTypeDetailTypeConfigurationTypes = [],
+        } = {},
+        _invalidSystemConfigurationTypes = [],
+        _systemConfigurationOverrides = [],
     },
+    updateSystem,
 }) {
-    console.log(arguments[0]);
     return (
         <ListWrapper
             titleBar={{
@@ -62,7 +42,7 @@ export default function ValidTypes({
             }}
             items={_systemTypeDetailTypeConfigurationTypes
                 //find only the detail types
-                .filter(({ _configurationType }) => !_configurationType)}
+                .filter(({ _configurationType: { id } }) => !id)}
             mapPillProps={({
                 _detailType: {
                     type
@@ -82,15 +62,20 @@ export default function ValidTypes({
                             title: "Valid Configuration Types",
                             selections: [detailTypeName]
                         }}
+                        identifier="configurationTypeId"
                         items={_systemTypeDetailTypeConfigurationTypes
                             .filter(({
                                 detailTypeId: id,
-                                _configurationType,
+                                _configurationType: {
+                                    id: configurationTypeId
+                                },
                                 // find only the configuration types
-                            }) => _configurationType && id === detailTypeId)
+                            }) => configurationTypeId && id === detailTypeId)
                             .map(({
                                 configurationTypeId,
-                                ..._systemTypeDetailTypeConfigurationType
+                                _detailType,
+                                _configurationType,
+                                ...defaultValues
                             }) => {
 
                                 // find if the configuration has been marked invalid in the system
@@ -114,12 +99,13 @@ export default function ValidTypes({
 
                                 return ({
                                     configurationTypeId,
-                                    ..._systemTypeDetailTypeConfigurationType,
+                                    _detailType,
+                                    _configurationType,
+                                    defaultValues,
                                     _invalidSystemConfigurationType,
                                     _systemConfigurationOverride,
                                 });
-                            })
-                            .map(item => { console.log(item); return item; })}
+                            })}
                         mapPillProps={({
                             _invalidSystemConfigurationType,
                             _configurationType: {
@@ -133,18 +119,22 @@ export default function ValidTypes({
                         {({
                             _invalidSystemConfigurationType: {
                                 invalid = true,
-                                nodeId: _invalidSystemConfigurationTypeNID
                             } = {
                                 invalid: false,
                             },
-                            required,
-                            mirrorable,
-                            presentationLevel,
-                            overrideLevel,
+                            defaultValues,
+                            defaultValues: {
+                                required,
+                                mirrorable,
+                                presentationLevel,
+                                overrideLevel,
+                            } = {},
+                            _configurationType,
                             _configurationType: {
                                 id: configurationTypeId,
-                                type: _configurationTypeName = '',
+                                type: configurationTypeName = '',
                             } = {},
+                            _detailType,
                             _detailType: {
                                 id: detailTypeId,
                                 type: detailTypeName = '',
@@ -156,7 +146,7 @@ export default function ValidTypes({
                                         title="System Configuration Type"
                                         selections={[
                                             detailTypeName,
-                                            _configurationTypeName,
+                                            configurationTypeName,
                                         ]}
                                     />
                                     {/**
@@ -166,31 +156,13 @@ export default function ValidTypes({
                                         label="Invalid"
                                         type="checkbox"
                                         checked={invalid}
-                                        onChange={({ target: { checked } }) => checked ?
-                                            [
-                                                createInvalidSystemConfigurationType({
-                                                    nodeId: _invalidSystemConfigurationTypeNID,
-                                                    systemId,
-                                                    invalidConfigurationTypeId: configurationTypeId,
-                                                }),
-                                                deleteSystemConfigurationOverride(_systemConfigurationOverride)
-                                            ]
-                                            :
-                                            [
-                                                deleteInvalidSystemConfigurationType({
-                                                    nodeId: _invalidSystemConfigurationTypeNID,
-                                                    systemId,
-                                                    invalidConfigurationTypeId: configurationTypeId,
-                                                }),
-                                                createSystemConfigurationOverride(_systemConfigurationOverride)
-                                            ]}
+                                        onChange={({ target: { checked } }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                                            invalidConfigurationTypeIds: {
+                                                addedItems: checked ? [configurationTypeId] : [],
+                                                deletedItems: checked ? [] : [configurationTypeId],
+                                            }
+                                        })}
                                     />
-                                    {/* <StateManager
-                                        initialState={{
-                                            overriding: !!_systemConfigurationOverride,
-                                        }}
-                                    >
-                                        {({ state: { overriding }, update }) => ( */}
                                     <div
                                         className={`nested ${invalid ? "disabled" : ""}`}
                                         style={{
@@ -206,94 +178,27 @@ export default function ValidTypes({
                                             
                                             If there is no entry in the overrides table, any change will create an entry.
                                         */}
-                                        <GroupingBox
-                                            title="Default Settings"
-                                            className="disabled"
-                                            toggle={{
-                                                buttons: [
-                                                    {
-                                                        text: "Override",
-                                                        selected: false,
-                                                        className: _systemConfigurationOverride ?
-                                                            "selected"
-                                                            :
-                                                            "danger",
-                                                        onClick: _systemConfigurationOverride ?
-                                                            () => deleteSystemConfigurationOverride({
-                                                                ..._systemConfigurationOverride,
-                                                                systemId,
-                                                                systemTypeId,
-                                                                detailTypeId,
-                                                                configurationTypeId,
-                                                            })
-                                                            :
-                                                            () => createSystemConfigurationOverride({
-                                                                ..._systemConfigurationOverride,
-                                                                systemId,
-                                                                systemTypeId,
-                                                                detailTypeId,
-                                                                configurationTypeId,
-                                                            })
-                                                    }
-                                                ]
+                                        <SystemTypeDetailTypeConfigurationType
+                                            {...{
+                                                _systemConfigurationOverride,
+                                                defaultValues,
+                                                _detailType,
+                                                _configurationType,
+                                                updateSystem,
                                             }}
-                                        >
-                                            <Input
-                                                label="Mirrorable"
-                                                type="checkbox"
-                                                checked={mirrorable}
-                                                readOnly={true}
-                                            />
-                                            <Input
-                                                label="Required"
-                                                type="checkbox"
-                                                checked={required}
-                                                readOnly={true}
-                                            />
-                                            <Input
-                                                label="Presentation Level"
-                                                type="select"
-                                                select={{
-                                                    isDisabled: true,
-                                                    value: presentationLevels
-                                                        .find(({ value }) => value === presentationLevel),
-                                                    defaultValue: presentationLevels
-                                                        .find(({ value }) => value === presentationLevel),
-                                                    options: presentationLevels
-                                                }}
-                                            />
-                                            <Input
-                                                label="Override Level"
-                                                type="select"
-                                                select={{
-                                                    isDisabled: true,
-                                                    value: presentationLevels
-                                                        .find(({ value }) => value === overrideLevel),
-                                                    defaultValue: presentationLevels
-                                                        .find(({ value }) => value === overrideLevel),
-                                                    options: presentationLevels
-                                                }}
-                                            />
-                                        </GroupingBox>
+                                        />
                                         {_systemConfigurationOverride ? (
                                             <SystemConfigurationOverride
                                                 {...{
-                                                    defaultValues: {
-                                                        mirrorable,
-                                                        required,
-                                                        presentationLevel,
-                                                        overrideLevel,
-                                                    },
+                                                    defaultValues,
+                                                    _detailType,
+                                                    _configurationType,
                                                     _systemConfigurationOverride,
-                                                    createSystemConfigurationOverride,
-                                                    updateSystemConfigurationOverride,
-                                                    deleteSystemConfigurationOverride,
+                                                    updateSystem,
                                                 }}
                                             />
                                         ) : null}
                                     </div>
-                                    {/* )}
-                                    </StateManager> */}
                                 </>
                             )}
                     </ListWrapper>

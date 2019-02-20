@@ -4,18 +4,22 @@ import SystemInfo from './SystemInfo/SystemInfo';
 import GlazingInfo from './GlazingInfo/GlazingInfo';
 import ValidTypes from './ValidTypes/ValidTypes';
 import SystemOptions from './SystemOptions/SystemOptions';
-import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
+// import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
     TabNavigator,
 } from '../../../../components';
+
+import { system as defaultSystem } from './system-manager/default-system';
+import mergeSystemUpdate from './system-manager/merge-system-update';
+import { _removeFakeIds } from './system-manager/system-actions';
 
 const subroutes = [
     SystemInfo,
     GlazingInfo,
     ValidTypes,
     SystemOptions,
-    InvalidCombinations,
+    // InvalidCombinations,
 ];
 
 export default class SystemDatabase extends Component {
@@ -27,55 +31,81 @@ export default class SystemDatabase extends Component {
     };
 
     state = {
-        systemUpdate: {
-            // system fields
-            id: undefined,
-            manufacturerId: undefined,
-            systemTypeId: undefined,
-            name: undefined,
-            depth: undefined,
-            shimSize: undefined,
-            defaultGlassSize: undefined,
-            defaultGlassBite: undefined,
-            defaultSightline: undefined,
-            inset: undefined,
-            frontInset: undefined,
-            topGap: undefined,
-            bottomGap: undefined,
-            sideGap: undefined,
-            glassGap: undefined,
-            meetingStileGap: undefined,
-            // lists
-            systemOptions: [],
-            invalidSystemConfigurationTypeIds: [],
-            systemConfigurationOverrides: [],
-            // deletion lists
-            systemOptionIdsToDelete: [],
-            invalidSystemConfigurationTypeIdsToDelete: [],
-            systemConfigurationOverridesToDelete: [],
-        },
+        system: defaultSystem,
     };
 
-    save = () => { }
+    updateSystem = (ACTION, payload) => this.setState(state => {
+        const newState = ACTION(state, payload);
+        console.log({ newState });
+        return newState;
+    });
 
-    reset = () => { }
-
-    render = () => {
+    save = async () => {
         const {
-            props,
-            // props: {
-            //     batcher: {
-            //         completeMutations,
-            //         resetMutations,
-            //     },
-            // },
-            save,
+            state: {
+                system,
+            },
+            props: {
+                queryStatus: {
+                    system: {
+                        id,
+                    } = {},
+                },
+                mutations: {
+                    updateEntireSystem,
+                },
+            },
             reset,
         } = this;
 
+        const update = _removeFakeIds(system);
+
+        console.log({ update });
+
+        await updateEntireSystem({
+            system: {
+                ...update,
+                id,
+            },
+        });
+
+        reset();
+    }
+
+    reset = () => this.setState({ system: defaultSystem });
+
+    render = () => {
+        const {
+            state: {
+                system,
+            },
+            props: {
+                queryStatus,
+                mutations,
+            },
+            save,
+            reset,
+            updateSystem,
+        } = this;
+
+        const updatedSystem = mergeSystemUpdate(system, queryStatus);
+
+        console.log({
+            queryStatus,
+            system,
+            updatedSystem,
+        });
+
+        const routeProps = {
+            queryStatus,
+            mutations,
+            system: updatedSystem,
+            updateSystem,
+        };
+
         return (
             <TabNavigator
-                routeProps={props}
+                routeProps={routeProps}
                 routes={subroutes}
             >
                 <div className="bottom-buttons">

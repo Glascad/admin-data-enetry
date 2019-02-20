@@ -82,8 +82,8 @@ export default class ApolloWrapper extends Component {
                     {...query}
                 >
                     {({ refetch, ...status }) => (
-                        console.log(status)
-                        ||
+                        // console.log(status)
+                        // ||
                         registerQueryRefetch(refetch)
                         ||
                         <ApolloWrapper
@@ -97,7 +97,7 @@ export default class ApolloWrapper extends Component {
                                 const queryStatus = Object.keys(batchedMutations)
                                     .reduce((mappedStatus, mutationKey) => {
 
-                                        console.log(`mapping result of ${mutationKey} to props`);
+                                        // console.log(`mapping result of ${mutationKey} to props`);
 
                                         const {
                                             mapMutationArgumentsToProps = (res, props) => props
@@ -154,10 +154,11 @@ export default class ApolloWrapper extends Component {
                                                 },
                                                 mutate,
                                                 mutationKey: mutationKeys[0],
-                                                transformArgumentsBeforeMutation: nextMutation.transformArgumentsBeforeMutation,
+                                                // transformArgumentsBeforeMutation: nextMutation.transformArgumentsBeforeMutation,
                                             })
                                             :
                                             async args => {
+                                                // console.log(args);
                                                 await mutate({
                                                     variables: args,
                                                 });

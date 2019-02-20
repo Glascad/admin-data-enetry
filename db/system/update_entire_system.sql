@@ -56,8 +56,8 @@ BEGIN
     )
     SELECT
         us.id AS system_id,
-        st AS infill_size
-    FROM UNNEST (s.infill_sizes) st
+        iz AS infill_size
+    FROM UNNEST (s.infill_sizes) iz
     ON CONFLICT DO NOTHING;
 
     DELETE FROM system_infill_sizes
@@ -73,8 +73,8 @@ BEGIN
     )
     SELECT
         us.id AS system_id,
-        st AS infill_pocket_size
-    FROM UNNEST (s.infill_pocket_sizes) st
+        ips AS infill_pocket_size
+    FROM UNNEST (s.infill_pocket_sizes) ips
     ON CONFLICT DO NOTHING;
 
     DELETE FROM system_infill_pocket_sizes
@@ -90,8 +90,8 @@ BEGIN
     )
     SELECT
         us.id AS system_id,
-        st AS infill_pocket_type_id
-    FROM UNNEST (s.infill_pocket_type_ids) st
+        ipt AS infill_pocket_type_id
+    FROM UNNEST (s.infill_pocket_type_ids) ipt
     ON CONFLICT DO NOTHING;
 
     DELETE FROM system_infill_pocket_types
@@ -107,8 +107,8 @@ BEGIN
     )
     SELECT
         us.id AS system_id,
-        st AS invalid_configuration_type_id
-    FROM UNNEST (s.invalid_configuration_type_ids) st
+        ict AS invalid_configuration_type_id
+    FROM UNNEST (s.invalid_configuration_type_ids) ict
     ON CONFLICT DO NOTHING;
 
     DELETE FROM invalid_system_configuration_types
@@ -122,7 +122,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides
         LOOP
-            SELECT system_id FROM create_or_update_configuration_override(sco, us.id) INTO ___;
+            SELECT system_id FROM create_or_update_configuration_override(sco, us.id, us.system_type_id) INTO ___;
         END LOOP;
     END IF;
 
@@ -130,7 +130,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides_to_delete
         LOOP
-            SELECT system_id FROM delete_configuration_override(sco, us.id) INTO ___;
+            SELECT system_id FROM delete_configuration_override(sco, us.id, us.system_type_id) INTO ___;
         END LOOP;
     END IF;
 

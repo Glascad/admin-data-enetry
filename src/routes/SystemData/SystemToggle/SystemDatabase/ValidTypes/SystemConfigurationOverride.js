@@ -9,47 +9,71 @@ import {
     presentationLevels,
 } from '../../../../../business-logic';
 
+import ACTIONS from '../system-manager/system-actions';
+
 const isNullOrUndefined = item => item === undefined || item === null;
 
 export default class SystemConfigurationOverride extends Component {
 
     handleChange = (key, value) => {
+        const {
+            props: {
+                _systemConfigurationOverride,
+                _detailType: {
+                    id: detailTypeId,
+                },
+                _configurationType: {
+                    id: configurationTypeId,
+                },
+                defaultValues,
+                updateSystem,
+            },
+        } = this;
         const updatedSystemConfigurationOverride = {
-            ...this.props._systemConfigurationOverride,
+            ..._systemConfigurationOverride,
             [key]: value,
         };
-        const identical = Object.keys(updatedSystemConfigurationOverride)
-            .every(key => {
-                const regex = /Override/;
-                if (!key.match(regex)) return true;
-                else {
-                    const updatedValue = updatedSystemConfigurationOverride[key];
-                    const previousValue = this.props.defaultValues[key.replace(regex, '')];
-                    return (
-                        isNullOrUndefined(updatedValue)
-                        ||
-                        updatedValue === previousValue
-                    );
-                }
-            });
+        const regex = /Override/;
+        const identical = Object.entries(updatedSystemConfigurationOverride)
+            .every(([key, value]) => !key.match(regex)
+                ||
+                typeof value === 'object'
+                ||
+                isNullOrUndefined(updatedSystemConfigurationOverride[key])
+                ||
+                updatedSystemConfigurationOverride[key] === defaultValues[key.replace(regex, '')]
+            );
 
         console.log({
             updatedSystemConfigurationOverride,
             identical,
-            defaultValues: this.props.defaultValues,
+            defaultValues,
         });
 
-        // if the override is identical to the systemtypedetailtypeconfigurationtype
-        if (identical)
-            this.props.deleteSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        const {
+            mirrorableOverride,
+            requiredOverride,
+            presentationLevelOverride,
+            overrideLevelOverride,
+        } = updatedSystemConfigurationOverride;
 
-        // if we are working with a newly-created override
-        else if (typeof updatedSystemConfigurationOverride.nodeId === 'number')
-            this.props.createSystemConfigurationOverride(updatedSystemConfigurationOverride);
-
-        // if we are working with a previously-created override
-        else
-            this.props.updateSystemConfigurationOverride(updatedSystemConfigurationOverride);
+        if (identical) {
+            // if the override is identical to the systemtypedetailtypeconfigurationtype
+            updateSystem(ACTIONS.OVERRIDE.DELETE, {
+                detailTypeId,
+                configurationTypeId,
+            });
+        } else {
+            // if we are working with a newly-created override
+            updateSystem(ACTIONS.OVERRIDE.UPDATE, {
+                detailTypeId,
+                configurationTypeId,
+                mirrorableOverride,
+                requiredOverride,
+                presentationLevelOverride,
+                overrideLevelOverride,
+            });
+        }
     }
 
     render = () => {
@@ -70,6 +94,8 @@ export default class SystemConfigurationOverride extends Component {
             },
             handleChange,
         } = this;
+
+        console.log(this.props);
 
         return (
             <GroupingBox

@@ -77,3 +77,27 @@ entire_system AS (
     system_options entire_system_option[],
     system_option_ids_to_delete INTEGER[]
 );
+
+
+CREATE TYPE
+entire_container AS (
+    id INTEGER,
+    parent_container_id INTEGER,
+    horizontal BOOLEAN,
+    size FLOAT,
+    infill VARCHAR(50),
+    left_frame_id INTEGER,
+    right_frame_id INTEGER,
+    top_frame_id INTEGER,
+    bottom_frame_id INTEGER
+);
+
+CREATE TYPE
+entire_elevation AS (
+    id INTEGER,
+    name VARCHAR(50),
+    horizontal_rough_opening FLOAT,
+    vertical_rough_opening FLOAT,
+    finished_floor_offset FLOAT,
+    elevation_containers entire_container[]
+);

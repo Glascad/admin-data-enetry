@@ -413,7 +413,7 @@ system_infill_pocket_types(
 CREATE TABLE
 system_infill_pocket_sizes(
     system_id INTEGER REFERENCES systems,
-    infill_pocket_size INTEGER REFERENCES infill_pocket_sizes,
+    infill_pocket_size FLOAT REFERENCES infill_pocket_sizes,
     PRIMARY KEY (system_id, infill_pocket_size)
 );
 

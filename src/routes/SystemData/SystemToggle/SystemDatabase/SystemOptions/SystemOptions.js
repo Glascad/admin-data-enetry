@@ -3,52 +3,45 @@ import React from 'react';
 import {
     Input,
     ListWrapper,
+    TitleBar,
 } from '../../../../../components';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
+
+import ACTIONS from '../system-manager/system-actions';
 
 export default function SystemOptions({
+    system: {
+        _systemOptions = [],
+    },
     queryStatus: {
-        system: {
-            id: systemId,
-            _systemOptions = [],
-        } = {},
         allConfigurationTypes = [],
     },
-    mutations: {
-        createSystemOption,
-        updateSystemOption,
-        deleteSystemOption,
-        createSystemOptionConfigurationType,
-        deleteSystemOptionConfigurationType,
-        createOptionValue,
-        deleteOptionValue,
-    }
+    updateSystem,
 }) {
     console.log(arguments[0]);
     return (
         <ListWrapper
             title="System Options"
             items={_systemOptions}
+            identifier="id"
             mapPillProps={({
-                name
+                name,
+                id,
             }) => ({
-                title: name
+                title: name,
             })}
-            onCreate={(_, { input }) => createSystemOption({
-                systemId,
+            onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.CREATE, {
                 name: input,
             })}
-            onUpdate={({ arguments: { nodeId } }, { input }) => updateSystemOption({
-                nodeId,
+            onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.OPTION.UPDATE, {
+                optionId: id,
                 name: input,
             })}
-            onDelete={({ arguments: { nodeId } }) => ({
-                nodeId,
+            onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.OPTION.DELETE, {
+                optionId: id,
             })}
         >
             {({
-                nodeId,
-                id: systemOptionId,
+                id: optionId,
                 name,
                 presentationLevel,
                 overrideLevel,
@@ -73,10 +66,10 @@ export default function SystemOptions({
                                         value: n,
                                         label: n,
                                     })),
-                                    onChange: ({ value }) => updateSystemOption({
-                                        nodeId,
-                                        presentationLevel: value
-                                    })
+                                    onChange: ({ value }) => updateSystem(ACTIONS.OPTION.UPDATE, {
+                                        optionId,
+                                        presentationLevel: value,
+                                    }),
                                 }}
                             />
                             <Input
@@ -91,22 +84,13 @@ export default function SystemOptions({
                                         value: n,
                                         label: n,
                                     })),
-                                    onChange: ({ value }) => updateSystemOption({
-                                        nodeId,
-                                        overrideLevel: value
-                                    })
+                                    onChange: ({ value }) => updateSystem(ACTIONS.OPTION.UPDATE, {
+                                        optionId,
+                                        overrideLevel: value,
+                                    }),
                                 }}
                             />
                         </div>
-                        {/* <Input
-                            label="Mirrorable"
-                            checked={mirrorable}
-                            type="checkbox"
-                            onChange={({ target: { checked } }) => updateSystemOption({
-                                nodeId,
-                                mirrorable: checked
-                            })}
-                        /> */}
                         <ListWrapper
                             title="Affected Configuration Types"
                             items={_systemOptionConfigurationTypes
@@ -117,36 +101,39 @@ export default function SystemOptions({
                             mapPillProps={({ type }) => ({
                                 title: type
                             })}
-                            onCreate={_configurationType => createSystemOptionConfigurationType({
-                                systemOptionId,
-                                configurationTypeId: _configurationType.id,
-                                _configurationType
-                            })}
-                            onDelete={({ systomOptionConfigurationTypeNID, ..._configurationType }) => deleteSystemOptionConfigurationType({
-                                nodeId: systomOptionConfigurationTypeNID,
-                                systemOptionId,
-                                configurationTypeId: _configurationType.id,
-                                _configurationType,
+                            onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.OPTION.UPDATE_LIST, {
+                                optionId,
+                                configurationTypeIds: {
+                                    addedItems: addedItems.map(({ id }) => id),
+                                    deletedItems: deletedItems.map(({ id }) => id),
+                                },
                             })}
                             multiSelect={{
                                 title: "",
-                                // initialItems: [],
                                 allItems: allConfigurationTypes,
                             }}
                         />
-                        <div className="unfinished">
-                            <ListWrapper
-                                title="Values"
-                                items={_optionValues}
-                                mapPillProps={({ name }) => ({
-                                    title: name
-                                })}
-                                onCreate={(_, { input }) => createOptionValue({
-                                    systemOptionId,
-                                    name: input
-                                })}
-                            />
-                        </div>
+                        <ListWrapper
+                            title="Values"
+                            items={_optionValues}
+                            identifier="id"
+                            mapPillProps={({ name, id }) => ({
+                                title: name,
+                            })}
+                            onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.VALUE.CREATE, {
+                                optionId,
+                                name: input,
+                            })}
+                            onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.OPTION.VALUE.UPDATE, {
+                                optionId,
+                                valueId: id,
+                                name: input,
+                            })}
+                            onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.OPTION.VALUE.DELETE, {
+                                optionId,
+                                valueId: id,
+                            })}
+                        />
                     </>
                 )}
         </ListWrapper>

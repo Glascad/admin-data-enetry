@@ -3,29 +3,28 @@ import React from 'react';
 import {
     Input,
     ListWrapper,
+    TitleBar,
 } from '../../../../../components';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
+
+import ACTIONS from '../system-manager/system-actions';
 
 export default function GlazingInfo({
+    system: {
+        defaultGlassBite = 0,
+        defaultGlassSize = 0,
+        _systemInfillSizes = [],
+        _systemInfillPocketTypes = [],
+        _systemInfillPocketSizes = [],
+    },
     queryStatus: {
-        system: {
-            nodeId: systemNID,
-            id: systemId,
-            defaultGlassBite = 0,
-            defaultGlassSize = 0,
-            _systemInfillSizes = [],
-            _systemInfillPocketTypes = [],
-            _systemInfillPocketSizes = [],
-        } = {},
         allInfillSizes = [],
         allInfillPocketTypes = [],
         allInfillPocketSizes = [],
     },
-    mutations: {
-        updateEntireSystem,
-    },
+    updateSystem,
 }) {
     console.log(arguments[0]);
+    console.log(_systemInfillPocketTypes.map(({ _infillPocketType }) => ({ ..._infillPocketType })));
     return (
         <>
             <TitleBar
@@ -35,10 +34,8 @@ export default function GlazingInfo({
                 label="Glass Bite"
                 type="number"
                 value={defaultGlassBite}
-                onChange={({ target: { value } }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    defaultGlassBite: value,
+                onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                    defaultGlassBite: +value,
                 })}
             />
             <ListWrapper
@@ -51,28 +48,27 @@ export default function GlazingInfo({
                 multiSelect={{
                     allItems: allInfillSizes,
                 }}
-                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    newInfillSizes: addedItems.map(({ size }) => size),
-                    oldInfillSizes: deletedItems.map(({ size }) => size),
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                    infillSizes: {
+                        addedItems: addedItems.map(({ size }) => size),
+                        deletedItems: deletedItems.map(({ size }) => size),
+                    },
                 })}
             />
             <Input
                 label="Default Infill Material Size"
                 select={{
                     options: _systemInfillSizes
-                        .map(({ size }) => ({
-                            value: size,
-                            label: size,
+                        .map(({ infillSize }) => ({
+                            value: infillSize,
+                            label: infillSize,
                         })),
                     value: {
                         label: defaultGlassSize,
                         value: defaultGlassSize,
                     },
-                    onChange: ({ value }) => updateEntireSystem({
-                        nodeId: systemNID,
-                        defaultGlassSize: value,
+                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE, {
+                        defaultGlassSize: +value,
                     }),
                 }}
             />
@@ -86,11 +82,11 @@ export default function GlazingInfo({
                 mapPillProps={({ type }) => ({
                     title: type,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    newInfillPocketTypeIds: addedItems.map(({ id }) => id),
-                    oldInfillPocketTypeIds: deletedItems.map(({ id }) => id),
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                    infillPocketTypeIds: {
+                        addedItems: addedItems.map(({ id }) => id),
+                        deletedItems: deletedItems.map(({ id }) => id),
+                    },
                 })}
             />
             <ListWrapper
@@ -98,16 +94,16 @@ export default function GlazingInfo({
                 items={_systemInfillPocketSizes.map(sips => ({ ...sips, size: sips.infillPocketSize }))}
                 identifier="size"
                 multiSelect={{
-                    allItems: allInfillPocketSizes
+                    allItems: allInfillPocketSizes,
                 }}
                 mapPillProps={({ size }) => ({
-                    title: `${size}"`
+                    title: `${size}"`,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    newInfillPocketSizes: addedItems.map(({ size }) => size),
-                    oldInfillPocketSizes: deletedItems.map(({ size }) => size),
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                    infillPocketSizes: {
+                        addedItems: addedItems.map(({ size }) => +size),
+                        deletedItems: deletedItems.map(({ size }) => +size),
+                    },
                 })}
             />
         </>

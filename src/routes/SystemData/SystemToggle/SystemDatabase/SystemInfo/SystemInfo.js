@@ -1,34 +1,31 @@
 import React from 'react';
 
+
 import {
     Input,
     ListWrapper,
+    TitleBar,
 } from '../../../../../components';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
+import ACTIONS from '../system-manager/system-actions';
 
 export default function SystemInfo({
-    queryStatus: {
-        system: {
-            nodeId: systemNID,
-            id: systemId,
-            name = "",
-            depth = 0,
-            defaultSightline = 0,
-            shimSize = 0,
-            _systemType: {
-                id: systemTypeId,
-                type: systemTypeName = "",
-            } = {},
-            _systemSystemTags = [],
+    system: {
+        name = "",
+        depth = 0,
+        defaultSightline = 0,
+        shimSize = 0,
+        _systemType: {
+            id: systemTypeId,
+            type: systemTypeName = "",
         } = {},
+        _systemSystemTags = [],
+    },
+    queryStatus: {
         allSystemTypes = [],
         allSystemTags = [],
     },
-    mutations: {
-        updateEntireSystem,
-    },
+    updateSystem,
 }) {
-    console.log(arguments[0]);
     return (
         <>
             <TitleBar
@@ -37,11 +34,7 @@ export default function SystemInfo({
             <Input
                 label="Name"
                 value={name}
-                onChange={({ target: { value } }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    newName: value,
-                })}
+                onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, { name: value })}
             />
             <Input
                 label="System Type"
@@ -54,11 +47,7 @@ export default function SystemInfo({
                         value: id,
                         label: type,
                     })),
-                    onChange: ({ value }) => updateEntireSystem({
-                        id: systemId,
-                        nodeId: systemNID,
-                        newSystemTypeId: value,
-                    }),
+                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE, { systemTypeId: value }),
                 }}
             />
             <ListWrapper
@@ -68,11 +57,11 @@ export default function SystemInfo({
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateEntireSystem({
-                    id: systemId,
-                    nodeId: systemNID,
-                    newSystemTagIds: addedItems.map(({ id }) => id),
-                    oldSystemTagIds: deletedItems.map(({ id }) => id),
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                    systemTagIds: {
+                        addedItems: addedItems.map(({ id }) => id),
+                        deletedItems: deletedItems.map(({ id }) => id),
+                    },
                 })}
                 multiSelect={{
                     allItems: allSystemTags,
@@ -83,30 +72,24 @@ export default function SystemInfo({
                     label="System Depth"
                     type="number"
                     value={depth}
-                    onChange={({ target: { value } }) => updateEntireSystem({
-                        id: systemId,
-                        nodeId: systemNID,
-                        newDepth: value
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                        depth: +value,
                     })}
                 />
                 <Input
                     label="System Sightline"
                     type="number"
                     value={defaultSightline}
-                    onChange={({ target: { value } }) => updateEntireSystem({
-                        id: systemId,
-                        nodeId: systemNID,
-                        newDefaultSightline: value,
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                        defaultSightline: +value,
                     })}
                 />
                 <Input
                     label="Caulk Joint Size"
                     type="number"
                     value={shimSize}
-                    onChange={({ target: { value } }) => updateEntireSystem({
-                        id: systemId,
-                        nodeId: systemNID,
-                        newShimSize: value,
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                        shimSize: +value,
                     })}
                 />
             </div>

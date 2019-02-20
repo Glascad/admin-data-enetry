@@ -1,181 +1,53 @@
 import gql from 'graphql-tag';
+import { ENTIRE_SYSTEM } from '../../../../graphql/fragments';
 
-export default gql`mutation UpdateEntireSystem($updateEntireSystemInput:UpdateEntireSystemInput){
-    updateEntireSystem(input:$updateEntireSystemInput){
-        system:systems{
-            nodeId
-            id
-            name
-            defaultGlassSize
-            defaultGlassBite
-            depth
-            defaultSightline
-            shimSize
-            manufacturerByManufacturerId{
-                nodeId
-                id
-                name
-            }
-            systemTypeBySystemTypeId{
-                nodeId
-                id
-                type
-                systemTypeDetailTypeConfigurationTypesBySystemTypeId{
-                    nodes{
-                        nodeId
-                        mirrorable
-                        required
-                        presentationLevel
-                        overrideLevel
-                        systemTypeId
-                        detailTypeId
-                        detailTypeByDetailTypeId{
-                            nodeId
-                            id
-                            type
-                        }
-                        configurationTypeId
-                        configurationTypeByConfigurationTypeId{
-                            nodeId
-                            id
-                            type
-                            door
-                        }
-                    }
-                }
-            }
-            systemConfigurationOverridesBySystemId{
-                nodes{
-                    nodeId
-                    mirrorableOverride
-                    requiredOverride
-                    presentationLevelOverride
-                    overrideLevelOverride
-                    systemId
-                    systemTypeId
-                    detailTypeId
-                    configurationTypeId
-                }
-            }
-            systemSystemTagsBySystemId{
-                nodes{
-                    nodeId
-                    systemTagBySystemTagId{
-                        nodeId
-                        id
-                        tag
-                    }
-                }
-            }
-            systemInfillSizesBySystemId{
-                nodes{
-                    nodeId
-                    infillSize
-                    infillSizeByInfillSize{
-                        nodeId
-                        size
-                    }
-                }
-            }
-            systemInfillPocketTypesBySystemId{
-                nodes{
-                    nodeId
-                    infillPocketTypeByInfillPocketTypeId{
-                        nodeId
-                        id
-                        type
-                        captured
-                        description
-                    }
-                }
-            }
-            systemInfillPocketSizesBySystemId{
-                nodes{
-                    nodeId
-                    infillPocketSizeByInfillPocketSize{
-                        nodeId
-                        size
-                    }
-                }
-            }
-            invalidSystemConfigurationTypesBySystemId{
-                nodes{
-                    nodeId
-                    systemId
-                    invalidConfigurationTypeId
-                    configurationTypeByInvalidConfigurationTypeId{
-                        nodeId
-                        id
-                        type
-                        door
-                    }
-                }
-            }
-            systemOptionsBySystemId {
-                nodes {
-                    nodeId
-                    id
-                    name
-                    systemId
-                    optionOrder
-                    overrideLevel
-                    presentationLevel
-                    optionValuesBySystemOptionId {
-                        nodes {
-                            nodeId
-                            id
-                            name
-                            value
-                        }
-                    }
-                    systemOptionConfigurationTypesBySystemOptionId{
-                        nodes{
-                            nodeId
-                            configurationTypeId
-                            configurationTypeByConfigurationTypeId{
-                                nodeId
-                                id
-                                type
-                                door
-                            }
-                        }
-                    }
-                }
-            }
-            optionCombinationsBySystemId{
-                nodes{
-                    nodeId
-                    id
-                    invalid
-                    optionCombinationConfigurationTypesByOptionCombinationId{
-                        nodes{
-                            nodeId
-                            configurationTypeByConfigurationTypeId{
-                                nodeId
-                                id
-                                type
-                                door
-                            }
-                        }
-                    }
-                    optionCombinationOptionValuesByOptionCombinationId{
-                        nodes{
-                            nodeId
-                            optionValueByOptionValueId{
-                                nodeId
-                                id
-                                name
-                                value
-                                systemOptionBySystemOptionId{
-                                    nodeId
-                                    id
-                                    name
-                                }
-                            }
-                        }
-                    }
+export default {
+    mutation: gql`
+        mutation UpdateEntireSystem($system: EntireSystemInput!) {
+            updateEntireSystem(input: {
+                system: $system
+            }) {
+                system: systems {
+                    ...EntireSystem
                 }
             }
         }
-    }
-}`;
+        ${ENTIRE_SYSTEM}
+    `,
+};
+
+
+/**
+
+id: Int
+manufacturerId: Int
+systemTypeId: Int
+name: String
+depth: Float
+defaultGlassSize: Float
+defaultGlassBite: Float
+defaultSightline: Float
+topGap: Float
+bottomGap: Float
+sideGap: Float
+meetingStileGap: Float
+inset: Float
+glassGap: Float
+shimSize: Float
+frontInset: Boolean
+systemTagIds: [Int]
+systemTagIdsToDelete: [Int]
+infillSizes: [Float]
+infillSizesToDelete: [Float]
+infillPocketTypeIds: [Int]
+infillPocketTypeIdsToDelete: [Int]
+infillPocketSizes: [Float]
+infillPocketSizesToDelete: [Float]
+invalidConfigurationTypeIds: [Int]
+invalidConfigurationTypeIdsToDelete: [Int]
+configurationOverrides: [EntireSystemConfigurationOverrideInput]
+configurationOverridesToDelete: [EntireSystemConfigurationOverrideInput]
+systemOptions: [EntireSystemOptionInput]
+systemOptionIdsToDelete: [Int]
+
+ */

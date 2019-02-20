@@ -62,8 +62,10 @@ export default function SystemTypes() {
                                     }}
                                     items={_systemTypeDetailTypeConfigurationTypes
                                         .filter(({
-                                            _configurationType,
-                                        }) => !_configurationType)
+                                            _configurationType: {
+                                                id,
+                                            },
+                                        }) => !id)
                                         .map(({
                                             nodeId,
                                             _detailType,
@@ -103,8 +105,10 @@ export default function SystemTypes() {
                                                         _detailType: {
                                                             nodeId
                                                         },
-                                                        _configurationType,
-                                                    }) => _configurationType && nodeId === detailTypeNID)
+                                                        _configurationType: {
+                                                            id,
+                                                        },
+                                                    }) => id && nodeId === detailTypeNID)
                                                     .map(({
                                                         nodeId,
                                                         _configurationType,
