@@ -18,7 +18,7 @@ CREATE TYPE
 entire_system_option AS (
     id INTEGER,
     system_id INTEGER,
-    name VARCHAR(50),
+    name TEXT,
     presentation_level INTEGER,
     override_level INTEGER,
     option_order INTEGER,
@@ -46,7 +46,7 @@ entire_system AS (
     id INTEGER,
     manufacturer_id INTEGER,
     system_type_id INTEGER,
-    name VARCHAR(50),
+    name TEXT,
     depth FLOAT,
     default_glass_size FLOAT,
     default_glass_bite FLOAT,
@@ -80,24 +80,52 @@ entire_system AS (
 
 
 CREATE TYPE
-entire_container AS (
+entire_lite AS (
     id INTEGER,
-    parent_container_id INTEGER,
-    horizontal BOOLEAN,
-    size FLOAT,
-    infill VARCHAR(50),
-    left_frame_id INTEGER,
-    right_frame_id INTEGER,
-    top_frame_id INTEGER,
-    bottom_frame_id INTEGER
+    elevation_id INTEGER,
+    horizontal_daylight_opening FLOAT,
+    vertical_daylight_opening FLOAT,
+    infill_material TEXT,
+    left_lite_id INTEGER,
+    right_lite_id INTEGER,
+    top_lite_id INTEGER,
+    bottom_lite_id INTEGER,
+    lite_option_value_ids INTEGER[],
+    left_frame entire_frame,
+    right_frame entire_frame,
+    top_frame entire_frame,
+    top_frame entire_frame
+    -- left_frame_option_value_ids INTEGER[],
+    -- right_frame_option_value_ids INTEGER[],
+    -- top_frame_option_value_ids INTEGER[],
+    -- bottom_frame_option_value_ids INTEGER[]
+    glass_bite_override FLOAT,
+    glass_size_override FLOAT
+    -- other dimension overrides here
+);
+
+CREATE TYPE
+entire_frame AS (
+    -- id INTEGER,
+    -- left_lite_id INTEGER,
+    -- right_lite_id INTEGER,
+    -- top_lite_id INTEGER,
+    -- bottom_lite_id INTEGER,
+    detail_type_id INTEGER,
+    option_value_ids INTEGER[],
+    -- non-required configuration types
+    configuration_type_ids INTEGER[],
+    depth_override FLOAT,
+    sightline_override FLOAT
+    -- other dimension overrides here
 );
 
 CREATE TYPE
 entire_elevation AS (
     id INTEGER,
-    name VARCHAR(50),
+    name TEXT,
     horizontal_rough_opening FLOAT,
     vertical_rough_opening FLOAT,
     finished_floor_offset FLOAT,
-    elevation_containers entire_container[]
+    lites entire_lite[],
 );
