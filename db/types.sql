@@ -1,8 +1,9 @@
-DROP TYPE IF EXISTS entire_option_value CASCADE;
-DROP TYPE IF EXISTS entire_system_option CASCADE;
-DROP TYPE IF EXISTS entire_invalid_system_configuration_type CASCADE;
-DROP TYPE IF EXISTS entire_system_configuration_override CASCADE;
-DROP TYPE IF EXISTS entire_system CASCADE;
+
+CREATE TYPE
+coordinate (
+    x FLOAT,
+    y FLOAT
+);
 
 CREATE TYPE
 entire_option_value AS (

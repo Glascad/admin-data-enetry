@@ -14,6 +14,7 @@ import {
 } from './elevation-manager/default-elevation';
 
 import mergeElevation from './elevation-manager/merge-elevation';
+import calculatePlacement from './elevation-manager/calculate-placement';
 
 const subroutes = [
     ElevationInfo,
@@ -39,11 +40,13 @@ export default class Elevations extends Component {
     render = () => {
         const {
             state: {
-                elevation,
+                elevation: elevationUpdate,
             },
             props,
             props: {
-                queryStatus,
+                queryStatus: {
+                    allElevations: [elevation] = [],
+                },
             },
             cancel,
             reset,
@@ -51,13 +54,18 @@ export default class Elevations extends Component {
             updateElevation,
         } = this;
 
-        const updatedElevation = mergeElevation(elevation, queryStatus);
 
-        const routeProps = {
-            ...props,
-            updatedElevation,
-            updateElevation,
-        };
+        // const updatedElevation = mergeElevation(elevationUpdate, { elevation });
+
+        // const routeProps = {
+        //     ...props,
+        //     updatedElevation,
+        //     updateElevation,
+        // };
+
+        const placedElevation = calculatePlacement({ elevation });
+
+        console.log(this.props);
 
         return (
             <>
@@ -65,11 +73,11 @@ export default class Elevations extends Component {
                     title="Elevation Info"
                 />
                 <TabNavigator
-                    routeProps={routeProps}
+                    routeProps={placedElevation}
                     routes={subroutes}
                 >
                     <ElevationPreview
-                        elevation={elevation}
+                        elevation={placedElevation}
                     />
                     <div className="bottom-buttons">
                         <div className="buttons-left">

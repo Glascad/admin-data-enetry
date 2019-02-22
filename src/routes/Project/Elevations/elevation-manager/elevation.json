@@ -1,0 +1,227 @@
+{
+    "elevation": {
+        "__typename": "Elevation",
+        "nodeId": "WyJlbGV2YXRpb25zIiwxXQ==",
+        "id": 1,
+        "name": "TEST",
+        "finishedFloorOffset": 0,
+        "roughOpening": {
+            "x": 360,
+            "y": 360,
+            "__typename": "Coordinate"
+        },
+        "_elevationContainers": [
+            {
+                "__typename": "ElevationContainer",
+                "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMV0=",
+                "id": 1,
+                "original": true,
+                "contents": "GLASS",
+                "daylightOpening": {
+                    "x": 165,
+                    "y": 165,
+                    "__typename": "Coordinate"
+                },
+                "firstContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsM10=",
+                        "vertical": true,
+                        "firstContainerId": 1,
+                        "secondContainerId": 3,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsOF0=",
+                        "vertical": false,
+                        "firstContainerId": 1,
+                        "secondContainerId": 2,
+                        "_detailOptionValues": []
+                    }
+                ],
+                "secondContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMV0=",
+                        "vertical": true,
+                        "secondContainerId": 1,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsN10=",
+                        "vertical": false,
+                        "secondContainerId": 1,
+                        "_detailOptionValues": []
+                    }
+                ]
+            },
+            {
+                "__typename": "ElevationContainer",
+                "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMl0=",
+                "id": 2,
+                "original": false,
+                "contents": "GLASS",
+                "daylightOpening": {
+                    "x": 165,
+                    "y": 165,
+                    "__typename": "Coordinate"
+                },
+                "firstContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNF0=",
+                        "vertical": true,
+                        "firstContainerId": 2,
+                        "secondContainerId": 4,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsOV0=",
+                        "vertical": false,
+                        "firstContainerId": 2,
+                        "_detailOptionValues": []
+                    }
+                ],
+                "secondContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMl0=",
+                        "vertical": true,
+                        "secondContainerId": 2,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsOF0=",
+                        "vertical": false,
+                        "firstContainerId": 1,
+                        "secondContainerId": 2,
+                        "_detailOptionValues": []
+                    }
+                ]
+            },
+            {
+                "__typename": "ElevationContainer",
+                "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsM10=",
+                "id": 3,
+                "original": false,
+                "contents": "GLASS",
+                "daylightOpening": {
+                    "x": 165,
+                    "y": 165,
+                    "__typename": "Coordinate"
+                },
+                "firstContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNV0=",
+                        "vertical": true,
+                        "firstContainerId": 3,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTFd",
+                        "vertical": false,
+                        "firstContainerId": 3,
+                        "secondContainerId": 4,
+                        "_detailOptionValues": []
+                    }
+                ],
+                "secondContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsM10=",
+                        "vertical": true,
+                        "firstContainerId": 1,
+                        "secondContainerId": 3,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTBd",
+                        "vertical": false,
+                        "secondContainerId": 3,
+                        "_detailOptionValues": []
+                    }
+                ]
+            },
+            {
+                "__typename": "ElevationContainer",
+                "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNF0=",
+                "id": 4,
+                "original": false,
+                "contents": "GLASS",
+                "daylightOpening": {
+                    "x": 165,
+                    "y": 165,
+                    "__typename": "Coordinate"
+                },
+                "firstContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNl0=",
+                        "vertical": true,
+                        "firstContainerId": 4,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTJd",
+                        "vertical": false,
+                        "firstContainerId": 4,
+                        "_detailOptionValues": []
+                    }
+                ],
+                "secondContainerDetails": [
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNF0=",
+                        "vertical": true,
+                        "firstContainerId": 2,
+                        "secondContainerId": 4,
+                        "_detailOptionValues": []
+                    },
+                    {
+                        "__typename": "ContainerDetail",
+                        "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTFd",
+                        "vertical": false,
+                        "firstContainerId": 3,
+                        "secondContainerId": 4,
+                        "_detailOptionValues": []
+                    }
+                ]
+            }
+        ],
+        "placedContainers": [
+            {
+                "x": 10,
+                "y": 10,
+                "height": 165,
+                "width": 165
+            },
+            {
+                "x": 10,
+                "y": 10,
+                "height": 165,
+                "width": 165
+            },
+            {
+                "x": 10,
+                "y": 10,
+                "height": 165,
+                "width": 165
+            },
+            {
+                "x": 10,
+                "y": 10,
+                "height": 165,
+                "width": 165
+            }
+        ],
+        "placedFrames": []
+    }
+}
