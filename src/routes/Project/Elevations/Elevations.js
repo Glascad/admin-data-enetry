@@ -63,7 +63,7 @@ export default class Elevations extends Component {
         //     updateElevation,
         // };
 
-        const placedElevation = calculatePlacement({ elevation });
+        const placedElevation = calculatePlacement(elevation);
 
         console.log(this.props);
 
@@ -73,7 +73,7 @@ export default class Elevations extends Component {
                     title="Elevation Info"
                 />
                 <TabNavigator
-                    routeProps={placedElevation}
+                    routeProps={{ elevation: placedElevation }}
                     routes={subroutes}
                 >
                     <ElevationPreview
