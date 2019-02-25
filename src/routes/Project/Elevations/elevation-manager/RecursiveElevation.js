@@ -141,40 +141,41 @@ class RecursiveContainer {
     }
 
     get placement() {
-        return {
-            height: this.daylightOpening.y,
-            width: this.daylightOpening.x,
-            x: this.elevation.sightline + (
-                (
-                    this.bottomLeftOffset
-                    &&
-                    this.bottomLeftOffset.x
-                ) || (
-                    this.leftContainers[0]
-                    &&
+        return this.__placement || (
+            this.__placement = {
+                height: this.daylightOpening.y,
+                width: this.daylightOpening.x,
+                x: this.elevation.sightline + (
                     (
-                        this.leftContainers[0].placement.x
-                        +
-                        this.leftContainers[0].daylightOpening.x
-                    )
-                ) || 0
-            ),
-            y: this.elevation.sightline + (
-                (
-                    this.bottomLeftOffset
-                    &&
-                    this.bottomLeftOffset.y
-                ) || (
-                    this.bottomContainers[0]
-                    &&
+                        this.bottomLeftOffset
+                        &&
+                        this.bottomLeftOffset.x
+                    ) || (
+                        this.leftContainers[0]
+                        &&
+                        (
+                            this.leftContainers[0].placement.x
+                            +
+                            this.leftContainers[0].daylightOpening.x
+                        )
+                    ) || 0
+                ),
+                y: this.elevation.sightline + (
                     (
-                        this.bottomContainers[0].placement.y
-                        +
-                        this.bottomContainers[0].daylightOpening.y
-                    )
-                ) || 0
-            ),
-        }
+                        this.bottomLeftOffset
+                        &&
+                        this.bottomLeftOffset.y
+                    ) || (
+                        this.bottomContainers[0]
+                        &&
+                        (
+                            this.bottomContainers[0].placement.y
+                            +
+                            this.bottomContainers[0].daylightOpening.y
+                        )
+                    ) || 0
+                ),
+            });
     }
 }
 
