@@ -20,7 +20,8 @@ elevation_containers (
     elevation_id INTEGER REFERENCES elevations,
     original BOOLEAN DEFAULT FALSE,
     contents VARCHAR(50),
-    daylight_opening COORDINATE
+    daylight_opening COORDINATE,
+    bottom_left_offset COORDINATE
 );
 
 CREATE TABLE

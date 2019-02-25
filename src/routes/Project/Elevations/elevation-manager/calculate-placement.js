@@ -1,4 +1,4 @@
-import { RecursiveElevation } from "./recurse-elevation";
+import { RecursiveElevation } from "./RecursiveElevation";
 
 export default function calculatePlacement(elevation) {
 
@@ -7,15 +7,18 @@ export default function calculatePlacement(elevation) {
 
     window.temp1 = recursiveElevation;
 
-    const originalContainer = Object.values(recursiveElevation)
-        .find(({ original }) => original);
-
     console.log({
         recursiveElevation,
-        originalContainer,
     });
 
-    return elevation;
+    const placedContainers = recursiveElevation.ids.map(id => recursiveElevation[id].placement);
+
+    console.log({ placedContainers });
+
+    return {
+        ...elevation,
+        placedContainers,
+    };
 
     // return {
     //     ...elevation,

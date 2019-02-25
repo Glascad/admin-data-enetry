@@ -80,53 +80,53 @@ entire_system AS (
 );
 
 
-CREATE TYPE
-entire_lite AS (
-    id INTEGER,
-    elevation_id INTEGER,
-    horizontal_daylight_opening FLOAT,
-    vertical_daylight_opening FLOAT,
-    infill_material TEXT,
-    left_lite_id INTEGER,
-    right_lite_id INTEGER,
-    top_lite_id INTEGER,
-    bottom_lite_id INTEGER,
-    lite_option_value_ids INTEGER[],
-    left_frame entire_frame,
-    right_frame entire_frame,
-    top_frame entire_frame,
-    top_frame entire_frame
-    -- left_frame_option_value_ids INTEGER[],
-    -- right_frame_option_value_ids INTEGER[],
-    -- top_frame_option_value_ids INTEGER[],
-    -- bottom_frame_option_value_ids INTEGER[]
-    glass_bite_override FLOAT,
-    glass_size_override FLOAT
-    -- other dimension overrides here
-);
+-- CREATE TYPE
+-- entire_lite AS (
+--     id INTEGER,
+--     elevation_id INTEGER,
+--     horizontal_daylight_opening FLOAT,
+--     vertical_daylight_opening FLOAT,
+--     infill_material TEXT,
+--     left_lite_id INTEGER,
+--     right_lite_id INTEGER,
+--     top_lite_id INTEGER,
+--     bottom_lite_id INTEGER,
+--     lite_option_value_ids INTEGER[],
+--     left_frame entire_frame,
+--     right_frame entire_frame,
+--     top_frame entire_frame,
+--     top_frame entire_frame
+--     -- left_frame_option_value_ids INTEGER[],
+--     -- right_frame_option_value_ids INTEGER[],
+--     -- top_frame_option_value_ids INTEGER[],
+--     -- bottom_frame_option_value_ids INTEGER[]
+--     glass_bite_override FLOAT,
+--     glass_size_override FLOAT
+--     -- other dimension overrides here
+-- );
 
-CREATE TYPE
-entire_frame AS (
-    -- id INTEGER,
-    -- left_lite_id INTEGER,
-    -- right_lite_id INTEGER,
-    -- top_lite_id INTEGER,
-    -- bottom_lite_id INTEGER,
-    detail_type_id INTEGER,
-    option_value_ids INTEGER[],
-    -- non-required configuration types
-    configuration_type_ids INTEGER[],
-    depth_override FLOAT,
-    sightline_override FLOAT
-    -- other dimension overrides here
-);
+-- CREATE TYPE
+-- entire_frame AS (
+--     -- id INTEGER,
+--     -- left_lite_id INTEGER,
+--     -- right_lite_id INTEGER,
+--     -- top_lite_id INTEGER,
+--     -- bottom_lite_id INTEGER,
+--     detail_type_id INTEGER,
+--     option_value_ids INTEGER[],
+--     -- non-required configuration types
+--     configuration_type_ids INTEGER[],
+--     depth_override FLOAT,
+--     sightline_override FLOAT
+--     -- other dimension overrides here
+-- );
 
-CREATE TYPE
-entire_elevation AS (
-    id INTEGER,
-    name TEXT,
-    horizontal_rough_opening FLOAT,
-    vertical_rough_opening FLOAT,
-    finished_floor_offset FLOAT,
-    lites entire_lite[],
-);
+-- CREATE TYPE
+-- entire_elevation AS (
+--     id INTEGER,
+--     name TEXT,
+--     horizontal_rough_opening FLOAT,
+--     vertical_rough_opening FLOAT,
+--     finished_floor_offset FLOAT,
+--     lites entire_lite[],
+-- );

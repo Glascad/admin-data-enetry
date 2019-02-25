@@ -171,6 +171,10 @@ export const ELEVATION_CONTAINER_FIELDS = gql`
         id
         original
         contents
+        bottomLeftOffset {
+            x
+            y
+        }
         daylightOpening {
             x
             y
