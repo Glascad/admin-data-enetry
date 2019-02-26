@@ -79,6 +79,14 @@ entire_system AS (
     system_option_ids_to_delete INTEGER[]
 );
 
+CREATE TYPE
+elevation AS (
+    rough_opening COORDINATE,
+    starting_bay_quantity INTEGER,
+    finished_floor_height INTEGER,
+    
+)
+
 
 -- CREATE TYPE
 -- entire_lite AS (

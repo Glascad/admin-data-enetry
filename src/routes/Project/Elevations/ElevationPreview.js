@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+    GroupingBox,
+} from '../../../components';
+
+import './ElevationPreview.scss';
+
 export default function ElevationPreview({
     elevation,
     elevation: {
@@ -9,46 +15,53 @@ export default function ElevationPreview({
             x = 0,
             y = 0,
         } = {},
-    } = {},
+    },
 }) {
     console.log(arguments[0]);
     return (
-        <svg
-            viewBox={`0 0 ${x} ${y}`}
-            transform="scale(1, -1)"
+        <GroupingBox
+            title="Elevation Preview"
+            className="ElevationPreview"
         >
-            <rect
-                width={x}
+            <svg
                 height={y}
-                x={0}
-                y={0}
-                fill="rgba(127, 191, 255, 0.25)"
-                stroke="black"
-            />
-            {placedContainers.map(({ x, y, height, width }) => (
+                width={x}
+                viewBox={`0 0 ${x} ${y}`}
+                transform="scale(1, -1)"
+            >
                 <rect
-                    {...{
-                        x,
-                        y,
-                        height,
-                        width,
-                    }}
-                    fill="rgba(0, 191, 255, 0.25)"
+                    width={x}
+                    height={y}
+                    x={0}
+                    y={0}
+                    fill="rgba(127, 191, 255, 0.25)"
                     stroke="black"
                 />
-            ))}
-            {placedFrames.map(({ x, y, height, width }) => (
-                <rect
-                    {...{
-                        x,
-                        y,
-                        height,
-                        width,
-                    }}
-                    fill="rgba(255, 191, 0, 0.25)"
-                    stroke="black"
-                />
-            ))}
-        </svg>
+                {placedContainers.map(({ x, y, height, width }) => (
+                    <rect
+                        {...{
+                            x,
+                            y,
+                            height,
+                            width,
+                        }}
+                        fill="rgba(0, 191, 255, 0.25)"
+                        stroke="black"
+                    />
+                ))}
+                {placedFrames.map(({ x, y, height, width }) => (
+                    <rect
+                        {...{
+                            x,
+                            y,
+                            height,
+                            width,
+                        }}
+                        fill="rgba(255, 191, 0, 0.25)"
+                        stroke="black"
+                    />
+                ))}
+            </svg>
+        </GroupingBox>
     );
 }

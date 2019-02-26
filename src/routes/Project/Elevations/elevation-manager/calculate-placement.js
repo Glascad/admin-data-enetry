@@ -5,41 +5,22 @@ export default function calculatePlacement(elevation) {
     // const recursiveElevation = recurseElevation(elevation);
     const recursiveElevation = new RecursiveElevation(elevation);
 
+    const {
+        placedContainers,
+        placedFrames,
+    } = recursiveElevation;
+
     window.temp1 = recursiveElevation;
 
     console.log({
         recursiveElevation,
     });
 
-    const placedContainers = recursiveElevation.ids.map(id => recursiveElevation[id].placement);
-
     console.log({ placedContainers });
 
     return {
         ...elevation,
         placedContainers,
+        placedFrames,
     };
-
-    // return {
-    //     ...elevation,
-    //     // placedContainers: _elevationContainers
-    //     //     .map(({
-    //     //         daylightOpening: {
-    //     //             x,
-    //     //             y,
-    //     //         },
-    //     //     }) => ({
-    //     //         x: sightline,
-    //     //         y: sightline,
-    //     //         height: y,
-    //     //         width: x,
-    //     //     })),
-    //     // placedFrames: _elevationContainers
-    //     //     .reduce((frames, {
-    //     //         firstContainerDetails,
-    //     //         secondContainerDetails,
-    //     //     }) => frames.concat([
-
-    //     //     ]), []),
-    // };
 }

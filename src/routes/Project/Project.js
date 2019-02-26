@@ -19,7 +19,6 @@ Project.navigationOptions = {
 
 export default function Project() {
     return (
-
         <ApolloWrapper
             query={{ query }}
         >

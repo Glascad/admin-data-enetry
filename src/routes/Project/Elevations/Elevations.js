@@ -9,11 +9,7 @@ import ElevationInfo from './ElevationInfo/ElevationInfo';
 import SystemSets from './SystemSets/SystemSets';
 import ElevationPreview from './ElevationPreview';
 
-import {
-    elevation as defaultElevation,
-} from './elevation-manager/default-elevation';
-
-import mergeElevation from './elevation-manager/merge-elevation';
+import mergeElevationInput from './elevation-manager/merge-elevation-input';
 import calculatePlacement from './elevation-manager/calculate-placement';
 
 const subroutes = [
@@ -28,10 +24,10 @@ export default class Elevations extends Component {
     };
 
     state = {
-        elevation: defaultElevation,
+        elevation: {},
     };
 
-    reset = () => this.setState({ elevation: defaultElevation });
+    reset = () => this.setState({ elevation: {} });
 
     updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
 
@@ -40,12 +36,14 @@ export default class Elevations extends Component {
     render = () => {
         const {
             state: {
-                elevation: elevationUpdate,
+                elevation: elevationInput,
             },
             props,
             props: {
                 queryStatus: {
-                    allElevations: [elevation] = [],
+                    allElevations: [
+                        rawElevation = {},
+                    ] = [],
                 },
             },
             cancel,
@@ -54,18 +52,13 @@ export default class Elevations extends Component {
             updateElevation,
         } = this;
 
+        console.log(this);
 
-        // const updatedElevation = mergeElevation(elevationUpdate, { elevation });
+        const elevation = calculatePlacement(
+            mergeElevationInput({ rawElevation }, { elevationInput })
+        );
 
-        // const routeProps = {
-        //     ...props,
-        //     updatedElevation,
-        //     updateElevation,
-        // };
-
-        const placedElevation = calculatePlacement(elevation);
-
-        console.log(this.props);
+        console.log({ elevation });
 
         return (
             <>
@@ -73,11 +66,14 @@ export default class Elevations extends Component {
                     title="Elevation Info"
                 />
                 <TabNavigator
-                    routeProps={{ elevation: placedElevation }}
+                    routeProps={{
+                        elevation,
+                        updateElevation,
+                    }}
                     routes={subroutes}
                 >
                     <ElevationPreview
-                        elevation={placedElevation}
+                        elevation={elevation}
                     />
                     <div className="bottom-buttons">
                         <div className="buttons-left">

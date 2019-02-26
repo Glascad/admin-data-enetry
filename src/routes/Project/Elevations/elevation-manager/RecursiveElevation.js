@@ -31,6 +31,9 @@ export class RecursiveElevation {
 
         this.originalContainer = this[originalContainerId];
     }
+
+    get placedContainers() { return this.ids.map(id => this[id].placement); }
+    get placedFrames() { return []; }
 }
 
 const framesKey = 'frames[vertical][first]';
