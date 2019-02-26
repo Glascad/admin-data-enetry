@@ -59,14 +59,10 @@ class Navigator extends Component {
     };
 
     updateCurrentRoute = index => {
-        // console.log('navigator updating route');
         if (this.props.trackCurrentRoute !== false) {
-            // console.log('navigator updating route');
             this.setState({
                 currentRoute: index,
             });
-        } else {
-            // console.log('navigator not updating route');
         }
     }
 
@@ -77,7 +73,6 @@ class Navigator extends Component {
             },
             props: {
                 location: {
-                    pathname,
                     search,
                 },
                 match: {
@@ -91,8 +86,6 @@ class Navigator extends Component {
             updateCurrentRoute,
         } = this;
 
-        // console.log({ routes, routeProps });
-
         const mappedRoutes = routes.map(route => extractNavigationOptions(route, routeProps, false));
 
         const previousIndex = currentRoute - 1;
@@ -104,67 +97,54 @@ class Navigator extends Component {
         const previousLink = url + previousRoute.path;
         const nextLink = url + nextRoute.path;
 
-        const redirectTo = validatePath(`${
-            url
-            }${
-            mappedRoutes[0].path
-            }${
-            search
-            }`);
-
-        if (
-            currentRoute === -1
-            &&
-            pathname + search !== redirectTo
-        ) {
-            return (
-                <Redirect
-                    to={redirectTo}
+        return (
+            <Switch>
+                {mappedRoutes
+                    .map(({ exact, component: RouteChild, disabled, ...route }, i) => !disabled && (
+                        <Route
+                            key={route.path}
+                            {...route}
+                            exact={exact}
+                            path={validatePath(`${
+                                path
+                                }${
+                                route.path
+                                }`)}
+                            render={reactRouterProps => children({
+                                ...reactRouterProps,
+                                previousLink,
+                                nextLink,
+                                mappedRoutes,
+                            }, (
+                                    <NavigatorChild
+                                        index={i}
+                                        updateCurrentRoute={updateCurrentRoute}
+                                    >
+                                        {RouteChild ?
+                                            <RouteChild {...reactRouterProps} {...routeProps} />
+                                            :
+                                            route.render(reactRouterProps)
+                                        }
+                                    </NavigatorChild>
+                                )
+                            )}
+                        />
+                    ))}
+                <Route
+                    render={() => (
+                        <Redirect
+                            to={validatePath(`${
+                                url
+                                }${
+                                mappedRoutes[0].path
+                                }${
+                                search
+                                }`)}
+                        />
+                    )}
                 />
-            )
-        } else {
-            return (
-                <Switch>
-                    {mappedRoutes
-                        // .map(route => typeof route === 'function' ? route(this.props) : route)
-                        // .filter(Boolean)
-                        .map(({ exact, component: RouteChild, disabled, ...route }, i) => !disabled && (
-                            <Route
-                                key={route.path}
-                                {...route}
-                                exact={exact}
-                                path={validatePath(`${
-                                    path
-                                    }${
-                                    route.path
-                                    }`)}
-                                render={reactRouterProps => children({
-                                    ...reactRouterProps,
-                                    previousLink,
-                                    nextLink,
-                                    mappedRoutes,
-                                }, (
-                                        <NavigatorChild
-                                            index={i}
-                                            updateCurrentRoute={updateCurrentRoute}
-                                        >
-                                            {RouteChild ?
-                                                <RouteChild {...reactRouterProps} {...routeProps} />
-                                                :
-                                                route.render(reactRouterProps)
-                                            }
-                                        </NavigatorChild>
-                                    )
-                                )}
-                            />
-                        ))}
-                    <NavigatorChild
-                        index={-1}
-                        updateCurrentRoute={updateCurrentRoute}
-                    />
-                </Switch>
-            );
-        }
+            </Switch>
+        );
     }
 }
 
