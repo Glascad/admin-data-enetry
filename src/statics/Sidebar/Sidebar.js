@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import gql from 'graphql-tag';
-
 import './Sidebar.scss';
 
 import {
@@ -14,14 +12,7 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import {
     DoubleArrow,
     NavMenu,
-    ApolloWrapper,
 } from '../../components';
-
-import {
-    parseSearch,
-} from '../../utils';
-
-import routes from '../../routes/routes';
 
 class Sidebar extends Component {
 
@@ -38,56 +29,34 @@ class Sidebar extends Component {
             state: {
                 open,
             },
+            props,
             props: {
-                location: {
-                    search,
+                match: {
+                    path,
                 },
+                routes,
             },
             toggle,
         } = this;
 
-        const { systemNID } = parseSearch(search);
-
         return (
-            <ApolloWrapper
-                query={{
-                    query: gql`query System($systemNID:ID!){
-                        system(nodeId:$systemNID){
-                            nodeId
-                            id
-                            name
-                        }
-                    }`,
-                    variables: {
-                        systemNID,
-                    },
-                }}
-            >
-                {
-                    apollo => (
-                        <div id="Sidebar" className={open ? "" : "closed"}>
-                            <Link
-                                id="sidebar-header"
-                                to="/"
-                            >
-                                <Logo className="logo" />
-                                <span>GLASCAD</span>
-                            </Link>
-                            <DoubleArrow
-                                onClick={toggle}
-                            />
-                            <NavMenu
-                                routeProps={{
-                                    ...apollo,
-                                    systemNID,
-                                }}
-                                routes={routes}
-                                closed={!open}
-                            />
-                        </div>
-                    )
-                }
-            </ ApolloWrapper >
+            <div id="Sidebar" className={open ? "" : "closed"}>
+                <Link
+                    id="sidebar-header"
+                    to={path}
+                >
+                    <Logo className="logo" />
+                    <span>GLASCAD</span>
+                </Link>
+                <DoubleArrow
+                    onClick={toggle}
+                />
+                <NavMenu
+                    routeProps={props}
+                    routes={routes}
+                    closed={!open}
+                />
+            </div>
         );
     }
 }

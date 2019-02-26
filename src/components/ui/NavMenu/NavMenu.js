@@ -17,6 +17,9 @@ function NavMenu({
         pathname,
         search,
     },
+    match: {
+        path: matchedPath,
+    },
     routeProps,
     routes = [arguments[0].route].filter(Boolean),
     closed,
@@ -46,16 +49,21 @@ function NavMenu({
                     >
                         {subroutes
                             .map(route => extractNavigationOptions(route, routeProps))
-                            .filter(({ name }) => name.trim())
+                            .filter(({ name }) => name && (
+                                typeof name !== 'string'
+                                ||
+                                name.trim()))
                             .map(({ name: childName, path: childPath }, j) => (
                                 <NavLink
                                     key={j}
                                     isActive={(_, { pathname }) => exact ?
-                                        pathname === `${path}${childPath}`
+                                        pathname === `${matchedPath}${path}${childPath}`
                                         :
                                         pathname.includes(`${path}${childPath}`)
                                     }
                                     to={`${
+                                        matchedPath
+                                        }${
                                         path
                                         }${
                                         childPath
@@ -72,11 +80,13 @@ function NavMenu({
                             <NavLink
                                 key={i}
                                 isActive={(_, { pathname }) => exact ?
-                                    pathname === path
+                                    pathname === `${matchedPath}${path}`
                                     :
                                     pathname.includes(path)
                                 }
                                 to={`${
+                                    matchedPath
+                                    }${
                                     path
                                     }${
                                     search}`}

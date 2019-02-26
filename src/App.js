@@ -8,8 +8,7 @@ import { CheatSheet } from './components';
 
 import './App.scss';
 
-import Sidebar from './statics/Sidebar/Sidebar';
-import Viewport from './statics/Viewport/Viewport';
+import ApplicationNavigator from './statics/ApplicationNavigator';
 
 const cache = new InMemoryCache({
     dataIdFromObject: ({ nodeId }) => nodeId || null,
@@ -25,8 +24,7 @@ export default function App() {
         <Router>
             <ApolloProvider client={client}>
                 <CheatSheet>
-                    <Sidebar />
-                    <Viewport />
+                    <ApplicationNavigator />
                 </CheatSheet>
             </ApolloProvider>
         </Router>
