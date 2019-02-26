@@ -8,12 +8,12 @@ import {
 import ACTIONS from '../elevation-manager/elevation-actions';
 
 export default function ElevationInfo({
-    updatedElevation: {
+    elevation: {
         name,
         horizontalRoughOpening,
         verticalRoughOpening,
         elevationContainers,
-    },
+    } = {},
     updateElevation,
 }) {
     console.log(arguments[0]);

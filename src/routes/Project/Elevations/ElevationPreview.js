@@ -2,10 +2,53 @@ import React from 'react';
 
 export default function ElevationPreview({
     elevation,
+    elevation: {
+        placedContainers = [],
+        placedFrames = [],
+        roughOpening: {
+            x = 0,
+            y = 0,
+        } = {},
+    } = {},
 }) {
+    console.log(arguments[0]);
     return (
-        <div>
-            {JSON.stringify(elevation)}
-        </div>
+        <svg
+            viewBox={`0 0 ${x} ${y}`}
+            transform="scale(1, -1)"
+        >
+            <rect
+                width={x}
+                height={y}
+                x={0}
+                y={0}
+                fill="rgba(127, 191, 255, 0.25)"
+                stroke="black"
+            />
+            {placedContainers.map(({ x, y, height, width }) => (
+                <rect
+                    {...{
+                        x,
+                        y,
+                        height,
+                        width,
+                    }}
+                    fill="rgba(0, 191, 255, 0.25)"
+                    stroke="black"
+                />
+            ))}
+            {placedFrames.map(({ x, y, height, width }) => (
+                <rect
+                    {...{
+                        x,
+                        y,
+                        height,
+                        width,
+                    }}
+                    fill="rgba(255, 191, 0, 0.25)"
+                    stroke="black"
+                />
+            ))}
+        </svg>
     );
 }

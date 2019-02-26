@@ -150,6 +150,48 @@ export const SYSTEM_FIELDS = gql`
     }
 `;
 
+export const ELEVATION_FIELDS = gql`
+    fragment ElevationFields on Elevation {
+        __typename
+        nodeId
+        id
+        name
+        finishedFloorOffset
+        roughOpening {
+            x
+            y
+        }
+    }
+`;
+
+export const ELEVATION_CONTAINER_FIELDS = gql`
+    fragment ElevationContainerFields on ElevationContainer {
+        __typename
+        nodeId
+        id
+        original
+        contents
+        bottomLeftOffset {
+            x
+            y
+        }
+        daylightOpening {
+            x
+            y
+        }
+    }
+`;
+
+export const CONTAINER_DETAIL_FIELDS = gql`
+    fragment ContainerDetailFields on ContainerDetail {
+        __typename
+        nodeId
+        vertical
+        firstContainerId
+        secondContainerId
+    }
+`;
+
 // ALL OF TYPE
 
 export const ALL_MANUFACTURERS = gql`
@@ -314,7 +356,6 @@ export const ALL_SYSTEMS = gql`
 
 export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`
     fragment EntireSystemTypeDetailTypeConfigurationType on SystemTypeDetailTypeConfigurationType {
-        __typename
         ...SystemTypeDetailTypeConfigurationTypeFields
         detailTypeByDetailTypeId {
             ...DetailTypeFields
@@ -330,7 +371,6 @@ export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`
 
 export const ENTIRE_SYSTEM_TYPE = gql`
     fragment EntireSystemType on SystemType {
-        __typename
         ...SystemTypeFields
         systemTypeDetailTypeConfigurationTypesBySystemTypeId {
             nodes {
@@ -342,25 +382,8 @@ export const ENTIRE_SYSTEM_TYPE = gql`
     ${ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE}
 `;
 
-// DO NOT USE THIS ONE, NOT NECESSARY
-// export const ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE = gql`
-//     fragment EntireSystemConfigurationOverride on SystemConfigurationOverride {
-//         ...SystemConfigurationOverrideFields
-//         detailTypeByDetailTypeId {
-//             ...DetailTypeFields
-//         }
-//         configurationTypeByConfigurationTypeId {
-//             ...ConfigurationTypeFields
-//         }
-//     }
-//     ${SYSTEM_CONFIGURATION_OVERRIDE_FIELDS}
-//     ${DETAIL_TYPE_FIELDS}
-//     ${CONFIGURATION_TYPE_FIELDS}
-// `;
-
 export const ENTIRE_SYSTEM_OPTION = gql`
     fragment EntireSystemOption on SystemOption {
-        __typename
         ...SystemOptionFields
         optionValuesBySystemOptionId {
             nodes {
@@ -384,7 +407,6 @@ export const ENTIRE_SYSTEM_OPTION = gql`
 
 export const ENTIRE_SYSTEM = gql`
     fragment EntireSystem on System {
-        __typename
         ...SystemFields
         manufacturerByManufacturerId {
             ...ManufacturerFields
@@ -458,4 +480,36 @@ export const ENTIRE_SYSTEM = gql`
     ${CONFIGURATION_TYPE_FIELDS}
     ${SYSTEM_CONFIGURATION_OVERRIDE_FIELDS}
     ${ENTIRE_SYSTEM_OPTION}
+`;
+
+export const ENTIRE_CONTAINER_DETAIL = gql`
+    fragment EntireContainerDetail on ContainerDetail {
+        ...ContainerDetailFields
+        detailOptionValuesByContainerDetailId {
+            nodes {
+                nodeId
+                optionValueId
+            }
+        }
+    }
+    ${CONTAINER_DETAIL_FIELDS}
+`;
+
+export const ENTIRE_ELEVATION = gql`
+    fragment EntireElevation on Elevation {
+        ...ElevationFields
+        elevationContainersByElevationId {
+            nodes {
+                ...ElevationContainerFields
+            }
+        }
+        containerDetailsByElevationId {
+            nodes {
+                ...EntireContainerDetail
+            }
+        }
+    }
+    ${ELEVATION_FIELDS}
+    ${ELEVATION_CONTAINER_FIELDS}
+    ${ENTIRE_CONTAINER_DETAIL}
 `;
