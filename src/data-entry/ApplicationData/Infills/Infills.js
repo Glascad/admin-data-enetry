@@ -11,11 +11,11 @@ import {
 export default function Infills() {
     return (
         <TabNavigator
-            routes={[
+            routes={{
                 InfillSizes,
                 InfillPocketTypes,
                 InfillPocketSizes,
-            ]}
+            }}
         />
     );
 }

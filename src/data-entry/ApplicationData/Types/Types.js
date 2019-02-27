@@ -8,11 +8,11 @@ import {
     TabNavigator,
 } from '../../../components';
 
-const subroutes = [
+const subroutes = {
     SystemTypes,
     DetailTypes,
     ConfigurationTypes,
-];
+};
 
 Types.navigationOptions = {
     subroutes,

@@ -14,13 +14,13 @@ import { system as defaultSystem } from './system-manager/default-system';
 import mergeSystemUpdate from './system-manager/merge-system-update';
 import { _removeFakeIds } from './system-manager/system-actions';
 
-const subroutes = [
+const subroutes = {
     SystemInfo,
     GlazingInfo,
     ValidTypes,
     SystemOptions,
     // InvalidCombinations,
-];
+};
 
 export default class SystemDatabase extends Component {
 

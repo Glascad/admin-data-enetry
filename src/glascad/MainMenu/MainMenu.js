@@ -10,13 +10,13 @@ import ManageContributors from './ManageContributors/ManageContributors';
 import ManageWorkflows from './ManageWorkflows/ManageWorkflows';
 import Reports from './Reports/Reports';
 
-const subroutes = [
+const subroutes = {
     Activity,
     ManageProjects,
     ManageContributors,
     ManageWorkflows,
     Reports,
-];
+};
 
 MainMenu.navigationOptions = {
     subroutes,

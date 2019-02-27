@@ -7,10 +7,10 @@ import {
 import SystemSearch from './SystemSearch/SystemSearch';
 import SystemToggle from './SystemToggle/SystemToggle';
 
-const subroutes = [
+const subroutes = {
     SystemSearch,
     SystemToggle,
-];
+};
 
 SystemData.navigationOptions = {
     subroutes,

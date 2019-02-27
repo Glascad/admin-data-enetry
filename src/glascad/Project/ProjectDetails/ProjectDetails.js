@@ -9,12 +9,12 @@ import Contributors from './Contributors/Contributors';
 import Workflow from './Workflow/Workflow';
 import ProjectActivity from './ProjectActivity/ProjectActivity';
 
-const subroutes = [
+const subroutes = {
     ProjectInfo,
     Contributors,
     Workflow,
     ProjectActivity,
-];
+};
 
 ProjectDetails.navigationOptions = {
     subroutes,

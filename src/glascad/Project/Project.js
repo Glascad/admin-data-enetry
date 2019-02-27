@@ -15,14 +15,14 @@ import Details from './Details/Details';
 import Notes from './Notes/Notes';
 import { parseSearch } from '../../utils';
 
-const subroutes = [
+const subroutes = {
     ProjectDetails,
     Schedules,
     Keyplans,
     Elevations,
     Details,
     Notes,
-];
+};
 
 Project.navigationOptions = {
     subroutes,

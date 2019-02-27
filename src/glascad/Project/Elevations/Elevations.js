@@ -12,10 +12,10 @@ import ElevationPreview from './ElevationPreview';
 import mergeElevationInput from './elevation-manager/merge-elevation-input';
 import calculatePlacement from './elevation-manager/calculate-placement';
 
-const subroutes = [
+const subroutes = {
     ElevationInfo,
     SystemSets,
-];
+};
 
 export default class Elevations extends Component {
 

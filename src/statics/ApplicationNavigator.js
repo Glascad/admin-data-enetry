@@ -8,7 +8,6 @@ import dataEntryRoutes from '../data-entry/routes';
 import glascadRoutes from '../glascad/routes';
 
 import Sidebar from './Sidebar/Sidebar';
-import Viewport from './Viewport/Viewport';
 
 const Statics = ({ routes }) => (
     <>
@@ -35,10 +34,10 @@ GlasCAD.navigationOptions = {
 export default function ApplicationNavigator() {
     return (
         <Navigator
-            routes={[
+            routes={{
                 DataEntry,
                 GlasCAD,
-            ]}
+            }}
         />
     );
 }

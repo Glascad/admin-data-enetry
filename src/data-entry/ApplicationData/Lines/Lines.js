@@ -7,10 +7,10 @@ import {
 import Linetypes from './Linetypes/Linetypes';
 import LineWeights from './LineWeights/LineWeights';
 
-const subroutes = [
+const subroutes = {
     Linetypes,
     LineWeights,
-];
+};
 
 Lines.navigationOptions = {
     subroutes,

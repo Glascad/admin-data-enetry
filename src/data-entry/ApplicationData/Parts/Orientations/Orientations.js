@@ -7,7 +7,6 @@ import {
 
 import * as apolloProps from './orientations-graphql';
 
-
 export default function Orientations() {
     return (
         <ApolloWrapper

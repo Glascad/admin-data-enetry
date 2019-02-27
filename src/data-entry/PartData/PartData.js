@@ -9,9 +9,9 @@ function _PartData() {
     );
 }
 
-const subroutes = [
+const subroutes = {
     _PartData,
-];
+};
 
 PartData.navigationOptions = {
     subroutes,

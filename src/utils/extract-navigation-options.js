@@ -14,13 +14,12 @@
  * }
  */
 
-const extractNavigationOptions = (component, props, log = false) => {
+export default (functionName, component, props, log = false) => {
     const {
         navigationOptions = {},
         navigationOptions: {
             subroutes,
         } = {},
-        name: functionName = "",
     } = component;
 
     const options = typeof navigationOptions === 'function' ?
@@ -39,7 +38,7 @@ const extractNavigationOptions = (component, props, log = false) => {
         options.path
         :
         `/${name.replace(/ +/g, '-').toLowerCase()}`;
-    
+
     if (log) {
         console.log({
             name,
@@ -60,5 +59,3 @@ const extractNavigationOptions = (component, props, log = false) => {
         subroutes,
     };
 }
-
-export default extractNavigationOptions;

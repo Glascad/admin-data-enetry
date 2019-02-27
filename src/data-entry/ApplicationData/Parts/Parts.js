@@ -8,11 +8,11 @@ import PartTypes from './PartTypes/PartTypes';
 import Orientations from './Orientations/Orientations';
 import PartTags from './PartTags/PartTags';
 
-const subroutes = [
+const subroutes = {
     PartTypes,
     PartTags,
     Orientations,
-];
+};
 
 Parts.navigationOptions = {
     subroutes,

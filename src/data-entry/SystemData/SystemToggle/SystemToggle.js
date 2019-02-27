@@ -88,10 +88,10 @@ export default function SystemToggle({
                                 "New System",
                         }}
                         routeProps={apollo}
-                        routes={[
+                        routes={{
                             SystemDatabase,
                             SystemDetails,
-                        ]}
+                        }}
                     />
                 );
             }}

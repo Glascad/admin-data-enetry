@@ -11,16 +11,16 @@ import Parts from './Parts/Parts';
 import Lines from './Lines/Lines';
 import Infills from './Infills/Infills';
 
-const subroutes = [
+const subroutes = {
     Manufacturers,
     Types,
     SystemTags,
     Parts,
     Infills,
     Lines,
-];
+};
 
-ApplicationsData.navigationOptions = {
+ApplicationData.navigationOptions = {
     subroutes,
 };
 

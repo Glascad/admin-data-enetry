@@ -21,21 +21,21 @@ function NavMenu({
         path: matchedPath,
     },
     routeProps,
-    routes = [arguments[0].route].filter(Boolean),
+    routes,
     closed,
 }) {
     // console.log(arguments[0]);
     return (
         <div className="NavMenu">
-            {routes
-                .map(route => extractNavigationOptions(route, routeProps))
+            {Object.entries(routes)
+                .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
                 .filter(({ name }) => name.trim())
                 .map(({
                     exact,
                     name,
                     path,
-                    subroutes = []
-                }, i) => subroutes.length ? (
+                    subroutes
+                }, i) => subroutes ? (
                     <Dropdown
                         key={i}
                         title={name}
@@ -47,8 +47,8 @@ function NavMenu({
                                 ''
                         }
                     >
-                        {subroutes
-                            .map(route => extractNavigationOptions(route, routeProps))
+                        {Object.entries(subroutes)
+                            .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
                             .filter(({ name }) => name && (
                                 typeof name !== 'string'
                                 ||

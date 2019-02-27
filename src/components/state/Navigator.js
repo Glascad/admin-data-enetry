@@ -86,7 +86,14 @@ class Navigator extends Component {
             updateCurrentRoute,
         } = this;
 
-        const mappedRoutes = routes.map(route => extractNavigationOptions(route, routeProps, false));
+        const mappedRoutes = Object.entries(routes)
+            .map(([name, route]) => extractNavigationOptions(name, route, routeProps, false));
+
+        console.log({
+            routes,
+            entries: Object.entries(routes),
+            mappedRoutes,
+        });
 
         const previousIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;
