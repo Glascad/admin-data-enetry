@@ -5,7 +5,7 @@ import {
     withRouter,
 } from 'react-router-dom';
 
-import Dropdown from '../Dropdown/Dropdown';
+import Dropdown from '../../ui/Dropdown/Dropdown';
 
 import './NavMenu.scss';
 
@@ -28,8 +28,11 @@ function NavMenu({
     return (
         <div className="NavMenu">
             {Object.entries(routes)
-                .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
-                .filter(({ name }) => name.trim())
+                .map(([name, route]) => extractNavigationOptions(name, route, {
+                    ...arguments[0],
+                    ...routeProps,
+                }))
+                .filter(({ shouldRender }) => shouldRender !== false)
                 .map(({
                     exact,
                     name,
@@ -49,10 +52,7 @@ function NavMenu({
                     >
                         {Object.entries(subroutes)
                             .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
-                            .filter(({ name }) => name && (
-                                typeof name !== 'string'
-                                ||
-                                name.trim()))
+                            .filter(({ shouldRender }) => shouldRender !== false)
                             .map(({ name: childName, path: childPath }, j) => (
                                 <NavLink
                                     key={j}

@@ -13,6 +13,7 @@ import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
 import Details from './Details/Details';
 import Notes from './Notes/Notes';
+
 import { parseSearch } from '../../utils';
 
 const subroutes = {
@@ -24,9 +25,14 @@ const subroutes = {
     Notes,
 };
 
-Project.navigationOptions = {
+Project.navigationOptions = ({
+    location: {
+        search,
+    },
+}) => ({
+    shouldRender: !!parseSearch(search).projectId,
     subroutes,
-};
+});
 
 export default function Project({
     location: {

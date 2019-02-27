@@ -17,27 +17,19 @@
 export default (functionName, component, props, log = false) => {
     const {
         navigationOptions = {},
-        navigationOptions: {
-            subroutes,
-        } = {},
     } = component;
 
-    const options = typeof navigationOptions === 'function' ?
-        navigationOptions(props)
-        :
-        navigationOptions;
-
-    const name = typeof options.name !== 'undefined' ?
-        options.name
-        :
-        functionName
+    const {
+        name = functionName
             .replace(/_|\W/g, '')
-            .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`);
-
-    const path = options.path ?
-        options.path
-        :
-        `/${name.replace(/ +/g, '-').toLowerCase()}`;
+            .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`),
+        path = `/${name.replace(/ +/g, '-').toLowerCase()}`,
+        subroutes,
+        ...options
+    } = typeof navigationOptions === 'function' ?
+            navigationOptions(props)
+            :
+            navigationOptions;
 
     if (log) {
         console.log({

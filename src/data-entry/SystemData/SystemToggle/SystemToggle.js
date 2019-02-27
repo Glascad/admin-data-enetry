@@ -17,7 +17,11 @@ import SystemDatabase from './SystemDatabase/SystemDatabase';
 import SystemDetails from './SystemDetails/SystemDetails';
 
 // THIS IS FOR RENDERING THE CORRECT NAME IN THE SIDEBAR
-SystemToggle.navigationOptions = {
+SystemToggle.navigationOptions = ({
+    location: {
+        search,
+    },
+}) => ({
     name: (
         <ApolloWrapper
             query={{
@@ -31,7 +35,7 @@ SystemToggle.navigationOptions = {
                     }
                 `,
                 variables: {
-                    id: +parseSearch().systemId,
+                    id: +parseSearch(search).systemId,
                 },
             }}
         >
@@ -41,11 +45,12 @@ SystemToggle.navigationOptions = {
                         name = '',
                     } = {},
                 } = {},
-            }) => name}
+            }) => name || '...'}
         </ApolloWrapper>
     ),
+    shouldRender: !!(parseSearch(search).systemId),
     path: "/info",
-};
+});
 
 export default function SystemToggle({
     location: {

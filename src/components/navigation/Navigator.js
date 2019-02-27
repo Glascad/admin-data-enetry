@@ -71,6 +71,7 @@ class Navigator extends Component {
             state: {
                 currentRoute,
             },
+            props,
             props: {
                 location: {
                     search,
@@ -87,7 +88,10 @@ class Navigator extends Component {
         } = this;
 
         const mappedRoutes = Object.entries(routes)
-            .map(([name, route]) => extractNavigationOptions(name, route, routeProps, false));
+            .map(([name, route]) => extractNavigationOptions(name, route, {
+                ...props,
+                ...routeProps,
+            }, false));
 
         const previousIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;

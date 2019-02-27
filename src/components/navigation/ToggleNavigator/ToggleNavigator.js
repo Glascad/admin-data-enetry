@@ -5,9 +5,9 @@ import {
     // NavLink,
 } from 'react-router-dom';
 
-import Toggle from '../Toggle/Toggle';
-import Navigator from '../../state/Navigator';
-import TitleBar from '../TitleBar/TitleBar';
+import Toggle from '../../ui/Toggle/Toggle';
+import Navigator from '../Navigator';
+import TitleBar from '../../ui/TitleBar/TitleBar';
 
 function ToggleNavigator({
     history,
