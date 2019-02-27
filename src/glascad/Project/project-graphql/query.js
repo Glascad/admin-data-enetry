@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import { ENTIRE_ELEVATION } from '../../../graphql/fragments';
+import F from '../../../schema/fragments';
 
 export default gql`{
     allElevations {
@@ -8,4 +8,4 @@ export default gql`{
             ...EntireElevation
         }
     }
-} ${ENTIRE_ELEVATION}`;
+} ${F.EL_DATA.ENTIRE_ELEVATION}`;

@@ -1,13 +1,5 @@
 import gql from 'graphql-tag';
-import {
-    ENTIRE_SYSTEM,
-    ALL_SYSTEM_TYPES,
-    ALL_SYSTEM_TAGS,
-    ALL_INFILL_SIZES,
-    ALL_INFILL_POCKET_SIZES,
-    ALL_INFILL_POCKET_TYPES,
-    ALL_CONFIGURATION_TYPES,
-} from '../../../../graphql/fragments';
+import F from '../../../../schema/fragments';
 
 export default gql`
     query SystemById($id:Int!){
@@ -21,11 +13,11 @@ export default gql`
         ...AllInfillPocketSizes
         ...AllConfigurationTypes
     }
-    ${ENTIRE_SYSTEM}
-    ${ALL_SYSTEM_TYPES}
-    ${ALL_SYSTEM_TAGS}
-    ${ALL_INFILL_SIZES}
-    ${ALL_INFILL_POCKET_SIZES}
-    ${ALL_INFILL_POCKET_TYPES}
-    ${ALL_CONFIGURATION_TYPES}
+    ${F.SYS_DATA.ENTIRE_SYSTEM}
+    ${F.APP_DATA.ALL_SYSTEM_TYPES}
+    ${F.APP_DATA.ALL_SYSTEM_TAGS}
+    ${F.APP_DATA.ALL_INFILL_SIZES}
+    ${F.APP_DATA.ALL_INFILL_POCKET_SIZES}
+    ${F.APP_DATA.ALL_INFILL_POCKET_TYPES}
+    ${F.APP_DATA.ALL_CONFIGURATION_TYPES}
 `;

@@ -15,6 +15,12 @@ import TitleBar from '../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemSearch({
     history,
+    location: {
+        url
+    },
+    match: {
+        path,
+    },
 }) {
     return (
         <>
@@ -22,7 +28,8 @@ export default function SystemSearch({
                 title="Select System"
                 right={(
                     <Link
-                        to="/system-data/info/database/system-info"
+                        to={path.replace(/system-search.*/,
+                            "info/database/system-info")}
                     >
                         <button className="action">
                             New System
@@ -169,7 +176,7 @@ export default function SystemSearch({
                                                     selectable: false,
                                                 }}
                                                 mapPillProps={({
-                                                    nodeId,
+                                                    id,
                                                     name: systemName,
                                                     _manufacturer: {
                                                         name: mnfgName,
@@ -179,12 +186,24 @@ export default function SystemSearch({
                                                     subtitle: systemName,
                                                     hoverButtons: [
                                                         {
-                                                            text: "Edit Database",
-                                                            onClick: () => history.push(`/system-data/info/database/system-info?systemNID=${nodeId}`)
+                                                            children: (
+                                                                <Link
+                                                                    to={path.replace(/system-search.*/,
+                                                                        `info/database/system-info?systemId=${id}`)}
+                                                                >
+                                                                    Edit Database
+                                                                </Link>
+                                                            ),
                                                         },
                                                         {
-                                                            text: "Edit Details",
-                                                            onClick: () => history.push(`/system-data/info/details?systemNID=${nodeId}`)
+                                                            children: (
+                                                                <Link
+                                                                    to={path.replace(/system-search.*/,
+                                                                        `info/details?systemId=${id}`)}
+                                                                >
+                                                                    Edit Details
+                                                                </Link>
+                                                            ),
                                                         },
                                                     ],
                                                 })}

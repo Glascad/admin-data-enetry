@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { ENTIRE_SYSTEM } from '../../../../graphql/fragments';
+import F from '../../../../schema/fragments';
 
 export default {
     updateEntireSystem: {
@@ -13,7 +13,7 @@ export default {
                     }
                 }
             }
-            ${ENTIRE_SYSTEM}
+            ${F.SYS_DATA.ENTIRE_SYSTEM}
         `,
     },
 };

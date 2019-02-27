@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { MANUFACTURER_FIELDS } from '../../../graphql/fragments';
+import F from '../../../schema/fragments';
 
 export const query = {
     query: gql`{
@@ -8,7 +8,7 @@ export const query = {
                 ...ManufacurerFields
             }
         }
-    } ${MANUFACTURER_FIELDS}`,
+    } ${F.APP_DATA.MANUFACTURER_FIELDS}`,
 };
 
 export const mutations = {
@@ -23,7 +23,7 @@ export const mutations = {
                     ...ManufacurerFields
                 }
             }
-        } ${MANUFACTURER_FIELDS}`,
+        } ${F.APP_DATA.MANUFACTURER_FIELDS}`,
         update(cache, {
             data: {
                 createManufacturer: {

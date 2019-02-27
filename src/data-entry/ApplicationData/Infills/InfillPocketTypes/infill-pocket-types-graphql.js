@@ -1,11 +1,8 @@
 import gql from 'graphql-tag';
-import {
-    ALL_INFILL_POCKET_TYPES,
-    INFILL_POCKET_TYPE_FIELDS,
-} from '../../../../graphql/fragments';
+import F from '../../../../schema/fragments';
 
 export const query = {
-    query: gql`{ ...AllInfillPocketTypes } ${ALL_INFILL_POCKET_TYPES}`,
+    query: gql`{ ...AllInfillPocketTypes } ${F.APP_DATA.ALL_INFILL_POCKET_TYPES}`,
 };
 
 export const mutations = {
@@ -22,7 +19,7 @@ export const mutations = {
                     }
                 }
             }
-            ${INFILL_POCKET_TYPE_FIELDS}
+            ${F.APP_DATA.INFILL_POCKET_TYPE_FIELDS}
         `,
         update(cache, {
             data: {
@@ -64,7 +61,7 @@ export const mutations = {
                     }
                 }
             }
-            ${INFILL_POCKET_TYPE_FIELDS}
+            ${F.APP_DATA.INFILL_POCKET_TYPE_FIELDS}
         `,
     },
     deleteInfillPocketType: {
@@ -78,7 +75,7 @@ export const mutations = {
                     }
                 }
             }
-            ${INFILL_POCKET_TYPE_FIELDS}
+            ${F.APP_DATA.INFILL_POCKET_TYPE_FIELDS}
         `,
         update(cache, {
             data: {
