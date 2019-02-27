@@ -13,6 +13,7 @@ import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
 import Details from './Details/Details';
 import Notes from './Notes/Notes';
+import { parseSearch } from '../../utils';
 
 const subroutes = [
     ProjectDetails,
@@ -27,10 +28,19 @@ Project.navigationOptions = {
     subroutes,
 };
 
-export default function Project() {
+export default function Project({
+    location: {
+        search,
+    },
+}) {
     return (
         <ApolloWrapper
-            query={{ query }}
+            query={{
+                query,
+                variables: {
+                    id: +parseSearch(search).projectId
+                }
+            }}
         >
             {apollo => (
                 <Navigator

@@ -2,10 +2,11 @@ import gql from 'graphql-tag';
 
 import F from '../../../schema/fragments';
 
-export default gql`{
-    allElevations {
-        nodes {
-            ...EntireElevation
+export default gql`
+    query ProjectById($id:Int!) {
+        projectById(id:$id) {
+            ...EntireProject
         }
     }
-} ${F.EL_DATA.ENTIRE_ELEVATION}`;
+    ${F.PR_DATA.ENTIRE_PROJECT}
+`;

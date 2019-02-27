@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS elevations;
 CREATE TABLE
 elevations (
     id SERIAL PRIMARY KEY,
+    project_id INTEGER REFERENCES projects,
     name VARCHAR(50),
     rough_opening COORDINATE,
     finished_floor_offset FLOAT

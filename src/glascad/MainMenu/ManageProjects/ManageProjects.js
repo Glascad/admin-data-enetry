@@ -14,7 +14,6 @@ import query from './query';
 import mutations from './mutations';
 
 export default function ManageProjects({
-    history,
     match: {
         path,
     },
