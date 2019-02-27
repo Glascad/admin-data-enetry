@@ -41,15 +41,15 @@
             padding: 0 $large;
             display: flex;
             align-items: center;
-            color: $off-white;
+            background: none;
             
             + .tab {
                 border-left: 1px solid $off-white;
             }
             
             &.current-tab {
+                opacity: 1;
                 background: $off-white;
-                color: $light-blue;
                 font-weight: bold;
             }
 
