@@ -24,7 +24,7 @@ ApplicationsData.navigationOptions = {
     subroutes,
 };
 
-export default function ApplicationsData() {
+export default function ApplicationData() {
     return (
         <Navigator
             routes={subroutes}

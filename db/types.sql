@@ -1,6 +1,6 @@
 
 CREATE TYPE
-coordinate (
+coordinate AS (
     x FLOAT,
     y FLOAT
 );

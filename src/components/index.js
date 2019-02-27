@@ -16,7 +16,6 @@ import _Toggle from './ui/Toggle/Toggle';
 import _Input from './ui/Input/Input';
 
 // STATE COMPONENTS
-import _ApolloBatcher from './state/ApolloBatcher';
 import _ApolloWrapper from './state/ApolloWrapper';
 import _SelectionWrapper from './state/SelectionWrapper';
 import _Navigator from './state/Navigator';
@@ -46,7 +45,6 @@ export const Toggle = _Toggle;
 export const Input = _Input;
 
 // STATE
-export const ApolloBatcher = _ApolloBatcher;
 export const ApolloWrapper = _ApolloWrapper;
 export const SelectionWrapper = _SelectionWrapper;
 export const Navigator = _Navigator;

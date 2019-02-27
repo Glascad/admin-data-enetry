@@ -5,7 +5,7 @@ export const query = {
     query: gql`{
         allManufacturers{
             nodes{
-                ...ManufacurerFields
+                ...ManufacturerFields
             }
         }
     } ${F.APP_DATA.MANUFACTURER_FIELDS}`,
@@ -20,7 +20,7 @@ export const mutations = {
                 }
             }){
                 manufacturer{
-                    ...ManufacurerFields
+                    ...ManufacturerFields
                 }
             }
         } ${F.APP_DATA.MANUFACTURER_FIELDS}`,
