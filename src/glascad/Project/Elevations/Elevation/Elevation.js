@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
     TitleBar,
     TabNavigator,
-} from '../../../components';
+} from '../../../../components';
 
 import ElevationInfo from './ElevationInfo/ElevationInfo';
 import SystemSets from './SystemSets/SystemSets';

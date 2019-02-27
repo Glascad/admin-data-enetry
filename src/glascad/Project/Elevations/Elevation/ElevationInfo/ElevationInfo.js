@@ -3,7 +3,7 @@ import React from 'react';
 import {
     TitleBar,
     Input,
-} from '../../../../components';
+} from '../../../../../components';
 
 import ACTIONS from '../elevation-manager/elevation-actions';
 

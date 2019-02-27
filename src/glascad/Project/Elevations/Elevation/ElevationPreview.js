@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
     GroupingBox,
-} from '../../../components';
+} from '../../../../components';
 
 import './ElevationPreview.scss';
 
