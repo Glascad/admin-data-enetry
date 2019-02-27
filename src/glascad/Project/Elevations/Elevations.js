@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {
     ListWrapper,
 } from '../../../components';
+import parseSearch from '../../../utils/parse-search';
 
 export default function Elevations({
     location: {
@@ -38,8 +39,8 @@ export default function Elevations({
                         {
                             children: (
                                 <Link
-                                    to={`${path}/elevations${search.replace(/(&{0,1}elevationId=\d+)|$/,
-                                        `elevationId=${id}`)}`}
+                                    to={`${path}/elevations${parseSearch(search)
+                                        .update({ elevationId: id })}`}
                                 >
                                     Edit
                                 </Link>
@@ -54,7 +55,8 @@ export default function Elevations({
                         {
                             children: (
                                 <Link
-                                    to={`${path}/elevation${search.replace(/&{0,1}elevationId=\d+/, '')}`}
+                                    to={`${path}/elevations${parseSearch(search)
+                                        .remove("elevationId")}`}
                                 >
                                     Create
                                 </Link>

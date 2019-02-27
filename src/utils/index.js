@@ -1,4 +1,4 @@
-import _parseSearch from './search-parser';
+import _parseSearch from './parse-search';
 import _removeNullValues from './remove-null-values';
 import _replaceByKeys from './replace-by-keys';
 import _flattenNodeArrays from './flatten-node-arrays';
