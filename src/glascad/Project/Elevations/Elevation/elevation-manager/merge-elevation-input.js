@@ -12,7 +12,7 @@ export default function mergeElevationInput({
         _containerDetails = [],
         _elevationContainers = [],
         sightline = 10,
-    },
+    } = {},
 }, {
     elevationInput,
     elevationInput: {

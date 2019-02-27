@@ -11,6 +11,7 @@ import ElevationPreview from './ElevationPreview';
 
 import mergeElevationInput from './elevation-manager/merge-elevation-input';
 import calculatePlacement from './elevation-manager/calculate-placement';
+import parseSearch from '../../../../utils/parse-search';
 
 const subroutes = {
     ElevationInfo,
@@ -40,10 +41,13 @@ export default class Elevations extends Component {
             },
             props,
             props: {
+                location: {
+                    search,
+                },
                 queryStatus: {
-                    allElevations: [
-                        rawElevation = {},
-                    ] = [],
+                    _project: {
+                        _elevations = [],
+                    } = {},
                 },
             },
             cancel,
@@ -53,6 +57,10 @@ export default class Elevations extends Component {
         } = this;
 
         console.log(this);
+
+        const { elevationId } = parseSearch(search);
+
+        const rawElevation = _elevations.find(({ id }) => id === +elevationId);
 
         const elevation = calculatePlacement(
             mergeElevationInput({ rawElevation }, { elevationInput })
