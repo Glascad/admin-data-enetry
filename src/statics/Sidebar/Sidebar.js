@@ -48,13 +48,13 @@ class Sidebar extends Component {
                     <Logo className="logo" />
                     <span>GLASCAD</span>
                 </Link>
-                <DoubleArrow
-                    onClick={toggle}
-                />
                 <NavMenu
                     routeProps={props}
                     routes={routes}
                     closed={!open}
+                />
+                <DoubleArrow
+                    onClick={toggle}
                 />
             </div>
         );
