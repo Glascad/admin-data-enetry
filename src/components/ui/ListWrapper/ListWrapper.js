@@ -190,7 +190,10 @@ class List extends Component {
                     ) : (onCreate || multiSelect || addButton) && !creating ? (
                         <AddButton
                             {...addButton}
-                            onAdd={handleCreateClick}
+                            onAdd={onCreate ?
+                                handleCreateClick
+                                :
+                                undefined}
                         />
                     ) : null}
                 />

@@ -22,12 +22,13 @@ const Statics = ({ routes }) => (
     </>
 );
 
+console.log({ __dirname, process });
+
 const DataEntry = () => <Statics routes={dataEntryRoutes} />;
 
 const GlasCAD = () => <Statics routes={glascadRoutes} />;
 
 GlasCAD.navigationOptions = {
-    name: "GlasCAD",
     path: "/glascad",
 };
 

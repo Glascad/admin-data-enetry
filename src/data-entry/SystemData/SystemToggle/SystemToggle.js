@@ -40,7 +40,7 @@ SystemToggle.navigationOptions = {
                     _system: {
                         name = '',
                     } = {},
-                }
+                } = {},
             }) => name}
         </ApolloWrapper>
     ),

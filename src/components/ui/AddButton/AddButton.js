@@ -45,6 +45,7 @@ export default class AddButton extends Component {
                 inputType,
                 otherButtons,
                 onBlur,
+                onAdd,
             },
             handleClick
         } = this;
@@ -69,13 +70,11 @@ export default class AddButton extends Component {
                 </button>
                 {otherButtons.length ? (
                     <ButtonTile
-                        buttonProps={[
-                            {
-                                text,
-                                onClick: handleClick
-                            },
-                            ...otherButtons
-                        ]}
+                        buttonProps={(onAdd ? [{
+                            text,
+                            onClick: handleClick
+                        }] : [])
+                            .concat(otherButtons)}
                     />
                 ) : null}
             </div>

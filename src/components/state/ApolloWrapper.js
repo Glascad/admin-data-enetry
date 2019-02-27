@@ -14,7 +14,7 @@ const normalizeResponse = ({ data }) => removeNullValues(
             data,
         ),
     ),
-);
+) || {};
 
 /**
  * PURPOSE
@@ -74,16 +74,20 @@ export default class ApolloWrapper extends Component {
                 <Query
                     {...query}
                 >
-                    {({ refetch, ...queryStatus }) => (
+                    {({ refetch, ...rawQueryStatus }) => (
                         <ApolloWrapper
                             mutations={mutations}
                             refetch={refetch}
                         >
                             {accumulatedProps => {
+                                console.log({
+                                    rawQueryStatus,
+                                });
                                 // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
                                 return children({
                                     ...accumulatedProps,
-                                    queryStatus: normalizeResponse(queryStatus),
+                                    queryStatus: normalizeResponse(rawQueryStatus),
+                                    rawQueryStatus,
                                 });
                             }}
                         </ApolloWrapper>

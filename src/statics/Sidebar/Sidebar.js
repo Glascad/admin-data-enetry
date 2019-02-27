@@ -56,6 +56,18 @@ class Sidebar extends Component {
                 <DoubleArrow
                     onClick={toggle}
                 />
+                <div className="application-links">
+                    <Link to="/data-entry">
+                        <button>
+                            DATA ENTRY
+                        </button>
+                    </Link>
+                    <Link to="/glascad">
+                        <button>
+                            GLASCAD
+                        </button>
+                    </Link>
+                </div>
             </div>
         );
     }

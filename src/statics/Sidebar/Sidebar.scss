@@ -62,6 +62,18 @@
         // }
     }
 
+    .application-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: $small;
+
+        button {
+            margin: $x-small;
+        }
+    }
+
     &.closed {
         .DoubleArrow {
             z-index: 1;
@@ -75,6 +87,10 @@
             .arrow {
                 transform: rotate(180deg);
             }
+        }
+
+        .application-links {
+            display: none;
         }
 
         .NavMenu, span {

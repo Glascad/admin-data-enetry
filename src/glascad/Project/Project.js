@@ -38,8 +38,8 @@ export default function Project({
             query={{
                 query,
                 variables: {
-                    id: +parseSearch(search).projectId
-                }
+                    id: +parseSearch(search).projectId,
+                },
             }}
         >
             {apollo => (

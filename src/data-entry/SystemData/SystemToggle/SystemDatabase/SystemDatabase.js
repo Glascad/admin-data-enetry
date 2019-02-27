@@ -60,8 +60,6 @@ export default class SystemDatabase extends Component {
 
         const update = _removeFakeIds(system);
 
-        console.log({ update });
-
         await updateEntireSystem({
             system: {
                 ...update,
@@ -89,12 +87,6 @@ export default class SystemDatabase extends Component {
         } = this;
 
         const updatedSystem = mergeSystemUpdate(system, queryStatus);
-
-        console.log({
-            queryStatus,
-            system,
-            updatedSystem,
-        });
 
         const routeProps = {
             queryStatus,
