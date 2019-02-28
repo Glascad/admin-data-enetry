@@ -2,12 +2,9 @@ import React from 'react';
 
 import {
     GroupingBox,
-} from '../../../../components';
-
-import './ElevationPreview.scss';
+} from '../../../../../components';
 
 export default function ElevationPreview({
-    elevation,
     elevation: {
         placedContainers = [],
         placedFrames = [],

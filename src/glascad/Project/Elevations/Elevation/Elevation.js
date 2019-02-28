@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 
 import {
-    TitleBar,
-    TabNavigator,
+    Navigator,
 } from '../../../../components';
 
-import ElevationInfo from './ElevationInfo/ElevationInfo';
-import SystemSets from './SystemSets/SystemSets';
-import ElevationPreview from './ElevationPreview';
+
+import NewElevation from './NewElevation/NewElevation';
+import EditElevation from './EditElevation/EditElevation';
 
 import mergeElevationInput from './elevation-manager/merge-elevation-input';
 import calculatePlacement from './elevation-manager/calculate-placement';
 import parseSearch from '../../../../utils/parse-search';
 
 const subroutes = {
-    ElevationInfo,
-    SystemSets,
+    NewElevation,
+    EditElevation,
 };
 
 export default class Elevations extends Component {
@@ -32,14 +31,13 @@ export default class Elevations extends Component {
 
     updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
 
-    save = () => (undefined);
+    save = () => { };
 
     render = () => {
         const {
             state: {
                 elevation: elevationInput,
             },
-            props,
             props: {
                 location: {
                     search,
@@ -56,8 +54,6 @@ export default class Elevations extends Component {
             updateElevation,
         } = this;
 
-        console.log(this);
-
         const { elevationId } = parseSearch(search);
 
         const rawElevation = _elevations.find(({ id }) => id === +elevationId);
@@ -66,51 +62,14 @@ export default class Elevations extends Component {
             mergeElevationInput({ rawElevation }, { elevationInput })
         );
 
-        console.log({ elevation });
-
         return (
-            <>
-                <TitleBar
-                    title="Elevation Info"
-                />
-                <TabNavigator
-                    routeProps={{
-                        elevation,
-                        updateElevation,
-                    }}
-                    routes={subroutes}
-                >
-                    <ElevationPreview
-                        elevation={elevation}
-                    />
-                    <div className="bottom-buttons">
-                        <div className="buttons-left">
-                            <button
-                                onClick={cancel}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={reset}
-                            >
-                                Reset
-                            </button>
-                            <button
-                                onClick={save}
-                            >
-                                Save
-                            </button>
-                        </div>
-                        <div className="buttons-right">
-                            <button
-                                className="action"
-                            >
-                                Build
-                            </button>
-                        </div>
-                    </div>
-                </TabNavigator>
-            </>
+            <Navigator
+                routeProps={{
+                    elevation,
+                    updateElevation,
+                }}
+                routes={subroutes}
+            />
         );
     }
 }
