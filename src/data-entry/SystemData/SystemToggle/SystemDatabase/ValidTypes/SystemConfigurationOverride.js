@@ -9,7 +9,7 @@ import {
     presentationLevels,
 } from '../../../../../business-logic';
 
-import ACTIONS from '../system-manager/system-actions';
+import ACTIONS from '../ducks/actions';
 
 const isNullOrUndefined = item => item === undefined || item === null;
 

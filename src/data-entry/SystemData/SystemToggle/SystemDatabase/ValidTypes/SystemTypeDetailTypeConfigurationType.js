@@ -9,7 +9,7 @@ import {
     presentationLevels,
 } from '../../../../../business-logic';
 
-import ACTIONS from '../system-manager/system-actions';
+import ACTIONS from '../ducks/actions';
 
 export default function SystemTypeDetailTypeConfigurationType({
     _systemConfigurationOverride,

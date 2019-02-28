@@ -6,7 +6,7 @@ import {
     ListWrapper,
     TitleBar,
 } from '../../../../../components';
-import ACTIONS from '../system-manager/system-actions';
+import ACTIONS from '../ducks/actions';
 
 export default function SystemInfo({
     system: {

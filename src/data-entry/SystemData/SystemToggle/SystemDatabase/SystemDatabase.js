@@ -10,9 +10,9 @@ import {
     TabNavigator,
 } from '../../../../components';
 
-import { system as defaultSystem } from './system-manager/default-system';
-import mergeSystemUpdate from './system-manager/merge-system-update';
-import { _removeFakeIds } from './system-manager/system-actions';
+import { system as defaultSystem } from './ducks/default';
+import mergeSystemUpdate from './ducks/merge';
+import { _removeFakeIds } from './ducks/actions';
 
 const subroutes = {
     SystemInfo,

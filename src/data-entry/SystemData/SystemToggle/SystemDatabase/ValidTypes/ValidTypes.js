@@ -9,7 +9,7 @@ import {
 import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
 import SystemConfigurationOverride from './SystemConfigurationOverride';
 
-import ACTIONS from '../system-manager/system-actions';
+import ACTIONS from '../ducks/actions';
 
 ValidTypes.navigationOptions = ({
     system: {

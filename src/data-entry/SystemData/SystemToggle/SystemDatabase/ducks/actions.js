@@ -8,7 +8,7 @@ import {
     option as defaultSystemOption,
     value as defaultOptionValue,
     override as defaultOverride,
-} from './default-system';
+} from './default';
 
 
 var _fakeId = 1;

@@ -1,114 +1,176 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import {
     TitleBar,
     Input,
+    GroupingBox,
 } from '../../../../../components';
 
 import ElevationPreview from './ElevationPreview';
 
-import ACTIONS from '../elevation-manager/elevation-actions';
+import calculatePlacement from './ducks/calculate-placement';
+import createElevation from './ducks/create';
 
-export default function NewElevation({
-    location: {
-        search,
-    },
-    match: {
-        path,
-    },
-    elevation,
-    elevation: {
-        name,
-        roughOpening: {
-            x,
-            y,
+export default class NewElevation extends Component {
+
+    state = {
+        elevation: {
+            verticalLock: false,
+            horizontalLock: false,
+            verticalRoughOpening: 360,
+            horizontalRoughOpening: 180,
+            startingBayQuantity: 1,
+            finishedFloorHeight: 0,
+            sightline: 10,
+            defaultBayWidth: 160,
         },
-        finishedFloorHeight,
-        _elevationContainers = [],
-        _containerDetails = [],
-    },
-    // elevationInput: {
-    //     name,
-    //     horizontalRoughOpening,
-    //     verticalRoughOpening,
-    //     elevationContainers = [],
-    //     finishedFloorHeight,
-    // },
-    updateElevation,
-}) {
-    console.log(arguments[0]);
-    return (
-        <>
-            <TitleBar
-                title="New Elevation"
-                selections={[name]}
-                right={(
-                    <Link
-                        to={`${path.replace(/\/elevation\/new-elevation/, '')}${search}`}
+    };
+
+    reset = () => this.setState({ elevation: {} });
+
+    updateElevation = update => console.log({ update, state: this.state }) || this.setState(({
+        elevation,
+        elevation: {
+            horizontalLock,
+            horizontalRoughOpening,
+            startingBayQuantity,
+            sightline,
+            defaultBayWidth,
+        },
+    }) => ({
+        elevation: {
+            ...elevation,
+            ...(
+                (horizontalLock
+                    ||
+                    (
+                        update.startingBayQuantity === undefined
+                        ||
+                        update.startingBayQuantity === startingBayQuantity
+                    )
+                ) ?
+                    update
+                    :
+                    {
+                        ...update,
+                        horizontalRoughOpening: update.startingBayQuantity > startingBayQuantity ?
+                            horizontalRoughOpening + sightline + defaultBayWidth
+                            :
+                            horizontalRoughOpening - sightline - defaultBayWidth
+                    }
+            ),
+        },
+    }));
+
+    save = () => { };
+
+    render = () => {
+        const {
+            state: {
+                elevation: elevationInput,
+                elevation: {
+                    name,
+                    verticalLock,
+                    horizontalLock,
+                    verticalRoughOpening,
+                    horizontalRoughOpening,
+                    startingBayQuantity,
+                    finishedFloorHeight
+                },
+            },
+            props: {
+                location: {
+                    search,
+                },
+                match: {
+                    path,
+                },
+            },
+            cancel,
+            reset,
+            save,
+            updateElevation,
+        } = this;
+
+        const elevation = calculatePlacement(createElevation(elevationInput));
+
+        console.log(this);
+
+        return (
+            <>
+                <TitleBar
+                    title="New Elevation"
+                    selections={[name]}
+                    right={(
+                        <Link
+                            to={`${path.replace(/\/elevation\/new-elevation/, '')}${search}`}
+                        >
+                            <button className="action">
+                                Cancel
+                            </button>
+                        </Link>
+                    )}
+                />
+                <div className="card">
+                    <Input
+                        label="Elevation Id"
+                        value={name}
+                        onChange={({ target: { value } }) => updateElevation({
+                            name: value,
+                        })}
+                    />
+                    <div className="unfinished">
+                        <Input
+                            label="System Set"
+                        />
+                    </div>
+                    <GroupingBox
+                        title="Rough Opening"
                     >
-                        <button className="action">
-                            Cancel
-                        </button>
-                    </Link>
-                )}
-            />
-            <div className="card">
-                <Input
-                    label="Name"
-                    value={name}
-                    onChange={({ target: { value } }) => updateElevation(ACTIONS.UPDATE, {
-                        name: value,
-                    })}
-                />
-                <Input
-                    label="Rough Opening Height"
-                    type="number"
-                    value={y}
-                    onChange={({ target: { value } }) => updateElevation(ACTIONS.UPDATE, {
-                        verticalRoughOpening: +value,
-                    })}
-                />
-                <Input
-                    label="Rough Opening Width"
-                    type="number"
-                    value={x}
-                    onChange={({ target: { value } }) => updateElevation(ACTIONS.UPDATE, {
-                        horizontalRoughOpening: +value,
-                    })}
-                />
-                <Input
-                    label="Starting Bay Quantity"
-                    type="number"
-                    value={_elevationContainers
-                        .filter(({ id }) => _containerDetails
-                            .some(({
-                                firstContainerId,
-                                secondContainerId,
-                                vertical,
-                            }) => !vertical
-                            &&
-                            firstContainerId === undefined
-                                &&
-                                secondContainerId === id)
-                        ).length}
-                    onChange={({ target: { value } }) => updateElevation(ACTIONS.UPDATE, {
-                        startingBayQuantity: +value,
-                    })}
-                />
-                <Input
-                    label="Height Above Finished Floor"
-                    type="number"
-                    value={finishedFloorHeight}
-                    onChange={({ target: { value } }) => updateElevation(ACTIONS.UPDATE, {
-                        finishedFloorHeight: +value,
-                    })}
-                />
-                <ElevationPreview
-                    elevation={elevation}
-                />
-            </div>
-        </>
-    );
+                        <Input
+                            label="Vertical"
+                            type="number"
+                            min={0}
+                            value={verticalRoughOpening}
+                            onChange={({ target: { value } }) => updateElevation({
+                                verticalRoughOpening: +value,
+                            })}
+                        />
+                        <Input
+                            label="Horizontal"
+                            type="number"
+                            min={0}
+                            value={horizontalRoughOpening}
+                            onChange={({ target: { value } }) => updateElevation({
+                                horizontalRoughOpening: +value,
+                            })}
+                        />
+                    </GroupingBox>
+                    <Input
+                        label="Starting Bay Quantity"
+                        type="number"
+                        min={1}
+                        value={startingBayQuantity}
+                        onChange={({ target: { value } }) => updateElevation({
+                            startingBayQuantity: +value,
+                        })}
+                    />
+                    <Input
+                        label="Height Above Finished Floor"
+                        type="number"
+                        min={0}
+                        value={finishedFloorHeight}
+                        onChange={({ target: { value } }) => updateElevation({
+                            finishedFloorHeight: +value,
+                        })}
+                    />
+                    <ElevationPreview
+                        elevation={elevation}
+                    />
+                </div>
+            </>
+        );
+    }
 }
