@@ -11,30 +11,37 @@ import {
 } from '../../../../../utils';
 
 export default function EditElevation({
-    elevation,
     match: {
         path,
     },
     location: {
         search,
     },
+    elevation,
 }) {
-    return (        
-        <TitleBar
-            title="Edit Elevation"
-            right={(
-                <Link
-                    to={`${
-                        path.replace(/\/elevation\/edit-elevation/, '')
-                        }${
-                        parseSearch(search).remove('elevationId')
-                        }`}
-                >
-                    <button className="action">
-                        Change Elevation
-            </button>
-                </Link>
-            )}
-        />
+    return (
+        <>
+            <TitleBar
+                title="Edit Elevation"
+                right={(
+                    <Link
+                        to={`${
+                            path.replace(/\/elevation\/edit-elevation/, '')
+                            }${
+                            parseSearch(search).remove('elevationId')
+                            }`}
+                    >
+                        <button className="action">
+                            Change Elevation
+                        </button>
+                    </Link>
+                )}
+            />
+            <Link
+                to={`${path.replace(/edit/, 'build')}${search}`}
+            >
+                Build
+            </Link>
+        </>
     );
 }

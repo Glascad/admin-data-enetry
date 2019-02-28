@@ -79,17 +79,12 @@ export default class ApolloWrapper extends Component {
                             mutations={mutations}
                             refetch={refetch}
                         >
-                            {accumulatedProps => {
-                                console.log({
-                                    rawQueryStatus,
-                                });
-                                // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
-                                return children({
-                                    ...accumulatedProps,
-                                    queryStatus: normalizeResponse(rawQueryStatus),
-                                    rawQueryStatus,
-                                });
-                            }}
+                            {/* THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN */}
+                            {accumulatedProps => children({
+                                ...accumulatedProps,
+                                queryStatus: normalizeResponse(rawQueryStatus),
+                                rawQueryStatus,
+                            })}
                         </ApolloWrapper>
                     )}
                 </Query>

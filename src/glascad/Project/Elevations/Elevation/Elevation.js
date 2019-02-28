@@ -7,6 +7,7 @@ import {
 
 import NewElevation from './NewElevation/NewElevation';
 import EditElevation from './EditElevation/EditElevation';
+import BuildElevation from './BuildElevation/BuildElevation';
 
 import mergeElevationInput from './elevation-manager/merge-elevation-input';
 import calculatePlacement from './elevation-manager/calculate-placement';
@@ -15,6 +16,7 @@ import parseSearch from '../../../../utils/parse-search';
 const subroutes = {
     NewElevation,
     EditElevation,
+    BuildElevation,
 };
 
 export default class Elevations extends Component {

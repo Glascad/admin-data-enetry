@@ -64,7 +64,7 @@ export default function AllElevations({
                             ),
                         },
                         {
-                            children: "Copy",
+                            text: "Copy",
                         },
                     ],
                 }}
