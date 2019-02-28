@@ -13,22 +13,24 @@ import ElevationPreview from './ElevationPreview';
 import calculatePlacement from './ducks/calculate-placement';
 import createElevation from './ducks/create';
 
+const defaultElevationInput = {
+    verticalLock: false,
+    horizontalLock: false,
+    verticalRoughOpening: 360,
+    horizontalRoughOpening: 180,
+    startingBayQuantity: 1,
+    finishedFloorHeight: 0,
+    sightline: 10,
+    defaultBayWidth: 160,
+};
+
 export default class NewElevation extends Component {
 
     state = {
-        elevation: {
-            verticalLock: false,
-            horizontalLock: false,
-            verticalRoughOpening: 360,
-            horizontalRoughOpening: 180,
-            startingBayQuantity: 1,
-            finishedFloorHeight: 0,
-            sightline: 10,
-            defaultBayWidth: 160,
-        },
+        elevation: defaultElevationInput,
     };
 
-    reset = () => this.setState({ elevation: {} });
+    reset = () => this.setState({ elevation: defaultElevationInput });
 
     updateElevation = update => console.log({ update, state: this.state }) || this.setState(({
         elevation,
@@ -37,7 +39,6 @@ export default class NewElevation extends Component {
             horizontalRoughOpening,
             startingBayQuantity,
             sightline,
-            defaultBayWidth,
         },
     }) => ({
         elevation: {
@@ -56,9 +57,13 @@ export default class NewElevation extends Component {
                     {
                         ...update,
                         horizontalRoughOpening: update.startingBayQuantity > startingBayQuantity ?
-                            horizontalRoughOpening + sightline + defaultBayWidth
+                            horizontalRoughOpening + sightline + (
+                                horizontalRoughOpening - sightline * (startingBayQuantity + 1)
+                            ) / startingBayQuantity
                             :
-                            horizontalRoughOpening - sightline - defaultBayWidth
+                            horizontalRoughOpening - sightline - (
+                                horizontalRoughOpening - sightline * (startingBayQuantity + 1)
+                            ) / startingBayQuantity,
                     }
             ),
         },
@@ -77,7 +82,8 @@ export default class NewElevation extends Component {
                     verticalRoughOpening,
                     horizontalRoughOpening,
                     startingBayQuantity,
-                    finishedFloorHeight
+                    finishedFloorHeight,
+                    defaultBayWidth,
                 },
             },
             props: {
@@ -129,24 +135,44 @@ export default class NewElevation extends Component {
                     <GroupingBox
                         title="Rough Opening"
                     >
-                        <Input
-                            label="Vertical"
-                            type="number"
-                            min={0}
-                            value={verticalRoughOpening}
-                            onChange={({ target: { value } }) => updateElevation({
-                                verticalRoughOpening: +value,
-                            })}
-                        />
-                        <Input
-                            label="Horizontal"
-                            type="number"
-                            min={0}
-                            value={horizontalRoughOpening}
-                            onChange={({ target: { value } }) => updateElevation({
-                                horizontalRoughOpening: +value,
-                            })}
-                        />
+                        <div className="input-group">
+                            <Input
+                                label="Vertical"
+                                type="number"
+                                min={0}
+                                value={verticalRoughOpening}
+                                onChange={({ target: { value } }) => updateElevation({
+                                    verticalRoughOpening: +value,
+                                })}
+                            />
+                            <Input
+                                label="Lock"
+                                type="checkbox"
+                                checked={verticalLock}
+                                onChange={({ target: { checked } }) => updateElevation({
+                                    verticalLock: checked,
+                                })}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <Input
+                                label="Horizontal"
+                                type="number"
+                                min={0}
+                                value={horizontalRoughOpening}
+                                onChange={({ target: { value } }) => updateElevation({
+                                    horizontalRoughOpening: +value,
+                                })}
+                            />
+                            <Input
+                                label="Lock"
+                                type="checkbox"
+                                checked={horizontalLock}
+                                onChange={({ target: { checked } }) => updateElevation({
+                                    horizontalLock: checked,
+                                })}
+                            />
+                        </div>
                     </GroupingBox>
                     <Input
                         label="Starting Bay Quantity"
