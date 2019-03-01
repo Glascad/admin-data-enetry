@@ -20,12 +20,9 @@ DECLARE
 BEGIN
     SELECT * FROM create_or_update_system_option(so, sid) INTO uso;
 
-    RAISE NOTICE 'Created or Updated System Option: %', uso.id;
-
     -- OPTION VALUES
     FOREACH ov IN ARRAY so.option_values
     LOOP
-        RAISE NOTICE 'Option Creating Value: %', uso.id;
         SELECT id FROM create_or_update_option_value(ov, uso.id) INTO ___;
     END LOOP;
 

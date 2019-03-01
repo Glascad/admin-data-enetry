@@ -1,9 +1,16 @@
 
 CREATE TYPE
+id_pair AS (
+    id INTEGER,
+    fake_id INTEGER
+);
+
+CREATE TYPE
 coordinate AS (
     x FLOAT,
     y FLOAT
 );
+
 
 CREATE TYPE
 entire_option_value AS (
@@ -77,12 +84,6 @@ entire_system AS (
     -- OPTIONS
     system_options ENTIRE_SYSTEM_OPTION[],
     system_option_ids_to_delete INTEGER[]
-);
-
-CREATE TYPE
-id_pair AS (
-    id INTEGER,
-    fake_id INTEGER
 );
 
 CREATE TYPE

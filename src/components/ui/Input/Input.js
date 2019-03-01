@@ -82,10 +82,10 @@ export default class Input extends Component {
                 Shift ?
                     10 - 1
                     :
-                    Alt ?
-                        0.1 - 1
-                        :
-                        1 - 1;
+                    // Alt ?
+                    //     0.1 - 1
+                    //     :
+                    1 - 1;
 
             const value = ArrowUp ?
                 +oldValue + delta

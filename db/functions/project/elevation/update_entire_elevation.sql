@@ -27,7 +27,7 @@ BEGIN
     THEN
         FOREACH ec IN ARRAY e.containers
         LOOP
-            SELECT id FROM create_or_update_elevation_container(so, ue.id) INTO real_id;
+            SELECT id FROM create_or_update_elevation_container(ec, ue.id) INTO real_id;
             id_pairs := id_pairs || ROW(real_id, ec.fake_id)::ID_PAIR;
         END LOOP;
     END IF;
@@ -39,7 +39,31 @@ BEGIN
         SELECT * FROM UNNEST (e.detail_ids_to_delete)
     );
 
-    SELECT 1 FROM update_elevation_container_details(e.details, id_pairs, ue.id) INTO ___;
+    IF e.details IS NOT NULL
+    THEN
+        FOREACH cd IN ARRAY e.details
+        LOOP
+            INSERT INTO container_details (
+                elevation_id,
+                first_container_id,
+                second_container_id,
+                vertical
+            ) VALUES (
+                ue.id,
+                CASE
+                    WHEN cd.first_container_id IS NOT NULL
+                        THEN cd.first_container_id
+                    ELSE get_real_id(id_pairs, cd.first_container_fake_id) END,
+                CASE
+                    WHEN cd.second_container_id IS NOT NULL
+                        THEN cd.second_container_id
+                    ELSE get_real_id(id_pairs, cd.second_container_fake_id) END,
+                cd.vertical
+            );
+        END LOOP;
+    END IF;
+
+    RETURN QUERY SELECT * FROM (SELECT ue.*) ue;
 
 END;
 $$ LANGUAGE plpgsql;

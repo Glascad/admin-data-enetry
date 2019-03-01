@@ -8,7 +8,7 @@ export const ELEVATION_FIELDS = gql`
         nodeId
         id
         name
-        finishedFloorOffset
+        finishedFloorHeight
         roughOpening {
             x
             y
