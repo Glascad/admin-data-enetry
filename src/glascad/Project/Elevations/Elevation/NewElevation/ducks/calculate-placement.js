@@ -12,11 +12,9 @@ export default function calculatePlacement(elevation) {
 
     window.temp1 = recursiveElevation;
 
-    console.log({
-        recursiveElevation,
-    });
+    // console.log({ recursiveElevation });
 
-    console.log({ placedContainers });
+    // console.log({ placedContainers });
 
     return {
         ...elevation,

@@ -14,15 +14,22 @@ import calculatePlacement from './ducks/calculate-placement';
 import createElevation from './ducks/create';
 
 const defaultElevationInput = {
-    verticalLock: false,
-    horizontalLock: false,
+    verticalLock: true,
+    horizontalLock: true,
     verticalRoughOpening: 360,
     horizontalRoughOpening: 180,
     startingBayQuantity: 1,
     finishedFloorHeight: 0,
     sightline: 10,
     defaultBayWidth: 160,
+    horizontalFrames: [],
 };
+
+const defaultHorizontalFrame = {
+    height: 100,
+    from: "finishedFloor",
+    to: "top",
+}
 
 export default class NewElevation extends Component {
 
@@ -32,40 +39,10 @@ export default class NewElevation extends Component {
 
     reset = () => this.setState({ elevation: defaultElevationInput });
 
-    updateElevation = update => console.log({ update, state: this.state }) || this.setState(({
-        elevation,
-        elevation: {
-            horizontalLock,
-            horizontalRoughOpening,
-            startingBayQuantity,
-            sightline,
-        },
-    }) => ({
+    updateElevation = update => console.log({ update, state: this.state }) || this.setState(({ elevation }) => ({
         elevation: {
             ...elevation,
-            ...(
-                (horizontalLock
-                    ||
-                    (
-                        update.startingBayQuantity === undefined
-                        ||
-                        update.startingBayQuantity === startingBayQuantity
-                    )
-                ) ?
-                    update
-                    :
-                    {
-                        ...update,
-                        horizontalRoughOpening: update.startingBayQuantity > startingBayQuantity ?
-                            horizontalRoughOpening + sightline + (
-                                horizontalRoughOpening - sightline * (startingBayQuantity + 1)
-                            ) / startingBayQuantity
-                            :
-                            horizontalRoughOpening - sightline - (
-                                horizontalRoughOpening - sightline * (startingBayQuantity + 1)
-                            ) / startingBayQuantity,
-                    }
-            ),
+            ...update,
         },
     }));
 
@@ -102,7 +79,7 @@ export default class NewElevation extends Component {
 
         const elevation = calculatePlacement(createElevation(elevationInput));
 
-        console.log(this);
+        // console.log(this);
 
         return (
             <>
@@ -148,10 +125,8 @@ export default class NewElevation extends Component {
                             <Input
                                 label="Lock"
                                 type="checkbox"
+                                readOnly={true}
                                 checked={verticalLock}
-                                onChange={({ target: { checked } }) => updateElevation({
-                                    verticalLock: checked,
-                                })}
                             />
                         </div>
                         <div className="input-group">
@@ -167,10 +142,8 @@ export default class NewElevation extends Component {
                             <Input
                                 label="Lock"
                                 type="checkbox"
+                                readOnly={true}
                                 checked={horizontalLock}
-                                onChange={({ target: { checked } }) => updateElevation({
-                                    horizontalLock: checked,
-                                })}
                             />
                         </div>
                     </GroupingBox>

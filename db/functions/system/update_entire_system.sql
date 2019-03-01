@@ -1,17 +1,16 @@
 DROP FUNCTION IF EXISTS update_entire_system;
 
-CREATE OR REPLACE FUNCTION update_entire_system (
-    system entire_system
-) RETURNS SETOF systems AS $$
+CREATE OR REPLACE FUNCTION update_entire_system (system ENTIRE_SYSTEM)
+RETURNS SETOF SYSTEMS AS $$
 DECLARE
     -- SYSTEM
     s ALIAS FOR system;
     -- LOOP
-    so entire_system_option;
-    sco entire_system_configuration_override;
+    so ENTIRE_SYSTEM_OPTION;
+    sco ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE;
     ___ INTEGER;
     -- OUT
-    us systems%ROWTYPE;
+    us SYSTEMS%ROWTYPE;
 BEGIN
     SELECT * FROM create_or_update_system(s) INTO us;
 
@@ -139,7 +138,6 @@ BEGIN
     THEN
         FOREACH so IN ARRAY s.system_options
         LOOP
-            RAISE NOTICE 'Creating System Option: %', us.id;
             SELECT id FROM update_entire_system_option(so, us.id) INTO ___;
         END LOOP;
     END IF;

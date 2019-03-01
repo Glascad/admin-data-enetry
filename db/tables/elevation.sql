@@ -12,7 +12,7 @@ elevations (
     project_id INTEGER REFERENCES projects,
     name VARCHAR(50),
     rough_opening COORDINATE,
-    finished_floor_offset FLOAT
+    finished_floor_height FLOAT
 );
 
 CREATE TABLE

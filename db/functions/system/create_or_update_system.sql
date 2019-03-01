@@ -1,8 +1,7 @@
 DROP FUNCTION IF EXISTS create_or_update_system;
 
-CREATE OR REPLACE FUNCTION create_or_update_system (
-    system entire_system
-) RETURNS SETOF systems AS $$
+CREATE OR REPLACE FUNCTION create_or_update_system (system ENTIRE_SYSTEM)
+RETURNS SETOF SYSTEMS AS $$
 DECLARE
     s ALIAS FOR system;
 BEGIN
