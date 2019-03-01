@@ -1,0 +1,67 @@
+{
+    "elevation": {
+        "name": "TEST #2",
+        "roughOpening": {
+            "x": 1000,
+            "y": 500
+        },
+        "finishedFloorHeight": 0,
+        "containers": [
+            {
+                "fakeId": 1,
+                "original": true,
+                "contents": "TEST",
+                "daylightOpening": {
+                    "x": 485,
+                    "y": 480
+                }
+            },
+            {
+                "fakeId": 2,
+                "original": false,
+                "contents": "TEST",
+                "daylightOpening": {
+                    "x": 485,
+                    "y": 480
+                }
+            }
+        ],
+        "details": [
+            {
+                "vertical": true,
+                "firstContainerFakeId": null,
+                "secondContainerFakeId": 1
+            },
+            {
+                "vertical": true,
+                "firstContainerFakeId": 1,
+                "secondContainerFakeId": 2
+            },
+            {
+                "vertical": true,
+                "firstContainerFakeId": 2,
+                "secondContainerFakeId": null
+            },
+            {
+                "vertical": false,
+                "firstContainerFakeId": null,
+                "secondContainerFakeId": 1
+            },
+            {
+                "vertical": false,
+                "firstContainerFakeId": 1,
+                "secondContainerFakeId": null
+            },
+            {
+                "vertical": false,
+                "firstContainerFakeId": null,
+                "secondContainerFakeId": 2
+            },
+            {
+                "vertical": false,
+                "firstContainerFakeId": 2,
+                "secondContainerFakeId": null
+            }
+        ]
+    }
+}

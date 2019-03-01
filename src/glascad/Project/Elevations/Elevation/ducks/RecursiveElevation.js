@@ -6,7 +6,22 @@ export class RecursiveElevation {
         sightline = 10,
     } = {}) {
 
-        const containersById = _elevationContainers
+        // mark fake ids with underscores
+
+        const containers = _elevationContainers
+            .map(c => ({
+                ...c,
+                id: c.id || `_${c.fakeId}`,
+            }));
+
+        const details = _containerDetails
+            .map(d => ({
+                ...d,
+                firstContainerId: d.firstContainerId || `_${d.firstContainerFakeId}`,
+                secondContainerId: d.secondContainerId || `_${d.secondContainerFakeId}`,
+            }));
+
+        const containersById = containers
             .reduce((byId, container) => ({
                 ...byId,
                 [container.id]: container,
@@ -15,10 +30,10 @@ export class RecursiveElevation {
         Object.assign(
             this,
             {
-                _elevationContainers,
-                _containerDetails,
+                containers,
+                details,
                 sightline,
-                ids: _elevationContainers.map(({ id }) => id),
+                ids: Object.keys(containersById),
             },
             Object.entries(containersById)
                 .reduce((elevation, [id, container]) => ({
@@ -27,7 +42,8 @@ export class RecursiveElevation {
                 }), {}),
         );
 
-        const originalContainerId = (_elevationContainers.find(({ original }) => original) || {}).id;
+        const [originalContainerId] = Object.entries(containersById)
+            .find(([_, { original }]) => original) || [];
 
         this.originalContainer = this[originalContainerId];
     }
@@ -72,7 +88,7 @@ class RecursiveContainer {
 
     getFrames(vertical, first) {
         return this[framesKey][vertical][first] || (
-            this[framesKey][vertical][first] = this.elevation._containerDetails
+            this[framesKey][vertical][first] = this.elevation.details
                 .filter(({
                     firstContainerId,
                     secondContainerId,

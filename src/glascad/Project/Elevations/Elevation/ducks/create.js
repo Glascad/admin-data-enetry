@@ -9,7 +9,7 @@ export default function createElevation({
 
     const _elevationContainers = [...startingBayQuantity]
         .map(i => ({
-            id: i + 1,
+            fakeId: i + 1,
             original: i === 0,
             contents: "GLASS",
             daylightOpening: {
@@ -19,38 +19,35 @@ export default function createElevation({
         }));
 
     const _containerDetails = _elevationContainers
-        .reduce((all, { id }, i, { length }) => all.concat([
+        .reduce((all, { fakeId }, i, { length }) => all.concat([
             // left
-            {
+            i === 0 && {
                 vertical: true,
-                firstContainerId: i === 0 ?
-                    undefined
-                    :
-                    id - 1,
-                secondContainerId: id,
+                firstContainerFakeId: undefined,
+                secondContainerFakeId: fakeId,
             },
             // right
             {
                 vertical: true,
-                firstContainerId: id,
-                secondContainerId: i === length - 1 ?
+                firstContainerFakeId: fakeId,
+                secondContainerFakeId: i === length - 1 ?
                     undefined
                     :
-                    id + 1
+                    fakeId + 1
             },
             // top
             {
                 vertical: false,
-                firstContainerId: id,
-                secondContainerId: undefined,
+                firstContainerFakeId: fakeId,
+                secondContainerFakeId: undefined,
             },
             // bottom
             {
                 vertical: false,
-                firstContainerId: undefined,
-                secondContainerId: id,
+                firstContainerFakeId: undefined,
+                secondContainerFakeId: fakeId,
             },
-        ]), []);
+        ].filter(Boolean)), []);
 
     return {
         roughOpening: {

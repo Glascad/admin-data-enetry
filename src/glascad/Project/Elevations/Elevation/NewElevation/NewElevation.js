@@ -10,18 +10,17 @@ import {
 
 import ElevationPreview from './ElevationPreview';
 
-import calculatePlacement from './ducks/calculate-placement';
-import createElevation from './ducks/create';
+import calculatePlacement from '../ducks/calculate-placement';
+import createElevation from '../ducks/create';
 
 const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
-    verticalRoughOpening: 360,
-    horizontalRoughOpening: 180,
-    startingBayQuantity: 1,
-    finishedFloorHeight: 0,
+    verticalRoughOpening: 300,
+    horizontalRoughOpening: 600,
+    startingBayQuantity: 5,
+    finishedFloorHeight: 50,
     sightline: 10,
-    defaultBayWidth: 160,
     horizontalFrames: [],
 };
 
@@ -29,7 +28,7 @@ const defaultHorizontalFrame = {
     height: 100,
     from: "finishedFloor",
     to: "top",
-}
+};
 
 export default class NewElevation extends Component {
 
@@ -46,7 +45,38 @@ export default class NewElevation extends Component {
         },
     }));
 
-    save = () => { };
+    save = () => {
+        const {
+            state: {
+                elevation: elevationInput,
+                elevation: {
+                    name,
+                },
+            },
+            props: {
+                mutations: {
+                    updateEntireElevation,
+                },
+            },
+        } = this;
+
+        const {
+            _elevationContainers,
+            _containerDetails,
+            ...createdElevation
+        } = createElevation(elevationInput);
+
+        const elevation = {
+            name,
+            containers: _elevationContainers,
+            details: _containerDetails,
+            ...createdElevation,
+        };
+
+        console.log({ elevation });
+
+        updateEntireElevation({ elevation });
+    }
 
     render = () => {
         const {
@@ -60,7 +90,6 @@ export default class NewElevation extends Component {
                     horizontalRoughOpening,
                     startingBayQuantity,
                     finishedFloorHeight,
-                    defaultBayWidth,
                 },
             },
             props: {
@@ -77,9 +106,15 @@ export default class NewElevation extends Component {
             updateElevation,
         } = this;
 
-        const elevation = calculatePlacement(createElevation(elevationInput));
+        console.log({ elevationInput });
 
-        // console.log(this);
+        const createdElevation = createElevation(elevationInput);
+
+        console.log({ createdElevation });
+
+        const elevation = calculatePlacement(createdElevation);
+
+        console.log({ elevation });
 
         return (
             <>
@@ -168,6 +203,15 @@ export default class NewElevation extends Component {
                     <ElevationPreview
                         elevation={elevation}
                     />
+                    <div className="bottom-buttons">
+                        <div />
+                        <button
+                            className="action"
+                            onClick={save}
+                        >
+                            Save
+                        </button>
+                    </div>
                 </div>
             </>
         );

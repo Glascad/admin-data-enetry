@@ -32,19 +32,24 @@ export default class Input extends Component {
         }
     }
 
-    componentDidMount = () => this.componentDidUpdate({}, {});
+    componentDidMount = () => {
+        this.componentDidUpdate({}, {});
+        window.addEventListener('keydown', this.handleKeyDown);
+        window.addEventListener('keyup', this.handleKeyUp);
+    }
 
-    blurOnEnter = ({ key, target }) => key === 'Enter' && target.blur();
+    componentWillUnmount = () => {
+        window.removeEventListener('keydown', this.handleKeyDown);
+        window.removeEventListener('keyup', this.handleKeyUp);
+    }
 
     handleKeyDown = e => {
-        const { key, altKey } = e;
+        const { key, altKey, target } = e;
 
         this.keys[key] = true;
         this.keys.Alt = altKey;
 
-        this.blurOnEnter(e);
-
-        if (this.props.onKeyDown) this.props.onKeyDown(e);
+        if (key === 'Enter') target.blur();
     }
 
     handleKeyUp = e => {
@@ -52,8 +57,6 @@ export default class Input extends Component {
 
         this.keys[key] = false;
         this.keys.Alt = altKey;
-
-        if (this.props.onKeyUp) this.props.onKeyUp(e);
     }
 
     handleNumberChange = e => {
@@ -117,12 +120,8 @@ export default class Input extends Component {
                 ...props
             },
             ref,
-            handleKeyDown,
-            handleKeyUp,
             handleNumberChange,
         } = this;
-
-        console.log(this.keys);
 
         if (
             value !== undefined
@@ -180,9 +179,6 @@ export default class Input extends Component {
                                 checked
                                 :
                                 undefined}
-                            onKeyDown={handleKeyDown}
-                            onKeyUp={handleKeyUp}
-                            onInput={e => console.log([e, { ...e }, e.key, e.metaKey])}
                             onChange={type === "number" ?
                                 handleNumberChange
                                 :

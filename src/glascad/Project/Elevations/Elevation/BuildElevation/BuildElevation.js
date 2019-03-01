@@ -8,6 +8,12 @@ import {
     TitleBar,
 } from '../../../../../components';
 
+import { parseSearch } from '../../../../../utils';
+
+import calculatePlacement from '../ducks/calculate-placement';
+
+import ElevationPreview from '../NewElevation/ElevationPreview';
+
 export default class BuildElevation extends Component {
 
     static contextType = StaticContext;
@@ -25,8 +31,21 @@ export default class BuildElevation extends Component {
                 match: {
                     path,
                 },
+                queryStatus: {
+                    _elevation,
+                },
             },
         } = this;
+
+        const placedElevation = calculatePlacement(_elevation);
+
+        console.log(this.props);
+
+        console.log({
+            _elevation,
+            placedElevation,
+        });
+
         return (
             <>
                 <TitleBar
@@ -44,6 +63,9 @@ export default class BuildElevation extends Component {
                             </button>
                         </Link>
                     )}
+                />
+                <ElevationPreview
+                    elevation={placedElevation}
                 />
             </>
         );

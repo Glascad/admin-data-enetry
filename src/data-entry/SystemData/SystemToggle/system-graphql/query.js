@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 import F from '../../../../schema/fragments';
 
 export default gql`
-    query SystemById($id:Int!){
-        systemById(id:$id){
+    query SystemById($id: Int!) {
+        systemById(id: $id) {
             ...EntireSystem
         }
         ...AllSystemTypes
