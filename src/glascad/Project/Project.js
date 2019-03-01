@@ -1,5 +1,7 @@
 import React from 'react';
 
+import gql from 'graphql-tag';
+
 import {
     ApolloWrapper,
     Navigator,
@@ -30,8 +32,35 @@ Project.navigationOptions = ({
         search,
     },
 }) => ({
+    name: (
+        <ApolloWrapper
+            query={{
+                query: gql`
+                    query Project($id:Int!){
+                        projectById(id:$id){
+                            __typename
+                            nodeId
+                            name
+                        }
+                    }
+                `,
+                variables: {
+                    id: +parseSearch(search).projectId,
+                },
+            }}
+        >
+            {({
+                queryStatus: {
+                    _project: {
+                        name = '',
+                    } = {},
+                } = {},
+            }) => name || '...'}
+        </ApolloWrapper>
+    ),
     shouldRender: !!parseSearch(search).projectId,
     subroutes,
+    path: "/project",
 });
 
 export default function Project({

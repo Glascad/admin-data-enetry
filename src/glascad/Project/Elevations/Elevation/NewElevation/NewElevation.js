@@ -13,13 +13,15 @@ import ElevationPreview from './ElevationPreview';
 import calculatePlacement from '../ducks/calculate-placement';
 import createElevation from '../ducks/create';
 
+import { parseSearch } from '../../../../../utils';
+
 const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
-    verticalRoughOpening: 300,
-    horizontalRoughOpening: 600,
-    startingBayQuantity: 5,
-    finishedFloorHeight: 50,
+    verticalRoughOpening: 360,
+    horizontalRoughOpening: 180,
+    startingBayQuantity: 1,
+    finishedFloorHeight: 0,
     sightline: 10,
     horizontalFrames: [],
 };
@@ -45,7 +47,7 @@ export default class NewElevation extends Component {
         },
     }));
 
-    save = () => {
+    save = async () => {
         const {
             state: {
                 elevation: elevationInput,
@@ -54,6 +56,13 @@ export default class NewElevation extends Component {
                 },
             },
             props: {
+                history,
+                location: {
+                    search,
+                },
+                match: {
+                    path,
+                },
                 mutations: {
                     updateEntireElevation,
                 },
@@ -75,7 +84,23 @@ export default class NewElevation extends Component {
 
         console.log({ elevation });
 
-        updateEntireElevation({ elevation });
+        const {
+            data: {
+                updateEntireElevation: {
+                    elevation: [
+                        {
+                            id: elevationId,
+                        },
+                    ],
+                },
+            },
+        } = await updateEntireElevation({ elevation });
+
+        history.push(`${
+            path.replace(/new/, 'build')
+            }${
+            parseSearch(search).update({ elevationId })
+            }`);
     }
 
     render = () => {
@@ -100,7 +125,6 @@ export default class NewElevation extends Component {
                     path,
                 },
             },
-            cancel,
             reset,
             save,
             updateElevation,
@@ -117,103 +141,102 @@ export default class NewElevation extends Component {
         console.log({ elevation });
 
         return (
-            <>
+            <div className="card">
                 <TitleBar
                     title="New Elevation"
                     selections={[name]}
-                    right={(
-                        <Link
-                            to={`${path.replace(/\/elevation\/new-elevation/, '')}${search}`}
-                        >
-                            <button className="action">
-                                Cancel
-                            </button>
-                        </Link>
-                    )}
                 />
-                <div className="card">
+                <Input
+                    label="Elevation Id"
+                    value={name}
+                    onChange={({ target: { value } }) => updateElevation({
+                        name: value,
+                    })}
+                />
+                <div className="unfinished">
                     <Input
-                        label="Elevation Id"
-                        value={name}
-                        onChange={({ target: { value } }) => updateElevation({
-                            name: value,
-                        })}
+                        label="System Set"
                     />
-                    <div className="unfinished">
+                </div>
+                <GroupingBox
+                    title="Rough Opening"
+                >
+                    <div className="input-group">
                         <Input
-                            label="System Set"
+                            label="Vertical"
+                            type="number"
+                            min={0}
+                            value={verticalRoughOpening}
+                            onChange={({ target: { value } }) => updateElevation({
+                                verticalRoughOpening: +value,
+                            })}
+                        />
+                        <Input
+                            label="Lock"
+                            type="checkbox"
+                            readOnly={true}
+                            checked={verticalLock}
                         />
                     </div>
-                    <GroupingBox
-                        title="Rough Opening"
-                    >
-                        <div className="input-group">
-                            <Input
-                                label="Vertical"
-                                type="number"
-                                min={0}
-                                value={verticalRoughOpening}
-                                onChange={({ target: { value } }) => updateElevation({
-                                    verticalRoughOpening: +value,
-                                })}
-                            />
-                            <Input
-                                label="Lock"
-                                type="checkbox"
-                                readOnly={true}
-                                checked={verticalLock}
-                            />
-                        </div>
-                        <div className="input-group">
-                            <Input
-                                label="Horizontal"
-                                type="number"
-                                min={0}
-                                value={horizontalRoughOpening}
-                                onChange={({ target: { value } }) => updateElevation({
-                                    horizontalRoughOpening: +value,
-                                })}
-                            />
-                            <Input
-                                label="Lock"
-                                type="checkbox"
-                                readOnly={true}
-                                checked={horizontalLock}
-                            />
-                        </div>
-                    </GroupingBox>
-                    <Input
-                        label="Starting Bay Quantity"
-                        type="number"
-                        min={1}
-                        value={startingBayQuantity}
-                        onChange={({ target: { value } }) => updateElevation({
-                            startingBayQuantity: +value,
-                        })}
-                    />
-                    <Input
-                        label="Height Above Finished Floor"
-                        type="number"
-                        min={0}
-                        value={finishedFloorHeight}
-                        onChange={({ target: { value } }) => updateElevation({
-                            finishedFloorHeight: +value,
-                        })}
-                    />
-                    <ElevationPreview
-                        elevation={elevation}
-                    />
-                    <div className="bottom-buttons">
-                        <div />
-                        <button
-                            className="action"
-                            onClick={save}
-                        >
-                            Save
-                        </button>
+                    <div className="input-group">
+                        <Input
+                            label="Horizontal"
+                            type="number"
+                            min={0}
+                            value={horizontalRoughOpening}
+                            onChange={({ target: { value } }) => updateElevation({
+                                horizontalRoughOpening: +value,
+                            })}
+                        />
+                        <Input
+                            label="Lock"
+                            type="checkbox"
+                            readOnly={true}
+                            checked={horizontalLock}
+                        />
                     </div>
+                </GroupingBox>
+                <Input
+                    label="Starting Bay Quantity"
+                    type="number"
+                    min={1}
+                    value={startingBayQuantity}
+                    onChange={({ target: { value } }) => updateElevation({
+                        startingBayQuantity: +value,
+                    })}
+                />
+                <Input
+                    label="Height Above Finished Floor"
+                    type="number"
+                    min={0}
+                    value={finishedFloorHeight}
+                    onChange={({ target: { value } }) => updateElevation({
+                        finishedFloorHeight: +value,
+                    })}
+                />
+                <ElevationPreview
+                    elevation={elevation}
+                />
+                <div className="bottom-buttons">
+                    <Link
+                        to={`${
+                            path.replace(/\/elevation\/new-elevation/, '')
+                            }${
+                            search
+                            }`}
+                    >
+                        <button>
+                            Cancel
+                        </button>
+                    </Link>
+                    <button
+                        className="action"
+                        onClick={save}
+                    >
+                        Save
+                    </button>
                 </div>
-            </>
+            </div>
         );
     }
 }

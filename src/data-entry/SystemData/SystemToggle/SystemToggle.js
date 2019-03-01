@@ -48,7 +48,7 @@ SystemToggle.navigationOptions = ({
             }) => name || '...'}
         </ApolloWrapper>
     ),
-    shouldRender: !!(parseSearch(search).systemId),
+    shouldRender: !!parseSearch(search).systemId,
     path: "/info",
 });
 

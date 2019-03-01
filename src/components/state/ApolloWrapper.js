@@ -111,10 +111,11 @@ export default class ApolloWrapper extends Component {
                                         ...accumulatedProps.mutations,
                                         [mutationKeys[0]]: async args => {
                                             // console.log(args);
-                                            await mutate({
+                                            const result = await mutate({
                                                 variables: args,
                                             });
                                             refetch();
+                                            return result;
                                         },
                                         [`${mutationKeys[0]}Status`]: status,
                                     }

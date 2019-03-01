@@ -5,28 +5,6 @@
     display: flex;
     flex-direction: column;
 
-    .bottom-buttons {
-        display: flex;
-        justify-content: space-between;
-        margin-top: $xxxx-large;
-        
-        .buttons-right, .buttons-left {
-            display: flex;
-            
-            a {
-                + a {
-                    margin-left: $small;
-                }
-            }
-        }
-    }
-    
-    .card {
-        .bottom-buttons {
-            margin-bottom: -$base_size;
-        }
-    }
-
     .tab-container {
         width: 100%;
         max-width: 70vw;
