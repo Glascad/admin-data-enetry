@@ -1,4 +1,7 @@
-import React, { Component, createContext } from 'react';
+import React, {
+    Component,
+    createContext,
+} from 'react';
 
 import './Statics.scss';
 
@@ -30,7 +33,6 @@ class Statics extends Component {
 
     getPathTo = component => {
         // find component in route tree
-        // add baseURL to component path
         // return path
     }
 
@@ -44,14 +46,11 @@ class Statics extends Component {
                 match: {
                     path,
                 },
-                baseURL,
                 routes,
             },
             toggle,
             getPathTo,
         } = this;
-
-        console.log(this);
 
         return (
             <StaticContext.Provider
@@ -60,7 +59,6 @@ class Statics extends Component {
                         open,
                         toggle,
                     },
-                    baseURL,
                     routes,
                     getPathTo,
                 }}
