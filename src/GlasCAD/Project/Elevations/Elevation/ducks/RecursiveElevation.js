@@ -66,6 +66,8 @@ export class RecursiveElevation {
 
     get placedContainers() { return this.containerIds.map(id => this.containers[id].placement); }
     get placedDetails() { return this.detailIds.map(id => this.details[id].placement); }
+    get containerRefs() { return this.containerIds.map(id => this.containers[id].ref); }
+    get detailRefs() { return this.detailIds.map(id => this.details[id].ref); }
 }
 
 const detailsKey = 'details[vertical][first]';
@@ -101,6 +103,8 @@ class RecursiveContainer {
             },
         );
     }
+
+    get ref() { return document.querySelector(`#Container-${this.id}`); }
 
     getDetails(vertical, first) {
         return this[detailsKey][vertical][first] || (
@@ -223,12 +227,14 @@ class RecursiveDetail {
         );
     }
 
+    get ref() { return document.querySelector(`#Detail-${this.id}`); }
+
     getContainer(first) {
         return this.elevation.containers[
             first ?
-                this.firstContainerId
+                this.firstContainerId || this.firstContainerFakeId
                 :
-                this.secondContainerId
+                this.secondContainerId || this.secondContainerFakeId
         ];
     }
 
@@ -274,57 +280,101 @@ class RecursiveDetail {
                 },
             } = this;
 
-            const {
-                placement: {
-                    x: firstX = vertical ?
-                        0
+            if (vertical) {
+                // FIRST CONTAINER
+                const {
+                    placement: {
+                        id: firstId,
+                        x: firstX = 0,
+                        y: firstY = sightline,
+                        height: firstHeight = 0,
+                        width: firstWidth = 0,
+                    } = {},
+                } = this.getContainer(true) || {};
+
+                // SECOND CONTAINER
+                const {
+                    placement: {
+                        id: secondId,
+                        x: secondX = sightline,
+                        y: secondY = sightline,
+                        height: secondHeight = 0,
+                        width: secondWidth = 0,
+                    } = {},
+                } = this.getContainer(false) || {};
+
+                const x = firstId ?
+                    firstX + firstWidth
+                    :
+                    secondX - sightline;
+
+                const y = Math.max(firstY, secondY);
+
+                const height = !firstId ?
+                    secondHeight
+                    :
+                    !secondId ?
+                        firstHeight
                         :
-                        sightline,
-                    y: firstY = vertical ?
-                        sightline
+                        Math.min(firstY + firstHeight, secondY + secondHeight) - y;
+
+                const width = sightline;
+
+                this.__placement = {
+                    id,
+                    x,
+                    y,
+                    height,
+                    width,
+                };
+            } else {
+                // FIRST CONTAINER
+                const {
+                    placement: {
+                        id: firstId,
+                        x: firstX = sightline,
+                        y: firstY = 0,
+                        height: firstHeight = 0,
+                        width: firstWidth = 0,
+                    } = {},
+                } = this.getContainer(true) || {};
+
+                // SECOND CONTAINER
+                const {
+                    placement: {
+                        id: secondId,
+                        x: secondX = sightline,
+                        y: secondY = sightline,
+                        height: secondHeight = 0,
+                        width: secondWidth = 0,
+                    } = {},
+                } = this.getContainer(false) || {};
+
+                const x = Math.max(firstX, secondX);
+
+                const y = firstId ?
+                    firstY + firstHeight
+                    :
+                    secondY - sightline;
+
+                const height = sightline;
+
+                const width = !firstId ?
+                    secondWidth
+                    :
+                    !secondId ?
+                        firstWidth
                         :
-                        0,
-                    height: firstHeight = 0,
-                    width: firstWidth = 0,
-                } = {},
-            } = this.getContainer(true) || {};
+                        Math.min(firstX + firstWidth, secondX + secondWidth) - x;
 
-            const {
-                placement: {
-                    x: secondX = sightline,
-                    y: secondY = sightline,
-                    height: secondHeight = 0,
-                    width: secondWidth = 0,
-                } = {},
-            } = this.getContainer(false) || {};
-
-            const x = vertical ?
-                firstX + firstWidth
-                :
-                Math.min(firstX, secondX);
-
-            const y = vertical ?
-                Math.min(firstY, secondY)
-                :
-                firstY + firstHeight;
-
-            const height = vertical ?
-                Math.max(firstY + firstHeight, secondY + secondHeight) - y
-                :
-                sightline;
-
-            const width = vertical ?
-                sightline
-                :
-                Math.max(firstX + firstWidth, secondX + secondWidth) - x;
-
-            this.__placement = {
-                id,
-                x,
-                y,
-                height,
-                width,
-            };
+                this.__placement = {
+                    id,
+                    x,
+                    y,
+                    height,
+                    width,
+                };
+            }
         }
         return this.__placement;
     }

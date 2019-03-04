@@ -33,7 +33,8 @@ export default function ElevationPreview({
                     height={y}
                     x={0}
                     y={finishedFloorHeight}
-                    fill="rgba(127, 191, 255, 0.25)"
+                    // fill="rgba(127, 191, 255, 0.25)"
+                    fill="rgba(0, 0, 0, 0)"
                     stroke="black"
                 />
                 {/* FINISHED FLOOR */}
@@ -43,12 +44,12 @@ export default function ElevationPreview({
                     strokeWidth={5}
                 />
                 {/* CONTAINERS */}
-                {placedContainers.map(({ x, y, height, width, id, ref }) => (
+                {placedContainers.map(({ x, y, height, width, id }) => (
                     <g
                         key={id}
                     >
                         <rect
-                            ref={ref}
+                            id={`Container-${id}`}
                             {...{
                                 x,
                                 y: y + finishedFloorHeight,
@@ -68,19 +69,30 @@ export default function ElevationPreview({
                     </g>
                 ))}
                 {/* DETAILS */}
-                {placedDetails.map(({ x, y, height, width, id, ref }) => (
-                    <rect
+                {placedDetails.map(({ x, y, height, width, id }) => (
+                    <g
                         key={id}
-                        ref={ref}
-                        {...{
-                            x,
-                            y: y + finishedFloorHeight,
-                            height,
-                            width,
-                        }}
-                        fill="rgba(255, 191, 0, 0.25)"
-                        stroke="black"
-                    />
+                    >
+                        <rect
+                            id={`Detail-${id}`}
+                            {...{
+                                x,
+                                y: y + finishedFloorHeight,
+                                height,
+                                width,
+                            }}
+                            fill="rgba(255, 191, 0, 0.25)"
+                            stroke="black"
+                        />
+                        {/* <text
+                            style="font-size: 10px;"
+                            x={x + width / 2}
+                            y={-(y + finishedFloorHeight + height / 2)}
+                            transform="scale(1, -1)"
+                        >
+                            {id}
+                        </text> */}
+                    </g>
                 ))}
             </svg>
         </GroupingBox>

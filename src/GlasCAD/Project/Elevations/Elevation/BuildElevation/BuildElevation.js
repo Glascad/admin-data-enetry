@@ -13,6 +13,7 @@ import { parseSearch } from '../../../../../utils';
 import calculatePlacement from '../ducks/calculate-placement';
 
 import ElevationPreview from '../NewElevation/ElevationPreview';
+import { RecursiveElevation } from '../ducks/RecursiveElevation';
 
 export default class BuildElevation extends Component {
 
@@ -37,13 +38,13 @@ export default class BuildElevation extends Component {
             },
         } = this;
 
-        const placedElevation = calculatePlacement(_elevation);
+        const elevation = new RecursiveElevation(_elevation);
 
         console.log(this.props);
 
         console.log({
             _elevation,
-            placedElevation,
+            elevation,
         });
 
         return (
@@ -65,7 +66,7 @@ export default class BuildElevation extends Component {
                     )}
                 />
                 <ElevationPreview
-                    elevation={placedElevation}
+                    elevation={elevation}
                 />
             </>
         );
