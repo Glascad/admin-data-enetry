@@ -17,32 +17,41 @@ export default function createElevation({
                 y: verticalRoughOpening - sightline * 2,
             }
         }));
+    
+    const getFakeDetailId = (() => {
+        var id = 1;
+        return () => id++;
+    })();
 
     const _containerDetails = _elevationContainers
         .reduce((all, { fakeId }, i, { length }) => all.concat([
             // left
             i === 0 && {
+                fakeId: getFakeDetailId(),
                 vertical: true,
                 firstContainerFakeId: undefined,
                 secondContainerFakeId: fakeId,
             },
             // right
             {
+                fakeId: getFakeDetailId(),
                 vertical: true,
                 firstContainerFakeId: fakeId,
                 secondContainerFakeId: i === length - 1 ?
-                    undefined
-                    :
-                    fakeId + 1
+                undefined
+                :
+                fakeId + 1
             },
             // top
             {
+                fakeId: getFakeDetailId(),
                 vertical: false,
                 firstContainerFakeId: fakeId,
                 secondContainerFakeId: undefined,
             },
             // bottom
             {
+                fakeId: getFakeDetailId(),
                 vertical: false,
                 firstContainerFakeId: undefined,
                 secondContainerFakeId: fakeId,

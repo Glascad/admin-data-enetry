@@ -38,6 +38,7 @@ export const CONTAINER_DETAIL_FIELDS = gql`
     fragment ContainerDetailFields on ContainerDetail {
         __typename
         nodeId
+        id
         vertical
         firstContainerId
         secondContainerId

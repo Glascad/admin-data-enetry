@@ -10,7 +10,7 @@ import {
 
 import ElevationPreview from './ElevationPreview';
 
-import calculatePlacement from '../ducks/calculate-placement';
+import { RecursiveElevation } from '../ducks/RecursiveElevation';
 import createElevation from '../ducks/create';
 
 import { parseSearch } from '../../../../../utils';
@@ -78,7 +78,7 @@ export default class NewElevation extends Component {
         const elevation = {
             name,
             containers: _elevationContainers,
-            details: _containerDetails,
+            details: _containerDetails.map(({ fakeId, ...detail }) => detail),
             ...createdElevation,
         };
 
@@ -132,11 +132,7 @@ export default class NewElevation extends Component {
 
         console.log({ elevationInput });
 
-        const createdElevation = createElevation(elevationInput);
-
-        console.log({ createdElevation });
-
-        const elevation = calculatePlacement(createdElevation);
+        const elevation = new RecursiveElevation(createElevation(elevationInput));
 
         console.log({ elevation });
 

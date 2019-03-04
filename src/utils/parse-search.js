@@ -60,4 +60,4 @@ class Search {
     toString = () => this.search;
 }
 
-export default (search = window.location.search) => new Search(search);
+export default (search) => new Search(search);

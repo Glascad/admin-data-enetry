@@ -1,6 +1,8 @@
 
 export class RecursiveElevation {
     constructor({
+        finishedFloorHeight = 0,
+        roughOpening = {},
         _elevationContainers = [],
         _containerDetails = [],
         sightline = 10,
@@ -17,9 +19,16 @@ export class RecursiveElevation {
         const details = _containerDetails
             .map(d => ({
                 ...d,
+                id: d.id || `_${d.fakeId}`,
                 firstContainerId: d.firstContainerId || `_${d.firstContainerFakeId}`,
                 secondContainerId: d.secondContainerId || `_${d.secondContainerFakeId}`,
             }));
+
+        const detailsById = details
+            .reduce((byId, detail) => ({
+                ...byId,
+                [detail.id]: detail,
+            }), {});
 
         const containersById = containers
             .reduce((byId, container) => ({
@@ -30,25 +39,32 @@ export class RecursiveElevation {
         Object.assign(
             this,
             {
+                finishedFloorHeight,
+                roughOpening,
                 containers,
-                details,
                 sightline,
-                ids: Object.keys(containersById),
+                detailIds: Object.keys(detailsById),
+                containerIds: Object.keys(containersById),
+                details: Object.entries(detailsById)
+                    .reduce((all, [id, detail]) => ({
+                        ...all,
+                        [id]: new RecursiveDetail(detail, this),
+                    }), {}),
+                containers: Object.entries(containersById)
+                    .reduce((all, [id, container]) => ({
+                        ...all,
+                        [id]: new RecursiveContainer(container, this),
+                    }), {}),
             },
-            Object.entries(containersById)
-                .reduce((elevation, [id, container]) => ({
-                    ...elevation,
-                    [id]: new RecursiveContainer(container, this),
-                }), {}),
         );
 
         const [originalContainerId] = Object.entries(containersById)
             .find(([_, { original }]) => original) || [];
 
-        this.originalContainer = this[originalContainerId];
+        this.originalContainer = this.containers[originalContainerId];
     }
 
-    get placedContainers() { return this.ids.map(id => this[id].placement); }
+    get placedContainers() { return this.containerIds.map(id => this.containers[id].placement); }
     get placedFrames() { return []; }
 }
 
@@ -88,7 +104,7 @@ class RecursiveContainer {
 
     getFrames(vertical, first) {
         return this[framesKey][vertical][first] || (
-            this[framesKey][vertical][first] = this.elevation.details
+            this[framesKey][vertical][first] = Object.values(this.elevation.details)
                 .filter(({
                     firstContainerId,
                     secondContainerId,
@@ -100,7 +116,7 @@ class RecursiveContainer {
                         secondContainerId
                     )
                 ))
-                .map(frame => new RecursiveFrame(frame, this.elevation))
+                // .map(frame => new RecursiveFrame(frame, this.elevation))
         );
     }
 
@@ -199,6 +215,30 @@ class RecursiveContainer {
     }
 }
 
+class RecursiveDetail {
+    constructor(detail, elevation) {
+        Object.assign(
+            this,
+            detail,
+            {
+                elevation,
+            },
+        );
+    }
+    getContainers(first) {
+        return this.elevation.containers[
+            first ?
+                this.firstContainerId
+                :
+                this.secondContainerId
+        ];
+    }
+    get matchedDetails() {
+        return this.__matchedDetails || (
+            this.__matchedDetails = []);
+    }
+}
+
 class RecursiveFrame {
     constructor(frame, elevation) {
         Object.assign(
@@ -210,7 +250,7 @@ class RecursiveFrame {
         );
     }
     getContainers(first) {
-        return this.elevation[
+        return this.elevation.containers[
             first ?
                 this.firstContainerId
                 :
