@@ -18,10 +18,10 @@ import { parseSearch } from '../../../../../utils';
 const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
-    verticalRoughOpening: 360,
-    horizontalRoughOpening: 180,
-    startingBayQuantity: 1,
-    finishedFloorHeight: 0,
+    verticalRoughOpening: 300,
+    horizontalRoughOpening: 500,
+    startingBayQuantity: 2,
+    finishedFloorHeight: 50,
     sightline: 10,
     horizontalFrames: [],
 };

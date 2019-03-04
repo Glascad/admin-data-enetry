@@ -7,7 +7,7 @@ import {
 export default function ElevationPreview({
     elevation: {
         placedContainers = [],
-        placedFrames = [],
+        placedDetails = [],
         roughOpening: {
             x = 0,
             y = 0,
@@ -43,9 +43,12 @@ export default function ElevationPreview({
                     strokeWidth={5}
                 />
                 {/* CONTAINERS */}
-                {placedContainers.map(({ x, y, height, width, id }) => (
-                    <g>
+                {placedContainers.map(({ x, y, height, width, id, ref }) => (
+                    <g
+                        key={id}
+                    >
                         <rect
+                            ref={ref}
                             {...{
                                 x,
                                 y: y + finishedFloorHeight,
@@ -64,9 +67,11 @@ export default function ElevationPreview({
                         </text>
                     </g>
                 ))}
-                {/* FRAMES */}
-                {placedFrames.map(({ x, y, height, width }) => (
+                {/* DETAILS */}
+                {placedDetails.map(({ x, y, height, width, id, ref }) => (
                     <rect
+                        key={id}
+                        ref={ref}
                         {...{
                             x,
                             y: y + finishedFloorHeight,

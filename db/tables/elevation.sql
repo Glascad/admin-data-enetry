@@ -22,7 +22,7 @@ elevation_containers (
     original BOOLEAN DEFAULT FALSE,
     contents VARCHAR(50),
     daylight_opening COORDINATE,
-    bottom_left_offset COORDINATE
+    bottom_or_left_offset FLOAT
 );
 
 CREATE TABLE

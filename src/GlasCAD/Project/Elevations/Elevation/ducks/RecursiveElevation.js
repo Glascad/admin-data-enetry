@@ -65,10 +65,10 @@ export class RecursiveElevation {
     }
 
     get placedContainers() { return this.containerIds.map(id => this.containers[id].placement); }
-    get placedFrames() { return []; }
+    get placedDetails() { return this.detailIds.map(id => this.details[id].placement); }
 }
 
-const framesKey = 'frames[vertical][first]';
+const detailsKey = 'details[vertical][first]';
 const containersKey = 'containers[vertical][first]';
 
 class RecursiveContainer {
@@ -78,7 +78,7 @@ class RecursiveContainer {
             container,
             {
                 elevation,
-                [framesKey]: {
+                [detailsKey]: {
                     true: {
                         true: undefined,
                         false: undefined,
@@ -102,39 +102,36 @@ class RecursiveContainer {
         );
     }
 
-    getFrames(vertical, first) {
-        return this[framesKey][vertical][first] || (
-            this[framesKey][vertical][first] = Object.values(this.elevation.details)
+    getDetails(vertical, first) {
+        return this[detailsKey][vertical][first] || (
+            this[detailsKey][vertical][first] = Object.values(this.elevation.details)
                 .filter(({
                     firstContainerId,
                     secondContainerId,
-                    vertical: frameVertical,
-                }) => vertical === frameVertical && (
+                    vertical: detailVertical,
+                }) => vertical === detailVertical && (
                     this.id === (first ?
                         firstContainerId
                         :
                         secondContainerId
                     )
-                ))
-                // .map(frame => new RecursiveFrame(frame, this.elevation))
-        );
+                )));
     }
 
     getContainers(vertical, first) {
         return this[containersKey][vertical][first] || (
-            this[containersKey][vertical][first] = this.getFrames(vertical, first)
-                .reduce((frames, frame) => frames
-                    .concat(frame.getContainers(!first)),
+            this[containersKey][vertical][first] = this.getDetails(vertical, first)
+                .reduce((details, detail) => details
+                    .concat(detail.getContainer(!first)),
                     [])
-                .filter(Boolean)
-        );
+                .filter(Boolean));
     }
 
-    // frames
-    get leftFrames() { return this.getFrames(true, false); }
-    get rightFrames() { return this.getFrames(true, true); }
-    get topFrames() { return this.getFrames(false, true); }
-    get bottomFrames() { return this.getFrames(false, false); }
+    // details
+    get leftDetails() { return this.getDetails(true, false); }
+    get rightDetails() { return this.getDetails(true, true); }
+    get topDetails() { return this.getDetails(false, true); }
+    get bottomDetails() { return this.getDetails(false, false); }
 
     // containers
     get leftContainers() { return this.getContainers(true, false); }
@@ -225,7 +222,8 @@ class RecursiveDetail {
             },
         );
     }
-    getContainers(first) {
+
+    getContainer(first) {
         return this.elevation.containers[
             first ?
                 this.firstContainerId
@@ -233,28 +231,114 @@ class RecursiveDetail {
                 this.secondContainerId
         ];
     }
+
+    sharesSide(detail) {
+
+        const thisFirstContainer = this.getContainer(true);
+        const thisSecondContainer = this.getContainer(false);
+
+        const detailFirstContainer = detail.getContainer(true);
+        const detailSecondContainer = detail.getContainer(false);
+
+        return (
+            (
+                thisFirstContainer === detailFirstContainer
+                &&
+                (
+                    this.bottomLeftOffset
+                )
+            )
+            ||
+            (
+                thisSecondContainer === detailSecondContainer
+            )
+        )
+    }
+
+    sharesCorner(detail) {
+
+    }
+
+    sharesSharedDetail(detail) {
+        return false;
+    }
+
+    get placement() {
+        if (!this.__placement) {
+
+            const {
+                id,
+                vertical,
+                elevation: {
+                    sightline,
+                },
+            } = this;
+
+            const {
+                placement: {
+                    x: firstX = vertical ?
+                        0
+                        :
+                        sightline,
+                    y: firstY = vertical ?
+                        sightline
+                        :
+                        0,
+                    height: firstHeight = 0,
+                    width: firstWidth = 0,
+                } = {},
+            } = this.getContainer(true) || {};
+
+            const {
+                placement: {
+                    x: secondX = sightline,
+                    y: secondY = sightline,
+                    height: secondHeight = 0,
+                    width: secondWidth = 0,
+                } = {},
+            } = this.getContainer(false) || {};
+
+            const x = vertical ?
+                firstX + firstWidth
+                :
+                Math.min(firstX, secondX);
+
+            const y = vertical ?
+                Math.min(firstY, secondY)
+                :
+                firstY + firstHeight;
+
+            const height = vertical ?
+                Math.max(firstY + firstHeight, secondY + secondHeight) - y
+                :
+                sightline;
+
+            const width = vertical ?
+                sightline
+                :
+                Math.max(firstX + firstWidth, secondX + secondWidth) - x;
+
+            this.__placement = {
+                id,
+                x,
+                y,
+                height,
+                width,
+            };
+        }
+        return this.__placement;
+    }
+
     get matchedDetails() {
         return this.__matchedDetails || (
-            this.__matchedDetails = []);
-    }
-}
-
-class RecursiveFrame {
-    constructor(frame, elevation) {
-        Object.assign(
-            this,
-            frame,
-            {
-                elevation,
-            },
-        );
-    }
-    getContainers(first) {
-        return this.elevation.containers[
-            first ?
-                this.firstContainerId
-                :
-                this.secondContainerId
-        ];
+            this.__matchedDetails = Object.values(this.elevation.details)
+                .filter(detail => (
+                    detail.vertical === this.vertical && (
+                        this.sharesSide(detail)
+                        ||
+                        this.sharesCorner(detail)
+                        ||
+                        this.sharesSharedDetail(detail)
+                    ))));
     }
 }
