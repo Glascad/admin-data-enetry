@@ -1,15 +1,20 @@
 import React from 'react';
+
 import ApolloClient from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
+
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { CheatSheet } from './components';
+import {
+    CheatSheet,
+    Navigator,
+} from './components';
 
 import './App.scss';
 
-import Sidebar from './statics/Sidebar/Sidebar';
-import Viewport from './statics/Viewport/Viewport';
+import DataEntry from './DataEntry/DataEntry';
+import Glascad from './GlasCAD/GlasCAD';
 
 const cache = new InMemoryCache({
     dataIdFromObject: ({ nodeId }) => nodeId || null,
@@ -25,8 +30,12 @@ export default function App() {
         <Router>
             <ApolloProvider client={client}>
                 <CheatSheet>
-                    <Sidebar />
-                    <Viewport />
+                    <Navigator
+                        routes={{
+                            DataEntry,
+                            Glascad,
+                        }}
+                    />
                 </CheatSheet>
             </ApolloProvider>
         </Router>

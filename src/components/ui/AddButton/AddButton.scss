@@ -29,10 +29,7 @@
         border: $icon-thickness dashed $pill-color;
 
         .add-button {
-            height: $pill-width * 3 / 4;
-            width: $pill-width * 3 / 4;
-            border-radius: $pill-width * 3 / 4;
-            border-width: $x-small;
+            transform: scale(3.33);
         }
     }
 
@@ -52,22 +49,21 @@
         }
     }
 
-    .vertical-plus {
+    .vertical-plus, .horizontal-plus {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 10%;
-        height: 55%;
         transform: translate(-50%, -50%);
     }
 
+    .vertical-plus {
+        width: 10%;
+        height: 55%;
+    }
+
     .horizontal-plus {
-        position: absolute;
-        top: 50%;
-        left: 50%;
         width: 55%;
         height: 10%;
-        transform: translate(-50%, -50%);
     }
 
 }

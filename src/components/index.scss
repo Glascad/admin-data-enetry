@@ -67,6 +67,29 @@
     }
 }
 
+
+.bottom-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $xxxx-large;
+    
+    .buttons-right, .buttons-left {
+        display: flex;
+        
+        a {
+            + a {
+                margin-left: $small;
+            }
+        }
+    }
+}
+
+.card {
+    .bottom-buttons {
+        margin-bottom: -$base_size;
+    }
+}
+
 .disabled {
     opacity: 0.3;
 }
@@ -90,8 +113,8 @@
         content: "UNFINISHED";
         position: absolute;
         background: rgba(255, 0, 0, 0.75);
-        top: 0;
-        right: 0;
+        top: -1px;
+        right: -1px;
         padding: $x-small;
     }
 

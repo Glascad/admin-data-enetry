@@ -17,6 +17,8 @@ export default class Input extends Component {
         checked: false,
     };
 
+    keys = {};
+
     ref = createRef();
 
     componentDidUpdate = ({ initialValue }) => {
@@ -30,9 +32,78 @@ export default class Input extends Component {
         }
     }
 
-    componentDidMount = () => this.componentDidUpdate({}, {});
+    componentDidMount = () => {
+        this.componentDidUpdate({}, {});
+        window.addEventListener('keydown', this.handleKeyDown);
+        window.addEventListener('keyup', this.handleKeyUp);
+    }
 
-    blurOnEnter = ({ key, target }) => key === 'Enter' && target.blur();
+    componentWillUnmount = () => {
+        window.removeEventListener('keydown', this.handleKeyDown);
+        window.removeEventListener('keyup', this.handleKeyUp);
+    }
+
+    handleKeyDown = e => {
+        const { key, altKey, target } = e;
+
+        this.keys[key] = true;
+        this.keys.Alt = altKey;
+
+        if (key === 'Enter') target.blur();
+    }
+
+    handleKeyUp = e => {
+        const { key, altKey } = e;
+
+        this.keys[key] = false;
+        this.keys.Alt = altKey;
+    }
+
+    handleNumberChange = e => {
+        const {
+            target,
+            target: {
+                value: oldValue,
+            },
+        } = e;
+
+        const {
+            keys: {
+                ArrowDown,
+                ArrowUp,
+                Control,
+                Meta,
+                Shift,
+                Alt,
+            },
+        } = this;
+
+        if (ArrowUp || ArrowDown) {
+            const delta = Meta || Control ?
+                100 - 1
+                :
+                Shift ?
+                    10 - 1
+                    :
+                    // Alt ?
+                    //     0.1 - 1
+                    //     :
+                    1 - 1;
+
+            const value = ArrowUp ?
+                +oldValue + delta
+                :
+                +oldValue - delta;
+
+            if (this.props.onChange) {
+                e.preventDefault();
+                target.value = value;
+                this.props.onChange({ ...e, target });
+            } else {
+                target.value = value;
+            }
+        }
+    }
 
     render = () => {
         const {
@@ -45,10 +116,11 @@ export default class Input extends Component {
                 initialValue,
                 checked,
                 onChange,
+                handleChange,
                 ...props
             },
             ref,
-            blurOnEnter,
+            handleNumberChange,
         } = this;
 
         if (
@@ -95,7 +167,7 @@ export default class Input extends Component {
                             type={type}
                             value={onChange ?
                                 value || (
-                                    type === 'text' ?
+                                    type === "text" ?
                                         ""
                                         :
                                         type === "number" ?
@@ -107,8 +179,10 @@ export default class Input extends Component {
                                 checked
                                 :
                                 undefined}
-                            onKeyDown={blurOnEnter}
-                            onChange={onChange}
+                            onChange={type === "number" ?
+                                handleNumberChange
+                                :
+                                onChange}
                             {...props}
                         />
                     )

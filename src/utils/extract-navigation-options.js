@@ -14,32 +14,23 @@
  * }
  */
 
-const extractNavigationOptions = (component, props, log = false) => {
+export default (functionName, component, props, log = false) => {
     const {
         navigationOptions = {},
-        navigationOptions: {
-            subroutes,
-        } = {},
-        name: functionName = "",
     } = component;
 
-    const options = typeof navigationOptions === 'function' ?
-        navigationOptions(props)
-        :
-        navigationOptions;
-
-    const name = typeof options.name !== 'undefined' ?
-        options.name
-        :
-        functionName
+    const {
+        name = functionName
             .replace(/_|\W/g, '')
-            .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`);
+            .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`),
+        path = `/${name.replace(/ +/g, '-').toLowerCase()}`,
+        subroutes,
+        ...options
+    } = typeof navigationOptions === 'function' ?
+            navigationOptions(props)
+            :
+            navigationOptions;
 
-    const path = options.path ?
-        options.path
-        :
-        `/${name.replace(/ +/g, '-').toLowerCase()}`;
-    
     if (log) {
         console.log({
             name,
@@ -60,5 +51,3 @@ const extractNavigationOptions = (component, props, log = false) => {
         subroutes,
     };
 }
-
-export default extractNavigationOptions;

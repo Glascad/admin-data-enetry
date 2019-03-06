@@ -14,7 +14,7 @@ const normalizeResponse = ({ data }) => removeNullValues(
             data,
         ),
     ),
-);
+) || {};
 
 /**
  * PURPOSE
@@ -55,13 +55,6 @@ export default class ApolloWrapper extends Component {
     render = () => {
         const {
             props: {
-                batcher,
-                batcher: {
-                    registerQueryRefetch = () => { },
-                    getNodeId,
-                    batchedMutations = {},
-                    batchMutation,
-                } = {},
                 query,
                 refetch,
                 mutations,
@@ -81,46 +74,17 @@ export default class ApolloWrapper extends Component {
                 <Query
                     {...query}
                 >
-                    {({ refetch, ...status }) => (
-                        // console.log(status)
-                        // ||
-                        registerQueryRefetch(refetch)
-                        ||
+                    {({ refetch, ...rawQueryStatus }) => (
                         <ApolloWrapper
                             mutations={mutations}
-                            batcher={batcher}
                             refetch={refetch}
                         >
-                            {accumulatedProps => {
-                                // THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN
-                                // iterate through all batched mutations
-                                const queryStatus = Object.keys(batchedMutations)
-                                    .reduce((mappedStatus, mutationKey) => {
-
-                                        // console.log(`mapping result of ${mutationKey} to props`);
-
-                                        const {
-                                            mapMutationArgumentsToProps = (res, props) => props
-                                        } = mutations[mutationKey] || {};
-
-                                        const {
-                                            argumentSets = [],
-                                        } = batchedMutations[mutationKey] || {};
-
-                                        // iterate through all argument sets of batched mutations
-                                        return argumentSets.reduce((mappedStatus, argSet) => ({
-                                            ...mappedStatus,
-                                            ...mapMutationArgumentsToProps(argSet, mappedStatus),
-                                        }), mappedStatus);
-
-                                    }, normalizeResponse(status) || {}) || {};
-
-                                return children({
-                                    ...accumulatedProps,
-                                    batcher,
-                                    queryStatus,
-                                });
-                            }}
+                            {/* THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN */}
+                            {accumulatedProps => children({
+                                ...accumulatedProps,
+                                queryStatus: normalizeResponse(rawQueryStatus),
+                                rawQueryStatus,
+                            })}
                         </ApolloWrapper>
                     )}
                 </Query>
@@ -138,7 +102,6 @@ export default class ApolloWrapper extends Component {
                                     ...all,
                                     [key]: mutations[key],
                                 }), {})}
-                            batcher={batcher}
                             refetch={refetch}
                         >
                             {accumulatedProps => (
@@ -146,24 +109,14 @@ export default class ApolloWrapper extends Component {
                                     ...accumulatedProps,
                                     mutations: {
                                         ...accumulatedProps.mutations,
-                                        [mutationKeys[0]]: batcher ?
-                                            args => batchMutation({
-                                                arguments: {
-                                                    ...args,
-                                                    nodeId: (args && args.nodeId) || getNodeId(),
-                                                },
-                                                mutate,
-                                                mutationKey: mutationKeys[0],
-                                                // transformArgumentsBeforeMutation: nextMutation.transformArgumentsBeforeMutation,
-                                            })
-                                            :
-                                            async args => {
-                                                // console.log(args);
-                                                await mutate({
-                                                    variables: args,
-                                                });
-                                                refetch();
-                                            },
+                                        [mutationKeys[0]]: async args => {
+                                            // console.log(args);
+                                            const result = await mutate({
+                                                variables: args,
+                                            });
+                                            refetch();
+                                            return result;
+                                        },
                                         [`${mutationKeys[0]}Status`]: status,
                                     }
                                 })
@@ -174,7 +127,6 @@ export default class ApolloWrapper extends Component {
             )
         } else {
             return children({
-                batcher,
                 ...props,
             });
         }

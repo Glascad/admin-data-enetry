@@ -8,7 +8,6 @@
     flex-direction: column;
     
     .button {
-
         @include two-colors($off-white, $dark-gray);
         border-color: $off-white;
         width: 67%;
@@ -19,6 +18,13 @@
             margin-top: $small;
         }
 
+        a {
+            width: fill;
+            height: fill;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         
         &.danger {
             @include two-colors($off-white, $danger-color, false);

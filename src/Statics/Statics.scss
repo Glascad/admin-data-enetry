@@ -1,0 +1,100 @@
+
+@import '../styles/variables';
+
+#Sidebar {
+    background: $dark-blue;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+
+    #sidebar-header {
+        background: $dark-blue;
+        color: $off-white;
+        font-family: 'Montserrat';
+        font-size: $x-large;
+        padding: 0 calc(#{$large} - 4px);
+        height: $header-height;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid $rule-color;
+
+        .logo {
+            height: $item-height;
+            min-height: $item-height;
+            width: $item-height;
+            min-width: $item-height;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        span {
+            padding-left: $base-size;
+        }
+    }
+
+    .DoubleArrow {
+        position: absolute;
+        top: $header-height;
+        right: 0;
+        height: $menu-height;
+        width: $menu-height;
+        // border-left: 1px solid $rule-color;
+        border-radius: 0;
+        
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0.5rem;
+            left: 0;
+            bottom: 0.5rem;
+            border-left: 1px solid $rule-color;
+        }
+        
+        // &:after {
+        //     content: "";
+        //     position: absolute;
+        //     left: 0.5rem;
+        //     bottom: 0;
+        //     right: 0;
+        //     border-bottom: 1px solid $rule-color;
+        // }
+    }
+
+    .application-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: $small;
+
+        button {
+            margin: $x-small;
+        }
+    }
+
+    &.closed {
+        .DoubleArrow {
+            z-index: 1;
+            border: none;
+            right: $base_size;
+
+            &:before, &:after {
+                border: none;
+            }
+
+            .arrow {
+                transform: rotate(180deg);
+            }
+        }
+
+        .application-links {
+            display: none;
+        }
+
+        .NavMenu, span {
+            opacity: 0;
+        }
+    }
+}

@@ -28,7 +28,19 @@
     
     #Viewport {
         width: stretch;
-        // left: $sidebar-width;
-        // width: $viewport-width;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: $header-height;
+
+        .card {
+            margin-bottom: $header-height * 4;
+        }
+
+        > * {
+            width: 90%;
+            max-width: 70vw;
+        }
     }
 }
