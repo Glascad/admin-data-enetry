@@ -8,12 +8,8 @@ import {
     TitleBar,
 } from '../../../../../components';
 
-import { parseSearch } from '../../../../../utils';
-
-import calculatePlacement from '../ducks/calculate-placement';
-
 import ElevationPreview from '../NewElevation/ElevationPreview';
-import { RecursiveElevation } from '../ducks/RecursiveElevation';
+import RecursiveElevation from '../recursive-elevation/recursive-elevation';
 
 export default class BuildElevation extends Component {
 

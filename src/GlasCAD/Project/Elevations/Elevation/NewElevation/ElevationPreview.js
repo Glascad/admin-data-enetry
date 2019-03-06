@@ -8,6 +8,7 @@ export default function ElevationPreview({
     elevation: {
         placedContainers = [],
         placedDetails = [],
+        placedFrames = [],
         roughOpening: {
             x = 0,
             y = 0,
@@ -82,6 +83,32 @@ export default function ElevationPreview({
                                 width,
                             }}
                             fill="rgba(255, 191, 0, 0.25)"
+                            stroke="black"
+                        />
+                        {/* <text
+                            style="font-size: 10px;"
+                            x={x + width / 2}
+                            y={-(y + finishedFloorHeight + height / 2)}
+                            transform="scale(1, -1)"
+                        >
+                            {id}
+                        </text> */}
+                    </g>
+                ))}
+                {/* FRAMES */}
+                {placedFrames.map(({ x, y, height, width, ids }) => (
+                    <g
+                        key={ids.join('-')}
+                    >
+                        <rect
+                            id={`Frame-${ids.join('-')}`}
+                            {...{
+                                x,
+                                y: y + finishedFloorHeight,
+                                height,
+                                width,
+                            }}
+                            fill="rgba(255, 0, 0, 0.5)"
                             stroke="black"
                         />
                         {/* <text

@@ -10,7 +10,7 @@ import {
 
 import ElevationPreview from './ElevationPreview';
 
-import { RecursiveElevation } from '../ducks/RecursiveElevation';
+import RecursiveElevation from '../recursive-elevation/recursive-elevation';
 import createElevation from '../ducks/create';
 
 import { parseSearch } from '../../../../../utils';

@@ -46,9 +46,7 @@
             }
         };
         Array.prototype.replace = function (i, val) {
-            if (
-                typeof i !== "number"
-            ) throw new TypeError("First argument to Array.replace() must be an integer");
+            if (parseInt(i) !== i) throw new TypeError("First argument to Array.replace() must be an integer");
             const newArr = this.slice();
             newArr[i] = val;
             return newArr;
