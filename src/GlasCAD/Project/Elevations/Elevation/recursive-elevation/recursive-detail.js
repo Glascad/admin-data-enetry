@@ -21,6 +21,17 @@ export default class RecursiveDetail {
         ];
     }
 
+    get matchedFrames() {
+        const { vertical } = this;
+        const first = this._getContainer(true);
+        const second = this._getContainer(false);
+
+        const matchedFrames = [first, second]
+            .map(container => {
+                const before = container._getImmediateContainersByDirection(!vertical, true);
+            });
+    }
+
     get placement() {
         if (!this.__placement) {
 
