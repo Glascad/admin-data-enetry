@@ -1,6 +1,7 @@
 
 const detailsKey = 'details[vertical][first]';
 const containersKey = 'containers[vertical][first]';
+const allContainersKey = 'allContainers[vertical][first]';
 
 export default class RecursiveContainer {
     constructor(container, elevation) {
@@ -29,13 +30,23 @@ export default class RecursiveContainer {
                         false: undefined,
                     },
                 },
+                [allContainersKey]: {
+                    true: {
+                        true: undefined,
+                        false: undefined,
+                    },
+                    false: {
+                        true: undefined,
+                        false: undefined,
+                    },
+                }
             },
         );
     }
 
     get ref() { return document.querySelector(`#Container-${this.id}`); }
 
-    getDetails(vertical, first) {
+    _getDetails(vertical, first) {
         return this[detailsKey][vertical][first] || (
             this[detailsKey][vertical][first] = Object.values(this.elevation.details)
                 .filter(({
@@ -51,58 +62,85 @@ export default class RecursiveContainer {
                 )));
     }
 
-    getContainers(vertical, first) {
+    _getImmediateContainersByDirection(vertical, first) {
         return this[containersKey][vertical][first] || (
-            this[containersKey][vertical][first] = this.getDetails(vertical, first)
+            this[containersKey][vertical][first] = this._getDetails(vertical, first)
                 .reduce((details, detail) => details
-                    .concat(detail.getContainer(!first)),
+                    .concat(detail._getContainer(!first)),
                     [])
-                .filter(Boolean));
+                .filter(Boolean)
+                .sort(this._sortContainers(vertical, first)));
+    }
+
+    _getAllContainersByDirection(vertical, first) {
+        return this[allContainersKey][vertical][first] || (
+            this[allContainersKey][vertical][first] = this._getImmediateContainersByDirection(vertical, first)
+                .reduce((all, container) => Array.from(new Set(all
+                    .concat([container]
+                        .concat(container._getAllContainersByDirection(vertical, first))))),
+                    []));
     }
 
     // details
-    get leftDetails() { return this.getDetails(true, false); }
-    get rightDetails() { return this.getDetails(true, true); }
-    get topDetails() { return this.getDetails(false, true); }
-    get bottomDetails() { return this.getDetails(false, false); }
+    get leftDetails() { return this._getDetails(true, false); }
+    get rightDetails() { return this._getDetails(true, true); }
+    get topDetails() { return this._getDetails(false, true); }
+    get bottomDetails() { return this._getDetails(false, false); }
 
     // containers
-    get leftContainers() { return this.getContainers(true, false); }
-    get rightContainers() { return this.getContainers(true, true); }
-    get topContainers() { return this.getContainers(false, true); }
-    get bottomContainers() { return this.getContainers(false, false); }
+    get leftContainers() { return this._getImmediateContainersByDirection(true, false); }
+    get rightContainers() { return this._getImmediateContainersByDirection(true, true); }
+    get topContainers() { return this._getImmediateContainersByDirection(false, true); }
+    get bottomContainers() { return this._getImmediateContainersByDirection(false, false); }
 
-    get allLeftContainers() {
-        return this.__allLeftContainers || (
-            this.__allLeftContainers = this.getContainers(true, false)
-                .reduce((all, container) => all
-                    .concat([container]
-                        .concat(container.allLeftContainers)),
-                    []));
-    }
-    get allRightContainers() {
-        return this.__allRightContainers || (
-            this.__allRightContainers = this.getContainers(true, true)
-                .reduce((all, container) => all
-                    .concat([container]
-                        .concat(container.allRightContainers)),
-                    []));
-    }
-    get allTopContainers() {
-        return this.__allTopContainers || (
-            this.__allTopContainers = this.getContainers(false, true)
-                .reduce((all, container) => all
-                    .concat([container]
-                        .concat(container.allTopContainers)),
-                    []));
-    }
-    get allBottomContainers() {
-        return this.__allBottomContainers || (
-            this.__allBottomContainers = this.getContainers(false, false)
-                .reduce((all, container) => all
-                    .concat([container]
-                        .concat(container.allBottomContainers)),
-                    []));
+    get allLeftContainers() { return this._getAllContainersByDirection(true, false); }
+    get allRightContainers() { return this._getAllContainersByDirection(true, true); }
+    get allTopContainers() { return this._getAllContainersByDirection(false, true); }
+    get allBottomContainers() { return this._getAllContainersByDirection(false, true); }
+
+    _sortContainers(vertical) {
+        return function sort(a, b) {
+            const beforeA = a._getAllContainersByDirection(!vertical, false);
+            const beforeB = b._getAllContainersByDirection(!vertical, false);
+            // a comes before b because b is upward or rightward of a
+            if (beforeB.includes(a)) {
+                console.log(`${a.id} is before ${b.id}`);
+                return -1;
+            }
+            // b comes before a because a is upward or rightward of a
+            else if (beforeA.includes(b)) {
+                console.log(`${b.id} is before ${a.id}`);
+                return 1;
+            }
+            // otherwise we need to compare offsets
+            else {
+                const key = vertical ? 'x' : 'y';
+
+                const [
+                    {
+                        [key]: offsetA = 0,
+                    } = {},
+                    {
+                        [key]: offsetB = 0,
+                    } = {}
+                ] = [beforeA, beforeB]
+                    .map(before => before
+                        .find(({ bottomLeftOffset: { [key]: offset } = {} }) => offset));
+
+                if (offsetA < offsetB) {
+                    console.log(`${a.id} is before ${b.id}`);
+                    return -1;
+                }
+                else if (offsetA > offsetB) {
+                    console.log(`${b.id} is before ${a.id}`);
+                    return 1;
+                }
+                else {
+                    console.log(`${a.id} is equal to ${b.id}`);
+                    return 0;
+                }
+            }
+        }
     }
 
     get placement() {

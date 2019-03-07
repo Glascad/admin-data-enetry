@@ -12,7 +12,7 @@ export default class RecursiveDetail {
 
     get ref() { return document.querySelector(`#Detail-${this.id}`); }
 
-    getContainer(first) {
+    _getContainer(first) {
         return this.elevation.containers[
             first ?
                 this.firstContainerId || this.firstContainerFakeId
@@ -42,7 +42,7 @@ export default class RecursiveDetail {
                         height: firstHeight = 0,
                         width: firstWidth = 0,
                     } = {},
-                } = this.getContainer(true) || {};
+                } = this._getContainer(true) || {};
 
                 // SECOND CONTAINER
                 const {
@@ -53,7 +53,7 @@ export default class RecursiveDetail {
                         height: secondHeight = 0,
                         width: secondWidth = 0,
                     } = {},
-                } = this.getContainer(false) || {};
+                } = this._getContainer(false) || {};
 
                 const x = firstId ?
                     firstX + firstWidth
@@ -92,7 +92,7 @@ export default class RecursiveDetail {
                         height: firstHeight = 0,
                         width: firstWidth = 0,
                     } = {},
-                } = this.getContainer(true) || {};
+                } = this._getContainer(true) || {};
 
                 // SECOND CONTAINER
                 const {
@@ -103,7 +103,7 @@ export default class RecursiveDetail {
                         height: secondHeight = 0,
                         width: secondWidth = 0,
                     } = {},
-                } = this.getContainer(false) || {};
+                } = this._getContainer(false) || {};
 
                 const x = Math.max(firstX, secondX);
 
