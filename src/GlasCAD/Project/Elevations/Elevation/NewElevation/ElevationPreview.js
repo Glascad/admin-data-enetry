@@ -7,7 +7,7 @@ import {
 export default function ElevationPreview({
     elevation: {
         placedContainers = [],
-        placedDetails = [],
+        // placedDetails = [],
         placedFrames = [],
         roughOpening: {
             x = 0,
@@ -45,12 +45,12 @@ export default function ElevationPreview({
                     strokeWidth={5}
                 />
                 {/* CONTAINERS */}
-                {placedContainers.map(({ x, y, height, width, id }) => (
+                {placedContainers.map(({ x, y, height, width, refId }) => (
                     <g
-                        key={id}
+                        key={refId}
                     >
                         <rect
-                            id={`Container-${id}`}
+                            id={refId}
                             {...{
                                 x,
                                 y: y + finishedFloorHeight,
@@ -61,21 +61,21 @@ export default function ElevationPreview({
                             stroke="black"
                         />
                         <text
-                            x={x + width / 2}
-                            y={-(y + finishedFloorHeight + height / 2)}
+                            x={x + 10}
+                            y={-(y + finishedFloorHeight + 10)}
                             transform="scale(1, -1)"
                         >
-                            {id}
+                            {refId}
                         </text>
                     </g>
                 ))}
                 {/* DETAILS */}
-                {placedDetails.map(({ x, y, height, width, id }) => (
+                {/* {placedDetails.map(({ x, y, height, width, refId }) => (
                     <g
-                        key={id}
+                        key={refId}
                     >
                         <rect
-                            id={`Detail-${id}`}
+                            id={refId}
                             {...{
                                 x,
                                 y: y + finishedFloorHeight,
@@ -85,23 +85,15 @@ export default function ElevationPreview({
                             fill="rgba(255, 191, 0, 0.25)"
                             stroke="black"
                         />
-                        {/* <text
-                            style="font-size: 10px;"
-                            x={x + width / 2}
-                            y={-(y + finishedFloorHeight + height / 2)}
-                            transform="scale(1, -1)"
-                        >
-                            {id}
-                        </text> */}
                     </g>
-                ))}
+                ))} */}
                 {/* FRAMES */}
-                {placedFrames.map(({ x, y, height, width, ids }) => (
+                {placedFrames.map(({ x, y, height, width, refId }) => (
                     <g
-                        key={ids.join('-')}
+                        key={refId}
                     >
                         <rect
-                            id={`Frame-${ids.join('-')}`}
+                            id={refId}
                             {...{
                                 x,
                                 y: y + finishedFloorHeight,
