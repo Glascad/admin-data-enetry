@@ -1,6 +1,7 @@
 
-import RecursiveContainer from './recursive-container';
-import RecursiveDetail from './recursive-detail';
+import RecursiveContainer from './container';
+import RecursiveDetail from './detail';
+import RecursiveFrame from './frame';
 
 export default class RecursiveElevation {
     constructor({
@@ -66,6 +67,14 @@ export default class RecursiveElevation {
         this.originalContainer = this.containers[originalContainerId];
 
         window.temp1 = this;
+
+        if (this.containerIds.length) {
+            setTimeout(() => {
+                console.time();
+                console.log(this.allFrames);
+                console.timeEnd();
+            }, 10000);
+        }
     }
 
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
@@ -77,21 +86,22 @@ export default class RecursiveElevation {
     get placedContainers() { return this.allContainers.map(({ placement }) => placement); }
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
 
-    get joinedFrames() {
+    get allFrames() {
         return this.allDetails.reduce((all, detail) => {
-            if (all.some(detailSet => detailSet.some(d => d === detail))) return all;
-            else {
-                console.log("ADDING NEW DETAIL AND FINDING ITS MATCHED DETAILS");
-                console.log(detail.ref);
-                const newAll = all.concat([detail.allMatchedDetails]);
-                console.log("FOUND AND ADDED NEW MATCHED DETAILS");
-                console.log(detail.allMatchedDetails.map(({ ref }) => ref));
-                return newAll;
-            }
+            if (all.some(_frame => _frame.contains(detail))) return all;
+            else return all.concat(new RecursiveFrame(detail.allMatchedDetails, this));
         }, []);
     }
 
-    get placedFrames() {
-
-    }
+    // get placedFrames() {
+    //     return this.allFrames
+    //         .map(detailSet => detailSet
+    //             .reduce((_frame, detail) => joinRectangles(_frame, detail), {}));
+    // }
 }
+
+// function joinRectangles(_frame, detail) {
+//     return {
+//         x: Math.min(_frame.x ||0, detail.x || 0)
+//     };
+// }

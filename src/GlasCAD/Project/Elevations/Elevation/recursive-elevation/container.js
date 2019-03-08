@@ -1,5 +1,6 @@
 
 const detailsKey = 'details[vertical][first]';
+const framesKey = 'frames[vertical][first]';
 const containersKey = 'containers[vertical][first]';
 const allContainersKey = 'allContainers[vertical][first]';
 
@@ -14,7 +15,7 @@ const allContainersKey = 'allContainers[vertical][first]';
  * 
  * |============|==============|
  * |            |[false][false]|
- * |  [second]  |   [third]   |
+ * |  [second]  |   [third]    |
  * |            |              |
  * |============|==============|
  * |            |              |
@@ -117,14 +118,24 @@ export default class RecursiveContainer {
                         true: undefined,
                         false: undefined,
                     },
-                }
+                },
+                [framesKey]: {
+                    true: {
+                        true: undefined,
+                        false: undefined,
+                    },
+                    false: {
+                        true: undefined,
+                        false: undefined,
+                    },
+                },
             },
         );
     }
 
     get ref() { return document.querySelector(`#Container-${this.id}`); }
 
-    _getDetails = (vertical, first) => this[detailsKey][vertical][first] || (
+    _getDetailsByDirection = (vertical, first) => this[detailsKey][vertical][first] || (
         this[detailsKey][vertical][first] = Object.values(this.elevation.details)
             .filter(({
                 firstContainerId,
@@ -138,8 +149,13 @@ export default class RecursiveContainer {
                 )
             )));
 
+    _getFrameByDirection = (vertical, first) => this[framesKey][vertical][first] || (
+        this[framesKey][vertical][first] = this.elevation.allFrames
+            .find(_frame => _frame
+                .contains(this._getDetailsByDirection(vertical, first)[0])));
+
     _getImmediateContainersByDirection = (vertical, first) => this[containersKey][vertical][first] || (
-        this[containersKey][vertical][first] = this._getDetails(vertical, first)
+        this[containersKey][vertical][first] = this._getDetailsByDirection(vertical, first)
             .reduce((details, detail) => details
                 .concat(detail._getContainer(first)),
                 [])
@@ -162,10 +178,10 @@ export default class RecursiveContainer {
     }
 
     // details
-    get leftDetails() { return this._getDetails(...LEFT); }
-    get rightDetails() { return this._getDetails(...RIGHT); }
-    get topDetails() { return this._getDetails(...UP); }
-    get bottomDetails() { return this._getDetails(...DOWN); }
+    get leftDetails() { return this._getDetailsByDirection(...LEFT); }
+    get rightDetails() { return this._getDetailsByDirection(...RIGHT); }
+    get topDetails() { return this._getDetailsByDirection(...UP); }
+    get bottomDetails() { return this._getDetailsByDirection(...DOWN); }
 
     // containers
     get leftContainers() { return this._getImmediateContainersByDirection(...LEFT); }
@@ -178,13 +194,19 @@ export default class RecursiveContainer {
     get allTopContainers() { return this._getAllContainersByDirection(...UP); }
     get allBottomContainers() { return this._getAllContainersByDirection(...DOWN); }
 
+    // frames
+    get leftFrame() { return this._getFrameByDirection(...LEFT); }
+    get rightFrame() { return this._getFrameByDirection(...RIGHT); }
+    get topFrame() { return this._getFrameByDirection(...UP); }
+    get bottomFrame() { return this._getFrameByDirection(...DOWN); }
+
     get placement() {
         return this.__placement || (
             this.__placement = {
                 id: this.id,
                 height: this.daylightOpening.y,
                 width: this.daylightOpening.x,
-                x: this.elevation.sightline + (
+                x: this.leftFrame.sightline + (
                     (
                         this.bottomLeftOffset
                         &&
@@ -199,7 +221,7 @@ export default class RecursiveContainer {
                         )
                     ) || 0
                 ),
-                y: this.elevation.sightline + (
+                y: this.bottomFrame.sightline + (
                     (
                         this.bottomLeftOffset
                         &&

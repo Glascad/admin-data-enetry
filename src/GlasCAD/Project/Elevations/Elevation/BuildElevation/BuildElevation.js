@@ -9,7 +9,7 @@ import {
 } from '../../../../../components';
 
 import ElevationPreview from '../NewElevation/ElevationPreview';
-import RecursiveElevation from '../recursive-elevation/recursive-elevation';
+import RecursiveElevation from '../recursive-elevation/elevation';
 
 export default class BuildElevation extends Component {
 

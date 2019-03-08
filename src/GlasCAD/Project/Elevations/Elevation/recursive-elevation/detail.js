@@ -1,7 +1,7 @@
 
 const unique = (...arrays) => [...new Set(arrays.reduce((res, arr) => res.concat(arr), []))];
 
-const framesKey = 'frames[first]';
+const matchedDetailsKey = 'matchedDetails[first]';
 
 /**
  * The `first` in the `_getMatchedDetails()` is oriented in the *opposite* direction
@@ -20,7 +20,7 @@ export default class RecursiveDetail {
             detail,
             {
                 elevation,
-                [framesKey]: {
+                [matchedDetailsKey]: {
                     true: undefined,
                     false: undefined,
                 },
@@ -39,55 +39,55 @@ export default class RecursiveDetail {
 
     // different `first` from `_getContainer`
     _getMatchedDetails = (first, alreadyMatched = []) => {
-        console.log(`getting matching details for first: ${
-            this.firstContainerFakeId || this.firstContainerId
-            } and second: ${
-            this.secondContainerFakeId || this.secondContainerId
-            } in direction ${
-            this.vertical
-            } ${
-            first
-            }`);
+        // console.log(`getting matching details for first: ${
+        //     this.firstContainerFakeId || this.firstContainerId
+        //     } and second: ${
+        //     this.secondContainerFakeId || this.secondContainerId
+        //     } in direction ${
+        //     this.vertical
+        //     } ${
+        //     first
+        //     }`);
 
-        console.log({ alreadyMatched });
-        console.log(alreadyMatched.map(({ ref }) => ref));
+        // console.log({ alreadyMatched });
+        // console.log(alreadyMatched.map(({ ref }) => ref));
 
         const { vertical } = this;
 
-        return this[framesKey][first] || (
-            this[framesKey][first] = [true, false]
+        return this[matchedDetailsKey][first] || (
+            this[matchedDetailsKey][first] = [true, false]
                 .reduce((matched, before) => {
 
                     const container = this._getContainer(before);
-                    console.log({ container });
+                    // console.log({ container });
 
                     if (container) {
-                        console.log(container.ref);
+                        // console.log(container.ref);
                         const matchingDetails = unique(matched, container
-                            ._getDetails(!vertical, !before));
-                        console.log({ matchingDetails });
-                        console.log(matchingDetails.map(({ ref }) => ref));
+                            ._getDetailsByDirection(!vertical, !before));
+                        // console.log({ matchingDetails });
+                        // console.log(matchingDetails.map(({ ref }) => ref));
 
                         const adjacentContainer = container
                             ._getFirstOrLastContainerByDirection(vertical, first, before);
-                        console.log({ adjacentContainer });
+                        // console.log({ adjacentContainer });
 
                         if (adjacentContainer) {
-                            console.log(adjacentContainer.ref);
+                            // console.log(adjacentContainer.ref);
                             const sameContainer = adjacentContainer
                                 ._getFirstOrLastContainerByDirection(vertical, !first, before);
-                            console.log({ sameContainer });
-                            if (sameContainer) console.log(sameContainer.ref);
+                            // console.log({ sameContainer });
+                            // if (sameContainer) console.log(sameContainer.ref);
 
                             if (sameContainer === container) {
-                                console.log("FOUND MATCHING CONTAINERS");
+                                // console.log("FOUND MATCHING CONTAINERS");
                                 const otherMatchingDetails = adjacentContainer
-                                    ._getDetails(!vertical, !before)
+                                    ._getDetailsByDirection(!vertical, !before)
                                     .reduce((all, detail) => unique(all, [detail], detail
                                         ._getMatchedDetails(first, matchingDetails)),
                                         matchingDetails);
-                                console.log({ otherMatchingDetails });
-                                console.log(otherMatchingDetails.map(({ ref }) => ref));
+                                // console.log({ otherMatchingDetails });
+                                // console.log(otherMatchingDetails.map(({ ref }) => ref));
 
                                 return unique(matched, otherMatchingDetails);
                             }
