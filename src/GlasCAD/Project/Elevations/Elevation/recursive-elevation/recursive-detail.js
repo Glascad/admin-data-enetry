@@ -1,4 +1,18 @@
 
+const unique = (...arrays) => [...new Set(arrays.reduce((res, arr) => res.concat(arr), []))];
+
+const framesKey = 'frames[first]';
+
+/**
+ * The `first` in the `_getMatchedDetails()` is oriented in the *opposite* direction
+ * as the `first` in `_getContainer()`.
+ * 
+ * For a `vertical` frame, `_getMatchedDetails(true)` indicates a `downward` direction,
+ * while `_getMatchedDetails(false)` indicates an `upward` direction,
+ * whereas `_getContainer(true)` indicates a `leftward` direction,
+ * and `_getContainer(false)` indicates a `rightward` direction.
+ */
+
 export default class RecursiveDetail {
     constructor(detail, elevation) {
         Object.assign(
@@ -6,30 +20,88 @@ export default class RecursiveDetail {
             detail,
             {
                 elevation,
+                [framesKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
             },
         );
     }
 
     get ref() { return document.querySelector(`#Detail-${this.id}`); }
 
-    _getContainer(first) {
-        return this.elevation.containers[
-            first ?
-                this.firstContainerId || this.firstContainerFakeId
-                :
-                this.secondContainerId || this.secondContainerFakeId
-        ];
+    // different `first` from `_getMatchedDetails`
+    _getContainer = first => this.elevation.containers[
+        first ?
+            this.firstContainerId || this.firstContainerFakeId
+            :
+            this.secondContainerId || this.secondContainerFakeId];
+
+    // different `first` from `_getContainer`
+    _getMatchedDetails = (first, alreadyMatched = []) => {
+        console.log(`getting matching details for first: ${
+            this.firstContainerFakeId || this.firstContainerId
+            } and second: ${
+            this.secondContainerFakeId || this.secondContainerId
+            } in direction ${
+            this.vertical
+            } ${
+            first
+            }`);
+
+        console.log({ alreadyMatched });
+        console.log(alreadyMatched.map(({ ref }) => ref));
+
+        const { vertical } = this;
+
+        return this[framesKey][first] || (
+            this[framesKey][first] = [true, false]
+                .reduce((matched, before) => {
+
+                    const container = this._getContainer(before);
+                    console.log({ container });
+
+                    if (container) {
+                        console.log(container.ref);
+                        const matchingDetails = unique(matched, container
+                            ._getDetails(!vertical, !before));
+                        console.log({ matchingDetails });
+                        console.log(matchingDetails.map(({ ref }) => ref));
+
+                        const adjacentContainer = container
+                            ._getFirstOrLastContainerByDirection(vertical, first, before);
+                        console.log({ adjacentContainer });
+
+                        if (adjacentContainer) {
+                            console.log(adjacentContainer.ref);
+                            const sameContainer = adjacentContainer
+                                ._getFirstOrLastContainerByDirection(vertical, !first, before);
+                            console.log({ sameContainer });
+                            if (sameContainer) console.log(sameContainer.ref);
+
+                            if (sameContainer === container) {
+                                console.log("FOUND MATCHING CONTAINERS");
+                                const otherMatchingDetails = adjacentContainer
+                                    ._getDetails(!vertical, !before)
+                                    .reduce((all, detail) => unique(all, [detail], detail
+                                        ._getMatchedDetails(first, matchingDetails)),
+                                        matchingDetails);
+                                console.log({ otherMatchingDetails });
+                                console.log(otherMatchingDetails.map(({ ref }) => ref));
+
+                                return unique(matched, otherMatchingDetails);
+                            }
+                        }
+                    }
+                    return matched;
+                }, unique(this, alreadyMatched)));
     }
 
-    get matchedFrames() {
-        const { vertical } = this;
-        const first = this._getContainer(true);
-        const second = this._getContainer(false);
-
-        const matchedFrames = [first, second]
-            .map(container => {
-                const before = container._getImmediateContainersByDirection(!vertical, true);
-            });
+    get allMatchedDetails() {
+        return this.__allMatchedDetails || (
+            this.__allMatchedDetails = unique(...[true, false]
+                .map(first => this._getMatchedDetails(first)))
+        );
     }
 
     get placement() {

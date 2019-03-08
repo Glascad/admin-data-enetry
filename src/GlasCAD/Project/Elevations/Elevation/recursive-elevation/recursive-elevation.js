@@ -64,15 +64,34 @@ export default class RecursiveElevation {
             .find(([_, { original }]) => original) || [];
 
         this.originalContainer = this.containers[originalContainerId];
+
+        window.temp1 = this;
     }
 
-    get containerRefs() { return this.containerIds.map(id => this.containers[id].ref); }
-    get detailRefs() { return this.detailIds.map(id => this.details[id].ref); }
+    get allContainers() { return this.containerIds.map(id => this.containers[id]); }
+    get allDetails() { return this.detailIds.map(id => this.details[id]); }
 
-    get placedContainers() { return this.containerIds.map(id => this.containers[id].placement); }
-    get placedDetails() { return this.detailIds.map(id => this.details[id].placement); }
+    get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
+    get detailRefs() { return this.allDetails.map(({ ref }) => ref); }
+
+    get placedContainers() { return this.allContainers.map(({ placement }) => placement); }
+    get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
+
+    get joinedFrames() {
+        return this.allDetails.reduce((all, detail) => {
+            if (all.some(detailSet => detailSet.some(d => d === detail))) return all;
+            else {
+                console.log("ADDING NEW DETAIL AND FINDING ITS MATCHED DETAILS");
+                console.log(detail.ref);
+                const newAll = all.concat([detail.allMatchedDetails]);
+                console.log("FOUND AND ADDED NEW MATCHED DETAILS");
+                console.log(detail.allMatchedDetails.map(({ ref }) => ref));
+                return newAll;
+            }
+        }, []);
+    }
 
     get placedFrames() {
-        
+
     }
 }

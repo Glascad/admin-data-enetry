@@ -12,13 +12,15 @@ const allContainersKey = 'allContainers[vertical][first]';
  * first = [<<<] or [vvv]
  * !first = [>>>] or [^^^]
  * 
- *              [false][false]
- *                [second]
- *               ///
- *            ///
- *         ///
- *     [first]
- * [true][true]
+ * |============|==============|
+ * |            |[false][false]|
+ * |  [second]  |   [third]   |
+ * |            |              |
+ * |============|==============|
+ * |            |              |
+ * |   [first]  |   [second]   |
+ * |[true][true]|              |
+ * |===========================|
  * 
  * Up = [vertical][first] = [|||][^^^] = [false][false]
  * Down = [vertical][!first] = [|||][vvv] = [false][true]
@@ -37,47 +39,45 @@ const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS;
 
 export default class RecursiveContainer {
 
-    static sortContainers(vertical) {
-        return function sort(a, b) {
-            const beforeA = a._getAllContainersByDirection(!vertical, true);
-            const beforeB = b._getAllContainersByDirection(!vertical, true);
-            // a comes before b because b is upward or rightward of a
-            if (beforeB.includes(a)) {
+    static sortContainers = vertical => (a, b) => {
+        const beforeA = a._getAllContainersByDirection(!vertical, true);
+        const beforeB = b._getAllContainersByDirection(!vertical, true);
+        // a comes before b because b is upward or rightward of a
+        if (beforeB.includes(a)) {
+            // console.log(`${a.id} is before ${b.id}`);
+            return -1;
+        }
+        // b comes before a because a is upward or rightward of a
+        else if (beforeA.includes(b)) {
+            // console.log(`${b.id} is before ${a.id}`);
+            return 1;
+        }
+        // otherwise we need to compare offsets
+        else {
+            const key = vertical ? 'x' : 'y';
+
+            const [
+                {
+                    [key]: offsetA = 0,
+                } = {},
+                {
+                    [key]: offsetB = 0,
+                } = {}
+            ] = [beforeA, beforeB]
+                .map(before => before
+                    .find(({ bottomLeftOffset: { [key]: offset } = {} }) => offset));
+
+            if (offsetA < offsetB) {
                 // console.log(`${a.id} is before ${b.id}`);
                 return -1;
             }
-            // b comes before a because a is upward or rightward of a
-            else if (beforeA.includes(b)) {
+            else if (offsetA > offsetB) {
                 // console.log(`${b.id} is before ${a.id}`);
                 return 1;
             }
-            // otherwise we need to compare offsets
             else {
-                const key = vertical ? 'x' : 'y';
-
-                const [
-                    {
-                        [key]: offsetA = 0,
-                    } = {},
-                    {
-                        [key]: offsetB = 0,
-                    } = {}
-                ] = [beforeA, beforeB]
-                    .map(before => before
-                        .find(({ bottomLeftOffset: { [key]: offset } = {} }) => offset));
-
-                if (offsetA < offsetB) {
-                    // console.log(`${a.id} is before ${b.id}`);
-                    return -1;
-                }
-                else if (offsetA > offsetB) {
-                    // console.log(`${b.id} is before ${a.id}`);
-                    return 1;
-                }
-                else {
-                    // console.log(`${a.id} is equal to ${b.id}`);
-                    return 0;
-                }
+                // console.log(`${a.id} is equal to ${b.id}`);
+                return 0;
             }
         }
     }
@@ -124,39 +124,41 @@ export default class RecursiveContainer {
 
     get ref() { return document.querySelector(`#Container-${this.id}`); }
 
-    _getDetails(vertical, first) {
-        return this[detailsKey][vertical][first] || (
-            this[detailsKey][vertical][first] = Object.values(this.elevation.details)
-                .filter(({
-                    firstContainerId,
-                    secondContainerId,
-                    vertical: detailVertical,
-                }) => vertical !== detailVertical && (
-                    this.id === (first ?
-                        secondContainerId
-                        :
-                        firstContainerId
-                    )
-                )));
-    }
+    _getDetails = (vertical, first) => this[detailsKey][vertical][first] || (
+        this[detailsKey][vertical][first] = Object.values(this.elevation.details)
+            .filter(({
+                firstContainerId,
+                secondContainerId,
+                vertical: detailVertical,
+            }) => vertical !== detailVertical && (
+                this.id === (first ?
+                    secondContainerId
+                    :
+                    firstContainerId
+                )
+            )));
 
-    _getImmediateContainersByDirection(vertical, first) {
-        return this[containersKey][vertical][first] || (
-            this[containersKey][vertical][first] = this._getDetails(vertical, first)
-                .reduce((details, detail) => details
-                    .concat(detail._getContainer(first)),
-                    [])
-                .filter(Boolean)
-                .sort(RecursiveContainer.sortContainers(vertical, first)));
-    }
+    _getImmediateContainersByDirection = (vertical, first) => this[containersKey][vertical][first] || (
+        this[containersKey][vertical][first] = this._getDetails(vertical, first)
+            .reduce((details, detail) => details
+                .concat(detail._getContainer(first)),
+                [])
+            .filter(Boolean)
+            .sort(RecursiveContainer.sortContainers(vertical, first)));
 
-    _getAllContainersByDirection(vertical, first) {
-        return this[allContainersKey][vertical][first] || (
-            this[allContainersKey][vertical][first] = this._getImmediateContainersByDirection(vertical, first)
-                .reduce((all, container) => Array.from(new Set(all
-                    .concat([container]
-                        .concat(container._getAllContainersByDirection(vertical, first))))),
-                    []));
+    _getAllContainersByDirection = (vertical, first) => this[allContainersKey][vertical][first] || (
+        this[allContainersKey][vertical][first] = this._getImmediateContainersByDirection(vertical, first)
+            .reduce((all, container) => Array.from(new Set(all
+                .concat([container]
+                    .concat(container._getAllContainersByDirection(vertical, first))))),
+                []));
+
+    _getFirstOrLastContainerByDirection = (vertical, first, last) => {
+        const immediateContainers = this._getImmediateContainersByDirection(vertical, first);
+        return immediateContainers[last ?
+            immediateContainers.length - 1
+            :
+            0];
     }
 
     // details
@@ -184,7 +186,7 @@ export default class RecursiveContainer {
                 width: this.daylightOpening.x,
                 x: this.elevation.sightline + (
                     (
-                        (this.bottomLeftOffset || 0)
+                        this.bottomLeftOffset
                         &&
                         (this.bottomLeftOffset.x || 0)
                     ) || (
@@ -199,7 +201,7 @@ export default class RecursiveContainer {
                 ),
                 y: this.elevation.sightline + (
                     (
-                        (this.bottomLeftOffset || 0)
+                        this.bottomLeftOffset
                         &&
                         (this.bottomLeftOffset.y || 0)
                     ) || (
