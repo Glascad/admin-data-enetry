@@ -1,4 +1,6 @@
 
+import { sortContainers } from './utils';
+
 const detailsKey = 'details[vertical][first]';
 const framesKey = 'frames[vertical][first]';
 const containersKey = 'containers[vertical][first]';
@@ -39,50 +41,6 @@ const DIRECTIONS = {
 const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS;
 
 export default class RecursiveContainer {
-
-    static sortContainers = vertical => (a, b) => {
-        const beforeA = a._getAllContainersByDirection(!vertical, true);
-        const beforeB = b._getAllContainersByDirection(!vertical, true);
-        // a comes before b because b is upward or rightward of a
-        if (beforeB.includes(a)) {
-            // console.log(`${a.id} is before ${b.id}`);
-            return -1;
-        }
-        // b comes before a because a is upward or rightward of a
-        else if (beforeA.includes(b)) {
-            // console.log(`${b.id} is before ${a.id}`);
-            return 1;
-        }
-        // otherwise we need to compare offsets
-        else {
-            const key = vertical ? 'x' : 'y';
-
-            const [
-                {
-                    [key]: offsetA = 0,
-                } = {},
-                {
-                    [key]: offsetB = 0,
-                } = {}
-            ] = [beforeA, beforeB]
-                .map(before => before
-                    .find(({ bottomLeftOffset: { [key]: offset } = {} }) => offset));
-
-            if (offsetA < offsetB) {
-                // console.log(`${a.id} is before ${b.id}`);
-                return -1;
-            }
-            else if (offsetA > offsetB) {
-                // console.log(`${b.id} is before ${a.id}`);
-                return 1;
-            }
-            else {
-                // console.log(`${a.id} is equal to ${b.id}`);
-                return 0;
-            }
-        }
-    }
-
     constructor(container, elevation) {
         Object.assign(
             this,
@@ -133,7 +91,9 @@ export default class RecursiveContainer {
         );
     }
 
-    get ref() { return document.querySelector(`#Container-${this.id}`); }
+    get refId() { return `Container-${this.id}`; }
+
+    get ref() { return document.getElementById(this.refId); }
 
     _getDetailsByDirection = (vertical, first) => this[detailsKey][vertical][first] || (
         this[detailsKey][vertical][first] = Object.values(this.elevation.details)
@@ -160,7 +120,7 @@ export default class RecursiveContainer {
                 .concat(detail._getContainer(first)),
                 [])
             .filter(Boolean)
-            .sort(RecursiveContainer.sortContainers(vertical, first)));
+            .sort(sortContainers(vertical, first)));
 
     _getAllContainersByDirection = (vertical, first) => this[allContainersKey][vertical][first] || (
         this[allContainersKey][vertical][first] = this._getImmediateContainersByDirection(vertical, first)
@@ -200,10 +160,41 @@ export default class RecursiveContainer {
     get topFrame() { return this._getFrameByDirection(...UP); }
     get bottomFrame() { return this._getFrameByDirection(...DOWN); }
 
+    // all
+    get allDetails() {
+        return [
+            ...this.leftDetails,
+            ...this.rightDetails,
+            ...this.topDetails,
+            ...this.bottomDetails,
+        ];
+    }
+    get allContainers() {
+        return [
+            ...this.leftContainers,
+            ...this.rightContainers,
+            ...this.topContainers,
+            ...this.bottomContainers,
+        ];
+    }
+    get allFrames() {
+        return [
+            this.leftFrame,
+            this.rightFrame,
+            this.topFrame,
+            this.bottomFrame,
+        ];
+    }
+
+    // refs
+    get detailRefs() { return this.allDetails.map(({ ref }) => ref); }
+    get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
+    get frameRefs() { return this.allFrames.map(({ ref }) => ref); }
+
     get placement() {
         return this.__placement || (
             this.__placement = {
-                id: this.id,
+                refId: this.refId,
                 height: this.daylightOpening.y,
                 width: this.daylightOpening.x,
                 x: this.leftFrame.sightline + (

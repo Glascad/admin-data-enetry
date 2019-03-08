@@ -79,13 +79,6 @@ export default class RecursiveElevation {
 
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
     get allDetails() { return this.detailIds.map(id => this.details[id]); }
-
-    get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
-    get detailRefs() { return this.allDetails.map(({ ref }) => ref); }
-
-    get placedContainers() { return this.allContainers.map(({ placement }) => placement); }
-    get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
-
     get allFrames() {
         return this.allDetails.reduce((all, detail) => {
             if (all.some(_frame => _frame.contains(detail))) return all;
@@ -93,15 +86,12 @@ export default class RecursiveElevation {
         }, []);
     }
 
-    // get placedFrames() {
-    //     return this.allFrames
-    //         .map(detailSet => detailSet
-    //             .reduce((_frame, detail) => joinRectangles(_frame, detail), {}));
-    // }
-}
+    get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
+    get detailRefs() { return this.allDetails.map(({ ref }) => ref); }
+    get frameRefs() { return this.allFrames.map(({ ref }) => ref); }
 
-// function joinRectangles(_frame, detail) {
-//     return {
-//         x: Math.min(_frame.x ||0, detail.x || 0)
-//     };
-// }
+    get placedContainers() { return this.allContainers.map(({ placement }) => placement); }
+    get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
+    get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
+
+}

@@ -1,22 +1,17 @@
 
+import { sortContainers } from './utils';
+
 const containersKey = 'containers[first]';
 
 export default class RecursiveFrame {
-    constructor(matchedDetails, elevation) {
+    constructor(details, elevation) {
 
-        const details = matchedDetails.reduce((byId, detail) => ({
-            ...byId,
-            [detail.id]: detail,
-        }), {});
-
-        const [{ vertical }] = matchedDetails;
+        const [{ vertical }] = details;
 
         Object.assign(
             this,
             {
                 elevation,
-                detailIds: Object.keys(details),
-                matchedDetails,
                 details,
                 vertical,
                 [containersKey]: {
@@ -27,11 +22,40 @@ export default class RecursiveFrame {
         );
     }
 
-    contains = detail => this.matchedDetails.includes(detail);
+    get refId() { return `Frame-${this.details.map(({ id }) => id).join('-')}`; }
 
-    _getContainers = first => this[containersKey][first] || (
-        this[containersKey][first] = this.details.map(detail => detail._getContainer(first))
+    get ref() { return document.getElementById(this.refId); }
+
+    contains = detail => this.details.includes(detail);
+
+    _getContainersByDirection = first => this[containersKey][first] || (
+        this[containersKey][first] = this.details
+            .map(detail => detail._getContainer(first))
+            .filter(Boolean)
+            .sort(sortContainers(!this.vertical))
     );
+
+    _getFirstOrLastContainerByDirection = (first, last) => {
+        const containers = this._getContainersByDirection(first);
+        return containers[last ?
+            containers.length - 1
+            :
+            0];
+    }
+
+    get leftContainers() { if (this.vertical) return this._getContainersByDirection(true); }
+    get rightContainers() { if (this.vertical) return this._getContainersByDirection(false); }
+    get topContainers() { if (!this.vertical) return this._getContainersByDirection(false); }
+    get bottomContainers() { if (!this.vertical) return this._getContainersByDirection(true); }
+
+    get allContainers() {
+        return [
+            ...this._getContainersByDirection(true),
+            ...this._getContainersByDirection(false),
+        ];
+    }
+
+    get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
 
     get sightline() {
         return this.__sightline || (
@@ -41,6 +65,123 @@ export default class RecursiveFrame {
     }
 
     get placement() {
-        return {};
+        const {
+            refId,
+            vertical,
+            sightline,
+            leftContainers: [firstLeftContainer] = [],
+            leftContainers: {
+                length: leftContainersLength = 0,
+            } = {},
+            rightContainers: [firstRightContainer] = [],
+            rightContainers: {
+                length: rightContainersLength = 0,
+            } = {},
+            topContainers: [firstTopContainer] = [],
+            topContainers: {
+                length: topContainersLength = 0,
+            } = {},
+            bottomContainers: [firstBottomContainer] = [],
+            bottomContainers: {
+                length: bottomContainersLength = 0,
+            } = {},
+        } = this;
+
+        const {
+            leftContainers: {
+                [leftContainersLength - 1]: lastLeftContainer = 0,
+            } = {},
+            rightContainers: {
+                [rightContainersLength - 1]: lastRightContainer = 0,
+            } = {},
+            topContainers: {
+                [topContainersLength - 1]: lastTopContainer = 0,
+            } = {},
+            bottomContainers: {
+                [bottomContainersLength - 1]: lastBottomContainer = 0,
+            } = {},
+        } = this;
+
+        const x = vertical ?
+            Math.min(
+                firstLeftContainer ?
+                    firstLeftContainer.placement.x + firstLeftContainer.placement.width
+                    :
+                    Infinity,
+                firstRightContainer ?
+                    firstRightContainer.placement.x - sightline
+                    :
+                    Infinity
+            )
+            :
+            Math.min(
+                firstBottomContainer ?
+                    firstBottomContainer.placement.x
+                    :
+                    Infinity,
+                firstTopContainer ?
+                    firstTopContainer.placement.x
+                    :
+                    Infinity
+            );
+
+        const y = vertical ?
+            Math.min(
+                firstLeftContainer ?
+                    firstLeftContainer.placement.y
+                    :
+                    Infinity,
+                firstRightContainer ?
+                    firstRightContainer.placement.y
+                    :
+                    Infinity,
+            )
+            :
+            Math.min(
+                firstBottomContainer ?
+                    firstBottomContainer.placement.y + firstBottomContainer.placement.height
+                    :
+                    Infinity,
+                firstTopContainer ?
+                    firstTopContainer.placement.y - sightline
+                    :
+                    Infinity,
+            );
+        
+        const height = vertical ?
+            Math.max(
+                lastLeftContainer ? 
+                    lastLeftContainer.placement.y + lastLeftContainer.placement.height
+                    :
+                    0,
+                lastRightContainer ?
+                    lastRightContainer.placement.y + lastRightContainer.placement.height
+                    :
+                    0
+            ) - y
+            :
+            sightline;
+        
+        const width = vertical ?
+            sightline
+            :
+            Math.max(
+                lastBottomContainer ?
+                    lastBottomContainer.placement.x + lastBottomContainer.placement.width
+                    :
+                    0,
+                lastTopContainer ?
+                    lastTopContainer.placement.x + lastTopContainer.placement.width
+                    :
+                    0,
+            ) - x;
+
+        return {
+            refId,
+            x,
+            y,
+            height,
+            width,
+        };
     }
 }

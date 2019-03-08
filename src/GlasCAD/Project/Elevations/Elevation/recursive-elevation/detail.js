@@ -28,7 +28,9 @@ export default class RecursiveDetail {
         );
     }
 
-    get ref() { return document.querySelector(`#Detail-${this.id}`); }
+    get refId() { return `Detail-${this.id}`; }
+
+    get ref() { return document.getElementById(this.refId); }
 
     // different `first` from `_getMatchedDetails`
     _getContainer = first => this.elevation.containers[
@@ -104,119 +106,119 @@ export default class RecursiveDetail {
         );
     }
 
-    get placement() {
-        if (!this.__placement) {
+    // get placement() {
+    //     if (!this.__placement) {
 
-            const {
-                id,
-                vertical,
-                elevation: {
-                    sightline,
-                },
-            } = this;
+    //         const {
+    //             id,
+    //             vertical,
+    //             elevation: {
+    //                 sightline,
+    //             },
+    //         } = this;
 
-            if (vertical) {
-                // FIRST CONTAINER
-                const {
-                    placement: {
-                        id: firstId,
-                        x: firstX = 0,
-                        y: firstY = sightline,
-                        height: firstHeight = 0,
-                        width: firstWidth = 0,
-                    } = {},
-                } = this._getContainer(true) || {};
+    //         if (vertical) {
+    //             // FIRST CONTAINER
+    //             const {
+    //                 placement: {
+    //                     id: firstId,
+    //                     x: firstX = 0,
+    //                     y: firstY = sightline,
+    //                     height: firstHeight = 0,
+    //                     width: firstWidth = 0,
+    //                 } = {},
+    //             } = this._getContainer(true) || {};
 
-                // SECOND CONTAINER
-                const {
-                    placement: {
-                        id: secondId,
-                        x: secondX = sightline,
-                        y: secondY = sightline,
-                        height: secondHeight = 0,
-                        width: secondWidth = 0,
-                    } = {},
-                } = this._getContainer(false) || {};
+    //             // SECOND CONTAINER
+    //             const {
+    //                 placement: {
+    //                     id: secondId,
+    //                     x: secondX = sightline,
+    //                     y: secondY = sightline,
+    //                     height: secondHeight = 0,
+    //                     width: secondWidth = 0,
+    //                 } = {},
+    //             } = this._getContainer(false) || {};
 
-                const x = firstId ?
-                    firstX + firstWidth
-                    :
-                    secondX - sightline;
+    //             const x = firstId ?
+    //                 firstX + firstWidth
+    //                 :
+    //                 secondX - sightline;
 
-                const y = Math.max(firstY, secondY);
+    //             const y = Math.max(firstY, secondY);
 
-                const height = !firstId ?
-                    secondHeight
-                    :
-                    !secondId ?
-                        firstHeight
-                        :
-                        Math.min(firstY + firstHeight, secondY + secondHeight) - y;
+    //             const height = !firstId ?
+    //                 secondHeight
+    //                 :
+    //                 !secondId ?
+    //                     firstHeight
+    //                     :
+    //                     Math.min(firstY + firstHeight, secondY + secondHeight) - y;
 
-                const width = sightline;
+    //             const width = sightline;
 
-                this.__placement = {
-                    id,
-                    firstId,
-                    secondId,
-                    vertical,
-                    x,
-                    y,
-                    height,
-                    width,
-                };
-            } else {
-                // FIRST CONTAINER
-                const {
-                    placement: {
-                        id: firstId,
-                        x: firstX = sightline,
-                        y: firstY = 0,
-                        height: firstHeight = 0,
-                        width: firstWidth = 0,
-                    } = {},
-                } = this._getContainer(true) || {};
+    //             this.__placement = {
+    //                 id,
+    //                 firstId,
+    //                 secondId,
+    //                 vertical,
+    //                 x,
+    //                 y,
+    //                 height,
+    //                 width,
+    //             };
+    //         } else {
+    //             // FIRST CONTAINER
+    //             const {
+    //                 placement: {
+    //                     id: firstId,
+    //                     x: firstX = sightline,
+    //                     y: firstY = 0,
+    //                     height: firstHeight = 0,
+    //                     width: firstWidth = 0,
+    //                 } = {},
+    //             } = this._getContainer(true) || {};
 
-                // SECOND CONTAINER
-                const {
-                    placement: {
-                        id: secondId,
-                        x: secondX = sightline,
-                        y: secondY = sightline,
-                        height: secondHeight = 0,
-                        width: secondWidth = 0,
-                    } = {},
-                } = this._getContainer(false) || {};
+    //             // SECOND CONTAINER
+    //             const {
+    //                 placement: {
+    //                     id: secondId,
+    //                     x: secondX = sightline,
+    //                     y: secondY = sightline,
+    //                     height: secondHeight = 0,
+    //                     width: secondWidth = 0,
+    //                 } = {},
+    //             } = this._getContainer(false) || {};
 
-                const x = Math.max(firstX, secondX);
+    //             const x = Math.max(firstX, secondX);
 
-                const y = firstId ?
-                    firstY + firstHeight
-                    :
-                    secondY - sightline;
+    //             const y = firstId ?
+    //                 firstY + firstHeight
+    //                 :
+    //                 secondY - sightline;
 
-                const height = sightline;
+    //             const height = sightline;
 
-                const width = !firstId ?
-                    secondWidth
-                    :
-                    !secondId ?
-                        firstWidth
-                        :
-                        Math.min(firstX + firstWidth, secondX + secondWidth) - x;
+    //             const width = !firstId ?
+    //                 secondWidth
+    //                 :
+    //                 !secondId ?
+    //                     firstWidth
+    //                     :
+    //                     Math.min(firstX + firstWidth, secondX + secondWidth) - x;
 
-                this.__placement = {
-                    id,
-                    firstId,
-                    secondId,
-                    vertical,
-                    x,
-                    y,
-                    height,
-                    width,
-                };
-            }
-        }
-        return this.__placement;
-    }
+    //             this.__placement = {
+    //                 id,
+    //                 firstId,
+    //                 secondId,
+    //                 vertical,
+    //                 x,
+    //                 y,
+    //                 height,
+    //                 width,
+    //             };
+    //         }
+    //     }
+    //     return this.__placement;
+    // }
 }
