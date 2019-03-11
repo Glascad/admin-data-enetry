@@ -1,5 +1,5 @@
 
-const unique = (...arrays) => [...new Set(arrays.reduce((res, arr) => res.concat(arr), []))];
+import { unique } from '../../../../../utils';
 
 const matchedDetailsKey = 'matchedDetails[first]';
 
@@ -60,29 +60,35 @@ export default class RecursiveDetail {
             this[matchedDetailsKey][first] = [true, false]
                 .reduce((matched, before) => {
 
+                    // CONTAINER BEFORE OR AFTER FRAME
                     const container = this._getContainer(before);
                     // console.log({ container });
 
                     if (container) {
                         // console.log(container.ref);
+                        // ALL OTHER DETAILS OF CONTAINER
                         const matchingDetails = unique(matched, container
                             ._getDetailsByDirection(!vertical, !before));
                         // console.log({ matchingDetails });
                         // console.log(matchingDetails.map(({ ref }) => ref));
 
+                        // CONTAINER ADJACENT TO FRAME'S CONTAINER (IN DIRECTION SPECIFIED)
                         const adjacentContainer = container
                             ._getFirstOrLastContainerByDirection(vertical, first, before);
                         // console.log({ adjacentContainer });
 
                         if (adjacentContainer) {
                             // console.log(adjacentContainer.ref);
+                            // FIRST/LAST CONTAINER ADJACENT TO ADJACENT CONTAINER (IN OPPOSITE DIRECTION SPECIFIED)
                             const sameContainer = adjacentContainer
-                                ._getFirstOrLastContainerByDirection(vertical, !first, before);
+                            ._getFirstOrLastContainerByDirection(vertical, !first, before);
                             // console.log({ sameContainer });
                             // if (sameContainer) console.log(sameContainer.ref);
-
+                            
+                            // SHOULD BE THE SAME AS THE CONTAINER ADJACENT TO FRAME
                             if (sameContainer === container) {
                                 // console.log("FOUND MATCHING CONTAINERS");
+                                // ALL OTHER DETAILS OF CONTAINER + MATCHED DETAILS
                                 const otherMatchingDetails = adjacentContainer
                                     ._getDetailsByDirection(!vertical, !before)
                                     .reduce((all, detail) => unique(all, [detail], detail

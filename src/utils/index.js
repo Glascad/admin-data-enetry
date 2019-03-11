@@ -10,6 +10,7 @@ import _mergeArguments, {
     allocateItems as _allocateItems,
     allocate as _allocate,
 } from './merge-arguments';
+import _unique from './unique-array';
 
 export const parseSearch = _parseSearch;
 export const removeNullValues = _removeNullValues;
@@ -22,5 +23,6 @@ export const mergeArguments = _mergeArguments;
 export const divideArray = _divideArray;
 export const allocateItems = _allocateItems;
 export const allocate = _allocate;
+export const unique = _unique;
 
 export const validatePath = path => path.replace(/\/+/g, '/');
