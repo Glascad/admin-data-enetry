@@ -209,16 +209,6 @@ export default class RecursiveFrame {
             :
             0;
         
-        if (verticalTopExtension) {
-            console.log('vvv NEEDS TOP EXTENSION vvv');
-            console.log(this.ref);
-        }
-
-        if (verticalBottomExtension) {
-            console.log('vvv NEEDS BOTTOM EXTENSION vvv');
-            console.log(this.ref);
-        }
-
         return {
             refId,
             x,
