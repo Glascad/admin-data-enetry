@@ -69,10 +69,16 @@ export default class RecursiveFrame {
             refId,
             vertical,
             sightline,
+        } = this;
+
+        // farthest to the bottom / left
+        const {
+            leftContainers,
             leftContainers: [firstLeftContainer] = [],
             leftContainers: {
                 length: leftContainersLength = 0,
             } = {},
+            rightContainers,
             rightContainers: [firstRightContainer] = [],
             rightContainers: {
                 length: rightContainersLength = 0,
@@ -87,6 +93,7 @@ export default class RecursiveFrame {
             } = {},
         } = this;
 
+        // farthest to the top / right
         const {
             leftContainers: {
                 [leftContainersLength - 1]: lastLeftContainer = 0,
@@ -147,10 +154,10 @@ export default class RecursiveFrame {
                     :
                     Infinity,
             );
-        
+
         const height = vertical ?
             Math.max(
-                lastLeftContainer ? 
+                lastLeftContainer ?
                     lastLeftContainer.placement.y + lastLeftContainer.placement.height
                     :
                     0,
@@ -161,7 +168,7 @@ export default class RecursiveFrame {
             ) - y
             :
             sightline;
-        
+
         const width = vertical ?
             sightline
             :
@@ -176,11 +183,47 @@ export default class RecursiveFrame {
                     0,
             ) - x;
 
+        const onEdgeOfRoughOpening = vertical && (
+            !leftContainers.length
+            ||
+            !rightContainers.length
+        );
+
+        const verticalLastContainer = lastLeftContainer || lastRightContainer;
+        const verticalFirstContainer = firstLeftContainer || firstRightContainer;
+
+        const needsTopExtension = onEdgeOfRoughOpening
+            &&
+            !verticalLastContainer.topContainers.length;
+
+        const needsBottomExtension = onEdgeOfRoughOpening
+            &&
+            !verticalFirstContainer.bottomContainers.length;
+
+        const verticalTopExtension = needsTopExtension ?
+            verticalLastContainer.topFrame.sightline
+            :
+            0;
+        const verticalBottomExtension = needsBottomExtension ?
+            verticalLastContainer.bottomFrame.sightline
+            :
+            0;
+        
+        if (verticalTopExtension) {
+            console.log('vvv NEEDS TOP EXTENSION vvv');
+            console.log(this.ref);
+        }
+
+        if (verticalBottomExtension) {
+            console.log('vvv NEEDS BOTTOM EXTENSION vvv');
+            console.log(this.ref);
+        }
+
         return {
             refId,
             x,
-            y,
-            height,
+            y: y - verticalBottomExtension,
+            height: height + verticalBottomExtension + verticalTopExtension,
             width,
         };
     }
