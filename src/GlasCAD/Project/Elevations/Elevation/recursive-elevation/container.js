@@ -1,42 +1,12 @@
 
-import { sortContainers } from './utils';
+import { sortDetails } from './sort-details';
+import { unique } from '../../../../../utils';
+import { DIRECTIONS } from './directions';
 
-const detailsKey = 'details[vertical][first]';
-const framesKey = 'frames[vertical][first]';
-const containersKey = 'containers[vertical][first]';
-const allContainersKey = 'allContainers[vertical][first]';
-
-/**
- * Directions: [vertical][first]
- * 
- * vertical = [|||]
- * !vertical = [---]
- * 
- * first = [<<<] or [vvv]
- * !first = [>>>] or [^^^]
- * 
- * |============|==============|
- * |            |[false][false]|
- * |  [second]  |   [third]    |
- * |            |              |
- * |============|==============|
- * |            |              |
- * |   [first]  |   [second]   |
- * |[true][true]|              |
- * |===========================|
- * 
- * Up = [vertical][first] = [|||][^^^] = [false][false]
- * Down = [vertical][!first] = [|||][vvv] = [false][true]
- * Left = [!vertical][!first] = [---][<<<] = [true][true]
- * Right = [!vertical][first] = [---][>>>] = [true][false]
- */
-
-const DIRECTIONS = {
-    UP: [true, false],
-    DOWN: [true, true],
-    LEFT: [false, true],
-    RIGHT: [false, false],
-};
+const detailsKey = 'details<vertical><first>';
+const framesKey = 'frames<vertical><first>';
+const containersKey = 'containers<vertical><first>';
+const allContainersKey = 'all_containers<vertical><first>';
 
 const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS;
 
@@ -106,8 +76,8 @@ export default class RecursiveContainer {
                     secondContainerId
                     :
                     firstContainerId
-                )
-            )));
+                )))
+            .sort(sortDetails(vertical, first)));
 
     _getFrameByDirection = (vertical, first) => this[framesKey][vertical][first] || (
         this[framesKey][vertical][first] = this.elevation.allFrames
@@ -117,16 +87,14 @@ export default class RecursiveContainer {
     _getImmediateContainersByDirection = (vertical, first) => this[containersKey][vertical][first] || (
         this[containersKey][vertical][first] = this._getDetailsByDirection(vertical, first)
             .reduce((details, detail) => details
-                .concat(detail._getContainer(first)),
-                [])
-            .filter(Boolean)
-            .sort(sortContainers(vertical, first)));
+                .concat(detail._getContainer(first) || []),
+                []));
 
     _getAllContainersByDirection = (vertical, first) => this[allContainersKey][vertical][first] || (
         this[allContainersKey][vertical][first] = this._getImmediateContainersByDirection(vertical, first)
-            .reduce((all, container) => Array.from(new Set(all
+            .reduce((all, container) => unique(all
                 .concat([container]
-                    .concat(container._getAllContainersByDirection(vertical, first))))),
+                    .concat(container._getAllContainersByDirection(vertical, first)))),
                 []));
 
     _getFirstOrLastContainerByDirection = (vertical, first, last) => {

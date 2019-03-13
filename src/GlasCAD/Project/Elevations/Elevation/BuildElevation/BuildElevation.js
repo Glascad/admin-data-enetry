@@ -55,6 +55,7 @@ export default class BuildElevation extends Component {
             <>
                 <TitleBar
                     title="Build Elevation"
+                    className="blue-border"
                     left={(
                         <Link
                             to={`${

@@ -1,7 +1,5 @@
 
-import { sortContainers } from './utils';
-
-const containersKey = 'containers[first]';
+const containersKey = 'containers<first>';
 
 export default class RecursiveFrame {
     constructor(details, elevation) {
@@ -31,9 +29,7 @@ export default class RecursiveFrame {
     _getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
             .map(detail => detail._getContainer(first))
-            .filter(Boolean)
-            .sort(sortContainers(!this.vertical))
-    );
+            .filter(Boolean));
 
     _getFirstOrLastContainerByDirection = (first, last) => {
         const containers = this._getContainersByDirection(first);
@@ -74,23 +70,23 @@ export default class RecursiveFrame {
         // farthest to the bottom / left
         const {
             leftContainers,
-            leftContainers: [firstLeftContainer] = [],
             leftContainers: {
+                0: firstLeftContainer,
                 length: leftContainersLength = 0,
-            } = {},
+            } = [],
             rightContainers,
-            rightContainers: [firstRightContainer] = [],
             rightContainers: {
+                0: firstRightContainer,
                 length: rightContainersLength = 0,
-            } = {},
-            topContainers: [firstTopContainer] = [],
+            } = [],
             topContainers: {
+                0: firstTopContainer,
                 length: topContainersLength = 0,
-            } = {},
-            bottomContainers: [firstBottomContainer] = [],
+            } = [],
             bottomContainers: {
+                0: firstBottomContainer,
                 length: bottomContainersLength = 0,
-            } = {},
+            } = [],
         } = this;
 
         // farthest to the top / right
@@ -208,7 +204,7 @@ export default class RecursiveFrame {
             verticalLastContainer.bottomFrame.sightline
             :
             0;
-        
+
         return {
             refId,
             x,

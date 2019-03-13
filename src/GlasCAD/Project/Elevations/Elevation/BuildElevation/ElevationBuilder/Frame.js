@@ -24,11 +24,11 @@ export default function Frame({
             y={y + finishedFloorHeight}
             height={height}
             width={width}
-            fill={`rgba(255, 0, 0, ${
+            fill={`rgba(0, 0, 0, ${
                 isFocused ?
-                    1
-                    :
                     0.25
+                    :
+                    0.05
                 })`}
             stroke="black"
             onClick={handleFocus}

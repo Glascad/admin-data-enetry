@@ -1,7 +1,9 @@
 
-const unique = (...arrays) => [...new Set(arrays.reduce((res, arr) => res.concat(arr), []))];
+import { unique } from '../../../../../utils';
+import { sortDetails } from './sort-details';
 
-const matchedDetailsKey = 'matchedDetails[first]';
+const matchedDetailsKey = 'matched_details<first>';
+const detailsWithSharedContainerKey = 'details_with_shared_container<first>';
 
 /**
  * The `first` in the `_getMatchedDetails()` is oriented in the *opposite* direction
@@ -24,6 +26,10 @@ export default class RecursiveDetail {
                     true: undefined,
                     false: undefined,
                 },
+                [detailsWithSharedContainerKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
             },
         );
     }
@@ -38,6 +44,39 @@ export default class RecursiveDetail {
             this.firstContainerId || this.firstContainerFakeId
             :
             this.secondContainerId || this.secondContainerFakeId];
+
+    _getDetailsByContainer = first => {
+        if (!this[detailsWithSharedContainerKey][first]) {
+
+            const { vertical } = this;
+
+            const container = this._getContainer(first);
+            // console.log({ container });
+
+            if (container) {
+                // console.log(container.ref);
+                const matched = container._getDetailsByDirection(!vertical, !first)
+                    .reduce((all, detail) => detail === this ?
+                        all.concat(detail)
+                        :
+                        all.concat(detail, detail._getDetailsByContainer(!first)),
+                        [])
+                    .sort(sortDetails(!vertical));
+                // const endMatched = container._getFirstOrLastContainerByDirection(!vertical, !first, )
+                // console.log({ matched });
+                // console.log(matched.map(({ ref }) => ref));
+                this[detailsWithSharedContainerKey][first] = matched;
+            } else {
+                this[detailsWithSharedContainerKey][first] = [];
+            }
+        }
+        return this[detailsWithSharedContainerKey][first];
+    }
+
+    _getAllDetailsWithSharedContainer = () => unique(
+        this._getDetailsByContainer(true),
+        this._getDetailsByContainer(false),
+    );
 
     // different `first` from `_getContainer`
     _getMatchedDetails = (first, alreadyMatched = []) => {
