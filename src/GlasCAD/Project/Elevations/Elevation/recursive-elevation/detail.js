@@ -1,11 +1,12 @@
 
 import { unique } from '../../../../../utils';
 import { sortDetails } from './sort-details';
-import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
+import { GET_RELATIVE_DIRECTIONS } from './directions';
 
 const matchedDetailsKey = 'matched_details<first>';
 const detailsByContainerKey = 'details_by_container<first>';
 const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
+const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
 export default class RecursiveDetail {
     constructor(detail, elevation) {
@@ -26,6 +27,16 @@ export default class RecursiveDetail {
                     true: undefined,
                     false: undefined,
                 },
+                [detailsAcrossPerpendicularsKey]: {
+                    true: {
+                        true: undefined,
+                        false: undefined,
+                    },
+                    false: {
+                        true: undefined,
+                        false: undefined,
+                    },
+                },
             },
         );
     }
@@ -33,6 +44,12 @@ export default class RecursiveDetail {
     get refId() { return `Detail-${this.id}`; }
 
     get ref() { return document.getElementById(this.refId); }
+
+    get frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
+
+    get frameRefId() { return this.frame.refId; }
+
+    get frameRef() { return this.frame.ref; }
 
     _getContainerByDirection = first => this.elevation.containers[
         first ?
@@ -43,68 +60,48 @@ export default class RecursiveDetail {
 
     _getDetailsByContainer = first => {
         if (!this[detailsByContainerKey][first]) {
-            try {
-                const direction = [!this.vertical, first];
+            const direction = [!this.vertical, first];
 
-                const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
+            const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
 
-                const container = this._getContainerByDirection(first);
-                console.log({ container, BACKWARD, direction });
+            const container = this._getContainerByDirection(first);
 
-                this[detailsByContainerKey][first] = container._getDetailsByDirection(...BACKWARD);
-            } catch (e) {
-                console.error(e);
-            }
+            this[detailsByContainerKey][first] = container ?
+                container._getDetailsByDirection(...BACKWARD)
+                :
+                [];
         }
         return this[detailsByContainerKey][first];
     }
 
     _getDetailsWithSharedContainersByContainerDirection = first => {
         if (!this[detailsWithSharedContainersKey][first]) {
-            try {
-                const { vertical } = this;
+            const { vertical } = this;
 
-                const details = this._getDetailsByContainer(first);
-                console.log({ details, first });
+            const details = this._getDetailsByContainer(first);
 
-                const {
-                    0: firstDetail,
-                    [details.length - 1]: lastDetail,
-                } = details;
+            const {
+                0: firstDetail,
+                [details.length - 1]: lastDetail,
+            } = details;
 
-                this[detailsWithSharedContainersKey][first] = unique(
+            this[detailsWithSharedContainersKey][first] = unique(
+                !firstDetail || firstDetail === this ?
+                    []
+                    :
                     firstDetail._getDetailsWithSharedContainersByContainerDirection(!first),
-                    details,
+                details,
+                !lastDetail || lastDetail === this ?
+                    []
+                    :
                     lastDetail._getDetailsWithSharedContainersByContainerDirection(!first),
-                ).sort(sortDetails(!vertical));
+            ).sort(sortDetails(!vertical));
 
-            } catch (e) {
-                console.error(e);
-            }
-            // const container = this._getContainerByDirection(first);
-            // console.log({ container });
-
-            // if (container) {
-            //     // console.log(container.ref);
-            //     // const matched = container._getDetailsByDirection(!vertical, !first)
-            //     // .reduce((all, detail) => detail === this ?
-            //     //     all.concat(detail)
-            //     //     :
-            //     //     all.concat(detail, detail._getDetailsWithSharedContainersByContainerDirection(!first)),
-            //     //     [])
-            //     // .sort(sortDetails(!vertical));
-            //     // const endMatched = container._getFirstOrLastContainerByDirection(!vertical, !first)
-            //     // console.log({ matched });
-            //     // console.log(matched.map(({ ref }) => ref));
-            //     this[detailsWithSharedContainersKey][first] = matched;
-            // } else {
-            //     this[detailsWithSharedContainersKey][first] = [];
-            // }
         }
         return this[detailsWithSharedContainersKey][first];
     }
 
-    get detailsWithSharedContainers() {
+    get allDetailsWithSharedContainers() {
         return unique(
             this._getDetailsWithSharedContainersByContainerDirection(true),
             this._getDetailsWithSharedContainersByContainerDirection(false),
@@ -117,266 +114,98 @@ export default class RecursiveDetail {
         ) : this.__shouldRunThroughPerpendiculars;
     }
 
-    get frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
+    _getDetailsAcrossPerpendicularsByDirection = (detailFirst, containerFirst) => {
 
-    get frameRefId() { return this.frame.refId; }
-
-    get frameRef() { return this.frame.ref; }
-
-    // different `first` from `_getContainerByDirection`
-    _getMatchedDetails = (first, alreadyMatched = []) => {
-        // console.log(`getting matching details for first: ${
-        //     this.firstContainerFakeId || this.firstContainerId
-        //     } and second: ${
-        //     this.secondContainerFakeId || this.secondContainerId
-        //     } in direction ${
-        //     this.vertical
-        //     } ${
-        //     first
-        //     }`);
-
-        // console.log({ alreadyMatched });
-        // console.log(alreadyMatched.map(({ ref }) => ref));
-
-        if (!this[matchedDetailsKey][first]) {
-
+        if (!this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
             const { vertical } = this;
-            const detailsWithSharedContainers = [true, false]
-                .reduce((matched, before) => {
 
-                    const container = this._getContainerByDirection(before);
-                    // console.log({ container });
+            const containerDirection = [!vertical, containerFirst];
 
-                    if (container) {
-                        // console.log(container.ref);
-                        const matchingDetails = unique(matched, container
-                            ._getDetailsByDirection(!vertical, !before));
-                        // console.log({ matchingDetails });
-                        // console.log(matchingDetails.map(({ ref }) => ref));
-                        return unique(matched, matchingDetails);
-                    }
-                    return matched;
-                }, unique(this, alreadyMatched));
+            const detailDirection = [vertical, detailFirst];
 
-            const detailsRunningThroughOtherDetails = [true, false]
-                .reduce((matched, before) => {
-                    const container = this._getContainerByDirection(before);
-                    // console.log({ container });
+            const {
+                BACKWARD: cBACKWARD,
+            } = GET_RELATIVE_DIRECTIONS(containerDirection);
 
-                    if (container) {
-                        // console.log(container.ref);
-                        const matchingDetails = unique(matched, container
-                            ._getDetailsByDirection(!vertical, !before));
-                        // console.log({ matchingDetails });
-                        // console.log(matchingDetails.map(({ ref }) => ref));
+            const {
+                FORWARD: dFORWARD,
+                BACKWARD: dBACKWARD,
+            } = GET_RELATIVE_DIRECTIONS(detailDirection);
 
-                        const adjacentContainer = container
-                            ._getFirstOrLastContainerByDirection(vertical, first, before);
-                        // console.log({ adjacentContainer });
+            const container = this._getContainerByDirection(containerFirst);
 
-                        if (adjacentContainer) {
-                            // console.log(adjacentContainer.ref);
-                            const sameContainer = adjacentContainer
-                                ._getFirstOrLastContainerByDirection(vertical, !first, before);
-                            // console.log({ sameContainer });
-                            // if (sameContainer) console.log(sameContainer.ref);
+            const adjacentContainer = container && container._getFirstOrLastContainerByDirection(...dFORWARD);
 
-                            if (sameContainer === container) {
-                                // console.log("FOUND MATCHING CONTAINERS");
-                                const otherMatchingDetails = adjacentContainer
-                                    ._getDetailsByDirection(!vertical, !before)
-                                    .reduce((all, detail) => unique(all, [detail], detail
-                                        ._getMatchedDetails(first, matchingDetails)),
-                                        matchingDetails);
-                                // console.log({ otherMatchingDetails });
-                                // console.log(otherMatchingDetails.map(({ ref }) => ref));
+            const sameContainer = adjacentContainer && adjacentContainer._getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
 
-                                return unique(matched, otherMatchingDetails);
-                            }
-                        }
-                        return matched;
-                    }
-                }, []);
+            if (sameContainer && container === sameContainer) {
 
-            this[matchedDetailsKey][first] = unique(detailsWithSharedContainers, detailsRunningThroughOtherDetails);
+                const [detail] = adjacentContainer._getDetailsByDirection(...cBACKWARD);
+
+                this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail ?
+                    detail._getMatchedDetailsByDirection(detailFirst)
+                    :
+                    [];
+            } else {
+                this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = [];
+            }
         }
-        return this[matchedDetailsKey][first];
+        return this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst];
     }
 
-    // different `first` from `_getContainerByDirection`
-    _getMatchedDetails = (first, alreadyMatched = []) => {
+    _getDetailsAcrossPerpendicularsByDirection = detailFirst => unique(
+        this._getDetailsAcrossPerpendicularsByDirection(detailFirst, true),
+        this._getDetailsAcrossPerpendicularsByDirection(detailFirst, false),
+    );
 
-        const { vertical } = this;
-
-        return this[matchedDetailsKey][first] || (
-            this[matchedDetailsKey][first] = [true, false]
-                .reduce((matched, before) => {
-
-                    // CONTAINER BEFORE OR AFTER FRAME
-                    const container = this._getContainerByDirection(before);
-                    // console.log({ container });
-
-                    if (container) {
-                        // console.log(container.ref);
-                        // ALL OTHER DETAILS OF CONTAINER
-                        const matchingDetails = unique(matched, container
-                            ._getDetailsByDirection(!vertical, !before));
-                        // console.log({ matchingDetails });
-                        // console.log(matchingDetails.map(({ ref }) => ref));
-
-                        // CONTAINER ADJACENT TO FRAME'S CONTAINER (IN DIRECTION SPECIFIED)
-                        const adjacentContainer = container
-                            ._getFirstOrLastContainerByDirection(vertical, first, before);
-                        // console.log({ adjacentContainer });
-
-                        if (adjacentContainer) {
-                            // console.log(adjacentContainer.ref);
-                            // FIRST/LAST CONTAINER ADJACENT TO ADJACENT CONTAINER (IN OPPOSITE DIRECTION SPECIFIED)
-                            const sameContainer = adjacentContainer
-                                ._getFirstOrLastContainerByDirection(vertical, !first, before);
-                            // console.log({ sameContainer });
-                            // if (sameContainer) console.log(sameContainer.ref);
-
-                            // SHOULD BE THE SAME AS THE CONTAINER ADJACENT TO FRAME
-                            if (sameContainer === container) {
-                                // console.log("FOUND MATCHING CONTAINERS");
-                                // ALL OTHER DETAILS OF CONTAINER + MATCHED DETAILS
-                                const otherMatchingDetails = adjacentContainer
-                                    ._getDetailsByDirection(!vertical, !before)
-                                    .reduce((all, detail) => unique(all, [detail], detail
-                                        ._getMatchedDetails(first, matchingDetails)),
-                                        matchingDetails);
-                                // console.log({ otherMatchingDetails });
-                                // console.log(otherMatchingDetails.map(({ ref }) => ref));
-
-                                return unique(matched, otherMatchingDetails);
-                            }
-                        }
-                    }
-                    return matched;
-                }, unique(this, alreadyMatched)));
-    }
-
-    get allMatchedDetails() {
-        return this.__allMatchedDetails || (
-            this.__allMatchedDetails = unique(...[true, false]
-                .map(first => this._getMatchedDetails(first)))
+    get allDetailsAcrossPerpendiculars() {
+        return this.__allDetailsAcrossPerpendiculars || (
+            this.__allDetailsAcrossPerpendiculars = unique(
+                this._getDetailsAcrossPerpendicularsByDirection(true),
+                this._getDetailsAcrossPerpendicularsByDirection(false),
+            )
         );
     }
 
-    // get placement() {
-    //     if (!this.__placement) {
+    _getMatchedDetailsByDirection = first => {
+        const {
+            allDetailsWithSharedContainers,
+            allDetailsWithSharedContainers: {
+                [first ?
+                    0
+                    :
+                    this.allDetailsWithSharedContainers.length - 1]: endDetail,
+            },
+        } = this;
 
-    //         const {
-    //             id,
-    //             vertical,
-    //             elevation: {
-    //                 sightline,
-    //             },
-    //         } = this;
+        const detailsAcrossPerpendiculars = endDetail === this ?
+            []
+            :
+            endDetail._getDetailsAcrossPerpendicularsByDirection(first);
 
-    //         if (vertical) {
-    //             // FIRST CONTAINER
-    //             const {
-    //                 placement: {
-    //                     id: firstId,
-    //                     x: firstX = 0,
-    //                     y: firstY = sightline,
-    //                     height: firstHeight = 0,
-    //                     width: firstWidth = 0,
-    //                 } = {},
-    //             } = this._getContainerByDirection(true) || {};
+        return first ?
+            unique(
+                detailsAcrossPerpendiculars,
+                allDetailsWithSharedContainers,
+            )
+            :
+            unique(
+                allDetailsWithSharedContainers,
+                detailsAcrossPerpendiculars,
+            );
+    }
 
-    //             // SECOND CONTAINER
-    //             const {
-    //                 placement: {
-    //                     id: secondId,
-    //                     x: secondX = sightline,
-    //                     y: secondY = sightline,
-    //                     height: secondHeight = 0,
-    //                     width: secondWidth = 0,
-    //                 } = {},
-    //             } = this._getContainerByDirection(false) || {};
+    get allMatchedDetails() {
+        if (!this.__allMatchedDetails) {
 
-    //             const x = firstId ?
-    //                 firstX + firstWidth
-    //                 :
-    //                 secondX - sightline;
+            const firstMatchedDetails = this._getMatchedDetailsByDirection(true);
+            const lastMatchedDetails = this._getMatchedDetailsByDirection(true);
 
-    //             const y = Math.max(firstY, secondY);
-
-    //             const height = !firstId ?
-    //                 secondHeight
-    //                 :
-    //                 !secondId ?
-    //                     firstHeight
-    //                     :
-    //                     Math.min(firstY + firstHeight, secondY + secondHeight) - y;
-
-    //             const width = sightline;
-
-    //             this.__placement = {
-    //                 id,
-    //                 firstId,
-    //                 secondId,
-    //                 vertical,
-    //                 x,
-    //                 y,
-    //                 height,
-    //                 width,
-    //             };
-    //         } else {
-    //             // FIRST CONTAINER
-    //             const {
-    //                 placement: {
-    //                     id: firstId,
-    //                     x: firstX = sightline,
-    //                     y: firstY = 0,
-    //                     height: firstHeight = 0,
-    //                     width: firstWidth = 0,
-    //                 } = {},
-    //             } = this._getContainerByDirection(true) || {};
-
-    //             // SECOND CONTAINER
-    //             const {
-    //                 placement: {
-    //                     id: secondId,
-    //                     x: secondX = sightline,
-    //                     y: secondY = sightline,
-    //                     height: secondHeight = 0,
-    //                     width: secondWidth = 0,
-    //                 } = {},
-    //             } = this._getContainerByDirection(false) || {};
-
-    //             const x = Math.max(firstX, secondX);
-
-    //             const y = firstId ?
-    //                 firstY + firstHeight
-    //                 :
-    //                 secondY - sightline;
-
-    //             const height = sightline;
-
-    //             const width = !firstId ?
-    //                 secondWidth
-    //                 :
-    //                 !secondId ?
-    //                     firstWidth
-    //                     :
-    //                     Math.min(firstX + firstWidth, secondX + secondWidth) - x;
-
-    //             this.__placement = {
-    //                 id,
-    //                 firstId,
-    //                 secondId,
-    //                 vertical,
-    //                 x,
-    //                 y,
-    //                 height,
-    //                 width,
-    //             };
-    //         }
-    //     }
-    //     return this.__placement;
-    // }
+            this.__allMatchedDetails = unique(
+                firstMatchedDetails,
+                lastMatchedDetails,
+            );
+        }
+        return this.__allMatchedDetails;
+    }
 }
