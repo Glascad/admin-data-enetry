@@ -87,7 +87,7 @@ export default class RecursiveContainer {
     _getImmediateContainersByDirection = (vertical, first) => this[containersKey][vertical][first] || (
         this[containersKey][vertical][first] = this._getDetailsByDirection(vertical, first)
             .reduce((details, detail) => details
-                .concat(detail._getContainer(first) || []),
+                .concat(detail._getContainerByDirection(first) || []),
                 []));
 
     _getAllContainersByDirection = (vertical, first) => this[allContainersKey][vertical][first] || (
@@ -160,41 +160,46 @@ export default class RecursiveContainer {
     get frameRefs() { return this.allFrames.map(({ ref }) => ref); }
 
     get placement() {
-        return this.__placement || (
-            this.__placement = {
-                refId: this.refId,
-                height: this.daylightOpening.y,
-                width: this.daylightOpening.x,
-                x: this.leftFrame.sightline + (
-                    (
-                        this.bottomLeftOffset
-                        &&
-                        (this.bottomLeftOffset.x || 0)
-                    ) || (
-                        this.leftContainers[0]
-                        &&
+        try {
+            return this.__placement || (
+                this.__placement = {
+                    refId: this.refId,
+                    height: this.daylightOpening.y,
+                    width: this.daylightOpening.x,
+                    x: this.leftFrame.sightline + (
                         (
-                            (this.leftContainers[0].placement.x || 0)
-                            +
-                            (this.leftContainers[0].daylightOpening.x || 0)
-                        )
-                    ) || 0
-                ),
-                y: this.bottomFrame.sightline + (
-                    (
-                        this.bottomLeftOffset
-                        &&
-                        (this.bottomLeftOffset.y || 0)
-                    ) || (
-                        this.bottomContainers[0]
-                        &&
+                            this.bottomLeftOffset
+                            &&
+                            (this.bottomLeftOffset.x || 0)
+                        ) || (
+                            this.leftContainers[0]
+                            &&
+                            (
+                                (this.leftContainers[0].placement.x || 0)
+                                +
+                                (this.leftContainers[0].daylightOpening.x || 0)
+                            )
+                        ) || 0
+                    ),
+                    y: this.bottomFrame.sightline + (
                         (
-                            (this.bottomContainers[0].placement.y || 0)
-                            +
-                            (this.bottomContainers[0].daylightOpening.y || 0)
-                        )
-                    ) || 0
-                ),
-            });
+                            this.bottomLeftOffset
+                            &&
+                            (this.bottomLeftOffset.y || 0)
+                        ) || (
+                            this.bottomContainers[0]
+                            &&
+                            (
+                                (this.bottomContainers[0].placement.y || 0)
+                                +
+                                (this.bottomContainers[0].daylightOpening.y || 0)
+                            )
+                        ) || 0
+                    ),
+                });
+        } catch (err) {
+            console.log(this);
+            console.error(err);
+        }
     }
 }

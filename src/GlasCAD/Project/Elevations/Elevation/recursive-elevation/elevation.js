@@ -65,6 +65,8 @@ export default class RecursiveElevation {
             .find(([_, { original }]) => original) || [];
 
         this.originalContainer = this.containers[originalContainerId];
+
+        window.temp1 = this;
     }
 
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }

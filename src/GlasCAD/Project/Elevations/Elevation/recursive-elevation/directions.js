@@ -31,7 +31,7 @@ export const DIRECTIONS = {
     RIGHT: [false, false],
 };
 
-export const GET_RELATIVE_DIRECTIONS = (vertical, first) => ({
+export const GET_RELATIVE_DIRECTIONS = ([vertical, first]) => ({
     FORWARD: [
         vertical,
         vertical ?

@@ -1,19 +1,11 @@
 
 import { unique } from '../../../../../utils';
 import { sortDetails } from './sort-details';
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
 
 const matchedDetailsKey = 'matched_details<first>';
-const detailsWithSharedContainerKey = 'details_with_shared_container<first>';
-
-/**
- * The `first` in the `_getMatchedDetails()` is oriented in the *opposite* direction
- * as the `first` in `_getContainer()`.
- * 
- * For a `vertical` frame, `_getMatchedDetails(true)` indicates a `downward` direction,
- * while `_getMatchedDetails(false)` indicates an `upward` direction,
- * whereas `_getContainer(true)` indicates a `leftward` direction,
- * and `_getContainer(false)` indicates a `rightward` direction.
- */
+const detailsByContainerKey = 'details_by_container<first>';
+const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
 
 export default class RecursiveDetail {
     constructor(detail, elevation) {
@@ -26,7 +18,11 @@ export default class RecursiveDetail {
                     true: undefined,
                     false: undefined,
                 },
-                [detailsWithSharedContainerKey]: {
+                [detailsByContainerKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
+                [detailsWithSharedContainersKey]: {
                     true: undefined,
                     false: undefined,
                 },
@@ -38,47 +34,96 @@ export default class RecursiveDetail {
 
     get ref() { return document.getElementById(this.refId); }
 
-    // different `first` from `_getMatchedDetails`
-    _getContainer = first => this.elevation.containers[
+    _getContainerByDirection = first => this.elevation.containers[
         first ?
             this.firstContainerId || this.firstContainerFakeId
             :
-            this.secondContainerId || this.secondContainerFakeId];
+            this.secondContainerId || this.secondContainerFakeId
+    ];
 
     _getDetailsByContainer = first => {
-        if (!this[detailsWithSharedContainerKey][first]) {
+        if (!this[detailsByContainerKey][first]) {
+            try {
+                const direction = [!this.vertical, first];
 
-            const { vertical } = this;
+                const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
 
-            const container = this._getContainer(first);
-            // console.log({ container });
+                const container = this._getContainerByDirection(first);
+                console.log({ container, BACKWARD, direction });
 
-            if (container) {
-                // console.log(container.ref);
-                const matched = container._getDetailsByDirection(!vertical, !first)
-                    .reduce((all, detail) => detail === this ?
-                        all.concat(detail)
-                        :
-                        all.concat(detail, detail._getDetailsByContainer(!first)),
-                        [])
-                    .sort(sortDetails(!vertical));
-                // const endMatched = container._getFirstOrLastContainerByDirection(!vertical, !first, )
-                // console.log({ matched });
-                // console.log(matched.map(({ ref }) => ref));
-                this[detailsWithSharedContainerKey][first] = matched;
-            } else {
-                this[detailsWithSharedContainerKey][first] = [];
+                this[detailsByContainerKey][first] = container._getDetailsByDirection(...BACKWARD);
+            } catch (e) {
+                console.error(e);
             }
         }
-        return this[detailsWithSharedContainerKey][first];
+        return this[detailsByContainerKey][first];
     }
 
-    _getAllDetailsWithSharedContainer = () => unique(
-        this._getDetailsByContainer(true),
-        this._getDetailsByContainer(false),
-    );
+    _getDetailsWithSharedContainersByContainerDirection = first => {
+        if (!this[detailsWithSharedContainersKey][first]) {
+            try {
+                const { vertical } = this;
 
-    // different `first` from `_getContainer`
+                const details = this._getDetailsByContainer(first);
+                console.log({ details, first });
+
+                const {
+                    0: firstDetail,
+                    [details.length - 1]: lastDetail,
+                } = details;
+
+                this[detailsWithSharedContainersKey][first] = unique(
+                    firstDetail._getDetailsWithSharedContainersByContainerDirection(!first),
+                    details,
+                    lastDetail._getDetailsWithSharedContainersByContainerDirection(!first),
+                ).sort(sortDetails(!vertical));
+
+            } catch (e) {
+                console.error(e);
+            }
+            // const container = this._getContainerByDirection(first);
+            // console.log({ container });
+
+            // if (container) {
+            //     // console.log(container.ref);
+            //     // const matched = container._getDetailsByDirection(!vertical, !first)
+            //     // .reduce((all, detail) => detail === this ?
+            //     //     all.concat(detail)
+            //     //     :
+            //     //     all.concat(detail, detail._getDetailsWithSharedContainersByContainerDirection(!first)),
+            //     //     [])
+            //     // .sort(sortDetails(!vertical));
+            //     // const endMatched = container._getFirstOrLastContainerByDirection(!vertical, !first)
+            //     // console.log({ matched });
+            //     // console.log(matched.map(({ ref }) => ref));
+            //     this[detailsWithSharedContainersKey][first] = matched;
+            // } else {
+            //     this[detailsWithSharedContainersKey][first] = [];
+            // }
+        }
+        return this[detailsWithSharedContainersKey][first];
+    }
+
+    get detailsWithSharedContainers() {
+        return unique(
+            this._getDetailsWithSharedContainersByContainerDirection(true),
+            this._getDetailsWithSharedContainersByContainerDirection(false),
+        );
+    }
+
+    get shouldRunThroughPerpendiculars() {
+        return this.__shouldRunThroughPerpendiculars === undefined ? (
+            this.__shouldRunThroughPerpendiculars = this.vertical
+        ) : this.__shouldRunThroughPerpendiculars;
+    }
+
+    get frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
+
+    get frameRefId() { return this.frame.refId; }
+
+    get frameRef() { return this.frame.ref; }
+
+    // different `first` from `_getContainerByDirection`
     _getMatchedDetails = (first, alreadyMatched = []) => {
         // console.log(`getting matching details for first: ${
         //     this.firstContainerFakeId || this.firstContainerId
@@ -96,10 +141,10 @@ export default class RecursiveDetail {
         if (!this[matchedDetailsKey][first]) {
 
             const { vertical } = this;
-            const detailsWithSharedContainer = [true, false]
+            const detailsWithSharedContainers = [true, false]
                 .reduce((matched, before) => {
 
-                    const container = this._getContainer(before);
+                    const container = this._getContainerByDirection(before);
                     // console.log({ container });
 
                     if (container) {
@@ -115,7 +160,7 @@ export default class RecursiveDetail {
 
             const detailsRunningThroughOtherDetails = [true, false]
                 .reduce((matched, before) => {
-                    const container = this._getContainer(before);
+                    const container = this._getContainerByDirection(before);
                     // console.log({ container });
 
                     if (container) {
@@ -153,12 +198,12 @@ export default class RecursiveDetail {
                     }
                 }, []);
 
-            this[matchedDetailsKey][first] = unique(detailsWithSharedContainer, detailsRunningThroughOtherDetails);
+            this[matchedDetailsKey][first] = unique(detailsWithSharedContainers, detailsRunningThroughOtherDetails);
         }
         return this[matchedDetailsKey][first];
     }
 
-    // different `first` from `_getContainer`
+    // different `first` from `_getContainerByDirection`
     _getMatchedDetails = (first, alreadyMatched = []) => {
 
         const { vertical } = this;
@@ -168,7 +213,7 @@ export default class RecursiveDetail {
                 .reduce((matched, before) => {
 
                     // CONTAINER BEFORE OR AFTER FRAME
-                    const container = this._getContainer(before);
+                    const container = this._getContainerByDirection(before);
                     // console.log({ container });
 
                     if (container) {
@@ -240,7 +285,7 @@ export default class RecursiveDetail {
     //                     height: firstHeight = 0,
     //                     width: firstWidth = 0,
     //                 } = {},
-    //             } = this._getContainer(true) || {};
+    //             } = this._getContainerByDirection(true) || {};
 
     //             // SECOND CONTAINER
     //             const {
@@ -251,7 +296,7 @@ export default class RecursiveDetail {
     //                     height: secondHeight = 0,
     //                     width: secondWidth = 0,
     //                 } = {},
-    //             } = this._getContainer(false) || {};
+    //             } = this._getContainerByDirection(false) || {};
 
     //             const x = firstId ?
     //                 firstX + firstWidth
@@ -290,7 +335,7 @@ export default class RecursiveDetail {
     //                     height: firstHeight = 0,
     //                     width: firstWidth = 0,
     //                 } = {},
-    //             } = this._getContainer(true) || {};
+    //             } = this._getContainerByDirection(true) || {};
 
     //             // SECOND CONTAINER
     //             const {
@@ -301,7 +346,7 @@ export default class RecursiveDetail {
     //                     height: secondHeight = 0,
     //                     width: secondWidth = 0,
     //                 } = {},
-    //             } = this._getContainer(false) || {};
+    //             } = this._getContainerByDirection(false) || {};
 
     //             const x = Math.max(firstX, secondX);
 

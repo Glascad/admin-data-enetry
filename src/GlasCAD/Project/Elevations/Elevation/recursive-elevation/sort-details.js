@@ -1,16 +1,16 @@
 
 const compareDetailsByDirection = (detailA, detailB, vertical, first) => {
-    const containerA = detailA._getContainer(first);
-    const containerB = detailB._getContainer(first);
-    const beforeA = containerA._getAllContainersByDirection(!vertical, true);
-    const beforeB = containerB._getAllContainersByDirection(!vertical, true);
+    const containerA = detailA._getContainerByDirection(first);
+    const containerB = detailB._getContainerByDirection(first);
+    const beforeA = containerA && containerA._getAllContainersByDirection(!vertical, true);
+    const beforeB = containerB && containerB._getAllContainersByDirection(!vertical, true);
     // a comes before b because b is upward or rightward of a
-    if (beforeB.includes(containerA)) {
+    if (beforeB && beforeB.includes(containerA)) {
         // console.log(`${a.id} is before ${b.id}`);
         return -1;
     }
     // b comes before a because a is upward or rightward of a
-    else if (beforeA.includes(containerB)) {
+    else if (beforeA && beforeA.includes(containerB)) {
         // console.log(`${b.id} is before ${a.id}`);
         return 1;
     }
@@ -22,14 +22,14 @@ export const sortDetails = (vertical, first) => (detailA, detailB) => {
         compareDetailsByDirection(detailA, detailB, vertical, !first)
         :
         undefined;
-    
+
     if (result || otherResult) return result || otherResult;
     // otherwise we need to compare offsets
     else {
-        const containerA = detailA._getContainer(first);
-        const containerB = detailB._getContainer(first);
-        const beforeA = containerA._getAllContainersByDirection(!vertical, true);
-        const beforeB = containerB._getAllContainersByDirection(!vertical, true);
+        const containerA = detailA._getContainerByDirection(first);
+        const containerB = detailB._getContainerByDirection(first);
+        const beforeA = containerA && containerA._getAllContainersByDirection(!vertical, true);
+        const beforeB = containerB && containerB._getAllContainersByDirection(!vertical, true);
 
         const key = vertical ? 'x' : 'y';
 
@@ -41,7 +41,7 @@ export const sortDetails = (vertical, first) => (detailA, detailB) => {
                 [key]: offsetB = 0,
             } = {}
         ] = [beforeA, beforeB]
-            .map(before => before
+            .map((before = []) => before
                 .find(({ bottomLeftOffset: { [key]: offset } = {} }) => offset));
 
         if (offsetA < offsetB) {

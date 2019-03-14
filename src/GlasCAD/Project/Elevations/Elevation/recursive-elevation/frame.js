@@ -28,7 +28,7 @@ export default class RecursiveFrame {
 
     _getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
-            .map(detail => detail._getContainer(first))
+            .map(detail => detail._getContainerByDirection(first))
             .filter(Boolean));
 
     _getFirstOrLastContainerByDirection = (first, last) => {
