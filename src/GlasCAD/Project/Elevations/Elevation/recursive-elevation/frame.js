@@ -60,21 +60,105 @@ export default class RecursiveFrame {
         );
     }
 
+    get runsAlongEdgeOfRoughOpening() {
+        const {
+            topContainers: {
+                length: topLength,
+            } = {},
+            bottomContainers: {
+                length: bottomLength,
+            } = {},
+            leftContainers: {
+                length: leftLength,
+            } = {},
+            rightContainers: {
+                length: rightLength,
+            } = {},
+        } = this;
+
+        return this.vertical ?
+            !leftLength || !rightLength
+            :
+            !topLength || !bottomLength;
+    }
+
+    get runsToEdgeOfRoughOpening() {
+        // farthest to the bottom / left
+        const {
+            leftContainers: {
+                0: {
+                    bottomContainers: {
+                        length: leftBottomContainersLength,
+                    } = {},
+                } = {},
+                length: leftContainersLength = 0,
+            } = [],
+            rightContainers: {
+                0: {
+                    bottomContainers: {
+                        length: rightBottomContainersLength,
+                    } = {},
+                } = {},
+                length: rightContainersLength = 0,
+            } = [],
+            topContainers: {
+                0: {
+                    leftContainers: {
+                        length: leftTopContainersLength,
+                    } = {},
+                } = {},
+                length: topContainersLength = 0,
+            } = [],
+            bottomContainers: {
+                0: {
+                    bottomContainers: {
+                        length: BottomContainersLength,
+                    } = {},
+                } = {},
+                length: bottomContainersLength = 0,
+            } = [],
+        } = this;
+
+        // farthest to the top / right
+        const {
+            leftContainers: {
+                [leftContainersLength - 1]: lastLeftContainer = 0,
+            } = {},
+            rightContainers: {
+                [rightContainersLength - 1]: lastRightContainer = 0,
+            } = {},
+            topContainers: {
+                [topContainersLength - 1]: lastTopContainer = 0,
+            } = {},
+            bottomContainers: {
+                [bottomContainersLength - 1]: lastBottomContainer = 0,
+            } = {},
+        } = this;
+
+        // const left = 
+
+        // return {
+        //     top,
+        //     bottom,
+        //     left,
+        //     right,
+        // };
+    }
+
     get placement() {
         const {
             refId,
             vertical,
             sightline,
+            runsAlongEdgeOfRoughOpening,
         } = this;
 
         // farthest to the bottom / left
         const {
-            leftContainers,
             leftContainers: {
                 0: firstLeftContainer,
                 length: leftContainersLength = 0,
             } = [],
-            rightContainers,
             rightContainers: {
                 0: firstRightContainer,
                 length: rightContainersLength = 0,
@@ -179,20 +263,18 @@ export default class RecursiveFrame {
                     0,
             ) - x;
 
-        const onEdgeOfRoughOpening = vertical && (
-            !leftContainers.length
-            ||
-            !rightContainers.length
-        );
-
         const verticalLastContainer = lastLeftContainer || lastRightContainer;
         const verticalFirstContainer = firstLeftContainer || firstRightContainer;
 
-        const needsTopExtension = onEdgeOfRoughOpening
+        const needsTopExtension = vertical
+            &&
+            runsAlongEdgeOfRoughOpening
             &&
             !verticalLastContainer.topContainers.length;
 
-        const needsBottomExtension = onEdgeOfRoughOpening
+        const needsBottomExtension = vertical
+            &&
+            runsAlongEdgeOfRoughOpening
             &&
             !verticalFirstContainer.bottomContainers.length;
 
