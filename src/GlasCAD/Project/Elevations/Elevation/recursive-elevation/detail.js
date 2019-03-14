@@ -114,7 +114,7 @@ export default class RecursiveDetail {
         ) : this.__shouldRunThroughPerpendiculars;
     }
 
-    _getDetailsAcrossPerpendicularsByDirection = (detailFirst, containerFirst) => {
+    _getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
 
         if (!this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
             const { vertical } = this;
@@ -134,7 +134,7 @@ export default class RecursiveDetail {
 
             const container = this._getContainerByDirection(containerFirst);
 
-            const adjacentContainer = container && container._getFirstOrLastContainerByDirection(...dFORWARD);
+            const adjacentContainer = container && container._getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
 
             const sameContainer = adjacentContainer && adjacentContainer._getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
 
@@ -154,8 +154,8 @@ export default class RecursiveDetail {
     }
 
     _getDetailsAcrossPerpendicularsByDirection = detailFirst => unique(
-        this._getDetailsAcrossPerpendicularsByDirection(detailFirst, true),
-        this._getDetailsAcrossPerpendicularsByDirection(detailFirst, false),
+        this._getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true),
+        this._getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false),
     );
 
     get allDetailsAcrossPerpendiculars() {
@@ -169,19 +169,15 @@ export default class RecursiveDetail {
 
     _getMatchedDetailsByDirection = first => {
         const {
+            shouldRunThroughPerpendiculars,
             allDetailsWithSharedContainers,
-            allDetailsWithSharedContainers: {
-                [first ?
-                    0
-                    :
-                    this.allDetailsWithSharedContainers.length - 1]: endDetail,
-            },
+            allDetailsWithSharedContainers: [detail],
         } = this;
 
-        const detailsAcrossPerpendiculars = endDetail === this ?
+        const detailsAcrossPerpendiculars = !shouldRunThroughPerpendiculars ?
             []
             :
-            endDetail._getDetailsAcrossPerpendicularsByDirection(first);
+            detail._getDetailsAcrossPerpendicularsByDirection(first);
 
         return first ?
             unique(
@@ -199,7 +195,7 @@ export default class RecursiveDetail {
         if (!this.__allMatchedDetails) {
 
             const firstMatchedDetails = this._getMatchedDetailsByDirection(true);
-            const lastMatchedDetails = this._getMatchedDetailsByDirection(true);
+            const lastMatchedDetails = this._getMatchedDetailsByDirection(false);
 
             this.__allMatchedDetails = unique(
                 firstMatchedDetails,
