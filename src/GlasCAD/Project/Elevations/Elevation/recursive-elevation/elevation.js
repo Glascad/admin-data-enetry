@@ -4,6 +4,11 @@ import RecursiveDetail from './detail';
 import RecursiveFrame from './frame';
 
 export default class RecursiveElevation {
+
+    static RecursiveContainer = RecursiveContainer;
+    static RecursiveDetail = RecursiveDetail;
+    static RecursiveFrame = RecursiveFrame;
+
     constructor({
         finishedFloorHeight = 0,
         roughOpening = {},
@@ -84,6 +89,10 @@ export default class RecursiveElevation {
         }, []);
     }
 
+    get containerRefIds() { return this.allContainers.map(({ refId }) => refId); }
+    get detailRefIds() { return this.allDetails.map(({ refId }) => refId); }
+    get frameRefIds() { return this.allFrames.map(({ refId }) => refId); }
+
     get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
     get detailRefs() { return this.allDetails.map(({ ref }) => ref); }
     get frameRefs() { return this.allFrames.map(({ ref }) => ref); }
@@ -93,4 +102,13 @@ export default class RecursiveElevation {
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
     get detailTypes() { return this.allDetails.map(detail => detail.type); }
+
+    getItemByRefId(id) {
+        const cb = ({ refId }) => refId === id;
+        return this.allContainers.find(cb)
+            ||
+            this.allFrames.find(cb)
+            ||
+            this.allDetails.find(cb);
+    }
 }

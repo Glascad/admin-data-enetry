@@ -26,6 +26,15 @@ export default class RecursiveFrame {
 
     contains = detail => this.details.includes(detail);
 
+    get detailTypes() {
+        return this.__detailTypes || (
+            this.__detailTypes = this.details.map(({ detailType, configurationTypes }) => ({
+                detailType,
+                configurationTypes,
+            }))
+        );
+    }
+
     _getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
             .map(detail => detail._getContainerByDirection(first))

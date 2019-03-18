@@ -28,6 +28,9 @@ export default class BuildElevation extends Component {
     render = () => {
         const {
             state,
+            state: {
+                focusedRefId,
+            },
             props: {
                 location: {
                     search,
@@ -51,6 +54,13 @@ export default class BuildElevation extends Component {
             _elevation,
             elevation,
         });
+
+        const selectedFrame = elevation.getItemByRefId(focusedRefId);
+
+        const detailTypes = selectedFrame instanceof RecursiveElevation.RecursiveFrame ?
+            selectedFrame.detailTypes
+            :
+            [];
 
         return (
             <>
@@ -78,6 +88,34 @@ export default class BuildElevation extends Component {
                         handleFocus,
                     }}
                 />
+                <div className="card">
+                    {detailTypes.map(({
+                        detailType = '',
+                        configurationTypes = [],
+                    }) => (
+                            <>
+                                <div>
+                                    Detail Type -- {detailType}
+                                </div>
+                                <div>
+                                    {configurationTypes.map(({
+                                        required,
+                                        _configurationType: {
+                                            type = '',
+                                        } = {}
+                                    }) => (
+                                            <div>
+                                                Configuration Type -- {type}
+                                                {required ?
+                                                    ' (Required)'
+                                                    :
+                                                    ''}
+                                            </div>
+                                        ))}
+                                </div>
+                            </>
+                        ))}
+                </div>
             </>
         );
     }
