@@ -42,13 +42,10 @@ export default class RecursiveDetail {
     }
 
     get refId() { return `Detail-${this.id}`; }
-
     get ref() { return document.getElementById(this.refId); }
 
     get frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
-
     get frameRefId() { return this.frame.refId; }
-
     get frameRef() { return this.frame.ref; }
 
     _getContainerByDirection = first => this.elevation.containers[
@@ -57,6 +54,42 @@ export default class RecursiveDetail {
             :
             this.secondContainerId || this.secondContainerFakeId
     ];
+
+    get firstContainer() { return this._getContainerByDirection(true); }
+    get secondContainer() { return this._getContainerByDirection(false); }
+
+    get detailType() {
+        return this.__type || (
+            this.__type = this.vertical ?
+                this.firstContainer && this.secondContainer ?
+                    'Mullion'
+                    :
+                    'Jamb'
+                :
+                this.firstContainer ?
+                    this.secondContainer ?
+                        'Horizontal'
+                        :
+                        'Head'
+                    :
+                    'Sill'
+        );
+    }
+
+    get configurationTypes() {
+        return this.__configurationTypes || (
+            this.__configurationTypes = this.elevation
+                .detailTypeConfigurationTypes
+                .filter(({
+                    _detailType: {
+                        type: detailTypeName,
+                    },
+                    _configurationType: {
+                        type: configurationTypeName
+                    },
+                }) => configurationTypeName && detailTypeName === this.detailType)
+        );
+    }
 
     _getDetailsByContainer = first => {
         if (!this[detailsByContainerKey][first]) {

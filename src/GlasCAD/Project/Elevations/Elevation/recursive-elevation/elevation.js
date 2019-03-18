@@ -10,6 +10,10 @@ export default class RecursiveElevation {
         _elevationContainers = [],
         _containerDetails = [],
         sightline = 10,
+    } = {}, {
+        _systemType: {
+            _systemTypeDetailTypeConfigurationTypes: detailTypeConfigurationTypes = [],
+        } = {},
     } = {}) {
 
         // mark fake ids with underscores
@@ -46,6 +50,7 @@ export default class RecursiveElevation {
                 roughOpening,
                 containers,
                 sightline,
+                detailTypeConfigurationTypes,
                 detailIds: Object.keys(detailsById),
                 containerIds: Object.keys(containersById),
                 details: Object.entries(detailsById)
@@ -87,4 +92,5 @@ export default class RecursiveElevation {
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
+    get detailTypes() { return this.allDetails.map(detail => detail.type); }
 }

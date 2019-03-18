@@ -37,12 +37,13 @@ export default class BuildElevation extends Component {
                 },
                 queryStatus: {
                     _elevation,
+                    _system,
                 },
             },
             handleFocus,
         } = this;
 
-        const elevation = new RecursiveElevation(_elevation);
+        const elevation = new RecursiveElevation(_elevation, _system);
 
         console.log(this.props);
 
