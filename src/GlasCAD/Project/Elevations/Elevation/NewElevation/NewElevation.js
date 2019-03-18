@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import gql from 'graphql-tag';
+
+import F from '../../../../../schema';
+
 import { Link } from 'react-router-dom';
 
 import {
@@ -14,6 +18,7 @@ import RecursiveElevation from '../recursive-elevation/elevation';
 import createElevation from '../ducks/create';
 
 import { parseSearch } from '../../../../../utils';
+import ApolloWrapper from '../../../../../components/state/ApolloWrapper';
 
 const defaultElevationInput = {
     verticalLock: true,
@@ -36,6 +41,10 @@ export default class NewElevation extends Component {
 
     state = {
         elevation: defaultElevationInput,
+        system: {
+            id: -1,
+            name: "",
+        },
     };
 
     reset = () => this.setState({ elevation: defaultElevationInput });
@@ -116,6 +125,10 @@ export default class NewElevation extends Component {
                     startingBayQuantity,
                     finishedFloorHeight,
                 },
+                system: {
+                    id: systemId,
+                    name: systemName,
+                },
             },
             props: {
                 location: {
@@ -138,100 +151,130 @@ export default class NewElevation extends Component {
 
         return (
             <div className="card">
-                <TitleBar
-                    title="New Elevation"
-                    selections={[name]}
-                />
-                <Input
-                    label="Elevation Id"
-                    value={name}
-                    onChange={({ target: { value } }) => updateElevation({
-                        name: value,
-                    })}
-                />
-                <div className="unfinished">
-                    <Input
-                        label="System Set"
-                    />
-                </div>
-                <GroupingBox
-                    title="Rough Opening"
+                <ApolloWrapper
+                    query={{
+                        query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}`,
+                    }}
                 >
-                    <div className="input-group">
-                        <Input
-                            label="Vertical"
-                            type="number"
-                            min={0}
-                            value={verticalRoughOpening}
-                            onChange={({ target: { value } }) => updateElevation({
-                                verticalRoughOpening: +value,
-                            })}
-                        />
-                        <Input
-                            label="Lock"
-                            type="checkbox"
-                            readOnly={true}
-                            checked={verticalLock}
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Input
-                            label="Horizontal"
-                            type="number"
-                            min={0}
-                            value={horizontalRoughOpening}
-                            onChange={({ target: { value } }) => updateElevation({
-                                horizontalRoughOpening: +value,
-                            })}
-                        />
-                        <Input
-                            label="Lock"
-                            type="checkbox"
-                            readOnly={true}
-                            checked={horizontalLock}
-                        />
-                    </div>
-                </GroupingBox>
-                <Input
-                    label="Starting Bay Quantity"
-                    type="number"
-                    min={1}
-                    value={startingBayQuantity}
-                    onChange={({ target: { value } }) => updateElevation({
-                        startingBayQuantity: +value,
-                    })}
-                />
-                <Input
-                    label="Height Above Finished Floor"
-                    type="number"
-                    min={0}
-                    value={finishedFloorHeight}
-                    onChange={({ target: { value } }) => updateElevation({
-                        finishedFloorHeight: +value,
-                    })}
-                />
-                <ElevationPreview
-                    elevation={elevation}
-                />
-                <div className="bottom-buttons">
-                    <Link
-                        to={`${
-                            path.replace(/\/elevation\/new-elevation/, '')
-                            }${
-                            search
-                            }`}
-                    >
-                        <button>
-                            Cancel
-                        </button>
-                    </Link>
-                    <button
-                        className="action"
-                        onClick={save}
-                    >
-                        Save
-                    </button>
-                </div>
+                    {({
+                        queryStatus: {
+                            allSystems = [],
+                        },
+                    }) => (
+                            <>
+                                <TitleBar
+                                    title="New Elevation"
+                                    selections={[name]}
+                                />
+                                <Input
+                                    label="System"
+                                    select={{
+                                        value: {
+                                            label: systemName,
+                                            value: systemId,
+                                        },
+                                        options: allSystems.map(({ id, name }) => ({
+                                            label: name,
+                                            value: id,
+                                        })),
+                                        onChange: ({ value }) => this.setState({
+                                            system: allSystems.find(({ id }) => id === value),
+                                        }),
+                                    }}
+                                />
+                                <Input
+                                    label="Elevation Id"
+                                    value={name}
+                                    onChange={({ target: { value } }) => updateElevation({
+                                        name: value,
+                                    })}
+                                />
+                                <div className="unfinished">
+                                    <Input
+                                        label="System Set"
+                                    />
+                                </div>
+                                <GroupingBox
+                                    title="Rough Opening"
+                                >
+                                    <div className="input-group">
+                                        <Input
+                                            label="Vertical"
+                                            type="number"
+                                            min={0}
+                                            value={verticalRoughOpening}
+                                            onChange={({ target: { value } }) => updateElevation({
+                                                verticalRoughOpening: +value,
+                                            })}
+                                        />
+                                        <Input
+                                            label="Lock"
+                                            type="checkbox"
+                                            readOnly={true}
+                                            checked={verticalLock}
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <Input
+                                            label="Horizontal"
+                                            type="number"
+                                            min={0}
+                                            value={horizontalRoughOpening}
+                                            onChange={({ target: { value } }) => updateElevation({
+                                                horizontalRoughOpening: +value,
+                                            })}
+                                        />
+                                        <Input
+                                            label="Lock"
+                                            type="checkbox"
+                                            readOnly={true}
+                                            checked={horizontalLock}
+                                        />
+                                    </div>
+                                </GroupingBox>
+                                <Input
+                                    label="Starting Bay Quantity"
+                                    type="number"
+                                    min={1}
+                                    value={startingBayQuantity}
+                                    onChange={({ target: { value } }) => updateElevation({
+                                        startingBayQuantity: +value,
+                                    })}
+                                />
+                                <Input
+                                    label="Height Above Finished Floor"
+                                    type="number"
+                                    min={0}
+                                    value={finishedFloorHeight}
+                                    onChange={({ target: { value } }) => updateElevation({
+                                        finishedFloorHeight: +value,
+                                    })}
+                                />
+                                <ElevationPreview
+                                    elevation={elevation}
+                                />
+                                <div className="bottom-buttons">
+                                    <Link
+                                        to={`${
+                                            path.replace(/\/elevation\/new-elevation/, '')
+                                            }${
+                                            search
+                                            }`}
+                                    >
+                                        <button>
+                                            Cancel
+                                        </button>
+                                    </Link>
+                                    <button
+                                        className="action"
+                                        onClick={save}
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                </ApolloWrapper>
             </div>
         );
     }

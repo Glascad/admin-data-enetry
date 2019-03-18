@@ -89,29 +89,18 @@ export default function ElevationPreview({
                 ))} */}
                 {/* FRAMES */}
                 {placedFrames.map(({ x, y, height, width, refId }) => (
-                    <g
+                    <rect
                         key={refId}
-                    >
-                        <rect
-                            id={refId}
-                            {...{
-                                x,
-                                y: y + finishedFloorHeight,
-                                height,
-                                width,
-                            }}
-                            fill="rgba(255, 0, 0, 0.5)"
-                            stroke="black"
-                        />
-                        {/* <text
-                            style="font-size: 10px;"
-                            x={x + width / 2}
-                            y={-(y + finishedFloorHeight + height / 2)}
-                            transform="scale(1, -1)"
-                        >
-                            {id}
-                        </text> */}
-                    </g>
+                        id={refId}
+                        {...{
+                            x,
+                            y: y + finishedFloorHeight,
+                            height,
+                            width,
+                        }}
+                        fill="rgba(255, 0, 0, 0.5)"
+                        stroke="black"
+                    />
                 ))}
             </svg>
         </GroupingBox>

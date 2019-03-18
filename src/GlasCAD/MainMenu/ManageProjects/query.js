@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import F from '../../../schema/fragments';
+import F from '../../../schema';
 
 export default gql`
     {

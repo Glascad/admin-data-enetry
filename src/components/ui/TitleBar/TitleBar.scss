@@ -19,6 +19,12 @@
             margin-left: $small;
         }
     }
+
+    &.blue-border {
+        box-sizing: unset;
+        padding-bottom: $small;
+        border-bottom: $small solid $light-blue;
+    }
 }
 
 .card {

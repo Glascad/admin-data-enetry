@@ -10,6 +10,10 @@ export default class RecursiveElevation {
         _elevationContainers = [],
         _containerDetails = [],
         sightline = 10,
+    } = {}, {
+        _systemType: {
+            _systemTypeDetailTypeConfigurationTypes: detailTypeConfigurationTypes = [],
+        } = {},
     } = {}) {
 
         // mark fake ids with underscores
@@ -46,6 +50,7 @@ export default class RecursiveElevation {
                 roughOpening,
                 containers,
                 sightline,
+                detailTypeConfigurationTypes,
                 detailIds: Object.keys(detailsById),
                 containerIds: Object.keys(containersById),
                 details: Object.entries(detailsById)
@@ -65,14 +70,17 @@ export default class RecursiveElevation {
             .find(([_, { original }]) => original) || [];
 
         this.originalContainer = this.containers[originalContainerId];
+
+        window.temp1 = this;
     }
 
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
     get allDetails() { return this.detailIds.map(id => this.details[id]); }
     get allFrames() {
         return this.allDetails.reduce((all, detail) => {
-            if (all.some(_frame => _frame.contains(detail))) return all;
-            else return all.concat(new RecursiveFrame(detail.allMatchedDetails, this));
+            if (!all.some(_frame => _frame.contains(detail))) return all
+                .concat(new RecursiveFrame(detail.allMatchedDetails, this));
+            else return all;
         }, []);
     }
 
@@ -84,4 +92,5 @@ export default class RecursiveElevation {
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
+    get detailTypes() { return this.allDetails.map(detail => detail.type); }
 }

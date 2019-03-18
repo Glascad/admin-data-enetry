@@ -8,19 +8,26 @@ import {
     TitleBar,
 } from '../../../../../components';
 
-import ElevationPreview from '../NewElevation/ElevationPreview';
 import RecursiveElevation from '../recursive-elevation/elevation';
+import ElevationBuilder from './ElevationBuilder/ElevationBuilder';
 
 export default class BuildElevation extends Component {
 
     static contextType = StaticContext;
 
+    state = {
+        focusedRefId: "",
+    };
+
     componentDidMount = () => this.context.sidebar.toggle(false);
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
+    handleFocus = ({ target: { id } }) => this.setState({ focusedRefId: id });
+
     render = () => {
         const {
+            state,
             props: {
                 location: {
                     search,
@@ -30,11 +37,13 @@ export default class BuildElevation extends Component {
                 },
                 queryStatus: {
                     _elevation,
+                    _system,
                 },
             },
+            handleFocus,
         } = this;
 
-        const elevation = new RecursiveElevation(_elevation);
+        const elevation = new RecursiveElevation(_elevation, _system);
 
         console.log(this.props);
 
@@ -47,6 +56,7 @@ export default class BuildElevation extends Component {
             <>
                 <TitleBar
                     title="Build Elevation"
+                    className="blue-border"
                     left={(
                         <Link
                             to={`${
@@ -61,8 +71,12 @@ export default class BuildElevation extends Component {
                         </Link>
                     )}
                 />
-                <ElevationPreview
+                <ElevationBuilder
+                    state={state}
                     elevation={elevation}
+                    methods={{
+                        handleFocus,
+                    }}
                 />
             </>
         );

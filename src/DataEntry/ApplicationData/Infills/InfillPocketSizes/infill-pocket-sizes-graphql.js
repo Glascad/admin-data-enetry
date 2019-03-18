@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import F from '../../../../schema/fragments';
+import F from '../../../../schema';
 
 export const query = {
     query: gql`{ ...AllInfillPocketSizes } ${F.APP_DATA.ALL_INFILL_POCKET_SIZES}`,
