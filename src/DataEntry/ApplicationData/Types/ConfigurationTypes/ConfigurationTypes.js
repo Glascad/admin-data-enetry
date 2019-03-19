@@ -70,7 +70,7 @@ export default function ConfigurationTypes() {
                                     />
                                     <Input
                                         label="Door"
-                                        type="checkbox"
+                                        type="switch"
                                         checked={door}
                                         onChange={({ target: { checked } }) => updateConfigurationType({
                                             nodeId,

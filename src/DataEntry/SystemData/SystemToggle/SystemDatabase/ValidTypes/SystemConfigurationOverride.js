@@ -103,7 +103,7 @@ export default class SystemConfigurationOverride extends Component {
             >
                 <Input
                     label="Mirrorable"
-                    type="checkbox"
+                    type="switch"
                     checked={mirrorableOverride === undefined ?
                         mirrorable
                         :
@@ -112,7 +112,7 @@ export default class SystemConfigurationOverride extends Component {
                 />
                 <Input
                     label="Required"
-                    type="checkbox"
+                    type="switch"
                     checked={requiredOverride === undefined ?
                         required
                         :

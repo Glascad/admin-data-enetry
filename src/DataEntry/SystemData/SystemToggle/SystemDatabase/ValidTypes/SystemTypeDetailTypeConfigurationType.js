@@ -53,13 +53,13 @@ export default function SystemTypeDetailTypeConfigurationType({
         >
             <Input
                 label="Mirrorable"
-                type="checkbox"
+                type="switch"
                 checked={mirrorable}
                 readOnly={true}
             />
             <Input
                 label="Required"
-                type="checkbox"
+                type="switch"
                 checked={required}
                 readOnly={true}
             />

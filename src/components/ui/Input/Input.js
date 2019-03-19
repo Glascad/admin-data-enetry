@@ -9,6 +9,11 @@ import Select from 'react-select';
 
 import './Input.scss';
 
+const booleanTypes = [
+    "switch",
+    "checkbox",
+];
+
 export default class Input extends Component {
 
     static defaultProps = {
@@ -132,7 +137,7 @@ export default class Input extends Component {
         }
 
         const tag = {
-            name: type === "checkbox" ? "label" : tagname
+            name: booleanTypes.includes(type) ? "label" : tagname
         };
 
         const LABEL = label ? (
@@ -142,11 +147,6 @@ export default class Input extends Component {
                 {label}
             </div>
         ) : null;
-
-        const booleanTypes = [
-            "switch",
-            "checkbox",
-        ];
 
         return (
             <tag.name
@@ -164,7 +164,10 @@ export default class Input extends Component {
                 ) : (
                         <input
                             ref={ref}
-                            type={type}
+                            type={booleanTypes.includes(type) ?
+                                'checkbox'
+                                :
+                                type}
                             value={onChange ?
                                 value || (
                                     type === "text" ?
@@ -189,12 +192,13 @@ export default class Input extends Component {
                 }
                 {booleanTypes.includes(type) ? (
                     <>
-                        <span
-                            className={type === "checkbox" ?
-                                "check"
-                                :
-                                "switch"}
-                        />
+                        {type === 'checkbox' ? (
+                            <span className="checkbox" />
+                        ) : type === 'switch' ? (
+                            <div className="track">
+                                <div className="switch" />
+                            </div>
+                        ) : null}
                         {LABEL}
                     </>
                 ) : null}

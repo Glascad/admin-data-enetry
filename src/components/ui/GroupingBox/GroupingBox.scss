@@ -19,8 +19,8 @@
         top: -$text-size / 2;
         left: $large;
         margin: 0;
-        background: $off-white;
-        box-shadow: 0 0 0 $x-small $off-white;
+        background: white;
+        box-shadow: 0 0 0 $x-small white;
         
     }
 
@@ -29,7 +29,7 @@
         top: -$item-height / 4;
         right: $large - $x-small;
         margin: 0 !important;
-        background: $off-white;
+        background: white;
         padding: 0 $x-small;
         
         .Toggle, .AddButton {
@@ -63,6 +63,18 @@
             bottom: $small;
             left: $small;
             right: $small;
+        }
+    }
+}
+
+.card {
+    .GroupingBox {
+        .title {
+            background: $off-white;
+            box-shadow: 0 0 0 $x-small $off-white;
+        }
+        .toggle-background, .add-button-background {
+            background: $off-white;
         }
     }
 }

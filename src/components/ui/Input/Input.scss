@@ -83,6 +83,46 @@
             }
         }
     }
+
+    &.type-switch {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .track {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: $item-height;
+            width: $item-height * 1.75;
+            background: none;
+            border: 1px solid $dark-gray;
+            border-radius: $item-height / 2;
+            margin-right: $base-size;
+
+            .switch {
+                height: calc(#{$item-height} - #{$x-small});
+                width: calc(#{$item-height} - #{$x-small});
+                background: $pill-color;
+                border-radius: $item-height / 2;
+                margin: 2.5px;
+                box-shadow: 2px 1px $xx-small rgba(74,74,74,.8);
+            }
+        }
+        
+        input {
+            &:checked {
+                + .track {
+                    justify-content: flex-end;
+                    
+                    .switch {
+                        background: $selected-color;
+                        box-shadow: -2px 1px $xx-small rgba(74,74,74,.8);
+                    }
+                }
+            }
+        }
+    }
     
     .Select {
         box-sizing: border-box;

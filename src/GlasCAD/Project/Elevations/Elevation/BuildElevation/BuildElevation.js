@@ -100,9 +100,6 @@ export default class BuildElevation extends Component {
                                 {detailType}
                             </div>
                             <div>
-                                Configuration Types
-                            </div>
-                            <div>
                                 {configurationTypes.map(({
                                     required,
                                     _configurationType: {

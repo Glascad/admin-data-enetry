@@ -116,7 +116,10 @@ export default class RecursiveDetail {
     get detailId() {
         return this.__detailId || (
             this.__detailId = `${
-            this.detailType[0].toUpperCase()
+            this.detailType === 'Horizontal' ?
+                'HZ'
+                :
+                this.detailType[0].toUpperCase()
             }${
             this.elevation.allDetails
                 .reduce(({ num, finished }, detail) => (
