@@ -54,7 +54,7 @@ input {
 }
 
 input[type=number] {
-    width: $pill-width / 3;
+    width: $pill-width / 2;
     
     &::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
         -webkit-appearance: none;

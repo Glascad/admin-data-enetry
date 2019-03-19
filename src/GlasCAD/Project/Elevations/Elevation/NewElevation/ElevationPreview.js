@@ -51,13 +51,11 @@ export default function ElevationPreview({
                     >
                         <rect
                             id={refId}
-                            {...{
-                                x,
-                                y: y + finishedFloorHeight,
-                                height,
-                                width,
-                            }}
-                            fill="rgba(0, 191, 255, 0.25)"
+                            x={x}
+                            y={y + finishedFloorHeight}
+                            height={height}
+                            width={width}
+                            fill="rgba(0, 191, 255, 0.1)"
                             stroke="black"
                         />
                         <text
@@ -65,40 +63,20 @@ export default function ElevationPreview({
                             y={-(y + finishedFloorHeight + 10)}
                             transform="scale(1, -1)"
                         >
-                            {refId}
+                            {refId.replace(/\D*/, '*')}
                         </text>
                     </g>
                 ))}
-                {/* DETAILS */}
-                {/* {placedDetails.map(({ x, y, height, width, refId }) => (
-                    <g
-                        key={refId}
-                    >
-                        <rect
-                            id={refId}
-                            {...{
-                                x,
-                                y: y + finishedFloorHeight,
-                                height,
-                                width,
-                            }}
-                            fill="rgba(255, 191, 0, 0.25)"
-                            stroke="black"
-                        />
-                    </g>
-                ))} */}
                 {/* FRAMES */}
                 {placedFrames.map(({ x, y, height, width, refId }) => (
                     <rect
                         key={refId}
                         id={refId}
-                        {...{
-                            x,
-                            y: y + finishedFloorHeight,
-                            height,
-                            width,
-                        }}
-                        fill="rgba(255, 0, 0, 0.5)"
+                        x={x}
+                        y={y + finishedFloorHeight}
+                        height={height}
+                        width={width}
+                        fill="rgba(0, 0, 0, 0.05)"
                         stroke="black"
                     />
                 ))}

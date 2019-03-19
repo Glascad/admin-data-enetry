@@ -15,13 +15,13 @@ BEGIN
             original,
             contents,
             daylight_opening,
-            bottom_or_left_offset
+            bottom_left_offset
         ) VALUES (
             eid,
             ec.original,
             ec.contents,
             ec.daylight_opening,
-            ec.bottom_or_left_offset
+            ec.bottom_left_offset
         )
         RETURNING *;
     ELSE RETURN QUERY
@@ -38,10 +38,10 @@ BEGIN
                 WHEN ec.daylight_opening IS NOT NULL
                     THEN ec.daylight_opening
                 ELSE elevation_containers.daylight_opening END,
-            bottom_or_left_offset = CASE
-                WHEN ec.bottom_or_left_offset IS NOT NULL
-                    THEN ec.bottom_or_left_offset
-                ELSE elevation_containers.bottom_or_left_offset END
+            bottom_left_offset = CASE
+                WHEN ec.bottom_left_offset IS NOT NULL
+                    THEN ec.bottom_left_offset
+                ELSE elevation_containers.bottom_left_offset END
         WHERE elevation_containers.elevation_id = eid
         AND elevation_containers.id = ec.id
         RETURNING *;

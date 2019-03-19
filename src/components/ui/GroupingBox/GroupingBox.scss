@@ -37,7 +37,9 @@
             height: $x-large;
             max-height: $x-large;
             // box-shadow: 0 0 0 $x-small $off-white;
-            
+        }
+        
+        .Toggle {
             > button {
                 height: $x-large;
                 font-size: $x-large * .6;
@@ -45,11 +47,11 @@
             }
         }
         
-        .AddButton {
-            > button {
-                width: $item-height / 2;
-            }
-        }
+        // .AddButton {
+        //     > button {
+        //         width: $item-height / 2;
+        //     }
+        // }
     }
 
     &.disabled {
