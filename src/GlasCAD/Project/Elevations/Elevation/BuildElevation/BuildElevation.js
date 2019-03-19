@@ -59,26 +59,26 @@ export default class BuildElevation extends Component {
 
         const details = selectedItem instanceof RecursiveElevation.RecursiveFrame ?
             [{
-                detailLocation: "Frame",
+                detailLocation: "Frame Details",
                 detailTypes: selectedItem.detailTypes,
             }]
             :
             selectedItem instanceof RecursiveElevation.RecursiveContainer ?
                 [
                     {
-                        detailLocation: "Top Detail",
+                        detailLocation: "Top Details",
                         detailTypes: selectedItem.topDetails,
                     },
                     {
-                        detailLocation: "Bottom Detail",
+                        detailLocation: "Bottom Details",
                         detailTypes: selectedItem.bottomDetails,
                     },
                     {
-                        detailLocation: "Left Detail",
+                        detailLocation: "Left Details",
                         detailTypes: selectedItem.leftDetails,
                     },
                     {
-                        detailLocation: "Right Detail",
+                        detailLocation: "Right Details",
                         detailTypes: selectedItem.rightDetails,
                     },
                 ]
