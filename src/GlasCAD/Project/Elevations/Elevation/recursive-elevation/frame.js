@@ -28,7 +28,8 @@ export default class RecursiveFrame {
 
     get detailTypes() {
         return this.__detailTypes || (
-            this.__detailTypes = this.details.map(({ detailType, configurationTypes }) => ({
+            this.__detailTypes = this.details.map(({ detailId, detailType, configurationTypes }) => ({
+                detailId,
                 detailType,
                 configurationTypes,
             }))

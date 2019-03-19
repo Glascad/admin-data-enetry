@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 import {
-    TitleBar,
+    TitleBar, GroupingBox,
 } from '../../../../../components';
 
 import RecursiveElevation from '../recursive-elevation/elevation';
@@ -92,8 +92,11 @@ export default class BuildElevation extends Component {
                     {detailTypes.map(({
                         detailType = '',
                         configurationTypes = [],
+                        detailId = '',
                     }) => (
-                            <>
+                            <GroupingBox
+                                title={detailId}
+                            >
                                 <div>
                                     Detail Type -- {detailType}
                                 </div>
@@ -113,7 +116,7 @@ export default class BuildElevation extends Component {
                                             </div>
                                         ))}
                                 </div>
-                            </>
+                            </GroupingBox>
                         ))}
                 </div>
             </>
