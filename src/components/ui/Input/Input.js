@@ -17,7 +17,7 @@ const booleanTypes = [
 export default class Input extends Component {
 
     static defaultProps = {
-        tagname: "div",
+        tagname: "label",
         type: "text",
         checked: false,
     };
@@ -39,76 +39,76 @@ export default class Input extends Component {
 
     componentDidMount = () => {
         this.componentDidUpdate({}, {});
-        window.addEventListener('keydown', this.handleKeyDown);
-        window.addEventListener('keyup', this.handleKeyUp);
+        // window.addEventListener('keydown', this.handleKeyDown);
+        // window.addEventListener('keyup', this.handleKeyUp);
     }
 
-    componentWillUnmount = () => {
-        window.removeEventListener('keydown', this.handleKeyDown);
-        window.removeEventListener('keyup', this.handleKeyUp);
-    }
+    // componentWillUnmount = () => {
+    //     window.removeEventListener('keydown', this.handleKeyDown);
+    //     window.removeEventListener('keyup', this.handleKeyUp);
+    // }
 
-    handleKeyDown = e => {
-        const { key, altKey, target } = e;
+    // handleKeyDown = e => {
+    //     const { key, altKey, target } = e;
 
-        this.keys[key] = true;
-        this.keys.Alt = altKey;
+    //     this.keys[key] = true;
+    //     this.keys.Alt = altKey;
 
-        if (key === 'Enter') target.blur();
-    }
+    //     if (key === 'Enter') target.blur();
+    // }
 
-    handleKeyUp = e => {
-        const { key, altKey } = e;
+    // handleKeyUp = e => {
+    //     const { key, altKey } = e;
 
-        this.keys[key] = false;
-        this.keys.Alt = altKey;
-    }
+    //     this.keys[key] = false;
+    //     this.keys.Alt = altKey;
+    // }
 
-    handleNumberChange = e => {
-        const {
-            target,
-            target: {
-                value: oldValue,
-            },
-        } = e;
+    // handleNumberChange = e => {
+    //     const {
+    //         target,
+    //         target: {
+    //             value: oldValue,
+    //         },
+    //     } = e;
 
-        const {
-            keys: {
-                ArrowDown,
-                ArrowUp,
-                Control,
-                Meta,
-                Shift,
-                Alt,
-            },
-        } = this;
+    //     const {
+    //         keys: {
+    //             ArrowDown,
+    //             ArrowUp,
+    //             Control,
+    //             Meta,
+    //             Shift,
+    //             Alt,
+    //         },
+    //     } = this;
 
-        if (ArrowUp || ArrowDown) {
-            const delta = Meta || Control ?
-                100 - 1
-                :
-                Shift ?
-                    10 - 1
-                    :
-                    // Alt ?
-                    //     0.1 - 1
-                    //     :
-                    1 - 1;
+    //     if (ArrowUp || ArrowDown) {
+    //         const delta = Meta || Control ?
+    //             100 - 1
+    //             :
+    //             Shift ?
+    //                 10 - 1
+    //                 :
+    //                 // Alt ?
+    //                 //     0.1 - 1
+    //                 //     :
+    //                 1 - 1;
 
-            const value = ArrowUp ?
-                +oldValue + delta
-                :
-                +oldValue - delta;
+    //         const value = ArrowUp ?
+    //             +oldValue + delta
+    //             :
+    //             +oldValue - delta;
 
-            if (this.props.onChange) {
-                e.preventDefault();
-                target.value = value;
-                this.props.onChange({ ...e, target });
-            } else {
-                target.value = value;
-            }
-        }
-    }
+    //         if (this.props.onChange) {
+    //             e.preventDefault();
+    //             target.value = value;
+    //             this.props.onChange({ ...e, target });
+    //         } else {
+    //             target.value = value;
+    //         }
+    //     }
+    // }
 
     render = () => {
         const {
@@ -125,7 +125,7 @@ export default class Input extends Component {
                 ...props
             },
             ref,
-            handleNumberChange,
+            // handleNumberChange,
         } = this;
 
         if (
@@ -137,7 +137,7 @@ export default class Input extends Component {
         }
 
         const tag = {
-            name: booleanTypes.includes(type) ? "label" : tagname
+            name: tagname,
         };
 
         const LABEL = label ? (
@@ -182,9 +182,10 @@ export default class Input extends Component {
                                 checked
                                 :
                                 undefined}
-                            onChange={type === "number" ?
-                                handleNumberChange
-                                :
+                            onChange={
+                                // type === "number" ?
+                                // handleNumberChange
+                                // :
                                 onChange}
                             {...props}
                         />
