@@ -186,10 +186,25 @@ export default class RecursiveDetail {
         );
     }
 
+    get runsAlongEdgeOfRoughOpening() {
+        return !this.firstContainer
+            ||
+            !this.secondContainer;
+    }
+
     get shouldRunThroughPerpendiculars() {
-        return this.__shouldRunThroughPerpendiculars === undefined ? (
-            this.__shouldRunThroughPerpendiculars = this.vertical
-        ) : this.__shouldRunThroughPerpendiculars;
+        if (this.__shouldRunThroughPerpendiculars === undefined) {
+            this.__shouldRunThroughPerpendiculars = (
+                this.vertical
+                ||
+                (
+                    this.runsAlongEdgeOfRoughOpening
+                    &&
+                    !this.elevation.verticalFramesRunThroughHeadAndSill
+                )
+            );
+        }
+        return this.__shouldRunThroughPerpendiculars;
     }
 
     _getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {

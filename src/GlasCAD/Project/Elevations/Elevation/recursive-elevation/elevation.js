@@ -79,6 +79,8 @@ export default class RecursiveElevation {
         window.temp1 = this;
     }
 
+    get verticalFramesRunThroughHeadAndSill() { return true; }
+
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
     get allDetails() { return this.detailIds.map(id => this.details[id]); }
     get allFrames() {

@@ -128,8 +128,13 @@ export default class RecursiveFrame {
             refId,
             vertical,
             sightline,
+            firstEndRunsAlongEdgeOfRoughOpening,
+            lastEndRunsAlongEdgeOfRoughOpening,
             firstEndRunsIntoEdgeOfRoughOpening,
             lastEndRunsIntoEdgeOfRoughOpening,
+            elevation: {
+                verticalFramesRunThroughHeadAndSill,
+            },
         } = this;
 
         // farthest to the bottom / left
@@ -247,13 +252,23 @@ export default class RecursiveFrame {
 
         const needsTopExtension = vertical
             &&
-            lastEndRunsIntoEdgeOfRoughOpening
+            (
+                verticalFramesRunThroughHeadAndSill ?
+                    lastEndRunsIntoEdgeOfRoughOpening
+                    :
+                    lastEndRunsAlongEdgeOfRoughOpening
+            )
             &&
             !verticalLastContainer.topContainers.length;
 
         const needsBottomExtension = vertical
             &&
-            firstEndRunsIntoEdgeOfRoughOpening
+            (
+                verticalFramesRunThroughHeadAndSill ?
+                    firstEndRunsIntoEdgeOfRoughOpening
+                    :
+                    firstEndRunsAlongEdgeOfRoughOpening
+            )
             &&
             !verticalFirstContainer.bottomContainers.length;
 
