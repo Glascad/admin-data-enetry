@@ -39,7 +39,7 @@ export default function Container({
                 y={-(y + finishedFloorHeight + 10)}
                 transform="scale(1, -1)"
             >
-                {refId}
+                {refId.replace(/\D*/, '*')}
             </text>
         </g>
     );

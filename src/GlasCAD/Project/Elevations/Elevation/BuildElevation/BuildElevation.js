@@ -55,12 +55,35 @@ export default class BuildElevation extends Component {
             elevation,
         });
 
-        const selectedFrame = elevation.getItemByRefId(focusedRefId);
+        const selectedItem = elevation.getItemByRefId(focusedRefId);
 
-        const detailTypes = selectedFrame instanceof RecursiveElevation.RecursiveFrame ?
-            selectedFrame.detailTypes
+        const details = selectedItem instanceof RecursiveElevation.RecursiveFrame ?
+            [{
+                detailLocation: "Frame",
+                detailTypes: selectedItem.detailTypes,
+            }]
             :
-            [];
+            selectedItem instanceof RecursiveElevation.RecursiveContainer ?
+                [
+                    {
+                        detailLocation: "Top Detail",
+                        detailTypes: selectedItem.topDetails,
+                    },
+                    {
+                        detailLocation: "Bottom Detail",
+                        detailTypes: selectedItem.bottomDetails,
+                    },
+                    {
+                        detailLocation: "Left Detail",
+                        detailTypes: selectedItem.leftDetails,
+                    },
+                    {
+                        detailLocation: "Right Detail",
+                        detailTypes: selectedItem.rightDetails,
+                    },
+                ]
+                :
+                [];
 
         return (
             <>
@@ -88,33 +111,45 @@ export default class BuildElevation extends Component {
                         handleFocus,
                     }}
                 />
-                {detailTypes.map(({
-                    detailType = '',
-                    configurationTypes = [],
-                    detailId = '',
+                {details.map(({
+                    detailLocation = '',
+                    detailTypes = [],
                 }) => (
                         <GroupingBox
-                            title={detailId}
+                            title={detailLocation}
                         >
-                            <div>
-                                {detailType}
-                            </div>
-                            <div>
-                                {configurationTypes.map(({
-                                    required,
-                                    _configurationType: {
-                                        type = '',
-                                    } = {}
-                                }) => (
-                                        <div>
-                                            {type}
-                                            {required ?
-                                                ' (Required)'
-                                                :
-                                                ''}
+                            {detailTypes.map(({
+                                detailType = '',
+                                configurationTypes = [],
+                                detailId = '',
+                            }) => (
+                                    <>
+                                        <div style={{
+                                            fontSize: '1rem',
+                                            fontWeight: 'bold',
+                                        }}>
+                                            {detailType} {detailId}
                                         </div>
-                                    ))}
-                            </div>
+                                        <ul style={{
+                                            marginTop: '0.5rem',
+                                        }}>
+                                            {configurationTypes.map(({
+                                                required,
+                                                _configurationType: {
+                                                    type = '',
+                                                } = {}
+                                            }) => (
+                                                    <li>
+                                                        - {type}
+                                                        {required ?
+                                                            ' (Required)'
+                                                            :
+                                                            ''}
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </>
+                                ))}
                         </GroupingBox>
                     ))}
             </>

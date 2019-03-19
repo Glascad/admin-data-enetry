@@ -96,6 +96,8 @@
 
 .input-group {
     display: flex;
+    align-items: flex-end;
+
     > * {
         + * {
             margin-left: $small;
