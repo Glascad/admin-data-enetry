@@ -209,7 +209,7 @@ export default class NewElevation extends Component {
                                         />
                                         <Input
                                             label="Lock"
-                                            type="checkbox"
+                                            type="switch"
                                             readOnly={true}
                                             checked={verticalLock}
                                         />
@@ -226,7 +226,7 @@ export default class NewElevation extends Component {
                                         />
                                         <Input
                                             label="Lock"
-                                            type="checkbox"
+                                            type="switch"
                                             readOnly={true}
                                             checked={horizontalLock}
                                         />

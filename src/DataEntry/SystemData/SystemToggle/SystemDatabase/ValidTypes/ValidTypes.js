@@ -154,7 +154,7 @@ export default function ValidTypes({
                                     */}
                                     <Input
                                         label="Invalid"
-                                        type="checkbox"
+                                        type="switch"
                                         checked={invalid}
                                         onChange={({ target: { checked } }) => updateSystem(ACTIONS.UPDATE_LIST, {
                                             invalidConfigurationTypeIds: {

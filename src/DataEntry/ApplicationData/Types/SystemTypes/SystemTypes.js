@@ -158,7 +158,7 @@ export default function SystemTypes() {
                                                             />
                                                             <Input
                                                                 label="Mirrorable"
-                                                                type="checkbox"
+                                                                type="switch"
                                                                 checked={mirrorable}
                                                                 onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
                                                                     nodeId: systemTypeDetailTypeConfigurationTypeNID,
@@ -167,7 +167,7 @@ export default function SystemTypes() {
                                                             />
                                                             <Input
                                                                 label="Required"
-                                                                type="checkbox"
+                                                                type="switch"
                                                                 checked={required}
                                                                 onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
                                                                     nodeId: systemTypeDetailTypeConfigurationTypeNID,
