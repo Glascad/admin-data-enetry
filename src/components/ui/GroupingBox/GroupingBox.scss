@@ -20,8 +20,9 @@
         left: $large;
         margin: 0;
         background: white;
+        font-weight: bold;
         box-shadow: 0 0 0 $x-small white;
-        
+        // font-weight: bold;
     }
 
     .toggle-background, .add-button-background {
@@ -70,6 +71,7 @@
 .card {
     .GroupingBox {
         .title {
+            font-weight: normal;
             background: $off-white;
             box-shadow: 0 0 0 $x-small $off-white;
         }
