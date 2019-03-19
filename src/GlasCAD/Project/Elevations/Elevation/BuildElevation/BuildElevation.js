@@ -88,37 +88,38 @@ export default class BuildElevation extends Component {
                         handleFocus,
                     }}
                 />
-                <div className="card">
-                    {detailTypes.map(({
-                        detailType = '',
-                        configurationTypes = [],
-                        detailId = '',
-                    }) => (
-                            <GroupingBox
-                                title={detailId}
-                            >
-                                <div>
-                                    Detail Type -- {detailType}
-                                </div>
-                                <div>
-                                    {configurationTypes.map(({
-                                        required,
-                                        _configurationType: {
-                                            type = '',
-                                        } = {}
-                                    }) => (
-                                            <div>
-                                                Configuration Type -- {type}
-                                                {required ?
-                                                    ' (Required)'
-                                                    :
-                                                    ''}
-                                            </div>
-                                        ))}
-                                </div>
-                            </GroupingBox>
-                        ))}
-                </div>
+                {detailTypes.map(({
+                    detailType = '',
+                    configurationTypes = [],
+                    detailId = '',
+                }) => (
+                        <GroupingBox
+                            title={detailId}
+                        >
+                            <div>
+                                {detailType}
+                            </div>
+                            <div>
+                                Configuration Types
+                            </div>
+                            <div>
+                                {configurationTypes.map(({
+                                    required,
+                                    _configurationType: {
+                                        type = '',
+                                    } = {}
+                                }) => (
+                                        <div>
+                                            {type}
+                                            {required ?
+                                                ' (Required)'
+                                                :
+                                                ''}
+                                        </div>
+                                    ))}
+                            </div>
+                        </GroupingBox>
+                    ))}
             </>
         );
     }
