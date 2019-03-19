@@ -1,5 +1,7 @@
 
 const containersKey = 'containers<first>';
+const runsAlongEdgeKey = 'runs_along_edge<first>';
+const runsIntoEdgeKey = 'runs_into_edge<first>';
 
 export default class RecursiveFrame {
     constructor(details, elevation) {
@@ -16,6 +18,14 @@ export default class RecursiveFrame {
                     true: undefined,
                     false: undefined,
                 },
+                [runsAlongEdgeKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
+                [runsIntoEdgeKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
             },
         );
     }
@@ -28,7 +38,8 @@ export default class RecursiveFrame {
 
     get detailTypes() {
         return this.__detailTypes || (
-            this.__detailTypes = this.details.map(({ detailType, configurationTypes }) => ({
+            this.__detailTypes = this.details.map(({ detailId, detailType, configurationTypes }) => ({
+                detailId,
                 detailType,
                 configurationTypes,
             }))
@@ -38,7 +49,8 @@ export default class RecursiveFrame {
     _getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
             .map(detail => detail._getContainerByDirection(first))
-            .filter(Boolean));
+        // .filter(Boolean)
+    );
 
     _getFirstOrLastContainerByDirection = (first, last) => {
         const containers = this._getContainersByDirection(first);
@@ -69,97 +81,60 @@ export default class RecursiveFrame {
         );
     }
 
-    get runsAlongEdgeOfRoughOpening() {
-        const {
-            topContainers: {
-                length: topLength,
-            } = {},
-            bottomContainers: {
-                length: bottomLength,
-            } = {},
-            leftContainers: {
-                length: leftLength,
-            } = {},
-            rightContainers: {
-                length: rightLength,
-            } = {},
-        } = this;
+    _getRunsAlongEdgeOfRoughOpening = first => {
+        if (this[runsAlongEdgeKey][first] === undefined) {
 
-        return this.vertical ?
-            !leftLength || !rightLength
-            :
-            !topLength || !bottomLength;
+            const firstEndContainer = this._getFirstOrLastContainerByDirection(true, !first);
+            const secondEndContainer = this._getFirstOrLastContainerByDirection(false, !first);
+
+            this[runsAlongEdgeKey][first] = !firstEndContainer || !secondEndContainer;
+        }
+        return this[runsAlongEdgeKey][first];
     }
 
-    get runsToEdgeOfRoughOpening() {
-        // farthest to the bottom / left
-        const {
-            leftContainers: {
-                0: {
-                    bottomContainers: {
-                        length: leftBottomContainersLength,
-                    } = {},
-                } = {},
-                length: leftContainersLength = 0,
-            } = [],
-            rightContainers: {
-                0: {
-                    bottomContainers: {
-                        length: rightBottomContainersLength,
-                    } = {},
-                } = {},
-                length: rightContainersLength = 0,
-            } = [],
-            topContainers: {
-                0: {
-                    leftContainers: {
-                        length: leftTopContainersLength,
-                    } = {},
-                } = {},
-                length: topContainersLength = 0,
-            } = [],
-            bottomContainers: {
-                0: {
-                    bottomContainers: {
-                        length: BottomContainersLength,
-                    } = {},
-                } = {},
-                length: bottomContainersLength = 0,
-            } = [],
-        } = this;
+    get firstEndRunsAlongEdgeOfRoughOpening() { return this._getRunsAlongEdgeOfRoughOpening(true); }
+    get lastEndRunsAlongEdgeOfRoughOpening() { return this._getRunsAlongEdgeOfRoughOpening(false); }
 
-        // farthest to the top / right
-        const {
-            leftContainers: {
-                [leftContainersLength - 1]: lastLeftContainer = 0,
-            } = {},
-            rightContainers: {
-                [rightContainersLength - 1]: lastRightContainer = 0,
-            } = {},
-            topContainers: {
-                [topContainersLength - 1]: lastTopContainer = 0,
-            } = {},
-            bottomContainers: {
-                [bottomContainersLength - 1]: lastBottomContainer = 0,
-            } = {},
-        } = this;
+    _getRunsIntoEdgeOfRoughOpening = first => {
+        if (this[runsIntoEdgeKey][first] === undefined) {
 
-        // const left = 
+            const { vertical } = this;
 
-        // return {
-        //     top,
-        //     bottom,
-        //     left,
-        //     right,
-        // };
+            const direction = [vertical, first];
+
+            const firstEndContainer = this._getFirstOrLastContainerByDirection(true, !first);
+            const secondEndContainer = this._getFirstOrLastContainerByDirection(false, !first);
+
+            this[runsIntoEdgeKey][first] = (
+                (
+                    !firstEndContainer
+                    ||
+                    !firstEndContainer._getFirstOrLastContainerByDirection(...direction, !first)
+                ) && (
+                    !secondEndContainer
+                    ||
+                    !secondEndContainer._getFirstOrLastContainerByDirection(...direction, !first)
+                )
+            );
+        }
+        return this[runsIntoEdgeKey][first];
     }
+
+    get firstEndRunsIntoEdgeOfRoughOpening() { return this._getRunsIntoEdgeOfRoughOpening(true); }
+    get lastEndRunsIntoEdgeOfRoughOpening() { return this._getRunsIntoEdgeOfRoughOpening(false); }
 
     get placement() {
         const {
             refId,
             vertical,
             sightline,
-            runsAlongEdgeOfRoughOpening,
+            firstEndRunsAlongEdgeOfRoughOpening,
+            lastEndRunsAlongEdgeOfRoughOpening,
+            firstEndRunsIntoEdgeOfRoughOpening,
+            lastEndRunsIntoEdgeOfRoughOpening,
+            elevation: {
+                verticalFramesRunThroughHeadAndSill,
+            },
         } = this;
 
         // farthest to the bottom / left
@@ -277,13 +252,23 @@ export default class RecursiveFrame {
 
         const needsTopExtension = vertical
             &&
-            runsAlongEdgeOfRoughOpening
+            (
+                verticalFramesRunThroughHeadAndSill ?
+                    lastEndRunsIntoEdgeOfRoughOpening
+                    :
+                    lastEndRunsAlongEdgeOfRoughOpening
+            )
             &&
             !verticalLastContainer.topContainers.length;
 
         const needsBottomExtension = vertical
             &&
-            runsAlongEdgeOfRoughOpening
+            (
+                verticalFramesRunThroughHeadAndSill ?
+                    firstEndRunsIntoEdgeOfRoughOpening
+                    :
+                    firstEndRunsAlongEdgeOfRoughOpening
+            )
             &&
             !verticalFirstContainer.bottomContainers.length;
 

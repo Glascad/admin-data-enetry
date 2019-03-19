@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 import {
-    TitleBar,
+    TitleBar, GroupingBox,
 } from '../../../../../components';
 
 import RecursiveElevation from '../recursive-elevation/elevation';
@@ -88,34 +88,38 @@ export default class BuildElevation extends Component {
                         handleFocus,
                     }}
                 />
-                <div className="card">
-                    {detailTypes.map(({
-                        detailType = '',
-                        configurationTypes = [],
-                    }) => (
-                            <>
-                                <div>
-                                    Detail Type -- {detailType}
-                                </div>
-                                <div>
-                                    {configurationTypes.map(({
-                                        required,
-                                        _configurationType: {
-                                            type = '',
-                                        } = {}
-                                    }) => (
-                                            <div>
-                                                Configuration Type -- {type}
-                                                {required ?
-                                                    ' (Required)'
-                                                    :
-                                                    ''}
-                                            </div>
-                                        ))}
-                                </div>
-                            </>
-                        ))}
-                </div>
+                {detailTypes.map(({
+                    detailType = '',
+                    configurationTypes = [],
+                    detailId = '',
+                }) => (
+                        <GroupingBox
+                            title={detailId}
+                        >
+                            <div>
+                                {detailType}
+                            </div>
+                            <div>
+                                Configuration Types
+                            </div>
+                            <div>
+                                {configurationTypes.map(({
+                                    required,
+                                    _configurationType: {
+                                        type = '',
+                                    } = {}
+                                }) => (
+                                        <div>
+                                            {type}
+                                            {required ?
+                                                ' (Required)'
+                                                :
+                                                ''}
+                                        </div>
+                                    ))}
+                            </div>
+                        </GroupingBox>
+                    ))}
             </>
         );
     }

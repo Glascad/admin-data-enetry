@@ -79,6 +79,8 @@ export default class RecursiveElevation {
         window.temp1 = this;
     }
 
+    get verticalFramesRunThroughHeadAndSill() { return true; }
+
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
     get allDetails() { return this.detailIds.map(id => this.details[id]); }
     get allFrames() {
@@ -101,9 +103,9 @@ export default class RecursiveElevation {
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
-    get detailTypes() { return this.allDetails.map(detail => detail.type); }
+    get detailTypes() { return this.allDetails.map(({ type }) => type); }
 
-    getItemByRefId(id) {
+    getItemByRefId = id => {
         const cb = ({ refId }) => refId === id;
         return this.allContainers.find(cb)
             ||
@@ -111,4 +113,11 @@ export default class RecursiveElevation {
             ||
             this.allDetails.find(cb);
     }
+
+    getDetailByType = type => this.allDetails
+        .filter(({ detailType }) => detailType === type);
+
+    getDetailByConfigurationType = configurationType => this.allDetails
+        .filter(({ configurationTypes }) => configurationTypes
+            .some(({ type }) => type === configurationType));
 }

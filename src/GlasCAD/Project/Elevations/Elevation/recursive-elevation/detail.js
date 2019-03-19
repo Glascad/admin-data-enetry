@@ -59,6 +59,7 @@ export default class RecursiveDetail {
     get secondContainer() { return this._getContainerByDirection(false); }
 
     get detailType() {
+        // determine detail type
         return this.__type || (
             this.__type = this.vertical ?
                 this.firstContainer && this.secondContainer ?
@@ -77,6 +78,7 @@ export default class RecursiveDetail {
     }
 
     get configurationTypes() {
+        // find all configuration types that are applicable to detail type
         return this.__configurationTypes || (
             this.__configurationTypes = this.elevation
                 .detailTypeConfigurationTypes
@@ -88,6 +90,49 @@ export default class RecursiveDetail {
                         type: configurationTypeName
                     },
                 }) => configurationTypeName && detailTypeName === this.detailType)
+        );
+    }
+
+    get appliedConfigurationTypes() {
+        // look at all optional detail types (system-level, elevation-level, lite-level, and detail-level)
+        // return only configuration types that are turned on
+        return this.configurationTypes;
+    }
+
+    get appliedOptionValues() {
+        // look at all selected option values (system-level, elevation-level, lite-level, and detail-level)
+        // return only option values that are selected
+        return this._detailOptionValues;
+    }
+
+    _compareOtherDetail = detail => (
+        this.detailType === detail.detailType
+        &&
+        this.appliedConfigurationTypes.every(act => detail.appliedConfigurationTypes.includes(act))
+        &&
+        this.appliedOptionValues.every(aov => detail.appliedOptionValues.includes(aov))
+    );
+
+    get detailId() {
+        return this.__detailId || (
+            this.__detailId = `${
+            this.detailType[0].toUpperCase()
+            }${
+            this.elevation.allDetails
+                .reduce(({ num, finished }, detail) => (
+                    finished || detail === this ?
+                        { num, finished: true }
+                        :
+                        detail.detailType === this.detailType ?
+                            this._compareOtherDetail(detail) ?
+                                { num }
+                                :
+                                { num: num + 1 }
+                            :
+                            { num }
+                ), { num: 1 })
+                .num
+            }`
         );
     }
 
@@ -141,10 +186,25 @@ export default class RecursiveDetail {
         );
     }
 
+    get runsAlongEdgeOfRoughOpening() {
+        return !this.firstContainer
+            ||
+            !this.secondContainer;
+    }
+
     get shouldRunThroughPerpendiculars() {
-        return this.__shouldRunThroughPerpendiculars === undefined ? (
-            this.__shouldRunThroughPerpendiculars = this.vertical
-        ) : this.__shouldRunThroughPerpendiculars;
+        if (this.__shouldRunThroughPerpendiculars === undefined) {
+            this.__shouldRunThroughPerpendiculars = (
+                this.vertical
+                ||
+                (
+                    this.runsAlongEdgeOfRoughOpening
+                    &&
+                    !this.elevation.verticalFramesRunThroughHeadAndSill
+                )
+            );
+        }
+        return this.__shouldRunThroughPerpendiculars;
     }
 
     _getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
