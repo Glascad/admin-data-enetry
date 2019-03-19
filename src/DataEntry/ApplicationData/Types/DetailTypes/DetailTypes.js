@@ -56,7 +56,7 @@ export default function DetailTypes() {
                                     />
                                     <Input
                                         label="Vertical"
-                                        type="checkbox"
+                                        type="switch"
                                         checked={vertical}
                                         onChange={({ target: { checked } }) => updateDetailType({
                                             nodeId,
@@ -65,7 +65,7 @@ export default function DetailTypes() {
                                     />
                                     <Input
                                         label="Entrance"
-                                        type="checkbox"
+                                        type="switch"
                                         checked={entrance}
                                         onChange={({ target: { checked } }) => updateDetailType({
                                             nodeId,

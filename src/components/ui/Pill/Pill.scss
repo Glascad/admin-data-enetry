@@ -11,7 +11,7 @@
     padding: 0 $item-height * 0.875;
     border-radius: $pill-width;
     height: $item-height;
-    box-shadow: .1rem .1rem $xx-small rgba(74,74,74,.8);
+    box-shadow: 2px 2px $xx-small rgba(74,74,74,.8);
 
     &.empty:not(.selected) {
         @include two-colors($selected-color, $off-white, false);
