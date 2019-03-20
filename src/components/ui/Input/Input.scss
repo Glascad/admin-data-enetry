@@ -93,18 +93,24 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            height: $item-height;
-            width: $item-height * 1.75;
+            // height: $item-height;
+            height: $xxx-large;
+            // width: $item-height * 1.75;
+            width: $xxx-large * 1.75;
             background: none;
             border: 1px solid $dark-gray;
-            border-radius: $item-height / 2;
+            // border-radius: $item-height / 2;
+            border-radius: $xxx-large / 2;
             margin-right: $base-size;
 
             .switch {
-                height: calc(#{$item-height} - #{$x-small});
-                width: calc(#{$item-height} - #{$x-small});
+                // height: calc(#{$item-height} - #{$x-small});
+                height: calc(#{$xxx-large} - #{$x-small});
+                // width: calc(#{$item-height} - #{$x-small});
+                width: calc(#{$xxx-large} - #{$x-small});
                 background: $pill-color;
-                border-radius: $item-height / 2;
+                // border-radius: $item-height / 2;
+                border-radius: $xxx-large / 2;
                 margin: 2.5px;
                 box-shadow: 2px 1px $xx-small rgba(74,74,74,.8);
             }
@@ -127,12 +133,14 @@
     .Select {
         box-sizing: border-box;
         width: $pill-width;
-        height: $item-height;
+        // height: $item-height;
+        height: $xxx-large;
         border-radius: $xx-small;
         
         > div {
             &:first-of-type{
-                height: $item-height;
+                // height: $item-height;
+                height: $xxx-large;
                 border: 1px solid $dark-gray;
                 outline: none;
                 box-shadow: none;

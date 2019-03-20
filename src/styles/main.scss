@@ -14,7 +14,8 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: $item-height;
+    // height: $item-height;
+    height: $xxx-large;
     min-width: $pill-width / 2;
     padding: 0 $large;
     font-size: $text-size;
@@ -47,7 +48,8 @@ button {
 input {
     border: none;
     border: 1px solid $dark-gray;
-    height: $item-height;
+    // height: $item-height;
+    height: $xxx-large;
     width: $pill-width;
     padding: 0 $small;
     font-size: $text-size;

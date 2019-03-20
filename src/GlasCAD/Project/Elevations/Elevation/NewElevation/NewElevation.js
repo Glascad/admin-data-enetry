@@ -7,6 +7,7 @@ import F from '../../../../../schema';
 import { Link } from 'react-router-dom';
 
 import {
+    ApolloWrapper,
     TitleBar,
     Input,
     GroupingBox,
@@ -18,7 +19,6 @@ import RecursiveElevation from '../recursive-elevation/elevation';
 import createElevation from '../ducks/create';
 
 import { parseSearch } from '../../../../../utils';
-import ApolloWrapper from '../../../../../components/state/ApolloWrapper';
 
 import {
     measureFromOptions,
@@ -74,7 +74,10 @@ export default class NewElevation extends Component {
             ...createdElevation
         } = createElevation(elevationInput);
 
+        const { projectId } = parseSearch(search);
+
         const elevation = {
+            projectId: +projectId,
             name,
             containers: _elevationContainers.map(({ bay, row, ...container }) => container),
             details: _containerDetails.map(({ fakeId, ...detail }) => detail),
