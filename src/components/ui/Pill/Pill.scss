@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 .Pill {
-    @include two-colors($dark-gray, $pill-color, false);
+    @include two-colors($dark-gray, $light-gray, false);
     // border-width: $icon-thickness !important;
     box-sizing: border-box;
     display: flex;
@@ -19,7 +19,7 @@
         background: none;
         
         &:hover {
-            background: $pill-color;
+            background: $light-gray;
         }
     }
 

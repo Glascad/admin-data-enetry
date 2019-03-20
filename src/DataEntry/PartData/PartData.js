@@ -1,6 +1,8 @@
 import React from 'react';
+
 import {
-    Navigator, TitleBar,
+    Navigator,
+    TitleBar,
 } from '../../components';
 
 function _PartData() {

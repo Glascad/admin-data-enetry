@@ -3,7 +3,7 @@
 
 .GroupingBox {
     position: relative;
-    border: 1px solid $dark-gray;
+    border: 1px solid $medium-gray;
     border-radius: $x-small;
     padding-bottom: $xx-large !important;
     width: stretch;
@@ -27,22 +27,26 @@
 
     .toggle-background, .add-button-background {
         position: absolute;
-        top: -$item-height / 4;
+        top: -$xxx-large / 2;
         right: $large - $x-small;
         margin: 0 !important;
         background: white;
-        padding: 0 $x-small;
+        padding: 0 $xx-small;
         
-        .Toggle, .AddButton {
-            height: $x-large;
-            max-height: $x-large;
-            // box-shadow: 0 0 0 $x-small $off-white;
+        .AddButton {
+            .add-button {
+                height: $xxx-large;
+                width: $xxx-large;
+            }
         }
         
         .Toggle {
+            height: $xxx-large;
+            max-height: $xxx-large;
+
             > button {
-                height: $x-large;
-                font-size: $x-large * .6;
+                height: $xxx-large;
+                font-size: $xxx-large * .6;
                 // max-height: $x-large;
             }
         }

@@ -31,7 +31,7 @@
     }
     
     .label {
-        color: $rule-color;
+        color: $medium-gray;
         + * {
             margin-top: $x-small;
         }
@@ -100,7 +100,11 @@
 
     > * {
         + * {
-            margin-left: $small;
+            margin-left: $large;
+
+            &.type-switch {
+                margin-left: $xxxxx-large;
+            }
         }
     }
 }

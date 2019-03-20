@@ -20,6 +20,7 @@
             display: flex;
             align-items: center;
             background: none;
+            color: white;
             
             + .tab {
                 border-left: 1px solid $off-white;
@@ -28,12 +29,12 @@
             &.current-tab {
                 opacity: 1;
                 background: $off-white;
-                font-weight: bold;
+                color: $dark-gray;
             }
 
             &.disabled {
                 opacity: 1;
-                color: rgba(255, 255, 255, 0.4);
+                color: transparentize(white, 0.5);
             }
         }
     }

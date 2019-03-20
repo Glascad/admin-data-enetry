@@ -69,7 +69,7 @@ class Statics extends Component {
                         to={path}
                     >
                         <Logo className="logo" />
-                        <span>GLASCAD</span>
+                        <span>glascad</span>
                     </Link>
                     <NavMenu
                         routeProps={props}

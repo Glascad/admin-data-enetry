@@ -35,7 +35,7 @@
             margin-right: $x-small;
             height: $checkbox-height;
             width: $checkbox-height;
-            background: $pill-color;
+            background: $light-gray;
             border-radius: $xx-small;
             
             &:after {
@@ -98,7 +98,7 @@
             // width: $item-height * 1.75;
             width: $xxx-large * 1.75;
             background: none;
-            border: 1px solid $dark-gray;
+            border: 1px solid $light-gray;
             // border-radius: $item-height / 2;
             border-radius: $xxx-large / 2;
             margin-right: $base-size;
@@ -108,7 +108,7 @@
                 height: calc(#{$xxx-large} - #{$x-small});
                 // width: calc(#{$item-height} - #{$x-small});
                 width: calc(#{$xxx-large} - #{$x-small});
-                background: $pill-color;
+                background: $light-gray;
                 // border-radius: $item-height / 2;
                 border-radius: $xxx-large / 2;
                 margin: 2.5px;
@@ -120,6 +120,7 @@
             &:checked {
                 + .track {
                     justify-content: flex-end;
+                    background: transparentize($selected-color, 0.75);
                     
                     .switch {
                         background: $selected-color;
@@ -145,7 +146,7 @@
                 height: $xxx-large;
                 min-height: $xxx-large;
                 max-height: $xxx-large;
-                border: 1px solid $dark-gray;
+                border: 1px solid $light-gray;
                 outline: none;
                 box-shadow: none;
                 
@@ -157,7 +158,7 @@
             }
         }
         svg {
-            color: $rule-color;
+            color: $medium-gray;
         }
         &:hover {
             svg {

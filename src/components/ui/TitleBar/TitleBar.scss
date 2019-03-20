@@ -16,11 +16,12 @@
     
     .title-bar-left {
         display: flex;
+        align-items: center;
         white-space: nowrap;
         text-overflow: ellipsis;
         
         .left {
-            margin-left: $small;
+            margin-left: $large;
         }
     }
 
@@ -28,6 +29,7 @@
         box-sizing: unset;
         padding-bottom: $small;
         border-bottom: $x-small solid $light-blue;
+        margin-bottom: $xxxxx-large;
     }
 }
 
@@ -38,6 +40,6 @@
         font-size: $large;
         padding-bottom: $x-small;
         margin-bottom: $large;
-        border-bottom: 1px solid $rule-color;
+        border-bottom: 1px solid $medium-gray;
     }
 }

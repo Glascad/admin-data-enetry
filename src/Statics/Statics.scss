@@ -12,12 +12,13 @@
         background: $dark-blue;
         color: $off-white;
         font-family: 'Montserrat';
-        font-size: $x-large;
+        font-size: $large;
+        font-weight: bold;
         padding: 0 calc(#{$large} - 4px);
         height: $header-height;
         display: flex;
         align-items: center;
-        border-bottom: 1px solid $rule-color;
+        border-bottom: 1px solid $medium-gray;
 
         .logo {
             height: $item-height;
@@ -30,7 +31,7 @@
         }
         
         span {
-            padding-left: $base-size;
+            padding-left: $large;
         }
     }
 
@@ -40,7 +41,7 @@
         right: 0;
         height: $menu-height;
         width: $menu-height;
-        // border-left: 1px solid $rule-color;
+        // border-left: 1px solid $medium-gray;
         border-radius: 0;
         
         &:before {
@@ -49,7 +50,7 @@
             top: 0.5rem;
             left: 0;
             bottom: 0.5rem;
-            border-left: 1px solid $rule-color;
+            border-left: 1px solid $medium-gray;
         }
         
         // &:after {
@@ -58,7 +59,7 @@
         //     left: 0.5rem;
         //     bottom: 0;
         //     right: 0;
-        //     border-bottom: 1px solid $rule-color;
+        //     border-bottom: 1px solid $medium-gray;
         // }
     }
 
@@ -75,6 +76,10 @@
     }
 
     &.closed {
+        #sidebar-header {
+            border-bottom: none;
+        }
+
         .DoubleArrow {
             z-index: 1;
             border: none;

@@ -173,9 +173,9 @@ export default class Input extends Component {
                                     type === "text" ?
                                         ""
                                         :
-                                        type === "number" ?
-                                            0
-                                            :
+                                        // type === "number" ?
+                                        //     0
+                                        //     :
                                             undefined
                                 ) : undefined}
                             checked={booleanTypes.includes(type) ?
