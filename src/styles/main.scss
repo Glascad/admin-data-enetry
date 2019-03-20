@@ -8,8 +8,8 @@ button, input {
 }
 
 button {
-    @include two-colors($selected-color, $off-white);
-    border-color: $selected-color;
+    // @include two-colors($selected-color, $off-white);
+    // border-color: $selected-color;
     background: none;
     display: flex;
     justify-content: center;
@@ -19,6 +19,7 @@ button {
     min-width: $pill-width / 2;
     padding: 0 $large;
     font-size: $text-size;
+    color: $dark-gray;
     cursor: pointer;
 
     + button {
@@ -29,20 +30,20 @@ button {
         box-shadow: 0 0 1px 1px $selected-color;
     }
 
-    &.light {
-        border-color: $off-white;
-        background: none;
-    }
-    &.selected {
-        &:hover {
-            @include two-colors($off-white, $selected-color, false);
-        }
-    }
-    &.danger, &.action {
-        &:hover {
-            background: none;
-        }
-    }
+    // &.light {
+    //     // border-color: $off-white;
+    //     background: none;
+    // }
+    // &.selected {
+    //     &:hover {
+    //         // @include two-colors($off-white, $selected-color, false);
+    //     }
+    // }
+    // &.danger, &.action {
+    //     &:hover {
+    //         background: none;
+    //     }
+    // }
 }
 
 input {
@@ -58,9 +59,9 @@ input {
 input[type=number] {
     width: $pill-width / 2;
     
-    &::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-    }
+    // &::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    //     -webkit-appearance: none;
+    // }
 }
 
 input[type=checkbox] {

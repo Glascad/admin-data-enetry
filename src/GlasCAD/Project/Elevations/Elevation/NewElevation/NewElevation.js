@@ -115,6 +115,8 @@ export default class NewElevation extends Component {
                     horizontalLock,
                     verticalRoughOpening,
                     horizontalRoughOpening,
+                    verticalMasonryOpening,
+                    horizontalMasonryOpening,
                     startingBayQuantity,
                     finishedFloorHeight,
                     horizontals,
@@ -197,10 +199,10 @@ export default class NewElevation extends Component {
                                             })}
                                         />
                                         <Input
-                                            label="Lock"
+                                            label="Masonry Opening"
                                             type="switch"
                                             readOnly={true}
-                                            checked={verticalLock}
+                                            checked={verticalMasonryOpening}
                                         />
                                     </div>
                                     <div className="input-group">
@@ -214,10 +216,10 @@ export default class NewElevation extends Component {
                                             })}
                                         />
                                         <Input
-                                            label="Lock"
+                                            label="Masonry Opening"
                                             type="switch"
                                             readOnly={true}
-                                            checked={horizontalLock}
+                                            checked={horizontalMasonryOpening}
                                         />
                                     </div>
                                 </GroupingBox>
@@ -289,7 +291,7 @@ export default class NewElevation extends Component {
                                                         }}
                                                     />
                                                     <Input
-                                                        label="Vertical Distance"
+                                                        label="Distance"
                                                         type="number"
                                                         min={0}
                                                         value={distance}

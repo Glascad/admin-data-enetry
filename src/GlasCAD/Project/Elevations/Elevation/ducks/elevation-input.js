@@ -27,6 +27,8 @@ export const defaultElevationInput = {
     horizontalLock: true,
     verticalRoughOpening: 400,
     horizontalRoughOpening: 600,
+    verticalMasonryOpening: true,
+    horizontalMasonryOpening: true,
     startingBayQuantity: 3,
     finishedFloorHeight: 50,
     sightline: 10,

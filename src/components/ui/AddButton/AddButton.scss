@@ -10,7 +10,9 @@
     padding: 0;
 
     .add-button {
-        @extend .action;
+        background: $action-color;
+        border: $icon-thickness solid $action-color;
+        
         height: $item-height;
         width: $item-height;
         min-width: 0;
@@ -19,7 +21,24 @@
         position: relative;
         margin: 0;
         padding: 0;
-        border-width: $icon-thickness;
+
+        .text-color {
+            background: $off-white;
+        }
+    }
+    
+    &:hover {
+        .add-button {
+            background: $off-white;
+        }
+
+        .text-color {
+            background: $action-color;
+        }
+
+        .ButtonTile {
+            opacity: 1;
+        }
     }
 
     &.large {
@@ -43,12 +62,6 @@
         border-radius: $small;
     }
 
-    &:hover {
-        .ButtonTile {
-            opacity: 1;
-        }
-    }
-
     .vertical-plus, .horizontal-plus {
         position: absolute;
         top: 50%;
@@ -57,13 +70,13 @@
     }
 
     .vertical-plus {
-        width: 10%;
-        height: 55%;
+        width: 12%;
+        height: 60%;
     }
 
     .horizontal-plus {
-        width: 55%;
-        height: 10%;
+        height: 12%;
+        width: 60%;
     }
 
 }

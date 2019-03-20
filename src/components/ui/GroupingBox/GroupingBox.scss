@@ -27,7 +27,6 @@
 
     .toggle-background, .add-button-background {
         position: absolute;
-        top: -$xxx-large / 2;
         right: $large - $x-small;
         margin: 0 !important;
         background: white;
@@ -41,21 +40,22 @@
         }
         
         .Toggle {
-            height: $xxx-large;
-            max-height: $xxx-large;
+            height: $x-large;
+            max-height: $x-large;
 
             > button {
-                height: $xxx-large;
-                font-size: $xxx-large * .6;
-                // max-height: $x-large;
+                height: $x-large;
+                font-size: $x-large * .6;
             }
         }
-        
-        // .AddButton {
-        //     > button {
-        //         width: $item-height / 2;
-        //     }
-        // }
+    }
+    
+    .toggle-background {
+        top: -$x-large / 2;
+    }
+    
+    .add-button-background {
+        top: -$xxx-large / 2;
     }
 
     &.disabled {

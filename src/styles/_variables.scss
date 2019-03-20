@@ -12,8 +12,10 @@ $pill-width: 200px;
 
 // Colors
 $danger-color: #D0021B;
-$selected-color: #209CEE;
-$action-color: #58BA48;
+// $selected-color: #209CEE;
+$selected-color: #4A90E2;
+// $action-color: #58BA48;
+$action-color: #5CB85C;
 
 $off-white: #ECEFF1;
 $light-gray: #C8C8C8;
@@ -70,20 +72,34 @@ $checkbox-height: $item-height / 2;
     }
 }
 
+@mixin hoverable-background($color) {
+    border-color: $color;
+    background: $color;
+    
+    &:hover {
+        background: mix($color, black, 45);
+        border-color: mix($color, black, 45);
+    }
+}
+
 // Base Classes/Extendable Classes
 
 .light {
-    @include two-colors($off-white, $dark-gray);
+    nothing: 12;
+    // @include two-colors($off-white, $dark-gray);
 }
 
 .selected {
-    @include two-colors($off-white, $selected-color);    
+    nothing: 12;
+    // @include two-colors($off-white, $selected-color);    
 }
 
 .danger {
-    @include two-colors($off-white, $danger-color);    
+    nothing: 12;
+    // @include two-colors($off-white, $danger-color);    
 }
 
 .action {
-    @include two-colors($off-white, $action-color);
+    nothing: 12;
+    // @include two-colors($off-white, $action-color);
 }

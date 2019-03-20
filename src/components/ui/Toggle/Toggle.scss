@@ -8,8 +8,14 @@
     .toggle-button {
         border-radius: 0;
         margin: 0;
-
         padding: 0 $xx-large;
+
+        border: 2px solid $light-gray;
+        color: $dark-gray;
+
+        &:hover {
+            background: $light-gray;
+        }
 
         &:first-child {
             // border-top-left-radius: $xx-small;
@@ -25,25 +31,26 @@
             // border-bottom-right-radius: $xx-small;
         }
 
-        + .toggle-button {
-            border-left: none;
-
-            &:hover {
-                border-left: none;
-            }
+        &.selected, &.danger {
+            box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, 0.5);
+            color: $off-white;
+            border: none;
+            font-weight: bold;
         }
 
         &.selected {
-            // border: none;
-            font-weight: bold;
-            // box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, 0.5);
+            @include hoverable-background($selected-color);
         }
 
-        &:hover {
-            border-color: $selected-color;
-            background: $light-gray;
-            color: $selected-color;
+        &.danger {
+            @include hoverable-background($danger-color);
         }
+
+        // &:hover:not(.selected) {
+        //     border-color: $selected-color;
+        //     background: $light-gray;
+        //     color: $selected-color;
+        // }
 
         &:focus {
             box-shadow: none;

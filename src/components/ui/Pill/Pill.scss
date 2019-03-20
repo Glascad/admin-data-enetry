@@ -1,73 +1,99 @@
 @import '../../../styles/variables';
 
 .Pill {
-    @include two-colors($dark-gray, $light-gray, false);
-    // border-width: $icon-thickness !important;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    padding: 0 $item-height * 0.875;
-    border-radius: $pill-width;
+    padding: 0 $xxxx-large;
     height: $item-height;
+    
+    // border-width: $icon-thickness !important;
+    border-radius: $pill-width;
+    
+    @include hoverable-background($light-gray);
+
     box-shadow: 2px 2px $xx-small rgba(74,74,74,.8);
-
-    &.empty:not(.selected) {
-        @include two-colors($selected-color, $off-white, false);
-        border-color: $selected-color;
-        background: none;
+    // @include two-colors($dark-gray, $light-gray, false);
+    
+    // &.empty:not(.selected) {
+    //     // @include two-colors($selected-color, $off-white, false);
+    //     border-color: $selected-color;
+    //     // background: none;
         
-        &:hover {
-            background: $light-gray;
+    //     &:hover {
+    //         background: $light-gray;
+    //     }
+    // }
+    
+    &:hover:not(.editing) {
+        cursor: default;
+        color: $off-white;
+        font-weight: bold;
+        
+        .text-color {
+            background: $off-white;
         }
-    }
-
-    &.align-left {
-        justify-content: flex-start;
         
-        input {
-            text-align: left;
+        .delete, .edit {
+            display: flex;
+        }
+        
+        .ButtonTile {
+            opacity: 1;
         }
     }
     
-    &.selected, &.danger, &.editing, &.empty {
+    &:hover, &.selected, &.danger, &.editing, &.empty, &.disabled {
         box-shadow: none;
+    }
+
+    &.selected {
+        @include hoverable-background($selected-color);
+
+        color: $off-white;
+        font-weight: bold;
+    }
+    
+    &.danger {
+        @include hoverable-background($danger-color);
+
+        color: $off-white;
+        font-weight: bold;
     }
     
     &.editing, &.editing:hover {
-        border-color: $selected-color;
-        color: $selected-color;
-        background: none;
-        padding: $small;
-        input {
-            border: none;
-            color: $selected-color;
-            margin: 0;
-            width: 2rem;
-            text-align: center;
-            background: none;
-            &.selected{
-                color: $selected-color;
-            }
+        background: $selected-color;
+        
+        &:not(.tile) {
+            padding: 0 $x-large;
         }
     }
 
-    &.disabled {
-        box-shadow: none;
-    }
-
     .subtitle {
-
+        
     }
+    
+    input {
+        color: $off-white;
+        border: none;
+        margin: 0;
+        width: 2rem;
+        text-align: center;
+        background: none;
+    }
+    
     button {
         position: absolute;
         // color: $dark-gray;
+        
         &.drag {
             top: 50%;
             left: 50%;
             transform: translateX(-50%)
         }
+        
         &.edit {
             top: 50%;
             left: 16px;
@@ -76,6 +102,7 @@
             height: $item-height * 0.75;
             display: none;
         }
+        
         &.delete {
             top: 50%;
             right: $x-small;
@@ -86,11 +113,20 @@
         }
     }
     
+    &.align-left {
+        justify-content: flex-start;
+        
+        input {
+            text-align: left;
+        }
+    }
+    
     &.with-button-tile {
         &:hover {
             .title, .subtitle, .footer {
-                opacity: 0.25;
+                opacity: 0;
             }
+
             &.editing {
                 .title, .subtitle, .footer {
                     opacity: 1;
@@ -117,27 +153,6 @@
         margin: 0;
     }
 
-    &:hover {
-        cursor: default;
-        box-shadow: none;
-        border-color: $dark-gray;
-        background-color: $dark-gray;
-        color: $off-white;
-        .text-color {
-            background: $off-white;
-        }
-
-        button {
-            &.delete, &.edit {
-                display: flex;
-            }
-        }
-
-        .ButtonTile {
-            opacity: 1;
-        }
-    }
-
     &.tile {
         flex-direction: column;
         justify-content: space-between;
@@ -146,6 +161,7 @@
         border-radius: $x-small;
         // padding: $base-size;
         padding: $small;
+        padding-bottom: $base-size;
 
         &.align-left {
             align-items: flex-start;
@@ -165,6 +181,12 @@
             &.delete {
                 top: 16px;
             }
+        }
+
+        input {
+            padding: 0;
+            height: $base-size;
+            border-radius: 0;
         }
     }
 }

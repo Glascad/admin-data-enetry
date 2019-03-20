@@ -8,10 +8,11 @@
     flex-direction: column;
     
     .button {
-        @include two-colors($off-white, $dark-gray);
-        border-color: $off-white;
-        width: 67%;
+        // @include two-colors($off-white, $dark-gray);
+        width: 60%;
         padding: 0 $small;
+        border: 2px solid $off-white;
+        color: $off-white;
 
         + .button {
             margin-left: 0;
@@ -27,7 +28,7 @@
         }
         
         &.danger {
-            @include two-colors($off-white, $danger-color, false);
+            // @include two-colors($off-white, $danger-color, false);
         }
     }
 }
