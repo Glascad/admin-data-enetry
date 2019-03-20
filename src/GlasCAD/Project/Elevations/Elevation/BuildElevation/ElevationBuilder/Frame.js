@@ -13,6 +13,7 @@ export default function Frame({
         height,
         width,
         refId,
+        vertical,
     },
     finishedFloorHeight,
 }) {
@@ -24,14 +25,17 @@ export default function Frame({
             y={y + finishedFloorHeight}
             height={height}
             width={width}
-            fill={`rgba(0, 0, 0, ${
-                isFocused ?
-                    0.25
+            fill={isFocused ?
+                "#4A90E2"
+                :
+                `rgba(0, 0, 0, ${
+                vertical ?
+                    0.45
                     :
-                    0.05
+                    0.25
                 })`}
-            stroke="black"
-            strokeWidth={0.5}
+            // stroke="black"
+            // strokeWidth={0.5}
             onClick={handleFocus}
         />
     );

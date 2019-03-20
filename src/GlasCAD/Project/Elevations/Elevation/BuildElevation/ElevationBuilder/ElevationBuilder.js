@@ -24,7 +24,7 @@ export default function ElevationBuilder({
                 transform="scale(1, -1)"
             >
                 {/* ROUGH OPENING */}
-                <rect
+                {/* <rect
                     width={x}
                     height={y}
                     x={0}
@@ -32,7 +32,7 @@ export default function ElevationBuilder({
                     // fill="rgba(127, 191, 255, 0.25)"
                     fill="rgba(0, 0, 0, 0)"
                     stroke="black"
-                />
+                /> */}
                 {/* FINISHED FLOOR */}
                 <path
                     d={`M0,0L${x},0`}
