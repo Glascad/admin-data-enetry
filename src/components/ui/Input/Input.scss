@@ -135,15 +135,25 @@
         width: $pill-width;
         // height: $item-height;
         height: $xxx-large;
+        min-height: $xxx-large;
+        max-height: $xxx-large;
         border-radius: $xx-small;
         
         > div {
             &:first-of-type{
                 // height: $item-height;
                 height: $xxx-large;
+                min-height: $xxx-large;
+                max-height: $xxx-large;
                 border: 1px solid $dark-gray;
                 outline: none;
                 box-shadow: none;
+                
+                > div {
+                    height: $xxx-large;
+                    min-height: $xxx-large;
+                    max-height: $xxx-large;
+                }
             }
         }
         svg {
