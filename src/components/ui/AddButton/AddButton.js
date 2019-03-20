@@ -58,6 +58,11 @@ export default class AddButton extends Component {
                     inputType ? `input-${inputType}` : ''
                     } ${
                     editing ? 'editing' : ''
+                    } ${
+                    otherButtons.length ?
+                        'with-other-buttons'
+                        :
+                        ''
                     }`}
                 onBlur={onBlur}
             >
@@ -71,10 +76,15 @@ export default class AddButton extends Component {
                 {otherButtons.length ? (
                     <ButtonTile
                         buttonProps={(onAdd ? [{
+                            className: "no-class-name",
                             text,
                             onClick: handleClick
                         }] : [])
-                            .concat(otherButtons)}
+                            .concat(otherButtons
+                                .map(button => ({
+                                    className: "no-class-name",
+                                    ...button,
+                                })))}
                     />
                 ) : null}
             </div>

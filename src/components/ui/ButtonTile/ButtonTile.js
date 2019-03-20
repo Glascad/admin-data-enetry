@@ -19,13 +19,13 @@ export default function ButtonTile({
                 .filter(Boolean)
                 .map(({ className, ...button }, i) => (
                     <button
+                        key={i}
                         className={`button ${
                             className
                             ||
                             "empty light"
                             }`}
                         {...button}
-                        key={i}
                     >
                         {button.text || button.children}
                     </button>

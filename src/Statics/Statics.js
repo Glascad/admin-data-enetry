@@ -81,12 +81,12 @@ class Statics extends Component {
                     />
                     <div className="application-links">
                         <Link to="/data-entry">
-                            <button>
+                            <button className="light">
                                 DATA ENTRY
                             </button>
                         </Link>
                         <Link to="/glascad">
-                            <button>
+                            <button className="light">
                                 GLASCAD
                             </button>
                         </Link>

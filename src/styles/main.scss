@@ -10,17 +10,23 @@ button, input {
 button {
     // @include two-colors($selected-color, $off-white);
     // border-color: $selected-color;
+    border: 1px solid $light-gray;
     background: none;
     display: flex;
     justify-content: center;
     align-items: center;
     // height: $item-height;
     height: $xxx-large;
-    min-width: $pill-width / 2;
+    min-width: $pill-width * 0.75;
     padding: 0 $large;
     font-size: $text-size;
     color: $dark-gray;
     cursor: pointer;
+
+    &:hover {
+        background: $light-gray;
+        font-weight: bold;
+    }
 
     + button {
         margin-left: $small;
@@ -29,21 +35,33 @@ button {
     &:focus, &:focus-within {
         box-shadow: 0 0 1px 1px $selected-color;
     }
+    
+    &.danger, &.action {
+        color: $off-white;
+        border: none;
+        
+        &:hover {
+            font-weight: bold;
+        }
+    }
+    
+    &.danger {
+        @include hoverable-background($danger-color);
+    }
+    
+    &.action {
+        @include hoverable-background($action-color);
+    }
 
-    // &.light {
-    //     // border-color: $off-white;
-    //     background: none;
-    // }
-    // &.selected {
-    //     &:hover {
-    //         // @include two-colors($off-white, $selected-color, false);
-    //     }
-    // }
-    // &.danger, &.action {
-    //     &:hover {
-    //         background: none;
-    //     }
-    // }
+    &.light {
+        border: 1px solid $off-white;
+        color: $off-white;
+
+        &:hover {
+            background: $off-white;
+            color: $dark-gray;
+        }
+    }
 }
 
 input {

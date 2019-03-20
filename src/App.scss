@@ -7,16 +7,12 @@
     flex-direction: row;
     color: $dark-gray;
     
-    #Viewport, #Sidebar {
-        // position: fixed;
-        // top: 0;
-        // bottom: 0;
-        height: 100vh;
-    }
-    
     #Sidebar {
-
-        // left: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100vh;
         width: $sidebar-width;
         min-width: $sidebar-width;
         
@@ -28,8 +24,8 @@
     }
     
     #Viewport {
-        width: stretch;
-        overflow-y: scroll;
+        width: calc(100vw - #{$sidebar-width});
+        margin-left: $sidebar-width;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -42,3 +38,4 @@
         }
     }
 }
+    

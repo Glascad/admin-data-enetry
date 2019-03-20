@@ -79,4 +79,11 @@
         width: 60%;
     }
 
+    &.with-other-buttons {
+        &:hover {
+            .add-button {
+                opacity: 0;
+            }
+        }
+    }
 }
