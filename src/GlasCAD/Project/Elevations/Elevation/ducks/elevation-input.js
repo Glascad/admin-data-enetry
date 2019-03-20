@@ -17,7 +17,7 @@ export const measureToOptions = [
 }));
 
 export const defaultHorizontal = {
-    distance: 150,
+    distance: 75,
     from: measureFromOptions[0].value,
     to: measureToOptions[0].value,
 };
@@ -26,11 +26,11 @@ export const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
     verticalRoughOpening: 400,
-    horizontalRoughOpening: 600,
+    horizontalRoughOpening: 200,
     verticalMasonryOpening: true,
     horizontalMasonryOpening: true,
-    startingBayQuantity: 3,
-    finishedFloorHeight: 50,
+    startingBayQuantity: 1,
+    finishedFloorHeight: 0,
     sightline: 10,
     horizontals: [defaultHorizontal],
 };

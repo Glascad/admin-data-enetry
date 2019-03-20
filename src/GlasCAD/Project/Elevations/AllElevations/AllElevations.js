@@ -40,10 +40,10 @@ export default function AllElevations({
                         {
                             children: (
                                 <Link
-                                    to={`${path}/elevation/edit-elevation${parseSearch(search)
+                                    to={`${path}/elevation/build-elevation${parseSearch(search)
                                         .update({ elevationId: id })}`}
                                 >
-                                    Edit
+                                    Build
                                 </Link>
                             ),
                         },

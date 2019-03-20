@@ -31,6 +31,7 @@ export default function Frame({
                     0.05
                 })`}
             stroke="black"
+            strokeWidth={0.5}
             onClick={handleFocus}
         />
     );

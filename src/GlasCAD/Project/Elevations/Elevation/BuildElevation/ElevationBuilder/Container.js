@@ -31,7 +31,7 @@ export default function Container({
                         :
                         0.1
                     })`}
-                stroke="black"
+                // stroke="black"
                 onClick={handleFocus}
             />
             <text

@@ -77,9 +77,11 @@ input {
 input[type=number] {
     width: $pill-width / 2;
     
-    // &::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-    //     -webkit-appearance: none;
-    // }
+    &::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+        // -webkit-appearance: none;
+        transform: scale(1.25);
+    }
+
 }
 
 input[type=checkbox] {

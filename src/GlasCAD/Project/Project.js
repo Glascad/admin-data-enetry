@@ -10,20 +10,22 @@ import {
 import query from './project-graphql/query';
 
 import ProjectDetails from './ProjectDetails/ProjectDetails';
-import Schedules from './Schedules/Schedules';
+import ProjectSets from './ProjectSets/ProjectSets';
 import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
 import Details from './Details/Details';
+import Schedules from './Schedules/Schedules';
 import Notes from './Notes/Notes';
 
 import { parseSearch } from '../../utils';
 
 const subroutes = {
     ProjectDetails,
-    Schedules,
+    ProjectSets,
     Keyplans,
     Elevations,
     Details,
+    Schedules,
     Notes,
 };
 

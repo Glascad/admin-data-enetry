@@ -309,7 +309,7 @@ export default class NewElevation extends Component {
                                                             horizontals: horizontals.filter((_, j) => j !== i),
                                                         })}
                                                     >
-                                                        DELETE
+                                                        Delete
                                                 </button>
                                                 </div>
                                             )) : (
@@ -337,7 +337,7 @@ export default class NewElevation extends Component {
                                         className="action"
                                         onClick={save}
                                     >
-                                        Save
+                                        Build
                                     </button>
                                 </div>
                             </>
