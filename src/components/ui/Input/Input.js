@@ -12,6 +12,7 @@ import './Input.scss';
 const booleanTypes = [
     "switch",
     "checkbox",
+    "icon",
 ];
 
 export default class Input extends Component {
@@ -122,6 +123,7 @@ export default class Input extends Component {
                 checked,
                 onChange,
                 handleChange,
+                Icon,
                 ...props
             },
             ref,
@@ -148,11 +150,19 @@ export default class Input extends Component {
             </div>
         ) : null;
 
+        const isBoolean = booleanTypes.includes(type) || Icon;
+
         return (
             <tag.name
-                className={`Input type-${type}`}
+                className={`Input type-${
+                    type
+                        ||
+                        Icon ? 'icon'
+                        :
+                        select ? 'select' : ''
+                    }`}
             >
-                {!booleanTypes.includes(type) ? (
+                {!isBoolean ? (
                     LABEL
                 ) : null}
                 {select ? (
@@ -164,7 +174,7 @@ export default class Input extends Component {
                 ) : (
                         <input
                             ref={ref}
-                            type={booleanTypes.includes(type) ?
+                            type={isBoolean ?
                                 'checkbox'
                                 :
                                 type}
@@ -175,7 +185,7 @@ export default class Input extends Component {
                                         :
                                         undefined
                                 ) : undefined}
-                            checked={booleanTypes.includes(type) ?
+                            checked={isBoolean ?
                                 checked
                                 :
                                 undefined}
@@ -188,7 +198,7 @@ export default class Input extends Component {
                         />
                     )
                 }
-                {booleanTypes.includes(type) ? (
+                {isBoolean ? (
                     <>
                         {type === 'checkbox' ? (
                             <span className="checkbox" />
@@ -196,6 +206,8 @@ export default class Input extends Component {
                             <div className="track">
                                 <div className="switch" />
                             </div>
+                        ) : Icon ? (
+                            <Icon />
                         ) : null}
                         {LABEL}
                     </>

@@ -5,8 +5,14 @@ import { Link } from 'react-router-dom';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 import {
-    TitleBar, GroupingBox,
+    TitleBar,
+    GroupingBox,
+    Input,
 } from '../../../../../components';
+
+import {
+    Hamburger,
+} from '../../../../../assets/icons';
 
 import RecursiveElevation from '../recursive-elevation/elevation';
 import ElevationBuilder from './ElevationBuilder/ElevationBuilder';
@@ -78,17 +84,22 @@ export default class BuildElevation extends Component {
                     title="Build Elevation"
                     className="blue-border"
                     left={(
-                        <Link
-                            to={`${
-                                path.replace(/build/, 'edit')
-                                }${
-                                search
-                                }`}
-                        >
-                            <button>
-                                Elevation Info
-                            </button>
-                        </Link>
+                        <>
+                            <Link
+                                to={`${
+                                    path.replace(/build/, 'edit')
+                                    }${
+                                    search
+                                    }`}
+                            >
+                                <button>
+                                    Elevation Info
+                                </button>
+                            </Link>
+                            <Input
+                                Icon={Hamburger}
+                            />
+                        </>
                     )}
                 />
                 <ElevationBuilder
@@ -108,24 +119,30 @@ export default class BuildElevation extends Component {
                             detailId = '',
                         }) => (
                                 <>
-                                    <div style={{
-                                        fontSize: '1rem',
-                                        fontWeight: 'bold',
-                                    }}>
+                                    <div
+                                        style={{
+                                            fontSize: '1rem',
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
                                         {detailType} {detailId}
                                     </div>
-                                    <ul style={{
-                                        marginTop: '0.5rem',
-                                    }}>
+                                    <ul
+                                        style={{
+                                            marginTop: '0.5rem',
+                                        }}
+                                    >
                                         {configurationTypes.map(({
                                             required,
                                             _configurationType: {
                                                 type = '',
                                             } = {}
                                         }) => (
-                                                <li style={{
-                                                    marginBottom: '0.25rem',
-                                                }}>
+                                                <li
+                                                    style={{
+                                                        marginBottom: '0.25rem',
+                                                    }}
+                                                >
                                                     {` - ${
                                                         required ? '' : '* '
                                                         }${

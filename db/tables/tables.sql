@@ -43,10 +43,6 @@ DROP TABLE IF EXISTS system_infill_pocket_sizes CASCADE;
 DROP TABLE IF EXISTS invalid_system_configuration_types CASCADE;
 DROP TABLE IF EXISTS system_type_detail_type_configuration_types CASCADE;
 DROP TABLE IF EXISTS system_configuration_overrides CASCADE;
-DROP TABLE IF EXISTS elevations CASCADE;
-DROP TABLE IF EXISTS frames CASCADE;
-DROP TABLE IF EXISTS containers CASCADE;
-elevation_containers
 
 
 CREATE TABLE

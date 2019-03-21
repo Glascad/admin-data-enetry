@@ -1,3 +1,3 @@
-import _presentationLevels from './presentation-levels';
+import presentationLevels from './presentation-levels';
 
-export const presentationLevels = _presentationLevels;
+export { presentationLevels };

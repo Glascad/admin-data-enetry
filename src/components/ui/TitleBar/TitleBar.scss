@@ -21,7 +21,12 @@
         text-overflow: ellipsis;
         
         .left {
-            margin-left: $large;
+            display: flex;
+            align-items: center;
+            
+            > * {
+                margin-left: $large;
+            }
         }
     }
 

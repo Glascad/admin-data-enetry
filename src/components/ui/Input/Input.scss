@@ -130,6 +130,26 @@
             }
         }
     }
+
+    &.type-icon {
+        height: $xxx-large;
+        width: $xxx-large;
+        border: 1px solid $light-gray;
+        border-radius: $xx-small;
+
+        svg {
+            width: $xxx-large;
+            height: $xxx-large;
+            max-width: $xxx-large;
+            max-height: $xxx-large;
+
+            &.hamburger {
+                rect {
+                    fill: $dark-gray;
+                }
+            }
+        }
+    }
     
     .Select {
         box-sizing: border-box;

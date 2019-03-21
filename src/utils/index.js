@@ -1,28 +1,32 @@
-import _parseSearch from './parse-search';
-import _removeNullValues from './remove-null-values';
-import _replaceByKeys from './replace-by-keys';
-import _flattenNodeArrays from './flatten-node-arrays';
-import _recursiveQuery from './recursive-query';
-import _extractNavigationOptions from './extract-navigation-options';
-import _arraysContainEqualValues from './arrays-contain-equal-values';
-import _mergeArguments, {
-    divideArray as _divideArray,
-    allocateItems as _allocateItems,
-    allocate as _allocate,
+import parseSearch from './parse-search';
+import removeNullValues from './remove-null-values';
+import replaceByKeys from './replace-by-keys';
+import flattenNodeArrays from './flatten-node-arrays';
+import recursiveQuery from './recursive-query';
+import extractNavigationOptions from './extract-navigation-options';
+import arraysContainEqualValues from './arrays-contain-equal-values';
+import mergeArguments, {
+    divideArray,
+    allocateItems,
+    allocate,
 } from './merge-arguments';
-import _unique from './unique-array';
+import unique from './unique-array';
 
-export const parseSearch = _parseSearch;
-export const removeNullValues = _removeNullValues;
-export const replaceByKeys = _replaceByKeys;
-export const flattenNodeArrays = _flattenNodeArrays;
-export const recursiveQuery = _recursiveQuery;
-export const extractNavigationOptions = _extractNavigationOptions;
-export const arraysContainEqualValues = _arraysContainEqualValues;
-export const mergeArguments = _mergeArguments;
-export const divideArray = _divideArray;
-export const allocateItems = _allocateItems;
-export const allocate = _allocate;
-export const unique = _unique;
+const validatePath = path => path.replace(/\/+/g, '/');
 
-export const validatePath = path => path.replace(/\/+/g, '/');
+export {
+    parseSearch,
+    removeNullValues,
+    replaceByKeys,
+    flattenNodeArrays,
+    recursiveQuery,
+    extractNavigationOptions,
+    arraysContainEqualValues,
+    mergeArguments,
+    divideArray,
+    allocateItems,
+    allocate,
+    unique,
+    validatePath,
+};
+
