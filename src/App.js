@@ -29,14 +29,14 @@ export default function App() {
     return (
         <Router>
             <ApolloProvider client={client}>
-                <CheatSheet>
-                    <Navigator
-                        routes={{
-                            DataEntry,
-                            Glascad,
-                        }}
-                    />
-                </CheatSheet>
+                {/* <CheatSheet> */}
+                <Navigator
+                    routes={{
+                        DataEntry,
+                        Glascad,
+                    }}
+                />
+                {/* </CheatSheet> */}
             </ApolloProvider>
         </Router>
     );

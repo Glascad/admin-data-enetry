@@ -19,14 +19,14 @@
         align-items: center;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+    
+    .title-bar-right, .title-bar-left .left {
+        display: flex;
+        align-items: center;
         
-        .left {
-            display: flex;
-            align-items: center;
-            
-            > * {
-                margin-left: $large;
-            }
+        > * {
+            margin-left: $large;
         }
     }
 

@@ -101,6 +101,34 @@ export default class BuildElevation extends Component {
                             />
                         </>
                     )}
+                    right={(
+                        <>
+                            <Link
+                                to={`${
+                                    path.replace(/elevation\/build-elevation/, 'all-elevations')
+                                    }${
+                                    search
+                                    }`}
+                            >
+                                <button>
+                                    Save and Exit
+                                </button>
+                            </Link>
+                            <Link
+                                to={`${
+                                    path.replace(/elevation\/build-elevation/, 'all-elevations')
+                                    }${
+                                    search
+                                    }`}
+                            >
+                                <button
+                                    className="action"
+                                >
+                                    Save
+                                </button>
+                            </Link>
+                        </>
+                    )}
                 />
                 <ElevationBuilder
                     state={state}

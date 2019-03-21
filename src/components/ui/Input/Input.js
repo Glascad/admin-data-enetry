@@ -162,12 +162,12 @@ export default class Input extends Component {
 
         return (
             <tag.name
-                className={`Input type-${type ?
-                    type
-                    :
+                className={`Input type-${
                     Icon ? 'icon'
                         :
-                        select ? 'select' : ''
+                        select ? 'select'
+                            :
+                            type
                     }`}
             >
                 {!isBoolean ? (
