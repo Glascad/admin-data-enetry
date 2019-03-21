@@ -21,6 +21,7 @@ export default class Input extends Component {
         tagname: "label",
         type: "text",
         checked: false,
+        Icon: undefined,
     };
 
     keys = {};
@@ -152,12 +153,19 @@ export default class Input extends Component {
 
         const isBoolean = booleanTypes.includes(type) || Icon;
 
+        console.log({
+            type,
+            Icon,
+            label,
+            isBoolean,
+        });
+
         return (
             <tag.name
-                className={`Input type-${
+                className={`Input type-${type ?
                     type
-                        ||
-                        Icon ? 'icon'
+                    :
+                    Icon ? 'icon'
                         :
                         select ? 'select' : ''
                     }`}
