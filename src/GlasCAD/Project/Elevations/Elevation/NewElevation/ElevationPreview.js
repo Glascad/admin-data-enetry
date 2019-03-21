@@ -29,7 +29,7 @@ export default function ElevationPreview({
                 transform="scale(1, -1)"
             >
                 {/* ROUGH OPENING */}
-                <rect
+                {/* <rect
                     width={x}
                     height={y}
                     x={0}
@@ -37,7 +37,7 @@ export default function ElevationPreview({
                     // fill="rgba(127, 191, 255, 0.25)"
                     fill="rgba(0, 0, 0, 0)"
                     stroke="black"
-                />
+                /> */}
                 {/* FINISHED FLOOR */}
                 <path
                     d={`M0,0L${x},0`}
@@ -46,9 +46,7 @@ export default function ElevationPreview({
                 />
                 {/* CONTAINERS */}
                 {placedContainers.map(({ x, y, height, width, refId }) => (
-                    <g
-                        key={refId}
-                    >
+                    <g>
                         <rect
                             id={refId}
                             x={x}
@@ -56,7 +54,7 @@ export default function ElevationPreview({
                             height={height}
                             width={width}
                             fill="rgba(0, 191, 255, 0.1)"
-                            stroke="black"
+                            // stroke="black"
                         />
                         <text
                             x={x + 10}
@@ -68,16 +66,21 @@ export default function ElevationPreview({
                     </g>
                 ))}
                 {/* FRAMES */}
-                {placedFrames.map(({ x, y, height, width, refId }) => (
+                {placedFrames.map(({ vertical, x, y, height, width, refId }) => (
                     <rect
-                        key={refId}
                         id={refId}
                         x={x}
                         y={y + finishedFloorHeight}
                         height={height}
                         width={width}
-                        fill="rgba(0, 0, 0, 0.05)"
-                        stroke="black"
+                        fill={`rgba(0, 0, 0, ${
+                            vertical ?
+                                0.45
+                                :
+                                0.25
+                            })`}
+                        // stroke="black"
+                        // strokeWidth={0.5}
                     />
                 ))}
             </svg>

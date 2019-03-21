@@ -20,6 +20,11 @@
             min-width: calc(#{$large * 2} + #{$item-height});
             width: calc(#{$large * 2} + #{$item-height});
             max-width: calc(#{$large * 2} + #{$item-height});
+
+            + #Viewport {
+                margin-left: calc(#{$large * 2} + #{$item-height});
+                width: calc(100vw - #{$large * 2} + #{$item-height});
+            }
         }
     }
     
