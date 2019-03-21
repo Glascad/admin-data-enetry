@@ -145,6 +145,16 @@
                 }
             }
         }
+
+        &.light {
+            input {
+                &:checked {
+                    + .track {
+                        background: mix($selected-color, white, 50);
+                    }
+                }
+            }
+        }
     }
 
     &.type-icon {

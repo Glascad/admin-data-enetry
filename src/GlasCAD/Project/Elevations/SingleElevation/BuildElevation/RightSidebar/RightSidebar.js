@@ -33,8 +33,10 @@ export default function RightSidebar() {
                                     y,
                                 },
                                 updateScale,
+                                resetScale,
                                 updateTranslateX,
                                 updateTranslateY,
+                                resetTranslate,
                             }) => (
                                     <>
                                         <Input
@@ -47,6 +49,13 @@ export default function RightSidebar() {
                                             onChange={updateScale}
                                         />
                                         <Input
+                                            label="Reset Zoom"
+                                            type="switch"
+                                            light={true}
+                                            checked={scale === 1}
+                                            onChange={({ target: { checked } }) => checked && resetScale()}
+                                        />
+                                        <Input
                                             label="Pan X"
                                             direction="row"
                                             light={true}
@@ -54,7 +63,7 @@ export default function RightSidebar() {
                                             step={10}
                                             value={x}
                                             onChange={updateTranslateX}
-                                            />
+                                        />
                                         <Input
                                             label="Pan Y"
                                             direction="row"
@@ -63,6 +72,13 @@ export default function RightSidebar() {
                                             step={10}
                                             value={y}
                                             onChange={updateTranslateY}
+                                        />
+                                        <Input
+                                            label="Reset Pan"
+                                            type="switch"
+                                            light={true}
+                                            checked={x === 0 && y === 0}
+                                            onChange={({ target: { checked } }) => checked && resetTranslate()}
                                         />
                                     </>
                                 )}

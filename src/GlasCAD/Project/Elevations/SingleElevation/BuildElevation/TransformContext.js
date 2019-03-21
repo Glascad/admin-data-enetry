@@ -125,6 +125,10 @@ export default class TransformProvider extends Component {
         },
     }));
 
+    resetScale = () => this.setState({ scale: 1 });
+
+    resetTranslate = () => this.setState({ translate: { x: 0, y: 0 } });
+
     render = () => {
         const {
             state: {
@@ -135,8 +139,10 @@ export default class TransformProvider extends Component {
                 children,
             },
             updateScale,
+            resetScale,
             updateTranslateX,
             updateTranslateY,
+            resetTranslate,
             watchMouseDown,
             watchMouseUp,
         } = this;
@@ -147,8 +153,10 @@ export default class TransformProvider extends Component {
                     scale,
                     translate,
                     updateScale,
+                    resetScale,
                     updateTranslateX,
                     updateTranslateY,
+                    resetTranslate,
                     watchMouseDown,
                     watchMouseUp,
                 }}
