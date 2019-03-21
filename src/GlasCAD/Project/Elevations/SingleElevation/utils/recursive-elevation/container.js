@@ -1,6 +1,6 @@
 
 import { sortDetails } from './sort-details';
-import { unique } from '../../../../../utils';
+import { unique } from '../../../../../../utils';
 import { DIRECTIONS } from './directions';
 
 const detailsKey = 'details<vertical><first>';

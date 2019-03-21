@@ -8,7 +8,7 @@ import {
 
 import parseSearch from '../../../../utils/parse-search';
 
-export default function AllElevations({
+export default function ElevationSearch({
     location: {
         search,
     },
@@ -56,7 +56,7 @@ export default function AllElevations({
                         {
                             children: (
                                 <Link
-                                    to={`${path}/elevation/new-elevation${parseSearch(search)
+                                    to={`${path}/elevation/create-elevation${parseSearch(search)
                                         .remove("elevationId")}`}
                                 >
                                     Create

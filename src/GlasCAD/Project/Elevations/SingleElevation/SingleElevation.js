@@ -5,26 +5,27 @@ import {
     ApolloWrapper,
 } from '../../../../components';
 
-import NewElevation from './NewElevation/NewElevation';
+import CreateElevation from './CreateElevation/CreateElevation';
 import EditElevation from './EditElevation/EditElevation';
 import BuildElevation from './BuildElevation/BuildElevation';
 
-import query from './elevation-graphql/query';
-import mutations from './elevation-graphql/mutations';
+import query from './utils/elevation-graphql/query';
+import mutations from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../utils';
 
 const subroutes = {
-    NewElevation,
+    CreateElevation,
     EditElevation,
     BuildElevation,
 };
 
-Elevations.navigationOptions = {
+SingleElevation.navigationOptions = {
+    name: "Elevation",
     subroutes,
 };
 
-export default function Elevations({
+export default function SingleElevation({
     location: {
         search,
     },

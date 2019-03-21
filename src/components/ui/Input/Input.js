@@ -21,7 +21,7 @@ export default class Input extends Component {
         tagname: "label",
         type: "text",
         checked: false,
-        Icon: undefined,
+        direction: ''
     };
 
     keys = {};
@@ -117,6 +117,8 @@ export default class Input extends Component {
             props: {
                 tagname,
                 label,
+                direction,
+                light,
                 type,
                 select,
                 value,
@@ -153,13 +155,6 @@ export default class Input extends Component {
 
         const isBoolean = booleanTypes.includes(type) || Icon;
 
-        console.log({
-            type,
-            Icon,
-            label,
-            isBoolean,
-        });
-
         return (
             <tag.name
                 className={`Input type-${
@@ -168,6 +163,12 @@ export default class Input extends Component {
                         select ? 'select'
                             :
                             type
+                    } ${
+                    checked ? 'checked' : ''
+                    } direction-${
+                    direction
+                    } ${
+                    light ? 'light' : ''
                     }`}
             >
                 {!isBoolean ? (

@@ -15,8 +15,8 @@ import {
 
 import ElevationPreview from './ElevationPreview';
 
-import RecursiveElevation from '../recursive-elevation/elevation';
-import createElevation from '../ducks/create';
+import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import createElevation from './create';
 
 import { parseSearch } from '../../../../../utils';
 
@@ -25,9 +25,9 @@ import {
     measureToOptions,
     defaultHorizontal,
     defaultElevationInput,
-} from '../ducks/elevation-input';
+} from './elevation-input';
 
-export default class NewElevation extends Component {
+export default class CreateElevation extends Component {
 
     state = {
         elevation: defaultElevationInput,
@@ -99,7 +99,7 @@ export default class NewElevation extends Component {
         } = await updateEntireElevation({ elevation });
 
         history.push(`${
-            path.replace(/new/, 'build')
+            path.replace(/create/, 'build')
             }${
             parseSearch(search).update({ elevationId })
             }`);
@@ -324,7 +324,7 @@ export default class NewElevation extends Component {
                                 <div className="bottom-buttons">
                                     <Link
                                         to={`${
-                                            path.replace(/\/elevation\/new-elevation/, '')
+                                            path.replace(/\/elevation\/create-elevation/, '')
                                             }${
                                             search
                                             }`}

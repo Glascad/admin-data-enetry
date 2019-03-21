@@ -2,6 +2,11 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import './variables';
 
+
+body {
+    color: $dark-gray;
+}
+
 button, input {
     outline: none;
     border-radius: $xx-small;

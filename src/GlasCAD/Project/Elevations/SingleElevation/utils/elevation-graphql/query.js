@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import F from '../../../../../schema';
+import F from '../../../../../../schema';
 
 export default gql`
     query ElevationById($id: Int!) {

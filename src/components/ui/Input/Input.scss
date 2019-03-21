@@ -19,6 +19,22 @@
             }
         }
     }
+
+    &.light {
+        .label {
+            color: $off-white;
+        }
+    }
+
+    &.direction-row {
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: flex-end;
+
+        input {
+            margin-right: $base-size;
+        }
+    }
     
     &.type-checkbox {
         flex-direction: row;
@@ -97,7 +113,7 @@
             height: $xxx-large;
             // width: $item-height * 1.75;
             width: $xxx-large * 1.75;
-            background: none;
+            background: white;
             border: 1px solid $light-gray;
             // border-radius: $item-height / 2;
             border-radius: $xxx-large / 2;
@@ -136,16 +152,34 @@
         width: $xxx-large;
         border: 1px solid $light-gray;
         border-radius: $xx-small;
+        align-items: center;
 
         svg {
-            width: $xxx-large;
-            height: $xxx-large;
-            max-width: $xxx-large;
-            max-height: $xxx-large;
+            width: $large;
+            height: $large;
+            max-width: $large;
+            max-height: $large;
 
             &.hamburger {
                 rect {
                     fill: $dark-gray;
+                }
+            }
+        }
+
+        &:hover {
+            background: $light-gray;
+        }
+
+        &.checked {
+            @include hoverable-background($selected-color);
+            border: none;
+
+            svg {
+                &.hamburger {
+                    rect {
+                        fill: $off-white;
+                    }
                 }
             }
         }

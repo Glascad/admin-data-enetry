@@ -1,0 +1,41 @@
+
+@import '../../../../../../styles/variables';
+
+/*
+Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
+*/
+
+#RightSidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $right-sidebar-width;
+    padding: $large;
+    background: $dark-blue;
+
+    &.closed {
+        width: 0;
+        max-width: 0;
+        padding: 0;
+    }
+
+    > * {
+        margin-bottom: $large;
+    }
+
+    .sidebar-button {
+        width: 100%;
+
+        &.primary {
+            @include hoverable-background($selected-color, false);
+            border: none;
+            color: $off-white;
+            font-weight: bold;
+
+            &:hover {
+                color: $dark-gray;
+            }
+        }
+    }
+}

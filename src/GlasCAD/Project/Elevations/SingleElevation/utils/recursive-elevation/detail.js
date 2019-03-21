@@ -1,5 +1,5 @@
 
-import { unique } from '../../../../../utils';
+import { unique } from '../../../../../../utils';
 import { sortDetails } from './sort-details';
 import { GET_RELATIVE_DIRECTIONS } from './directions';
 
