@@ -63,24 +63,3 @@ $checkbox-height: $item-height / 2;
     }
 }
 
-// Base Classes/Extendable Classes
-
-.light {
-    nothing: 12;
-    // @include two-colors($off-white, $dark-gray);
-}
-
-.selected {
-    nothing: 12;
-    // @include two-colors($off-white, $selected-color);    
-}
-
-.danger {
-    nothing: 12;
-    // @include two-colors($off-white, $danger-color);    
-}
-
-.action {
-    nothing: 12;
-    // @include two-colors($off-white, $action-color);
-}

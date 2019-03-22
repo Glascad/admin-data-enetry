@@ -51,7 +51,6 @@ function ZoomAndPan() {
                         />
                         <Input
                             label="Horizontal Translation"
-                            // direction="row"
                             light={true}
                             type="number"
                             step={10}
@@ -60,7 +59,6 @@ function ZoomAndPan() {
                         />
                         <Input
                             label="Vertical Translation"
-                            // direction="row"
                             light={true}
                             type="number"
                             step={10}

@@ -65,10 +65,11 @@ function EditBay() {
                             <div className="sidebar-group">
                                 {buttons.map(component => (
                                     <button
-                                        className="sidebar-button"
+                                        className="sidebar-button empty"
                                         onClick={() => setState(component)}
                                     >
-                                        {component.name}
+                                        <span className="icon"></span>
+                                        <span>{component.name}</span>
                                     </button>
                                 ))}
                             </div>
