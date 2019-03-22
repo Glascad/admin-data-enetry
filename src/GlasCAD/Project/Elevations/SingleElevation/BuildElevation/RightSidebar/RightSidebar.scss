@@ -22,6 +22,14 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
         margin-bottom: $x-large;
     }
 
+    .TitleBar {
+        color: $off-white;
+        border-bottom: 1px solid $medium-gray;
+        // padding-left: $small;
+        padding-bottom: $small;
+        margin-top: $xx-large;
+    }
+
     .sidebar-group {
         position: relative;
         // border-bottom: 1px solid $medium-gray;
@@ -69,13 +77,5 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
         &:hover {
             color: $dark-gray;
         }
-    }
-
-    .TitleBar {
-        color: $off-white;
-        border-bottom: 1px solid $medium-gray;
-        padding-left: $small;
-        padding-bottom: $small;
-        margin-top: $xx-large;
     }
 }
