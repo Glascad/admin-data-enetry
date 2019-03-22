@@ -19,6 +19,7 @@ export default class TransformProvider extends Component {
         window.addEventListener('keydown', this.watchArrowKeys);
         window.addEventListener('keyup', this.watchCtrlKeyUp);
         window.addEventListener('mouseup', this.watchMouseUp);
+        // document.addEventListener('visibilitychange');
     }
 
     componentWillUnmount = () => {

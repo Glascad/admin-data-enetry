@@ -4,7 +4,9 @@ import { SelectionContext } from '../SelectionContext';
 
 import './RightSidebar.scss';
 
-export default function RightSidebar() {
+export default function RightSidebar({
+    elevation,
+}) {
     return (
         <SelectionContext.Consumer>
             {({
@@ -24,7 +26,9 @@ export default function RightSidebar() {
                         >
                             Close {name}
                         </button>
-                        <Children />
+                        <Children
+                            elevation={elevation}
+                        />
                     </div>
                 )}
         </SelectionContext.Consumer>

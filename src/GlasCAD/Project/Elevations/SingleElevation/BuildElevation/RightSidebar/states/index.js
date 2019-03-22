@@ -1,6 +1,12 @@
 
 import ZoomAndPan from './ZoomAndPan';
 
+import VisibilitySettings from './VisibilitySettings';
+
+import EditLite from './EditLite';
+import EditMultipleLites from './EditMultipleLites';
+import EditFrame from './EditFrame';
+import EditMultipleFrames from './EditMultipleFrames';
 import EditBay from './EditBay';
 import EditInfill from './EditInfill';
 
@@ -18,6 +24,11 @@ import CurvedWall from './CurvedWall';
 
 export default {
     ZoomAndPan,
+    VisibilitySettings,
+    EditLite,
+    EditMultipleLites,
+    EditFrame,
+    EditMultipleFrames,
     EditBay,
     EditInfill,
     AddBay,

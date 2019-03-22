@@ -41,6 +41,7 @@ export default function Header({
                     <SelectionContext.Consumer>
                         {({
                             sidebar: {
+                                state,
                                 open,
                                 toggle,
                                 setState,
@@ -48,11 +49,11 @@ export default function Header({
                         }) => (
                                 <Input
                                     Icon={Hamburger}
-                                    checked={open}
-                                    onChange={open ?
+                                    checked={open && state === sidebarStates.VisibilitySettings}
+                                    onChange={open && state === sidebarStates.VisibilitySettings ?
                                         toggle
                                         :
-                                        () => setState(sidebarStates.EditBay)}
+                                        () => setState(sidebarStates.VisibilitySettings)}
                                 />
                             )}
                     </SelectionContext.Consumer>

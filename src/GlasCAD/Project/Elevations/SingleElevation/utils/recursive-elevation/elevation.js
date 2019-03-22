@@ -127,14 +127,11 @@ export default class RecursiveElevation {
                             ...prevVerticalDimension,
                             horizontalPrecedence: (
                                 prevVerticalDimension.horizontalPrecedence
-                                *
-                                prevVerticalDimension.refIds.length
-                                +
-                                x
+                                * prevVerticalDimension.refIds.length
+                                + x
                             ) / (
                                     prevVerticalDimension.refIds.length
-                                    +
-                                    1
+                                    + 1
                                 ),
                             refIds: prevVerticalDimension.refIds.concat(refId),
                         })
@@ -149,17 +146,14 @@ export default class RecursiveElevation {
                         horizontals.replace(prevHorizontalDimensionIndex, {
                             ...prevHorizontalDimension,
                             verticalPrecedence: (
-                                prevVerticalDimension.verticalPrecedence
-                                *
-                                prevVerticalDimension.refIds.length
-                                +
-                                x
+                                prevHorizontalDimension.verticalPrecedence
+                                * prevHorizontalDimension.refIds.length
+                                + y
                             ) / (
-                                    prevVerticalDimension.refIds.length
-                                    +
-                                    1
+                                    prevHorizontalDimension.refIds.length
+                                    + 1
                                 ),
-                            refIds: prevVerticalDimension.refIds.concat(refId),
+                            refIds: prevHorizontalDimension.refIds.concat(refId),
                         })
                         :
                         horizontals.concat({

@@ -1,7 +1,7 @@
 
 import { sortDetails } from './sort-details';
 import { unique } from '../../../../../../utils';
-import { DIRECTIONS } from './directions';
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
 
 const detailsKey = 'details<vertical><first>';
 const framesKey = 'frames<vertical><first>';
@@ -104,6 +104,21 @@ export default class RecursiveContainer {
             :
             0];
     }
+
+    _getCanMergeByDirection = (vertical, first) => {
+        const immediateContainers = this._getImmediateContainersByDirection(vertical, first);
+        const direction = [vertical, first];
+        const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
+        return immediateContainers.length === 1
+            &&
+            immediateContainers[0]._getImmediateContainersByDirection(...BACKWARD).length === 1;
+    }
+
+    // merging
+    get canMergeLeft() { return this._getCanMergeByDirection(...LEFT); }
+    get canMergeRight() { return this._getCanMergeByDirection(...RIGHT); }
+    get canMergeUp() { return this._getCanMergeByDirection(...UP); }
+    get canMergeDown() { return this._getCanMergeByDirection(...DOWN); }
 
     // details
     get leftDetails() { return this._getDetailsByDirection(...LEFT); }

@@ -52,6 +52,8 @@ export default function DimensionButton({
                             y={placementY}
                             height={placementHeight}
                             width={placementWidth}
+                            rx={2.5}
+                            ry={2.5}
                             fill={isSelected ?
                                 "#4A90E2"
                                 :
@@ -61,12 +63,13 @@ export default function DimensionButton({
                                 :
                                 "#CCCCCC"}
                             onClick={() => refIds.forEach(id => handleMouseDown({ target: { id } }))}
-                        />
+                            />
                         <text
-                            x={placementX}
-                            y={-placementY}
+                            x={placementX + 7}
+                            y={-(placementY + 7)}
                             transform='scale(1, -1)'
                             fill={isSelected ? 'white' : 'black'}
+                            onClick={() => refIds.forEach(id => handleMouseDown({ target: { id } }))}
                         >
                             {dimension.toFixed(2)}
                         </text>

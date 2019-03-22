@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import mergeElevationInput from '../utils/ducks/merge-input';
 
 import SelectionProvider from './SelectionContext';
 import TransformProvider from './TransformContext';
@@ -11,16 +12,29 @@ import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
+const defaultElevationUpdate = {
+
+};
+
 export default class BuildElevation extends Component {
 
     static contextType = StaticContext;
+
+    state = {
+        elevation: defaultElevationUpdate,
+    };
 
     componentDidMount = () => this.context.sidebar.toggle(false);
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
+    updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
+
     render = () => {
         const {
+            state: {
+                elevation: elevationInput,
+            },
             props: {
                 location: {
                     search,
@@ -36,23 +50,33 @@ export default class BuildElevation extends Component {
                     _system,
                 },
             },
+            updateElevation,
         } = this;
 
-        const elevation = new RecursiveElevation(_elevation, _system);
-
+        const recursiveElevation = new RecursiveElevation(mergeElevationInput(_elevation, elevationInput), _system);
 
         return (
-            <SelectionProvider>
-                <TransformProvider>
+            <SelectionProvider
+                elevation={recursiveElevation}
+            >
+                <TransformProvider
+                    elevation={recursiveElevation}
+                >
                     <Header
                         name={name}
                         path={path}
                         search={search}
+                        elevation={recursiveElevation}
+                        updateElevation={updateElevation}
                     />
                     <InteractiveElevation
-                        elevation={elevation}
+                        elevation={recursiveElevation}
+                        updateElevation={updateElevation}
                     />
-                    <RightSidebar />
+                    <RightSidebar
+                        elevation={recursiveElevation}
+                        updateElevation={updateElevation}
+                    />
                 </TransformProvider>
             </SelectionProvider>
         );
