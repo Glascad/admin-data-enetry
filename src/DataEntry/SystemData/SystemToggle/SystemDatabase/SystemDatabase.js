@@ -13,6 +13,7 @@ import {
 import { system as defaultSystem } from './ducks/default';
 import mergeSystemUpdate from './ducks/merge';
 import { _removeFakeIds } from './ducks/actions';
+import { parseSearch } from '../../../../utils';
 
 const subroutes = {
     SystemInfo,
@@ -42,6 +43,13 @@ export default class SystemDatabase extends Component {
                 system,
             },
             props: {
+                history,
+                match: {
+                    path,
+                },
+                location: {
+                    search,
+                },
                 queryStatus: {
                     _system: {
                         id,
@@ -56,14 +64,22 @@ export default class SystemDatabase extends Component {
 
         const update = _removeFakeIds(system);
 
-        await updateEntireSystem({
+        const {
+            data: {
+                updateEntireSystem: {
+                    system: [{
+                        id: systemId,
+                    }],
+                },
+            },
+        } = await updateEntireSystem({
             system: {
                 ...update,
                 id,
             },
         });
 
-        reset();
+        history.push(`${path}${parseSearch(search).update({ systemId })}`);
     }
 
     reset = () => this.setState({ system: defaultSystem });

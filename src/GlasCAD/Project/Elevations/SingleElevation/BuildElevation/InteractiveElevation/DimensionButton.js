@@ -66,6 +66,7 @@ export default function DimensionButton({
                             x={placementX}
                             y={-placementY}
                             transform='scale(1, -1)'
+                            fill={isSelected ? 'white' : 'black'}
                         >
                             {dimension.toFixed(2)}
                         </text>

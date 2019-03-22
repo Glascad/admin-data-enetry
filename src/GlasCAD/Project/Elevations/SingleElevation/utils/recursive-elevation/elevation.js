@@ -103,44 +103,73 @@ export default class RecursiveElevation {
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
-    get horizontalContainerDimensions() {
-        return this.placedContainers.reduce((all, { x, width, refId }) => {
-            const prevDimension = all.find(dimension => dimension.x === x && dimension.width === width);
-            if (prevDimension) {
-                const prevDimensionIndex = all.indexOf(prevDimension);
-                return all.replace(prevDimensionIndex, {
-                    x,
-                    width,
-                    refIds: prevDimension.refIds.concat(refId)
-                });
-            } else {
-                return all.concat({
-                    x,
-                    width,
-                    refIds: [refId],
-                });
-            }
-        }, []);
-    }
+    get containerDimensions() {
+        return this.placedContainers
+            .reduce(({
+                verticals = [],
+                horizontals = [],
+            }, {
+                x,
+                y,
+                width,
+                height,
+                refId
+            }) => {
+                const prevVerticalDimension = verticals.find(dimension => dimension.y === y && dimension.height === height);
+                const prevHorizontalDimension = horizontals.find(dimension => dimension.x === x && dimension.width === width);
 
-    get verticalContainerDimensions() {
-        return this.placedContainers.reduce((all, { y, height, refId }) => {
-            const prevDimension = all.find(dimension => dimension.y === y && dimension.height === height);
-            if (prevDimension) {
-                const prevDimensionIndex = all.indexOf(prevDimension);
-                return all.replace(prevDimensionIndex, {
-                    y,
-                    height,
-                    refIds: prevDimension.refIds.concat(refId)
-                });
-            } else {
-                return all.concat({
-                    y,
-                    height,
-                    refIds: [refId],
-                });
-            }
-        }, []);
+                const prevVerticalDimensionIndex = verticals.indexOf(prevVerticalDimension);
+                const prevHorizontalDimensionIndex = horizontals.indexOf(prevHorizontalDimension);
+
+                return {
+                    verticals: prevVerticalDimension ?
+                        verticals.replace(prevVerticalDimensionIndex, {
+                            ...prevVerticalDimension,
+                            horizontalPrecedence: (
+                                prevVerticalDimension.horizontalPrecedence
+                                *
+                                prevVerticalDimension.refIds.length
+                                +
+                                x
+                            ) / (
+                                    prevVerticalDimension.refIds.length
+                                    +
+                                    1
+                                ),
+                            refIds: prevVerticalDimension.refIds.concat(refId),
+                        })
+                        :
+                        verticals.concat({
+                            horizontalPrecedence: x,
+                            y,
+                            height,
+                            refIds: [refId],
+                        }),
+                    horizontals: prevHorizontalDimension ?
+                        horizontals.replace(prevHorizontalDimensionIndex, {
+                            ...prevHorizontalDimension,
+                            verticalPrecedence: (
+                                prevVerticalDimension.verticalPrecedence
+                                *
+                                prevVerticalDimension.refIds.length
+                                +
+                                x
+                            ) / (
+                                    prevVerticalDimension.refIds.length
+                                    +
+                                    1
+                                ),
+                            refIds: prevVerticalDimension.refIds.concat(refId),
+                        })
+                        :
+                        horizontals.concat({
+                            verticalPrecedence: y,
+                            x,
+                            width,
+                            refIds: [refId],
+                        }),
+                };
+            }, {});
     }
 
     get detailTypes() { return this.allDetails.map(({ type }) => type); }

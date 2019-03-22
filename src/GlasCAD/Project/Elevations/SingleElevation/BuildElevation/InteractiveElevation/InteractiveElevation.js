@@ -40,8 +40,10 @@ export default class InteractiveElevation extends Component {
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
-                    horizontalContainerDimensions = [],
-                    verticalContainerDimensions = [],
+                    containerDimensions: {
+                        verticals = [],
+                        horizontals = [],
+                    },
                 },
             },
         } = this;
@@ -109,7 +111,7 @@ export default class InteractiveElevation extends Component {
                                         />
                                     ))}
                                     {/* VERTICAL DIMENSIONS */}
-                                    {verticalContainerDimensions.map(dimension => (
+                                    {verticals.map(dimension => (
                                         <DimensionButton
                                             key={`${dimension.y}${dimension.height}`}
                                             vertical={true}
@@ -117,7 +119,7 @@ export default class InteractiveElevation extends Component {
                                         />
                                     ))}
                                     {/* HORIZONTAL DIMENSIONS */}
-                                    {horizontalContainerDimensions.map(dimension => (
+                                    {horizontals.map(dimension => (
                                         <DimensionButton
                                             key={`${dimension.x}${dimension.width}`}
                                             vertical={false}
