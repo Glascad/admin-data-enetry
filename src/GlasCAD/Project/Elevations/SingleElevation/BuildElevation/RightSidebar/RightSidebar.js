@@ -39,6 +39,11 @@ export default function RightSidebar() {
                                 resetTranslate,
                             }) => (
                                     <>
+                                        {console.log({
+                                            scale,
+                                            x,
+                                            y,
+                                        })}
                                         <Input
                                             label="Zoom"
                                             direction="row"
@@ -53,15 +58,16 @@ export default function RightSidebar() {
                                             type="switch"
                                             light={true}
                                             checked={scale === 1}
-                                            onChange={({ target: { checked } }) => checked && resetScale()}
+                                            readOnly={true}
+                                            onClick={resetScale}
                                         />
                                         <Input
                                             label="Pan X"
                                             direction="row"
                                             light={true}
                                             type="number"
-                                            step={10}
-                                            value={x}
+                                            // step={10}
+                                            value={x || 0}
                                             onChange={updateTranslateX}
                                         />
                                         <Input
@@ -69,8 +75,8 @@ export default function RightSidebar() {
                                             direction="row"
                                             light={true}
                                             type="number"
-                                            step={10}
-                                            value={y}
+                                            // step={10}
+                                            value={y || 0}
                                             onChange={updateTranslateY}
                                         />
                                         <Input
@@ -78,7 +84,8 @@ export default function RightSidebar() {
                                             type="switch"
                                             light={true}
                                             checked={x === 0 && y === 0}
-                                            onChange={({ target: { checked } }) => checked && resetTranslate()}
+                                            readOnly={true}
+                                            onClick={resetTranslate}
                                         />
                                     </>
                                 )}

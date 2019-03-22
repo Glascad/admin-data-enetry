@@ -45,7 +45,7 @@ export default function Header({
                                 <Input
                                     Icon={Hamburger}
                                     checked={open}
-                                    onClick={toggle}
+                                    onChange={toggle}
                                 />
                             )}
                     </SelectionContext.Consumer>

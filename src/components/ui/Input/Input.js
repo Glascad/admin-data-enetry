@@ -155,6 +155,8 @@ export default class Input extends Component {
 
         const isBoolean = booleanTypes.includes(type) || Icon;
 
+        console.log(this.props.label, this.props.value, !!this.props.onChange);
+
         return (
             <tag.name
                 className={`Input type-${
@@ -188,12 +190,12 @@ export default class Input extends Component {
                                 :
                                 type}
                             value={onChange ?
-                                value || (
-                                    type === "text" ?
-                                        ""
-                                        :
-                                        undefined
-                                ) : undefined}
+                                value === undefined && type === "text" ?
+                                    ""
+                                    :
+                                    value
+                                :
+                                undefined}
                             checked={isBoolean ?
                                 checked
                                 :

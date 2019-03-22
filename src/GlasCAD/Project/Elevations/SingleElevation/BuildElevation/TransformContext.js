@@ -32,10 +32,14 @@ export default class TransformProvider extends Component {
 
     watchArrowKeys = ({ key }) => this.ctrlKey && (
         key === "ArrowUp" ?
-            this.setState(({ scale }) => ({ scale: scale + 0.01 }))
+            this.setState(({ scale }) => ({
+                scale: +scale + 0.01,
+            }))
             :
             key === 'ArrowDown' ?
-                this.setState(({ scale }) => ({ scale: scale - 0.01 }))
+                this.setState(({ scale }) => ({
+                    scale: +scale - 0.01,
+                }))
                 :
                 null
     );
@@ -49,8 +53,8 @@ export default class TransformProvider extends Component {
 
             this.panning = true;
 
-            console.log("START");
-            console.log({ clientX, clientY });
+            // console.log("START");
+            // console.log({ clientX, clientY });
 
             const {
                 state: {
@@ -62,8 +66,8 @@ export default class TransformProvider extends Component {
             } = this;
 
             this.mouseStart = {
-                x: clientX - x,
-                y: clientY - y,
+                x: +clientX - +x,
+                y: +clientY - +y,
             };
 
             document.body.style.cursor = 'grabbing';
@@ -73,11 +77,13 @@ export default class TransformProvider extends Component {
 
     watchMouseUp = () => {
         if (this.panning) {
-            console.log("DONE");
-            console.log(this.state);
+            // console.log("DONE");
+            // console.log(this.state);
 
             document.body.style.cursor = "";
             window.removeEventListener('mousemove', this.pan);
+
+            this.panning = false;
         }
     }
 
@@ -94,13 +100,13 @@ export default class TransformProvider extends Component {
             },
         } = this;
 
-        console.log("MOVE");
-        console.log({ clientX, clientY });
+        // console.log("MOVE");
+        // console.log({ clientX, clientY });
 
         this.setState({
             translate: {
-                x: clientX - x,
-                y: clientY - y,
+                x: +clientX - +x,
+                y: +clientY - +y,
             },
         });
     }
@@ -109,19 +115,21 @@ export default class TransformProvider extends Component {
 
     }
 
-    updateScale = ({ target: { value } }) => this.setState({ scale: value });
+    updateScale = ({ target: { value = 0 } }) => this.setState({
+        scale: +value || 0,
+    });
 
-    updateTranslateX = ({ target: { value } }) => this.setState(({ translate }) => ({
+    updateTranslateX = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
         translate: {
             ...translate,
-            x: value,
+            x: +value || 0,
         },
     }));
 
-    updateTranslateY = ({ target: { value } }) => this.setState(({ translate }) => ({
+    updateTranslateY = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
         translate: {
             ...translate,
-            y: value,
+            y: +value || 0,
         },
     }));
 
