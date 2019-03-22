@@ -23,25 +23,16 @@ export default function DimensionButton({
         :
         width;
 
-    const placementX = vertical ?
-        -50
-        :
-        offset;
+    const placementX = offset;
 
     const placementY = vertical ?
-        offset
+        50
         :
-        -50;
+        -75;
 
-    const placementHeight = vertical ?
-        dimension
-        :
-        25;
+    const placementHeight = 25;
 
-    const placementWidth = vertical ?
-        25
-        :
-        dimension;
+    const placementWidth = dimension;
 
     return (
         <SelectionContext.Consumer>
@@ -54,7 +45,7 @@ export default function DimensionButton({
                 const isSelected = refIds.some(refId => items.includes(refId));
 
                 return (
-                    <g>
+                    <g transform={vertical ? 'rotate(90)' : ''} >
                         <rect
                             id={`DimensionButton-${refIds.join('-')}`}
                             x={placementX}
@@ -64,7 +55,7 @@ export default function DimensionButton({
                             fill={isSelected ?
                                 "#4A90E2"
                                 :
-                                "white"}
+                                "rgba(255, 255, 255, 0.1)"}
                             stroke={isSelected ?
                                 "none"
                                 :
@@ -74,10 +65,7 @@ export default function DimensionButton({
                         <text
                             x={placementX}
                             y={-placementY}
-                            transform={`scale(1, -1) ${
-                                // vertical ? 'rotate(-90)' :
-                                    ''
-                                }`}
+                            transform='scale(1, -1)'
                         >
                             {dimension.toFixed(2)}
                         </text>
