@@ -1,12 +1,15 @@
 import React, { Component, createContext } from 'react';
 
+import sidebarStates from './RightSidebar/states';
+
 export const SelectionContext = createContext();
 
 export default class SelectionProvider extends Component {
 
     state = {
-        open: true,
-        items: [],
+        sidebarState: sidebarStates.ZoomAndPan,
+        sidebarOpen: true,
+        selectedItems: [],
     };
 
     componentDidMount = () => {
@@ -24,18 +27,18 @@ export default class SelectionProvider extends Component {
 
     watchCtrlKeyUp = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
 
-    handleMouseDown = ({ target: { id } }) => !this.ctrlKey && this.setState(({ items }) => ({
-        items: items.includes(id) ?
-            items.filter(item => item !== id)
+    handleMouseDown = ({ target: { id } }) => !this.ctrlKey && this.setState(({ selectedItems }) => ({
+        selectedItems: selectedItems.includes(id) ?
+            selectedItems.filter(item => item !== id)
             :
-            items.concat(id),
+            selectedItems.concat(id),
     }));
 
-    toggle = open => this.setState({
-        open: typeof open === 'boolean' ?
-            open
+    toggleSidebar = sidebarOpen => this.setState({
+        sidebarOpen: typeof sidebarOpen === 'boolean' ?
+            sidebarOpen
             :
-            !this.state.open,
+            !this.state.sidebarOpen,
     }, this.updateViewportWidth);
 
     updateViewportWidth = () => {
@@ -44,28 +47,36 @@ export default class SelectionProvider extends Component {
         VP.style.marginRight = `${RSB.clientWidth}px`;
     }
 
+    setSidebarState = sidebarState => this.setState(() => ({
+        sidebarState,
+    }), () => this.toggleSidebar(true));
+
     render = () => {
         const {
             state: {
-                open,
-                items,
+                sidebarState,
+                sidebarOpen,
+                selectedItems,
             },
             props: {
                 children,
             },
             handleMouseDown,
-            toggle,
+            toggleSidebar,
+            setSidebarState,
         } = this;
 
         return (
             <SelectionContext.Provider
                 value={{
                     sidebar: {
-                        open,
-                        toggle,
+                        state: sidebarState,
+                        open: sidebarOpen,
+                        toggle: toggleSidebar,
+                        setState: setSidebarState,
                     },
                     selection: {
-                        items,
+                        items: selectedItems,
                         handleMouseDown,
                     },
                 }}

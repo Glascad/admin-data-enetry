@@ -29,12 +29,12 @@
             margin-bottom: 0;
         }
     }
-    
-    .label {
-        color: $medium-gray;
-        + * {
-            margin-top: $x-small;
-        }
+}
+
+.label {
+    color: $medium-gray;
+    + * {
+        margin-top: $x-small;
     }
 }
 

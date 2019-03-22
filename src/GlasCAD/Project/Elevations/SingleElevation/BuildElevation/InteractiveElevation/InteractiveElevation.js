@@ -59,7 +59,6 @@ export default class InteractiveElevation extends Component {
                                     /> */}
                                     {/* FINISHED FLOOR */}
                                     <FinishedFloor
-                                        width={rox + 20}
                                         finishedFloorHeight={finishedFloorHeight}
                                     />
                                     {/* CONTAINERS */}

@@ -10,7 +10,10 @@ import {
 import {
     Hamburger,
 } from '../../../../../../assets/icons';
+
 import { SelectionContext } from '../SelectionContext';
+
+import sidebarStates from '../RightSidebar/states';
 
 export default function Header({
     path,
@@ -40,12 +43,16 @@ export default function Header({
                             sidebar: {
                                 open,
                                 toggle,
+                                setState,
                             },
                         }) => (
                                 <Input
                                     Icon={Hamburger}
                                     checked={open}
-                                    onChange={toggle}
+                                    onChange={open ?
+                                        toggle
+                                        :
+                                        () => setState(sidebarStates.EditBay)}
                                 />
                             )}
                     </SelectionContext.Consumer>

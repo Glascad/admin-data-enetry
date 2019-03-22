@@ -155,8 +155,6 @@ export default class Input extends Component {
 
         const isBoolean = booleanTypes.includes(type) || Icon;
 
-        console.log(this.props.label, this.props.value, !!this.props.onChange);
-
         return (
             <tag.name
                 className={`Input type-${

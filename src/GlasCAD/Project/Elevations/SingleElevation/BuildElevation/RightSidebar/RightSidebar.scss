@@ -21,11 +21,38 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
     }
 
     > * {
-        margin-bottom: $large;
+        margin-bottom: $x-large;
+    }
+
+    .sidebar-group {
+        position: relative;
+        // border-bottom: 1px solid $medium-gray;
+        padding-bottom: $x-large;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            border-bottom: 1px solid $medium-gray;
+        }
+
+        > * {
+            &:not(:last-child) {
+                margin-bottom: $x-large;
+            }
+        }
     }
 
     .sidebar-button {
         width: 100%;
+
+        color: $light-gray;
+
+        + .sidebar-button {
+            margin-left: 0;
+        }
 
         &.primary {
             @include hoverable-background($selected-color, false);
@@ -37,5 +64,13 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
                 color: $dark-gray;
             }
         }
+    }
+
+    .TitleBar {
+        color: $off-white;
+        border-bottom: 1px solid $medium-gray;
+        padding-left: $small;
+        padding-bottom: $small;
+        margin-top: $xx-large;
     }
 }
