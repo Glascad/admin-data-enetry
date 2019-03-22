@@ -62,7 +62,7 @@ function ZoomAndPan() {
                             light={true}
                             type="number"
                             step={10}
-                            value={y || 0}
+                            value={-y || 0}
                             onChange={updateTranslateY}
                         />
                         <button

@@ -1,6 +1,7 @@
 import React, {
     Component,
     createContext,
+    createRef,
 } from 'react';
 
 import './Statics.scss';
@@ -25,6 +26,8 @@ class Statics extends Component {
     state = {
         open: true,
     };
+
+    Viewport = createRef();
 
     toggle = open => typeof open === 'boolean' ?
         this.setState({ open })
@@ -61,6 +64,7 @@ class Statics extends Component {
                     },
                     routes,
                     getPathTo,
+                    Viewport: this.Viewport,
                 }}
             >
                 <div id="Sidebar" className={open ? "" : "closed"}>
@@ -92,7 +96,10 @@ class Statics extends Component {
                         </Link>
                     </div>
                 </div>
-                <div id="Viewport">
+                <div
+                    id="Viewport"
+                    ref={this.Viewport}
+                >
                     <Navigator
                         routes={routes}
                     />

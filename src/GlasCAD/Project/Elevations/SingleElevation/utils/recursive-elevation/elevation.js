@@ -103,6 +103,46 @@ export default class RecursiveElevation {
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
+    get horizontalContainerDimensions() {
+        return this.placedContainers.reduce((all, { x, width, refId }) => {
+            const prevDimension = all.find(dimension => dimension.x === x && dimension.width === width);
+            if (prevDimension) {
+                const prevDimensionIndex = all.indexOf(prevDimension);
+                return all.replace(prevDimensionIndex, {
+                    x,
+                    width,
+                    refIds: prevDimension.refIds.concat(refId)
+                });
+            } else {
+                return all.concat({
+                    x,
+                    width,
+                    refIds: [refId],
+                });
+            }
+        }, []);
+    }
+
+    get verticalContainerDimensions() {
+        return this.placedContainers.reduce((all, { y, height, refId }) => {
+            const prevDimension = all.find(dimension => dimension.y === y && dimension.height === height);
+            if (prevDimension) {
+                const prevDimensionIndex = all.indexOf(prevDimension);
+                return all.replace(prevDimensionIndex, {
+                    y,
+                    height,
+                    refIds: prevDimension.refIds.concat(refId)
+                });
+            } else {
+                return all.concat({
+                    y,
+                    height,
+                    refIds: [refId],
+                });
+            }
+        }, []);
+    }
+
     get detailTypes() { return this.allDetails.map(({ type }) => type); }
 
     getItemByRefId = id => {

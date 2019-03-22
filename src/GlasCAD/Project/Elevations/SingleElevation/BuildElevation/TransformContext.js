@@ -2,10 +2,12 @@ import React, { Component, createContext } from 'react';
 
 export const TransformContext = createContext();
 
+const defaultScale = 0.75;
+
 export default class TransformProvider extends Component {
 
     state = {
-        scale: 1,
+        scale: defaultScale,
         translate: {
             x: 0,
             y: 0,
@@ -129,11 +131,11 @@ export default class TransformProvider extends Component {
     updateTranslateY = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
         translate: {
             ...translate,
-            y: +value || 0,
+            y: -value || 0,
         },
     }));
 
-    resetScale = () => this.setState({ scale: 1 });
+    resetScale = () => this.setState({ scale: defaultScale });
 
     resetTranslate = () => this.setState({ translate: { x: 0, y: 0 } });
 

@@ -1,15 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
+import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext } from '../TransformContext';
 
 import Container from './Container';
 import Frame from './Frame';
 import FinishedFloor from './FinishedFloor';
+import DimensionButton from './DimensionButton';
 
 import './InteractiveElevation.scss';
 
 export default class InteractiveElevation extends Component {
 
+    static contextType = StaticContext;
+
+    InteractiveElevation = createRef();
+
+    componentDidMount = () => {
+        setTimeout(() => {
+            console.log(this.context.Viewport);
+            this.context.Viewport.current.style.paddingBottom = "0";
+            this.InteractiveElevation.current.style.height = `${
+                window.innerHeight
+                -
+                this.InteractiveElevation.current.offsetTop
+                -
+                24}px`;
+        });
+    }
 
     render = () => {
         const {
@@ -22,6 +40,8 @@ export default class InteractiveElevation extends Component {
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
+                    horizontalContainerDimensions = [],
+                    verticalContainerDimensions = [],
                 },
             },
         } = this;
@@ -36,7 +56,10 @@ export default class InteractiveElevation extends Component {
                     },
                     watchMouseDown,
                 }) => (
-                        <div id="InteractiveElevation">
+                        <div
+                            id="InteractiveElevation"
+                            ref={this.InteractiveElevation}
+                        >
                             <svg
                                 width={rox + 20}
                                 height={roy + finishedFloorHeight + 20}
@@ -45,7 +68,15 @@ export default class InteractiveElevation extends Component {
                                 onMouseDown={watchMouseDown}
                             >
                                 <g
-                                    transform={`scale(${scale}, ${scale}) translate(${x}, ${-y})`}
+                                    transform={`scale(${
+                                        scale
+                                        }, ${
+                                        scale
+                                        }) translate(${
+                                        x
+                                        }, ${
+                                        -y
+                                        })`}
                                 >
                                     {/* ROUGH OPENING */}
                                     {/* <rect
@@ -75,6 +106,22 @@ export default class InteractiveElevation extends Component {
                                             key={_frame.refId}
                                             _frame={_frame}
                                             finishedFloorHeight={finishedFloorHeight}
+                                        />
+                                    ))}
+                                    {/* VERTICAL DIMENSIONS */}
+                                    {verticalContainerDimensions.map(dimension => (
+                                        <DimensionButton
+                                            key={`${dimension.y}${dimension.height}`}
+                                            vertical={true}
+                                            dimension={dimension}
+                                        />
+                                    ))}
+                                    {/* HORIZONTAL DIMENSIONS */}
+                                    {horizontalContainerDimensions.map(dimension => (
+                                        <DimensionButton
+                                            key={`${dimension.x}${dimension.width}`}
+                                            vertical={false}
+                                            dimension={dimension}
                                         />
                                     ))}
                                 </g>

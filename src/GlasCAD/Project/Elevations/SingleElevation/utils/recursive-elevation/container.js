@@ -159,47 +159,54 @@ export default class RecursiveContainer {
     get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
     get frameRefs() { return this.allFrames.map(({ ref }) => ref); }
 
+    get placementX() {
+        return this.__placementX || (
+            this.__placementX = this.leftFrame.sightline + (
+                (
+                    this.bottomLeftOffset
+                    &&
+                    (this.bottomLeftOffset.x || 0)
+                ) || (
+                    this.leftContainers[0]
+                    &&
+                    (
+                        (this.leftContainers[0].placement.x || 0)
+                        +
+                        (this.leftContainers[0].daylightOpening.x || 0)
+                    )
+                ) || 0
+            )
+        );
+    }
+
+    get placementY() {
+        return this.__placementY || (
+            this.__placementY = this.bottomFrame.sightline + (
+                (
+                    this.bottomLeftOffset
+                    &&
+                    (this.bottomLeftOffset.y || 0)
+                ) || (
+                    this.bottomContainers[0]
+                    &&
+                    (
+                        (this.bottomContainers[0].placement.y || 0)
+                        +
+                        (this.bottomContainers[0].daylightOpening.y || 0)
+                    )
+                ) || 0
+            )
+        );
+    }
+
     get placement() {
-        try {
-            return this.__placement || (
-                this.__placement = {
-                    refId: this.refId,
-                    height: this.daylightOpening.y,
-                    width: this.daylightOpening.x,
-                    x: this.leftFrame.sightline + (
-                        (
-                            this.bottomLeftOffset
-                            &&
-                            (this.bottomLeftOffset.x || 0)
-                        ) || (
-                            this.leftContainers[0]
-                            &&
-                            (
-                                (this.leftContainers[0].placement.x || 0)
-                                +
-                                (this.leftContainers[0].daylightOpening.x || 0)
-                            )
-                        ) || 0
-                    ),
-                    y: this.bottomFrame.sightline + (
-                        (
-                            this.bottomLeftOffset
-                            &&
-                            (this.bottomLeftOffset.y || 0)
-                        ) || (
-                            this.bottomContainers[0]
-                            &&
-                            (
-                                (this.bottomContainers[0].placement.y || 0)
-                                +
-                                (this.bottomContainers[0].daylightOpening.y || 0)
-                            )
-                        ) || 0
-                    ),
-                });
-        } catch (err) {
-            console.log(this);
-            console.error(err);
-        }
+        return this.__placement || (
+            this.__placement = {
+                refId: this.refId,
+                height: this.daylightOpening.y,
+                width: this.daylightOpening.x,
+                x: this.placementX,
+                y: this.placementY,
+            });
     }
 }

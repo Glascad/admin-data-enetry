@@ -36,7 +36,6 @@ export default class BuildElevation extends Component {
                     _system,
                 },
             },
-            handleFocus,
         } = this;
 
         const elevation = new RecursiveElevation(_elevation, _system);

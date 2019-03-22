@@ -2,6 +2,8 @@ import React, { Component, createContext } from 'react';
 
 import sidebarStates from './RightSidebar/states';
 
+import isvalidId from '../utils/recursive-elevation/is-valid-id';
+
 export const SelectionContext = createContext();
 
 export default class SelectionProvider extends Component {
@@ -16,16 +18,22 @@ export default class SelectionProvider extends Component {
         this.updateViewportWidth();
         window.addEventListener('keydown', this.watchCtrlKeyDown);
         window.addEventListener('keyup', this.watchCtrlKeyUp);
+        // document.body.addEventListener('mousedown', this.cancelSelection);
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.watchCtrlKeyDown);
         window.removeEventListener('keyup', this.watchCtrlKeyUp);
+        // document.body.removeEventListener('mousedown', this.cancelSelection);
     }
 
     watchCtrlKeyDown = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
 
     watchCtrlKeyUp = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
+
+    // cancelSelection = ({ target: { id } }) => !isvalidId(id) && this.setState({
+    //     selectedItems: [],
+    // });
 
     handleMouseDown = ({ target: { id } }) => !this.ctrlKey && this.setState(({ selectedItems }) => ({
         selectedItems: selectedItems.includes(id) ?
