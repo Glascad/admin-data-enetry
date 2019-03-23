@@ -57,7 +57,17 @@ export default class BuildElevation extends Component {
             updateElevation,
         } = this;
 
-        const recursiveElevation = new RecursiveElevation(mergeElevationInput(rawElevation, elevationInput), _system);
+        console.log({ rawElevation });
+
+        console.log({ elevationInput });
+
+        const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
+
+        console.log({ mergedElevation });
+
+        const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
+
+        console.log({ recursiveElevation });
 
         return (
             <SelectionProvider

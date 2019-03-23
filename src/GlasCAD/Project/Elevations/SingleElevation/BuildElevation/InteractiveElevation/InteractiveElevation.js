@@ -120,7 +120,7 @@ export default class InteractiveElevation extends Component {
                                         {/* VERTICAL DIMENSIONS */}
                                         {verticals.map(dimension => (
                                             <DimensionButton
-                                                key={`${dimension.y}${dimension.height}`}
+                                                key={dimension.refId}
                                                 dimension={dimension}
                                                 vertical={true}
                                             />
@@ -141,7 +141,7 @@ export default class InteractiveElevation extends Component {
                                         {/* HORIZONTAL DIMENSIONS */}
                                         {horizontals.map(dimension => (
                                             <DimensionButton
-                                                key={`${dimension.x}${dimension.width}`}
+                                                key={dimension.refId}
                                                 dimension={dimension}
                                                 vertical={false}
                                             />
