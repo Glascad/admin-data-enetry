@@ -1,39 +1,42 @@
 
-import ZoomAndPan from './ZoomAndPan';
+import ZoomAndPan from './settings/ZoomAndPan';
+import VisibilitySettings from './settings/VisibilitySettings';
 
-import VisibilitySettings from './VisibilitySettings';
+import EditLite from './edit/EditLite';
+import EditMultipleLites from './edit/EditMultipleLites';
+import EditHorizontal from './edit/EditHorizontal';
+import EditVertical from './edit/EditVertical';
+import EditMultipleFrames from './edit/EditMultipleFrames';
+import EditBay from './edit/EditBay';
+import EditInfill from './edit/EditInfill';
 
-import EditLite from './EditLite';
-import EditMultipleLites from './EditMultipleLites';
-import EditFrame from './EditFrame';
-import EditMultipleFrames from './EditMultipleFrames';
-import EditBay from './EditBay';
-import EditInfill from './EditInfill';
+import AddBay from './add/AddBay';
+import AddColumn from './add/AddColumn';
+import AddHorizontal from './add/AddHorizontal';
+import AddVertical from './add/AddVertical';
+import AddDoor from './add/AddDoor';
 
-import AddBay from './AddBay';
-import AddColumn from './AddColumn';
-import AddIntermediates from './AddIntermediates';
-import AddDoor from './AddDoor';
-
-import RaiseCurb from './RaiseCurb';
-import StepHead from './StepHead';
-import RakeTop from './RakeTop';
-import ArchTop from './ArchTop';
-import GabledTop from './GabledTop';
-import CurvedWall from './CurvedWall';
+import RaiseCurb from './rough-opening/RaiseCurb';
+import StepHead from './rough-opening/StepHead';
+import RakeTop from './rough-opening/RakeTop';
+import ArchTop from './rough-opening/ArchTop';
+import GabledTop from './rough-opening/GabledTop';
+import CurvedWall from './rough-opening/CurvedWall';
 
 export default {
     ZoomAndPan,
     VisibilitySettings,
     EditLite,
     EditMultipleLites,
-    EditFrame,
+    EditHorizontal,
+    EditVertical,
     EditMultipleFrames,
     EditBay,
     EditInfill,
     AddBay,
     AddColumn,
-    AddIntermediates,
+    AddHorizontal,
+    AddVertical,
     AddDoor,
     RaiseCurb,
     StepHead,

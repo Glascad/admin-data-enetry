@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { TransformContext } from '../../TransformContext';
+import { TransformContext } from '../../../TransformContext';
 
 import {
     Input,
     TitleBar,
-} from '../../../../../../../components';
+} from '../../../../../../../../components';
 
 export default {
     name: "Zoom and Pan",

@@ -53,12 +53,14 @@ $checkbox-height: $item-height / 2;
     background: $color;
     
     &:hover {
-        @if $darken {
-            background: mix($color, black, 45);
-            border-color: mix($color, black, 45);
-        } @else {
-            background: mix($color, white, 45);
-            border-color: mix($color, white, 45);
+        &:not(.disabled) {
+            @if $darken {
+                background: mix($color, black, 45);
+                border-color: mix($color, black, 45);
+            } @else {
+                background: mix($color, white, 45);
+                border-color: mix($color, white, 45);
+            }
         }
     }
 }

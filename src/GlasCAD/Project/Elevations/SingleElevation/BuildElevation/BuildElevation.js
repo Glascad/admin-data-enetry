@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
-import mergeElevationInput from '../utils/ducks/merge-input';
+import mergeElevationInput from './ducks/merge-input';
 
 import SelectionProvider from './SelectionContext';
 import TransformProvider from './TransformContext';
@@ -28,7 +28,11 @@ export default class BuildElevation extends Component {
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
-    updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
+    updateElevation = (ACTION, payload) => this.setState(state => ACTION(
+        this.props.queryStatus,
+        state,
+        payload,
+    ));
 
     render = () => {
         const {
@@ -43,7 +47,7 @@ export default class BuildElevation extends Component {
                     path,
                 },
                 queryStatus: {
-                    _elevation,
+                    _elevation: rawElevation,
                     _elevation: {
                         name = ''
                     } = {},
@@ -53,7 +57,7 @@ export default class BuildElevation extends Component {
             updateElevation,
         } = this;
 
-        const recursiveElevation = new RecursiveElevation(mergeElevationInput(_elevation, elevationInput), _system);
+        const recursiveElevation = new RecursiveElevation(mergeElevationInput(rawElevation, elevationInput), _system);
 
         return (
             <SelectionProvider

@@ -53,7 +53,7 @@ export default function Header({
                                     onChange={open && state === sidebarStates.VisibilitySettings ?
                                         toggle
                                         :
-                                        () => setState(sidebarStates.VisibilitySettings)}
+                                        () => setState(sidebarStates.VisibilitySettings, true)}
                                 />
                             )}
                     </SelectionContext.Consumer>

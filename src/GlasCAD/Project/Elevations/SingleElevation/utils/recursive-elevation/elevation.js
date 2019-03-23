@@ -2,6 +2,7 @@
 import RecursiveContainer from './container';
 import RecursiveDetail from './detail';
 import RecursiveFrame from './frame';
+import RecursiveDimension from './dimension';
 
 export default class RecursiveElevation {
 
@@ -9,17 +10,22 @@ export default class RecursiveElevation {
     static RecursiveDetail = RecursiveDetail;
     static RecursiveFrame = RecursiveFrame;
 
-    constructor({
-        finishedFloorHeight = 0,
-        roughOpening = {},
-        _elevationContainers = [],
-        _containerDetails = [],
-        sightline = 10,
-    } = {}, {
-        _systemType: {
-            _systemTypeDetailTypeConfigurationTypes: detailTypeConfigurationTypes = [],
+    constructor(
+        rawElevation = {},
+        {
+            _systemType: {
+                _systemTypeDetailTypeConfigurationTypes: detailTypeConfigurationTypes = [],
+            } = {},
         } = {},
-    } = {}) {
+    ) {
+
+        const {
+            finishedFloorHeight = 0,
+            roughOpening = {},
+            _elevationContainers = [],
+            _containerDetails = [],
+            sightline = 10,
+        } = rawElevation;
 
         // mark fake ids with underscores
         const containers = _elevationContainers
@@ -51,9 +57,9 @@ export default class RecursiveElevation {
         Object.assign(
             this,
             {
+                rawElevation,
                 finishedFloorHeight,
                 roughOpening,
-                containers,
                 sightline,
                 detailTypeConfigurationTypes,
                 detailIds: Object.keys(detailsById),
@@ -108,60 +114,24 @@ export default class RecursiveElevation {
             .reduce(({
                 verticals = [],
                 horizontals = [],
-            }, {
-                x,
-                y,
-                width,
-                height,
-                refId
-            }) => {
-                const prevVerticalDimension = verticals.find(dimension => dimension.y === y && dimension.height === height);
-                const prevHorizontalDimension = horizontals.find(dimension => dimension.x === x && dimension.width === width);
+            },
+                placedContainer
+            ) => {
+                const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(placedContainer));
+                const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(placedContainer));
 
-                const prevVerticalDimensionIndex = verticals.indexOf(prevVerticalDimension);
-                const prevHorizontalDimensionIndex = horizontals.indexOf(prevHorizontalDimension);
+                if (prevVerticalDimension) prevVerticalDimension.addContainer(placedContainer);
+                if (prevHorizontalDimension) prevHorizontalDimension.addContainer(placedContainer);
 
                 return {
                     verticals: prevVerticalDimension ?
-                        verticals.replace(prevVerticalDimensionIndex, {
-                            ...prevVerticalDimension,
-                            horizontalPrecedence: (
-                                prevVerticalDimension.horizontalPrecedence
-                                * prevVerticalDimension.refIds.length
-                                + x
-                            ) / (
-                                    prevVerticalDimension.refIds.length
-                                    + 1
-                                ),
-                            refIds: prevVerticalDimension.refIds.concat(refId),
-                        })
+                        verticals
                         :
-                        verticals.concat({
-                            horizontalPrecedence: x,
-                            y,
-                            height,
-                            refIds: [refId],
-                        }),
+                        verticals.concat(new RecursiveDimension(placedContainer, this, true)),
                     horizontals: prevHorizontalDimension ?
-                        horizontals.replace(prevHorizontalDimensionIndex, {
-                            ...prevHorizontalDimension,
-                            verticalPrecedence: (
-                                prevHorizontalDimension.verticalPrecedence
-                                * prevHorizontalDimension.refIds.length
-                                + y
-                            ) / (
-                                    prevHorizontalDimension.refIds.length
-                                    + 1
-                                ),
-                            refIds: prevHorizontalDimension.refIds.concat(refId),
-                        })
+                        horizontals
                         :
-                        horizontals.concat({
-                            verticalPrecedence: y,
-                            x,
-                            width,
-                            refIds: [refId],
-                        }),
+                        horizontals.concat(new RecursiveDimension(placedContainer, this, false)),
                 };
             }, {});
     }

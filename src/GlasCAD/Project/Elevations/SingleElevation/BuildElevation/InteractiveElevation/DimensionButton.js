@@ -1,34 +1,24 @@
 import React from 'react';
 
 import { SelectionContext } from '../SelectionContext';
+import { TransformContext } from '../TransformContext';
 
 export default function DimensionButton({
     vertical,
     dimension: {
-        refIds = [],
-        x,
-        y,
-        height,
-        width,
+        refId,
+        dimension,
+        offset,
     },
 }) {
     // remember rotation
-    const offset = vertical ?
-        y
-        :
-        x;
-
-    const dimension = vertical ?
-        height
-        :
-        width;
 
     const placementX = offset;
 
     const placementY = vertical ?
-        50
+        -50
         :
-        -75;
+        -100;
 
     const placementHeight = 25;
 
@@ -42,38 +32,53 @@ export default function DimensionButton({
                     handleMouseDown,
                 },
             }) => {
-                const isSelected = refIds.some(refId => items.includes(refId));
+                const isSelected = items.includes(refId);
 
                 return (
-                    <g transform={vertical ? 'rotate(90)' : ''} >
-                        <rect
-                            id={`DimensionButton-${refIds.join('-')}`}
-                            x={placementX}
-                            y={placementY}
-                            height={placementHeight}
-                            width={placementWidth}
-                            rx={2.5}
-                            ry={2.5}
-                            fill={isSelected ?
-                                "#4A90E2"
-                                :
-                                "rgba(255, 255, 255, 0.1)"}
-                            stroke={isSelected ?
-                                "none"
-                                :
-                                "#CCCCCC"}
-                            onClick={() => refIds.forEach(id => handleMouseDown({ target: { id } }))}
-                            />
-                        <text
-                            x={placementX + 7}
-                            y={-(placementY + 7)}
-                            transform='scale(1, -1)'
-                            fill={isSelected ? 'white' : 'black'}
-                            onClick={() => refIds.forEach(id => handleMouseDown({ target: { id } }))}
-                        >
-                            {dimension.toFixed(2)}
-                        </text>
-                    </g>
+                    <TransformContext.Consumer>
+                        {({
+                            translate: {
+                                x,
+                                y,
+                            },
+                        }) => (
+                                <g
+                                    transform={vertical ?
+                                        `rotate(90) translate(0, ${x})`
+                                        :
+                                        `translate(0, ${y})`}
+                                >
+                                    <rect
+                                        id={refId}
+                                        x={placementX}
+                                        y={placementY}
+                                        height={placementHeight}
+                                        width={placementWidth}
+                                        rx={2.5}
+                                        ry={2.5}
+                                        fill={isSelected ?
+                                            "#4A90E2"
+                                            :
+                                            "rgba(255, 255, 255, 0.1)"}
+                                        stroke={isSelected ?
+                                            "none"
+                                            :
+                                            "#CCCCCC"}
+                                        onClick={handleMouseDown}
+                                    />
+                                    <text
+                                        x={placementX + 7}
+                                        y={-(placementY + 7)}
+                                        transform='scale(1, -1)'
+                                        fill={isSelected ? 'white' : 'black'}
+                                        onClick={handleMouseDown}
+                                        cursor="default"
+                                    >
+                                        {dimension.toFixed(2).replace(/\.*0*$/, '')}
+                                    </text>
+                                </g>
+                            )}
+                    </TransformContext.Consumer>
                 );
             }}
         </SelectionContext.Consumer>

@@ -63,6 +63,7 @@ export default class InteractiveElevation extends Component {
                             ref={this.InteractiveElevation}
                         >
                             <svg
+                                id="Elevation"
                                 width={rox + 20}
                                 height={roy + finishedFloorHeight + 20}
                                 viewBox={`-10 ${-finishedFloorHeight - 10} ${rox + 10} ${roy + 10}`}
@@ -70,15 +71,8 @@ export default class InteractiveElevation extends Component {
                                 onMouseDown={watchMouseDown}
                             >
                                 <g
-                                    transform={`scale(${
-                                        scale
-                                        }, ${
-                                        scale
-                                        }) translate(${
-                                        x
-                                        }, ${
-                                        -y
-                                        })`}
+                                    transform={`scale(${scale}, ${scale}) 
+                                        translate(${x}, ${-y})`}
                                 >
                                     {/* ROUGH OPENING */}
                                     {/* <rect
@@ -110,22 +104,49 @@ export default class InteractiveElevation extends Component {
                                             finishedFloorHeight={finishedFloorHeight}
                                         />
                                     ))}
-                                    {/* VERTICAL DIMENSIONS */}
-                                    {verticals.map(dimension => (
-                                        <DimensionButton
-                                            key={`${dimension.y}${dimension.height}`}
-                                            vertical={true}
-                                            dimension={dimension}
-                                        />
-                                    ))}
-                                    {/* HORIZONTAL DIMENSIONS */}
-                                    {horizontals.map(dimension => (
-                                        <DimensionButton
-                                            key={`${dimension.x}${dimension.width}`}
-                                            vertical={false}
-                                            dimension={dimension}
-                                        />
-                                    ))}
+                                    {/* </g> */}
+                                    {/* </svg> */}
+                                    {/* <svg
+                                id="VerticalDimensions"
+                                width={120}
+                                height={roy + finishedFloorHeight + 20}
+                                viewBox={`-10 ${-finishedFloorHeight - 10} 110 ${roy + 10}`}
+                                transform='scale(1, -1)'
+                                onMouseDown={watchMouseDown}
+                            > */}
+                                    <g
+                                        id="VerticalDimensions"
+                                    >
+                                        {/* VERTICAL DIMENSIONS */}
+                                        {verticals.map(dimension => (
+                                            <DimensionButton
+                                                key={`${dimension.y}${dimension.height}`}
+                                                dimension={dimension}
+                                                vertical={true}
+                                            />
+                                        ))}
+                                    </g>
+                                    {/* </svg> */}
+                                    {/* <svg
+                                id="HorizontalDimensions"
+                                width={rox + 20}
+                                height={120}
+                                viewBox={`-10 110 ${rox + 10} 110`}
+                                transform='scale(1, -1)'
+                                onMouseDown={watchMouseDown}
+                            > */}
+                                    <g
+                                        id="HorizontalDimensions"
+                                    >
+                                        {/* HORIZONTAL DIMENSIONS */}
+                                        {horizontals.map(dimension => (
+                                            <DimensionButton
+                                                key={`${dimension.x}${dimension.width}`}
+                                                dimension={dimension}
+                                                vertical={false}
+                                            />
+                                        ))}
+                                    </g>
                                 </g>
                             </svg>
                         </div>

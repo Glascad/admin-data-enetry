@@ -6,6 +6,7 @@ import './RightSidebar.scss';
 
 export default function RightSidebar({
     elevation,
+    updateElevation,
 }) {
     return (
         <SelectionContext.Consumer>
@@ -28,6 +29,7 @@ export default function RightSidebar({
                         </button>
                         <Children
                             elevation={elevation}
+                            updateElevation={updateElevation}
                         />
                     </div>
                 )}

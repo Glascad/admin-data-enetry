@@ -1,22 +1,23 @@
 import React from 'react';
 
-import { SelectionContext } from '../../SelectionContext';
+import { SelectionContext } from '../../../SelectionContext';
 
-import { TitleBar } from '../../../../../../../components';
+import { TitleBar } from '../../../../../../../../components';
 
 import EditInfill from './EditInfill';
 
-import AddBay from './AddBay';
-import AddColumn from './AddColumn';
-import AddIntermediates from './AddIntermediates';
-import AddDoor from './AddDoor';
+import AddBay from '../add/AddBay';
+import AddColumn from '../add/AddColumn';
+import AddHorizontal from '../add/AddHorizontal';
+import AddVertical from '../add/AddVertical';
+import AddDoor from '../add/AddDoor';
 
-import RaiseCurb from './RaiseCurb';
-import StepHead from './StepHead';
-import RakeTop from './RakeTop';
-import ArchTop from './ArchTop';
-import GabledTop from './GabledTop';
-import CurvedWall from './CurvedWall';
+import RaiseCurb from '../rough-opening/RaiseCurb';
+import StepHead from '../rough-opening/StepHead';
+import RakeTop from '../rough-opening/RakeTop';
+import ArchTop from '../rough-opening/ArchTop';
+import GabledTop from '../rough-opening/GabledTop';
+import CurvedWall from '../rough-opening/CurvedWall';
 
 const editButtons = [
     EditInfill,
@@ -25,7 +26,8 @@ const editButtons = [
 const addButtons = [
     AddBay,
     AddColumn,
-    AddIntermediates,
+    AddHorizontal,
+    AddVertical,
     AddDoor,
 ];
 

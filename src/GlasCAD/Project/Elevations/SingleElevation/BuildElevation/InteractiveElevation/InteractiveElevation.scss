@@ -2,12 +2,27 @@
 @import '../../../../../../styles/variables';
 
 #InteractiveElevation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
     
-    svg {
-        height: 100%;
+    #Elevation {
+        // height: 100%;
         width: 100%;
+        position: absolute;
+        top: 0;
+        // background: rgba(255, 0, 0, 0.1);
+    }
+    
+    #VerticalDimensions {
+
+    }
+    
+    #HorizontalDimensions {
+
+    }
+
+    svg {
+        text {
+            pointer-events: none;
+        }
     }
 }

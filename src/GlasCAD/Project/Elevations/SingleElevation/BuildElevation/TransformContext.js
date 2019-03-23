@@ -15,25 +15,33 @@ export default class TransformProvider extends Component {
     };
 
     componentDidMount = () => {
-        window.addEventListener('keydown', this.watchCtrlKeyDown);
+        window.addEventListener('keydown', this.watchSpaceKeyDown);
         window.addEventListener('keydown', this.watchArrowKeys);
-        window.addEventListener('keyup', this.watchCtrlKeyUp);
+        window.addEventListener('keyup', this.watchSpaceKeyUp);
         window.addEventListener('mouseup', this.watchMouseUp);
         // document.addEventListener('visibilitychange');
     }
 
     componentWillUnmount = () => {
-        window.removeEventListener('keydown', this.watchCtrlKeyDown);
+        window.removeEventListener('keydown', this.watchSpaceKeyDown);
         window.removeEventListener('keydown', this.watchArrowKeys);
-        window.removeEventListener('keyup', this.watchCtrlKeyUp);
+        window.removeEventListener('keyup', this.watchSpaceKeyUp);
         window.removeEventListener('mouseup', this.watchMouseUp);
     }
 
-    watchCtrlKeyDown = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
+    watchSpaceKeyDown = ({ key }) => key === ' ' && (
+        this.spaceKey = true
+    ) && (
+            document.body.style.cursor = 'grab'
+        );
 
-    watchCtrlKeyUp = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
+    watchSpaceKeyUp = ({ key }) => key === ' ' && !(
+        this.spaceKey = false
+    ) && (
+            document.body.style.cursor = 'default'
+        );
 
-    watchArrowKeys = ({ key }) => this.ctrlKey && (
+    watchArrowKeys = ({ key }) => this.spaceKey && (
         key === "ArrowUp" ?
             this.setState(({ scale }) => ({
                 scale: +scale + 0.01,
@@ -48,7 +56,7 @@ export default class TransformProvider extends Component {
     );
 
     watchMouseDown = e => {
-        if (this.ctrlKey) {
+        if (this.spaceKey) {
 
             e.preventDefault();
 

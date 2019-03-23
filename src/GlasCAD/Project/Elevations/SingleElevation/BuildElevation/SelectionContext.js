@@ -10,32 +10,36 @@ export default class SelectionProvider extends Component {
 
     state = {
         sidebarState: sidebarStates.ZoomAndPan,
+        previousSidebarStates: [],
         sidebarOpen: true,
         selectedItems: [],
     };
 
     componentDidMount = () => {
         this.updateViewportWidth();
-        window.addEventListener('keydown', this.watchCtrlKeyDown);
+        window.addEventListener('keydown', this.escape);
+        window.addEventListener('keydown', this.watchSpaceKeyDown);
         window.addEventListener('keydown', this.watchArrowKey);
-        window.addEventListener('keyup', this.watchCtrlKeyUp);
+        window.addEventListener('keyup', this.watchSpaceKeyUp);
         // document.body.addEventListener('mousedown', this.cancelSelection);
     }
 
     componentWillUnmount = () => {
-        window.removeEventListener('keydown', this.watchCtrlKeyDown);
+        window.removeEventListener('keydown', this.escape);
+        window.removeEventListener('keydown', this.watchSpaceKeyDown);
         window.removeEventListener('keydown', this.watchArrowKey);
-        window.removeEventListener('keyup', this.watchCtrlKeyUp);
+        window.removeEventListener('keyup', this.watchSpaceKeyUp);
         // document.body.removeEventListener('mousedown', this.cancelSelection);
     }
 
-    watchCtrlKeyDown = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
+    escape = ({ key }) => key === 'Escape' && this.toggleSidebar(false);
 
-    watchCtrlKeyUp = ({ ctrlKey, metaKey }) => this.ctrlKey = ctrlKey || metaKey;
+    watchSpaceKeyDown = ({ key }) => key === ' ' && (this.spaceKey = true);
+
+    watchSpaceKeyUp = ({ key }) => key === ' ' && (this.spaceKey = false);
 
     watchArrowKey = ({ key }) => {
-
-        if (!this.ctrlKey) {
+        if (!this.spaceKey) {
             const {
                 state: {
                     selectedItems: {
@@ -85,12 +89,18 @@ export default class SelectionProvider extends Component {
     // });
 
     handleMouseDown = ({ target: { id } }) => {
-        if (!this.ctrlKey) {
+        if (!this.spaceKey && id.match(/Vertical|Horizontal|Container|Detail|Dimension/)) {
             this.setState(({ selectedItems }) => ({
                 selectedItems: selectedItems.includes(id) ?
                     selectedItems.filter(item => item !== id)
                     :
-                    selectedItems.concat(id),
+                    selectedItems.length ?
+                        selectedItems[0].slice(0, 4) === id.slice(0, 4) ?
+                            selectedItems.concat(id)
+                            :
+                            selectedItems
+                        :
+                        [id],
             }), () => this.state.selectedItems.length ?
                 this.setSidebarState(
                     this.state.selectedItems[0].match(/Container/) ?
@@ -99,13 +109,13 @@ export default class SelectionProvider extends Component {
                             :
                             sidebarStates.EditLite
                         :
-                        this.state.selectedItems[0].match(/Frame/) ?
-                            this.state.selectedItems.length > 1 ?
-                                sidebarStates.EditMultipleFrames
-                                :
-                                sidebarStates.EditFrame
+                        this.state.selectedItems[0].match(/Vertical/) ?
+                            sidebarStates.EditVertical
                             :
-                            sidebarStates.EditMultipleLites
+                            this.state.selectedItems[0].match(/Horizontal/) ?
+                                sidebarStates.EditHorizontal
+                                :
+                                sidebarStates.EditMultipleFrames
                 )
                 :
                 this.toggleSidebar(false)
@@ -133,14 +143,33 @@ export default class SelectionProvider extends Component {
     }
 
     updateViewportWidth = () => {
-        const VP = document.getElementById("Viewport");
-        const RSB = document.getElementById("RightSidebar");
-        VP.style.marginRight = `${RSB.clientWidth}px`;
+        // const VP = document.getElementById("Viewport");
+        // const RSB = document.getElementById("RightSidebar");
+        // VP.style.marginRight = `${RSB.clientWidth}px`;
     }
 
-    setSidebarState = sidebarState => this.setState(() => ({
+    setSidebarState = (sidebarState, clearSelection = false) => this.setState(({
+        sidebarState: prevState,
+        previousSidebarStates,
+        selectedItems,
+    }) => ({
         sidebarState,
+        previousSidebarStates: previousSidebarStates.concat(prevState),
+        selectedItems: clearSelection ?
+            []
+            :
+            selectedItems,
     }), () => this.toggleSidebar(true));
+
+    revertSidebarState = () => this.setState(({
+        previousSidebarStates,
+        previousSidebarStates: {
+            length,
+        },
+    }) => ({
+        sidebarState: previousSidebarStates[length - 1],
+        previousSidebarStates: previousSidebarStates.slice(0, length - 1),
+    }));
 
     render = () => {
         const {
@@ -155,6 +184,7 @@ export default class SelectionProvider extends Component {
             handleMouseDown,
             toggleSidebar,
             setSidebarState,
+            revertSidebarState,
         } = this;
 
         return (
@@ -165,6 +195,7 @@ export default class SelectionProvider extends Component {
                         open: sidebarOpen,
                         toggle: toggleSidebar,
                         setState: setSidebarState,
+                        revert: revertSidebarState,
                     },
                     selection: {
                         items: selectedItems,
