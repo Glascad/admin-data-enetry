@@ -9,6 +9,7 @@ export default class RecursiveElevation {
     static RecursiveContainer = RecursiveContainer;
     static RecursiveDetail = RecursiveDetail;
     static RecursiveFrame = RecursiveFrame;
+    static RecursiveDimension = RecursiveDimension;
 
     constructor(
         rawElevation = {},
@@ -85,8 +86,11 @@ export default class RecursiveElevation {
         window.temp1 = this;
     }
 
+    // LOGIC
     get verticalFramesRunThroughHeadAndSill() { return true; }
 
+    // REFERENCES
+    // ALL
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
     get allDetails() { return this.detailIds.map(id => this.details[id]); }
     get allFrames() {
@@ -97,18 +101,22 @@ export default class RecursiveElevation {
         }, []);
     }
 
+    // REFIDS
     get containerRefIds() { return this.allContainers.map(({ refId }) => refId); }
     get detailRefIds() { return this.allDetails.map(({ refId }) => refId); }
     get frameRefIds() { return this.allFrames.map(({ refId }) => refId); }
 
+    // REFS
     get containerRefs() { return this.allContainers.map(({ ref }) => ref); }
     get detailRefs() { return this.allDetails.map(({ ref }) => ref); }
     get frameRefs() { return this.allFrames.map(({ ref }) => ref); }
 
+    // PLACEMENT
     get placedContainers() { return this.allContainers.map(({ placement }) => placement); }
     get placedDetails() { return this.allDetails.map(({ placement }) => placement); }
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
+    // DIMENSIONS
     get containerDimensions() {
         return this.placedContainers
             .reduce(({
@@ -136,8 +144,10 @@ export default class RecursiveElevation {
             }, {});
     }
 
+    // OPTIONS / TYPES
     get detailTypes() { return this.allDetails.map(({ type }) => type); }
 
+    // RETRIEVAL
     getItemByRefId = id => {
         const cb = ({ refId }) => refId === id;
         return this.allContainers.find(cb)

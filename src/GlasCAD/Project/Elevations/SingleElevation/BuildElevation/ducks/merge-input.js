@@ -40,7 +40,17 @@ export default function mergeElevationInput(
         detailsToAdd,
     });
 
-    return {
+    const log = obj => {
+        const recurse = (o, prev = []) => Object.entries(o)
+            .forEach(([key, value]) => {
+                if (key === '__typename' && value === value.toUpperCase()) console.log(o);
+                if (value && !prev.includes(value)) recurse(value, prev.concat([value]));
+            });
+        recurse(obj);
+        return obj;
+    }
+
+    return log({
         ...rawElevation,
         _elevationContainers: _elevationContainers
             .filter(({ id }) => !containerIdsToDelete.includes(id))
@@ -50,9 +60,9 @@ export default function mergeElevationInput(
                     {
                         ...container,
                         ...update,
-                        roughOpening: {
-                            ...container.roughOpening,
-                            ...update.roughOpening,
+                        daylightOpening: {
+                            ...container.daylightOpening,
+                            ...update.daylightOpening,
                         },
                         __typename: "UPDATED_CONTAINER",
                     }
@@ -74,5 +84,5 @@ export default function mergeElevationInput(
                     detail;
             })
             .concat(detailsToAdd),
-    };
+    });
 }

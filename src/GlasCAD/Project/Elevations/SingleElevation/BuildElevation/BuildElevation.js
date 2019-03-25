@@ -12,9 +12,9 @@ import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
-const defaultElevationUpdate = {
+import elevationJSON from './ducks/elevation.json';
 
-};
+const defaultElevationUpdate = {};
 
 export default class BuildElevation extends Component {
 
@@ -28,11 +28,7 @@ export default class BuildElevation extends Component {
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
-    updateElevation = (ACTION, payload) => this.setState(state => ACTION(
-        this.props.queryStatus,
-        state,
-        payload,
-    ));
+    updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
 
     render = () => {
         const {
@@ -56,6 +52,8 @@ export default class BuildElevation extends Component {
             },
             updateElevation,
         } = this;
+
+        // const rawElevation = elevationJSON;
 
         console.log({ rawElevation });
 

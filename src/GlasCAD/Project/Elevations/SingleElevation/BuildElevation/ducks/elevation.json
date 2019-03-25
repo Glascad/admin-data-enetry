@@ -1,0 +1,92 @@
+{
+    "id": 45,
+    "name": "test",
+    "finishedFloorHeight": 0,
+    "roughOpening": {
+        "x": 500,
+        "y": 500
+    },
+    "_elevationContainers": [
+        {
+            "id": 372,
+            "original": true,
+            "daylightOpening": {
+                "x": 235,
+                "y": 480
+            }
+        },
+        {
+            "id": 373,
+            "original": false,
+            "daylightOpening": {
+                "x": 235,
+                "y": 245
+            }
+        },
+        {
+            "id": 374,
+            "original": false,
+            "daylightOpening": {
+                "x": 235,
+                "y": 225
+            }
+        }
+    ],
+    "_containerDetails": [
+        {
+            "id": 961,
+            "vertical": true,
+            "firstContainerId": 372,
+            "secondContainerId": 373
+        },
+        {
+            "id": 963,
+            "vertical": false,
+            "firstContainerId": "_undefined",
+            "secondContainerId": 372
+        },
+        {
+            "id": 964,
+            "vertical": true,
+            "secondContainerId": 372
+        },
+        {
+            "id": 965,
+            "vertical": true,
+            "firstContainerId": 372,
+            "secondContainerId": 374
+        },
+        {
+            "id": 966,
+            "vertical": false,
+            "firstContainerId": 372
+        },
+        {
+            "id": 967,
+            "vertical": true,
+            "firstContainerId": 373
+        },
+        {
+            "id": 968,
+            "vertical": false,
+            "firstContainerId": 373,
+            "secondContainerId": 374
+        },
+        {
+            "id": 969,
+            "vertical": false,
+            "secondContainerId": 373
+        },
+        {
+            "id": 970,
+            "vertical": true,
+            "firstContainerId": 374
+        },
+        {
+            "id": 971,
+            "vertical": false,
+            "firstContainerId": 374
+        }
+    ],
+    "__by": "Id"
+}

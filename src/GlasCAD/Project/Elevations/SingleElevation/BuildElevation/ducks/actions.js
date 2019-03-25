@@ -1,17 +1,17 @@
+import _ from 'lodash';
 
 const _getFakeId = (() => {
     var fakeId = 1;
     return () => fakeId++;
 })();
 
+const convertFakeIdToNumber = fakeId => typeof fakeId === 'number' ?
+    fakeId
+    :
+    Number(fakeId.replace('_', ''));
+
 export default {
     MERGE_CONTAINERS({
-        _elevation: rawElevation,
-        _elevation: {
-            _elevationContainers,
-            _containerDetails,
-        },
-    }, {
         elevation: elevationInput,
         elevation: {
             details = [],
@@ -22,181 +22,66 @@ export default {
     }, {
         container,
         container: {
-            elevation: recursiveElevation,
-            daylightOpening: {
-                x,
-                y,
-            },
+            rawContainer,
+            id: containerId,
         },
         direction,
-        direction: [
-            vertical,
-            first,
-        ],
     }) {
-        const [otherContainer] = container._getImmediateContainersByDirection(...direction);
 
-        const { sightline } = container._getFrameByDirection(...direction);
-
-        const [detailToDelete] = container._getDetailsByDirection(...direction);
-
-        const convertFakeIdToNumber = fakeId => typeof fakeId === 'number' ?
-            fakeId
-            :
-            Number(fakeId.replace('_', ''));
-
-        const containerIds = [container.id, otherContainer.id].map(convertFakeIdToNumber);
-
-        // delete both containers
-        // add them both to containeridstodelete
-        const newContainerIdsToDelete = containerIdsToDelete
-            .concat(containerIds
-                .filter(id => typeof id === 'number'));
-
-        // create new container
-        // give new container correct daylight opening
-        const newContainer = {
-            fakeId: _getFakeId(),
-            daylightOpening: {
-                x: vertical ?
-                    x
-                    :
-                    x + sightline + otherContainer.daylightOpening.x,
-                y: vertical ?
-                    y + sightline + otherContainer.daylightOpening.y
-                    :
-                    y,
+        const {
+            mergedContainer: {
+                id: mergedContainerId,
             },
+            newOriginal,
+            newDaylightOpening,
+            detailsToMerge,
+            detailsToDelete,
+        } = container.actions__merge(...direction);
+
+        const [
+            newDetailIdsToDelete,
+            detailIdsToFilter,
+        ] = _.partition(detailsToDelete, ({ id }) => typeof id === 'number')
+            .map(details => details.map(({ id }) => id));
+
+        const newDetails = details
+            .filter(({ id, fakeId }) => !detailIdsToFilter.includes(id || fakeId))
+            .concat(detailsToMerge.map(detail => detail.actions__merge(mergedContainerId, containerId)));
+
+        const oldContainer = containers.find(({ id, fakeId }) => (id || fakeId) === containerId);
+
+        const oldContainerIndex = containers.indexOf(oldContainer);
+
+        const filteredContainers = containers
+            .filter(({ id, fakeId }) => (id || fakeId) === mergedContainerId);
+
+        const updatedContainer = {
+            ...oldContainer,
+            ...rawContainer,
+            daylightOpening: newDaylightOpening,
+            original: newOriginal,
         };
 
-        const newContainers = containers
-            // or simply remove from elevationinput.containers if id is fake
-            .filter(({ id, fakeId }) => (
-                !containerIds.includes(id)
-                &&
-                !containerIds.includes(fakeId)))
-            .concat(newContainer);
-
-        // remove detail between merged containers
-        const newDetailIdsToDelete = detailIdsToDelete
-            .concat([detailToDelete.id]
-                .filter(id => typeof id === 'number'));
-
-        // update all details pointing at previous containers to point to new container
-        const updatedDetails = details
-            // or simply remove from elevationinput.details if id is fake
-            .filter(({ id, fakeId }) => (
-                id !== detailToDelete.id
-                &&
-                fakeId !== detailToDelete.id
-            ))
-            .map(detail => {
-                const {
-                    firstContainerId,
-                    firstContainerFakeId,
-                    secondContainerId,
-                    secondContainerFakeId,
-                } = detail;
-
-                const newFirstContainerFakeId = [firstContainerId, firstContainerFakeId]
-                    .some(id => containerIds.includes(id))
-                    &&
-                    newContainer.fakeId;
-
-                const newSecondContainerFakeId = [secondContainerId, secondContainerFakeId]
-                    .some(id => containerIds.includes(id))
-                    &&
-                    newContainer.fakeId;
-
-                if (newFirstContainerFakeId) {
-                    return {
-                        ...detail,
-                        firstContainerId: undefined,
-                        firstContainerFakeId: newFirstContainerFakeId,
-                    };
-                } else if (newSecondContainerFakeId) {
-                    return {
-                        ...detail,
-                        secondContainerId: undefined,
-                        secondContainerFakeId: newSecondContainerFakeId,
-                    };
-                } else {
-                    return detail;
-                }
-            });
-
-        const newDetails = updatedDetails
-            .concat(_containerDetails
-                .filter(({
-                    id,
-                    fakeId,
-                    firstContainerId,
-                    firstContainerFakeId,
-                    secondContainerId,
-                    secondContainerFakeId,
-                }) => (
-                    id !== detailToDelete.id
-                    &&
-                    fakeId !== detailToDelete.id
-                ) && (
-                        [
-                            firstContainerId,
-                            firstContainerFakeId,
-                            secondContainerId,
-                            secondContainerFakeId
-                        ].some(id => containerIds.includes(id))
-                    ))
-                .map(detail => {
-                    const {
-                        firstContainerId,
-                        firstContainerFakeId,
-                        secondContainerId,
-                        secondContainerFakeId,
-                    } = detail;
-
-                    const newFirstContainerFakeId = [firstContainerId, firstContainerFakeId]
-                        .some(id => containerIds.includes(id))
-                        &&
-                        newContainer.fakeId;
-
-                    const newSecondContainerFakeId = [secondContainerId, secondContainerFakeId]
-                        .some(id => containerIds.includes(id))
-                        &&
-                        newContainer.fakeId;
-
-                    console.log({
-                        containerIds,
-                        firstContainerId,
-                        firstContainerFakeId,
-                        secondContainerId,
-                        secondContainerFakeId,
-                        newFirstContainerFakeId,
-                        newSecondContainerFakeId,
-                    });
-
-                    if (newFirstContainerFakeId) {
-                        return {
-                            ...detail,
-                            firstContainerId: undefined,
-                            firstContainerFakeId: newFirstContainerFakeId,
-                        };
-                    } else if (newSecondContainerFakeId) {
-                        return {
-                            ...detail,
-                            secondContainerId: undefined,
-                            secondContainerFakeId: newSecondContainerFakeId,
-                        };
-                    } else {
-                        return detail;
-                    }
-                }));
+        const newContainers = oldContainer ?
+            filteredContainers.replace(oldContainerIndex, updatedContainer)
+            :
+            filteredContainers.concat(updatedContainer);
 
         console.log({
-            newContainer,
-            newContainerIdsToDelete,
-            updatedDetails,
-            newDetails,
+            details,
+            containers,
+            mergedContainerId,
+            newDaylightOpening,
+            detailsToMerge,
+            detailsToDelete,
             newDetailIdsToDelete,
+            detailIdsToFilter,
+            newDetails,
+            oldContainer,
+            oldContainerIndex,
+            filteredContainers,
+            updatedContainer,
+            newContainers,
         });
 
         return {
@@ -204,8 +89,11 @@ export default {
                 ...elevationInput,
                 details: newDetails,
                 containers: newContainers,
-                detailIdsToDelete: newDetailIdsToDelete,
-                containerIdsToDelete: newContainerIdsToDelete,
+                detailIdsToDelete: detailIdsToDelete.concat(newDetailIdsToDelete),
+                containerIdsToDelete: containerIdsToDelete.concat(typeof mergedContainerId === 'number' ?
+                    mergedContainerId
+                    :
+                    []),
             },
         };
     },

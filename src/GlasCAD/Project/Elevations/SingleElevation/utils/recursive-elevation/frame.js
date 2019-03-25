@@ -30,8 +30,8 @@ export default class RecursiveFrame {
         );
     }
 
-    get refId() { return `${this.vertical ? 'Vertical' : 'Horizontal'}-${this.details.map(({ id }) => id).join('-')}`; }
 
+    get refId() { return `${this.vertical ? 'Vertical' : 'Horizontal'}-${this.details.map(({ id }) => id).join('-')}`; }
     get ref() { return document.getElementById(this.refId); }
 
     contains = detail => this.details.includes(detail);
@@ -282,6 +282,7 @@ export default class RecursiveFrame {
             0;
 
         return {
+            recursiveFrame: this,
             refId,
             vertical,
             x,
