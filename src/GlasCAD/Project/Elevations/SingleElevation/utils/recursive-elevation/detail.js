@@ -8,9 +8,6 @@ const detailsByContainerKey = 'details_by_container<first>';
 const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
 const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
-// REMOVE AFTER DEBUGGING
-// var PROTECTION = 100;
-
 export default class RecursiveDetail {
     constructor(rawDetail, elevation) {
         Object.assign(
@@ -248,16 +245,6 @@ export default class RecursiveDetail {
             if (sameContainer && container === sameContainer) {
                 const [detail] = adjacentContainer._getDetailsByDirection(...cBACKWARD);
 
-                console.log({
-                    this: this,
-                    detailFirst,
-                    containerFirst,
-                    detail,
-                    container,
-                    adjacentContainer,
-                    sameContainer,
-                });
-
                 this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail ?
                     detail._getMatchedDetailsByDirection(detailFirst)
                     :
@@ -302,14 +289,6 @@ export default class RecursiveDetail {
             []
             :
             detail._getDetailsAcrossPerpendicularsByDirection(first);
-
-
-        console.log({
-            this: this,
-            first,
-            detail,
-            detailsAcrossPerpendiculars,
-        });
 
         return first ?
             unique(

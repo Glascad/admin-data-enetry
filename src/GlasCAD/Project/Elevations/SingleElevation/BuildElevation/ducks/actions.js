@@ -28,6 +28,20 @@ export default {
         direction,
     }) {
 
+        console.log("MERGING CONTAINERS");
+
+        console.log({
+            elevationInput,
+            container,
+            rawContainer,
+            containerId,
+            direction,
+            details,
+            containers,
+            detailsToDelete,
+            containerIdsToDelete,
+        });
+
         const {
             mergedContainer: {
                 id: mergedContainerId,
@@ -48,12 +62,12 @@ export default {
             .filter(({ id, fakeId }) => !detailIdsToFilter.includes(id || fakeId))
             .concat(detailsToMerge.map(detail => detail.actions__merge(mergedContainerId, containerId)));
 
-        const oldContainer = containers.find(({ id, fakeId }) => (id || fakeId) === containerId);
-
-        const oldContainerIndex = containers.indexOf(oldContainer);
-
         const filteredContainers = containers
-            .filter(({ id, fakeId }) => (id || fakeId) === mergedContainerId);
+            .filter(({ id, fakeId }) => (id || fakeId) !== mergedContainerId);
+
+        const oldContainer = filteredContainers.find(({ id, fakeId }) => (id || fakeId) === containerId);
+
+        const oldContainerIndex = filteredContainers.indexOf(oldContainer);
 
         const updatedContainer = {
             ...oldContainer,
@@ -68,9 +82,8 @@ export default {
             filteredContainers.concat(updatedContainer);
 
         console.log({
-            details,
-            containers,
             mergedContainerId,
+            newOriginal,
             newDaylightOpening,
             detailsToMerge,
             detailsToDelete,
