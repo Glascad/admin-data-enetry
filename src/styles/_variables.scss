@@ -5,6 +5,7 @@ $header-height: 75px;
 $menu-height: 50px;
 // $viewport-height: calc(100vh - 75px);
 $sidebar-width: 250px;
+$right-sidebar-width: 300px;
 // $viewport-width: calc(100vw - 17.5vw);
 
 $item-height: 40px;
@@ -47,59 +48,20 @@ $checkbox-height: $item-height / 2;
 
 // SCSS Mixins
 
-@mixin two-colors($text, $background, $invert: true) {
-    color: $text;
-    background-color: $background;
-    border: 1px solid $background;
-    .text-color {
-        background-color: $text;
-    }
-    .background-color {
-        background-color: $background;
-    }
-    @if $invert {
-        &:hover {
-            color: $background;
-            border-color: $background;
-            background-color: $text;
-            .text-color {
-                background-color: $background;
-            }
-            .background-color {
-                background-color: $text;
+@mixin hoverable-background($color, $darken: true) {
+    border-color: $color;
+    background: $color;
+    
+    &:hover {
+        &:not(.disabled) {
+            @if $darken {
+                background: mix($color, black, 45);
+                border-color: mix($color, black, 45);
+            } @else {
+                background: mix($color, white, 45);
+                border-color: mix($color, white, 45);
             }
         }
     }
 }
 
-@mixin hoverable-background($color) {
-    border-color: $color;
-    background: $color;
-    
-    &:hover {
-        background: mix($color, black, 45);
-        border-color: mix($color, black, 45);
-    }
-}
-
-// Base Classes/Extendable Classes
-
-.light {
-    nothing: 12;
-    // @include two-colors($off-white, $dark-gray);
-}
-
-.selected {
-    nothing: 12;
-    // @include two-colors($off-white, $selected-color);    
-}
-
-.danger {
-    nothing: 12;
-    // @include two-colors($off-white, $danger-color);    
-}
-
-.action {
-    nothing: 12;
-    // @include two-colors($off-white, $action-color);
-}

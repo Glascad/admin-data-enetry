@@ -66,7 +66,7 @@ export default function SystemToggle({
             query={{
                 query,
                 variables: {
-                    id: +systemId,
+                    id: +systemId || 0,
                 },
             }}
         >

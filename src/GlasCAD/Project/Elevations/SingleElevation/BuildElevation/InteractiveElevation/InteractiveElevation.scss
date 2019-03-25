@@ -1,0 +1,28 @@
+
+@import '../../../../../../styles/variables';
+
+#InteractiveElevation {
+    position: relative;
+    
+    #Elevation {
+        // height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        // background: rgba(255, 0, 0, 0.1);
+    }
+    
+    #VerticalDimensions {
+
+    }
+    
+    #HorizontalDimensions {
+
+    }
+
+    svg {
+        text {
+            pointer-events: none;
+        }
+    }
+}

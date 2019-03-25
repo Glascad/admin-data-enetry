@@ -81,6 +81,7 @@ class List extends Component {
                 addButton,
                 onDisabledSelect,
                 onCreate,
+                onFinish,
                 onUpdate,
                 onDelete,
                 deleteModal,
@@ -190,10 +191,10 @@ class List extends Component {
                     ) : (onCreate || multiSelect || addButton) && !creating ? (
                         <AddButton
                             {...addButton}
-                            onAdd={onCreate ?
-                                handleCreateClick
-                                :
-                                undefined}
+                                onAdd={onCreate || onFinish ?
+                                    handleCreateClick
+                                    :
+                                    () => console.error('No Add Specified ' + title)}
                         />
                     ) : null}
                 />

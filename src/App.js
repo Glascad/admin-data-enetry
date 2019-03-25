@@ -7,11 +7,9 @@ import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import {
-    CheatSheet,
+    // CheatSheet,
     Navigator,
 } from './components';
-
-import './App.scss';
 
 import DataEntry from './DataEntry/DataEntry';
 import Glascad from './GlasCAD/GlasCAD';
