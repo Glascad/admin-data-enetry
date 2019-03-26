@@ -57,6 +57,7 @@ export default class InteractiveElevation extends Component {
                         y,
                     },
                     watchMouseDown,
+                    watchDimensionMouseDown,
                 }) => (
                         <div
                             id="InteractiveElevation"
@@ -117,6 +118,12 @@ export default class InteractiveElevation extends Component {
                                     <g
                                         id="VerticalDimensions"
                                     >
+                                        <circle
+                                            cx={40 - x}
+                                            cy={roy + 20}
+                                            r={10}
+                                            onMouseDown={watchDimensionMouseDown}
+                                        />
                                         {/* VERTICAL DIMENSIONS */}
                                         {verticals.map(dimension => (
                                             <DimensionButton

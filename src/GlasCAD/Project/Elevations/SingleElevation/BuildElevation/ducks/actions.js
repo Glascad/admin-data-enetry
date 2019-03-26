@@ -58,8 +58,10 @@ export default {
         ] = _.partition(detailsToDelete, ({ id }) => typeof id === 'number')
             .map(details => details.map(({ id }) => id));
 
-        const newDetails = details
-            .filter(({ id, fakeId }) => !detailIdsToFilter.includes(id || fakeId))
+        const filteredDetails = details
+            .filter(({ id, fakeId }) => !detailIdsToFilter.includes(id || fakeId));
+        
+        const newDetails = filteredDetails
             .concat(detailsToMerge.map(detail => detail.actions__merge(mergedContainerId, containerId)));
 
         const filteredContainers = containers
