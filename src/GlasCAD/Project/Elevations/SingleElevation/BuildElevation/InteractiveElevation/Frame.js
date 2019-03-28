@@ -20,23 +20,44 @@ export default function Frame({
                     handleMouseDown,
                 },
             }) => (
-                    <rect
+                    <div
                         id={refId}
-                        x={x}
-                        y={y}
-                        height={height}
-                        width={width}
-                        fill={items.includes(refId) ?
-                            "#4A90E2"
-                            :
-                            `rgba(0, 0, 0, ${
-                            vertical ?
-                                0.45
+                        className={`Frame ${
+                            items.includes(refId) ?
+                                'selected'
                                 :
-                                0.25
-                            })`}
+                                ''
+                            } ${
+                            vertical ?
+                                'vertical'
+                                :
+                                ''
+                            }`}
+                        style={{
+                            left: x,
+                            bottom: y,
+                            height,
+                            width,
+                        }}
                         onMouseDown={handleMouseDown}
                     />
+                    // <rect
+                    //     id={refId}
+                    //     x={x}
+                    //     y={y}
+                    //     height={height}
+                    //     width={width}
+                    //     fill={items.includes(refId) ?
+                    //         "#4A90E2"
+                    //         :
+                    //         `rgba(0, 0, 0, ${
+                    //         vertical ?
+                    //             0.45
+                    //             :
+                    //             0.25
+                    //         })`}
+                    //     onMouseDown={handleMouseDown}
+                    // />
                 )}
         </SelectionContext.Consumer>
     );
