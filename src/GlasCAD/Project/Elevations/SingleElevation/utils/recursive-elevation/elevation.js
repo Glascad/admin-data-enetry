@@ -33,6 +33,7 @@ export default class RecursiveElevation {
             .map(c => ({
                 ...c,
                 id: c.id || `_${c.fakeId}`,
+                rawContainer: c,
             }));
 
         const details = _containerDetails
@@ -41,6 +42,7 @@ export default class RecursiveElevation {
                 id: d.id || `_${d.fakeId}`,
                 firstContainerId: d.firstContainerId || `_${d.firstContainerFakeId}`,
                 secondContainerId: d.secondContainerId || `_${d.secondContainerFakeId}`,
+                rawDetail: d,
             }));
 
         const detailsById = details

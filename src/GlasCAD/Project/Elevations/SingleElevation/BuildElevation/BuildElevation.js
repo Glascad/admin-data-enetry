@@ -13,6 +13,7 @@ import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
 import elevationJSON from './ducks/elevation.json';
+import validateElevation from './ducks/validate-elevation';
 
 const defaultElevationUpdate = {};
 
@@ -62,6 +63,10 @@ export default class BuildElevation extends Component {
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         console.log({ mergedElevation });
+
+        validateElevation(mergedElevation);
+
+        console.log("SUCCESSFULLY MERGED ELEVATION INPUT");
 
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 

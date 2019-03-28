@@ -188,13 +188,13 @@ class List extends Component {
                             onEdit={onCreate}
                             onBlur={cancel}
                         />
-                    ) : (onCreate || multiSelect || addButton) && !creating ? (
+                    ) : (onCreate || onFinish || multiSelect || addButton) && !creating ? (
                         <AddButton
                             {...addButton}
-                                onAdd={onCreate || onFinish ?
-                                    handleCreateClick
-                                    :
-                                    () => console.error('No Add Specified ' + title)}
+                            onAdd={onCreate || onFinish ?
+                                handleCreateClick
+                                :
+                                undefined}
                         />
                     ) : null}
                 />

@@ -46,29 +46,29 @@ export default class RecursiveFrame {
         );
     }
 
-    _getContainersByDirection = first => this[containersKey][first] || (
+    getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
-            .map(detail => detail._getContainerByDirection(first))
+            .map(detail => detail.getContainerByDirection(first))
         // .filter(Boolean)
     );
 
-    _getFirstOrLastContainerByDirection = (first, last) => {
-        const containers = this._getContainersByDirection(first);
+    getFirstOrLastContainerByDirection = (first, last) => {
+        const containers = this.getContainersByDirection(first);
         return containers[last ?
             containers.length - 1
             :
             0];
     }
 
-    get leftContainers() { if (this.vertical) return this._getContainersByDirection(true); }
-    get rightContainers() { if (this.vertical) return this._getContainersByDirection(false); }
-    get topContainers() { if (!this.vertical) return this._getContainersByDirection(false); }
-    get bottomContainers() { if (!this.vertical) return this._getContainersByDirection(true); }
+    get leftContainers() { if (this.vertical) return this.getContainersByDirection(true); }
+    get rightContainers() { if (this.vertical) return this.getContainersByDirection(false); }
+    get topContainers() { if (!this.vertical) return this.getContainersByDirection(false); }
+    get bottomContainers() { if (!this.vertical) return this.getContainersByDirection(true); }
 
     get allContainers() {
         return [
-            ...this._getContainersByDirection(true),
-            ...this._getContainersByDirection(false),
+            ...this.getContainersByDirection(true),
+            ...this.getContainersByDirection(false),
         ];
     }
 
@@ -81,47 +81,47 @@ export default class RecursiveFrame {
         );
     }
 
-    _getRunsAlongEdgeOfRoughOpening = first => {
+    getRunsAlongEdgeOfRoughOpening = first => {
         if (this[runsAlongEdgeKey][first] === undefined) {
 
-            const firstEndContainer = this._getFirstOrLastContainerByDirection(true, !first);
-            const secondEndContainer = this._getFirstOrLastContainerByDirection(false, !first);
+            const firstEndContainer = this.getFirstOrLastContainerByDirection(true, !first);
+            const secondEndContainer = this.getFirstOrLastContainerByDirection(false, !first);
 
             this[runsAlongEdgeKey][first] = !firstEndContainer || !secondEndContainer;
         }
         return this[runsAlongEdgeKey][first];
     }
 
-    get firstEndRunsAlongEdgeOfRoughOpening() { return this._getRunsAlongEdgeOfRoughOpening(true); }
-    get lastEndRunsAlongEdgeOfRoughOpening() { return this._getRunsAlongEdgeOfRoughOpening(false); }
+    get firstEndRunsAlongEdgeOfRoughOpening() { return this.getRunsAlongEdgeOfRoughOpening(true); }
+    get lastEndRunsAlongEdgeOfRoughOpening() { return this.getRunsAlongEdgeOfRoughOpening(false); }
 
-    _getRunsIntoEdgeOfRoughOpening = first => {
+    getRunsIntoEdgeOfRoughOpening = first => {
         if (this[runsIntoEdgeKey][first] === undefined) {
 
             const { vertical } = this;
 
             const direction = [vertical, first];
 
-            const firstEndContainer = this._getFirstOrLastContainerByDirection(true, !first);
-            const secondEndContainer = this._getFirstOrLastContainerByDirection(false, !first);
+            const firstEndContainer = this.getFirstOrLastContainerByDirection(true, !first);
+            const secondEndContainer = this.getFirstOrLastContainerByDirection(false, !first);
 
             this[runsIntoEdgeKey][first] = (
                 (
                     !firstEndContainer
                     ||
-                    !firstEndContainer._getFirstOrLastContainerByDirection(...direction, !first)
+                    !firstEndContainer.getFirstOrLastContainerByDirection(...direction, !first)
                 ) && (
                     !secondEndContainer
                     ||
-                    !secondEndContainer._getFirstOrLastContainerByDirection(...direction, !first)
+                    !secondEndContainer.getFirstOrLastContainerByDirection(...direction, !first)
                 )
             );
         }
         return this[runsIntoEdgeKey][first];
     }
 
-    get firstEndRunsIntoEdgeOfRoughOpening() { return this._getRunsIntoEdgeOfRoughOpening(true); }
-    get lastEndRunsIntoEdgeOfRoughOpening() { return this._getRunsIntoEdgeOfRoughOpening(false); }
+    get firstEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(true); }
+    get lastEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(false); }
 
     get placement() {
         const {

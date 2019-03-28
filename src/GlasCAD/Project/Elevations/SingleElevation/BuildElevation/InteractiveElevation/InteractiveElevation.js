@@ -115,9 +115,7 @@ export default class InteractiveElevation extends Component {
                                 transform='scale(1, -1)'
                                 onMouseDown={watchMouseDown}
                             > */}
-                                    <g
-                                        id="VerticalDimensions"
-                                    >
+                                    <g id="VerticalDimensions">
                                         <circle
                                             cx={40 - x}
                                             cy={roy + 20}
@@ -142,9 +140,7 @@ export default class InteractiveElevation extends Component {
                                 transform='scale(1, -1)'
                                 onMouseDown={watchMouseDown}
                             > */}
-                                    <g
-                                        id="HorizontalDimensions"
-                                    >
+                                    <g id="HorizontalDimensions">
                                         {/* HORIZONTAL DIMENSIONS */}
                                         {horizontals.map(dimension => (
                                             <DimensionButton

@@ -1,91 +1,141 @@
 {
-    "id": 45,
-    "name": "test",
-    "finishedFloorHeight": 0,
+    "id": 1,
+    "name": "AA",
+    "finishedFloorHeight": 50,
     "roughOpening": {
-        "x": 500,
-        "y": 500
+        "x": 570,
+        "y": 420
     },
     "_elevationContainers": [
         {
-            "id": 372,
+            "id": 2,
+            "original": false,
+            "daylightOpening": {
+                "x": 165,
+                "y": 340
+            }
+        },
+        {
+            "id": 4,
+            "original": false,
+            "daylightOpening": {
+                "x": 265,
+                "y": 165
+            }
+        },
+        {
+            "id": 5,
+            "original": false,
+            "daylightOpening": {
+                "x": 265,
+                "y": 165
+            }
+        },
+        {
+            "id": 70,
+            "original": false,
+            "daylightOpening": {
+                "x": 100,
+                "y": 340
+            }
+        },
+        {
+            "id": 90,
             "original": true,
             "daylightOpening": {
-                "x": 235,
-                "y": 480
-            }
-        },
-        {
-            "id": 373,
-            "original": false,
-            "daylightOpening": {
-                "x": 235,
-                "y": 245
-            }
-        },
-        {
-            "id": 374,
-            "original": false,
-            "daylightOpening": {
-                "x": 235,
-                "y": 225
+                "x": 550,
+                "y": 50
             }
         }
     ],
     "_containerDetails": [
         {
-            "id": 961,
+            "id": 2,
             "vertical": true,
-            "firstContainerId": 372,
-            "secondContainerId": 373
+            "firstContainerId": 2,
+            "secondContainerId": 5
         },
         {
-            "id": 963,
-            "vertical": false,
-            "firstContainerId": "_undefined",
-            "secondContainerId": 372
-        },
-        {
-            "id": 964,
+            "id": 4,
             "vertical": true,
-            "secondContainerId": 372
+            "secondContainerId": 2
         },
         {
-            "id": 965,
+            "id": 5,
             "vertical": true,
-            "firstContainerId": 372,
-            "secondContainerId": 374
+            "firstContainerId": 2,
+            "secondContainerId": 4
         },
         {
-            "id": 966,
-            "vertical": false,
-            "firstContainerId": 372
-        },
-        {
-            "id": 967,
+            "id": 6,
             "vertical": true,
-            "firstContainerId": 373
+            "firstContainerId": 4,
+            "secondContainerId": 70
         },
         {
-            "id": 968,
+            "id": 7,
             "vertical": false,
-            "firstContainerId": 373,
-            "secondContainerId": 374
+            "firstContainerId": 90,
+            "secondContainerId": 2
         },
         {
-            "id": 969,
+            "id": 9,
             "vertical": false,
-            "secondContainerId": 373
+            "firstContainerId": 2
         },
         {
-            "id": 970,
+            "id": 12,
+            "vertical": false,
+            "firstContainerId": 4
+        },
+        {
+            "id": 13,
+            "vertical": false,
+            "firstContainerId": 5,
+            "secondContainerId": 4
+        },
+        {
+            "id": 14,
+            "vertical": false,
+            "firstContainerId": 90,
+            "secondContainerId": 5
+        },
+        {
+            "id": 15,
             "vertical": true,
-            "firstContainerId": 374
+            "firstContainerId": 5,
+            "secondContainerId": 70
         },
         {
-            "id": 971,
+            "id": 185,
+            "vertical": true,
+            "firstContainerId": 70
+        },
+        {
+            "id": 186,
             "vertical": false,
-            "firstContainerId": 374
+            "firstContainerId": 70
+        },
+        {
+            "id": 187,
+            "vertical": false,
+            "firstContainerId": 90,
+            "secondContainerId": 70
+        },
+        {
+            "id": 247,
+            "vertical": true,
+            "secondContainerId": 90
+        },
+        {
+            "id": 248,
+            "vertical": true,
+            "firstContainerId": 90
+        },
+        {
+            "id": 249,
+            "vertical": false,
+            "secondContainerId": 90
         }
     ],
     "__by": "Id"

@@ -6,7 +6,7 @@ import {
     TitleBar,
 } from '../../../../../../../../components';
 
-import ACTIONS from '../../../ducks/actions';
+import { MERGE_CONTAINERS } from '../../../ducks/actions';
 import RecursiveElevation from '../../../../utils/recursive-elevation/elevation';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 
@@ -55,13 +55,13 @@ function EditLite({
                             </div>
                             {Object.entries(DIRECTIONS)
                                 .map(([key, direction]) => {
-                                    const canMerge = container._getCanMergeByDirection(...direction);
+                                    const canMerge = container.canMergeByDirection(...direction);
                                     return (
                                         <button
                                             key={direction.join('-')}
                                             className={`sidebar-button empty ${canMerge ? '' : 'disabled'}`}
                                             onClick={canMerge ?
-                                                () => updateElevation(ACTIONS.MERGE_CONTAINERS, {
+                                                () => updateElevation(MERGE_CONTAINERS, {
                                                     container,
                                                     direction,
                                                 })
