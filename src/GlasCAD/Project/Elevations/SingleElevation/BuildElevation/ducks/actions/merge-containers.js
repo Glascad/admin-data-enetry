@@ -16,8 +16,6 @@ export default function MERGE_CONTAINERS({
     ],
 }) {
 
-    console.log("MERGING CONTAINERS");
-
     const { FORWARD, BACKWARD, LEFT, RIGHT } = GET_RELATIVE_DIRECTIONS(direction);
 
     const [containerToMerge] = container.getImmediateContainersByDirection(...FORWARD);
@@ -46,6 +44,8 @@ export default function MERGE_CONTAINERS({
 
     const leftEndDetailToCheckAgainst = container.getFirstOrLastDetailByDirection(...LEFT, !first);
     const rightEndDetailToCheckAgainst = container.getFirstOrLastDetailByDirection(...RIGHT, !first);
+
+    // CHECK IF SHOULD DELETE
 
     const shouldDelete = ({
         id: detailId,

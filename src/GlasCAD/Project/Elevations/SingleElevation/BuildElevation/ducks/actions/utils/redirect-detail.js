@@ -83,29 +83,7 @@ export default function redirectDetail({
         [newKeyToAdd]: (newId || newFakeId),
     };
 
-    console.log({
-        detailId,
-        detailFakeId,
-        firstContainerId,
-        firstContainerFakeId,
-        secondContainerId,
-        secondContainerFakeId,
-        oldId,
-        oldFakeId,
-        newId,
-        newFakeId,
-        oldIdIsReal,
-        newIdIsReal,
-        oldIdIsFirst,
-        oldKeyToDelete,
-        newKeyToAdd,
-        previouslyUpdatedDetail,
-        updatedDetail,
-    });
-
-    const log = (a, b) => { console.log(a, b); return a; }
-
-    return log({
+    return {
         elevation: {
             ...elevationInput,
             details: previouslyUpdatedDetail ?
@@ -116,5 +94,5 @@ export default function redirectDetail({
                 :
                 details.concat(updatedDetail),
         },
-    }, arguments);
+    };
 }

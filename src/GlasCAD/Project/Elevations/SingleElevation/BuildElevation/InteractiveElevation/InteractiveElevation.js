@@ -1,6 +1,5 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 
-import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext } from '../TransformContext';
 
 import Container from './Container';
@@ -11,23 +10,6 @@ import DimensionButton from './DimensionButton';
 import './InteractiveElevation.scss';
 
 export default class InteractiveElevation extends Component {
-
-    static contextType = StaticContext;
-
-    InteractiveElevation = createRef();
-
-    componentDidMount = () => {
-        setTimeout(() => {
-            console.log(this.context.Viewport);
-            this.context.Viewport.current.style.paddingBottom = "0";
-            this.InteractiveElevation.current.style.height = `${
-                window.innerHeight
-                -
-                this.InteractiveElevation.current.offsetTop
-                -
-                24}px`;
-        });
-    }
 
     render = () => {
         const {
@@ -59,10 +41,7 @@ export default class InteractiveElevation extends Component {
                     watchMouseDown,
                     watchDimensionMouseDown,
                 }) => (
-                        <div
-                            id="InteractiveElevation"
-                            ref={this.InteractiveElevation}
-                        >
+                        <div id="InteractiveElevation">
                             <svg
                                 id="Elevation"
                                 width={rox + 20}

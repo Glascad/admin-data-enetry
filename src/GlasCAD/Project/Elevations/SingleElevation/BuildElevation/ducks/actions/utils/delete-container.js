@@ -13,13 +13,11 @@ export default function deleteContainer({
         },
     },
 }) {
-    const log = (a, b) => { console.log(a, b); return a; }
-
-    return log({
+    return {
         elevation: {
             ...elevationInput,
             containers: containers.filter(({ id, fakeId }) => (id || fakeId) !== (containerId || containerFakeId)),
             containerIdsToDelete: containerIdsToDelete.concat(containerId || []),
         },
-    }, arguments);
+    };
 }

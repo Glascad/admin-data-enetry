@@ -49,9 +49,7 @@ export default function mergeDLO({
         },
     };
 
-    const log = (a, b) => { console.log(a, b); return a; }
-
-    return log({
+    return {
         elevation: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
@@ -62,5 +60,5 @@ export default function mergeDLO({
                 :
                 containers.concat(updatedContainer),
         },
-    }, arguments);
+    };
 }

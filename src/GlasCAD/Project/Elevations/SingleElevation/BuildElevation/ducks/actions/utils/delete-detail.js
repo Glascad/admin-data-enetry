@@ -13,13 +13,11 @@ export default function deleteDetail({
         },
     },
 }) {
-    const log = (a, b) => { console.log(a, b); return a; }
-
-    return log({
+    return {
         elevation: {
             ...elevationInput,
             details: details.filter(({ id, fakeId }) => (id || fakeId) !== (detailId || detailFakeId)),
             detailIdsToDelete: detailIdsToDelete.concat(detailId || []),
         },
-    }, arguments);
+    };
 }
