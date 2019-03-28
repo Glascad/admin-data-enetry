@@ -20,12 +20,14 @@ export default class InteractiveElevation extends Component {
         setTimeout(() => {
             console.log(this.context.Viewport);
             this.context.Viewport.current.style.paddingBottom = "0";
+            this.context.Viewport.current.style.marginBottom = "0";
+            this.context.Viewport.current.style.overflowY = "hidden";
             this.InteractiveElevation.current.style.height = `${
                 window.innerHeight
                 -
                 this.InteractiveElevation.current.offsetTop
                 -
-                24}px`;
+                48}px`;
         });
     }
 
@@ -62,93 +64,58 @@ export default class InteractiveElevation extends Component {
                             id="InteractiveElevation"
                             ref={this.InteractiveElevation}
                         >
-                            <svg
-                                id="Elevation"
-                                width={rox + 20}
-                                height={roy + finishedFloorHeight + 20}
-                                viewBox={`-10 ${-finishedFloorHeight - 10} ${rox + 10} ${roy + 10}`}
-                                transform='scale(1, -1)'
+                            <div
+                                id="elevation-display"
+                                style={{
+                                    height: roy,
+                                    width: rox,
+                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scale}, ${scale})`,
+                                }}
                                 onMouseDown={watchMouseDown}
                             >
-                                <g
-                                    transform={`scale(${scale}, ${scale}) 
-                                        translate(${x}, ${-y})`}
-                                >
-                                    {/* ROUGH OPENING */}
-                                    {/* <rect
-                                        width={x}
-                                        height={y}
-                                        x={0}
-                                        y={finishedFloorHeight}
-                                        // fill="rgba(127, 191, 255, 0.25)"
-                                        fill="rgba(0, 0, 0, 0)"
-                                        stroke="black"
-                                    /> */}
-                                    {/* FINISHED FLOOR */}
-                                    <FinishedFloor
+                                {/* ROUGH OPENING */}
+                                {/* <div /> */}
+                                {/* CONTAINERS */}
+                                {placedContainers.map(container => (
+                                    <Container
+                                        key={container.refId}
+                                        container={container}
                                         finishedFloorHeight={finishedFloorHeight}
                                     />
-                                    {/* CONTAINERS */}
-                                    {placedContainers.map(container => (
-                                        <Container
-                                            key={container.refId}
-                                            container={container}
-                                            finishedFloorHeight={finishedFloorHeight}
+                                ))}
+                                {/* FRAMES */}
+                                {placedFrames.map(_frame => (
+                                    <Frame
+                                        key={_frame.refId}
+                                        _frame={_frame}
+                                        finishedFloorHeight={finishedFloorHeight}
+                                    />
+                                ))}
+                                {/* FINISHED FLOOR */}
+                                <FinishedFloor
+                                    finishedFloorHeight={finishedFloorHeight}
+                                />
+                                <div id="left-dimension-track">
+                                    {/* VERTICAL DIMENSIONS */}
+                                    {verticals.map(dimension => (
+                                        <DimensionButton
+                                            key={dimension.refId}
+                                            dimension={dimension}
+                                            vertical={true}
                                         />
                                     ))}
-                                    {/* FRAMES */}
-                                    {placedFrames.map(_frame => (
-                                        <Frame
-                                            key={_frame.refId}
-                                            _frame={_frame}
-                                            finishedFloorHeight={finishedFloorHeight}
+                                </div>
+                                <div id="bottom-dimension-track">
+                                    {/* HORIZONTAL DIMENSIONS */}
+                                    {horizontals.map(dimension => (
+                                        <DimensionButton
+                                            key={dimension.refId}
+                                            dimension={dimension}
+                                            vertical={false}
                                         />
                                     ))}
-                                    {/* </g> */}
-                                    {/* </svg> */}
-                                    {/* <svg
-                                id="VerticalDimensions"
-                                width={120}
-                                height={roy + finishedFloorHeight + 20}
-                                viewBox={`-10 ${-finishedFloorHeight - 10} 110 ${roy + 10}`}
-                                transform='scale(1, -1)'
-                                onMouseDown={watchMouseDown}
-                            > */}
-                                    <g
-                                        id="VerticalDimensions"
-                                    >
-                                        {/* VERTICAL DIMENSIONS */}
-                                        {verticals.map(dimension => (
-                                            <DimensionButton
-                                                key={dimension.refId}
-                                                dimension={dimension}
-                                                vertical={true}
-                                            />
-                                        ))}
-                                    </g>
-                                    {/* </svg> */}
-                                    {/* <svg
-                                id="HorizontalDimensions"
-                                width={rox + 20}
-                                height={120}
-                                viewBox={`-10 110 ${rox + 10} 110`}
-                                transform='scale(1, -1)'
-                                onMouseDown={watchMouseDown}
-                            > */}
-                                    <g
-                                        id="HorizontalDimensions"
-                                    >
-                                        {/* HORIZONTAL DIMENSIONS */}
-                                        {horizontals.map(dimension => (
-                                            <DimensionButton
-                                                key={dimension.refId}
-                                                dimension={dimension}
-                                                vertical={false}
-                                            />
-                                        ))}
-                                    </g>
-                                </g>
-                            </svg>
+                                </div>
+                            </div>
                         </div>
                     )}
             </TransformContext.Consumer>

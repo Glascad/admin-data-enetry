@@ -12,6 +12,10 @@ export default class TransformProvider extends Component {
             x: 0,
             y: 0,
         },
+        dimensionsTranslate: {
+            x: 0,
+            y: 0,
+        },
     };
 
     componentDidMount = () => {
@@ -153,6 +157,7 @@ export default class TransformProvider extends Component {
             state: {
                 scale,
                 translate,
+                dimensionsTranslate,
             },
             props: {
                 children,
@@ -164,6 +169,7 @@ export default class TransformProvider extends Component {
             resetTranslate,
             watchMouseDown,
             watchMouseUp,
+            watchDimensionMouseDown
         } = this;
 
         return (
@@ -171,6 +177,7 @@ export default class TransformProvider extends Component {
                 value={{
                     scale,
                     translate,
+                    dimensionsTranslate,
                     updateScale,
                     resetScale,
                     updateTranslateX,
@@ -178,6 +185,7 @@ export default class TransformProvider extends Component {
                     resetTranslate,
                     watchMouseDown,
                     watchMouseUp,
+                    watchDimensionMouseDown,
                 }}
             >
                 {children}

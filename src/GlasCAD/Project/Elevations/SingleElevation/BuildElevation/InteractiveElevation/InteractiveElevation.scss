@@ -3,26 +3,94 @@
 
 #InteractiveElevation {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fill;
     
-    #Elevation {
-        // height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
+    #elevation-display {
         // background: rgba(255, 0, 0, 0.1);
+
+        .Container {
+            position: absolute;
+            background: transparentize($light-blue, 0.75);
+
+            &.selected {
+                // background: $selected-color;
+                // color: $off-white;
+                // background: transparentize($selected-color, 0.33);
+                box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+                // z-index: 10;
+            }
+
+            .text {
+                margin: $x-small;
+            }
+        }
+
+        .Frame {
+            position: absolute;
+            background: $light-gray;
+
+            &.vertical {
+                background: $medium-gray;
+            }
+
+            &.selected {
+                background: $selected-color;
+            }
+        }
+
+        #finished-floor {
+            position: absolute;
+            background: $dark-gray;
+            left: -100px;
+            right: -100px;
+            height: 2px;
+        }
+    }
+
+    #left-dimension-track, #bottom-dimension-track {
+        
     }
     
-    #VerticalDimensions {
-
+    #left-dimension-track {
+   
     }
     
-    #HorizontalDimensions {
-
+    #bottom-dimension-track {
+   
     }
 
-    svg {
-        text {
-            pointer-events: none;
+    .DimensionButton {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        &.horizontal {
+            height: $x-large;
+            max-height: $x-large;
+            min-height: $x-large;
+            bottom: -$xxxxx-large;
+        }
+        
+        &.vertical {
+            width: $x-large;
+            max-width: $x-large;
+            min-width: $x-large;
+            left: -$xxxxx-large;
+            
+            span {
+                transform: translateX(2px) rotate(-90deg);
+            }
+        }
+
+        &.selected {
+            background: $selected-color;
+            color: $off-white;
         }
     }
 }

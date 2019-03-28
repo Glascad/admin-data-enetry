@@ -8,6 +8,9 @@ const detailsByContainerKey = 'details_by_container<first>';
 const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
 const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
+// REMOVE LATER
+var PROTECTION = Infinity;
+
 export default class RecursiveDetail {
     constructor(detail, elevation) {
         Object.assign(
@@ -41,6 +44,7 @@ export default class RecursiveDetail {
         );
     }
 
+    // REFERENCES
     get refId() { return `Detail-${this.id}`; }
     get ref() { return document.getElementById(this.refId); }
 
@@ -48,16 +52,18 @@ export default class RecursiveDetail {
     get frameRefId() { return this.frame.refId; }
     get frameRef() { return this.frame.ref; }
 
-    _getContainerByDirection = first => this.elevation.containers[
+    getContainerByDirection = first => this.elevation.containers[
         first ?
             this.firstContainerId || this.firstContainerFakeId
             :
             this.secondContainerId || this.secondContainerFakeId
     ];
 
-    get firstContainer() { return this._getContainerByDirection(true); }
-    get secondContainer() { return this._getContainerByDirection(false); }
+    get firstContainer() { return this.getContainerByDirection(true); }
+    get secondContainer() { return this.getContainerByDirection(false); }
+    get bothContainers() { return [this.firstContainer, this.secondContainer]; }
 
+    // OPTIONS / TYPES
     get detailType() {
         // determine detail type
         return this.__type || (
@@ -105,7 +111,7 @@ export default class RecursiveDetail {
         return this._detailOptionValues;
     }
 
-    _compareOtherDetail = detail => (
+    compareOtherDetail = detail => (
         this.detailType === detail.detailType
         &&
         this.appliedConfigurationTypes.every(act => detail.appliedConfigurationTypes.includes(act))
@@ -127,7 +133,7 @@ export default class RecursiveDetail {
                         { num, finished: true }
                         :
                         detail.detailType === this.detailType ?
-                            this._compareOtherDetail(detail) ?
+                            this.compareOtherDetail(detail) ?
                                 { num }
                                 :
                                 { num: num + 1 }
@@ -139,27 +145,28 @@ export default class RecursiveDetail {
         );
     }
 
-    _getDetailsByContainer = first => {
+    // NAVIGATION / RENDERING
+    getDetailsByContainer = first => {
         if (!this[detailsByContainerKey][first]) {
             const direction = [!this.vertical, first];
 
             const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
 
-            const container = this._getContainerByDirection(first);
+            const container = this.getContainerByDirection(first);
 
             this[detailsByContainerKey][first] = container ?
-                container._getDetailsByDirection(...BACKWARD)
+                container.getDetailsByDirection(...BACKWARD)
                 :
                 [];
         }
         return this[detailsByContainerKey][first];
     }
 
-    _getDetailsWithSharedContainersByContainerDirection = first => {
+    getDetailsWithSharedContainersByContainerDirection = first => {
         if (!this[detailsWithSharedContainersKey][first]) {
             const { vertical } = this;
 
-            const details = this._getDetailsByContainer(first);
+            const details = this.getDetailsByContainer(first);
 
             const {
                 0: firstDetail,
@@ -170,12 +177,12 @@ export default class RecursiveDetail {
                 !firstDetail || firstDetail === this ?
                     []
                     :
-                    firstDetail._getDetailsWithSharedContainersByContainerDirection(!first),
+                    firstDetail.getDetailsWithSharedContainersByContainerDirection(!first),
                 details,
                 !lastDetail || lastDetail === this ?
                     []
                     :
-                    lastDetail._getDetailsWithSharedContainersByContainerDirection(!first),
+                    lastDetail.getDetailsWithSharedContainersByContainerDirection(!first),
             ).sort(sortDetails(!vertical));
 
         }
@@ -184,15 +191,19 @@ export default class RecursiveDetail {
 
     get allDetailsWithSharedContainers() {
         return unique(
-            this._getDetailsWithSharedContainersByContainerDirection(true),
-            this._getDetailsWithSharedContainersByContainerDirection(false),
-        );
+            this.getDetailsWithSharedContainersByContainerDirection(true),
+            this.getDetailsWithSharedContainersByContainerDirection(false),
+        )
+            .sort(sortDetails(true))
+            .sort(sortDetails(false));
     }
 
     get runsAlongEdgeOfRoughOpening() {
-        return !this.firstContainer
+        return (
+            !this.firstContainer
             ||
-            !this.secondContainer;
+            !this.secondContainer
+        );
     }
 
     get shouldRunThroughPerpendiculars() {
@@ -210,9 +221,9 @@ export default class RecursiveDetail {
         return this.__shouldRunThroughPerpendiculars;
     }
 
-    _getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
-
-        if (!this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
+    getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
+        if ((--PROTECTION > 0) && !this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
+            // console.log(this.id, detailFirst, containerFirst);
             const { vertical } = this;
 
             const containerDirection = [!vertical, containerFirst];
@@ -228,18 +239,31 @@ export default class RecursiveDetail {
                 BACKWARD: dBACKWARD,
             } = GET_RELATIVE_DIRECTIONS(detailDirection);
 
-            const container = this._getContainerByDirection(containerFirst);
+            const container = this.getContainerByDirection(containerFirst);
 
-            const adjacentContainer = container && container._getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
+            const adjacentContainer = container
+                &&
+                container.getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
 
-            const sameContainer = adjacentContainer && adjacentContainer._getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
+            const sameContainer = adjacentContainer
+                &&
+                adjacentContainer.getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
 
             if (sameContainer && container === sameContainer) {
+                const detail = adjacentContainer.getFirstOrLastDetailByDirection(...cBACKWARD, !detailFirst);
 
-                const [detail] = adjacentContainer._getDetailsByDirection(...cBACKWARD);
+                // console.log(this.id, detailFirst, containerFirst, {
+                //     sameContainer,
+                //     container,
+                //     adjacentContainer,
+                //     detail,
+                //     cBACKWARD,
+                //     dFORWARD,
+                //     dBACKWARD,
+                // });
 
                 this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail ?
-                    detail._getMatchedDetailsByDirection(detailFirst)
+                    detail.getMatchedDetailsByDirection(detailFirst)
                     :
                     [];
             } else {
@@ -249,31 +273,44 @@ export default class RecursiveDetail {
         return this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst];
     }
 
-    _getDetailsAcrossPerpendicularsByDirection = detailFirst => unique(
-        this._getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true),
-        this._getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false),
+    getDetailsAcrossPerpendicularsByDirection = detailFirst => unique(
+        this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true),
+        this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false),
     );
 
-    get allDetailsAcrossPerpendiculars() {
-        return this.__allDetailsAcrossPerpendiculars || (
-            this.__allDetailsAcrossPerpendiculars = unique(
-                this._getDetailsAcrossPerpendicularsByDirection(true),
-                this._getDetailsAcrossPerpendicularsByDirection(false),
-            )
-        );
-    }
+    // get allDetailsAcrossPerpendiculars() {
+    //     return this.__allDetailsAcrossPerpendiculars || (
+    //         this.__allDetailsAcrossPerpendiculars = unique(
+    //             this.getDetailsAcrossPerpendicularsByDirection(true),
+    //             this.getDetailsAcrossPerpendicularsByDirection(false),
+    //         )
+    //     );
+    // }
 
-    _getMatchedDetailsByDirection = first => {
+    getMatchedDetailsByDirection = first => {
+        // console.log(this.id, first);
         const {
             shouldRunThroughPerpendiculars,
             allDetailsWithSharedContainers,
-            allDetailsWithSharedContainers: [detail],
+            allDetailsWithSharedContainers: {
+                length,
+            },
         } = this;
 
-        const detailsAcrossPerpendiculars = !shouldRunThroughPerpendiculars ?
-            []
+        const {
+            [first ? 0 : length - 1]: detail,
+        } = allDetailsWithSharedContainers;
+
+        // console.log("GETTING DETAILS ACROSS PERPENDICULAR");
+        // console.log("STARTING AT DETAIL: " + detail.id);
+        // console.log("GOING IN DIRECTION: " + first);
+
+        // console.log({ allDetailsWithSharedContainers, detail });
+
+        const detailsAcrossPerpendiculars = shouldRunThroughPerpendiculars ?
+            detail.getDetailsAcrossPerpendicularsByDirection(first)
             :
-            detail._getDetailsAcrossPerpendicularsByDirection(first);
+            [];
 
         return first ?
             unique(
@@ -289,13 +326,10 @@ export default class RecursiveDetail {
 
     get allMatchedDetails() {
         if (!this.__allMatchedDetails) {
-
-            const firstMatchedDetails = this._getMatchedDetailsByDirection(true);
-            const lastMatchedDetails = this._getMatchedDetailsByDirection(false);
-
+            // console.log("GETTING MATCHED DETAILS: " + this.id);
             this.__allMatchedDetails = unique(
-                firstMatchedDetails,
-                lastMatchedDetails,
+                this.getMatchedDetailsByDirection(true),
+                this.getMatchedDetailsByDirection(false),
             );
         }
         return this.__allMatchedDetails;

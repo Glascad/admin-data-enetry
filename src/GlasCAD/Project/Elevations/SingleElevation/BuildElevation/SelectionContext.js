@@ -71,7 +71,7 @@ export default class SelectionProvider extends Component {
                     const container = elevation.getItemByRefId(refId);
 
                     if (container) {
-                        const nextContainer = container._getFirstOrLastContainerByDirection(...direction, false);
+                        const nextContainer = container.getFirstOrLastContainerByDirection(...direction, false);
 
                         if (nextContainer) {
                             this.setState({

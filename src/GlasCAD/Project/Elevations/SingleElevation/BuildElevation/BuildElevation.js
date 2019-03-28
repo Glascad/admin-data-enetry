@@ -12,9 +12,10 @@ import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
-const defaultElevationUpdate = {
+import elevationJSON from './ducks/elevation.json';
+import validateElevation from './ducks/validate-elevation';
 
-};
+const defaultElevationUpdate = {};
 
 export default class BuildElevation extends Component {
 
@@ -28,11 +29,7 @@ export default class BuildElevation extends Component {
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
-    updateElevation = (ACTION, payload) => this.setState(state => ACTION(
-        this.props.queryStatus,
-        state,
-        payload,
-    ));
+    updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
 
     render = () => {
         const {
@@ -57,6 +54,8 @@ export default class BuildElevation extends Component {
             updateElevation,
         } = this;
 
+        // const rawElevation = elevationJSON;
+
         console.log({ rawElevation });
 
         console.log({ elevationInput });
@@ -64,6 +63,10 @@ export default class BuildElevation extends Component {
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         console.log({ mergedElevation });
+
+        validateElevation(mergedElevation);
+
+        console.log("SUCCESSFULLY MERGED ELEVATION INPUT");
 
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 

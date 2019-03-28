@@ -5,10 +5,11 @@ export default function FinishedFloor({
 }) {
     if (finishedFloorHeight < 1) return null;
     else return (
-        <path
-            d={`M-10000,${-finishedFloorHeight}L10000,${-finishedFloorHeight}`}
-            stroke="black"
-            strokeWidth={5}
+        <div
+            id="finished-floor"
+            style={{
+                bottom: -finishedFloorHeight,
+            }}
         />
     );
 }

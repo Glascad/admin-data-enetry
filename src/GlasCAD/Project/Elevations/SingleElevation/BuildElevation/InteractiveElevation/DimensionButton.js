@@ -11,18 +11,15 @@ export default function DimensionButton({
         offset,
     },
 }) {
-    // remember rotation
-
-    const placementX = offset;
-
-    const placementY = vertical ?
-        -50
+    const dimensionKey = vertical ?
+        'height'
         :
-        -100;
+        'width';
 
-    const placementHeight = 25;
-
-    const placementWidth = dimension;
+    const offsetKey = vertical ?
+        'bottom'
+        :
+        'left';
 
     return (
         <SelectionContext.Consumer>
@@ -35,50 +32,31 @@ export default function DimensionButton({
                 const isSelected = items.includes(refId);
 
                 return (
-                    <TransformContext.Consumer>
-                        {({
-                            translate: {
-                                x,
-                                y,
-                            },
-                        }) => (
-                                <g
-                                    transform={vertical ?
-                                        `rotate(90) translate(0, ${x})`
-                                        :
-                                        `translate(0, ${y})`}
-                                >
-                                    <rect
-                                        id={refId}
-                                        x={placementX}
-                                        y={placementY}
-                                        height={placementHeight}
-                                        width={placementWidth}
-                                        rx={2.5}
-                                        ry={2.5}
-                                        fill={isSelected ?
-                                            "#4A90E2"
-                                            :
-                                            "rgba(255, 255, 255, 0.1)"}
-                                        stroke={isSelected ?
-                                            "none"
-                                            :
-                                            "#CCCCCC"}
-                                        onClick={handleMouseDown}
-                                    />
-                                    <text
-                                        x={placementX + 7}
-                                        y={-(placementY + 7)}
-                                        transform='scale(1, -1)'
-                                        fill={isSelected ? 'white' : 'black'}
-                                        onClick={handleMouseDown}
-                                        cursor="default"
-                                    >
-                                        {dimension.toFixed(2).replace(/\.*0*$/, '')}
-                                    </text>
-                                </g>
-                            )}
-                    </TransformContext.Consumer>
+                    <button
+                        id={refId}
+                        className={`DimensionButton ${
+                            vertical ?
+                                'vertical'
+                                :
+                                'horizontal'
+                            } ${
+                            isSelected ?
+                                'selected'
+                                :
+                                ''
+                            }`}
+                        style={{
+                            [dimensionKey]: dimension,
+                            [`max-${dimensionKey}`]: dimension,
+                            [`min-${dimensionKey}`]: dimension,
+                            [offsetKey]: offset,
+                        }}
+                        onClick={handleMouseDown}
+                    >
+                        <span id={refId} >
+                            {dimension.toFixed(2).replace(/\.*0*$/, '')}
+                        </span>
+                    </button>
                 );
             }}
         </SelectionContext.Consumer>

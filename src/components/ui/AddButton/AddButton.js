@@ -78,7 +78,7 @@ export default class AddButton extends Component {
                         buttonProps={(onAdd ? [{
                             className: "no-class-name",
                             text,
-                            onClick: handleClick
+                            onClick: handleClick,
                         }] : [])
                             .concat(otherButtons
                                 .map(button => ({
