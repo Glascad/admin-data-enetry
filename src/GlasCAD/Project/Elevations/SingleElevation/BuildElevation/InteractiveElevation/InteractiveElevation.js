@@ -59,7 +59,6 @@ export default class InteractiveElevation extends Component {
                         y,
                     },
                     watchMouseDown,
-                    watchDimensionMouseDown,
                 }) => (
                         <div
                             id="InteractiveElevation"
@@ -75,15 +74,7 @@ export default class InteractiveElevation extends Component {
                                 onMouseDown={watchMouseDown}
                             >
                                 {/* ROUGH OPENING */}
-                                {/* <rect
-                                        width={x}
-                                        height={y}
-                                        x={0}
-                                        y={finishedFloorHeight}
-                                        // fill="rgba(127, 191, 255, 0.25)"
-                                        fill="rgba(0, 0, 0, 0)"
-                                        stroke="black"
-                                    /> */}
+                                {/* <div /> */}
                                 {/* CONTAINERS */}
                                 {placedContainers.map(container => (
                                     <Container
@@ -125,20 +116,6 @@ export default class InteractiveElevation extends Component {
                                     ))}
                                 </div>
                             </div>
-                            {/* <svg
-                                id="Elevation"
-                                // width={rox + 20}
-                                // height={roy + finishedFloorHeight + 20}
-                                // viewBox={`-10 ${-finishedFloorHeight - 10} ${rox + 10} ${roy + 10}`}
-                                // transform='scale(1, -1)'
-                                // onMouseDown={watchMouseDown}
-                            >
-                                <g
-                                    transform={`scale(${scale}, ${scale}) 
-                                        translate(${x}, ${-y})`}
-                                >
-                                </g>
-                            </svg> */}
                         </div>
                     )}
             </TransformContext.Consumer>

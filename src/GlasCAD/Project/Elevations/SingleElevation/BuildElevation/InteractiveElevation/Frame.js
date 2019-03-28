@@ -41,23 +41,6 @@ export default function Frame({
                         }}
                         onMouseDown={handleMouseDown}
                     />
-                    // <rect
-                    //     id={refId}
-                    //     x={x}
-                    //     y={y}
-                    //     height={height}
-                    //     width={width}
-                    //     fill={items.includes(refId) ?
-                    //         "#4A90E2"
-                    //         :
-                    //         `rgba(0, 0, 0, ${
-                    //         vertical ?
-                    //             0.45
-                    //             :
-                    //             0.25
-                    //         })`}
-                    //     onMouseDown={handleMouseDown}
-                    // />
                 )}
         </SelectionContext.Consumer>
     );

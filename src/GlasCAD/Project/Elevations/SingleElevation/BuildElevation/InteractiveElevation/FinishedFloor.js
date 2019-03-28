@@ -11,10 +11,5 @@ export default function FinishedFloor({
                 bottom: -finishedFloorHeight,
             }}
         />
-        // <path
-        //     d={`M-10000,${-finishedFloorHeight}L10000,${-finishedFloorHeight}`}
-        //     stroke="black"
-        //     strokeWidth={5}
-        // />
     );
 }

@@ -51,10 +51,7 @@
     }
 
     #left-dimension-track, #bottom-dimension-track {
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        // position: absolute;
+        
     }
     
     #left-dimension-track {
@@ -77,12 +74,14 @@
             height: $x-large;
             max-height: $x-large;
             min-height: $x-large;
+            bottom: -$xxxxx-large;
         }
         
         &.vertical {
             width: $x-large;
             max-width: $x-large;
             min-width: $x-large;
+            left: -$xxxxx-large;
             
             span {
                 transform: translateX(2px) rotate(-90deg);
@@ -94,10 +93,4 @@
             color: $off-white;
         }
     }
-
-    // svg {
-    //     text {
-    //         pointer-events: none;
-    //     }
-    // }
 }
