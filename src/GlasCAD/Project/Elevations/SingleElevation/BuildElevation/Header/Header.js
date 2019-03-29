@@ -19,6 +19,8 @@ export default function Header({
     path,
     search,
     name,
+    save,
+    history,
 }) {
     return (
         <TitleBar
@@ -69,22 +71,27 @@ export default function Header({
                             }`}
                     >
                         <button>
-                            Save and Exit
+                            Cancel
                         </button>
                     </Link>
-                    <Link
-                        to={`${
-                            path.replace(/elevation\/build-elevation/, 'all-elevations')
-                            }${
-                            search
-                            }`}
+                    <button
+                        onClick={async () => {
+                            const result = await save();
+                            history.push(`${
+                                path.replace(/elevation\/build-elevation/, 'all-elevations')
+                                }${
+                                search
+                                }`)
+                        }}
                     >
-                        <button
-                            className="action"
-                        >
-                            Save
-                        </button>
-                    </Link>
+                        Save and Exit
+                    </button>
+                    <button
+                        className="action"
+                        onClick={save}
+                    >
+                        Save
+                    </button>
                 </>
             )}
         />

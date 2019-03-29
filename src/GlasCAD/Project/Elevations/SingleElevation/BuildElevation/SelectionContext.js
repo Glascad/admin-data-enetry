@@ -11,7 +11,7 @@ const updateSidebarState = state => state;
 export default class SelectionProvider extends Component {
 
     state = {
-        sidebarState: sidebarStates.ZoomAndPan,
+        sidebarState: sidebarStates.EditLite,
         previousSidebarStates: [],
         sidebarOpen: true,
         selectedItems: [],
