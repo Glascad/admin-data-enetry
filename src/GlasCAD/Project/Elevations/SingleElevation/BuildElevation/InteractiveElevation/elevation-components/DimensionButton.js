@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { SelectionContext } from '../SelectionContext';
-import { TransformContext } from '../TransformContext';
+import { SelectionContext } from '../../SelectionContext';
+import { TransformContext } from '../../TransformContext';
 
 export default function DimensionButton({
     vertical,
@@ -12,9 +12,9 @@ export default function DimensionButton({
     },
 }) {
     const dimensionKey = vertical ?
-        'height'
+        'Height'
         :
-        'width';
+        'Width';
 
     const offsetKey = vertical ?
         'bottom'
@@ -46,9 +46,9 @@ export default function DimensionButton({
                                 ''
                             }`}
                         style={{
-                            [dimensionKey]: dimension,
-                            [`max-${dimensionKey}`]: dimension,
-                            [`min-${dimensionKey}`]: dimension,
+                            [dimensionKey.toLowerCase()]: dimension,
+                            [`max${dimensionKey}`]: dimension,
+                            [`min${dimensionKey}`]: dimension,
                             [offsetKey]: offset,
                         }}
                         onClick={handleMouseDown}

@@ -2,14 +2,16 @@ import React, { Component, createContext } from 'react';
 
 import sidebarStates from './RightSidebar/states';
 
-import { DIRECTIONS } from '../utils/recursive-elevation/directions';
+import { DIRECTIONS, getDirectionFromArrowKey } from '../utils/recursive-elevation/directions';
 
 export const SelectionContext = createContext();
+
+const updateSidebarState = state => state;
 
 export default class SelectionProvider extends Component {
 
     state = {
-        sidebarState: sidebarStates.ZoomAndPan,
+        sidebarState: sidebarStates.EditLite,
         previousSidebarStates: [],
         sidebarOpen: true,
         selectedItems: [],
@@ -18,54 +20,70 @@ export default class SelectionProvider extends Component {
     componentDidMount = () => {
         this.updateViewportWidth();
         window.addEventListener('keydown', this.escape);
-        window.addEventListener('keydown', this.watchSpaceKeyDown);
-        window.addEventListener('keydown', this.watchArrowKey);
-        window.addEventListener('keyup', this.watchSpaceKeyUp);
+        window.addEventListener('keydown', this.watchHotKeyDown);
+        window.addEventListener('keyup', this.watchHotKeyUp);
+        window.addEventListener('keydown', this.watchArrowKeyDown);
         // document.body.addEventListener('mousedown', this.cancelSelection);
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.escape);
-        window.removeEventListener('keydown', this.watchSpaceKeyDown);
-        window.removeEventListener('keydown', this.watchArrowKey);
-        window.removeEventListener('keyup', this.watchSpaceKeyUp);
+        window.removeEventListener('keydown', this.watchHotKeyDown);
+        window.removeEventListener('keyup', this.watchHotKeyUp);
+        window.removeEventListener('keydown', this.watchArrowKeyDown);
         // document.body.removeEventListener('mousedown', this.cancelSelection);
+    }
+
+    // setState = (arg, cb) => super.setState(
+    //     arg,
+    //     () => super.setState(
+    //         newState => updateSidebarState(newState),
+    //         cb));
+
+    setState = (arg, cb) => {
+        if (typeof arg !== 'function') {
+            console.error(arg)
+            throw new Error(`Please use functional setState() in <SelectionContext/>. Found type: ${typeof arg}`);
+        } else {
+            return super.setState(state => updateSidebarState(arg(state)), cb);
+        }
     }
 
     escape = ({ key }) => key === 'Escape' && this.toggleSidebar(false);
 
-    watchSpaceKeyDown = ({ key }) => key === ' ' && (this.spaceKey = true);
+    watchHotKeyDown = ({ key, ctrlKey, metaKey, shiftKey }) => {
+        if (key === ' ') this.spaceKey = true;
+        if (ctrlKey || metaKey) this.ctrlKey = true;
+        if (shiftKey) this.shiftKey = true;
+    }
 
-    watchSpaceKeyUp = ({ key }) => key === ' ' && (this.spaceKey = false);
+    watchHotKeyUp = ({ key, ctrlKey, metaKey, shiftKey }) => {
+        if (key === ' ') this.spaceKey = false;
+        if (!(ctrlKey || metaKey)) this.ctrlKey = false;
+        if (!shiftKey) this.shiftKey = false;
+    }
 
-    watchArrowKey = ({ key }) => {
+    watchArrowKeyDown = ({ key }) => {
         if (!this.spaceKey) {
             const {
                 state: {
+                    selectedItems,
                     selectedItems: {
-                        0: refId,
                         length,
                     },
                 },
                 props: {
                     elevation,
                 },
+                shiftKey,
             } = this;
 
-            if (length === 1
-                &&
-                refId.match(/Container/)
-            ) {
-                const direction = DIRECTIONS[
-                    key === "ArrowUp" ? "UP"
-                        :
-                        key === "ArrowDown" ? "DOWN"
-                            :
-                            key === "ArrowLeft" ? "LEFT"
-                                :
-                                key === "ArrowRight" ? "RIGHT"
-                                    :
-                                    ""];
+            const {
+                [length - 1]: refId = '',
+            } = selectedItems;
+
+            if (refId.match(/Container/)) {
+                const direction = getDirectionFromArrowKey(key);
 
                 if (direction) {
                     const container = elevation.getItemByRefId(refId);
@@ -74,9 +92,12 @@ export default class SelectionProvider extends Component {
                         const nextContainer = container.getFirstOrLastContainerByDirection(...direction, false);
 
                         if (nextContainer) {
-                            this.setState({
-                                selectedItems: [nextContainer.refId],
-                            });
+                            this.setState(({ selectedItems }) => ({
+                                selectedItems: shiftKey ?
+                                    selectedItems.concat(nextContainer.refId)
+                                    :
+                                    [nextContainer.refId],
+                            }));
                         }
                     }
                 }
@@ -101,35 +122,20 @@ export default class SelectionProvider extends Component {
                             selectedItems
                         :
                         [id],
-            }), () => this.state.selectedItems.length ?
-                this.setSidebarState(
-                    this.state.selectedItems[0].match(/Container/) ?
-                        this.state.selectedItems.length > 1 ?
-                            sidebarStates.EditMultipleLites
-                            :
-                            sidebarStates.EditLite
-                        :
-                        this.state.selectedItems[0].match(/Vertical/) ?
-                            sidebarStates.EditVertical
-                            :
-                            this.state.selectedItems[0].match(/Horizontal/) ?
-                                sidebarStates.EditHorizontal
-                                :
-                                sidebarStates.EditMultipleFrames
-                )
-                :
+            }), () => !this.state.selectedItems.length
+                &&
                 this.toggleSidebar(false)
             );
         }
     }
 
     toggleSidebar = sidebarOpen => {
-        this.setState({
+        this.setState(state => ({
             sidebarOpen: typeof sidebarOpen === 'boolean' ?
                 sidebarOpen
                 :
-                !this.state.sidebarOpen,
-        }, this.updateViewportWidth);
+                !state.sidebarOpen,
+        }), this.updateViewportWidth);
         this.updateSelectionAfterSidebarToggle();
     }
 

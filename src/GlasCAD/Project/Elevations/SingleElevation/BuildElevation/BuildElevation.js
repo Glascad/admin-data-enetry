@@ -14,6 +14,7 @@ import RightSidebar from './RightSidebar/RightSidebar';
 
 import elevationJSON from './ducks/elevation.json';
 import validateElevation from './ducks/validate-elevation';
+import { parseSearch } from '../../../../../utils';
 
 const defaultElevationUpdate = {};
 
@@ -31,12 +32,41 @@ export default class BuildElevation extends Component {
 
     updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
 
+    save = async () => {
+        const elevationInput = {
+            elevation: {
+                ...this.state.elevation,
+                id: +parseSearch(this.props.location.search).elevationId,
+                details: this.state.elevation.details
+                    .map(({
+                        _detailOptionValues,
+                        nodeId,
+                        __typename,
+                        ...detail
+                    }) => detail),
+                containers: this.state.elevation.containers
+                    .map(({
+                        nodeId,
+                        __typename,
+                        ...container
+                    }) => container),
+            },
+        };
+
+        const result = await this.props.mutations.updateEntireElevation(elevationInput);
+
+        this.setState({ elevation: defaultElevationUpdate });
+
+        return result;
+    }
+
     render = () => {
         const {
             state: {
                 elevation: elevationInput,
             },
             props: {
+                history,
                 location: {
                     search,
                 },
@@ -52,6 +82,7 @@ export default class BuildElevation extends Component {
                 },
             },
             updateElevation,
+            save,
         } = this;
 
         // const rawElevation = elevationJSON;
@@ -83,8 +114,9 @@ export default class BuildElevation extends Component {
                         name={name}
                         path={path}
                         search={search}
+                        history={history}
                         elevation={recursiveElevation}
-                        updateElevation={updateElevation}
+                        save={save}
                     />
                     <InteractiveElevation
                         elevation={recursiveElevation}

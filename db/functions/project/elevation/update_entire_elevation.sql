@@ -16,13 +16,7 @@ DECLARE
 BEGIN
     SELECT * FROM create_or_update_elevation(e) INTO ue;
 
-    -- CONTAINERS
-    DELETE FROM elevation_containers
-    WHERE elevation_id = e.id
-    AND id IN (
-        SELECT * FROM UNNEST (e.container_ids_to_delete)
-    );
-
+    -- CREATE OR UPDATE CONTAINERS
     IF e.containers IS NOT NULL
     THEN
         FOREACH ec IN ARRAY e.containers
@@ -32,36 +26,28 @@ BEGIN
         END LOOP;
     END IF;
 
-    -- DETAILS
+    -- DELETE DETAILS
     DELETE FROM container_details
     WHERE elevation_id = e.id
     AND id IN (
         SELECT * FROM UNNEST (e.detail_ids_to_delete)
     );
 
+    -- CREATE OR UPDATE DETAILS
     IF e.details IS NOT NULL
     THEN
         FOREACH cd IN ARRAY e.details
         LOOP
-            INSERT INTO container_details (
-                elevation_id,
-                first_container_id,
-                second_container_id,
-                vertical
-            ) VALUES (
-                ue.id,
-                CASE
-                    WHEN cd.first_container_id IS NOT NULL
-                        THEN cd.first_container_id
-                    ELSE get_real_id(id_pairs, cd.first_container_fake_id) END,
-                CASE
-                    WHEN cd.second_container_id IS NOT NULL
-                        THEN cd.second_container_id
-                    ELSE get_real_id(id_pairs, cd.second_container_fake_id) END,
-                cd.vertical
-            );
+            SELECT id FROM create_or_update_container_detail(cd, id_pairs, ue.id) INTO ___;
         END LOOP;
     END IF;
+
+    -- DELETE CONTAINERS
+    DELETE FROM elevation_containers
+    WHERE elevation_id = e.id
+    AND id IN (
+        SELECT * FROM UNNEST (e.container_ids_to_delete)
+    );
 
     RETURN QUERY SELECT * FROM (SELECT ue.*) ue;
 

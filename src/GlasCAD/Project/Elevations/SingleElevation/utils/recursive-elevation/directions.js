@@ -59,3 +59,14 @@ export const GET_RELATIVE_DIRECTIONS = ([vertical, first]) => ({
     ],
 });
 
+export const getDirectionFromArrowKey = key => DIRECTIONS[
+    key === "ArrowUp" ? "UP"
+        :
+        key === "ArrowDown" ? "DOWN"
+            :
+            key === "ArrowLeft" ? "LEFT"
+                :
+                key === "ArrowRight" ? "RIGHT"
+                    :
+                    ""];
+
