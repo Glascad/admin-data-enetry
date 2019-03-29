@@ -18,28 +18,36 @@ export default class InteractiveElevation extends Component {
 
     componentDidMount = () => {
         setTimeout(() => {
-            this.previousViewportStyles = {
-                paddingBottom: this.context.Viewport.current.style.paddingBottom,
-                marginBottom: this.context.Viewport.current.style.marginBottom,
-                overflowY: this.context.Viewport.current.style.overflowY,
-            };
-            console.log(this.context.Viewport);
-            this.context.Viewport.current.style.paddingBottom = "0";
-            this.context.Viewport.current.style.marginBottom = "0";
-            this.context.Viewport.current.style.overflowY = "hidden";
-            this.InteractiveElevation.current.style.height = `${
-                window.innerHeight
-                -
-                this.InteractiveElevation.current.offsetTop
-                -
-                48}px`;
+            try {
+                this.previousViewportStyles = {
+                    paddingBottom: this.context.Viewport.current.style.paddingBottom,
+                    marginBottom: this.context.Viewport.current.style.marginBottom,
+                    overflowY: this.context.Viewport.current.style.overflowY,
+                };
+                console.log(this.context.Viewport);
+                this.context.Viewport.current.style.paddingBottom = "0";
+                this.context.Viewport.current.style.marginBottom = "0";
+                this.context.Viewport.current.style.overflowY = "hidden";
+                this.InteractiveElevation.current.style.height = `${
+                    window.innerHeight
+                    -
+                    this.InteractiveElevation.current.offsetTop
+                    -
+                    48}px`;
+            } catch (err) {
+                console.error(err);
+            }
         });
     }
 
     componentWillUnmount = () => {
-        this.context.Viewport.current.style.paddingBottom = this.previousViewportStyles.paddingBottom;
-        this.context.Viewport.current.style.marginBottom = this.previousViewportStyles.marginBottom;
-        this.context.Viewport.current.style.overflowY = this.previousViewportStyles.overflowY;
+        try {
+            this.context.Viewport.current.style.paddingBottom = this.previousViewportStyles.paddingBottom;
+            this.context.Viewport.current.style.marginBottom = this.previousViewportStyles.marginBottom;
+            this.context.Viewport.current.style.overflowY = this.previousViewportStyles.overflowY;
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     render = () => {

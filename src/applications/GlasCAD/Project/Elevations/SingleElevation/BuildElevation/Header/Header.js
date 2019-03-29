@@ -13,8 +13,6 @@ import {
 
 import { SelectionContext } from '../contexts/SelectionContext';
 
-import sidebarStates from '../RightSidebar/states';
-
 const VISIBILITY_SETTINGS = "VISIBILITY_SETTINGS";
 
 export default function Header({

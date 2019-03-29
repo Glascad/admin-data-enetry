@@ -49,6 +49,29 @@ export default class SelectionProvider extends Component {
         // document.body.removeEventListener('mousedown', this.cancelSelection);
     }
 
+    componentDidUpdate = ({ elevation: oldElevation }) => {
+        const {
+            state: {
+                selectedItems,
+                selectedItems: {
+                    length,
+                },
+            },
+            props: {
+                elevation: newElevation,
+            },
+        } = this;
+
+        if (oldElevation !== newElevation && length) {
+            console.log("UPDATING SELECTION");
+            this.cancelSelection();
+            selectedItems.forEach(({ refId }) => {
+                const newItem = newElevation.getItemByRefId(refId);
+                this.selectItem(newItem);
+            });
+        }
+    }
+
     escape = ({ key }) => key === 'Escape' && this.cancelSelection();
 
     watchHotKeyDown = ({ key, ctrlKey, metaKey, shiftKey }) => {
@@ -118,9 +141,13 @@ export default class SelectionProvider extends Component {
                         :
                         // only allow selection of one class at a time
                         getSelectedClass(selectedItems[0]) === SelectedClass ?
-                            selectedItems.includes(item) && !doNotUnselect ?
-                                // remove/unselect an already-selected item
-                                selectedItems.filter(selectedItem => selectedItem !== item)
+                            selectedItems.includes(item) ?
+                                doNotUnselect ?
+                                    // leave as is if should not unselect
+                                    selectedItems
+                                    :
+                                    // remove/unselect an already-selected item
+                                    selectedItems.filter(selectedItem => selectedItem !== item)
                                 :
                                 // add/select an unselected item
                                 selectedItems.concat(item)
@@ -155,6 +182,12 @@ export default class SelectionProvider extends Component {
             unselectItem,
             cancelSelection,
         } = this;
+
+        console.log(this.state);
+        selectedItems.forEach(({ ref, refId }) => {
+            console.log(refId);
+            console.log(ref);
+        });
 
         return (
             <SelectionContext.Provider

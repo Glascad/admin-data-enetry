@@ -10,33 +10,38 @@ import { MERGE_CONTAINERS } from '../../../ducks/actions';
 import RecursiveElevation from '../../../../utils/recursive-elevation/elevation';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 
-import EditInfill from './EditInfill';
-import AddVertical from '../add/AddVertical';
-import AddHorizontal from '../add/AddHorizontal';
+// import EditInfill from './EditInfill';
+// import AddVertical from '../add/AddVertical';
+// import AddHorizontal from '../add/AddHorizontal';
 
 export default {
     name: "Edit Lite",
     component: EditLite,
 };
 
+const groups = [
+    {
+
+    },
+    {
+
+    }
+]
+
 function EditLite({
     elevation,
     updateElevation,
+    toggleView,
 }) {
     return (
         <SelectionContext.Consumer>
             {({
                 selection: {
-                    items: [
-                        refId,
-                    ],
+                    items: [container],
                 },
             }) => {
-                const container = elevation.getItemByRefId(refId);
-
                 if (!(container instanceof RecursiveElevation.RecursiveContainer)) return null;
-
-                return (
+                else return (
                     <>
                         <div className="sidebar-group">
                             <TitleBar
@@ -45,6 +50,7 @@ function EditLite({
                             <div className="sidebar-group">
                                 <button
                                     className="sidebar-button empty"
+                                    onClick={() => toggleView({ name: "Edit Infill", component: () => null })}
                                 >
                                     Edit Infill
                                 </button>
@@ -72,11 +78,13 @@ function EditLite({
                         <div className="sidebar-group">
                             <button
                                 className="sidebar-button empty"
-                            >
+                                onClick={() => toggleView({ name: "Add Vertical", component: () => null })}
+                                >
                                 Add Vertical
                             </button>
                             <button
                                 className="sidebar-button empty"
+                                onClick={() => toggleView({ name: "Add Horizontal", component: () => null })}
                             >
                                 Add Horizontal
                             </button>
