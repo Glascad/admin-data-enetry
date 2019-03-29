@@ -109,12 +109,8 @@ export default class SelectionProvider extends Component {
                     const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, false);
 
                     if (nextContainer) {
-                        this.setState(({ selectedItems }) => ({
-                            selectedItems: shiftKey ?
-                                selectedItems.concat(nextContainer)
-                                :
-                                [nextContainer],
-                        }));
+                        if (!this.shiftKey) this.cancelSelection();
+                        this.selectItem(nextContainer, true);
                     }
                 }
             }
@@ -127,6 +123,10 @@ export default class SelectionProvider extends Component {
             const SelectedClass = getSelectedClass(item);
 
             if (SelectedClass) {
+                console.log({
+                    SelectedClass,
+                    item,
+                });
                 this.setState(({ selectedItems }) => ({
                     // if item is a string, replace entire selection
                     // if selection is empty, initiate selection
@@ -143,15 +143,19 @@ export default class SelectionProvider extends Component {
                         getSelectedClass(selectedItems[0]) === SelectedClass ?
                             selectedItems.includes(item) ?
                                 doNotUnselect ?
-                                    // leave as is if should not unselect
+                                    // move item to end of array if should not unselect
                                     selectedItems
+                                        .filter(selectedItem => selectedItem !== item)
+                                        .concat(item)
                                     :
                                     // remove/unselect an already-selected item
-                                    selectedItems.filter(selectedItem => selectedItem !== item)
+                                    selectedItems
+                                        .filter(selectedItem => selectedItem !== item)
                                 :
                                 // add/select an unselected item
                                 selectedItems.concat(item)
                             :
+                            // only add items that arent already selected
                             selectedItems,
                 }));
             }
@@ -183,11 +187,7 @@ export default class SelectionProvider extends Component {
             cancelSelection,
         } = this;
 
-        console.log(this.state);
-        selectedItems.forEach(({ ref, refId }) => {
-            console.log(refId);
-            console.log(ref);
-        });
+        console.log(selectedItems.length);
 
         return (
             <SelectionContext.Provider
