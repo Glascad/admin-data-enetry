@@ -30,7 +30,7 @@
     // COMPONENTS
     .Pill,
     .ButtonTile,
-    .AddButton,
+    .CircleButton,
     .DeleteButton,
     .Toggle,
     .Dropdown,
@@ -42,7 +42,7 @@
     
     .Pill { @include label("Pill"); }
     .ButtonTile { @include label("ButtonTile"); }
-    .AddButton { @include label("AddButton"); }
+    .CircleButton { @include label("CircleButton"); }
     .DeleteButton { @include label("DeleteButton"); }
     .Toggle { @include label("Toggle"); }
     .Dropdown { @include label("Dropdown"); }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import './GroupingBox.scss';
 import { Toggle } from '../..';
-import AddButton from '../AddButton/AddButton';
+import CircleButton from '../CircleButton/CircleButton';
 
 GroupingBox.defaultProps = {
     className: "",
@@ -11,7 +11,7 @@ GroupingBox.defaultProps = {
 export default function GroupingBox({
     title,
     toggle,
-    addButton,
+    circleButton,
     children,
     className,
 }) {
@@ -28,10 +28,10 @@ export default function GroupingBox({
                         {...toggle}
                     />
                 </div>
-            ) : addButton ? (
+            ) : circleButton ? (
                 <div className="add-button-background">
-                    <AddButton
-                        {...addButton}
+                    <CircleButton
+                        {...circleButton}
                     />
                 </div>
             ) : null}

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
-import './AddButton.scss';
+import './CircleButton.scss';
 import ButtonTile from '../ButtonTile/ButtonTile';
 
-export default class AddButton extends Component {
+export default class CircleButton extends Component {
 
     // static propTypes = {
     //     type: PropTypes.oneOf([
     //         'small',
-    //         'large',
+    //         "tile",
     //         'input'
     //     ]),
     //     text: PropTypes.string,
     //     inputType: PropTypes.string,
-    //     onAdd: PropTypes.func.isRequired,
+    //     onClick: PropTypes.func.isRequired,
     //     onBlur: PropTypes.func,
     //     otherButtons: PropTypes.arrayOf(PropTypes.object)
     // };
@@ -21,6 +21,7 @@ export default class AddButton extends Component {
     static defaultProps = {
         text: "Create",
         type: "",
+        actionType: "",
         inputType: "",
         otherButtons: [],
     };
@@ -32,7 +33,7 @@ export default class AddButton extends Component {
     handleClick = e => this.props.type === "input" ?
         this.setState({ editing: true })
         :
-        this.props.onAdd(this.props);
+        this.props.onClick(this.props);
 
     render = () => {
         const {
@@ -42,18 +43,24 @@ export default class AddButton extends Component {
             props: {
                 text,
                 type,
+                actionType,
                 inputType,
                 otherButtons,
                 onBlur,
-                onAdd,
+                onClick,
+                className,
             },
             handleClick
         } = this;
 
         return (
             <div
-                className={`AddButton ${
-                    type
+                className={`CircleButton ${
+                    className
+                    } ${
+                    type ? `type-${type}` : ''
+                    } ${
+                    actionType ? `action-type-${actionType}` : ''
                     } ${
                     inputType ? `input-${inputType}` : ''
                     } ${
@@ -67,15 +74,15 @@ export default class AddButton extends Component {
                 onBlur={onBlur}
             >
                 <button
-                    className="add-button"
+                    className="circle-button"
                     onClick={handleClick}
                 >
-                    <div className="vertical-plus text-color" />
-                    <div className="horizontal-plus text-color" />
+                    <div className="block-one" />
+                    <div className="block-two" />
                 </button>
                 {otherButtons.length ? (
                     <ButtonTile
-                        buttonProps={(onAdd ? [{
+                        buttonProps={(onClick ? [{
                             className: "no-class-name",
                             text,
                             onClick: handleClick,

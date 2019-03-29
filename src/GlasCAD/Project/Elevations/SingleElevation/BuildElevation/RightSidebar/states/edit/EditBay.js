@@ -23,7 +23,7 @@ const editButtons = [
     EditInfill,
 ];
 
-const addButtons = [
+const circleButtons = [
     AddBay,
     AddColumn,
     AddHorizontal,
@@ -42,7 +42,7 @@ const roughOpeningButtons = [
 
 const allButtons = [
     editButtons,
-    addButtons,
+    circleButtons,
     roughOpeningButtons,
 ];
 
