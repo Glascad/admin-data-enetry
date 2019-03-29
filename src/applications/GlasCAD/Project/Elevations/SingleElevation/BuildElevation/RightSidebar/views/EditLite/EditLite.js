@@ -3,52 +3,51 @@ import React from 'react';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
-    TitleBar,
+    TitleBar, DoubleArrow,
 } from '../../../../../../../../../components';
 
 import { MERGE_CONTAINERS } from '../../../ducks/actions';
 import RecursiveElevation from '../../../../utils/recursive-elevation/elevation';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
+import SidebarLink from '../../components/SidebarLink';
 
-import EditInfill from './EditInfill';
-import AddVertical from '../add/AddVertical';
-import AddHorizontal from '../add/AddHorizontal';
+// import EditInfill from './EditInfill';
+// import AddVertical from '../add/AddVertical';
+// import AddHorizontal from '../add/AddHorizontal';
 
 export default {
     name: "Edit Lite",
     component: EditLite,
 };
 
+const groups = [
+    {
+
+    },
+    {
+
+    }
+]
+
 function EditLite({
     elevation,
     updateElevation,
+    toggleView,
 }) {
     return (
         <SelectionContext.Consumer>
             {({
                 selection: {
-                    items: [
-                        refId,
-                    ],
+                    items: [container],
                 },
             }) => {
-                const container = elevation.getItemByRefId(refId);
-
                 if (!(container instanceof RecursiveElevation.RecursiveContainer)) return null;
-
-                return (
+                else return (
                     <>
                         <div className="sidebar-group">
                             <TitleBar
                                 title="Edit Lite"
                             />
-                            <div className="sidebar-group">
-                                <button
-                                    className="sidebar-button empty"
-                                >
-                                    Edit Infill
-                                </button>
-                            </div>
                             {Object.entries(DIRECTIONS)
                                 .map(([key, direction]) => {
                                     const canMerge = container.canMergeByDirection(...direction);
@@ -70,16 +69,20 @@ function EditLite({
                                 })}
                         </div>
                         <div className="sidebar-group">
-                            <button
-                                className="sidebar-button empty"
-                            >
-                                Add Vertical
-                            </button>
-                            <button
-                                className="sidebar-button empty"
-                            >
-                                Add Horizontal
-                            </button>
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Edit Infill", component: () => null }}
+                            />
+                        </div>
+                        <div className="sidebar-group">
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Add Vertical", component: () => null }}
+                            />
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Add Horizontal", component: () => null }}
+                            />
                         </div>
                     </>
                 );

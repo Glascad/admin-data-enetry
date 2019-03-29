@@ -49,6 +49,29 @@ export default class SelectionProvider extends Component {
         // document.body.removeEventListener('mousedown', this.cancelSelection);
     }
 
+    componentDidUpdate = ({ elevation: oldElevation }) => {
+        const {
+            state: {
+                selectedItems,
+                selectedItems: {
+                    length,
+                },
+            },
+            props: {
+                elevation: newElevation,
+            },
+        } = this;
+
+        if (oldElevation !== newElevation && length) {
+            this.cancelSelection();
+            
+            selectedItems.forEach(({ refId }) => {
+                const newItem = newElevation.getItemByRefId(refId);
+                this.selectItem(newItem);
+            });
+        }
+    }
+
     escape = ({ key }) => key === 'Escape' && this.cancelSelection();
 
     watchHotKeyDown = ({ key, ctrlKey, metaKey, shiftKey }) => {
@@ -83,15 +106,12 @@ export default class SelectionProvider extends Component {
                 const direction = getDirectionFromArrowKey(key);
 
                 if (direction) {
-                    const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, false);
+                    const [vertical, first] = direction;
+                    const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
                     if (nextContainer) {
-                        this.setState(({ selectedItems }) => ({
-                            selectedItems: shiftKey ?
-                                selectedItems.concat(nextContainer)
-                                :
-                                [nextContainer],
-                        }));
+                        if (!shiftKey) this.cancelSelection();
+                        this.selectItem(nextContainer, true);
                     }
                 }
             }
@@ -118,13 +138,21 @@ export default class SelectionProvider extends Component {
                         :
                         // only allow selection of one class at a time
                         getSelectedClass(selectedItems[0]) === SelectedClass ?
-                            selectedItems.includes(item) && !doNotUnselect ?
-                                // remove/unselect an already-selected item
-                                selectedItems.filter(selectedItem => selectedItem !== item)
+                            selectedItems.includes(item) ?
+                                doNotUnselect ?
+                                    // move item to end of array if should not unselect
+                                    selectedItems
+                                        .filter(selectedItem => selectedItem !== item)
+                                        .concat(item)
+                                    :
+                                    // remove/unselect an already-selected item
+                                    selectedItems
+                                        .filter(selectedItem => selectedItem !== item)
                                 :
                                 // add/select an unselected item
                                 selectedItems.concat(item)
                             :
+                            // only add items that arent already selected
                             selectedItems,
                 }));
             }
