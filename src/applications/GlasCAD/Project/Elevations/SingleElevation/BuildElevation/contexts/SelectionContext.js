@@ -106,7 +106,8 @@ export default class SelectionProvider extends Component {
                 const direction = getDirectionFromArrowKey(key);
 
                 if (direction) {
-                    const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, false);
+                    const [vertical, first] = direction;
+                    const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
                     if (nextContainer) {
                         if (!this.shiftKey) this.cancelSelection();
