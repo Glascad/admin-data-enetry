@@ -1,0 +1,105 @@
+
+@import '../../../../../../../styles/variables';
+
+/*
+Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
+*/
+
+#RightSidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $right-sidebar-width;
+    padding: $x-large;
+    background: $dark-blue;
+    box-shadow: -2px 0 $xx-small rgba(74,74,74,.8);
+
+    &.closed {
+        display: none;
+    }
+
+    > * {
+        margin-bottom: $x-large;
+    }
+
+    .TitleBar {
+        color: $off-white;
+        border-bottom: 1px solid $medium-gray;
+        // padding-left: $small;
+        padding-bottom: $small;
+        margin-top: $xx-large;
+    }
+
+    .sidebar-group {
+        position: relative;
+        // border-bottom: 1px solid $medium-gray;
+        padding-bottom: $x-large;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            border-bottom: 1px solid $medium-gray;
+        }
+
+        > * {
+            &:not(:last-child) {
+                margin-bottom: $x-large;
+            }
+        }
+    }
+
+    .bottom-buttons {
+        .sidebar-button {
+            width: calc((100% - #{$small * 2}) / 3) !important;
+            max-width: calc((100% - #{$small * 2}) / 3) !important;
+            min-width: calc((100% - #{$small * 2}) / 3) !important;
+        }
+    }
+
+    .sidebar-button {
+        width: 100%;
+        
+        + .sidebar-button {
+            margin-left: 0;
+        }
+
+        &.empty {
+            color: $off-white;
+        }
+        
+        &.action {
+            @include hoverable-background($action-color, false);
+            font-weight: bold;
+        }
+        
+        &.primary {
+            @include hoverable-background($selected-color, false);
+            border: none;
+            color: $off-white;
+            font-weight: bold;
+        }
+
+        &.danger {
+            @include hoverable-background($danger-color, false);
+        }
+        
+        &:hover {
+            color: $dark-gray;
+        }
+        
+        &.disabled {
+            background: none;
+            
+            &:hover {
+                background: none;
+                color: $off-white;
+                font-weight: normal;
+                cursor: default;
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+
+@import '../../../../../styles/variables';
+
+#Linetypes {
+    .pattern {
+        display: flex;
+
+        ul {
+            align-items: flex-end;
+        }
+    }
+}
