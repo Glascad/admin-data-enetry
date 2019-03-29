@@ -59,9 +59,9 @@ export default function InvalidCombinations({
                 onDelete={({ arguments: { nodeId } }) => deleteOptionCombination({
                     nodeId,
                 })}
-                addButton={{
-                    type: "large",
-                    onAdd: () => createOptionCombination({ systemId }),
+                circleButton={{
+                    type: "tile",
+                    onClick: () => createOptionCombination({ systemId }),
                 }}
             >
                 {({

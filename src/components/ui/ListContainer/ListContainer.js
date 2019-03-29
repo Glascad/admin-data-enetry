@@ -35,7 +35,7 @@ export default class ListContainer extends Component {
     //     renderItem: PropTypes.func.isRequired,
     //     creating: PropTypes.bool,
     //     createItem: PropTypes.any,
-    //     addButton: PropTypes.object,
+    //     circleButton: PropTypes.object,
     //     filter: PropTypes.func,
     //     sort: PropTypes.func,
     // };

@@ -5,7 +5,7 @@ import Pill from '../Pill/Pill';
 import MultiSelect from '../MultiSelect/MultiSelect';
 import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
-import AddButton from '../AddButton/AddButton';
+import CircleButton from '../CircleButton/CircleButton';
 
 import './ListWrapper.scss';
 
@@ -78,7 +78,7 @@ class List extends Component {
                 items,
                 defaultPillProps,
                 mapPillProps,
-                addButton,
+                circleButton,
                 onDisabledSelect,
                 onCreate,
                 onFinish,
@@ -188,10 +188,12 @@ class List extends Component {
                             onEdit={onCreate}
                             onBlur={cancel}
                         />
-                    ) : (onCreate || onFinish || multiSelect || addButton) && !creating ? (
-                        <AddButton
-                            {...addButton}
-                            onAdd={onCreate || onFinish ?
+                    ) : (onCreate || onFinish || multiSelect || circleButton) && !creating ? (
+                        <CircleButton
+                            {...circleButton}
+                            actionType="add"
+                            className="action"
+                            onClick={onCreate || onFinish ?
                                 handleCreateClick
                                 :
                                 undefined}

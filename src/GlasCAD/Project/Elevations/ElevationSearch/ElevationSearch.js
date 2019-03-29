@@ -50,8 +50,8 @@ export default function ElevationSearch({
                     ]
                 })}
                 onDelete={() => { }}
-                addButton={{
-                    type: "large",
+                circleButton={{
+                    type: "tile",
                     otherButtons: [
                         {
                             children: (

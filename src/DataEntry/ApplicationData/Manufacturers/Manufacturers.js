@@ -47,8 +47,8 @@ export default function Manufacturers() {
                             deleteModal={{
                                 name: "Manufacturer"
                             }}
-                            addButton={{
-                                type: "large"
+                            circleButton={{
+                                type: "tile"
                             }}
                         />
                     </div>

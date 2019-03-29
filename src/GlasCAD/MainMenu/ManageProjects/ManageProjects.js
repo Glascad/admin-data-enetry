@@ -61,8 +61,8 @@ export default function ManageProjects({
                                 name: input,
                             })}
                             onDelete={() => console.log("Cannot delete!")}
-                            addButton={{
-                                type: "large",
+                            circleButton={{
+                                type: "tile",
                             }}
                         />
                     </div>

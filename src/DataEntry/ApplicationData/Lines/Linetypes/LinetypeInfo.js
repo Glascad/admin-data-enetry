@@ -155,8 +155,8 @@ export default class LinetypeInfo extends Component {
                             onKeyDown={blurOnEnter}
                         />
                     ))}
-                    addButton={{
-                        onAdd: handleAddPatternSet,
+                    circleButton={{
+                        onClick: handleAddPatternSet,
                     }}
                 />
                 <svg

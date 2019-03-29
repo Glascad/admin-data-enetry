@@ -26,6 +26,7 @@ import {
     defaultHorizontal,
     defaultElevationInput,
 } from './elevation-input';
+import CircleButton from '../../../../../components/ui/CircleButton/CircleButton';
 
 export default class CreateElevation extends Component {
 
@@ -243,8 +244,10 @@ export default class CreateElevation extends Component {
                                 />
                                 <GroupingBox
                                     title="Horizontals"
-                                    addButton={{
-                                        onAdd: () => updateElevation({
+                                    circleButton={{
+                                        actionType: "add",
+                                        className: "action",
+                                        onClick: () => updateElevation({
                                             horizontals: horizontals.concat(defaultHorizontal),
                                         }),
                                     }}
@@ -303,14 +306,15 @@ export default class CreateElevation extends Component {
                                                             }),
                                                         })}
                                                     />
-                                                    <button
+                                                    <CircleButton
+                                                        actionType="delete"
                                                         className="danger"
                                                         onClick={() => updateElevation({
                                                             horizontals: horizontals.filter((_, j) => j !== i),
                                                         })}
                                                     >
                                                         Delete
-                                                </button>
+                                                    </CircleButton>
                                                 </div>
                                             )) : (
                                             <div>
