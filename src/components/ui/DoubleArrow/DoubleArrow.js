@@ -6,16 +6,20 @@ DoubleArrow.defaultProps = {
 };
 
 export default function DoubleArrow({
-    className,
+    className = '',
+    tagname = "button",
     ...props
 }) {
+    const tag = {
+        name: tagname,
+    };
     return (
-        <button
+        <tag.name
             className={`DoubleArrow ${className}`}
             {...props}
         >
             <div className="arrow" />
             <div className="arrow" />
-        </button>
+        </tag.name>
     );
 }

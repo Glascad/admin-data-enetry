@@ -80,11 +80,26 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
             @include hoverable-background($danger-color, false);
         }
 
-        .DoubleArrow {
+        .icon {
             position: absolute;
             top: 50%;
-            left: $x-small;
+            left: $small;
             transform: translateY(-50%);
+
+            &.after {
+                left: unset;
+                right: $small;
+
+                &.DoubleArrow {
+                    .arrow {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            &.DoubleArrow {
+                transform: translateY(-50%) scale(0.8);
+            }
         }
         
         &:hover {

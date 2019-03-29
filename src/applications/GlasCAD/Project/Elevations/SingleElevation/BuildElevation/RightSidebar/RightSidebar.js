@@ -40,6 +40,8 @@ export default class RightSidebar extends Component {
         stackedView: undefined,
     };
 
+    previousSelection = {};
+
     toggleView = view => this.setState({
         stackedView: view,
     });
@@ -57,6 +59,7 @@ export default class RightSidebar extends Component {
                 elevation,
                 updateElevation,
             },
+            previousSelection,
             toggleView,
         } = this;
 
@@ -65,6 +68,7 @@ export default class RightSidebar extends Component {
                 {({
                     selection,
                     selection: {
+                        items,
                         items: {
                             length,
                         },
@@ -73,21 +77,29 @@ export default class RightSidebar extends Component {
                 }) => {
 
                     const {
+                        [length - 1]: lastItem,
+                    } = items;
+
+                    this.previousSelection = lastItem;
+
+                    const {
                         name,
                         component: Child,
                     } = getSidebarViewFromSelection(selection);
 
-                    const nameToRender = stackedView ?
+                    const shouldRenderStackedView = stackedView && previousSelection === lastItem;
+
+                    const nameToRender = shouldRenderStackedView ?
                         stackedName
                         :
                         name;
 
-                    const handleClick = stackedView ?
+                    const handleClick = shouldRenderStackedView ?
                         () => toggleView()
                         :
                         cancelSelection;
 
-                    const ChildToRender = stackedView ?
+                    const ChildToRender = shouldRenderStackedView ?
                         StackedChild
                         :
                         Child;
@@ -99,7 +111,10 @@ export default class RightSidebar extends Component {
                                 onClick={handleClick}
                             >
                                 {stackedView ? (
-                                    <DoubleArrow />
+                                    <DoubleArrow
+                                        className="icon"
+                                        tagname="div"
+                                    />
                                 ) : null}
                                 <span>
                                     Close {nameToRender}

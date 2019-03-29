@@ -3,12 +3,13 @@ import React from 'react';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
-    TitleBar,
+    TitleBar, DoubleArrow,
 } from '../../../../../../../../../components';
 
 import { MERGE_CONTAINERS } from '../../../ducks/actions';
 import RecursiveElevation from '../../../../utils/recursive-elevation/elevation';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
+import SidebarLink from '../../components/SidebarLink';
 
 // import EditInfill from './EditInfill';
 // import AddVertical from '../add/AddVertical';
@@ -47,14 +48,6 @@ function EditLite({
                             <TitleBar
                                 title="Edit Lite"
                             />
-                            <div className="sidebar-group">
-                                <button
-                                    className="sidebar-button empty"
-                                    onClick={() => toggleView({ name: "Edit Infill", component: () => null })}
-                                >
-                                    Edit Infill
-                                </button>
-                            </div>
                             {Object.entries(DIRECTIONS)
                                 .map(([key, direction]) => {
                                     const canMerge = container.canMergeByDirection(...direction);
@@ -76,18 +69,20 @@ function EditLite({
                                 })}
                         </div>
                         <div className="sidebar-group">
-                            <button
-                                className="sidebar-button empty"
-                                onClick={() => toggleView({ name: "Add Vertical", component: () => null })}
-                                >
-                                Add Vertical
-                            </button>
-                            <button
-                                className="sidebar-button empty"
-                                onClick={() => toggleView({ name: "Add Horizontal", component: () => null })}
-                            >
-                                Add Horizontal
-                            </button>
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Edit Infill", component: () => null }}
+                            />
+                        </div>
+                        <div className="sidebar-group">
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Add Vertical", component: () => null }}
+                            />
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Add Horizontal", component: () => null }}
+                            />
                         </div>
                     </>
                 );

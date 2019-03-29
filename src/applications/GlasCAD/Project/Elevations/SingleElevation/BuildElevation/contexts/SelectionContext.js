@@ -63,8 +63,8 @@ export default class SelectionProvider extends Component {
         } = this;
 
         if (oldElevation !== newElevation && length) {
-            console.log("UPDATING SELECTION");
             this.cancelSelection();
+            
             selectedItems.forEach(({ refId }) => {
                 const newItem = newElevation.getItemByRefId(refId);
                 this.selectItem(newItem);
@@ -110,7 +110,7 @@ export default class SelectionProvider extends Component {
                     const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
                     if (nextContainer) {
-                        if (!this.shiftKey) this.cancelSelection();
+                        if (!shiftKey) this.cancelSelection();
                         this.selectItem(nextContainer, true);
                     }
                 }
@@ -124,10 +124,6 @@ export default class SelectionProvider extends Component {
             const SelectedClass = getSelectedClass(item);
 
             if (SelectedClass) {
-                console.log({
-                    SelectedClass,
-                    item,
-                });
                 this.setState(({ selectedItems }) => ({
                     // if item is a string, replace entire selection
                     // if selection is empty, initiate selection
@@ -187,8 +183,6 @@ export default class SelectionProvider extends Component {
             unselectItem,
             cancelSelection,
         } = this;
-
-        console.log(selectedItems.length);
 
         return (
             <SelectionContext.Provider
