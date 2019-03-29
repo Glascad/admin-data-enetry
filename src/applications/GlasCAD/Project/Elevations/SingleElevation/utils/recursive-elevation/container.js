@@ -62,6 +62,8 @@ export default class RecursiveContainer {
         );
     }
 
+    class = RecursiveContainer;
+
     // REFERENCES
     get refId() { return `Container-${this.id}`; }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectionContext } from '../../../SelectionContext';
+import { SelectionContext } from '../../../contexts/SelectionContext';
 import { TitleBar } from '../../../../../../../../../components';
 
 export default {

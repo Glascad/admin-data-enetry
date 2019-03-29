@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { SelectionContext } from '../../SelectionContext';
-import { TransformContext } from '../../TransformContext';
+import { SelectionContext } from '../../contexts/SelectionContext';
+import { TransformContext } from '../../contexts/TransformContext';
 
 export default function DimensionButton({
-    vertical,
     dimension: {
         refId,
+        vertical,
+        containers,
         dimension,
         offset,
     },
@@ -26,10 +27,11 @@ export default function DimensionButton({
             {({
                 selection: {
                     items,
-                    handleMouseDown,
+                    selectItem,
+                    unselectItem,
                 },
             }) => {
-                const isSelected = items.includes(refId);
+                const isSelected = items.some(item => containers.includes(item));
 
                 return (
                     <button
@@ -51,7 +53,10 @@ export default function DimensionButton({
                             [`min${dimensionKey}`]: dimension,
                             [offsetKey]: offset,
                         }}
-                        onClick={handleMouseDown}
+                        onClick={() => containers.every(container => items.includes(container)) ?
+                            containers.forEach(container => unselectItem(container))
+                            :
+                            containers.forEach(container => selectItem(container, true))}
                     >
                         <span id={refId} >
                             {dimension.toFixed(2).replace(/\.*0*$/, '')}

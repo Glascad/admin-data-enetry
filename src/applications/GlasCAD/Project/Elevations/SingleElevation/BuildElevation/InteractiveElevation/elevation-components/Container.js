@@ -1,14 +1,18 @@
 import React from 'react';
 
-import { SelectionContext } from '../../SelectionContext';
+import { SelectionContext } from '../../contexts/SelectionContext';
 
 export default function Container({
+    container,
     container: {
-        x,
-        y,
-        height,
-        width,
         refId,
+        class: RecursiveContainer,
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        }
     },
     tabIndex,
 }) {
@@ -17,23 +21,27 @@ export default function Container({
             {({
                 selection: {
                     items,
-                    handleMouseDown,
+                    items: {
+                        0: firstItem,
+                        length,
+                    },
+                    selectItem,
                 },
             }) => (
                     <div
                         id={refId}
                         className={`Container ${
-                            items.includes(refId) ?
+                            items.includes(container) ?
                                 'selected'
                                 :
                                 ''
                             } ${
-                            items[items.length - 1] === refId ?
+                            items[length - 1] === container ?
                                 'last-selected'
                                 :
                                 ''
                             } ${
-                            !items.length || items[0].match(/Container/) ?
+                            !length || (firstItem.class === RecursiveContainer) ?
                                 'selectable'
                                 :
                                 ''
@@ -44,13 +52,10 @@ export default function Container({
                             height,
                             width,
                         }}
-                        onMouseDown={handleMouseDown}
+                        onClick={() => selectItem(container)}
                         tabIndex={tabIndex}
                     >
-                        <div
-                            id={refId}
-                            className="text"
-                        >
+                        <div className="text">
                             {refId.replace(/\D*/, '*')}
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SelectionContext } from '../SelectionContext';
+import { SelectionContext } from '../contexts/SelectionContext';
 
 import './RightSidebar.scss';
 
@@ -11,26 +11,24 @@ export default function RightSidebar({
     return (
         <SelectionContext.Consumer>
             {({
-                sidebar: {
-                    open,
-                    toggle,
-                    state: {
-                        name = '',
-                        component: Children = () => null,
-                    } = {},
+                selection: {
+                    items,
+                    items: {
+                        0: selectedItem,
+                        length,
+                    },
+                    cancelSelection,
+                    selectableClasses,
+                    getSelectableClass,
                 },
             }) => (
-                    <div id="RightSidebar" className={open ? "" : "closed"}>
+                    <div id="RightSidebar" className={selectedItem ? "" : "closed"}>
                         <button
                             className="sidebar-button primary"
-                            onClick={toggle}
+                            onClick={cancelSelection}
                         >
-                            Close {name}
+                            Close
                         </button>
-                        <Children
-                            elevation={elevation}
-                            updateElevation={updateElevation}
-                        />
                     </div>
                 )}
         </SelectionContext.Consumer>

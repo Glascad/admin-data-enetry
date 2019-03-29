@@ -11,9 +11,11 @@ import {
     Hamburger,
 } from '../../../../../../../assets/icons';
 
-import { SelectionContext } from '../SelectionContext';
+import { SelectionContext } from '../contexts/SelectionContext';
 
 import sidebarStates from '../RightSidebar/states';
+
+const VISIBILITY_SETTINGS = "VISIBILITY_SETTINGS";
 
 export default function Header({
     path,
@@ -42,20 +44,21 @@ export default function Header({
                     </Link>
                     <SelectionContext.Consumer>
                         {({
-                            sidebar: {
-                                state,
-                                open,
-                                toggle,
-                                setState,
+                            selection: {
+                                items: [
+                                    selectedItem,
+                                ],
+                                selectItem,
+                                cancelSelection
                             },
                         }) => (
                                 <Input
                                     Icon={Hamburger}
-                                    checked={open && state === sidebarStates.VisibilitySettings}
-                                    onChange={open && state === sidebarStates.VisibilitySettings ?
-                                        toggle
+                                    checked={selectedItem === VISIBILITY_SETTINGS}
+                                    onChange={selectedItem === VISIBILITY_SETTINGS ?
+                                        cancelSelection
                                         :
-                                        () => setState(sidebarStates.VisibilitySettings, true)}
+                                        () => selectItem(VISIBILITY_SETTINGS)}
                                 />
                             )}
                     </SelectionContext.Consumer>

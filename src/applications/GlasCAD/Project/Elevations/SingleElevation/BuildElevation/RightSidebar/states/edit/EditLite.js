@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SelectionContext } from '../../../SelectionContext';
+import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
     TitleBar,
@@ -31,9 +31,6 @@ function EditLite({
                         refId,
                     ],
                 },
-                sidebar: {
-                    setState,
-                },
             }) => {
                 const container = elevation.getItemByRefId(refId);
 
@@ -48,7 +45,6 @@ function EditLite({
                             <div className="sidebar-group">
                                 <button
                                     className="sidebar-button empty"
-                                    onClick={() => setState(EditInfill)}
                                 >
                                     Edit Infill
                                 </button>
@@ -76,13 +72,11 @@ function EditLite({
                         <div className="sidebar-group">
                             <button
                                 className="sidebar-button empty"
-                                onClick={() => setState(AddVertical)}
                             >
                                 Add Vertical
                             </button>
                             <button
                                 className="sidebar-button empty"
-                                onClick={() => setState(AddHorizontal)}
                             >
                                 Add Horizontal
                             </button>

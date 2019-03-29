@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SelectionContext } from '../../../SelectionContext';
+import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
     TitleBar,
@@ -17,9 +17,6 @@ function AddVertical() {
     return (
         <SelectionContext.Consumer>
             {({
-                sidebar: {
-                    revert,
-                },
                 selection: {
                     items,
                 },

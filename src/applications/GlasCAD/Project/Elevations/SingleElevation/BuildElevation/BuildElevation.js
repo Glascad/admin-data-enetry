@@ -5,14 +5,13 @@ import { StaticContext } from '../../../../../../Statics/Statics';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import mergeElevationInput from './ducks/merge-input';
 
-import SelectionProvider from './SelectionContext';
-import TransformProvider from './TransformContext';
+import SelectionProvider from './contexts/SelectionContext';
+import TransformProvider from './contexts/TransformContext';
 
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
-import elevationJSON from './ducks/elevation.json';
 import validateElevation from './ducks/validate-elevation';
 import { parseSearch } from '../../../../../../utils';
 
@@ -96,8 +95,6 @@ export default class BuildElevation extends Component {
         console.log({ mergedElevation });
 
         validateElevation(mergedElevation);
-
-        console.log("SUCCESSFULLY MERGED ELEVATION INPUT");
 
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 

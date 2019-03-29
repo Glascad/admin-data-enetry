@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TransformContext } from '../../../TransformContext';
+import { TransformContext } from '../../../contexts/TransformContext';
 
 import {
     Input,

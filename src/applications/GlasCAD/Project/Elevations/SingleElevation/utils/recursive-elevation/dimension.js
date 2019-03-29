@@ -1,15 +1,17 @@
 
 export default class RecursiveDimension {
 
-    constructor(placedContainer, elevation, vertical) {
+    constructor(container, elevation, vertical) {
 
         const {
             refId,
-            x,
-            y,
-            height,
-            width,
-        } = placedContainer;
+            placement: {
+                x,
+                y,
+                height,
+                width,
+            },
+        } = container;
 
         const offset = vertical ?
             y
@@ -26,12 +28,13 @@ export default class RecursiveDimension {
             :
             y;
 
+        const containers = [container];
         const refIds = [refId];
 
         Object.assign(
             this,
             {
-                placedContainer,
+                containers,
                 elevation,
                 vertical,
                 dimension,
@@ -42,11 +45,17 @@ export default class RecursiveDimension {
         );
     }
 
+    class = RecursiveDimension;
+
+    get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}`; }
+
     matchContainer = ({
-        x,
-        y,
-        height,
-        width,
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
     }) => {
         const {
             vertical,
@@ -65,11 +74,15 @@ export default class RecursiveDimension {
             );
     }
 
-    addContainer = ({
-        x,
-        y,
-        refId,
-    }) => {
+    addContainer = container => {
+
+        const {
+            refId,
+            placement: {
+                x,
+                y,
+            },
+        } = container;
 
         const {
             vertical,
@@ -86,11 +99,9 @@ export default class RecursiveDimension {
 
         this.precedence = (precedence * length + newContainerPrecedence) / (length + 1);
 
+        this.containers.push(container);
         this.refIds.push(refId);
 
         return this;
     }
-
-    get refId() { return `DimensionButton${this.refIds.join().replace(/\D+/g, '-')}`; }
-
 }

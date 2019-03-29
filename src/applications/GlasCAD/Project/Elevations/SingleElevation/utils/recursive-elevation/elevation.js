@@ -88,6 +88,8 @@ export default class RecursiveElevation {
         window.temp1 = this;
     }
 
+    class = RecursiveElevation;
+
     // LOGIC
     get verticalFramesRunThroughHeadAndSill() { return true; }
 
@@ -120,28 +122,28 @@ export default class RecursiveElevation {
 
     // DIMENSIONS
     get containerDimensions() {
-        return this.placedContainers
+        return this.allContainers
             .reduce(({
                 verticals = [],
                 horizontals = [],
             },
-                placedContainer
+                container
             ) => {
-                const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(placedContainer));
-                const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(placedContainer));
+                const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(container));
+                const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(container));
 
-                if (prevVerticalDimension) prevVerticalDimension.addContainer(placedContainer);
-                if (prevHorizontalDimension) prevHorizontalDimension.addContainer(placedContainer);
+                if (prevVerticalDimension) prevVerticalDimension.addContainer(container);
+                if (prevHorizontalDimension) prevHorizontalDimension.addContainer(container);
 
                 return {
                     verticals: prevVerticalDimension ?
                         verticals
                         :
-                        verticals.concat(new RecursiveDimension(placedContainer, this, true)),
+                        verticals.concat(new RecursiveDimension(container, this, true)),
                     horizontals: prevHorizontalDimension ?
                         horizontals
                         :
-                        horizontals.concat(new RecursiveDimension(placedContainer, this, false)),
+                        horizontals.concat(new RecursiveDimension(container, this, false)),
                 };
             }, {});
     }

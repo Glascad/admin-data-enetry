@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SelectionContext } from '../../../SelectionContext';
+import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import { TitleBar } from '../../../../../../../../../components';
 
@@ -55,9 +55,6 @@ function EditBay() {
     return (
         <SelectionContext.Consumer>
             {({
-                sidebar: {
-                    setState,
-                },
             }) => (
                     <>
                         <TitleBar
@@ -68,7 +65,6 @@ function EditBay() {
                                 {buttons.map(component => (
                                     <button
                                         className="sidebar-button empty"
-                                        onClick={() => setState(component)}
                                     >
                                         <span className="icon"></span>
                                         <span>{component.name}</span>

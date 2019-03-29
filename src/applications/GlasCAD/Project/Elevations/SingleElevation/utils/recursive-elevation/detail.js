@@ -44,6 +44,8 @@ export default class RecursiveDetail {
         );
     }
 
+    class = RecursiveDetail;
+
     // REFERENCES
     get refId() { return `Detail-${this.id}`; }
     get ref() { return document.getElementById(this.refId); }

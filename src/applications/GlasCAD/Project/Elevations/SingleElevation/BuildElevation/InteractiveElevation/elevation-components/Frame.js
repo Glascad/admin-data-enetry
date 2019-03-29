@@ -1,15 +1,19 @@
 import React from 'react';
 
-import { SelectionContext } from '../../SelectionContext';
+import { SelectionContext } from '../../contexts/SelectionContext';
 
 export default function Frame({
+    _frame,
     _frame: {
-        x,
-        y,
-        height,
-        width,
         refId,
         vertical,
+        class: RecursiveFrame,
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
     },
 }) {
     return (
@@ -17,18 +21,22 @@ export default function Frame({
             {({
                 selection: {
                     items,
-                    handleMouseDown,
+                    items: {
+                        0: firstItem,
+                        length,
+                    },
+                    selectItem,
                 },
             }) => (
                     <div
                         id={refId}
                         className={`Frame ${
-                            items.includes(refId) ?
+                            items.includes(_frame) ?
                                 'selected'
                                 :
                                 ''
                             } ${
-                            !items.length || items[0].match(vertical ? /Vertical/ : /Horizontal/) ?
+                            !length || (firstItem.class === RecursiveFrame) ?
                                 'selectable'
                                 :
                                 ''
@@ -44,7 +52,7 @@ export default function Frame({
                             height,
                             width,
                         }}
-                        onMouseDown={handleMouseDown}
+                        onClick={() => selectItem(_frame)}
                     />
                 )}
         </SelectionContext.Consumer>

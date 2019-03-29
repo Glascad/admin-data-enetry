@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 
 import { StaticContext } from '../../../../../../../Statics/Statics';
-import { TransformContext } from '../TransformContext';
+import { TransformContext } from '../contexts/TransformContext';
 
 import Container from './elevation-components/Container';
 import Frame from './elevation-components/Frame';
@@ -46,16 +46,16 @@ export default class InteractiveElevation extends Component {
         const {
             props: {
                 elevation: {
-                    placedContainers = [],
-                    placedFrames = [],
+                    allContainers = [],
+                    allFrames = [],
                     roughOpening: {
                         x: rox = 0,
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
                     containerDimensions: {
-                        verticals = [],
-                        horizontals = [],
+                        verticals: verticalDimensions = [],
+                        horizontals: horizontalDimensions = [],
                     },
                 },
             },
@@ -87,7 +87,7 @@ export default class InteractiveElevation extends Component {
                                 {/* ROUGH OPENING */}
                                 {/* <div /> */}
                                 {/* CONTAINERS */}
-                                {placedContainers.map(container => (
+                                {allContainers.map(container => (
                                     <Container
                                         key={container.refId}
                                         container={container}
@@ -95,7 +95,7 @@ export default class InteractiveElevation extends Component {
                                     />
                                 ))}
                                 {/* FRAMES */}
-                                {placedFrames.map(_frame => (
+                                {allFrames.map(_frame => (
                                     <Frame
                                         key={_frame.refId}
                                         _frame={_frame}
@@ -108,21 +108,19 @@ export default class InteractiveElevation extends Component {
                                 />
                                 <div id="left-dimension-track">
                                     {/* VERTICAL DIMENSIONS */}
-                                    {verticals.map(dimension => (
+                                    {verticalDimensions.map(dimension => (
                                         <DimensionButton
                                             key={dimension.refId}
                                             dimension={dimension}
-                                            vertical={true}
                                         />
                                     ))}
                                 </div>
                                 <div id="bottom-dimension-track">
                                     {/* HORIZONTAL DIMENSIONS */}
-                                    {horizontals.map(dimension => (
+                                    {horizontalDimensions.map(dimension => (
                                         <DimensionButton
                                             key={dimension.refId}
                                             dimension={dimension}
-                                            vertical={false}
                                         />
                                     ))}
                                 </div>
