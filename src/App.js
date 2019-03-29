@@ -11,8 +11,8 @@ import {
     Navigator,
 } from './components';
 
-import DataEntry from './DataEntry/DataEntry';
-import Glascad from './GlasCAD/GlasCAD';
+import DataEntry from './applications/DataEntry/DataEntry';
+import Glascad from './applications/GlasCAD/GlasCAD';
 
 const cache = new InMemoryCache({
     dataIdFromObject: ({ nodeId }) => nodeId || null,
@@ -28,12 +28,12 @@ export default function App() {
         <Router>
             <ApolloProvider client={client}>
                 {/* <CheatSheet> */}
-                <Navigator
-                    routes={{
-                        DataEntry,
-                        Glascad,
-                    }}
-                />
+                    <Navigator
+                        routes={{
+                            DataEntry,
+                            Glascad,
+                        }}
+                    />
                 {/* </CheatSheet> */}
             </ApolloProvider>
         </Router>
