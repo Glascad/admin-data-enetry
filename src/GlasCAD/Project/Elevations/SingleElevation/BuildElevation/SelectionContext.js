@@ -6,6 +6,8 @@ import { DIRECTIONS, getDirectionFromArrowKey } from '../utils/recursive-elevati
 
 export const SelectionContext = createContext();
 
+const updateSidebarState = state => state;
+
 export default class SelectionProvider extends Component {
 
     state = {
@@ -19,17 +21,32 @@ export default class SelectionProvider extends Component {
         this.updateViewportWidth();
         window.addEventListener('keydown', this.escape);
         window.addEventListener('keydown', this.watchHotKeyDown);
-        window.addEventListener('keydown', this.watchArrowKey);
         window.addEventListener('keyup', this.watchHotKeyUp);
+        window.addEventListener('keydown', this.watchArrowKeyDown);
         // document.body.addEventListener('mousedown', this.cancelSelection);
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.escape);
         window.removeEventListener('keydown', this.watchHotKeyDown);
-        window.removeEventListener('keydown', this.watchArrowKey);
         window.removeEventListener('keyup', this.watchHotKeyUp);
+        window.removeEventListener('keydown', this.watchArrowKeyDown);
         // document.body.removeEventListener('mousedown', this.cancelSelection);
+    }
+
+    // setState = (arg, cb) => super.setState(
+    //     arg,
+    //     () => super.setState(
+    //         newState => updateSidebarState(newState),
+    //         cb));
+
+    setState = (arg, cb) => {
+        if (typeof arg !== 'function') {
+            console.error(arg)
+            throw new Error(`Please use functional setState() in <SelectionContext/>. Found type: ${typeof arg}`);
+        } else {
+            return super.setState(state => updateSidebarState(arg(state)), cb);
+        }
     }
 
     escape = ({ key }) => key === 'Escape' && this.toggleSidebar(false);
@@ -46,7 +63,7 @@ export default class SelectionProvider extends Component {
         if (!shiftKey) this.shiftKey = false;
     }
 
-    watchArrowKey = ({ key }) => {
+    watchArrowKeyDown = ({ key }) => {
         if (!this.spaceKey) {
             const {
                 state: {
@@ -105,35 +122,20 @@ export default class SelectionProvider extends Component {
                             selectedItems
                         :
                         [id],
-            }), () => this.state.selectedItems.length ?
-                this.setSidebarState(
-                    this.state.selectedItems[0].match(/Container/) ?
-                        this.state.selectedItems.length > 1 ?
-                            sidebarStates.EditMultipleLites
-                            :
-                            sidebarStates.EditLite
-                        :
-                        this.state.selectedItems[0].match(/Vertical/) ?
-                            sidebarStates.EditVertical
-                            :
-                            this.state.selectedItems[0].match(/Horizontal/) ?
-                                sidebarStates.EditHorizontal
-                                :
-                                sidebarStates.EditMultipleFrames
-                )
-                :
+            }), () => !this.state.selectedItems.length
+                &&
                 this.toggleSidebar(false)
             );
         }
     }
 
     toggleSidebar = sidebarOpen => {
-        this.setState({
+        this.setState(state => ({
             sidebarOpen: typeof sidebarOpen === 'boolean' ?
                 sidebarOpen
                 :
-                !this.state.sidebarOpen,
-        }, this.updateViewportWidth);
+                !state.sidebarOpen,
+        }), this.updateViewportWidth);
         this.updateSelectionAfterSidebarToggle();
     }
 

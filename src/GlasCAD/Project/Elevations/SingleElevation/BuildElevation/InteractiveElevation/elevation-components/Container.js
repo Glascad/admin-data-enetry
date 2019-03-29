@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { SelectionContext } from '../SelectionContext';
+import { SelectionContext } from '../../SelectionContext';
 
-export default function Frame({
-    _frame: {
+export default function Container({
+    container: {
         x,
         y,
         height,
         width,
         refId,
-        vertical,
     },
+    tabIndex,
 }) {
     return (
         <SelectionContext.Consumer>
@@ -22,14 +22,19 @@ export default function Frame({
             }) => (
                     <div
                         id={refId}
-                        className={`Frame ${
+                        className={`Container ${
                             items.includes(refId) ?
                                 'selected'
                                 :
                                 ''
                             } ${
-                            vertical ?
-                                'vertical'
+                            items[items.length - 1] === refId ?
+                                'last-selected'
+                                :
+                                ''
+                            } ${
+                            !items.length || items[0].match(/Container/) ?
+                                'selectable'
                                 :
                                 ''
                             }`}
@@ -40,7 +45,15 @@ export default function Frame({
                             width,
                         }}
                         onMouseDown={handleMouseDown}
-                    />
+                        tabIndex={tabIndex}
+                    >
+                        <div
+                            id={refId}
+                            className="text"
+                        >
+                            {refId.replace(/\D*/, '*')}
+                        </div>
+                    </div>
                 )}
         </SelectionContext.Consumer>
     );

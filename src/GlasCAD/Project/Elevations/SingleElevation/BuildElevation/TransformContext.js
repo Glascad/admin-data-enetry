@@ -2,7 +2,7 @@ import React, { Component, createContext } from 'react';
 
 export const TransformContext = createContext();
 
-const defaultScale = 0.75;
+const defaultScale = 1;
 
 export default class TransformProvider extends Component {
 

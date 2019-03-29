@@ -3,10 +3,10 @@ import React, { Component, createRef } from 'react';
 import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext } from '../TransformContext';
 
-import Container from './Container';
-import Frame from './Frame';
-import FinishedFloor from './FinishedFloor';
-import DimensionButton from './DimensionButton';
+import Container from './elevation-components/Container';
+import Frame from './elevation-components/Frame';
+import FinishedFloor from './elevation-components/FinishedFloor';
+import DimensionButton from './elevation-components/DimensionButton';
 
 import './InteractiveElevation.scss';
 
@@ -63,6 +63,7 @@ export default class InteractiveElevation extends Component {
                         <div
                             id="InteractiveElevation"
                             ref={this.InteractiveElevation}
+                            onMouseDown={watchMouseDown}
                         >
                             <div
                                 id="elevation-display"
@@ -71,7 +72,6 @@ export default class InteractiveElevation extends Component {
                                     width: rox,
                                     transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scale}, ${scale})`,
                                 }}
-                                onMouseDown={watchMouseDown}
                             >
                                 {/* ROUGH OPENING */}
                                 {/* <div /> */}
