@@ -34,6 +34,7 @@ export default class RecursiveDimension {
         Object.assign(
             this,
             {
+                class: RecursiveDimension,
                 containers,
                 elevation,
                 vertical,
@@ -44,8 +45,6 @@ export default class RecursiveDimension {
             },
         );
     }
-
-    class = RecursiveDimension;
 
     get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}`; }
 

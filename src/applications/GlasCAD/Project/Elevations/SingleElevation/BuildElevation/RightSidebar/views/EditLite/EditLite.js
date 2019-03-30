@@ -71,17 +71,17 @@ function EditLite({
                         <div className="sidebar-group">
                             <SidebarLink
                                 toggleView={toggleView}
-                                View={{ name: "Edit Infill", component: () => null }}
-                            />
-                        </div>
-                        <div className="sidebar-group">
-                            <SidebarLink
-                                toggleView={toggleView}
                                 View={{ name: "Add Vertical", component: () => null }}
                             />
                             <SidebarLink
                                 toggleView={toggleView}
                                 View={{ name: "Add Horizontal", component: () => null }}
+                            />
+                        </div>
+                        <div className="sidebar-group">
+                            <SidebarLink
+                                toggleView={toggleView}
+                                View={{ name: "Edit Infill", component: () => null }}
                             />
                         </div>
                     </>

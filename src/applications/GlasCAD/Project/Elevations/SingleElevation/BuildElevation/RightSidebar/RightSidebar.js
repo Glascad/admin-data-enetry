@@ -87,7 +87,15 @@ export default class RightSidebar extends Component {
                         component: Child,
                     } = getSidebarViewFromSelection(selection);
 
-                    const shouldRenderStackedView = stackedView && previousSelection === lastItem;
+                    const shouldRenderStackedView = stackedView && ((
+                        previousSelection === lastItem
+                    ) || (
+                            previousSelection
+                            &&
+                            lastItem
+                            &&
+                            previousSelection.refId === lastItem.refId
+                        ));
 
                     const nameToRender = shouldRenderStackedView ?
                         stackedName
@@ -110,7 +118,7 @@ export default class RightSidebar extends Component {
                                 className="sidebar-button primary"
                                 onClick={handleClick}
                             >
-                                {stackedView ? (
+                                {shouldRenderStackedView ? (
                                     <DoubleArrow
                                         className="icon"
                                         tagname="div"

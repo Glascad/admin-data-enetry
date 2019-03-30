@@ -1,13 +1,23 @@
 import React from 'react';
-import { SelectionContext } from '../../../contexts/SelectionContext';
+
 import { TitleBar } from '../../../../../../../../../components';
+
+import SidebarLink from '../../components/SidebarLink';
+
+import { SelectionContext } from '../../../contexts/SelectionContext';
+
+import MoveVertical from './MoveVertical';
 
 export default {
     name: "Edit Vertical",
     component: EditVertical,
 };
 
-function EditVertical() {
+function EditVertical({
+    elevation,
+    updateElevation,
+    toggleView
+}) {
     return (
         <SelectionContext.Consumer>
             {({ }) => (
@@ -15,8 +25,11 @@ function EditVertical() {
                     <TitleBar
                         title="Edit Vertical"
                     />
-                    <div className="input-group">
-                        
+                    <div className="sidebar-group">
+                        <SidebarLink
+                            toggleView={toggleView}
+                            View={MoveVertical}
+                        />
                     </div>
                     <button
                         className="sidebar-button danger"

@@ -15,7 +15,10 @@ import RightSidebar from './RightSidebar/RightSidebar';
 import validateElevation from './ducks/validate-elevation';
 import { parseSearch } from '../../../../../../utils';
 
-const defaultElevationUpdate = {};
+const defaultElevationUpdate = {
+    containers: [],
+    details: [],
+};
 
 export default class BuildElevation extends Component {
 

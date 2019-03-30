@@ -29,31 +29,40 @@ export default function Frame({
                 },
             }) => (
                     <div
-                        id={refId}
-                        className={`Frame ${
-                            items.includes(_frame) ?
-                                'selected'
-                                :
-                                ''
-                            } ${
-                            !length || (firstItem.class === RecursiveFrame) ?
-                                'selectable'
-                                :
-                                ''
-                            } ${
-                            vertical ?
-                                'vertical'
-                                :
-                                ''
-                            }`}
-                        style={{
-                            left: x,
-                            bottom: y,
-                            height,
-                            width,
-                        }}
+                        // to make selecting a frame less difficult
+                        className="frame-wrapper"
                         onClick={() => selectItem(_frame)}
-                    />
+                        style={{
+                            left: x - 10,
+                            bottom: y - 10,
+                            height: height + 20,
+                            width: width + 20,
+                        }}
+                    >
+                        <div
+                            id={refId}
+                            className={`Frame ${
+                                items.some(f => f.refId === refId) ?
+                                    'selected'
+                                    :
+                                    ''
+                                } ${
+                                !length || (firstItem.class === RecursiveFrame) ?
+                                    'selectable'
+                                    :
+                                    ''
+                                } ${
+                                vertical ?
+                                    'vertical'
+                                    :
+                                    ''
+                                }`}
+                            style={{
+                                height,
+                                width,
+                            }}
+                        />
+                    </div>
                 )}
         </SelectionContext.Consumer>
     );

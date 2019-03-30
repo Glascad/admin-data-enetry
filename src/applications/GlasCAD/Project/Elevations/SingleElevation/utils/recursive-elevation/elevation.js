@@ -11,6 +11,8 @@ export default class RecursiveElevation {
     static RecursiveFrame = RecursiveFrame;
     static RecursiveDimension = RecursiveDimension;
 
+    static instanceCount = 0;
+
     constructor(
         rawElevation = {},
         {
@@ -60,6 +62,8 @@ export default class RecursiveElevation {
         Object.assign(
             this,
             {
+                class: RecursiveElevation,
+                instanceCount: ++RecursiveElevation.instanceCount,
                 rawElevation,
                 finishedFloorHeight,
                 roughOpening,
@@ -87,8 +91,6 @@ export default class RecursiveElevation {
 
         window.temp1 = this;
     }
-
-    class = RecursiveElevation;
 
     // LOGIC
     get verticalFramesRunThroughHeadAndSill() { return true; }

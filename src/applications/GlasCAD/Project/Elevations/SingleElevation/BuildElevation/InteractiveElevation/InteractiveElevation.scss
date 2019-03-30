@@ -45,24 +45,33 @@
             }
         }
 
-        .Frame {
+        .frame-wrapper {
             position: absolute;
-            background: $light-gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-            &.vertical {
-                background: $medium-gray;
-            }
-
-            &.selectable {
-                &:hover {
-                    &:not(.selected) {
-                        background: $dark-gray;
-                    }
+            .Frame {
+                background: $light-gray;
+                
+                &.vertical {
+                    background: $medium-gray;
+                }
+                
+                
+                &.selected {
+                    background: $selected-color;
                 }
             }
 
-            &.selected {
-                background: $selected-color;
+            &:hover {
+                .Frame {
+                    &.selectable {
+                        &:not(.selected) {
+                            background: $dark-gray;
+                        }
+                    }
+                }
             }
         }
 

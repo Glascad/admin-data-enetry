@@ -17,6 +17,7 @@ export default class RecursiveDetail {
             this,
             detail,
             {
+                class: RecursiveDetail,
                 elevation,
                 [matchedDetailsKey]: {
                     true: undefined,
@@ -43,8 +44,6 @@ export default class RecursiveDetail {
             },
         );
     }
-
-    class = RecursiveDetail;
 
     // REFERENCES
     get refId() { return `Detail-${this.id}`; }

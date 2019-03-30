@@ -28,7 +28,7 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
         border-bottom: 1px solid $medium-gray;
         // padding-left: $small;
         padding-bottom: $small;
-        margin-top: $xx-large;
+        margin-top: $xxx-large;
     }
 
     .sidebar-group {
@@ -55,10 +55,6 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
     .sidebar-button {
         position: relative;
         width: 100%;
-
-        &:first-child {
-            margin-bottom: $xxx-large;
-        }
         
         + .sidebar-button {
             margin-left: 0;

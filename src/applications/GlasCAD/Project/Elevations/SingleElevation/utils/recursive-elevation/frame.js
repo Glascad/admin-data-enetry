@@ -11,6 +11,7 @@ export default class RecursiveFrame {
         Object.assign(
             this,
             {
+                class: RecursiveFrame,
                 elevation,
                 details,
                 vertical,
@@ -29,8 +30,6 @@ export default class RecursiveFrame {
             },
         );
     }
-
-    class = RecursiveFrame;
 
     get refId() { return `${this.vertical ? 'Vertical' : 'Horizontal'}-${this.details.map(({ id }) => id).join('-')}`; }
     get ref() { return document.getElementById(this.refId); }
@@ -60,6 +59,9 @@ export default class RecursiveFrame {
             :
             0];
     }
+
+    get firstContainers() { return this.getContainersByDirection(true); }
+    get secondContainers() { return this.getContainersByDirection(false); }
 
     get leftContainers() { if (this.vertical) return this.getContainersByDirection(true); }
     get rightContainers() { if (this.vertical) return this.getContainersByDirection(false); }

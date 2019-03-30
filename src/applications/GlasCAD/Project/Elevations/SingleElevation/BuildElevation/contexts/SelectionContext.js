@@ -65,7 +65,7 @@ export default class SelectionProvider extends Component {
         if (oldElevation !== newElevation && length) {
             this.cancelSelection();
             
-            selectedItems.forEach(({ refId }) => {
+            selectedItems.forEach(({ refId, elevation: { instanceCount } }) => {
                 const newItem = newElevation.getItemByRefId(refId);
                 this.selectItem(newItem);
             });

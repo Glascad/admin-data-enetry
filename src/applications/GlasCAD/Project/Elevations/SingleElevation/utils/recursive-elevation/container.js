@@ -17,6 +17,7 @@ export default class RecursiveContainer {
             this,
             container,
             {
+                class: RecursiveContainer,
                 elevation,
                 [detailsKey]: {
                     true: {
@@ -61,8 +62,6 @@ export default class RecursiveContainer {
             },
         );
     }
-
-    class = RecursiveContainer;
 
     // REFERENCES
     get refId() { return `Container-${this.id}`; }

@@ -1,13 +1,23 @@
 import React from 'react';
-import { SelectionContext } from '../../../contexts/SelectionContext';
+
 import { TitleBar } from '../../../../../../../../../components';
+
+import SidebarLink from '../../components/SidebarLink';
+
+import { SelectionContext } from '../../../contexts/SelectionContext';
+
+import MoveHorizontal from './MoveHorizontal';
 
 export default {
     name: "Edit Horizontal",
     component: EditHorizontal,
 };
 
-function EditHorizontal() {
+function EditHorizontal({
+    elevation,
+    updateElevation,
+    toggleView
+}) {
     return (
         <SelectionContext.Consumer>
             {({ }) => (
@@ -15,8 +25,11 @@ function EditHorizontal() {
                     <TitleBar
                         title="Edit Horizontal"
                     />
-                    <div className="input-group">
-
+                    <div className="sidebar-group">
+                        <SidebarLink
+                            toggleView={toggleView}
+                            View={MoveHorizontal}
+                        />
                     </div>
                     <button
                         className="sidebar-button danger"

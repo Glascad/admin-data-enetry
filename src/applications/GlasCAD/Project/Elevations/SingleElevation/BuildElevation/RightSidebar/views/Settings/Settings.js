@@ -17,14 +17,16 @@ function Settings({
     toggleView,
 }) {
     return (
-        <div className="sidebar-group">
+        <>
             <TitleBar
                 title="Elevation Settings"
             />
-            <SidebarLink
-                toggleView={toggleView}
-                View={ZoomAndPan}
-            />
-        </div>
+            <div className="sidebar-group">
+                <SidebarLink
+                    toggleView={toggleView}
+                    View={ZoomAndPan}
+                />
+            </div>
+        </>
     );
 }
