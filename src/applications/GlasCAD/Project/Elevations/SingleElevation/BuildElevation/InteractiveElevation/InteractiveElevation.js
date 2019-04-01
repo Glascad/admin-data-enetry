@@ -118,14 +118,6 @@ export default class InteractiveElevation extends Component {
                                 />
                                 <div id="left-dimension-track">
                                     {/* VERTICAL DIMENSIONS */}
-                                    {
-                                        // verticalDimensions.map(dimension => (
-                                        //     <DimensionButton
-                                        //         key={dimension.refId}
-                                        //         dimension={dimension}
-                                        //     />
-                                        // ))
-                                    }
                                     {verticalContainerDimensionTracks.map((track, i) => (
                                         <div key={i}>
                                             {track.map(dimension => (
@@ -140,14 +132,6 @@ export default class InteractiveElevation extends Component {
                                 </div>
                                 <div id="bottom-dimension-track">
                                     {/* HORIZONTAL DIMENSIONS */}
-                                    {
-                                        // horizontalDimensions.map(dimension => (
-                                        //     <DimensionButton
-                                        //         key={dimension.refId}
-                                        //         dimension={dimension}
-                                        //     />
-                                        // ))
-                                    }
                                     {horizontalContainerDimensionTracks.map((track, i) => (
                                         <div key={i}>
                                             {track.map(dimension => (
