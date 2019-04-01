@@ -47,24 +47,18 @@ function EditLite({
                                 title="Edit Lite"
                             />
                             {Object.entries(DIRECTIONS)
-                                .map(([key, direction]) => {
-                                    const canMerge = container.canMergeByDirection(...direction);
-                                    return (
-                                        <button
-                                            key={direction.join('-')}
-                                            className={`sidebar-button empty ${canMerge ? '' : 'disabled'}`}
-                                            onClick={canMerge ?
-                                                () => updateElevation(MERGE_CONTAINERS, {
-                                                    container,
-                                                    direction,
-                                                })
-                                                :
-                                                undefined}
-                                        >
-                                            Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
-                                        </button>
-                                    );
-                                })}
+                                .map(([key, direction]) => container.canMergeByDirection(...direction) ? (
+                                    <button
+                                        key={direction.join('-')}
+                                        className="sidebar-button empty"
+                                        onClick={() => updateElevation(MERGE_CONTAINERS, {
+                                            container,
+                                            direction,
+                                        })}
+                                    >
+                                        Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
+                                    </button>
+                                ) : null)}
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink

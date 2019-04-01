@@ -15,7 +15,6 @@ const {
 const selectableClasses = [
     RecursiveContainer,
     RecursiveFrame,
-    RecursiveDimension,
     RecursiveDetail,
     "string",
 ];
