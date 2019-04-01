@@ -6,7 +6,7 @@ import SidebarLink from '../../components/SidebarLink';
 
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
-import MoveVertical from './MoveVertical';
+import MoveFrame from '../shared/MoveFrame';
 
 export default {
     name: "Edit Vertical",
@@ -28,7 +28,7 @@ function EditVertical({
                     <div className="sidebar-group">
                         <SidebarLink
                             toggleStackedView={toggleStackedView}
-                            View={MoveVertical}
+                            View={MoveFrame}
                         />
                     </div>
                     <button

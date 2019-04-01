@@ -12,6 +12,8 @@ export default function MOVE_FRAME({
     distance,
 }) {
 
+    if (!_frame.canMoveByDirection(distance > 0)) return arguments[0];
+
     const elevationWithShiftedFirstContainers = firstContainers
         .reduce((updatedElevation, container) => updateDLO(updatedElevation, {
             container,

@@ -6,7 +6,7 @@ import SidebarLink from '../../components/SidebarLink';
 
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
-import MoveHorizontal from './MoveHorizontal';
+import MoveFrame from '../shared/MoveFrame';
 
 export default {
     name: "Edit Horizontal",
@@ -28,7 +28,7 @@ function EditHorizontal({
                     <div className="sidebar-group">
                         <SidebarLink
                             toggleStackedView={toggleStackedView}
-                            View={MoveHorizontal}
+                            View={MoveFrame}
                         />
                     </div>
                     <button

@@ -16,6 +16,8 @@ export default function MERGE_CONTAINERS({
     ],
 }) {
 
+    if (!container.canMergeByDirection(...direction)) return arguments[0];
+
     const { FORWARD, BACKWARD, LEFT, RIGHT } = GET_RELATIVE_DIRECTIONS(direction);
 
     const [containerToMerge] = container.getImmediateContainersByDirection(...FORWARD);

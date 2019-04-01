@@ -12,7 +12,7 @@ export default function Container({
             y,
             height,
             width,
-        }
+        },
     },
     tabIndex,
 }) {

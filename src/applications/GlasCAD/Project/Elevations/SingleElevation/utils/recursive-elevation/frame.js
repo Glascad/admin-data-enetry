@@ -2,6 +2,7 @@
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
 const runsIntoEdgeKey = 'runs_into_edge<first>';
+const canDeleteKey = 'can_delete<first>';
 
 export default class RecursiveFrame {
     constructor(details, elevation) {
@@ -24,6 +25,10 @@ export default class RecursiveFrame {
                     false: undefined,
                 },
                 [runsIntoEdgeKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
+                [canDeleteKey]: {
                     true: undefined,
                     false: undefined,
                 },
@@ -293,5 +298,43 @@ export default class RecursiveFrame {
             height: height + verticalBottomExtension + verticalTopExtension,
             width,
         };
+    }
+
+    // ACTIONS
+
+    // MOVE
+    canMoveByDirection = first => this
+        .getContainersByDirection(first)
+        .every(({
+            rawContainer: {
+                daylightOpening: {
+                    x,
+                    y,
+                },
+            },
+        }) => this.vertical ?
+                x > 10
+                :
+                y > 10
+        );
+
+    get canMoveFirst() { return this.canMoveByDirection(true); }
+    get canMoveSecond() { return this.canMoveByDirection(false); }
+
+    // DELETE
+    canDeleteByDirection = first => {
+        return this[canDeleteKey][first] || (
+            this[canDeleteKey][first] = this
+                .getContainerByDirection(first)
+                .every(container => container.canMergeByDirection(!this.vertical, !first))
+        );
+    }
+
+    get canDelete() {
+        return (
+            this.canDeleteByDirection(true)
+            &&
+            this.canDeleteByDirection(false)
+        );
     }
 }
