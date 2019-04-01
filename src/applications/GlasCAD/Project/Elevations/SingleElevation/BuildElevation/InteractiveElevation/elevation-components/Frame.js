@@ -19,14 +19,12 @@ export default function Frame({
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items,
-                    items: {
-                        0: firstItem,
-                        length,
-                    },
-                    selectItem,
+                items,
+                items: {
+                    0: firstItem,
+                    length,
                 },
+                selectItem,
             }) => (
                     <div
                         // to make selecting a frame less difficult

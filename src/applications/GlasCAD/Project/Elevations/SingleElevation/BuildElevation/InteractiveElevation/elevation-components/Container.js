@@ -19,14 +19,12 @@ export default function Container({
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items,
-                    items: {
-                        0: firstItem,
-                        length,
-                    },
-                    selectItem,
+                items,
+                items: {
+                    0: firstItem,
+                    length,
                 },
+                selectItem,
             }) => (
                     <div
                         id={refId}

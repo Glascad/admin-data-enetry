@@ -15,11 +15,9 @@ function MoveHorizontal({
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items: [
-                        _frame,
-                    ],
-                },
+                items: [
+                    _frame,
+                ],
             }) => (
                     <>
                         <TitleBar

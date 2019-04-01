@@ -22,12 +22,10 @@ class RightSidebar extends Component {
 
     componentDidUpdate = ({
         context: {
-            selection: {
-                items: {
-                    0: {
-                        class: prevClass,
-                    } = {},
-                },
+            items: {
+                0: {
+                    class: prevClass,
+                } = {},
             },
         },
     }) => {
@@ -37,13 +35,11 @@ class RightSidebar extends Component {
             },
             props: {
                 context: {
-                    selection: {
-                        items: {
-                            0: {
-                                class: newClass,
-                            } = {},
-                            length: newLength,
-                        },
+                    items: {
+                        0: {
+                            class: newClass,
+                        } = {},
+                        length: newLength,
                     },
                 },
             },
@@ -72,12 +68,10 @@ class RightSidebar extends Component {
                 elevation,
                 updateElevation,
                 context: {
-                    selection: {
-                        items: {
-                            length,
-                        },
-                        cancelSelection,
+                    items: {
+                        length,
                     },
+                    cancelSelection,
                 },
                 View: {
                     name: initialName,
@@ -137,14 +131,12 @@ const {
 
 const mapProps = ({
     context: {
-        selection: {
-            items: [
-                {
-                    vertical,
-                    class: SelectedClass,
-                } = {},
-            ],
-        },
+        items: [
+            {
+                vertical,
+                class: SelectedClass,
+            } = {},
+        ],
     },
 }) => ({
     View: SelectedClass === RecursiveContainer ?

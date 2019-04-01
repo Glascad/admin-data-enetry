@@ -25,11 +25,9 @@ export default function DimensionButton({
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items,
-                    selectItem,
-                    unselectItem,
-                },
+                items,
+                selectItem,
+                unselectItem,
             }) => {
                 const isSelected = items.some(item => containers.includes(item));
 

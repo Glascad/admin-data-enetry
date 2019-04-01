@@ -37,9 +37,7 @@ function EditLite({
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items: [container],
-                },
+                items: [container],
             }) => {
                 if (!(container instanceof RecursiveElevation.RecursiveContainer)) return null;
                 else return (

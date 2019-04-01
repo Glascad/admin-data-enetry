@@ -42,13 +42,11 @@ export default function Header({
                     </Link>
                     <SelectionContext.Consumer>
                         {({
-                            selection: {
-                                items: [
-                                    selectedItem,
-                                ],
-                                selectItem,
-                                cancelSelection
-                            },
+                            items: [
+                                selectedItem,
+                            ],
+                            selectItem,
+                            cancelSelection
                         }) => (
                                 <Input
                                     Icon={Hamburger}
