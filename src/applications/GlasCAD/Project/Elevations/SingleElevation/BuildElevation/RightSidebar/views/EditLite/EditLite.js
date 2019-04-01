@@ -32,7 +32,7 @@ const groups = [
 function EditLite({
     elevation,
     updateElevation,
-    toggleView,
+    toggleStackedView,
 }) {
     return (
         <SelectionContext.Consumer>
@@ -70,17 +70,17 @@ function EditLite({
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink
-                                toggleView={toggleView}
+                                toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Vertical", component: () => null }}
                             />
                             <SidebarLink
-                                toggleView={toggleView}
+                                toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Horizontal", component: () => null }}
                             />
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink
-                                toggleView={toggleView}
+                                toggleStackedView={toggleStackedView}
                                 View={{ name: "Edit Infill", component: () => null }}
                             />
                         </div>

@@ -7,44 +7,57 @@ import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 import VIEWS from './views';
 
 import './RightSidebar.scss';
-import { DoubleArrow } from '../../../../../../../components';
+import {
+    DoubleArrow,
+    withContext,
+} from '../../../../../../../components';
 
-const {
-    RecursiveContainer,
-    RecursiveFrame,
-} = RecursiveElevation;
-
-const getSidebarViewFromSelection = ({
-    items: [
-        {
-            vertical,
-            class: SelectedClass,
-        } = {}
-    ],
-}) => (
-        SelectedClass === RecursiveContainer ?
-            VIEWS.EditLite
-            :
-            SelectedClass === RecursiveFrame ?
-                vertical ?
-                    VIEWS.EditVertical
-                    :
-                    VIEWS.EditHorizontal
-                :
-                VIEWS.Settings
-    );
-
-export default class RightSidebar extends Component {
+class RightSidebar extends Component {
 
     state = {
         stackedView: undefined,
     };
 
-    previousSelection = {};
+    toggleStackedView = stackedView => this.setState({ stackedView });
 
-    toggleView = view => this.setState({
-        stackedView: view,
-    });
+    componentDidUpdate = ({
+        context: {
+            selection: {
+                items: {
+                    0: {
+                        class: prevClass,
+                    } = {},
+                },
+            },
+        },
+    }) => {
+        const {
+            state: {
+                stackedView,
+            },
+            props: {
+                context: {
+                    selection: {
+                        items: {
+                            0: {
+                                class: newClass,
+                            } = {},
+                            length: newLength,
+                        },
+                    },
+                },
+            },
+        } = this;
+        if (
+            stackedView && (
+                !newLength || (
+                    prevClass !== newClass
+                )
+            )
+        ) {
+            this.toggleStackedView();
+        }
+    }
 
     render = () => {
         const {
@@ -58,87 +71,92 @@ export default class RightSidebar extends Component {
             props: {
                 elevation,
                 updateElevation,
-            },
-            previousSelection,
-            toggleView,
-        } = this;
-
-        return (
-            <SelectionContext.Consumer>
-                {({
-                    selection,
+                context: {
                     selection: {
-                        items,
                         items: {
                             length,
                         },
                         cancelSelection,
                     },
-                }) => {
+                },
+                View: {
+                    name: initialName,
+                    component: InitialComponent,
+                }
+            },
+            toggleStackedView,
+        } = this;
 
-                    const {
-                        [length - 1]: lastItem,
-                    } = items;
+        const handleClick = stackedView ?
+            () => toggleStackedView()
+            :
+            cancelSelection;
 
-                    this.previousSelection = lastItem;
+        const name = stackedView ?
+            stackedName
+            :
+            initialName;
 
-                    const {
-                        name,
-                        component: Child,
-                    } = getSidebarViewFromSelection(selection);
+        const Child = stackedView ?
+            StackedChild
+            :
+            InitialComponent;
 
-                    const shouldRenderStackedView = stackedView && ((
-                        previousSelection === lastItem
-                    ) || (
-                            previousSelection
-                            &&
-                            lastItem
-                            &&
-                            previousSelection.refId === lastItem.refId
-                        ));
-
-                    const nameToRender = shouldRenderStackedView ?
-                        stackedName
-                        :
-                        name;
-
-                    const handleClick = shouldRenderStackedView ?
-                        () => toggleView()
-                        :
-                        cancelSelection;
-
-                    const ChildToRender = shouldRenderStackedView ?
-                        StackedChild
-                        :
-                        Child;
-
-                    return (
-                        <div id="RightSidebar" className={length ? "" : "closed"}>
-                            <button
-                                className="sidebar-button primary"
-                                onClick={handleClick}
-                            >
-                                {shouldRenderStackedView ? (
-                                    <DoubleArrow
-                                        className="icon"
-                                        tagname="div"
-                                    />
-                                ) : null}
-                                <span>
-                                    Close {nameToRender}
-                                </span>
-                            </button>
-                            <ChildToRender
-                                {...{
-                                    elevation,
-                                    updateElevation,
-                                    toggleView,
-                                }}
-                            />
-                        </div>
-                    );
-                }}
-            </SelectionContext.Consumer>
+        return (
+            <div id="RightSidebar" className={length ? "" : "closed"}>
+                <button
+                    className="sidebar-button primary"
+                    onClick={handleClick}
+                >
+                    {stackedView ? (
+                        <DoubleArrow
+                            className="icon"
+                            tagname="div"
+                        />
+                    ) : null}
+                    <span>
+                        Close {name}
+                    </span>
+                </button>
+                <Child
+                    {...{
+                        elevation,
+                        updateElevation,
+                        toggleStackedView,
+                    }}
+                />
+            </div>
         );
     }
 }
+
+const {
+    RecursiveContainer,
+    RecursiveFrame,
+} = RecursiveElevation;
+
+const mapProps = ({
+    context: {
+        selection: {
+            items: [
+                {
+                    vertical,
+                    class: SelectedClass,
+                } = {},
+            ],
+        },
+    },
+}) => ({
+    View: SelectedClass === RecursiveContainer ?
+        VIEWS.EditLite
+        :
+        SelectedClass === RecursiveFrame ?
+            vertical ?
+                VIEWS.EditVertical
+                :
+                VIEWS.EditHorizontal
+            :
+            VIEWS.Settings
+});
+
+export default withContext(SelectionContext, mapProps)(RightSidebar);

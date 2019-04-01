@@ -3,7 +3,7 @@ import React from 'react';
 import { DoubleArrow } from '../../../../../../../../components';
 
 export default function SidebarLink({
-    toggleView,
+    toggleStackedView,
     View,
     View: {
         name,
@@ -12,7 +12,7 @@ export default function SidebarLink({
     return (
         <button
             className="sidebar-button empty"
-            onClick={() => toggleView(View)}
+            onClick={() => toggleStackedView(View)}
         >
             <span>{name}</span>
             <DoubleArrow

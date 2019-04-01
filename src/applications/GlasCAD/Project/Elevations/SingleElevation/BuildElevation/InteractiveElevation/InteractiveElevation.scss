@@ -50,24 +50,31 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1;
 
             .Frame {
                 background: $light-gray;
-                
-                &.vertical {
+            }
+            
+            &.vertical {
+                z-index: 2;
+
+                .Frame {
                     background: $medium-gray;
+                    z-index: 3;
                 }
-                
-                
-                &.selected {
+            }
+            
+            &.selected {
+                .Frame {
                     background: $selected-color;
                 }
             }
 
             &:hover {
-                .Frame {
-                    &.selectable {
-                        &:not(.selected) {
+                &.selectable {
+                    &:not(.selected) {
+                        .Frame {
                             background: $dark-gray;
                         }
                     }

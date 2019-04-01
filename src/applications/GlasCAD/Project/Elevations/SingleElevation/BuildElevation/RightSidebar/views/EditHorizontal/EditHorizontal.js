@@ -16,7 +16,7 @@ export default {
 function EditHorizontal({
     elevation,
     updateElevation,
-    toggleView
+    toggleStackedView
 }) {
     return (
         <SelectionContext.Consumer>
@@ -27,7 +27,7 @@ function EditHorizontal({
                     />
                     <div className="sidebar-group">
                         <SidebarLink
-                            toggleView={toggleView}
+                            toggleStackedView={toggleStackedView}
                             View={MoveHorizontal}
                         />
                     </div>

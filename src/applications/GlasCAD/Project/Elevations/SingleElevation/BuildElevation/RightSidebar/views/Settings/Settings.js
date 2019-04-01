@@ -14,7 +14,7 @@ export default {
 function Settings({
     elevation,
     updateElevation,
-    toggleView,
+    toggleStackedView,
 }) {
     return (
         <>
@@ -23,7 +23,7 @@ function Settings({
             />
             <div className="sidebar-group">
                 <SidebarLink
-                    toggleView={toggleView}
+                    toggleStackedView={toggleStackedView}
                     View={ZoomAndPan}
                 />
             </div>

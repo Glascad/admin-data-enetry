@@ -40,8 +40,13 @@ export default function Container({
                                 'last-selected'
                                 :
                                 ''
-                            } ${
-                            !length || (firstItem.class === RecursiveContainer) ?
+                            } ${(
+                                !length
+                                ||
+                                typeof firstItem === 'string'
+                                ||
+                                (firstItem.class === RecursiveContainer)
+                            ) ?
                                 'selectable'
                                 :
                                 ''

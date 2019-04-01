@@ -30,7 +30,26 @@ export default function Frame({
             }) => (
                     <div
                         // to make selecting a frame less difficult
-                        className="frame-wrapper"
+                        className={`frame-wrapper ${
+                            items.some(f => f.refId === refId) ?
+                                'selected'
+                                :
+                                ''
+                            } ${
+                            !length || typeof firstItem === 'string' || (
+                                firstItem.class === RecursiveFrame
+                                &&
+                                firstItem.vertical === vertical
+                            ) ?
+                                'selectable'
+                                :
+                                ''
+                            } ${
+                            vertical ?
+                                'vertical'
+                                :
+                                ''
+                            }`}
                         onClick={() => selectItem(_frame)}
                         style={{
                             left: x - 10,
@@ -41,22 +60,7 @@ export default function Frame({
                     >
                         <div
                             id={refId}
-                            className={`Frame ${
-                                items.some(f => f.refId === refId) ?
-                                    'selected'
-                                    :
-                                    ''
-                                } ${
-                                !length || (firstItem.class === RecursiveFrame) ?
-                                    'selectable'
-                                    :
-                                    ''
-                                } ${
-                                vertical ?
-                                    'vertical'
-                                    :
-                                    ''
-                                }`}
+                            className="Frame"
                             style={{
                                 height,
                                 width,
