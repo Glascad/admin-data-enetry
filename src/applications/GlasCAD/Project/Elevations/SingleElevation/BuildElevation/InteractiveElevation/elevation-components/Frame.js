@@ -19,24 +19,26 @@ export default function Frame({
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items,
-                    items: {
-                        0: firstItem,
-                        length,
-                    },
-                    selectItem,
+                items,
+                items: {
+                    0: firstItem,
+                    length,
                 },
+                selectItem,
             }) => (
                     <div
-                        id={refId}
-                        className={`Frame ${
-                            items.includes(_frame) ?
+                        // to make selecting a frame less difficult
+                        className={`frame-wrapper ${
+                            items.some(f => f.refId === refId) ?
                                 'selected'
                                 :
                                 ''
                             } ${
-                            !length || (firstItem.class === RecursiveFrame) ?
+                            !length || typeof firstItem === 'string' || (
+                                firstItem.class === RecursiveFrame
+                                &&
+                                firstItem.vertical === vertical
+                            ) ?
                                 'selectable'
                                 :
                                 ''
@@ -46,14 +48,23 @@ export default function Frame({
                                 :
                                 ''
                             }`}
-                        style={{
-                            left: x,
-                            bottom: y,
-                            height,
-                            width,
-                        }}
                         onClick={() => selectItem(_frame)}
-                    />
+                        style={{
+                            left: x - 10,
+                            bottom: y - 10,
+                            height: height + 20,
+                            width: width + 20,
+                        }}
+                    >
+                        <div
+                            id={refId}
+                            className="Frame"
+                            style={{
+                                height,
+                                width,
+                            }}
+                        />
+                    </div>
                 )}
         </SelectionContext.Consumer>
     );

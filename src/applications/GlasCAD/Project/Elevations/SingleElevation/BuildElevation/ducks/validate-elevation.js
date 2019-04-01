@@ -1,8 +1,8 @@
 
-export default ({
+export default function validateElevation({
     _elevationContainers,
     _containerDetails,
-}) => {
+}) {
 
     const allContainerIds = _elevationContainers.map(({ id }) => id);
     const allContainerFakeIds = _elevationContainers.map(({ fakeId }) => fakeId);
@@ -60,4 +60,6 @@ export default ({
 
         throw new Error(`Invalid Detail with ${fakeId ? 'FAKE' : ''} CONTAINER ID: ${id || fakeId}`);
     }
+
+    return arguments[0];
 }

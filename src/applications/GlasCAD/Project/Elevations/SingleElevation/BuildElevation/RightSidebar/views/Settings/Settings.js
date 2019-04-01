@@ -1,7 +1,10 @@
 import React from 'react';
 
+import { TitleBar } from '../../../../../../../../../components';
+
 import SidebarLink from '../../components/SidebarLink';
 import ZoomAndPan from './ZoomAndPan';
+
 
 export default {
     name: "Visibility Settings",
@@ -11,14 +14,19 @@ export default {
 function Settings({
     elevation,
     updateElevation,
-    toggleView,
+    toggleStackedView,
 }) {
     return (
-        <div className="sidebar-group">
-            <SidebarLink
-                toggleView={toggleView}
-                View={ZoomAndPan}
+        <>
+            <TitleBar
+                title="Elevation Settings"
             />
-        </div>
+            <div className="sidebar-group">
+                <SidebarLink
+                    toggleStackedView={toggleStackedView}
+                    View={ZoomAndPan}
+                />
+            </div>
+        </>
     );
 }

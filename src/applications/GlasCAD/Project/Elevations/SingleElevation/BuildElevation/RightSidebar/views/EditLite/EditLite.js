@@ -3,11 +3,10 @@ import React from 'react';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
-    TitleBar, DoubleArrow,
+    TitleBar,
 } from '../../../../../../../../../components';
 
 import { MERGE_CONTAINERS } from '../../../ducks/actions';
-import RecursiveElevation from '../../../../utils/recursive-elevation/elevation';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 import SidebarLink from '../../components/SidebarLink';
 
@@ -20,73 +19,72 @@ export default {
     component: EditLite,
 };
 
-const groups = [
-    {
-
-    },
-    {
-
-    }
-]
-
 function EditLite({
     elevation,
     updateElevation,
-    toggleView,
+    toggleStackedView,
 }) {
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items: [container],
+                items: allContainers,
+                items: {
+                    0: firstContainer,
+                    length,
                 },
-            }) => {
-                if (!(container instanceof RecursiveElevation.RecursiveContainer)) return null;
-                else return (
+            }) => (
                     <>
                         <div className="sidebar-group">
                             <TitleBar
                                 title="Edit Lite"
                             />
-                            {Object.entries(DIRECTIONS)
-                                .map(([key, direction]) => {
-                                    const canMerge = container.canMergeByDirection(...direction);
-                                    return (
+                            {length === 1 ?
+                                Object.entries(DIRECTIONS)
+                                    .map(([key, direction]) => firstContainer.canMergeByDirection(...direction) ? (
                                         <button
                                             key={direction.join('-')}
-                                            className={`sidebar-button empty ${canMerge ? '' : 'disabled'}`}
-                                            onClick={canMerge ?
-                                                () => updateElevation(MERGE_CONTAINERS, {
-                                                    container,
-                                                    direction,
-                                                })
-                                                :
-                                                undefined}
+                                            className="sidebar-button empty"
+                                            onClick={() => updateElevation(MERGE_CONTAINERS, {
+                                                container: firstContainer,
+                                                direction,
+                                            })}
                                         >
                                             Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
                                         </button>
-                                    );
-                                })}
+                                    ) : null)
+                                :
+                                (
+                                    <>
+                                        <button
+                                            // key={vertical}
+                                            className="sidebar-button empty"
+                                            onClick={() => null}
+                                        >
+                                            Merge
+                                            {/* {vertical ? 'vertically' : 'horizontally'} */}
+                                        </button>
+
+                                    </>
+                                )}
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink
-                                toggleView={toggleView}
-                                View={{ name: "Edit Infill", component: () => null }}
-                            />
-                        </div>
-                        <div className="sidebar-group">
-                            <SidebarLink
-                                toggleView={toggleView}
+                                toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Vertical", component: () => null }}
                             />
                             <SidebarLink
-                                toggleView={toggleView}
+                                toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Horizontal", component: () => null }}
                             />
                         </div>
+                        <div className="sidebar-group">
+                            <SidebarLink
+                                toggleStackedView={toggleStackedView}
+                                View={{ name: "Edit Infill", component: () => null }}
+                            />
+                        </div>
                     </>
-                );
-            }}
+                )}
         </SelectionContext.Consumer>
     );
 }

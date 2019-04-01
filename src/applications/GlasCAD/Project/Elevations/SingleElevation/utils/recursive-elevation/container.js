@@ -17,6 +17,7 @@ export default class RecursiveContainer {
             this,
             container,
             {
+                class: RecursiveContainer,
                 elevation,
                 [detailsKey]: {
                     true: {
@@ -61,8 +62,6 @@ export default class RecursiveContainer {
             },
         );
     }
-
-    class = RecursiveContainer;
 
     // REFERENCES
     get refId() { return `Container-${this.id}`; }
@@ -116,21 +115,6 @@ export default class RecursiveContainer {
             :
             0];
     }
-
-    canMergeByDirection = (vertical, first) => {
-        const immediateContainers = this.getImmediateContainersByDirection(vertical, first);
-        const direction = [vertical, first];
-        const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
-        return immediateContainers.length === 1
-            &&
-            immediateContainers[0].getImmediateContainersByDirection(...BACKWARD).length === 1;
-    }
-
-    // MERGING
-    get canMergeLeft() { return this.canMergeByDirection(...LEFT); }
-    get canMergeRight() { return this.canMergeByDirection(...RIGHT); }
-    get canMergeUp() { return this.canMergeByDirection(...UP); }
-    get canMergeDown() { return this.canMergeByDirection(...DOWN); }
 
     // DETAILS
     get leftDetails() { return this.getDetailsByDirection(...LEFT); }
@@ -240,84 +224,20 @@ export default class RecursiveContainer {
     }
 
     // ACTIONS
-    getUpdatedDetailsToMergeByDirection = (vertical, first) => {
+
+    // MERGE
+    canMergeByDirection = (vertical, first) => {
+        const immediateContainers = this.getImmediateContainersByDirection(vertical, first);
         const direction = [vertical, first];
-        const { FORWARD, RIGHT, LEFT } = GET_RELATIVE_DIRECTIONS(direction);
-
-        const [detailInBetween] = this.getDetailsByDirection(...FORWARD);
-        const [mergedContainer] = this.getImmediateContainersByDirection(...FORWARD);
-
-        console.log(`CONTAINER: ${this.id} MERGING CONTAINER: ${mergedContainer.id}`);
-
-        const firstOrLastAdjacentContainers = [
-            this.getFirstOrLastContainerByDirection(...RIGHT, !first),
-            this.getFirstOrLastContainerByDirection(...LEFT, !first),
-        ];
-
-        const [
-            detailsToMerge,
-            detailsToDelete,
-        ] = _.partition(mergedContainer.allDetails, detail => {
-            if (detail === detailInBetween) return false;
-            else {
-                const {
-                    vertical: detailVertical,
-                    firstContainer,
-                    secondContainer,
-                } = detail;
-
-                const otherContainer = firstContainer === mergedContainer ?
-                    secondContainer
-                    :
-                    firstContainer;
-
-                if (
-                    detailVertical === vertical
-                    &&
-                    firstOrLastAdjacentContainers.includes(otherContainer)
-                ) return false;
-
-                else return true;
-            }
-        });
-
-        return {
-            detailsToMerge,
-            detailsToDelete,
-        };
+        const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
+        return immediateContainers.length === 1
+            &&
+            immediateContainers[0].getImmediateContainersByDirection(...BACKWARD).length === 1;
     }
 
-    getNewDLOToMergeByDirection = (vertical, first) => {
-        const {
-            daylightOpening: {
-                x,
-                y,
-            },
-        } = this;
+    get canMergeLeft() { return this.canMergeByDirection(...LEFT); }
+    get canMergeRight() { return this.canMergeByDirection(...RIGHT); }
+    get canMergeUp() { return this.canMergeByDirection(...UP); }
+    get canMergeDown() { return this.canMergeByDirection(...DOWN); }
 
-        const [mergedContainer] = this.getImmediateContainersByDirection(vertical, first);
-
-        const newOriginal = mergedContainer.original || this.original;
-
-        const { sightline } = this.getFrameByDirection(vertical, first);
-
-        const newDaylightOpening = vertical ? {
-            x,
-            y: y + sightline + mergedContainer.daylightOpening.y,
-        } : {
-                y,
-                x: x + sightline + mergedContainer.daylightOpening.x,
-            };
-
-        return {
-            newOriginal,
-            mergedContainer,
-            newDaylightOpening,
-        };
-    }
-
-    actions__merge = (vertical, first) => ({
-        ...this.getUpdatedDetailsToMergeByDirection(vertical, first),
-        ...this.getNewDLOToMergeByDirection(vertical, first),
-    });
 }

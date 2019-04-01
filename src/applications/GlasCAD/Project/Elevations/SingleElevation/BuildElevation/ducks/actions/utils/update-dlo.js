@@ -1,5 +1,5 @@
 
-export default function mergeDLO({
+export default function updateDLO({
     elevation: elevationInput,
     elevation: {
         containers = [],
@@ -12,40 +12,24 @@ export default function mergeDLO({
             id: containerId,
             fakeId: containerFakeId,
             daylightOpening: DLO,
-            original,
         },
     },
-    direction,
-    direction: [
-        vertical,
-        first,
-    ],
+    vertical,
+    distance,
 }) {
-
-    const [
-        {
-            rawContainer: {
-                daylightOpening: DLOToMerge,
-                original: originalToMerge
-            },
-        },
-    ] = container.getImmediateContainersByDirection(...direction);
-
-    const { sightline } = container.getFrameByDirection(...direction);
 
     const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
 
     const updatedContainer = {
         ...rawContainer,
         ...previouslyUpdatedContainer,
-        original: original || originalToMerge,
         daylightOpening: {
             x: vertical ?
                 DLO.x
                 :
-                DLO.x + sightline + DLOToMerge.x,
+                DLO.x - distance,
             y: vertical ?
-                DLO.y + sightline + DLOToMerge.y
+                DLO.y - distance
                 :
                 DLO.y,
         },

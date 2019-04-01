@@ -4,12 +4,17 @@ import RecursiveDetail from './detail';
 import RecursiveFrame from './frame';
 import RecursiveDimension from './dimension';
 
+import dimensionsOverlap from './dimensions-overlap';
+import sortDimensionTracks from './sort-dimension-tracks';
+
 export default class RecursiveElevation {
 
     static RecursiveContainer = RecursiveContainer;
     static RecursiveDetail = RecursiveDetail;
     static RecursiveFrame = RecursiveFrame;
     static RecursiveDimension = RecursiveDimension;
+
+    static instanceCount = 0;
 
     constructor(
         rawElevation = {},
@@ -60,6 +65,8 @@ export default class RecursiveElevation {
         Object.assign(
             this,
             {
+                class: RecursiveElevation,
+                instanceCount: ++RecursiveElevation.instanceCount,
                 rawElevation,
                 finishedFloorHeight,
                 roughOpening,
@@ -87,8 +94,6 @@ export default class RecursiveElevation {
 
         window.temp1 = this;
     }
-
-    class = RecursiveElevation;
 
     // LOGIC
     get verticalFramesRunThroughHeadAndSill() { return true; }
@@ -122,31 +127,57 @@ export default class RecursiveElevation {
 
     // DIMENSIONS
     get containerDimensions() {
-        return this.allContainers
-            .reduce(({
-                verticals = [],
-                horizontals = [],
-            },
-                container
-            ) => {
-                const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(container));
-                const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(container));
+        return this.__containerDimensions || (
+            this.__containerDimensions = this.allContainers
+                .reduce(({
+                    true: verticals,
+                    false: horizontals,
+                },
+                    container
+                ) => {
+                    const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(container));
+                    const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(container));
 
-                if (prevVerticalDimension) prevVerticalDimension.addContainer(container);
-                if (prevHorizontalDimension) prevHorizontalDimension.addContainer(container);
+                    if (prevVerticalDimension) prevVerticalDimension.addContainer(container);
+                    if (prevHorizontalDimension) prevHorizontalDimension.addContainer(container);
 
-                return {
-                    verticals: prevVerticalDimension ?
-                        verticals
-                        :
-                        verticals.concat(new RecursiveDimension(container, this, true)),
-                    horizontals: prevHorizontalDimension ?
-                        horizontals
-                        :
-                        horizontals.concat(new RecursiveDimension(container, this, false)),
-                };
-            }, {});
+                    return {
+                        true: prevVerticalDimension ?
+                            verticals
+                            :
+                            verticals.concat(new RecursiveDimension(container, this, true)),
+                        false: prevHorizontalDimension ?
+                            horizontals
+                            :
+                            horizontals.concat(new RecursiveDimension(container, this, false)),
+                    };
+                }, {
+                        true: [],
+                        false: [],
+                    })
+        );
     }
+
+    getContainerDimensionTracksByVertical(vertical) {
+        return this.containerDimensions[vertical]
+            .reduce((tracks, dimension) => {
+                const correctTrack = tracks
+                    .find(track => track.
+                        every(otherDimension => !dimensionsOverlap(dimension, otherDimension)));
+
+                return correctTrack ?
+                    tracks.replace(
+                        tracks.indexOf(correctTrack),
+                        correctTrack.concat(dimension),
+                    )
+                    :
+                    tracks.concat([[dimension]]);
+            }, [])
+            .sort(sortDimensionTracks);
+    }
+
+    get verticalContainerDimensionTracks() { return this.getContainerDimensionTracksByVertical(true); }
+    get horizontalContainerDimensionTracks() { return this.getContainerDimensionTracksByVertical(false); }
 
     // OPTIONS / TYPES
     get detailTypes() { return this.allDetails.map(({ type }) => type); }

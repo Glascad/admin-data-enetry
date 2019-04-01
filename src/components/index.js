@@ -15,6 +15,7 @@ import Input from './ui/Input/Input';
 import ApolloWrapper from './state/ApolloWrapper';
 import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
+import withContext from './state/with-context';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -45,6 +46,7 @@ export {
     ApolloWrapper,
     SelectionWrapper,
     StateManager,
+    withContext,
     // NAVIGATION
     Navigator,
     TabNavigator,

@@ -15,12 +15,12 @@ const {
 const selectableClasses = [
     RecursiveContainer,
     RecursiveFrame,
-    RecursiveDimension,
     RecursiveDetail,
+    String,
     "string",
 ];
 
-const getSelectedClass = item => selectableClasses.find(SelectedClass => (
+const getSelectedClass = item => item && selectableClasses.find(SelectedClass => (
     typeof item === SelectedClass
     ||
     item instanceof SelectedClass
@@ -64,8 +64,8 @@ export default class SelectionProvider extends Component {
 
         if (oldElevation !== newElevation && length) {
             this.cancelSelection();
-            
-            selectedItems.forEach(({ refId }) => {
+
+            selectedItems.forEach(({ refId, elevation: { instanceCount } }) => {
                 const newItem = newElevation.getItemByRefId(refId);
                 this.selectItem(newItem);
             });
@@ -187,12 +187,10 @@ export default class SelectionProvider extends Component {
         return (
             <SelectionContext.Provider
                 value={{
-                    selection: {
-                        items: selectedItems,
-                        selectItem,
-                        unselectItem,
-                        cancelSelection,
-                    },
+                    items: selectedItems,
+                    selectItem,
+                    unselectItem,
+                    cancelSelection,
                 }}
             >
                 {children}

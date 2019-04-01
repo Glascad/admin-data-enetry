@@ -12,21 +12,19 @@ export default function Container({
             y,
             height,
             width,
-        }
+        },
     },
     tabIndex,
 }) {
     return (
         <SelectionContext.Consumer>
             {({
-                selection: {
-                    items,
-                    items: {
-                        0: firstItem,
-                        length,
-                    },
-                    selectItem,
+                items,
+                items: {
+                    0: firstItem,
+                    length,
                 },
+                selectItem,
             }) => (
                     <div
                         id={refId}
@@ -40,8 +38,13 @@ export default function Container({
                                 'last-selected'
                                 :
                                 ''
-                            } ${
-                            !length || (firstItem.class === RecursiveContainer) ?
+                            } ${(
+                                !length
+                                ||
+                                typeof firstItem === 'string'
+                                ||
+                                (firstItem.class === RecursiveContainer)
+                            ) ?
                                 'selectable'
                                 :
                                 ''

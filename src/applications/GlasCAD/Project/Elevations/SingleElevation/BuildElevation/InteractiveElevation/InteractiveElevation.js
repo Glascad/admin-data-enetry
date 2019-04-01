@@ -62,9 +62,11 @@ export default class InteractiveElevation extends Component {
                     } = {},
                     finishedFloorHeight,
                     containerDimensions: {
-                        verticals: verticalDimensions = [],
-                        horizontals: horizontalDimensions = [],
+                        true: verticalDimensions = [],
+                        false: horizontalDimensions = [],
                     },
+                    verticalContainerDimensionTracks = [],
+                    horizontalContainerDimensionTracks = [],
                 },
             },
         } = this;
@@ -116,20 +118,46 @@ export default class InteractiveElevation extends Component {
                                 />
                                 <div id="left-dimension-track">
                                     {/* VERTICAL DIMENSIONS */}
-                                    {verticalDimensions.map(dimension => (
-                                        <DimensionButton
-                                            key={dimension.refId}
-                                            dimension={dimension}
-                                        />
+                                    {
+                                        // verticalDimensions.map(dimension => (
+                                        //     <DimensionButton
+                                        //         key={dimension.refId}
+                                        //         dimension={dimension}
+                                        //     />
+                                        // ))
+                                    }
+                                    {verticalContainerDimensionTracks.map((track, i) => (
+                                        <div key={i}>
+                                            {track.map(dimension => (
+                                                <DimensionButton
+                                                    key={dimension.refId}
+                                                    track={i}
+                                                    dimension={dimension}
+                                                />
+                                            ))}
+                                        </div>
                                     ))}
                                 </div>
                                 <div id="bottom-dimension-track">
                                     {/* HORIZONTAL DIMENSIONS */}
-                                    {horizontalDimensions.map(dimension => (
-                                        <DimensionButton
-                                            key={dimension.refId}
-                                            dimension={dimension}
-                                        />
+                                    {
+                                        // horizontalDimensions.map(dimension => (
+                                        //     <DimensionButton
+                                        //         key={dimension.refId}
+                                        //         dimension={dimension}
+                                        //     />
+                                        // ))
+                                    }
+                                    {horizontalContainerDimensionTracks.map((track, i) => (
+                                        <div key={i}>
+                                            {track.map(dimension => (
+                                                <DimensionButton
+                                                    key={dimension.refId}
+                                                    track={i}
+                                                    dimension={dimension}
+                                                />
+                                            ))}
+                                        </div>
                                     ))}
                                 </div>
                             </div>

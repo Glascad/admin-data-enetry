@@ -45,24 +45,40 @@
             }
         }
 
-        .Frame {
+        .frame-wrapper {
             position: absolute;
-            background: $light-gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
 
-            &.vertical {
-                background: $medium-gray;
+            .Frame {
+                background: $light-gray;
             }
+            
+            &.vertical {
+                z-index: 2;
 
-            &.selectable {
-                &:hover {
-                    &:not(.selected) {
-                        background: $dark-gray;
-                    }
+                .Frame {
+                    background: $medium-gray;
+                    z-index: 3;
+                }
+            }
+            
+            &.selected {
+                .Frame {
+                    background: $selected-color;
                 }
             }
 
-            &.selected {
-                background: $selected-color;
+            &:hover {
+                &.selectable {
+                    &:not(.selected) {
+                        .Frame {
+                            background: $dark-gray;
+                        }
+                    }
+                }
             }
         }
 
@@ -87,14 +103,12 @@
             height: $x-large;
             max-height: $x-large;
             min-height: $x-large;
-            bottom: -$item-height * 2;
         }
         
         &.vertical {
             width: $x-large;
             max-width: $x-large;
             min-width: $x-large;
-            left: -$item-height * 2;
             
             span {
                 transform: translateX(2px) rotate(-90deg);
