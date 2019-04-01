@@ -3,11 +3,10 @@ import React from 'react';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
-    TitleBar, DoubleArrow,
+    TitleBar,
 } from '../../../../../../../../../components';
 
 import { MERGE_CONTAINERS } from '../../../ducks/actions';
-import RecursiveElevation from '../../../../utils/recursive-elevation/elevation';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 import SidebarLink from '../../components/SidebarLink';
 
@@ -20,15 +19,6 @@ export default {
     component: EditLite,
 };
 
-const groups = [
-    {
-
-    },
-    {
-
-    }
-]
-
 function EditLite({
     elevation,
     updateElevation,
@@ -37,28 +27,45 @@ function EditLite({
     return (
         <SelectionContext.Consumer>
             {({
-                items: [container],
-            }) => {
-                if (!(container instanceof RecursiveElevation.RecursiveContainer)) return null;
-                else return (
+                items: allContainers,
+                items: {
+                    0: firstContainer,
+                    length,
+                },
+            }) => (
                     <>
                         <div className="sidebar-group">
                             <TitleBar
                                 title="Edit Lite"
                             />
-                            {Object.entries(DIRECTIONS)
-                                .map(([key, direction]) => container.canMergeByDirection(...direction) ? (
-                                    <button
-                                        key={direction.join('-')}
-                                        className="sidebar-button empty"
-                                        onClick={() => updateElevation(MERGE_CONTAINERS, {
-                                            container,
-                                            direction,
-                                        })}
-                                    >
-                                        Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
-                                    </button>
-                                ) : null)}
+                            {length === 1 ?
+                                Object.entries(DIRECTIONS)
+                                    .map(([key, direction]) => firstContainer.canMergeByDirection(...direction) ? (
+                                        <button
+                                            key={direction.join('-')}
+                                            className="sidebar-button empty"
+                                            onClick={() => updateElevation(MERGE_CONTAINERS, {
+                                                container: firstContainer,
+                                                direction,
+                                            })}
+                                        >
+                                            Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
+                                        </button>
+                                    ) : null)
+                                :
+                                (
+                                    <>
+                                        <button
+                                            // key={vertical}
+                                            className="sidebar-button empty"
+                                            onClick={() => null}
+                                        >
+                                            Merge
+                                            {/* {vertical ? 'vertically' : 'horizontally'} */}
+                                        </button>
+
+                                    </>
+                                )}
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink
@@ -77,8 +84,7 @@ function EditLite({
                             />
                         </div>
                     </>
-                );
-            }}
+                )}
         </SelectionContext.Consumer>
     );
 }

@@ -32,7 +32,7 @@ export default class BuildElevation extends Component {
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
-    updateElevation = (ACTION, payload) => this.setState(state => ACTION(state, payload));
+    updateElevation = (ACTION, payload, cb) => this.setState(state => ACTION(state, payload), cb);
 
     save = async () => {
         const elevationInput = {

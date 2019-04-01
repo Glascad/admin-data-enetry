@@ -306,16 +306,19 @@ export default class RecursiveFrame {
     canMoveByDirection = first => this
         .getContainersByDirection(first)
         .every(({
+            id,
             rawContainer: {
                 daylightOpening: {
                     x,
                     y,
-                },
-            },
-        }) => this.vertical ?
+                } = {},
+            } = {},
+        } = {}) => !id || (
+            this.vertical ?
                 x > 10
                 :
                 y > 10
+        )
         );
 
     get canMoveFirst() { return this.canMoveByDirection(true); }
@@ -325,8 +328,8 @@ export default class RecursiveFrame {
     canDeleteByDirection = first => {
         return this[canDeleteKey][first] || (
             this[canDeleteKey][first] = this
-                .getContainerByDirection(first)
-                .every(container => container.canMergeByDirection(!this.vertical, !first))
+                .getContainersByDirection(first)
+                .every(container => container && container.canMergeByDirection(!this.vertical, !first))
         );
     }
 

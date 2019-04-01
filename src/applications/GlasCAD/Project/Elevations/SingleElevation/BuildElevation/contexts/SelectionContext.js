@@ -16,10 +16,11 @@ const selectableClasses = [
     RecursiveContainer,
     RecursiveFrame,
     RecursiveDetail,
+    String,
     "string",
 ];
 
-const getSelectedClass = item => selectableClasses.find(SelectedClass => (
+const getSelectedClass = item => item && selectableClasses.find(SelectedClass => (
     typeof item === SelectedClass
     ||
     item instanceof SelectedClass

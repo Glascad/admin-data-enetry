@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import mergeDLO from './utils/merge-dlo';
 import deleteContainer from './utils/delete-container';
 import { GET_RELATIVE_DIRECTIONS } from '../../../utils/recursive-elevation/directions';

@@ -15,18 +15,24 @@ export default function MOVE_FRAME({
     if (!_frame.canMoveByDirection(distance > 0)) return arguments[0];
 
     const elevationWithShiftedFirstContainers = firstContainers
-        .reduce((updatedElevation, container) => updateDLO(updatedElevation, {
-            container,
-            distance,
-            vertical: !vertical,
-        }),
+        .reduce((updatedElevation, container) => container ?
+            updateDLO(updatedElevation, {
+                container,
+                distance,
+                vertical: !vertical,
+            })
+            :
+            updatedElevation,
             { elevation: elevationInput });
 
     return secondContainers
-        .reduce((updatedElevation, container) => updateDLO(updatedElevation, {
-            container,
-            distance: -distance,
-            vertical: !vertical,
-        }),
+        .reduce((updatedElevation, container) => container ?
+            updateDLO(updatedElevation, {
+                container,
+                distance: -distance,
+                vertical: !vertical,
+            })
+            :
+            updatedElevation,
             elevationWithShiftedFirstContainers);
 }
