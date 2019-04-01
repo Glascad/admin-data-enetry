@@ -24,8 +24,10 @@ export default function mergeDLO({
 
     const [
         {
-            daylightOpening: DLOToMerge,
-            original: originalToMerge
+            rawContainer: {
+                daylightOpening: DLOToMerge,
+                original: originalToMerge
+            },
         },
     ] = container.getImmediateContainersByDirection(...direction);
 

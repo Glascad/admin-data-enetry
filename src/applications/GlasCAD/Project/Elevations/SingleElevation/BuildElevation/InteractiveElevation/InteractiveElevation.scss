@@ -103,14 +103,12 @@
             height: $x-large;
             max-height: $x-large;
             min-height: $x-large;
-            bottom: -$item-height * 2;
         }
         
         &.vertical {
             width: $x-large;
             max-width: $x-large;
             min-width: $x-large;
-            left: -$item-height * 2;
             
             span {
                 transform: translateX(2px) rotate(-90deg);

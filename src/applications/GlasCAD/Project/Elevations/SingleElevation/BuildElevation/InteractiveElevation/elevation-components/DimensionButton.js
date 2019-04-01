@@ -4,6 +4,7 @@ import { SelectionContext } from '../../contexts/SelectionContext';
 import { TransformContext } from '../../contexts/TransformContext';
 
 export default function DimensionButton({
+    track,
     dimension: {
         refId,
         vertical,
@@ -21,6 +22,13 @@ export default function DimensionButton({
         'bottom'
         :
         'left';
+    
+    const trackOffsetKey = vertical ?
+        'left'
+        :
+        'bottom';
+    
+    const trackOffset = -40 * (track + 1) - 40;
 
     return (
         <SelectionContext.Consumer>
@@ -50,6 +58,7 @@ export default function DimensionButton({
                             [`max${dimensionKey}`]: dimension,
                             [`min${dimensionKey}`]: dimension,
                             [offsetKey]: offset,
+                            [trackOffsetKey]: trackOffset,
                         }}
                         onClick={() => containers.every(container => items.includes(container)) ?
                             containers.forEach(container => unselectItem(container))

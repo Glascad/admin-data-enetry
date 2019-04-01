@@ -3,6 +3,7 @@ import deleteContainer from './utils/delete-container';
 import { GET_RELATIVE_DIRECTIONS } from '../../../utils/recursive-elevation/directions';
 import deleteDetail from './utils/delete-detail';
 import redirectDetail from './utils/redirect-detail';
+import mergeBottomLeftOffset from './utils/merge-bottom-left-offset';
 
 export default function MERGE_CONTAINERS({
     elevation: elevationInput,
@@ -28,16 +29,6 @@ export default function MERGE_CONTAINERS({
         },
     } = containerToMerge;
 
-    // FIRST MERGE CONTAINERS
-
-    const elevationWithMergedContainers = mergeDLO(...arguments);
-
-    const elevationWithDeletedContainer = deleteContainer(elevationWithMergedContainers, {
-        container: containerToMerge,
-    });
-
-    // THEN DELETE DETAILS
-
     const [detailInBetween] = container.getDetailsByDirection(...FORWARD);
 
     const leftEndDetailToCheck = containerToMerge.getFirstOrLastDetailByDirection(...LEFT, first);
@@ -46,10 +37,7 @@ export default function MERGE_CONTAINERS({
     const leftEndDetailToCheckAgainst = container.getFirstOrLastDetailByDirection(...LEFT, !first);
     const rightEndDetailToCheckAgainst = container.getFirstOrLastDetailByDirection(...RIGHT, !first);
 
-    // CHECK IF SHOULD DELETE
-
     const shouldDelete = ({
-        id: detailId,
         rawDetail: {
             firstContainerId,
             firstContainerFakeId,
@@ -135,12 +123,6 @@ export default function MERGE_CONTAINERS({
                 [],
         );
 
-    const elevationWithDeletedDetails = detailsToDelete
-        .reduce((elevation, detail) => deleteDetail(elevation, { detail }),
-            elevationWithDeletedContainer);
-
-    // THEN REDIRECT DETAILS
-
     const leftDetails = containerToMerge.getDetailsByDirection(...LEFT);
     const rightDetails = containerToMerge.getDetailsByDirection(...RIGHT);
 
@@ -157,6 +139,23 @@ export default function MERGE_CONTAINERS({
                 rightDetails,
         );
 
+    // FIRST MERGE DLOS
+    const elevationWithMergedDLOs = mergeDLO(...arguments);
+    
+    // THEN CHECK FOR BOTTOM / LEFT OFFSET
+    const elevationWithMergedContainers = mergeBottomLeftOffset(elevationWithMergedDLOs, { container, direction });
+
+    // THEN DELETE CONTAINER
+    const elevationWithDeletedContainer = deleteContainer(elevationWithMergedContainers, {
+        container: containerToMerge,
+    });
+
+    // THEN DELETE DETAILS
+    const elevationWithDeletedDetails = detailsToDelete
+        .reduce((elevation, detail) => deleteDetail(elevation, { detail }),
+            elevationWithDeletedContainer);
+
+    // THEN REDIRECT DETAILS
     return detailsToUpdate
         .reduce((elevation, detail) => redirectDetail(elevation, {
             detail,
