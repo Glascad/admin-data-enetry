@@ -82,6 +82,12 @@
             }
         }
 
+        .Detail {
+            position: absolute;
+            background: blue;
+            z-index: 4;
+        }
+
         #finished-floor {
             position: absolute;
             background: $dark-gray;
