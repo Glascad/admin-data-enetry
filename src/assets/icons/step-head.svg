@@ -1,13 +1,13 @@
-<svg width="40px" height="32px" viewBox="0 0 40 32" version="1.1">
+<svg class="icon step-head" width="40px" height="32px" viewBox="7 0 40 32" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(6, 7)" stroke="#666666">
+        <g class="stroke" transform="translate(6, 7)">
             <rect x="14.5" y="0.5" width="13" height="17"></rect>
             <rect x="1.5" y="5.5" width="13" height="12"></rect>
         </g>
-        <g transform="translate(6, 11)" fill="#4A90E2" stroke="#4A90E2">
+        <g class="emphasis" transform="translate(6, 11)">
             <circle cx="1.5" cy="1.5" r="1.5"></circle>
         </g>
-        <g transform="translate(19, 11)" fill="#4A90E2" stroke="#4A90E2">
+        <g class="emphasis" transform="translate(19, 11)">
             <circle cx="1.5" cy="1.5" r="1.5"></circle>
         </g>
     </g>

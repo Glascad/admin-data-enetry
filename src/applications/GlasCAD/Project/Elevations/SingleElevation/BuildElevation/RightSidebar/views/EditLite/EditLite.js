@@ -2,9 +2,7 @@ import React from 'react';
 
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
-import {
-    StepHead,
- } from '../../../../../../../../../assets/icons';
+import * as Icons from '../../../../../../../../../assets/icons';
 
 import {
     TitleBar,
@@ -54,7 +52,23 @@ function EditLite({
                                                 direction,
                                             })}
                                         >
-                                            Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
+                                            {key === "UP" ? (
+                                                <Icons.MergeUp />
+                                            )
+                                                :
+                                                key === "DOWN" ? (
+                                                    <Icons.MergeDown />
+                                                )
+                                                    :
+                                                    key === "LEFT" ?
+                                                        <Icons.MergeLeft />
+                                                        :
+                                                        key === "RIGHT" ? (
+                                                            <Icons.MergeRight />
+                                                        ) : null}
+                                            <span>
+                                                Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
+                                            </span>
                                         </button>
                                     ) : null)
                                 :
@@ -76,19 +90,19 @@ function EditLite({
                             <SidebarLink
                                 toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Vertical", component: () => null }}
-                                Icon={StepHead}
+                                Icon={Icons.AddVertical}
                             />
                             <SidebarLink
                                 toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Horizontal", component: () => null }}
-                                Icon={StepHead}
+                                Icon={Icons.AddHorizontal}
                             />
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink
                                 toggleStackedView={toggleStackedView}
                                 View={{ name: "Edit Infill", component: () => null }}
-                                Icon={StepHead}
+                                Icon={Icons.EditInfill}
                             />
                         </div>
                     </>

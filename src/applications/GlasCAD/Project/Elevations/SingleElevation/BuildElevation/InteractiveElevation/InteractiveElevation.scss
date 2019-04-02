@@ -238,11 +238,11 @@
                                 background: $dark-gray;
                             }
                         }
-                        .detail-wrapper {
-                            .DetailBubble {
-                                display: flex;
-                            }
-                        }
+                        // .detail-wrapper {
+                        //     .DetailBubble {
+                        //         display: flex;
+                        //     }
+                        // }
                     }
                 }
             }
@@ -263,9 +263,11 @@
         position: absolute;
         margin: 0;
         padding: 0;
+        background: transparentize(white, 0.125);
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 2;
 
         &.horizontal {
             height: $x-large;
