@@ -124,7 +124,10 @@ export default class SelectionProvider extends Component {
             const SelectedClass = getSelectedClass(item);
 
             if (SelectedClass) {
-                this.setState(({ selectedItems }) => ({
+                this.setState(({
+                    selectedItems,
+                    selectedItems: [firstItem],
+                }) => ({
                     // if item is a string, replace entire selection
                     // if selection is empty, initiate selection
                     selectedItems: (
@@ -132,12 +135,16 @@ export default class SelectionProvider extends Component {
                         ||
                         SelectedClass === "string"
                         ||
-                        getSelectedClass(selectedItems[0]) === "string"
+                        getSelectedClass(firstItem) === "string"
                     ) ?
                         [item]
                         :
                         // only allow selection of one class at a time
-                        getSelectedClass(selectedItems[0]) === SelectedClass ?
+                        (
+                            getSelectedClass(firstItem) === SelectedClass
+                            &&
+                            firstItem.vertical === item.vertical
+                        ) ?
                             selectedItems.includes(item) ?
                                 doNotUnselect ?
                                     // move item to end of array if should not unselect

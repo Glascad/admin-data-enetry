@@ -29,7 +29,7 @@ export default function Frame({
                 },
                 selectItem,
             }) => (
-                    <div>
+                    <div className="frame-hover-wrapper" >
                         <div className="detail-wrapper">
                             {details.map(detail => (
                                 <Detail

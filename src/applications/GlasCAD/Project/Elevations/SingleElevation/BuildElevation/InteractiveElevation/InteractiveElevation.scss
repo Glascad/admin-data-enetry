@@ -130,7 +130,7 @@
                     }
                 }
 
-                &.first-container-selected, &.second-container-selected {
+                &.first-container-selected, &.second-container-selected, &.frame-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
                             display: flex;
@@ -165,7 +165,7 @@
                         }
                     }
 
-                    &.second-container-selected {
+                    &.second-container-selected, &.frame-selected {
                         .detail-bubble-placement {
                             .DetailBubble {
                                 transform: rotate(-135deg);
