@@ -1,22 +1,40 @@
 import React from 'react';
 
-import SelectionContext from '../../contexts/SelectionContext';
+import { SelectionContext } from '../../contexts/SelectionContext';
 
 export default function DetailBubble({
     detail,
     detail: {
-        placement,
+        vertical,
+        detailId,
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
     },
 }) {
     return (
         <SelectionContext.Consumer>
-            {({ }) => (
-                <div
-                    // className={`DetailBubble ${}`}
-                >
-
-                </div>
-            )}
+            {({
+                items,
+            }) => (
+                    <div
+                        className={`detail-bubble-placement`}
+                    >
+                        <div
+                            className={`DetailBubble ${
+                                // items.some()
+                                ''
+                                }`}
+                        >
+                            <span className="detail-id">
+                                {detailId}
+                            </span>
+                        </div>
+                    </div>
+                )}
         </SelectionContext.Consumer>
     )
 }

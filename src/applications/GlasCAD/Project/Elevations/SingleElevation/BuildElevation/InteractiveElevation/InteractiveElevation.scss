@@ -81,11 +81,66 @@
                 }
             }
         }
+        
+        .detail-wrapper {
+            .Detail {
+                position: absolute;
+                background: $selected-color;
+                z-index: 4;
 
-        .Detail {
-            position: absolute;
-            background: blue;
-            z-index: 4;
+                &.selected {
+                    background: $dark-gray;
+                }
+
+                .detail-bubble-placement {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    height: 0;
+                    width: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .DetailBubble {
+                        position: relative;
+                        height: $xxxxx-large;
+                        width: $xxxxx-large;
+                        max-height: $xxxxx-large;
+                        max-width: $xxxxx-large;
+                        min-height: $xxxxx-large;
+                        min-width: $xxxxx-large;
+                        border-radius: $xxxxx-large;
+                        border-bottom-left-radius: 0;
+                        background: white;
+                        border: $icon-thickness solid $selected-color;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: default;
+                        color: $selected-color;
+                        font-weight: bold;
+                        margin-bottom: $xxxxx-large + $large;
+                        transform: rotate(-45deg);
+
+                        .detail-id {
+                            transform: rotate(45deg);
+                        }
+                    }
+                }
+            }
+            
+            &:hover {
+                + .frame-wrapper {
+                    &.selectable {
+                        &:not(.selected) {
+                            .Frame {
+                                background: $dark-gray;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         #finished-floor {

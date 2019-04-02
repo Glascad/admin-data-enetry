@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { SelectionContext } from '../../contexts/SelectionContext';
+import DetailBubble from './DetailBubble';
 
 export default function Detail({
+    detail,
     detail: {
         refId,
         vertical,
@@ -29,7 +31,7 @@ export default function Detail({
                     <div
                         id={refId}
                         className={`Detail ${
-                            items.some(f => f.refId === refId) ?
+                            items.some(f => f.refId === _frame.refId) ?
                                 'selected'
                                 :
                                 ''
@@ -49,13 +51,29 @@ export default function Detail({
                                 ''
                             }`}
                         style={{
-                            left: x,
-                            bottom: y,
-                            height: height,
-                            width: width,
+                            left: vertical ?
+                                x + width / 2
+                                :
+                                x,
+                            bottom: vertical ?
+                                y
+                                :
+                                y + height / 2,
+                            height: vertical ?
+                                height
+                                :
+                                1,
+                            width: vertical ?
+                                1
+                                :
+                                width,
                         }}
                         onClick={() => selectItem(_frame)}
-                    />
+                    >
+                        <DetailBubble
+                            detail={detail}
+                        />
+                    </div>
                 )}
         </SelectionContext.Consumer>
     );

@@ -124,7 +124,7 @@ export default class RecursiveDetail {
         return this.__detailId || (
             this.__detailId = `${
             this.detailType === 'Horizontal' ?
-                'HZ'
+                'Z'
                 :
                 this.detailType[0].toUpperCase()
             }${

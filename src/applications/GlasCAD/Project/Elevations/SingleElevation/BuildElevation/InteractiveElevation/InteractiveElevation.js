@@ -5,7 +5,6 @@ import { TransformContext } from '../contexts/TransformContext';
 
 import Container from './components/Container';
 import Frame from './components/Frame';
-import Detail from './components/Detail';
 import FinishedFloor from './components/FinishedFloor';
 import DimensionButton from './components/DimensionButton';
 
@@ -57,16 +56,11 @@ export default class InteractiveElevation extends Component {
                 elevation: {
                     allContainers = [],
                     allFrames = [],
-                    allDetails = [],
                     roughOpening: {
                         x: rox = 0,
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
-                    containerDimensions: {
-                        true: verticalDimensions = [],
-                        false: horizontalDimensions = [],
-                    },
                     verticalContainerDimensionTracks = [],
                     horizontalContainerDimensionTracks = [],
                 },
@@ -103,7 +97,6 @@ export default class InteractiveElevation extends Component {
                                     <Container
                                         key={container.refId}
                                         container={container}
-                                        finishedFloorHeight={finishedFloorHeight}
                                     />
                                 ))}
                                 {/* FRAMES */}
@@ -111,14 +104,6 @@ export default class InteractiveElevation extends Component {
                                     <Frame
                                         key={_frame.refId}
                                         _frame={_frame}
-                                        finishedFloorHeight={finishedFloorHeight}
-                                    />
-                                ))}
-                                {allDetails.map(detail => (
-                                    <Detail
-                                        key={detail.refId}
-                                        detail={detail}
-                                        finishedFloorHeight={finishedFloorHeight}
                                     />
                                 ))}
                                 {/* FINISHED FLOOR */}

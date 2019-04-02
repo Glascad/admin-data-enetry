@@ -2,6 +2,8 @@ import React from 'react';
 
 import { SelectionContext } from '../../contexts/SelectionContext';
 
+import Detail from './Detail';
+
 export default function Frame({
     _frame,
     _frame: {
@@ -14,6 +16,7 @@ export default function Frame({
             height,
             width,
         },
+        details,
     },
 }) {
     return (
@@ -26,44 +29,54 @@ export default function Frame({
                 },
                 selectItem,
             }) => (
-                    <div
-                        // to make selecting a frame less difficult
-                        className={`frame-wrapper ${
-                            items.some(f => f.refId === refId) ?
-                                'selected'
-                                :
-                                ''
-                            } ${
-                            !length || typeof firstItem === 'string' || (
-                                firstItem.class === RecursiveFrame
-                                &&
-                                firstItem.vertical === vertical
-                            ) ?
-                                'selectable'
-                                :
-                                ''
-                            } ${
-                            vertical ?
-                                'vertical'
-                                :
-                                ''
-                            }`}
-                        onClick={() => selectItem(_frame)}
-                        style={{
-                            left: x - 10,
-                            bottom: y - 10,
-                            height: height + 20,
-                            width: width + 20,
-                        }}
-                    >
+                    <div>
+                        <div className="detail-wrapper">
+                            {details.map(detail => (
+                                <Detail
+                                    key={detail.refId}
+                                    detail={detail}
+                                />
+                            ))}
+                        </div>
                         <div
-                            id={refId}
-                            className="Frame"
+                            // to make selecting a frame less difficult
+                            className={`frame-wrapper ${
+                                items.some(f => f.refId === refId) ?
+                                    'selected'
+                                    :
+                                    ''
+                                } ${
+                                !length || typeof firstItem === 'string' || (
+                                    firstItem.class === RecursiveFrame
+                                    &&
+                                    firstItem.vertical === vertical
+                                ) ?
+                                    'selectable'
+                                    :
+                                    ''
+                                } ${
+                                vertical ?
+                                    'vertical'
+                                    :
+                                    ''
+                                }`}
+                            onClick={() => selectItem(_frame)}
                             style={{
-                                height,
-                                width,
+                                left: x - 10,
+                                bottom: y - 10,
+                                height: height + 20,
+                                width: width + 20,
                             }}
-                        />
+                        >
+                            <div
+                                id={refId}
+                                className="Frame"
+                                style={{
+                                    height,
+                                    width,
+                                }}
+                            />
+                        </div>
                     </div>
                 )}
         </SelectionContext.Consumer>

@@ -290,9 +290,6 @@ export default class RecursiveFrame {
             0;
 
         return {
-            recursiveFrame: this,
-            refId,
-            vertical,
             x,
             y: y - verticalBottomExtension,
             height: height + verticalBottomExtension + verticalTopExtension,
