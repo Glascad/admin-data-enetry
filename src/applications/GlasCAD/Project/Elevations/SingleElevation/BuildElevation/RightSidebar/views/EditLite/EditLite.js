@@ -3,12 +3,17 @@ import React from 'react';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 import {
+    StepHead,
+ } from '../../../../../../../../../assets/icons';
+
+import {
     TitleBar,
 } from '../../../../../../../../../components';
 
+import SidebarLink from '../../components/SidebarLink';
+
 import { MERGE_CONTAINERS } from '../../../ducks/actions';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
-import SidebarLink from '../../components/SidebarLink';
 
 // import EditInfill from './EditInfill';
 // import AddVertical from '../add/AddVertical';
@@ -71,16 +76,19 @@ function EditLite({
                             <SidebarLink
                                 toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Vertical", component: () => null }}
+                                Icon={StepHead}
                             />
                             <SidebarLink
                                 toggleStackedView={toggleStackedView}
                                 View={{ name: "Add Horizontal", component: () => null }}
+                                Icon={StepHead}
                             />
                         </div>
                         <div className="sidebar-group">
                             <SidebarLink
                                 toggleStackedView={toggleStackedView}
                                 View={{ name: "Edit Infill", component: () => null }}
+                                Icon={StepHead}
                             />
                         </div>
                     </>
