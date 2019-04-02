@@ -130,7 +130,9 @@
                     }
                 }
 
-                &.first-container-selected, &.second-container-selected, &.frame-selected {
+                &.first-container-selected,
+                &.second-container-selected,
+                &.frame-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
                             display: flex;
@@ -139,13 +141,31 @@
                 }
 
                 &.horizontal {
-                    .detail-bubble-placement {
-                        .DetailBubble {
-                            transform: rotate(-45deg);
-                            margin-bottom: $xxxxx-large + $xxx-large;
+                    &.second-container-selected {
+                        .detail-bubble-placement {
+                            .DetailBubble {
+                                transform: rotate(135deg);
+                                margin-top: $xxxxx-large + $xxx-large;
+    
+                                .detail-id {
+                                    transform: rotate(-135deg);
+                                }
+                            }
+                        }
+                    }
 
-                            .detail-id {
-                                transform: rotate(45deg);
+                    &.first-container-selected,
+                    &.frame-selected,
+                    &.no-first-container {
+                        .detail-bubble-placement {
+                            .DetailBubble {
+                                transform: rotate(-45deg);
+                                margin-bottom: $xxxxx-large + $xxx-large;
+                                margin-top: 0;
+
+                                .detail-id {
+                                    transform: rotate(45deg);
+                                }
                             }
                         }
                     }
@@ -165,7 +185,8 @@
                         }
                     }
 
-                    &.second-container-selected, &.frame-selected {
+                    &.second-container-selected,
+                    &.frame-selected {
                         .detail-bubble-placement {
                             .DetailBubble {
                                 transform: rotate(-135deg);

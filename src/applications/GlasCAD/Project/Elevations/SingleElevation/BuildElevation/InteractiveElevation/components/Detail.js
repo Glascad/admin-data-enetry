@@ -44,6 +44,11 @@ export default function Detail({
                                         :
                                         ''
                             } ${
+                            firstContainer ?
+                                ''
+                                :
+                                'no-first-container'
+                            } ${
                             !length || typeof firstItem === 'string' || (
                                 firstItem.class === RecursiveDetail
                                 &&

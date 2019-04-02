@@ -60,7 +60,7 @@ export default function DimensionButton({
                             [offsetKey]: offset,
                             [trackOffsetKey]: trackOffset,
                         }}
-                        onClick={() => containers.every(container => items.includes(container)) ?
+                        onClick={() => containers.some(container => items.includes(container)) ?
                             containers.forEach(container => unselectItem(container))
                             :
                             containers.forEach(container => selectItem(container, true))}
