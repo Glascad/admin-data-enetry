@@ -50,10 +50,10 @@ export default function Container({
                                 ''
                             }`}
                         style={{
-                            left: x,
-                            bottom: y,
-                            height,
-                            width,
+                            left: ~~x,
+                            bottom: ~~y,
+                            height: ~~height,
+                            width: ~~width,
                         }}
                         onClick={() => selectItem(container)}
                         tabIndex={tabIndex}

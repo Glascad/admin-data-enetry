@@ -64,10 +64,10 @@ export default function Detail({
                                 'horizontal'
                             }`}
                         style={{
-                            left: x,
-                            bottom: y,
-                            height,
-                            width,
+                            left: ~~x,
+                            bottom: ~~y,
+                            height: ~~height,
+                            width: ~~width,
                         }}
                         onClick={() => selectItem(_frame)}
                     >

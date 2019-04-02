@@ -54,11 +54,11 @@ export default function DimensionButton({
                                 ''
                             }`}
                         style={{
-                            [dimensionKey.toLowerCase()]: dimension,
-                            [`max${dimensionKey}`]: dimension,
-                            [`min${dimensionKey}`]: dimension,
-                            [offsetKey]: offset,
-                            [trackOffsetKey]: trackOffset,
+                            [dimensionKey.toLowerCase()]: ~~dimension,
+                            [`max${dimensionKey}`]: ~~dimension,
+                            [`min${dimensionKey}`]: ~~dimension,
+                            [offsetKey]: ~~offset,
+                            [trackOffsetKey]: ~~trackOffset,
                         }}
                         onClick={() => containers.some(container => items.includes(container)) ?
                             containers.forEach(container => unselectItem(container))
