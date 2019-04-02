@@ -49,9 +49,9 @@ export default class RecursiveDetail {
     get refId() { return `Detail-${this.id}`; }
     get ref() { return document.getElementById(this.refId); }
 
-    get frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
-    get frameRefId() { return this.frame.refId; }
-    get frameRef() { return this.frame.ref; }
+    get _frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
+    get frameRefId() { return this._frame.refId; }
+    get frameRef() { return this._frame.ref; }
 
     getContainerByDirection = first => this.elevation.containers[
         first ?
@@ -124,7 +124,7 @@ export default class RecursiveDetail {
         return this.__detailId || (
             this.__detailId = `${
             this.detailType === 'Horizontal' ?
-                'HZ'
+                'Z'
                 :
                 this.detailType[0].toUpperCase()
             }${
@@ -334,5 +334,88 @@ export default class RecursiveDetail {
             );
         }
         return this.__allMatchedDetails;
+    }
+
+    // PLACEMENT
+    get placement() {
+        if (!this.__placement) {
+            const {
+                vertical,
+                firstContainer,
+                secondContainer,
+                _frame: {
+                    placement: {
+                        x: frameX,
+                        y: frameY,
+                        height: frameHeight,
+                        width: frameWidth,
+                    }
+                },
+            } = this;
+
+            const x = vertical ?
+                frameX
+                :
+                Math.max(
+                    firstContainer ?
+                        firstContainer.placement.x
+                        :
+                        0,
+                    secondContainer ?
+                        secondContainer.placement.x
+                        :
+                        0,
+                );
+
+            const y = vertical ?
+                Math.max(
+                    firstContainer ?
+                        firstContainer.placement.y
+                        :
+                        0,
+                    secondContainer ?
+                        secondContainer.placement.y
+                        :
+                        0,
+                )
+                :
+                frameY;
+
+            const height = vertical ?
+                Math.min(
+                    firstContainer ?
+                        firstContainer.placement.y + firstContainer.placement.height
+                        :
+                        Infinity,
+                    secondContainer ?
+                        secondContainer.placement.y + secondContainer.placement.height
+                        :
+                        Infinity,
+                ) - y
+                :
+                frameHeight;
+
+            const width = vertical ?
+                frameWidth
+                :
+                Math.min(
+                    firstContainer ?
+                        firstContainer.placement.x + firstContainer.placement.width
+                        :
+                        Infinity,
+                    secondContainer ?
+                        secondContainer.placement.x + secondContainer.placement.width
+                        :
+                        Infinity,
+                ) - x;
+
+            this.__placement = {
+                x,
+                y,
+                height,
+                width,
+            };
+        }
+        return this.__placement;
     }
 }

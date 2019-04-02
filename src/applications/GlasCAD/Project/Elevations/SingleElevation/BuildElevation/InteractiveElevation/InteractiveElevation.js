@@ -3,10 +3,10 @@ import React, { Component, createRef } from 'react';
 import { StaticContext } from '../../../../../../../Statics/Statics';
 import { TransformContext } from '../contexts/TransformContext';
 
-import Container from './elevation-components/Container';
-import Frame from './elevation-components/Frame';
-import FinishedFloor from './elevation-components/FinishedFloor';
-import DimensionButton from './elevation-components/DimensionButton';
+import Container from './components/Container';
+import Frame from './components/Frame';
+import FinishedFloor from './components/FinishedFloor';
+import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
 
@@ -61,10 +61,6 @@ export default class InteractiveElevation extends Component {
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
-                    containerDimensions: {
-                        true: verticalDimensions = [],
-                        false: horizontalDimensions = [],
-                    },
                     verticalContainerDimensionTracks = [],
                     horizontalContainerDimensionTracks = [],
                 },
@@ -101,7 +97,6 @@ export default class InteractiveElevation extends Component {
                                     <Container
                                         key={container.refId}
                                         container={container}
-                                        finishedFloorHeight={finishedFloorHeight}
                                     />
                                 ))}
                                 {/* FRAMES */}
@@ -109,7 +104,6 @@ export default class InteractiveElevation extends Component {
                                     <Frame
                                         key={_frame.refId}
                                         _frame={_frame}
-                                        finishedFloorHeight={finishedFloorHeight}
                                     />
                                 ))}
                                 {/* FINISHED FLOOR */}

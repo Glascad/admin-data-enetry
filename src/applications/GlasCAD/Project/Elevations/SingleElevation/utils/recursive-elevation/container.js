@@ -214,8 +214,6 @@ export default class RecursiveContainer {
     get placement() {
         return this.__placement || (
             this.__placement = {
-                recursiveContainer: this,
-                refId: this.refId,
                 height: this.daylightOpening.y,
                 width: this.daylightOpening.x,
                 x: this.placementX,

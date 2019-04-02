@@ -83,14 +83,16 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
         .icon {
             position: absolute;
             top: 50%;
-            left: $small;
+            left: $xx-small;
             transform: translateY(-50%);
 
             &.after {
                 left: unset;
-                right: $small;
+                right: $xx-small;
 
                 &.DoubleArrow {
+                    right: $small;
+
                     .arrow {
                         transform: rotate(180deg);
                     }

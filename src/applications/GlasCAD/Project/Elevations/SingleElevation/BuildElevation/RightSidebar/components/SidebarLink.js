@@ -8,12 +8,18 @@ export default function SidebarLink({
     View: {
         name,
     },
+    Icon,
 }) {
     return (
         <button
             className="sidebar-button empty"
             onClick={() => toggleStackedView(View)}
         >
+            {Icon ? (
+                <Icon
+                    className="icon"
+                />
+            ) : null}
             <span>{name}</span>
             <DoubleArrow
                 className="icon after"
