@@ -27,7 +27,6 @@
                 // background: $selected-color;
                 // color: $off-white;
                 // background: transparentize($selected-color, 0.33);
-                // z-index: 10;
                 box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
 
                 &.last-selected {
@@ -44,169 +43,204 @@
             }
         }
 
-        .frame-wrapper {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-
-            .Frame {
-                background: $light-gray;
-            }
-
-            &.vertical {
-                z-index: 2;
-
-                .Frame {
-                    background: $medium-gray;
-                    z-index: 3;
-                }
-            }
-
-            &.selected {
-                .Frame {
-                    background: $selected-color;
-                }
-            }
-
-            &:hover {
-                &.selectable {
-                    &:not(.selected) {
-                        .Frame {
-                            background: $dark-gray;
-                        }
-                    }
-                }
-            }
-        }
-
-        .detail-wrapper {
-            .Detail {
+        .frame-hover-wrapper {
+            .frame-wrapper {
                 position: absolute;
-                // background: $selected-color;
-                z-index: 4;
-
-                &.selected {
-                    background: $dark-gray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                .Frame {
+                    background: $light-gray;
                 }
-
-                .detail-bubble-placement {
+                
+                // &:hover {
+                //     &.selectable {
+                //         &:not(.selected) {
+                //             .Frame {
+                //                 background: $dark-gray;
+                //             }
+                //         }
+                //     }
+                // }
+            }
+            
+            .detail-wrapper {
+                .Detail {
                     position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    height: 0;
-                    width: 0;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-
-                    .DetailBubble {
-                        // HIDDEN BY DEFAULT
-                        display: none;
-                        // HIDDEN BY DEFAULT
-                        position: relative;
-                        height: $xxxxx-large;
-                        width: $xxxxx-large;
-                        max-height: $xxxxx-large;
-                        max-width: $xxxxx-large;
-                        min-height: $xxxxx-large;
-                        min-width: $xxxxx-large;
-                        padding: 0;
-                        border-radius: $xxxxx-large;
-                        border-bottom-left-radius: 0;
-                        background: white;
-                        border: $icon-thickness solid $selected-color;
-                        // display: flex;
+                    z-index: 1;
+                    // background: $selected-color;
+                    
+                    .detail-bubble-placement {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        height: 0;
+                        width: 0;
+                        display: flex;
                         justify-content: center;
                         align-items: center;
-                        cursor: default;
-                        color: $selected-color;
-                        font-weight: bold;
-
-                        &:hover {
-                            background: $light-gray;
-                        }
-                    }
-                }
-
-                &.first-container-selected,
-                &.second-container-selected,
-                &.frame-selected {
-                    .detail-bubble-placement {
+                        
                         .DetailBubble {
-                            display: flex;
-                        }
-                    }
-                }
-
-                &.horizontal {
-                    &.second-container-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(135deg);
-                                margin-top: $xxxxx-large + $xxx-large;
-    
-                                .detail-id {
-                                    transform: rotate(-135deg);
-                                }
+                            // HIDDEN BY DEFAULT
+                            display: none;
+                            // HIDDEN BY DEFAULT
+                            position: relative;
+                            height: $xxxxx-large;
+                            width: $xxxxx-large;
+                            max-height: $xxxxx-large;
+                            max-width: $xxxxx-large;
+                            min-height: $xxxxx-large;
+                            min-width: $xxxxx-large;
+                            padding: 0;
+                            border-radius: $xxxxx-large;
+                            border-bottom-left-radius: 0;
+                            background: white;
+                            border: $icon-thickness solid $selected-color;
+                            // display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: default;
+                            color: $selected-color;
+                            font-weight: bold;
+                            
+                            &:hover {
+                                background: $light-gray;
                             }
                         }
                     }
-
+                    
                     &.first-container-selected,
-                    &.frame-selected,
-                    &.no-first-container {
+                    &.second-container-selected,
+                    &.frame-selected {
+                        .detail-bubble-placement {
+                            .DetailBubble {
+                                display: flex;
+                            }
+                        }
+                    }
+                    
+                    &.horizontal {
                         .detail-bubble-placement {
                             .DetailBubble {
                                 transform: rotate(-45deg);
                                 margin-bottom: $xxxxx-large + $xxx-large;
                                 margin-top: 0;
-
+                                
                                 .detail-id {
                                     transform: rotate(45deg);
                                 }
                             }
                         }
-                    }
-                }
 
-                &.vertical {
-                    &.first-container-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(45deg);
-                                margin-left: $xxxxx-large + $xxx-large;
-
-                                .detail-id {
+                        &.second-container-selected {
+                            .detail-bubble-placement {
+                                .DetailBubble {
+                                    transform: rotate(135deg);
+                                    margin-top: $xxxxx-large + $xxx-large;
+                                    margin-bottom: 0;
+                                    
+                                    .detail-id {
+                                        transform: rotate(-135deg);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        &.first-container-selected,
+                        &.frame-selected,
+                        &.no-first-container {
+                            .detail-bubble-placement {
+                                .DetailBubble {
                                     transform: rotate(-45deg);
+                                    margin-bottom: $xxxxx-large + $xxx-large;
+                                    margin-top: 0;
+                                    
+                                    .detail-id {
+                                        transform: rotate(45deg);
+                                    }
                                 }
                             }
                         }
                     }
-
-                    &.second-container-selected,
-                    &.frame-selected {
+                    
+                    &.vertical {
                         .detail-bubble-placement {
                             .DetailBubble {
                                 transform: rotate(-135deg);
                                 margin-right: $xxxxx-large + $xxx-large;
-
+                                margin-left: 0;
+                                
                                 .detail-id {
                                     transform: rotate(135deg);
+                                }
+                            }
+                        }
+
+                        &.first-container-selected {
+                            .detail-bubble-placement {
+                                .DetailBubble {
+                                    transform: rotate(45deg);
+                                    margin-left: $xxxxx-large + $xxx-large;
+                                    margin-right: 0;
+                                    
+                                    .detail-id {
+                                        transform: rotate(-45deg);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        &.second-container-selected,
+                        &.frame-selected {
+                            .detail-bubble-placement {
+                                .DetailBubble {
+                                    transform: rotate(-135deg);
+                                    margin-right: $xxxxx-large + $xxx-large;
+                                    margin-left: 0;
+                                    
+                                    .detail-id {
+                                        transform: rotate(135deg);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            
+            &.selected {
+                .frame-wrapper {
+                    .Frame {
+                        background: $selected-color !important;
+                    }
+                }
+                .detail-wrapper {
+                    .Detail {
+                        // background: $dark-gray;
+                    }
+                }
+            }
 
+            &.vertical {
+                .frame-wrapper {
+                    .Frame {
+                        background: $medium-gray;
+                    }
+                }
+            }
+            
             &:hover {
-                + .frame-wrapper {
-                    &.selectable {
-                        &:not(.selected) {
+                &.selectable {
+                    &:not(.selected) {
+                        .frame-wrapper {
                             .Frame {
                                 background: $dark-gray;
+                            }
+                        }
+                        .detail-wrapper {
+                            .DetailBubble {
+                                display: flex;
                             }
                         }
                     }
@@ -214,12 +248,14 @@
             }
         }
 
-        #finished-floor {
+        #FinishedFloor {
             position: absolute;
-            background: $dark-gray;
-            left: -100px;
-            right: -100px;
-            height: 2px;
+            background: black;
+            left: -$large;
+            right: -$large;
+            height: $xx-small;
+            transform: translateY($xx-small);
+            z-index: 1;
         }
     }
 
