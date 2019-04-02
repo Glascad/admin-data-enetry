@@ -16,6 +16,8 @@ export default function Detail({
             height,
             width,
         },
+        firstContainer,
+        secondContainer,
     },
 }) {
     return (
@@ -32,9 +34,15 @@ export default function Detail({
                         id={refId}
                         className={`Detail ${
                             items.some(f => f.refId === _frame.refId) ?
-                                'selected'
+                                'frame-selected'
                                 :
-                                ''
+                                firstContainer && items.some(c => c.refId === firstContainer.refId) ?
+                                    'first-container-selected'
+                                    :
+                                    secondContainer && items.some(c => c.refId === secondContainer.refId) ?
+                                        'second-container-selected'
+                                        :
+                                        ''
                             } ${
                             !length || typeof firstItem === 'string' || (
                                 firstItem.class === RecursiveDetail
@@ -48,7 +56,7 @@ export default function Detail({
                             vertical ?
                                 'vertical'
                                 :
-                                ''
+                                'horizontal'
                             }`}
                         style={{
                             left: vertical ?
@@ -74,7 +82,8 @@ export default function Detail({
                             detail={detail}
                         />
                     </div>
-                )}
-        </SelectionContext.Consumer>
+                )
+            }
+        </SelectionContext.Consumer >
     );
 }

@@ -1,5 +1,4 @@
-
-@import '../../../../../../../styles/variables';
+@import "../../../../../../../styles/variables";
 
 #InteractiveElevation {
     position: relative;
@@ -8,14 +7,14 @@
     align-items: center;
     height: fill;
     overflow: hidden;
-    
+
     #elevation-display {
         // background: rgba(255, 0, 0, 0.1);
 
         .Container {
             position: absolute;
             background: transparentize($light-blue, 0.75);
-            
+
             &.selectable {
                 &:hover {
                     &:not(.selected) {
@@ -30,7 +29,7 @@
                 // background: transparentize($selected-color, 0.33);
                 // z-index: 10;
                 box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-                
+
                 &.last-selected {
                     box-shadow: inset 0 0 $x-small $xx-small $selected-color;
 
@@ -55,7 +54,7 @@
             .Frame {
                 background: $light-gray;
             }
-            
+
             &.vertical {
                 z-index: 2;
 
@@ -64,7 +63,7 @@
                     z-index: 3;
                 }
             }
-            
+
             &.selected {
                 .Frame {
                     background: $selected-color;
@@ -81,11 +80,11 @@
                 }
             }
         }
-        
+
         .detail-wrapper {
             .Detail {
                 position: absolute;
-                background: $selected-color;
+                // background: $selected-color;
                 z-index: 4;
 
                 &.selected {
@@ -103,6 +102,9 @@
                     align-items: center;
 
                     .DetailBubble {
+                        // HIDDEN BY DEFAULT
+                        display: none;
+                        // HIDDEN BY DEFAULT
                         position: relative;
                         height: $xxxxx-large;
                         width: $xxxxx-large;
@@ -110,26 +112,74 @@
                         max-width: $xxxxx-large;
                         min-height: $xxxxx-large;
                         min-width: $xxxxx-large;
+                        padding: 0;
                         border-radius: $xxxxx-large;
                         border-bottom-left-radius: 0;
                         background: white;
                         border: $icon-thickness solid $selected-color;
-                        display: flex;
+                        // display: flex;
                         justify-content: center;
                         align-items: center;
                         cursor: default;
                         color: $selected-color;
                         font-weight: bold;
-                        margin-bottom: $xxxxx-large + $large;
-                        transform: rotate(-45deg);
 
-                        .detail-id {
-                            transform: rotate(45deg);
+                        &:hover {
+                            background: $light-gray;
+                        }
+                    }
+                }
+
+                &.first-container-selected, &.second-container-selected {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            display: flex;
+                        }
+                    }
+                }
+
+                &.horizontal {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(-45deg);
+                            margin-bottom: $xxxxx-large + $xxx-large;
+
+                            .detail-id {
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+                }
+
+                &.vertical {
+                    &.first-container-selected {
+                        .detail-bubble-placement {
+                            .DetailBubble {
+                                transform: rotate(45deg);
+                                margin-left: $xxxxx-large + $xxx-large;
+
+                                .detail-id {
+                                    transform: rotate(-45deg);
+                                }
+                            }
+                        }
+                    }
+
+                    &.second-container-selected {
+                        .detail-bubble-placement {
+                            .DetailBubble {
+                                transform: rotate(-135deg);
+                                margin-right: $xxxxx-large + $xxx-large;
+
+                                .detail-id {
+                                    transform: rotate(135deg);
+                                }
+                            }
                         }
                     }
                 }
             }
-            
+
             &:hover {
                 + .frame-wrapper {
                     &.selectable {
@@ -159,18 +209,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        
+
         &.horizontal {
             height: $x-large;
             max-height: $x-large;
             min-height: $x-large;
         }
-        
+
         &.vertical {
             width: $x-large;
             max-width: $x-large;
             min-width: $x-large;
-            
+
             span {
                 transform: translateX(2px) rotate(-90deg);
             }

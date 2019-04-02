@@ -23,7 +23,7 @@ export default function DetailBubble({
                     <div
                         className={`detail-bubble-placement`}
                     >
-                        <div
+                        <button
                             className={`DetailBubble ${
                                 // items.some()
                                 ''
@@ -32,7 +32,7 @@ export default function DetailBubble({
                             <span className="detail-id">
                                 {detailId}
                             </span>
-                        </div>
+                        </button>
                     </div>
                 )}
         </SelectionContext.Consumer>
