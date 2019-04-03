@@ -34,6 +34,8 @@ export default class BuildElevation extends Component {
 
     updateElevation = (ACTION, payload, cb) => this.setState(state => ACTION(state, payload), cb);
 
+    cancel = () => this.setState({ elevation: defaultElevationUpdate });
+
     save = async () => {
         const elevationInput = {
             elevation: {
@@ -84,6 +86,7 @@ export default class BuildElevation extends Component {
                 },
             },
             updateElevation,
+            cancel,
             save,
         } = this;
 
@@ -117,6 +120,7 @@ export default class BuildElevation extends Component {
                         history={history}
                         elevation={recursiveElevation}
                         save={save}
+                        cancel={cancel}
                     />
                     <InteractiveElevation
                         elevation={recursiveElevation}

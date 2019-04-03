@@ -18,7 +18,8 @@
             &.selectable {
                 &:hover {
                     &:not(.selected) {
-                        box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                        // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                        background: transparentize($light-blue, 0.45);
                     }
                 }
             }
@@ -27,7 +28,9 @@
                 // background: $selected-color;
                 // color: $off-white;
                 // background: transparentize($selected-color, 0.33);
-                box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+                // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+                // background: transparentize($light-blue, 0.35);
+                background: $selected-color;
 
                 &.last-selected {
                     box-shadow: inset 0 0 $x-small $xx-small $selected-color;
@@ -49,28 +52,18 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                
+
                 .Frame {
                     background: $light-gray;
                 }
-                
-                // &:hover {
-                //     &.selectable {
-                //         &:not(.selected) {
-                //             .Frame {
-                //                 background: $dark-gray;
-                //             }
-                //         }
-                //     }
-                // }
             }
-            
+
             .detail-wrapper {
                 .Detail {
                     position: absolute;
                     z-index: 1;
                     // background: $selected-color;
-                    
+
                     .detail-bubble-placement {
                         position: absolute;
                         top: 50%;
@@ -80,7 +73,7 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        
+
                         .DetailBubble {
                             // HIDDEN BY DEFAULT
                             display: none;
@@ -103,13 +96,13 @@
                             cursor: default;
                             color: $selected-color;
                             font-weight: bold;
-                            
+
                             &:hover {
                                 background: $light-gray;
                             }
                         }
                     }
-                    
+
                     &.first-container-selected,
                     &.second-container-selected,
                     &.frame-selected {
@@ -119,14 +112,18 @@
                             }
                         }
                     }
-                    
-                    &.horizontal {
+                }
+            }
+
+            &.horizontal {
+                .detail-wrapper {
+                    .Detail {
                         .detail-bubble-placement {
                             .DetailBubble {
                                 transform: rotate(-45deg);
                                 margin-bottom: $xxxxx-large + $xxx-large;
                                 margin-top: 0;
-                                
+
                                 .detail-id {
                                     transform: rotate(45deg);
                                 }
@@ -139,14 +136,14 @@
                                     transform: rotate(135deg);
                                     margin-top: $xxxxx-large + $xxx-large;
                                     margin-bottom: 0;
-                                    
+
                                     .detail-id {
                                         transform: rotate(-135deg);
                                     }
                                 }
                             }
                         }
-                        
+
                         &.first-container-selected,
                         &.frame-selected,
                         &.no-first-container {
@@ -155,7 +152,7 @@
                                     transform: rotate(-45deg);
                                     margin-bottom: $xxxxx-large + $xxx-large;
                                     margin-top: 0;
-                                    
+
                                     .detail-id {
                                         transform: rotate(45deg);
                                     }
@@ -163,14 +160,18 @@
                             }
                         }
                     }
-                    
-                    &.vertical {
+                }
+            }
+
+            &.vertical {
+                .detail-wrapper {
+                    .Detail {
                         .detail-bubble-placement {
                             .DetailBubble {
                                 transform: rotate(-135deg);
                                 margin-right: $xxxxx-large + $xxx-large;
                                 margin-left: 0;
-                                
+
                                 .detail-id {
                                     transform: rotate(135deg);
                                 }
@@ -183,14 +184,14 @@
                                     transform: rotate(45deg);
                                     margin-left: $xxxxx-large + $xxx-large;
                                     margin-right: 0;
-                                    
+
                                     .detail-id {
                                         transform: rotate(-45deg);
                                     }
                                 }
                             }
                         }
-                        
+
                         &.second-container-selected,
                         &.frame-selected {
                             .detail-bubble-placement {
@@ -198,7 +199,7 @@
                                     transform: rotate(-135deg);
                                     margin-right: $xxxxx-large + $xxx-large;
                                     margin-left: 0;
-                                    
+
                                     .detail-id {
                                         transform: rotate(135deg);
                                     }
@@ -208,11 +209,20 @@
                     }
                 }
             }
-            
+
+            &.vertical {
+                .frame-wrapper {
+                    .Frame {
+                        background: $medium-gray;
+                        z-index: 2;
+                    }
+                }
+            }
+
             &.selected {
                 .frame-wrapper {
                     .Frame {
-                        background: $selected-color !important;
+                        background: $selected-color;
                     }
                 }
                 .detail-wrapper {
@@ -222,14 +232,6 @@
                 }
             }
 
-            &.vertical {
-                .frame-wrapper {
-                    .Frame {
-                        background: $medium-gray;
-                    }
-                }
-            }
-            
             &:hover {
                 &.selectable {
                     &:not(.selected) {
@@ -250,7 +252,7 @@
 
         #FinishedFloor {
             position: absolute;
-            background: black;
+            background: $dark-gray;
             left: -$large;
             right: -$large;
             height: $xx-small;
@@ -267,7 +269,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 2;
+        z-index: 3;
 
         &.horizontal {
             height: $x-large;
@@ -280,14 +282,20 @@
             max-width: $x-large;
             min-width: $x-large;
 
-            span {
-                transform: translateX(2px) rotate(-90deg);
+            div {
+                width: 100%;
+                height: 100%;
+                transform: rotate(-90deg);
             }
         }
 
         &.selected {
             background: $selected-color;
             color: $off-white;
+        }
+
+        &:hover {
+            background: $light-gray;
         }
     }
 }

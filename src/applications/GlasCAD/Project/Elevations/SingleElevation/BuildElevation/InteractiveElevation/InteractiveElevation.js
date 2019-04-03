@@ -133,6 +133,7 @@ export default class InteractiveElevation extends Component {
                                                     key={dimension.refId}
                                                     track={i}
                                                     dimension={dimension}
+                                                    finishedFloorHeight={finishedFloorHeight}
                                                 />
                                             ))}
                                         </div>

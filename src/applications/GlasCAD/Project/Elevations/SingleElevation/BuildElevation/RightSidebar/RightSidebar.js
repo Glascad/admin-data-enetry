@@ -148,7 +148,7 @@ const mapProps = ({
                 :
                 VIEWS.EditHorizontal
             :
-            VIEWS.Settings
+            VIEWS.Settings,
 });
 
 export default withContext(SelectionContext, mapProps)(RightSidebar);

@@ -48,7 +48,7 @@ export default function Frame({
                             vertical ?
                                 'vertical'
                                 :
-                                ''
+                                'horizontal'
                             }`}
                     >
                         <div className="detail-wrapper">

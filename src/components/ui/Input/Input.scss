@@ -165,10 +165,10 @@
         align-items: center;
 
         svg {
-            width: $large;
-            height: $large;
-            max-width: $large;
-            max-height: $large;
+            width: $base-size;
+            height: $base-size;
+            max-width: $base-size;
+            max-height: $base-size;
 
             &.hamburger {
                 rect {

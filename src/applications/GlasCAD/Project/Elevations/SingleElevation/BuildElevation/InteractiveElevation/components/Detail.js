@@ -48,20 +48,6 @@ export default function Detail({
                                 ''
                                 :
                                 'no-first-container'
-                            } ${
-                            !length || typeof firstItem === 'string' || (
-                                firstItem.class === RecursiveDetail
-                                &&
-                                firstItem.vertical === vertical
-                            ) ?
-                                'selectable'
-                                :
-                                ''
-                            } ${
-                            vertical ?
-                                'vertical'
-                                :
-                                'horizontal'
                             }`}
                         style={{
                             left: ~~x,

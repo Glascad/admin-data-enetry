@@ -104,15 +104,16 @@
             }
 
             .stroke {
-                stroke: $medium-gray;
+                stroke: $light-gray;
             }
 
             .fill {
-                fill: $medium-gray;
+                fill: $light-gray;
             }
 
             .emphasis {
-                fill: $selected-color;
+                // fill: $selected-color;
+                fill: cyan;
             }
         }
         

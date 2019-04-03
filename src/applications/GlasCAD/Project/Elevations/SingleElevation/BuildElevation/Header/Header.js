@@ -19,6 +19,7 @@ export default function Header({
     path,
     search,
     name,
+    cancel,
     save,
     history,
 }) {
@@ -73,6 +74,11 @@ export default function Header({
                             Cancel
                         </button>
                     </Link>
+                    <button
+                        onClick={cancel}
+                    >
+                        Cancel Changes
+                    </button>
                     <button
                         onClick={async () => {
                             const result = await save();
