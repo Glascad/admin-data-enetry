@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import { SelectionContext } from '../contexts/SelectionContext';
 
@@ -12,7 +12,7 @@ import {
     withContext,
 } from '../../../../../../../components';
 
-class RightSidebar extends Component {
+class RightSidebar extends PureComponent {
 
     state = {
         stackedView: undefined,
@@ -75,7 +75,7 @@ class RightSidebar extends Component {
                 },
                 View: {
                     name: initialName,
-                    component: InitialComponent,
+                    component: InitialPureComponent,
                 }
             },
             toggleStackedView,
@@ -94,7 +94,7 @@ class RightSidebar extends Component {
         const Child = stackedView ?
             StackedChild
             :
-            InitialComponent;
+            InitialPureComponent;
 
         return (
             <div id="RightSidebar" className={length ? "" : "closed"}>

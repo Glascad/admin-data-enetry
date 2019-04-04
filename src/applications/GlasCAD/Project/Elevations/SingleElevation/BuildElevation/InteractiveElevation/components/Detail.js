@@ -18,6 +18,7 @@ class Detail extends PureComponent {
                 detail,
                 detail: {
                     refId,
+                    vertical,
                     _frame: {
                         refId: frameRefId,
                     },
@@ -35,6 +36,8 @@ class Detail extends PureComponent {
                         refId: secondContainerRefId,
                     } = {},
                 },
+                frameSelected,
+                containerSelected,
             },
             handleClick,
         } = this;
@@ -43,7 +46,7 @@ class Detail extends PureComponent {
             <div
                 id={refId}
                 className={`Detail ${
-                    frameRefId in itemsByRefId ?
+                    frameSelected ?
                         'frame-selected'
                         :
                         firstContainerRefId in itemsByRefId ?
@@ -58,6 +61,11 @@ class Detail extends PureComponent {
                         ''
                         :
                         'no-first-container'
+                    } ${
+                    vertical ?
+                        'vertical'
+                        :
+                        'horizontal'
                     }`}
                 style={{
                     left: ~~x,

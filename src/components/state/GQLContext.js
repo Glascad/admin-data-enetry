@@ -1,10 +1,10 @@
-import React, { Component, createContext } from 'react';
+import React, { PureComponent, createContext } from 'react';
 
 import axios from 'axios';
 
 const GQLContext = createContext();
 
-export default class GQLProvider extends Component {
+export default class GQLProvider extends PureComponent {
 
     state = {};
 
@@ -88,7 +88,7 @@ export default class GQLProvider extends Component {
     }
 }
 
-export class GQLConsumer extends Component {
+export class GQLConsumer extends PureComponent {
 
     static contextType = GQLContext;
 

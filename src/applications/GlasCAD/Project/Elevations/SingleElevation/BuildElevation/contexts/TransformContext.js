@@ -1,10 +1,10 @@
-import React, { Component, createContext } from 'react';
+import React, { PureComponent, createContext } from 'react';
 
 export const TransformContext = createContext();
 
 const defaultScale = 1;
 
-export default class TransformProvider extends Component {
+export default class TransformProvider extends PureComponent {
 
     state = {
         scale: {

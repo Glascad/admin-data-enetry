@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
     GroupingBox,
@@ -13,7 +13,7 @@ import ACTIONS from '../ducks/actions';
 
 const isNullOrUndefined = item => item === undefined || item === null;
 
-export default class SystemConfigurationOverride extends Component {
+export default class SystemConfigurationOverride extends PureComponent {
 
     handleChange = (key, value) => {
         const {

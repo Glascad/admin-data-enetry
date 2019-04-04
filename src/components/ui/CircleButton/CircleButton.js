@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import './CircleButton.scss';
 import ButtonTile from '../ButtonTile/ButtonTile';
 
-export default class CircleButton extends Component {
+export default class CircleButton extends PureComponent {
 
     // static propTypes = {
     //     type: PropTypes.oneOf([

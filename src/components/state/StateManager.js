@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 
 /**
  * PURPOSE
@@ -9,7 +9,7 @@ import { Component } from 'react';
  * 
  */
 
-export default class StateManager extends Component {
+export default class StateManager extends PureComponent {
 
     state = this.props.initialState || {};
 

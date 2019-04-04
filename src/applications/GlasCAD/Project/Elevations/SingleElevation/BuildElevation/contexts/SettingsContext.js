@@ -1,8 +1,8 @@
-import React, { Component, createContext } from 'react';
+import React, { PureComponent, createContext } from 'react';
 
 export const SettingsContext = createContext();
 
-export default class SettingsProvider extends Component {
+export default class SettingsProvider extends PureComponent {
 
     state = {
         shouldRender: {

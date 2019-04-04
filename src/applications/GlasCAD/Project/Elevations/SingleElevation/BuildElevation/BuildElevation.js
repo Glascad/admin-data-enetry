@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
 
@@ -20,7 +20,7 @@ const defaultElevationUpdate = {
     details: [],
 };
 
-export default class BuildElevation extends Component {
+export default class BuildElevation extends PureComponent {
 
     static contextType = StaticContext;
 

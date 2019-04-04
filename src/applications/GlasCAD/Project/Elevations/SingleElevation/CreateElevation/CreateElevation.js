@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import gql from 'graphql-tag';
 
@@ -28,7 +28,7 @@ import {
 } from './elevation-input';
 import CircleButton from '../../../../../../components/ui/CircleButton/CircleButton';
 
-export default class CreateElevation extends Component {
+export default class CreateElevation extends PureComponent {
 
     state = {
         elevation: defaultElevationInput,

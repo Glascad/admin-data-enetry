@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 
@@ -38,7 +38,7 @@ const normalizeResponse = ({ data }) => removeNullValues(
  * 
  */
 
-export default class ApolloWrapper extends Component {
+export default class ApolloWrapper extends PureComponent {
 
     // static propTypes = {
     //     query: PropTypes.shape({

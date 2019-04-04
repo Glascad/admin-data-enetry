@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { PureComponent, createRef } from 'react';
 
 import { StaticContext } from '../../../../../../../Statics/Statics';
 import { TransformContext } from '../contexts/TransformContext';
@@ -10,7 +10,7 @@ import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
 
-export default class InteractiveElevation extends Component {
+export default class InteractiveElevation extends PureComponent {
 
     static contextType = StaticContext;
 

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import './Modal.scss';
 import TitleBar from '../TitleBar/TitleBar';
 
-export default class Modal extends Component {
+export default class Modal extends PureComponent {
 
     // static propTypes = {
     //     title: PropTypes.any.isRequired,

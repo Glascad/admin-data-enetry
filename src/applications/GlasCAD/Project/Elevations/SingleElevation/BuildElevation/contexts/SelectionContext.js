@@ -1,4 +1,4 @@
-import React, { Component, createContext } from 'react';
+import React, { PureComponent, createContext } from 'react';
 
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 import { DIRECTIONS, getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
@@ -26,7 +26,7 @@ const getSelectedClass = item => item && selectableClasses.find(SelectedClass =>
     item instanceof SelectedClass
 ));
 
-export default class SelectionProvider extends Component {
+export default class SelectionProvider extends PureComponent {
 
     state = {
         selectedItems: [],

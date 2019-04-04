@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Input } from '../../../../../components';
 
-export default class InfillSizesGenerator extends Component {
+export default class InfillSizesGenerator extends PureComponent {
 
     state = {
         start: 0,

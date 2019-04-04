@@ -4,49 +4,33 @@ import { SelectionContext } from '../../contexts/SelectionContext';
 
 import { withContext } from '../../../../../../../../components';
 
-import Detail from './Detail';
-
 class Frame extends PureComponent {
+
+    handleClick = () => this.props.selectable && this.props.selectItem(this.props._frame);
+
     render = () => {
         const {
             props: {
-                context: {
-                    itemsByRefId,
-                    items,
-                    items: {
-                        0: firstItem,
-                        length,
-                    },
-                    selectItem,
-                },
-                _frame,
+                selectable,
                 _frame: {
                     refId,
                     vertical,
-                    class: RecursiveFrame,
                     placement: {
                         x,
                         y,
                         height,
                         width,
                     } = {},
-                    details,
                 },
             },
+            handleClick,
         } = this;
+
+
         return (
             <div
                 className={`frame-hover-wrapper ${
-                    refId in itemsByRefId ?
-                        'selected'
-                        :
-                        ''
-                    } ${
-                    !length || typeof firstItem === 'string' || (
-                        firstItem.class === RecursiveFrame
-                        &&
-                        firstItem.vertical === vertical
-                    ) ?
+                    selectable ?
                         'selectable'
                         :
                         ''
@@ -56,16 +40,8 @@ class Frame extends PureComponent {
                         :
                         'horizontal'
                     }`}
-                onClick={() => selectItem(_frame)}
+                onClick={handleClick}
             >
-                <div className="detail-wrapper">
-                    {details.map(detail => (
-                        <Detail
-                            key={detail.refId}
-                            detail={detail}
-                        />
-                    ))}
-                </div>
                 <div
                     // to make selecting a frame less difficult
                     className="frame-wrapper"
@@ -90,4 +66,29 @@ class Frame extends PureComponent {
     }
 }
 
-export default withContext(SelectionContext, undefined, { pure: true })(Frame);
+const mapProps = ({
+    context: {
+        selectItem,
+        items: {
+            0: {
+                class: SelectedClass,
+                vertical: selectedVertical,
+            } = {},
+            length,
+        },
+    },
+    _frame: {
+        vertical,
+        class: RecursiveFrame,
+    },
+}) => ({
+    context: undefined,
+    selectItem,
+    selectable: length === 0 || (
+        SelectedClass === RecursiveFrame
+        &&
+        selectedVertical === vertical
+    ),
+});
+
+export default withContext(SelectionContext, mapProps, { pure: true })(Frame);
