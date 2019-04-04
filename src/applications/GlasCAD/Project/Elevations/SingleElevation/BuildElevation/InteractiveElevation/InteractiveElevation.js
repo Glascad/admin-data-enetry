@@ -9,7 +9,7 @@ import FinishedFloor from './components/FinishedFloor';
 import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
-import ElevationSelection from './components/ElevationSelection';
+import SelectionLayer from './components/SelectionLayer';
 
 export default class InteractiveElevation extends PureComponent {
 
@@ -76,7 +76,6 @@ export default class InteractiveElevation extends PureComponent {
                     verticalContainerDimensionTracks = [],
                     horizontalContainerDimensionTracks = [],
                 },
-                updateElevation,
             },
         } = this;
 
@@ -129,9 +128,9 @@ export default class InteractiveElevation extends PureComponent {
                                     finishedFloorHeight={finishedFloorHeight}
                                 />
                                 {/* SELECTION */}
-                                <ElevationSelection />
+                                <SelectionLayer />
+                                {/* VERTICAL DIMENSIONS */}
                                 <div id="left-dimension-track">
-                                    {/* VERTICAL DIMENSIONS */}
                                     {verticalContainerDimensionTracks.map((track, i) => (
                                         <div key={i}>
                                             {track.map(dimension => (
@@ -144,8 +143,8 @@ export default class InteractiveElevation extends PureComponent {
                                         </div>
                                     ))}
                                 </div>
+                                {/* HORIZONTAL DIMENSIONS */}
                                 <div id="bottom-dimension-track">
-                                    {/* HORIZONTAL DIMENSIONS */}
                                     {horizontalContainerDimensionTracks.map((track, i) => (
                                         <div key={i}>
                                             {track.map(dimension => (

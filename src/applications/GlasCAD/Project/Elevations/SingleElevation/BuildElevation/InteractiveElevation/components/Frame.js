@@ -26,7 +26,6 @@ class Frame extends PureComponent {
             handleClick,
         } = this;
 
-
         return (
             <div
                 className={`frame-hover-wrapper ${
@@ -45,12 +44,17 @@ class Frame extends PureComponent {
                 <div
                     // to make selecting a frame less difficult
                     className="frame-wrapper"
-                    style={{
+                    style={selectable ? {
                         left: x - 10,
                         bottom: y - 10,
                         height: height + 20,
                         width: width + 20,
-                    }}
+                    } : {
+                            left: x,
+                            bottom: y,
+                            height,
+                            width,
+                        }}
                 >
                     <div
                         id={refId}

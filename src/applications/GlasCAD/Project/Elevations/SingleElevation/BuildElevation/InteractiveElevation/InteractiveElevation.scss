@@ -23,40 +23,40 @@
 
             &.selectable {
                 &:hover {
-                    &:not(.selected) {
-                        // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
-                        // box-shadow: 0 0 0 $xx-small $dark-gray; // $light-blue;
-                        box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
-                        // background: transparentize($light-blue, 0.1);
-                    }
+                    // &:not(.selected) {
+                    // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                    // box-shadow: 0 0 0 $xx-small $dark-gray; // $light-blue;
+                    box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                    // background: transparentize($light-blue, 0.1);
+                    // }
                 }
             }
 
-            &.selected {
-                // background: $selected-color;
-                // color: $off-white;
-                // background: transparentize($selected-color, 0.33);
-                // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-                // box-shadow: 0 0 0 $xx-small transparentize($selected-color, 0.35);
-                box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-                // background: transparentize($light-blue, 0.6);
-                // background: $selected-color;
+            // &.selected {
+            //     // background: $selected-color;
+            //     // color: $off-white;
+            //     // background: transparentize($selected-color, 0.33);
+            //     // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+            //     // box-shadow: 0 0 0 $xx-small transparentize($selected-color, 0.35);
+            //     box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+            //     // background: transparentize($light-blue, 0.6);
+            //     // background: $selected-color;
 
-                // .text {
-                //     color: white;
-                // }
+            //     // .text {
+            //     //     color: white;
+            //     // }
 
-                &.last-selected {
-                    // box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-                    // box-shadow: 0 0 0 $xx-small $selected-color;
-                    box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-                    // background: transparentize($light-blue, 0.3);
+            //     &.last-selected {
+            //         // box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+            //         // box-shadow: 0 0 0 $xx-small $selected-color;
+            //         box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+            //         // background: transparentize($light-blue, 0.3);
 
-                    .text {
-                        font-weight: bold;
-                    }
-                }
-            }
+            //         .text {
+            //             font-weight: bold;
+            //         }
+            //     }
+            // }
 
             .text {
                 margin: $x-small;
@@ -84,185 +84,33 @@
                 }
             }
 
-            &.selected {
-                .frame-wrapper {
-                    .Frame {
-                        background: $selected-color;
-                    }
-                }
-                .detail-wrapper {
-                    .Detail {
-                        // background: $dark-gray;
-                    }
-                }
-            }
+            // &.selected {
+            //     .frame-wrapper {
+            //         .Frame {
+            //             background: $selected-color;
+            //         }
+            //     }
+            //     .detail-wrapper {
+            //         .Detail {
+            //             // background: $dark-gray;
+            //         }
+            //     }
+            // }
 
             &:hover {
                 &.selectable {
-                    &:not(.selected) {
-                        .frame-wrapper {
-                            .Frame {
-                                background: $dark-gray;
-                            }
-                        }
-                        // .detail-wrapper {
-                        //     .DetailBubble {
-                        //         display: flex;
-                        //     }
-                        // }
-                    }
-                }
-            }
-        }
-
-        .detail-wrapper {
-            .Detail {
-                position: absolute;
-                z-index: 1;
-                // background: $selected-color;
-
-                .detail-bubble-placement {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    height: 0;
-                    width: 0;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-
-                    .DetailBubble {
-                        // HIDDEN BY DEFAULT
-                        display: none;
-                        // HIDDEN BY DEFAULT
-                        position: relative;
-                        height: $xxxxx-large;
-                        width: $xxxxx-large;
-                        max-height: $xxxxx-large;
-                        max-width: $xxxxx-large;
-                        min-height: $xxxxx-large;
-                        min-width: $xxxxx-large;
-                        padding: 0;
-                        border-radius: $xxxxx-large;
-                        border-bottom-left-radius: 0;
-                        background: white;
-                        border: $icon-thickness solid $selected-color;
-                        // display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        cursor: default;
-                        color: $selected-color;
-                        font-weight: bold;
-
-                        &:hover {
-                            background: $light-gray;
+                    // &:not(.selected) {
+                    .frame-wrapper {
+                        .Frame {
+                            background: $dark-gray;
                         }
                     }
-                }
-
-                &.first-container-selected,
-                &.second-container-selected,
-                &.frame-selected {
-                    .detail-bubble-placement {
-                        .DetailBubble {
-                            display: flex;
-                        }
-                    }
-                }
-            }
-        }
-
-        .detail-wrapper {
-            &.horizontal {
-                .Detail {
-                    .detail-bubble-placement {
-                        .DetailBubble {
-                            transform: rotate(-45deg);
-                            margin-bottom: $xxxxx-large + $xxx-large;
-                            margin-top: 0;
-
-                            .detail-id {
-                                transform: rotate(45deg);
-                            }
-                        }
-                    }
-
-                    &.second-container-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(135deg);
-                                margin-top: $xxxxx-large + $xxx-large;
-                                margin-bottom: 0;
-
-                                .detail-id {
-                                    transform: rotate(-135deg);
-                                }
-                            }
-                        }
-                    }
-
-                    &.first-container-selected,
-                    &.frame-selected,
-                    &.no-first-container {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(-45deg);
-                                margin-bottom: $xxxxx-large + $xxx-large;
-                                margin-top: 0;
-
-                                .detail-id {
-                                    transform: rotate(45deg);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        .detail-wrapper {
-            &.vertical {
-                .Detail {
-                    .detail-bubble-placement {
-                        .DetailBubble {
-                            transform: rotate(-135deg);
-                            margin-right: $xxxxx-large + $xxx-large;
-                            margin-left: 0;
-
-                            .detail-id {
-                                transform: rotate(135deg);
-                            }
-                        }
-                    }
-
-                    &.first-container-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(45deg);
-                                margin-left: $xxxxx-large + $xxx-large;
-                                margin-right: 0;
-
-                                .detail-id {
-                                    transform: rotate(-45deg);
-                                }
-                            }
-                        }
-                    }
-
-                    &.second-container-selected,
-                    &.frame-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(-135deg);
-                                margin-right: $xxxxx-large + $xxx-large;
-                                margin-left: 0;
-
-                                .detail-id {
-                                    transform: rotate(135deg);
-                                }
-                            }
-                        }
-                    }
+                    // .detail-wrapper {
+                    //     .DetailBubble {
+                    //         display: flex;
+                    //     }
+                    // }
+                    // }
                 }
             }
         }
@@ -278,21 +126,151 @@
         }
     }
 
-    #ElevationSelection {
+    #SelectionLayer {
         .SelectedItem {
             position: absolute;
             z-index: 5;
-            
+
             &.selected-container {
                 box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-                
+
                 &.last-selected {
                     box-shadow: inset 0 0 $x-small $xx-small $selected-color;
                 }
             }
-            
+
             &.selected-frame {
                 background: $selected-color;
+            }
+        }
+
+        .Detail {
+            position: absolute;
+            z-index: 1;
+            // background: $selected-color;
+
+            .detail-bubble-placement {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 0;
+                width: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .DetailBubble {
+                    display: flex;
+                    position: relative;
+                    height: $xxxxx-large;
+                    width: $xxxxx-large;
+                    max-height: $xxxxx-large;
+                    max-width: $xxxxx-large;
+                    min-height: $xxxxx-large;
+                    min-width: $xxxxx-large;
+                    padding: 0;
+                    border-radius: $xxxxx-large;
+                    border-bottom-left-radius: 0;
+                    background: white;
+                    border: $icon-thickness solid $selected-color;
+                    // display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: default;
+                    color: $selected-color;
+                    font-weight: bold;
+
+                    &:hover {
+                        background: $light-gray;
+                    }
+                }
+            }
+
+            &.horizontal {
+                .detail-bubble-placement {
+                    .DetailBubble {
+                        transform: rotate(-45deg);
+                        margin-bottom: $xxxxx-large + $xxx-large;
+                        margin-top: 0;
+
+                        .detail-id {
+                            transform: rotate(45deg);
+                        }
+                    }
+                }
+
+                &.second-container-selected {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(135deg);
+                            margin-top: $xxxxx-large + $xxx-large;
+                            margin-bottom: 0;
+
+                            .detail-id {
+                                transform: rotate(-135deg);
+                            }
+                        }
+                    }
+                }
+
+                &.first-container-selected,
+                &.frame-selected,
+                &.no-first-container {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(-45deg);
+                            margin-bottom: $xxxxx-large + $xxx-large;
+                            margin-top: 0;
+
+                            .detail-id {
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.vertical {
+                .detail-bubble-placement {
+                    .DetailBubble {
+                        transform: rotate(-135deg);
+                        margin-right: $xxxxx-large + $xxx-large;
+                        margin-left: 0;
+
+                        .detail-id {
+                            transform: rotate(135deg);
+                        }
+                    }
+                }
+
+                &.first-container-selected {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(45deg);
+                            margin-left: $xxxxx-large + $xxx-large;
+                            margin-right: 0;
+
+                            .detail-id {
+                                transform: rotate(-45deg);
+                            }
+                        }
+                    }
+                }
+
+                &.second-container-selected,
+                &.frame-selected {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(-135deg);
+                            margin-right: $xxxxx-large + $xxx-large;
+                            margin-left: 0;
+
+                            .detail-id {
+                                transform: rotate(135deg);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

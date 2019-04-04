@@ -6,7 +6,11 @@ import { SelectionContext } from '../../contexts/SelectionContext';
 
 import SelectedItem from './SelectedItem';
 
-class Selection extends PureComponent {
+import Detail from './Detail';
+
+import { unique } from '../../../../../../../../utils';
+
+class SelectionLayer extends PureComponent {
     render = () => {
         const {
             props: {
@@ -22,8 +26,17 @@ class Selection extends PureComponent {
 
         console.log(this);
 
+        const detailsToRender = unique(items
+            .reduce((all, {
+                // if frame is selected
+                details = [],
+                // if container is selected
+                allDetails = [],
+            }) => all.concat(details, allDetails),
+                []));
+
         return (
-            <div id="ElevationSelection" >
+            <div id="SelectionLayer" >
                 {items.map((item, i) => (
                     <SelectedItem
                         key={item.refId}
@@ -32,9 +45,15 @@ class Selection extends PureComponent {
                         lastSelected={i === length - 1}
                     />
                 ))}
+                {detailsToRender.map(detail => (
+                    <Detail
+                        key={detail.refId}
+                        detail={detail}
+                    />
+                ))}
             </div>
         );
     }
 }
 
-export default withContext(SelectionContext)(Selection);
+export default withContext(SelectionContext)(SelectionLayer);

@@ -36,8 +36,6 @@ class Detail extends PureComponent {
                         refId: secondContainerRefId,
                     } = {},
                 },
-                frameSelected,
-                containerSelected,
             },
             handleClick,
         } = this;
@@ -46,7 +44,7 @@ class Detail extends PureComponent {
             <div
                 id={refId}
                 className={`Detail ${
-                    frameSelected ?
+                    frameRefId in itemsByRefId ?
                         'frame-selected'
                         :
                         firstContainerRefId in itemsByRefId ?
