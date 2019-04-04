@@ -223,6 +223,9 @@ export default class RecursiveContainer {
 
     // MERGE
     canMergeByDirection = (vertical, first) => {
+
+        if (this.customRoughOpening) return false;
+        
         const direction = [vertical, first];
         const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
 
@@ -236,6 +239,8 @@ export default class RecursiveContainer {
             container
             &&
             !otherContainers.length
+            &&
+            backwardContainers.length === 1
             &&
             !container.customRoughOpening
             &&

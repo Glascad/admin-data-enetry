@@ -109,7 +109,11 @@ export default class SelectionProvider extends Component {
                     const [vertical, first] = direction;
                     const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
-                    if (nextContainer) {
+                    if (
+                        nextContainer
+                        &&
+                        !nextContainer.customRoughOpening
+                    ) {
                         if (!shiftKey) this.cancelSelection();
                         this.selectItem(nextContainer, true);
                     }
