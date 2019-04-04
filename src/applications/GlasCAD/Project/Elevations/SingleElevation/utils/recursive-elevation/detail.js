@@ -195,7 +195,7 @@ export default class RecursiveDetail {
 
             const container = this.getContainerByDirection(first);
 
-            this[detailsByContainerKey][first] = container ?
+            this[detailsByContainerKey][first] = container && !container.customRoughOpening ?
                 container.getDetailsByDirection(...BACKWARD)
                 :
                 [];
@@ -298,9 +298,13 @@ export default class RecursiveDetail {
 
             const adjacentContainer = container
                 &&
+                !container.customRoughOpening
+                &&
                 container.getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
 
             const sameContainer = adjacentContainer
+                &&
+                !adjacentContainer.customRoughOpening
                 &&
                 adjacentContainer.getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
 

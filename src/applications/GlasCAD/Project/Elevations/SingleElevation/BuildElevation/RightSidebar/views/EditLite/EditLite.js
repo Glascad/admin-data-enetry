@@ -108,7 +108,7 @@ function EditLite({
                                 Icon={Icons.AddHorizontal}
                             />
                         </div>
-                        {length === 1 ? (
+                        {length === 1 && firstContainer.canDelete ? (
                             <button
                                 className="sidebar-button danger"
                                 onClick={() => updateElevation(DELETE_CONTAINER, {

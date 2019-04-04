@@ -108,7 +108,7 @@ export default class RecursiveElevation {
             &&
             !all.some(_frame => _frame.contains(detail))
         ) ?
-            all.concat(new RecursiveFrame(detail.allMatchedDetails, this))
+            all.concat(new RecursiveFrame(detail.allMatchedDetails, this, detail))
             :
             all,
             []);

@@ -179,13 +179,13 @@ export default class RecursiveContainer {
                     :
                     this.elevation.sightline
             ) + (
-                this.leftContainers[0]
-                &&
-                (
+                this.leftContainers[0] ? (
                     (this.leftContainers[0].placement.x || 0)
                     +
                     (this.leftContainers[0].daylightOpening.x || 0)
                 )
+                    :
+                    0
             ) || 0
         );
     }
@@ -225,7 +225,7 @@ export default class RecursiveContainer {
     canMergeByDirection = (vertical, first) => {
 
         if (this.customRoughOpening) return false;
-        
+
         const direction = [vertical, first];
         const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
 
@@ -254,14 +254,6 @@ export default class RecursiveContainer {
     get canMergeDown() { return this.canMergeByDirection(...DOWN); }
 
     // DELETE
-    // get canDelete() {
-    //     if (this.__canDelete === undefined) {
-    //         this.__canDelete = !this.customRoughOpening
-    //             &&
-    //             Object.values(DIRECTIONS)
-    //                 .some(direction => this.getAllContainersByDirection(...direction).length === 0);
-    //     }
-    //     return this.__canDelete;
-    // }
+    get canDelete() { return !this.customRoughOpening; }
 
 }

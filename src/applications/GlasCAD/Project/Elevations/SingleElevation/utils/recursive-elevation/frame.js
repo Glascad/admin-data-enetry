@@ -5,7 +5,7 @@ const runsIntoEdgeKey = 'runs_into_edge<first>';
 const canDeleteKey = 'can_delete<first>';
 
 export default class RecursiveFrame {
-    constructor(details, elevation) {
+    constructor(details, elevation, initialDetail) {
 
         const [{ vertical }] = details;
 
@@ -15,6 +15,7 @@ export default class RecursiveFrame {
                 class: RecursiveFrame,
                 elevation,
                 details,
+                initialDetail,
                 vertical,
                 [containersKey]: {
                     true: undefined,
@@ -68,10 +69,36 @@ export default class RecursiveFrame {
     get firstContainers() { return this.getContainersByDirection(true); }
     get secondContainers() { return this.getContainersByDirection(false); }
 
-    get leftContainers() { if (this.vertical) return this.getContainersByDirection(true); }
-    get rightContainers() { if (this.vertical) return this.getContainersByDirection(false); }
-    get topContainers() { if (!this.vertical) return this.getContainersByDirection(false); }
-    get bottomContainers() { if (!this.vertical) return this.getContainersByDirection(true); }
+    get realFirstContainers() {
+        return this.__realFirstContainers || (
+            this.__realFirstContainers = this.firstContainers
+                .filter(({ customRoughOpening } = { customRoughOpening: false }) => !customRoughOpening)
+        );
+    }
+    get realSecondContainers() {
+        return this.__realSecondContainers || (
+            this.__realSecondContainers = this.secondContainers
+                .filter(({ customRoughOpening } = { customRoughOpening: false }) => !customRoughOpening)
+        );
+    }
+
+    get leftContainers() { return this.vertical ? this.firstContainers : []; }
+    get rightContainers() { return this.vertical ? this.secondContainers : []; }
+    get topContainers() { return this.vertical ? [] : this.secondContainers; }
+    get bottomContainers() { return this.vertical ? [] : this.firstContainers; }
+
+    get realLeftContainers() { return this.vertical ? this.realFirstContainers : []; }
+    get realRightContainers() { return this.vertical ? this.realSecondContainers : []; }
+    get realTopContainers() { return this.vertical ? [] : this.realSecondContainers; }
+    get realBottomContainers() { return this.vertical ? [] : this.realFirstContainers; }
+
+    get firstContainerRefs() { return this.firstContainers.map(({ ref }) => ref); }
+    get secondContainerRefs() { return this.secondContainers.map(({ ref }) => ref); }
+
+    get leftContainerRefs() { return this.leftContainers.map(({ ref }) => ref); }
+    get rightContainerRefs() { return this.rightContainers.map(({ ref }) => ref); }
+    get topContainerRefs() { return this.topContainers.map(({ ref }) => ref); }
+    get bottomContainerRefs() { return this.bottomContainers.map(({ ref }) => ref); }
 
     get allContainers() {
         return [
@@ -159,7 +186,6 @@ export default class RecursiveFrame {
         try {
 
             const {
-                refId,
                 vertical,
                 sightline,
                 firstEndRunsAlongEdgeOfRoughOpening,
@@ -173,19 +199,19 @@ export default class RecursiveFrame {
 
             // farthest to the bottom / left
             const {
-                leftContainers: {
+                realLeftContainers: {
                     0: firstLeftContainer,
                     length: leftContainersLength = 0,
                 } = [],
-                rightContainers: {
+                realRightContainers: {
                     0: firstRightContainer,
                     length: rightContainersLength = 0,
                 } = [],
-                topContainers: {
+                realTopContainers: {
                     0: firstTopContainer,
                     length: topContainersLength = 0,
                 } = [],
-                bottomContainers: {
+                realBottomContainers: {
                     0: firstBottomContainer,
                     length: bottomContainersLength = 0,
                 } = [],
@@ -193,16 +219,16 @@ export default class RecursiveFrame {
 
             // farthest to the top / right
             const {
-                leftContainers: {
+                realLeftContainers: {
                     [leftContainersLength - 1]: lastLeftContainer = 0,
                 } = {},
-                rightContainers: {
+                realRightContainers: {
                     [rightContainersLength - 1]: lastRightContainer = 0,
                 } = {},
-                topContainers: {
+                realTopContainers: {
                     [topContainersLength - 1]: lastTopContainer = 0,
                 } = {},
-                bottomContainers: {
+                realBottomContainers: {
                     [bottomContainersLength - 1]: lastBottomContainer = 0,
                 } = {},
             } = this;
