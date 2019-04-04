@@ -1,3 +1,5 @@
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from "../../../utils/recursive-elevation/directions";
+import MERGE_CONTAINERS from './merge-containers';
 
 export default function DELETE_CONTAINER({
     elevation: elevationInput,
@@ -5,6 +7,7 @@ export default function DELETE_CONTAINER({
         containers = [],
     },
 }, {
+    container,
     container: {
         rawContainer,
         rawContainer: {
@@ -13,6 +16,26 @@ export default function DELETE_CONTAINER({
         },
     },
 }) {
+
+    const mergeDirection = Object.values(DIRECTIONS)
+        .find(direction => {
+            const [otherContainer] = container.getImmediateContainersByDirection(...direction);
+            return (
+                otherContainer
+                &&
+                otherContainer.customRoughOpening
+                &&
+                container.canMergeByDirection(...direction, true)
+            );
+        });
+
+    if (mergeDirection) {
+        return MERGE_CONTAINERS(arguments[0], {
+            container: container.getImmediateContainersByDirection(...mergeDirection)[0],
+            direction: GET_RELATIVE_DIRECTIONS(mergeDirection).BACKWARD,
+            allowCustomRoughOpenings: true,
+        });
+    }
 
     const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
 

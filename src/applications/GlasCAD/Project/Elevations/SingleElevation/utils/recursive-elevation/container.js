@@ -222,9 +222,9 @@ export default class RecursiveContainer {
     // ACTIONS
 
     // MERGE
-    canMergeByDirection = (vertical, first) => {
+    canMergeByDirection = (vertical, first, allowCustomRoughOpenings = false) => {
 
-        if (this.customRoughOpening) return false;
+        if (!allowCustomRoughOpenings && this.customRoughOpening) return false;
 
         const direction = [vertical, first];
         const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
@@ -242,7 +242,11 @@ export default class RecursiveContainer {
             &&
             backwardContainers.length === 1
             &&
-            !container.customRoughOpening
+            (
+                allowCustomRoughOpenings
+                ||
+                !container.customRoughOpening
+            )
             &&
             container.daylightOpening[DLOKey] === this.daylightOpening[DLOKey]
         );

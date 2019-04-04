@@ -195,10 +195,18 @@ export default class SelectionProvider extends Component {
             cancelSelection,
         } = this;
 
+        const selectionByRefId = selectedItems
+            .reduce((byRefId, item) => ({
+                ...byRefId,
+                [item.refId]: item,
+            }),
+                {});
+
         return (
             <SelectionContext.Provider
                 value={{
                     items: selectedItems,
+                    itemsByRefId: selectionByRefId,
                     selectItem,
                     unselectItem,
                     cancelSelection,

@@ -1,68 +1,78 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import { SelectionContext } from '../../contexts/SelectionContext';
-import DetailBubble from './DetailBubble';
 
-export default function Detail({
-    detail,
-    detail: {
-        refId,
-        vertical,
-        _frame,
-        class: RecursiveDetail,
-        placement: {
-            x,
-            y,
-            height,
-            width,
-        },
-        firstContainer,
-        secondContainer,
-    },
-}) {
-    return (
-        <SelectionContext.Consumer>
-            {({
-                items,
-                items: {
-                    0: firstItem,
-                    length,
+import DetailBubble from './DetailBubble';
+import { withContext } from '../../../../../../../../components';
+
+class Detail extends PureComponent {
+
+    handleClick = () => this.props.context.selectItem(this.props.detail);
+
+    render = () => {
+        const {
+            props: {
+                context: {
+                    itemsByRefId,
                 },
-                selectItem,
-            }) => (
-                    <div
-                        id={refId}
-                        className={`Detail ${
-                            items.some(f => f.refId === _frame.refId) ?
-                                'frame-selected'
+                detail,
+                detail: {
+                    refId,
+                    _frame: {
+                        refId: frameRefId,
+                    },
+                    placement: {
+                        x,
+                        y,
+                        height,
+                        width,
+                    },
+                    firstContainer,
+                    firstContainer: {
+                        refId: firstContainerRefId,
+                    } = {},
+                    secondContainer: {
+                        refId: secondContainerRefId,
+                    } = {},
+                },
+            },
+            handleClick,
+        } = this;
+
+        return (
+            <div
+                id={refId}
+                className={`Detail ${
+                    frameRefId in itemsByRefId ?
+                        'frame-selected'
+                        :
+                        firstContainerRefId in itemsByRefId ?
+                            'first-container-selected'
+                            :
+                            secondContainerRefId in itemsByRefId ?
+                                'second-container-selected'
                                 :
-                                firstContainer && items.some(c => c.refId === firstContainer.refId) ?
-                                    'first-container-selected'
-                                    :
-                                    secondContainer && items.some(c => c.refId === secondContainer.refId) ?
-                                        'second-container-selected'
-                                        :
-                                        ''
-                            } ${
-                            firstContainer ?
                                 ''
-                                :
-                                'no-first-container'
-                            }`}
-                        style={{
-                            left: ~~x,
-                            bottom: ~~y,
-                            height: ~~height,
-                            width: ~~width,
-                        }}
-                        onClick={() => selectItem(_frame)}
-                    >
-                        <DetailBubble
-                            detail={detail}
-                        />
-                    </div>
-                )
-            }
-        </SelectionContext.Consumer >
-    );
+                    } ${
+                    firstContainer ?
+                        ''
+                        :
+                        'no-first-container'
+                    }`}
+                style={{
+                    left: ~~x,
+                    bottom: ~~y,
+                    height: ~~height,
+                    width: ~~width,
+                }}
+                onClick={handleClick}
+            >
+                <DetailBubble
+                    detail={detail}
+                />
+            </div>
+        );
+    }
 }
+
+export default withContext(SelectionContext, undefined, { pure: true })(Detail);

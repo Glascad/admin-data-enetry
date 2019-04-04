@@ -1,26 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 
-export default (ContextType, mapProps = p => p) => ComponentWithoutContext => class ComponentWithContext extends Component {
+export default (contextType, mapProps = p => p, { pure = false } = {}) => (
+    ComponentWithoutContext => (
+        class ComponentWithContext extends (
+            pure ?
+                PureComponent
+                :
+                Component
+        ) {
 
-    static contextType = ContextType;
+            static contextType = contextType;
 
-    render = () => {
+            render = () => {
 
-        const {
-            props,
-            context,
-        } = this;
+                const {
+                    props,
+                    context,
+                } = this;
 
-        const childProps = {
-            ...props,
-            context,
-        };
+                const childProps = {
+                    ...props,
+                    context,
+                };
 
-        return (
-            <ComponentWithoutContext
-                {...childProps}
-                {...mapProps(childProps)}
-            />
-        );
-    }
-}
+                return (
+                    <ComponentWithoutContext
+                        {...childProps}
+                        {...(mapProps || (p => p))(childProps)}
+                    />
+                );
+            }
+        }
+    )
+);

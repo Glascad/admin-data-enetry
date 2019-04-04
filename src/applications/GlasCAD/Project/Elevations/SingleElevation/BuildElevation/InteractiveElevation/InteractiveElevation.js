@@ -75,6 +75,7 @@ export default class InteractiveElevation extends Component {
                     verticalContainerDimensionTracks = [],
                     horizontalContainerDimensionTracks = [],
                 },
+                updateElevation,
             },
         } = this;
 

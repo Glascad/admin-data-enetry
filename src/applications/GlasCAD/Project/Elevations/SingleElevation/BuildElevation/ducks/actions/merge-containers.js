@@ -14,9 +14,10 @@ export default function MERGE_CONTAINERS({
         vertical,
         first,
     ],
+    allowCustomRoughOpenings,
 }) {
 
-    if (!container.canMergeByDirection(...direction)) return arguments[0];
+    if (!container.canMergeByDirection(...direction, allowCustomRoughOpenings)) return arguments[0];
 
     const { FORWARD, BACKWARD, LEFT, RIGHT } = GET_RELATIVE_DIRECTIONS(direction);
 
@@ -141,7 +142,7 @@ export default function MERGE_CONTAINERS({
 
     // FIRST MERGE DLOS
     const elevationWithMergedDLOs = mergeDLO(...arguments);
-    
+
     // THEN CHECK FOR BOTTOM / LEFT OFFSET
     const elevationWithMergedContainers = mergeBottomLeftOffset(elevationWithMergedDLOs, { container, direction });
 
