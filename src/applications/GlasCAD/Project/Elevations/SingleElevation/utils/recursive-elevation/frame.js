@@ -95,7 +95,15 @@ export default class RecursiveFrame {
             const firstEndContainer = this.getFirstOrLastContainerByDirection(true, !first);
             const secondEndContainer = this.getFirstOrLastContainerByDirection(false, !first);
 
-            this[runsAlongEdgeKey][first] = !firstEndContainer || !secondEndContainer;
+            this[runsAlongEdgeKey][first] = (
+                !firstEndContainer
+                ||
+                firstEndContainer.customRoughOpening
+                ||
+                !secondEndContainer
+                ||
+                secondEndContainer.customRoughOpening
+            );
         }
         return this[runsAlongEdgeKey][first];
     }
@@ -113,15 +121,31 @@ export default class RecursiveFrame {
             const firstEndContainer = this.getFirstOrLastContainerByDirection(true, !first);
             const secondEndContainer = this.getFirstOrLastContainerByDirection(false, !first);
 
+            const firstEndAdjacentContainer = firstEndContainer
+                &&
+                firstEndContainer.getFirstOrLastContainerByDirection(...direction, !first);
+
+            const secondEndAdjacentContainer = secondEndContainer
+                &&
+                secondEndContainer.getFirstOrLastContainerByDirection(...direction, !first);
+
             this[runsIntoEdgeKey][first] = (
                 (
                     !firstEndContainer
                     ||
-                    !firstEndContainer.getFirstOrLastContainerByDirection(...direction, !first)
+                    firstEndContainer.customRoughOpening
+                    ||
+                    !firstEndAdjacentContainer
+                    ||
+                    firstEndAdjacentContainer.customRoughOpening
                 ) && (
                     !secondEndContainer
                     ||
-                    !secondEndContainer.getFirstOrLastContainerByDirection(...direction, !first)
+                    secondEndContainer.customRoughOpening
+                    ||
+                    !secondEndAdjacentContainer
+                    ||
+                    secondEndAdjacentContainer.customRoughOpening
                 )
             );
         }
@@ -132,169 +156,211 @@ export default class RecursiveFrame {
     get lastEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(false); }
 
     get placement() {
-        const {
-            refId,
-            vertical,
-            sightline,
-            firstEndRunsAlongEdgeOfRoughOpening,
-            lastEndRunsAlongEdgeOfRoughOpening,
-            firstEndRunsIntoEdgeOfRoughOpening,
-            lastEndRunsIntoEdgeOfRoughOpening,
-            elevation: {
-                verticalFramesRunThroughHeadAndSill,
-            },
-        } = this;
+        try {
 
-        // farthest to the bottom / left
-        const {
-            leftContainers: {
-                0: firstLeftContainer,
-                length: leftContainersLength = 0,
-            } = [],
-            rightContainers: {
-                0: firstRightContainer,
-                length: rightContainersLength = 0,
-            } = [],
-            topContainers: {
-                0: firstTopContainer,
-                length: topContainersLength = 0,
-            } = [],
-            bottomContainers: {
-                0: firstBottomContainer,
-                length: bottomContainersLength = 0,
-            } = [],
-        } = this;
+            const {
+                refId,
+                vertical,
+                sightline,
+                firstEndRunsAlongEdgeOfRoughOpening,
+                lastEndRunsAlongEdgeOfRoughOpening,
+                firstEndRunsIntoEdgeOfRoughOpening,
+                lastEndRunsIntoEdgeOfRoughOpening,
+                elevation: {
+                    verticalFramesRunThroughHeadAndSill,
+                },
+            } = this;
 
-        // farthest to the top / right
-        const {
-            leftContainers: {
-                [leftContainersLength - 1]: lastLeftContainer = 0,
-            } = {},
-            rightContainers: {
-                [rightContainersLength - 1]: lastRightContainer = 0,
-            } = {},
-            topContainers: {
-                [topContainersLength - 1]: lastTopContainer = 0,
-            } = {},
-            bottomContainers: {
-                [bottomContainersLength - 1]: lastBottomContainer = 0,
-            } = {},
-        } = this;
+            // farthest to the bottom / left
+            const {
+                leftContainers: {
+                    0: firstLeftContainer,
+                    length: leftContainersLength = 0,
+                } = [],
+                rightContainers: {
+                    0: firstRightContainer,
+                    length: rightContainersLength = 0,
+                } = [],
+                topContainers: {
+                    0: firstTopContainer,
+                    length: topContainersLength = 0,
+                } = [],
+                bottomContainers: {
+                    0: firstBottomContainer,
+                    length: bottomContainersLength = 0,
+                } = [],
+            } = this;
 
-        const x = vertical ?
-            Math.min(
-                firstLeftContainer ?
-                    firstLeftContainer.placement.x + firstLeftContainer.placement.width
-                    :
-                    Infinity,
-                firstRightContainer ?
-                    firstRightContainer.placement.x - sightline
-                    :
-                    Infinity
-            )
-            :
-            Math.min(
-                firstBottomContainer ?
-                    firstBottomContainer.placement.x
-                    :
-                    Infinity,
-                firstTopContainer ?
-                    firstTopContainer.placement.x
-                    :
-                    Infinity
-            );
+            // farthest to the top / right
+            const {
+                leftContainers: {
+                    [leftContainersLength - 1]: lastLeftContainer = 0,
+                } = {},
+                rightContainers: {
+                    [rightContainersLength - 1]: lastRightContainer = 0,
+                } = {},
+                topContainers: {
+                    [topContainersLength - 1]: lastTopContainer = 0,
+                } = {},
+                bottomContainers: {
+                    [bottomContainersLength - 1]: lastBottomContainer = 0,
+                } = {},
+            } = this;
 
-        const y = vertical ?
-            Math.min(
-                firstLeftContainer ?
-                    firstLeftContainer.placement.y
-                    :
-                    Infinity,
-                firstRightContainer ?
-                    firstRightContainer.placement.y
-                    :
-                    Infinity,
-            )
-            :
-            Math.min(
-                firstBottomContainer ?
-                    firstBottomContainer.placement.y + firstBottomContainer.placement.height
-                    :
-                    Infinity,
-                firstTopContainer ?
-                    firstTopContainer.placement.y - sightline
-                    :
-                    Infinity,
-            );
+            const x = vertical ?
+                Math.min(
+                    firstLeftContainer ?
+                        firstLeftContainer.placement.x + firstLeftContainer.placement.width
+                        :
+                        Infinity,
+                    firstRightContainer ?
+                        firstRightContainer.placement.x - sightline
+                        :
+                        Infinity
+                )
+                :
+                Math.min(
+                    firstBottomContainer ?
+                        firstBottomContainer.placement.x
+                        :
+                        Infinity,
+                    firstTopContainer ?
+                        firstTopContainer.placement.x
+                        :
+                        Infinity
+                );
 
-        const height = vertical ?
-            Math.max(
-                lastLeftContainer ?
-                    lastLeftContainer.placement.y + lastLeftContainer.placement.height
-                    :
-                    0,
-                lastRightContainer ?
-                    lastRightContainer.placement.y + lastRightContainer.placement.height
-                    :
-                    0
-            ) - y
-            :
-            sightline;
+            const y = vertical ?
+                Math.min(
+                    firstLeftContainer ?
+                        firstLeftContainer.placement.y
+                        :
+                        Infinity,
+                    firstRightContainer ?
+                        firstRightContainer.placement.y
+                        :
+                        Infinity,
+                )
+                :
+                Math.min(
+                    firstBottomContainer ?
+                        firstBottomContainer.placement.y + firstBottomContainer.placement.height
+                        :
+                        Infinity,
+                    firstTopContainer ?
+                        firstTopContainer.placement.y - sightline
+                        :
+                        Infinity,
+                );
 
-        const width = vertical ?
-            sightline
-            :
-            Math.max(
-                lastBottomContainer ?
-                    lastBottomContainer.placement.x + lastBottomContainer.placement.width
-                    :
-                    0,
-                lastTopContainer ?
-                    lastTopContainer.placement.x + lastTopContainer.placement.width
-                    :
-                    0,
-            ) - x;
+            const height = vertical ?
+                Math.max(
+                    lastLeftContainer ?
+                        lastLeftContainer.placement.y + lastLeftContainer.placement.height
+                        :
+                        0,
+                    lastRightContainer ?
+                        lastRightContainer.placement.y + lastRightContainer.placement.height
+                        :
+                        0
+                ) - y
+                :
+                sightline;
 
-        const verticalLastContainer = lastLeftContainer || lastRightContainer;
-        const verticalFirstContainer = firstLeftContainer || firstRightContainer;
+            const width = vertical ?
+                sightline
+                :
+                Math.max(
+                    lastBottomContainer ?
+                        lastBottomContainer.placement.x + lastBottomContainer.placement.width
+                        :
+                        0,
+                    lastTopContainer ?
+                        lastTopContainer.placement.x + lastTopContainer.placement.width
+                        :
+                        0,
+                ) - x;
 
-        const needsTopExtension = vertical
-            &&
-            (
-                verticalFramesRunThroughHeadAndSill ?
-                    lastEndRunsIntoEdgeOfRoughOpening
-                    :
-                    lastEndRunsAlongEdgeOfRoughOpening
-            )
-            &&
-            !verticalLastContainer.topContainers.length;
+            const verticalLastContainer = lastLeftContainer
+                &&
+                !lastLeftContainer.customRoughOpening ?
+                lastLeftContainer
+                :
+                lastRightContainer;
 
-        const needsBottomExtension = vertical
-            &&
-            (
-                verticalFramesRunThroughHeadAndSill ?
-                    firstEndRunsIntoEdgeOfRoughOpening
-                    :
-                    firstEndRunsAlongEdgeOfRoughOpening
-            )
-            &&
-            !verticalFirstContainer.bottomContainers.length;
+            const verticalFirstContainer = firstLeftContainer
+                &&
+                !firstLeftContainer.customRoughOpening ?
+                firstLeftContainer
+                :
+                firstRightContainer;
 
-        const verticalTopExtension = needsTopExtension ?
-            verticalLastContainer.topFrame.sightline
-            :
-            0;
-        const verticalBottomExtension = needsBottomExtension ?
-            verticalLastContainer.bottomFrame.sightline
-            :
-            0;
+            const needsTopExtension = vertical
+                &&
+                (
+                    verticalFramesRunThroughHeadAndSill ?
+                        lastEndRunsIntoEdgeOfRoughOpening
+                        :
+                        lastEndRunsAlongEdgeOfRoughOpening
+                )
+                &&
+                (
+                    !verticalLastContainer
+                    ||
+                    verticalLastContainer.customRoughOpening
+                    ||
+                    !verticalLastContainer.topContainers.length
+                    ||
+                    verticalLastContainer.getFirstOrLastContainerByDirection(
+                        vertical,
+                        false,
+                        verticalLastContainer === lastLeftContainer
+                    )
+                );
 
-        return {
-            x,
-            y: y - verticalBottomExtension,
-            height: height + verticalBottomExtension + verticalTopExtension,
-            width,
-        };
+            const needsBottomExtension = vertical
+                &&
+                (
+                    verticalFramesRunThroughHeadAndSill ?
+                        firstEndRunsIntoEdgeOfRoughOpening
+                        :
+                        firstEndRunsAlongEdgeOfRoughOpening
+                )
+                &&
+                (
+                    !verticalFirstContainer
+                    ||
+                    verticalFirstContainer.customRoughOpening
+                    ||
+                    !verticalFirstContainer.bottomContainers.length
+                    ||
+                    verticalFirstContainer.getFirstOrLastContainerByDirection(
+                        vertical,
+                        true,
+                        verticalFirstContainer === firstLeftContainer
+                    )
+                );
+
+            const verticalTopExtension = needsTopExtension ?
+                verticalLastContainer.topFrame.sightline
+                :
+                0;
+            const verticalBottomExtension = needsBottomExtension ?
+                verticalLastContainer.bottomFrame.sightline
+                :
+                0;
+
+            return {
+                x,
+                y: y - verticalBottomExtension,
+                height: height + verticalBottomExtension + verticalTopExtension,
+                width,
+            };
+
+        } catch (err) {
+            console.log(this);
+            console.error(err);
+        }
     }
 
     // ACTIONS

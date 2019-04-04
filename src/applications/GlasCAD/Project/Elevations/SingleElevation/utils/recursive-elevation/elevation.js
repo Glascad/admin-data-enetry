@@ -103,11 +103,15 @@ export default class RecursiveElevation {
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
     get allDetails() { return this.detailIds.map(id => this.details[id]); }
     get allFrames() {
-        return this.allDetails.reduce((all, detail) => {
-            if (!all.some(_frame => _frame.contains(detail))) return all
-                .concat(new RecursiveFrame(detail.allMatchedDetails, this));
-            else return all;
-        }, []);
+        return this.allDetails.reduce((all, detail) => (
+            detail.exists
+            &&
+            !all.some(_frame => _frame.contains(detail))
+        ) ?
+            all.concat(new RecursiveFrame(detail.allMatchedDetails, this))
+            :
+            all,
+            []);
     }
 
     // REFIDS

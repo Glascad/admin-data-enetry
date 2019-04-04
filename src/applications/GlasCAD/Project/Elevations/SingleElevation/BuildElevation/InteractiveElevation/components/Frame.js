@@ -15,7 +15,7 @@ export default function Frame({
             y,
             height,
             width,
-        },
+        } = {},
         details,
     },
 }) {
@@ -51,14 +51,14 @@ export default function Frame({
                                 'horizontal'
                             }`}
                     >
-                        <div className="detail-wrapper">
+                        {/* <div className="detail-wrapper">
                             {details.map(detail => (
                                 <Detail
                                     key={detail.refId}
                                     detail={detail}
                                 />
                             ))}
-                        </div>
+                        </div> */}
                         <div
                             // to make selecting a frame less difficult
                             className="frame-wrapper"

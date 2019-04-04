@@ -17,13 +17,23 @@ export default class InteractiveElevation extends Component {
     InteractiveElevation = createRef();
 
     componentDidMount = () => {
+        try {
+            this.previousViewportStyles = {
+                paddingBottom: this.context.Viewport.current.style.paddingBottom,
+                marginBottom: this.context.Viewport.current.style.marginBottom,
+                overflowY: this.context.Viewport.current.style.overflowY,
+            };
+        } catch (err) {
+            console.error(err);
+        }
+        this.resizeViewport();
+
+        window.addEventListener('resize', this.resizeViewport);
+    }
+
+    resizeViewport = () => {
         setTimeout(() => {
             try {
-                this.previousViewportStyles = {
-                    paddingBottom: this.context.Viewport.current.style.paddingBottom,
-                    marginBottom: this.context.Viewport.current.style.marginBottom,
-                    overflowY: this.context.Viewport.current.style.overflowY,
-                };
                 console.log(this.context.Viewport);
                 this.context.Viewport.current.style.paddingBottom = "0";
                 this.context.Viewport.current.style.marginBottom = "0";
@@ -48,6 +58,7 @@ export default class InteractiveElevation extends Component {
         } catch (err) {
             console.error(err);
         }
+        window.removeEventListener('resize', this.resizeViewport);
     }
 
     render = () => {
@@ -70,8 +81,13 @@ export default class InteractiveElevation extends Component {
         return (
             <TransformContext.Consumer>
                 {({
-                    scale,
+                    scale: {
+                        nudgeAmount: scaleNudge,
+                        x: scaleX,
+                        y: scaleY,
+                    },
                     translate: {
+                        nudgeAmount,
                         x,
                         y,
                     },
@@ -87,7 +103,7 @@ export default class InteractiveElevation extends Component {
                                 style={{
                                     height: roy,
                                     width: rox,
-                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scale}, ${scale})`,
+                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
                                 }}
                             >
                                 {/* ROUGH OPENING */}

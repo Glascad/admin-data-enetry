@@ -8,9 +8,6 @@ const detailsByContainerKey = 'details_by_container<first>';
 const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
 const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
-// REMOVE LATER
-var PROTECTION = Infinity;
-
 export default class RecursiveDetail {
     constructor(detail, elevation) {
         Object.assign(
@@ -64,39 +61,76 @@ export default class RecursiveDetail {
     get secondContainer() { return this.getContainerByDirection(false); }
     get bothContainers() { return [this.firstContainer, this.secondContainer]; }
 
+    // ROUGH OPENING
+    get exists() {
+        return !!(
+            (
+                this.firstContainer
+                &&
+                !this.firstContainer.customRoughOpening
+            )
+            ||
+            (
+                this.secondContainer
+                &&
+                !this.secondContainer.customRoughOpening
+            )
+        );
+    }
+
     // OPTIONS / TYPES
     get detailType() {
         // determine detail type
-        return this.__type || (
-            this.__type = this.vertical ?
-                this.firstContainer && this.secondContainer ?
-                    'Mullion'
-                    :
-                    'Jamb'
-                :
-                this.firstContainer ?
-                    this.secondContainer ?
-                        'Horizontal'
+        return this.exists && (
+            this.__type || (
+                this.__type = this.vertical ?
+                    (
+                        this.firstContainer
+                        &&
+                        this.firstContainer.customRoughOpening
+                        &&
+                        this.secondContainer
+                        &&
+                        this.secondContainer.customRoughOpening
+                    ) ?
+                        'Mullion'
                         :
-                        'Head'
+                        'Jamb'
                     :
-                    'Sill'
+                    (
+                        this.firstContainer
+                        &&
+                        this.firstContainer.customRoughOpening
+                    ) ?
+                        (
+                            this.secondContainer
+                            &&
+                            this.secondContainer.customRoughOpening
+                        ) ?
+                            'Horizontal'
+                            :
+                            'Head'
+                        :
+                        'Sill'
+            )
         );
     }
 
     get configurationTypes() {
         // find all configuration types that are applicable to detail type
-        return this.__configurationTypes || (
-            this.__configurationTypes = this.elevation
-                .detailTypeConfigurationTypes
-                .filter(({
-                    _detailType: {
-                        type: detailTypeName,
-                    },
-                    _configurationType: {
-                        type: configurationTypeName
-                    },
-                }) => configurationTypeName && detailTypeName === this.detailType)
+        return this.exists && (
+            this.__configurationTypes || (
+                this.__configurationTypes = this.elevation
+                    .detailTypeConfigurationTypes
+                    .filter(({
+                        _detailType: {
+                            type: detailTypeName,
+                        },
+                        _configurationType: {
+                            type: configurationTypeName
+                        },
+                    }) => configurationTypeName && detailTypeName === this.detailType)
+            )
         );
     }
 
@@ -113,6 +147,8 @@ export default class RecursiveDetail {
     }
 
     compareOtherDetail = detail => (
+        this.exists
+        &&
         this.detailType === detail.detailType
         &&
         this.appliedConfigurationTypes.every(act => detail.appliedConfigurationTypes.includes(act))
@@ -121,33 +157,37 @@ export default class RecursiveDetail {
     );
 
     get detailId() {
-        return this.__detailId || (
-            this.__detailId = `${
-            this.detailType === 'Horizontal' ?
-                'Z'
-                :
-                this.detailType[0].toUpperCase()
-            }${
-            this.elevation.allDetails
-                .reduce(({ num, finished }, detail) => (
-                    finished || detail === this ?
-                        { num, finished: true }
-                        :
-                        detail.detailType === this.detailType ?
-                            this.compareOtherDetail(detail) ?
-                                { num }
-                                :
-                                { num: num + 1 }
+        return this.exists && (
+            this.__detailId || (
+                this.__detailId = `${
+                this.detailType === 'Horizontal' ?
+                    'Z'
+                    :
+                    this.detailType[0].toUpperCase()
+                }${
+                this.elevation.allDetails
+                    .reduce(({ num, finished }, detail) => (
+                        finished || detail === this ?
+                            { num, finished: true }
                             :
-                            { num }
-                ), { num: 1 })
-                .num
-            }`
+                            detail.detailType === this.detailType ?
+                                this.compareOtherDetail(detail) ?
+                                    { num }
+                                    :
+                                    { num: num + 1 }
+                                :
+                                { num }
+                    ), { num: 1 })
+                    .num
+                }`
+            )
         );
     }
 
     // NAVIGATION / RENDERING
     getDetailsByContainer = first => {
+        if (!this.exists) return [];
+
         if (!this[detailsByContainerKey][first]) {
             const direction = [!this.vertical, first];
 
@@ -164,6 +204,8 @@ export default class RecursiveDetail {
     }
 
     getDetailsWithSharedContainersByContainerDirection = first => {
+        if (!this.exists) return [];
+
         if (!this[detailsWithSharedContainersKey][first]) {
             const { vertical } = this;
 
@@ -191,6 +233,8 @@ export default class RecursiveDetail {
     }
 
     get allDetailsWithSharedContainers() {
+        if (!this.exists) return [];
+
         return unique(
             this.getDetailsWithSharedContainersByContainerDirection(true),
             this.getDetailsWithSharedContainersByContainerDirection(false),
@@ -201,13 +245,21 @@ export default class RecursiveDetail {
 
     get runsAlongEdgeOfRoughOpening() {
         return (
+            !this.exists
+            ||
             !this.firstContainer
             ||
+            this.firstContainer.customRoughOpening
+            ||
             !this.secondContainer
+            ||
+            this.secondContainer.customRoughOpening
         );
     }
 
     get shouldRunThroughPerpendiculars() {
+        if (!this.exists) return false;
+
         if (this.__shouldRunThroughPerpendiculars === undefined) {
             this.__shouldRunThroughPerpendiculars = (
                 this.vertical
@@ -223,7 +275,9 @@ export default class RecursiveDetail {
     }
 
     getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
-        if ((--PROTECTION > 0) && !this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
+        if (!this.exists) return [];
+
+        if (!this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
             // console.log(this.id, detailFirst, containerFirst);
             const { vertical } = this;
 
@@ -274,10 +328,13 @@ export default class RecursiveDetail {
         return this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst];
     }
 
-    getDetailsAcrossPerpendicularsByDirection = detailFirst => unique(
-        this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true),
-        this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false),
-    );
+    getDetailsAcrossPerpendicularsByDirection = detailFirst => this.exists ?
+        unique(
+            this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true),
+            this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false),
+        )
+        :
+        [];
 
     // get allDetailsAcrossPerpendiculars() {
     //     return this.__allDetailsAcrossPerpendiculars || (
@@ -296,7 +353,10 @@ export default class RecursiveDetail {
             allDetailsWithSharedContainers: {
                 length,
             },
+            exists,
         } = this;
+
+        if (!exists) return [];
 
         const {
             [first ? 0 : length - 1]: detail,
@@ -328,16 +388,20 @@ export default class RecursiveDetail {
     get allMatchedDetails() {
         if (!this.__allMatchedDetails) {
             // console.log("GETTING MATCHED DETAILS: " + this.id);
-            this.__allMatchedDetails = unique(
-                this.getMatchedDetailsByDirection(true),
-                this.getMatchedDetailsByDirection(false),
-            );
+            this.__allMatchedDetails = this.exists ?
+                unique(
+                    this.getMatchedDetailsByDirection(true),
+                    this.getMatchedDetailsByDirection(false),
+                )
+                :
+                [];
         }
         return this.__allMatchedDetails;
     }
 
     // PLACEMENT
     get placement() {
+        if (!this.exists) return {};
         if (!this.__placement) {
             const {
                 vertical,
@@ -349,7 +413,7 @@ export default class RecursiveDetail {
                         y: frameY,
                         height: frameHeight,
                         width: frameWidth,
-                    }
+                    },
                 },
             } = this;
 

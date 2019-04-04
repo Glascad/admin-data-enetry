@@ -7,12 +7,13 @@ const defaultScale = 1;
 export default class TransformProvider extends Component {
 
     state = {
-        scale: defaultScale,
-        translate: {
-            x: 0,
-            y: 0,
+        scale: {
+            x: defaultScale,
+            y: defaultScale,
+            nudgeAmount: 0.01,
         },
-        dimensionsTranslate: {
+        translate: {
+            nudgeAmount: 10,
             x: 0,
             y: 0,
         },
@@ -47,13 +48,21 @@ export default class TransformProvider extends Component {
 
     watchArrowKeys = ({ key }) => this.spaceKey && (
         key === "ArrowUp" ?
-            this.setState(({ scale }) => ({
-                scale: +scale + 0.01,
+            this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+                scale: {
+                    nudgeAmount,
+                    x: + x + nudgeAmount,
+                    y: + y + nudgeAmount,
+                },
             }))
             :
             key === 'ArrowDown' ?
-                this.setState(({ scale }) => ({
-                    scale: +scale - 0.01,
+                this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+                    scale: {
+                        nudgeAmount,
+                        x: +x - nudgeAmount,
+                        y: +y - nudgeAmount,
+                    },
                 }))
                 :
                 null
@@ -67,9 +76,6 @@ export default class TransformProvider extends Component {
             const { clientX, clientY } = e;
 
             this.panning = true;
-
-            // console.log("START");
-            // console.log({ clientX, clientY });
 
             const {
                 state: {
@@ -85,15 +91,13 @@ export default class TransformProvider extends Component {
                 y: +clientY - +y,
             };
 
-            document.body.style.cursor = 'grabbing';
+            document.body.style.cursor = 'grabbing !important';
             window.addEventListener('mousemove', this.pan);
         }
     };
 
     watchMouseUp = () => {
         if (this.panning) {
-            // console.log("DONE");
-            // console.log(this.state);
 
             document.body.style.cursor = "";
             window.removeEventListener('mousemove', this.pan);
@@ -115,9 +119,6 @@ export default class TransformProvider extends Component {
             },
         } = this;
 
-        // console.log("MOVE");
-        // console.log({ clientX, clientY });
-
         this.setState({
             translate: {
                 x: +clientX - +x,
@@ -126,13 +127,20 @@ export default class TransformProvider extends Component {
         });
     }
 
-    undoPan = () => {
+    updateScale = ({ target: { value = 0 } }) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+        scale: {
+            nudgeAmount,
+            x: +value || 0,
+            y: +value || 0,
+        },
+    }));
 
-    }
-
-    updateScale = ({ target: { value = 0 } }) => this.setState({
-        scale: +value || 0,
-    });
+    updateScaleNudge = ({ target: { value = 0 } }) => this.setState(({ scale }) => ({
+        scale: {
+            ...scale,
+            nudgeAmount: +value || 0,
+        },
+    }))
 
     updateTranslateX = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
         translate: {
@@ -148,6 +156,13 @@ export default class TransformProvider extends Component {
         },
     }));
 
+    updateTranslateNudge = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
+        translate: {
+            ...translate,
+            nudgeAmount: +value || 0,
+        },
+    }))
+
     resetScale = () => this.setState({ scale: defaultScale });
 
     resetTranslate = () => this.setState({ translate: { x: 0, y: 0 } });
@@ -157,19 +172,19 @@ export default class TransformProvider extends Component {
             state: {
                 scale,
                 translate,
-                dimensionsTranslate,
             },
             props: {
                 children,
             },
             updateScale,
+            updateScaleNudge,
             resetScale,
             updateTranslateX,
             updateTranslateY,
+            updateTranslateNudge,
             resetTranslate,
             watchMouseDown,
             watchMouseUp,
-            watchDimensionMouseDown
         } = this;
 
         return (
@@ -177,19 +192,19 @@ export default class TransformProvider extends Component {
                 value={{
                     scale,
                     translate,
-                    dimensionsTranslate,
                     updateScale,
+                    updateScaleNudge,
                     resetScale,
                     updateTranslateX,
                     updateTranslateY,
+                    updateTranslateNudge,
                     resetTranslate,
                     watchMouseDown,
                     watchMouseUp,
-                    watchDimensionMouseDown,
                 }}
             >
                 {children}
             </TransformContext.Provider>
-        )
+        );
     }
 }

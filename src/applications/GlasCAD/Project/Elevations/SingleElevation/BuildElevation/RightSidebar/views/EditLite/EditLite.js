@@ -10,7 +10,10 @@ import {
 
 import SidebarLink from '../../components/SidebarLink';
 
-import { MERGE_CONTAINERS } from '../../../ducks/actions';
+import {
+    MERGE_CONTAINERS,
+    DELETE_CONTAINER,
+} from '../../../ducks/actions';
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 
 // import EditInfill from './EditInfill';
@@ -41,6 +44,13 @@ function EditLite({
                             <TitleBar
                                 title="Edit Lite"
                             />
+                            <div className="sidebar-group">
+                                <SidebarLink
+                                    toggleStackedView={toggleStackedView}
+                                    View={{ name: "Edit Infill", component: () => null }}
+                                    Icon={Icons.EditInfill}
+                                />
+                            </div>
                             {length === 1 ?
                                 Object.entries(DIRECTIONS)
                                     .map(([key, direction]) => firstContainer.canMergeByDirection(...direction) ? (
@@ -98,13 +108,16 @@ function EditLite({
                                 Icon={Icons.AddHorizontal}
                             />
                         </div>
-                        <div className="sidebar-group">
-                            <SidebarLink
-                                toggleStackedView={toggleStackedView}
-                                View={{ name: "Edit Infill", component: () => null }}
-                                Icon={Icons.EditInfill}
-                            />
-                        </div>
+                        {length === 1 ? (
+                            <button
+                                className="sidebar-button danger"
+                                onClick={() => updateElevation(DELETE_CONTAINER, {
+                                    container: firstContainer,
+                                })}
+                            >
+                                Delete Lite
+                            </button>
+                        ) : null}
                     </>
                 )}
         </SelectionContext.Consumer>

@@ -7,6 +7,7 @@ export default function Container({
     container: {
         refId,
         class: RecursiveContainer,
+        customRoughOpening,
         placement: {
             x,
             y,
@@ -25,44 +26,44 @@ export default function Container({
                     length,
                 },
                 selectItem,
-            }) => (
-                    <div
-                        id={refId}
-                        className={`Container ${
-                            items.includes(container) ?
-                                'selected'
-                                :
-                                ''
-                            } ${
-                            items[length - 1] === container ?
-                                'last-selected'
-                                :
-                                ''
-                            } ${(
-                                !length
-                                ||
-                                typeof firstItem === 'string'
-                                ||
-                                (firstItem.class === RecursiveContainer)
-                            ) ?
-                                'selectable'
-                                :
-                                ''
-                            }`}
-                        style={{
-                            left: ~~x,
-                            bottom: ~~y,
-                            height: ~~height,
-                            width: ~~width,
-                        }}
-                        onClick={() => selectItem(container)}
-                        tabIndex={tabIndex}
-                    >
-                        <div className="text">
-                            {refId.replace(/\D*/, '*')}
-                        </div>
+            }) => customRoughOpening ? null : (
+                <div
+                    id={refId}
+                    className={`Container ${
+                        items.includes(container) ?
+                            'selected'
+                            :
+                            ''
+                        } ${
+                        items[length - 1] === container ?
+                            'last-selected'
+                            :
+                            ''
+                        } ${(
+                            !length
+                            ||
+                            typeof firstItem === 'string'
+                            ||
+                            (firstItem.class === RecursiveContainer)
+                        ) ?
+                            'selectable'
+                            :
+                            ''
+                        }`}
+                    style={{
+                        left: ~~x,
+                        bottom: ~~y,
+                        height: ~~height,
+                        width: ~~width,
+                    }}
+                    onClick={() => selectItem(container)}
+                    tabIndex={tabIndex}
+                >
+                    <div className="text">
+                        {refId.replace(/\D*/, '*')}
                     </div>
-                )}
+                </div>
+            )}
         </SelectionContext.Consumer>
     );
 }

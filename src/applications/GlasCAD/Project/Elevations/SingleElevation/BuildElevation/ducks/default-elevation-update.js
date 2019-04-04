@@ -17,10 +17,7 @@ export const defaultContainerUpdate = {
         x: 0,
         y: 0,
     },
-    bottomLeftOffset: {
-        x: 0,
-        y: 0,
-    },
+    customRoughOpening: false,
 };
 
 export default {
