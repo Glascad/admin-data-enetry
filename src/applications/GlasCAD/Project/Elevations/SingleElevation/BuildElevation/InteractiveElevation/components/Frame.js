@@ -50,6 +50,7 @@ export default function Frame({
                                 :
                                 'horizontal'
                             }`}
+                        onClick={() => selectItem(_frame)}
                     >
                         {/* <div className="detail-wrapper">
                             {details.map(detail => (
@@ -62,7 +63,6 @@ export default function Frame({
                         <div
                             // to make selecting a frame less difficult
                             className="frame-wrapper"
-                            onClick={() => selectItem(_frame)}
                             style={{
                                 left: x - 10,
                                 bottom: y - 10,

@@ -15,6 +15,12 @@
             position: absolute;
             background: transparentize($light-blue, 0.8);
 
+            &.custom-rough-opening {
+                border: 2px solid black !important;
+                background: $off-white !important;
+                box-shadow: none !important;
+            }
+
             &.selectable {
                 &:hover {
                     &:not(.selected) {
