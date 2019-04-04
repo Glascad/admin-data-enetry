@@ -4,26 +4,34 @@ import { withContext } from '../../../../../../../../components';
 
 import { SelectionContext } from '../../contexts/SelectionContext';
 
+import SelectedItem from './SelectedItem';
+
 class Selection extends PureComponent {
     render = () => {
         const {
             props: {
-                context,
                 context: {
                     items,
                     items: {
-                        0: {
-                            class: SelectedClass,
-                        },
                         length,
                     },
+                    selectItem,
                 },
             },
         } = this;
 
+        console.log(this);
+
         return (
-            <div>
-                
+            <div id="ElevationSelection" >
+                {items.map((item, i) => (
+                    <SelectedItem
+                        key={item.refId}
+                        item={item}
+                        selectItem={selectItem}
+                        lastSelected={i === length - 1}
+                    />
+                ))}
             </div>
         );
     }

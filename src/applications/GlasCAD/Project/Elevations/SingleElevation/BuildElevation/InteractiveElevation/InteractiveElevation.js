@@ -9,6 +9,7 @@ import FinishedFloor from './components/FinishedFloor';
 import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
+import ElevationSelection from './components/ElevationSelection';
 
 export default class InteractiveElevation extends PureComponent {
 
@@ -127,6 +128,8 @@ export default class InteractiveElevation extends PureComponent {
                                 <FinishedFloor
                                     finishedFloorHeight={finishedFloorHeight}
                                 />
+                                {/* SELECTION */}
+                                <ElevationSelection />
                                 <div id="left-dimension-track">
                                     {/* VERTICAL DIMENSIONS */}
                                     {verticalContainerDimensionTracks.map((track, i) => (
