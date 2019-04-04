@@ -4,11 +4,6 @@ export default function mergeElevationInput(
     elevationInput = {},
 ) {
 
-    console.log({
-        rawElevation,
-        elevationInput,
-    });
-
     const {
         roughOpening: {
             x,
@@ -33,24 +28,17 @@ export default function mergeElevationInput(
     const detailsToUpdate = details.filter(({ id }) => id);
     const detailsToAdd = details.filter(({ fakeId }) => fakeId);
 
-    console.log({
-        containersToUpdate,
-        containersToAdd,
-        detailsToUpdate,
-        detailsToAdd,
-    });
+    // const log = obj => {
+    //     const recurse = (o, prev = []) => Object.entries(o)
+    //         .forEach(([key, value]) => {
+    //             if (key === '__typename' && value === value.toUpperCase()) console.log(o);
+    //             if (value && !prev.includes(value)) recurse(value, prev.concat([value]));
+    //         });
+    //     recurse(obj);
+    //     return obj;
+    // }
 
-    const log = obj => {
-        const recurse = (o, prev = []) => Object.entries(o)
-            .forEach(([key, value]) => {
-                if (key === '__typename' && value === value.toUpperCase()) console.log(o);
-                if (value && !prev.includes(value)) recurse(value, prev.concat([value]));
-            });
-        recurse(obj);
-        return obj;
-    }
-
-    return log({
+    return {
         ...rawElevation,
         _elevationContainers: _elevationContainers
             .filter(({ id }) => !containerIdsToDelete.includes(id))
@@ -84,5 +72,5 @@ export default function mergeElevationInput(
                     detail;
             })
             .concat(detailsToAdd),
-    });
+    };
 }

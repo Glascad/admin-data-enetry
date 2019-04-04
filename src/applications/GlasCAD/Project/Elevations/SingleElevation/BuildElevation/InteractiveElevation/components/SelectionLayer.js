@@ -24,8 +24,6 @@ class SelectionLayer extends PureComponent {
             },
         } = this;
 
-        console.log(this);
-
         const detailsToRender = unique(items
             .reduce((all, {
                 // if frame is selected

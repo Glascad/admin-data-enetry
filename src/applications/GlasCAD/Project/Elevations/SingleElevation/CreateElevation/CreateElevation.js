@@ -40,7 +40,7 @@ export default class CreateElevation extends PureComponent {
 
     reset = () => this.setState({ elevation: defaultElevationInput });
 
-    updateElevation = update => console.log({ update, state: this.state }) || this.setState(({ elevation }) => ({
+    updateElevation = update => this.setState(({ elevation }) => ({
         elevation: {
             ...elevation,
             ...update,
@@ -140,11 +140,11 @@ export default class CreateElevation extends PureComponent {
             updateElevation,
         } = this;
 
-        console.log({ elevationInput });
+        // console.log({ elevationInput });
 
         const elevation = new RecursiveElevation(createElevation(elevationInput));
 
-        console.log({ elevation });
+        // console.log({ elevation });
 
         return (
             <div className="card">

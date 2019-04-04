@@ -32,15 +32,6 @@ export default function MOVE_FRAME({
                 [])
     );
 
-    console.log({
-        _frame,
-        vertical,
-        firstContainers,
-        secondContainers,
-        allFirstContainers,
-        allSecondContainers,
-    });
-
     const elevationWithShiftedFirstContainers = allFirstContainers
         .reduce((updatedElevation, container) => container ?
             updateDLO(updatedElevation, {
