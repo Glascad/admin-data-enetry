@@ -103,18 +103,42 @@
                 transform: translateY(-50%) scale(0.8);
             }
 
-            .stroke {
-                stroke: $light-gray;
+            .stroke-gray {
+                stroke: $medium-dark-gray;
             }
 
-            .fill {
-                fill: $light-gray;
+            .stroke-red {
+                stroke: $danger-color;
             }
 
-            .emphasis {
-                // fill: $selected-color;
-                fill: $icon-emphasis-color;
+            .sroke-green {
+                stroke: $icon-green;
             }
+
+            .fill-gray {
+                fill: $medium-dark-gray;
+            }
+
+            .fill-red {
+                fill: $danger-color;
+            }
+
+            .fill-green {
+                fill: $icon-green;
+            }
+
+            // .stroke {
+            //     stroke: $light-gray;
+            // }
+
+            // .fill {
+            //     fill: $light-gray;
+            // }
+
+            // .emphasis {
+            //     // fill: $selected-color;
+            //     fill: $icon-green;
+            // }
         }
         
         &:hover {

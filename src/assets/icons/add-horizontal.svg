@@ -1,7 +1,12 @@
-<svg class="icon add-horizontal" width="26px" height="18px" viewBox="4 0 26 18" version="1.1" >
+<svg class="icon Add-Horizontal" width="25px" height="18px" viewBox="0 0 25 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect class="stroke" x="13.5" y="0.5" width="12" height="17"></rect>
-        <rect class="emphasis" x="14" y="8" width="11" height="1"></rect>
-        <polygon class="emphasis" points="7 8 9 8 9 9 7 9 7 11 6 11 6 9 4 9 4 8 6 8 6 6 7 6"></polygon>
+        <rect class="stroke-gray" x="13.5" y="0.5" width="12" height="17"></rect>
+        <rect class="fill-green" x="14" y="8" width="11" height="1"></rect>
+        <g class="fill-green" transform="translate(3.000000, 6.000000)">
+            <polygon
+                points="4 2 6 2 6 4 4 4 4 6 2 6 2 4 8.43769499e-15 4 8.43769499e-15 2 2 2 2 -8.8817842e-16 4 -8.8817842e-16">
+            </polygon>
+        </g>
     </g>
 </svg>
