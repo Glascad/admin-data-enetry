@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="10px" viewBox="0 0 27 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Segmented Plan</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Segmented-Plan" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#878687" transform="translate(5.242641, 5.242641) rotate(-135.000000) translate(-5.242641, -5.242641) " x="-0.257359313" y="4.74264069" width="11" height="1"></rect>
+        <rect id="Rectangle" fill="#878687" x="8" y="8" width="11" height="1"></rect>
+        <path d="M18.5,8.5 L25.5,1.5" id="Path-3" stroke="#979797"></path>
+        <g id="Icon_Point" fill="#0CFC04">
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        </g>
+        <g id="Icon_Point" transform="translate(7.000000, 7.000000)" fill="#0CFC04">
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        </g>
+        <g id="Icon_Point" transform="translate(17.000000, 7.000000)" fill="#0CFC04">
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        </g>
+        <g id="Icon_Point" transform="translate(24.000000, 0.000000)" fill="#0CFC04">
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>
