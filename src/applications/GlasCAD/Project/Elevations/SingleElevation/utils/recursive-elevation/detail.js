@@ -117,8 +117,9 @@ export default class RecursiveDetail {
     }
 
     get configurationTypes() {
+        if (!this.exists) return [];
         // find all configuration types that are applicable to detail type
-        return this.exists && (
+        return (
             this.__configurationTypes || (
                 this.__configurationTypes = this.elevation
                     .detailTypeConfigurationTypes

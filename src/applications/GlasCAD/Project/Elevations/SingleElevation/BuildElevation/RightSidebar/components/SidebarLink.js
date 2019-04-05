@@ -6,7 +6,7 @@ export default function SidebarLink({
     toggleStackedView,
     View,
     View: {
-        name,
+        title,
     },
     Icon,
 }) {
@@ -20,7 +20,7 @@ export default function SidebarLink({
                     className="icon"
                 />
             ) : null}
-            <span>{name}</span>
+            <span>{title}</span>
             <DoubleArrow
                 className="icon after"
                 tagname="div"

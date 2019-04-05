@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 
 import RecursiveContainer from '../../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../../utils/recursive-elevation/frame';
+import RecursiveDetail from '../../../utils/recursive-elevation/detail';
 
 export default class SelectedItem extends PureComponent {
 
@@ -34,7 +35,10 @@ export default class SelectedItem extends PureComponent {
                         SelectedClass === RecursiveFrame ?
                             'frame'
                             :
-                            ''
+                            SelectedClass === RecursiveDetail ?
+                                'detail'
+                                :
+                                ''
                     } ${
                     lastSelected ?
                         'last-selected'

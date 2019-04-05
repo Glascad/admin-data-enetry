@@ -1,6 +1,7 @@
 import React, { PureComponent, createContext } from 'react';
 
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
+
 import { DIRECTIONS, getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
 
 export const SelectionContext = createContext();
@@ -11,20 +12,6 @@ const {
     RecursiveDimension,
     RecursiveDetail,
 } = RecursiveElevation;
-
-const selectableClasses = [
-    RecursiveContainer,
-    RecursiveFrame,
-    RecursiveDetail,
-    String,
-    "string",
-];
-
-const getSelectedClass = item => item && selectableClasses.find(SelectedClass => (
-    typeof item === SelectedClass
-    ||
-    item instanceof SelectedClass
-));
 
 export default class SelectionProvider extends PureComponent {
 
@@ -123,50 +110,60 @@ export default class SelectionProvider extends PureComponent {
     };
 
     selectItem = (item, doNotUnselect = false) => {
-        if (!this.spaceKey) {
+        if (
+            item
+            &&
+            !this.spaceKey
+            &&
+            (
+                item instanceof RecursiveContainer
+                ||
+                item instanceof RecursiveFrame
+                ||
+                item instanceof RecursiveDetail
+                ||
+                typeof item === 'string'
+            )
+        ) {
 
-            const SelectedClass = getSelectedClass(item);
-
-            if (SelectedClass) {
-                this.setState(({
-                    selectedItems,
-                    selectedItems: [firstItem],
-                }) => ({
-                    // if item is a string, replace entire selection
-                    // if selection is empty, initiate selection
-                    selectedItems: (
-                        !selectedItems.length
-                        ||
-                        SelectedClass === "string"
-                        ||
-                        getSelectedClass(firstItem) === "string"
+            this.setState(({
+                selectedItems,
+                selectedItems: [firstItem],
+            }) => ({
+                // if item is a string, replace entire selection
+                // if selection is empty, initiate selection
+                selectedItems: (
+                    !selectedItems.length
+                    ||
+                    typeof item === "string"
+                    ||
+                    typeof firstItem === "string"
+                ) ?
+                    [item]
+                    :
+                    // only allow selection of one class at a time
+                    (
+                        firstItem.class === item.class
+                        &&
+                        firstItem.vertical === item.vertical
                     ) ?
-                        [item]
-                        :
-                        // only allow selection of one class at a time
-                        (
-                            getSelectedClass(firstItem) === SelectedClass
-                            &&
-                            firstItem.vertical === item.vertical
-                        ) ?
-                            selectedItems.includes(item) ?
-                                doNotUnselect ?
-                                    // move item to end of array if should not unselect
-                                    selectedItems
-                                        .filter(selectedItem => selectedItem !== item)
-                                        .concat(item)
-                                    :
-                                    // remove/unselect an already-selected item
-                                    selectedItems
-                                        .filter(selectedItem => selectedItem !== item)
+                        selectedItems.includes(item) ?
+                            doNotUnselect ?
+                                // move item to end of array if should not unselect
+                                selectedItems
+                                    .filter(selectedItem => selectedItem !== item)
+                                    .concat(item)
                                 :
-                                // add/select an unselected item
-                                selectedItems.concat(item)
+                                // remove/unselect an already-selected item
+                                selectedItems
+                                    .filter(selectedItem => selectedItem !== item)
                             :
-                            // only add items that arent already selected
-                            selectedItems,
-                }));
-            }
+                            // add/select an unselected item
+                            selectedItems.concat(item)
+                        :
+                        // only add items that arent already selected
+                        selectedItems,
+            }));
         }
     }
 
@@ -201,6 +198,8 @@ export default class SelectionProvider extends PureComponent {
                 [item.refId]: item,
             }),
                 {});
+
+        console.log(this);
 
         return (
             <SelectionContext.Provider

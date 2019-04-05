@@ -4,7 +4,7 @@ import { MOVE_FRAME } from '../../../ducks/actions';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 export default {
-    name: "Move Frame",
+    title: "Move Frame",
     component: MoveFrame,
 };
 

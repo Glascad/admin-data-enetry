@@ -5,7 +5,7 @@ import { TitleBar } from '../../../../../../../../../components';
 import BackButton from '../components/BackButton';
 
 export default {
-    name: "Edit Infill",
+    title: "Edit Infill",
     component: EditInfill,
 };
 

@@ -16,47 +16,21 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                border: 2px solid black !important;
-                background: $off-white !important;
+                // border: 4px solid transparentize($danger-color, 0.8) !important;
+                // background: $off-white !important;
+                // background: none !important;
+                background: transparentize($danger-color, 0.8);
                 box-shadow: none !important;
             }
 
             &.selectable {
                 &:hover {
-                    // &:not(.selected) {
                     // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
                     // box-shadow: 0 0 0 $xx-small $dark-gray; // $light-blue;
                     box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
                     // background: transparentize($light-blue, 0.1);
-                    // }
                 }
             }
-
-            // &.selected {
-            //     // background: $selected-color;
-            //     // color: $off-white;
-            //     // background: transparentize($selected-color, 0.33);
-            //     // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-            //     // box-shadow: 0 0 0 $xx-small transparentize($selected-color, 0.35);
-            //     box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-            //     // background: transparentize($light-blue, 0.6);
-            //     // background: $selected-color;
-
-            //     // .text {
-            //     //     color: white;
-            //     // }
-
-            //     &.last-selected {
-            //         // box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-            //         // box-shadow: 0 0 0 $xx-small $selected-color;
-            //         box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-            //         // background: transparentize($light-blue, 0.3);
-
-            //         .text {
-            //             font-weight: bold;
-            //         }
-            //     }
-            // }
 
             .text {
                 margin: $x-small;
@@ -84,33 +58,13 @@
                 }
             }
 
-            // &.selected {
-            //     .frame-wrapper {
-            //         .Frame {
-            //             background: $selected-color;
-            //         }
-            //     }
-            //     .detail-wrapper {
-            //         .Detail {
-            //             // background: $dark-gray;
-            //         }
-            //     }
-            // }
-
             &:hover {
                 &.selectable {
-                    // &:not(.selected) {
                     .frame-wrapper {
                         .Frame {
                             background: $dark-gray;
                         }
                     }
-                    // .detail-wrapper {
-                    //     .DetailBubble {
-                    //         display: flex;
-                    //     }
-                    // }
-                    // }
                 }
             }
         }
@@ -139,7 +93,8 @@
                 }
             }
 
-            &.selected-frame {
+            &.selected-frame,
+            &.selected-detail {
                 background: $selected-color;
             }
         }

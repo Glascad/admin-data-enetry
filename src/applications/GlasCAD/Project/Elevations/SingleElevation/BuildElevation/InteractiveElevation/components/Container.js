@@ -70,13 +70,16 @@ const mapProps = ({
     },
     container: {
         class: RecursiveContainer,
+        customRoughOpening,
     },
 }) => ({
     context: undefined,
     selectItem,
-    selectable: length === 0
+    selectable: !customRoughOpening && (
+        length === 0
         ||
-        SelectedClass === RecursiveContainer,
+        SelectedClass === RecursiveContainer
+    ),
 });
 
 export default withContext(SelectionContext, mapProps, { pure: true })(Container);

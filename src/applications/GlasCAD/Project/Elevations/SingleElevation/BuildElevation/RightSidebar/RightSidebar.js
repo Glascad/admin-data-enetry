@@ -60,7 +60,7 @@ class RightSidebar extends PureComponent {
             state: {
                 stackedView,
                 stackedView: {
-                    name: stackedName = '',
+                    title: stackedTitle = '',
                     component: StackedChild = () => null,
                 } = {},
             },
@@ -74,9 +74,9 @@ class RightSidebar extends PureComponent {
                     cancelSelection,
                 },
                 View: {
-                    name: initialName,
+                    title: initialTitle,
                     component: InitialPureComponent,
-                }
+                },
             },
             toggleStackedView,
         } = this;
@@ -86,10 +86,10 @@ class RightSidebar extends PureComponent {
             :
             cancelSelection;
 
-        const name = stackedView ?
-            stackedName
+        const title = stackedView ?
+            stackedTitle
             :
-            initialName;
+            initialTitle;
 
         const Child = stackedView ?
             StackedChild
@@ -97,7 +97,7 @@ class RightSidebar extends PureComponent {
             InitialPureComponent;
 
         return (
-            <div id="RightSidebar" className={length ? "" : "closed"}>
+            <div id="RightSidebar" className={length ? "open" : "closed"}>
                 <button
                     className="sidebar-button primary"
                     onClick={handleClick}
@@ -109,7 +109,7 @@ class RightSidebar extends PureComponent {
                         />
                     ) : null}
                     <span>
-                        Close {name}
+                        Close {title}
                     </span>
                 </button>
                 <Child
@@ -127,6 +127,7 @@ class RightSidebar extends PureComponent {
 const {
     RecursiveContainer,
     RecursiveFrame,
+    RecursiveDetail,
 } = RecursiveElevation;
 
 const mapProps = ({
@@ -148,7 +149,10 @@ const mapProps = ({
                 :
                 VIEWS.EditHorizontal
             :
-            VIEWS.Settings,
+            SelectedClass === RecursiveDetail ?
+                VIEWS.EditDetail
+                :
+                VIEWS.Settings,
 });
 
 export default withContext(SelectionContext, mapProps)(RightSidebar);

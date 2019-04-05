@@ -7,7 +7,7 @@ import ZoomAndPan from './ZoomAndPan';
 
 
 export default {
-    name: "Visibility Settings",
+    title: "Visibility Settings",
     component: Settings,
 };
 

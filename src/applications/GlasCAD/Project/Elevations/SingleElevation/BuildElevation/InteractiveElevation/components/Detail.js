@@ -21,7 +21,7 @@ class Detail extends PureComponent {
                     vertical,
                     _frame: {
                         refId: frameRefId,
-                    },
+                    } = {},
                     placement: {
                         x,
                         y,

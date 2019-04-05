@@ -8,7 +8,7 @@ import {
 } from '../../../../../../../../../components';
 
 export default {
-    name: "Zoom and Pan",
+    title: "Zoom and Pan",
     component: ZoomAndPan,
 };
 
