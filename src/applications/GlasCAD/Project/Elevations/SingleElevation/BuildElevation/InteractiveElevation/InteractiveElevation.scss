@@ -16,7 +16,7 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                // border: 4px solid transparentize($danger-color, 0.8) !important;
+                border: 2px solid transparentize($danger-color, 0.8) !important;
                 // background: $off-white !important;
                 // background: none !important;
                 background: transparentize($danger-color, 0.8);
