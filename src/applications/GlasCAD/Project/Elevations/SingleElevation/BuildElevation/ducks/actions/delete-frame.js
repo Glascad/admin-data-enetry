@@ -2,7 +2,7 @@ import mergeContainers from './merge-containers';
 import RecursiveElevation from '../../../utils/recursive-elevation/elevation';
 
 export default function DELETE_FRAME({
-    elevation: elevationInput,
+    elevationInput,
 }, {
     _frame,
     _frame: {

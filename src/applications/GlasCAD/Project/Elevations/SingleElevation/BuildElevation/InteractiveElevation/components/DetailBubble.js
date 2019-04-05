@@ -1,23 +1,35 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import { SelectionContext } from '../../contexts/SelectionContext';
+export default class DetailBubble extends PureComponent {
 
-export default function DetailBubble({
-    detail: {
-        detailId,
-    },
-}) {
-    return (
-        <div
-            className={`detail-bubble-placement`}
-        >
-            <button
-                className="DetailBubble"
+    handleClick = e => {
+        e.stopPropagation();
+        this.props.selectItem(this.props.detail);
+    }
+
+    render = () => {
+        const {
+            props: {
+                detail: {
+                    detailId,
+                },
+            },
+            handleClick,
+        } = this;
+
+        return (
+            <div
+                className={`detail-bubble-placement`}
+                onClick={handleClick}
             >
-                <span className="detail-id">
-                    {detailId}
-                </span>
-            </button>
-        </div>
-    );
+                <button
+                    className="DetailBubble"
+                >
+                    <span className="detail-id">
+                        {detailId}
+                    </span>
+                </button>
+            </div>
+        );
+    }
 }

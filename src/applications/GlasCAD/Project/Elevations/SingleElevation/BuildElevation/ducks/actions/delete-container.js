@@ -2,8 +2,8 @@ import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from "../../../utils/recursive-el
 import MERGE_CONTAINERS from './merge-containers';
 
 export default function DELETE_CONTAINER({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         containers = [],
     },
 }, {
@@ -46,7 +46,7 @@ export default function DELETE_CONTAINER({
     };
 
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
                 containers.replace(

@@ -1,7 +1,7 @@
 
 export default function deleteDetail({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         details = [],
         detailIdsToDelete = [],
     },
@@ -14,7 +14,7 @@ export default function deleteDetail({
     },
 }) {
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             details: details.filter(({ id, fakeId }) => (id || fakeId) !== (detailId || detailFakeId)),
             detailIdsToDelete: detailIdsToDelete.concat(detailId || []),

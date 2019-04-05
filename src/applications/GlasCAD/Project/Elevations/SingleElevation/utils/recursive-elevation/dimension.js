@@ -1,6 +1,8 @@
 
 export default class RecursiveDimension {
 
+    static instanceCount = 0;
+
     constructor(container, elevation, vertical) {
 
         const {
@@ -35,6 +37,7 @@ export default class RecursiveDimension {
             this,
             {
                 class: RecursiveDimension,
+                instanceCount: ++RecursiveDimension.instanceCount,
                 containers,
                 elevation,
                 vertical,
@@ -46,7 +49,7 @@ export default class RecursiveDimension {
         );
     }
 
-    get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}`; }
+    get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}<${this.instanceCount}>`; }
 
     matchContainer = ({
         placement: {

@@ -1,7 +1,7 @@
 
 export default function redirectDetail({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         details = [],
     },
 }, {
@@ -84,7 +84,7 @@ export default function redirectDetail({
     };
 
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             details: previouslyUpdatedDetail ?
                 details.replace(

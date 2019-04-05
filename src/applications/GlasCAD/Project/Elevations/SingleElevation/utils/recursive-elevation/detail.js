@@ -9,12 +9,16 @@ const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
 const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
 export default class RecursiveDetail {
+
+    static instanceCount = 0;
+
     constructor(detail, elevation) {
         Object.assign(
             this,
             detail,
             {
                 class: RecursiveDetail,
+                instanceCount: ++RecursiveDetail.instanceCount,
                 elevation,
                 [matchedDetailsKey]: {
                     true: undefined,
@@ -43,7 +47,7 @@ export default class RecursiveDetail {
     }
 
     // REFERENCES
-    get refId() { return `Detail-${this.id}`; }
+    get refId() { return `Detail-${this.id}<${this.instanceCount}>`; }
     get ref() { return document.getElementById(this.refId); }
 
     get _frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }

@@ -24,6 +24,7 @@ class SelectionLayer extends PureComponent {
                         length,
                     },
                     selectItem,
+                    unSelectItem
                 },
             },
         } = this;
@@ -42,6 +43,8 @@ class SelectionLayer extends PureComponent {
                 }) => all.concat(details, allDetails),
                     [])
             );
+        
+        console.log({ items, detailsToRender });
 
         return (
             <div id="SelectionLayer" >
@@ -60,6 +63,7 @@ class SelectionLayer extends PureComponent {
                                 key={detail.refId}
                                 detail={detail}
                                 selectItem={selectItem}
+                                unSelectItem={unSelectItem}
                                 itemsByRefId={itemsByRefId}
                             />
                         ))}

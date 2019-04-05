@@ -12,12 +12,16 @@ const allContainersKey = 'all_containers<vertical><first>';
 const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS;
 
 export default class RecursiveContainer {
+
+    static instanceCount = 0;
+
     constructor(container, elevation) {
         Object.assign(
             this,
             container,
             {
                 class: RecursiveContainer,
+                instanceCount: ++RecursiveContainer.instanceCount,
                 elevation,
                 [detailsKey]: {
                     true: {
@@ -64,7 +68,7 @@ export default class RecursiveContainer {
     }
 
     // REFERENCES
-    get refId() { return `Container-${this.id}`; }
+    get refId() { return `Container-${this.id}<${this.instanceCount}>`; }
 
     get ref() { return document.getElementById(this.refId); }
 

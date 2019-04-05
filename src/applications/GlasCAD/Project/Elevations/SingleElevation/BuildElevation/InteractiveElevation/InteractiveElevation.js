@@ -73,7 +73,7 @@ class InteractiveElevation extends PureComponent {
                 elevation: newElevation,
                 elevation: {
                     allContainers
-                },
+                } = {},
                 updateElevation,
             },
         } = this;
@@ -126,7 +126,7 @@ class InteractiveElevation extends PureComponent {
                     finishedFloorHeight,
                     verticalContainerDimensionTracks = [],
                     horizontalContainerDimensionTracks = [],
-                },
+                } = {},
                 transformContext: {
                     scale: {
                         nudgeAmount: scaleNudge,
