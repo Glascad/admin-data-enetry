@@ -10,6 +10,8 @@ import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
 import SelectionLayer from './components/SelectionLayer';
+import { DIRECTIONS } from '../../utils/recursive-elevation/directions';
+import MERGE_CONTAINERS from '../ducks/actions/merge-containers';
 
 export default class InteractiveElevation extends PureComponent {
 
@@ -60,6 +62,52 @@ export default class InteractiveElevation extends PureComponent {
             console.error(err);
         }
         window.removeEventListener('resize', this.resizeViewport);
+    }
+
+    componentDidUpdate = ({ elevation: oldElevation }) => {
+        const {
+            props: {
+                elevation: newElevation,
+                elevation: {
+                    allContainers
+                },
+                updateElevation,
+            },
+        } = this;
+
+        if (oldElevation !== newElevation) {
+
+            const { containerToMerge, directionToMerge } = allContainers
+                .reduce(({ containerToMerge, directionToMerge }, container) => {
+                    if (containerToMerge) return { containerToMerge, directionToMerge };
+
+                    if (container.customRoughOpening) {
+
+                        const direction = Object.values(DIRECTIONS)
+                            .find(direction => (
+                                container.canMergeByDirection(...direction, true)
+                                &&
+                                container.getImmediateContainersByDirection(...direction)[0].customRoughOpening
+                            ));
+
+                        if (direction) {
+                            return {
+                                containerToMerge: container,
+                                directionToMerge: direction,
+                            };
+                        }
+                    }
+                    return {};
+                }, {});
+
+            if (containerToMerge) {
+                updateElevation(MERGE_CONTAINERS, {
+                    container: containerToMerge,
+                    direction: directionToMerge,
+                    allowCustomRoughOpenings: true,
+                });
+            }
+        }
     }
 
     render = () => {
