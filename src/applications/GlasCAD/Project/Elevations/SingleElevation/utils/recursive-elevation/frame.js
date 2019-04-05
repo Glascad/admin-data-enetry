@@ -50,7 +50,7 @@ export default class RecursiveFrame {
             this.instanceCount
             }>`;
     }
-    
+
     get ref() { return document.getElementById(this.refId); }
 
     contains = detail => this.details.includes(detail);
@@ -398,25 +398,36 @@ export default class RecursiveFrame {
     // ACTIONS
 
     // MOVE
-    canMoveByDirection = first => this
-        .getContainersByDirection(first)
-        .every(({
-            id,
-            rawContainer: {
-                daylightOpening: {
-                    x,
-                    y,
+    get canMoveAtAll() {
+        return (
+            this.firstContainers.some(Boolean)
+            &&
+            this.secondContainers.some(Boolean)
+        );
+    }
+
+    canMoveByDirection = first => this.canMoveAtAll
+        &&
+        this.getContainersByDirection(first)
+            .every(({
+                id,
+                rawContainer: {
+                    daylightOpening: {
+                        x,
+                        y,
+                    } = {},
                 } = {},
-            } = {},
-        } = {}) => !id || (
-            this.vertical ?
-                x > 10
-                :
-                y > 10
-        ));
+            } = {}) => !id || (
+                this.vertical ?
+                    x > 10
+                    :
+                    y > 10
+            ));
 
     get canMoveFirst() { return this.canMoveByDirection(true); }
     get canMoveSecond() { return this.canMoveByDirection(false); }
+
+    get canMove() { return this.canMoveFirst || this.canMoveSecond;}
 
     // DELETE
     canDeleteByDirection = first => {

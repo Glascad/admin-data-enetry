@@ -114,6 +114,8 @@ export default class SelectionProvider extends PureComponent {
         if (
             item
             &&
+            !item.customRoughOpening
+            &&
             !this.spaceKey
             &&
             (

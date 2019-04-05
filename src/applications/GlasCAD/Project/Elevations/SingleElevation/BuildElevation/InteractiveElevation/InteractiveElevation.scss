@@ -63,6 +63,7 @@
                 // background: none !important;
                 background: transparentize($danger-color, 0.8);
                 box-shadow: none !important;
+                pointer-events: none;
             }
 
             // &.selectable {

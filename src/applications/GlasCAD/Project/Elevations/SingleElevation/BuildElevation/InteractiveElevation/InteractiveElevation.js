@@ -23,15 +23,17 @@ class InteractiveElevation extends PureComponent {
     InteractiveElevation = createRef();
 
     componentDidMount = () => {
-        try {
-            this.previousViewportStyles = {
-                paddingBottom: this.props.staticContext.Viewport.current.style.paddingBottom,
-                marginBottom: this.props.staticContext.Viewport.current.style.marginBottom,
-                overflowY: this.props.staticContext.Viewport.current.style.overflowY,
-            };
-        } catch (err) {
-            console.error(err);
-        }
+        setTimeout(() => {
+            try {
+                this.previousViewportStyles = {
+                    paddingBottom: this.props.staticContext.Viewport.current.style.paddingBottom,
+                    marginBottom: this.props.staticContext.Viewport.current.style.marginBottom,
+                    overflowY: this.props.staticContext.Viewport.current.style.overflowY,
+                };
+            } catch (err) {
+                console.error(err);
+            }
+        });
         this.resizeViewport();
 
         window.addEventListener('resize', this.resizeViewport);
@@ -147,6 +149,8 @@ class InteractiveElevation extends PureComponent {
             },
         } = this;
 
+        const baseScaleFactor = 0.8;
+
         return (
             <div
                 id="InteractiveElevation"
@@ -165,7 +169,7 @@ class InteractiveElevation extends PureComponent {
                     style={{
                         height: roy,
                         width: rox,
-                        transform: `translate(${x}px, ${y - finishedFloorHeight - 50}px) scale(${scaleX}, ${scaleY})`,
+                        transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX * baseScaleFactor}, ${scaleY * baseScaleFactor})`,
                     }}
                 >
                     {/* ROUGH OPENING */}

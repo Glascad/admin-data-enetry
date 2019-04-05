@@ -76,7 +76,7 @@ export default class BuildElevation extends PureComponent {
 
     updateElevation = (ACTION, payload, cb) => this.setState(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
 
-    cancel = () => this.updateElevation(() => defaultElevationInput);
+    cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }));
 
     save = async () => {
         const elevationInput = {

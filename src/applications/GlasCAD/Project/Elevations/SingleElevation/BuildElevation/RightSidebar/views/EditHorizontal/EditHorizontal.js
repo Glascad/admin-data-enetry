@@ -25,6 +25,10 @@ function EditHorizontal({
                 items: allFrames,
                 items: {
                     0: firstFrame,
+                    0: {
+                        canDelete,
+                        canMove,
+                    } = {},
                     length,
                 },
             }) => (
@@ -32,13 +36,15 @@ function EditHorizontal({
                         <TitleBar
                             title="Edit Horizontal"
                         />
-                        <div className="sidebar-group">
-                            <SidebarLink
-                                toggleStackedView={toggleStackedView}
-                                View={MoveFrame}
-                            />
-                        </div>
-                        {length === 1 && firstFrame.canDelete ? (
+                        {length === 1 && canMove ? (
+                            <div className="sidebar-group">
+                                <SidebarLink
+                                    toggleStackedView={toggleStackedView}
+                                    View={MoveFrame}
+                                />
+                            </div>
+                        ) : null}
+                        {length === 1 && canDelete ? (
                             <button
                                 className="sidebar-button danger"
                                 onClick={() => updateElevation(DELETE_FRAME, { _frame: firstFrame })}

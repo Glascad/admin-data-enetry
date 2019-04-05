@@ -189,13 +189,15 @@ export default class RecursiveElevation {
     get detailTypes() { return this.allDetails.map(({ type }) => type); }
 
     // RETRIEVAL
-    getItemByRefId = id => {
-        const cb = ({ refId }) => refId === id;
-        return this.allContainers.find(cb)
+    getItemByRefId = (refId = "") => {
+        const cb = item => item.refId.replace(/<.*$/, '') === refId.replace(/<.*$/, '');
+        return (
+            this.allContainers.find(cb)
             ||
             this.allFrames.find(cb)
             ||
-            this.allDetails.find(cb);
+            this.allDetails.find(cb)
+        );
     }
 
     getDetailByType = type => this.allDetails

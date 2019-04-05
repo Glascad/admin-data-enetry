@@ -43,8 +43,6 @@ class SelectionLayer extends PureComponent {
                 }) => all.concat(details, allDetails),
                     [])
             );
-        
-        console.log({ items, detailsToRender });
 
         return (
             <div id="SelectionLayer" >

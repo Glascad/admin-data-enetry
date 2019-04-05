@@ -89,33 +89,33 @@ export default class RecursiveDetail {
             this.__type || (
                 this.__type = this.vertical ?
                     (
-                        this.firstContainer
-                        &&
+                        !this.firstContainer
+                        ||
                         this.firstContainer.customRoughOpening
-                        &&
-                        this.secondContainer
-                        &&
+                        ||
+                        !this.secondContainer
+                        ||
                         this.secondContainer.customRoughOpening
                     ) ?
-                        'Mullion'
-                        :
                         'Jamb'
+                        :
+                        'Mullion'
                     :
                     (
-                        this.firstContainer
-                        &&
+                        !this.firstContainer
+                        ||
                         this.firstContainer.customRoughOpening
                     ) ?
+                        'Sill'
+                        :
                         (
-                            this.secondContainer
-                            &&
+                            !this.secondContainer
+                            ||
                             this.secondContainer.customRoughOpening
                         ) ?
-                            'Horizontal'
-                            :
                             'Head'
-                        :
-                        'Sill'
+                            :
+                            'Horizontal'
             )
         );
     }
