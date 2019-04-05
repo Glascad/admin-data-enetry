@@ -138,6 +138,8 @@ export default class SelectionProvider extends PureComponent {
                     typeof item === "string"
                     ||
                     typeof firstItem === "string"
+                    ||
+                    firstItem instanceof RecursiveDetail
                 ) ?
                     [item]
                     :
@@ -146,6 +148,8 @@ export default class SelectionProvider extends PureComponent {
                         firstItem.class === item.class
                         &&
                         firstItem.vertical === item.vertical
+                        &&
+                        !item.customRoughOpening
                     ) ?
                         selectedItems.includes(item) ?
                             doNotUnselect ?
