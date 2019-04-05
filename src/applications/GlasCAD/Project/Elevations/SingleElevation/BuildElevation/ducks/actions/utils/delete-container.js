@@ -1,7 +1,7 @@
 
 export default function deleteContainer({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         containers = [],
         containerIdsToDelete = [],
     },
@@ -14,7 +14,7 @@ export default function deleteContainer({
     },
 }) {
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             containers: containers.filter(({ id, fakeId }) => (id || fakeId) !== (containerId || containerFakeId)),
             containerIdsToDelete: containerIdsToDelete.concat(containerId || []),

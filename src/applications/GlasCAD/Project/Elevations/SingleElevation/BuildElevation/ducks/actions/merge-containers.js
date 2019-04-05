@@ -6,7 +6,7 @@ import redirectDetail from './utils/redirect-detail';
 import mergeBottomLeftOffset from './utils/merge-bottom-left-offset';
 
 export default function MERGE_CONTAINERS({
-    elevation: elevationInput,
+    elevationInput,
 }, {
     container,
     direction,

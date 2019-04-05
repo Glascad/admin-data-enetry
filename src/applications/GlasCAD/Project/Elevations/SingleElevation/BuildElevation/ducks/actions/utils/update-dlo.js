@@ -1,7 +1,7 @@
 
 export default function updateDLO({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         containers = [],
     },
 }, {
@@ -36,7 +36,7 @@ export default function updateDLO({
     };
 
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
                 containers.replace(

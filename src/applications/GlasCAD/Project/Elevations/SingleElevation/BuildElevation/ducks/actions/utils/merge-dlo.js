@@ -1,7 +1,7 @@
 
 export default function mergeDLO({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         containers = [],
     },
 }, {
@@ -53,7 +53,7 @@ export default function mergeDLO({
     };
 
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
                 containers.replace(

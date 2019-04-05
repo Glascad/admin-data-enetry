@@ -15,7 +15,7 @@ import RightSidebar from './RightSidebar/RightSidebar';
 
 import { parseSearch } from '../../../../../../utils';
 
-const defaultElevationUpdate = {
+const defaultElevationInput = {
     containers: [],
     details: [],
 };
@@ -25,72 +25,32 @@ export default class BuildElevation extends PureComponent {
     static contextType = StaticContext;
 
     state = {
-        elevation: defaultElevationUpdate,
+        elevationInput: defaultElevationInput,
     };
 
     componentDidMount = () => this.context.sidebar.toggle(false);
 
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
-    updateElevation = (ACTION, payload, cb) => this.setState(state => ACTION(state, payload), cb);
-
-    cancel = () => this.setState({ elevation: defaultElevationUpdate });
-
-    save = async () => {
-        const elevationInput = {
-            elevation: {
-                ...this.state.elevation,
-                id: +parseSearch(this.props.location.search).elevationId,
-                details: this.state.elevation.details
-                    .map(({
-                        _detailOptionValues,
-                        nodeId,
-                        __typename,
-                        ...detail
-                    }) => detail),
-                containers: this.state.elevation.containers
-                    .map(({
-                        nodeId,
-                        __typename,
-                        ...container
-                    }) => container),
-            },
-        };
-
-        const result = await this.props.mutations.updateEntireElevation(elevationInput);
-
-        this.setState({ elevation: defaultElevationUpdate });
-
-        return result;
-    }
-
-    render = () => {
+    componentDidUpdate = ({ queryStatus: oldQueryStatus }) => {
         const {
-            state: {
-                elevation: elevationInput,
-            },
             props: {
-                history,
-                location: {
-                    search,
-                },
-                match: {
-                    path,
-                },
-                queryStatus: {
-                    _elevation: rawElevation,
-                    _elevation: {
-                        name = ''
-                    } = {},
-                    _system,
-                },
+                queryStatus: newQueryStatus,
             },
-            updateElevation,
-            cancel,
-            save,
         } = this;
 
-        // const rawElevation = elevationJSON;
+        if (oldQueryStatus !== newQueryStatus) this.updateElevation(state => state);
+    }
+
+    createRecursiveElevation = ({ elevationInput } = this.state) => {
+        const {
+            props: {
+                queryStatus: {
+                    _elevation: rawElevation,
+                    _system,
+                } = {},
+            },
+        } = this;
 
         console.log({ rawElevation });
 
@@ -105,6 +65,72 @@ export default class BuildElevation extends PureComponent {
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 
         console.log({ recursiveElevation });
+
+        return {
+            elevationInput,
+            rawElevation,
+            mergedElevation,
+            recursiveElevation,
+        };
+    }
+
+    updateElevation = (ACTION, payload, cb) => this.setState(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
+
+    cancel = () => this.updateElevation(() => defaultElevationInput);
+
+    save = async () => {
+        const elevationInput = {
+            elevation: {
+                ...this.state.elevationInput,
+                id: +parseSearch(this.props.location.search).elevationId,
+                details: this.state.elevationInput.details
+                    .map(({
+                        _detailOptionValues,
+                        nodeId,
+                        __typename,
+                        ...detail
+                    }) => detail),
+                containers: this.state.elevationInput.containers
+                    .map(({
+                        nodeId,
+                        __typename,
+                        ...container
+                    }) => container),
+            },
+        };
+
+        const result = await this.props.mutations.updateEntireElevation(elevationInput);
+
+        this.cancel();
+
+        return result;
+    }
+
+    render = () => {
+        const {
+            state: {
+                recursiveElevation,
+            },
+            props: {
+                history,
+                location: {
+                    search,
+                },
+                match: {
+                    path,
+                },
+                queryStatus: {
+                    _elevation: {
+                        name = ''
+                    } = {},
+                },
+            },
+            updateElevation,
+            cancel,
+            save,
+        } = this;
+
+        console.log(this);
 
         return (
             <SelectionProvider

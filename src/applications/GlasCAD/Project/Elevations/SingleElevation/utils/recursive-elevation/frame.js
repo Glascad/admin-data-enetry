@@ -5,6 +5,9 @@ const runsIntoEdgeKey = 'runs_into_edge<first>';
 const canDeleteKey = 'can_delete<first>';
 
 export default class RecursiveFrame {
+
+    static instanceCount = 0;
+
     constructor(details, elevation, initialDetail) {
 
         const [{ vertical }] = details;
@@ -13,6 +16,7 @@ export default class RecursiveFrame {
             this,
             {
                 class: RecursiveFrame,
+                instanceCount: ++RecursiveFrame.instanceCount,
                 elevation,
                 details,
                 initialDetail,
@@ -37,7 +41,16 @@ export default class RecursiveFrame {
         );
     }
 
-    get refId() { return `${this.vertical ? 'Vertical' : 'Horizontal'}-${this.details.map(({ id }) => id).join('-')}`; }
+    get refId() {
+        return `${
+            this.vertical ? 'Vertical' : 'Horizontal'
+            }-${
+            this.details.map(({ id }) => id).join('-')
+            }<${
+            this.instanceCount
+            }>`;
+    }
+    
     get ref() { return document.getElementById(this.refId); }
 
     contains = detail => this.details.includes(detail);

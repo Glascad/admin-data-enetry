@@ -3,6 +3,7 @@ import React, { PureComponent, createContext } from 'react';
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 
 import { DIRECTIONS, getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
+import { unique } from '../../../../../../../utils';
 
 export const SelectionContext = createContext();
 
@@ -132,8 +133,8 @@ export default class SelectionProvider extends PureComponent {
             }) => ({
                 // if item is a string, replace entire selection
                 // if selection is empty, initiate selection
-                selectedItems: (
-                    !selectedItems.length
+                selectedItems: unique((
+                    !firstItem
                     ||
                     typeof item === "string"
                     ||
@@ -169,12 +170,13 @@ export default class SelectionProvider extends PureComponent {
                             selectedItems.concat(item)
                         :
                         // only add items that arent already selected
-                        selectedItems,
+                        selectedItems
+                )
             }));
         }
     }
 
-    unselectItem = item => this.setState(({ selectedItems }) => ({
+    unSelectItem = item => this.setState(({ selectedItems }) => ({
         selectedItems: selectedItems.filter(selectedItem => selectedItem !== item),
     }));
 
@@ -195,7 +197,7 @@ export default class SelectionProvider extends PureComponent {
                 children,
             },
             selectItem,
-            unselectItem,
+            unSelectItem,
             cancelSelection,
         } = this;
 
@@ -212,7 +214,7 @@ export default class SelectionProvider extends PureComponent {
                     items: selectedItems,
                     itemsByRefId: selectionByRefId,
                     selectItem,
-                    unselectItem,
+                    unSelectItem,
                     cancelSelection,
                 }}
             >

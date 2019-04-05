@@ -1,6 +1,6 @@
 
 export default function ADD_FRAME({
-    elevation: elevationInput,
+    elevationInput,
 }, {
     container,
     vertical,

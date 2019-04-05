@@ -2,7 +2,7 @@ import updateDLO from "./utils/update-dlo";
 import { unique } from "../../../../../../../../utils";
 
 export default function MOVE_FRAME({
-    elevation: elevationInput,
+    elevationInput,
 }, {
     _frame,
     _frame: {

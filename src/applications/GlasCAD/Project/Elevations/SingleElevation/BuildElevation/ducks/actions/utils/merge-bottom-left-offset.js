@@ -1,7 +1,7 @@
 
 export default function mergeBottomLeftOffset({
-    elevation: elevationInput,
-    elevation: {
+    elevationInput,
+    elevationInput: {
         containers = [],
     },
 }, {
@@ -86,7 +86,7 @@ export default function mergeBottomLeftOffset({
     };
 
     return {
-        elevation: {
+        elevationInput: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
                 containers.replace(

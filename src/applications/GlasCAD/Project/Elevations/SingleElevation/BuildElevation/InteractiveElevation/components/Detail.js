@@ -4,7 +4,10 @@ import DetailBubble from './DetailBubble';
 
 export default class Detail extends PureComponent {
 
-    handleClick = () => this.props.selectItem(this.props.detail);
+    handleClick = () => {
+        this.props.unSelectItem(this.props.detail);
+        this.props.selectItem(this.props.detail._frame);
+    }
 
     render = () => {
         const {
@@ -31,6 +34,7 @@ export default class Detail extends PureComponent {
                         refId: secondContainerRefId,
                     } = {},
                 },
+                selectItem,
             },
             handleClick,
         } = this;
@@ -69,6 +73,7 @@ export default class Detail extends PureComponent {
                 onClick={handleClick}
             >
                 <DetailBubble
+                    selectItem={selectItem}
                     detail={detail}
                 />
             </div>
