@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="18px" viewBox="0 0 22 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Copy Horizontal</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Copy-Horizontal" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#0CFC04" x="1" y="6" width="11" height="1"></rect>
+        <rect id="Rectangle-Copy" fill="#878687" x="1" y="12" width="11" height="1"></rect>
+        <rect id="Rectangle-Copy-2" fill="#0CFC04" x="15" y="12" width="7" height="1"></rect>
+        <rect id="Rectangle-Copy-3" fill="#0CFC04" x="21" y="6" width="1" height="6"></rect>
+        <rect id="Rectangle-Copy-5" stroke="#878687" x="0.5" y="0.5" width="12" height="17"></rect>
+        <rect id="Rectangle-Copy-4" fill="#0CFC04" x="18" y="6" width="4" height="1"></rect>
+        <g id="Arrow-(hollow)" transform="translate(16.000000, 6.500000) rotate(-180.000000) translate(-16.000000, -6.500000) translate(14.000000, 3.000000)" stroke="#0CFC04">
+            <polygon id="Path-2" points="0.5 0.5 3.5 3.5 0.5 6.5"></polygon>
+        </g>
+    </g>
+</svg>

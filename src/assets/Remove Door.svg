@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="18px" viewBox="0 0 25 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Remove Door</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Remove-Door" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polyline id="Path-4" stroke="#D0021B" points="24.5 0.5 12.5 9 24.5 17.5"></polyline>
+        <rect id="Rectangle-Copy-5" stroke="#878687" x="12.5" y="0.5" width="12" height="17"></rect>
+        <g id="Subtract" transform="translate(3.000000, 8.000000)" fill="#D8D8D8" stroke="#D0021B">
+            <rect id="Rectangle" x="0.5" y="0.5" width="5" height="1"></rect>
+        </g>
+    </g>
+</svg>
