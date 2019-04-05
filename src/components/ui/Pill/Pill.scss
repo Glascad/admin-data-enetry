@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .Pill {
     box-sizing: border-box;
@@ -8,44 +8,50 @@
     position: relative;
     padding: 0 $xxxx-large;
     height: $item-height;
-    
+
     // border-width: $icon-thickness !important;
     border-radius: $pill-width;
-    
+
     @include hoverable-background($light-gray);
 
-    box-shadow: 2px 2px $xx-small rgba(74,74,74,.8);
+    box-shadow: 2px 2px $xx-small rgba(74, 74, 74, 0.8);
     // @include two-colors($dark-gray, $light-gray, false);
-    
+
     // &.empty:not(.selected) {
     //     // @include two-colors($selected-color, $off-white, false);
     //     border-color: $selected-color;
     //     // background: none;
-        
+
     //     &:hover {
     //         background: $light-gray;
     //     }
     // }
-    
+
     &:hover:not(.editing) {
         cursor: default;
         color: $off-white;
         font-weight: bold;
-        
+
         .text-color {
             background: $off-white;
         }
-        
-        .delete, .edit {
+
+        .delete,
+        .edit {
             display: flex;
         }
-        
+
         .ButtonTile {
             opacity: 1;
         }
     }
-    
-    &:hover, &.selected, &.danger, &.editing, &.empty, &.disabled {
+
+    &:hover,
+    &.selected,
+    &.danger,
+    &.editing,
+    &.empty,
+    &.disabled {
         box-shadow: none;
     }
 
@@ -55,26 +61,26 @@
         color: $off-white;
         font-weight: bold;
     }
-    
+
     &.danger {
         @include hoverable-background($danger-color);
 
         color: $off-white;
         font-weight: bold;
     }
-    
-    &.editing, &.editing:hover {
+
+    &.editing,
+    &.editing:hover {
         background: $selected-color;
-        
+
         &:not(.tile) {
             padding: 0 $x-large;
         }
     }
 
     .subtitle {
-        
     }
-    
+
     input {
         color: $off-white;
         border: none;
@@ -83,17 +89,17 @@
         text-align: center;
         background: none;
     }
-    
+
     button {
         position: absolute;
         // color: $dark-gray;
-        
+
         &.drag {
             top: 50%;
             left: 50%;
-            transform: translateX(-50%)
+            transform: translateX(-50%);
         }
-        
+
         &.edit {
             top: 50%;
             left: 16px;
@@ -102,7 +108,7 @@
             height: $item-height * 0.75;
             display: none;
         }
-        
+
         &.delete {
             top: 50%;
             right: $x-small;
@@ -112,23 +118,30 @@
             display: none;
         }
     }
-    
+
     &.align-left {
         justify-content: flex-start;
-        
+
         input {
             text-align: left;
         }
     }
-    
+
     &.with-button-tile {
         &:hover {
-            .title, .subtitle, .footer {
+            .title {
+                color: $light-gray;
+            }
+
+            .subtitle,
+            .footer {
                 opacity: 0;
             }
 
             &.editing {
-                .title, .subtitle, .footer {
+                .title,
+                .subtitle,
+                .footer {
                     opacity: 1;
                 }
             }
@@ -149,7 +162,8 @@
         }
     }
 
-    h5, h6 {
+    h5,
+    h6 {
         margin: 0;
     }
 
@@ -172,7 +186,7 @@
             font-weight: bold;
             margin-bottom: $small;
         }
-        
+
         .footer {
             font-style: italic;
         }
