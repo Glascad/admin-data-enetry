@@ -1,6 +1,7 @@
-import React, { Component, createContext } from 'react';
+import React, { PureComponent, createContext } from 'react';
 
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
+
 import { DIRECTIONS, getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
 
 export const SelectionContext = createContext();
@@ -12,21 +13,7 @@ const {
     RecursiveDetail,
 } = RecursiveElevation;
 
-const selectableClasses = [
-    RecursiveContainer,
-    RecursiveFrame,
-    RecursiveDetail,
-    String,
-    "string",
-];
-
-const getSelectedClass = item => item && selectableClasses.find(SelectedClass => (
-    typeof item === SelectedClass
-    ||
-    item instanceof SelectedClass
-));
-
-export default class SelectionProvider extends Component {
+export default class SelectionProvider extends PureComponent {
 
     state = {
         selectedItems: [],
@@ -109,7 +96,11 @@ export default class SelectionProvider extends Component {
                     const [vertical, first] = direction;
                     const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
-                    if (nextContainer) {
+                    if (
+                        nextContainer
+                        &&
+                        !nextContainer.customRoughOpening
+                    ) {
                         if (!shiftKey) this.cancelSelection();
                         this.selectItem(nextContainer, true);
                     }
@@ -119,43 +110,64 @@ export default class SelectionProvider extends Component {
     };
 
     selectItem = (item, doNotUnselect = false) => {
-        if (!this.spaceKey) {
+        if (
+            item
+            &&
+            !this.spaceKey
+            &&
+            (
+                item instanceof RecursiveContainer
+                ||
+                item instanceof RecursiveFrame
+                ||
+                item instanceof RecursiveDetail
+                ||
+                typeof item === 'string'
+            )
+        ) {
 
-            const SelectedClass = getSelectedClass(item);
-
-            if (SelectedClass) {
-                this.setState(({ selectedItems }) => ({
-                    // if item is a string, replace entire selection
-                    // if selection is empty, initiate selection
-                    selectedItems: (
-                        !selectedItems.length
-                        ||
-                        SelectedClass === "string"
-                        ||
-                        getSelectedClass(selectedItems[0]) === "string"
+            this.setState(({
+                selectedItems,
+                selectedItems: [firstItem],
+            }) => ({
+                // if item is a string, replace entire selection
+                // if selection is empty, initiate selection
+                selectedItems: (
+                    !selectedItems.length
+                    ||
+                    typeof item === "string"
+                    ||
+                    typeof firstItem === "string"
+                    ||
+                    firstItem instanceof RecursiveDetail
+                ) ?
+                    [item]
+                    :
+                    // only allow selection of one class at a time
+                    (
+                        firstItem.class === item.class
+                        &&
+                        firstItem.vertical === item.vertical
+                        &&
+                        !item.customRoughOpening
                     ) ?
-                        [item]
-                        :
-                        // only allow selection of one class at a time
-                        getSelectedClass(selectedItems[0]) === SelectedClass ?
-                            selectedItems.includes(item) ?
-                                doNotUnselect ?
-                                    // move item to end of array if should not unselect
-                                    selectedItems
-                                        .filter(selectedItem => selectedItem !== item)
-                                        .concat(item)
-                                    :
-                                    // remove/unselect an already-selected item
-                                    selectedItems
-                                        .filter(selectedItem => selectedItem !== item)
+                        selectedItems.includes(item) ?
+                            doNotUnselect ?
+                                // move item to end of array if should not unselect
+                                selectedItems
+                                    .filter(selectedItem => selectedItem !== item)
+                                    .concat(item)
                                 :
-                                // add/select an unselected item
-                                selectedItems.concat(item)
+                                // remove/unselect an already-selected item
+                                selectedItems
+                                    .filter(selectedItem => selectedItem !== item)
                             :
-                            // only add items that arent already selected
-                            selectedItems,
-                }));
-            }
+                            // add/select an unselected item
+                            selectedItems.concat(item)
+                        :
+                        // only add items that arent already selected
+                        selectedItems,
+            }));
         }
     }
 
@@ -184,10 +196,20 @@ export default class SelectionProvider extends Component {
             cancelSelection,
         } = this;
 
+        const selectionByRefId = selectedItems
+            .reduce((byRefId, item) => ({
+                ...byRefId,
+                [item.refId]: item,
+            }),
+                {});
+
+        console.log(this);
+
         return (
             <SelectionContext.Provider
                 value={{
                     items: selectedItems,
+                    itemsByRefId: selectionByRefId,
                     selectItem,
                     unselectItem,
                     cancelSelection,

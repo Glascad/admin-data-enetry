@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { PureComponent, createRef } from 'react';
 
 import { StaticContext } from '../../../../../../../Statics/Statics';
 import { TransformContext } from '../contexts/TransformContext';
@@ -9,21 +9,32 @@ import FinishedFloor from './components/FinishedFloor';
 import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
+import SelectionLayer from './components/SelectionLayer';
 
-export default class InteractiveElevation extends Component {
+export default class InteractiveElevation extends PureComponent {
 
     static contextType = StaticContext;
 
     InteractiveElevation = createRef();
 
     componentDidMount = () => {
+        try {
+            this.previousViewportStyles = {
+                paddingBottom: this.context.Viewport.current.style.paddingBottom,
+                marginBottom: this.context.Viewport.current.style.marginBottom,
+                overflowY: this.context.Viewport.current.style.overflowY,
+            };
+        } catch (err) {
+            console.error(err);
+        }
+        this.resizeViewport();
+
+        window.addEventListener('resize', this.resizeViewport);
+    }
+
+    resizeViewport = () => {
         setTimeout(() => {
             try {
-                this.previousViewportStyles = {
-                    paddingBottom: this.context.Viewport.current.style.paddingBottom,
-                    marginBottom: this.context.Viewport.current.style.marginBottom,
-                    overflowY: this.context.Viewport.current.style.overflowY,
-                };
                 console.log(this.context.Viewport);
                 this.context.Viewport.current.style.paddingBottom = "0";
                 this.context.Viewport.current.style.marginBottom = "0";
@@ -48,6 +59,7 @@ export default class InteractiveElevation extends Component {
         } catch (err) {
             console.error(err);
         }
+        window.removeEventListener('resize', this.resizeViewport);
     }
 
     render = () => {
@@ -70,8 +82,13 @@ export default class InteractiveElevation extends Component {
         return (
             <TransformContext.Consumer>
                 {({
-                    scale,
+                    scale: {
+                        nudgeAmount: scaleNudge,
+                        x: scaleX,
+                        y: scaleY,
+                    },
                     translate: {
+                        nudgeAmount,
                         x,
                         y,
                     },
@@ -87,7 +104,7 @@ export default class InteractiveElevation extends Component {
                                 style={{
                                     height: roy,
                                     width: rox,
-                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scale}, ${scale})`,
+                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
                                 }}
                             >
                                 {/* ROUGH OPENING */}
@@ -110,8 +127,10 @@ export default class InteractiveElevation extends Component {
                                 <FinishedFloor
                                     finishedFloorHeight={finishedFloorHeight}
                                 />
+                                {/* SELECTION */}
+                                <SelectionLayer />
+                                {/* VERTICAL DIMENSIONS */}
                                 <div id="left-dimension-track">
-                                    {/* VERTICAL DIMENSIONS */}
                                     {verticalContainerDimensionTracks.map((track, i) => (
                                         <div key={i}>
                                             {track.map(dimension => (
@@ -124,8 +143,8 @@ export default class InteractiveElevation extends Component {
                                         </div>
                                     ))}
                                 </div>
+                                {/* HORIZONTAL DIMENSIONS */}
                                 <div id="bottom-dimension-track">
-                                    {/* HORIZONTAL DIMENSIONS */}
                                     {horizontalContainerDimensionTracks.map((track, i) => (
                                         <div key={i}>
                                             {track.map(dimension => (
@@ -133,6 +152,7 @@ export default class InteractiveElevation extends Component {
                                                     key={dimension.refId}
                                                     track={i}
                                                     dimension={dimension}
+                                                    finishedFloorHeight={finishedFloorHeight}
                                                 />
                                             ))}
                                         </div>

@@ -13,29 +13,22 @@
 
         .Container {
             position: absolute;
-            background: transparentize($light-blue, 0.75);
+            background: transparentize($light-blue, 0.8);
+
+            &.custom-rough-opening {
+                border: 2px solid transparentize($danger-color, 0.8) !important;
+                // background: $off-white !important;
+                // background: none !important;
+                background: transparentize($danger-color, 0.8);
+                box-shadow: none !important;
+            }
 
             &.selectable {
                 &:hover {
-                    &:not(.selected) {
-                        box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
-                    }
-                }
-            }
-
-            &.selected {
-                // background: $selected-color;
-                // color: $off-white;
-                // background: transparentize($selected-color, 0.33);
-                // z-index: 10;
-                box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-
-                &.last-selected {
-                    box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-
-                    .text {
-                        font-weight: bold;
-                    }
+                    // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                    // box-shadow: 0 0 0 $xx-small $dark-gray; // $light-blue;
+                    box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                    // background: transparentize($light-blue, 0.1);
                 }
             }
 
@@ -44,35 +37,30 @@
             }
         }
 
-        .frame-wrapper {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-
-            .Frame {
-                background: $light-gray;
-            }
-
-            &.vertical {
-                z-index: 2;
+        .frame-hover-wrapper {
+            .frame-wrapper {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
                 .Frame {
-                    background: $medium-gray;
-                    z-index: 3;
+                    background: $light-gray;
                 }
             }
 
-            &.selected {
-                .Frame {
-                    background: $selected-color;
+            &.vertical {
+                .frame-wrapper {
+                    .Frame {
+                        background: $medium-gray;
+                        z-index: 2;
+                    }
                 }
             }
 
             &:hover {
                 &.selectable {
-                    &:not(.selected) {
+                    .frame-wrapper {
                         .Frame {
                             background: $dark-gray;
                         }
@@ -81,68 +69,113 @@
             }
         }
 
-        .detail-wrapper {
-            .Detail {
-                position: absolute;
-                // background: $selected-color;
-                z-index: 4;
+        #FinishedFloor {
+            position: absolute;
+            background: $dark-gray;
+            left: -$large;
+            right: -$large;
+            height: $xx-small;
+            transform: translateY($xx-small);
+            z-index: 1;
+        }
+    }
 
-                &.selected {
-                    background: $dark-gray;
+    #SelectionLayer {
+        .SelectedItem {
+            position: absolute;
+            z-index: 5;
+
+            &.selected-container {
+                box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+
+                &.last-selected {
+                    box-shadow: inset 0 0 $x-small $xx-small $selected-color;
                 }
+            }
 
-                .detail-bubble-placement {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    height: 0;
-                    width: 0;
+            &.selected-frame,
+            &.selected-detail {
+                background: $selected-color;
+            }
+        }
+
+        .Detail {
+            position: absolute;
+            z-index: 1;
+            // background: $selected-color;
+
+            .detail-bubble-placement {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 0;
+                width: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .DetailBubble {
                     display: flex;
+                    position: relative;
+                    height: $xxxxx-large;
+                    width: $xxxxx-large;
+                    max-height: $xxxxx-large;
+                    max-width: $xxxxx-large;
+                    min-height: $xxxxx-large;
+                    min-width: $xxxxx-large;
+                    padding: 0;
+                    border-radius: $xxxxx-large;
+                    border-bottom-left-radius: 0;
+                    background: white;
+                    border: $icon-thickness solid $selected-color;
+                    // display: flex;
                     justify-content: center;
                     align-items: center;
+                    cursor: default;
+                    color: $selected-color;
+                    font-weight: bold;
 
+                    &:hover {
+                        background: $light-gray;
+                    }
+                }
+            }
+
+            &.horizontal {
+                .detail-bubble-placement {
                     .DetailBubble {
-                        // HIDDEN BY DEFAULT
-                        display: none;
-                        // HIDDEN BY DEFAULT
-                        position: relative;
-                        height: $xxxxx-large;
-                        width: $xxxxx-large;
-                        max-height: $xxxxx-large;
-                        max-width: $xxxxx-large;
-                        min-height: $xxxxx-large;
-                        min-width: $xxxxx-large;
-                        padding: 0;
-                        border-radius: $xxxxx-large;
-                        border-bottom-left-radius: 0;
-                        background: white;
-                        border: $icon-thickness solid $selected-color;
-                        // display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        cursor: default;
-                        color: $selected-color;
-                        font-weight: bold;
+                        transform: rotate(-45deg);
+                        margin-bottom: $xxxxx-large + $xxx-large;
+                        margin-top: 0;
 
-                        &:hover {
-                            background: $light-gray;
+                        .detail-id {
+                            transform: rotate(45deg);
                         }
                     }
                 }
 
-                &.first-container-selected, &.second-container-selected {
+                &.second-container-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
-                            display: flex;
+                            transform: rotate(135deg);
+                            margin-top: $xxxxx-large + $xxx-large;
+                            margin-bottom: 0;
+
+                            .detail-id {
+                                transform: rotate(-135deg);
+                            }
                         }
                     }
                 }
 
-                &.horizontal {
+                &.first-container-selected,
+                &.frame-selected,
+                &.no-first-container {
                     .detail-bubble-placement {
                         .DetailBubble {
                             transform: rotate(-45deg);
                             margin-bottom: $xxxxx-large + $xxx-large;
+                            margin-top: 0;
 
                             .detail-id {
                                 transform: rotate(45deg);
@@ -150,55 +183,50 @@
                         }
                     }
                 }
+            }
 
-                &.vertical {
-                    &.first-container-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(45deg);
-                                margin-left: $xxxxx-large + $xxx-large;
+            &.vertical {
+                .detail-bubble-placement {
+                    .DetailBubble {
+                        transform: rotate(-135deg);
+                        margin-right: $xxxxx-large + $xxx-large;
+                        margin-left: 0;
 
-                                .detail-id {
-                                    transform: rotate(-45deg);
-                                }
+                        .detail-id {
+                            transform: rotate(135deg);
+                        }
+                    }
+                }
+
+                &.first-container-selected {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(45deg);
+                            margin-left: $xxxxx-large + $xxx-large;
+                            margin-right: 0;
+
+                            .detail-id {
+                                transform: rotate(-45deg);
                             }
                         }
                     }
+                }
 
-                    &.second-container-selected {
-                        .detail-bubble-placement {
-                            .DetailBubble {
-                                transform: rotate(-135deg);
-                                margin-right: $xxxxx-large + $xxx-large;
+                &.second-container-selected,
+                &.frame-selected {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            transform: rotate(-135deg);
+                            margin-right: $xxxxx-large + $xxx-large;
+                            margin-left: 0;
 
-                                .detail-id {
-                                    transform: rotate(135deg);
-                                }
+                            .detail-id {
+                                transform: rotate(135deg);
                             }
                         }
                     }
                 }
             }
-
-            &:hover {
-                + .frame-wrapper {
-                    &.selectable {
-                        &:not(.selected) {
-                            .Frame {
-                                background: $dark-gray;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        #finished-floor {
-            position: absolute;
-            background: $dark-gray;
-            left: -100px;
-            right: -100px;
-            height: 2px;
         }
     }
 
@@ -206,9 +234,11 @@
         position: absolute;
         margin: 0;
         padding: 0;
+        background: transparentize(white, 0.125);
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 3;
 
         &.horizontal {
             height: $x-large;
@@ -221,14 +251,20 @@
             max-width: $x-large;
             min-width: $x-large;
 
-            span {
-                transform: translateX(2px) rotate(-90deg);
+            div {
+                width: 100%;
+                height: 100%;
+                transform: rotate(-90deg);
             }
         }
 
         &.selected {
             background: $selected-color;
             color: $off-white;
+        }
+
+        &:hover {
+            background: $light-gray;
         }
     }
 }

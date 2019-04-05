@@ -23,6 +23,7 @@ $light-gray: #C8C8C8;
 $medium-gray: #979797;
 $dark-gray: #4A4A4A;
 
+$glass-blue: #E0F1FB;
 // $light-blue: #209CEE;
 // $light-blue: #4FC3F7;
 $light-blue: #86C7E9;
@@ -47,6 +48,8 @@ $icon-thickness: .2rem;
 $checkbox-height: $item-height / 2;
 
 // SCSS Mixins
+
+
 
 @mixin hoverable-background($color, $darken: true) {
     border-color: $color;

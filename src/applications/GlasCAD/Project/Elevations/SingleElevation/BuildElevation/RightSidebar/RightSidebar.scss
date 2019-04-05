@@ -2,7 +2,7 @@
 @import '../../../../../../../styles/variables';
 
 /*
-Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
+    Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
 */
 
 #RightSidebar {
@@ -83,7 +83,7 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
         .icon {
             position: absolute;
             top: 50%;
-            left: $xx-small;
+            left: $x-small;
             transform: translateY(-50%);
 
             &.after {
@@ -102,14 +102,37 @@ Viewport margin is controlled in JavaScript, since RightSidebar is nested deep w
             &.DoubleArrow {
                 transform: translateY(-50%) scale(0.8);
             }
+
+            .stroke {
+                stroke: $light-gray;
+            }
+
+            .fill {
+                fill: $light-gray;
+            }
+
+            .emphasis {
+                // fill: $selected-color;
+                fill: cyan;
+            }
         }
         
         &:hover {
             color: $dark-gray;
 
-            .DoubleArrow {
-                .arrow {
-                    border-right-color: $dark-gray;
+            .icon {
+                .stroke {
+                    stroke: $dark-gray;
+                }
+
+                .fill {
+                    fill: $dark-gray;
+                }
+
+                &.DoubleArrow {
+                    .arrow {
+                        border-right-color: $dark-gray;
+                    }
                 }
             }
         }

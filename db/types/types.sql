@@ -93,7 +93,7 @@ entire_elevation_container AS (
     original BOOLEAN,
     contents TEXT,
     daylight_opening COORDINATE,
-    bottom_left_offset COORDINATE
+    custom_rough_opening BOOLEAN
 );
 
 CREATE TYPE

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // import PropTypes from 'prop-types';
 
@@ -32,7 +32,7 @@ import extractNavigationOptions from '../../utils/extract-navigation-options';
 
 
 
-class NavigatorChild extends Component {
+class NavigatorChild extends PureComponent {
 
     static defaultProps = {
         children: "It looks like you found an invalid route",
@@ -48,7 +48,7 @@ class NavigatorChild extends Component {
 
 
 
-class Navigator extends Component {
+class Navigator extends PureComponent {
 
     static defaultProps = {
         children: (_, Children) => Children,

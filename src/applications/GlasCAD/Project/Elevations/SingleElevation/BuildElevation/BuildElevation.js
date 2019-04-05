@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
 
@@ -20,7 +20,7 @@ const defaultElevationUpdate = {
     details: [],
 };
 
-export default class BuildElevation extends Component {
+export default class BuildElevation extends PureComponent {
 
     static contextType = StaticContext;
 
@@ -33,6 +33,8 @@ export default class BuildElevation extends Component {
     componentWillUnmount = () => this.context.sidebar.toggle(true);
 
     updateElevation = (ACTION, payload, cb) => this.setState(state => ACTION(state, payload), cb);
+
+    cancel = () => this.setState({ elevation: defaultElevationUpdate });
 
     save = async () => {
         const elevationInput = {
@@ -84,6 +86,7 @@ export default class BuildElevation extends Component {
                 },
             },
             updateElevation,
+            cancel,
             save,
         } = this;
 
@@ -117,6 +120,7 @@ export default class BuildElevation extends Component {
                         history={history}
                         elevation={recursiveElevation}
                         save={save}
+                        cancel={cancel}
                     />
                     <InteractiveElevation
                         elevation={recursiveElevation}

@@ -78,15 +78,6 @@ export default function createElevation({
             ]
                 .filter(Boolean)), []);
 
-    console.log({
-        arguments: arguments,
-        bayWidth,
-        lastContainerHeight,
-        containerHeights,
-        _elevationContainers,
-        _containerDetails,
-    });
-
     return {
         roughOpening: {
             x: horizontalRoughOpening,

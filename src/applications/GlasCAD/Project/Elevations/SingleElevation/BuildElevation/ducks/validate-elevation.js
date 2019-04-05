@@ -56,8 +56,6 @@ export default function validateElevation({
 
         console.error(detail);
 
-        console.log = () => { };
-
         throw new Error(`Invalid Detail with ${fakeId ? 'FAKE' : ''} CONTAINER ID: ${id || fakeId}`);
     }
 

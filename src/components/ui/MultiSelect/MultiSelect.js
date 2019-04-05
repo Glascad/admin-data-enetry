@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import Modal from '../Modal/Modal';
 import Pill from '../Pill/Pill';
@@ -8,7 +8,7 @@ import './MultiSelect.scss';
 
 const removeDuplicates = (list, identifier = 'nodeId') => list.filter((item, i) => i === list.findIndex(({ [identifier]: id }) => id === item[identifier]));
 
-export default class MultiSelect extends Component {
+export default class MultiSelect extends PureComponent {
 
     static defaultProps = {
         identifier: 'nodeId',

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import SelectionWrapper from '../../state/SelectionWrapper';
 import Pill from '../Pill/Pill';
@@ -9,7 +9,7 @@ import CircleButton from '../CircleButton/CircleButton';
 
 import './ListWrapper.scss';
 
-class List extends Component {
+class List extends PureComponent {
 
     // static propTypes = {
     //     title: PropTypes.string,

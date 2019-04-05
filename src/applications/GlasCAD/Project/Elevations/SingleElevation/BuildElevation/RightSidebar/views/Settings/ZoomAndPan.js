@@ -8,7 +8,7 @@ import {
 } from '../../../../../../../../../components';
 
 export default {
-    name: "Zoom and Pan",
+    title: "Zoom and Pan",
     component: ZoomAndPan,
 };
 
@@ -16,8 +16,13 @@ function ZoomAndPan() {
     return (
         <TransformContext.Consumer>
             {({
-                scale,
+                scale: {
+                    nudgeAmount: scaleNudge,
+                    x: scaleX,
+                    y: scaleY,
+                },
                 translate: {
+                    nudgeAmount,
                     x,
                     y,
                 },
@@ -25,6 +30,7 @@ function ZoomAndPan() {
                 resetScale,
                 updateTranslateX,
                 updateTranslateY,
+                updateTranslateNudge,
                 resetTranslate,
             }) => (
                     <>
@@ -36,8 +42,8 @@ function ZoomAndPan() {
                             // direction="row"
                             light={true}
                             type="number"
-                            step={0.01}
-                            value={scale}
+                            step={scaleNudge}
+                            value={scaleX}
                             onChange={updateScale}
                         />
                         <button
@@ -50,10 +56,17 @@ function ZoomAndPan() {
                             title="Pan"
                         />
                         <Input
+                            label="Translation Nudge Amount"
+                            light={true}
+                            type="number"
+                            value={nudgeAmount || 0}
+                            onChange={updateTranslateNudge}
+                        />
+                        <Input
                             label="Horizontal Translation"
                             light={true}
                             type="number"
-                            step={10}
+                            step={nudgeAmount}
                             value={x || 0}
                             onChange={updateTranslateX}
                         />
@@ -61,7 +74,7 @@ function ZoomAndPan() {
                             label="Vertical Translation"
                             light={true}
                             type="number"
-                            step={10}
+                            step={nudgeAmount}
                             value={-y || 0}
                             onChange={updateTranslateY}
                         />

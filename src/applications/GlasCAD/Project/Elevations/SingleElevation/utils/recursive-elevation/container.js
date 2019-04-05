@@ -173,41 +173,39 @@ export default class RecursiveContainer {
     // PLACEMENT
     get placementX() {
         return this.__placementX || (
-            this.__placementX = this.leftFrame.sightline + (
-                (
-                    this.bottomLeftOffset
-                    &&
-                    (this.bottomLeftOffset.x || 0)
-                ) || (
-                    this.leftContainers[0]
-                    &&
-                    (
-                        (this.leftContainers[0].placement.x || 0)
-                        +
-                        (this.leftContainers[0].daylightOpening.x || 0)
-                    )
-                ) || 0
-            )
+            this.__placementX = (
+                this.leftFrame ?
+                    this.leftFrame.sightline
+                    :
+                    this.elevation.sightline
+            ) + (
+                this.leftContainers[0] ? (
+                    (this.leftContainers[0].placement.x || 0)
+                    +
+                    (this.leftContainers[0].daylightOpening.x || 0)
+                )
+                    :
+                    0
+            ) || 0
         );
     }
 
     get placementY() {
         return this.__placementY || (
-            this.__placementY = this.bottomFrame.sightline + (
+            this.__placementY = (
+                this.bottomFrame ?
+                    this.bottomFrame.sightline
+                    :
+                    this.elevation.sightline
+            ) + (
+                this.bottomContainers[0]
+                &&
                 (
-                    this.bottomLeftOffset
-                    &&
-                    (this.bottomLeftOffset.y || 0)
-                ) || (
-                    this.bottomContainers[0]
-                    &&
-                    (
-                        (this.bottomContainers[0].placement.y || 0)
-                        +
-                        (this.bottomContainers[0].daylightOpening.y || 0)
-                    )
-                ) || 0
-            )
+                    (this.bottomContainers[0].placement.y || 0)
+                    +
+                    (this.bottomContainers[0].daylightOpening.y || 0)
+                )
+            ) || 0
         );
     }
 
@@ -224,18 +222,42 @@ export default class RecursiveContainer {
     // ACTIONS
 
     // MERGE
-    canMergeByDirection = (vertical, first) => {
-        const immediateContainers = this.getImmediateContainersByDirection(vertical, first);
+    canMergeByDirection = (vertical, first, allowCustomRoughOpenings = false) => {
+
+        if (!allowCustomRoughOpenings && this.customRoughOpening) return false;
+
         const direction = [vertical, first];
         const { BACKWARD } = GET_RELATIVE_DIRECTIONS(direction);
-        return immediateContainers.length === 1
+
+        const [container, ...otherContainers] = this.getImmediateContainersByDirection(vertical, first);
+
+        const backwardContainers = container && container.getImmediateContainersByDirection(...BACKWARD);
+
+        const DLOKey = vertical ? 'x' : 'y';
+
+        return !!(
+            container
             &&
-            immediateContainers[0].getImmediateContainersByDirection(...BACKWARD).length === 1;
+            !otherContainers.length
+            &&
+            backwardContainers.length === 1
+            &&
+            (
+                allowCustomRoughOpenings
+                ||
+                !container.customRoughOpening
+            )
+            &&
+            container.daylightOpening[DLOKey] === this.daylightOpening[DLOKey]
+        );
     }
 
     get canMergeLeft() { return this.canMergeByDirection(...LEFT); }
     get canMergeRight() { return this.canMergeByDirection(...RIGHT); }
     get canMergeUp() { return this.canMergeByDirection(...UP); }
     get canMergeDown() { return this.canMergeByDirection(...DOWN); }
+
+    // DELETE
+    get canDelete() { return !this.customRoughOpening; }
 
 }

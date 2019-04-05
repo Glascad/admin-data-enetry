@@ -1,5 +1,5 @@
 import React, {
-    Component,
+    PureComponent,
     createContext,
     createRef,
 } from 'react';
@@ -21,7 +21,7 @@ import {
 
 export const StaticContext = createContext();
 
-class Statics extends Component {
+class Statics extends PureComponent {
 
     state = {
         open: true,

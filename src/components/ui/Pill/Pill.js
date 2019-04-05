@@ -1,10 +1,10 @@
-import React, { Component, createRef } from 'react';
+import React, { PureComponent, createRef } from 'react';
 // import PropTypes from 'prop-types';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import ButtonTile from '../ButtonTile/ButtonTile';
 
-export default class Pill extends Component {
+export default class Pill extends PureComponent {
 
     // static propTypes = {
     //     type: PropTypes.oneOf([

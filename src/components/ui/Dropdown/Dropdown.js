@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import './Dropdown.scss';
 
-export default class Dropdown extends Component {
+export default class Dropdown extends PureComponent {
 
     // static propTypes = {
     //     title: PropTypes.string.isRequired,

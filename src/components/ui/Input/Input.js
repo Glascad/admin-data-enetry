@@ -1,7 +1,4 @@
-import React, {
-    Component,
-    createRef,
-} from 'react';
+import React, { PureComponent, createRef } from 'react';
 
 import Select from 'react-select';
 
@@ -15,7 +12,7 @@ const booleanTypes = [
     "icon",
 ];
 
-export default class Input extends Component {
+export default class Input extends PureComponent {
 
     static defaultProps = {
         tagname: "label",

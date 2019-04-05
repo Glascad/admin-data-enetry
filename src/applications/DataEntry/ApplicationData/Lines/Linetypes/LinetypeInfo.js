@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
     ListContainer,
@@ -6,7 +6,7 @@ import {
 } from '../../../../../components';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
-export default class LinetypeInfo extends Component {
+export default class LinetypeInfo extends PureComponent {
 
     state = {
         lineWeight: 0,

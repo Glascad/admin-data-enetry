@@ -12,6 +12,7 @@ export default function DimensionButton({
         dimension,
         offset,
     },
+    finishedFloorHeight,
 }) {
     const dimensionKey = vertical ?
         'Height'
@@ -22,13 +23,14 @@ export default function DimensionButton({
         'bottom'
         :
         'left';
-    
+
     const trackOffsetKey = vertical ?
         'left'
         :
         'bottom';
-    
-    const trackOffset = -40 * (track + 1) - 40;
+
+    // size = 24, space = 12
+    const trackOffset = -36 * (track + 2);
 
     return (
         <SelectionContext.Consumer>
@@ -54,20 +56,24 @@ export default function DimensionButton({
                                 ''
                             }`}
                         style={{
-                            [dimensionKey.toLowerCase()]: dimension,
-                            [`max${dimensionKey}`]: dimension,
-                            [`min${dimensionKey}`]: dimension,
-                            [offsetKey]: offset,
-                            [trackOffsetKey]: trackOffset,
+                            [dimensionKey.toLowerCase()]: ~~dimension,
+                            [`max${dimensionKey}`]: ~~dimension,
+                            [`min${dimensionKey}`]: ~~dimension,
+                            [offsetKey]: ~~offset,
+                            [trackOffsetKey]: ~~trackOffset,
+                            transform: vertical ?
+                                undefined
+                                :
+                                `translateY(${finishedFloorHeight}px)`,
                         }}
-                        onClick={() => containers.every(container => items.includes(container)) ?
+                        onClick={() => containers.some(container => items.includes(container)) ?
                             containers.forEach(container => unselectItem(container))
                             :
                             containers.forEach(container => selectItem(container, true))}
                     >
-                        <span id={refId} >
+                        <div>
                             {dimension.toFixed(2).replace(/\.*0*$/, '')}
-                        </span>
+                        </div>
                     </button>
                 );
             }}

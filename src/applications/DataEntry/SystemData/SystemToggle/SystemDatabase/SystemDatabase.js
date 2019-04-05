@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import SystemInfo from './SystemInfo/SystemInfo';
 import GlazingInfo from './GlazingInfo/GlazingInfo';
@@ -23,7 +23,7 @@ const subroutes = {
     // InvalidCombinations,
 };
 
-export default class SystemDatabase extends Component {
+export default class SystemDatabase extends PureComponent {
 
     static navigationOptions = {
         name: "Database",

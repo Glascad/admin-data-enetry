@@ -6,9 +6,9 @@ import {
 
 export default function ElevationPreview({
     elevation: {
-        placedContainers = [],
+        allContainers = [],
         // placedDetails = [],
-        placedFrames = [],
+        allFrames = [],
         roughOpening: {
             x = 0,
             y = 0,
@@ -45,7 +45,7 @@ export default function ElevationPreview({
                     strokeWidth={5}
                 />
                 {/* CONTAINERS */}
-                {placedContainers.map(({ x, y, height, width, refId }) => (
+                {allContainers.map(({ placement: { x, y, height, width }, refId }) => (
                     <g>
                         <rect
                             id={refId}
@@ -54,7 +54,6 @@ export default function ElevationPreview({
                             height={height}
                             width={width}
                             fill="rgba(0, 191, 255, 0.1)"
-                            // stroke="black"
                         />
                         <text
                             x={x + 10}
@@ -66,7 +65,7 @@ export default function ElevationPreview({
                     </g>
                 ))}
                 {/* FRAMES */}
-                {placedFrames.map(({ vertical, x, y, height, width, refId }) => (
+                {allFrames.map(({ placement: { vertical, x, y, height, width }, refId }) => (
                     <rect
                         id={refId}
                         x={x}
@@ -79,8 +78,6 @@ export default function ElevationPreview({
                                 :
                                 0.25
                             })`}
-                        // stroke="black"
-                        // strokeWidth={0.5}
                     />
                 ))}
             </svg>

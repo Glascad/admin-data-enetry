@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import gql from 'graphql-tag';
 
@@ -28,7 +28,7 @@ import {
 } from './elevation-input';
 import CircleButton from '../../../../../../components/ui/CircleButton/CircleButton';
 
-export default class CreateElevation extends Component {
+export default class CreateElevation extends PureComponent {
 
     state = {
         elevation: defaultElevationInput,
@@ -40,7 +40,7 @@ export default class CreateElevation extends Component {
 
     reset = () => this.setState({ elevation: defaultElevationInput });
 
-    updateElevation = update => console.log({ update, state: this.state }) || this.setState(({ elevation }) => ({
+    updateElevation = update => this.setState(({ elevation }) => ({
         elevation: {
             ...elevation,
             ...update,
@@ -140,11 +140,11 @@ export default class CreateElevation extends Component {
             updateElevation,
         } = this;
 
-        console.log({ elevationInput });
+        // console.log({ elevationInput });
 
         const elevation = new RecursiveElevation(createElevation(elevationInput));
 
-        console.log({ elevation });
+        // console.log({ elevation });
 
         return (
             <div className="card">

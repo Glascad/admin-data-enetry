@@ -1,4 +1,5 @@
 import updateDLO from "./utils/update-dlo";
+import { unique } from "../../../../../../../../utils";
 
 export default function MOVE_FRAME({
     elevation: elevationInput,
@@ -7,14 +8,31 @@ export default function MOVE_FRAME({
     _frame: {
         vertical,
         firstContainers,
+        details,
         secondContainers,
     },
     distance,
 }) {
 
-    if (!_frame.canMoveByDirection(distance > 0)) return arguments[0];
+    if (!distance || !_frame.canMoveByDirection(distance > 0)) return arguments[0];
 
-    const elevationWithShiftedFirstContainers = firstContainers
+    const allFirstContainers = unique(
+        firstContainers,
+        secondContainers
+            .reduce((excludedContainers, container) => excludedContainers
+                .concat(container.getImmediateContainersByDirection(!vertical, true)),
+                [])
+    );
+
+    const allSecondContainers = unique(
+        secondContainers,
+        firstContainers
+            .reduce((excludedContainers, container) => excludedContainers
+                .concat(container.getImmediateContainersByDirection(!vertical, false)),
+                [])
+    );
+
+    const elevationWithShiftedFirstContainers = allFirstContainers
         .reduce((updatedElevation, container) => container ?
             updateDLO(updatedElevation, {
                 container,
@@ -25,7 +43,7 @@ export default function MOVE_FRAME({
             updatedElevation,
             { elevation: elevationInput });
 
-    return secondContainers
+    return allSecondContainers
         .reduce((updatedElevation, container) => container ?
             updateDLO(updatedElevation, {
                 container,

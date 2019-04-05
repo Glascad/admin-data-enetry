@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import './ListContainer.scss';
 import _ from 'lodash';
@@ -23,7 +23,7 @@ const noGroupBy = {
 };
 
 
-export default class ListContainer extends Component {
+export default class ListContainer extends PureComponent {
 
     // static propTypes = {
     //     title: PropTypes.oneOfType([

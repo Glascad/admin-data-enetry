@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 
 /**
@@ -18,7 +18,7 @@ import { Component } from 'react';
  * 
  */
 
-export default class SelectionWrapper extends Component {
+export default class SelectionWrapper extends PureComponent {
 
     // static propTypes = {
     //     children: PropTypes.func.isRequired,

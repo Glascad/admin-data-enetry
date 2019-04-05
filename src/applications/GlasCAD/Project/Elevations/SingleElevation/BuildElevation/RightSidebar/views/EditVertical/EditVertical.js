@@ -10,7 +10,7 @@ import MoveFrame from '../shared/MoveFrame';
 import { DELETE_FRAME } from '../../../ducks/actions';
 
 export default {
-    name: "Edit Vertical",
+    title: "Edit Vertical",
     component: EditVertical,
 };
 
