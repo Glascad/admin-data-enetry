@@ -206,8 +206,6 @@ export default class SelectionProvider extends PureComponent {
             }),
                 {});
 
-        console.log(this);
-
         return (
             <SelectionContext.Provider
                 value={{
