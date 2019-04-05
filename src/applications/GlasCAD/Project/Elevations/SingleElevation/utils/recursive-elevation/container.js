@@ -196,7 +196,9 @@ export default class RecursiveContainer {
                 (this.bottomFrame && this.bottomFrame.sightline)
                 ||
                 this.elevation.sightline
-            ) + (
+                ||
+                0
+            ) + ((
                 this.bottomContainers[0]
                 &&
                 (
@@ -204,7 +206,7 @@ export default class RecursiveContainer {
                     +
                     (this.bottomContainers[0].daylightOpening.y || 0)
                 )
-            ) || 0
+            ) || 0)
         );
     }
 

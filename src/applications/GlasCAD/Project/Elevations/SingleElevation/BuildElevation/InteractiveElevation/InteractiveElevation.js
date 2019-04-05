@@ -138,6 +138,7 @@ class InteractiveElevation extends PureComponent {
                         x,
                         y,
                     },
+                    spaceKey,
                     watchMouseDown,
                 },
                 selectedClass,
@@ -149,16 +150,22 @@ class InteractiveElevation extends PureComponent {
         return (
             <div
                 id="InteractiveElevation"
+                className={spaceKey ?
+                    'spacebar-pressed'
+                    :
+                    ''}
                 ref={this.InteractiveElevation}
                 onMouseDown={watchMouseDown}
             >
                 <div
                     id="elevation-display"
-                    className={`${selectedClass}-selected`}
+                    className={`${
+                        selectedClass
+                        }-selected`}
                     style={{
                         height: roy,
                         width: rox,
-                        transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
+                        transform: `translate(${x}px, ${y - finishedFloorHeight - 50}px) scale(${scaleX}, ${scaleY})`,
                     }}
                 >
                     {/* ROUGH OPENING */}

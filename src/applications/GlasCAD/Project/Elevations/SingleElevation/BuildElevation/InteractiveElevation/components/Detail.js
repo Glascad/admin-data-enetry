@@ -61,10 +61,10 @@ export default class Detail extends PureComponent {
                         'horizontal'
                     }`}
                 style={{
-                    left: ~~x,
-                    bottom: ~~y,
-                    height: ~~height,
-                    width: ~~width,
+                    left: x,
+                    bottom: y,
+                    height,
+                    width,
                 }}
                 onClick={handleClick}
             >

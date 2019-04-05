@@ -42,10 +42,10 @@ export default class Container extends PureComponent {
                     //     ''
                     }`}
                 style={{
-                    left: ~~x,
-                    bottom: ~~y,
-                    height: ~~height,
-                    width: ~~width,
+                    left: x,
+                    bottom: y,
+                    height,
+                    width,
                 }}
                 onClick={handleClick}
                 tabIndex={tabIndex}

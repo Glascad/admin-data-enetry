@@ -17,6 +17,7 @@ export default class TransformProvider extends PureComponent {
             x: 0,
             y: 0,
         },
+        grabbing: false,
     };
 
     componentDidMount = () => {
@@ -34,29 +35,28 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('mouseup', this.watchMouseUp);
     }
 
-    watchSpaceKeyDown = ({ key }) => key === ' ' && (
-        this.spaceKey = true
-    ) && (
-            document.body.style.cursor = 'grab'
-        );
+    watchSpaceKeyDown = ({ key }) => {
+        if (key === ' ') this.setState(() => ({ spaceKey: true }))
+    }
 
-    watchSpaceKeyUp = ({ key }) => key === ' ' && !(
-        this.spaceKey = false
-    ) && (
-            document.body.style.cursor = 'default'
-        );
+    watchSpaceKeyUp = ({ key }) => {
+        if (key === ' ') this.setState(() => ({ spaceKey: false }));
+    }
 
-    watchArrowKeys = ({ key }) => this.spaceKey && (
-        key === "ArrowUp" ?
-            this.setState(({ scale: { x, y, nudgeAmount } }) => ({
-                scale: {
-                    nudgeAmount,
-                    x: + x + nudgeAmount,
-                    y: + y + nudgeAmount,
-                },
-            }))
-            :
-            key === 'ArrowDown' ?
+    watchArrowKeys = ({ key }) => {
+        if (this.state.spaceKey) {
+            if (key === "ArrowUp") {
+
+                this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+                    scale: {
+                        nudgeAmount,
+                        x: + x + nudgeAmount,
+                        y: + y + nudgeAmount,
+                    },
+                }))
+
+            } else if (key === 'ArrowDown') {
+
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,
@@ -64,18 +64,18 @@ export default class TransformProvider extends PureComponent {
                         y: +y - nudgeAmount,
                     },
                 }))
-                :
-                null
-    );
+            }
+        }
+    }
 
     watchMouseDown = e => {
-        if (this.spaceKey) {
+        if (this.state.spaceKey) {
 
             e.preventDefault();
 
             const { clientX, clientY } = e;
 
-            this.panning = true;
+            this.setState(() => ({ grabbing: true }));
 
             const {
                 state: {
@@ -91,18 +91,16 @@ export default class TransformProvider extends PureComponent {
                 y: +clientY - +y,
             };
 
-            document.body.style.cursor = 'grabbing !important';
             window.addEventListener('mousemove', this.pan);
         }
     };
 
     watchMouseUp = () => {
-        if (this.panning) {
+        if (this.state.grabbing) {
 
-            document.body.style.cursor = "";
             window.removeEventListener('mousemove', this.pan);
 
-            this.panning = false;
+            this.setState(() => ({ grabbing: false }));
         }
     }
 
@@ -172,6 +170,8 @@ export default class TransformProvider extends PureComponent {
             state: {
                 scale,
                 translate,
+                spaceKey,
+                grabbing,
             },
             props: {
                 children,
@@ -201,9 +201,27 @@ export default class TransformProvider extends PureComponent {
                     resetTranslate,
                     watchMouseDown,
                     watchMouseUp,
+                    spaceKey,
+                    grabbing,
                 }}
             >
                 {children}
+                {grabbing ? (
+                    <div
+                        id="cursor-grabbing-"
+                        style={{
+                            cursor: 'grabbing',
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            height: '100vh',
+                            width: '100vw',
+                            zIndex: 99999,
+                        }}
+                    />
+                ) : null}
             </TransformContext.Provider>
         );
     }

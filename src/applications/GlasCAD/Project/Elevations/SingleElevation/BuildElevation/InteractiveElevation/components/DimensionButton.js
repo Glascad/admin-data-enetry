@@ -1,82 +1,112 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
 import { SelectionContext } from '../../contexts/SelectionContext';
-import { TransformContext } from '../../contexts/TransformContext';
+import { withContext } from '../../../../../../../../components';
 
-export default function DimensionButton({
-    track,
-    dimension: {
-        refId,
-        vertical,
-        containers,
-        dimension,
-        offset,
-    },
-    finishedFloorHeight,
-}) {
-    const dimensionKey = vertical ?
-        'Height'
-        :
-        'Width';
+class DimensionButton extends PureComponent {
 
-    const offsetKey = vertical ?
-        'bottom'
-        :
-        'left';
-
-    const trackOffsetKey = vertical ?
-        'left'
-        :
-        'bottom';
-
-    // size = 24, space = 12
-    const trackOffset = -36 * (track + 2);
-
-    return (
-        <SelectionContext.Consumer>
-            {({
-                items,
+    handleClick = () => {
+        const {
+            props: {
+                isSelected,
                 selectItem,
                 unselectItem,
-            }) => {
-                const isSelected = items.some(item => containers.includes(item));
+                dimension: {
+                    containers,
+                },
+            },
+        } = this;
 
-                return (
-                    <button
-                        id={refId}
-                        className={`DimensionButton ${
-                            vertical ?
-                                'vertical'
-                                :
-                                'horizontal'
-                            } ${
-                            isSelected ?
-                                'selected'
-                                :
-                                ''
-                            }`}
-                        style={{
-                            [dimensionKey.toLowerCase()]: ~~dimension,
-                            [`max${dimensionKey}`]: ~~dimension,
-                            [`min${dimensionKey}`]: ~~dimension,
-                            [offsetKey]: ~~offset,
-                            [trackOffsetKey]: ~~trackOffset,
-                            transform: vertical ?
-                                undefined
-                                :
-                                `translateY(${finishedFloorHeight}px)`,
-                        }}
-                        onClick={() => containers.some(container => items.includes(container)) ?
-                            containers.forEach(container => unselectItem(container))
-                            :
-                            containers.forEach(container => selectItem(container, true))}
-                    >
-                        <div>
-                            {dimension.toFixed(2).replace(/\.*0*$/, '')}
-                        </div>
-                    </button>
-                );
-            }}
-        </SelectionContext.Consumer>
-    );
+        if (isSelected) {
+            containers.forEach(container => unselectItem(container))
+        } else {
+            containers.forEach(container => selectItem(container, true));
+        }
+    }
+
+    render = () => {
+        const {
+            props: {
+                track,
+                dimension: {
+                    refId,
+                    vertical,
+                    dimension,
+                    offset,
+                },
+                isSelected,
+                finishedFloorHeight,
+            },
+            handleClick,
+        } = this;
+
+        const dimensionKey = vertical ?
+            'Height'
+            :
+            'Width';
+
+        const offsetKey = vertical ?
+            'bottom'
+            :
+            'left';
+
+        const trackOffsetKey = vertical ?
+            'left'
+            :
+            'bottom';
+
+        // size = 24, space = 12
+        const trackOffset = -36 * (track + 1) - 50;
+
+        return (
+            <button
+                id={refId}
+                className={`DimensionButton ${
+                    vertical ?
+                        'vertical'
+                        :
+                        'horizontal'
+                    } ${
+                    isSelected ?
+                        'selected'
+                        :
+                        ''
+                    }`}
+                style={{
+                    [dimensionKey.toLowerCase()]: dimension,
+                    [`max${dimensionKey}`]: dimension,
+                    [`min${dimensionKey}`]: dimension,
+                    [offsetKey]: offset,
+                    [trackOffsetKey]: trackOffset,
+                    transform: vertical ?
+                        undefined
+                        :
+                        `translateY(${finishedFloorHeight}px)`,
+                }}
+                onClick={handleClick}
+            >
+                <div>
+                    {dimension.toFixed(2).replace(/\.*0*$/, '')}
+                </div>
+            </button>
+        );
+    }
 }
+
+const mapProps = ({
+    dimension: {
+        containers,
+    },
+    context: {
+        items,
+        selectItem,
+        unselectItem,
+    },
+}) => ({
+    context: undefined,
+    isSelected: items.some(item => containers.includes(item)),
+    selectItem,
+    unselectItem,
+});
+
+export default withContext(SelectionContext, mapProps, { pure: true })(DimensionButton);
