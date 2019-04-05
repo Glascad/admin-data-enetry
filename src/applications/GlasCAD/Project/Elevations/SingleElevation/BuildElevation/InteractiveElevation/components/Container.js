@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
 
-import { SelectionContext } from '../../contexts/SelectionContext';
+// import { SelectionContext } from '../../contexts/SelectionContext';
 
-import { withContext } from '../../../../../../../../components';
+// import { withContext } from '../../../../../../../../components';
 
-class Container extends PureComponent {
+export default class Container extends PureComponent {
 
-    handleClick = () => this.props.selectable && this.props.selectItem(this.props.container);
+    handleClick = () => this.props.selectItem(this.props.container);
 
     render = () => {
         const {
             props: {
-                selectable,
+                // selectable,
                 container: {
                     refId,
                     customRoughOpening,
@@ -35,11 +35,11 @@ class Container extends PureComponent {
                         'custom-rough-opening'
                         :
                         ''
-                    } ${
-                    selectable ?
-                        'selectable'
-                        :
-                        ''
+                    // } ${
+                    // selectable ?
+                    //     'selectable'
+                    //     :
+                    //     ''
                     }`}
                 style={{
                     left: ~~x,
@@ -58,28 +58,28 @@ class Container extends PureComponent {
     }
 }
 
-const mapProps = ({
-    context: {
-        selectItem,
-        items: {
-            0: {
-                class: SelectedClass,
-            } = {},
-            length,
-        },
-    },
-    container: {
-        class: RecursiveContainer,
-        customRoughOpening,
-    },
-}) => ({
-    context: undefined,
-    selectItem,
-    selectable: !customRoughOpening && (
-        length === 0
-        ||
-        SelectedClass === RecursiveContainer
-    ),
-});
+// const mapProps = ({
+//     context: {
+//         selectItem,
+//         items: {
+//             0: {
+//                 class: SelectedClass,
+//             } = {},
+//             length,
+//         },
+//     },
+//     container: {
+//         class: RecursiveContainer,
+//         customRoughOpening,
+//     },
+// }) => ({
+//     context: undefined,
+//     selectItem,
+//     selectable: !customRoughOpening && (
+//         length === 0
+//         ||
+//         SelectedClass === RecursiveContainer
+//     ),
+// });
 
-export default withContext(SelectionContext, mapProps, { pure: true })(Container);
+// export default withContext(SelectionContext, mapProps, { pure: true })(Container);

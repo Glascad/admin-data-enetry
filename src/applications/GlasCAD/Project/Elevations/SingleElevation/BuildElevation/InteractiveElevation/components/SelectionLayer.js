@@ -17,6 +17,7 @@ class SelectionLayer extends PureComponent {
         const {
             props: {
                 context: {
+                    itemsByRefId,
                     items,
                     items: {
                         0: firstItem,
@@ -58,6 +59,8 @@ class SelectionLayer extends PureComponent {
                             <Detail
                                 key={detail.refId}
                                 detail={detail}
+                                selectItem={selectItem}
+                                itemsByRefId={itemsByRefId}
                             />
                         ))}
                     </>

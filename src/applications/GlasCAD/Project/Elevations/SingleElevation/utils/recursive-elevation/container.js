@@ -193,10 +193,9 @@ export default class RecursiveContainer {
     get placementY() {
         return this.__placementY || (
             this.__placementY = (
-                this.bottomFrame ?
-                    this.bottomFrame.sightline
-                    :
-                    this.elevation.sightline
+                (this.bottomFrame && this.bottomFrame.sightline)
+                ||
+                this.elevation.sightline
             ) + (
                 this.bottomContainers[0]
                 &&

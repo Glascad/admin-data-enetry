@@ -1,20 +1,15 @@
 import React, { PureComponent } from 'react';
 
-import { SelectionContext } from '../../contexts/SelectionContext';
-
 import DetailBubble from './DetailBubble';
-import { withContext } from '../../../../../../../../components';
 
-class Detail extends PureComponent {
+export default class Detail extends PureComponent {
 
-    handleClick = () => this.props.context.selectItem(this.props.detail);
+    handleClick = () => this.props.selectItem(this.props.detail);
 
     render = () => {
         const {
             props: {
-                context: {
-                    itemsByRefId,
-                },
+                itemsByRefId,
                 detail,
                 detail: {
                     refId,
@@ -80,5 +75,3 @@ class Detail extends PureComponent {
         );
     }
 }
-
-export default withContext(SelectionContext, undefined, { pure: true })(Detail);

@@ -52,7 +52,7 @@ export default class SelectionProvider extends PureComponent {
         if (oldElevation !== newElevation && length) {
             this.cancelSelection();
 
-            selectedItems.forEach(({ refId, elevation: { instanceCount } }) => {
+            selectedItems.forEach(({ refId }) => {
                 const newItem = newElevation.getItemByRefId(refId);
                 this.selectItem(newItem);
             });
@@ -139,9 +139,12 @@ export default class SelectionProvider extends PureComponent {
                     ||
                     typeof firstItem === "string"
                     ||
-                    firstItem instanceof RecursiveDetail
+                    item instanceof RecursiveDetail
                 ) ?
-                    [item]
+                    selectedItems.includes(item) ?
+                        selectedItems.filter(selectedItem => selectedItem !== item)
+                        :
+                        [item]
                     :
                     // only allow selection of one class at a time
                     (

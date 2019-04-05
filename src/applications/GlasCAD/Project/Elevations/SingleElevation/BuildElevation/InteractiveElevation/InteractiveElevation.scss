@@ -11,6 +11,33 @@
     #elevation-display {
         // background: rgba(255, 0, 0, 0.1);
 
+        &.container-selected {
+            .frame-wrapper {
+                pointer-events: none;
+            }
+        }
+
+        &.vertical-frame-selected {
+            .frame-wrapper.horizontal,
+            .Container {
+                pointer-events: none;
+            }
+        }
+
+        &.horizontal-frame-selected {
+            .frame-wrapper.vertical,
+            .Container {
+                pointer-events: none;
+            }
+        }
+
+        &.detail-selected {
+            .frame-wrapper,
+            .Container {
+                pointer-events: none;
+            }
+        }
+
         .Container {
             position: absolute;
             background: transparentize($light-blue, 0.8);
@@ -23,48 +50,41 @@
                 box-shadow: none !important;
             }
 
-            &.selectable {
-                &:hover {
-                    // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
-                    // box-shadow: 0 0 0 $xx-small $dark-gray; // $light-blue;
-                    box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
-                    // background: transparentize($light-blue, 0.1);
-                }
+            // &.selectable {
+            &:hover {
+                // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                // box-shadow: 0 0 0 $xx-small $dark-gray; // $light-blue;
+                box-shadow: inset 0 0 $xx-small $xx-small $dark-gray; // $light-blue;
+                // background: transparentize($light-blue, 0.1);
             }
+            // }
 
             .text {
                 margin: $x-small;
             }
         }
 
-        .frame-hover-wrapper {
-            .frame-wrapper {
-                position: absolute;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+        .frame-wrapper {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
 
-                .Frame {
-                    background: $light-gray;
-                }
+            .Frame {
+                background: $light-gray;
             }
 
             &.vertical {
-                .frame-wrapper {
-                    .Frame {
-                        background: $medium-gray;
-                        z-index: 2;
-                    }
+                .Frame {
+                    background: $medium-gray;
+                    z-index: 2;
                 }
             }
 
             &:hover {
-                &.selectable {
-                    .frame-wrapper {
-                        .Frame {
-                            background: $dark-gray;
-                        }
-                    }
+                .Frame {
+                    background: $dark-gray;
                 }
             }
         }
@@ -101,7 +121,7 @@
 
         .Detail {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             // background: $selected-color;
 
             .detail-bubble-placement {

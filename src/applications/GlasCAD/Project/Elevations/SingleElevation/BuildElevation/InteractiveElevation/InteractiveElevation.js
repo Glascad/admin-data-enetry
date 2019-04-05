@@ -12,19 +12,22 @@ import './InteractiveElevation.scss';
 import SelectionLayer from './components/SelectionLayer';
 import { DIRECTIONS } from '../../utils/recursive-elevation/directions';
 import MERGE_CONTAINERS from '../ducks/actions/merge-containers';
+import { withContext } from '../../../../../../../components';
+import { SelectionContext } from '../contexts/SelectionContext';
+import RecursiveContainer from '../../utils/recursive-elevation/container';
+import RecursiveFrame from '../../utils/recursive-elevation/frame';
+import RecursiveDetail from '../../utils/recursive-elevation/detail';
 
-export default class InteractiveElevation extends PureComponent {
-
-    static contextType = StaticContext;
+class InteractiveElevation extends PureComponent {
 
     InteractiveElevation = createRef();
 
     componentDidMount = () => {
         try {
             this.previousViewportStyles = {
-                paddingBottom: this.context.Viewport.current.style.paddingBottom,
-                marginBottom: this.context.Viewport.current.style.marginBottom,
-                overflowY: this.context.Viewport.current.style.overflowY,
+                paddingBottom: this.props.staticContext.Viewport.current.style.paddingBottom,
+                marginBottom: this.props.staticContext.Viewport.current.style.marginBottom,
+                overflowY: this.props.staticContext.Viewport.current.style.overflowY,
             };
         } catch (err) {
             console.error(err);
@@ -37,10 +40,10 @@ export default class InteractiveElevation extends PureComponent {
     resizeViewport = () => {
         setTimeout(() => {
             try {
-                console.log(this.context.Viewport);
-                this.context.Viewport.current.style.paddingBottom = "0";
-                this.context.Viewport.current.style.marginBottom = "0";
-                this.context.Viewport.current.style.overflowY = "hidden";
+                console.log(this.props.staticContext.Viewport);
+                this.props.staticContext.Viewport.current.style.paddingBottom = "0";
+                this.props.staticContext.Viewport.current.style.marginBottom = "0";
+                this.props.staticContext.Viewport.current.style.overflowY = "hidden";
                 this.InteractiveElevation.current.style.height = `${
                     window.innerHeight
                     -
@@ -55,9 +58,9 @@ export default class InteractiveElevation extends PureComponent {
 
     componentWillUnmount = () => {
         try {
-            this.context.Viewport.current.style.paddingBottom = this.previousViewportStyles.paddingBottom;
-            this.context.Viewport.current.style.marginBottom = this.previousViewportStyles.marginBottom;
-            this.context.Viewport.current.style.overflowY = this.previousViewportStyles.overflowY;
+            this.props.staticContext.Viewport.current.style.paddingBottom = this.previousViewportStyles.paddingBottom;
+            this.props.staticContext.Viewport.current.style.marginBottom = this.previousViewportStyles.marginBottom;
+            this.props.staticContext.Viewport.current.style.overflowY = this.previousViewportStyles.overflowY;
         } catch (err) {
             console.error(err);
         }
@@ -124,12 +127,7 @@ export default class InteractiveElevation extends PureComponent {
                     verticalContainerDimensionTracks = [],
                     horizontalContainerDimensionTracks = [],
                 },
-            },
-        } = this;
-
-        return (
-            <TransformContext.Consumer>
-                {({
+                transformContext: {
                     scale: {
                         nudgeAmount: scaleNudge,
                         x: scaleX,
@@ -141,75 +139,146 @@ export default class InteractiveElevation extends PureComponent {
                         y,
                     },
                     watchMouseDown,
-                }) => (
-                        <div
-                            id="InteractiveElevation"
-                            ref={this.InteractiveElevation}
-                            onMouseDown={watchMouseDown}
-                        >
-                            <div
-                                id="elevation-display"
-                                style={{
-                                    height: roy,
-                                    width: rox,
-                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
-                                }}
-                            >
-                                {/* ROUGH OPENING */}
-                                {/* <div /> */}
-                                {/* CONTAINERS */}
-                                {allContainers.map(container => (
-                                    <Container
-                                        key={container.refId}
-                                        container={container}
+                },
+                selectedClass,
+                selectItem,
+                framesSelectable,
+            },
+        } = this;
+
+        return (
+            <div
+                id="InteractiveElevation"
+                ref={this.InteractiveElevation}
+                onMouseDown={watchMouseDown}
+            >
+                <div
+                    id="elevation-display"
+                    className={`${selectedClass}-selected`}
+                    style={{
+                        height: roy,
+                        width: rox,
+                        transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
+                    }}
+                >
+                    {/* ROUGH OPENING */}
+                    {/* <div /> */}
+                    {/* CONTAINERS */}
+                    {allContainers.map(container => (
+                        <Container
+                            key={container.refId}
+                            container={container}
+                            selectItem={selectItem}
+                        />
+                    ))}
+                    {/* FRAMES */}
+                    {allFrames.map(_frame => (
+                        <Frame
+                            key={_frame.refId}
+                            _frame={_frame}
+                            selectItem={selectItem}
+                            selectable={framesSelectable}
+                        />
+                    ))}
+                    {/* FINISHED FLOOR */}
+                    <FinishedFloor
+                        finishedFloorHeight={finishedFloorHeight}
+                    />
+                    {/* SELECTION */}
+                    <SelectionLayer />
+                    {/* VERTICAL DIMENSIONS */}
+                    <div id="left-dimension-track">
+                        {verticalContainerDimensionTracks.map((track, i) => (
+                            <div key={i}>
+                                {track.map(dimension => (
+                                    <DimensionButton
+                                        key={dimension.refId}
+                                        track={i}
+                                        dimension={dimension}
                                     />
                                 ))}
-                                {/* FRAMES */}
-                                {allFrames.map(_frame => (
-                                    <Frame
-                                        key={_frame.refId}
-                                        _frame={_frame}
-                                    />
-                                ))}
-                                {/* FINISHED FLOOR */}
-                                <FinishedFloor
-                                    finishedFloorHeight={finishedFloorHeight}
-                                />
-                                {/* SELECTION */}
-                                <SelectionLayer />
-                                {/* VERTICAL DIMENSIONS */}
-                                <div id="left-dimension-track">
-                                    {verticalContainerDimensionTracks.map((track, i) => (
-                                        <div key={i}>
-                                            {track.map(dimension => (
-                                                <DimensionButton
-                                                    key={dimension.refId}
-                                                    track={i}
-                                                    dimension={dimension}
-                                                />
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                {/* HORIZONTAL DIMENSIONS */}
-                                <div id="bottom-dimension-track">
-                                    {horizontalContainerDimensionTracks.map((track, i) => (
-                                        <div key={i}>
-                                            {track.map(dimension => (
-                                                <DimensionButton
-                                                    key={dimension.refId}
-                                                    track={i}
-                                                    dimension={dimension}
-                                                    finishedFloorHeight={finishedFloorHeight}
-                                                />
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
                             </div>
-                        </div>
-                    )}
-            </TransformContext.Consumer>
+                        ))}
+                    </div>
+                    {/* HORIZONTAL DIMENSIONS */}
+                    <div id="bottom-dimension-track">
+                        {horizontalContainerDimensionTracks.map((track, i) => (
+                            <div key={i}>
+                                {track.map(dimension => (
+                                    <DimensionButton
+                                        key={dimension.refId}
+                                        track={i}
+                                        dimension={dimension}
+                                        finishedFloorHeight={finishedFloorHeight}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         );
     }
 }
+
+export default (
+    withContext(
+        StaticContext,
+        ({ context }) => ({
+            context: undefined,
+            staticContext: context,
+        }),
+        { pure: true },
+    )(
+        withContext(
+            SelectionContext,
+            ({
+                context: {
+                    items: {
+                        0: {
+                            vertical,
+                            class: SelectedClass,
+                        } = {},
+                        length,
+                    },
+                    selectItem,
+                },
+            }) => ({
+                context: undefined,
+                selectedClass: SelectedClass === RecursiveContainer ?
+                    'container'
+                    :
+                    SelectedClass === RecursiveFrame ?
+                        `${vertical ?
+                            'vertical'
+                            :
+                            'horizontal'
+                        }-frame`
+                        :
+                        SelectedClass === RecursiveDetail ?
+                            'detail'
+                            :
+                            length ?
+                                'string'
+                                :
+                                '',
+                framesSelectable: !SelectedClass
+                    ||
+                    SelectedClass === RecursiveFrame,
+                selectItem,
+            }),
+            { pure: true },
+        )(
+            withContext(
+                TransformContext,
+                ({ context }) => ({
+                    context: undefined,
+                    transformContext: context,
+                }),
+                { pure: true },
+            )(
+                InteractiveElevation
+            )
+        )
+    )
+);
