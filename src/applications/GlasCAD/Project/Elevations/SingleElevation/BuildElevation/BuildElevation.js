@@ -28,9 +28,21 @@ export default class BuildElevation extends PureComponent {
         elevationInput: defaultElevationInput,
     };
 
-    componentDidMount = () => this.context.sidebar.toggle(false);
+    // undo states [oldest, ...latest]
+    previousStates = [];
 
-    componentWillUnmount = () => this.context.sidebar.toggle(true);
+    // redo states [latest, ...oldest]
+    futureStates = [];
+
+    componentDidMount = () => {
+        this.context.sidebar.toggle(false);
+        window.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount = () => {
+        this.context.sidebar.toggle(true);
+        window.removeEventListener('keydown', this.handleKeyDown);
+    }
 
     componentDidUpdate = ({ queryStatus: oldQueryStatus }) => {
         const {
@@ -39,7 +51,67 @@ export default class BuildElevation extends PureComponent {
             },
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) this.updateElevation(state => state);
+        if (oldQueryStatus !== newQueryStatus) this.updateElevation(
+            // recreate recursive elevation with new props
+            state => state,
+            // no payload necessary
+            null,
+            // remove all previous / future states
+            () => {
+                this.previousStates.forEach(() => this.previousStates.pop());
+                this.futureStates.forEach(() => this.futureStates.pop());
+            },
+        );
+    }
+
+    // track all interactions
+    pushState = (setStateCallback, cb) => this.setState(state => {
+        this.previousStates.push(state);
+        this.futureStates.forEach(() => this.futureStates.pop());
+        return setStateCallback(state);
+    }, cb);
+
+    // handle undo
+    popState = () => this.setState(state => {
+        if (!this.previousStates.length) return state;
+        else {
+            this.futureStates.push(state);
+            return this.previousStates.pop();
+        }
+    });
+
+    // handle redo
+    shiftState = () => this.setState(state => {
+        if (!this.futureStates.length) return state;
+        else {
+            this.previousStates.push(state);
+            return this.futureStates.pop();
+        }
+    });
+
+    undo = this.popState;
+    redo = this.shiftState;
+
+    handleKeyDown = ({ key, shiftKey, ctrlKey, metaKey }) => {
+        console.log({
+            key,
+            shiftKey,
+            ctrlKey,
+            metaKey,
+            previousStates: this.previousStates,
+            futureStates: this.futureStates,
+        });
+        if (typeof key === 'string' && key.match(/z/i)) {
+            if (ctrlKey || metaKey) {
+                if (shiftKey) {
+                    console.log("redo");
+                    this.redo();
+                } else {
+                    console.log("undo");
+                    this.undo();
+                }
+            }
+        }
     }
 
     createRecursiveElevation = ({ elevationInput } = this.state) => {
@@ -74,7 +146,7 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb) => this.setState(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
+    updateElevation = (ACTION, payload, cb) => this.pushState(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
 
     cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }));
 
