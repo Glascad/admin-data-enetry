@@ -33,12 +33,6 @@ export default class BuildElevation extends PureComponent {
         currentIndex: 0,
     };
 
-    // undo states [oldest, ...latest]
-    // previousStates = [];
-
-    // redo states [latest, ...oldest]
-    // futureStates = [];
-
     componentDidMount = () => {
         this.context.sidebar.toggle(false);
         window.addEventListener('keydown', this.handleKeyDown);
@@ -54,41 +48,12 @@ export default class BuildElevation extends PureComponent {
             props: {
                 queryStatus: newQueryStatus,
             },
+            updateElevation,
+            clearHistory,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) {
-            console.log("received new query status");
-            this.updateElevation(elevation => elevation, null, this.clearHistory);
-        }
+        if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, clearHistory);
     }
-
-    // // track all interactions
-    // pushState = (setStateCallback, cb) => this.setState(state => {
-    //     this.previousStates.push(state);
-    //     this.futureStates = [];
-    //     return setStateCallback(state);
-    // }, cb);
-
-    // // handle undo
-    // popState = () => this.setState(state => {
-    //     if (!this.previousStates.length) return state;
-    //     else {
-    //         this.futureStates.push(state);
-    //         return this.previousStates.pop();
-    //     }
-    // });
-
-    // // handle redo
-    // shiftState = () => this.setState(state => {
-    //     if (!this.futureStates.length) return state;
-    //     else {
-    //         this.previousStates.push(state);
-    //         return this.futureStates.pop();
-    //     }
-    // });
-
-    // undo = this.popState;
-    // redo = this.shiftState;
 
     clearHistory = () => this.setState(({ states, currentIndex }) => ({
         states: [states[currentIndex]],
@@ -116,30 +81,18 @@ export default class BuildElevation extends PureComponent {
         currentIndex: currentIndex + 1,
     }), ...args);
 
-    handleKeyDown = ({ key, shiftKey, ctrlKey, metaKey }) => {
-        console.log({
-            key,
-            shiftKey,
-            ctrlKey,
-            metaKey,
-            state: this.state,
-        });
-        if (
-            typeof key === 'string'
-            &&
-            key.match(/z/i)
-            &&
-            (ctrlKey || metaKey)
-        ) {
-            if (shiftKey) {
-                console.log("redo");
-                this.redo();
-            } else {
-                console.log("undo");
-                this.undo();
-            }
-        }
-    }
+    handleKeyDown = ({ key, shiftKey, ctrlKey, metaKey }) => (
+        typeof key === 'string'
+        &&
+        key.match(/z/i)
+        &&
+        (ctrlKey || metaKey)
+    ) && (
+            shiftKey ?
+                this.redo()
+                :
+                this.undo()
+        );
 
     createRecursiveElevation = ({ elevationInput } = this.state.states[this.state.currentIndex]) => {
         const {
@@ -178,29 +131,53 @@ export default class BuildElevation extends PureComponent {
     cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }), null, this.clearHistory);
 
     save = async () => {
-        const elevationInput = {
+        const {
+            state: {
+                states,
+                currentIndex,
+            },
+            props: {
+                location: {
+                    search,
+                },
+                mutations: {
+                    updateEntireElevation,
+                },
+            },
+            cancel,
+        } = this;
+
+        const {
+            [currentIndex]: {
+                elevationInput,
+                elevationInput: {
+                    details,
+                    containers,
+                },
+            },
+        } = states;
+
+        const result = await updateEntireElevation({
             elevation: {
-                ...this.state.elevationInput,
-                id: +parseSearch(this.props.location.search).elevationId,
-                details: this.state.elevationInput.details
+                ...elevationInput,
+                id: +parseSearch(search).elevationId,
+                details: details
                     .map(({
                         _detailOptionValues,
                         nodeId,
                         __typename,
                         ...detail
                     }) => detail),
-                containers: this.state.elevationInput.containers
+                containers: containers
                     .map(({
                         nodeId,
                         __typename,
                         ...container
                     }) => container),
             },
-        };
+        });
 
-        const result = await this.props.mutations.updateEntireElevation(elevationInput);
-
-        this.cancel();
+        cancel();
 
         return result;
     }
@@ -235,8 +212,6 @@ export default class BuildElevation extends PureComponent {
                 recursiveElevation,
             },
         } = states;
-
-        console.log(this);
 
         return (
             <SelectionProvider
