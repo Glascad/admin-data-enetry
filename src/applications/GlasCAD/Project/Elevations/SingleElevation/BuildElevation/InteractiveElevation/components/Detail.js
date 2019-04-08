@@ -5,7 +5,7 @@ import DetailBubble from './DetailBubble';
 export default class Detail extends PureComponent {
 
     handleClick = () => {
-        this.props.unSelectItem(this.props.detail);
+        this.props.unselectItem(this.props.detail);
         this.props.selectItem(this.props.detail._frame);
     }
 

@@ -24,7 +24,7 @@ class SelectionLayer extends PureComponent {
                         length,
                     },
                     selectItem,
-                    unSelectItem
+                    unselectItem
                 },
             },
         } = this;
@@ -61,7 +61,7 @@ class SelectionLayer extends PureComponent {
                                 key={detail.refId}
                                 detail={detail}
                                 selectItem={selectItem}
-                                unSelectItem={unSelectItem}
+                                unselectItem={unselectItem}
                                 itemsByRefId={itemsByRefId}
                             />
                         ))}

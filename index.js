@@ -19,6 +19,4 @@ APP.use(postgraphile(CONNECTION_STRING, { graphiql: true }));
 
 APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/build/`));
 
-console.log(`${__dirname}/build/index.html`);
-
-APP.listen(SERVER_PORT, () => console.log(`listening on port ${SERVER_PORT}`));
+APP.listen(SERVER_PORT, () => console.log(`glascad listening on port ${SERVER_PORT}`));

@@ -1,0 +1,15 @@
+
+<svg class="icon arch-top"  width="15px" height="18px" viewBox="0 0 15 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    
+    
+    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path class="stroke-gray" d="M1.5,17.5 L13.5,17.5 L13.5,5.625 C13.5,2.81189476 10.8284772,0.5 7.5,0.5 C4.17152283,0.5 1.5,2.81189476 1.5,5.625 L1.5,17.5 Z"  ></path>
+        <g class="fill-green"  transform="translate(0.000000, 3.000000)" >
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
+        </g>
+        <g class="fill-green"  transform="translate(12.000000, 3.000000)" >
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
+        </g>
+    </g>
+</svg>

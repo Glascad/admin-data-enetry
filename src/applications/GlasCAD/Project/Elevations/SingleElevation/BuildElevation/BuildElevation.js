@@ -104,19 +104,11 @@ export default class BuildElevation extends PureComponent {
             },
         } = this;
 
-        console.log({ rawElevation });
-
-        console.log({ elevationInput });
-
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
-
-        console.log({ mergedElevation });
 
         validateElevation(mergedElevation);
 
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
-
-        console.log({ recursiveElevation });
 
         return {
             elevationInput,
