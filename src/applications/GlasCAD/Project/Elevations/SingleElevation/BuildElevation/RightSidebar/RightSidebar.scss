@@ -84,6 +84,7 @@
             position: absolute;
             top: 50%;
             left: $x-small;
+            height: $large;
             transform: translateY(-50%);
 
             &.after {
@@ -117,6 +118,10 @@
 
             .fill-gray {
                 fill: $medium-dark-gray;
+            }
+
+            .fill-dark-gray {
+                fill: $dark-medium-gray;
             }
 
             .fill-red {
