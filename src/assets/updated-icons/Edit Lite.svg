@@ -4,10 +4,18 @@
     <title>Edit Lite</title>
     <desc>Created with Sketch.</desc>
     <g id="Edit-Lite" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle-Copy-5" stroke="#878687" x="0.5" y="0.5" width="13" height="17"></rect>
-        <rect id="Rectangle" fill="#0CFC04" x="4" y="6" width="2" height="2"></rect>
-        <rect id="Rectangle-Copy" fill="#0CFC04" x="4" y="10" width="2" height="2"></rect>
-        <rect id="Rectangle-Copy-2" fill="#0CFC04" x="8" y="10" width="2" height="2"></rect>
-        <rect id="Rectangle-Copy-3" fill="#0CFC04" x="8" y="6" width="2" height="2"></rect>
+        <rect id="Rectangle-Copy-5" stroke="#878787" x="0.5" y="0.5" width="13" height="17"></rect>
+        <g id="Square" transform="translate(4.000000, 6.000000)" fill="#0CFC04">
+            <rect id="Rectangle" x="0" y="0" width="2" height="2"></rect>
+        </g>
+        <g id="Square" transform="translate(4.000000, 10.000000)" fill="#0CFC04">
+            <rect id="Rectangle" x="0" y="0" width="2" height="2"></rect>
+        </g>
+        <g id="Square" transform="translate(8.000000, 10.000000)" fill="#0CFC04">
+            <rect id="Rectangle" x="0" y="0" width="2" height="2"></rect>
+        </g>
+        <g id="Square" transform="translate(8.000000, 6.000000)" fill="#0CFC04">
+            <rect id="Rectangle" x="0" y="0" width="2" height="2"></rect>
+        </g>
     </g>
 </svg>
