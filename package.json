@@ -24,7 +24,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "normalize-icons": "node ./utils/normalize-icons"
+        "normalize-icons": "node ./dev-utils/normalize-icons"
     },
     "eslintConfig": {
         "extends": "react-app"

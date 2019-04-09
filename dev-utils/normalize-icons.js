@@ -15,25 +15,10 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
 
 (async () => {
 
-    const titleRegex = /^(.|\n)*?<title>(.*?)<\/title>(.|\n)*$/;
-
-    const extractTitle = (icon, fileName = '') => {
-        return icon.match(titleRegex) ?
-            icon
-                .replace(titleRegex, '$2')
-                .replace(/\W/g, '-')
-                .toLowerCase()
-            :
-            fileName
-                .replace(/ /g, '-')
-                .replace(/\.svg/, '')
-                .toLowerCase();
-    }
-
     const normalizeIcon = icon => {
         return icon
             .replace(/<\?xml.*?>/, '')
-            .replace(/(<svg)/, `$1 class="icon ${extractTitle(icon)}" `)
+            .replace(/(<svg)/, `$1 class="icon" `)
             .replace(/id=".*?"/g, '')
             .replace(/<!--.*?-->/, '')
             .replace(/<title>.*?<\/title>/, '')
@@ -74,7 +59,12 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
 
     Object.entries(updatedIcons)
         .forEach(async ([fileName, rawIcon]) => {
-            const title = extractTitle(rawIcon, fileName);
+
+            const title = fileName
+                .replace(/ /g, '-')
+                .replace(/\.svg/, '')
+                .toLowerCase();
+            
             const icon = normalizeIcon(rawIcon);
 
             try {
@@ -82,8 +72,8 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
             } catch (err) {
                 console.error("ERROR:");
                 console.error(err);
-                console.error("EXTRACTING TITLE:");
-                const title = extractTitle(rawIcon, true)
+                // console.error("EXTRACTING TITLE:");
+                // const title = extractTitle(rawIcon, true)
                 console.error("TITLE, ICON, RAWICON:");
                 console.error({
                     title,
@@ -121,7 +111,7 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
 
     const newExports = `export {\n    ${newIconNames.join(',\n    ')},\n};`;
 
-    const indexJS = `// This file was automatically generated in ${__dirname}/utils/normalize-icons.js\n${newImports}\n${newExports}`;
+    const indexJS = `// This file was automatically generated in ${__dirname}/dev-utils/normalize-icons.js\n\n${newImports}\n${newExports}`;
 
     await pfs.writeFile(`${pathToIcons}/index.js`, indexJS);
 
