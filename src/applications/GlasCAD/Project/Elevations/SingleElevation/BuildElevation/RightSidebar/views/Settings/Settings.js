@@ -3,8 +3,9 @@ import React from 'react';
 import { TitleBar } from '../../../../../../../../../components';
 
 import SidebarLink from '../../components/SidebarLink';
-import ZoomAndPan from './ZoomAndPan';
 
+import ZoomAndPan from './ZoomAndPan';
+import AllIcons from './AllIcons';
 
 export default {
     title: "Visibility Settings",
@@ -25,6 +26,10 @@ function Settings({
                 <SidebarLink
                     toggleStackedView={toggleStackedView}
                     View={ZoomAndPan}
+                />
+                <SidebarLink
+                    toggleStackedView={toggleStackedView}
+                    View={AllIcons}
                 />
             </div>
         </>
