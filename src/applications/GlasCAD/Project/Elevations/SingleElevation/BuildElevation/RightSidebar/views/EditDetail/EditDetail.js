@@ -14,7 +14,6 @@ function EditDetail() {
                 items: details,
             }) => (
                     <div>
-                        {console.log(details)}
                         {details.map(({
                             refId,
                             detailType,

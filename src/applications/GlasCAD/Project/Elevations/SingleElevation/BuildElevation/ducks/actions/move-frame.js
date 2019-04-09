@@ -13,7 +13,6 @@ export default function MOVE_FRAME({
     },
     distance,
 }) {
-
     if (!distance || !_frame.canMoveByDirection(distance > 0)) return arguments[0];
 
     const allFirstContainers = unique(
@@ -41,7 +40,7 @@ export default function MOVE_FRAME({
             })
             :
             updatedElevation,
-            { elevation: elevationInput });
+            { elevationInput: elevationInput });
 
     return allSecondContainers
         .reduce((updatedElevation, container) => container ?

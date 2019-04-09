@@ -6,7 +6,7 @@ import {
     ListWrapper,
 } from '../../../../../components';
 
-import parseSearch from '../../../../../utils/parse-search';
+import {parseSearch} from '../../../../../utils';
 
 export default function ElevationSearch({
     location: {

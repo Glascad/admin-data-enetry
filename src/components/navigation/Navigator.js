@@ -11,8 +11,8 @@ import {
 
 import {
     validatePath,
+    extractNavigationOptions,
 } from '../../utils';
-import extractNavigationOptions from '../../utils/extract-navigation-options';
 
 
 /**

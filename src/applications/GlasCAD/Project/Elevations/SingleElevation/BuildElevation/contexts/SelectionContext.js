@@ -114,6 +114,8 @@ export default class SelectionProvider extends PureComponent {
         if (
             item
             &&
+            !item.customRoughOpening
+            &&
             !this.spaceKey
             &&
             (
@@ -176,7 +178,7 @@ export default class SelectionProvider extends PureComponent {
         }
     }
 
-    unSelectItem = item => this.setState(({ selectedItems }) => ({
+    unselectItem = item => this.setState(({ selectedItems }) => ({
         selectedItems: selectedItems.filter(selectedItem => selectedItem !== item),
     }));
 
@@ -197,7 +199,7 @@ export default class SelectionProvider extends PureComponent {
                 children,
             },
             selectItem,
-            unSelectItem,
+            unselectItem,
             cancelSelection,
         } = this;
 
@@ -214,7 +216,7 @@ export default class SelectionProvider extends PureComponent {
                     items: selectedItems,
                     itemsByRefId: selectionByRefId,
                     selectItem,
-                    unSelectItem,
+                    unselectItem,
                     cancelSelection,
                 }}
             >

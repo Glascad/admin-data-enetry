@@ -1,0 +1,15 @@
+
+<svg class="icon"  width="25px" height="18px" viewBox="0 0 25 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    
+    
+    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect class="stroke-gray"   x="0.5" y="0.5" width="24" height="17"></rect>
+        <rect class="fill-gray"   x="13" y="8" width="11" height="1"></rect>
+        <rect class="fill-green"   x="1" y="8" width="2" height="1"></rect>
+        <rect class="fill-green"   x="4" y="8" width="2" height="1"></rect>
+        <rect class="fill-green"   x="7" y="8" width="2" height="1"></rect>
+        <rect class="fill-green"   x="10" y="8" width="2" height="1"></rect>
+        <rect class="fill-#D8D8D8"  stroke="#979797"  x="12.5" y="1.5" width="1" height="15"></rect>
+    </g>
+</svg>

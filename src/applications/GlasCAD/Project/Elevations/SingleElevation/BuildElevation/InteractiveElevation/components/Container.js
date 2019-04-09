@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react';
 
-// import { SelectionContext } from '../../contexts/SelectionContext';
-
-// import { withContext } from '../../../../../../../../components';
 
 export default class Container extends PureComponent {
 
@@ -11,7 +8,6 @@ export default class Container extends PureComponent {
     render = () => {
         const {
             props: {
-                // selectable,
                 container: {
                     refId,
                     customRoughOpening,
@@ -35,11 +31,6 @@ export default class Container extends PureComponent {
                         'custom-rough-opening'
                         :
                         ''
-                    // } ${
-                    // selectable ?
-                    //     'selectable'
-                    //     :
-                    //     ''
                     }`}
                 style={{
                     left: x,
@@ -51,35 +42,9 @@ export default class Container extends PureComponent {
                 tabIndex={tabIndex}
             >
                 <div className="text">
-                    {refId.replace(/\D*/, '*')}
+                    {refId.replace(/\D*/, '*').replace(/<.*/, '')}
                 </div>
             </div>
         );
     }
 }
-
-// const mapProps = ({
-//     context: {
-//         selectItem,
-//         items: {
-//             0: {
-//                 class: SelectedClass,
-//             } = {},
-//             length,
-//         },
-//     },
-//     container: {
-//         class: RecursiveContainer,
-//         customRoughOpening,
-//     },
-// }) => ({
-//     context: undefined,
-//     selectItem,
-//     selectable: !customRoughOpening && (
-//         length === 0
-//         ||
-//         SelectedClass === RecursiveContainer
-//     ),
-// });
-
-// export default withContext(SelectionContext, mapProps, { pure: true })(Container);

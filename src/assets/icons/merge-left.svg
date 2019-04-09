@@ -1,12 +1,19 @@
-<svg class="icon merge-left" width="25px" height="18px" viewBox="0 0 25 18" version="1.1">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect class="fill" x="1" y="8" width="23" height="1"></rect>
-        <rect class="stroke" x="0.5" y="0.5" width="12" height="17"></rect>
-        <rect class="stroke" x="12.5" y="0.5" width="12" height="17"></rect>
-        <rect class="emphasis" x="8" y="4" width="9" height="1"></rect>
-        <polygon class="emphasis" transform="translate(6.500000, 4.500000) rotate(-90.000000) translate(-6.500000, -4.500000) " points="6.5 2 9 7 4 7"></polygon>
-        <g class="emphasis" transform="translate(17.000000, 3.000000)">
-            <circle cx="1.5" cy="1.5" r="1.5"></circle>
+
+<svg class="icon"  width="25px" height="18px" viewBox="0 0 25 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    
+    
+    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect class="fill-gray"   x="1" y="10" width="23" height="1"></rect>
+        <rect class="stroke-gray"   x="0.5" y="0.5" width="24" height="17"></rect>
+        <rect class="fill-red"   x="12" y="1" width="1" height="9"></rect>
+        <rect class="fill-green"   x="8" y="5" width="9" height="1"></rect>
+        <g class="fill-green"  transform="translate(17.000000, 4.000000)" >
+            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
         </g>
+        <g class="stroke-green"  transform="translate(7.000000, 5.500000) rotate(-180.000000) translate(-7.000000, -5.500000) translate(5.000000, 2.000000)" >
+            <polygon  points="0.5 0.5 3.5 3.5 0.5 6.5"></polygon>
+        </g>
+        <rect class="fill-gray"   x="12" y="11" width="1" height="6"></rect>
     </g>
 </svg>

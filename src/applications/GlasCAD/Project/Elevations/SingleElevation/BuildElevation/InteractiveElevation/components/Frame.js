@@ -1,9 +1,5 @@
 import React, { PureComponent } from 'react';
 
-// import { SelectionContext } from '../../contexts/SelectionContext';
-
-// import { withContext } from '../../../../../../../../components';
-
 export default class Frame extends PureComponent {
 
     handleClick = () => this.props.selectItem(this.props._frame);
@@ -11,7 +7,6 @@ export default class Frame extends PureComponent {
     render = () => {
         const {
             props: {
-                // selectable,
                 _frame: {
                     refId,
                     vertical,
@@ -29,7 +24,6 @@ export default class Frame extends PureComponent {
 
         return (
             <div
-                // to make selecting a frame less difficult
                 id={refId}
                 className={`frame-wrapper ${
                     vertical ?
@@ -62,30 +56,3 @@ export default class Frame extends PureComponent {
         );
     }
 }
-
-// const mapProps = ({
-//     context: {
-//         selectItem,
-//         items: {
-//             0: {
-//                 class: SelectedClass,
-//                 vertical: selectedVertical,
-//             } = {},
-//             length,
-//         },
-//     },
-//     _frame: {
-//         vertical,
-//         class: RecursiveFrame,
-//     },
-// }) => ({
-//     context: undefined,
-//     selectItem,
-//     selectable: length === 0 || (
-//         SelectedClass === RecursiveFrame
-//         &&
-//         selectedVertical === vertical
-//     ),
-// });
-
-// export default withContext(SelectionContext, mapProps, { pure: true })(Frame);

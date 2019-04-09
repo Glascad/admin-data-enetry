@@ -85,7 +85,7 @@ export default class CreateElevation extends PureComponent {
             ...createdElevation,
         };
 
-        console.log({ elevation });
+        // console.log({ elevation });
 
         const {
             data: {

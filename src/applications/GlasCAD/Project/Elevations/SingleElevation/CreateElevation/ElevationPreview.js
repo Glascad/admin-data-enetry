@@ -16,7 +16,6 @@ export default function ElevationPreview({
         finishedFloorHeight,
     },
 }) {
-    console.log(arguments[0]);
     return (
         <GroupingBox
             title="Elevation Preview"

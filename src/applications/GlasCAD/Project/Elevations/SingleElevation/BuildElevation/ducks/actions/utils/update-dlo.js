@@ -17,7 +17,6 @@ export default function updateDLO({
     vertical,
     distance,
 }) {
-
     const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
 
     const updatedContainer = {
