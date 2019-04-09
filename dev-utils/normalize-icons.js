@@ -48,13 +48,16 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
                 color === "#0CFC04" ?
                     'green'
                     :
-                    color === "#878687" ?
-                        'gray'
+                    color === "#D0021B" ?
+                        'red'
                         :
-                        color === "#D0021B" ?
-                            'red'
+                        color === "#878687" ?
+                            'gray'
                             :
-                            color
+                            color === "#585758" ?
+                                'dark-gray'
+                                :
+                                color
                 }${
                 quote
                 }${

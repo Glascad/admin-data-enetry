@@ -1,5 +1,4 @@
-
-@import '../../../../../../../styles/variables';
+@import "../../../../../../../styles/variables";
 
 /*
     Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
@@ -13,7 +12,8 @@
     width: $right-sidebar-width;
     padding: $x-large;
     background: $dark-blue;
-    box-shadow: -2px 0 $xx-small rgba(74,74,74,.8);
+    box-shadow: -2px 0 $xx-small rgba(74, 74, 74, 0.8);
+    overflow-y: scroll;
 
     &.closed {
         display: none;
@@ -55,7 +55,7 @@
     .sidebar-button {
         position: relative;
         width: 100%;
-        
+
         + .sidebar-button {
             margin-left: 0;
         }
@@ -63,12 +63,12 @@
         &.empty {
             color: $off-white;
         }
-        
+
         &.action {
             @include hoverable-background($action-color, false);
             font-weight: bold;
         }
-        
+
         &.primary {
             @include hoverable-background($selected-color, false);
             border: none;
@@ -111,7 +111,7 @@
                 stroke: $danger-color;
             }
 
-            .sroke-green {
+            .stroke-green {
                 stroke: $icon-green;
             }
 
@@ -126,21 +126,8 @@
             .fill-green {
                 fill: $icon-green;
             }
-
-            // .stroke {
-            //     stroke: $light-gray;
-            // }
-
-            // .fill {
-            //     fill: $light-gray;
-            // }
-
-            // .emphasis {
-            //     // fill: $selected-color;
-            //     fill: $icon-green;
-            // }
         }
-        
+
         &:hover {
             color: $dark-gray;
 
@@ -160,10 +147,10 @@
                 }
             }
         }
-        
+
         &.disabled {
             background: none;
-            
+
             &:hover {
                 background: none;
                 color: $off-white;

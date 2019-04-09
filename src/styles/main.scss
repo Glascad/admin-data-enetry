@@ -27,6 +27,7 @@ button {
     font-size: $text-size;
     color: $dark-gray;
     cursor: pointer;
+    white-space: nowrap;
 
     &:hover {
         background: $light-gray;

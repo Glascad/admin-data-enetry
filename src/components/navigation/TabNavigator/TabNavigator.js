@@ -44,6 +44,7 @@ function TabNavigator({
                                         }${
                                         search
                                         }`}
+                                    replace={true}
                                     className={`tab ${disabled ? "disabled" : ""}`}
                                     activeClassName="current-tab"
                                 >
