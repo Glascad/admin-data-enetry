@@ -74,11 +74,16 @@ export default class BuildElevation extends PureComponent {
             currentIndex,
     }));
 
-    pushState = (setStateCallback, ...args) => this.setState(({ states, currentIndex }) => ({
+    _pushState = (setStateCallback, ...args) => this.setState(({ states, currentIndex }) => ({
         states: states
             .slice(0, currentIndex + 1)
             .concat(setStateCallback(states[currentIndex])),
         currentIndex: currentIndex + 1,
+    }), ...args);
+
+    _replaceState = (setStateCallback, ...args) => this.setState(({ states, currentIndex }) => ({
+        states: states.slice(0, currentIndex)
+            .concat(setStateCallback(states[currentIndex])),
     }), ...args);
 
     handleKeyDown = ({ key, shiftKey, ctrlKey, metaKey }) => (
@@ -118,7 +123,12 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb) => this.pushState(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
+    updateElevation = (ACTION, payload, cb, _replaceState = false) => (
+        _replaceState ?
+            this._replaceState
+            :
+            this._pushState
+    )(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
 
     cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }), null, this.clearHistory);
 
@@ -204,6 +214,8 @@ export default class BuildElevation extends PureComponent {
                 recursiveElevation,
             },
         } = states;
+
+        console.log(this.state);
 
         return (
             <SelectionProvider

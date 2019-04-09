@@ -42,7 +42,7 @@ class InteractiveElevation extends PureComponent {
     resizeViewport = () => {
         setTimeout(() => {
             try {
-                console.log(this.props.staticContext.Viewport);
+                // console.log(this.props.staticContext.Viewport);
                 this.props.staticContext.Viewport.current.style.paddingBottom = "0";
                 this.props.staticContext.Viewport.current.style.marginBottom = "0";
                 this.props.staticContext.Viewport.current.style.overflowY = "hidden";
@@ -106,11 +106,17 @@ class InteractiveElevation extends PureComponent {
                 }, {});
 
             if (containerToMerge) {
-                updateElevation(MERGE_CONTAINERS, {
-                    container: containerToMerge,
-                    direction: directionToMerge,
-                    allowCustomRoughOpenings: true,
-                });
+                updateElevation(
+                    MERGE_CONTAINERS,
+                    {
+                        container: containerToMerge,
+                        direction: directionToMerge,
+                        allowCustomRoughOpenings: true,
+                    },
+                    undefined,
+                    // replace state instead of pushing
+                    true
+                );
             }
         }
     }
