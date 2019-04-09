@@ -6,10 +6,8 @@
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect class="fill-green"   x="1" y="6" width="11" height="1"></rect>
         <rect class="fill-gray"   x="1" y="12" width="11" height="1"></rect>
-        <rect class="fill-green"   x="15" y="12" width="7" height="1"></rect>
-        <rect class="fill-green"   x="21" y="6" width="1" height="6"></rect>
+        <path class="fill-green" d="M21,6 L22,6 L22,12 L22,13 L15,13 L15,12 L21,12 L21,7 L18,7 L18,6 L21,6 Z"  ></path>
         <rect class="stroke-gray"   x="0.5" y="0.5" width="12" height="17"></rect>
-        <rect class="fill-green"   x="18" y="6" width="4" height="1"></rect>
         <g class="stroke-green"  transform="translate(16.000000, 6.500000) rotate(-180.000000) translate(-16.000000, -6.500000) translate(14.000000, 3.000000)" >
             <polygon  points="0.5 0.5 3.5 3.5 0.5 6.5"></polygon>
         </g>

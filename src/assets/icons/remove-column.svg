@@ -4,8 +4,8 @@
     
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g class="stroke-red"  transform="translate(4.000000, 8.000000)" fill="#D8D8D8" >
-            <rect  x="0.5" y="0.5" width="5" height="1"></rect>
+        <g class="fill-red"  transform="translate(4.000000, 8.000000)" >
+            <rect  x="0" y="0" width="6" height="2"></rect>
         </g>
         <rect class="fill-red"   x="13" y="0" width="1" height="18"></rect>
         <rect class="fill-red"   x="0" y="0" width="1" height="18"></rect>

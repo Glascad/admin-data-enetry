@@ -93,13 +93,11 @@ class EditLite extends PureComponent {
                                     })}
                                 >
                                     {key === "UP" ? (
-                                        <></>
-                                        // <Icons.MergeUp />
+                                        <Icons.MergeUp />
                                     )
                                         :
                                         key === "DOWN" ? (
-                                            <></>
-                                            // <Icons.MergeDown />
+                                            <Icons.MergeDown />
                                         )
                                             :
                                             key === "LEFT" ?

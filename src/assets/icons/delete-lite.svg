@@ -5,8 +5,8 @@
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect class="stroke-red"   x="0.5" y="0.5" width="13" height="17"></rect>
-        <g class="stroke-red"  transform="translate(4.000000, 8.000000)" fill="#D8D8D8" >
-            <rect  x="0.5" y="0.5" width="5" height="1"></rect>
+        <g class="fill-red"  transform="translate(4.000000, 8.000000)" >
+            <rect  x="0" y="0" width="6" height="2"></rect>
         </g>
     </g>
 </svg>

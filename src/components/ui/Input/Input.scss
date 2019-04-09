@@ -170,10 +170,8 @@
             max-width: $base-size;
             max-height: $base-size;
 
-            &.hamburger {
-                rect {
-                    fill: $dark-gray;
-                }
+            .fill-dark-gray {
+                fill: $dark-gray;
             }
         }
 
@@ -186,10 +184,8 @@
             border: none;
 
             svg {
-                &.hamburger {
-                    rect {
-                        fill: $off-white;
-                    }
+                .fill-dark-gray {
+                    fill: $off-white;
                 }
             }
         }
