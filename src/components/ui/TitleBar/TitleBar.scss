@@ -46,9 +46,10 @@
         
         .title-bar-left {
             position: relative;
+            height: $item-height;
             min-width: 30%;
             background: $medium-gray;
-            padding: $x-small $small;
+            padding: 0 $small;
             display: flex;
             justify-content: flex-start;
             align-items: center;

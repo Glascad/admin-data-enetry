@@ -45,9 +45,15 @@
     > * {
         margin-left: $x-large;
     }
-
+    
     &:last-child {
         margin-bottom: 0;
+    }
+}
+
+.GroupingBox {
+    > * {
+        margin-right: $x-large;
     }
 }
 
