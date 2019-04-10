@@ -5,6 +5,7 @@ import TitleBar from './ui/TitleBar/TitleBar';
 import GroupingBox from './ui/GroupingBox/GroupingBox';
 import ListContainer from './ui/ListContainer/ListContainer';
 import Pill from './ui/Pill/Pill';
+import CircleButton from './ui/CircleButton/CircleButton';
 import Modal from './ui/Modal/Modal';
 import DeleteButton from './ui/DeleteButton/DeleteButton';
 import DoubleArrow from './ui/DoubleArrow/DoubleArrow';
@@ -38,6 +39,7 @@ export {
     GroupingBox,
     ListContainer,
     Pill,
+    CircleButton,
     Modal,
     DeleteButton,
     DoubleArrow,

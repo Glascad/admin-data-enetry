@@ -11,14 +11,18 @@ import {
     TitleBar,
     Input,
     GroupingBox,
+    CircleButton,
 } from '../../../../../../components';
 
 import ElevationPreview from './ElevationPreview';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
+
 import createElevation from './create';
 
 import { parseSearch } from '../../../../../../utils';
+
+import './CreateElevation.scss';
 
 import {
     measureFromOptions,
@@ -26,7 +30,6 @@ import {
     defaultHorizontal,
     defaultElevationInput,
 } from './elevation-input';
-import CircleButton from '../../../../../../components/ui/CircleButton/CircleButton';
 
 export default class CreateElevation extends PureComponent {
 
@@ -147,7 +150,7 @@ export default class CreateElevation extends PureComponent {
         // console.log({ elevation });
 
         return (
-            <div className="card">
+            <div className="CreateElevation card">
                 <ApolloWrapper
                     query={{
                         query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}`,

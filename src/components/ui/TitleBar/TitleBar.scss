@@ -6,9 +6,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // height: $item-height;
-    // min-height: $item-height;
-    // font-size: $item-height;
     height: $xxx-large;
     min-height: $xxx-large;
     font-size: $x-large;
@@ -45,16 +42,13 @@
         font-size: $large;
         margin-bottom: $large;
         border-bottom: 1px solid $medium-gray;
-        
         color: $off-white;
         
         .title-bar-left {
             position: relative;
-            height: $xxx-large;
             min-width: 30%;
             background: $medium-gray;
-            // padding: $x-small $small;
-            padding: 0 $small;
+            padding: $x-small $small;
             display: flex;
             justify-content: flex-start;
             align-items: center;
