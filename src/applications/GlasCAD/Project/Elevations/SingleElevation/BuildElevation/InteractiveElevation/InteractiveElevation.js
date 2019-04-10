@@ -1,6 +1,6 @@
 import React, { PureComponent, createRef } from 'react';
 
-import { StaticContext } from '../../../../../../../Statics/Statics';
+import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext } from '../contexts/TransformContext';
 
 import Container from './components/Container';

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { StaticContext } from '../../../../../../Statics/Statics';
+import { StaticContext } from '../../../../../Statics/Statics';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import mergeElevationInput from './ducks/merge-input';

@@ -28,6 +28,7 @@ export default class DetailBubble extends PureComponent {
                     <span className="detail-id">
                         {detailId}
                     </span>
+                    <div className="detail-pointer" />
                 </button>
             </div>
         );

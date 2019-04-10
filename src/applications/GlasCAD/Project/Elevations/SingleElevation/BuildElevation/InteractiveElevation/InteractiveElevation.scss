@@ -109,9 +109,10 @@
         #FinishedFloor {
             position: absolute;
             background: $dark-gray;
-            left: -$large;
-            right: -$large;
+            left: -200vw;
+            right: -200vw;
             height: $xx-small;
+            width: 600vw;
             transform: translateY($xx-small);
             z-index: 1;
         }
@@ -161,10 +162,11 @@
                     min-height: $xxxxx-large;
                     min-width: $xxxxx-large;
                     padding: 0;
-                    border-radius: $xxxxx-large;
-                    border-bottom-left-radius: 0;
+                    border-radius: $x-small;
+                    // border-bottom-left-radius: 0;
                     background: white;
-                    border: $icon-thickness solid $selected-color;
+                    // border: $icon-thickness solid $selected-color;
+                    border: 2px solid $selected-color;
                     // display: flex;
                     justify-content: center;
                     align-items: center;
@@ -175,18 +177,44 @@
                     &:hover {
                         background: $light-gray;
                     }
+
+                    .detail-pointer {
+                        position: absolute;
+                        height: 0;
+                        width: 0;
+                    }
                 }
             }
 
             &.horizontal {
+                // below frame (pointing up)
                 .detail-bubble-placement {
                     .DetailBubble {
-                        transform: rotate(-45deg);
                         margin-bottom: $xxxxx-large + $xx-large;
                         margin-top: 0;
 
-                        .detail-id {
-                            transform: rotate(45deg);
+                        .detail-pointer {
+                            top: calc(-1px - #{$small});
+                            left: 50%;
+                            border: $xx-small solid rgba(0, 0, 0, 0);
+                            border-top-width: 0;
+                            border-bottom-width: $small;
+                            border-bottom-color: $selected-color;
+                            transform: translateX(-50%);
+
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                height: 0;
+                                width: 0;
+                                top: $x-small;
+                                left: 50%;
+                                border: $xx-small solid rgba(0, 0, 0, 0);
+                                border-top-width: 0;
+                                border-bottom-width: $small;
+                                border-bottom-color: white;
+                                transform: translateX(-50%);
+                            }
                         }
                     }
                 }
@@ -194,28 +222,44 @@
                 &.second-container-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
-                            transform: rotate(135deg);
                             margin-top: $xxxxx-large + $xx-large;
                             margin-bottom: 0;
-
-                            .detail-id {
-                                transform: rotate(-135deg);
-                            }
                         }
                     }
                 }
 
+                // above frame (pointing down)
                 &.first-container-selected,
-                &.frame-selected,
-                &.no-first-container {
+                &.frame-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
-                            transform: rotate(-45deg);
                             margin-bottom: $xxxxx-large + $xx-large;
                             margin-top: 0;
 
-                            .detail-id {
-                                transform: rotate(45deg);
+                            .detail-pointer {
+                                top: unset;
+                                bottom: calc(-1px - #{$small});
+                                left: 50%;
+                                border: $xx-small solid rgba(0, 0, 0, 0);
+                                border-bottom-width: 0;
+                                border-top-width: $small;
+                                border-top-color: $selected-color;
+                                transform: translateX(-50%);
+
+                                &::after {
+                                    content: "";
+                                    position: absolute;
+                                    height: 0;
+                                    width: 0;
+                                    top: unset;
+                                    bottom: $x-small;
+                                    left: 50%;
+                                    border: $xx-small solid rgba(0, 0, 0, 0);
+                                    border-bottom-width: 0;
+                                    border-top-width: $small;
+                                    border-top-color: white;
+                                    transform: translateX(-50%);
+                                }
                             }
                         }
                     }
@@ -223,14 +267,36 @@
             }
 
             &.vertical {
+                // right of frame (pointing left)
                 .detail-bubble-placement {
                     .DetailBubble {
-                        transform: rotate(-135deg);
                         margin-right: $xxxxx-large + $xx-large;
                         margin-left: 0;
 
-                        .detail-id {
-                            transform: rotate(135deg);
+                        .detail-pointer {
+                            right: unset;
+                            left: calc(-1px - #{$small});
+                            top: 50%;
+                            border: $xx-small solid rgba(0, 0, 0, 0);
+                            border-left-width: 0;
+                            border-right-width: $small;
+                            border-right-color: $selected-color;
+                            transform: translateY(-50%);
+
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                height: 0;
+                                width: 0;
+                                right: unset;
+                                left: $x-small;
+                                top: 50%;
+                                border: $xx-small solid rgba(0, 0, 0, 0);
+                                border-left-width: 0;
+                                border-right-width: $small;
+                                border-right-color: white;
+                                transform: translateY(-50%);
+                            }
                         }
                     }
                 }
@@ -238,27 +304,44 @@
                 &.first-container-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
-                            transform: rotate(45deg);
                             margin-left: $xxxxx-large + $xx-large;
                             margin-right: 0;
-
-                            .detail-id {
-                                transform: rotate(-45deg);
-                            }
                         }
                     }
                 }
 
+                // left of frame (pointing right)
                 &.second-container-selected,
                 &.frame-selected {
                     .detail-bubble-placement {
                         .DetailBubble {
-                            transform: rotate(-135deg);
                             margin-right: $xxxxx-large + $xx-large;
                             margin-left: 0;
+                        }
 
-                            .detail-id {
-                                transform: rotate(135deg);
+                        .detail-pointer {
+                            left: unset;
+                            right: calc(-1px - #{$small});
+                            top: 50%;
+                            border: $xx-small solid rgba(0, 0, 0, 0);
+                            border-right-width: 0;
+                            border-left-width: $small;
+                            border-left-color: $selected-color;
+                            transform: translateY(-50%);
+
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                height: 0;
+                                width: 0;
+                                left: unset;
+                                right: $x-small;
+                                top: 50%;
+                                border: $xx-small solid rgba(0, 0, 0, 0);
+                                border-right-width: 0;
+                                border-left-width: $small;
+                                border-left-color: white;
+                                transform: translateY(-50%);
                             }
                         }
                     }
