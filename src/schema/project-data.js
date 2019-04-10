@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 
 import * as ED from './elevation-data';
+import * as SD from './system-data';
 
 // FIELDS
 
@@ -10,6 +11,14 @@ export const PROJECT_FIELDS = gql`
         nodeId
         id
         name
+    }
+`;
+
+export const SYSTEM_SET_FIELDS = gql`
+    fragment SystemSetFields on SystemSet {
+        __typename
+        nodeId
+        id
     }
 `;
 
@@ -29,6 +38,31 @@ export const ALL_PROJECTS = gql`
 
 // ENTIRE TYPE
 
+export const ENTIRE_SYSTEM_SET = gql`
+    fragment EntireSystemSet on SystemSet {
+        __typename
+        nodeId
+        id
+        systemBySystemIdAndSystemTypeId {
+            ...EntireSystem
+        }
+        systemSetOptionValuesBySystemSetIdAndSystemIdAndSystemTypeId {
+            nodes {
+                systemOptionBySystemIdAndSystemOptionId {
+                    ...EntireSystemOption
+                }
+                optionValueByOptionValueId {
+                    ...OptionValueFields
+                }
+            }
+        }
+        
+    }
+    ${SD.ENTIRE_SYSTEM}
+    ${SD.ENTIRE_SYSTEM_OPTION}
+    ${SD.OPTION_VALUE_FIELDS}
+`;
+
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
         ...ProjectFields
@@ -37,7 +71,13 @@ export const ENTIRE_PROJECT = gql`
                 ...EntireElevation
             }
         }
+        systemSetsByProjectId {
+            nodes {
+                ...EntireSystemSet
+            }
+        }
     }
     ${PROJECT_FIELDS}
     ${ED.ENTIRE_ELEVATION}
+    ${ENTIRE_SYSTEM_SET}
 `;

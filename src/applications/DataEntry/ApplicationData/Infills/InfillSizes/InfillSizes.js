@@ -3,6 +3,7 @@ import React from 'react';
 import {
     ApolloWrapper,
     ListWrapper,
+    TitleBar,
 } from '../../../../../components';
 
 import {
@@ -13,7 +14,6 @@ import {
 import InfillSizesGenerator from './InfillSizesGenerator';
 
 import './InfillSizes.scss';
-import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 export default function InfillSizes() {
     return (

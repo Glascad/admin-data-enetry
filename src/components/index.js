@@ -1,5 +1,6 @@
 // UI COMPONENTS
 import Dropdown from './ui/Dropdown/Dropdown';
+import CollapsibleTitle from './ui/CollapsibleTitle/CollapsibleTitle';
 import TitleBar from './ui/TitleBar/TitleBar';
 import GroupingBox from './ui/GroupingBox/GroupingBox';
 import ListContainer from './ui/ListContainer/ListContainer';
@@ -32,6 +33,7 @@ import './index.scss';
 export {
     // UI
     Dropdown,
+    CollapsibleTitle,
     TitleBar,
     GroupingBox,
     ListContainer,

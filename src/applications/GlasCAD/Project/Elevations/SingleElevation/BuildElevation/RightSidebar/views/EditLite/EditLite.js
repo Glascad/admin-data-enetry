@@ -100,8 +100,9 @@ class EditLite extends PureComponent {
                                             <Icons.MergeDown />
                                         )
                                             :
-                                            key === "LEFT" ?
+                                            key === "LEFT" ? (
                                                 <Icons.MergeLeft />
+                                            )
                                                 :
                                                 key === "RIGHT" ? (
                                                     <Icons.MergeRight />
@@ -114,14 +115,16 @@ class EditLite extends PureComponent {
                         :
                         (
                             <>
-                                <button
+                                {/* <button
                                     // key={vertical}
                                     className="sidebar-button empty"
                                     onClick={() => null}
                                 >
                                     Merge
-                                            {/* {vertical ? 'vertically' : 'horizontally'} */}
-                                </button>
+                                            {
+                                        // vertical ? 'vertically' : 'horizontally'
+                                    }
+                                </button> */}
 
                             </>
                         )}

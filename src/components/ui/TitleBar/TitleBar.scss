@@ -43,8 +43,25 @@
         height: auto;
         min-height: auto;
         font-size: $large;
-        padding-bottom: $x-small;
         margin-bottom: $large;
         border-bottom: 1px solid $medium-gray;
+        
+        color: $off-white;
+        
+        .title-bar-left {
+            position: relative;
+            height: $xxx-large;
+            min-width: 30%;
+            background: $medium-gray;
+            // padding: $x-small $small;
+            padding: 0 $small;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            .title {
+                font-weight: bold;
+            }
+        }
     }
 }

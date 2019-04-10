@@ -85,7 +85,11 @@ systems (
     inset FLOAT,
     glass_gap FLOAT,
     shim_size FLOAT,
-    front_inset BOOLEAN
+    front_inset BOOLEAN,
+    UNIQUE (
+        id,
+        system_type_id
+    )
 );
 
 
@@ -113,7 +117,8 @@ system_options (
     name VARCHAR(50),
     presentation_level INTEGER,
     override_level INTEGER,
-    option_order INTEGER
+    option_order INTEGER,
+    UNIQUE (id, system_id)
 );
 
 CREATE TABLE
@@ -122,7 +127,8 @@ option_values (
     system_option_id INTEGER REFERENCES system_options,
     name VARCHAR(50),
     value FLOAT,
-    value_order INTEGER
+    value_order INTEGER,
+    UNIQUE (id, system_option_id)
 );
 
 ALTER TABLE
