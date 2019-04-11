@@ -7,12 +7,6 @@
     .CollapsibleTitle {
         width: 100%;
 
-        &.empty {
-            summary::webkit-details-marker {
-                display: none;
-            }
-        }
-
         .title {
             position: relative;
             display: flex;
