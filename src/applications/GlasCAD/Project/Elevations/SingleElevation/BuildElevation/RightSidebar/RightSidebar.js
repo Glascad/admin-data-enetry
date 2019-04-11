@@ -97,7 +97,10 @@ class RightSidebar extends PureComponent {
             InitialPureComponent;
 
         return (
-            <div id="RightSidebar" className={length ? "open" : "closed"}>
+            <div
+                id="RightSidebar"
+                className={length ? 'open' : 'closed'}
+            >
                 <button
                     className="sidebar-button primary"
                     onClick={handleClick}

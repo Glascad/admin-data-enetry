@@ -5,13 +5,14 @@
 */
 
 #RightSidebar {
+    background: $dark-blue;
+    z-index: 6;
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     width: $right-sidebar-width;
     padding: $x-large;
-    background: $dark-blue;
     box-shadow: -2px 0 $xx-small rgba(74, 74, 74, 0.8);
     overflow-y: scroll;
 

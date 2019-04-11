@@ -17,6 +17,8 @@ export default function DELETE_CONTAINER({
     },
 }) {
 
+    console.log("DELETING CONTAINER: " + container.id);
+
     const mergeDirection = Object.values(DIRECTIONS)
         .find(direction => {
             const [otherContainer] = container.getImmediateContainersByDirection(...direction);
@@ -30,6 +32,7 @@ export default function DELETE_CONTAINER({
         });
 
     if (mergeDirection) {
+        console.log("MERGING INSTEAD OF DELETING: " + container.id + " " + mergeDirection.join(" "));
         return MERGE_CONTAINERS(arguments[0], {
             container: container.getImmediateContainersByDirection(...mergeDirection)[0],
             direction: GET_RELATIVE_DIRECTIONS(mergeDirection).BACKWARD,

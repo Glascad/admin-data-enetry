@@ -52,7 +52,7 @@ export default class BuildElevation extends PureComponent {
             clearHistory,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, clearHistory);
+        if (oldQueryStatus !== newQueryStatus) console.log({ newQueryStatus, oldQueryStatus }) || updateElevation(elevation => elevation, null, null, true);
     }
 
     clearHistory = () => this.setState(({ states, currentIndex }) => ({
@@ -233,11 +233,11 @@ export default class BuildElevation extends PureComponent {
                         save={save}
                         cancel={cancel}
                     />
-                    <InteractiveElevation
+                    <RightSidebar
                         elevation={recursiveElevation}
                         updateElevation={updateElevation}
                     />
-                    <RightSidebar
+                    <InteractiveElevation
                         elevation={recursiveElevation}
                         updateElevation={updateElevation}
                     />

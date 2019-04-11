@@ -82,11 +82,12 @@ class InteractiveElevation extends PureComponent {
 
         if (oldElevation !== newElevation) {
 
+            console.log("RECEIVED NEW ELEVATION");
+
             const { containerToMerge, directionToMerge } = allContainers
                 .reduce(({ containerToMerge, directionToMerge }, container) => {
                     if (containerToMerge) return { containerToMerge, directionToMerge };
-
-                    if (container.customRoughOpening) {
+                    else if (container.customRoughOpening) {
 
                         const direction = Object.values(DIRECTIONS)
                             .find(direction => (
@@ -96,16 +97,25 @@ class InteractiveElevation extends PureComponent {
                             ));
 
                         if (direction) {
+
+                            console.log("FOUND CONTAINERS TO MERGE: " + container.id + " " + direction.join("-"));
+                            console.log({ container, direction });
+
                             return {
                                 containerToMerge: container,
                                 directionToMerge: direction,
                             };
                         }
+                        else return {};
                     }
-                    return {};
+                    else return {};
                 }, {});
 
             if (containerToMerge) {
+
+                console.log("FOUND CONTAINERS TO MERGE: " + containerToMerge.id + " " + directionToMerge.join("-"));
+                console.log({ containerToMerge, directionToMerge });
+                
                 updateElevation(
                     MERGE_CONTAINERS,
                     {

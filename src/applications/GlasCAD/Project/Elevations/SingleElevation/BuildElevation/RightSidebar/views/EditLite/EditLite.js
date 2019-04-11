@@ -41,7 +41,8 @@ class EditLite extends PureComponent {
 
             const nextRefId = allRefIds[allRefIds.indexOf(refId) + 1];
 
-            const container = elevation.getItemByRefId(refId);
+            // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT
+            const container = this.props.elevation.getItemByRefId(refId);
 
             if (container) {
                 updateElevation(DELETE_CONTAINER, { container }, () => setTimeout(() => deleteContainerByRefId(nextRefId)));
