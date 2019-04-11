@@ -1,5 +1,7 @@
-import updateDLO from "./utils/update-dlo";
-import { unique } from "../../../../../../../../utils";
+import updateDLO from './utils/update-dlo';
+import updateDetailsAfterMovingFrame from './utils/update-details-after-moving-frame';
+
+import { unique } from '../../../../../../../../utils';
 
 export default function MOVE_FRAME({
     elevationInput,
@@ -42,7 +44,7 @@ export default function MOVE_FRAME({
             updatedElevation,
             { elevationInput: elevationInput });
 
-    return allSecondContainers
+    const elevationWithSiftedSecondContainers = allSecondContainers
         .reduce((updatedElevation, container) => container ?
             updateDLO(updatedElevation, {
                 container,
@@ -52,4 +54,9 @@ export default function MOVE_FRAME({
             :
             updatedElevation,
             elevationWithShiftedFirstContainers);
+
+    return updateDetailsAfterMovingFrame(elevationWithSiftedSecondContainers, {
+        _frame,
+        distance,
+    });
 }

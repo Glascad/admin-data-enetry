@@ -156,12 +156,13 @@
                     display: flex;
                     position: relative;
                     height: $xxxxx-large;
-                    width: $xxxxx-large;
+                    // width: $xxxxx-large;
                     max-height: $xxxxx-large;
-                    max-width: $xxxxx-large;
+                    // max-width: $xxxxx-large;
                     min-height: $xxxxx-large;
-                    min-width: $xxxxx-large;
-                    padding: 0;
+                    // min-width: $xxxxx-large;
+                    min-width: unset;
+                    padding: 0 $small;
                     border-radius: $x-small;
                     // border-bottom-left-radius: 0;
                     background: white;
@@ -176,6 +177,27 @@
 
                     &:hover {
                         background: $light-gray;
+
+                        &.horizontal {
+                            .detail-bubble-placement{
+                                .detail-pointer {
+                                    &::after {
+                                        // display: none !important;
+                                        border-color: $light-gray;
+                                        // border-color: transparent;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.vertical {
+                            .detail-pointer {
+                                &::after {
+                                    // display: none;
+                                    border-color: $light-gray;
+                                }
+                            }
+                        }
                     }
 
                     .detail-pointer {
