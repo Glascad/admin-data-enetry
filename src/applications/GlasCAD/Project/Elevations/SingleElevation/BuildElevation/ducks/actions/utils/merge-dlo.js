@@ -25,8 +25,6 @@ export default function mergeDLO({
 
     const [
         {
-            id: idToMerge,
-            rawContainer: rawContainerToMerge,
             rawContainer: {
                 daylightOpening: DLOToMerge,
                 original: originalToMerge
@@ -35,18 +33,6 @@ export default function mergeDLO({
     ] = container.getImmediateContainersByDirection(...direction);
 
     const { sightline } = container.getFrameByDirection(...direction) || elevation;
-
-    console.log("MERGING DLOS");
-    console.log({
-        id: container.id,
-        idToMerge,
-        container,
-        rawContainer,
-        rawContainerToMerge,
-        DLO,
-        DLOToMerge,
-        sightline,
-    });
 
     const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
 

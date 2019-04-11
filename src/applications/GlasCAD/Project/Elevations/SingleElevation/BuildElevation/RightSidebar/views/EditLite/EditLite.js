@@ -30,7 +30,6 @@ class EditLite extends PureComponent {
                 context: {
                     itemsByRefId,
                 },
-                elevation,
                 updateElevation,
             },
         } = this;
@@ -39,12 +38,21 @@ class EditLite extends PureComponent {
 
         const deleteContainerByRefId = refId => {
 
+            // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT
+            const {
+                props: {
+                    elevation: {
+                        getItemByRefId,
+                    },
+                },
+            } = this;
+
             const nextRefId = allRefIds[allRefIds.indexOf(refId) + 1];
 
-            // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT
-            const container = this.props.elevation.getItemByRefId(refId);
+            const container = getItemByRefId(refId);
 
             if (container) {
+                // timeout allows rerendering between each deletion
                 updateElevation(DELETE_CONTAINER, { container }, () => setTimeout(() => deleteContainerByRefId(nextRefId)));
             }
         };

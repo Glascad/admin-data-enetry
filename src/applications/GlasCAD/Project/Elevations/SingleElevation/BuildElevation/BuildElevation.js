@@ -215,8 +215,6 @@ export default class BuildElevation extends PureComponent {
             },
         } = states;
 
-        console.log(this.state);
-
         return (
             <SelectionProvider
                 elevation={recursiveElevation}
