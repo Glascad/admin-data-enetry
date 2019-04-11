@@ -24,7 +24,6 @@ import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 class EditLite extends PureComponent {
 
     deleteContainers = () => {
-
         const {
             props: {
                 context: {
@@ -150,7 +149,7 @@ class EditLite extends PureComponent {
                         Icon={Icons.AddHorizontal}
                     />
                 </div>
-                {length > 0 && allContainers.every(({ canDelete }) => canDelete) ? (
+                {allContainers.every(({ canDelete }) => canDelete) ? (
                     <button
                         className="sidebar-button danger"
                         onClick={deleteContainers}
@@ -165,5 +164,5 @@ class EditLite extends PureComponent {
 
 export default {
     title: "Edit Lite",
-    component: withContext(SelectionContext)(EditLite),
+    component: withContext(SelectionContext, undefined, { pure: true })(EditLite),
 };
