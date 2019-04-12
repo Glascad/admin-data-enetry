@@ -10,6 +10,6 @@
         <rect class="fill-green"   x="4" y="8" width="2" height="1"></rect>
         <rect class="fill-green"   x="7" y="8" width="2" height="1"></rect>
         <rect class="fill-green"   x="10" y="8" width="2" height="1"></rect>
-        <rect class="fill-#D8D8D8"  stroke="#979797"  x="12.5" y="1.5" width="1" height="15"></rect>
+        <rect class="fill-gray"   x="12" y="1" width="1" height="16"></rect>
     </g>
 </svg>

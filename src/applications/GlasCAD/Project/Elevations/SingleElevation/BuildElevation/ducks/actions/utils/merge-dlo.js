@@ -6,7 +6,7 @@ export default function mergeDLO({
     },
 }, {
     container,
-    container: {
+        container: {
         elevation,
         rawContainer,
         rawContainer: {

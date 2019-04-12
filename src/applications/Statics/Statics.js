@@ -11,13 +11,13 @@ import {
     withRouter,
 } from 'react-router-dom';
 
-import { ReactComponent as Logo } from '../assets/logo.svg';
+import { ReactComponent as Logo } from '../../assets/logo.svg';
 
 import {
     DoubleArrow,
     NavMenu,
     Navigator,
-} from '../components';
+} from '../../components';
 
 export const StaticContext = createContext();
 
@@ -33,11 +33,6 @@ class Statics extends PureComponent {
         this.setState({ open })
         :
         this.setState({ open: !this.state.open });
-
-    getPathTo = component => {
-        // find component in route tree
-        // return path
-    }
 
     render = () => {
         const {

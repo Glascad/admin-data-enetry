@@ -4,9 +4,9 @@
     <title>Merge Vertically</title>
     <desc>Created with Sketch.</desc>
     <g id="Merge-Vertically" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="#878687" x="13" y="8" width="11" height="1"></rect>
-        <rect id="Rectangle-Copy-5" stroke="#878687" x="0.5" y="0.5" width="24" height="17"></rect>
-        <rect id="Rectangle" stroke="#979797" fill="#D8D8D8" x="12.5" y="1.5" width="1" height="15"></rect>
+        <rect id="Rectangle" fill="#8B8A8B" x="13" y="8" width="11" height="1"></rect>
+        <rect id="Rectangle-Copy-5" stroke="#878787" x="0.5" y="0.5" width="24" height="17"></rect>
+        <rect id="Rectangle" fill="#8B8A8B" x="12" y="1" width="1" height="16"></rect>
         <g id="Icon_Point" transform="translate(5.000000, 3.000000)" fill="#0CFC04">
             <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
         </g>

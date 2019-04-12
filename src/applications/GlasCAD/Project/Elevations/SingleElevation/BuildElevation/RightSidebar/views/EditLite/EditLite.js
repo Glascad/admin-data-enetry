@@ -24,13 +24,11 @@ import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 class EditLite extends PureComponent {
 
     deleteContainers = () => {
-
         const {
             props: {
                 context: {
                     itemsByRefId,
                 },
-                elevation,
                 updateElevation,
             },
         } = this;
@@ -39,11 +37,21 @@ class EditLite extends PureComponent {
 
         const deleteContainerByRefId = refId => {
 
+            // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT
+            const {
+                props: {
+                    elevation: {
+                        getItemByRefId,
+                    },
+                },
+            } = this;
+
             const nextRefId = allRefIds[allRefIds.indexOf(refId) + 1];
 
-            const container = elevation.getItemByRefId(refId);
+            const container = getItemByRefId(refId);
 
             if (container) {
+                // timeout allows rerendering between each deletion
                 updateElevation(DELETE_CONTAINER, { container }, () => setTimeout(() => deleteContainerByRefId(nextRefId)));
             }
         };
@@ -93,17 +101,16 @@ class EditLite extends PureComponent {
                                     })}
                                 >
                                     {key === "UP" ? (
-                                        <></>
-                                        // <Icons.MergeUp />
+                                        <Icons.MergeUp />
                                     )
                                         :
                                         key === "DOWN" ? (
-                                            <></>
-                                            // <Icons.MergeDown />
+                                            <Icons.MergeDown />
                                         )
                                             :
-                                            key === "LEFT" ?
+                                            key === "LEFT" ? (
                                                 <Icons.MergeLeft />
+                                            )
                                                 :
                                                 key === "RIGHT" ? (
                                                     <Icons.MergeRight />
@@ -116,14 +123,16 @@ class EditLite extends PureComponent {
                         :
                         (
                             <>
-                                <button
+                                {/* <button
                                     // key={vertical}
                                     className="sidebar-button empty"
                                     onClick={() => null}
                                 >
                                     Merge
-                                            {/* {vertical ? 'vertically' : 'horizontally'} */}
-                                </button>
+                                            {
+                                        // vertical ? 'vertically' : 'horizontally'
+                                    }
+                                </button> */}
 
                             </>
                         )}
@@ -140,7 +149,7 @@ class EditLite extends PureComponent {
                         Icon={Icons.AddHorizontal}
                     />
                 </div>
-                {length > 0 && allContainers.every(({ canDelete }) => canDelete) ? (
+                {allContainers.every(({ canDelete }) => canDelete) ? (
                     <button
                         className="sidebar-button danger"
                         onClick={deleteContainers}
@@ -155,5 +164,5 @@ class EditLite extends PureComponent {
 
 export default {
     title: "Edit Lite",
-    component: withContext(SelectionContext)(EditLite),
+    component: withContext(SelectionContext, undefined, { pure: true })(EditLite),
 };

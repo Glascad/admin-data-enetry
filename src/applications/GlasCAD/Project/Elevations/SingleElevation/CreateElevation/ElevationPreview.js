@@ -22,8 +22,6 @@ export default function ElevationPreview({
             className="ElevationPreview"
         >
             <svg
-                width={x}
-                height={y + finishedFloorHeight}
                 viewBox={`0 0 ${x} ${y + finishedFloorHeight}`}
                 transform="scale(1, -1)"
             >
@@ -39,44 +37,29 @@ export default function ElevationPreview({
                 /> */}
                 {/* FINISHED FLOOR */}
                 <path
+                    id="finished-floor"
                     d={`M0,0L${x},0`}
-                    stroke="black"
-                    strokeWidth={5}
                 />
                 {/* CONTAINERS */}
                 {allContainers.map(({ placement: { x, y, height, width }, refId }) => (
-                    <g>
-                        <rect
-                            id={refId}
-                            x={x}
-                            y={y + finishedFloorHeight}
-                            height={height}
-                            width={width}
-                            fill="rgba(0, 191, 255, 0.1)"
-                        />
-                        <text
-                            x={x + 10}
-                            y={-(y + finishedFloorHeight + 10)}
-                            transform="scale(1, -1)"
-                        >
-                            {refId.replace(/\D*/, '*')}
-                        </text>
-                    </g>
-                ))}
-                {/* FRAMES */}
-                {allFrames.map(({ placement: { vertical, x, y, height, width }, refId }) => (
                     <rect
                         id={refId}
+                        className="container"
                         x={x}
                         y={y + finishedFloorHeight}
                         height={height}
                         width={width}
-                        fill={`rgba(0, 0, 0, ${
-                            vertical ?
-                                0.45
-                                :
-                                0.25
-                            })`}
+                    />
+                ))}
+                {/* FRAMES */}
+                {allFrames.map(({ placement: { x, y, height, width }, refId }) => (
+                    <rect
+                        id={refId}
+                        className="frame"
+                        x={x}
+                        y={y + finishedFloorHeight}
+                        height={height}
+                        width={width}
                     />
                 ))}
             </svg>

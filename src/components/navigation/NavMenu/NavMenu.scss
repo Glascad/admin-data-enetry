@@ -1,9 +1,8 @@
-
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .NavMenu {
-    
-    .Dropdown, .item {
+    .Dropdown,
+    .item {
         background: $dark-blue;
         color: $off-white;
         border-bottom: 1px solid $medium-gray;
@@ -12,27 +11,25 @@
         justify-content: center;
         align-items: flex-start;
         min-height: $menu-height;
-        
     }
-    .item, .title {
+    .item,
+    .title {
         width: 100%;
         height: $menu-height;
         padding-right: $large;
         padding-left: $xxxxx-large;
     }
-    
-    .open {
-        background: $darker-blue;
-    }
-    
+
     .closed {
         background: $dark-blue;
     }
 
-    .matched {
+    .matched,
+    .open,
+    .content {
         background: $darker-blue;
     }
-    
+
     .Dropdown {
         &.matched {
             .title {
@@ -48,7 +45,7 @@
             }
         }
     }
-    
+
     .item {
         &.matched {
             color: $light-blue;

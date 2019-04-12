@@ -7,6 +7,9 @@ import mergeBottomLeftOffset from './utils/merge-bottom-left-offset';
 
 export default function MERGE_CONTAINERS({
     elevationInput,
+    elevationInput: {
+        containerIdsToDelete = [],
+    },
 }, {
     container,
     direction,
@@ -29,6 +32,11 @@ export default function MERGE_CONTAINERS({
             fakeId: mergedFakeId,
         },
     } = containerToMerge;
+
+    console.log({
+        containerId: container.id,
+        mergeId: containerToMerge.id,
+    });
 
     const [detailInBetween] = container.getDetailsByDirection(...FORWARD);
 
@@ -97,16 +105,20 @@ export default function MERGE_CONTAINERS({
                 :
                 secondContainerFakeId;
 
-        return otherIdIsReal ?
-            otherIdIsFirst ?
-                fcid === otherIdToCompare
-                :
-                scid === otherIdToCompare
-            :
-            otherIdIsFirst ?
-                fcfkid === otherIdToCompare
-                :
-                scfkid === otherIdToCompare;
+        return containerIdsToDelete.includes(otherIdToCompare)
+            ||
+            otherIdToCompare === (
+                otherIdIsReal ?
+                    otherIdIsFirst ?
+                        fcid
+                        :
+                        scid
+                    :
+                    otherIdIsFirst ?
+                        fcfkid
+                        :
+                        scfkid
+            );
     }
 
     const shouldDeleteLeft = shouldDelete(leftEndDetailToCheck, leftEndDetailToCheckAgainst);

@@ -46,8 +46,8 @@ export default class RecursiveFrame {
             this.vertical ? 'Vertical' : 'Horizontal'
             }-${
             this.details.map(({ id }) => id).join('-')
-            }<${
-            this.instanceCount
+            // }<${
+            // this.instanceCount
             }>`;
     }
 
@@ -419,9 +419,9 @@ export default class RecursiveFrame {
                 } = {},
             } = {}) => !id || (
                 this.vertical ?
-                    x > 10
+                    x > this.elevation.minimumDaylightOpening
                     :
-                    y > 10
+                    y > this.elevation.minimumDaylightOpening
             ));
 
     get canMoveFirst() { return this.canMoveByDirection(true); }

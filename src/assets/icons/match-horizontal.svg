@@ -4,8 +4,8 @@
     
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect class="fill-#D8D8D8"  stroke="#979797"  x="12.5" y="1.5" width="1" height="15"></rect>
-        <rect class="fill-#FFFFFF"  stroke="#878687"  x="13.5" y="8.5" width="10" height="1"></rect>
+        <rect class="fill-gray"   x="12" y="1" width="1" height="16"></rect>
+        <rect class="fill-gray"   x="13" y="8" width="11" height="1"></rect>
         <rect class="fill-#FFFFFF"  stroke="#878687"  x="1.5" y="8.5" width="1" height="1"></rect>
         <rect class="fill-#FFFFFF"  stroke="#878687"  x="4.5" y="8.5" width="1" height="1"></rect>
         <rect class="fill-#FFFFFF"  stroke="#878687"  x="7.5" y="8.5" width="1" height="1"></rect>

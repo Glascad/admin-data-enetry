@@ -1,0 +1,24 @@
+
+@import '../../../../../../styles/variables';
+
+.CreateElevation {
+    .ElevationPreview {
+        svg {
+            height: $pill-width;
+
+            .container {
+                fill: transparentize($light-blue, 0.8);
+            }
+
+            .frame {
+                // fill: $medium-gray;
+                fill: $light-gray;
+            }
+
+            #finished-floor {
+                stroke-width: $x-small;
+                stroke: $dark-gray;
+            }
+        }
+    }
+}

@@ -4,11 +4,11 @@
     
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path class="stroke-gray" d="M1.5,17.5 L13.5,17.5 L13.5,5.625 C13.5,2.81189476 10.8284772,0.5 7.5,0.5 C4.17152283,0.5 1.5,2.81189476 1.5,5.625 L1.5,17.5 Z"  ></path>
-        <g class="fill-green"  transform="translate(0.000000, 3.000000)" >
+        <path class="stroke-gray" d="M1.5,17.5 L13.5,17.5 L13.5,5 C13.5,2.66234473 10.2564829,0.5 7.5,0.5 C4.74351709,0.5 1.5,2.66234473 1.5,5 L1.5,17.5 Z"  ></path>
+        <g class="fill-green"  transform="translate(0.000000, 4.000000)" >
             <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
         </g>
-        <g class="fill-green"  transform="translate(12.000000, 3.000000)" >
+        <g class="fill-green"  transform="translate(12.000000, 4.000000)" >
             <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
         </g>
     </g>

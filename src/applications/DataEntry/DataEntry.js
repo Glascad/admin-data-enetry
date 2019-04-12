@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Statics from '../../Statics/Statics';
+import Statics from '../Statics/Statics';
 
 import Activity from './Activity/Activity';
 import SystemData from './SystemData/SystemData';

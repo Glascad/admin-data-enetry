@@ -6,7 +6,7 @@
     border: 1px solid $medium-gray;
     border-radius: $x-small;
     padding-bottom: $xx-large !important;
-    width: stretch;
+    width: fit-content;
     
     // button {
     //     &:not(.danger) {
@@ -33,7 +33,7 @@
         padding: 0 $xx-small;
         
         .CircleButton {
-            .add-button {
+            .circle-button {
                 height: $xxx-large;
                 width: $xxx-large;
             }

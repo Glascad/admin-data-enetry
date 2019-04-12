@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { StaticContext } from '../../../../../../Statics/Statics';
+import { StaticContext } from '../../../../../Statics/Statics';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import mergeElevationInput from './ducks/merge-input';
@@ -52,7 +52,7 @@ export default class BuildElevation extends PureComponent {
             clearHistory,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, clearHistory);
+        if (oldQueryStatus !== newQueryStatus) console.log({ newQueryStatus, oldQueryStatus }) || updateElevation(elevation => elevation, null, null, true);
     }
 
     clearHistory = () => this.setState(({ states, currentIndex }) => ({
@@ -74,11 +74,16 @@ export default class BuildElevation extends PureComponent {
             currentIndex,
     }));
 
-    pushState = (setStateCallback, ...args) => this.setState(({ states, currentIndex }) => ({
+    _pushState = (setStateCallback, ...args) => this.setState(({ states, currentIndex }) => ({
         states: states
             .slice(0, currentIndex + 1)
             .concat(setStateCallback(states[currentIndex])),
         currentIndex: currentIndex + 1,
+    }), ...args);
+
+    _replaceState = (setStateCallback, ...args) => this.setState(({ states, currentIndex }) => ({
+        states: states.slice(0, currentIndex)
+            .concat(setStateCallback(states[currentIndex])),
     }), ...args);
 
     handleKeyDown = ({ key, shiftKey, ctrlKey, metaKey }) => (
@@ -94,21 +99,48 @@ export default class BuildElevation extends PureComponent {
                 this.undo()
         );
 
-    createRecursiveElevation = ({ elevationInput } = this.state.states[this.state.currentIndex]) => {
+    createRecursiveElevation = ({
+        elevationInput,
+        elevationInput: {
+            containerIdsToDelete = [],
+            detailIdsToDelete = [],
+        },
+    } = this.state.states[this.state.currentIndex]) => {
         const {
             props: {
                 queryStatus: {
                     _elevation: rawElevation,
+                    _elevation: {
+                        _elevationContainers = [],
+                        _containerDetails = [],
+                    } = {},
                     _system,
                 } = {},
             },
         } = this;
 
+        console.log({ rawElevation });
+
+        console.log({ elevationInput });
+
+        console.log({
+            deletedContainers: _elevationContainers
+                .filter(({ id }) => containerIdsToDelete.includes(id))
+                .map(({ __typename, nodeId, ...container }) => container),
+            deletedDetails: _containerDetails
+                .filter(({ id }) => detailIdsToDelete.includes(id))
+                .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
+        });
+
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         validateElevation(mergedElevation);
 
+        console.log({ mergedElevation });
+
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
+
+        console.log({ recursiveElevation });
 
         return {
             elevationInput,
@@ -118,9 +150,18 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb) => this.pushState(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
+    updateElevation = (ACTION, payload, cb, _replaceState = false) => (
+        _replaceState ?
+            this._replaceState
+            :
+            this._pushState
+    )(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
 
-    cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }), null, this.clearHistory);
+    // cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }), null, this.clearHistory);
+    cancel = () => this.setState(({ states: [initialState] }) => ({
+        states: [initialState],
+        currentIndex: 0,
+    }));
 
     save = async () => {
         const {
@@ -136,7 +177,7 @@ export default class BuildElevation extends PureComponent {
                     updateEntireElevation,
                 },
             },
-            cancel,
+            clearHistory,
         } = this;
 
         const {
@@ -169,7 +210,7 @@ export default class BuildElevation extends PureComponent {
             },
         });
 
-        cancel();
+        clearHistory();
 
         return result;
     }
@@ -221,11 +262,11 @@ export default class BuildElevation extends PureComponent {
                         save={save}
                         cancel={cancel}
                     />
-                    <InteractiveElevation
+                    <RightSidebar
                         elevation={recursiveElevation}
                         updateElevation={updateElevation}
                     />
-                    <RightSidebar
+                    <InteractiveElevation
                         elevation={recursiveElevation}
                         updateElevation={updateElevation}
                     />

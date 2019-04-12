@@ -12,10 +12,13 @@ import { ReactComponent as RemoveColumn } from './remove-column.svg';
 import { ReactComponent as RakeTop } from './rake-top.svg';
 import { ReactComponent as RaiseCurb } from './raise-curb.svg';
 import { ReactComponent as MergeVertically } from './merge-vertically.svg';
+import { ReactComponent as MergeUp } from './merge-up.svg';
 import { ReactComponent as MergeRight } from './merge-right.svg';
 import { ReactComponent as MergeLeft } from './merge-left.svg';
 import { ReactComponent as MergeHorizontally } from './merge-horizontally.svg';
+import { ReactComponent as MergeDown } from './merge-down.svg';
 import { ReactComponent as MergeAll } from './merge-all.svg';
+import { ReactComponent as MatchVertical } from './match-vertical.svg';
 import { ReactComponent as MatchHorizontal } from './match-horizontal.svg';
 import { ReactComponent as MatchHorizontalCopy } from './match-horizontal-copy.svg';
 import { ReactComponent as Hamburger } from './hamburger.svg';
@@ -40,8 +43,12 @@ import { ReactComponent as AddLite } from './add-lite-.svg';
 import { ReactComponent as AddHorizontal } from './add-horizontal.svg';
 import { ReactComponent as AddDoor } from './add-door.svg';
 import { ReactComponent as AddColumn } from './add-column.svg';
+import { ReactComponent as AddColumnBefore } from './add-column-before.svg';
+import { ReactComponent as AddColumnAfter } from './add-column-after.svg';
 
 export {
+    AddColumnAfter,
+    AddColumnBefore,
     AddColumn,
     AddDoor,
     AddHorizontal,
@@ -66,10 +73,13 @@ export {
     Hamburger,
     MatchHorizontalCopy,
     MatchHorizontal,
+    MatchVertical,
     MergeAll,
+    MergeDown,
     MergeHorizontally,
     MergeLeft,
     MergeRight,
+    MergeUp,
     MergeVertically,
     RaiseCurb,
     RakeTop,

@@ -31,6 +31,7 @@ export default class RecursiveElevation {
             _elevationContainers = [],
             _containerDetails = [],
             sightline = 10,
+            minimumDaylightOpening = 5,
         } = rawElevation;
 
         // mark fake ids with underscores
@@ -71,6 +72,7 @@ export default class RecursiveElevation {
                 finishedFloorHeight,
                 roughOpening,
                 sightline,
+                minimumDaylightOpening,
                 detailTypeConfigurationTypes,
                 detailIds: Object.keys(detailsById),
                 containerIds: Object.keys(containersById),

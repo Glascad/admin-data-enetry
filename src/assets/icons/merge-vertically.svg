@@ -6,7 +6,7 @@
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect class="fill-gray"   x="13" y="8" width="11" height="1"></rect>
         <rect class="stroke-gray"   x="0.5" y="0.5" width="24" height="17"></rect>
-        <rect class="fill-#D8D8D8"  stroke="#979797"  x="12.5" y="1.5" width="1" height="15"></rect>
+        <rect class="fill-gray"   x="12" y="1" width="1" height="16"></rect>
         <g class="fill-green"  transform="translate(5.000000, 3.000000)" >
             <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
         </g>

@@ -35,18 +35,23 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('mouseup', this.watchMouseUp);
     }
 
-    watchSpaceKeyDown = ({ key }) => {
-        if (key === ' ') this.setState(() => ({ spaceKey: true }))
+    watchSpaceKeyDown = e => {
+        const { key } = e;
+        if (key === ' ') {
+            e.preventDefault();
+            this.setState(() => ({ spaceKey: true }));
+        }
     }
 
     watchSpaceKeyUp = ({ key }) => {
         if (key === ' ') this.setState(() => ({ spaceKey: false }));
     }
 
-    watchArrowKeys = ({ key }) => {
+    watchArrowKeys = e => {
+        const { key } = e;
         if (this.state.spaceKey) {
             if (key === "ArrowUp") {
-
+                e.preventDefault();
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,
@@ -56,7 +61,7 @@ export default class TransformProvider extends PureComponent {
                 }))
 
             } else if (key === 'ArrowDown') {
-
+                e.preventDefault();
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,

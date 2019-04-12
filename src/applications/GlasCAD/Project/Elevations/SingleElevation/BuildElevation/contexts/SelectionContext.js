@@ -18,6 +18,7 @@ export default class SelectionProvider extends PureComponent {
 
     state = {
         selectedItems: [],
+        selectedDimension: {},
     };
 
     componentDidMount = () => {
@@ -182,7 +183,11 @@ export default class SelectionProvider extends PureComponent {
         selectedItems: selectedItems.filter(selectedItem => selectedItem !== item),
     }));
 
-    cancelSelection = () => this.setState({ selectedItems: [] });
+    cancelSelection = () => this.setState({ selectedItems: [], selectedDimension: {} });
+
+    selectDimension = dimension => this.setState(() => ({
+        selectedDimension: dimension,
+    }));
 
     // updateViewportWidth = () => {
     //     const VP = document.getElementById("Viewport");
@@ -194,11 +199,13 @@ export default class SelectionProvider extends PureComponent {
         const {
             state: {
                 selectedItems,
+                selectedDimension,
             },
             props: {
                 children,
             },
             selectItem,
+            selectDimension,
             unselectItem,
             cancelSelection,
         } = this;
@@ -215,7 +222,9 @@ export default class SelectionProvider extends PureComponent {
                 value={{
                     items: selectedItems,
                     itemsByRefId: selectionByRefId,
+                    dimension: selectedDimension,
                     selectItem,
+                    selectDimension,
                     unselectItem,
                     cancelSelection,
                 }}

@@ -6,7 +6,7 @@ TitleBar.defaultProps = {
     className: "",
     title: "",
     selections: [],
-}
+};
 
 export default function TitleBar({
     className,
@@ -14,12 +14,16 @@ export default function TitleBar({
     left,
     right,
     selections,
+    onClick,
 }) {
     return (
         <header
             className={`TitleBar ${className}`}
         >
-            <div className="title-bar-left">
+            <div
+                className="title-bar-left"
+                onClick={onClick}
+            >
                 <span className="title">
                     {title}
                 </span>

@@ -36,10 +36,10 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
                     color === "#D0021B" ?
                         'red'
                         :
-                        color === "#878687" ?
+                        color === "#878787" || color === "#878687" || color === "#8B8A8B" || color === "#979797" ?
                             'gray'
                             :
-                            color === "#585758" ?
+                            color === "#585858" || color === "#585758" ?
                                 'dark-gray'
                                 :
                                 color
@@ -64,7 +64,7 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
                 .replace(/ /g, '-')
                 .replace(/\.svg/, '')
                 .toLowerCase();
-            
+
             const icon = normalizeIcon(rawIcon);
 
             try {

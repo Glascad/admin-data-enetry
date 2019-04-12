@@ -25,7 +25,7 @@ function Settings({
                         className="sidebar-button empty"
                     >
                         <Icon />
-                        <span>{name}</span>
+                        <span>{name.replace(/([A-Z])/g, ' $1').trim()}</span>
                     </button>
                 ))}
         </>

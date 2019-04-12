@@ -42,7 +42,11 @@ export default class Container extends PureComponent {
                 tabIndex={tabIndex}
             >
                 <div className="text">
-                    {refId.replace(/\D*/, '*').replace(/<.*/, '')}
+                    {
+                        refId
+                            .replace(/\D*/, '*')
+                            // .replace(/<.*/, '')
+                    }
                 </div>
             </div>
         );

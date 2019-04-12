@@ -1,6 +1,6 @@
 import React, { PureComponent, createRef } from 'react';
 
-import { StaticContext } from '../../../../../../../Statics/Statics';
+import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext } from '../contexts/TransformContext';
 
 import Container from './components/Container';
@@ -42,7 +42,7 @@ class InteractiveElevation extends PureComponent {
     resizeViewport = () => {
         setTimeout(() => {
             try {
-                console.log(this.props.staticContext.Viewport);
+                // console.log(this.props.staticContext.Viewport);
                 this.props.staticContext.Viewport.current.style.paddingBottom = "0";
                 this.props.staticContext.Viewport.current.style.marginBottom = "0";
                 this.props.staticContext.Viewport.current.style.overflowY = "hidden";
@@ -81,12 +81,10 @@ class InteractiveElevation extends PureComponent {
         } = this;
 
         if (oldElevation !== newElevation) {
-
             const { containerToMerge, directionToMerge } = allContainers
                 .reduce(({ containerToMerge, directionToMerge }, container) => {
                     if (containerToMerge) return { containerToMerge, directionToMerge };
-
-                    if (container.customRoughOpening) {
+                    else if (container.customRoughOpening) {
 
                         const direction = Object.values(DIRECTIONS)
                             .find(direction => (
@@ -101,16 +99,23 @@ class InteractiveElevation extends PureComponent {
                                 directionToMerge: direction,
                             };
                         }
+                        else return {};
                     }
-                    return {};
+                    else return {};
                 }, {});
 
             if (containerToMerge) {
-                updateElevation(MERGE_CONTAINERS, {
-                    container: containerToMerge,
-                    direction: directionToMerge,
-                    allowCustomRoughOpenings: true,
-                });
+                updateElevation(
+                    MERGE_CONTAINERS,
+                    {
+                        container: containerToMerge,
+                        direction: directionToMerge,
+                        allowCustomRoughOpenings: true,
+                    },
+                    undefined,
+                    // replace state instead of pushing
+                    true
+                );
             }
         }
     }
