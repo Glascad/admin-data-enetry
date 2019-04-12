@@ -9,38 +9,43 @@ export default function updateDetailsAfterMovingFrame({
     distance,
 }) {
 
-    const firstAndLastContainersByDirection = [true, false]
-        .reduce((containersByDirection, first) => [true, false]
-            .reduce((firstAndLastContainersByDirection, last) => ({
-                ...firstAndLastContainersByDirection,
-                [last]: {
-                    ...firstAndLastContainersByDirection[last],
-                    [first]: _frame.getFirstOrLastContainerByDirection(first, last),
-                },
-            }),
-                containersByDirection),
-            {});
+    const first = distance > 0;
 
-    console.log({ firstAndLastContainersByDirection });
+    const firstAndLastDetails = [true, false]
+        .reduce((firstAndLastDetails, last) => {
+            const container = _frame.getFirstOrLastContainerByDirection(first, last);
+            if (!container) return firstAndLastDetails;
+            else {
+                const detailsToCompare = container.getDetailsByDirection(vertical, !last);
+                return {
+                    ...firstAndLastDetails,
+                    [last]: detailsToCompare,
+                };
+            }
+        }, {});
 
-    const detailsToCompare = Object.entries(firstAndLastContainersByDirection)
-        .reduce((details, [last, containersByDirection]) => Object.entries(containersByDirection)
-            .reduce((allDetails, [first, container]) => {
-                // last and first are STRINGs here
-                if (!container) return allDetails;
-                else {
-                    console.log({ vertical, details, last, containersByDirection, allDetails, first, container });
-                    const detailsToCompare = container.getDetailsByDirection(vertical, last === "false").map(({ _frame: { ref } }) => ref);
-                    return allDetails.concat(detailsToCompare);
-                    // return {
-                    //     ...allDetails,
-                    // };
+    console.log({ firstAndLastDetails });
+
+    [true, false]
+        .map(last => firstAndLastDetails[last]
+            .map((detail, i) => {
+                const {
+                    ref,
+                    placement: {
+                        x,
+                        y,
+                        height,
+                        width,
+                    },
+                } = detail;
+
+                console.log({ last, ref });
+
+                if (Math.abs(distance) > (vertical ? width : height)) {
+                    console.log('MUST DELETE OR REDIRECT DETAIL:', ref);
+
                 }
-            },
-                details),
-            []);
-
-    console.log({ detailsToCompare });
+            }));
 
     return arguments[0];
 }

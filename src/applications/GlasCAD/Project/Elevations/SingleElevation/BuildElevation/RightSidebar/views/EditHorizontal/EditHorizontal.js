@@ -23,6 +23,18 @@ class EditHorizontal extends PureComponent {
 
         const allRefIds = Object.keys(itemsByRefId);
 
+        const mergeContainersByRefIdAndDirection = (refId, direction) => {
+            const {
+                props: {
+                    elevation: {
+                        getItemByRefId,
+                    },
+                },
+            } = this;
+
+            
+        }
+
         const deleteFrameByRefId = refId => {
 
             // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT

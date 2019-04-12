@@ -47,7 +47,13 @@ export default class RecursiveDetail {
     }
 
     // REFERENCES
-    get refId() { return `Detail-${this.id}<${this.instanceCount}>`; }
+    get refId() {
+        return `Detail-${
+            this.id
+            // }<${
+            // this.instanceCount
+            }>`;
+    }
     get ref() { return document.getElementById(this.refId); }
 
     get _frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
@@ -67,17 +73,21 @@ export default class RecursiveDetail {
 
     // ROUGH OPENING
     get exists() {
+        const {
+            firstContainer,
+            secondContainer,
+        } = this;
         return !!(
             (
-                this.firstContainer
+                firstContainer
                 &&
-                !this.firstContainer.customRoughOpening
+                !firstContainer.customRoughOpening
             )
             ||
             (
-                this.secondContainer
+                secondContainer
                 &&
-                !this.secondContainer.customRoughOpening
+                !secondContainer.customRoughOpening
             )
         );
     }

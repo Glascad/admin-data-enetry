@@ -75,10 +75,10 @@ export default class Detail extends PureComponent {
                 }}
                 onClick={handleClick}
             >
-                <DetailBubble
+                {/* <DetailBubble
                     selectItem={selectItem}
                     detail={detail}
-                />
+                /> */}
             </div>
         );
     }

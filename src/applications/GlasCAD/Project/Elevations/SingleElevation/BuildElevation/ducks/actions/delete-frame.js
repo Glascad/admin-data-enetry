@@ -1,5 +1,4 @@
 import mergeContainers from './merge-containers';
-import RecursiveElevation from '../../../utils/recursive-elevation/elevation';
 
 export default function DELETE_FRAME({
     elevationInput,
@@ -14,6 +13,8 @@ export default function DELETE_FRAME({
     if (!canDelete) return arguments[0];
 
     const direction = [!vertical, false];
+
+    console.log({ firstContainers });
 
     return firstContainers
         .reduce((elevation, container) => mergeContainers(elevation, { container, direction }), arguments[0]);

@@ -40,9 +40,9 @@ class MoveFrame extends PureComponent {
         moveFrameByRefId(allRefIds[0]);
     }
 
-    moveTrue = () => this.move(10);
+    moveTrue = () => this.move(5);
 
-    moveFalse = () => this.move(-10);
+    moveFalse = () => this.move(-5);
 
     render = () => {
         const {
