@@ -1,9 +1,13 @@
 import React, { PureComponent } from 'react';
-import { TitleBar, withContext } from '../../../../../../../../../components';
+import { TitleBar, withContext, Input } from '../../../../../../../../../components';
 import { MOVE_FRAME } from '../../../ducks/actions';
 import { SelectionContext } from '../../../contexts/SelectionContext';
 
 class MoveFrame extends PureComponent {
+
+    state = {
+        distance: 5,
+    };
 
     move = distance => {
         const {
@@ -40,12 +44,19 @@ class MoveFrame extends PureComponent {
         moveFrameByRefId(allRefIds[0]);
     }
 
-    moveTrue = () => this.move(5);
+    updateDistance = ({ target: { value } }) => this.setState({
+        distance: value,
+    });
 
-    moveFalse = () => this.move(-5);
+    moveTrue = () => this.move(this.state.distance);
+
+    moveFalse = () => this.move(-this.state.distance);
 
     render = () => {
         const {
+            state: {
+                distance,
+            },
             props: {
                 context: {
                     items,
@@ -58,6 +69,7 @@ class MoveFrame extends PureComponent {
             },
             moveTrue,
             moveFalse,
+            updateDistance,
         } = this;
         return (
             <>
@@ -68,6 +80,12 @@ class MoveFrame extends PureComponent {
                             :
                             'Horizontal'
                         }`}
+                />
+                <Input
+                    label="Distance"
+                    type="number"
+                    value={distance}
+                    onChange={updateDistance}
                 />
                 {items.every(({ canMoveSecond }) => canMoveSecond) ? (
                     <button

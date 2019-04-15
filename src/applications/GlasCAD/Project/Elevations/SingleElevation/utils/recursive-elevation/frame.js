@@ -406,6 +406,28 @@ export default class RecursiveFrame {
         );
     }
 
+    maximumMovementByDirection = first => this.canMoveAtAll
+        &&
+        this.getContainersByDirection(first)
+            .reduce((minimum, {
+                id,
+                rawContainer: {
+                    daylightOpening: {
+                        x,
+                        y,
+                    } = {},
+                } = {},
+            } = {}) => Math.min(
+                minimum,
+                !id ?
+                    Infinity
+                    :
+                    this.vertical ?
+                        x
+                        :
+                        y,
+            ), Infinity)
+
     canMoveByDirection = first => this.canMoveAtAll
         &&
         this.getContainersByDirection(first)
@@ -427,7 +449,7 @@ export default class RecursiveFrame {
     get canMoveFirst() { return this.canMoveByDirection(true); }
     get canMoveSecond() { return this.canMoveByDirection(false); }
 
-    get canMove() { return this.canMoveFirst || this.canMoveSecond;}
+    get canMove() { return this.canMoveFirst || this.canMoveSecond; }
 
     // DELETE
     canDeleteByDirection = first => {
