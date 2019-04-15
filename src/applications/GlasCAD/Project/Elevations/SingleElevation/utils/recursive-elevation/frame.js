@@ -65,6 +65,17 @@ export default class RecursiveFrame {
         );
     }
 
+    getDetailAcrossPerpendicularByDirection = first => {
+        const {
+            details,
+            details: {
+                length,
+            },
+        } = this;
+        const endDetail = details[first ? 0 : length - 1];
+        return endDetail.getNextDetailByDirection(first);
+    }
+
     getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
             .map(detail => detail.getContainerByDirection(first))
@@ -77,6 +88,11 @@ export default class RecursiveFrame {
             containers.length - 1
             :
             0];
+    }
+
+    getPerpendicularFrameByDirection = first => {
+        const container = this.getFirstOrLastContainerByDirection(true, !first);
+        if (container) return container.getFrameByDirection(this.vertical, first);
     }
 
     get firstContainers() { return this.getContainersByDirection(true); }
