@@ -90,11 +90,6 @@ export default function updateDetailsAfterMovingFrame({
         width: placement.width,
     };
 
-    console.log({
-        placement,
-        newPlacement,
-    });
-
     const oldFramePlacement = new ComparablePlacement(placement, vertical, distance > 0);
     const newFramePlacement = new ComparablePlacement(newPlacement, vertical, distance > 0);
 
@@ -113,27 +108,13 @@ export default function updateDetailsAfterMovingFrame({
             return maybeReversedDetails
                 .reduce(({ newElevation, done }, detail, i) => {
                     const detailPlacement = new ComparablePlacement(detail.placement, vertical, distance > 0);
-                    console.log({
-                        detailId: detail.id,
-                        firstContainerId: detail.firstContainerId || detail.firstContainerFakeId,
-                        secondContainerId: detail.secondContainerId || detail.secondContainerFakeId,
-                        detailPlacement,
-                        oldFramePlacement,
-                        newFramePlacement,
-                    });
                     if (done || detailPlacement.inner.isFartherThan(newFramePlacement.outer)) {
-                        console.log(`DONE`);
                         return { newElevation, done: true };
                     }
                     // first detail
                     // else
                     if (i === 0) {
-                        console.log(`FIRST DETAIL`);
                         const newPlacementExceedsDetailPlacement = newFramePlacement.inner.isFartherThanOrEqualTo(detailPlacement.outer);
-                        console.log({
-                            newFramePlacement,
-                            detailPlacement
-                        })
 
                         if (hasDetailAcrossPerpendicular) {
                             if (newPlacementExceedsDetailPlacement) {
@@ -169,7 +150,6 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // last detail (ending next to another detail)
                     else if (detailPlacement.outer.isEqualTo(newFramePlacement.inner)) {
-                        console.log(`LAST DETAIL`);
                         return {
                             done: true,
                             newElevation: redirectDetail(newElevation, {
@@ -181,7 +161,6 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // last detail (ending next to another container)
                     else if (detailPlacement.outer.isFartherThan(newFramePlacement.inner)) {
-                        console.log(`LAST DETAIL`);
                         return {
                             done: true,
                             newElevation: duplicateDetail(newElevation, {
@@ -193,7 +172,6 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // intermediate details
                     else {
-                        console.log(`INTERMEDIATE DETAIL`);
                         return {
                             newElevation: redirectDetail(newElevation, {
                                 detail,
@@ -205,7 +183,6 @@ export default function updateDetailsAfterMovingFrame({
                 }, { newElevation: outerNewElevation });
         }, { newElevation: arguments[0] });
 
-    console.log({ newElevation });
 
     return newElevation;
 }

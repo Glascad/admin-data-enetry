@@ -72,8 +72,6 @@ class MoveFrame extends PureComponent {
             updateDistance,
         } = this;
 
-        console.log(this.state);
-
         return (
             <>
                 <TitleBar

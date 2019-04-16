@@ -34,8 +34,8 @@ export default function redirectDetail({
     },
 }) {
 
-    console.log(`DUPLICATING DETAIL: ${detailId || detailFakeId}, REDIRECTING FROM: ${oldId || oldFakeId} TO:  ${newId || newFakeId}`);
-    console.log({ detail, oldContainer, newContainer });
+    // console.log(`DUPLICATING DETAIL: ${detailId || detailFakeId}, REDIRECTING FROM: ${oldId || oldFakeId} TO:  ${newId || newFakeId}`);
+    // console.log({ detail, oldContainer, newContainer });
     // console.trace(detail);
 
     const oldIdIsReal = !!oldId && !oldFakeId;
@@ -93,7 +93,7 @@ export default function redirectDetail({
         [newKeyToAdd]: (newId || newFakeId),
     };
 
-    console.log({ newDetail });
+    // console.log({ newDetail });
 
     return {
         elevationInput: {

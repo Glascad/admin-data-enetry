@@ -55,7 +55,7 @@ export default class Detail extends PureComponent {
                             secondContainerRefId in itemsByRefId ?
                                 'second-container-selected'
                                 :
-                                ''
+                                'detail-selected'
                     } ${
                     firstContainer ?
                         ''
@@ -75,10 +75,10 @@ export default class Detail extends PureComponent {
                 }}
                 onClick={handleClick}
             >
-                {/* <DetailBubble
+                <DetailBubble
                     selectItem={selectItem}
                     detail={detail}
-                /> */}
+                />
             </div>
         );
     }
