@@ -1,3 +1,4 @@
+import getFakeId from './get-fake-id';
 
 export default function redirectDetail({
     elevationInput,
@@ -33,7 +34,7 @@ export default function redirectDetail({
     },
 }) {
 
-    // console.log(`REDIRECTING DETAIL: ${detailId || detailFakeId} FROM: ${oldId || oldFakeId} TO:  ${newId || newFakeId}`);
+    // console.log(`DUPLICATING DETAIL: ${detailId || detailFakeId}, REDIRECTING FROM: ${oldId || oldFakeId} TO:  ${newId || newFakeId}`);
     // console.log({ detail, oldContainer, newContainer });
     // console.trace(detail);
 
@@ -83,25 +84,21 @@ export default function redirectDetail({
 
     const previouslyUpdatedDetail = details.find(({ id, fakeId }) => (id || fakeId) === (detailId || detailFakeId));
 
-    const updatedDetail = {
+    const newDetail = {
         ...rawDetail,
         ...previouslyUpdatedDetail,
+        id: undefined,
+        fakeId: getFakeId(),
         [oldKeyToDelete]: undefined,
         [newKeyToAdd]: (newId || newFakeId),
     };
 
-    // console.log({ updatedDetail });
+    // console.log({ newDetail });
 
     return {
         elevationInput: {
             ...elevationInput,
-            details: previouslyUpdatedDetail ?
-                details.replace(
-                    details.indexOf(previouslyUpdatedDetail),
-                    updatedDetail,
-                )
-                :
-                details.concat(updatedDetail),
+            details: details.concat(newDetail),
         },
     };
 }

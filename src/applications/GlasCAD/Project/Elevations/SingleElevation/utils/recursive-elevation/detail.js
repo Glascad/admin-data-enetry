@@ -250,12 +250,14 @@ export default class RecursiveDetail {
     get allDetailsWithSharedContainers() {
         if (!this.exists) return [];
 
-        return unique(
-            this.getDetailsWithSharedContainersByContainerDirection(true),
-            this.getDetailsWithSharedContainersByContainerDirection(false),
-        )
-            .sort(sortDetails(true))
-            .sort(sortDetails(false));
+        return this.__detailsWithSharedContainers || (
+            this.__detailsWithSharedContainers = unique(
+                this.getDetailsWithSharedContainersByContainerDirection(true),
+                this.getDetailsWithSharedContainersByContainerDirection(false),
+            )
+                .sort(sortDetails(true))
+                .sort(sortDetails(false))
+        );
     }
 
     get runsAlongEdgeOfRoughOpening() {
@@ -290,8 +292,6 @@ export default class RecursiveDetail {
     }
 
     getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
-        if (!this.exists) return [];
-
         if (!this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
             // console.log(this.id, detailFirst, containerFirst);
             const { vertical } = this;
@@ -402,6 +402,24 @@ export default class RecursiveDetail {
                 allDetailsWithSharedContainers,
                 detailsAcrossPerpendiculars,
             );
+    }
+
+    getNextDetailByDirection = first => {
+        const { allDetailsWithSharedContainers } = this;
+        const thisIndex = allDetailsWithSharedContainers.indexOf(this);
+        const nextIndex = first ?
+            thisIndex - 1
+            :
+            thisIndex + 1;
+        if (allDetailsWithSharedContainers[nextIndex]) return allDetailsWithSharedContainers[nextIndex];
+        else {
+            const detailsAcrossPerpendiculars = this.getDetailsAcrossPerpendicularsByDirection(first);
+            const index = first ?
+                detailsAcrossPerpendiculars.length - 1
+                :
+                0;
+            return detailsAcrossPerpendiculars[index];
+        }
     }
 
     get allMatchedDetails() {

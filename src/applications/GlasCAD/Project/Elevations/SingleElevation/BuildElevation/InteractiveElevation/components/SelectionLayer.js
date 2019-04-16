@@ -56,7 +56,7 @@ class SelectionLayer extends PureComponent {
                                 lastSelected={i === length - 1}
                             />
                         ))}
-                        {(firstItem ? firstItem.elevation.allDetails : []).map(detail => (
+                        {detailsToRender.map(detail => (
                             <Detail
                                 key={detail.refId}
                                 detail={detail}

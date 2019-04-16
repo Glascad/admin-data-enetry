@@ -14,8 +14,6 @@ export default function DELETE_FRAME({
 
     const direction = [!vertical, false];
 
-    console.log({ firstContainers });
-
     return firstContainers
         .reduce((elevation, container) => mergeContainers(elevation, { container, direction }), arguments[0]);
 }
