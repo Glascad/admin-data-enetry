@@ -2,6 +2,8 @@ import duplicateDetail from './duplicate-detail';
 import redirectDetail from './redirect-detail';
 import deleteDetail from './delete-detail';
 
+const round = num => ~~(num * 100);
+
 class ComparableMeasurement {
 
     constructor(measurement, first) {
@@ -23,7 +25,7 @@ class ComparableMeasurement {
             this.measurement < measurement
     );
 
-    isEqualTo = ({ measurement }) => this.measurement === measurement;
+    isEqualTo = ({ measurement }) => round(this.measurement) === round(measurement);
 
     isFartherThanOrEqualTo = measurement => (
         this.isFartherThan(measurement)

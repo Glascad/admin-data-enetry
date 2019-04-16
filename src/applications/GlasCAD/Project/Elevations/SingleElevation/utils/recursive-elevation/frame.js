@@ -439,9 +439,9 @@ export default class RecursiveFrame {
                     Infinity
                     :
                     this.vertical ?
-                        x
+                        x - this.elevation.minimumDaylightOpening
                         :
-                        y,
+                        y - this.elevation.minimumDaylightOpening,
             ), Infinity)
 
     canMoveByDirection = first => this.canMoveAtAll
@@ -461,6 +461,11 @@ export default class RecursiveFrame {
                     :
                     y > this.elevation.minimumDaylightOpening
             ));
+
+    canMoveByDistance = distance => Math.abs(distance) < this.maximumMovementByDirection(distance > 0);
+
+    get maximumMovementFirst() { return this.maximumMovementByDirection(true); }
+    get maximumMovementSecond() { return this.maximumMovementByDirection(false); }
 
     get canMoveFirst() { return this.canMoveByDirection(true); }
     get canMoveSecond() { return this.canMoveByDirection(false); }
