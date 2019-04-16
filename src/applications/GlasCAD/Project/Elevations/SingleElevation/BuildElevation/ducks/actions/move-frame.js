@@ -17,6 +17,9 @@ export default function MOVE_FRAME({
 }) {
     if (!distance || !_frame.canMoveByDirection(distance > 0)) return arguments[0];
 
+    console.log(`MOVING FRAME: ${_frame.refId} DISTANCE: ${distance}`);
+    console.log({ _frame, distance });
+
     const allFirstContainers = unique(
         firstContainers,
         secondContainers

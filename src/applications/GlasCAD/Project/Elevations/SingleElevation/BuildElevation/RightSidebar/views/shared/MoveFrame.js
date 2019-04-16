@@ -48,7 +48,7 @@ class MoveFrame extends PureComponent {
         distance: value,
     });
 
-    moveTrue = () => this.move(this.state.distance);
+    moveTrue = () => this.move(+this.state.distance);
 
     moveFalse = () => this.move(-this.state.distance);
 
@@ -71,6 +71,9 @@ class MoveFrame extends PureComponent {
             moveFalse,
             updateDistance,
         } = this;
+
+        console.log(this.state);
+
         return (
             <>
                 <TitleBar
