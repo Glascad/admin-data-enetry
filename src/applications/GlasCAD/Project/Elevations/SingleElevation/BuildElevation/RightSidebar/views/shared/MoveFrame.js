@@ -88,7 +88,7 @@ class MoveFrame extends PureComponent {
                     value={distance}
                     onChange={updateDistance}
                 />
-                {items.every(({ canMoveByDistance }) => canMoveByDistance(-this.state.distance)) ? (
+                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-this.state.distance)) ? (
                     <button
                         className="sidebar-button empty"
                         onClick={moveFalse}
@@ -96,7 +96,7 @@ class MoveFrame extends PureComponent {
                         {vertical ? 'Right' : 'Up'}
                     </button>
                 ) : null}
-                {items.every(({ canMoveByDistance }) => canMoveByDistance(+this.state.distance)) ? (
+                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(+this.state.distance)) ? (
                     <button
                         className="sidebar-button empty"
                         onClick={moveTrue}

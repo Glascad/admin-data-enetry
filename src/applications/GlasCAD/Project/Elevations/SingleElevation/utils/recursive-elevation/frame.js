@@ -179,7 +179,7 @@ export default class RecursiveFrame {
 
             const firstEndAdjacentContainer = firstEndContainer
                 &&
-                firstEndContainer.getFirstOrLastContainerByDirection(...direction, !first);
+                firstEndContainer.getFirstOrLastContainerByDirection(...direction, first);
 
             const secondEndAdjacentContainer = secondEndContainer
                 &&
@@ -204,6 +204,17 @@ export default class RecursiveFrame {
                     secondEndAdjacentContainer.customRoughOpening
                 )
             );
+            if (this.refId.includes(873)) console.log({
+                id: this.id,
+                first,
+                vertical,
+                direction,
+                firstEndContainer,
+                secondEndContainer,
+                firstEndAdjacentContainer,
+                secondEndAdjacentContainer,
+                runsIntoEdge: this[runsIntoEdgeKey][first],
+            });
         }
         return this[runsIntoEdgeKey][first];
     }
@@ -402,6 +413,31 @@ export default class RecursiveFrame {
             verticalLastContainer.bottomFrame.sightline
             :
             0;
+
+        if (this.refId.includes(873)) console.log({
+            id: this.id,
+            vertical,
+            firstEndRunsAlongEdgeOfRoughOpening,
+            firstEndRunsIntoEdgeOfRoughOpening,
+            lastEndRunsAlongEdgeOfRoughOpening,
+            lastEndRunsIntoEdgeOfRoughOpening,
+            firstLeftContainer,
+            firstRightContainer,
+            lastLeftContainer,
+            lastRightContainer,
+            x,
+            y,
+            width,
+            height,
+            verticalLastContainer,
+            verticalFirstContainer,
+            needsTopExtension,
+            needsBottomExtension,
+            verticalTopExtension,
+            verticalBottomExtension,
+            getRef: () => this.ref,
+            get ref() { return this.getRef(); },
+        });
 
         return {
             x,

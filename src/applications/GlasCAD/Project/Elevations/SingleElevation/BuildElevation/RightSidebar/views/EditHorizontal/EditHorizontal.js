@@ -23,17 +23,17 @@ class EditHorizontal extends PureComponent {
 
         const allRefIds = Object.keys(itemsByRefId);
 
-        const mergeContainersByRefIdAndDirection = (refId, direction) => {
-            const {
-                props: {
-                    elevation: {
-                        getItemByRefId,
-                    },
-                },
-            } = this;
+        // const mergeContainersByRefIdAndDirection = (refId, direction) => {
+        //     const {
+        //         props: {
+        //             elevation: {
+        //                 getItemByRefId,
+        //             },
+        //         },
+        //     } = this;
 
             
-        }
+        // }
 
         const deleteFrameByRefId = refId => {
 
