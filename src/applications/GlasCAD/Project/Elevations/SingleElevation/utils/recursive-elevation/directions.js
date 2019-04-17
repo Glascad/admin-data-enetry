@@ -1,29 +1,4 @@
 
-/**
- * Directions: [vertical][first]
- *
- * vertical = [|||]
- * !vertical = [---]
- *
- * first = [<<<] or [vvv]
- * !first = [>>>] or [^^^]
- *
- * |============|==============|
- * |            |[false][false]|
- * |  [second]  |   [third]    |
- * |            |              |
- * |============|==============|
- * |            |              |
- * |   [first]  |   [second]   |
- * |[true][true]|              |
- * |===========================|
- *
- * Up = [vertical][first] = [|||][^^^] = [true][false]
- * Down = [vertical][!first] = [|||][vvv] = [true][true]
- * Left = [!vertical][!first] = [---][<<<] = [false][true]
- * Right = [!vertical][first] = [---][>>>] = [false][false]
- */
-
 export const DIRECTIONS = {
     UP: [true, false],
     DOWN: [true, true],

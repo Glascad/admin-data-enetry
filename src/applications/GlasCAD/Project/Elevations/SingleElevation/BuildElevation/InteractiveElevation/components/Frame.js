@@ -10,6 +10,7 @@ export default class Frame extends PureComponent {
                 _frame: {
                     refId,
                     vertical,
+                    registerReactComponent,
                     placement: {
                         x,
                         y,
@@ -21,6 +22,8 @@ export default class Frame extends PureComponent {
             },
             handleClick,
         } = this;
+
+        registerReactComponent(this);
 
         return (
             <div

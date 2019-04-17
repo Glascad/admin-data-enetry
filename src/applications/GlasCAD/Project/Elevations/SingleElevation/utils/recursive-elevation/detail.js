@@ -56,6 +56,10 @@ export default class RecursiveDetail {
     }
     get ref() { return document.getElementById(this.refId); }
 
+    registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
+
+    get ReactComponent() { return this.__ReactComponent; }
+
     get _frame() { return this.elevation.allFrames.find(_frame => _frame.contains(this)); }
     get frameRefId() { return this._frame.refId; }
     get frameRef() { return this._frame.ref; }

@@ -11,6 +11,7 @@ export default class Container extends PureComponent {
                 container: {
                     refId,
                     customRoughOpening,
+                    registerReactComponent,
                     placement: {
                         x,
                         y,
@@ -22,6 +23,8 @@ export default class Container extends PureComponent {
             },
             handleClick,
         } = this;
+
+        registerReactComponent(this);
 
         return (
             <div

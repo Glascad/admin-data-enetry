@@ -18,6 +18,7 @@ export default class Detail extends PureComponent {
                     exists,
                     refId,
                     vertical,
+                    registerReactComponent,
                     _frame: {
                         refId: frameRefId,
                     } = {},
@@ -39,6 +40,8 @@ export default class Detail extends PureComponent {
             },
             handleClick,
         } = this;
+        
+        registerReactComponent(this);
 
         if (!exists) return null;
 

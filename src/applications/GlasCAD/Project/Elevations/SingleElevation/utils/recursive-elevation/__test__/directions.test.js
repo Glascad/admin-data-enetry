@@ -1,4 +1,29 @@
-import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from "../directions";
+/**
+ * Directions: [vertical][first]
+ *
+ * vertical = [|||]
+ * !vertical = [---]
+ *
+ * first = [<<<] or [vvv]
+ * !first = [>>>] or [^^^]
+ *
+ * |============|==============|
+ * |            |[false][false]|
+ * |  [second]  |   [third]    |
+ * |            |              |
+ * |============|==============|
+ * |            |              |
+ * |   [first]  |   [second]   |
+ * |[true][true]|              |
+ * |===========================|
+ *
+ * Up = [vertical][first] = [|||][^^^] = [true][false]
+ * Down = [vertical][!first] = [|||][vvv] = [true][true]
+ * Left = [!vertical][!first] = [---][<<<] = [false][true]
+ * Right = [!vertical][first] = [---][>>>] = [false][false]
+ */
+
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from '../directions';
 
 describe('Relative Directions Tests', () => {
     test('FORWARD of all directions is same', () => {

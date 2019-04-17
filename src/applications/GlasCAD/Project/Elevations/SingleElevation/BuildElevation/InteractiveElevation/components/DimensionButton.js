@@ -9,34 +9,34 @@ class DimensionButton extends PureComponent {
         input: 0,
     };
 
+    mostRecentClick = 0;
+
     handleClick = () => {
         const {
             props: {
+                editing,
                 selected,
                 selectItem,
                 unselectItem,
+                dimension,
                 dimension: {
                     containers,
                 },
-            },
-        } = this;
-
-        if (selected) containers.forEach(container => unselectItem(container))
-        else containers.forEach(container => selectItem(container, true));
-    }
-
-    handleDoubleClick = () => {
-        const {
-            props: {
-                dimension,
-                selected,
                 selectDimension,
             },
-            handleClick,
+            mostRecentClick,
         } = this;
 
-        if (!selected) handleClick();
-        selectDimension(dimension);
+        const currentMilliseconds = Date.now();
+
+        // double click (toggle editing state)
+        if (currentMilliseconds - mostRecentClick < 500) selectDimension(dimension);
+        // single click (unselect)
+        else if (selected) containers.forEach(container => unselectItem(container))
+        // single click (select)
+        else containers.forEach(container => selectItem(container, true));
+
+        this.mostRecentClick = currentMilliseconds;
     }
 
     componentDidUpdate = ({ editing: oldEditing }) => {
@@ -54,6 +54,35 @@ class DimensionButton extends PureComponent {
 
     handleInput = ({ target: { value } }) => this.setState({ input: value });
 
+    handleKeyDown = e => {
+        const {
+            key,
+            target,
+        } = e;
+        if (key === 'Enter') {
+            target.blur();
+        }
+        else if (key !== 'Escape') {
+            if (key === ' ') e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+
+    handleBlur = () => {
+        const {
+            state: {
+                input,
+            },
+            props: {
+                dimension: {
+                    dimension,
+                    containers,
+                },
+            },
+        } = this;
+        
+    }
+
     render = () => {
         const {
             state: {
@@ -66,14 +95,16 @@ class DimensionButton extends PureComponent {
                     vertical,
                     dimension,
                     offset,
+                    registerReactComponent,
                 },
                 selected,
                 editing,
                 finishedFloorHeight,
             },
             handleClick,
-            handleDoubleClick,
             handleInput,
+            handleKeyDown,
+            handleBlur,
         } = this;
 
         const dimensionKey = vertical ?
@@ -94,6 +125,20 @@ class DimensionButton extends PureComponent {
         // size = 24, space = 12
         const trackOffset = -36 * (track + 1) - 50;
 
+        registerReactComponent(this);
+
+        const style = {
+            [dimensionKey.toLowerCase()]: dimension,
+            [`max${dimensionKey}`]: dimension,
+            [`min${dimensionKey}`]: dimension,
+            [offsetKey]: offset,
+            [trackOffsetKey]: trackOffset,
+            transform: vertical ?
+                undefined
+                :
+                `translateY(${finishedFloorHeight}px)`,
+        };
+
         return (
             <button
                 id={refId}
@@ -108,25 +153,40 @@ class DimensionButton extends PureComponent {
                         :
                         ''
                     }`}
-                style={{
-                    [dimensionKey.toLowerCase()]: dimension,
-                    [`max${dimensionKey}`]: dimension,
-                    [`min${dimensionKey}`]: dimension,
-                    [offsetKey]: offset,
-                    [trackOffsetKey]: trackOffset,
-                    transform: vertical ?
-                        undefined
-                        :
-                        `translateY(${finishedFloorHeight}px)`,
-                }}
+                style={style}
                 onClick={handleClick}
-                onDoubleClick={handleDoubleClick}
             >
                 {editing ? (
                     <Input
                         type="number"
                         value={input}
                         onChange={handleInput}
+                        onKeyDown={handleKeyDown}
+                        onBlur={handleBlur}
+                        autoFocus={true}
+                        style={vertical ?
+                            Object.entries(style)
+                                .reduce((reducedStyle, [key, value]) => ({
+                                    ...reducedStyle,
+                                    [key.match(/height/i) ?
+                                        key.replace(/height/, 'width')
+                                            .replace(/Height/, 'Width')
+                                        // :
+                                        // key.match(/width/i) ?
+                                        //     key.replace(/width/, 'height')
+                                        //         .replace(/Width/, 'Height')
+                                        :
+                                        key.match(/bottom/) ?
+                                            key.replace(/bottom/, 'left')
+                                            :
+                                            key.replace(/left/, 'bottom')]: value,
+                                }), {})
+                            :
+                            {
+                                ...style,
+                                transform: 'none',
+                            }
+                        }
                     />
                 ) : (
                         <div>
@@ -147,7 +207,7 @@ const mapProps = ({
         items,
         selectItem,
         unselectItem,
-        selectedDimension,
+        dimension: selectedDimension,
         selectDimension,
     },
 }) => ({
@@ -157,6 +217,7 @@ const mapProps = ({
     unselectItem,
     editing: selectedDimension === dimension,
     selectDimension,
+    selectedDimension,
 });
 
 export default withContext(SelectionContext, mapProps, { pure: true })(DimensionButton);

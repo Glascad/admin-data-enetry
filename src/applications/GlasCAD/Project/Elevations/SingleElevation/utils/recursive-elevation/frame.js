@@ -53,6 +53,10 @@ export default class RecursiveFrame {
 
     get ref() { return document.getElementById(this.refId); }
 
+    registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
+
+    get ReactComponent() { return this.__ReactComponent; }
+    
     contains = detail => this.details.includes(detail);
 
     get detailTypes() {
@@ -204,17 +208,17 @@ export default class RecursiveFrame {
                     secondEndAdjacentContainer.customRoughOpening
                 )
             );
-            if (this.refId.includes(873)) console.log({
-                id: this.id,
-                first,
-                vertical,
-                direction,
-                firstEndContainer,
-                secondEndContainer,
-                firstEndAdjacentContainer,
-                secondEndAdjacentContainer,
-                runsIntoEdge: this[runsIntoEdgeKey][first],
-            });
+            // if (this.refId.includes(873)) console.log({
+            //     id: this.id,
+            //     first,
+            //     vertical,
+            //     direction,
+            //     firstEndContainer,
+            //     secondEndContainer,
+            //     firstEndAdjacentContainer,
+            //     secondEndAdjacentContainer,
+            //     runsIntoEdge: this[runsIntoEdgeKey][first],
+            // });
         }
         return this[runsIntoEdgeKey][first];
     }
@@ -414,30 +418,30 @@ export default class RecursiveFrame {
             :
             0;
 
-        if (this.refId.includes(873)) console.log({
-            id: this.id,
-            vertical,
-            firstEndRunsAlongEdgeOfRoughOpening,
-            firstEndRunsIntoEdgeOfRoughOpening,
-            lastEndRunsAlongEdgeOfRoughOpening,
-            lastEndRunsIntoEdgeOfRoughOpening,
-            firstLeftContainer,
-            firstRightContainer,
-            lastLeftContainer,
-            lastRightContainer,
-            x,
-            y,
-            width,
-            height,
-            verticalLastContainer,
-            verticalFirstContainer,
-            needsTopExtension,
-            needsBottomExtension,
-            verticalTopExtension,
-            verticalBottomExtension,
-            getRef: () => this.ref,
-            get ref() { return this.getRef(); },
-        });
+        // if (this.refId.includes(873)) console.log({
+        //     id: this.id,
+        //     vertical,
+        //     firstEndRunsAlongEdgeOfRoughOpening,
+        //     firstEndRunsIntoEdgeOfRoughOpening,
+        //     lastEndRunsAlongEdgeOfRoughOpening,
+        //     lastEndRunsIntoEdgeOfRoughOpening,
+        //     firstLeftContainer,
+        //     firstRightContainer,
+        //     lastLeftContainer,
+        //     lastRightContainer,
+        //     x,
+        //     y,
+        //     width,
+        //     height,
+        //     verticalLastContainer,
+        //     verticalFirstContainer,
+        //     needsTopExtension,
+        //     needsBottomExtension,
+        //     verticalTopExtension,
+        //     verticalBottomExtension,
+        //     getRef: () => this.ref,
+        //     get ref() { return this.getRef(); },
+        // });
 
         return {
             x,

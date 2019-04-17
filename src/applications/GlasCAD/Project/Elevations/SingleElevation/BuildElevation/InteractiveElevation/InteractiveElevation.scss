@@ -287,12 +287,27 @@
             div {
                 width: 100%;
                 height: 100%;
+            }
+
+            div,
+            .Input {
                 transform: rotate(-90deg);
             }
         }
 
+        .Input {
+            height: $x-large;
+            max-height: $x-large;
+
+            input {
+                text-align: center;
+                border-color: $selected-color;
+            }
+        }
+
         &.selected {
-            background: $selected-color;
+            @include hoverable-background($selected-color);
+
             color: $off-white;
         }
 
