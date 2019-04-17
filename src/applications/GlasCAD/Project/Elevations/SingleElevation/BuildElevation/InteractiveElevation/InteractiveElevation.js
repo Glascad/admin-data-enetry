@@ -124,6 +124,7 @@ class InteractiveElevation extends PureComponent {
         const {
             props: {
                 elevation: {
+                    instanceCount,
                     allContainers = [],
                     allFrames = [],
                     roughOpening: {
@@ -151,10 +152,13 @@ class InteractiveElevation extends PureComponent {
                 selectedClass,
                 selectItem,
                 framesSelectable,
+                updateElevation,
             },
         } = this;
 
         const baseScaleFactor = 0.8;
+
+        console.log(`INTERACTIVE INSTANCE COUNT: ${instanceCount}`);
 
         return (
             <div
@@ -211,6 +215,7 @@ class InteractiveElevation extends PureComponent {
                                         key={dimension.refId}
                                         track={i}
                                         dimension={dimension}
+                                        updateElevation={updateElevation}
                                     />
                                 ))}
                             </div>
@@ -226,6 +231,7 @@ class InteractiveElevation extends PureComponent {
                                         track={i}
                                         dimension={dimension}
                                         finishedFloorHeight={finishedFloorHeight}
+                                        updateElevation={updateElevation}
                                     />
                                 ))}
                             </div>

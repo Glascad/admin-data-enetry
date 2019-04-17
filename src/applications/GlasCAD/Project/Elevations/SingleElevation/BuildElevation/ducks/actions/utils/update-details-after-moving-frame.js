@@ -112,12 +112,12 @@ export default function updateDetailsAfterMovingFrame({
 
             return maybeReversedDetails
                 .reduce(({ newElevation, done }, detail, i) => {
-                    console.log(`Checking Detail`);
+                    // console.log(`Checking Detail`);
                     const detailPlacement = new ComparablePlacement(detail.placement, vertical, distance > 0);
-                    console.log({ detail, oldFramePlacement, newFramePlacement, detailPlacement });
+                    // console.log({ detail, oldFramePlacement, newFramePlacement, detailPlacement });
 
                     if (done || detailPlacement.inner.isFartherThan(newFramePlacement.outer)) {
-                        console.log(`done`);
+                        // console.log(`done`);
                         return { newElevation, done: true };
                     }
                     // first detail
@@ -126,7 +126,7 @@ export default function updateDetailsAfterMovingFrame({
 
                         if (hasDetailAcrossPerpendicular) {
                             if (newPlacementExceedsDetailPlacement) {
-                                console.log(`Redirecting First Detail`);
+                                // console.log(`Redirecting First Detail`);
                                 return {
                                     newElevation: redirectDetail(newElevation, {
                                         detail,
@@ -136,7 +136,7 @@ export default function updateDetailsAfterMovingFrame({
                                 };
                             }
                             else {
-                                console.log(`Splitting First Detail`);
+                                // console.log(`Splitting First Detail`);
                                 return {
                                     newElevation: duplicateDetail(newElevation, {
                                         detail,
@@ -147,7 +147,7 @@ export default function updateDetailsAfterMovingFrame({
                             }
                         } else {
                             if (newPlacementExceedsDetailPlacement) {
-                                console.log(`Deleting First Detail`);
+                                // console.log(`Deleting First Detail`);
                                 return {
                                     newElevation: deleteDetail(newElevation, {
                                         detail,
@@ -155,7 +155,7 @@ export default function updateDetailsAfterMovingFrame({
                                 };
                             }
                             else {
-                                console.log(`Leaving First Detail as is`);
+                                // console.log(`Leaving First Detail as is`);
                                 return {
                                     newElevation,
                                 };
@@ -164,7 +164,7 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // last detail (ending next to another detail)
                     else if (detailPlacement.outer.isEqualTo(newFramePlacement.inner)) {
-                        console.log(`Redirecting Last Detail`);
+                        // console.log(`Redirecting Last Detail`);
                         return {
                             done: true,
                             newElevation: redirectDetail(newElevation, {
@@ -176,7 +176,7 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // last detail (ending next to another container)
                     else if (detailPlacement.outer.isFartherThan(newFramePlacement.inner)) {
-                        console.log(`Duplicating Last Detail`);
+                        // console.log(`Duplicating Last Detail`);
                         return {
                             done: true,
                             newElevation: duplicateDetail(newElevation, {
@@ -188,7 +188,7 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // intermediate details
                     else {
-                        console.log(`Redirecting Intermediate Detail`);
+                        // console.log(`Redirecting Intermediate Detail`);
                         return {
                             newElevation: redirectDetail(newElevation, {
                                 detail,

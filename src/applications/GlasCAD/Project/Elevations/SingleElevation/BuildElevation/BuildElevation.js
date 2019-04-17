@@ -243,8 +243,13 @@ export default class BuildElevation extends PureComponent {
         const {
             [currentIndex]: {
                 recursiveElevation,
+                recursiveElevation: {
+                    instanceCount = -1,
+                } = {},
             },
         } = states;
+
+        console.log(`CURRENT INSTANCE COUNT: ${instanceCount}`);
 
         return (
             <SelectionProvider

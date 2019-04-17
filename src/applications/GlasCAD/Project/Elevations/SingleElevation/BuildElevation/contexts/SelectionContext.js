@@ -187,8 +187,8 @@ export default class SelectionProvider extends PureComponent {
 
     selectDimension = selectedDimension => {
         if (selectedDimension.containers.every(({ getFrameByDirection }) => {
-            const firstFrame = getFrameByDirection(!selectedDimension.vertical, true);
-            const secondFrame = getFrameByDirection(!selectedDimension.vertical, false);
+            const firstFrame = getFrameByDirection(selectedDimension.vertical, true);
+            const secondFrame = getFrameByDirection(selectedDimension.vertical, false);
             return (
                 firstFrame.canMoveByDirection(true)
                 &&
