@@ -195,14 +195,24 @@ export default class SelectionProvider extends PureComponent {
             return (
                 firstFrame
                 &&
-                firstFrame.canMoveByDirection(true)
-                &&
                 secondFrame
                 &&
-                secondFrame.canMoveByDirection(false)
+                (
+                    (
+                        firstFrame.canMoveByDirection(true)
+                        &&
+                        secondFrame.canMoveByDirection(false)
+                    )
+                    ||
+                    (
+                        firstFrame.canMoveByDirection(false)
+                        &&
+                        secondFrame.canMoveByDirection(true)
+                    )
+                )
             );
         });
-        
+
         if (canEditDimension) {
             this.cancelSelection();
             selectedDimension.containers.forEach(this.selectItem);

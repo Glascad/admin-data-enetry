@@ -502,7 +502,7 @@ export default class RecursiveFrame {
                     y > this.elevation.minimumDaylightOpening
             ));
 
-    canMoveByDistance = distance => Math.abs(distance) < this.maximumMovementByDirection(distance > 0);
+    canMoveByDistance = distance => Math.abs(distance) <= this.maximumMovementByDirection(distance > 0);
 
     get maximumMovementFirst() { return this.maximumMovementByDirection(true); }
     get maximumMovementSecond() { return this.maximumMovementByDirection(false); }
