@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 
 import { StaticContext } from '../../../../../Statics/Statics';
 
+
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import mergeElevationInput from './ducks/merge-input';
 
+import ActionProvider from './contexts/ActionContext';
 import SelectionProvider from './contexts/SelectionContext';
 import TransformProvider from './contexts/TransformContext';
 
@@ -49,10 +51,9 @@ export default class BuildElevation extends PureComponent {
                 queryStatus: newQueryStatus,
             },
             updateElevation,
-            clearHistory,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) console.log({ newQueryStatus, oldQueryStatus }) || updateElevation(elevation => elevation, null, null, true);
+        if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, null, true);
     }
 
     clearHistory = () => this.setState(({ states, currentIndex }) => ({
@@ -150,7 +151,7 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb, _replaceState = false) => (
+    updateElevation = (ACTION, payload, cb, _replaceState) => (
         _replaceState ?
             this._replaceState
             :
@@ -190,10 +191,12 @@ export default class BuildElevation extends PureComponent {
             },
         } = states;
 
+        const id = +parseSearch(search).elevationId
+
         const result = await updateEntireElevation({
             elevation: {
                 ...elevationInput,
-                id: +parseSearch(search).elevationId,
+                id,
                 details: details
                     .map(({
                         _detailOptionValues,
@@ -231,7 +234,7 @@ export default class BuildElevation extends PureComponent {
                 },
                 queryStatus: {
                     _elevation: {
-                        name = ''
+                        name = '',
                     } = {},
                 },
             },
@@ -255,27 +258,32 @@ export default class BuildElevation extends PureComponent {
             <SelectionProvider
                 elevation={recursiveElevation}
             >
-                <TransformProvider
+                <ActionProvider
                     elevation={recursiveElevation}
+                    updateElevation={updateElevation}
                 >
-                    <Header
-                        name={name}
-                        path={path}
-                        search={search}
-                        history={history}
+                    <TransformProvider
                         elevation={recursiveElevation}
-                        save={save}
-                        cancel={cancel}
-                    />
-                    <RightSidebar
-                        elevation={recursiveElevation}
-                        updateElevation={updateElevation}
-                    />
-                    <InteractiveElevation
-                        elevation={recursiveElevation}
-                        updateElevation={updateElevation}
-                    />
-                </TransformProvider>
+                    >
+                        <Header
+                            name={name}
+                            path={path}
+                            search={search}
+                            history={history}
+                            elevation={recursiveElevation}
+                            save={save}
+                            cancel={cancel}
+                        />
+                        <RightSidebar
+                            elevation={recursiveElevation}
+                            updateElevation={updateElevation}
+                        />
+                        <InteractiveElevation
+                            elevation={recursiveElevation}
+                            updateElevation={updateElevation}
+                        />
+                    </TransformProvider>
+                </ActionProvider>
             </SelectionProvider>
         );
     }

@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import { withContext } from '../../../../../../../../components';
-
-import { SelectionContext } from '../../contexts/SelectionContext';
+import { withSelectionContext } from '../../contexts/SelectionContext';
 
 import SelectedItem from './SelectedItem';
 
@@ -16,7 +14,7 @@ class SelectionLayer extends PureComponent {
     render = () => {
         const {
             props: {
-                context: {
+                selection: {
                     itemsByRefId,
                     items,
                     items: {
@@ -72,4 +70,4 @@ class SelectionLayer extends PureComponent {
     }
 }
 
-export default withContext(SelectionContext)(SelectionLayer);
+export default withSelectionContext(SelectionLayer);

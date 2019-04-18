@@ -1,6 +1,10 @@
 import React, { PureComponent, createContext } from 'react';
 
+import { withContext } from '../../../../../../../components';
+
 export const SettingsContext = createContext();
+
+export const withSettingsContext = withContext(SettingsContext, ({ context }) => ({ settings: context }), { pure: true });
 
 export default class SettingsProvider extends PureComponent {
 

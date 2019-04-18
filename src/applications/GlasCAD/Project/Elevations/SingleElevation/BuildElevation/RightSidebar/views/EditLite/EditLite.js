@@ -1,21 +1,18 @@
 import React, { PureComponent } from 'react';
 
-import { SelectionContext } from '../../../contexts/SelectionContext';
+import { withSelectionContext } from '../../../contexts/SelectionContext';
 
 import * as Icons from '../../../../../../../../../assets/icons';
 
 import {
-    TitleBar, withContext,
+    TitleBar,
 } from '../../../../../../../../../components';
 
 import SidebarLink from '../../components/SidebarLink';
 
-import {
-    MERGE_CONTAINERS,
-    DELETE_CONTAINER,
-} from '../../../ducks/actions';
-
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
+
+import { withActionContext } from '../../../contexts/ActionContext';
 
 // import EditInfill from './EditInfill';
 // import AddVertical from '../add/AddVertical';
@@ -23,57 +20,24 @@ import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 
 class EditLite extends PureComponent {
 
-    deleteContainers = () => {
-        const {
-            props: {
-                context: {
-                    itemsByRefId,
-                },
-                updateElevation,
-            },
-        } = this;
-
-        const allRefIds = Object.keys(itemsByRefId);
-
-        const deleteContainerByRefId = refId => {
-
-            // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT
-            const {
-                props: {
-                    elevation: {
-                        getItemByRefId,
-                    },
-                },
-            } = this;
-
-            const nextRefId = allRefIds[allRefIds.indexOf(refId) + 1];
-
-            const container = getItemByRefId(refId);
-
-            if (container) {
-                // timeout allows rerendering between each deletion
-                updateElevation(DELETE_CONTAINER, { container }, () => setTimeout(() => deleteContainerByRefId(nextRefId)));
-            }
-        };
-
-        deleteContainerByRefId(allRefIds[0]);
-    }
-
     render = () => {
         const {
             props: {
-                context: {
+                selection: {
                     items: allContainers,
                     items: {
                         0: firstContainer,
                         length,
                     },
                 },
+                ACTIONS: {
+                    deleteContainers,
+                    mergeContainers,
+                },
                 elevation,
                 updateElevation,
                 toggleStackedView,
             },
-            deleteContainers,
         } = this;
 
         return (
@@ -95,7 +59,7 @@ class EditLite extends PureComponent {
                                 <button
                                     key={direction.join('-')}
                                     className="sidebar-button empty"
-                                    onClick={() => updateElevation(MERGE_CONTAINERS, {
+                                    onClick={() => mergeContainers({
                                         container: firstContainer,
                                         direction,
                                     })}
@@ -164,5 +128,5 @@ class EditLite extends PureComponent {
 
 export default {
     title: "Edit Lite",
-    component: withContext(SelectionContext, undefined, { pure: true })(EditLite),
+    component: withSelectionContext(withActionContext(EditLite)),
 };

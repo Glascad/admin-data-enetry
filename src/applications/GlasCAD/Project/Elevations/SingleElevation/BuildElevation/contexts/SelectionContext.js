@@ -2,10 +2,13 @@ import React, { PureComponent, createContext } from 'react';
 
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 
-import { DIRECTIONS, getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
+import { getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
 import { unique } from '../../../../../../../utils';
+import { withContext } from '../../../../../../../components';
 
 export const SelectionContext = createContext();
+
+export const withSelectionContext = withContext(SelectionContext, ({ context }) => ({ selection: context }), { pure: true });
 
 const {
     RecursiveContainer,

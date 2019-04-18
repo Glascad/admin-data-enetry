@@ -4,11 +4,12 @@ import { SelectionContext } from '../../contexts/SelectionContext';
 import { withContext, Input } from '../../../../../../../../components';
 import { unique } from '../../../../../../../../utils';
 import { MOVE_FRAME } from '../../ducks/actions';
+import { withActionContext } from '../../contexts/ActionContext';
 
 class DimensionButton extends PureComponent {
 
     state = {
-        input: 0,
+        newDimension: 0,
     };
 
     mostRecentClick = 0;
@@ -16,7 +17,6 @@ class DimensionButton extends PureComponent {
     handleClick = () => {
         const {
             props: {
-                editing,
                 selected,
                 selectItem,
                 unselectItem,
@@ -51,10 +51,10 @@ class DimensionButton extends PureComponent {
             },
         } = this;
 
-        if (oldEditing !== newEditing) this.setState({ input: dimension.toFixed(2).replace(/\.*0*$/, '') });
+        if (oldEditing !== newEditing) this.setState({ newDimension: dimension.toFixed(2).replace(/\.*0*$/, '') });
     }
 
-    handleInput = ({ target: { value } }) => this.setState({ input: value });
+    handleInput = ({ target: { value } }) => this.setState({ newDimension: value });
 
     handleKeyDown = e => {
         const {
@@ -73,90 +73,22 @@ class DimensionButton extends PureComponent {
     handleBlur = () => {
         const {
             state: {
-                input,
+                newDimension,
             },
             props: {
-                dimension: {
-                    vertical,
-                    dimension,
-                    containers,
+                ACTIONS: {
+                    updateDimension,
                 },
-                updateElevation,
             },
         } = this;
 
-
-        const firstDetailRefIds = unique(...containers
-            .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, true)))
-            .map(({ refId }) => refId);
-
-        const secondDetailRefIds = unique(...containers
-            .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, false)))
-            .map(({ refId }) => refId);
-
-        console.log({ firstDetailRefIds, secondDetailRefIds });
-
-        const moveFrameByRefId = (refId, prevRefIds = []) => {
-            // MUST ACCESS NEW ELEVATION OFF OF PROPS INSIDE TIMEOUT
-            // THIS IS DANGEROUS BECAUSE THE INSTANCE MIGHT BE UNMOUNTED - then the old elevation will still be referenced
-            const {
-                props: {
-                    dimension: {
-                        elevation: {
-                            instanceCount,
-                            getItemByRefId,
-                        },
-                    },
-                },
-            } = this;
-
-            const firstIndex = firstDetailRefIds.indexOf(refId);
-
-            const first = firstIndex !== -1;
-
-            const nextRefId = first && firstIndex < firstDetailRefIds.length - 1 ?
-                firstDetailRefIds[firstIndex + 1]
-                :
-                secondDetailRefIds[secondDetailRefIds.indexOf(refId) + 1];
-            
-            console.log({ instanceCount });
-
-            console.log(this.props.dimension.elevation.instanceCount);
-
-            console.log({ firstIndex, first, nextRefId, refId, prevRefIds, detail: getItemByRefId(refId) });
-
-            if (prevRefIds.includes(refId)) moveFrameByRefId(nextRefId, prevRefIds);
-            else {
-                const { _frame } = getItemByRefId(refId) || {};
-
-                if (_frame) {
-                    const distance = (dimension - input) / (first ? -2 : 2);
-
-                    console.log(`MOVING FRAME ${refId}`);
-                    console.log({ _frame, distance, dimension, input, first });
-                    // timeout allows rerendering between each deletion
-                    updateElevation(
-                        MOVE_FRAME,
-                        { _frame, distance },
-                        () => setTimeout(
-                            () => moveFrameByRefId(
-                                nextRefId,
-                                prevRefIds.concat(_frame.details.map(({ refId }) => refId))
-                            ),
-                            250,
-                        ),
-                    );
-                }
-            }
-        }
-
-        moveFrameByRefId(firstDetailRefIds[0]);
+        updateDimension({ newDimension });
     }
 
     render = () => {
         const {
             state: {
-                input,
+                newDimension,
             },
             props: {
                 track,
@@ -166,9 +98,6 @@ class DimensionButton extends PureComponent {
                     dimension,
                     offset,
                     registerReactComponent,
-                    elevation: {
-                        instanceCount,
-                    },
                 },
                 selected,
                 editing,
@@ -212,8 +141,6 @@ class DimensionButton extends PureComponent {
                 `translateY(${finishedFloorHeight}px)`,
         };
 
-        console.log(`DIMENSION BUTTON INSTANCE COUNT: ${instanceCount}`);
-
         return (
             <button
                 id={refId}
@@ -234,7 +161,7 @@ class DimensionButton extends PureComponent {
                 {editing ? (
                     <Input
                         type="number"
-                        value={input}
+                        value={newDimension}
                         onChange={handleInput}
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
@@ -269,7 +196,7 @@ class DimensionButton extends PureComponent {
     }
 }
 
-const mapProps = ({
+const mapSelectionProps = ({
     dimension,
     dimension: {
         containers,
@@ -291,4 +218,4 @@ const mapProps = ({
     selectedDimension,
 });
 
-export default withContext(SelectionContext, mapProps, { pure: true })(DimensionButton);
+export default withContext(SelectionContext, mapSelectionProps, { pure: true })(withActionContext(DimensionButton));

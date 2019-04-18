@@ -1,6 +1,9 @@
 import React, { PureComponent, createContext } from 'react';
+import { withContext } from '../../../../../../../components';
 
 export const TransformContext = createContext();
+
+export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
 
 const defaultScale = 1;
 
