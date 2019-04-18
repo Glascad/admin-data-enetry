@@ -2,10 +2,13 @@ import React, { PureComponent, createContext } from 'react';
 
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 
-import { DIRECTIONS, getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
+import { getDirectionFromArrowKey } from '../../utils/recursive-elevation/directions';
 import { unique } from '../../../../../../../utils';
+import { withContext } from '../../../../../../../components';
 
 export const SelectionContext = createContext();
+
+export const withSelectionContext = withContext(SelectionContext, ({ context }) => ({ selection: context }), { pure: true });
 
 const {
     RecursiveContainer,
@@ -183,11 +186,39 @@ export default class SelectionProvider extends PureComponent {
         selectedItems: selectedItems.filter(selectedItem => selectedItem !== item),
     }));
 
-    cancelSelection = () => this.setState({ selectedItems: [], selectedDimension: {} });
+    cancelSelection = () => this.setState(() => ({ selectedItems: [], selectedDimension: {} }));
 
-    selectDimension = dimension => this.setState(() => ({
-        selectedDimension: dimension,
-    }));
+    selectDimension = selectedDimension => {
+        const canEditDimension = selectedDimension.containers.every(({ getFrameByDirection }) => {
+            const firstFrame = getFrameByDirection(selectedDimension.vertical, true);
+            const secondFrame = getFrameByDirection(selectedDimension.vertical, false);
+            return (
+                firstFrame
+                &&
+                secondFrame
+                &&
+                (
+                    (
+                        firstFrame.canMoveByDirection(true)
+                        &&
+                        secondFrame.canMoveByDirection(false)
+                    )
+                    ||
+                    (
+                        firstFrame.canMoveByDirection(false)
+                        &&
+                        secondFrame.canMoveByDirection(true)
+                    )
+                )
+            );
+        });
+
+        if (canEditDimension) {
+            this.cancelSelection();
+            selectedDimension.containers.forEach(this.selectItem);
+            this.setState(() => ({ selectedDimension }));
+        }
+    }
 
     // updateViewportWidth = () => {
     //     const VP = document.getElementById("Viewport");

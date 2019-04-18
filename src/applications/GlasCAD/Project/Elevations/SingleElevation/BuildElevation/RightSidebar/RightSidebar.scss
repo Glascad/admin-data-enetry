@@ -87,6 +87,9 @@
             left: $x-small;
             height: $large;
             transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &.after {
                 left: unset;

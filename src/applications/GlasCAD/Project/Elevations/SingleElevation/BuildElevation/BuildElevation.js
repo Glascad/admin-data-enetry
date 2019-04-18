@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 
 import { StaticContext } from '../../../../../Statics/Statics';
 
+
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import mergeElevationInput from './ducks/merge-input';
 
+import ActionProvider from './contexts/ActionContext';
 import SelectionProvider from './contexts/SelectionContext';
 import TransformProvider from './contexts/TransformContext';
 
@@ -49,10 +51,9 @@ export default class BuildElevation extends PureComponent {
                 queryStatus: newQueryStatus,
             },
             updateElevation,
-            clearHistory,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) console.log({ newQueryStatus, oldQueryStatus }) || updateElevation(elevation => elevation, null, null, true);
+        if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, null, true);
     }
 
     clearHistory = () => this.setState(({ states, currentIndex }) => ({
@@ -119,28 +120,28 @@ export default class BuildElevation extends PureComponent {
             },
         } = this;
 
-        console.log({ rawElevation });
+        // console.log({ rawElevation });
 
-        console.log({ elevationInput });
+        // console.log({ elevationInput });
 
-        console.log({
-            deletedContainers: _elevationContainers
-                .filter(({ id }) => containerIdsToDelete.includes(id))
-                .map(({ __typename, nodeId, ...container }) => container),
-            deletedDetails: _containerDetails
-                .filter(({ id }) => detailIdsToDelete.includes(id))
-                .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
-        });
+        // console.log({
+        //     deletedContainers: _elevationContainers
+        //         .filter(({ id }) => containerIdsToDelete.includes(id))
+        //         .map(({ __typename, nodeId, ...container }) => container),
+        //     deletedDetails: _containerDetails
+        //         .filter(({ id }) => detailIdsToDelete.includes(id))
+        //         .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
+        // });
 
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         validateElevation(mergedElevation);
 
-        console.log({ mergedElevation });
+        // console.log({ mergedElevation });
 
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 
-        console.log({ recursiveElevation });
+        // console.log({ recursiveElevation });
 
         return {
             elevationInput,
@@ -150,7 +151,7 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb, _replaceState = false) => (
+    updateElevation = (ACTION, payload, cb, _replaceState) => (
         _replaceState ?
             this._replaceState
             :
@@ -190,10 +191,12 @@ export default class BuildElevation extends PureComponent {
             },
         } = states;
 
+        const id = +parseSearch(search).elevationId
+
         const result = await updateEntireElevation({
             elevation: {
                 ...elevationInput,
-                id: +parseSearch(search).elevationId,
+                id,
                 details: details
                     .map(({
                         _detailOptionValues,
@@ -229,9 +232,10 @@ export default class BuildElevation extends PureComponent {
                 match: {
                     path,
                 },
+                queryStatus,
                 queryStatus: {
                     _elevation: {
-                        name = ''
+                        name = '',
                     } = {},
                 },
             },
@@ -246,31 +250,38 @@ export default class BuildElevation extends PureComponent {
             },
         } = states;
 
+        console.log(this);
+
         return (
             <SelectionProvider
                 elevation={recursiveElevation}
             >
-                <TransformProvider
+                <ActionProvider
                     elevation={recursiveElevation}
+                    updateElevation={updateElevation}
                 >
-                    <Header
-                        name={name}
-                        path={path}
-                        search={search}
-                        history={history}
+                    <TransformProvider
                         elevation={recursiveElevation}
-                        save={save}
-                        cancel={cancel}
-                    />
-                    <RightSidebar
-                        elevation={recursiveElevation}
-                        updateElevation={updateElevation}
-                    />
-                    <InteractiveElevation
-                        elevation={recursiveElevation}
-                        updateElevation={updateElevation}
-                    />
-                </TransformProvider>
+                    >
+                        <Header
+                            name={name}
+                            path={path}
+                            search={search}
+                            history={history}
+                            elevation={recursiveElevation}
+                            save={save}
+                            cancel={cancel}
+                        />
+                        <RightSidebar
+                            elevation={recursiveElevation}
+                            updateElevation={updateElevation}
+                        />
+                        <InteractiveElevation
+                            elevation={recursiveElevation}
+                            updateElevation={updateElevation}
+                        />
+                    </TransformProvider>
+                </ActionProvider>
             </SelectionProvider>
         );
     }

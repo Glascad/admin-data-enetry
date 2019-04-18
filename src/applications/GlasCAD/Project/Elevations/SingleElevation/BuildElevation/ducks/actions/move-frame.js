@@ -15,7 +15,7 @@ export default function MOVE_FRAME({
     },
     distance,
 }) {
-    if (!distance || !_frame.canMoveByDirection(distance > 0)) return arguments[0];
+    if (!distance || !_frame.canMoveByDistance(distance)) return arguments[0];
 
     // console.log(`MOVING FRAME: ${_frame.refId} DISTANCE: ${distance}`);
     // console.log({ _frame, distance });

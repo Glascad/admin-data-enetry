@@ -33,10 +33,10 @@ export default function MERGE_CONTAINERS({
         },
     } = containerToMerge;
 
-    console.log({
-        containerId: container.id,
-        mergeId: containerToMerge.id,
-    });
+    // console.log({
+    //     containerId: container.id,
+    //     mergeId: containerToMerge.id,
+    // });
 
     const [detailInBetween] = container.getDetailsByDirection(...FORWARD);
 

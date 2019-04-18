@@ -34,6 +34,9 @@ export default function updateDLO({
         },
     };
 
+    // console.log(`UPDATING DLO OF CONTAINER: ${containerId || containerFakeId}`);
+    // console.log({ container, containerId, containerFakeId, vertical, distance, updatedContainer, rawContainer });
+
     return {
         elevationInput: {
             ...elevationInput,

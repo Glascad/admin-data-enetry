@@ -11,31 +11,33 @@ function EditDetail() {
     return (
         <SelectionContext.Consumer>
             {({
-                items: details,
+                items: {
+                    0: {
+                        refId,
+                        detailType,
+                        detailId,
+                        configurationTypes,
+                    } = {},
+                },
             }) => (
-                    <div>
-                        {details.map(({
-                            refId,
-                            detailType,
-                            detailId,
-                            configurationTypes,
-                        }) => (
-                                <div
-                                    className=""
-                                    key={refId}
+                    <>
+                        <TitleBar
+                            title="Edit Detail"
+                            selections={[detailId]}
+                        />
+                        {configurationTypes
+                            .slice()
+                            .sort(({ required: a }, { required: b }) => a === b ? 0 : b)
+                            .map(({ _configurationType: { id, type }, required }) => (
+                                <button
+                                    key={id}
+                                    className="sidebar-button empty"
                                 >
-                                    <TitleBar
-                                        title="Edit Detail"
-                                        selections={[detailId]}
-                                    />
-                                    {configurationTypes.map(ct => (
-                                        <div>
-                                            {ct.name}
-                                        </div>
-                                    ))}
-                                </div>
+                                    <div className="icon">{required ? "R" : "O"}</div>
+                                    <span>{type}</span>
+                                </button>
                             ))}
-                    </div>
+                    </>
                 )}
         </SelectionContext.Consumer>
     );

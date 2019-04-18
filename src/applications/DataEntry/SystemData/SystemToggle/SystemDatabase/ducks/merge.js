@@ -20,6 +20,7 @@ export default function mergeSystemUpdate({
     configurationOverridesToDelete,
     // other keys
     systemTypeId: newSystemTypeId,
+    manufacturerId: newManufacturerId,
     ...systemUpdate
 }, {
     _system: {
@@ -32,6 +33,8 @@ export default function mergeSystemUpdate({
         _invalidSystemConfigurationTypes = [],
         _systemConfigurationOverrides = [],
         // other keys
+        manufacturerId,
+        _manufacturer,
         systemTypeId,
         _systemType,
         _systemType: {
@@ -39,6 +42,7 @@ export default function mergeSystemUpdate({
         } = {},
         ..._system
     } = {},
+    allManufacturers = [],
     allSystemTypes = [],
     allSystemTags = [],
     allInfillSizes = [],
@@ -51,6 +55,11 @@ export default function mergeSystemUpdate({
         // other keys
         ..._system,
         ...removeNullValues(systemUpdate),
+        manufacturerId: newManufacturerId || manufacturerId,
+        _manufacturer: newManufacturerId === undefined || newManufacturerId === manufacturerId ?
+            _manufacturer
+            :
+            allManufacturers.find(({ id }) => id === newManufacturerId),
         systemTypeId: newSystemTypeId || systemTypeId,
         _systemType: newSystemTypeId === undefined || newSystemTypeId === systemTypeId ?
             _systemType

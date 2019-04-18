@@ -50,7 +50,13 @@ export default class RecursiveDimension {
     }
 
     get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}<${this.instanceCount}>`; }
+    
+    get ref() { return document.getElementById(this.refId); }
 
+    registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
+
+    get ReactComponent() { return this.__ReactComponent; }
+    
     matchContainer = ({
         placement: {
             x,

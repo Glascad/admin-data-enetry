@@ -192,6 +192,7 @@ export default class RecursiveElevation {
 
     // RETRIEVAL
     getItemByRefId = (refId = "") => {
+        // ignore instance count
         const cb = item => item.refId.replace(/<.*$/, '') === refId.replace(/<.*$/, '');
         return (
             this.allContainers.find(cb)

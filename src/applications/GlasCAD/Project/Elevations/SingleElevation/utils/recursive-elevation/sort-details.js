@@ -17,46 +17,14 @@ const compareDetailsByDirection = (detailA, detailB, vertical, first) => {
 }
 
 export const sortDetails = (vertical, first) => (detailA, detailB) => {
-    const result = compareDetailsByDirection(detailA, detailB, vertical, first);
-    const otherResult = first === undefined ?
-        compareDetailsByDirection(detailA, detailB, vertical, !first)
-        :
-        undefined;
-
-    return result || otherResult;
-
-    // THERE ARE NO MORE OFFSETS
-    // otherwise we need to compare offsets
-    // else {
-    //     const containerA = detailA.getContainerByDirection(first);
-    //     const containerB = detailB.getContainerByDirection(first);
-    //     const beforeA = containerA && containerA.getAllContainersByDirection(!vertical, true);
-    //     const beforeB = containerB && containerB.getAllContainersByDirection(!vertical, true);
-
-    //     const key = vertical ? 'x' : 'y';
-
-    //     const [
-    //         {
-    //             [key]: offsetA = 0,
-    //         } = {},
-    //         {
-    //             [key]: offsetB = 0,
-    //         } = {}
-    //     ] = [beforeA, beforeB]
-    //         .map((before = []) => before
-    //             .find(({ bottomLeftOffset: { [key]: offset } = {} }) => offset));
-
-    //     if (offsetA < offsetB) {
-    //         // console.log(`${a.id} is before ${b.id}`);
-    //         return -1;
-    //     }
-    //     else if (offsetA > offsetB) {
-    //         // console.log(`${b.id} is before ${a.id}`);
-    //         return 1;
-    //     }
-    //     else {
-    //         // console.log(`${a.id} is equal to ${b.id}`);
-    //         return 0;
-    //     }
-    // }
+    return (
+        compareDetailsByDirection(detailA, detailB, vertical, first)
+        ||
+        (
+            first === undefined ?
+                compareDetailsByDirection(detailA, detailB, vertical, !first)
+                :
+                undefined
+        )
+    );
 }

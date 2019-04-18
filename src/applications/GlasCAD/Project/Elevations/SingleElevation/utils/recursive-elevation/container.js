@@ -72,6 +72,10 @@ export default class RecursiveContainer {
 
     get ref() { return document.getElementById(this.refId); }
 
+    registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
+
+    get ReactComponent() { return this.__ReactComponent; }
+
     getDetailsByDirection = (vertical, first) => this[detailsKey][vertical][first] || (
         this[detailsKey][vertical][first] = Object.values(this.elevation.details)
             .filter(({

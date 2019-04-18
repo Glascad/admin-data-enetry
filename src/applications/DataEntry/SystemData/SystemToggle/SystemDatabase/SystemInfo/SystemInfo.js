@@ -10,10 +10,15 @@ import ACTIONS from '../ducks/actions';
 
 export default function SystemInfo({
     system: {
+        id: systemId,
         name = "",
         depth = 0,
         defaultSightline = 0,
         shimSize = 0,
+        _manufacturer: {
+            id: manufacturerId,
+            name: manufacturerName,
+        } = {},
         _systemType: {
             id: systemTypeId,
             type: systemTypeName = "",
@@ -23,6 +28,7 @@ export default function SystemInfo({
     queryStatus: {
         allSystemTypes = [],
         allSystemTags = [],
+        allManufacturers = [],
     },
     updateSystem,
 }) {
@@ -30,6 +36,21 @@ export default function SystemInfo({
         <>
             <TitleBar
                 title="System Info"
+            />
+            <Input
+                label="Manufacturer"
+                select={{
+                    value: {
+                        value: manufacturerId,
+                        label: manufacturerName,
+                    },
+                    options: allManufacturers.map(({ id, name }) => ({
+                        value: id,
+                        label: name,
+                    })),
+                    // can only update manufacturer of new system
+                    onChange: ({ value }) => !systemId && updateSystem(ACTIONS.UPDATE, { manufacturerId: value }),
+                }}
             />
             <Input
                 label="Name"

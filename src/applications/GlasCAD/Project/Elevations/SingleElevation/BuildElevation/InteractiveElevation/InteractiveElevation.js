@@ -10,8 +10,6 @@ import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
 import SelectionLayer from './components/SelectionLayer';
-import { DIRECTIONS } from '../../utils/recursive-elevation/directions';
-import MERGE_CONTAINERS from '../ducks/actions/merge-containers';
 import { withContext } from '../../../../../../../components';
 import { SelectionContext } from '../contexts/SelectionContext';
 import RecursiveContainer from '../../utils/recursive-elevation/container';
@@ -69,57 +67,6 @@ class InteractiveElevation extends PureComponent {
         window.removeEventListener('resize', this.resizeViewport);
     }
 
-    componentDidUpdate = ({ elevation: oldElevation }) => {
-        const {
-            props: {
-                elevation: newElevation,
-                elevation: {
-                    allContainers
-                } = {},
-                updateElevation,
-            },
-        } = this;
-
-        if (oldElevation !== newElevation) {
-            const { containerToMerge, directionToMerge } = allContainers
-                .reduce(({ containerToMerge, directionToMerge }, container) => {
-                    if (containerToMerge) return { containerToMerge, directionToMerge };
-                    else if (container.customRoughOpening) {
-
-                        const direction = Object.values(DIRECTIONS)
-                            .find(direction => (
-                                container.canMergeByDirection(...direction, true)
-                                &&
-                                container.getImmediateContainersByDirection(...direction)[0].customRoughOpening
-                            ));
-
-                        if (direction) {
-                            return {
-                                containerToMerge: container,
-                                directionToMerge: direction,
-                            };
-                        }
-                        else return {};
-                    }
-                    else return {};
-                }, {});
-
-            if (containerToMerge) {
-                updateElevation(
-                    MERGE_CONTAINERS,
-                    {
-                        container: containerToMerge,
-                        direction: directionToMerge,
-                        allowCustomRoughOpenings: true,
-                    },
-                    undefined,
-                    // replace state instead of pushing
-                    true
-                );
-            }
-        }
-    }
-
     render = () => {
         const {
             props: {
@@ -151,6 +98,7 @@ class InteractiveElevation extends PureComponent {
                 selectedClass,
                 selectItem,
                 framesSelectable,
+                updateElevation,
             },
         } = this;
 
@@ -211,6 +159,7 @@ class InteractiveElevation extends PureComponent {
                                         key={dimension.refId}
                                         track={i}
                                         dimension={dimension}
+                                        updateElevation={updateElevation}
                                     />
                                 ))}
                             </div>
@@ -226,6 +175,7 @@ class InteractiveElevation extends PureComponent {
                                         track={i}
                                         dimension={dimension}
                                         finishedFloorHeight={finishedFloorHeight}
+                                        updateElevation={updateElevation}
                                     />
                                 ))}
                             </div>

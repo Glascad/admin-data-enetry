@@ -53,6 +53,10 @@ export default class RecursiveFrame {
 
     get ref() { return document.getElementById(this.refId); }
 
+    registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
+
+    get ReactComponent() { return this.__ReactComponent; }
+    
     contains = detail => this.details.includes(detail);
 
     get detailTypes() {
@@ -179,7 +183,7 @@ export default class RecursiveFrame {
 
             const firstEndAdjacentContainer = firstEndContainer
                 &&
-                firstEndContainer.getFirstOrLastContainerByDirection(...direction, !first);
+                firstEndContainer.getFirstOrLastContainerByDirection(...direction, first);
 
             const secondEndAdjacentContainer = secondEndContainer
                 &&
@@ -439,9 +443,9 @@ export default class RecursiveFrame {
                     Infinity
                     :
                     this.vertical ?
-                        x
+                        x - this.elevation.minimumDaylightOpening
                         :
-                        y,
+                        y - this.elevation.minimumDaylightOpening,
             ), Infinity)
 
     canMoveByDirection = first => this.canMoveAtAll
@@ -461,6 +465,11 @@ export default class RecursiveFrame {
                     :
                     y > this.elevation.minimumDaylightOpening
             ));
+
+    canMoveByDistance = distance => Math.abs(distance) <= this.maximumMovementByDirection(distance > 0);
+
+    get maximumMovementFirst() { return this.maximumMovementByDirection(true); }
+    get maximumMovementSecond() { return this.maximumMovementByDirection(false); }
 
     get canMoveFirst() { return this.canMoveByDirection(true); }
     get canMoveSecond() { return this.canMoveByDirection(false); }
