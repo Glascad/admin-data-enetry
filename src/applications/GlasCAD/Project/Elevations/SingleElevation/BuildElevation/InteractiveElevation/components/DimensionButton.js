@@ -54,6 +54,8 @@ class DimensionButton extends PureComponent {
         if (oldEditing !== newEditing) this.setState({ newDimension: dimension.toFixed(2).replace(/\.*0*$/, '') });
     }
 
+    handleFocus = ({ target }) => setTimeout(() => target.select());
+
     handleInput = ({ target: { value } }) => this.setState({ newDimension: value });
 
     handleKeyDown = e => {
@@ -104,6 +106,7 @@ class DimensionButton extends PureComponent {
                 finishedFloorHeight,
             },
             handleClick,
+            handleFocus,
             handleInput,
             handleKeyDown,
             handleBlur,
@@ -162,6 +165,7 @@ class DimensionButton extends PureComponent {
                     <Input
                         type="number"
                         value={newDimension}
+                        onFocus={handleFocus}
                         onChange={handleInput}
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}

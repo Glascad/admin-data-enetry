@@ -96,7 +96,9 @@ class ActionProvider extends PureComponent {
                         () => setTimeout(performNextAction)
                         :
                         performNextAction,
-                    _replaceState,
+                    _replaceState || (
+                        !useTimeout && refId !== refIds[0]
+                    ),
                 );
                 else performNextAction();
             }
@@ -170,30 +172,29 @@ class ActionProvider extends PureComponent {
                 .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, false)))
                 .map(({ refId }) => `second: ${refId}`);
 
+            const getPayloadFromRefId = (firstOrSecondRefId, prevRefIds, getItemByRefId) => {
+                const frameRefId = firstOrSecondRefId.replace(/^(first|second): /, '');
+
+                const { _frame } = getItemByRefId(frameRefId) || {};
+
+                const first = firstOrSecondRefId.match(/first: /);
+
+                if (_frame) {
+
+                    const alreadyMovedThisFrame = prevRefIds
+                        .some(detailRefId => _frame.refId.includes(detailRefId.replace(/[^_\d]/g, '')));
+
+                    if (!alreadyMovedThisFrame) return {
+                        _frame,
+                        distance: (dimension - newDimension) / (first ? -2 : 2),
+                    };
+                }
+            }
+
             this.performBulkAction(
                 ACTIONS.MOVE_FRAME,
-                [
-                    ...firstDetailRefIds,
-                    ...secondDetailRefIds,
-                ],
-                (firstOrSecondRefId, prevRefIds, getItemByRefId) => {
-                    const frameRefId = firstOrSecondRefId.replace(/^(first|second): /, '');
-
-                    const { _frame } = getItemByRefId(frameRefId) || {};
-
-                    const first = firstOrSecondRefId.match(/first: /);
-
-                    if (_frame) {
-
-                        const alreadyMovedThisFrame = prevRefIds
-                            .some(detailRefId => _frame.refId.includes(detailRefId.replace(/[^_\d]/g, '')));
-
-                        if (!alreadyMovedThisFrame) return {
-                            _frame,
-                            distance: (dimension - newDimension) / (first ? -2 : 2),
-                        };
-                    }
-                },
+                unique(firstDetailRefIds.concat(secondDetailRefIds)),
+                getPayloadFromRefId,
             );
         }
     }
