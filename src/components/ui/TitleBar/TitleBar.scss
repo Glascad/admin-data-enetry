@@ -41,16 +41,18 @@
         min-height: auto;
         font-size: $large;
         margin-bottom: $large;
-        border-bottom: 1px solid $medium-gray;
-        // border-bottom: 1px solid transparentize($dark-blue, 0.5);
-        color: white;
+        // border-bottom: 1px solid $medium-gray;
+        border-bottom: 1px solid transparentize($light-gray, 0.5);
+        // border-bottom: 1px solid transparentize($dark-blue, 0.75);
+        color: $dark-gray;
         
         .title-bar-left {
             position: relative;
             height: $item-height;
             min-width: 30%;
-            background: $medium-gray;
-            // background: transparentize($dark-blue, 0.5);
+            // background: $medium-gray;
+            background: transparentize($light-gray, 0.5);
+            // background: transparentize($dark-blue, 0.75);
             padding: 0 $small;
             display: flex;
             justify-content: flex-start;
