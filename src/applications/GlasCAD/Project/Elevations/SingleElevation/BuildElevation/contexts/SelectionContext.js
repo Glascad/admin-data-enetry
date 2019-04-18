@@ -189,15 +189,21 @@ export default class SelectionProvider extends PureComponent {
     cancelSelection = () => this.setState(() => ({ selectedItems: [], selectedDimension: {} }));
 
     selectDimension = selectedDimension => {
-        if (selectedDimension.containers.every(({ getFrameByDirection }) => {
+        const canEditDimension = selectedDimension.containers.every(({ getFrameByDirection }) => {
             const firstFrame = getFrameByDirection(selectedDimension.vertical, true);
             const secondFrame = getFrameByDirection(selectedDimension.vertical, false);
             return (
+                firstFrame
+                &&
                 firstFrame.canMoveByDirection(true)
+                &&
+                secondFrame
                 &&
                 secondFrame.canMoveByDirection(false)
             );
-        })) {
+        });
+        
+        if (canEditDimension) {
             this.cancelSelection();
             selectedDimension.containers.forEach(this.selectItem);
             this.setState(() => ({ selectedDimension }));

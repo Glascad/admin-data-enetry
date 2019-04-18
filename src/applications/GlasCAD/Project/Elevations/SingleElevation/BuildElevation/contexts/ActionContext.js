@@ -4,7 +4,7 @@ import { unique } from '../../../../../../../utils';
 
 import { withContext } from '../../../../../../../components';
 
-import { SelectionContext } from './SelectionContext';
+import { withSelectionContext } from './SelectionContext';
 
 import * as ACTIONS from '../ducks/actions';
 
@@ -107,7 +107,7 @@ class ActionProvider extends PureComponent {
 
     deleteContainers = () => this.performBulkAction(
         ACTIONS.DELETE_CONTAINER,
-        Object.keys(this.props.context.itemsByRefId),
+        Object.keys(this.props.selection.itemsByRefId),
         (refId, _, getItemByRefId) => ({
             container: getItemByRefId(refId),
         }),
@@ -126,7 +126,7 @@ class ActionProvider extends PureComponent {
 
     deleteFrames = () => this.performBulkAction(
         ACTIONS.DELETE_FRAME,
-        Object.keys(this.props.context.itemsByRefId),
+        Object.keys(this.props.selection.itemsByRefId),
         (refId, _, getItemByRefId) => ({
             _frame: getItemByRefId(refId),
         }),
@@ -137,7 +137,7 @@ class ActionProvider extends PureComponent {
 
     moveFrames = ({ distance }) => this.performBulkAction(
         ACTIONS.MOVE_FRAME,
-        Object.keys(this.props.context.itemsByRefId),
+        Object.keys(this.props.selection.itemsByRefId),
         (refId, _, getItemByRefId) => ({
             _frame: getItemByRefId(refId),
             distance,
@@ -147,53 +147,55 @@ class ActionProvider extends PureComponent {
     updateDimension = ({ newDimension }) => {
         const {
             props: {
-                context: {
+                selection: {
                     dimension: {
                         vertical,
                         dimension,
                         containers,
+                        elevation: {
+                            minimumDaylightOpening,
+                        },
                     },
                 },
             },
         } = this;
 
-        const firstDetailRefIds = unique(...containers
-            .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, true)))
-            .map(({ refId }) => `first: ${refId}`);
+        if (newDimension >= minimumDaylightOpening) {
 
-        const secondDetailRefIds = unique(...containers
-            .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, false)))
-            .map(({ refId }) => `second: ${refId}`);
+            const firstDetailRefIds = unique(...containers
+                .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, true)))
+                .map(({ refId }) => `first: ${refId}`);
 
-        this.performBulkAction(
-            ACTIONS.MOVE_FRAME,
-            [
-                ...firstDetailRefIds,
-                ...secondDetailRefIds,
-            ],
-            (firstOrSecondRefId, prevRefIds, getItemByRefId) => {
-                const frameRefId = firstOrSecondRefId.replace(/^(first|second): /, '');
+            const secondDetailRefIds = unique(...containers
+                .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, false)))
+                .map(({ refId }) => `second: ${refId}`);
 
-                const { _frame } = getItemByRefId(frameRefId) || {};
+            this.performBulkAction(
+                ACTIONS.MOVE_FRAME,
+                [
+                    ...firstDetailRefIds,
+                    ...secondDetailRefIds,
+                ],
+                (firstOrSecondRefId, prevRefIds, getItemByRefId) => {
+                    const frameRefId = firstOrSecondRefId.replace(/^(first|second): /, '');
 
-                const first = firstOrSecondRefId.match(/first: /);
+                    const { _frame } = getItemByRefId(frameRefId) || {};
 
-                console.log({ _frame });
+                    const first = firstOrSecondRefId.match(/first: /);
 
-                if (_frame) {
+                    if (_frame) {
 
-                    const alreadyMovedThisFrame = prevRefIds
-                        .some(detailRefId => _frame.refId.includes(detailRefId.replace(/[^_\d]/g, '')));
+                        const alreadyMovedThisFrame = prevRefIds
+                            .some(detailRefId => _frame.refId.includes(detailRefId.replace(/[^_\d]/g, '')));
 
-                    const log = item => { console.log(item); return item; };
-
-                    if (!alreadyMovedThisFrame) return log({
-                        _frame,
-                        distance: (dimension - newDimension) / (first ? -2 : 2),
-                    });
-                }
-            },
-        );
+                        if (!alreadyMovedThisFrame) return {
+                            _frame,
+                            distance: (dimension - newDimension) / (first ? -2 : 2),
+                        };
+                    }
+                },
+            );
+        }
     }
 
     render = () => {
@@ -226,4 +228,4 @@ class ActionProvider extends PureComponent {
     }
 }
 
-export default withContext(SelectionContext, undefined, { pure: true })(ActionProvider);
+export default withSelectionContext(ActionProvider);
