@@ -71,7 +71,6 @@ class InteractiveElevation extends PureComponent {
         const {
             props: {
                 elevation: {
-                    instanceCount,
                     allContainers = [],
                     allFrames = [],
                     roughOpening: {
@@ -104,8 +103,6 @@ class InteractiveElevation extends PureComponent {
         } = this;
 
         const baseScaleFactor = 0.8;
-
-        console.log(`INTERACTIVE INSTANCE COUNT: ${instanceCount}`);
 
         return (
             <div

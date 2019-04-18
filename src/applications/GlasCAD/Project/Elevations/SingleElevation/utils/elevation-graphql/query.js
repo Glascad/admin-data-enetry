@@ -6,7 +6,7 @@ export default gql`
         elevationById(id: $id) {
             ...EntireElevation
         }
-        systemById(id: 1) {
+        systemById(id: 6) {
             ...EntireSystem
         }
     }

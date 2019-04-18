@@ -120,28 +120,28 @@ export default class BuildElevation extends PureComponent {
             },
         } = this;
 
-        console.log({ rawElevation });
+        // console.log({ rawElevation });
 
-        console.log({ elevationInput });
+        // console.log({ elevationInput });
 
-        console.log({
-            deletedContainers: _elevationContainers
-                .filter(({ id }) => containerIdsToDelete.includes(id))
-                .map(({ __typename, nodeId, ...container }) => container),
-            deletedDetails: _containerDetails
-                .filter(({ id }) => detailIdsToDelete.includes(id))
-                .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
-        });
+        // console.log({
+        //     deletedContainers: _elevationContainers
+        //         .filter(({ id }) => containerIdsToDelete.includes(id))
+        //         .map(({ __typename, nodeId, ...container }) => container),
+        //     deletedDetails: _containerDetails
+        //         .filter(({ id }) => detailIdsToDelete.includes(id))
+        //         .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
+        // });
 
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         validateElevation(mergedElevation);
 
-        console.log({ mergedElevation });
+        // console.log({ mergedElevation });
 
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 
-        console.log({ recursiveElevation });
+        // console.log({ recursiveElevation });
 
         return {
             elevationInput,
@@ -232,6 +232,7 @@ export default class BuildElevation extends PureComponent {
                 match: {
                     path,
                 },
+                queryStatus,
                 queryStatus: {
                     _elevation: {
                         name = '',
@@ -246,13 +247,10 @@ export default class BuildElevation extends PureComponent {
         const {
             [currentIndex]: {
                 recursiveElevation,
-                recursiveElevation: {
-                    instanceCount = -1,
-                } = {},
             },
         } = states;
 
-        console.log(`CURRENT INSTANCE COUNT: ${instanceCount}`);
+        console.log(this);
 
         return (
             <SelectionProvider

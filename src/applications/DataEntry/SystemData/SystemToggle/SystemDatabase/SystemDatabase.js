@@ -79,6 +79,8 @@ export default class SystemDatabase extends PureComponent {
             },
         });
 
+        reset();
+
         history.push(`${path}${parseSearch(search).update({ systemId })}`);
     }
 

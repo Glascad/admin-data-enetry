@@ -136,7 +136,7 @@ export default class RecursiveElevation {
     // DIMENSIONS
     get containerDimensions() {
         return this.__containerDimensions || (
-            this.__containerDimensions = console.log("Calculating Container Dimensions") || this.allContainers
+            this.__containerDimensions = this.allContainers
                 .reduce(({
                     true: verticals,
                     false: horizontals,
