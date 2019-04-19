@@ -96,7 +96,7 @@ export default class SelectionProvider extends PureComponent {
             const {
                 [length - 1]: selectedItem,
                 [length - 1]: {
-                    vertical,
+                    vertical: memberVertical,
                 } = {},
             } = selectedItems;
 
@@ -118,13 +118,18 @@ export default class SelectionProvider extends PureComponent {
                         selectItem(nextContainer, true);
                     }
                 } else if (selectedItem instanceof RecursiveFrame) {
-                    selectedItems.forEach(_frame => {
-                        const nextFrame = _frame.getNextFrameByDirection(first);
-                        if (nextFrame) {
-                            if (!shiftKey) unselectItem(_frame);
-                            selectItem(nextFrame, true);
-                        }
-                    });
+
+                    if (vertical === memberVertical) {
+                        selectedItems.forEach(_frame => {
+                            const nextFrame = _frame.getNextFrameByDirection(first);
+                            if (nextFrame) {
+                                if (!shiftKey) unselectItem(_frame);
+                                selectItem(nextFrame, true);
+                            }
+                        });
+                    } else {
+                        // select frame on opposite side of container
+                    }
                 }
             }
         }
