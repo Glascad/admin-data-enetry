@@ -80,6 +80,11 @@ export default class RecursiveFrame {
         return endDetail.getNextDetailByDirection(first);
     }
 
+    getNextFrameByDirection = first => {
+        const { _frame } = this.getDetailAcrossPerpendicularByDirection(first) || {};
+        return _frame;
+    }
+
     getContainersByDirection = first => this[containersKey][first] || (
         this[containersKey][first] = this.details
             .map(detail => detail.getContainerByDirection(first))

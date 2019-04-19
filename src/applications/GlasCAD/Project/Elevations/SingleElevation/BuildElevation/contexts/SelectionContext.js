@@ -88,17 +88,24 @@ export default class SelectionProvider extends PureComponent {
                     },
                 },
                 shiftKey,
+                cancelSelection,
+                selectItem,
             } = this;
 
             const {
-                [length - 1]: selectedItem
+                [length - 1]: selectedItem,
+                [length - 1]: {
+                    vertical,
+                } = {},
             } = selectedItems;
 
-            if (selectedItem instanceof RecursiveContainer) {
-                const direction = getDirectionFromArrowKey(key);
+            const direction = getDirectionFromArrowKey(key);
 
-                if (direction) {
-                    const [vertical, first] = direction;
+            if (direction) {
+                const [vertical, first] = direction;
+
+                if (selectedItem instanceof RecursiveContainer) {
+
                     const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
                     if (
@@ -106,8 +113,19 @@ export default class SelectionProvider extends PureComponent {
                         &&
                         !nextContainer.customRoughOpening
                     ) {
-                        if (!shiftKey) this.cancelSelection();
-                        this.selectItem(nextContainer, true);
+                        if (!shiftKey) cancelSelection();
+                        selectItem(nextContainer, true);
+                    }
+                } else if (selectedItem instanceof RecursiveFrame) {
+                    const nextFrames = selectedItems
+                        .map(({ getNextFrameByDirection }) => getNextFrameByDirection(first))
+                        .filter(Boolean);
+
+                    console.log({ selectedItem, nextFrames, direction });
+
+                    if (nextFrames.length) {
+                        if (!shiftKey) cancelSelection();
+                        nextFrames.forEach(_frame => selectItem(_frame, true));
                     }
                 }
             }

@@ -33,6 +33,8 @@ The elevation data structure will integrate with system data to select configura
             - Details
         - Arrow keys
             - Shift key
+        - Side Menu
+            - Based on selection
     - Dimensions
     - Moving frames
     - Undo / redo
