@@ -168,7 +168,7 @@ class DimensionButton extends PureComponent {
                         onFocus={handleFocus}
                         onChange={handleInput}
                         onKeyDown={handleKeyDown}
-                        // onBlur={handleBlur}
+                        onBlur={handleBlur}
                         autoFocus={true}
                         style={vertical ?
                             Object.entries(style)
