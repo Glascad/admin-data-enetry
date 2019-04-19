@@ -90,6 +90,7 @@ export default class SelectionProvider extends PureComponent {
                 shiftKey,
                 cancelSelection,
                 selectItem,
+                unselectItem,
             } = this;
 
             const {
@@ -117,16 +118,13 @@ export default class SelectionProvider extends PureComponent {
                         selectItem(nextContainer, true);
                     }
                 } else if (selectedItem instanceof RecursiveFrame) {
-                    const nextFrames = selectedItems
-                        .map(({ getNextFrameByDirection }) => getNextFrameByDirection(first))
-                        .filter(Boolean);
-
-                    console.log({ selectedItem, nextFrames, direction });
-
-                    if (nextFrames.length) {
-                        if (!shiftKey) cancelSelection();
-                        nextFrames.forEach(_frame => selectItem(_frame, true));
-                    }
+                    selectedItems.forEach(_frame => {
+                        const nextFrame = _frame.getNextFrameByDirection(first);
+                        if (nextFrame) {
+                            if (!shiftKey) unselectItem(_frame);
+                            selectItem(nextFrame, true);
+                        }
+                    });
                 }
             }
         }
