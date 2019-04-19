@@ -11,6 +11,8 @@ import SystemConfigurationOverride from './SystemConfigurationOverride';
 
 import ACTIONS from '../ducks/actions';
 
+import './ValidTypes.scss';
+
 ValidTypes.navigationOptions = ({
     system: {
         systemTypeId: newSystemTypeId,
@@ -22,6 +24,7 @@ ValidTypes.navigationOptions = ({
     },
 }) => ({
     disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
+    id: "ValidTypes",
 });
 
 export default function ValidTypes({

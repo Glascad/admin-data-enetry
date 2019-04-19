@@ -26,7 +26,7 @@ function TabNavigator({
             routes={routes}
             {...props}
         >
-            {({ mappedRoutes }, currentRoute) => (
+            {({ mappedRoutes, route: { id } }, navigatorChildren) => (
                 <div className="TabNavigator">
                     <div className="tab-container">
                         {mappedRoutes.map(({
@@ -52,8 +52,11 @@ function TabNavigator({
                                 </NavLink>
                             ))}
                     </div>
-                    <div className="card">
-                        {currentRoute}
+                    <div
+                        id={id}
+                        className="card"
+                    >
+                        {navigatorChildren}
                         {children}
                     </div>
                 </div >

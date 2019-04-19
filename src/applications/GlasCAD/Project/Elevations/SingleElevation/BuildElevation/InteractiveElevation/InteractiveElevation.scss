@@ -122,10 +122,11 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                border: 2px solid transparentize($danger-color, 0.8) !important;
-                background: transparentize($danger-color, 0.8);
-                box-shadow: none !important;
-                pointer-events: none;
+                display: none;
+                // border: 2px solid transparentize($danger-color, 0.8) !important;
+                // background: transparentize($danger-color, 0.8);
+                // box-shadow: none !important;
+                // pointer-events: none;
             }
 
             &:hover {
@@ -133,7 +134,8 @@
             }
 
             .text {
-                margin: $x-small;
+                display: none;
+                // margin: $x-small;
             }
         }
 
@@ -302,6 +304,12 @@
             input {
                 text-align: center;
                 border-color: $selected-color;
+
+                &::-webkit-inner-spin-button,
+                &::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
             }
         }
 

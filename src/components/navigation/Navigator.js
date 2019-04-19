@@ -120,6 +120,7 @@ class Navigator extends PureComponent {
                                 previousLink,
                                 nextLink,
                                 mappedRoutes,
+                                route,
                             }, (
                                     <NavigatorChild
                                         index={i}
