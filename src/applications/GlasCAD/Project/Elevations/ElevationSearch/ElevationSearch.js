@@ -3,10 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-    ListWrapper,
+    ListWrapper, ApolloWrapper,
 } from '../../../../../components';
 
-import {parseSearch} from '../../../../../utils';
+import { parseSearch } from '../../../../../utils';
+
+import deleteElevation from './delete-elevation';
 
 export default function ElevationSearch({
     location: {
@@ -23,52 +25,66 @@ export default function ElevationSearch({
     },
 }) {
     return (
-        <div className="card">
-            <ListWrapper
-                titleBar={{
-                    title: "Elevations",
-                    selections: [name]
-                }}
-                items={_elevations}
-                defaultPillProps={{
-                    type: "tile",
-                    align: "left",
-                }}
-                mapPillProps={({ id, name }) => ({
-                    title: name,
-                    hoverButtons: [
-                        {
-                            children: (
-                                <Link
-                                    to={`${path}/elevation/build-elevation${parseSearch(search)
-                                        .update({ elevationId: id })}`}
-                                >
-                                    Build
-                                </Link>
-                            ),
-                        },
-                    ]
-                })}
-                onDelete={() => { }}
-                circleButton={{
-                    type: "tile",
-                    otherButtons: [
-                        {
-                            children: (
-                                <Link
-                                    to={`${path}/elevation/create-elevation${parseSearch(search)
-                                        .remove("elevationId")}`}
-                                >
-                                    Create
-                                </Link>
-                            ),
-                        },
-                        {
-                            text: "Copy",
-                        },
-                    ],
-                }}
-            />
-        </div>
+        <ApolloWrapper
+            mutations={{ deleteElevation }}
+        >
+            {({
+                mutations: {
+                    deleteElevation,
+                },
+            }) => (
+                    <div className="card">
+                        <ListWrapper
+                            identifier="id"
+                            titleBar={{
+                                title: "Elevations",
+                                selections: [name]
+                            }}
+                            items={_elevations}
+                            defaultPillProps={{
+                                type: "tile",
+                                align: "left",
+                            }}
+                            mapPillProps={({ id, name }) => ({
+                                title: name,
+                                hoverButtons: [
+                                    {
+                                        children: (
+                                            <Link
+                                                to={`${path}/elevation/build-elevation${parseSearch(search)
+                                                    .update({ elevationId: id })}`}
+                                            >
+                                                Build
+                                            </Link>
+                                        ),
+                                    },
+                                ]
+                            })}
+                            circleButton={{
+                                type: "tile",
+                                otherButtons: [
+                                    {
+                                        children: (
+                                            <Link
+                                                to={`${path}/elevation/create-elevation${parseSearch(search)
+                                                    .remove("elevationId")}`}
+                                            >
+                                                Create
+                                            </Link>
+                                        ),
+                                    },
+                                    {
+                                        text: "Copy",
+                                    },
+                                ],
+                            }}
+                            onDelete={({ arguments: { id } }) => deleteElevation({ elevationId: id })}
+                            deleteModal={{
+                                name: "Elevation",
+                            }}
+                        />
+                    </div>
+                )}
+        </ApolloWrapper>
     );
 }

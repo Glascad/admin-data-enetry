@@ -66,7 +66,7 @@ export const ENTIRE_SYSTEM_SET = gql`
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
         ...ProjectFields
-        elevationsByProjectId {
+        elevationsByProjectId(orderBy: NAME_ASC) {
             nodes {
                 ...EntireElevation
             }

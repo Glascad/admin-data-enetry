@@ -227,6 +227,8 @@
                     cursor: default;
                     color: $selected-color;
                     font-weight: bold;
+                    outline: none;
+                    box-shadow: none;
                 }
 
                 .detail-pointer {
@@ -260,6 +262,36 @@
 
                 &.first-container-selected {
                     @include detail-bubble(true, true);
+                }
+            }
+
+            &.detail-selected {
+                // deep nesting for precedence
+                &.vertical,
+                &.horizontal {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            background: $selected-color;
+                            color: white;
+                            + .detail-pointer {
+                                .detail-pointer-white {
+                                    border-top-color: $selected-color;
+                                }
+                            }
+                        }
+                        &:hover {
+                            .DetailBubble {
+                                color: $selected-color;
+                                background: white;
+
+                                + .detail-pointer {
+                                    .detail-pointer-white {
+                                        border-top-color: white;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
