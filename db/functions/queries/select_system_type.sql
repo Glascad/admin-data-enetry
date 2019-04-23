@@ -14,8 +14,6 @@ BEGIN
     INTO st
     WHERE system_types.id = stid;
 
-    RAISE NOTICE 'SELECTED SYSTEM TYPE: %', st.type;
-
     FOR dt IN
         SELECT * FROM detail_types
         WHERE detail_types.id IN (
@@ -28,6 +26,7 @@ BEGIN
             SELECT
                 configuration_types.id,
                 configuration_types.type,
+                configuration_types.door,
                 system_type_detail_type_configuration_types.required,
                 system_type_detail_type_configuration_types.mirrorable,
                 system_type_detail_type_configuration_types.presentation_level,
@@ -40,6 +39,7 @@ BEGIN
             ctos := ctos || ROW(
                 ct.id,
                 ct.type,
+                ct.door,
                 ct.required,
                 ct.mirrorable,
                 ct.presentation_level,

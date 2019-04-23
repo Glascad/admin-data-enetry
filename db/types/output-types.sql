@@ -5,6 +5,7 @@ DROP TYPE IF EXISTS configuration_type_output CASCADE;
 DROP TYPE IF EXISTS detail_type_output CASCADE;
 DROP TYPE IF EXISTS system_type_output CASCADE;
 DROP TYPE IF EXISTS system_configuration_type_output CASCADE;
+DROP TYPE IF EXISTS system_detail_type_output CASCADE;
 DROP TYPE IF EXISTS option_value_output CASCADE;
 DROP TYPE IF EXISTS system_option_output CASCADE;
 DROP TYPE IF EXISTS system_output CASCADE;
@@ -31,6 +32,7 @@ CREATE TYPE
 configuration_type_output AS (
     id INTEGER,
     type TEXT,
+    door BOOLEAN,
     required BOOLEAN,
     mirrorable BOOLEAN,
     presentation_level PRESENTATION_LEVEL,
@@ -59,8 +61,20 @@ system_configuration_type_output AS (
     type TEXT,
     door BOOLEAN,
     invalid BOOLEAN,
-    system_value CONFIGURATION_TYPE_OUTPUT,
-    system_type_value CONFIGURATION_TYPE_OUTPUT
+    required BOOLEAN,
+    mirrorable BOOLEAN,
+    presentation_level PRESENTATION_LEVEL,
+    override_level PRESENTATION_LEVEL,
+    system_type_default CONFIGURATION_TYPE_OUTPUT
+);
+
+CREATE TYPE
+system_detail_type_output AS (
+    id INTEGER,
+    type TEXT,
+    entrance BOOLEAN,
+    vertical BOOLEAN,
+    configuration_types SYSTEM_CONFIGURATION_TYPE_OUTPUT[]
 );
 
 CREATE TYPE
@@ -102,5 +116,5 @@ system_output AS (
     system_tags TAG_OUTPUT[],
     infill_sizes FLOAT[],
     system_options SYSTEM_OPTION_OUTPUT[],
-    detail_types DETAIL_TYPE_OUTPUT[]
+    detail_types SYSTEM_DETAIL_TYPE_OUTPUT[]
 );

@@ -447,8 +447,8 @@ system_configuration_overrides (
     configuration_type_id INTEGER,
     required_override BOOLEAN,
     mirrorable_override BOOLEAN,
-    presentation_level_override INTEGER,
-    override_level_override INTEGER,
+    presentation_level_override PRESENTATION_LEVEL,
+    override_level_override PRESENTATION_LEVEL,
     PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
     FOREIGN KEY (
         system_type_id, 
