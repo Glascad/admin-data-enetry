@@ -47,16 +47,18 @@ BEGIN
             )::CONFIGURATION_TYPE_OUTPUT;
         END LOOP;
         dtos := dtos || ROW(
-            dt.id,
-            dt.type,
-            dt.entrance,
-            dt.vertical,
+            ROW(
+                dt.id,
+                dt.type,
+                dt.entrance,
+                dt.vertical
+            )::DETAIL_TYPE,
             ctos
         )::DETAIL_TYPE_OUTPUT;
     END LOOP;
 
     RETURN ROW(
-        stid,
+        st.id,
         st.type,
         dtos
     )::SYSTEM_TYPE_OUTPUT;

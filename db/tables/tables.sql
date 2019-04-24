@@ -94,6 +94,7 @@ systems (
 
 
 
+
 CREATE TABLE
 system_infill_sizes (
     system_id INTEGER REFERENCES systems,
@@ -164,6 +165,7 @@ detail_types (
     entrance BOOLEAN,
     vertical BOOLEAN
 );
+
 
 CREATE TABLE
 configuration_types (

@@ -26,8 +26,6 @@ export default function SystemTypes() {
                     createSystemType,
                     updateSystemType,
                     deleteSystemType,
-                    // createSystemTypeDetailType,
-                    // deleteSystemTypeDetailType,
                     createSystemTypeDetailTypeConfigurationType,
                     updateSystemTypeDetailTypeConfigurationType,
                     deleteSystemTypeDetailTypeConfigurationType,
