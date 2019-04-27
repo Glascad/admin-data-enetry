@@ -82,6 +82,6 @@ BEGIN
         ss.infill_size,
         ssoos,
         ssdtos
-    )::SYSTEM_SET_OUTPUT;    
+    )::SYSTEM_SET_OUTPUT; 
 END;
 $$ LANGUAGE plpgsql STABLE;

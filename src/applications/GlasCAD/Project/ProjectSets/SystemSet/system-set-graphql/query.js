@@ -17,6 +17,28 @@ export default gql`query SelectEntireSystemSet($systemSetId: Int!) {
                             infillSize
                         }
                     }
+                    systemOptionsBySystemId(
+                        orderBy: OPTION_ORDER_ASC,
+                        condition: {
+                            presentationLevel: SYSTEM
+                        }
+                    ) {
+                        nodes {
+                            nodeId
+                            id
+                            name
+                            optionOrder
+                            optionValuesBySystemOptionId(orderBy: VALUE_ORDER_ASC) {
+                                nodes {
+                                    nodeId
+                                    id
+                                    name
+                                    value
+                                    valueOrder
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

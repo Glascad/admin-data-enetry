@@ -15,11 +15,20 @@ import { parseSearch } from '../../../../../utils';
 export default class SystemSet extends PureComponent {
 
     state = {
-        systemId: 0,
-        infillSize: 0,
-        systemOptions: [],
-        configurationTypes: [],
+        filters: {
+            manufacturerId: 0,
+            systemTypeId: 0,
+        },
+        systemSetInput: {
+            systemId: 0,
+            infillSize: 0,
+            systemOptions: [],
+            configurationTypeIds: [],
+            configurationTypeIdsToUnselect: [],
+        },
     };
+
+    updateState = (ACTION, payload) => this.setState(state => ACTION(state, payload, this.props.queryStatus));
 
     render = () => {
         const {
