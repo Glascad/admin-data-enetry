@@ -35,13 +35,18 @@ export default class SystemSet extends PureComponent {
 
         const { projectId, systemSetId } = parseSearch(search);
 
+        console.log({
+            projectId: +projectId || 0,
+            systemSetId: +systemSetId || 0,
+        });
+
         return (
             <ApolloWrapper
                 query={{
                     query,
                     variables: {
                         projectId: +projectId || 0,
-                        systemSetId: +systemSetId,
+                        systemSetId: +systemSetId || 0,
                     },
                 }}
                 mutations={{}}

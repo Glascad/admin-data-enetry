@@ -85,7 +85,7 @@ BEGIN
     END IF;
 
     -- INFILL SIZES
-    SELECT infill_size FROM system_infill_sizes
+    SELECT array_agg(infill_size) FROM system_infill_sizes
     INTO iss
     WHERE system_infill_sizes.system_id = sid;
 

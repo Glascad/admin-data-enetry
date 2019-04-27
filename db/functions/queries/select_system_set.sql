@@ -26,11 +26,6 @@ BEGIN
 
     so := select_entire_system(ss.system_id);
 
-    -- INFILL SIZE
-    SELECT infill_size FROM system_set_infill_sizes
-    INTO ssis
-    WHERE system_set_infill_sizes.system_set_id = ssid;
-
     -- OPTIONS
     IF array_length(so.system_options, 1) > 0 THEN
         FOREACH soo IN ARRAY so.system_options
@@ -84,7 +79,7 @@ BEGIN
     RETURN ROW(
         ss.id,
         so.system,
-        ssis,
+        ss.infill_size,
         ssoos,
         ssdtos
     )::SYSTEM_SET_OUTPUT;    

@@ -13,6 +13,7 @@ export default function SystemSetInfo({
             system: {
                 id: systemId,
                 name: systemName,
+                infillSizes,
                 manufacturer: {
                     id: manufacturerId,
                     name: manufacturerName,
@@ -59,6 +60,7 @@ export default function SystemSetInfo({
             systemId,
             systemName,
             infillSize,
+            systemInfillSizes: infillSizes.map(infillSize => ({ infillSize })),
         };
 
     return (

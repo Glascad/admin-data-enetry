@@ -37,21 +37,23 @@ const flattenNodeArrays = obj => (
     Object.keys(obj)
         .reduce((reducedObj, key) => {
             const value = obj[key];
-            if (
-                value
-                &&
-                typeof value === "object"
-                &&
-                Array.isArray(value.nodes)
-            ) {
-                return {
-                    ...reducedObj,
-                    [key]: value.nodes.map(flattenNodeArrays),
-                }
-            } else return {
+            return {
                 ...reducedObj,
-                [key]: flattenNodeArrays(value),
-            }
+                [key]: (
+                    value
+                    &&
+                    typeof value === "object"
+                ) ?
+                    Array.isArray(value.nodes) ?
+                        value.nodes.map(flattenNodeArrays)
+                        :
+                        Array.isArray(value) ?
+                            value.map(flattenNodeArrays)
+                            :
+                            flattenNodeArrays(value)
+                    :
+                    value
+            };
         }, {});
 
 export default flattenNodeArrays;
