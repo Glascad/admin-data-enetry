@@ -1,7 +1,9 @@
 import gql from 'graphql-tag';
+import F from '../../../../../../schema';
 
 export default {
     query: gql`{
+        ...PresentationLevels
         allSystemTypes{
             nodes{
                 nodeId
@@ -50,5 +52,6 @@ export default {
                 door
             }
         }
-    }`,
+    }
+    ${F.TYPES.PRESENTATION_LEVELS}`,
 };

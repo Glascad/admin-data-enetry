@@ -6,6 +6,7 @@ export default gql`
         systemById(id: $id) {
             ...EntireSystem
         }
+        ...PresentationLevels
         ...AllManufacturers
         ...AllSystemTypes
         ...AllSystemTags
@@ -14,6 +15,7 @@ export default gql`
         ...AllInfillPocketSizes
         ...AllConfigurationTypes
     }
+    ${F.TYPES.PRESENTATION_LEVELS}
     ${F.APP_DATA.ALL_MANUFACTURERS}
     ${F.SYS_DATA.ENTIRE_SYSTEM}
     ${F.APP_DATA.ALL_SYSTEM_TYPES}

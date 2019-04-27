@@ -93,6 +93,11 @@ export default class SystemDatabase extends PureComponent {
             },
             props: {
                 queryStatus,
+                queryStatus: {
+                    PresentationLevels: {
+                        enumValues: presentationLevels = [],
+                    } = {},
+                },
                 mutations,
             },
             save,
@@ -103,6 +108,7 @@ export default class SystemDatabase extends PureComponent {
         const updatedSystem = mergeSystemUpdate(system, queryStatus);
 
         const routeProps = {
+            presentationLevels,
             queryStatus,
             mutations,
             system: updatedSystem,

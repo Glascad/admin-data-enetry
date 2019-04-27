@@ -5,10 +5,6 @@ import {
     Input,
 } from '../../../../../../components';
 
-import {
-    presentationLevels,
-} from '../../../../../../business-logic';
-
 import ACTIONS from '../ducks/actions';
 
 const isNullOrUndefined = item => item === undefined || item === null;
@@ -91,6 +87,7 @@ export default class SystemConfigurationOverride extends PureComponent {
                     presentationLevelOverride,
                     overrideLevelOverride,
                 },
+                presentationLevels,
             },
             handleChange,
         } = this;
@@ -124,11 +121,11 @@ export default class SystemConfigurationOverride extends PureComponent {
                     type="select"
                     select={{
                         value: presentationLevels
-                            .find(({ value }) => value === presentationLevelOverride),
+                            .find(({ name }) => name === presentationLevelOverride),
                         defaultValue: presentationLevels
-                            .find(({ value }) => value === presentationLevel),
+                            .find(({ name }) => name === presentationLevel),
                         options: presentationLevels,
-                        onChange: ({ value }) => handleChange("presentationLevelOverride", value)
+                        onChange: ({ name }) => handleChange("presentationLevelOverride", name)
                     }}
                 />
                 <Input
@@ -136,11 +133,11 @@ export default class SystemConfigurationOverride extends PureComponent {
                     type="select"
                     select={{
                         value: presentationLevels
-                            .find(({ value }) => value === overrideLevelOverride),
+                            .find(({ name }) => name === overrideLevelOverride),
                         defaultValue: presentationLevels
-                            .find(({ value }) => value === overrideLevel),
+                            .find(({ name }) => name === overrideLevel),
                         options: presentationLevels,
-                        onChange: ({ value }) => handleChange("overrideLevelOverride", value)
+                        onChange: ({ name }) => handleChange("overrideLevelOverride", name)
                     }}
                 />
             </GroupingBox>

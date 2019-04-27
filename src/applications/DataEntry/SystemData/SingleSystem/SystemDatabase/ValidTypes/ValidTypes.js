@@ -36,6 +36,7 @@ export default function ValidTypes({
         _invalidSystemConfigurationTypes = [],
         _systemConfigurationOverrides = [],
     },
+    presentationLevels,
     updateSystem,
 }) {
     return (

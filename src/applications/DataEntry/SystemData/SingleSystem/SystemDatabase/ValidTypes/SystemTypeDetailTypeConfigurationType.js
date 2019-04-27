@@ -5,10 +5,6 @@ import {
     Input,
 } from '../../../../../../components';
 
-import {
-    presentationLevels,
-} from '../../../../../../business-logic';
-
 import ACTIONS from '../ducks/actions';
 
 export default function SystemTypeDetailTypeConfigurationType({
@@ -25,6 +21,7 @@ export default function SystemTypeDetailTypeConfigurationType({
     _detailType: {
         id: detailTypeId,
     } = {},
+    presentationLevels,
     updateSystem,
 }) {
     return (
@@ -69,10 +66,13 @@ export default function SystemTypeDetailTypeConfigurationType({
                 select={{
                     isDisabled: true,
                     value: presentationLevels
-                        .find(({ value }) => value === presentationLevel),
+                        .find(({ name }) => name === presentationLevel),
                     defaultValue: presentationLevels
-                        .find(({ value }) => value === presentationLevel),
-                    options: presentationLevels
+                        .find(({ name }) => name === presentationLevel),
+                    options: presentationLevels.map(({ name }) => ({
+                        label: name,
+                        value: name,
+                    }))
                 }}
             />
             <Input
@@ -81,10 +81,13 @@ export default function SystemTypeDetailTypeConfigurationType({
                 select={{
                     isDisabled: true,
                     value: presentationLevels
-                        .find(({ value }) => value === overrideLevel),
+                        .find(({ name }) => name === overrideLevel),
                     defaultValue: presentationLevels
-                        .find(({ value }) => value === overrideLevel),
-                    options: presentationLevels,
+                        .find(({ name }) => name === overrideLevel),
+                    options: presentationLevels.map(({ name }) => ({
+                        label: name,
+                        value: name,
+                    })),
                 }}
             />
         </GroupingBox>

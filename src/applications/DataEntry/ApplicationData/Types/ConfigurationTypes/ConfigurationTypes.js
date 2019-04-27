@@ -19,7 +19,6 @@ export default function ConfigurationTypes() {
             {({
                 queryStatus: {
                     allConfigurationTypes = [],
-                    // allManufacturers = [],
                     allPartTypes = [],
                 },
                 mutations: {
@@ -28,9 +27,6 @@ export default function ConfigurationTypes() {
                     deleteConfigurationType,
                     createConfigurationTypePartType,
                     deleteConfigurationTypePartType,
-                    // createConfigurationNameOverride,
-                    // updateConfigurationNameOverride,
-                    // deleteConfigurationNameOverride,
                 },
             }) => (
                     <ListWrapper
@@ -58,10 +54,7 @@ export default function ConfigurationTypes() {
                             id: configurationTypeId,
                             type,
                             door,
-                            // presentationLevel,
-                            // overrideLevel,
                             _configurationTypePartTypes = [],
-                            // configurationNameOverrides = [],
                         }) => (
                                 <>
                                     <TitleBar
@@ -77,30 +70,8 @@ export default function ConfigurationTypes() {
                                             door: checked,
                                         })}
                                     />
-                                    {/* <Input
-                                        label="Presentation Level"
-                                        type="number"
-                                        initialValue={presentationLevel || 0}
-                                        onBlur={({ target: { value } }) => updateConfigurationType({
-                                            nodeId,
-                                            presentationLevel: value,
-                                        })}
-                                    /> */}
-                                    {/* <Input
-                                        label="Override Level"
-                                        type="number"
-                                        initialValue={overrideLevel || 0}
-                                        onBlur={({ target: { value } }) => updateConfigurationType({
-                                            nodeId,
-                                            overrideLevel: value,
-                                        })}
-                                    /> */}
                                     <ListWrapper
                                         label="Part Types"
-                                        // titleBar={{
-                                        //     title: "Part Types",
-                                        //     selections: [type]
-                                        // }}
                                         items={_configurationTypePartTypes
                                             .map(({
                                                 nodeId,
@@ -126,16 +97,6 @@ export default function ConfigurationTypes() {
                                             name: `${type} Part Type`
                                         }}
                                     />
-                                    {/* <div className="unfinished">
-                                        <ListWrapper
-                                            titleBar={{
-                                                title: "Name Overrides",
-                                                selection: [type],
-                                            }}
-                                            items={configurationNameOverrides}
-                                            mapPillProps={() => ({})}
-                                        />
-                                    </div> */}
                                 </>
                             )
                         }
