@@ -5,11 +5,11 @@ import {
 } from '../../../components';
 
 import SystemSearch from './SystemSearch/SystemSearch';
-import SystemToggle from './SystemToggle/SystemToggle';
+import SingleSystem from './SingleSystem/SingleSystem';
 
 const subroutes = {
     SystemSearch,
-    SystemToggle,
+    SingleSystem,
 };
 
 SystemData.navigationOptions = {

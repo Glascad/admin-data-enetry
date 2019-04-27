@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { StateManager, Input } from '../../../../../../components';
 
 SystemSetInfo.navigationOptions = {
@@ -75,7 +75,6 @@ export default function SystemSetInfo({
                     systemInfillSizes,
                     infillSize,
                 },
-                update,
             }) => (
                     <>
                         <Input
@@ -90,6 +89,7 @@ export default function SystemSetInfo({
                                     value: id,
                                     label: name,
                                 })),
+                                onChange: ({ }) => { },
                             }}
                         />
                         <Input
@@ -104,6 +104,7 @@ export default function SystemSetInfo({
                                     value: id,
                                     label: name,
                                 })),
+                                onChange: ({ }) => { },
                             }}
                         />
                         <Input
@@ -117,6 +118,7 @@ export default function SystemSetInfo({
                                     value: infillSize,
                                     label: infillSize,
                                 })),
+                                onChange: ({ }) => { },
                             }}
                         />
                     </>

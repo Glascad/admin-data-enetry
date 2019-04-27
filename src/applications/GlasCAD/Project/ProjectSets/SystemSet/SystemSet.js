@@ -13,6 +13,14 @@ import query from './system-set-graphql/query';
 import { parseSearch } from '../../../../../utils';
 
 export default class SystemSet extends PureComponent {
+
+    state = {
+        systemId: 0,
+        infillSize: 0,
+        systemOptions: [],
+        configurationTypes: [],
+    };
+
     render = () => {
         const {
             props: {
@@ -33,7 +41,7 @@ export default class SystemSet extends PureComponent {
                     query,
                     variables: {
                         projectId: +projectId || 0,
-                        systemSetId: +systemSetId || 0,
+                        systemSetId: +systemSetId,
                     },
                 }}
                 mutations={{}}

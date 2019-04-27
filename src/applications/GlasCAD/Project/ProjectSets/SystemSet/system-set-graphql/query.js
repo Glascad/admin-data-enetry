@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`query SelectEntireSystemSet($systemSetId: Int!) {
+export default gql`query SelectEntireSystemSet($systemSetId: Int) {
     allManufacturers {
         nodes {
             nodeId

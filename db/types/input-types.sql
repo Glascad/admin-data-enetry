@@ -107,10 +107,18 @@ entire_elevation AS (
 );
 
 CREATE TYPE
+selected_option_value AS (
+    option_value_id INTEGER,
+    system_option_id INTEGER
+);
+
+CREATE TYPE
 entire_system_set AS (
     id INTEGER,
     project_id INTEGER,
     system_id INTEGER,
     system_type_id INTEGER,
-    option_values
+    system_options SELECTED_OPTION_VALUE[],
+    configuration_type_ids INTEGER[],
+    configuration_type_ids_to_unselect INTEGER[]
 );
