@@ -56,13 +56,10 @@ system_configuration_type_output AS (
 CREATE TYPE
 system_set_configuration_type_output AS (
     selected BOOLEAN,
-    configuration_type CONFIGURATION_TYPE_OUTPUT,
     system_default SYSTEM_CONFIGURATION_TYPE_OUTPUT
 );
 
-COMMENT ON TABLE
-public.detail_types
-IS E'@name dt';
+-- COMMENT ON TABLE -- public.detail_types -- IS '@name dt';
 
 CREATE TYPE
 detail_type AS (
@@ -71,6 +68,8 @@ detail_type AS (
     entrance BOOLEAN,
     vertical BOOLEAN
 );
+
+COMMENT ON TYPE detail_type IS '@name _detailType';
 
 CREATE TYPE
 detail_type_output AS (
@@ -105,9 +104,7 @@ option_value_output AS (
     value_order INTEGER
 );
 
-COMMENT ON TABLE
-public.system_options
-IS E'@name so';
+-- COMMENT ON TABLE -- public.system_options -- IS '@name so';
 
 CREATE TYPE
 system_option AS (
@@ -118,6 +115,8 @@ system_option AS (
     override_level PRESENTATION_LEVEL
 );
 
+COMMENT ON TYPE system_option IS '@name _systemOption';
+
 CREATE TYPE
 system_option_output AS (
     system_option SYSTEM_OPTION,
@@ -126,14 +125,12 @@ system_option_output AS (
 
 CREATE TYPE
 system_set_option_output AS (
+    selected_value_id INTEGER,
     system_option SYSTEM_OPTION,
-    option_values OPTION_VALUE_OUTPUT[],
-    selected_value_id INTEGER
+    option_values OPTION_VALUE_OUTPUT[]
 );
 
-COMMENT ON TABLE
-public.systems
-IS E'@name sys';
+-- COMMENT ON TABLE -- public.systems -- IS '@name sys';
 
 CREATE TYPE
 system AS (
@@ -159,6 +156,8 @@ system AS (
     infill_pocket_types TYPE_OUTPUT[]
 );
 
+COMMENT ON TYPE system IS '@name _system';
+
 CREATE TYPE
 system_output AS (
     system SYSTEM,
@@ -168,7 +167,9 @@ system_output AS (
 
 CREATE TYPE
 system_set_output AS (
+    id INTEGER,
     system SYSTEM,
+    infill_size INTEGER,
     system_options SYSTEM_SET_OPTION_OUTPUT[],
     detail_types SYSTEM_SET_DETAIL_TYPE_OUTPUT[]
 );

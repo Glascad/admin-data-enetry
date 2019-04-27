@@ -100,48 +100,21 @@ export default class BuildElevation extends PureComponent {
                 this.undo()
         );
 
-    createRecursiveElevation = ({
-        elevationInput,
-        elevationInput: {
-            containerIdsToDelete = [],
-            detailIdsToDelete = [],
-        },
-    } = this.state.states[this.state.currentIndex]) => {
+    createRecursiveElevation = ({ elevationInput } = this.state.states[this.state.currentIndex]) => {
         const {
             props: {
                 queryStatus: {
                     _elevation: rawElevation,
-                    _elevation: {
-                        _elevationContainers = [],
-                        _containerDetails = [],
-                    } = {},
                     _system,
                 } = {},
             },
         } = this;
 
-        // console.log({ rawElevation });
-
-        // console.log({ elevationInput });
-
-        // console.log({
-        //     deletedContainers: _elevationContainers
-        //         .filter(({ id }) => containerIdsToDelete.includes(id))
-        //         .map(({ __typename, nodeId, ...container }) => container),
-        //     deletedDetails: _containerDetails
-        //         .filter(({ id }) => detailIdsToDelete.includes(id))
-        //         .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
-        // });
-
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         validateElevation(mergedElevation);
 
-        // console.log({ mergedElevation });
-
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
-
-        // console.log({ recursiveElevation });
 
         return {
             elevationInput,
@@ -158,7 +131,17 @@ export default class BuildElevation extends PureComponent {
             this._pushState
     )(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
 
-    // cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }), null, this.clearHistory);
+    // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
+    //     const {
+    //         _replaceState,
+    //         _pushState,
+    //     } = this;
+
+    //     const updateState = shouldReplaceState ? _replaceState : _pushState;
+
+    //     updateState(state => ACTION(state, payload, updateAfterUpdate), cb);
+    // }
+
     cancel = () => this.setState(({ states: [initialState] }) => ({
         states: [initialState],
         currentIndex: 0,

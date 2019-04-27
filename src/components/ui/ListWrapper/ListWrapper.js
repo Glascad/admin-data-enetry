@@ -196,7 +196,10 @@ class List extends PureComponent {
                             onClick={onCreate || onFinish ?
                                 handleCreateClick
                                 :
-                                undefined}
+                                circleButton ?
+                                    circleButton.onClick
+                                    :
+                                    undefined}
                         />
                     ) : null}
                 />

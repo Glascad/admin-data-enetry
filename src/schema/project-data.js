@@ -56,7 +56,9 @@ export const ENTIRE_SYSTEM_SET = gql`
                 }
             }
         }
-        
+        elevationsBySystemSetId {
+            totalCount
+        }
     }
     ${SD.ENTIRE_SYSTEM}
     ${SD.ENTIRE_SYSTEM_OPTION}

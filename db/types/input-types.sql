@@ -105,3 +105,12 @@ entire_elevation AS (
     details ENTIRE_CONTAINER_DETAIL[],
     detail_ids_to_delete INTEGER[]
 );
+
+CREATE TYPE
+entire_system_set AS (
+    id INTEGER,
+    project_id INTEGER,
+    system_id INTEGER,
+    system_type_id INTEGER,
+    option_values
+);

@@ -69,6 +69,7 @@ system_set_detail_type_configuration_types (
     system_type_id INTEGER,
     detail_type_id INTEGER,
     configuration_type_id INTEGER,
+    PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
     FOREIGN KEY (
         system_set_id,
         system_id,
@@ -78,5 +79,21 @@ system_set_detail_type_configuration_types (
         id,
         system_id,
         system_type_id
-    ),
-)
+    )
+);
+
+CREATE TABLE
+system_set_infill_sizes (
+    system_set_id INTEGER,
+    system_id INTEGER,
+    infill_size FLOAT REFERENCES infill_sizes,
+    PRIMARY KEY (system_id, infill_size),
+    FOREIGN KEY (
+        system_id,
+        infill_size
+    )
+    REFERENCES system_infill_sizes (
+        system_id,
+        infill_size
+    )
+);
