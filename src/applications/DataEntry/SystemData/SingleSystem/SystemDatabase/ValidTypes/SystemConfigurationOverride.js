@@ -120,11 +120,14 @@ export default class SystemConfigurationOverride extends PureComponent {
                     label="Presentation Level"
                     type="select"
                     select={{
-                        value: presentationLevels
-                            .find(({ name }) => name === presentationLevelOverride),
-                        defaultValue: presentationLevels
-                            .find(({ name }) => name === presentationLevel),
-                        options: presentationLevels,
+                        value: {
+                            value: presentationLevelOverride,
+                            label: presentationLevelOverride,
+                        },
+                        options: presentationLevels.map(({ name }) => ({
+                            value: name,
+                            label: name,
+                        })),
                         onChange: ({ name }) => handleChange("presentationLevelOverride", name)
                     }}
                 />
@@ -132,11 +135,14 @@ export default class SystemConfigurationOverride extends PureComponent {
                     label="Override Level"
                     type="select"
                     select={{
-                        value: presentationLevels
-                            .find(({ name }) => name === overrideLevelOverride),
-                        defaultValue: presentationLevels
-                            .find(({ name }) => name === overrideLevel),
-                        options: presentationLevels,
+                        value: {
+                            value: overrideLevelOverride,
+                            label: overrideLevelOverride,
+                        },
+                        options: presentationLevels.map(({ name }) => ({
+                            value: name,
+                            label: name,
+                        })),
                         onChange: ({ name }) => handleChange("overrideLevelOverride", name)
                     }}
                 />

@@ -184,6 +184,7 @@ export default function ValidTypes({
                                         */}
                                         <SystemTypeDetailTypeConfigurationType
                                             {...{
+                                                presentationLevels,
                                                 _systemConfigurationOverride,
                                                 defaultValues,
                                                 _detailType,
@@ -194,6 +195,7 @@ export default function ValidTypes({
                                         {_systemConfigurationOverride ? (
                                             <SystemConfigurationOverride
                                                 {...{
+                                                    presentationLevels,
                                                     defaultValues,
                                                     _detailType,
                                                     _configurationType,

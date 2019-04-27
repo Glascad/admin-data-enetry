@@ -65,13 +65,13 @@ export default function SystemTypeDetailTypeConfigurationType({
                 type="select"
                 select={{
                     isDisabled: true,
-                    value: presentationLevels
-                        .find(({ name }) => name === presentationLevel),
-                    defaultValue: presentationLevels
-                        .find(({ name }) => name === presentationLevel),
+                    value: {
+                        value: presentationLevel,
+                        label: presentationLevel,
+                    },
                     options: presentationLevels.map(({ name }) => ({
-                        label: name,
                         value: name,
+                        label: name,
                     }))
                 }}
             />
@@ -80,13 +80,13 @@ export default function SystemTypeDetailTypeConfigurationType({
                 type="select"
                 select={{
                     isDisabled: true,
-                    value: presentationLevels
-                        .find(({ name }) => name === overrideLevel),
-                    defaultValue: presentationLevels
-                        .find(({ name }) => name === overrideLevel),
+                    value: {
+                        value: overrideLevel,
+                        label: overrideLevel,
+                    },
                     options: presentationLevels.map(({ name }) => ({
-                        label: name,
                         value: name,
+                        label: name,
                     })),
                 }}
             />
