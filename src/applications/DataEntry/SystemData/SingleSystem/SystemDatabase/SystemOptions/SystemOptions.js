@@ -15,6 +15,7 @@ export default function SystemOptions({
     queryStatus: {
         allConfigurationTypes = [],
     },
+    presentationLevels,
     updateSystem,
 }) {
     console.log(arguments[0]);
@@ -62,9 +63,9 @@ export default function SystemOptions({
                                         label: presentationLevel,
                                         value: presentationLevel,
                                     },
-                                    options: [1, 2, 3, 4].map(n => ({
-                                        value: n,
-                                        label: n,
+                                    options: presentationLevels.map(({ name }) => ({
+                                        value: name,
+                                        label: name,
                                     })),
                                     onChange: ({ value }) => updateSystem(ACTIONS.OPTION.UPDATE, {
                                         optionId,
@@ -80,9 +81,9 @@ export default function SystemOptions({
                                         label: overrideLevel,
                                         value: overrideLevel,
                                     },
-                                    options: [1, 2, 3, 4].map(n => ({
-                                        value: n,
-                                        label: n,
+                                    options: presentationLevels.map(({ name }) => ({
+                                        value: name,
+                                        label: name,
                                     })),
                                     onChange: ({ value }) => updateSystem(ACTIONS.OPTION.UPDATE, {
                                         optionId,
