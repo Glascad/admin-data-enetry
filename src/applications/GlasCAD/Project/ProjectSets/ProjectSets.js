@@ -38,7 +38,6 @@ function ProjectSets({
         path,
     },
 }) {
-    console.log(arguments[0]);
     return (
         <div className="card">
             <CollapsibleTitle

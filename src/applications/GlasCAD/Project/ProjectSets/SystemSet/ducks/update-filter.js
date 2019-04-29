@@ -1,15 +1,22 @@
 export default function UPDATE_FILTER({
+    filters,
     filters: {
         manufacturerId: oldManufacturerId,
         systemTypeId: oldSystemTypeId,
     },
-    systemUpdate,
+    systemSetInput,
+    systemSetInput: {
+        systemId: oldSystemId,
+    },
 }, {
     manufacturerId: newManufacturerId,
     systemTypeId: newSystemTypeId,
 }, {
     allManufacturers,
 }) {
+
+    console.log(arguments);
+
     const manufacturerChanged = newManufacturerId && newManufacturerId !== oldManufacturerId;
     const systemTypeChanged = newSystemTypeId && newSystemTypeId !== oldSystemTypeId;
 
@@ -18,8 +25,29 @@ export default function UPDATE_FILTER({
         const manufacturerId = newManufacturerId || oldManufacturerId;
         const systemTypeId = newSystemTypeId || oldSystemTypeId;
 
-        // finish later
+        const manufacturer = manufacturerChanged && allManufacturers.find(({ id }) => id === manufacturerId);
 
-        return arguments[0];
+        const systems = (manufacturer || {})._systems || []
+
+        const systemId = manufacturerChanged ?
+            (
+                systems.find(({ id }) => id === oldSystemId)
+                ||
+                systems[0] || {}
+            ).id
+            :
+            oldSystemId;
+
+        return {
+            filters: {
+                ...filters,
+                manufacturerId,
+                systemTypeId,
+            },
+            systemSetInput: {
+                ...systemSetInput,
+                systemId,
+            },
+        };
     }
 }

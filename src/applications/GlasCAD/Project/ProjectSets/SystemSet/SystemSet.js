@@ -12,7 +12,7 @@ import query from './system-set-graphql/query';
 
 import { parseSearch } from '../../../../../utils';
 
-export default class SystemSet extends PureComponent {
+class SystemSet extends PureComponent {
 
     state = {
         filters: {
@@ -28,10 +28,14 @@ export default class SystemSet extends PureComponent {
         },
     };
 
-    updateState = (ACTION, payload) => this.setState(state => ACTION(state, payload, this.props.queryStatus));
+    updateSystemSet = (ACTION, payload) => this.setState(state => ACTION(state, payload, this.props.queryStatus));
 
     render = () => {
         const {
+            state: {
+                filters,
+                systemSetInput,
+            },
             props: {
                 location: {
                     search,
@@ -39,71 +43,95 @@ export default class SystemSet extends PureComponent {
                 match: {
                     path,
                 },
+                queryStatus,
             },
+            updateSystemSet,
         } = this;
 
-        const { projectId, systemSetId } = parseSearch(search);
-
-        console.log({
-            projectId: +projectId || 0,
-            systemSetId: +systemSetId || 0,
-        });
+        console.log(this.state);
 
         return (
-            <ApolloWrapper
-                query={{
-                    query,
-                    variables: {
-                        projectId: +projectId || 0,
-                        systemSetId: +systemSetId || 0,
-                    },
-                }}
-                mutations={{}}
-            >
-                {({
-                    queryStatus,
-                    queryStatus: {
-
-                    },
-                    ...status,
-                }) => (
+            <>
+                <TitleBar
+                    title="System Set"
+                    right={(
                         <>
-                            {console.log({ queryStatus, ...status })}
-                            <TitleBar
-                                title="System Set"
-                                right={(
-                                    <>
-                                        <Link
-                                            to={`${path.replace(/\/system-set/, '')}${search}`}
-                                        >
-                                            <button>
-                                                Cancel
-                                            </button>
-                                        </Link>
-                                        <button>
-                                            Reset
-                                        </button>
-                                        <button
-                                            className="action"
-                                        >
-                                            Save
-                                        </button>
-                                    </>
-                                )}
-                            />
-                            <TabNavigator
-                                routes={{
-                                    SystemSetInfo,
-                                    SystemSetOptions,
-                                    SystemSetConfigurationTypes,
-                                }}
-                                routeProps={{
-                                    queryStatus
-                                }}
-                            />
+                            <Link
+                                to={`${path.replace(/\/system-set/, '')}${search}`}
+                            >
+                                <button>
+                                    Cancel
+                                </button>
+                            </Link>
+                            <button>
+                                Reset
+                            </button>
+                            <button
+                                className="action"
+                            >
+                                Save
+                            </button>
                         </>
                     )}
-            </ApolloWrapper>
+                />
+                <TabNavigator
+                    routes={{
+                        SystemSetInfo,
+                        SystemSetOptions,
+                        SystemSetConfigurationTypes,
+                    }}
+                    routeProps={{
+                        queryStatus,
+                        filters,
+                        systemSetInput,
+                        updateSystemSet,
+                    }}
+                />
+            </>
         );
     }
+}
+
+export default function SystemSetWrapper(props) {
+
+    const {
+        location: {
+            search,
+        },
+        queryStatus: queryStatusOne,
+    } = props;
+
+    const { projectId, systemSetId } = parseSearch(search);
+
+    console.log({
+        projectId: +projectId || 0,
+        systemSetId: +systemSetId || 0,
+    });
+
+    return (
+        <ApolloWrapper
+            query={{
+                query,
+                variables: {
+                    projectId: +projectId || 0,
+                    systemSetId: +systemSetId || 0,
+                },
+            }}
+            mutations={{}}
+        >
+            {({
+                queryStatus: queryStatusTwo,
+                mutations,
+            }) => (
+                    <SystemSet
+                        {...props}
+                        queryStatus={{
+                            ...queryStatusOne,
+                            ...queryStatusTwo,
+                        }}
+                        mutations={mutations}
+                    />
+                )}
+        </ApolloWrapper>
+    );
 }

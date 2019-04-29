@@ -44,10 +44,9 @@ export default class SystemDatabase extends PureComponent {
             },
             props: {
                 history,
-                match: {
-                    path,
-                },
                 location: {
+                    // get full path
+                    pathname,
                     search,
                 },
                 queryStatus: {
@@ -81,7 +80,7 @@ export default class SystemDatabase extends PureComponent {
 
         reset();
 
-        history.push(`${path}${parseSearch(search).update({ systemId })}`);
+        history.push(`${pathname}${parseSearch(search).update({ systemId })}`);
     }
 
     reset = () => this.setState({ system: defaultSystem });

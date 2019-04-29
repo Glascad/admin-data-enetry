@@ -1,5 +1,9 @@
 import React from 'react';
-import { StateManager, Input } from '../../../../../../components';
+
+import {
+    Input,
+} from '../../../../../../components';
+import { UPDATE_FILTER, UPDATE_INFILL_SIZE } from '../ducks/actions';
 
 SystemSetInfo.navigationOptions = {
     name: "System Set",
@@ -9,122 +13,123 @@ export default function SystemSetInfo({
     queryStatus: {
         systemSet: {
             id,
-            infillSize,
+            infillSize: systemSetInfillSize,
+            system: systemSetSystem,
             system: {
-                id: systemId,
-                name: systemName,
-                infillSizes,
-                manufacturer: {
-                    id: manufacturerId,
-                    name: manufacturerName,
-                } = {},
+                infillSizes: systemSetSystemInfillSizes,
+                manufacturer: systemSetManufacturer,
             } = {},
         } = {},
         allManufacturers = [],
-        allManufacturers: [
-            {
-                id: firstManufacturerId,
-                name: firstManufacturerName,
-                _systems: firstManufacturerSystems = [],
-                _systems: [
-                    {
-                        id: firstSystemId,
-                        name: firstSystemName,
-                        _systemInfillSizes: firstSystemInfillSizes = [],
-                        _systemInfillSizes: [
-                            {
-                                infillSize: firstInfillSize,
-                            } = {},
-                        ] = [],
-                    } = {},
-                ] = [],
-            } = {},
-        ] = [],
     },
+    systemSetInput: {
+        systemId,
+        infillSize: infillSizeInput,
+    },
+    filters: {
+        manufacturerId,
+        systemTypeId,
+    },
+    updateSystemSet,
 }) {
 
     const creating = !id;
 
-    const initialState = creating ?
-        {
-            manufacturerId: firstManufacturerId,
-            manufacturerName: firstManufacturerName,
-            manufacturerSystems: firstManufacturerSystems,
-            systemId: firstSystemId,
-            systemName: firstSystemName,
-            systemInfillSizes: firstSystemInfillSizes,
-            infillSize: firstInfillSize,
-        } : {
-            manufacturerId,
-            manufacturerName,
-            systemId,
-            systemName,
-            infillSize,
-            systemInfillSizes: infillSizes.map(infillSize => ({ infillSize })),
-        };
+    const manufacturer = creating ?
+        manufacturerId ?
+            allManufacturers.find(({ id }) => id === manufacturerId)
+            :
+            allManufacturers[0]
+        :
+        systemSetManufacturer;
+
+    const manufacturers = creating ?
+        allManufacturers
+        :
+        [manufacturer];
+
+    const systems = creating ?
+        (manufacturer || {})._systems || []
+        :
+        [systemSetSystem];
+
+    const system = creating ?
+        systemId ?
+            systems.find(({ id }) => id === systemId)
+            :
+            systems[0]
+        :
+        systemSetSystem;
+
+    const infillSizes = creating ?
+        (system || {})._systemInfillSizes || []
+        :
+        systemSetSystemInfillSizes;
+
+    const infillSize = infillSizeInput || (infillSizes[0] || {}).infillSize || systemSetInfillSize;
+
+    const {
+        name: manufacturerName,
+    } = manufacturer || {};
+
+    const {
+        name: systemName,
+    } = system || {};
+
+    console.log(arguments[0]);
 
     return (
-        <StateManager
-            initialState={initialState}
-        >
-            {({
-                state: {
-                    manufacturerId,
-                    manufacturerName,
-                    manufacturerSystems,
-                    systemId,
-                    systemName,
-                    systemInfillSizes,
-                    infillSize,
-                },
-            }) => (
-                    <>
-                        <Input
-                            label="Manufacturer"
-                            disabled={!creating}
-                            select={{
-                                value: {
-                                    value: manufacturerId,
-                                    label: manufacturerName
-                                },
-                                options: allManufacturers.map(({ id, name }) => ({
-                                    value: id,
-                                    label: name,
-                                })),
-                                onChange: ({ }) => { },
-                            }}
-                        />
-                        <Input
-                            label="System"
-                            disabled={!creating}
-                            select={{
-                                value: {
-                                    value: systemId,
-                                    label: systemName,
-                                },
-                                options: manufacturerSystems.map(({ id, name }) => ({
-                                    value: id,
-                                    label: name,
-                                })),
-                                onChange: ({ }) => { },
-                            }}
-                        />
-                        <Input
-                            label="Infill Size"
-                            select={{
-                                value: {
-                                    value: infillSize,
-                                    label: infillSize,
-                                },
-                                options: systemInfillSizes.map(({ infillSize }) => ({
-                                    value: infillSize,
-                                    label: infillSize,
-                                })),
-                                onChange: ({ }) => { },
-                            }}
-                        />
-                    </>
-                )}
-        </StateManager>
+        <>
+            <Input
+                label="Manufacturer"
+                disabled={!creating}
+                select={{
+                    value: {
+                        value: manufacturerId,
+                        label: manufacturerName
+                    },
+                    options: manufacturers.map(({ id, name }) => ({
+                        value: id,
+                        label: name,
+                    })),
+                    onChange: ({ value }) => updateSystemSet(UPDATE_FILTER, {
+                        manufacturerId: value,
+                    }),
+                }}
+            />
+            <Input
+                label="System"
+                disabled={!creating}
+                select={{
+                    value: {
+                        value: systemId,
+                        label: systemName,
+                    },
+                    options: systems.map(({ id, name }) => ({
+                        value: id,
+                        label: name,
+                    })),
+                    onChange: ({ value }) => updateSystemSet(UPDATE_FILTER, {
+                        systemId: value,
+                    }),
+                }}
+            />
+            <Input
+                label="Infill Size"
+                select={{
+                    value: {
+                        value: infillSize,
+                        label: infillSize,
+                    },
+                    options: infillSizes.map(({ infillSize }) => ({
+                        value: infillSize,
+                        label: infillSize,
+                    })),
+                    onChange: ({ value }) => updateSystemSet(UPDATE_INFILL_SIZE, {
+                        infillSize: value
+                    }),
+                }}
+            />
+        </>
     );
 }

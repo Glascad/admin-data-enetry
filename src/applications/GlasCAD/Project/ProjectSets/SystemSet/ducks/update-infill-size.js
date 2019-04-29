@@ -3,6 +3,7 @@ export default function UPDATE_INFILL_SIZE({
 }, {
     infillSize,
 }) {
+    console.log(arguments);
     return {
         systemSetInput: {
             ...systemSetInput,
