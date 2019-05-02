@@ -3,6 +3,7 @@ import React from 'react';
 import {
     Input,
 } from '../../../../../../components';
+
 import { UPDATE_FILTER, UPDATE_INFILL_SIZE } from '../ducks/actions';
 
 SystemSetInfo.navigationOptions = {

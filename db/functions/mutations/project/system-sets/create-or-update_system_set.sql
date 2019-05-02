@@ -10,17 +10,23 @@ BEGIN
         INSERT INTO system_sets (
             project_id,
             system_id,
-            system_type_id
+            system_type_id,
+            infill_size
         )
         VALUES (
             ss.project_id,
             ss.system_id,
-            ss.system_type_id
+            ss.system_type_id,
+            ss.infill_size
         )
         RETURNING *;
     ELSE RETURN QUERY
-        SELECT * FROM system_sets
-        WHERE system_sets.id = ss.id;
+        UPDATE system_sets SET
+            infill_size = CASE WHEN ss.infill_size IS NOT NULL
+                THEN ss.infill_size
+                ELSE system_sets.infill_size END
+        WHERE system_sets.id = ss.id
+        RETURNING *;
     END IF;
 END;
 $$ LANGUAGE plpgsql;

@@ -48,6 +48,7 @@ class Statics extends PureComponent {
             },
             toggle,
             getPathTo,
+            Viewport,
         } = this;
 
         return (
@@ -59,7 +60,7 @@ class Statics extends PureComponent {
                     },
                     routes,
                     getPathTo,
-                    Viewport: this.Viewport,
+                    Viewport,
                 }}
             >
                 <div id="Sidebar" className={open ? "" : "closed"}>
@@ -92,8 +93,8 @@ class Statics extends PureComponent {
                     </div>
                 </div>
                 <div
-                    id="Viewport"
-                    ref={this.Viewport}
+                    id="viewport"
+                    ref={Viewport}
                 >
                     <Navigator
                         routes={routes}

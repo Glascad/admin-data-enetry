@@ -19,7 +19,7 @@
         width: calc(#{$large * 2} + #{$item-height});
         max-width: calc(#{$large * 2} + #{$item-height});
         
-        + #Viewport {
+        + #viewport {
             margin-left: calc(#{$large * 2} + #{$item-height});
         }
     }
@@ -119,7 +119,7 @@
     }
 }
 
-#Viewport {
+#viewport {
     margin-left: $sidebar-width;
     display: flex;
     flex-direction: column;

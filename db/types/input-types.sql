@@ -113,12 +113,19 @@ selected_option_value AS (
 );
 
 CREATE TYPE
+selected_detail_type_configuration_type AS (
+    detail_type_id INTEGER,
+    configuration_type_id INTEGER
+);
+
+CREATE TYPE
 entire_system_set AS (
     id INTEGER,
     project_id INTEGER,
     system_id INTEGER,
     system_type_id INTEGER,
+    infill_size FLOAT,
     system_options SELECTED_OPTION_VALUE[],
-    configuration_type_ids INTEGER[],
-    configuration_type_ids_to_unselect INTEGER[]
+    detail_type_configuration_types SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[],
+    detail_type_configuration_types_to_unselect SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[]
 );

@@ -124,12 +124,30 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb, _replaceState) => (
-        _replaceState ?
-            this._replaceState
+    // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
+
+    updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
+        const {
+            _replaceState,
+            _pushState,
+            updateElevation,
+            createRecursiveElevation,
+        } = this;
+
+        const updateState = shouldReplaceState ?
+            _replaceState
             :
-            this._pushState
-    )(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
+            _pushState;
+
+        // all actions must have access to the raw elevation in the query status on props
+        // further actions must be able to execute with a second (and third, etc...) payload
+        // further actions may have a different replace state boolean
+        // further actions must have access to the resulting recursive elevation of the previous action
+
+        const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
+
+        return updateState(state => createRecursiveElevation(ACTION(state, payload, dispatch)), cb);
+    }
 
     // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
     //     const {

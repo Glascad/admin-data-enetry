@@ -34,7 +34,7 @@ BEGIN
 
             SELECT option_value_id FROM system_set_option_values
             INTO selected_id
-            WHERE system_set_option_values.system_id = ssid
+            WHERE system_set_option_values.system_set_id = ssid
             AND system_set_option_values.system_option_id = sop.id;
 
             ssoos := ssoos || ROW(
