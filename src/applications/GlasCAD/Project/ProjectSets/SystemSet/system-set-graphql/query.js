@@ -59,7 +59,7 @@ export default gql`query SelectEntireSystemSet($systemSetId: Int!) {
                 type
             }
         }
-        systemOptions {
+        selectedOptionValues {
             selectedValueId
             systemOption {
                 id

@@ -16,7 +16,12 @@ BEGIN
         VALUES (
             ss.project_id,
             ss.system_id,
-            ss.system_type_id,
+            CASE WHEN ss.system_type_id IS NOT NULL
+                THEN ss.system_type_id
+                ELSE (
+                    SELECT system_type_id FROM systems
+                    WHERE systems.id = ss.system_id
+                ) END,
             ss.infill_size
         )
         RETURNING *;

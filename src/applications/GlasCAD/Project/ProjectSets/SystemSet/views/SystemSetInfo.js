@@ -32,6 +32,7 @@ export default function SystemSetInfo({
         systemTypeId,
     },
     updateSystemSet,
+    dispatch,
 }) {
 
     const creating = !id;

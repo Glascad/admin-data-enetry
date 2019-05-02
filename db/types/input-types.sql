@@ -125,7 +125,7 @@ entire_system_set AS (
     system_id INTEGER,
     system_type_id INTEGER,
     infill_size FLOAT,
-    system_options SELECTED_OPTION_VALUE[],
+    selected_option_values SELECTED_OPTION_VALUE[],
     detail_type_configuration_types SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[],
     detail_type_configuration_types_to_unselect SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[]
 );

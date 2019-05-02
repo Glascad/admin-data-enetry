@@ -12,9 +12,9 @@ BEGIN
     SELECT * FROM create_or_update_system_set(ss) INTO uss;
     
     -- SELECTED OPTION VALUES
-    IF ss.system_options IS NOT NULL
+    IF ss.selected_option_values IS NOT NULL
     THEN
-        FOREACH sov IN ARRAY ss.system_options
+        FOREACH sov IN ARRAY ss.selected_option_values
         LOOP
             IF sov.system_option_id IS NOT NULL
             AND sov.option_value_id IS NOT NULL
