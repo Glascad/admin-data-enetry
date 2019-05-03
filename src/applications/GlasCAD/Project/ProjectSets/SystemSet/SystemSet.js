@@ -1,8 +1,18 @@
-import React, { PureComponent, useReducer, useCallback } from 'react';
+import React, {
+    PureComponent,
+    useReducer,
+    useCallback,
+    useEffect,
+    useMemo,
+} from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { TabNavigator, TitleBar, ApolloWrapper } from '../../../../../components';
+import {
+    TabNavigator,
+    TitleBar,
+    ApolloWrapper,
+} from '../../../../../components';
 
 import SystemSetInfo from './views/SystemSetInfo';
 import SystemSetOptions from './views/SystemSetOptions';
@@ -13,191 +23,109 @@ import updateEntireSystemSet from './system-set-graphql/mutation';
 
 import { parseSearch } from '../../../../../utils';
 
-// class SystemSet extends PureComponent {
-
-//     state = {
-//         filters: {
-//             manufacturerId: 0,
-//             systemTypeId: 0,
-//         },
-//         systemSetInput: {
-//             systemId: 0,
-//             infillSize: 0,
-//             systemOptions: [],
-//             detailTypeConfigurationTypes: [],
-//             detailTypeConfigurationTypesToUnselect: [],
-//         },
-//     };
-
-//     updateSystemSet = (ACTION, payload) => this.setState(state => ACTION(state, payload, this.props.queryStatus));
-
-//     save = async () => {
-//         const {
-//             state: {
-//                 systemSetInput,
-//             },
-//             props: {
-//                 mutations: {
-//                     updateEntireSystemSet,
-//                 },
-//             },
-//         } = this;
-
-//         const result = await updateEntireSystemSet({ systemSetInput });
-
-//         console.log({ result });
-//     }
-
-//     render = () => {
-//         const {
-//             state: {
-//                 filters,
-//                 systemSetInput,
-//             },
-//             props: {
-//                 location: {
-//                     search,
-//                 },
-//                 match: {
-//                     path,
-//                 },
-//                 queryStatus,
-//             },
-//             updateSystemSet,
-//         } = this;
-
-//         console.log(this.state);
-
-//         return (
-//             <>
-//                 <TitleBar
-//                     title="System Set"
-//                     right={(
-//                         <>
-//                             <Link
-//                                 to={`${path.replace(/\/system-set/, '')}${search}`}
-//                             >
-//                                 <button>
-//                                     Cancel
-//                                 </button>
-//                             </Link>
-//                             <button>
-//                                 Reset
-//                             </button>
-//                             <button
-//                                 className="action"
-//                             >
-//                                 Save
-//                             </button>
-//                         </>
-//                     )}
-//                 />
-//                 <TabNavigator
-//                     routes={{
-//                         SystemSetInfo,
-//                         SystemSetOptions,
-//                         SystemSetConfigurationTypes,
-//                     }}
-//                     routeProps={{
-//                         queryStatus,
-//                         filters,
-//                         systemSetInput,
-//                         updateSystemSet,
-//                     }}
-//                 />
-//             </>
-//         );
-//     }
-// }
-
 const initialState = {
     filters: {
-        manufacturerId: 0,
-        systemTypeId: 0,
+        manufacturerId: undefined,
+        systemTypeId: undefined,
+    },
+    selectOptions: {
+        manufacturers: [],
+        systems: [],
+        infillSizes: [],
     },
     systemSetInput: {
-        systemId: 0,
-        infillSize: 0,
+        systemId: undefined,
+        infillSize: undefined,
         systemOptions: [],
         detailTypeConfigurationTypes: [],
         detailTypeConfigurationTypesToUnselect: [],
     },
 };
 
-const createReducer = queryStatus => (state, { action, ...payload }) => {
+const manufacturerChanged = (oldState, intermediateState) => (
+    intermediateState.filters.manufacturerId !== oldState.filters.manufacturerId
+);
 
-    const {
-        filters: oldFilters,
-        filters: {
-            manufacturerId: oldManufacturerId,
-            systemTypeId: oldSystemTypeId,
-        },
-        systemSetInput: oldSystemSetInput,
-        systemSetInput: {
-            systemId: oldSystemId,
-        },
-    } = state;
+const systemChanged = (oldState, intermediateState) => (
+    intermediateState.systemSetInput.systemId !== oldState.systemSetInput.systemId
+);
 
-    const intermediateState = action ?
-        action(queryStatus, state, payload)
-        :
-        {
-            ...state,
-            ...payload,
-        };
-
-    const {
-        filters: newFilters,
-        filters: {
-            manufacturerId: newManufacturerId,
-            systemTypeId: newSystemTypeId,
-        },
-        systemSetInput: newSystemSetInput,
-    } = intermediateState;
-
-    const {
-        allManufacturers,
-    } = queryStatus;
-
-    const manufacturerChanged = newManufacturerId && newManufacturerId !== oldManufacturerId;
-    const systemTypeChanged = newSystemTypeId && newSystemTypeId !== oldSystemTypeId;
-
-    if (!(manufacturerChanged || systemTypeChanged)) return state;
-
-    else {
-        const manufacturerId = newManufacturerId || oldManufacturerId;
-        const systemTypeId = newSystemTypeId || oldSystemTypeId;
-
-        const manufacturer = manufacturerChanged && allManufacturers.find(({ id }) => id === manufacturerId);
-
-        const systems = (manufacturer || {})._systems || []
-
-        const systemId = manufacturerChanged ?
-            (
-                systems.find(({ id }) => id === oldSystemId)
-                ||
-                systems[0] || {}
-            ).id
-            :
-            oldSystemId;
-
+const removeSystemAfterManufacturerChange = (oldState, intermediateState) => {
+    if (manufacturerChanged(oldState, intermediateState)) {
         return {
-            ...state,
             ...intermediateState,
-            filters: {
-                ...oldFilters,
-                ...newFilters,
-                manufacturerId,
-                systemTypeId,
-            },
             systemSetInput: {
-                ...oldSystemSetInput,
-                ...newSystemSetInput,
-                systemId,
+                ...intermediateState.systemSetInput,
+                systemId: undefined,
             },
         };
     }
-};
+    else return intermediateState;
+}
+
+const removeInfillSizeAfterSystemChange = (oldState, intermediateState) => {
+    if (systemChanged(oldState, intermediateState)) {
+        return {
+            ...intermediateState,
+            systemSetInput: {
+                ...intermediateState.systemSetInput,
+                infillSize: undefined,
+            },
+        };
+    }
+    else return intermediateState;
+}
+
+const updateManufacturerAfterSystemChange = (oldState, intermediateState, { allManufacturers }) => {
+    if (systemChanged(oldState, intermediateState)) {
+        return {
+            ...intermediateState,
+            systemSetInput: {
+                ...intermediateState.systemSetInput,
+                manufacturerId: intermediateState
+            }
+        }
+    }
+}
+
+const filterSystems = (oldState, intermediateState, queryStatus) => {
+    if (manufacturerChanged(oldState, intermediateState)) {
+        const {
+            systemSet: {
+                id,
+                infillSize: systemSetInfillSize,
+                system: systemSetSystem,
+                system: {
+                    infillSizes: systemSetSystemInfillSizes,
+                    manufacturer: systemSetManufacturer,
+                } = {},
+            } = {},
+            allManufacturers = [],
+        } = queryStatus;
+
+        // const
+    }
+    else return intermediateState;
+}
+
+const filterInfillSizes = (oldState, intermediateState, queryStatus) => {
+    if (systemChanged(oldState, intermediateState)) {
+
+    }
+    else return intermediateState;
+}
+
+const callbacks = [
+    removeSystemAfterManufacturerChange,
+    removeInfillSizeAfterSystemChange,
+];
+
+const reduceState = (state, intermediateState, queryStatus) => callbacks.reduce(
+    (accumulatedState, cb) => cb(state, accumulatedState, queryStatus),
+    intermediateState
+);
+
+const createReducer = queryStatus => (state, { action, payload } = {}) => reduceState(state, action(state, payload, queryStatus));
 
 function SystemSet({
     location: {
@@ -208,9 +136,12 @@ function SystemSet({
     },
     queryStatus,
 }) {
-    const reducer = useCallback(() => createReducer(queryStatus), queryStatus);
+    const reducer = useMemo(() => createReducer(queryStatus), [queryStatus]);
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, rawDispatch] = useReducer(reducer, initialState);
+
+    // map arguments to dispatch
+    const dispatch = useCallback((action, payload) => rawDispatch({ action, payload }), [rawDispatch]);
 
     const {
         filters,

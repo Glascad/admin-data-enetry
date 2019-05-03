@@ -4,7 +4,7 @@ import {
     Input,
 } from '../../../../../../components';
 
-import { UPDATE_FILTER, UPDATE_INFILL_SIZE } from '../ducks/actions';
+import { UPDATE_INFILL_SIZE, UPDATE_FILTER, UPDATE_SYSTEM_SET } from '../ducks/actions';
 
 SystemSetInfo.navigationOptions = {
     name: "System Set",
@@ -31,9 +31,10 @@ export default function SystemSetInfo({
         manufacturerId,
         systemTypeId,
     },
-    updateSystemSet,
     dispatch,
 }) {
+
+    console.log(arguments[0]);
 
     const creating = !id;
 
@@ -78,8 +79,6 @@ export default function SystemSetInfo({
         name: systemName,
     } = system || {};
 
-    console.log(arguments[0]);
-
     return (
         <>
             <Input
@@ -94,9 +93,7 @@ export default function SystemSetInfo({
                         value: id,
                         label: name,
                     })),
-                    onChange: ({ value }) => updateSystemSet(UPDATE_FILTER, {
-                        manufacturerId: value,
-                    }),
+                    onChange: ({ value }) => dispatch(UPDATE_FILTER, { manufacturerId: value }),
                 }}
             />
             <Input
@@ -111,9 +108,7 @@ export default function SystemSetInfo({
                         value: id,
                         label: name,
                     })),
-                    onChange: ({ value }) => updateSystemSet(UPDATE_FILTER, {
-                        systemId: value,
-                    }),
+                    onChange: ({ value }) => dispatch(UPDATE_SYSTEM_SET, { systemId: value }),
                 }}
             />
             <Input
@@ -127,9 +122,7 @@ export default function SystemSetInfo({
                         value: infillSize,
                         label: infillSize,
                     })),
-                    onChange: ({ value }) => updateSystemSet(UPDATE_INFILL_SIZE, {
-                        infillSize: value
-                    }),
+                    onChange: ({ value }) => dispatch(UPDATE_SYSTEM_SET, { infillSize: value }),
                 }}
             />
         </>

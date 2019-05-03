@@ -1,7 +1,16 @@
-import UPDATE_FILTER from './update-filter';
-import UPDATE_INFILL_SIZE from './update-infill-size'
 
-export {
-    UPDATE_FILTER,
-    UPDATE_INFILL_SIZE,
-};
+export const UPDATE_FILTER = (state, updatedFilters) => ({
+    ...state,
+    filters: {
+        ...state.filters,
+        ...updatedFilters,
+    },
+});
+
+export const UPDATE_SYSTEM_SET = (state, updatedSystemSet) => ({
+    ...state,
+    systemSetInput: {
+        ...state.systemSetInput,
+        ...updatedSystemSet,
+    },
+});
