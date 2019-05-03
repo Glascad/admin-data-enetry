@@ -22,6 +22,7 @@ export default function SystemSetInfo({
             } = {},
         } = {},
         allManufacturers = [],
+        allSystems = [],
     },
     systemSetInput: {
         systemId,
@@ -39,10 +40,7 @@ export default function SystemSetInfo({
     const creating = !id;
 
     const manufacturer = creating ?
-        manufacturerId ?
-            allManufacturers.find(({ id }) => id === manufacturerId)
-            :
-            allManufacturers[0]
+        allManufacturers.find(({ id }) => id === manufacturerId)
         :
         systemSetManufacturer;
 
@@ -52,15 +50,15 @@ export default function SystemSetInfo({
         [manufacturer];
 
     const systems = creating ?
-        (manufacturer || {})._systems || []
+        manufacturerId ?
+            allSystems.filter(({ manufacturerId: id }) => id === manufacturerId)
+            :
+            allSystems
         :
         [systemSetSystem];
 
     const system = creating ?
-        systemId ?
-            systems.find(({ id }) => id === systemId)
-            :
-            systems[0]
+        systems.find(({ id }) => id === systemId)
         :
         systemSetSystem;
 
@@ -69,7 +67,10 @@ export default function SystemSetInfo({
         :
         systemSetSystemInfillSizes;
 
-    const infillSize = infillSizeInput || (infillSizes[0] || {}).infillSize || systemSetInfillSize;
+    const infillSize = creating ?
+        infillSizeInput
+        :
+        systemSetInfillSize;
 
     const {
         name: manufacturerName,

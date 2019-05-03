@@ -6,37 +6,38 @@ export default gql`query SelectEntireSystemSet($systemSetId: Int!) {
             nodeId
             id
             name
-            systemsByManufacturerId {
+        }
+    }
+    allSystems {
+        nodes {
+            nodeId
+            id
+            name
+            manufacturerId
+            systemInfillSizesBySystemId {
+                nodes {
+                    nodeId
+                    infillSize
+                }
+            }
+            systemOptionsBySystemId(
+                orderBy: OPTION_ORDER_ASC,
+                condition: {
+                    presentationLevel: SYSTEM
+                }
+            ) {
                 nodes {
                     nodeId
                     id
                     name
-                    systemInfillSizesBySystemId {
-                        nodes {
-                            nodeId
-                            infillSize
-                        }
-                    }
-                    systemOptionsBySystemId(
-                        orderBy: OPTION_ORDER_ASC,
-                        condition: {
-                            presentationLevel: SYSTEM
-                        }
-                    ) {
+                    optionOrder
+                    optionValuesBySystemOptionId(orderBy: VALUE_ORDER_ASC) {
                         nodes {
                             nodeId
                             id
                             name
-                            optionOrder
-                            optionValuesBySystemOptionId(orderBy: VALUE_ORDER_ASC) {
-                                nodes {
-                                    nodeId
-                                    id
-                                    name
-                                    value
-                                    valueOrder
-                                }
-                            }
+                            value
+                            valueOrder
                         }
                     }
                 }

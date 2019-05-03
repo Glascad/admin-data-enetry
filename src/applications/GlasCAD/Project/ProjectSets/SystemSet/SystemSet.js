@@ -86,6 +86,7 @@ const updateManufacturerAfterSystemChange = (oldState, intermediateState, { allM
             }
         }
     }
+    else return intermediateState;
 }
 
 const filterSystems = (oldState, intermediateState, queryStatus) => {
@@ -125,7 +126,15 @@ const reduceState = (state, intermediateState, queryStatus) => callbacks.reduce(
     intermediateState
 );
 
-const createReducer = queryStatus => (state, { action, payload } = {}) => reduceState(state, action(state, payload, queryStatus));
+const createReducer = queryStatus => (state, { action, payload } = {}) => reduceState(
+    state,
+    action(
+        state,
+        payload,
+        queryStatus
+    ) || state,
+    queryStatus
+);
 
 function SystemSet({
     location: {
