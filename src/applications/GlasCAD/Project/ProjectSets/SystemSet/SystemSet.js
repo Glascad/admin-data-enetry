@@ -76,46 +76,6 @@ const removeInfillSizeAfterSystemChange = (oldState, intermediateState) => {
     else return intermediateState;
 }
 
-const updateManufacturerAfterSystemChange = (oldState, intermediateState, { allManufacturers }) => {
-    if (systemChanged(oldState, intermediateState)) {
-        return {
-            ...intermediateState,
-            systemSetInput: {
-                ...intermediateState.systemSetInput,
-                manufacturerId: intermediateState
-            }
-        }
-    }
-    else return intermediateState;
-}
-
-const filterSystems = (oldState, intermediateState, queryStatus) => {
-    if (manufacturerChanged(oldState, intermediateState)) {
-        const {
-            systemSet: {
-                id,
-                infillSize: systemSetInfillSize,
-                system: systemSetSystem,
-                system: {
-                    infillSizes: systemSetSystemInfillSizes,
-                    manufacturer: systemSetManufacturer,
-                } = {},
-            } = {},
-            allManufacturers = [],
-        } = queryStatus;
-
-        // const
-    }
-    else return intermediateState;
-}
-
-const filterInfillSizes = (oldState, intermediateState, queryStatus) => {
-    if (systemChanged(oldState, intermediateState)) {
-
-    }
-    else return intermediateState;
-}
-
 const callbacks = [
     removeSystemAfterManufacturerChange,
     removeInfillSizeAfterSystemChange,

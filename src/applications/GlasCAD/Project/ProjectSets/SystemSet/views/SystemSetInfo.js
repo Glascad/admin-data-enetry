@@ -35,19 +35,7 @@ export default function SystemSetInfo({
     dispatch,
 }) {
 
-    console.log(arguments[0]);
-
     const creating = !id;
-
-    const manufacturer = creating ?
-        allManufacturers.find(({ id }) => id === manufacturerId)
-        :
-        systemSetManufacturer;
-
-    const manufacturers = creating ?
-        allManufacturers
-        :
-        [manufacturer];
 
     const systems = creating ?
         manufacturerId ?
@@ -61,6 +49,16 @@ export default function SystemSetInfo({
         systems.find(({ id }) => id === systemId)
         :
         systemSetSystem;
+
+    const manufacturer = creating ?
+        allManufacturers.find(({ id }) => id === manufacturerId || (system || {}).manufacturerId)
+        :
+        systemSetManufacturer;
+
+    const manufacturers = creating ?
+        allManufacturers
+        :
+        [manufacturer];
 
     const infillSizes = creating ?
         (system || {})._systemInfillSizes || []
