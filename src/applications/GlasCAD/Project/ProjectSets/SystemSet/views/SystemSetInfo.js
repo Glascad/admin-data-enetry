@@ -63,12 +63,9 @@ export default function SystemSetInfo({
     const infillSizes = creating ?
         (system || {})._systemInfillSizes || []
         :
-        systemSetSystemInfillSizes;
+        systemSetSystemInfillSizes.map(infillSize => ({ infillSize }));
 
-    const infillSize = creating ?
-        infillSizeInput
-        :
-        systemSetInfillSize;
+    const infillSize = infillSizeInput || systemSetInfillSize;
 
     const {
         name: manufacturerName,

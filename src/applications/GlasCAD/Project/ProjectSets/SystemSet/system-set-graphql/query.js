@@ -76,7 +76,7 @@ export default gql`query SelectEntireSystemSet($systemSetId: Int!) {
                 valueOrder
             }
         }
-        detailTypes {
+        detailTypeConfigurationTypes {
             detailType {
                 id
                 type

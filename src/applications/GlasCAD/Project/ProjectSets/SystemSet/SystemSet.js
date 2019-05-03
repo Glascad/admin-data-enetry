@@ -1,10 +1,4 @@
-import React, {
-    PureComponent,
-    useReducer,
-    useCallback,
-    useEffect,
-    useMemo,
-} from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -23,78 +17,7 @@ import updateEntireSystemSet from './system-set-graphql/mutation';
 
 import { parseSearch } from '../../../../../utils';
 
-const initialState = {
-    filters: {
-        manufacturerId: undefined,
-        systemTypeId: undefined,
-    },
-    selectOptions: {
-        manufacturers: [],
-        systems: [],
-        infillSizes: [],
-    },
-    systemSetInput: {
-        systemId: undefined,
-        infillSize: undefined,
-        systemOptions: [],
-        detailTypeConfigurationTypes: [],
-        detailTypeConfigurationTypesToUnselect: [],
-    },
-};
-
-const manufacturerChanged = (oldState, intermediateState) => (
-    intermediateState.filters.manufacturerId !== oldState.filters.manufacturerId
-);
-
-const systemChanged = (oldState, intermediateState) => (
-    intermediateState.systemSetInput.systemId !== oldState.systemSetInput.systemId
-);
-
-const removeSystemAfterManufacturerChange = (oldState, intermediateState) => {
-    if (manufacturerChanged(oldState, intermediateState)) {
-        return {
-            ...intermediateState,
-            systemSetInput: {
-                ...intermediateState.systemSetInput,
-                systemId: undefined,
-            },
-        };
-    }
-    else return intermediateState;
-}
-
-const removeInfillSizeAfterSystemChange = (oldState, intermediateState) => {
-    if (systemChanged(oldState, intermediateState)) {
-        return {
-            ...intermediateState,
-            systemSetInput: {
-                ...intermediateState.systemSetInput,
-                infillSize: undefined,
-            },
-        };
-    }
-    else return intermediateState;
-}
-
-const callbacks = [
-    removeSystemAfterManufacturerChange,
-    removeInfillSizeAfterSystemChange,
-];
-
-const reduceState = (state, intermediateState, queryStatus) => callbacks.reduce(
-    (accumulatedState, cb) => cb(state, accumulatedState, queryStatus),
-    intermediateState
-);
-
-const createReducer = queryStatus => (state, { action, payload } = {}) => reduceState(
-    state,
-    action(
-        state,
-        payload,
-        queryStatus
-    ) || state,
-    queryStatus
-);
+import useSystemSetReducer from './ducks/hooks';
 
 function SystemSet({
     location: {
@@ -105,17 +28,15 @@ function SystemSet({
     },
     queryStatus,
 }) {
-    const reducer = useMemo(() => createReducer(queryStatus), [queryStatus]);
-
-    const [state, rawDispatch] = useReducer(reducer, initialState);
-
-    // map arguments to dispatch
-    const dispatch = useCallback((action, payload) => rawDispatch({ action, payload }), [rawDispatch]);
 
     const {
-        filters,
-        systemSetInput,
-    } = state;
+        state: {
+            filters,
+            systemSetInput,
+        },
+        systemSet,
+        dispatch,
+    } = useSystemSetReducer(queryStatus);
 
     return (
         <>
@@ -151,6 +72,7 @@ function SystemSet({
                     queryStatus,
                     filters,
                     systemSetInput,
+                    systemSet,
                     dispatch,
                 }}
             />

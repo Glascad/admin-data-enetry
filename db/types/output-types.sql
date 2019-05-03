@@ -171,5 +171,5 @@ system_set_output AS (
     system SYSTEM,
     infill_size INTEGER,
     system_options SYSTEM_SET_OPTION_OUTPUT[],
-    detail_types SYSTEM_SET_DETAIL_TYPE_OUTPUT[]
+    detail_type_configuration_types SYSTEM_SET_DETAIL_TYPE_OUTPUT[]
 );
