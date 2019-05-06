@@ -19,7 +19,7 @@
         width: calc(#{$large * 2} + #{$item-height});
         max-width: calc(#{$large * 2} + #{$item-height});
         
-        + #Viewport {
+        + #viewport {
             margin-left: calc(#{$large * 2} + #{$item-height});
         }
     }
@@ -68,15 +68,6 @@
             bottom: 0.5rem;
             border-left: 1px solid $medium-gray;
         }
-        
-        // &:after {
-        //     content: "";
-        //     position: absolute;
-        //     left: 0.5rem;
-        //     bottom: 0;
-        //     right: 0;
-        //     border-bottom: 1px solid $medium-gray;
-        // }
     }
 
     .application-links {
@@ -84,10 +75,18 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: $small;
 
-        button {
-            margin: $x-small;
+        a {
+            margin: $x-large;
+            width: fill;
+
+            button {
+                width: fill;
+            }
+
+            + a {
+                margin-top: -$x-small;
+            }
         }
     }
 
@@ -120,7 +119,7 @@
     }
 }
 
-#Viewport {
+#viewport {
     margin-left: $sidebar-width;
     display: flex;
     flex-direction: column;

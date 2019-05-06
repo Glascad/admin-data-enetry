@@ -88,17 +88,25 @@ export default class SelectionProvider extends PureComponent {
                     },
                 },
                 shiftKey,
+                cancelSelection,
+                selectItem,
+                unselectItem,
             } = this;
 
             const {
-                [length - 1]: selectedItem
+                [length - 1]: selectedItem,
+                [length - 1]: {
+                    vertical: memberVertical,
+                } = {},
             } = selectedItems;
 
-            if (selectedItem instanceof RecursiveContainer) {
-                const direction = getDirectionFromArrowKey(key);
+            const direction = getDirectionFromArrowKey(key);
 
-                if (direction) {
-                    const [vertical, first] = direction;
+            if (direction) {
+                const [vertical, first] = direction;
+
+                if (selectedItem instanceof RecursiveContainer) {
+
                     const nextContainer = selectedItem.getFirstOrLastContainerByDirection(...direction, !first);
 
                     if (
@@ -106,8 +114,21 @@ export default class SelectionProvider extends PureComponent {
                         &&
                         !nextContainer.customRoughOpening
                     ) {
-                        if (!shiftKey) this.cancelSelection();
-                        this.selectItem(nextContainer, true);
+                        if (!shiftKey) cancelSelection();
+                        selectItem(nextContainer, true);
+                    }
+                } else if (selectedItem instanceof RecursiveFrame) {
+
+                    if (vertical === memberVertical) {
+                        selectedItems.forEach(_frame => {
+                            const nextFrame = _frame.getNextFrameByDirection(first);
+                            if (nextFrame) {
+                                if (!shiftKey) unselectItem(_frame);
+                                selectItem(nextFrame, true);
+                            }
+                        });
+                    } else {
+                        // select frame on opposite side of container
                     }
                 }
             }

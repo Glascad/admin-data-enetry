@@ -17,7 +17,7 @@ import SystemDatabase from './SystemDatabase/SystemDatabase';
 import SystemDetails from './SystemDetails/SystemDetails';
 
 // THIS IS FOR RENDERING THE CORRECT NAME IN THE SIDEBAR
-SystemToggle.navigationOptions = ({
+SingleSystem.navigationOptions = ({
     location: {
         search,
     },
@@ -52,7 +52,7 @@ SystemToggle.navigationOptions = ({
     path: "/info",
 });
 
-export default function SystemToggle({
+export default function SingleSystem({
     location: {
         search,
     },

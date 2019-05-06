@@ -13,8 +13,9 @@ CREATE TABLE
 system_sets (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects,
-    system_id INTEGER,
-    system_type_id INTEGER,
+    system_id INTEGER REFERENCES systems,
+    system_type_id INTEGER REFERENCES system_types,
+    infill_size FLOAT REFERENCES infill_sizes,
     FOREIGN KEY (
         system_id,
         system_type_id
@@ -22,6 +23,14 @@ system_sets (
     REFERENCES systems (
         id,
         system_type_id
+    ),
+    FOREIGN KEY (
+        system_id,
+        infill_size
+    )
+    REFERENCES system_infill_sizes (
+        system_id,
+        infill_size
     ),
     UNIQUE (id, system_id, system_type_id)
 );
@@ -69,6 +78,7 @@ system_set_detail_type_configuration_types (
     system_type_id INTEGER,
     detail_type_id INTEGER,
     configuration_type_id INTEGER,
+    PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
     FOREIGN KEY (
         system_set_id,
         system_id,
@@ -78,5 +88,12 @@ system_set_detail_type_configuration_types (
         id,
         system_id,
         system_type_id
-    ),
-)
+    )
+);
+
+CREATE TABLE
+system_set_infill_sizes (
+    system_set_id INTEGER,
+    system_id INTEGER,
+    PRIMARY KEY (system_id, infill_size),
+);

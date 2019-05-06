@@ -146,6 +146,7 @@ export default class RecursiveElevation {
                     const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(container));
                     const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(container));
 
+                    // CONVERT INTO FUNCTIONAL FORM
                     if (prevVerticalDimension) prevVerticalDimension.addContainer(container);
                     if (prevHorizontalDimension) prevHorizontalDimension.addContainer(container);
 

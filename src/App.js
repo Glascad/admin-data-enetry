@@ -6,10 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import {
-    // CheatSheet,
-    Navigator,
-} from './components';
+import { Navigator } from './components';
 
 import DataEntry from './applications/DataEntry/DataEntry';
 import Glascad from './applications/GlasCAD/GlasCAD';
@@ -25,17 +22,22 @@ const client = new ApolloClient({
 
 export default function App() {
     return (
-        <Router>
-            <ApolloProvider client={client}>
-                {/* <CheatSheet> */}
+        <>
+            {navigator && navigator.userAgent && navigator.userAgent.match(/Linux/ig) ? (
+                <style>
+                    {`input, button { padding-top: 4px }`}
+                </style>
+            ) : null}
+            <Router>
+                <ApolloProvider client={client}>
                     <Navigator
                         routes={{
                             DataEntry,
                             Glascad,
                         }}
                     />
-                {/* </CheatSheet> */}
-            </ApolloProvider>
-        </Router>
+                </ApolloProvider>
+            </Router>
+        </>
     );
 }

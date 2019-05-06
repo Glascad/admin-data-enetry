@@ -5,10 +5,6 @@ import {
     Input,
 } from '../../../../../../components';
 
-import {
-    presentationLevels,
-} from '../../../../../../business-logic';
-
 import ACTIONS from '../ducks/actions';
 
 const isNullOrUndefined = item => item === undefined || item === null;
@@ -91,6 +87,7 @@ export default class SystemConfigurationOverride extends PureComponent {
                     presentationLevelOverride,
                     overrideLevelOverride,
                 },
+                presentationLevels,
             },
             handleChange,
         } = this;
@@ -123,24 +120,30 @@ export default class SystemConfigurationOverride extends PureComponent {
                     label="Presentation Level"
                     type="select"
                     select={{
-                        value: presentationLevels
-                            .find(({ value }) => value === presentationLevelOverride),
-                        defaultValue: presentationLevels
-                            .find(({ value }) => value === presentationLevel),
-                        options: presentationLevels,
-                        onChange: ({ value }) => handleChange("presentationLevelOverride", value)
+                        value: {
+                            value: presentationLevelOverride,
+                            label: presentationLevelOverride,
+                        },
+                        options: presentationLevels.map(({ name }) => ({
+                            value: name,
+                            label: name,
+                        })),
+                        onChange: ({ name }) => handleChange("presentationLevelOverride", name)
                     }}
                 />
                 <Input
                     label="Override Level"
                     type="select"
                     select={{
-                        value: presentationLevels
-                            .find(({ value }) => value === overrideLevelOverride),
-                        defaultValue: presentationLevels
-                            .find(({ value }) => value === overrideLevel),
-                        options: presentationLevels,
-                        onChange: ({ value }) => handleChange("overrideLevelOverride", value)
+                        value: {
+                            value: overrideLevelOverride,
+                            label: overrideLevelOverride,
+                        },
+                        options: presentationLevels.map(({ name }) => ({
+                            value: name,
+                            label: name,
+                        })),
+                        onChange: ({ name }) => handleChange("overrideLevelOverride", name)
                     }}
                 />
             </GroupingBox>

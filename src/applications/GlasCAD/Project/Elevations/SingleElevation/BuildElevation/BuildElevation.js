@@ -100,48 +100,21 @@ export default class BuildElevation extends PureComponent {
                 this.undo()
         );
 
-    createRecursiveElevation = ({
-        elevationInput,
-        elevationInput: {
-            containerIdsToDelete = [],
-            detailIdsToDelete = [],
-        },
-    } = this.state.states[this.state.currentIndex]) => {
+    createRecursiveElevation = ({ elevationInput } = this.state.states[this.state.currentIndex]) => {
         const {
             props: {
                 queryStatus: {
                     _elevation: rawElevation,
-                    _elevation: {
-                        _elevationContainers = [],
-                        _containerDetails = [],
-                    } = {},
                     _system,
                 } = {},
             },
         } = this;
 
-        // console.log({ rawElevation });
-
-        // console.log({ elevationInput });
-
-        // console.log({
-        //     deletedContainers: _elevationContainers
-        //         .filter(({ id }) => containerIdsToDelete.includes(id))
-        //         .map(({ __typename, nodeId, ...container }) => container),
-        //     deletedDetails: _containerDetails
-        //         .filter(({ id }) => detailIdsToDelete.includes(id))
-        //         .map(({ __typename, nodeId, _detailOptionValues, ...detail }) => detail),
-        // });
-
         const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
         validateElevation(mergedElevation);
 
-        // console.log({ mergedElevation });
-
         const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
-
-        // console.log({ recursiveElevation });
 
         return {
             elevationInput,
@@ -151,14 +124,42 @@ export default class BuildElevation extends PureComponent {
         };
     }
 
-    updateElevation = (ACTION, payload, cb, _replaceState) => (
-        _replaceState ?
-            this._replaceState
-            :
-            this._pushState
-    )(state => this.createRecursiveElevation(ACTION(state, payload)), cb);
+    // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
 
-    // cancel = () => this.updateElevation(() => ({ elevationInput: defaultElevationInput }), null, this.clearHistory);
+    updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
+        const {
+            _replaceState,
+            _pushState,
+            updateElevation,
+            createRecursiveElevation,
+        } = this;
+
+        const updateState = shouldReplaceState ?
+            _replaceState
+            :
+            _pushState;
+
+        // all actions must have access to the raw elevation in the query status on props
+        // further actions must be able to execute with a second (and third, etc...) payload
+        // further actions may have a different replace state boolean
+        // further actions must have access to the resulting recursive elevation of the previous action
+
+        const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
+
+        return updateState(state => createRecursiveElevation(ACTION(state, payload, dispatch)), cb);
+    }
+
+    // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
+    //     const {
+    //         _replaceState,
+    //         _pushState,
+    //     } = this;
+
+    //     const updateState = shouldReplaceState ? _replaceState : _pushState;
+
+    //     updateState(state => ACTION(state, payload, updateAfterUpdate), cb);
+    // }
+
     cancel = () => this.setState(({ states: [initialState] }) => ({
         states: [initialState],
         currentIndex: 0,

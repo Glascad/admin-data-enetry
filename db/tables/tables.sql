@@ -94,6 +94,7 @@ systems (
 
 
 
+
 CREATE TABLE
 system_infill_sizes (
     system_id INTEGER REFERENCES systems,
@@ -115,8 +116,8 @@ system_options (
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems,
     name VARCHAR(50),
-    presentation_level INTEGER,
-    override_level INTEGER,
+    presentation_level PRESENTATION_LEVEL,
+    override_level PRESENTATION_LEVEL,
     option_order INTEGER,
     UNIQUE (id, system_id)
 );
@@ -164,6 +165,7 @@ detail_types (
     entrance BOOLEAN,
     vertical BOOLEAN
 );
+
 
 CREATE TABLE
 configuration_types (
@@ -434,8 +436,8 @@ system_type_detail_type_configuration_types (
     configuration_type_id INTEGER REFERENCES configuration_types,
     required BOOLEAN,
     mirrorable BOOLEAN,
-    presentation_level INTEGER,
-    override_level INTEGER,
+    presentation_level PRESENTATION_LEVEL,
+    override_level PRESENTATION_LEVEL,
     UNIQUE (system_type_id, detail_type_id, configuration_type_id)
 );
 
@@ -447,8 +449,8 @@ system_configuration_overrides (
     configuration_type_id INTEGER,
     required_override BOOLEAN,
     mirrorable_override BOOLEAN,
-    presentation_level_override INTEGER,
-    override_level_override INTEGER,
+    presentation_level_override PRESENTATION_LEVEL,
+    override_level_override PRESENTATION_LEVEL,
     PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
     FOREIGN KEY (
         system_type_id, 

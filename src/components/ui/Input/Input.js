@@ -18,7 +18,8 @@ export default class Input extends PureComponent {
         tagname: "label",
         type: "text",
         checked: false,
-        direction: ''
+        direction: '',
+        disabled: false,
     };
 
     keys = {};
@@ -124,6 +125,7 @@ export default class Input extends PureComponent {
                 onChange,
                 handleChange,
                 Icon,
+                disabled,
                 ...props
             },
             ref,
@@ -160,6 +162,8 @@ export default class Input extends PureComponent {
                         select ? 'select'
                             :
                             type
+                    } ${
+                    disabled ? 'disabled' : ''
                     } ${
                     checked ? 'checked' : ''
                     } direction-${

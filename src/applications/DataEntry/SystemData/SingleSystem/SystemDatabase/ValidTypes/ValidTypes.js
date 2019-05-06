@@ -11,6 +11,8 @@ import SystemConfigurationOverride from './SystemConfigurationOverride';
 
 import ACTIONS from '../ducks/actions';
 
+import './ValidTypes.scss';
+
 ValidTypes.navigationOptions = ({
     system: {
         systemTypeId: newSystemTypeId,
@@ -22,6 +24,7 @@ ValidTypes.navigationOptions = ({
     },
 }) => ({
     disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
+    id: "ValidTypes",
 });
 
 export default function ValidTypes({
@@ -33,6 +36,7 @@ export default function ValidTypes({
         _invalidSystemConfigurationTypes = [],
         _systemConfigurationOverrides = [],
     },
+    presentationLevels,
     updateSystem,
 }) {
     return (
@@ -180,6 +184,7 @@ export default function ValidTypes({
                                         */}
                                         <SystemTypeDetailTypeConfigurationType
                                             {...{
+                                                presentationLevels,
                                                 _systemConfigurationOverride,
                                                 defaultValues,
                                                 _detailType,
@@ -190,6 +195,7 @@ export default function ValidTypes({
                                         {_systemConfigurationOverride ? (
                                             <SystemConfigurationOverride
                                                 {...{
+                                                    presentationLevels,
                                                     defaultValues,
                                                     _detailType,
                                                     _configurationType,

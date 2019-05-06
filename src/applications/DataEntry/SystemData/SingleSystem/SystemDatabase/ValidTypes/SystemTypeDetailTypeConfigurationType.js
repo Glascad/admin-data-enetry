@@ -5,10 +5,6 @@ import {
     Input,
 } from '../../../../../../components';
 
-import {
-    presentationLevels,
-} from '../../../../../../business-logic';
-
 import ACTIONS from '../ducks/actions';
 
 export default function SystemTypeDetailTypeConfigurationType({
@@ -25,6 +21,7 @@ export default function SystemTypeDetailTypeConfigurationType({
     _detailType: {
         id: detailTypeId,
     } = {},
+    presentationLevels,
     updateSystem,
 }) {
     return (
@@ -68,11 +65,14 @@ export default function SystemTypeDetailTypeConfigurationType({
                 type="select"
                 select={{
                     isDisabled: true,
-                    value: presentationLevels
-                        .find(({ value }) => value === presentationLevel),
-                    defaultValue: presentationLevels
-                        .find(({ value }) => value === presentationLevel),
-                    options: presentationLevels
+                    value: {
+                        value: presentationLevel,
+                        label: presentationLevel,
+                    },
+                    options: presentationLevels.map(({ name }) => ({
+                        value: name,
+                        label: name,
+                    }))
                 }}
             />
             <Input
@@ -80,11 +80,14 @@ export default function SystemTypeDetailTypeConfigurationType({
                 type="select"
                 select={{
                     isDisabled: true,
-                    value: presentationLevels
-                        .find(({ value }) => value === overrideLevel),
-                    defaultValue: presentationLevels
-                        .find(({ value }) => value === overrideLevel),
-                    options: presentationLevels,
+                    value: {
+                        value: overrideLevel,
+                        label: overrideLevel,
+                    },
+                    options: presentationLevels.map(({ name }) => ({
+                        value: name,
+                        label: name,
+                    })),
                 }}
             />
         </GroupingBox>

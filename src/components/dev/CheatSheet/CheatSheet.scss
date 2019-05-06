@@ -89,13 +89,13 @@
     
     // IDS
     #Sidebar,
-    #Viewport
+    #viewport
     {
         box-shadow: inset 0 0 3px 2px yellow !important;
     }
     
     #Sidebar { @include label("Sidebar"); }
-    #Viewport { @include label("Viewport"); }
+    #viewport { @include label("viewport"); }
 
 }
     

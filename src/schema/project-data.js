@@ -56,7 +56,9 @@ export const ENTIRE_SYSTEM_SET = gql`
                 }
             }
         }
-        
+        elevationsBySystemSetId {
+            totalCount
+        }
     }
     ${SD.ENTIRE_SYSTEM}
     ${SD.ENTIRE_SYSTEM_OPTION}
@@ -66,7 +68,7 @@ export const ENTIRE_SYSTEM_SET = gql`
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
         ...ProjectFields
-        elevationsByProjectId {
+        elevationsByProjectId(orderBy: NAME_ASC) {
             nodes {
                 ...EntireElevation
             }

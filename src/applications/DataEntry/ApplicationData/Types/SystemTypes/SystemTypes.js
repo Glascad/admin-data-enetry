@@ -21,19 +21,23 @@ export default function SystemTypes() {
                     allSystemTypes = [],
                     allDetailTypes = [],
                     allConfigurationTypes = [],
+                    PresentationLevels: {
+                        enumValues: presentationLevels = [],
+                    } = {},
                 },
                 mutations: {
                     createSystemType,
                     updateSystemType,
                     deleteSystemType,
-                    // createSystemTypeDetailType,
-                    // deleteSystemTypeDetailType,
                     createSystemTypeDetailTypeConfigurationType,
                     updateSystemTypeDetailTypeConfigurationType,
                     deleteSystemTypeDetailTypeConfigurationType,
                 },
+                queryStatus,
+                mutations,
             }) => (
                     <ListWrapper
+                        n={console.log({ queryStatus, mutations })}
                         title="System Types"
                         items={allSystemTypes}
                         mapPillProps={({ type }) => ({
@@ -185,21 +189,37 @@ export default function SystemTypes() {
                                                             >
                                                                 <Input
                                                                     label="Presentation Level"
-                                                                    type="number"
-                                                                    initialValue={presentationLevel}
-                                                                    onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
-                                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID,
-                                                                        presentationLevel: value,
-                                                                    })}
+                                                                    select={{
+                                                                        value: {
+                                                                            label: presentationLevel,
+                                                                            value: presentationLevel,
+                                                                        },
+                                                                        options: presentationLevels.map(({ name }) => ({
+                                                                            label: name,
+                                                                            value: name,
+                                                                        })),
+                                                                        onChange: ({ value }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                            nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                            presentationLevel: value,
+                                                                        }),
+                                                                    }}
                                                                 />
                                                                 <Input
                                                                     label="Override Level"
-                                                                    type="number"
-                                                                    initialValue={overrideLevel}
-                                                                    onBlur={({ target: { value } }) => updateSystemTypeDetailTypeConfigurationType({
-                                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID,
-                                                                        overrideLevel: value,
-                                                                    })}
+                                                                    select={{
+                                                                        value: {
+                                                                            label: overrideLevel,
+                                                                            value: overrideLevel,
+                                                                        },
+                                                                        options: presentationLevels.map(({ name }) => ({
+                                                                            label: name,
+                                                                            value: name,
+                                                                        })),
+                                                                        onChange: ({ value }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                            nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                            overrideLevel: value,
+                                                                        }),
+                                                                    }}
                                                                 />
                                                             </div>
                                                         </>

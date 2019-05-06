@@ -122,10 +122,11 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                border: 2px solid transparentize($danger-color, 0.8) !important;
-                background: transparentize($danger-color, 0.8);
-                box-shadow: none !important;
-                pointer-events: none;
+                display: none;
+                // border: 2px solid transparentize($danger-color, 0.8) !important;
+                // background: transparentize($danger-color, 0.8);
+                // box-shadow: none !important;
+                // pointer-events: none;
             }
 
             &:hover {
@@ -133,7 +134,8 @@
             }
 
             .text {
-                margin: $x-small;
+                display: none;
+                // margin: $x-small;
             }
         }
 
@@ -225,6 +227,8 @@
                     cursor: default;
                     color: $selected-color;
                     font-weight: bold;
+                    outline: none;
+                    box-shadow: none;
                 }
 
                 .detail-pointer {
@@ -260,6 +264,36 @@
                     @include detail-bubble(true, true);
                 }
             }
+
+            &.detail-selected {
+                // deep nesting for precedence
+                &.vertical,
+                &.horizontal {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            background: $selected-color;
+                            color: white;
+                            + .detail-pointer {
+                                .detail-pointer-white {
+                                    border-top-color: $selected-color;
+                                }
+                            }
+                        }
+                        &:hover {
+                            .DetailBubble {
+                                color: $selected-color;
+                                background: white;
+
+                                + .detail-pointer {
+                                    .detail-pointer-white {
+                                        border-top-color: white;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -272,6 +306,8 @@
         justify-content: center;
         align-items: center;
         z-index: 3;
+        outline: none;
+        box-shadow: none;
 
         &.horizontal {
             height: $x-large;
@@ -302,6 +338,12 @@
             input {
                 text-align: center;
                 border-color: $selected-color;
+
+                &::-webkit-inner-spin-button,
+                &::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
             }
         }
 

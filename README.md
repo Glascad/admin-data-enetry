@@ -9,6 +9,38 @@
 
 [End Client Application](#client)
 
+
+
+## Elevation Builder Presentation
+
+Building elevations is the number-one use for the end customer.
+- Elevation data structure in database
+- GUI for interacting with elevation data structure
+
+The elevation data structure will integrate with system data to select configurations and produce details.
+- We already have a thread of this connection
+    - Detail & configuration types
+
+- Recap project sets & keyplans
+- Create elevation
+- Build elevation
+    - Zoom & pan
+    - Selection
+        - Clicking
+            - Glass
+            - Frames
+            - Dimensions
+            - Details
+        - Arrow keys
+            - Shift key
+        - Side Menu
+            - Based on selection
+    - Dimensions
+    - Moving frames
+    - Undo / redo
+
+
+
 ### How To Select A Configuration To Edit (SVG Data Entry)
 
 - Select a System

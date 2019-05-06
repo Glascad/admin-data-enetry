@@ -29,6 +29,7 @@ class ActionProvider extends PureComponent {
         } = this;
 
         if (oldElevation !== newElevation) {
+            // IMPLEMENT ACTION: MERGE DELETED CONTAINERS
             const { containerToMerge, directionToMerge } = allContainers
                 .reduce(({ containerToMerge, directionToMerge }, container) => {
                     if (containerToMerge) return { containerToMerge, directionToMerge };
@@ -68,6 +69,7 @@ class ActionProvider extends PureComponent {
         }
     }
 
+    // MOVE ENTIRELY INTO ACTIONS FOLDER
     performBulkAction = (ACTION, refIds, getPayloadFromRefId, { _replaceState, useTimeout } = {}) => {
         const {
             props: {
@@ -160,6 +162,7 @@ class ActionProvider extends PureComponent {
                     },
                 },
             },
+            performBulkAction,
         } = this;
 
         if (newDimension >= minimumDaylightOpening) {
@@ -191,7 +194,7 @@ class ActionProvider extends PureComponent {
                 }
             }
 
-            this.performBulkAction(
+            performBulkAction(
                 ACTIONS.MOVE_FRAME,
                 unique(firstDetailRefIds.concat(secondDetailRefIds)),
                 getPayloadFromRefId,

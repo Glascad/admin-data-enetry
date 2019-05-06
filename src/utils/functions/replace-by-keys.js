@@ -28,9 +28,7 @@ const replaceByKeys = obj => (
                             ...replaceByKeys(obj[key]),
                             __by: key.replace(matchBy, '$3'),
                         },
-                    }
-                    :
-                    {
+                    } : {
                         [key]: replaceByKeys(obj[key]),
                     }
                 ),
