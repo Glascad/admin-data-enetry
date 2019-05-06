@@ -20,6 +20,7 @@ export default function SystemSetOptions({
         allManufacturers = [],
         allSystems = [],
     },
+    systemSet,
     systemSetInput: {
         systemId,
         infillSize: infillSizeInput,

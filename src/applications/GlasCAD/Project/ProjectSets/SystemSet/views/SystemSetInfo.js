@@ -32,6 +32,7 @@ export default function SystemSetInfo({
         manufacturerId,
         systemTypeId,
     },
+    
     dispatch,
 }) {
 
