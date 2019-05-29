@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 
-export default class SystemSetConfigurationTypes extends PureComponent {
+SystemSetConfigurationTypes.navigationOptions = {
+    name: "Optional Parts",
+};
 
-    static navigationOptions = {
-        name: "Optional Parts",
-    };
+export default function SystemSetConfigurationTypes({
 
-    render = () => {
-        return (
-            <div>
+}) {
+    console.log(arguments[0]);
+    return (
+        <div>
 
-            </div>
-        );
-    }
+        </div>
+    );
 }

@@ -134,8 +134,14 @@
             }
 
             .text {
-                display: none;
-                // margin: $x-small;
+                // display: none;
+                margin: $x-small;
+
+                span {
+                    + span {
+                        display: none;
+                    }
+                }
             }
         }
 

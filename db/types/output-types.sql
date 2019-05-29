@@ -56,7 +56,8 @@ system_configuration_type_output AS (
 CREATE TYPE
 system_set_configuration_type_output AS (
     selected BOOLEAN,
-    system_default SYSTEM_CONFIGURATION_TYPE_OUTPUT
+    system_default SYSTEM_CONFIGURATION_TYPE_OUTPUT,
+    detail_types DEATIL_TYPE[]
 );
 
 -- COMMENT ON TABLE -- public.detail_types -- IS '@name dt';
@@ -171,5 +172,6 @@ system_set_output AS (
     system SYSTEM,
     infill_size INTEGER,
     system_options SYSTEM_SET_OPTION_OUTPUT[],
-    detail_type_configuration_types SYSTEM_SET_DETAIL_TYPE_OUTPUT[]
+    detail_type_configuration_types SYSTEM_SET_DETAIL_TYPE_OUTPUT[],
+    configuration_type SYSTEM_SET_CONFIGURATION_TYPE_OUTPUT[]
 );

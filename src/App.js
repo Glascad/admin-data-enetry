@@ -16,7 +16,8 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-    uri: 'http://localhost:5001/graphql',
+    // CANNOT DESTRUCTURE PROCESS
+    uri: process.env.REACT_APP_BASE_URL || 'http://localhost:5001/graphql',
     cache,
 });
 

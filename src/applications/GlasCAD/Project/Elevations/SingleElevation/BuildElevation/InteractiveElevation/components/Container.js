@@ -48,7 +48,14 @@ export default class Container extends PureComponent {
                     {
                         refId
                             .replace(/\D*/, '*')
-                            // .replace(/<.*/, '')
+                            .replace(/</, '*')
+                            .replace(/>/, '*')
+                            .split('*')
+                            .filter(Boolean)
+                            .map(text => (
+                                <span>{text}</span>
+                            ))
+                        // .replace(/<.*/, '')
                     }
                 </div>
             </div>

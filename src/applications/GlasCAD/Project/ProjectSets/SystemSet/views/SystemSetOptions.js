@@ -31,6 +31,7 @@ export default function SystemSetOptions({
     },
     dispatch,
 }) {
+    console.log(arguments[0]);
     return (
         <>
             {selectedOptionValues.map(({
@@ -39,7 +40,7 @@ export default function SystemSetOptions({
                     name,
                 },
                 selectedValueId,
-                optionValues,
+                optionValues = [],
                 optionValues: {
                     length,
                 } = [],
@@ -50,8 +51,13 @@ export default function SystemSetOptions({
                         select={{
                             value: {
                                 value: selectedValueId,
-                                // label: 
-                            }
+                                label: (optionValues.find(({ id }) => id === selectedValueId) || {}).name,
+                            },
+                            options: optionValues.map(({ id, name }) => ({
+                                value: id,
+                                label: name,
+                            })),
+                            onChange: ({ value }) => console.log({ value }),
                         }}
                     />
                 ))}
