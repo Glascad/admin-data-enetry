@@ -144,9 +144,9 @@ export default class BuildElevation extends PureComponent {
         // further actions may have a different replace state boolean
         // further actions must have access to the resulting recursive elevation of the previous action
 
-        const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
+        // const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
 
-        return updateState(state => createRecursiveElevation(ACTION(state, payload, dispatch)), cb);
+        return updateState(state => createRecursiveElevation(ACTION(state, payload)), cb);
     }
 
     // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
