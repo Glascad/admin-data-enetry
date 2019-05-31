@@ -1,19 +1,4 @@
 
-// VALIDATION TEST
-
-const validateElevation = (rawElevation) => {
-    // no orphans
-    // no invalid references
-    // no overlapping containers
-    // no exceeding rough opening
-    // no missing details
-    // no duplicate details
-}
-
-
-
-// ACTION TEST
-
 const testAction = (intialElevation, testName, ACTION, payload, expectedResult) => {
     const actualResult = ACTION(intialElevation);
     describe(testName, () => {
@@ -45,3 +30,4 @@ testAction(sample1, 'merge sample1 - 8 down', action, expected);
 //     ['merge 10 left', merge, { container: 10, direction: 'left' }, expected],
 //     ['merge 9 left', merge, { container: 9, direction: 'left' }, secondExpected],
 // );
+
