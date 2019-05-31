@@ -5,14 +5,15 @@ export default function merge({
         infillSize: newInfillSize,
         selectedOptionValues: newSelectedOptionValues = [],
         detailTypeConfigurationTypes: newDetailTypeConfigurationTypes = [],
-        detailTypeConfigurationTypesToUnselect: unselectedDetailTypeConfigurationTypes = [],
+        detailTypeConfigurationTypesToUnselect: newDetailTypeConfigurationTypesToUnselect = [],
     },
 }, {
     systemSet: {
         id,
-        infillSize,
-        detailTypeConfigurationTypes = [],
-        selectedOptionValues = [],
+        infillSize: oldInfillSize,
+        detailTypeConfigurationTypes: oldDetailTypeConfigurationTypes = [],
+        detailTypeConfigurationTypesToUnselect: oldDetailTypeConfigurationTypesToUnselect = [],
+        selectedOptionValues: oldSelectedOptionValues = [],
         system: {
             id: systemId,
             infillSizes = [],
@@ -28,9 +29,11 @@ export default function merge({
     } = {},
 }) {
     console.log(arguments);
+
     return {
         id,
-        infillSize: newInfillSize || infillSize,
-        detailTypeConfigurationTypes: detailTypeConfigurationTypes,
+        infillSize: newInfillSize || oldInfillSize,
+        detailTypeConfigurationTypes: oldDetailTypeConfigurationTypes,
+        selectedOptionValues: oldSelectedOptionValues,
     };
 }

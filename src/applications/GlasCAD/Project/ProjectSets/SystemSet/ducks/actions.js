@@ -1,4 +1,10 @@
 
+/**
+ * These functions are the actions received by the reducer in ./hooks.js
+ * Each function receives the previous state object and a payload, and should return a new state object.
+ * Refer to initialState in ./hooks.js to see the shape of the state object.
+ */
+
 export const UPDATE_FILTER = (state, updatedFilters) => ({
     ...state,
     filters: {
@@ -14,3 +20,32 @@ export const UPDATE_SYSTEM_SET = (state, updatedSystemSet) => ({
         ...updatedSystemSet,
     },
 });
+
+export const SELECT_OPTION_VALUE = ({
+    systemSetInput,
+    systemSetInput: {
+        selectedOptionValues,
+    },
+    ...state
+}, {
+    optionId,
+    valueId,
+}) => {
+    const optionIndex = selectedOptionValues.findIndex(({ systemOptionId }) => systemOptionId === optionId);
+
+    const selectedOptionValue = {
+        systemOptionId: optionId,
+        optionValueId: valueId,
+    };
+
+    return {
+        ...state,
+        systemSetInput: {
+            ...systemSetInput,
+            selectedOptionValues: optionIndex !== -1 ?
+                selectedOptionValues.replace(optionIndex, selectedOptionValue)
+                :
+                selectedOptionValues.concat(selectedOptionValue)
+        },
+    };
+}

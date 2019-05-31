@@ -1,33 +1,14 @@
 import React from 'react';
 import { Input } from '../../../../../../components';
+import { SELECT_OPTION_VALUE } from '../ducks/actions';
 
 SystemSetOptions.navigationOptions = {
     name: "System Options",
 };
 
 export default function SystemSetOptions({
-    queryStatus: {
-        systemSet: {
-            id,
-            infillSize: systemSetInfillSize,
-            system: systemSetSystem,
-            system: {
-                infillSizes: systemSetSystemInfillSizes,
-                manufacturer: systemSetManufacturer,
-            } = {},
-            selectedOptionValues = [],
-        } = {},
-        allManufacturers = [],
-        allSystems = [],
-    },
-    systemSet,
-    systemSetInput: {
-        systemId,
-        infillSize: infillSizeInput,
-    },
-    filters: {
-        manufacturerId,
-        systemTypeId,
+    systemSet: {
+        selectedOptionValues = [],
     },
     dispatch,
 }) {
@@ -57,7 +38,10 @@ export default function SystemSetOptions({
                                 value: id,
                                 label: name,
                             })),
-                            onChange: ({ value }) => console.log({ value }),
+                            onChange: ({ value }) => dispatch(SELECT_OPTION_VALUE, {
+                                optionId: id,
+                                valueId: value,
+                            }),
                         }}
                     />
                 ))}
