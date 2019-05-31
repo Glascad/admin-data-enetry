@@ -3,7 +3,6 @@ import deleteContainer from './utils/delete-container';
 import { GET_RELATIVE_DIRECTIONS } from '../../../utils/recursive-elevation/directions';
 import deleteDetail from './utils/delete-detail';
 import redirectDetail from './utils/redirect-detail';
-import mergeBottomLeftOffset from './utils/merge-bottom-left-offset';
 
 export default function MERGE_CONTAINERS({
     elevationInput,
@@ -153,10 +152,7 @@ export default function MERGE_CONTAINERS({
         );
 
     // FIRST MERGE DLOS
-    const elevationWithMergedDLOs = mergeDLO(...arguments);
-
-    // THEN CHECK FOR BOTTOM / LEFT OFFSET
-    const elevationWithMergedContainers = mergeBottomLeftOffset(elevationWithMergedDLOs, { container, direction });
+    const elevationWithMergedContainers = mergeDLO(...arguments);
 
     // THEN DELETE CONTAINER
     const elevationWithDeletedContainer = deleteContainer(elevationWithMergedContainers, {
