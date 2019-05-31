@@ -1,14 +1,16 @@
 import RecursiveElevation from "../../utils/recursive-elevation/elevation";
 
-// VALIDATION TEST
+import orphans from './orphans';
+import invalidReferences from './invalid-references';
+import roughOpening from './rough-opening';
+import missingDetails from './missing-details';
+import duplicateDetails from './duplicate-details';
 
-const validateElevation = (rawElevation) => {
+export default rawElevation => {
     const recursiveElevation = new RecursiveElevation(rawElevation);
-    
-    // no orphans
-    // no invalid references
-    // no overlapping containers
-    // no exceeding rough opening
-    // no missing details
-    // no duplicate details
+    orphans(recursiveElevation);
+    invalidReferences(recursiveElevation);
+    roughOpening(recursiveElevation);
+    missingDetails(recursiveElevation);
+    duplicateDetails(recursiveElevation);
 }
