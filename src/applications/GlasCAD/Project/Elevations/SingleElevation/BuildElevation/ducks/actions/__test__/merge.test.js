@@ -4,27 +4,158 @@ import sample1 from "../../../../__test__/sample-elevations/sample1.json";
 import sample2 from "../../../../__test__/sample-elevations/sample2.json";
 import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
 
-
-
-
-describe("Sample1 merging 710 to 708 left", () => {
-    const sampleResult = applyActionToElevation(sample1, MERGE_CONTAINERS, ({
+const testMerge = ({ name, elevation, direction, containerId, deletedContainerId, daylightOpening }) => {
+    const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
         containers: {
-            710: container,
+            [containerId]: container,
         },
     }) => ({
         container,
-        direction: DIRECTIONS.LEFT,
+        direction,
     }))
-    test("container 710 has correct daylight opening", () => {
-        // expect(sampleResult)
-    })
-    test("container 708 is gone (container)", () => {
-        expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining(["708"]));
-        // expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining(["710"])); //Testing to make sure the test fails
+    describe(`${name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
+        test(`container ${containerId} has correct daylight opening`, () => {
 
-    })
-    test("creferences to container 8 are gone (details)", () => {
+            expect(sampleResult.containers[containerId].daylightOpening).toMatchObject(daylightOpening);
 
+        })
+        test(`container ${deletedContainerId} is gone (container)`, () => {
+            expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining([`${deletedContainerId}`]));
+            expect(sampleResult.containers[deletedContainerId]).toBeUndefined();
+        })
+        test(`creferences to container ${deletedContainerId} are gone (details)`, () => {
+
+            sampleResult.allDetails.map(detail => {
+                expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
+                expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
+                expect(detail).not.toHaveProperty("firstContainerFakeId", deletedContainerId);
+                expect(detail).not.toHaveProperty("secondContainerFakeId", deletedContainerId);
+            });
+        })
     })
+    return sampleResult.rawElevation;
+}
+
+const testMultiple = ({ name, initialElevation, actions }) => actions.reduce((elevation, action) => testMerge({
+    name,
+    elevation,
+    ...action
+}), initialElevation);
+
+
+//For sample1
+testMerge({
+    name: "sample1",
+    elevation: sample1,
+    direction: DIRECTIONS.LEFT,
+    containerId: 710,
+    deletedContainerId: 708,
+    daylightOpening: {
+        x: 480,
+        y: 230
+    }
+})
+testMerge({
+    name: "sample1",
+    elevation: sample1,
+    direction: DIRECTIONS.RIGHT,
+    containerId: 707,
+    deletedContainerId: 709,
+    daylightOpening: {
+        x: 480,
+        y: 240
+    }
+})
+testMerge({
+    name: "sample1",
+    elevation: sample1,
+    direction: DIRECTIONS.UP,
+    containerId: 709,
+    deletedContainerId: 710,
+    daylightOpening: {
+        x: 235,
+        y: 480
+    }
+})
+testMerge({
+    name: "sample1",
+    elevation: sample1,
+    direction: DIRECTIONS.DOWN,
+    containerId: 708,
+    deletedContainerId: 707,
+    daylightOpening: {
+        x: 235,
+        y: 480
+    }
+})
+
+//For sample2
+testMerge({
+    name: "sample2",
+    elevation: sample2,
+    direction: DIRECTIONS.DOWN,
+    containerId: 733,
+    deletedContainerId: 732,
+    daylightOpening: {
+        x: 185,
+        y: 430
+    }
+})
+testMerge({
+    name: "sample2",
+    elevation: sample2,
+    direction: DIRECTIONS.LEFT,
+    containerId: 739,
+    deletedContainerId: 733,
+    daylightOpening: {
+        x: 380,
+        y: 100
+    }
+})
+testMerge({
+    name: "sample2",
+    elevation: sample2,
+    direction: DIRECTIONS.UP,
+    containerId: 736,
+    deletedContainerId: 737,
+    daylightOpening: {
+        x: 185,
+        y: 320
+    }
+})
+
+//sample1 Testmultiple
+testMultiple({
+    name: "sample1",
+    initialElevation: sample1,
+    actions: [
+        {
+            direction: DIRECTIONS.LEFT,
+            containerId: 709,
+            deletedContainerId: 707,
+            daylightOpening: {
+                x: 480,
+                y: 240
+            }
+        },
+        {
+            direction: DIRECTIONS.LEFT,
+            containerId: 710,
+            deletedContainerId: 708,
+            daylightOpening: {
+                x: 480,
+                y: 230
+            }
+        },
+        {
+            direction: DIRECTIONS.UP,
+            containerId: 709,
+            deletedContainerId: 710,
+            daylightOpening: {
+                x: 480,
+                y: 480
+            }
+        },
+
+    ]
 })
