@@ -30,16 +30,16 @@ describe("Basic tests for understanding...", () => {
         expect(newContainer2).toEqual(expect.not.objectContaining({id:8, leftId: 8, rightId: 8})); // If any of the objects are in the test
     })
 
-    //This one doesn't work properly
-test("test the id to make sure its not notWantedNumber", () => {
+//     //This one doesn't work properly
+// test("test the id to make sure its not notWantedNumber", () => {
     
-    const getContainer = (x) => {id: x};
-    const number = 5;
-    const notWantedNumber = 5;
+//     const getContainer = (x) => {id: x};
+//     const number = 5;
+//     const notWantedNumber = 5;
 
-    const container1 = getContainer(number);
+//     const container1 = getContainer(number);
 
-    expect(container1).toEqual(expect.not.objectContaining({id: notWantedNumber}));
-})
+//     expect(container1).toEqual(expect.not.objectContaining({id: notWantedNumber}));
+// })
 
 })

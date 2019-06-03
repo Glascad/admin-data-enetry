@@ -1,4 +1,4 @@
-import applyActionToElevation from "./actions.test";
+import applyActionToElevation from "./apply-action";
 import MERGE_CONTAINERS from "../merge-containers";
 import sample1 from "../../../../__test__/sample-elevations/sample1.json";
 import sample2 from "../../../../__test__/sample-elevations/sample2.json";
@@ -16,11 +16,12 @@ describe("Sample1 merging 710 to 708 left", () => {
         container,
         direction: DIRECTIONS.LEFT,
     }))
-    test("container 10 has correct daylight opening", () => {
+    test("container 710 has correct daylight opening", () => {
         // expect(sampleResult)
     })
-    test("container 8 is gone (container)", () => {
-        expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining(["710"]));
+    test("container 708 is gone (container)", () => {
+        expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining(["708"]));
+        // expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining(["710"])); //Testing to make sure the test fails
 
     })
     test("creferences to container 8 are gone (details)", () => {
