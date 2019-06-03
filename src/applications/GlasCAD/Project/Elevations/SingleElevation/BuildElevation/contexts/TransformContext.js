@@ -28,6 +28,7 @@ export default class TransformProvider extends PureComponent {
         window.addEventListener('keydown', this.watchArrowKeys);
         window.addEventListener('keyup', this.watchSpaceKeyUp);
         window.addEventListener('mouseup', this.watchMouseUp);
+        window.addEventListener('touchup', this.watchMouseUp);
         // document.addEventListener('visibilitychange');
     }
 
@@ -36,11 +37,13 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('keydown', this.watchArrowKeys);
         window.removeEventListener('keyup', this.watchSpaceKeyUp);
         window.removeEventListener('mouseup', this.watchMouseUp);
+        window.removeEventListener('touchup', this.watchMouseUp);
     }
 
     watchSpaceKeyDown = e => {
         const { key } = e;
-        if (key === ' ') {
+        if (key === ' ' && !this.state.spaceKey) {
+            console.log({ key });
             e.preventDefault();
             this.setState(() => ({ spaceKey: true }));
         }
@@ -79,6 +82,8 @@ export default class TransformProvider extends PureComponent {
     watchMouseDown = e => {
         if (this.state.spaceKey) {
 
+            console.log("PANNING");
+
             e.preventDefault();
 
             const { clientX, clientY } = e;
@@ -100,6 +105,7 @@ export default class TransformProvider extends PureComponent {
             };
 
             window.addEventListener('mousemove', this.pan);
+            window.addEventListener('touchmove', this.pan);
         }
     };
 
@@ -107,12 +113,15 @@ export default class TransformProvider extends PureComponent {
         if (this.state.grabbing) {
 
             window.removeEventListener('mousemove', this.pan);
+            window.removeEventListener('touchmove', this.pan);
 
             this.setState(() => ({ grabbing: false }));
         }
     }
 
     pan = e => {
+        
+        console.log("panning");
 
         e.preventDefault();
 

@@ -14,6 +14,8 @@ import mutations from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
 
+import sample2 from './__test__/sample-elevations/sample2.json';
+
 const subroutes = {
     CreateElevation,
     EditElevation,
@@ -45,7 +47,14 @@ export default function SingleElevation({
         >
             {apollo => (
                 <Navigator
-                    routeProps={apollo}
+                    routeProps={{
+                        ...apollo,
+                        queryStatus: {
+                            ...apollo.queryStatus,
+                            // FOR TESTING PURPOSES - `to inject sample elevation code into elevation builder`
+                            // _elevation: sample2,
+                        },
+                    }}
                     routes={subroutes}
                 />
             )}

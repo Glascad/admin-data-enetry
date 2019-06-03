@@ -1,9 +1,9 @@
-import RecursiveElevation from "../../utils/recursive-elevation/elevation";
+import RecursiveElevation from "../elevation";
 
-import orphans from '../../BuildElevation/ducks/actions/__test__/orphans';
+import orphans from '.orphans';
 import invalidReferences from './invalid-references';
-import roughOpening from '../../BuildElevation/ducks/actions/__test__/rough-opening';
-import missingDetails from '../../BuildElevation/ducks/actions/__test__/missing-details';
+import roughOpening from './rough-opening';
+import missingDetails from './missing-details';
 import duplicateDetails from './duplicate-details';
 
 export default rawElevation => {
