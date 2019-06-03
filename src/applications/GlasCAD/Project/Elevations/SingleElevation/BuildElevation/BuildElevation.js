@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 
 import { StaticContext } from '../../../../../Statics/Statics';
 
-
-import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import mergeElevationInput from './ducks/merge-input';
 
 import ActionProvider from './contexts/ActionContext';
@@ -100,30 +98,6 @@ export default class BuildElevation extends PureComponent {
                 this.undo()
         );
 
-    createRecursiveElevation = ({ elevationInput } = this.state.states[this.state.currentIndex]) => {
-        const {
-            props: {
-                queryStatus: {
-                    _elevation: rawElevation,
-                    _system,
-                } = {},
-            },
-        } = this;
-
-        const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
-
-        validateElevation(mergedElevation);
-
-        const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
-
-        return {
-            elevationInput,
-            rawElevation,
-            mergedElevation,
-            recursiveElevation,
-        };
-    }
-
     // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
 
     updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
@@ -131,7 +105,9 @@ export default class BuildElevation extends PureComponent {
             _replaceState,
             _pushState,
             updateElevation,
-            createRecursiveElevation,
+            props: {
+                queryStatus,
+            },
         } = this;
 
         const updateState = shouldReplaceState ?
@@ -146,7 +122,7 @@ export default class BuildElevation extends PureComponent {
 
         // const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
 
-        return updateState(state => createRecursiveElevation(ACTION(state, payload)), cb);
+        return updateState(state => mergeElevationInput(ACTION(state, payload), queryStatus), cb);
     }
 
     // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
