@@ -1,5 +1,7 @@
+import RecursiveElevation from "../../utils/recursive-elevation/elevation";
+import validateElevation from "./validate-elevation";
 
-export default function mergeElevationInput(
+function mergeElevationInput(
     rawElevation = {},
     elevationInput = {},
 ) {
@@ -27,16 +29,6 @@ export default function mergeElevationInput(
 
     const detailsToUpdate = details.filter(({ id }) => id);
     const detailsToAdd = details.filter(({ fakeId }) => fakeId);
-
-    // const log = obj => {
-    //     const recurse = (o, prev = []) => Object.entries(o)
-    //         .forEach(([key, value]) => {
-    //             if (key === '__typename' && value === value.toUpperCase()) console.log(o);
-    //             if (value && !prev.includes(value)) recurse(value, prev.concat([value]));
-    //         });
-    //     recurse(obj);
-    //     return obj;
-    // }
 
     return {
         ...rawElevation,
@@ -72,5 +64,27 @@ export default function mergeElevationInput(
                     detail;
             })
             .concat(detailsToAdd),
+    };
+}
+
+
+export default function ({
+    elevationInput
+}, {
+    _elevation: rawElevation,
+    _system,
+} = {}) {
+
+    const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
+
+    validateElevation(mergedElevation);
+
+    const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
+
+    return {
+        elevationInput,
+        rawElevation,
+        mergedElevation,
+        recursiveElevation,
     };
 }
