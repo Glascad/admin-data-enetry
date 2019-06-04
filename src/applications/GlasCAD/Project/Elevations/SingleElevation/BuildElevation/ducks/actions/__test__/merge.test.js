@@ -4,8 +4,9 @@ import sample1 from "../../../../__test__/sample-elevations/sample1.json";
 import sample2 from "../../../../__test__/sample-elevations/sample2.json";
 import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
 import chainTests from './chain-tests';
+import testElevation from "../../../../utils/recursive-elevation/__test__/elevation.test";
 
-const testMerge = ({ name, elevation, direction, containerId, deletedContainerId, daylightOpening }) => {
+const testMerge = ({ elevation, direction, containerId, deletedContainerId, daylightOpening }) => {
     const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
         containers: {
             [containerId]: container,
@@ -13,9 +14,14 @@ const testMerge = ({ name, elevation, direction, containerId, deletedContainerId
     }) => ({
         container,
         direction,
-        }));
-    
-    describe(`${name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
+    }));
+
+    testElevation({
+        description: `${elevation.name} - merge containers - containerId: ${containerId}, direction: ${direction.join(' ')}`,
+        elevation: sampleResult.rawElevation,
+    });
+
+    describe(`${elevation.name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
         test(`container ${containerId} has correct daylight opening`, () => {
             expect(sampleResult.containers[containerId].daylightOpening).toMatchObject(daylightOpening);
         });
@@ -40,7 +46,6 @@ const testMerge = ({ name, elevation, direction, containerId, deletedContainerId
 
 // For sample1
 testMerge({
-    name: "sample1",
     elevation: sample1,
     direction: DIRECTIONS.LEFT,
     containerId: 710,
@@ -52,7 +57,6 @@ testMerge({
 });
 
 testMerge({
-    name: "sample1",
     elevation: sample1,
     direction: DIRECTIONS.RIGHT,
     containerId: 707,
@@ -64,7 +68,6 @@ testMerge({
 });
 
 testMerge({
-    name: "sample1",
     elevation: sample1,
     direction: DIRECTIONS.UP,
     containerId: 709,
@@ -76,7 +79,6 @@ testMerge({
 });
 
 testMerge({
-    name: "sample1",
     elevation: sample1,
     direction: DIRECTIONS.DOWN,
     containerId: 708,
@@ -89,7 +91,6 @@ testMerge({
 
 // For sample2
 testMerge({
-    name: "sample2",
     elevation: sample2,
     direction: DIRECTIONS.DOWN,
     containerId: 733,
@@ -101,7 +102,6 @@ testMerge({
 });
 
 testMerge({
-    name: "sample2",
     elevation: sample2,
     direction: DIRECTIONS.LEFT,
     containerId: 739,
@@ -113,7 +113,6 @@ testMerge({
 });
 
 testMerge({
-    name: "sample2",
     elevation: sample2,
     direction: DIRECTIONS.UP,
     containerId: 736,
@@ -126,7 +125,6 @@ testMerge({
 
 // sample1 Testmultiple
 chainTests({
-    name: "sample1",
     initialElevation: sample1,
     actions: [
         {
