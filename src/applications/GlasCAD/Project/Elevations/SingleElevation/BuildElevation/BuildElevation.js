@@ -176,9 +176,10 @@ export default class BuildElevation extends PureComponent {
                 id,
                 details: details
                     .map(({
-                        _detailOptionValues,
+                        fakeId,
                         nodeId,
                         __typename,
+                        _detailOptionValues,
                         ...detail
                     }) => detail),
                 containers: containers
