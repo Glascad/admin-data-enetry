@@ -1,6 +1,5 @@
 
-export default ({ name, initialElevation, actions }) => actions.reduce((elevation, { action, payload }) => action({
-    name,
+export default ({ initialElevation, actions }) => actions.reduce((elevation, { action, payload }) => action({
     elevation,
     ...payload,
 }), initialElevation);

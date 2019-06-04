@@ -1,5 +1,5 @@
 
-export default function createElevation({
+export default function generateElevation({
     verticalRoughOpening,
     horizontalRoughOpening,
     startingBayQuantity = 1,
