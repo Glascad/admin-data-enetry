@@ -29,10 +29,10 @@ export default function testElevation({ description, elevation }) {
             expect(Object.keys(sampleResult.details).slice().sort()).toEqual(sampleResult.detailIds.slice().sort());
         });
         test("Elevation contains all containers and all details", () => {
-            elevation._elevationContainers.forEach(({ id, fakeId }) => {
+            elevation._elevationContainers.forEach(({ id = '', fakeId = '' }) => {
                 expect(sampleResult.containers).toHaveProperty(`${id}` || `_${fakeId}`, expect.any(RecursiveElevation.RecursiveContainer));
             });
-            elevation._containerDetails.forEach(({ id, fakeId }) => {
+            elevation._containerDetails.forEach(({ id = '', fakeId = '' }) => {
                 expect(sampleResult.details).toHaveProperty(`${id}` || `_${fakeId}`, expect.any(RecursiveElevation.RecursiveDetail));
             });
         });
