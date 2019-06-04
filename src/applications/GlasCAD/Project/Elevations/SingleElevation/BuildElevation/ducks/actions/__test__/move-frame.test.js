@@ -96,3 +96,89 @@ testMoveFrame({
         },
     ],
 });
+testMoveFrame({
+    elevation: sample2,
+    distance: -220,
+    detailId: 1854,
+    expectedDetails: [
+        {
+            firstContainerId: 729,
+            secondContainerId: 737,
+        },
+    ],
+    deletedDetails: [
+        {
+            firstContainerId: 732,
+            secondContainerId: 736,
+        },
+        {
+            firstContainerId: 732,
+            secondContainerId: 737,
+        },
+    ],
+    daylightOpenings: [
+        {
+            id: 732,
+            x: 185,
+            y: 100,
+        },
+        {
+            id: 729,
+            x: 185,
+            y: 320,
+        },
+    ],
+});
+testMoveFrame({
+    elevation: sample2,
+    distance: -160,
+    detailId: 1854,
+    expectedDetails: [
+        {
+            firstContainerId: 729,
+            secondContainerId: 737,
+        },
+    ],
+    deletedDetails: [
+        {
+            firstContainerId: 732,
+            secondContainerId: 736,
+        },
+    ],
+    daylightOpenings: [
+        {
+            id: 732,
+            x: 185,
+            y: 160,
+        },
+        {
+            id: 729,
+            x: 185,
+            y: 260,
+        },
+    ],
+});
+testMoveFrame({
+    elevation: sample2,
+    distance: -80,
+    detailId: 1854,
+    expectedDetails: [
+    
+    ],
+    deletedDetails: [
+    
+    ],
+    daylightOpenings: [
+        {
+            id: 732,
+            x: 185,
+            y: 240,
+        },
+        {
+            id: 729,
+            x: 185,
+            y: 180,
+        },
+    ],
+});
+
