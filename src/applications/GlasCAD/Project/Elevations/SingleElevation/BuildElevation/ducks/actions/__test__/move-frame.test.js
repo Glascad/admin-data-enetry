@@ -3,7 +3,7 @@ import MOVE_FRAME from "../move-frame";
 import sample1 from "../../../../__test__/sample-elevations/sample1.json";
 import sample2 from "../../../../__test__/sample-elevations/sample2.json";
 import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
-import testElevation from '../../../../utils/recursive-elevation/__test__/elevation.test';
+import testElevation from '../../../../utils/recursive-elevation/__test__/validation-tests/index.test';
 
 const testMoveFrame = ({ elevation, detailId, distance, expectedDetails, deletedDetails, daylightOpenings }) => {
     const sampleResult = applyActionToElevation(elevation, MOVE_FRAME, ({
@@ -22,7 +22,7 @@ const testMoveFrame = ({ elevation, detailId, distance, expectedDetails, deleted
         elevation: sampleResult.rawElevation,
     });
 
-    describe(`${name} frame moving a distance of ${distance}`, () => {
+    describe(`${elevation.name} frame moving a distance of ${distance}`, () => {
         test("daylight openings are correct for all containers", () => {
             daylightOpenings.forEach(({ id, ...daylightOpening }) => {
                 expect(sampleResult).toMatchObject({

@@ -18,7 +18,7 @@ import ElevationPreview from './ElevationPreview';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
-import createElevation from './create';
+import generateElevation from './generate-elevation';
 
 import { parseSearch } from '../../../../../../utils';
 
@@ -76,7 +76,7 @@ export default class CreateElevation extends PureComponent {
             _elevationContainers,
             _containerDetails,
             ...createdElevation
-        } = createElevation(elevationInput);
+        } = generateElevation(elevationInput);
 
         const { projectId } = parseSearch(search);
 
@@ -145,7 +145,7 @@ export default class CreateElevation extends PureComponent {
 
         // console.log({ elevationInput });
 
-        const elevation = new RecursiveElevation(createElevation(elevationInput));
+        const elevation = new RecursiveElevation(generateElevation(elevationInput));
 
         // console.log({ elevation });
 
