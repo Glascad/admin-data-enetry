@@ -35,45 +35,27 @@ const testMoveFrame = ({ name, elevation, detailId, distance, expectedDetails, d
         test(`all details are correctly added or have changed their reference`, () => {
 
 
-            // expectedDetails.forEach(detail => {
-            //     expect(sampleResult.allDetails.some(({ firstContaierId, secondContainerId }) => (
-            //         (detail.firstContaierId === firstContaierId)
-            //         &&
-            //         (detail.secondContainerId === secondContainerId)
-            //     ))).toBeTruthy()
-            // });
-
-            // expectedDetails.some( detail => {
-            //     sampleResult.detailIds.map( id => {
-            //         sampleResult.details[id]
-            //     })
-            // })
-
-            // sampleResult.detailIds.map( (id) => {
-
-            // })
-
-            // expectedDetails.forEach( detail => {
-            //     expect(sampleResult.allDetails).toContainEqual(expect.objectContaining(detail));
-            // });
-
-
-
-            // expect(sampleResult.allDetails).toMatchObject(
-            //     expect.arrayContaining(
-            //         expectedDetails.map(
-            //             detail => expect.objectContaining(detail)
-            //             )
-            //     )
-            // );
-
-
+            expect(sampleResult.allDetails).toMatchObject(
+                expect.arrayContaining(
+                    expectedDetails.map(
+                        detail => expect.objectContaining(detail)
+                        )
+                )
+            );
 
         });
 
 
 
         test("all details are correctly deleted or have changed their reference", () => {
+
+            expect(sampleResult.allDetails).toMatchObject(
+                expect.arrayContaining(
+                    expectedDetails.map(
+                        detail => expect.not.objectContaining(detail)
+                        )
+                )
+            );
 
         });
     });
@@ -89,25 +71,29 @@ testMoveFrame({
     detailId: 1854,
     expectedDetails: [
         {
-            firstContaierId: 729,
+            firstContainerId: 729,
             secondContainerId: 738,
         },
+        {
+            firstContainerId: 729,
+            secondContainerId: 737,
+        },
         // {
-        //     firstContaierId: 729,
-        //     secondContainerId: 737,
-        // },
-        // {
-        //     firstContaierId: 1,
+        //     firstContainerId: 1,
         //     secondContainerId: 2,
         // },
     ],
     deletedDetails: [
         {
-            firstContaierId: 732,
+            firstContainerId: 732,
             secondContainerId: 736,
         },
         {
-            firstContaierId: 732,
+            firstContainerId: 732,
+            secondContainerId: 737,
+        },
+        {
+            firstContainerId: 729,
             secondContainerId: 737,
         },
     ],
