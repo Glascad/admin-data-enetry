@@ -41,19 +41,17 @@ const testMoveFrame = ({ name, elevation, detailId, distance, expectedDetails, d
         });
 
         test("all details are correctly deleted or have changed their reference", () => {
-            expect(sampleResult.allDetails).toMatchObject(
-                expect.arrayContaining(
-                    expectedDetails.map(
-                        detail => expect.not.objectContaining(detail),
-                    ),
+            deletedDetails.map(
+                detail => expect(sampleResult.allDetails).toMatchObject(
+                    expect.not.arrayContaining([
+                        expect.objectContaining(detail),
+                    ]),
                 ),
             );
-
         });
     });
 
     return sampleResult;
-
 }
 
 testMoveFrame({
