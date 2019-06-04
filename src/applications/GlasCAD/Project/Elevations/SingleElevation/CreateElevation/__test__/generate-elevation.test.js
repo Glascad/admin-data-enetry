@@ -3,8 +3,19 @@ import testElevation from '../../utils/recursive-elevation/__test__/validation-t
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 import '../../../../../../../../public';
 import calculateDetailCount from './calculate-detail-count';
+import calculateFrameCount from './calculate-frame-count';
+import testElevationArrays from '../../utils/recursive-elevation/__test__/validation-tests/test-elevation-arrays.test';
 
 const testGeneration = ({ description, elevationInput }) => {
+
+    const {
+        verticalRoughOpening,
+        horizontalRoughOpening,
+        startingBayQuantity: bayCount,
+        horizontals: {
+            length: horizontalCount,
+        },
+    } = elevationInput;
 
     const elevation = {
         ...generateElevation(elevationInput),
@@ -16,21 +27,21 @@ const testGeneration = ({ description, elevationInput }) => {
         elevation,
     });
 
-    // confirmElevationSpecs({
-    //     elevation,
-    //     containersLength: startingBayQuantity * (elevationInput.horizontals.length + 1),
-    //     detailsLength: calculateDetailCount({
-    //         bayCount: elevationInput.startingBayQuantity,
-    //         horizontalCount: elevationInput.horizontals.length,
-    //     }),
-    //     framesLength: calculateFrameCount({
-    //         bayCount: elevationInput.startingBayQuantity,
-    //         horizontalCount: elevationInput.horizontals.length,
-    //     }),
-    // });
-
-    describe(`${description} - Testing elevation generation`, () => {
-        test("Has correct rough opening", () => { })
+    testElevationArrays({
+        elevation,
+        containerCount: bayCount * (horizontalCount + 1),
+        detailCount: calculateDetailCount({
+            bayCount,
+            horizontalCount,
+        }),
+        frameCount: calculateFrameCount({
+            bayCount,
+            horizontalCount,
+        }),
+        roughOpening: {
+            x: horizontalRoughOpening,
+            y: verticalRoughOpening,
+        },
     });
 
     return elevation;
