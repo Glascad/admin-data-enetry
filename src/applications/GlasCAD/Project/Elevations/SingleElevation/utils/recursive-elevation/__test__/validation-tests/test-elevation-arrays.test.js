@@ -36,6 +36,7 @@ testElevationArrays({
     containerCount: 4,
     detailCount: 12,
     frameCount: 9,
+    // roughOpening: sample1.roughOpening,
 });
 
 testElevationArrays({
@@ -43,4 +44,5 @@ testElevationArrays({
     containerCount: 9,
     detailCount: 26,
     frameCount: 14,
+    // roughOpening: sample1.roughOpening,
 });
