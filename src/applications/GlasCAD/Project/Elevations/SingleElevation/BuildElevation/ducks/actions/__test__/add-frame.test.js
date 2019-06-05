@@ -8,6 +8,11 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
         vertical,
     }));
 
+    testElevation({
+        description: `${elevation.name} -add frame - oldContainerId: ${oldContainer.id}, distance: ${newContainer.id}`,
+        elevation: sampleResult.rawElevation,
+    });
+
     describe(`${elevation.name} adds a new frame in container ${oldContainer}. Testing daylight opening, and details`, () => {
         test(`Testing ${elevation.name}'s ${oldContainer} and ${newContainer} for correct daylight opening and Id`, () => {
             expect(sampleResult).toMatchObject({
