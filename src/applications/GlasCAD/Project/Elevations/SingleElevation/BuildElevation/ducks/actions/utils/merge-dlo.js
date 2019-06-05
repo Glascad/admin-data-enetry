@@ -6,12 +6,11 @@ export default function mergeDLO({
     },
 }, {
     container,
-        container: {
+    container: {
         elevation,
         rawContainer,
         rawContainer: {
             id: containerId,
-            fakeId: containerFakeId,
             daylightOpening: DLO,
             original,
         },
@@ -34,7 +33,7 @@ export default function mergeDLO({
 
     const { sightline } = container.getFrameByDirection(...direction) || elevation;
 
-    const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
+    const previouslyUpdatedContainer = containers.find(({ id }) => id === containerId);
 
     const updatedContainer = {
         ...rawContainer,

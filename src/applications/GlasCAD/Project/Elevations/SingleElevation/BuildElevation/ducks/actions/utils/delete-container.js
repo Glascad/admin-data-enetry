@@ -9,14 +9,13 @@ export default function deleteContainer({
     container: {
         rawContainer: {
             id: containerId,
-            fakeId: containerFakeId,
         },
     },
 }) {
     return {
         elevationInput: {
             ...elevationInput,
-            containers: containers.filter(({ id, fakeId }) => (id || fakeId) !== (containerId || containerFakeId)),
+            containers: containers.filter(({ id }) => id !== containerId),
             containerIdsToDelete: containerIdsToDelete.concat(containerId || []),
         },
     };

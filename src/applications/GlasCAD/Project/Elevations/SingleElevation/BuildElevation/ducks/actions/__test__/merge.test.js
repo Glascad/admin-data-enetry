@@ -35,8 +35,6 @@ const testMerge = ({ elevation, direction, containerId, deletedContainerId, dayl
             sampleResult.allDetails.map(detail => {
                 expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
                 expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
-                expect(detail).not.toHaveProperty("firstContainerFakeId", deletedContainerId);
-                expect(detail).not.toHaveProperty("secondContainerFakeId", deletedContainerId);
             });
         });
     });

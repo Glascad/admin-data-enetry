@@ -4,13 +4,10 @@ export const defaultDetailUpdate = {
     vertical: false,
     firstContainerId: 0,
     secondContainerId: 0,
-    firstContainerFakeId: 0,
-    secondContainerFakeId: 0,
 };
 
 export const defaultContainerUpdate = {
     id: 0,
-    fakeId: 0,
     original: false,
     contents: "",
     daylightOpening: {

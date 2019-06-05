@@ -83,8 +83,25 @@ export default class CreateElevation extends PureComponent {
         const elevation = {
             projectId: +projectId,
             name,
-            containers: _elevationContainers.map(({ bay, row, ...container }) => container),
-            details: _containerDetails.map(({ fakeId, ...detail }) => detail),
+            containers: _elevationContainers.map(({
+                bay,
+                row,
+                id,
+                ...container
+            }) => ({
+                ...container,
+                fakeId: id,
+            })),
+            details: _containerDetails.map(({
+                id,
+                firstContainerId,
+                secondContainerId,
+                ...detail
+            }) => ({
+                ...detail,
+                firstContainerFakeId: firstContainerId,
+                secondContainerFakeId: secondContainerId,
+            })),
             ...createdElevation,
         };
 

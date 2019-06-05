@@ -1,10 +1,9 @@
 
-export default (() => {
-    var fakeId = -1;
-    return () => fakeId--;
-})();
+const FakeIdGenerator = function () {
+    this.fakeId = -1;
+    return () => this.fakeId--;
+}
 
-export const convertFakeIdToNumber = fakeId => typeof fakeId === 'number' ?
-    fakeId
-    :
-    Number(fakeId.replace('_', ''));
+export const getFakeContainerId = new FakeIdGenerator();
+
+export const getFakeDetailId = new FakeIdGenerator();

@@ -28,14 +28,8 @@ export default function MERGE_CONTAINERS({
     const {
         rawContainer: {
             id: mergedId,
-            fakeId: mergedFakeId,
         },
     } = containerToMerge;
-
-    // console.log({
-    //     containerId: container.id,
-    //     mergeId: containerToMerge.id,
-    // });
 
     const [detailInBetween] = container.getDetailsByDirection(...FORWARD);
 
@@ -48,75 +42,37 @@ export default function MERGE_CONTAINERS({
     const shouldDelete = ({
         rawDetail: {
             firstContainerId,
-            firstContainerFakeId,
             secondContainerId,
-            secondContainerFakeId,
         },
     }, {
         rawDetail: {
             firstContainerId: fcid,
-            firstContainerFakeId: fcfkid,
             secondContainerId: scid,
-            secondContainerFakeId: scfkid,
         },
     }) => {
 
-        const mergedIdIsReal = !!mergedId && !mergedFakeId;
-
-        const mergedIdIsFirst = mergedIdIsReal ?
-            mergedId === firstContainerId ?
-                true
+        const mergedIdIsFirst = mergedId === firstContainerId ?
+            true
+            :
+            mergedId === secondContainerId ?
+                false
                 :
-                mergedId === secondContainerId ?
-                    false
-                    :
-                    new Error(``)
-            :
-            mergedFakeId === firstContainerFakeId ?
-                true
-                :
-                mergedFakeId === secondContainerFakeId ?
-                    false
-                    :
-                    new Error(``);
-
-        const otherIdIsUndefined = mergedIdIsFirst ?
-            secondContainerId === undefined && secondContainerFakeId === undefined
-            :
-            firstContainerId === undefined && firstContainerFakeId === undefined;
-
-        const otherIdIsReal = !otherIdIsUndefined &&
-            mergedIdIsFirst ?
-            !!secondContainerId && !secondContainerFakeId
-            :
-            !!firstContainerId && !firstContainerFakeId;
+                new Error(``);
 
         const otherIdIsFirst = !mergedIdIsFirst;
 
-        const otherIdToCompare = otherIdIsReal ?
-            otherIdIsFirst ?
-                firstContainerId
-                :
-                secondContainerId
+        const otherIdToCompare = otherIdIsFirst ?
+            firstContainerId
             :
-            otherIdIsFirst ?
-                firstContainerFakeId
-                :
-                secondContainerFakeId;
+            secondContainerId;
 
         return containerIdsToDelete.includes(otherIdToCompare)
             ||
             otherIdToCompare === (
-                otherIdIsReal ?
-                    otherIdIsFirst ?
-                        fcid
-                        :
-                        scid
+                otherIdIsFirst ?
+                    fcid
                     :
-                    otherIdIsFirst ?
-                        fcfkid
-                        :
-                        scfkid
+                    scid
             );
     }
 

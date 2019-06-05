@@ -25,7 +25,7 @@ export default function generateElevation({
                 .map((height, j) => ({
                     bay: i,
                     row: j,
-                    fakeId: i + 1 + j * startingBayQuantity,
+                    id: i + 1 + j * startingBayQuantity,
                     original: i === 0 && j === 0,
                     daylightOpening: {
                         x: bayWidth,
@@ -34,49 +34,44 @@ export default function generateElevation({
                 }))),
             []);
 
-    const validContainerIds = _elevationContainers.reduce((ids, { fakeId }) => ({ ...ids, [fakeId]: fakeId }), {});
-
-    const getFakeDetailId = (() => {
-        var id = 1;
-        return () => id++;
-    })();
+    const validContainerIds = _elevationContainers.reduce((ids, { id }) => ({ ...ids, [id]: id }), {});
 
     const _containerDetails = _elevationContainers
-        .reduce((all, { fakeId, row, bay }, _, { length }) => all
+        .reduce((all, { id, row, bay }, _, { length }) => all
             .concat([
                 // left
                 bay === 0 && {
-                    fakeId: getFakeDetailId(),
                     vertical: true,
-                    firstContainerFakeId: undefined,
-                    secondContainerFakeId: fakeId,
+                    firstContainerId: undefined,
+                    secondContainerId: id,
                 },
                 // right
                 {
-                    fakeId: getFakeDetailId(),
                     vertical: true,
-                    firstContainerFakeId: fakeId,
-                    secondContainerFakeId: bay === startingBayQuantity - 1 ?
+                    firstContainerId: id,
+                    secondContainerId: bay === startingBayQuantity - 1 ?
                         undefined
                         :
-                        fakeId + 1
+                        id + 1
                 },
                 // top
                 {
-                    fakeId: getFakeDetailId(),
                     vertical: false,
-                    firstContainerFakeId: fakeId,
-                    secondContainerFakeId: validContainerIds[fakeId + startingBayQuantity],
+                    firstContainerId: id,
+                    secondContainerId: validContainerIds[id + startingBayQuantity],
                 },
                 // bottom
                 row === 0 && {
-                    fakeId: getFakeDetailId(),
                     vertical: false,
-                    firstContainerFakeId: undefined,
-                    secondContainerFakeId: fakeId,
+                    firstContainerId: undefined,
+                    secondContainerId: id,
                 },
-            ]
-                .filter(Boolean)), []);
+            ]), [])
+        .filter(Boolean)
+        .map((detail, i) => ({
+            id: i,
+            ...detail,
+        }));
 
     return {
         roughOpening: {

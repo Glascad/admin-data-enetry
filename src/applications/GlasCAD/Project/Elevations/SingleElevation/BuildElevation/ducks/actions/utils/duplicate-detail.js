@@ -1,4 +1,4 @@
-import getFakeId from './get-fake-id';
+import { getFakeDetailId } from './get-fake-id';
 
 export default function redirectDetail({
     elevationInput,
@@ -88,7 +88,7 @@ export default function redirectDetail({
         ...rawDetail,
         ...previouslyUpdatedDetail,
         id: undefined,
-        fakeId: getFakeId(),
+        fakeId: getFakeDetailId(),
         [oldKeyToDelete]: undefined,
         [newKeyToAdd]: (newId || newFakeId),
     };

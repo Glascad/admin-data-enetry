@@ -5,32 +5,11 @@ export default function validateElevation({
 }) {
 
     const allContainerIds = _elevationContainers.map(({ id }) => id);
-    const allContainerFakeIds = _elevationContainers.map(({ fakeId }) => fakeId);
 
     const getInvalidId = ({
         firstContainerId,
-        firstContainerFakeId,
         secondContainerId,
-        secondContainerFakeId,
-    }) => [
-        {
-            id: firstContainerId,
-            fakeId: firstContainerFakeId,
-        },
-        {
-            id: secondContainerId,
-            fakeId: secondContainerFakeId,
-        }
-    ]
-        .find(({ id, fakeId }) => (
-            (
-                id && !allContainerIds.includes(id)
-            )
-            ||
-            (
-                fakeId && !allContainerFakeIds.includes(fakeId)
-            )
-        ));
+    }) => [firstContainerId, secondContainerId].find(id => id && !allContainerIds.includes(id));
 
     const {
         invalidId,
@@ -52,11 +31,9 @@ export default function validateElevation({
         {};
 
     if (invalidId) {
-        const { id, fakeId } = invalidId;
-
         console.error(detail);
 
-        throw new Error(`Invalid Detail with ${fakeId ? 'FAKE' : ''} CONTAINER ID: ${id || fakeId}`);
+        throw new Error(`Invalid Detail with Container Id: ${invalidId}`);
     }
 
     return arguments[0];

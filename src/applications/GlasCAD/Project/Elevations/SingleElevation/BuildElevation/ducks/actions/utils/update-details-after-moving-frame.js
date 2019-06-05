@@ -7,7 +7,6 @@ const precision = 100;
 const round = num => Math.round(num * precision) / precision;
 
 class ComparableMeasurement {
-
     constructor(measurement, first) {
         this.rawMeasurement = measurement;
         this.measurement = round(measurement);

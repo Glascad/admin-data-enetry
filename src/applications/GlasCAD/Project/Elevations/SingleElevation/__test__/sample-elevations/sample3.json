@@ -396,7 +396,7 @@
             "firstContainerId": 800,
             "secondContainerId": 805,
             "_detailOptionValues": [],
-            "fakeId": -1
+            "id": -1
         },
         {
             "__typename": "ContainerDetail",
@@ -405,7 +405,7 @@
             "firstContainerId": 805,
             "secondContainerId": 808,
             "_detailOptionValues": [],
-            "fakeId": -2
+            "id": -2
         }
     ],
     "__by": "Id"

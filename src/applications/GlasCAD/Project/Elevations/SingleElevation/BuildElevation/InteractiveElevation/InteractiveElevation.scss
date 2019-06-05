@@ -122,11 +122,11 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                display: none;
-                // border: 2px solid transparentize($danger-color, 0.8) !important;
-                // background: transparentize($danger-color, 0.8);
+                // display: none;
+                border: 2px solid transparentize($danger-color, 0.8) !important;
+                background: transparentize($danger-color, 0.8);
                 // box-shadow: none !important;
-                // pointer-events: none;
+                pointer-events: none;
             }
 
             &:hover {

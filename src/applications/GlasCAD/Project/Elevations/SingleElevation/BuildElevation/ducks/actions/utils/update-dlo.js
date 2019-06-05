@@ -10,14 +10,13 @@ export default function updateDLO({
         rawContainer,
         rawContainer: {
             id: containerId,
-            fakeId: containerFakeId,
             daylightOpening: DLO,
         },
     },
     vertical,
     distance,
 }) {
-    const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
+    const previouslyUpdatedContainer = containers.find(({ id }) => id === containerId);
 
     const updatedContainer = {
         ...rawContainer,
@@ -34,8 +33,8 @@ export default function updateDLO({
         },
     };
 
-    // console.log(`UPDATING DLO OF CONTAINER: ${containerId || containerFakeId}`);
-    // console.log({ container, containerId, containerFakeId, vertical, distance, updatedContainer, rawContainer });
+    // console.log(`UPDATING DLO OF CONTAINER: ${containerId}`);
+    // console.log({ container, containerId, vertical, distance, updatedContainer, rawContainer });
 
     return {
         elevationInput: {
