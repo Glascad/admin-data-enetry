@@ -11,86 +11,58 @@ export default function redirectDetail({
         rawDetail,
         rawDetail: {
             id: detailId,
-            fakeId: detailFakeId,
             firstContainerId,
-            firstContainerFakeId,
             secondContainerId,
-            secondContainerFakeId,
         },
     },
     oldContainer,
     oldContainer: {
         rawContainer: {
             id: oldId,
-            fakeId: oldFakeId,
         },
     },
     newContainer,
     newContainer: {
         rawContainer: {
             id: newId,
-            fakeId: newFakeId,
         },
     },
 }) {
 
-    // console.log(`DUPLICATING DETAIL: ${detailId || detailFakeId}, REDIRECTING FROM: ${oldId || oldFakeId} TO:  ${newId || newFakeId}`);
+    // console.log(`DUPLICATING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
     // console.log({ detail, oldContainer, newContainer });
     // console.trace(detail);
 
-    const oldIdIsReal = !!oldId && !oldFakeId;
-    const newIdIsReal = !!newId && !newFakeId;
-
-    const oldIdIsFirst = oldIdIsReal ?
-        oldId === firstContainerId ?
-            true
-            :
-            oldId === secondContainerId ?
-                false
-                :
-                new Error(`Real Container Id: ${oldId} is not found in Detail ${detailId || detailFakeId}`)
+    const oldIdIsFirst = oldId === firstContainerId ?
+        true
         :
-        oldId === firstContainerFakeId ?
-            true
+        oldId === secondContainerId ?
+            false
             :
-            oldId === secondContainerFakeId ?
-                false
-                :
-                new Error(`Fake Container Id: ${oldFakeId} is not found in Detail ${detailId || detailFakeId}`);
+            new Error(`Container Id: ${oldId} is not found in Detail ${detailId}`)
 
     const oldKeyToDelete = `${
         oldIdIsFirst ?
             'first'
             :
             'second'
-        }Container${
-        oldIdIsReal ?
-            ''
-            :
-            'Fake'
-        }Id`;
+        }ContainerId`;
 
     const newKeyToAdd = `${
         oldIdIsFirst ?
             'first'
             :
             'second'
-        }Container${
-        newIdIsReal ?
-            ''
-            :
-            'Fake'
-        }Id`;
+        }ContainerId`;
 
-    const previouslyUpdatedDetail = details.find(({ id, fakeId }) => (id || fakeId) === (detailId || detailFakeId));
+    const previouslyUpdatedDetail = details.find(({ id }) => id === detailId);
 
     const newDetail = {
         ...rawDetail,
         ...previouslyUpdatedDetail,
-        id: undefined,
-        fakeId: getFakeDetailId(),
+        id: getFakeDetailId(),
         [oldKeyToDelete]: undefined,
-        [newKeyToAdd]: (newId || newFakeId),
+        [newKeyToAdd]: newId,
     };
 
     // console.log({ newDetail });

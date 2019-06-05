@@ -184,6 +184,7 @@ testMoveFrame({
 });
 
 //Testing Sample3
+/**
 //Sample3 Test1
 testMoveFrame({
     elevation: sample3,
@@ -203,8 +204,8 @@ testMoveFrame({
     deletedDetails: [
         //This one will fail (Not on purpose)
         // {
-        //     firstContainerId: 805,
-        //     secondContainerId: 810,
+            //     firstContainerId: 805,
+            //     secondContainerId: 810,
         // },
     ],
     daylightOpenings: [
@@ -238,7 +239,7 @@ testMoveFrame({
             firstContainerId: 802,
             secondContainerId: 807,
         },
-
+        
     ],
     deletedDetails: [
         {
@@ -259,6 +260,7 @@ testMoveFrame({
         },
     ],
 });
+*/
 //Sample3 Test3
 testMoveFrame({
     elevation: sample3,
@@ -357,6 +359,7 @@ testMoveFrame({
         },
     ],
 });
+/**
 //Sample3 Test5
 testMoveFrame({
     elevation: sample3,
@@ -387,7 +390,7 @@ testMoveFrame({
             firstContainerId: 800,
             secondContainerId: 807,
         },
-        
+
     ],
     deletedDetails: [
         {
@@ -420,6 +423,7 @@ testMoveFrame({
         },
     ],
 });
+
 
 //Sample3-special Test1
 testMoveFrame({
@@ -468,7 +472,7 @@ testMoveFrame({
         //     firstContainerId: 807,
         //     secondContainerId: 808,
         // },
-        
+
     ],
     daylightOpenings: [
         {
@@ -483,3 +487,4 @@ testMoveFrame({
         },
     ],
 });
+ */

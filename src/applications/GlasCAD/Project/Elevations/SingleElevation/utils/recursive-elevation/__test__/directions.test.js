@@ -25,6 +25,25 @@ import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from '../directions';
  * Right = [!vertical][first] = [---][>>>] = [false][false]
  */
 
+describe('Direction Tests', () => {
+    test('UP and DOWN are vertical', () => {
+        expect(DIRECTIONS.UP[0]).toBe(true);
+        expect(DIRECTIONS.DOWN[0]).toBe(true);
+    });
+    test('LEFT and RIGHT are horizontal', () => {
+        expect(DIRECTIONS.LEFT[0]).toBe(false);
+        expect(DIRECTIONS.RIGHT[0]).toBe(false);
+    });
+    test('LEFT and DOWN are first', () => {
+        expect(DIRECTIONS.LEFT[1]).toBe(true);
+        expect(DIRECTIONS.DOWN[1]).toBe(true);
+    });
+    test('RIGHT and UP are not first', () => {
+        expect(DIRECTIONS.RIGHT[1]).toBe(false);
+        expect(DIRECTIONS.UP[1]).toBe(false);
+    });
+});
+
 describe('Relative Directions Tests', () => {
     test('FORWARD of all directions is same', () => {
         Object.values(DIRECTIONS)

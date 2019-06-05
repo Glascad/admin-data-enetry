@@ -6,7 +6,6 @@ function mergeElevationInput(
     rawElevation = {},
     elevationInput = {},
 ) {
-
     const {
         roughOpening: {
             x,
