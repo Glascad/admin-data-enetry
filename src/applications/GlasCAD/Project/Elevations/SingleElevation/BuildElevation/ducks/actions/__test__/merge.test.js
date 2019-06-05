@@ -31,7 +31,7 @@ const testMerge = ({ elevation, direction, containerId, deletedContainerId, dayl
             expect(sampleResult.containers[deletedContainerId]).toBeUndefined();
         });
 
-        test(`creferences to container ${deletedContainerId} are gone (details)`, () => {
+        test(`references to container ${deletedContainerId} are gone (details)`, () => {
             sampleResult.allDetails.map(detail => {
                 expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
                 expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
@@ -123,7 +123,7 @@ testMerge({
     },
 });
 
-// sample1 Testmultiple
+// sample1 Test Multiple
 chainTests({
     initialElevation: sample1,
     actions: [
