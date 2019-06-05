@@ -34,52 +34,53 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
                 );
             });
         });
+        return sampleResult;
     });
 };
 
-testAddFrame({
-    elevation: sample1,
-    distance: 50,
-    vertical: true,
-    oldContainer: {
-        id: 708,
-        daylightOpening: {
-            x: 50,
-            y: 230,
-        },
-    },
-    newContainer: {
-        id: -1,
-        daylightOpening: {
-            x: 175,
-            y: 230,
-        },
-    },
-    expectedDetails: [
-        {
-            firstContainerId: 708,
-            secondContainerId: -1,
-        },
-        {
-            firstContainerId: -1,
-            secondContainerId: 710,
-        },
-        {
-            firstContainerId: 707,
-            secondContainerId: -1,
-        },
-        {
-            firstContainerId: -1,
-            secondContainerId: undefined,
-        }
+// testAddFrame({
+//     elevation: sample1,
+//     distance: 50,
+//     vertical: true,
+//     oldContainer: {
+//         id: 708,
+//         daylightOpening: {
+//             x: 50,
+//             y: 230,
+//         },
+//     },
+//     newContainer: {
+//         id: -1,
+//         daylightOpening: {
+//             x: 175,
+//             y: 230,
+//         },
+//     },
+//     expectedDetails: [
+//         {
+//             firstContainerId: 708,
+//             secondContainerId: -1,
+//         },
+//         {
+//             firstContainerId: -1,
+//             secondContainerId: 710,
+//         },
+//         {
+//             firstContainerId: 707,
+//             secondContainerId: -1,
+//         },
+//         {
+//             firstContainerId: -1,
+//             secondContainerId: undefined,
+//         }
 
-    ],
-    deletedDetails: [
-        {
-            firstContainerId: 708,
-            secondContainerId: 710,
-        },
+//     ],
+//     deletedDetails: [
+//         {
+//             firstContainerId: 708,
+//             secondContainerId: 710,
+//         },
 
-    ],
-});
+//     ],
+// });
 
