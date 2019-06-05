@@ -18,7 +18,7 @@ export const defaultContainerUpdate = {
 };
 
 export default {
-    elevation: {
+    elevationInput: {
         id: 0,
         name: "",
         roughOpening: {

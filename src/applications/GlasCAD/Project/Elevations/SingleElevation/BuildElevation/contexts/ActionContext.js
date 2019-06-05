@@ -54,17 +54,19 @@ class ActionProvider extends PureComponent {
                 }, {});
 
             if (containerToMerge) {
-                updateElevation(
-                    ACTIONS.MERGE_CONTAINERS,
-                    {
-                        container: containerToMerge,
-                        direction: directionToMerge,
-                        allowCustomRoughOpenings: true,
-                    },
-                    undefined,
-                    // replace state instead of pushing
-                    true
-                );
+                setTimeout(() => {
+                    updateElevation(
+                        ACTIONS.MERGE_CONTAINERS,
+                        {
+                            container: containerToMerge,
+                            direction: directionToMerge,
+                            allowCustomRoughOpenings: true,
+                        },
+                        undefined,
+                        // replace state instead of pushing
+                        true
+                    );
+                }, 0);
             }
         }
     }

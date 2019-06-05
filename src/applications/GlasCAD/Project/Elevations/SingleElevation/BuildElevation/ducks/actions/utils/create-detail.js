@@ -19,6 +19,8 @@ export default function createDetail({
     },
 }) {
 
+    // CHECK DELETED DETAILS FOR A MATCHING DETAIL TO `STOP` DELETING
+
     return {
         elevationInput: {
             ...elevationInput,

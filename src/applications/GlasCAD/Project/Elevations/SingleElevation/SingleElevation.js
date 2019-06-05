@@ -14,7 +14,9 @@ import mutations from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
 
+import sample1 from './__test__/sample-elevations/sample1.json';
 import sample2 from './__test__/sample-elevations/sample2.json';
+import sample3 from './__test__/sample-elevations/sample3.json';
 
 const subroutes = {
     CreateElevation,
@@ -27,13 +29,19 @@ SingleElevation.navigationOptions = {
     subroutes,
 };
 
+const SAMPLE_ELEVATIONS = {
+    sample1,
+    sample2,
+    sample3,
+};
+
 export default function SingleElevation({
     location: {
         search,
     },
 }) {
 
-    const { elevationId } = parseSearch(search);
+    const { elevationId, sampleElevation } = parseSearch(search);
 
     return (
         <ApolloWrapper
@@ -51,6 +59,10 @@ export default function SingleElevation({
                         ...apollo,
                         queryStatus: {
                             ...apollo.queryStatus,
+                            ...(sampleElevation ?
+                                SAMPLE_ELEVATIONS[sampleElevation]
+                                :
+                                null)
                             // FOR TESTING PURPOSES - `to inject sample elevation code into elevation builder`
                             // _elevation: sample2,
                         },
