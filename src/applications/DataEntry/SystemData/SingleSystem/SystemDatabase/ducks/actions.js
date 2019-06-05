@@ -11,10 +11,12 @@ import {
 } from './default';
 
 
-var _fakeId = 1;
 
 // fake ids are always stringified numbers
-const _getFakeId = () => `${_fakeId++}`;
+const _getFakeId = (() => {
+    var _fakeId = 1;
+    return () => `${_fakeId++}`;
+})();
 
 export const _removeFakeIds = obj => !obj || typeof obj !== 'object' ?
     obj

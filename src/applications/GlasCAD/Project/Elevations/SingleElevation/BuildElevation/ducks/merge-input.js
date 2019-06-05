@@ -1,5 +1,6 @@
 import RecursiveElevation from "../../utils/recursive-elevation/elevation";
 import validateElevation from "./validate-elevation";
+import _ from 'lodash';
 
 function mergeElevationInput(
     rawElevation = {},
@@ -24,11 +25,8 @@ function mergeElevationInput(
         containerIdsToDelete = [],
     } = elevationInput;
 
-    const containersToUpdate = containers.filter(({ id }) => id);
-    const containersToAdd = containers.filter(({ fakeId }) => fakeId);
-
-    const detailsToUpdate = details.filter(({ id }) => id);
-    const detailsToAdd = details.filter(({ fakeId }) => fakeId);
+    const [containersToUpdate, containersToAdd] = _.partition(containers, ({ id }) => id > 0);
+    const [detailsToUpdate, detailsToAdd] = _.partition(details, ({ id }) => id > 0);
 
     return {
         ...rawElevation,

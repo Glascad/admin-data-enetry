@@ -1,4 +1,4 @@
-import getFakeId from './get-fake-id';
+import { getFakeDetailId } from './get-fake-id';
 
 export default function createDetail({
     elevationInput,
@@ -10,13 +10,11 @@ export default function createDetail({
     firstContainer: {
         rawContainer: {
             id: firstContainerId,
-            fakeId: firstContainerFakeId,
         },
     },
     secondContainer: {
         rawContainer: {
             id: secondContainerId,
-            fakeId: secondContainerFakeId,
         },
     },
 }) {
@@ -25,12 +23,10 @@ export default function createDetail({
         elevationInput: {
             ...elevationInput,
             details: details.concat({
-                fakeId: getFakeId(),
+                id: getFakeDetailId(),
                 vertical,
                 firstContainerId,
-                firstContainerFakeId,
                 secondContainerId,
-                secondContainerFakeId,
             }),
         },
     };

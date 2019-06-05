@@ -66,9 +66,9 @@ export default class RecursiveDetail {
 
     getContainerByDirection = first => this.elevation.containers[
         first ?
-            this.firstContainerId || this.firstContainerFakeId
+            this.firstContainerId
             :
-            this.secondContainerId || this.secondContainerFakeId
+            this.secondContainerId
     ];
 
     get firstContainer() { return this.getContainerByDirection(true); }
@@ -236,12 +236,12 @@ export default class RecursiveDetail {
             } = details;
 
             this[detailsWithSharedContainersKey][first] = unique(
-                !firstDetail || firstDetail === this ?
+                !firstDetail || (firstDetail === this) ?
                     []
                     :
                     firstDetail.getDetailsWithSharedContainersByContainerDirection(!first),
                 details,
-                !lastDetail || lastDetail === this ?
+                !lastDetail || (lastDetail === this) ?
                     []
                     :
                     lastDetail.getDetailsWithSharedContainersByContainerDirection(!first),

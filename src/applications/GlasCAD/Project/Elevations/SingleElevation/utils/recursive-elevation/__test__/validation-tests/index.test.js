@@ -1,6 +1,7 @@
 import RecursiveElevation from '../../elevation';
 import sample1 from '../../../../__test__/sample-elevations/sample1.json';
 import sample2 from '../../../../__test__/sample-elevations/sample2.json';
+import sample3ERROR from '../../../../__test__/sample-elevations/sample3-error.json';
 
 export default function testElevation({ description, elevation }) {
     const sampleResult = new RecursiveElevation(elevation);
@@ -32,11 +33,11 @@ export default function testElevation({ description, elevation }) {
         });
 
         test("Elevation contains all containers and all details", () => {
-            elevation._elevationContainers.forEach(({ id = '', fakeId = '' }) => {
-                expect(sampleResult.containers).toHaveProperty(`${id}` || `_${fakeId}`, expect.any(RecursiveElevation.RecursiveContainer));
+            elevation._elevationContainers.forEach(({ id }) => {
+                expect(sampleResult.containers).toHaveProperty(`${id}`, expect.any(RecursiveElevation.RecursiveContainer));
             });
-            elevation._containerDetails.forEach(({ id = '', fakeId = '' }) => {
-                expect(sampleResult.details).toHaveProperty(`${id}` || `_${fakeId}`, expect.any(RecursiveElevation.RecursiveDetail));
+            elevation._containerDetails.forEach(({ id }) => {
+                expect(sampleResult.details).toHaveProperty(`${id}`, expect.any(RecursiveElevation.RecursiveDetail));
             });
         });
     });
@@ -86,3 +87,8 @@ testElevation({
     description: sample2.name,
     elevation: sample2,
 });
+
+// testElevation({
+//     description: "ERROR",
+//     elevation: sample3ERROR,
+// });

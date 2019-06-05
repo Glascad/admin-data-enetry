@@ -12,7 +12,6 @@ export default function DELETE_CONTAINER({
         rawContainer,
         rawContainer: {
             id: containerId,
-            fakeId: containerFakeId,
         },
     },
 }) {
@@ -37,7 +36,7 @@ export default function DELETE_CONTAINER({
         });
     }
 
-    const previouslyUpdatedContainer = containers.find(({ id, fakeId }) => (id || fakeId) === (containerId || containerFakeId));
+    const previouslyUpdatedContainer = containers.find(({ id }) => id === containerId);
 
     const deletedContainer = {
         ...rawContainer,

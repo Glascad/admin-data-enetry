@@ -9,14 +9,13 @@ export default function deleteDetail({
     detail: {
         rawDetail: {
             id: detailId,
-            fakeId: detailFakeId,
         },
     },
 }) {
     return {
         elevationInput: {
             ...elevationInput,
-            details: details.filter(({ id, fakeId }) => (id || fakeId) !== (detailId || detailFakeId)),
+            details: details.filter(({ id }) => id !== detailId),
             detailIdsToDelete: detailIdsToDelete.concat(detailId || []),
         },
     };
