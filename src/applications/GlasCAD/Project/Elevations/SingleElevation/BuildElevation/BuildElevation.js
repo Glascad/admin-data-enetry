@@ -9,7 +9,6 @@ import SelectionProvider from './contexts/SelectionContext';
 import TransformProvider from './contexts/TransformContext';
 
 import Header from './Header/Header';
-import validateElevation from './ducks/validate-elevation';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 

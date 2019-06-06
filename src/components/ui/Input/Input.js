@@ -12,6 +12,14 @@ const booleanTypes = [
     "icon",
 ];
 
+// const selectStyles = {
+//     input: (provided, state) => ({
+//         ...provided,
+//         n: console.log({ provided, state }),
+//         height: '2rem',
+//     }),
+// };
+
 export default class Input extends PureComponent {
 
     static defaultProps = {

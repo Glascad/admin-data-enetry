@@ -5,8 +5,6 @@ import sample3 from '../../../__test__/sample-elevations/sample3.json';
 import sample3Special from '../../../__test__/sample-elevations/sample3-special.json';
 import { defaultElevationInput } from '../../../CreateElevation/elevation-input';
 
-
-
 function testMergeInput({
     containers,
     details,

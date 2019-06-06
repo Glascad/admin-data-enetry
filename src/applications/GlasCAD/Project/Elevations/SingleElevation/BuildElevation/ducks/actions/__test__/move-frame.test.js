@@ -5,8 +5,9 @@ import sample3 from "../../../../__test__/sample-elevations/sample3.json";
 import sample3Special from "../../../../__test__/sample-elevations/sample3-special.json";
 import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
 import testElevation from '../../../../utils/recursive-elevation/__test__/validation-tests/index.test';
+import testElevationArrays from "../../../../utils/recursive-elevation/__test__/validation-tests/test-elevation-arrays.test";
 
-const testMoveFrame = ({ elevation, detailId, distance, expectedDetails, deletedDetails, daylightOpenings }) => {
+const testMoveFrame = ({ elevation, elevationArrays, detailId, distance, expectedDetails, deletedDetails, daylightOpenings }) => {
     const sampleResult = applyActionToElevation(elevation, MOVE_FRAME, ({
         details: {
             [detailId]: {
@@ -22,6 +23,11 @@ const testMoveFrame = ({ elevation, detailId, distance, expectedDetails, deleted
         description: `${elevation.name} - move frame - detailId: ${detailId}, distance: ${distance}`,
         elevation: sampleResult.rawElevation,
     });
+
+    // testElevationArrays({
+    //     elevation,
+    //     ...elevationArrays,
+    // })
 
     describe(`${elevation.name} frame moving a distance of ${distance}`, () => {
         test("daylight openings are correct for all containers", () => {
@@ -59,9 +65,14 @@ const testMoveFrame = ({ elevation, detailId, distance, expectedDetails, deleted
 
     return sampleResult;
 }
-
+//Sample2 Test1
 testMoveFrame({
     elevation: sample2,
+    // elevationArrays: {
+    //     containerCount: 9,
+    //     detailCount: 26,
+    //     frameCount: 9,
+    // },
     distance: -270,
     detailId: 1854,
     expectedDetails: [
@@ -97,6 +108,8 @@ testMoveFrame({
         },
     ],
 });
+
+//Sample2 Test2
 testMoveFrame({
     elevation: sample2,
     distance: -220,
@@ -130,6 +143,8 @@ testMoveFrame({
         },
     ],
 });
+
+//Sample2 Test3
 testMoveFrame({
     elevation: sample2,
     distance: -160,
@@ -186,19 +201,19 @@ testMoveFrame({
 //Testing Sample3
 /**
 //Sample3 Test1
-testMoveFrame({
-    elevation: sample3,
-    distance: 65,
-    detailId: 2044,
-    expectedDetails: [
-        {
-            firstContainerId: 807,
-            secondContainerId: 810,
-        },
-        {
-            firstContainerId: 802,
-            secondContainerId: 807,
-        },
+// testMoveFrame({
+//     elevation: sample3,
+//     distance: 65,
+//     detailId: 2044,
+//     expectedDetails: [
+//         {
+//             firstContainerId: 807,
+//             secondContainerId: 810,
+//         },
+//         {
+//             firstContainerId: 802,
+//             secondContainerId: 807,
+//         },
 
     ],
     deletedDetails: [
