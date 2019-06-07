@@ -82,6 +82,16 @@
         }
     }
 
+    .Container,
+    .frame-wrapper,
+    .Frame,
+    .detail-bubble-placement,
+    .Detail,
+    .DimensionButton,
+    .SelectedItem {
+        transition: all 0.1s ease;
+    }
+
     #elevation-display {
         &.container-selected {
             .frame-wrapper {

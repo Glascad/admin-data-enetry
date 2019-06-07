@@ -1,4 +1,7 @@
-import React, { PureComponent, createRef } from 'react';
+import React, {
+    PureComponent,
+    createRef,
+} from 'react';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext } from '../contexts/TransformContext';
@@ -16,6 +19,8 @@ import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../utils/recursive-elevation/detail';
 
+
+
 class InteractiveElevation extends PureComponent {
 
     InteractiveElevation = createRef();
@@ -27,6 +32,7 @@ class InteractiveElevation extends PureComponent {
                     paddingBottom: this.props.staticContext.Viewport.current.style.paddingBottom,
                     marginBottom: this.props.staticContext.Viewport.current.style.marginBottom,
                     overflowY: this.props.staticContext.Viewport.current.style.overflowY,
+                    overflowX: this.props.staticContext.Viewport.current.style.overflowX,
                 };
             } catch (err) {
                 console.error(err);
@@ -44,6 +50,7 @@ class InteractiveElevation extends PureComponent {
                 this.props.staticContext.Viewport.current.style.paddingBottom = "0";
                 this.props.staticContext.Viewport.current.style.marginBottom = "0";
                 this.props.staticContext.Viewport.current.style.overflowY = "hidden";
+                this.props.staticContext.Viewport.current.style.overflowX = "hidden";
                 this.InteractiveElevation.current.style.height = `${
                     window.innerHeight
                     -

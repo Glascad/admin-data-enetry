@@ -53,6 +53,12 @@
         }
     }
 
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .sidebar-button {
         position: relative;
         width: 100%;

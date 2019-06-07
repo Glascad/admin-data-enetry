@@ -43,6 +43,10 @@ export default function SingleElevation({
 
     const { elevationId, sampleElevation } = parseSearch(search);
 
+    console.log({
+        sampleElevation,
+    });
+
     return (
         <ApolloWrapper
             query={{
@@ -60,7 +64,9 @@ export default function SingleElevation({
                         queryStatus: {
                             ...apollo.queryStatus,
                             ...(sampleElevation ?
-                                SAMPLE_ELEVATIONS[sampleElevation]
+                                {
+                                    _elevation: SAMPLE_ELEVATIONS[sampleElevation],
+                                }
                                 :
                                 null)
                             // FOR TESTING PURPOSES - `to inject sample elevation code into elevation builder`

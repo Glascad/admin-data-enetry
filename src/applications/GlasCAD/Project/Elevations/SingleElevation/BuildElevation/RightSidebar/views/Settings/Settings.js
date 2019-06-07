@@ -20,7 +20,7 @@ function Settings({
     updateElevation,
     toggleStackedView,
     location: {
-        url,
+        pathname,
         search,
     },
 }) {
@@ -38,11 +38,18 @@ function Settings({
                     toggleStackedView={toggleStackedView}
                     View={AllIcons}
                 />
+            </div>
+            <div className="sidebar-group">
                 {['sample1', 'sample2', 'sample3'].map(sampleElevation => (
                     <Link
-                        to={`${url}${parseSearch(search).update({ sampleElevation })}`}
+                        key={sampleElevation}
+                        to={`${pathname}${parseSearch(search).update({ sampleElevation })}`}
                     >
-                        {sampleElevation}
+                        <button
+                            className="sidebar-button empty"
+                        >
+                            {sampleElevation}
+                        </button>
                     </Link>
                 ))}
             </div>
