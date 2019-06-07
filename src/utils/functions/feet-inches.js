@@ -1,3 +1,4 @@
+import { toFraction } from './fractions';
 
 export default class ImperialValue {
     constructor(value) {
