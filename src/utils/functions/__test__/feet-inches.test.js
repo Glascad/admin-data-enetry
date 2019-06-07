@@ -8,12 +8,12 @@ function testImperialValue({
     inputs.map(inputValue => {
         const outputValue = new ImperialValue(inputValue);
         describe(`Testing imperial values for "${inputValue}"`, () => {
-            // test('string output is correct', () => {
-            //     expect(`${outputValue}`).toBe(string);
-            // });
-            // test('number output is correct', () => {
-            //     expect(outputValue.value).toBe(number);
-            // });
+            test('string output is correct', () => {
+                expect(`${outputValue}`).toBe(string);
+            });
+            test('number output is correct', () => {
+                expect(outputValue.value).toBe(number);
+            });
         });
     })
 }
