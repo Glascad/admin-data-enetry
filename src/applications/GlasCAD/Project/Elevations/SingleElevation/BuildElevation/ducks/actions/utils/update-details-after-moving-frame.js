@@ -97,6 +97,7 @@ export default function updateDetailsAfterMovingFrame({
     const oldFramePlacement = new ComparablePlacement(placement, vertical, distance > 0);
     const newFramePlacement = new ComparablePlacement(newPlacement, vertical, distance > 0);
 
+    // look at both ends of the frame
     const { newElevation } = [true, false]
         .reduce(({ newElevation: outerNewElevation }, first) => {
             const expandingContainer = _frame.getFirstOrLastContainerByDirection(distance < 0, !first);
