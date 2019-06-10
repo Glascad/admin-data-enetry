@@ -130,11 +130,12 @@ class ActionProvider extends PureComponent {
         },
     );
 
-    addFrame = ({ distance, vertical }) => this.props.updateElevation(
+    addFrame = ({container, distance, vertical }) => this.props.updateElevation(
         ACTIONS.ADD_FRAME,
         {
             distance,
             vertical,
+            container,
         },
     );
 
