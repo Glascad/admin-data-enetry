@@ -17,6 +17,7 @@ import { parseSearch } from '../../../../../utils';
 import sample1 from './__test__/sample-elevations/sample1.json';
 import sample2 from './__test__/sample-elevations/sample2.json';
 import sample3 from './__test__/sample-elevations/sample3.json';
+import sample3Special from './__test__/sample-elevations/sample3-special.json';
 
 const subroutes = {
     CreateElevation,
@@ -33,6 +34,7 @@ const SAMPLE_ELEVATIONS = {
     sample1,
     sample2,
     sample3,
+    sample3Special,
 };
 
 export default function SingleElevation({

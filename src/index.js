@@ -5,6 +5,7 @@ import './styles/main.scss';
 import ImperialValue from './utils/functions/feet-inches';
 
 const inputs = [
+    `12.5`,
     `1 0.5`,
     `1 .5`,
     `1 0 1/2`,

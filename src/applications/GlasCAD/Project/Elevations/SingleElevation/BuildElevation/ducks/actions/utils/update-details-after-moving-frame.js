@@ -102,6 +102,7 @@ export default function updateDetailsAfterMovingFrame({
             const expandingContainer = _frame.getFirstOrLastContainerByDirection(distance < 0, !first);
             const contractingContainer = _frame.getFirstOrLastContainerByDirection(distance > 0, !first);
             const details = contractingContainer.getDetailsByDirection(vertical, first);
+            // This needs to check whether a frame across the perpendicular matches up with the moved frame i.e. that they overlap --- we need to update the frame/detail matching logic to account for frames whose sightlines overlap, but are not the same frame
             const hasDetailAcrossPerpendicular = !!_frame.getDetailAcrossPerpendicularByDirection(first);
 
             const maybeReversedDetails = distance > 0 ?
@@ -156,13 +157,15 @@ export default function updateDetailsAfterMovingFrame({
                             else {
                                 // console.log(`Leaving First Detail as is`);
                                 return {
+                                    // why not done?
                                     newElevation,
                                 };
                             }
                         }
                     }
                     // last detail (ending next to another detail)
-                    else if (detailPlacement.outer.isEqualTo(newFramePlacement.inner)) {
+                    // also needs to account for frames whose sightlines overlap but don't match --- i.e. they are not the same frame
+                    else if (newFramePlacement.outer.isFartherThanOrEqualTo(detailPlacement.outer)) {
                         // console.log(`Redirecting Last Detail`);
                         return {
                             done: true,
@@ -174,7 +177,7 @@ export default function updateDetailsAfterMovingFrame({
                         };
                     }
                     // last detail (ending next to another container)
-                    else if (detailPlacement.outer.isFartherThan(newFramePlacement.inner)) {
+                    else if (detailPlacement.outer.isFartherThan(newFramePlacement.outer)) {
                         // console.log(`Duplicating Last Detail`);
                         return {
                             done: true,

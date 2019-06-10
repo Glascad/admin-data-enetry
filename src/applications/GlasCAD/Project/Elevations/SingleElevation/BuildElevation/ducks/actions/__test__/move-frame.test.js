@@ -69,11 +69,11 @@ const testMoveFrame = ({ elevation, elevationArrays, detailId, distance, expecte
 // Sample2 Test1
 testMoveFrame({
     elevation: sample2,
-    // elevationArrays: {
-    //     containerCount: 9,
-    //     detailCount: 26,
-    //     frameCount: 9,
-    // },
+    elevationArrays: {
+        containerCount: 9,
+        detailCount: 26,
+        frameCount: 9,
+    },
     distance: -270,
     detailId: 1854,
     expectedDetails: [
@@ -200,28 +200,26 @@ testMoveFrame({
 });
 
 //Testing Sample3
-/**
-//Sample3 Test1
-// testMoveFrame({
-//     elevation: sample3,
-//     distance: 65,
-//     detailId: 2044,
-//     expectedDetails: [
-//         {
-//             firstContainerId: 807,
-//             secondContainerId: 810,
-//         },
-//         {
-//             firstContainerId: 802,
-//             secondContainerId: 807,
-//         },
-
+// Sample3 Test1
+testMoveFrame({
+    elevation: sample3,
+    distance: 65,
+    detailId: 2044,
+    expectedDetails: [
+        {
+            firstContainerId: 807,
+            secondContainerId: 810,
+        },
+        {
+            firstContainerId: 802,
+            secondContainerId: 807,
+        },
     ],
     deletedDetails: [
         //This one will fail (Not on purpose)
         // {
-            //     firstContainerId: 805,
-            //     secondContainerId: 810,
+        //     firstContainerId: 805,
+        //     secondContainerId: 810,
         // },
     ],
     daylightOpenings: [
@@ -255,7 +253,7 @@ testMoveFrame({
             firstContainerId: 802,
             secondContainerId: 807,
         },
-        
+
     ],
     deletedDetails: [
         {
@@ -276,7 +274,6 @@ testMoveFrame({
         },
     ],
 });
-*/
 //Sample3 Test3
 testMoveFrame({
     elevation: sample3,
@@ -375,7 +372,6 @@ testMoveFrame({
         },
     ],
 });
-/**
 //Sample3 Test5
 testMoveFrame({
     elevation: sample3,
@@ -478,12 +474,12 @@ testMoveFrame({
             firstContainerId: 805,
             secondContainerId: 809,
         },
-        //These ones have errors
-        // {
-        //     firstContainerId: 801,
-        //     secondContainerId: 805,
-        // },
-        //This one isn't deleted but put in to make sure no extra detail was added
+        // These ones have errors
+        {
+            firstContainerId: 801,
+            secondContainerId: 805,
+        },
+        // This one isn't deleted but put in to make sure no extra detail was added
         // {
         //     firstContainerId: 807,
         //     secondContainerId: 808,
@@ -503,4 +499,3 @@ testMoveFrame({
         },
     ],
 });
- */
