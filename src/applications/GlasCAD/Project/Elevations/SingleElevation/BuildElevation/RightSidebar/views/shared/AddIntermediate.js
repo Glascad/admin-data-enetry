@@ -24,6 +24,9 @@ class AddFrame extends PureComponent {
                 ACTIONS: {
                     addFrame,
                 },
+                selection: {
+                    items: [container],
+                },
                 vertical,
             },
             state: {
@@ -32,6 +35,7 @@ class AddFrame extends PureComponent {
         } = this;
 
         addFrame({
+            container,
             vertical,
             distance,
         });
