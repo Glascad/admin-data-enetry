@@ -15,7 +15,6 @@ export default function testElevation({ description, elevation }) {
                 detailIds: expect.any(Array),
                 details: expect.any(Object),
                 allDetails: expect.any(Array),
-                allFrames: expect.any(Array),
                 originalContainer: expect.any(RecursiveElevation.RecursiveContainer),
                 sightline: expect.any(Number),
                 minimumDaylightOpening: expect.any(Number),
@@ -43,6 +42,11 @@ export default function testElevation({ description, elevation }) {
     });
 
     describe(`${description} - Recursive elevation generates frames correctly`, () => {
+        test("Elevation successfully generates frames", () => {
+            expect(sampleResult).toMatchObject({
+                allFrames: expect.any(Array),
+            });
+        });
         test("All \'existing\' details are assigned to a single frame", () => {
             sampleResult.allFrames.forEach(
                 _frame => sampleResult.allFrames.slice().forEach(

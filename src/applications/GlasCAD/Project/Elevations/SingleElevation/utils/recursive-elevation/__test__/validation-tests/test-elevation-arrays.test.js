@@ -10,9 +10,9 @@ export default function testElevationArrays({
     roughOpening = expect.any(Object),
 }) {
     const recursiveElevation = new RecursiveElevation(elevation);
-    describe(`testing container, detail, and frame lengths.`, () => {
+    describe(`testing container and detail lengths.`, () => {
 
-        test(`Tests ${elevation.name} for correct containers, details, and frames`, () => {
+        test(`Tests ${elevation.name} for correct containers and details`, () => {
             expect(recursiveElevation).toMatchObject({
                 allContainers: {
                     length: containerCount,
@@ -20,10 +20,15 @@ export default function testElevationArrays({
                 allDetails: {
                     length: detailCount,
                 },
+                roughOpening,
+            });
+        });
+
+        test(`Tests ${elevation.name} for correct frame length`, () => {
+            expect(recursiveElevation).toMatchObject({
                 allFrames: {
                     length: frameCount,
                 },
-                roughOpening,
             });
         });
     });

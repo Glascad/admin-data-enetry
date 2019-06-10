@@ -112,7 +112,7 @@ export default function updateDetailsAfterMovingFrame({
 
             return maybeReversedDetails
                 .reduce(({ newElevation, done }, detail, i) => {
-                    // console.log(`Checking Detail`);
+                    // console.log(`Checking Detail ${detail.id}: ${(detail.firstContainer || {}).id} ${(detail.secondContainer || {}).id}`);
                     const detailPlacement = new ComparablePlacement(detail.placement, vertical, distance > 0);
                     // console.log({ detail, oldFramePlacement, newFramePlacement, detailPlacement });
 
@@ -121,54 +121,28 @@ export default function updateDetailsAfterMovingFrame({
                         return { newElevation, done: true };
                     }
                     // first detail
-                    if (i === 0) {
-                        const newPlacementExceedsDetailPlacement = newFramePlacement.inner.isFartherThanOrEqualTo(detailPlacement.outer);
-
-                        if (hasDetailAcrossPerpendicular) {
-                            if (newPlacementExceedsDetailPlacement) {
-                                // console.log(`Redirecting First Detail`);
-                                return {
-                                    newElevation: redirectDetail(newElevation, {
-                                        detail,
-                                        oldContainer: contractingContainer,
-                                        newContainer: expandingContainer,
-                                    }),
-                                };
-                            }
-                            else {
-                                // console.log(`Splitting First Detail`);
-                                return {
-                                    newElevation: duplicateDetail(newElevation, {
-                                        detail,
-                                        oldContainer: contractingContainer,
-                                        newContainer: expandingContainer,
-                                    }),
-                                };
-                            }
-                        } else {
-                            if (newPlacementExceedsDetailPlacement) {
-                                // console.log(`Deleting First Detail`);
-                                return {
-                                    newElevation: deleteDetail(newElevation, {
-                                        detail,
-                                    }),
-                                };
-                            }
-                            else {
-                                // console.log(`Leaving First Detail as is`);
-                                return {
-                                    // why not done?
-                                    newElevation,
-                                };
-                            }
+                    if (
+                        (i === 0)
+                        &&
+                        !hasDetailAcrossPerpendicular
+                    ) {
+                        // do nothing
+                        if (newFramePlacement.outer.isCloserThan(detailPlacement.outer)) {
+                            return { newElevation };
+                        }
+                        // delete first detail
+                        if (newFramePlacement.outer.isFartherThanOrEqualTo(detailPlacement.outer)) {
+                            return {
+                                newElevation: deleteDetail(newElevation, {
+                                    detail,
+                                }),
+                            };
                         }
                     }
-                    // last detail (ending next to another detail)
-                    // also needs to account for frames whose sightlines overlap but don't match --- i.e. they are not the same frame
-                    else if (newFramePlacement.outer.isFartherThanOrEqualTo(detailPlacement.outer)) {
-                        // console.log(`Redirecting Last Detail`);
+                    // all details
+                    if (newFramePlacement.inner.isFartherThanOrEqualTo(detailPlacement.outer)) {
+                        // console.log(`Redirecting Intermediate Detail`);
                         return {
-                            done: true,
                             newElevation: redirectDetail(newElevation, {
                                 detail,
                                 oldContainer: contractingContainer,
@@ -176,9 +150,18 @@ export default function updateDetailsAfterMovingFrame({
                             }),
                         };
                     }
-                    // last detail (ending next to another container)
-                    else if (detailPlacement.outer.isFartherThan(newFramePlacement.outer)) {
-                        // console.log(`Duplicating Last Detail`);
+                    // last detail (ending next to another detail)
+                    // do nothing if frame ends up even with another frame across perpendicular
+                    if (newFramePlacement.inner.isCloserThanOrEqualTo(detailPlacement.inner)) {
+                        // console.log(`Doing nothing to Last Detail`);
+                        return {
+                            done: true,
+                            newElevation,
+                        };
+                    }
+                    // redirect if frame ends up even with the outer frame across perpendicular
+                    if (newFramePlacement.outer.isCloserThan(detailPlacement.outer)) {
+                        // console.log(`Redirecting Last Detail`);
                         return {
                             done: true,
                             newElevation: duplicateDetail(newElevation, {
@@ -188,16 +171,17 @@ export default function updateDetailsAfterMovingFrame({
                             }),
                         };
                     }
-                    // intermediate details
-                    else {
-                        // console.log(`Redirecting Intermediate Detail`);
+                    {
+                        // console.log(`Duplicating Last Detail`);
                         return {
+                            done: true,
                             newElevation: redirectDetail(newElevation, {
                                 detail,
                                 oldContainer: contractingContainer,
                                 newContainer: expandingContainer,
                             }),
                         };
+
                     }
                 }, { newElevation: outerNewElevation });
         }, { newElevation: arguments[0] });
