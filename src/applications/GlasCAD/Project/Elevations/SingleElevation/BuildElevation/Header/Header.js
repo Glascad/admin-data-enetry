@@ -12,6 +12,7 @@ import {
 } from '../../../../../../../assets/icons';
 
 import { SelectionContext } from '../contexts/SelectionContext';
+import { parseSearch } from '../../../../../../../utils';
 
 const VISIBILITY_SETTINGS = "VISIBILITY_SETTINGS";
 
@@ -67,7 +68,7 @@ export default function Header({
                         to={`${
                             path.replace(/elevation\/build-elevation/, 'all-elevations')
                             }${
-                            search
+                            parseSearch(search).remove('sampleElevation')
                             }`}
                     >
                         <button>
@@ -85,7 +86,7 @@ export default function Header({
                             history.push(`${
                                 path.replace(/elevation\/build-elevation/, 'all-elevations')
                                 }${
-                                search
+                                parseSearch(search).remove('sampleElevation')
                                 }`)
                         }}
                     >

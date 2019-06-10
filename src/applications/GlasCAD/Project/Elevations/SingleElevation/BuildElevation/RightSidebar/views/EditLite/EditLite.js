@@ -14,6 +14,8 @@ import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 
 import { withActionContext } from '../../../contexts/ActionContext';
 
+import { AddVertical, AddHorizontal } from '../shared/AddIntermediate';
+
 // import EditInfill from './EditInfill';
 // import AddVertical from '../add/AddVertical';
 // import AddHorizontal from '../add/AddHorizontal';
@@ -104,12 +106,12 @@ class EditLite extends PureComponent {
                 <div className="sidebar-group">
                     <SidebarLink
                         toggleStackedView={toggleStackedView}
-                        View={{ title: "Add Vertical", component: () => null }}
+                        View={AddVertical}
                         Icon={Icons.AddVertical}
                     />
                     <SidebarLink
                         toggleStackedView={toggleStackedView}
-                        View={{ title: "Add Horizontal", component: () => null }}
+                        View={AddHorizontal}
                         Icon={Icons.AddHorizontal}
                     />
                 </div>

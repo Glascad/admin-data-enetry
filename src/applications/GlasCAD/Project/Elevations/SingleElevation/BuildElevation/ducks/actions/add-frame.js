@@ -7,6 +7,8 @@ export default function ADD_FRAME({
     distance,
 }) {
 
+    console.log(arguments);
+
     return arguments[0];
 
     // split dlo

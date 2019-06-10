@@ -130,6 +130,14 @@ class ActionProvider extends PureComponent {
         },
     );
 
+    addFrame = ({ distance, vertical }) => this.props.updateElevation(
+        ACTIONS.ADD_FRAME,
+        {
+            distance,
+            vertical,
+        },
+    );
+
     deleteFrames = () => this.performBulkAction(
         ACTIONS.DELETE_FRAME,
         Object.keys(this.props.selection.itemsByRefId),
@@ -211,6 +219,7 @@ class ActionProvider extends PureComponent {
             },
             deleteContainers,
             mergeContainers,
+            addFrame,
             deleteFrames,
             moveFrames,
             updateDimension,
@@ -220,6 +229,7 @@ class ActionProvider extends PureComponent {
             <ActionContext.Provider
                 value={{
                     deleteContainers,
+                    addFrame,
                     mergeContainers,
                     deleteFrames,
                     moveFrames,
