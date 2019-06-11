@@ -1,25 +1,16 @@
 import React from 'react';
 
-import ApolloClient from 'apollo-boost';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Navigator } from './components';
 
+import Login from './applications/Login/Login';
 import DataEntry from './applications/DataEntry/DataEntry';
 import Glascad from './applications/GlasCAD/GlasCAD';
 
-const cache = new InMemoryCache({
-    dataIdFromObject: ({ nodeId }) => nodeId || null,
-});
-
-const client = new ApolloClient({
-    // CANNOT DESTRUCTURE PROCESS
-    uri: `${process.env.REACT_APP_BASE_URL || 'http://localhost:5001'}/graphql`,
-    cache,
-});
+import client from './apollo-config';
 
 export default function App() {
     return (
@@ -33,6 +24,7 @@ export default function App() {
                 <ApolloProvider client={client}>
                     <Navigator
                         routes={{
+                            Login,
                             DataEntry,
                             Glascad,
                         }}
