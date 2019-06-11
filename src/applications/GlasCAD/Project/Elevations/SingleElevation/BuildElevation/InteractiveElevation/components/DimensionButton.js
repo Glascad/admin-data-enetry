@@ -144,6 +144,9 @@ class DimensionButton extends PureComponent {
                 `translateY(${finishedFloorHeight}px)`,
         };
 
+        console.log(this);
+        console.log({ dimension });
+
         return (
             <button
                 id={refId}
@@ -192,7 +195,7 @@ class DimensionButton extends PureComponent {
                     />
                 ) : (
                         <div>
-                            {dimension.toFixed(2).replace(/\.*0*$/, '')}
+                            {Number(dimension).toFixed(2).replace(/\.*0*$/, '')}
                         </div>
                     )}
             </button>

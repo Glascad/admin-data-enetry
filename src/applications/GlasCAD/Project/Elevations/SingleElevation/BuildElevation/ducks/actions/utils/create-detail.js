@@ -8,14 +8,10 @@ export default function createDetail({
 }, {
     vertical,
     firstContainer: {
-        rawContainer: {
-            id: firstContainerId,
-        },
+        id: firstContainerId,
     },
     secondContainer: {
-        rawContainer: {
-            id: secondContainerId,
-        },
+        id: secondContainerId,
     },
 }) {
 

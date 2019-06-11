@@ -9,23 +9,17 @@ export default function redirectDetail({
     detail,
     detail: {
         rawDetail,
-        rawDetail: {
-            id: detailId,
-            firstContainerId,
-            secondContainerId,
-        },
+        id: detailId,
+        firstContainerId,
+        secondContainerId,
     },
     oldContainer,
     oldContainer: {
-        rawContainer: {
-            id: oldId,
-        },
+        id: oldId,
     },
     newContainer,
     newContainer: {
-        rawContainer: {
-            id: newId,
-        },
+        id: newId,
     },
 }) {
 

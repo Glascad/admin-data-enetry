@@ -162,7 +162,7 @@ export default class RecursiveDetail {
     get appliedOptionValues() {
         // look at all selected option values (system-level, elevation-level, lite-level, and detail-level)
         // return only option values that are selected
-        return this._detailOptionValues;
+        return this._detailOptionValues || [];
     }
 
     compareOtherDetail = detail => (

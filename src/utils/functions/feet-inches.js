@@ -8,11 +8,11 @@ export default class ImperialValue {
 
             this.string = value;
 
-            console.log("NEW VALUE");
-            console.log(value);
-            console.log(value.replace(/((\d+)(\D|$))/g, '$1!!!').split(/!!!/g));
-            console.log(value.split(/\D/g).map(Number));
-            console.log(value.split(/ |-/g));
+            // console.log("NEW VALUE");
+            // console.log(value);
+            // console.log(value.replace(/((\d+)(\D|$))/g, '$1!!!').split(/!!!/g));
+            // console.log(value.split(/\D/g).map(Number));
+            // console.log(value.split(/ |-/g));
             // const [feet, inches] = value.split("'");
             // console.log({ feet, inches });
             const {

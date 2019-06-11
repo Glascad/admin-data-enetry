@@ -15,7 +15,7 @@ class AddFrame extends PureComponent {
     };
 
     updateDistance = ({ target: { value } }) => this.setState({
-        distance: value,
+        distance: +value,
     });
 
     add = () => {
