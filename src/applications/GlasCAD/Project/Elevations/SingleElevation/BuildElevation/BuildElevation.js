@@ -155,6 +155,7 @@ export default class BuildElevation extends PureComponent {
                 },
             },
             clearHistory,
+            cancel,
         } = this;
 
         const {
@@ -167,7 +168,9 @@ export default class BuildElevation extends PureComponent {
             },
         } = states;
 
-        const id = +parseSearch(search).elevationId
+        const id = +parseSearch(search).elevationId;
+
+        cancel();
 
         const result = await updateEntireElevation({
             elevation: {
@@ -180,9 +183,14 @@ export default class BuildElevation extends PureComponent {
                         _detailOptionValues,
                         firstContainerId,
                         secondContainerId,
+                        id,
                         ...detail
                     }) => ({
                         ...detail,
+                        ...(id > 0 ?
+                            { id }
+                            :
+                            null),
                         [firstContainerId > 0 ?
                             'firstContainerId'
                             :
