@@ -219,17 +219,13 @@ export default class SelectionProvider extends PureComponent {
                 secondFrame
                 &&
                 (
-                    (
-                        firstFrame.canMoveByDirection(true)
-                        &&
-                        secondFrame.canMoveByDirection(false)
-                    )
+                    firstFrame.canMoveByDirection(true)
                     ||
-                    (
-                        firstFrame.canMoveByDirection(false)
-                        &&
-                        secondFrame.canMoveByDirection(true)
-                    )
+                    secondFrame.canMoveByDirection(false)
+                    ||
+                    firstFrame.canMoveByDirection(false)
+                    ||
+                    secondFrame.canMoveByDirection(true)
                 )
             );
         });

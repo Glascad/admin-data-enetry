@@ -30,7 +30,7 @@ export default function Login() {
                         username,
                         password,
                     },
-                }
+                },
             }}
         >
             {({
@@ -46,7 +46,7 @@ export default function Login() {
                 },
             }) => (
                     <div className="card">
-                        {console.log({ rawQueryStatus })}
+                        {console.log({ userId })}
                         <Input
                             label="username"
                             value={username}
@@ -54,6 +54,7 @@ export default function Login() {
                         />
                         <Input
                             label="password"
+                            type="password"
                             value={password}
                             onChange={({ target: { value } }) => setPassword(value)}
                         />
@@ -67,13 +68,14 @@ export default function Login() {
                                         },
                                     },
                                 } = await authenticate();
+
                                 localStorage.setItem(STORAGE_KEYS.JWT, jwt);
 
                                 console.log({ jwt });
 
-                                const data = await refetch();
-                                
-                                console.log(data);
+                                const { data: { userId } } = await refetch();
+
+                                console.log({ userId });
                             }}
                         >
                             Login

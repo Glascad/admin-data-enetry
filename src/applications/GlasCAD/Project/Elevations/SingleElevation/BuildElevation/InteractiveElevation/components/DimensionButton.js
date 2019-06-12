@@ -144,9 +144,6 @@ class DimensionButton extends PureComponent {
                 `translateY(${finishedFloorHeight}px)`,
         };
 
-        // console.log(this);
-        // console.log({ dimension });
-
         return (
             <button
                 id={refId}

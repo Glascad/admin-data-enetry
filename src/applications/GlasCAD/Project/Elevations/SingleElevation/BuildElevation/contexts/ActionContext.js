@@ -130,7 +130,7 @@ class ActionProvider extends PureComponent {
         },
     );
 
-    addFrame = ({container, distance, vertical }) => this.props.updateElevation(
+    addFrame = ({ container, distance, vertical }) => this.props.updateElevation(
         ACTIONS.ADD_FRAME,
         {
             distance,
@@ -159,7 +159,7 @@ class ActionProvider extends PureComponent {
         }),
     );
 
-    updateDimension = ({ newDimension }) => {
+    updateDimension = ({ newDimension: dimensionInput }) => {
         const {
             props: {
                 selection: {
@@ -176,6 +176,10 @@ class ActionProvider extends PureComponent {
             performBulkAction,
         } = this;
 
+        const moveFirst = dimensionInput < 0;
+
+        const newDimension = Math.abs(dimensionInput)
+
         if (newDimension >= minimumDaylightOpening) {
 
             const firstDetailRefIds = unique(...containers
@@ -186,12 +190,14 @@ class ActionProvider extends PureComponent {
                 .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, false)))
                 .map(({ refId }) => `second: ${refId}`);
 
+            const refIdsToMove = moveFirst ? firstDetailRefIds : secondDetailRefIds;
+
             const getPayloadFromRefId = (firstOrSecondRefId, prevRefIds, getItemByRefId) => {
                 const frameRefId = firstOrSecondRefId.replace(/^(first|second): /, '');
 
                 const { _frame } = getItemByRefId(frameRefId) || {};
 
-                const first = firstOrSecondRefId.match(/first: /);
+                const first = firstOrSecondRefId.match(/^first: /);
 
                 if (_frame) {
 
@@ -200,14 +206,14 @@ class ActionProvider extends PureComponent {
 
                     if (!alreadyMovedThisFrame) return {
                         _frame,
-                        distance: (dimension - newDimension) / (first ? -2 : 2),
+                        distance: (dimension - newDimension) / (first ? -1 : 1),
                     };
                 }
             }
 
             performBulkAction(
                 ACTIONS.MOVE_FRAME,
-                unique(firstDetailRefIds.concat(secondDetailRefIds)),
+                refIdsToMove,
                 getPayloadFromRefId,
             );
         }

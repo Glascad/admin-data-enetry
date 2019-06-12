@@ -15,18 +15,20 @@ export default class ImperialValue {
             // console.log(value.split(/ |-/g));
             // const [feet, inches] = value.split("'");
             // console.log({ feet, inches });
-            const {
-                feet,
-                inches,
-            } = value.match(/'/) ?
-                    ((str) => {
-                        const [feet, inches] = str.split(/'/);
-                        return { feet, inches };
-                    })(value) : {};
+            // const {
+            //     feet,
+            //     inches,
+            // } = value.match(/'/) ?
+            //         ((str) => {
+            //             const [feet, inches] = str.split(/'/);
+            //             return { feet, inches };
+            //         })(value) : {};
+            
+            const values = value.split(/ |-/);
 
-            if (value.match("'")) {
+            // if (value.match("'")) {
 
-            }
+            // }
 
             // value.replace(/\d+/g, match => {
             //     console.log(match);
