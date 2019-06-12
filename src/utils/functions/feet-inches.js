@@ -114,3 +114,45 @@ export default class ImperialValue {
 
     toString = () => `${this.feet}'-${toFraction(this.inches)}"`
 }
+//ANDREWS CODE 
+// const ourAnswer = inputValue => {
+    //   const inputArray = inputValue.split(/-| /);
+    
+    //   //Works the logic to figure out the measurments
+    //   //If it only has one item and doesn't include "'" then it is inches
+    //   if (inputArray.length === 1) {
+    //     //if the value inside contains ' it will go to feet, else it will go to inches
+    //     if (inputArray[0].match(/'/)) {
+    //       const feet = inputArray[0].replace(/'/, "");
+    //       const inches = 0;
+    //     }
+    //     else {
+    //       const inches = inputArray[0].replace(/"/, "");
+    //       const feet = 0;
+    //     }
+    //   }
+    //   //If it has 2 spaces
+    //   else if (inputArray.length === 2) {
+    //     if (inputArray[1].match(/\//)) {
+    //       const inches = getInchesFromFraction(inputArray[0], inputArray[1].replace(/"/, ""));
+    //       const feet = 0;
+    //     }
+    //     else {
+    //       const feet = inputArray[0].replace(/'/, "");
+    //       const inches = inputArray[1].replace(/"/, "");
+    //     }
+    //   }
+    //   //If it has 3 spaces
+    //   else if (inputArray.length === 3) {
+    //     const feet = inputArray[0].replace(/'/, "");
+    //     const inches = getInchesFromFraction(inputArray[1], inputArray[2].replace(/"/, ""));
+    //   }
+    //   else {
+    //     //INVALID Throw error
+    //   }
+    // };
+    
+    // const getInchesFromFraction = (wholeInch, fraction) => {
+    //   //Gets fraction conversion
+    //   return parseInt(wholeInch) + parseInt(fraction);
+    // }

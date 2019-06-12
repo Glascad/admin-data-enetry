@@ -9,10 +9,10 @@ function testImperialValue({
         const outputValue = new ImperialValue(inputValue);
         describe(`Testing imperial values for "${inputValue}"`, () => {
             test('string output is correct', () => {
-                // expect(`${outputValue}`).toBe(string);
+                expect(`${outputValue}`).toBe(string);
             });
             test('number output is correct', () => {
-                // expect(outputValue.value).toBe(number);
+                expect(outputValue.value).toBe(number);
             });
         });
     })

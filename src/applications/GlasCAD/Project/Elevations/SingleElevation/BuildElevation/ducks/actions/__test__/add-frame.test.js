@@ -1,12 +1,13 @@
-import sample1 from "../../../../__test__/sample-elevations/sample1.json";
-import sample2 from "../../../../__test__/sample-elevations/sample2.json";
 import sample3 from "../../../../__test__/sample-elevations/sample3.json";
 import sample4 from "../../../../__test__/sample-elevations/sample4.json";
+import sample5 from "../../../../__test__/sample-elevations/sample5.json";
 import applyActionToElevation from "./apply-action.js";
 import ADD_FRAME from "../add-frame";
 import testElevation from '../../../../utils/recursive-elevation/__test__/validation-tests/index.test';
+import testElevationArrays from '../../../../utils/recursive-elevation/__test__/validation-tests/test-elevation-arrays.test';
 
-const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContainer, expectedDetails, deletedDetails }) => {
+
+const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContainer, expectedDetails, deletedDetails, elevationArrays }) => {
 
     const sampleResult = applyActionToElevation(elevation, ADD_FRAME, ({ containers: { [oldContainer.id]: container } }) => ({
         distance,
@@ -17,6 +18,10 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
     testElevation({
         description: `${elevation.name} -add frame - oldContainerId: ${oldContainer.id}, distance: ${newContainer.id}`,
         elevation: sampleResult.rawElevation,
+    });
+
+    testElevationArrays({
+        elevation: sampleResult.rawElevation, ...elevationArrays
     });
 
     describe(`${elevation.name} adds a new frame in container ${oldContainer}. Testing daylight opening, and details`, () => {
@@ -52,6 +57,7 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
 
 // describe('', () => test('', () => expect(true).toBe(true)));
 
+//Undefined ids do not work
 //Sample4 Test1
 testAddFrame({
     elevation: sample4,
@@ -273,7 +279,6 @@ testAddFrame({
             firstContainerId: 805,
             secondContainerId: 810,
         },
-        //This one has an error
         {
             firstContainerId: -5,
             secondContainerId: 809,
@@ -407,3 +412,208 @@ testAddFrame({
     ],
 });
 
+//Sample5 Test1
+testAddFrame({
+    elevation: sample5,
+    distance: 85,
+    vertical: true,
+    oldContainer: {
+        id: 890,
+        daylightOpening: {
+            x: 285,
+            y: 185,
+        },
+    },
+    newContainer: {
+        id: -8,
+        daylightOpening: {
+            x: 85,
+            y: 185,
+        },
+    },
+    expectedDetails: [
+        {
+            firstContainerId: 890,
+            secondContainerId: -8,
+        },
+        {
+            firstContainerId: 893,
+            secondContainerId: -8,
+        },
+    ],
+    deletedDetails: [
+
+    ],
+});
+
+//Sample5 Test2
+testAddFrame({
+    elevation: sample5,
+    distance: 180,
+    vertical: true,
+    oldContainer: {
+        id: 890,
+        daylightOpening: {
+            x: 190,
+            y: 185,
+        },
+    },
+    newContainer: {
+        id: -9,
+        daylightOpening: {
+            x: 180,
+            y: 185,
+        },
+    },
+    expectedDetails: [
+        {
+            firstContainerId: 890,
+            secondContainerId: -9,
+        },
+        {
+            firstContainerId: 893,
+            secondContainerId: -9,
+        },
+    ],
+    deletedDetails: [
+        {
+            firstContainerId: 893,
+            secondContainerId: 890,
+        },
+
+    ],
+});
+
+//Sample5 Test3
+testAddFrame({
+    elevation: sample5,
+    distance: 185,
+    vertical: true,
+    oldContainer: {
+        id: 890,
+        daylightOpening: {
+            x: 185,
+            y: 185,
+        },
+    },
+    newContainer: {
+        id: -10,
+        daylightOpening: {
+            x: 185,
+            y: 185,
+        },
+    },
+    expectedDetails: [
+        {
+            firstContainerId: 890,
+            secondContainerId: -10,
+        },
+        {
+            firstContainerId: 893,
+            secondContainerId: -10,
+        },
+    ],
+    deletedDetails: [
+        {
+            firstContainerId: 893,
+            secondContainerId: 890,
+        },
+
+    ],
+    elevationArrays: {
+        containerCount: 4,
+        detailCount: 12,
+        frameCount: 9,
+    }
+});
+
+//Sample5 Test4
+testAddFrame({
+    elevation: sample5,
+    distance: 190,
+    vertical: true,
+    oldContainer: {
+        id: 890,
+        daylightOpening: {
+            x: 180,
+            y: 185,
+        },
+    },
+    newContainer: {
+        id: -11,
+        daylightOpening: {
+            x: 190,
+            y: 185,
+        },
+    },
+    expectedDetails: [
+        {
+            firstContainerId: 890,
+            secondContainerId: -11,
+        },
+        {
+            firstContainerId: 893,
+            secondContainerId: -11,
+        },
+    ],
+    deletedDetails: [
+        {
+            firstContainerId: 893,
+            secondContainerId: 890,
+        },
+
+    ],
+    elevationArrays: {
+        containerCount: 4,
+        detailCount: 12,
+        frameCount: 9,
+    }
+});
+
+//Sample5 Test5
+testAddFrame({
+    elevation: sample5,
+    distance: 285,
+    vertical: true,
+    oldContainer: {
+        id: 890,
+        daylightOpening: {
+            x: 85,
+            y: 185,
+        },
+    },
+    newContainer: {
+        id: -12,
+        daylightOpening: {
+            x: 285,
+            y: 185,
+        },
+    },
+    expectedDetails: [
+        {
+            firstContainerId: 890,
+            secondContainerId: -12,
+        },
+        {
+            firstContainerId: 893,
+            secondContainerId: -12,
+        },
+        {
+            firstContainerId: 889,
+            secondContainerId: -12,
+        },
+    ],
+    deletedDetails: [
+        {
+            firstContainerId: 893,
+            secondContainerId: 890,
+        },
+    ],
+
+    elevationArrays: {
+        containerCount: 4,
+        detailCount: 13,
+        frameCount: 9,
+    }
+
+});
