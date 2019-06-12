@@ -40,7 +40,7 @@ function Settings({
                 />
             </div>
             <div className="sidebar-group">
-                {['sample1', 'sample2', 'sample3', 'sample3Special'].map(sampleElevation => (
+                {['sample1', 'sample1Special', 'sample2', 'sample3', 'sample3Special', 'sample4'].map(sampleElevation => (
                     <Link
                         key={sampleElevation}
                         to={`${pathname}${parseSearch(search).update({ sampleElevation })}`}
