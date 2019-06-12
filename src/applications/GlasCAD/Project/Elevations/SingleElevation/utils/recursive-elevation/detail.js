@@ -331,20 +331,38 @@ export default class RecursiveDetail {
             if (sameContainer && container === sameContainer) {
                 const detail = adjacentContainer.getFirstOrLastDetailByDirection(...cBACKWARD, !detailFirst);
 
-                // console.log(this.id, detailFirst, containerFirst, {
-                //     sameContainer,
-                //     container,
-                //     adjacentContainer,
-                //     detail,
-                //     cBACKWARD,
-                //     dFORWARD,
-                //     dBACKWARD,
-                // });
+                if (detail) {
 
-                this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail ?
-                    detail.getMatchedDetailsByDirection(detailFirst)
-                    :
-                    [];
+                    // const { placement: detailPlacement } = detail;
+
+                    // const placementsMatch = vertical ?
+                    //     placement.x === detailPlacement.x
+                    //     &&
+                    //     placement.width === detailPlacement.width
+                    //     :
+                    //     placement.y === detailPlacement.y
+                    //     &&
+                    //     placement.height === detailPlacement.height;
+
+                    // console.log(this.id, detailFirst, containerFirst, {
+                    //     sameContainer,
+                    //     container,
+                    //     adjacentContainer,
+                    //     detail,
+                    //     cBACKWARD,
+                    //     dFORWARD,
+                    //     dBACKWARD,
+                    // });
+
+                    // if (placementsMatch) {
+
+                    this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail.getMatchedDetailsByDirection(detailFirst);
+                    // } else {
+                    //     this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = [];
+                    // }
+                } else {
+                    this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = [];
+                }
             } else {
                 this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = [];
             }

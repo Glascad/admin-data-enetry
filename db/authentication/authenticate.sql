@@ -13,9 +13,9 @@ BEGIN
     INTO authenticatee
     WHERE users.users.username = un;
 
-    IF authenticatee.password_hash = CRYPT(password, authenticatee.password_hash) THEN
+    IF authenticatee.password_hash = CRYPT(pw, authenticatee.password_hash) THEN
         RETURN ROW(
-            'user',
+            'apcdmrglhzyezl',
             EXTRACT(EPOCH FROM NOW() + INTERVAL '7 days'),
             authenticatee.id
         )::users.JWT;

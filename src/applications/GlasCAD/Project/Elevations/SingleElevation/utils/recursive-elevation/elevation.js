@@ -7,6 +7,18 @@ import RecursiveDimension from './dimension';
 import dimensionsOverlap from './dimensions-overlap';
 import sortDimensionTracks from './sort-dimension-tracks';
 
+/**
+ * CALCULATION ORDER
+ * 
+ * Add pointers (create linked network)
+ * vvv
+ * Generate Frames (merge details)
+ * vvv
+ * Calculate Container placement (based on Frame sightline)
+ * vvv
+ * Calculate Frame & Detail placement (based on Container placement)
+ */
+
 export default class RecursiveElevation {
 
     static RecursiveContainer = RecursiveContainer;

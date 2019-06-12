@@ -8,8 +8,15 @@ CREATE TABLE users.users (
     password_hash(1500)
 );
 
-CREATE TYPE users.jwt AS (
+CREATE TYPE
+users.jwt AS (
     role VARCHAR(100),
     expiration_date INTEGER,
     user_id INTEGER
+);
+
+CREATE TYPE
+users.current_user AS (
+    id INTEGER,
+    username TEXT
 );

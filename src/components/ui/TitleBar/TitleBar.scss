@@ -65,4 +65,14 @@
             }
         }
     }
+
+    &.floating {
+        .TitleBar {
+            margin-bottom: 0;
+            
+            .title-bar-left {
+                background: none;
+            }
+        }
+    }
 }

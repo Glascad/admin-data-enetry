@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { ApolloWrapper, Input } from '../../components';
+import { ApolloWrapper, Input, TitleBar } from '../../components';
 import gql from 'graphql-tag';
 import { STORAGE_KEYS } from '../../apollo-config';
 
@@ -12,7 +12,12 @@ export default function Login() {
     return (
         <ApolloWrapper
             query={{
-                query: gql`{ userId: getCurrentUserId }`,
+                query: gql`{ 
+                    currentUser: getCurrentUser {
+                        id
+                        username
+                    }
+                }`,
             }}
             mutations={{
                 authenticate: {
@@ -37,7 +42,7 @@ export default function Login() {
                 rawQueryStatus,
                 rawQueryStatus: {
                     data: {
-                        userId,
+                        currentUser,
                     } = {},
                     refetch,
                 },
@@ -45,8 +50,11 @@ export default function Login() {
                     authenticate,
                 },
             }) => (
-                    <div className="card">
-                        {console.log({ userId })}
+                    <div className="floating card">
+                        {console.log({ currentUser })}
+                        <TitleBar
+                            title="Login"
+                        />
                         <Input
                             label="username"
                             value={username}
@@ -58,28 +66,32 @@ export default function Login() {
                             value={password}
                             onChange={({ target: { value } }) => setPassword(value)}
                         />
-                        <button
-                            className="action"
-                            onClick={async () => {
-                                const {
-                                    data: {
-                                        authenticate: {
-                                            jwt,
+                        <div className="bottom-buttons">
+                            <button
+                                className="action"
+                                onClick={async () => {
+                                    const {
+                                        data: {
+                                            authenticate: {
+                                                jwt,
+                                            },
                                         },
-                                    },
-                                } = await authenticate();
+                                    } = await authenticate();
 
-                                localStorage.setItem(STORAGE_KEYS.JWT, jwt);
+                                    console.log({ jwt });
 
-                                console.log({ jwt });
+                                    if (jwt) {
+                                        localStorage.setItem(STORAGE_KEYS.JWT, jwt);
+                                    }
 
-                                const { data: { userId } } = await refetch();
+                                    const { data: { currentUser } } = await refetch();
 
-                                console.log({ userId });
-                            }}
-                        >
-                            Login
-                        </button>
+                                    console.log({ currentUser });
+                                }}
+                            >
+                                Login
+                            </button>
+                        </div>
                     </div>
                 )}
         </ApolloWrapper>
