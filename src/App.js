@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Navigator } from './components';
 
-import Login from './applications/Login/Login';
+import Authentication from './applications/Authentication/Authentication';
 import DataEntry from './applications/DataEntry/DataEntry';
 import Glascad from './applications/GlasCAD/GlasCAD';
 
@@ -24,7 +24,7 @@ export default function App() {
                 <ApolloProvider client={client}>
                     <Navigator
                         routes={{
-                            Login,
+                            Authentication,
                             DataEntry,
                             Glascad,
                         }}
