@@ -83,7 +83,7 @@ export default function updateDetailsAfterMovingFrame({
                     console.log({ detailPlacement, placement: detail.placement });
 
                     // do nothing
-                    if (detailPlacement.outer.isCloserThan(comparableFramePlacement.inner)) {
+                    if (detailPlacement.outer.isCloserThanOrEqualTo(comparableFramePlacement.outer)) {
                         console.log(`doing nothing`);
                         return newElevation;
                     }
