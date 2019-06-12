@@ -45,7 +45,7 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
 // CACHE
 
 const cache = new InMemoryCache({
-    dataIdFromObject: ({ nodeId, __typename, id }) => nodeId || `${__typename}${id}` || null,
+    dataIdFromObject: ({ nodeId }) => nodeId || null,
 });
 
 
