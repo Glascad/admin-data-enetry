@@ -5,6 +5,7 @@ import Select from 'react-select';
 // import FlipSwitch from '../FlipSwitch/FlipSwitch';
 
 import './Input.scss';
+import { ImperialValue } from '../../../utils';
 
 const booleanTypes = [
     "switch",
@@ -13,7 +14,7 @@ const booleanTypes = [
 ];
 
 // const selectStyles = {
-//     input: (provided, state) => ({
+//     inchInput: (provided, state) => ({
 //         ...provided,
 //         n: console.log({ provided, state }),
 //         height: '2rem',
@@ -30,6 +31,11 @@ export default class Input extends PureComponent {
         disabled: false,
     };
 
+    state = {
+        inchInput: '',
+        value: new ImperialValue(this.props.initialValue || this.props.value || 0),
+    };
+
     keys = {};
 
     ref = createRef();
@@ -37,11 +43,15 @@ export default class Input extends PureComponent {
     componentDidUpdate = ({ initialValue }) => {
         const {
             props: {
-                initialValue: newValue
-            }
+                initialValue: newValue,
+            },
         } = this;
         if (initialValue !== newValue) {
-            this.ref.current.value = newValue
+            if (this.props.type === 'inches') {
+                this.setState({ value: new ImperialValue(newValue) });
+            } else {
+                this.ref.current.value = newValue;
+            }
         }
     }
 
@@ -49,6 +59,34 @@ export default class Input extends PureComponent {
         this.componentDidUpdate({}, {});
         // window.addEventListener('keydown', this.handleKeyDown);
         // window.addEventListener('keyup', this.handleKeyUp);
+    }
+
+    handleInchChange = ({ target: { value: inchInput } }) => {
+        const {
+            props: {
+                onChange,
+            },
+        } = this;
+
+        const value = new ImperialValue(inchInput);
+
+        this.setState({ inchInput, value });
+
+        if (onChange) onChange(value);
+    }
+
+    handleInchblur = ({ target: { value: inchInput } }) => {
+        const {
+            props: {
+                onBlur,
+            },
+        } = this;
+
+        const value = new ImperialValue(inchInput);
+
+        this.setState({ inchInput: `${value}`, value });
+
+        if (onBlur) onBlur(value);
     }
 
     // componentWillUnmount = () => {
@@ -120,6 +158,9 @@ export default class Input extends PureComponent {
 
     render = () => {
         const {
+            state: {
+                inchInput,
+            },
             props: {
                 tagname,
                 label,
@@ -134,9 +175,12 @@ export default class Input extends PureComponent {
                 handleChange,
                 Icon,
                 disabled,
+                onBlur,
                 ...props
             },
             ref,
+            handleInchChange,
+            handleInchblur,
             // handleNumberChange,
         } = this;
 
@@ -161,6 +205,8 @@ export default class Input extends PureComponent {
         ) : null;
 
         const isBoolean = booleanTypes.includes(type) || Icon;
+
+        const isInches = type === "inches";
 
         return (
             <tag.name
@@ -195,23 +241,32 @@ export default class Input extends PureComponent {
                             type={isBoolean ?
                                 'checkbox'
                                 :
-                                type}
+                                isInches ?
+                                    "text"
+                                    :
+                                    type}
                             value={onChange ?
                                 value === undefined && type === "text" ?
                                     ""
                                     :
-                                    value
+                                    isInches ?
+                                        inchInput
+                                        :
+                                        value
                                 :
                                 undefined}
                             checked={isBoolean ?
                                 checked
                                 :
                                 undefined}
-                            onChange={
-                                // type === "number" ?
-                                // handleNumberChange
-                                // :
+                            onChange={isInches ?
+                                handleInchChange
+                                :
                                 onChange}
+                            onBlur={isInches ?
+                                handleInchblur
+                                :
+                                onBlur}
                             {...props}
                         />
                     )

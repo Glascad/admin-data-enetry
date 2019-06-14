@@ -52,8 +52,8 @@ export default class Container extends PureComponent {
                             .replace(/>/, '*')
                             .split('*')
                             .filter(Boolean)
-                            .map(text => (
-                                <span>{text}</span>
+                            .map((text, i) => (
+                                <span key={i}>{text}</span>
                             ))
                         // .replace(/<.*/, '')
                     }

@@ -16,8 +16,6 @@ const query = {
 };
 
 export default function AuthenticationProvider({ children }) {
-    const [count, setCount] = useState(0);
-    const rerender = () => setCount(count + 1);
     return (
         <ApolloWrapper
             query={query}
@@ -79,8 +77,6 @@ export default function AuthenticationProvider({ children }) {
                     console.log({ jwt });
 
                     if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
-
-                    // rerender();
 
                     // const refetchedResult = await client.query(query);
 

@@ -10,7 +10,10 @@ import AppNavigator from './Applications/AppNavigator';
 
 import client from './apollo-config';
 
+// import { CheatSheet } from './components';
+
 export default () => (
+    // <CheatSheet>
     <Router>
         <ApolloProvider client={client}>
             <AuthenticationProvider>
@@ -18,4 +21,5 @@ export default () => (
             </AuthenticationProvider>
         </ApolloProvider>
     </Router>
+    // </CheatSheet>
 );
