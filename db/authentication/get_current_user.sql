@@ -5,17 +5,17 @@ RETURNS users.CURRENT_USER AS $$
 DECLARE
     uid INTEGER;
     un TEXT;
+    r users.ROLE;
 BEGIN
-    uid := get_current_user_id();
-
-    SELECT username
-    INTO un
+    SELECT id, username, role
+    INTO uid, un, r
     FROM users.users
-    WHERE id = uid;
+    WHERE id = get_current_user_id();
 
     RETURN ROW(
         uid,
-        un
+        un,
+        r
     )::users.CURRENT_USER;
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;

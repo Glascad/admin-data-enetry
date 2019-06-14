@@ -18,9 +18,11 @@ import {
     NavMenu,
     Navigator,
     ApolloWrapper,
+    withContext,
 } from '../../components';
 import gql from 'graphql-tag';
 import { STORAGE_KEYS } from '../../apollo-config';
+import { AuthenticationContext } from '../Authentication/Authentication';
 
 export const StaticContext = createContext();
 
@@ -44,6 +46,12 @@ class Statics extends PureComponent {
             },
             props,
             props: {
+                AUTH: {
+                    currentUser: {
+                        username,
+                    } = {},
+                    logout,
+                },
                 match: {
                     path,
                 },
@@ -94,42 +102,19 @@ class Statics extends PureComponent {
                             </button>
                         </Link>
                     </div>
-                    <ApolloWrapper
-                        query={{
-                            query: gql`{
-                                currentUser: getCurrentUser{
-                                    id
-                                    username
-                                }
-                            }`,
-                        }}
-                    >
-                        {({
-                            queryStatus: {
-                                currentUser: {
-                                    username,
-                                } = {},
-                            },
-                            rawQueryStatus: {
-                                refetch,
-                            },
-                        }) => username ? (
-                            <div id="current-user">
-                                <div>
-                                    {username}
-                                </div>
-                                <button
-                                    className="empty light"
-                                    onClick={() => {
-                                        localStorage.setItem(STORAGE_KEYS.JWT, '');
-                                        refetch();
-                                    }}
-                                >
-                                    Logout
-                                </button>
+                    {username ? (
+                        <div id="current-user">
+                            <div>
+                                {username}
                             </div>
-                        ) : null}
-                    </ApolloWrapper>
+                            <button
+                                className="empty light"
+                                onClick={logout}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    ) : null}
                 </div>
                 <div
                     id="viewport"
@@ -144,4 +129,4 @@ class Statics extends PureComponent {
     }
 }
 
-export default withRouter(Statics);
+export default withContext(AuthenticationContext, ({ context }) => ({ AUTH: context }))(withRouter(Statics));

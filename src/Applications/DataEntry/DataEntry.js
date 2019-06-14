@@ -7,7 +7,7 @@ import SystemData from './SystemData/SystemData';
 import ApplicationData from './ApplicationData/ApplicationData';
 import PartData from './PartData/PartData';
 
-export default function DataEntry() {
+export default function GlasCAD() {
     return (
         <Statics
             routes={{
@@ -19,4 +19,3 @@ export default function DataEntry() {
         />
     );
 }
-
