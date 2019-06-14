@@ -2,12 +2,6 @@ CREATE EXTENSION pgcrypto;
 
 CREATE SCHEMA users;
 
-CREATE TABLE users.users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE,
-    password_hash(1500)
-);
-
 CREATE TYPE
 users.jwt AS (
     role VARCHAR(100),
@@ -19,4 +13,17 @@ CREATE TYPE
 users.current_user AS (
     id INTEGER,
     username TEXT
+);
+
+CREATE TYPE
+users.role AS ENUM (
+    'admin',
+    'client'
+);
+
+CREATE TABLE users.users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash(1500) NOT NULL,
+    role users.ROLE DEFAULT 'client' NOT NULL
 );

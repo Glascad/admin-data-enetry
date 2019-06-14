@@ -30,8 +30,6 @@ import {
  */
 
 
-
-
 class NavigatorChild extends PureComponent {
 
     static defaultProps = {
@@ -86,6 +84,8 @@ class Navigator extends PureComponent {
             },
             updateCurrentRoute,
         } = this;
+
+        console.log(this);
 
         const mappedRoutes = Object.entries(routes)
             .map(([name, route]) => extractNavigationOptions(name, route, {

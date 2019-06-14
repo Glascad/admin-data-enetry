@@ -1,5 +1,4 @@
-
-@import '../../styles/variables';
+@import "../../styles/variables";
 
 #Sidebar {
     background: $dark-blue;
@@ -13,21 +12,21 @@
     height: 100vh;
     width: $sidebar-width;
     min-width: $sidebar-width;
-    
+
     &.closed {
         min-width: calc(#{$large * 2} + #{$item-height});
         width: calc(#{$large * 2} + #{$item-height});
         max-width: calc(#{$large * 2} + #{$item-height});
-        
+
         + #viewport {
             margin-left: calc(#{$large * 2} + #{$item-height});
         }
     }
-    
+
     #sidebar-header {
         background: $dark-blue;
         color: $off-white;
-        font-family: 'Montserrat';
+        font-family: "Montserrat";
         font-size: $large;
         font-weight: bold;
         padding: 0 calc(#{$large} - 4px);
@@ -45,7 +44,7 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         span {
             padding-left: $large;
         }
@@ -59,7 +58,7 @@
         width: $menu-height;
         // border-left: 1px solid $medium-gray;
         border-radius: 0;
-        
+
         &:before {
             content: "";
             position: absolute;
@@ -70,10 +69,9 @@
         }
     }
 
-    .application-links {
+    #application-links,
+    #current-user {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
 
         a {
@@ -90,6 +88,28 @@
         }
     }
 
+    #application-links {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #current-user {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: $xx-large $large;
+        justify-content: space-between;
+        color: $light-gray;
+
+        button {
+            width: fit-content;
+            min-width: unset;
+        }
+        // align-self: flex-end;
+        // flex-direction: row;
+    }
+
     &.closed {
         #sidebar-header {
             border-bottom: none;
@@ -100,7 +120,8 @@
             border: none;
             right: $base-size;
 
-            &:before, &:after {
+            &:before,
+            &:after {
                 border: none;
             }
 
@@ -109,11 +130,13 @@
             }
         }
 
-        .application-links {
+        #application-links,
+        #current-user {
             display: none;
         }
 
-        .NavMenu, span {
+        .NavMenu,
+        span {
             opacity: 0;
         }
     }
@@ -121,12 +144,13 @@
 
 #viewport {
     margin-left: $sidebar-width;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: $header-height;
     padding-bottom: $header-height * 4;
-    
+
     > * {
         width: 90%;
         max-width: 80vw;

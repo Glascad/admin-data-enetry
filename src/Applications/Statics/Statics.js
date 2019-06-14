@@ -17,7 +17,10 @@ import {
     DoubleArrow,
     NavMenu,
     Navigator,
+    ApolloWrapper,
 } from '../../components';
+import gql from 'graphql-tag';
+import { STORAGE_KEYS } from '../../apollo-config';
 
 export const StaticContext = createContext();
 
@@ -79,7 +82,7 @@ class Statics extends PureComponent {
                     <DoubleArrow
                         onClick={toggle}
                     />
-                    <div className="application-links">
+                    <div id="application-links">
                         <Link to="/data-entry">
                             <button className="light">
                                 DATA ENTRY
@@ -91,6 +94,42 @@ class Statics extends PureComponent {
                             </button>
                         </Link>
                     </div>
+                    <ApolloWrapper
+                        query={{
+                            query: gql`{
+                                currentUser: getCurrentUser{
+                                    id
+                                    username
+                                }
+                            }`,
+                        }}
+                    >
+                        {({
+                            queryStatus: {
+                                currentUser: {
+                                    username,
+                                } = {},
+                            },
+                            rawQueryStatus: {
+                                refetch,
+                            },
+                        }) => username ? (
+                            <div id="current-user">
+                                <div>
+                                    {username}
+                                </div>
+                                <button
+                                    className="empty light"
+                                    onClick={() => {
+                                        localStorage.setItem(STORAGE_KEYS.JWT, '');
+                                        refetch();
+                                    }}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        ) : null}
+                    </ApolloWrapper>
                 </div>
                 <div
                     id="viewport"
