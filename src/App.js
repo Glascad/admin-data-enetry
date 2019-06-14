@@ -4,14 +4,14 @@ import { ApolloProvider } from 'react-apollo';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import ApplicationNavigator from './Applications/ApplicationNavigator';
+import AppNavigator from './Applications/AppNavigator';
 
 import client from './apollo-config';
 
 export default () => (
     <Router>
         <ApolloProvider client={client}>
-            <ApplicationNavigator />
+            <AppNavigator />
         </ApolloProvider>
     </Router>
 );

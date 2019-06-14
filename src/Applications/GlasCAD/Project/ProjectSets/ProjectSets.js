@@ -5,11 +5,26 @@ import { Link } from 'react-router-dom';
 import {
     CollapsibleTitle,
     ListWrapper,
+    Navigator,
 } from '../../../../components';
+
+import SystemSet from './SystemSet/SystemSet';
 
 import { parseSearch } from '../../../../utils';
 
-export default ({
+export default function ProjectSetsRouter(props) {
+    return (
+        <Navigator
+            routes={{
+                ProjectSets,
+                SystemSet,
+            }}
+            routeProps={props}
+        />
+    );
+}
+
+function ProjectSets({
     queryStatus: {
         _project: {
             _systemSets = [],
@@ -22,7 +37,8 @@ export default ({
     match: {
         path,
     },
-}) => (
+}) {
+    return (
         <div className="card">
             <CollapsibleTitle
                 titleBar={{
@@ -72,3 +88,4 @@ export default ({
             </CollapsibleTitle>
         </div>
     );
+}

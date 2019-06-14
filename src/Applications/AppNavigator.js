@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Navigator } from '../components';
 
-// import 
+import Authentication from './Authentication/Authentication';
+import Glascad from './GlasCAD/GlasCAD';
+import DataEntry from './DataEntry/DataEntry';
 
 export default () => (
     <Navigator
