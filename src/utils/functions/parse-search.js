@@ -19,7 +19,7 @@ const parseSearch = search => search.replace(/^.*?\?/, "")
 
 const joinSearch = searchObject => Object
     .entries(searchObject)
-    .filter(([_, value]) => value !== undefined)
+    .filter(([_, value]) => value)
     .reduce((search, [key, value], i) => `${
         search
         }${
@@ -45,6 +45,8 @@ class Search {
         }
 
         Object.assign(this, this.parsedSearch);
+
+        console.log(this);
     }
 
     update = searchObject => new Search({

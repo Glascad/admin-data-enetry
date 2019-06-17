@@ -18,12 +18,12 @@ const separateValueIntoGroups = value => {
     const regEx = /^(?<feet>\d*\.?\d*)??\'?\s?(?<inches>\d*\.?\d*)??\"??\s?(?<inchFraction>\d+\/\d+)?\"?$/;
 
     const returnValue = regEx.exec(inputValue);
-    
+
     return returnValue ?
-    returnValue.groups
-    :
-    //Do something here to let the user know
-    {}
+        returnValue.groups
+        :
+        //Do something here to let the user know
+        {}
 }
 
 const getFeetAndInches = value => {
@@ -44,9 +44,17 @@ const getFeetAndInches = value => {
 
 export default class ImperialValue {
     constructor(value) {
-        this.value = getFeetAndInches(value);
+        this.inputtedValue = value;
+        this.value = typeof value === 'number' ?
+            value
+            :
+            typeof value === 'string' ?
+                getFeetAndInches(value)
+                :
+                0;
         this.inches = this.value % 12
         this.feet = (this.value - this.inches) / 12;
+        this.stringValue = this.toString();
     }
 
     toString = () => `${this.feet}'-${numberToString(this.inches)}"`

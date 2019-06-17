@@ -1,7 +1,9 @@
-import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
-import { ApolloLink, from } from 'apollo-link';
+import { ApolloLink } from 'apollo-link';
+import gql from 'graphql-tag';
+import F from './schema';
 
 // LOCALSTORAGE
 
@@ -17,27 +19,23 @@ const getJWT = () => {
 }
 
 
-// HTTP LINKS / MIDDLEWARES
+// HTTP LINK
 
 const httpLink = new HttpLink({ uri: "/graphql" });
 
-const authMiddleware = new ApolloLink((operation, forward) => {
-    operation.setContext(({ headers = {} }) => ({
-        headers: {
-            ...headers,
-            authorization: getJWT(),
-        },
-    }));
-    return forward(operation);
-});
 
-const activityMiddleware = new ApolloLink((operation, forward) => {
-    operation.setContext(({ headers = {} }) => ({
-        headers: {
-            ...headers,
-            'recent-activity': localStorage.getItem(STORAGE_KEYS.RECENT_ACTIVITY) || null,
-        },
-    }));
+// MIDDLEWARE
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+    console.log('auth middleware');
+    const authorization = getJWT();
+    if (authorization) {
+        operation.setContext(({
+            headers: {
+                authorization,
+            },
+        }));
+    }
     return forward(operation);
 });
 
@@ -51,11 +49,15 @@ const cache = new InMemoryCache({
 
 // CLIENT
 
-export default new ApolloClient({
-    link: from([
+const client = new ApolloClient({
+    link: ApolloLink.from([
         authMiddleware,
-        activityMiddleware,
         httpLink,
     ]),
     cache,
 });
+
+
+// EXPORT
+
+export default client;

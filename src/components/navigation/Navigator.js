@@ -30,8 +30,6 @@ import {
  */
 
 
-
-
 class NavigatorChild extends PureComponent {
 
     static defaultProps = {
@@ -63,6 +61,21 @@ class Navigator extends PureComponent {
             this.setState({
                 currentRoute: index,
             });
+        }
+    }
+
+    componentDidMount = () => {
+        const {
+            props: {
+                initialRoute,
+                match: {
+                    path,
+                },
+                history,
+            },
+        } = this;
+        if (initialRoute) {
+            history.push(`${path}${initialRoute}`);
         }
     }
 

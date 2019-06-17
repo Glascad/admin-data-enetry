@@ -1,4 +1,3 @@
-
 // SIZES
 
 $header-height: 75px;
@@ -12,23 +11,22 @@ $item-height: 40px;
 $pill-width: 200px;
 
 // Colors
-$danger-color: #D0021B;
-$selected-color: #4A90E2;
-$action-color: #5CB85C;
-$icon-green: #0CFC04;
+$danger-color: #d0021b;
+$selected-color: #4a90e2;
+$action-color: #5cb85c;
+$icon-green: #0cfc04;
 
-$off-white: #ECEFF1;
-$light-gray: #C8C8C8;
+$off-white: #eceff1;
+$light-gray: #c8c8c8;
 $medium-gray: #979797;
 $medium-dark-gray: #878787;
 $dark-medium-gray: #585858;
-$dark-gray: #4A4A4A;
+$dark-gray: #4a4a4a;
 
-$glass-blue: #E0F1FB;
-$light-blue: #86C7E9;
-$dark-blue: #262F3D;
-$darker-blue: #19212B;
-
+$glass-blue: #e0f1fb;
+$light-blue: #86c7e9;
+$dark-blue: #262f3d;
+$darker-blue: #19212b;
 
 $xx-small: 0.25rem;
 $x-small: 0.5rem;
@@ -42,18 +40,16 @@ $xxxx-large: 2.25rem;
 $xxxxx-large: 2.5rem;
 
 $text-size: $base-size;
-$icon-thickness: .2rem;
+$icon-thickness: 0.2rem;
 
 $checkbox-height: $item-height / 2;
 
 // SCSS Mixins
 
-
-
 @mixin hoverable-background($color, $darken: true) {
     border-color: $color;
     background: $color;
-    
+
     &:hover {
         &:not(.disabled) {
             @if $darken {
@@ -66,4 +62,3 @@ $checkbox-height: $item-height / 2;
         }
     }
 }
-
