@@ -6,6 +6,7 @@ export const CURRENT_USER = gql`
             id
             username
             role
+            projectId
         }
     }
 `;

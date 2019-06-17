@@ -41,8 +41,8 @@ function AuthenticationProvider({
     },
 }) {
 
-    const [fetchQuery, queryResult, queryThen] = useQuery(query, false);
-    const [authenticate, authResult, authThen] = useMutation(mutation);
+    const [fetchQuery, queryResult, queryPromise] = useQuery(query, false);
+    const [authenticate, authResult, authPromise] = useMutation(mutation);
 
     const getCurrentUser = async () => {
         const result = await fetchQuery();
@@ -54,7 +54,7 @@ function AuthenticationProvider({
         getCurrentUser();
     }, []);
 
-    const authenticating = authThen || (queryThen && localStorage.getItem(STORAGE_KEYS.JWT));
+    const authenticating = (!authResult || !queryResult) && localStorage.getItem(STORAGE_KEYS.JWT);
 
     const login = async ({ username, password }) => {
         const {

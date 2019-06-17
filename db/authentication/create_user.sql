@@ -6,6 +6,7 @@ CREATE OR REPLACE FUNCTION users.create_user(
     role users.ROLE
 ) RETURNS users.JWT AS $$
 DECLARE
+    uid INTEGER;
     un ALIAS FOR username;
     pw ALIAS FOR password;
     r ALIAS FOR role;
@@ -21,6 +22,14 @@ BEGIN
         un,
         hash,
         r
+    ) RETURNING id INTO uid;
+
+    INSERT INTO projects (
+        name,
+        owner_id
+    ) VALUES (
+        un,
+        uid
     );
 
     RETURN public.authenticate(un, pw);
