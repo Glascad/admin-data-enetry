@@ -192,15 +192,9 @@ class ActionProvider extends PureComponent {
 
         if (newDimension >= minimumDaylightOpening) {
 
-            const firstDetailRefIds = unique(...containers
-                .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, true)))
-                .map(({ refId }) => `first: ${refId}`);
-
-            const secondDetailRefIds = unique(...containers
-                .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, false)))
-                .map(({ refId }) => `second: ${refId}`);
-
-            const refIdsToMove = moveFirst ? firstDetailRefIds : secondDetailRefIds;
+            const refIdsToMove = unique(...containers
+                .map(({ getDetailsByDirection }) => getDetailsByDirection(vertical, moveFirst)))
+                .map(({ refId }) => `${moveFirst ? 'first' : 'second'}: ${refId}`);
 
             const getPayloadFromRefId = (firstOrSecondRefId, prevRefIds, getItemByRefId) => {
                 const frameRefId = firstOrSecondRefId.replace(/^(first|second): /, '');

@@ -45,8 +45,6 @@ class Search {
         }
 
         Object.assign(this, this.parsedSearch);
-
-        console.log(this);
     }
 
     update = searchObject => new Search({
