@@ -18,17 +18,18 @@ const AppNavigator = ({ allowedApplications }) => (
     </Suspense>
 );
 
-const getAllowedApplications = () => ({ Glascad, DataEntry });
-// const getAllowedApplications = role => role === 'ADMIN' ?
-//     { Glascad, DataEntry }
-//     :
-//     role === 'DATA_ENTRY' ?
-//         { DataEntry }
-//         :
-//         role === 'CLIENT' ?
-//             { Glascad }
-//             :
-//             { Login };
+// const getAllowedApplications = () => ({ Glascad, DataEntry });
+
+const getAllowedApplications = role => role === 'ADMIN' ?
+    { Glascad, DataEntry }
+    :
+    role === 'DATA_ENTRY' ?
+        { DataEntry }
+        :
+        role === 'CLIENT' ?
+            { Glascad }
+            :
+            { Login };
 
 const mapProps = ({
     context: {

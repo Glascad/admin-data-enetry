@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withRouter, Link } from 'react-router-dom';
 
-import { TitleBar } from '../../../../../../../../../components';
+import { TitleBar, BugReport } from '../../../../../../../../../components';
 
 import SidebarLink from '../../components/SidebarLink';
 
@@ -16,6 +16,7 @@ export default {
 };
 
 function Settings({
+    states,
     elevation,
     updateElevation,
     toggleStackedView,
@@ -24,6 +25,7 @@ function Settings({
         search,
     },
 }) {
+    console.log({ states });
     return (
         <>
             <TitleBar
@@ -52,6 +54,13 @@ function Settings({
                         </button>
                     </Link>
                 ))}
+            </div>
+            <div className="sidebar-group">
+                <BugReport
+                    state={states.map(({ recursiveElevation, ...state }) => state)}
+                    inputClassName="sidebar-button"
+                    buttonClassName="sidebar-button primary"
+                />
             </div>
         </>
     );

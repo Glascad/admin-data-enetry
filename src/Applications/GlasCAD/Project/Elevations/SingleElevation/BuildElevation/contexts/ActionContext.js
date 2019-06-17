@@ -232,6 +232,8 @@ class ActionProvider extends PureComponent {
             updateDimension,
         } = this;
 
+        console.log(this);
+
         return (
             <ActionContext.Provider
                 value={{

@@ -276,6 +276,7 @@ export default class BuildElevation extends PureComponent {
                             cancel={cancel}
                         />
                         <RightSidebar
+                            states={states}
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
                         />

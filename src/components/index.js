@@ -28,6 +28,7 @@ import NavMenu from './navigation/NavMenu/NavMenu';
 
 // DEVELOPMENT TOOLS
 import CheatSheet from './dev/CheatSheet/CheatSheet';
+import BugReport from './dev/BugReport/BugReport';
 
 // UNIVERSAL STYLES
 import './index.scss';
@@ -58,6 +59,7 @@ export {
     TabNavigator,
     ToggleNavigator,
     NavMenu,
-    // CHEAT SHEET
+    // DEV
     CheatSheet,
+    BugReport,
 };

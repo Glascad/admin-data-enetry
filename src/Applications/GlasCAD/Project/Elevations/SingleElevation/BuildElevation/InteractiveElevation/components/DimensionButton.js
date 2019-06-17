@@ -53,15 +53,15 @@ class DimensionButton extends PureComponent {
                 },
             },
         } = this;
-        console.log({ dimension });
-        console.log(this.props.dimension);
+        // console.log({ dimension });
+        // console.log(this.props.dimension);
 
         if ((oldEditing !== newEditing) || (oldDimension !== dimension)) {
-            console.log(`UPDATING DIMENSION: ${dimension}`);
+            // console.log(`UPDATING DIMENSION: ${dimension}`);
 
             const newDimension = new ImperialValue(dimension);
 
-            console.log({ newDimension });
+            // console.log({ newDimension });
 
             this.setState({ newDimension });
         }
@@ -177,7 +177,7 @@ class DimensionButton extends PureComponent {
             style,
         } = this;
 
-        console.log({ stringValue });
+        // console.log({ stringValue });
 
         return (
             <button

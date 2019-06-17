@@ -29,3 +29,12 @@ CREATE TABLE users.users (
     password_hash VARCHAR(1500) NOT NULL,
     role users.ROLE DEFAULT 'client' NOT NULL
 );
+
+CREATE TABLE bug_reports (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users.users,
+    location VARCHAR(500),
+    report VARCHAR(2500),
+    state JSONB,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
