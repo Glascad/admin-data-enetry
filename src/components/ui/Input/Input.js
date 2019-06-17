@@ -245,7 +245,7 @@ export default class Input extends PureComponent {
                                     "text"
                                     :
                                     type}
-                            value={onChange ?
+                            value={onChange || isInches ?
                                 value === undefined && type === "text" ?
                                     ""
                                     :

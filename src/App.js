@@ -12,14 +12,16 @@ import client from './apollo-config';
 
 // import { CheatSheet } from './components';
 
-export default () => (
-    // <CheatSheet>
-    <Router>
-        <ApolloProvider client={client}>
-            <AuthenticationProvider>
-                <AppNavigator />
-            </AuthenticationProvider>
-        </ApolloProvider>
-    </Router>
-    // </CheatSheet>
-);
+export default function App() {
+    return (
+        // <CheatSheet>
+        <Router>
+            <ApolloProvider client={client}>
+                <AuthenticationProvider>
+                    <AppNavigator />
+                </AuthenticationProvider>
+            </ApolloProvider>
+        </Router>
+        // </CheatSheet>
+    );
+}

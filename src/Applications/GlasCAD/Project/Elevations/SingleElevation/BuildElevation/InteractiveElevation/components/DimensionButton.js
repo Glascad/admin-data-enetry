@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 
 import { SelectionContext } from '../../contexts/SelectionContext';
 import { withContext, Input } from '../../../../../../../../components';
-import { unique } from '../../../../../../../../utils';
+import { unique, ImperialValue } from '../../../../../../../../utils';
 import { MOVE_FRAME } from '../../ducks/actions';
 import { withActionContext } from '../../contexts/ActionContext';
 
 class DimensionButton extends PureComponent {
 
     state = {
-        newDimension: 0,
+        newDimension: new ImperialValue(),
     };
 
     mostRecentClick = 0;
@@ -41,7 +41,10 @@ class DimensionButton extends PureComponent {
         this.mostRecentClick = currentMilliseconds;
     }
 
-    componentDidUpdate = ({ editing: oldEditing }) => {
+    // componentDidMount = () => this.componentDidUpdate({ dimension: {} });
+
+    // component doesn't update often -- must be dynamically calculated every time
+    componentDidUpdate = ({ editing: oldEditing, dimension: { dimension: oldDimension } }) => {
         const {
             props: {
                 editing: newEditing,
@@ -50,13 +53,23 @@ class DimensionButton extends PureComponent {
                 },
             },
         } = this;
+        console.log({ dimension });
+        console.log(this.props.dimension);
 
-        if (oldEditing !== newEditing) this.setState({ newDimension: dimension.toFixed(2).replace(/\.*0*$/, '') });
+        if ((oldEditing !== newEditing) || (oldDimension !== dimension)) {
+            console.log(`UPDATING DIMENSION: ${dimension}`);
+
+            const newDimension = new ImperialValue(dimension);
+
+            console.log({ newDimension });
+
+            this.setState({ newDimension });
+        }
     }
 
     handleFocus = ({ target }) => setTimeout(() => target.select());
 
-    handleInput = ({ value }) => this.setState({ newDimension: value });
+    handleChange = newDimension => this.setState({ newDimension });
 
     handleKeyDown = e => {
         const {
@@ -75,7 +88,9 @@ class DimensionButton extends PureComponent {
     handleBlur = () => {
         const {
             state: {
-                newDimension,
+                newDimension: {
+                    value: newDimension,
+                },
             },
             props: {
                 ACTIONS: {
@@ -87,52 +102,45 @@ class DimensionButton extends PureComponent {
         updateDimension({ newDimension });
     }
 
-    render = () => {
+    get styleKeys() {
+        return this.props.dimension.vertical ?
+            {
+                dimension: 'Height',
+                offset: 'bottom',
+                trackOffset: 'left',
+            } : {
+                dimension: 'Width',
+                offset: 'left',
+                trackOffset: 'bottom',
+            };
+    }
+
+    get style() {
+
         const {
-            state: {
-                newDimension,
-            },
             props: {
                 track,
                 dimension: {
-                    refId,
                     vertical,
                     dimension,
                     offset,
                     registerReactComponent,
                 },
-                selected,
-                editing,
                 finishedFloorHeight,
             },
-            handleClick,
-            handleFocus,
-            handleInput,
-            handleKeyDown,
-            handleBlur,
+            styleKeys: {
+                dimension: dimensionKey,
+                offset: offsetKey,
+                trackOffset: trackOffsetKey,
+            },
         } = this;
-
-        const dimensionKey = vertical ?
-            'Height'
-            :
-            'Width';
-
-        const offsetKey = vertical ?
-            'bottom'
-            :
-            'left';
-
-        const trackOffsetKey = vertical ?
-            'left'
-            :
-            'bottom';
 
         // size = 24, space = 12
         const trackOffset = -36 * (track + 1) - 50;
 
         registerReactComponent(this);
 
-        const style = {
+        return {
             [dimensionKey.toLowerCase()]: dimension,
             [`max${dimensionKey}`]: dimension,
             [`min${dimensionKey}`]: dimension,
@@ -143,6 +151,33 @@ class DimensionButton extends PureComponent {
                 :
                 `translateY(${finishedFloorHeight}px)`,
         };
+    }
+
+    render = () => {
+        const {
+            state: {
+                newDimension: {
+                    value,
+                    stringValue,
+                },
+            },
+            props: {
+                dimension: {
+                    refId,
+                    vertical,
+                },
+                selected,
+                editing,
+            },
+            handleClick,
+            handleFocus,
+            handleChange,
+            handleKeyDown,
+            handleBlur,
+            style,
+        } = this;
+
+        console.log({ stringValue });
 
         return (
             <button
@@ -164,9 +199,9 @@ class DimensionButton extends PureComponent {
                 {editing ? (
                     <Input
                         type="inches"
-                        initialValue={newDimension}
+                        initialValue={value}
                         onFocus={handleFocus}
-                        onChange={handleInput}
+                        onChange={handleChange}
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
                         autoFocus={true}
@@ -192,7 +227,7 @@ class DimensionButton extends PureComponent {
                     />
                 ) : (
                         <div>
-                            {Number(dimension).toFixed(2).replace(/\.*0*$/, '')}
+                            {stringValue}
                         </div>
                     )}
             </button>

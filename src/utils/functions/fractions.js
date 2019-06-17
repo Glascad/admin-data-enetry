@@ -37,7 +37,7 @@ export const toFraction = (num, roundFactor = defaultFactor, rounding, maybeRoun
     return `${rounded / roundFactor}/${roundFactor ** -1}`;
 }
 
-export const splitFraction = fraction => fraction.split(/\//);
+export const splitFraction = (fraction = "0/1") => fraction.split(/\//);
 
 export const toMixedNumber = fraction => {
     const [numerator, denominator] = splitFraction(fraction);
@@ -45,12 +45,14 @@ export const toMixedNumber = fraction => {
     if (!whole) return fraction;
     else {
         const remainder = numerator % denominator;
+        if (!remainder) return `${whole}`;
         return `${whole} ${remainder}/${denominator}`;
     }
 }
 
 export const simplifyFraction = fraction => {
     let [numerator, denominator] = splitFraction(fraction);
+    if (!parseInt(numerator)) return "";
     if (numerator === denominator) return '1';
     for (let i = denominator - 1; i > 0; i--) {
         if (!(numerator % i) && !(denominator % i)) {
@@ -64,12 +66,19 @@ export const simplifyFraction = fraction => {
 export const splitMixedNumber = mixed => mixed.match(/ /) ?
     mixed.split(/ /)
     :
-    ['', mixed];
+    mixed.match(/\//) ?
+        ['', mixed]
+        :
+        [mixed, ''];
 
 export const simplifyMixedNumber = mixed => {
     const [whole, fraction] = splitMixedNumber(mixed);
     if (!whole) return simplifyFraction(mixed);
-    else return `${whole} ${simplifyFraction(fraction)}`;
+    else {
+        const simplifiedFraction = simplifyFraction(fraction);
+        if (!simplifiedFraction) return `${whole}`
+        return `${whole} ${simplifyFraction(fraction)}`
+    }
 }
 
 export const numberToString = (num, roundFactor, rounding, maybeRounding) => (
@@ -84,3 +93,5 @@ export const numberToString = (num, roundFactor, rounding, maybeRounding) => (
         ),
     )
 );
+
+export const parseFraction = fraction => splitFraction(fraction).reduce((a, b) => a / b);

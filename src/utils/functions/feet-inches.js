@@ -1,118 +1,61 @@
-import { toFraction } from './fractions';
+import { numberToString, parseFraction } from './fractions';
+
+/**regex that gets the feet, inches and fraction values from a string
+* ^ start of string
+* (?<feet>d+\.?d*) assigning a value that may be a decimal to foot
+* ?? Non greedy optional
+* \'? Greedy and may contain ' after the number 
+* \s? may contain a space
+* (?<inches>\d+\.?\d*)??\"?\s? same thing for inches \"?? Not greedy
+* (?<inchFraction>\d+\/\d+) fraction must contain /
+* ? Greedy optional
+* \"? may include the " sign
+* $ end of string
+*/
+
+const separateValueIntoGroups = value => {
+    const inputValue = value.replace(/-/g, " ");
+    const regEx = /^(?<feet>\d*\.?\d*)??\'?\s?(?<inches>\d*\.?\d*)??\"??\s?(?<inchFraction>\d+\/\d+)?\"?$/;
+
+    const returnValue = regEx.exec(inputValue);
+
+    return returnValue ?
+        returnValue.groups
+        :
+        //Do something here to let the user know
+        {}
+}
+
+const getFeetAndInches = value => {
+    const group = separateValueIntoGroups(value);
+    const inchFraction = parseFraction(group.inchFraction);
+    const inches = parseFloat(group.inches);
+    const feet = parseFloat(group.feet);
+    return (
+        (
+            feet * 12 || 0
+        ) + (
+            inches || 0
+        ) + (
+            inchFraction || 0
+        )
+    );
+};
 
 export default class ImperialValue {
     constructor(value) {
-        const type = typeof value;
-
-        if (type === 'string') {
-
-            this.string = value;
-
-            // console.log("NEW VALUE");
-            // console.log(value);
-            // console.log(value.replace(/((\d+)(\D|$))/g, '$1!!!').split(/!!!/g));
-            // console.log(value.split(/\D/g).map(Number));
-            // console.log(value.split(/ |-/g));
-            // const [feet, inches] = value.split("'");
-            // console.log({ feet, inches });
-            // const {
-            //     feet,
-            //     inches,
-            // } = value.match(/'/) ?
-            //         ((str) => {
-            //             const [feet, inches] = str.split(/'/);
-            //             return { feet, inches };
-            //         })(value) : {};
-            
-            const values = value.split(/ |-/);
-
-            // if (value.match("'")) {
-
-            // }
-
-            // value.replace(/\d+/g, match => {
-            //     console.log(match);
-            // })
-
-            // console.log([...value.matchAll(/(\D*?\d+\D*?)*/)]);
-
-            // value.replace(
-            //     /^\D*?((\D*)((\d+)(\D{0,1})))*\D*?$/,
-            //     (match, ...groups) => {
-            //         console.log([
-            //             { match },
-            //             ...groups,
-            //         ]);
-            //     });
-
-            // const {
-            //     feet,
-            //     inches,
-            //     fraction,
-            //     numerator,
-            //     denominator,
-            // } = JSON.parse(value
-            //     .replace(
-            //         /^.*?((\d+\.*\d*)('){0,1}(-| )){0,1}(\d*\.*\d*)((-| ){0,1}((\d+)\/(\d+)){0,1}){0,1}("){0,1}.*?$/,
-            //         (match, a, feet, b, c, inches, d, e, fraction, numerator, denominator, ...rest) => {
-            //             console.log([
-            //                 { match },
-            //                 { a },
-            //                 { feet },
-            //                 { b },
-            //                 { c },
-            //                 { inches },
-            //                 { d },
-            //                 { e },
-            //                 { fraction },
-            //                 { numerator },
-            //                 { denominator },
-            //                 ...rest,
-            //             ]);
-            //             const _ret = JSON.stringify({ feet, inches, fraction, numerator, denominator });
-            //             // console.log(_ret);
-            //             return _ret;
-            //         },
-            //     ));
-
-            // console.log(`feet: ${feet}, inches: ${inches}, fraction: ${fraction}, numerator: ${numerator}, denominator: ${denominator}`);
-
-            // this.input = {
-            //     feet,
-            //     inches,
-            //     fraction,
-            //     numerator,
-            //     denominator,
-            // };
-
-            // this.value = (
-            //     (
-            //         (
-            //             +feet || 0
-            //         )
-            //         *
-            //         12
-            //     ) + (
-            //         +inches || 0
-            //     ) + (
-            //         (
-            //             +numerator || 0
-            //         ) / (
-            //             +denominator || 1
-            //         )
-            //     )
-            // );
-
-            // console.log(this.value);
-
-        } else if (type === 'number') {
-
-        } else {
-            throw new Error(`Invalid input type: ${type} for ImperialValue`);
-        }
+        this.inputtedValue = value;
+        this.value = typeof value === 'number' ?
+            value
+            :
+            typeof value === 'string' ?
+                getFeetAndInches(value)
+                :
+                0;
+        this.inches = this.value % 12
+        this.feet = (this.value - this.inches) / 12;
+        this.stringValue = this.toString();
     }
 
-
-
-    toString = () => `${this.feet}'-${toFraction(this.inches)}"`
+    toString = () => `${this.feet}'-${numberToString(this.inches)}"`
 }

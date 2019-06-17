@@ -36,4 +36,4 @@ describe('mixed number tests', () => {
     test('can simplify a mixed number', () => {
         expect(F.simplifyMixedNumber('1 2/16')).toBe('1 1/8');
     });
-})
+});
