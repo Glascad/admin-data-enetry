@@ -55,6 +55,7 @@ class Statics extends PureComponent {
                 match: {
                     path,
                 },
+                initialRoute,
                 routes,
             },
             toggle,
@@ -121,6 +122,7 @@ class Statics extends PureComponent {
                     ref={Viewport}
                 >
                     <Navigator
+                        initialRoute={initialRoute}
                         routes={routes}
                     />
                 </div>

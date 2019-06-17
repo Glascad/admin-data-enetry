@@ -57,9 +57,9 @@ export default function AuthenticationProvider({ children }) {
                     },
                 },
             }) => {
-                
+
                 const authenticating = loggingIn || (loading && localStorage.getItem(STORAGE_KEYS.JWT));
-                
+
                 console.log({ rawQueryStatus });
                 console.log({ client });
 

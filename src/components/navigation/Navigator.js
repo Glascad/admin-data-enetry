@@ -64,6 +64,21 @@ class Navigator extends PureComponent {
         }
     }
 
+    componentDidMount = () => {
+        const {
+            props: {
+                initialRoute,
+                match: {
+                    path,
+                },
+                history,
+            },
+        } = this;
+        if (initialRoute) {
+            history.push(`${path}${initialRoute}`);
+        }
+    }
+
     render = () => {
         const {
             state: {

@@ -17,9 +17,6 @@ function BugReport({
     onComplete = () => { },
 }) {
     const [report, updateReport] = useState('');
-
-    console.log({ state, report, href });
-
     return (
         <ApolloWrapper
             mutations={{
@@ -54,14 +51,10 @@ function BugReport({
                             className={inputClassName}
                             label="Report Bug"
                             value={report}
-                            onChange={e => {
-                                const { target: { value } } = e;
-                                e.stopPropagation();
-                                updateReport(value)
-                            }}
+                            onChange={({ target: { value } }) => updateReport(value)}
                         />
                         <button
-                            className={`${buttonClassName}`}
+                            className={buttonClassName}
                             onClick={async () => {
                                 const {
                                     data: {
