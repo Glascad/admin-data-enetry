@@ -12,7 +12,7 @@ export const AuthenticationContext = createContext();
 
 const query = {
     query: gql`{...CurrentUser} ${F.AUTH.CURRENT_USER}`,
-    fetchPolicy: 'no-cache',
+    // fetchPolicy: 'no-cache',
 };
 
 export default function AuthenticationProvider({ children }) {
