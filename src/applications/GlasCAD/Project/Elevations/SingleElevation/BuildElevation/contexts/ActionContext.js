@@ -130,7 +130,7 @@ class ActionProvider extends PureComponent {
         },
     );
 
-    addFrame = ({container, distance, vertical }) => this.props.updateElevation(
+    addFrame = ({ container, distance, vertical }) => this.props.updateElevation(
         ACTIONS.ADD_FRAME,
         {
             distance,
@@ -156,6 +156,16 @@ class ActionProvider extends PureComponent {
         (refId, _, getItemByRefId) => ({
             _frame: getItemByRefId(refId),
             distance,
+        }),
+    );
+
+    addIntermediates = ({ vertical, distance }) => this.performBulkAction(
+        ACTIONS.ADD_FRAME,
+        Object.keys(this.props.selection.itemsByRefId),
+        (refId, _, getItemByRefId) => ({
+            container: getItemByRefId(refId),
+            distance,
+            vertical,
         }),
     );
 
@@ -223,6 +233,7 @@ class ActionProvider extends PureComponent {
             addFrame,
             deleteFrames,
             moveFrames,
+            addIntermediates,
             updateDimension,
         } = this;
 
@@ -234,6 +245,7 @@ class ActionProvider extends PureComponent {
                     mergeContainers,
                     deleteFrames,
                     moveFrames,
+                    addIntermediates,
                     updateDimension,
                 }}
             >

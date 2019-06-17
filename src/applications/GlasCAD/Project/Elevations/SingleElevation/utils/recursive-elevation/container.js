@@ -269,4 +269,39 @@ export default class RecursiveContainer {
     // DELETE
     get canDelete() { return !this.customRoughOpening; }
 
+    //ADD INTERMEDIATE
+    //AddIntermediate
+
+    canAddIntermediateByVerticalAndDistance = (vertical, distance, ) => {
+
+        return !!(
+            distance >= this.minByVertical(vertical)
+            &&
+            distance <= this.maxByVertical(vertical)
+        )
+
+    };
+
+    getMinOrMaxByVertical = (vertical, min) => {
+        const DLOKey = vertical ? 'x' : 'y';
+
+        return min ?
+            this.elevation.minimumDaylightOpening
+            :
+            this.daylightOpening[DLOKey] - this.elevation.minimumDaylightOpening - this.elevation.sightline;
+    }
+
+    minByVertical = vertical => this.getMinOrMaxByVertical(vertical, true);
+    maxByVertical = vertical => this.getMinOrMaxByVertical(vertical, false);
+
+    get minDistanceForHorizontal() { return this.minByVertical(false) };
+    get maxDistanceForHorizontal() { return this.minByVertical(false) };
+    get minDistanceForVertical() { return this.minByVertical(true) };
+    get maxDistanceForVertical() { return this.minByVertical(true) };
+
+    
+
+    get canAddVertical() {return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening) }
+    get canAddHorizontal() {return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening) }
+
 }

@@ -104,16 +104,20 @@ class EditLite extends PureComponent {
                         )}
                 </div>
                 <div className="sidebar-group">
-                    <SidebarLink
-                        toggleStackedView={toggleStackedView}
-                        View={AddVertical}
-                        Icon={Icons.AddVertical}
-                    />
-                    <SidebarLink
-                        toggleStackedView={toggleStackedView}
-                        View={AddHorizontal}
-                        Icon={Icons.AddHorizontal}
-                    />
+                    {allContainers.every(({ canAddVertical }) => canAddVertical) ? (
+                        <SidebarLink
+                            toggleStackedView={toggleStackedView}
+                            View={AddVertical}
+                            Icon={Icons.AddVertical}
+                        />
+                    ) : null}
+                    {allContainers.every(({ canAddHorizontal }) => canAddHorizontal) ? (
+                        <SidebarLink
+                            toggleStackedView={toggleStackedView}
+                            View={AddHorizontal}
+                            Icon={Icons.AddHorizontal}
+                        />
+                    ) : null}
                 </div>
                 {allContainers.every(({ canDelete }) => canDelete) ? (
                     <button

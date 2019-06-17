@@ -8,7 +8,7 @@ import {
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 import { withActionContext } from '../../../contexts/ActionContext';
 
-class AddFrame extends PureComponent {
+class AddIntermediates extends PureComponent {
 
     state = {
         distance: 5,
@@ -22,10 +22,7 @@ class AddFrame extends PureComponent {
         const {
             props: {
                 ACTIONS: {
-                    addFrame,
-                },
-                selection: {
-                    items: [container],
+                    addIntermediates,
                 },
                 vertical,
             },
@@ -34,8 +31,7 @@ class AddFrame extends PureComponent {
             },
         } = this;
 
-        addFrame({
-            container,
+        addIntermediates({
             vertical,
             distance,
         });
@@ -47,6 +43,9 @@ class AddFrame extends PureComponent {
                 distance,
             },
             props: {
+                selection: {
+                    items,
+                },
                 vertical,
             },
             updateDistance,
@@ -69,12 +68,14 @@ class AddFrame extends PureComponent {
                     value={distance}
                     onChange={updateDistance}
                 />
-                <button
-                    className="sidebar-button action"
-                    onClick={add}
-                >
-                    Add {vertical ? 'Vertical' : 'Horizontal'}
-                </button>
+                {items.every(({ canAddIntermediateByVerticalAndDistance }) => canAddIntermediateByVerticalAndDistance(this.state.vertical, this.state.distance)) ? (
+                    <button
+                        className="sidebar-button action"
+                        onClick={add}
+                    >
+                        Add {vertical ? 'Vertical' : 'Horizontal'}
+                    </button>
+                ) : null}
             </>
         );
     }
@@ -82,10 +83,10 @@ class AddFrame extends PureComponent {
 
 export const AddVertical = {
     title: "Add Vertical",
-    component: withSelectionContext(withActionContext(props => <AddFrame {...props} vertical={true} />)),
+    component: withSelectionContext(withActionContext(props => <AddIntermediates {...props} vertical={true} />)),
 };
 
 export const AddHorizontal = {
     title: "Add Horizontal",
-    component: withSelectionContext(withActionContext(props => <AddFrame {...props} vertical={false} />)),
+    component: withSelectionContext(withActionContext(props => <AddIntermediates {...props} vertical={false} />)),
 };
