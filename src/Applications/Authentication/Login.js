@@ -64,6 +64,7 @@ function Login({
                             />
                             <Input
                                 label="username"
+                                autoFocus={true}
                                 value={username}
                                 onKeyDown={submitOnEnter}
                                 onChange={({ target: { value } }) => setUsername(value)}

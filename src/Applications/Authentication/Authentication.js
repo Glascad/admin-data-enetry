@@ -61,13 +61,16 @@ function AuthenticationProvider({
         getCurrentUser();
     }, []);
 
-    const authenticating = localStorage.getItem(STORAGE_KEYS.JWT) ? (
-        !queryResult
-        ||
-        !queryResult.currentUser
-        ||
-        !queryResult.currentUser.id
-    ) : authPromise;
+    const authenticating = localStorage.getItem(STORAGE_KEYS.JWT) ?
+        (
+            !queryResult
+            ||
+            !queryResult.currentUser
+            ||
+            !queryResult.currentUser.id
+        )
+        :
+        authPromise;
 
     const login = async ({ username, password }) => {
         const {

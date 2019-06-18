@@ -19,18 +19,18 @@ const normalizeResponse = ({ data }) => removeNullValues(
 export function useMutation(mutation, fetchQuery = () => { }) {
 
     const [mutationResult, setMutationResult] = useState({});
-    const [mutationPromise, setMutationPromise] = useState();
+    const [loading, setLoading] = useState(false);
 
     const mutate = async variables => {
 
-        const mutationPromise = client.mutate({
+        setLoading(true);
+
+        const response = await client.mutate({
             variables,
             ...mutation,
         });
 
-        setMutationPromise(mutationPromise);
-
-        const response = await mutationPromise;
+        setLoading(false);
 
         const normalResponse = normalizeResponse(response);
 
@@ -41,21 +41,21 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         return normalResponse;
     }
 
-    return [mutate, mutationResult, mutationPromise];
+    return [mutate, mutationResult, loading];
 }
 
 export function useQuery(query, doNotFetchOnMount = false) {
 
     const [queryResult, setQueryResult] = useState({});
-    const [queryPromise, setQueryPromise] = useState();
+    const [loading, setLoading] = useState(false);
 
     const fetchQuery = useCallback(async () => {
 
-        const queryPromise = client.query(query);
+        setLoading(true);
 
-        setQueryPromise(queryPromise);
+        const response = await client.query(query);
 
-        const response = await queryPromise;
+        setLoading(false);
 
         const normalResponse = normalizeResponse(response);
 
@@ -71,5 +71,5 @@ export function useQuery(query, doNotFetchOnMount = false) {
         }
     }, []);
 
-    return [fetchQuery, queryResult, queryPromise];
+    return [fetchQuery, queryResult, loading];
 }
