@@ -79,7 +79,7 @@ function AuthenticationProvider({
             },
         } = await authenticate({ username, password });
 
-        localStorage.setItem(STORAGE_KEYS.JWT, jwt);
+        if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
 
         return getCurrentUser()
     };
