@@ -1,0 +1,376 @@
+@import "../../../../../../../styles/variables";
+
+@mixin detail-bubble($vertical, $first) {
+    .detail-bubble-placement {
+        .detail-pointer {
+            border-top: $small solid $selected-color;
+            border-left: $xx-small solid rgba(0, 0, 0, 0);
+            border-right: $xx-small solid rgba(0, 0, 0, 0);
+            border-bottom: none;
+
+            .detail-pointer-white {
+                border-top: $small solid white;
+                border-left: $xx-small solid rgba(0, 0, 0, 0);
+                border-right: $xx-small solid rgba(0, 0, 0, 0);
+                transform: translateY(-$small);
+            }
+        }
+
+        &:hover {
+            .DetailBubble {
+                background: $light-gray;
+            }
+            .detail-pointer-white {
+                border-top-color: $light-gray;
+            }
+        }
+
+        @if $vertical {
+            @if $first {
+                left: 100%;
+
+                .DetailBubble {
+                    transform: translateX($small * 2.5);
+                }
+                .detail-pointer {
+                    transform: rotate(90deg);
+                }
+            } @else {
+                left: 0;
+
+                .DetailBubble {
+                    transform: translateX(-$small * 2.5);
+                }
+                .detail-pointer {
+                    transform: rotate(-90deg);
+                }
+            }
+        } @else {
+            @if $first {
+                .DetailBubble {
+                    transform: translateY($small * 2.5);
+                }
+                .detail-pointer {
+                    top: 0;
+                    transform: rotate(180deg);
+                }
+            } @else {
+                .DetailBubble {
+                    transform: translateY(-$small * 2.5);
+                }
+                .detail-pointer {
+                    bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+#InteractiveElevation {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fill;
+    overflow: hidden;
+
+    &.spacebar-pressed {
+        cursor: grab;
+
+        #elevation-display {
+            pointer-events: none;
+        }
+    }
+
+    .Container,
+    .frame-wrapper,
+    .Frame,
+    .detail-bubble-placement,
+    .Detail,
+    .DimensionButton,
+    .SelectedItem {
+        transition: all 0.1s ease;
+    }
+
+    #elevation-display {
+        &.container-selected {
+            .frame-wrapper {
+                pointer-events: none;
+
+                .Detail {
+                    pointer-events: all;
+                }
+            }
+        }
+
+        &.vertical-frame-selected {
+            .frame-wrapper.horizontal,
+            .DimensionButton,
+            .Container {
+                pointer-events: none;
+            }
+        }
+
+        &.horizontal-frame-selected {
+            .frame-wrapper.vertical,
+            .DimensionButton,
+            .Container {
+                pointer-events: none;
+            }
+        }
+
+        &.detail-selected {
+            .frame-wrapper,
+            .DimensionButton,
+            .Container {
+                pointer-events: none;
+            }
+        }
+
+        .Container {
+            position: absolute;
+            background: transparentize($light-blue, 0.8);
+
+            &.custom-rough-opening {
+                // display: none;
+                border: 2px solid transparentize($danger-color, 0.8) !important;
+                background: transparentize($danger-color, 0.8);
+                // box-shadow: none !important;
+                pointer-events: none;
+            }
+
+            &:hover {
+                box-shadow: inset 0 0 $xx-small $xx-small $dark-gray;
+            }
+
+            .text {
+                // display: none;
+                margin: $x-small;
+
+                span {
+                    + span {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        .frame-wrapper {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+
+            .Frame {
+                background: $light-gray;
+            }
+
+            &.vertical {
+                z-index: 3;
+
+                .Frame {
+                    background: $medium-gray;
+                }
+            }
+
+            &:hover {
+                .Frame {
+                    background: $dark-gray;
+                }
+            }
+        }
+
+        #FinishedFloor {
+            position: absolute;
+            background: $dark-gray;
+            left: -200vw;
+            right: -200vw;
+            height: $xx-small;
+            width: 600vw;
+            transform: translateY($xx-small);
+            z-index: 1;
+        }
+    }
+
+    #SelectionLayer {
+        .SelectedItem {
+            position: absolute;
+            z-index: 4;
+
+            &.selected-container {
+                box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+
+                &.last-selected {
+                    box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+                }
+            }
+
+            &.selected-frame,
+            &.selected-detail {
+                background: $selected-color;
+            }
+        }
+
+        .Detail {
+            position: absolute;
+            z-index: 5;
+            // background: rgba(255, 0, 0, 0.25);
+
+            .detail-bubble-placement {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 0;
+                width: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .DetailBubble {
+                    display: flex;
+                    position: relative;
+                    height: $xxxxx-large;
+                    max-height: $xxxxx-large;
+                    min-height: $xxxxx-large;
+                    min-width: unset;
+                    padding: 0 $small;
+                    border-radius: $x-small;
+                    background: white;
+                    border: 2px solid $selected-color;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: default;
+                    color: $selected-color;
+                    font-weight: bold;
+                    outline: none;
+                    box-shadow: none;
+                }
+
+                .detail-pointer {
+                    position: absolute;
+                    height: 0;
+                    width: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+
+            &.horizontal {
+                &.detail-selected,
+                &.first-container-selected,
+                &.frame-selected {
+                    @include detail-bubble(false, false);
+                }
+
+                &.second-container-selected {
+                    @include detail-bubble(false, true);
+                }
+            }
+
+            &.vertical {
+                &.detail-selected,
+                &.second-container-selected,
+                &.frame-selected {
+                    @include detail-bubble(true, false);
+                }
+
+                &.first-container-selected {
+                    @include detail-bubble(true, true);
+                }
+            }
+
+            &.detail-selected {
+                // deep nesting for precedence
+                &.vertical,
+                &.horizontal {
+                    .detail-bubble-placement {
+                        .DetailBubble {
+                            background: $selected-color;
+                            color: white;
+                            + .detail-pointer {
+                                .detail-pointer-white {
+                                    border-top-color: $selected-color;
+                                }
+                            }
+                        }
+                        &:hover {
+                            .DetailBubble {
+                                color: $selected-color;
+                                background: white;
+
+                                + .detail-pointer {
+                                    .detail-pointer-white {
+                                        border-top-color: white;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .DimensionButton {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        background: transparentize(white, 0.125);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3;
+        outline: none;
+        box-shadow: none;
+
+        &.horizontal {
+            height: $x-large;
+            max-height: $x-large;
+            min-height: $x-large;
+        }
+
+        &.vertical {
+            width: $x-large;
+            max-width: $x-large;
+            min-width: $x-large;
+
+            div {
+                width: 100%;
+                height: 100%;
+            }
+
+            div,
+            .Input {
+                transform: rotate(-90deg);
+            }
+        }
+
+        .Input {
+            height: $x-large;
+            max-height: $x-large;
+
+            input {
+                text-align: center;
+                border-color: $selected-color;
+
+                &::-webkit-inner-spin-button,
+                &::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+            }
+        }
+
+        &.selected {
+            @include hoverable-background($selected-color);
+
+            color: $off-white;
+        }
+
+        &:hover {
+            background: $light-gray;
+        }
+    }
+}

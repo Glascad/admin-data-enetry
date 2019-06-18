@@ -1,0 +1,228 @@
+{
+    "id": 69,
+    "name": "Sample 2",
+    "finishedFloorHeight": 0,
+    "roughOpening": {
+        "x": 400,
+        "y": 670
+    },
+    "_elevationContainers": [
+        {
+            "id": 729,
+            "original": true,
+            "daylightOpening": {
+                "x": 185,
+                "y": 205
+            }
+        },
+        {
+            "id": 732,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 215
+            }
+        },
+        {
+            "id": 733,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 100
+            }
+        },
+        {
+            "id": 734,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 100
+            }
+        },
+        {
+            "id": 736,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 210
+            }
+        },
+        {
+            "id": 737,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 100
+            }
+        },
+        {
+            "id": 738,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 100
+            }
+        },
+        {
+            "id": 739,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 100
+            }
+        },
+        {
+            "id": 740,
+            "original": false,
+            "daylightOpening": {
+                "x": 185,
+                "y": 100
+            }
+        }
+    ],
+    "_containerDetails": [
+        {
+            "id": 1852,
+            "vertical": true,
+            "secondContainerId": 729
+        },
+        {
+            "id": 1853,
+            "vertical": true,
+            "firstContainerId": 729,
+            "secondContainerId": 736
+        },
+        {
+            "id": 1854,
+            "vertical": false,
+            "firstContainerId": 729,
+            "secondContainerId": 732
+        },
+        {
+            "id": 1855,
+            "vertical": false,
+            "secondContainerId": 729
+        },
+        {
+            "id": 1857,
+            "vertical": true,
+            "firstContainerId": 729,
+            "secondContainerId": 736
+        },
+        {
+            "id": 1860,
+            "vertical": true,
+            "firstContainerId": 732,
+            "secondContainerId": 737
+        },
+        {
+            "id": 1862,
+            "vertical": true,
+            "secondContainerId": 732
+        },
+        {
+            "id": 1863,
+            "vertical": true,
+            "firstContainerId": 732,
+            "secondContainerId": 738
+        },
+        {
+            "id": 1864,
+            "vertical": false,
+            "firstContainerId": 732,
+            "secondContainerId": 733
+        },
+        {
+            "id": 1865,
+            "vertical": true,
+            "secondContainerId": 733
+        },
+        {
+            "id": 1866,
+            "vertical": true,
+            "firstContainerId": 733,
+            "secondContainerId": 739
+        },
+        {
+            "id": 1867,
+            "vertical": false,
+            "firstContainerId": 733,
+            "secondContainerId": 734
+        },
+        {
+            "id": 1868,
+            "vertical": true,
+            "secondContainerId": 734
+        },
+        {
+            "id": 1869,
+            "vertical": true,
+            "firstContainerId": 734,
+            "secondContainerId": 740
+        },
+        {
+            "id": 1870,
+            "vertical": false,
+            "firstContainerId": 734
+        },
+        {
+            "id": 1873,
+            "vertical": false,
+            "secondContainerId": 736
+        },
+        {
+            "id": 1874,
+            "vertical": true,
+            "firstContainerId": 736
+        },
+        {
+            "id": 1875,
+            "vertical": false,
+            "firstContainerId": 736,
+            "secondContainerId": 737
+        },
+        {
+            "id": 1876,
+            "vertical": true,
+            "firstContainerId": 737
+        },
+        {
+            "id": 1877,
+            "vertical": false,
+            "firstContainerId": 737,
+            "secondContainerId": 738
+        },
+        {
+            "id": 1878,
+            "vertical": true,
+            "firstContainerId": 738
+        },
+        {
+            "id": 1879,
+            "vertical": false,
+            "firstContainerId": 738,
+            "secondContainerId": 739
+        },
+        {
+            "id": 1880,
+            "vertical": true,
+            "firstContainerId": 739
+        },
+        {
+            "id": 1881,
+            "vertical": false,
+            "firstContainerId": 739,
+            "secondContainerId": 740
+        },
+        {
+            "id": 1882,
+            "vertical": true,
+            "firstContainerId": 740
+        },
+        {
+            "id": 1883,
+            "vertical": false,
+            "firstContainerId": 740
+        }
+    ]
+}

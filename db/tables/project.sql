@@ -6,7 +6,8 @@ DROP TABLE IF EXISTS system_set_detail_type_configuration_types CASCADE;
 CREATE TABLE
 projects (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50)
+    name VARCHAR(50),
+    owner_id INTEGER REFERENCES users.users
 );
 
 CREATE TABLE

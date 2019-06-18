@@ -1,0 +1,154 @@
+{
+    "__typename": "Elevation",
+    "nodeId": "WyJlbGV2YXRpb25zIiw2Nl0=",
+    "id": 66,
+    "name": "Sample 1",
+    "finishedFloorHeight": 0,
+    "roughOpening": {
+        "x": 500,
+        "y": 500,
+        "__typename": "Coordinate"
+    },
+    "_elevationContainers": [
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzA3XQ==",
+            "id": 707,
+            "original": true,
+            "daylightOpening": {
+                "x": 235,
+                "y": 240,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "UPDATED_CONTAINER",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzA4XQ==",
+            "id": 708,
+            "original": false,
+            "daylightOpening": {
+                "x": 240,
+                "y": 230,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsNzA5XQ==",
+            "id": 709,
+            "original": false,
+            "daylightOpening": {
+                "x": 235,
+                "y": 240,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "id": 1,
+            "daylightOpening": {
+                "x": 230,
+                "y": 230
+            }
+        }
+    ],
+    "_containerDetails": [
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5MV0=",
+            "id": 1791,
+            "vertical": true,
+            "secondContainerId": 707,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5Ml0=",
+            "id": 1792,
+            "vertical": true,
+            "firstContainerId": 707,
+            "secondContainerId": 709,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5M10=",
+            "id": 1793,
+            "vertical": false,
+            "firstContainerId": 707,
+            "secondContainerId": 708,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5NF0=",
+            "id": 1794,
+            "vertical": false,
+            "secondContainerId": 707,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5NV0=",
+            "id": 1795,
+            "vertical": true,
+            "secondContainerId": 708,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5N10=",
+            "id": 1797,
+            "vertical": false,
+            "firstContainerId": 708,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5OF0=",
+            "id": 1798,
+            "vertical": true,
+            "firstContainerId": 709,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "UPDATED_DETAIL",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5OV0=",
+            "id": 1799,
+            "vertical": false,
+            "firstContainerId": 709,
+            "secondContainerId": 1,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTgwMF0=",
+            "id": 1800,
+            "vertical": false,
+            "secondContainerId": 709,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "UPDATED_DETAIL",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTgwMV0=",
+            "id": 1801,
+            "vertical": true,
+            "firstContainerId": 1,
+            "_detailOptionValues": []
+        },
+        {
+            "id": 1,
+            "vertical": true,
+            "firstContainerId": 708,
+            "secondContainerId": 1
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMTc5N10=",
+            "id": 2,
+            "vertical": false,
+            "firstContainerId": 1,
+            "_detailOptionValues": []
+        }
+    ],
+    "__by": "Id"
+}

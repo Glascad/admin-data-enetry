@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-@import './variables';
-
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import "./variables";
 
 body {
     color: $dark-gray;
 }
 
-button, input {
+button,
+input {
     outline: none;
     border-radius: $xx-small;
 }
@@ -37,24 +37,26 @@ button {
     + button {
         margin-left: $small;
     }
-    
-    &:focus, &:focus-within {
+
+    &:focus,
+    &:focus-within {
         box-shadow: 0 0 1px 1px $selected-color;
     }
-    
-    &.danger, &.action {
+
+    &.danger,
+    &.action {
         color: $off-white;
         border: none;
-        
+
         &:hover {
             font-weight: bold;
         }
     }
-    
+
     &.danger {
         @include hoverable-background($danger-color);
     }
-    
+
     &.action {
         @include hoverable-background($action-color);
     }
@@ -80,25 +82,26 @@ input {
     font-size: $text-size;
 }
 
-input[type=number] {
+input[type="number"] {
     width: $pill-width / 2;
-    
-    &::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+
+    &::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
         // -webkit-appearance: none;
         transform: scale(1.25);
     }
-
 }
 
-input[type=checkbox] {
+input[type="checkbox"] {
     visibility: hidden;
     height: 0;
     width: 0;
 }
 
-
-html, #root, body {
-    font-family: 'Roboto';
+html,
+#root,
+body {
+    font-family: "Roboto";
     font-size: $text-size;
     font-weight: lighter;
 }

@@ -1,0 +1,132 @@
+{
+    "__typename": "Elevation",
+    "nodeId": "WyJlbGV2YXRpb25zIiw3OV0=",
+    "id": 79,
+    "name": "Test 5",
+    "finishedFloorHeight": 0,
+    "roughOpening": {
+        "x": 400,
+        "y": 400,
+        "__typename": "Coordinate"
+    },
+    "_elevationContainers": [
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODg5XQ==",
+            "id": 889,
+            "original": true,
+            "daylightOpening": {
+                "x": 185,
+                "y": 185,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODkwXQ==",
+            "id": 890,
+            "original": false,
+            "daylightOpening": {
+                "x": 380,
+                "y": 185,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODkzXQ==",
+            "id": 893,
+            "daylightOpening": {
+                "x": 185,
+                "y": 185,
+                "__typename": "Coordinate"
+            }
+        }
+    ],
+    "_containerDetails": [
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE5Ml0=",
+            "id": 2192,
+            "vertical": true,
+            "secondContainerId": 889,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE5NF0=",
+            "id": 2194,
+            "vertical": false,
+            "firstContainerId": 889,
+            "secondContainerId": 890,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE5NV0=",
+            "id": 2195,
+            "vertical": false,
+            "secondContainerId": 889,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE5Nl0=",
+            "id": 2196,
+            "vertical": true,
+            "secondContainerId": 890,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE5OF0=",
+            "id": 2198,
+            "vertical": false,
+            "firstContainerId": 890,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE5OV0=",
+            "id": 2199,
+            "vertical": true,
+            "firstContainerId": 893,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjIwMl0=",
+            "id": 2202,
+            "vertical": true,
+            "firstContainerId": 890,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjIwNF0=",
+            "id": 2204,
+            "vertical": true,
+            "firstContainerId": 889,
+            "secondContainerId": 893,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjIwNV0=",
+            "id": 2205,
+            "vertical": false,
+            "secondContainerId": 893,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjIwNl0=",
+            "id": 2206,
+            "vertical": false,
+            "firstContainerId": 893,
+            "secondContainerId": 890,
+            "_detailOptionValues": []
+        }
+    ],
+    "__by": "Id"
+}

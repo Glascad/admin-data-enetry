@@ -74,10 +74,10 @@ export default class ApolloWrapper extends PureComponent {
                 <Query
                     {...query}
                 >
-                    {({ refetch, ...rawQueryStatus }) => (
+                    {rawQueryStatus => (
                         <ApolloWrapper
                             mutations={mutations}
-                            refetch={refetch}
+                            refetch={rawQueryStatus.refetch}
                         >
                             {/* THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN */}
                             {accumulatedProps => children({
@@ -114,7 +114,7 @@ export default class ApolloWrapper extends PureComponent {
                                             const result = await mutate({
                                                 variables: args,
                                             });
-                                            refetch();
+                                            if (refetch) refetch();
                                             return result;
                                         },
                                         [`${mutationKeys[0]}Status`]: status,
