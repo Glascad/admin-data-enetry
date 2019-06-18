@@ -84,7 +84,7 @@ class DimensionButton extends PureComponent {
 
             const newDimension = new ImperialValue(dimension);
 
-            // console.log({ newDimension });
+            console.log({ newDimension });
 
             this.setState({ newDimension });
         }
@@ -124,6 +124,8 @@ class DimensionButton extends PureComponent {
                 },
             },
         } = this;
+
+        console.log({ newDimension });
 
         updateDimension({ newDimension });
     }

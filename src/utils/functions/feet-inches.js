@@ -13,21 +13,25 @@ import { numberToString, parseFraction } from './fractions';
 * $ end of string
 */
 
-const separateValueIntoGroups = value => {
-    const inputValue = value.replace(/-/g, " ");
-    const regEx = /^(?<isNegative>-*)(?<feet>\d*\.?\d*)??\'?\s?(?<inches>\d*\.?\d*)??\"??\s?(?<inchFraction>\d+\/\d+)?\"?$/;
+const separateValueIntoGroups = inputValue => {
+    // const inputValue = value.replace(/-/g, " ");
+    const isNegative = inputValue.match(/^-/);
+    const regEx = /^(?<feet>\d*\.?\d*)??\'?\s?(?<inches>\d*\.?\d*)??\"??\s?(?<inchFraction>\d+\/\d+)?\"?$/;
 
-    const returnValue = regEx.exec(inputValue);
+    const returnValue = regEx.exec(inputValue.replace(/-/g, ' ').trim());
 
     return returnValue ?
-        returnValue.groups
+        {
+            ...returnValue.groups,
+            isNegative,
+        }
         :
         //Do something here to let the user know
         {}
 }
 
-const getFeetAndInches = value => {
-    const group = separateValueIntoGroups(value);
+const getFeetAndInches = inputValue => {
+    const group = separateValueIntoGroups(inputValue);
     const inchFraction = parseFraction(group.inchFraction);
     const inches = parseFloat(group.inches);
     const feet = parseFloat(group.feet);
@@ -41,6 +45,15 @@ const getFeetAndInches = value => {
             inchFraction || 0
         )
     );
+    console.log({
+        inputValue,
+        group,
+        inchFraction,
+        inches,
+        feet,
+        isNegative,
+        value,
+    });
     return isNegative ?
         -value
         :
@@ -49,7 +62,7 @@ const getFeetAndInches = value => {
 
 export default class ImperialValue {
     constructor(value) {
-        this.inputtedValue = value;
+        this.inputValue = value;
         this.value = typeof value === 'number' ?
             value
             :
@@ -72,5 +85,5 @@ export default class ImperialValue {
             }"`
             :
             ''
-        }`;
+        }`.trim().replace(/ /g, '-').replace(/-+/g, '-');
 }
