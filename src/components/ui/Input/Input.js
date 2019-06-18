@@ -91,6 +91,29 @@ export default class Input extends PureComponent {
         if (onBlur) onBlur(value);
     }
 
+    handleKeyDown = e => {
+        const {
+            state: {
+                value,
+            },
+            props: {
+                type,
+                onEnter,
+                onKeyDown,
+            },
+        } = this;
+
+        const { key } = e;
+
+        const arg = type === 'inches' ?
+            value
+            :
+            e;
+
+        if (onEnter && (key === 'Enter')) onEnter(arg);
+        if (onKeyDown) onKeyDown(arg);
+    }
+
     // componentWillUnmount = () => {
     //     window.removeEventListener('keydown', this.handleKeyDown);
     //     window.removeEventListener('keyup', this.handleKeyUp);
@@ -178,11 +201,14 @@ export default class Input extends PureComponent {
                 Icon,
                 disabled,
                 onBlur,
+                onEnter,
+                onKeyDown,
                 ...props
             },
             ref,
             handleInchChange,
             handleInchblur,
+            handleKeyDown,
             // handleNumberChange,
         } = this;
 
@@ -269,6 +295,10 @@ export default class Input extends PureComponent {
                                 handleInchblur
                                 :
                                 onBlur}
+                            onKeyDown={onEnter ?
+                                handleKeyDown
+                                :
+                                onKeyDown}
                             {...props}
                         />
                     )

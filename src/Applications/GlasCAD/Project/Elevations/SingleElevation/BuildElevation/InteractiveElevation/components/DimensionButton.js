@@ -41,19 +41,6 @@ class DimensionButton extends PureComponent {
 
         const currentMilliseconds = Date.now();
 
-        console.log('clicked!');
-        console.log({
-            button,
-            buttons,
-            detail,
-            nativeEvent,
-            target,
-            relatedTarget,
-            type,
-            view,
-            timestamp,
-        });
-
         // double click (toggle editing state)
         if (currentMilliseconds - mostRecentClick < 500) selectDimension(dimension);
         // single click (unselect)

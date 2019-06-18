@@ -7,16 +7,15 @@ import {
 
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 import { withActionContext } from '../../../contexts/ActionContext';
+import { ImperialValue } from '../../../../../../../../../utils';
 
 class AddIntermediates extends PureComponent {
 
     state = {
-        distance: 5,
+        distance: new ImperialValue(6),
     };
 
-    updateDistance = ({ target: { value } }) => this.setState({
-        distance: +value,
-    });
+    updateDistance = distance => this.setState({ distance });
 
     add = () => {
         const {
@@ -27,7 +26,9 @@ class AddIntermediates extends PureComponent {
                 vertical,
             },
             state: {
-                distance,
+                distance: {
+                    value: distance,
+                },
             },
         } = this;
 
@@ -40,7 +41,9 @@ class AddIntermediates extends PureComponent {
     render = () => {
         const {
             state: {
-                distance,
+                distance: {
+                    value,
+                },
             },
             props: {
                 selection: {
@@ -64,11 +67,12 @@ class AddIntermediates extends PureComponent {
                 />
                 <Input
                     label="Distance"
-                    type="number"
-                    value={distance}
+                    type="inches"
+                    initialValue={value}
                     onChange={updateDistance}
+                    onEnter={add}
                 />
-                {items.every(({ canAddIntermediateByVerticalAndDistance }) => canAddIntermediateByVerticalAndDistance(vertical, distance)) ? (
+                {items.every(({ canAddIntermediateByVerticalAndDistance }) => canAddIntermediateByVerticalAndDistance(vertical, value)) ? (
                     <button
                         className="sidebar-button action"
                         onClick={add}
@@ -83,10 +87,10 @@ class AddIntermediates extends PureComponent {
 
 export const AddVertical = {
     title: "Add Vertical",
-    component: withActionContext(props => <AddIntermediates {...props} vertical={true} />),
+    component: withSelectionContext(withActionContext(props => <AddIntermediates {...props} vertical={true} />)),
 };
 
 export const AddHorizontal = {
     title: "Add Horizontal",
-    component: withActionContext(props => <AddIntermediates {...props} vertical={false} />),
+    component: withSelectionContext(withActionContext(props => <AddIntermediates {...props} vertical={false} />)),
 };

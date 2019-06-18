@@ -280,10 +280,12 @@ export default class BuildElevation extends PureComponent {
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
                         />
+                        {/* <ErrorBoundary> */}
                         <InteractiveElevation
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
                         />
+                        {/* </ErrorBoundary> */}
                     </TransformProvider>
                 </ActionProvider>
             </SelectionProvider>
