@@ -20,7 +20,8 @@ CREATE TYPE
 users.current_user AS (
     id INTEGER,
     username TEXT,
-    role users.ROLE
+    role users.ROLE,
+    projectId INTEGER
 );
 
 CREATE TABLE users.users (

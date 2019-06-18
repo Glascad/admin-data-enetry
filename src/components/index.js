@@ -15,6 +15,7 @@ import Input from './ui/Input/Input';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
+import { useQuery, useMutation } from './state/gql-hooks';
 import ApolloWrapper from './state/ApolloWrapper';
 import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
@@ -51,6 +52,8 @@ export {
     // STATE
     asyncComponent,
     ApolloWrapper,
+    useQuery,
+    useMutation,
     SelectionWrapper,
     StateManager,
     withContext,

@@ -9,24 +9,24 @@ import {
 
 import query from './project-graphql/query';
 
-import ProjectDetails from './ProjectDetails/ProjectDetails';
+// import ProjectDetails from './ProjectDetails/ProjectDetails';
 import ProjectSets from './ProjectSets/ProjectSets';
-import Keyplans from './Keyplans/Keyplans';
+// import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
-import Details from './Details/Details';
-import Schedules from './Schedules/Schedules';
-import Notes from './Notes/Notes';
+// import Details from './Details/Details';
+// import Schedules from './Schedules/Schedules';
+// import Notes from './Notes/Notes';
 
 import { parseSearch } from '../../../utils';
 
 const subroutes = {
-    ProjectDetails,
+    // ProjectDetails,
     ProjectSets,
-    Keyplans,
+    // Keyplans,
     Elevations,
-    Details,
-    Schedules,
-    Notes,
+    // Details,
+    // Schedules,
+    // Notes,
 };
 
 Project.navigationOptions = ({

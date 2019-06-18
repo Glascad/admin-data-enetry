@@ -91,7 +91,7 @@ class Statics extends PureComponent {
                     <DoubleArrow
                         onClick={toggle}
                     />
-                    <div id="application-links">
+                    {/* <div id="application-links">
                         <Link to="/data-entry">
                             <button className="light">
                                 DATA ENTRY
@@ -102,7 +102,7 @@ class Statics extends PureComponent {
                                 GLASCAD
                             </button>
                         </Link>
-                    </div>
+                    </div> */}
                     {username ? (
                         <div id="current-user">
                             <div>

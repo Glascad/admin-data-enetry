@@ -83,10 +83,10 @@ class AddIntermediates extends PureComponent {
 
 export const AddVertical = {
     title: "Add Vertical",
-    component: withSelectionContext(withActionContext(props => <AddIntermediates {...props} vertical={true} />)),
+    component: withActionContext(props => <AddIntermediates {...props} vertical={true} />),
 };
 
 export const AddHorizontal = {
     title: "Add Horizontal",
-    component: withSelectionContext(withActionContext(props => <AddIntermediates {...props} vertical={false} />)),
+    component: withActionContext(props => <AddIntermediates {...props} vertical={false} />),
 };
