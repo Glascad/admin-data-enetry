@@ -1,3 +1,4 @@
+import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -56,7 +57,7 @@ export default class RecursiveFrame {
     registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
 
     get ReactComponent() { return this.__ReactComponent; }
-    
+
     contains = detail => this.details.includes(detail);
 
     get detailTypes() {
@@ -497,4 +498,44 @@ export default class RecursiveFrame {
             this.canDeleteByDirection(false)
         );
     }
+
+    //EXTEND
+    findExtendedContainer = (bottom, first) => {
+        const container = this.getFirstOrLastContainerByDirection(bottom, !first);
+        if (!container) return container;
+        const containersByDirection = container.getImmediateContainersByDirection(this.vertical, first);
+        return bottom ?
+            containersByDirection[containersByDirection.length - 1]
+            :
+            containersByDirection[0]
+    };
+
+    canExtendByDirection = first => this.findExtendedContainer(true, first) === this.findExtendedContainer(false, first);
+
+    firstOrLastDistanceByExtend = (first) => {
+        const container = this.findExtendedContainer(true, first);
+        if (!container) return 0;
+        return this.vertical ?
+            (container.placementX + container.daylightOpening.x) - this.placement.x - this.elevation.sightline
+            :
+            (container.placementY + container.daylightOpening.y) - this.placement.y - this.elevation.sightline
+    };
+
+    get firstDistanceByExtend() { return this.firstOrLastDistanceByExtend(true) };
+    get lastDistanceByExtend() { return this.firstOrLastDistanceByExtend(false) };
+
+    canExtendFirstOrLast = first => {
+        const container = this.findExtendedContainer(true, first);
+        return (
+            container
+            &&
+            this.canExtendByDirection
+            &&
+            container.canAddIntermediateByVerticalAndDistance(this.vertical, this.firstOrLastDistanceByExtend(first))
+        );
+    };
+
+    get canExtendFirst() { return this.canExtendFirstOrLast(true) };
+    get canExtendLast() { return this.canExtendFirstOrLast(false) };
+
 }

@@ -1,7 +1,6 @@
 import Settings from './Settings/Settings';
 import EditLite from './EditLite/EditLite';
-import EditHorizontal from './EditHorizontal/EditHorizontal';
-import EditVertical from './EditVertical/EditVertical';
+import { EditHorizontal, EditVertical } from './EditFrame/EditFrame';
 import EditDetail from './EditDetail/EditDetail';
 
 export default {

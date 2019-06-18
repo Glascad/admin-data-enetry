@@ -169,6 +169,25 @@ class ActionProvider extends PureComponent {
         }),
     );
 
+    extendFrames = (first) => this.performBulkAction(
+        ACTIONS.ADD_FRAME,
+        Object.keys(this.props.selection.itemsByRefId),
+        (refId, _, getItemByRefId) => {
+            const _frame = getItemByRefId(refId);
+            const container = _frame.findExtendedContainer(true, first);
+            const containerRef = getItemByRefId(container.refId);
+            const distance = _frame.firstOrLastDistanceByExtend(first);
+            const vertical = _frame.vertical;
+
+            return ({
+                container: containerRef,
+                distance,
+                vertical,
+            })
+        },
+    );
+
+
     updateDimension = ({ newDimension: dimensionInput }) => {
         const {
             props: {
@@ -233,6 +252,7 @@ class ActionProvider extends PureComponent {
             addFrame,
             deleteFrames,
             moveFrames,
+            extendFrames,
             addIntermediates,
             updateDimension,
         } = this;
@@ -247,6 +267,7 @@ class ActionProvider extends PureComponent {
                     mergeContainers,
                     deleteFrames,
                     moveFrames,
+                    extendFrames,
                     addIntermediates,
                     updateDimension,
                 }}
