@@ -14,7 +14,17 @@ class DimensionButton extends PureComponent {
 
     mostRecentClick = 0;
 
-    handleClick = () => {
+    handleClick = ({
+        button,
+        buttons,
+        detail,
+        nativeEvent,
+        target,
+        relatedTarget,
+        type,
+        view,
+        timestamp,
+    }) => {
         const {
             props: {
                 selected,
@@ -31,6 +41,19 @@ class DimensionButton extends PureComponent {
 
         const currentMilliseconds = Date.now();
 
+        console.log('clicked!');
+        console.log({
+            button,
+            buttons,
+            detail,
+            nativeEvent,
+            target,
+            relatedTarget,
+            type,
+            view,
+            timestamp,
+        });
+
         // double click (toggle editing state)
         if (currentMilliseconds - mostRecentClick < 500) selectDimension(dimension);
         // single click (unselect)
@@ -41,7 +64,7 @@ class DimensionButton extends PureComponent {
         this.mostRecentClick = currentMilliseconds;
     }
 
-    // componentDidMount = () => this.componentDidUpdate({ dimension: {} });
+    componentDidMount = () => this.componentDidUpdate({ dimension: {} });
 
     // component doesn't update often -- must be dynamically calculated every time
     componentDidUpdate = ({ editing: oldEditing, dimension: { dimension: oldDimension } }) => {
@@ -80,7 +103,10 @@ class DimensionButton extends PureComponent {
             target.blur();
         }
         else if (key !== 'Escape') {
-            if (key === ' ') e.preventDefault();
+            if (key === ' ') {
+                target.value += ' ';
+                e.preventDefault();
+            }
             e.stopPropagation();
         }
     }

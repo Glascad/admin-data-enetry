@@ -54,8 +54,18 @@ export default class ImperialValue {
                 0;
         this.inches = this.value % 12
         this.feet = (this.value - this.inches) / 12;
-        this.stringValue = this.toString();
+        this.stringValue = `${this}`;
     }
 
-    toString = () => `${this.feet}'-${numberToString(this.inches)}"`
+    toString = () => `${
+        this.feet
+        }'${
+        this.inches
+            ?
+            `-${
+            numberToString(this.inches)
+            }"`
+            :
+            ''
+        }`;
 }

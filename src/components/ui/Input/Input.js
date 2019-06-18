@@ -56,7 +56,7 @@ export default class Input extends PureComponent {
     }
 
     componentDidMount = () => {
-        this.componentDidUpdate({}, {});
+        this.componentDidUpdate({});
         // window.addEventListener('keydown', this.handleKeyDown);
         // window.addEventListener('keyup', this.handleKeyUp);
     }
@@ -69,6 +69,8 @@ export default class Input extends PureComponent {
         } = this;
 
         const value = new ImperialValue(inchInput);
+
+        console.log({ inchInput, value });
 
         this.setState({ inchInput, value });
 
