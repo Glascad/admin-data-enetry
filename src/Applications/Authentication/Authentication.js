@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 
 import F from '../../schema';
 
-import { STORAGE_KEYS } from '../../apollo-config';
+import client, { STORAGE_KEYS } from '../../apollo-config';
 
 import { useQuery, useMutation } from '../../components';
 import { parseSearch } from '../../utils';
@@ -42,7 +42,7 @@ function AuthenticationProvider({
     },
 }) {
 
-    const [originalLocation] = useState(`${pathname}${search}`);
+    const [originalLocation, setOriginalLocation] = useState(`${pathname}${search}`);
     const [fetchQuery, queryResult] = useQuery(query, true);
     const [authenticate, authResult, authPromise] = useMutation(mutation);
 
@@ -80,12 +80,17 @@ function AuthenticationProvider({
         } = await authenticate({ username, password });
 
         if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
-
-        return getCurrentUser()
+        
+        return getCurrentUser();
     };
+    
+    const logout = async () => {
 
-    const logout = () => {
-        localStorage.setItem(STORAGE_KEYS.JWT, '');
+        localStorage.clear();
+
+        await client.clearStore();
+
+        setOriginalLocation('');
 
         return getCurrentUser();
     };

@@ -10,13 +10,15 @@ import gql from 'graphql-tag';
 function BugReport({
     state,
     location: {
-        href,
+        pathname,
+        search,
     },
     inputClassName = '',
     buttonClassName = '',
     onComplete = () => { },
 }) {
     const [report, updateReport] = useState('');
+    console.log({ report, state, pathname, search });
     return (
         <ApolloWrapper
             mutations={{
@@ -63,7 +65,7 @@ function BugReport({
                                         },
                                     },
                                 } = await reportBug({
-                                    location: href,
+                                    location: `${pathname}${search}`,
                                     state: JSON.stringify(state),
                                     report,
                                 });
