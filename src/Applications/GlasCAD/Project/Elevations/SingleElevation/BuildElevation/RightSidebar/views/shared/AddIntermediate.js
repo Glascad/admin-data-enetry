@@ -68,7 +68,7 @@ class AddIntermediates extends PureComponent {
                     value={distance}
                     onChange={updateDistance}
                 />
-                {items.every(({ canAddIntermediateByVerticalAndDistance }) => canAddIntermediateByVerticalAndDistance(this.state.vertical, this.state.distance)) ? (
+                {items.every(({ canAddIntermediateByVerticalAndDistance }) => canAddIntermediateByVerticalAndDistance(vertical, distance)) ? (
                     <button
                         className="sidebar-button action"
                         onClick={add}
