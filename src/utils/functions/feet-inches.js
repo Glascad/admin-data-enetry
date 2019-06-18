@@ -15,7 +15,7 @@ import { numberToString, parseFraction } from './fractions';
 
 const separateValueIntoGroups = value => {
     const inputValue = value.replace(/-/g, " ");
-    const regEx = /^(?<feet>\d*\.?\d*)??\'?\s?(?<inches>\d*\.?\d*)??\"??\s?(?<inchFraction>\d+\/\d+)?\"?$/;
+    const regEx = /^(?<isNegative>-*)(?<feet>\d*\.?\d*)??\'?\s?(?<inches>\d*\.?\d*)??\"??\s?(?<inchFraction>\d+\/\d+)?\"?$/;
 
     const returnValue = regEx.exec(inputValue);
 
@@ -31,7 +31,8 @@ const getFeetAndInches = value => {
     const inchFraction = parseFraction(group.inchFraction);
     const inches = parseFloat(group.inches);
     const feet = parseFloat(group.feet);
-    return (
+    const isNegative = group.isNegative;
+    const value = (
         (
             feet * 12 || 0
         ) + (
@@ -40,6 +41,10 @@ const getFeetAndInches = value => {
             inchFraction || 0
         )
     );
+    return isNegative ?
+        -value
+        :
+        value
 };
 
 export default class ImperialValue {
