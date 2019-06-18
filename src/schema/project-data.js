@@ -27,7 +27,7 @@ export const SYSTEM_SET_FIELDS = gql`
 export const ALL_PROJECTS = gql`
     fragment AllProjects on Query {
         __typename
-        allProjects {
+        allProjects: getAllProjects {
             nodes {
                 ...ProjectFields
             }

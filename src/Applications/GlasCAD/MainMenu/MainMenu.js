@@ -4,18 +4,18 @@ import {
     Navigator,
 } from '../../../components';
 
-import Activity from './Activity/Activity';
+// import Activity from './Activity/Activity';
 import ManageProjects from './ManageProjects/ManageProjects';
-import ManageContributors from './ManageContributors/ManageContributors';
-import ManageWorkflows from './ManageWorkflows/ManageWorkflows';
-import Reports from './Reports/Reports';
+// import ManageContributors from './ManageContributors/ManageContributors';
+// import ManageWorkflows from './ManageWorkflows/ManageWorkflows';
+// import Reports from './Reports/Reports';
 
 const subroutes = {
-    Activity,
+    // Activity,
     ManageProjects,
-    ManageContributors,
-    ManageWorkflows,
-    Reports,
+    // ManageContributors,
+    // ManageWorkflows,
+    // Reports,
 };
 
 MainMenu.navigationOptions = {

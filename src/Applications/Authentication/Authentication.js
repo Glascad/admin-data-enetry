@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 import { withRouter } from 'react-router-dom';
 
@@ -38,23 +38,36 @@ function AuthenticationProvider({
     history,
     location: {
         search,
+        pathname,
     },
 }) {
 
-    const [fetchQuery, queryResult, queryPromise] = useQuery(query, false);
+    const [originalLocation] = useState(`${pathname}${search}`);
+    const [fetchQuery, queryResult] = useQuery(query, true);
     const [authenticate, authResult, authPromise] = useMutation(mutation);
 
     const getCurrentUser = async () => {
         const result = await fetchQuery();
         const { currentUser: { projectId } = {} } = result;
-        history.push(`/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`);
+        history.push(
+            originalLocation.match(/\/(glascad|data-entry)/) ?
+                originalLocation
+                :
+                `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
+        );
     }
 
     useEffect(() => {
         getCurrentUser();
     }, []);
 
-    const authenticating = (!authResult || !queryResult) && localStorage.getItem(STORAGE_KEYS.JWT);
+    const authenticating = localStorage.getItem(STORAGE_KEYS.JWT) ? (
+        !queryResult
+        ||
+        !queryResult.currentUser
+        ||
+        !queryResult.currentUser.id
+    ) : authPromise;
 
     const login = async ({ username, password }) => {
         const {

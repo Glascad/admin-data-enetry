@@ -4,7 +4,7 @@ import Statics from '../Statics/Statics';
 
 import MainMenu from './MainMenu/MainMenu';
 import Project from './Project/Project';
-import Export from './Export/Export';
+// import Export from './Export/Export';
 
 export default function GlasCAD() {
     return (
@@ -12,7 +12,7 @@ export default function GlasCAD() {
             routes={{
                 MainMenu,
                 Project,
-                Export,
+                // Export,
             }}
         />
     );

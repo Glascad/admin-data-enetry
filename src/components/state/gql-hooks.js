@@ -63,7 +63,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         return normalResponse;
 
-    }, Object.values(query));
+    }, []);
 
     useEffect(() => {
         if (!doNotFetchOnMount) {

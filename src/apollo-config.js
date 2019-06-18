@@ -14,7 +14,6 @@ export const STORAGE_KEYS = {
 
 const getJWT = () => {
     const JWT = localStorage.getItem(STORAGE_KEYS.JWT);
-    console.log({ JWT });
     return JWT ? `Bearer ${JWT}` : "";
 }
 
@@ -27,7 +26,6 @@ const httpLink = new HttpLink({ uri: "/graphql" });
 // MIDDLEWARE
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-    console.log('auth middleware');
     const authorization = getJWT();
     if (authorization) {
         operation.setContext(({

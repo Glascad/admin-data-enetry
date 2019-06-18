@@ -42,6 +42,10 @@ function Login({
         return () => toggle(true);
     }, []);
 
+    const submit = () => login({ username, password });
+
+    const submitOnEnter = ({ key }) => key === 'Enter' && submit();
+
     return (
         <>
             <img
@@ -61,18 +65,20 @@ function Login({
                             <Input
                                 label="username"
                                 value={username}
+                                onKeyDown={submitOnEnter}
                                 onChange={({ target: { value } }) => setUsername(value)}
                             />
                             <Input
                                 label="password"
                                 type="password"
                                 value={password}
+                                onKeyDown={submitOnEnter}
                                 onChange={({ target: { value } }) => setPassword(value)}
                             />
                             <div className="bottom-buttons">
                                 <button
                                     className="action"
-                                    onClick={() => login({ username, password })}
+                                    onClick={submit}
                                 >
                                     Login
                             </button>
