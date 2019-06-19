@@ -1,21 +1,30 @@
+import { defaultElevationInput } from "./elevation-input";
 
 export default function generateElevation({
-    verticalRoughOpening,
-    horizontalRoughOpening,
-    startingBayQuantity = 1,
-    finishedFloorHeight = 0,
-    sightline,
-    horizontals,
-}) {
+    verticalRoughOpening: {
+        value: verticalRoughOpening,
+    } = defaultElevationInput.verticalRoughOpening,
+    horizontalRoughOpening: {
+        value: horizontalRoughOpening,
+    } = defaultElevationInput.horizontalRoughOpening,
+    startingBayQuantity = defaultElevationInput.startingBayQuantity,
+    finishedFloorHeight: {
+        value: finishedFloorHeight,
+    } = defaultElevationInput.finishedFloorHeight,
+    sightline: {
+        value: sightline,
+    } = defaultElevationInput.sightline,
+    horizontals = defaultElevationInput.horizontals,
+} = defaultElevationInput) {
 
     const bayWidth = (horizontalRoughOpening - sightline * (startingBayQuantity + 1)) / startingBayQuantity;
 
     const lastContainerHeight = horizontals
-        .reduce(((height, { distance }) => height - sightline - distance),
+        .reduce(((height, { distance: { value: distance } }) => height - sightline - distance),
             verticalRoughOpening - sightline * 2);
 
     const containerHeights = horizontals
-        .map(({ distance }) => distance)
+        .map(({ distance: { value: distance } }) => distance)
         .concat(lastContainerHeight);
 
     // find Number[Symbol.iterator] in public/index.html
@@ -79,6 +88,7 @@ export default function generateElevation({
             y: verticalRoughOpening,
         },
         finishedFloorHeight,
+        sightline,
         _elevationContainers,
         _containerDetails,
     };

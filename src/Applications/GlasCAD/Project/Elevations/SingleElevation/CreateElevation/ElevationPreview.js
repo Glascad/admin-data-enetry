@@ -35,11 +35,12 @@ export default function ElevationPreview({
                     fill="rgba(0, 0, 0, 0)"
                     stroke="black"
                 /> */}
-                {/* FINISHED FLOOR */}
-                <path
+                {/* FINISHED FLOOR -- now in CSS */}
+                {/* <path
                     id="finished-floor"
-                    d={`M0,0L${x},0`}
-                />
+                    strokeWidth={5}
+                    d={`M0,-5L${x},-5`}
+                /> */}
                 {/* CONTAINERS */}
                 {allContainers.map(({ placement: { x, y, height, width }, refId }) => (
                     <rect

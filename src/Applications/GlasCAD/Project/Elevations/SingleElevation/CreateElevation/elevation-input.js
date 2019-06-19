@@ -1,3 +1,4 @@
+import { ImperialValue } from "../../../../../../utils";
 
 export const measureFromOptions = [
     // "Rough Opening (Bottom)",
@@ -17,7 +18,7 @@ export const measureToOptions = [
 }));
 
 export const defaultHorizontal = {
-    distance: 75,
+    distance: new ImperialValue("3'"),
     from: measureFromOptions[0].value,
     to: measureToOptions[0].value,
 };
@@ -25,12 +26,12 @@ export const defaultHorizontal = {
 export const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
-    verticalRoughOpening: 400,
-    horizontalRoughOpening: 200,
+    verticalRoughOpening: new ImperialValue("8'"),
+    horizontalRoughOpening: new ImperialValue("4'"),
     verticalMasonryOpening: true,
     horizontalMasonryOpening: true,
     startingBayQuantity: 1,
-    finishedFloorHeight: 0,
-    sightline: 10,
+    finishedFloorHeight: new ImperialValue(0),
+    sightline: new ImperialValue(2),
     horizontals: [defaultHorizontal],
 };

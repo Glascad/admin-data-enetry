@@ -41,6 +41,7 @@ class AddIntermediates extends PureComponent {
     render = () => {
         const {
             state: {
+                distance,
                 distance: {
                     value,
                 },
@@ -68,7 +69,8 @@ class AddIntermediates extends PureComponent {
                 <Input
                     label="Distance"
                     type="inches"
-                    initialValue={value}
+                    autoFocus={true}
+                    initialValue={distance}
                     onChange={updateDistance}
                     onEnter={add}
                 />

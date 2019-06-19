@@ -47,7 +47,7 @@ class EditFrame extends PureComponent {
                 <div className="sidebar-group">
                     {allFrames.every(({ canExtendFirst }) => canExtendFirst) ? (
                         <button
-                            className="sidebar-button empty"
+                            className="sidebar-button action"
                             onClick={() => extendFrames(true)}
                         >
                             Extend Frame {vertical ? `Down` : `Left`}
@@ -55,7 +55,7 @@ class EditFrame extends PureComponent {
                     ) : null}
                     {allFrames.every(({ canExtendLast }) => canExtendLast) ? (
                         <button
-                            className="sidebar-button empty"
+                            className="sidebar-button action"
                             onClick={() => extendFrames(false)}
                         >
                             Extend Frame {vertical ? `Up` : `Right`}

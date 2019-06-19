@@ -35,10 +35,6 @@ export default class CreateElevation extends PureComponent {
 
     state = {
         elevation: defaultElevationInput,
-        // elevation: {
-        //     verticalRoughOpening: new ImperialValue(400),
-        //     horizontalRoughOpening: new ImperialValue(200),
-        // },
         system: {
             id: -1,
             name: "",
@@ -164,11 +160,7 @@ export default class CreateElevation extends PureComponent {
             updateElevation,
         } = this;
 
-        // console.log({ elevationInput });
-
         const elevation = new RecursiveElevation(generateElevation(elevationInput));
-
-        // console.log({ elevation });
 
         return (
             <div className="CreateElevation card">
@@ -219,7 +211,7 @@ export default class CreateElevation extends PureComponent {
                                             type="inches"
                                             min={0}
                                             initialValue={verticalRoughOpening}
-                                            onChange={({ value }) => updateElevation({ value })}
+                                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
                                         />
                                         <Input
                                             label="Masonry Opening"
@@ -233,8 +225,8 @@ export default class CreateElevation extends PureComponent {
                                             label="Horizontal"
                                             type="inches"
                                             min={0}
-                                            initialValue={verticalRoughOpening}
-                                            onChange={({ value }) => updateElevation({ value })}
+                                            initialValue={horizontalRoughOpening}
+                                            onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
                                         />
                                         <Input
                                             label="Masonry Opening"
@@ -255,12 +247,10 @@ export default class CreateElevation extends PureComponent {
                                 />
                                 <Input
                                     label="Height Above Finished Floor"
-                                    type="number"
+                                    type="inches"
                                     min={0}
-                                    value={finishedFloorHeight}
-                                    onChange={({ target: { value } }) => updateElevation({
-                                        finishedFloorHeight: +value,
-                                    })}
+                                    initialValue={finishedFloorHeight}
+                                    onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
                                 />
                                 <GroupingBox
                                     title="Horizontals"
@@ -268,7 +258,7 @@ export default class CreateElevation extends PureComponent {
                                         actionType: "add",
                                         className: "action",
                                         onClick: () => updateElevation({
-                                            horizontals: horizontals.concat(defaultHorizontal),
+                                            horizontals: horizontals.concat(horizontals[horizontals.length - 1] || defaultHorizontal),
                                         }),
                                     }}
                                 >
@@ -318,9 +308,9 @@ export default class CreateElevation extends PureComponent {
                                                         type="inches"
                                                         min={0}
                                                         initialValue={distance}
-                                                        onChange={({ value }) => updateElevation({
+                                                        onChange={distance => updateElevation({
                                                             horizontals: horizontals.replace(i, {
-                                                                value,
+                                                                distance,
                                                                 from,
                                                                 to,
                                                             }),

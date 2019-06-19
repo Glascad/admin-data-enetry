@@ -45,15 +45,15 @@ const getFeetAndInches = inputValue => {
             inchFraction || 0
         )
     );
-    console.log({
-        inputValue,
-        group,
-        inchFraction,
-        inches,
-        feet,
-        isNegative,
-        value,
-    });
+    // console.log({
+    //     inputValue,
+    //     group,
+    //     inchFraction,
+    //     inches,
+    //     feet,
+    //     isNegative,
+    //     value,
+    // });
     return isNegative ?
         -value
         :
