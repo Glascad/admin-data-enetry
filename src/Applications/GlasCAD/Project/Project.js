@@ -21,7 +21,7 @@ import { parseSearch } from '../../../utils';
 
 const subroutes = {
     // ProjectDetails,
-    ProjectSets,
+    // ProjectSets,
     // Keyplans,
     Elevations,
     // Details,

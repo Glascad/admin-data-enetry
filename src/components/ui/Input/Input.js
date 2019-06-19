@@ -64,12 +64,6 @@ export default class Input extends PureComponent {
                     inchInput: `${newValue}`,
                     value: newValue,
                 });
-            // } else {
-            //     const value = new ImperialValue(newValue)
-            //     this.setState({
-            //         value,
-            //         inchInput: `${value}`,
-            //     });
             }
         }
     }

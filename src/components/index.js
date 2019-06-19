@@ -30,6 +30,7 @@ import NavMenu from './navigation/NavMenu/NavMenu';
 // DEVELOPMENT TOOLS
 import CheatSheet from './dev/CheatSheet/CheatSheet';
 import BugReport from './dev/BugReport/BugReport';
+import ErrorBoundary from './dev/ErrorBoundary/ErrorBoundary';
 
 // UNIVERSAL STYLES
 import './index.scss';
@@ -65,4 +66,5 @@ export {
     // DEV
     CheatSheet,
     BugReport,
+    ErrorBoundary,
 };

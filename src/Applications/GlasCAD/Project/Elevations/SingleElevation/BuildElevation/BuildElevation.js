@@ -13,13 +13,14 @@ import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
 import { parseSearch } from '../../../../../../utils';
+import { ErrorBoundary } from '../../../../../../components';
 
 const defaultElevationInput = {
     containers: [],
     details: [],
 };
 
-export default class BuildElevation extends PureComponent {
+class BuildElevation extends PureComponent {
 
     static contextType = StaticContext;
 
@@ -291,4 +292,19 @@ export default class BuildElevation extends PureComponent {
             </SelectionProvider>
         );
     }
+}
+
+export default function ErrorBoundedBuildElevation(props) {
+    return (
+        <ErrorBoundary
+            renderError={(error, info) => (
+                <div className="card">
+                    <div>Error: {error}</div>
+                    <div>Info: {info}</div>
+                </div>
+            )}
+        >
+            <BuildElevation {...props} />
+        </ErrorBoundary>
+    )
 }
