@@ -72,6 +72,10 @@ button {
     }
 }
 
+textarea {
+    resize: none;
+}
+
 input {
     border: none;
     border: 1px solid $light-gray;

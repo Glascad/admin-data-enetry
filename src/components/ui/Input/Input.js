@@ -224,6 +224,13 @@ export default class Input extends PureComponent {
             name: tagname,
         };
 
+        const inputTag = {
+            name: type === "textarea" ?
+                "textarea"
+                :
+                "input",
+        };
+
         const LABEL = label ? (
             <div
                 className="label"
@@ -264,7 +271,7 @@ export default class Input extends PureComponent {
                         className={`Select ${select.isMulti ? "multi" : ""}`}
                     />
                 ) : (
-                        <input
+                        <inputTag.name
                             ref={ref}
                             type={isBoolean ?
                                 'checkbox'

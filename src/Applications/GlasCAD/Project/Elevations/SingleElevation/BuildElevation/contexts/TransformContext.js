@@ -44,7 +44,7 @@ export default class TransformProvider extends PureComponent {
         const { key } = e;
         if (key === ' ' && !this.state.spaceKey) {
             console.log({ key });
-            e.preventDefault();
+            // e.preventDefault();
             this.setState(() => ({ spaceKey: true }));
         }
     }
