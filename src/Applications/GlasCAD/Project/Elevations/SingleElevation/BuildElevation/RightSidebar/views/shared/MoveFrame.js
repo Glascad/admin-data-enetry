@@ -7,27 +7,28 @@ import {
 
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 import { withActionContext } from '../../../contexts/ActionContext';
+import { ImperialValue } from '../../../../../../../../../utils';
 
 class MoveFrame extends PureComponent {
 
     state = {
-        distance: 5,
+        distance: new ImperialValue(6),
     };
 
-    updateDistance = ({ target: { value } }) => this.setState({
-        distance: value,
-    });
+    updateDistance = distance => this.setState({ distance });
 
     move = distance => this.props.ACTIONS.moveFrames({ distance });
 
-    moveFalse = () => this.move(-this.state.distance);
+    moveFalse = () => this.move(-this.state.distance.value);
 
-    moveTrue = () => this.move(+this.state.distance);
+    moveTrue = () => this.move(+this.state.distance.value);
 
     render = () => {
         const {
             state: {
-                distance,
+                distance: {
+                    value,
+                },
             },
             props: {
                 selection: {
@@ -56,11 +57,11 @@ class MoveFrame extends PureComponent {
                 />
                 <Input
                     label="Distance"
-                    type="number"
-                    value={distance}
+                    type="inches"
+                    initialValue={value}
                     onChange={updateDistance}
                 />
-                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-this.state.distance)) ? (
+                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-value)) ? (
                     <button
                         className="sidebar-button empty"
                         onClick={moveFalse}
@@ -68,7 +69,7 @@ class MoveFrame extends PureComponent {
                         {vertical ? 'Right' : 'Up'}
                     </button>
                 ) : null}
-                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(+this.state.distance)) ? (
+                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(+value)) ? (
                     <button
                         className="sidebar-button empty"
                         onClick={moveTrue}

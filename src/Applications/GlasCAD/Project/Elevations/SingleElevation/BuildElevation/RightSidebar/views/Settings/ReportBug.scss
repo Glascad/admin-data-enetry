@@ -1,0 +1,9 @@
+@import "../../../../../../../../../styles/variables";
+
+#ReportBug {
+    textarea {
+        width: calc(100% - #{$xx-small * 2});
+        height: $pill-width;
+        padding: $xx-small;
+    }
+}
