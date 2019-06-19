@@ -33,7 +33,10 @@ export default class Input extends PureComponent {
 
     state = {
         inchInput: '',
-        value: new ImperialValue(this.props.initialValue || this.props.value || 0),
+        value: this.props.initialValue instanceof ImperialValue ?
+            this.props.initialValue
+            :
+            new ImperialValue(this.props.initialValue || this.props.value || 0),
     };
 
     keys = {};
@@ -43,14 +46,30 @@ export default class Input extends PureComponent {
     componentDidUpdate = ({ initialValue }) => {
         const {
             props: {
+                label,
+                type,
                 initialValue: newValue,
             },
         } = this;
-        if (initialValue !== newValue) {
-            if (this.props.type === 'inches') {
-                this.setState({ value: new ImperialValue(newValue) });
-            } else {
-                this.ref.current.value = newValue;
+
+        if (
+            newValue
+            &&
+            !initialValue
+            &&
+            (type === 'inches')
+        ) {
+            if (newValue instanceof ImperialValue) {
+                this.setState({
+                    inchInput: `${newValue}`,
+                    value: newValue,
+                });
+            // } else {
+            //     const value = new ImperialValue(newValue)
+            //     this.setState({
+            //         value,
+            //         inchInput: `${value}`,
+            //     });
             }
         }
     }
@@ -70,14 +89,12 @@ export default class Input extends PureComponent {
 
         const value = new ImperialValue(inchInput);
 
-        console.log({ inchInput, value });
-
         this.setState({ inchInput, value });
 
         if (onChange) onChange(value);
     }
 
-    handleInchblur = ({ target: { value: inchInput } }) => {
+    handleInchblur = ({ target, target: { value: inchInput } }) => {
         const {
             props: {
                 onBlur,
@@ -86,7 +103,11 @@ export default class Input extends PureComponent {
 
         const value = new ImperialValue(inchInput);
 
-        this.setState({ inchInput: `${value}`, value });
+        const stringValue = `${value}`;
+
+        this.setState({ inchInput: stringValue, value });
+
+        this.ref.current.value = stringValue;
 
         if (onBlur) onBlur(value);
     }

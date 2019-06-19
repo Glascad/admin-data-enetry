@@ -26,6 +26,7 @@ class MoveFrame extends PureComponent {
     render = () => {
         const {
             state: {
+                distance,
                 distance: {
                     value,
                 },
@@ -58,7 +59,8 @@ class MoveFrame extends PureComponent {
                 <Input
                     label="Distance"
                     type="inches"
-                    initialValue={value}
+                    autoFocus={true}
+                    initialValue={distance}
                     onChange={updateDistance}
                 />
                 {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-value)) ? (

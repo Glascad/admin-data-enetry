@@ -1,16 +1,21 @@
 import generateElevation from '../generate-elevation';
 import testElevation from '../../utils/recursive-elevation/__test__/validation-tests/index.test';
-import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 import '../../../../../../../../public';
 import calculateDetailCount from './calculate-detail-count';
 import calculateFrameCount from './calculate-frame-count';
 import testElevationArrays from '../../utils/recursive-elevation/__test__/validation-tests/test-elevation-arrays.test';
+import { ImperialValue } from '../../../../../../../utils';
+import { defaultElevationInput } from '../elevation-input';
 
 const testGeneration = ({ description, elevationInput }) => {
 
     const {
-        verticalRoughOpening,
-        horizontalRoughOpening,
+        verticalRoughOpening: {
+            value: verticalRoughOpening,
+        },
+        horizontalRoughOpening: {
+            value: horizontalRoughOpening,
+        },
         startingBayQuantity: bayCount,
         horizontals: {
             length: horizontalCount,
@@ -48,13 +53,18 @@ const testGeneration = ({ description, elevationInput }) => {
 }
 
 testGeneration({
+    description: "Default Input",
+    elevationInput: defaultElevationInput,
+});
+
+testGeneration({
     description: "Sample Input 1",
     elevationInput: {
-        verticalRoughOpening: 300,
-        horizontalRoughOpening: 500,
+        verticalRoughOpening: new ImperialValue(300),
+        horizontalRoughOpening: new ImperialValue(500),
         startingBayQuantity: 3,
-        finishedFloorHeight: 0,
-        sightline: 10,
+        finishedFloorHeight: new ImperialValue(0),
+        sightline: new ImperialValue(10),
         horizontals: [],
     },
 });

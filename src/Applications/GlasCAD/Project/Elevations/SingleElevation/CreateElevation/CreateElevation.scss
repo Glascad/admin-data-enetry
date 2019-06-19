@@ -5,6 +5,7 @@
     .ElevationPreview {
         svg {
             height: $pill-width;
+            border-top: 2px solid $dark-gray;
 
             .container {
                 fill: transparentize($light-blue, 0.8);
@@ -15,10 +16,10 @@
                 fill: $light-gray;
             }
 
-            #finished-floor {
-                stroke-width: $x-small;
-                stroke: $dark-gray;
-            }
+            // #finished-floor {
+            //     stroke-width: $x-small;
+            //     stroke: $dark-gray;
+            // }
         }
     }
 }

@@ -32,8 +32,6 @@ function Login({
     },
 }) {
 
-    console.log({ staticContext });
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 

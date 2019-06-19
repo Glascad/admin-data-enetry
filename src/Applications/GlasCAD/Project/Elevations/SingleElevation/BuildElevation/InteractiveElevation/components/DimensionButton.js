@@ -41,12 +41,18 @@ class DimensionButton extends PureComponent {
 
         const currentMilliseconds = Date.now();
 
-        // double click (toggle editing state)
-        if (currentMilliseconds - mostRecentClick < 500) selectDimension(dimension);
-        // single click (unselect)
-        else if (selected) containers.forEach(container => unselectItem(container))
-        // single click (select)
-        else containers.forEach(container => selectItem(container, true));
+        if (currentMilliseconds - mostRecentClick < 500) {
+            // console.log("DOUBLE CLICK - toggle editing state");
+            selectDimension(dimension);
+        }
+        else if (selected) {
+            // console.log("SINGLE CLICK - unselect");
+            containers.forEach(container => unselectItem(container));
+        }
+        else {
+            // console.log("SINGLE CLICK - select");
+            containers.forEach(container => selectItem(container, true));
+        }
 
         this.mostRecentClick = currentMilliseconds;
     }
@@ -171,8 +177,8 @@ class DimensionButton extends PureComponent {
     render = () => {
         const {
             state: {
+                newDimension,
                 newDimension: {
-                    value,
                     stringValue,
                 },
             },
@@ -214,7 +220,7 @@ class DimensionButton extends PureComponent {
                 {editing ? (
                     <Input
                         type="inches"
-                        initialValue={value}
+                        initialValue={newDimension}
                         onFocus={handleFocus}
                         onChange={handleChange}
                         onKeyDown={handleKeyDown}

@@ -49,10 +49,6 @@ export default function SingleElevation({
 
     const { elevationId, sampleElevation } = parseSearch(search);
 
-    console.log({
-        sampleElevation,
-    });
-
     return (
         <ApolloWrapper
             query={{
