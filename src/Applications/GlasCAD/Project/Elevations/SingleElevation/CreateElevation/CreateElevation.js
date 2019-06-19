@@ -20,7 +20,7 @@ import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
 import generateElevation from './generate-elevation';
 
-import { parseSearch } from '../../../../../../utils';
+import { parseSearch, ImperialValue } from '../../../../../../utils';
 
 import './CreateElevation.scss';
 
@@ -35,6 +35,10 @@ export default class CreateElevation extends PureComponent {
 
     state = {
         elevation: defaultElevationInput,
+        // elevation: {
+        //     verticalRoughOpening: new ImperialValue(400),
+        //     horizontalRoughOpening: new ImperialValue(200),
+        // },
         system: {
             id: -1,
             name: "",
@@ -212,12 +216,10 @@ export default class CreateElevation extends PureComponent {
                                     <div className="input-group">
                                         <Input
                                             label="Vertical"
-                                            type="number"
+                                            type="inches"
                                             min={0}
-                                            value={verticalRoughOpening}
-                                            onChange={({ target: { value } }) => updateElevation({
-                                                verticalRoughOpening: +value,
-                                            })}
+                                            initialValue={verticalRoughOpening}
+                                            onChange={({ value }) => updateElevation({ value })}
                                         />
                                         <Input
                                             label="Masonry Opening"
@@ -229,12 +231,10 @@ export default class CreateElevation extends PureComponent {
                                     <div className="input-group">
                                         <Input
                                             label="Horizontal"
-                                            type="number"
+                                            type="inches"
                                             min={0}
-                                            value={horizontalRoughOpening}
-                                            onChange={({ target: { value } }) => updateElevation({
-                                                horizontalRoughOpening: +value,
-                                            })}
+                                            initialValue={verticalRoughOpening}
+                                            onChange={({ value }) => updateElevation({ value })}
                                         />
                                         <Input
                                             label="Masonry Opening"
@@ -315,12 +315,12 @@ export default class CreateElevation extends PureComponent {
                                                     />
                                                     <Input
                                                         label="Distance"
-                                                        type="number"
+                                                        type="inches"
                                                         min={0}
-                                                        value={distance}
-                                                        onChange={({ target: { value } }) => updateElevation({
+                                                        initialValue={distance}
+                                                        onChange={({ value }) => updateElevation({
                                                             horizontals: horizontals.replace(i, {
-                                                                distance: +value,
+                                                                value,
                                                                 from,
                                                                 to,
                                                             }),
