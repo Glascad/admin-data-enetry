@@ -47,6 +47,7 @@ function Settings({
                     View={SampleElevations}
                 />
                 <SidebarLink
+                    className="danger"
                     toggleStackedView={toggleStackedView}
                     View={ReportBug}
                 />

@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 
+import * as Icons from '../../../../../../../../../assets/icons';
+
 import { TitleBar } from '../../../../../../../../../components';
 
 import SidebarLink from '../../components/SidebarLink';
@@ -26,6 +28,14 @@ class EditFrame extends PureComponent {
             },
         } = this;
 
+        const canMove = allFrames.every(({ canMove }) => canMove);
+
+        const canExtendFirst = allFrames.every(({ canExtendFirst }) => canExtendFirst);
+
+        const canExtendLast = allFrames.every(({ canExtendLast }) => canExtendLast);
+
+        const canDelete = allFrames.every(({ canDelete }) => canDelete);
+
         return (
             <>
                 <TitleBar
@@ -36,7 +46,7 @@ class EditFrame extends PureComponent {
                             'Horizontal'
                         }`}
                 />
-                {allFrames.every(({ canMove }) => canMove) ? (
+                {canMove ? (
                     <div className="sidebar-group">
                         <SidebarLink
                             toggleStackedView={toggleStackedView}
@@ -44,30 +54,60 @@ class EditFrame extends PureComponent {
                         />
                     </div>
                 ) : null}
-                <div className="sidebar-group">
-                    {allFrames.every(({ canExtendFirst }) => canExtendFirst) ? (
-                        <button
-                            className="sidebar-button action"
-                            onClick={() => extendFrames(true)}
-                        >
-                            Extend Frame {vertical ? `Down` : `Left`}
-                        </button>
-                    ) : null}
-                    {allFrames.every(({ canExtendLast }) => canExtendLast) ? (
-                        <button
-                            className="sidebar-button action"
-                            onClick={() => extendFrames(false)}
-                        >
-                            Extend Frame {vertical ? `Up` : `Right`}
-                        </button>
-                    ) : null}
-                </div>
-                {allFrames.every(({ canDelete }) => canDelete) ? (
+                {canExtendFirst || canExtendLast ? (
+                    <div className="sidebar-group">
+                        {canExtendLast ? (
+                            <button
+                                className="sidebar-button empty"
+                                onClick={() => extendFrames(false)}
+                            >
+                                {vertical ? (
+                                    <>
+                                        <Icons.ExtendMullionUp />
+                                        <span>
+                                            Extend Up
+                                        </span>
+                                    </>
+                                ) : (
+                                        <>
+                                            <Icons.DuplicateHorizontalRight />
+                                            <span>
+                                                Duplicate Right
+                                            </span>
+                                        </>
+                                    )}
+                            </button>
+                        ) : null}
+                        {canExtendFirst ? (
+                            <button
+                                className="sidebar-button empty"
+                                onClick={() => extendFrames(true)}
+                            >
+                                {vertical ? (
+                                    <>
+                                        <Icons.ExtendMullionDown />
+                                        <span>
+                                            Extend Down
+                                        </span>
+                                    </>
+                                ) : (
+                                        <>
+                                            <Icons.DuplicateHorizontalLeft />
+                                            <span>
+                                                Duplicate Left
+                                            </span>
+                                        </>
+                                    )}
+                            </button>
+                        ) : null}
+                    </div>
+                ) : null}
+                {canDelete ? (
                     <button
                         className="sidebar-button danger"
                         onClick={deleteFrames}
                     >
-                        Delete Horizontal
+                        Delete {vertical ? 'Vertical' : 'Horizontal'}
                     </button>
                 ) : null}
             </>

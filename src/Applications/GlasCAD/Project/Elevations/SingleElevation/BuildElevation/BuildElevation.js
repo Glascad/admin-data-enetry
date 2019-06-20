@@ -13,13 +13,14 @@ import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
 import { parseSearch } from '../../../../../../utils';
+import { ErrorBoundary } from '../../../../../../components';
 
 const defaultElevationInput = {
     containers: [],
     details: [],
 };
 
-export default class BuildElevation extends PureComponent {
+class BuildElevation extends PureComponent {
 
     static contextType = StaticContext;
 
@@ -30,6 +31,7 @@ export default class BuildElevation extends PureComponent {
             },
         ],
         currentIndex: 0,
+        errors: [],
     };
 
     componentDidMount = () => {
@@ -280,15 +282,37 @@ export default class BuildElevation extends PureComponent {
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
                         />
-                        {/* <ErrorBoundary> */}
-                        <InteractiveElevation
-                            elevation={recursiveElevation}
-                            updateElevation={updateElevation}
-                        />
-                        {/* </ErrorBoundary> */}
+                        <ErrorBoundary
+                            renderError={(error, info) => (
+                                <div>
+                                    <div>Error: {error}</div>
+                                    <div>Info: {info}</div>
+                                </div>
+                            )}
+                        >
+                            <InteractiveElevation
+                                elevation={recursiveElevation}
+                                updateElevation={updateElevation}
+                            />
+                        </ErrorBoundary>
                     </TransformProvider>
                 </ActionProvider>
             </SelectionProvider>
         );
     }
+}
+
+export default function ErrorBoundedBuildElevation(props) {
+    return (
+        <ErrorBoundary
+            renderError={(error, info) => (
+                <div className="card">
+                    <div>Error: {error}</div>
+                    <div>Info: {info}</div>
+                </div>
+            )}
+        >
+            <BuildElevation {...props} />
+        </ErrorBoundary>
+    )
 }

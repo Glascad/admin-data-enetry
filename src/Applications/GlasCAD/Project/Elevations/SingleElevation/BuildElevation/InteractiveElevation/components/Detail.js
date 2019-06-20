@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 
 import DetailBubble from './DetailBubble';
+import { transformProps } from '../../../../../../../../components';
+import { pixelsPerInch } from '../../contexts/TransformContext';
 
-export default class Detail extends PureComponent {
+class Detail extends PureComponent {
 
     handleClick = () => {
         this.props.unselectItem(this.props.detail);
@@ -22,12 +24,6 @@ export default class Detail extends PureComponent {
                     _frame: {
                         refId: frameRefId,
                     } = {},
-                    placement: {
-                        x,
-                        y,
-                        height,
-                        width,
-                    },
                     firstContainer,
                     firstContainer: {
                         refId: firstContainerRefId,
@@ -36,11 +32,17 @@ export default class Detail extends PureComponent {
                         refId: secondContainerRefId,
                     } = {},
                 },
+                scaledPlacement: {
+                    x,
+                    y,
+                    height,
+                    width,
+                },
                 selectItem,
             },
             handleClick,
         } = this;
-        
+
         registerReactComponent(this);
 
         if (!exists) return null;
@@ -86,3 +88,21 @@ export default class Detail extends PureComponent {
         );
     }
 }
+
+export default transformProps(({
+    detail: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}))(Detail);

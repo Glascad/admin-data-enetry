@@ -105,8 +105,6 @@ export default class CreateElevation extends PureComponent {
             ...createdElevation,
         };
 
-        // console.log({ elevation });
-
         const {
             data: {
                 updateEntireElevation: {
@@ -163,201 +161,252 @@ export default class CreateElevation extends PureComponent {
         const elevation = new RecursiveElevation(generateElevation(elevationInput));
 
         return (
-            <div className="CreateElevation card">
-                <ApolloWrapper
-                    query={{
-                        query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}`,
-                    }}
+            <>
+                <TitleBar
+                    title="New Elevation"
+                    selections={[name]}
+                    right={(
+                        <>
+                            <Link
+                                to={`${
+                                    path.replace(/\/elevation\/create-elevation/, '')
+                                    }${
+                                    search
+                                    }`}
+                            >
+                                <button>
+                                    Cancel
+                            </button>
+                            </Link>
+                            <button
+                                className={`action ${name ? '' : 'disabled'}`}
+                                onClick={save}
+                            >
+                                Create
+                            </button>
+                        </>
+                    )}
+                />
+                <div
+                    id="CreateElevation"
+                    className="card"
                 >
-                    {({
-                        queryStatus: {
-                            allSystems = [],
-                        },
-                    }) => (
-                            <>
-                                <TitleBar
-                                    title="New Elevation"
-                                    selections={[name]}
-                                />
-                                <Input
-                                    label="Elevation Id"
-                                    value={name}
-                                    onChange={({ target: { value } }) => updateElevation({
-                                        name: value,
-                                    })}
-                                />
-                                <Input
-                                    label="System Set"
-                                    select={{
-                                        value: {
-                                            label: systemName,
-                                            value: systemId,
-                                        },
-                                        options: allSystems.map(({ id, name }) => ({
-                                            label: name,
-                                            value: id,
-                                        })),
-                                        onChange: ({ value }) => this.setState({
-                                            system: allSystems.find(({ id }) => id === value),
-                                        }),
-                                    }}
-                                />
-                                <GroupingBox
-                                    title="Rough Opening"
-                                >
-                                    <div className="input-group">
-                                        <Input
-                                            label="Vertical"
-                                            type="inches"
-                                            min={0}
-                                            initialValue={verticalRoughOpening}
-                                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
-                                        />
-                                        <Input
-                                            label="Masonry Opening"
-                                            type="switch"
-                                            readOnly={true}
-                                            checked={verticalMasonryOpening}
-                                        />
-                                    </div>
-                                    <div className="input-group">
-                                        <Input
-                                            label="Horizontal"
-                                            type="inches"
-                                            min={0}
-                                            initialValue={horizontalRoughOpening}
-                                            onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
-                                        />
-                                        <Input
-                                            label="Masonry Opening"
-                                            type="switch"
-                                            readOnly={true}
-                                            checked={horizontalMasonryOpening}
-                                        />
-                                    </div>
-                                </GroupingBox>
-                                <Input
-                                    label="Starting Bay Quantity"
-                                    type="number"
-                                    min={1}
-                                    value={startingBayQuantity}
-                                    onChange={({ target: { value } }) => updateElevation({
-                                        startingBayQuantity: +value,
-                                    })}
-                                />
-                                <Input
-                                    label="Height Above Finished Floor"
-                                    type="inches"
-                                    min={0}
-                                    initialValue={finishedFloorHeight}
-                                    onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
-                                />
-                                <GroupingBox
-                                    title="Horizontals"
-                                    circleButton={{
-                                        actionType: "add",
-                                        className: "action",
-                                        onClick: () => updateElevation({
-                                            horizontals: horizontals.concat(horizontals[horizontals.length - 1] || defaultHorizontal),
-                                        }),
-                                    }}
-                                >
-                                    {horizontals.length ?
-                                        horizontals.map(({
-                                            distance,
-                                            from,
-                                            to,
-                                        }, i) => (
-                                                <div className="input-group">
-                                                    <Input
-                                                        label="Measure From"
-                                                        select={{
-                                                            value: {
-                                                                value: from,
-                                                                label: from,
-                                                            },
-                                                            options: measureFromOptions,
-                                                            onChange: ({ value }) => updateElevation({
-                                                                horizontals: horizontals.replace(i, {
-                                                                    distance,
-                                                                    from: value,
-                                                                    to,
+                    <ApolloWrapper
+                        query={{
+                            query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}`,
+                        }}
+                    >
+                        {({
+                            queryStatus: {
+                                allSystems = [],
+                            },
+                        }) => (
+                                <>
+                                    <Input
+                                        label="Elevation ID"
+                                        value={name}
+                                        onChange={({ target: { value } }) => updateElevation({
+                                            name: value,
+                                        })}
+                                    />
+                                    <Input
+                                        label="System set"
+                                        disabled={true}
+                                        select={{
+                                            value: {
+                                                label: systemName,
+                                                value: systemId,
+                                            },
+                                            options: allSystems.map(({ id, name }) => ({
+                                                label: name,
+                                                value: id,
+                                            })),
+                                            onChange: ({ value }) => this.setState({
+                                                system: allSystems.find(({ id }) => id === value),
+                                            }),
+                                        }}
+                                    />
+                                    <GroupingBox
+                                        title="Rough opening"
+                                    >
+                                        <div className="input-group">
+                                            <Input
+                                                label="Vertical"
+                                                type="inches"
+                                                min={0}
+                                                initialValue={verticalRoughOpening}
+                                                onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
+                                            />
+                                            {/* <Input
+                                                label="Masonry Opening"
+                                                type="switch"
+                                                readOnly={true}
+                                                checked={verticalMasonryOpening}
+                                            /> */}
+                                        </div>
+                                        <div className="input-group">
+                                            <Input
+                                                label="Horizontal"
+                                                type="inches"
+                                                min={0}
+                                                initialValue={horizontalRoughOpening}
+                                                onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
+                                            />
+                                            {/* <Input
+                                                label="Masonry Opening"
+                                                type="switch"
+                                                readOnly={true}
+                                                checked={horizontalMasonryOpening}
+                                            /> */}
+                                        </div>
+                                    </GroupingBox>
+                                    <Input
+                                        label="Starting bay quantity"
+                                        type="number"
+                                        min={1}
+                                        value={startingBayQuantity}
+                                        onChange={({ target: { value } }) => updateElevation({
+                                            startingBayQuantity: +value,
+                                        })}
+                                    />
+                                    <Input
+                                        label="Height above finished floor"
+                                        type="inches"
+                                        min={0}
+                                        initialValue={finishedFloorHeight}
+                                        onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
+                                    />
+                                    <GroupingBox
+                                        title="Horizontals"
+                                        circleButton={{
+                                            actionType: "add",
+                                            className: "action",
+                                            onClick: () => {
+                                                const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
+
+                                                const {
+                                                    distance: {
+                                                        value,
+                                                    },
+                                                } = lastHorizontal;
+
+                                                var { originalContainer: topContainer } = elevation;
+
+                                                while (topContainer.topContainers.length) {
+                                                    topContainer = topContainer.topContainers[0];
+                                                }
+
+                                                if (topContainer.daylightOpening.y > value + elevation.sightline) {
+                                                    updateElevation({
+                                                        horizontals: horizontals.concat(lastHorizontal),
+                                                    });
+                                                }
+                                            },
+                                        }}
+                                    >
+                                        {horizontals.length ?
+                                            horizontals.map(({
+                                                distance,
+                                                from,
+                                                to,
+                                            }, i) => (
+                                                    <div
+                                                        id="add-horizontals"
+                                                        className="input-group"
+                                                        key={i}
+                                                    >
+                                                        <Input
+                                                            label="Measure from"
+                                                            disabled={true}
+                                                            select={{
+                                                                value: {
+                                                                    value: from,
+                                                                    label: from,
+                                                                },
+                                                                options: measureFromOptions,
+                                                                onChange: ({ value }) => updateElevation({
+                                                                    horizontals: horizontals.replace(i, {
+                                                                        distance,
+                                                                        from: value,
+                                                                        to,
+                                                                    }),
                                                                 }),
-                                                            }),
-                                                        }}
-                                                    />
-                                                    <Input
-                                                        label="Measure To"
-                                                        select={{
-                                                            value: {
-                                                                value: to,
-                                                                label: to,
-                                                            },
-                                                            options: measureToOptions,
-                                                            onChange: ({ value }) => updateElevation({
+                                                            }}
+                                                        />
+                                                        <Input
+                                                            label="Measure to"
+                                                            disabled={true}
+                                                            select={{
+                                                                value: {
+                                                                    value: to,
+                                                                    label: to,
+                                                                },
+                                                                options: measureToOptions,
+                                                                onChange: ({ value }) => updateElevation({
+                                                                    horizontals: horizontals.replace(i, {
+                                                                        distance,
+                                                                        from,
+                                                                        to: value,
+                                                                    }),
+                                                                }),
+                                                            }}
+                                                        />
+                                                        <Input
+                                                            label="Distance"
+                                                            type="inches"
+                                                            min={0}
+                                                            initialValue={distance}
+                                                            onChange={distance => updateElevation({
                                                                 horizontals: horizontals.replace(i, {
                                                                     distance,
                                                                     from,
-                                                                    to: value,
+                                                                    to,
                                                                 }),
-                                                            }),
-                                                        }}
-                                                    />
-                                                    <Input
-                                                        label="Distance"
-                                                        type="inches"
-                                                        min={0}
-                                                        initialValue={distance}
-                                                        onChange={distance => updateElevation({
-                                                            horizontals: horizontals.replace(i, {
-                                                                distance,
-                                                                from,
-                                                                to,
-                                                            }),
-                                                        })}
-                                                    />
-                                                    <CircleButton
-                                                        actionType="delete"
-                                                        className="danger"
-                                                        onClick={() => updateElevation({
-                                                            horizontals: horizontals.filter((_, j) => j !== i),
-                                                        })}
-                                                    >
-                                                        Delete
-                                                    </CircleButton>
+                                                            })}
+                                                        />
+                                                        <CircleButton
+                                                            actionType="delete"
+                                                            className="danger"
+                                                            onClick={() => updateElevation({
+                                                                horizontals: horizontals.filter((_, j) => j !== i),
+                                                            })}
+                                                        >
+                                                            Delete
+                                                        </CircleButton>
+                                                    </div>
+                                                )) : (
+                                                <div>
+                                                    No Horizontals
                                                 </div>
-                                            )) : (
-                                            <div>
-                                                No Horizontals
-                                            </div>
-                                        )}
-                                </GroupingBox>
-                                <ElevationPreview
-                                    elevation={elevation}
-                                />
-                                <div className="bottom-buttons">
-                                    <Link
-                                        to={`${
-                                            path.replace(/\/elevation\/create-elevation/, '')
-                                            }${
-                                            search
-                                            }`}
-                                    >
-                                        <button>
-                                            Cancel
+                                            )}
+                                    </GroupingBox>
+                                    <ElevationPreview
+                                        elevation={elevation}
+                                    />
+                                    <div className="bottom-buttons">
+                                        <Link
+                                            to={`${
+                                                path.replace(/\/elevation\/create-elevation/, '')
+                                                }${
+                                                search
+                                                }`}
+                                        >
+                                            <button>
+                                                Cancel
+                                            </button>
+                                        </Link>
+                                        <button
+                                            className={`action ${name ? '' : 'disabled'}`}
+                                            onClick={save}
+                                        >
+                                            Create
                                         </button>
-                                    </Link>
-                                    <button
-                                        className="action"
-                                        onClick={save}
-                                    >
-                                        Build
-                                    </button>
-                                </div>
-                            </>
-                        )}
-                </ApolloWrapper>
-            </div>
+                                    </div>
+                                </>
+                            )}
+                    </ApolloWrapper>
+                </div>
+            </>
         );
     }
 }

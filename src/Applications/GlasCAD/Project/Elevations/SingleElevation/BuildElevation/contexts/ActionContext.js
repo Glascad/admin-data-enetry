@@ -9,12 +9,41 @@ import { withSelectionContext } from './SelectionContext';
 import * as ACTIONS from '../ducks/actions';
 
 import { DIRECTIONS } from '../../utils/recursive-elevation/directions';
+import RecursiveContainer from '../../utils/recursive-elevation/container';
+import RecursiveFrame from '../../utils/recursive-elevation/frame';
 
 export const ActionContext = createContext();
 
 export const withActionContext = withContext(ActionContext, ({ context }) => ({ ACTIONS: context }), { pure: true });
 
 class ActionProvider extends PureComponent {
+
+    componentDidMount = () => {
+        window.addEventListener("keydown", this.handleKeyDown);
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener("keydown", this.handleKeyDown);
+    }
+
+    handleKeyDown = ({ key }) => {
+        const {
+            props: {
+                selection: {
+                    items: {
+                        0: {
+                            class: SelectedClass,
+                        } = {},
+                    },
+                },
+            },
+        } = this;
+        
+        if (key === 'Delete') {
+            if (SelectedClass === RecursiveContainer) this.deleteContainers();
+            else if (SelectedClass === RecursiveFrame) this.deleteFrames();
+        }
+    }
 
     // merge deleted containers automatically
     componentDidUpdate = ({ elevation: oldElevation }) => {

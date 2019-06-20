@@ -12,6 +12,7 @@ import DoubleArrow from './ui/DoubleArrow/DoubleArrow';
 import ListWrapper from './ui/ListWrapper/ListWrapper';
 import Toggle from './ui/Toggle/Toggle';
 import Input from './ui/Input/Input';
+import Ellipsis from './ui/Ellipsis/Ellipsis';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
@@ -20,6 +21,7 @@ import ApolloWrapper from './state/ApolloWrapper';
 import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
 import withContext from './state/with-context';
+import transformProps from './state/transform-props';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -30,6 +32,7 @@ import NavMenu from './navigation/NavMenu/NavMenu';
 // DEVELOPMENT TOOLS
 import CheatSheet from './dev/CheatSheet/CheatSheet';
 import BugReport from './dev/BugReport/BugReport';
+import ErrorBoundary from './dev/ErrorBoundary/ErrorBoundary';
 
 // UNIVERSAL STYLES
 import './index.scss';
@@ -49,6 +52,7 @@ export {
     ListWrapper,
     Toggle,
     Input,
+    Ellipsis,
     // STATE
     asyncComponent,
     ApolloWrapper,
@@ -57,6 +61,7 @@ export {
     SelectionWrapper,
     StateManager,
     withContext,
+    transformProps,
     // NAVIGATION
     Navigator,
     TabNavigator,
@@ -65,4 +70,5 @@ export {
     // DEV
     CheatSheet,
     BugReport,
+    ErrorBoundary,
 };

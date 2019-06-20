@@ -52,7 +52,7 @@ export const toMixedNumber = fraction => {
 
 export const simplifyFraction = fraction => {
     let [numerator, denominator] = splitFraction(fraction);
-    if (!parseInt(numerator)) return "";
+    if (!parseInt(numerator)) return "0";
     if (numerator === denominator) return '1';
     for (let i = denominator - 1; i > 0; i--) {
         if (!(numerator % i) && !(denominator % i)) {
@@ -76,7 +76,7 @@ export const simplifyMixedNumber = mixed => {
     if (!whole) return simplifyFraction(mixed);
     else {
         const simplifiedFraction = simplifyFraction(fraction);
-        if (!simplifiedFraction) return `${whole}`
+        if (!simplifiedFraction || simplifiedFraction === "0") return `${whole}`
         return `${whole} ${simplifyFraction(fraction)}`
     }
 }

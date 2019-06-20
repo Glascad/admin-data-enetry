@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {
     TitleBar,
     Input,
+    Ellipsis,
 } from '../../../../../../../components';
 
 import {
@@ -27,7 +28,7 @@ export default function Header({
     return (
         <TitleBar
             title="Elevation"
-            selections={[name]}
+            selections={[name || <Ellipsis />]}
             className="blue-border"
             left={(
                 <>

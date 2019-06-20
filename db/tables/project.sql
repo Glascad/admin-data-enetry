@@ -7,7 +7,8 @@ CREATE TABLE
 projects (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
-    owner_id INTEGER REFERENCES users.users
+    owner_id INTEGER REFERENCES users.users,
+    UNIQUE (project_id, name)
 );
 
 CREATE TABLE

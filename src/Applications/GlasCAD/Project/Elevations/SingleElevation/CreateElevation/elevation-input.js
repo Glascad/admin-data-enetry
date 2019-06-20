@@ -26,7 +26,7 @@ export const defaultHorizontal = {
 export const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
-    verticalRoughOpening: new ImperialValue("8'"),
+    verticalRoughOpening: new ImperialValue("10'"),
     horizontalRoughOpening: new ImperialValue("4'"),
     verticalMasonryOpening: true,
     horizontalMasonryOpening: true,

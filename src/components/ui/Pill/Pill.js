@@ -194,11 +194,13 @@ export default class Pill extends PureComponent {
             &&
             (
                 hoverButtons.length
-                +
-                Boolean(editable)
-                +
-                Boolean(deletable)
-            ) > 1;
+                ||
+                (
+                    !!editable
+                    &&
+                    !!deletable
+                )
+            );
 
         return (
             <tag.name

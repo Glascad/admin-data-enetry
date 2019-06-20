@@ -1,5 +1,4 @@
-
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .modal-background {
     position: fixed;
@@ -16,11 +15,13 @@
     align-items: center;
 
     .Modal {
-        min-width: 30%;
-        min-height: 30%;
+        // min-width: 30%;
+        // min-height: 30%;
+        min-width: $pill-width * 2.5;
+        min-height: $pill-width;
         max-width: 80%;
         max-height: 80%;
-        width: 55%;
+        // width: 30%;
         border-radius: $xx-small;
         box-shadow: $xx-small $xx-small $x-small $dark-gray;
         background: $off-white;
@@ -28,11 +29,14 @@
         flex-direction: column;
         justify-content: space-between;
         padding: $large;
-        
+
+        font-size: ($large + $base-size) / 2;
+
         .modal-buttons {
             display: flex;
             justify-content: space-between;
-            
+            margin-top: $x-large;
+
             span {
                 display: flex;
             }

@@ -99,11 +99,12 @@ entire_elevation AS (
     project_id INTEGER,
     name TEXT,
     rough_opening COORDINATE,
-    finished_floor_height INTEGER,
+    finished_floor_height FLOAT,
     containers ENTIRE_ELEVATION_CONTAINER[],
     container_ids_to_delete INTEGER[],
     details ENTIRE_CONTAINER_DETAIL[],
-    detail_ids_to_delete INTEGER[]
+    detail_ids_to_delete INTEGER[],
+    sightline FLOAT
 );
 
 CREATE TYPE

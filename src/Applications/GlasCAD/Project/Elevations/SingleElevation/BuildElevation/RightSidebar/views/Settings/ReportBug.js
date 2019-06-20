@@ -28,7 +28,7 @@ function ReportBug({
                             Thank you for your report.
                         </button>
                         <button
-                            className="sidebar-button action"
+                            className="sidebar-button danger"
                             onClick={() => setComplete(false)}
                         >
                             Submit another
@@ -37,7 +37,7 @@ function ReportBug({
                 ) : (
                         <BugReport
                             state={states.map(({ recursiveElevation, ...state }) => state)}
-                            buttonClassName="sidebar-button action"
+                            buttonClassName="sidebar-button danger"
                             onComplete={() => setComplete(true)}
                         />
                     )}
