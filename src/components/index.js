@@ -12,6 +12,7 @@ import DoubleArrow from './ui/DoubleArrow/DoubleArrow';
 import ListWrapper from './ui/ListWrapper/ListWrapper';
 import Toggle from './ui/Toggle/Toggle';
 import Input from './ui/Input/Input';
+import Ellipsis from './ui/Ellipsis/Ellipsis';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
@@ -51,6 +52,7 @@ export {
     ListWrapper,
     Toggle,
     Input,
+    Ellipsis,
     // STATE
     asyncComponent,
     ApolloWrapper,

@@ -7,6 +7,7 @@ import {
     Input,
     TitleBar,
     withContext,
+    Ellipsis,
 } from '../../components';
 
 import { AuthenticationContext } from './Authentication';
@@ -54,7 +55,11 @@ function Login({
                 {authenticating ? (
                     <>
                         <TitleBar
-                            title="Authenticating..."
+                            title={(
+                                <Ellipsis
+                                    text="Authenticating"
+                                />
+                            )}
                         />
                         <button
                             className="empty"

@@ -3,6 +3,7 @@ import React from 'react';
 import {
     ApolloWrapper,
     Navigator,
+    Ellipsis,
 } from '../../../components';
 
 import query from './project-graphql/query';
@@ -47,7 +48,7 @@ Project.navigationOptions = ({
                         name = '',
                     } = {},
                 } = {},
-            }) => name || '...'}
+            }) => name || <Ellipsis />}
         </ApolloWrapper>
     ),
     shouldRender: !!parseSearch(search).projectId,
