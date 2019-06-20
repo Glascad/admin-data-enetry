@@ -211,6 +211,7 @@ export default class CreateElevation extends PureComponent {
                                     />
                                     <Input
                                         label="System set"
+                                        disabled={true}
                                         select={{
                                             value: {
                                                 label: systemName,
@@ -316,6 +317,7 @@ export default class CreateElevation extends PureComponent {
                                                     >
                                                         <Input
                                                             label="Measure from"
+                                                            disabled={true}
                                                             select={{
                                                                 value: {
                                                                     value: from,
@@ -333,6 +335,7 @@ export default class CreateElevation extends PureComponent {
                                                         />
                                                         <Input
                                                             label="Measure to"
+                                                            disabled={true}
                                                             select={{
                                                                 value: {
                                                                     value: to,

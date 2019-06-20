@@ -13,6 +13,8 @@
     }
 
     .ElevationPreview {
+        min-width: $pill-width;
+
         svg {
             height: $pill-width;
             border-top: 2px solid $dark-gray;
