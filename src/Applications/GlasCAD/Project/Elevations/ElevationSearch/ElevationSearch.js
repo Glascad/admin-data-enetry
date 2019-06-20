@@ -57,7 +57,7 @@ export default function ElevationSearch({
                                                 to={`${path}/elevation/build-elevation${parseSearch(search)
                                                     .update({ elevationId: id })}`}
                                             >
-                                                Edit
+                                                Load
                                             </Link>
                                         ),
                                     },

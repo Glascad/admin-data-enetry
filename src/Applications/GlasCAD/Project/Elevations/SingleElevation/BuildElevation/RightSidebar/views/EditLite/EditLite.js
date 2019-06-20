@@ -111,10 +111,13 @@ class EditLite extends PureComponent {
                 <div className="sidebar-group">
                     {allContainers.every(({ canAddVertical }) => canAddVertical) ? (
                         <button
-                            className="sidebar-button action"
+                            className="sidebar-button empty"
                             onClick={() => addIntermediates({ vertical: true })}
                         >
-                            Add Vertical{length > 1 ? 's' : ''}
+                            <Icons.AddVertical />
+                            <span>
+                                Add Vertical{length > 1 ? 's' : ''}
+                            </span>
                         </button>
                         // <SidebarLink
                         //     toggleStackedView={toggleStackedView}
@@ -124,10 +127,13 @@ class EditLite extends PureComponent {
                     ) : null}
                     {allContainers.every(({ canAddHorizontal }) => canAddHorizontal) ? (
                         <button
-                            className="sidebar-button action"
+                            className="sidebar-button empty"
                             onClick={() => addIntermediates({ vertical: false })}
                         >
-                            Add Horizontal{length > 1 ? 's' : ''}
+                            <Icons.AddHorizontal />
+                            <span>
+                                Add Horizontal{length > 1 ? 's' : ''}
+                            </span>
                         </button>
                         // <SidebarLink
                         //     toggleStackedView={toggleStackedView}
