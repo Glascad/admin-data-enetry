@@ -3,7 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-    ListWrapper, ApolloWrapper,
+    ListWrapper,
+    ApolloWrapper,
+    Ellipsis,
 } from '../../../../../components';
 
 import { parseSearch } from '../../../../../utils';
@@ -39,7 +41,7 @@ export default function ElevationSearch({
                             identifier="id"
                             titleBar={{
                                 title: "Elevations",
-                                selections: [name]
+                                selections: [name || <Ellipsis />]
                             }}
                             items={_elevations}
                             defaultPillProps={{
