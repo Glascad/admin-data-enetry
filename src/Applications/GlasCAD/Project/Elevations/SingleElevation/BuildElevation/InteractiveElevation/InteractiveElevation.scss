@@ -89,13 +89,15 @@
     .Detail,
     .DimensionButton,
     .SelectedItem,
-    #elevation-display,
+    // #elevation-display,
     .text,
     .text > * {
         transition: all 0.1s ease;
     }
 
     #elevation-display {
+        // transition-duration: 0.05s;
+
         &.container-selected {
             .frame-wrapper {
                 pointer-events: none;
