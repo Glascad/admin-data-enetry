@@ -1,6 +1,29 @@
 import React, { PureComponent } from 'react';
 import { transformProps } from '../../../../../../../../components';
-import { pixelsPerInch } from '../../contexts/TransformContext';
+import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
+
+const ContainerId = withTransformContext(({ refId, transform: { scale: { x, y } } }) => (
+    <div className="text">
+        <div
+            style={{
+                transform: `scale(${1 / x}, ${1 / y})`,
+            }}
+        >
+            {
+                refId
+                    .replace(/\D*/, '*')
+                    .replace(/</, '*')
+                    .replace(/>/, '*')
+                    .split('*')
+                    .filter(Boolean)
+                    .map((text, i) => (
+                        <span key={i}>{text}</span>
+                    ))
+                // .replace(/<.*/, '')
+            }
+        </div>
+    </div>
+));
 
 class Container extends PureComponent {
 
@@ -45,20 +68,9 @@ class Container extends PureComponent {
                 onClick={handleClick}
                 tabIndex={tabIndex}
             >
-                <div className="text">
-                    {
-                        refId
-                            .replace(/\D*/, '*')
-                            .replace(/</, '*')
-                            .replace(/>/, '*')
-                            .split('*')
-                            .filter(Boolean)
-                            .map((text, i) => (
-                                <span key={i}>{text}</span>
-                            ))
-                        // .replace(/<.*/, '')
-                    }
-                </div>
+                <ContainerId
+                    refId={refId}
+                />
             </div>
         );
     }

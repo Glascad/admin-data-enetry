@@ -5,7 +5,7 @@ import { withContext, Input } from '../../../../../../../../components';
 import { unique, ImperialValue } from '../../../../../../../../utils';
 import { MOVE_FRAME } from '../../ducks/actions';
 import { withActionContext } from '../../contexts/ActionContext';
-import { pixelsPerInch } from '../../contexts/TransformContext';
+import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
 
 class DimensionButton extends PureComponent {
 
@@ -140,11 +140,20 @@ class DimensionButton extends PureComponent {
     get style() {
 
         const {
+            state: {
+                editing,
+            },
             props: {
                 track,
                 dimension: {
                     vertical,
                     registerReactComponent,
+                },
+                transform: {
+                    scale: {
+                        x: scaleX,
+                        y: scaleY,
+                    },
                 },
                 finishedFloorHeight,
                 scaledDimension: dimension,
@@ -158,7 +167,7 @@ class DimensionButton extends PureComponent {
         } = this;
 
         // size = 24, space = 12
-        const trackOffset = -36 * (track + 1) - 50;
+        const trackOffset = -36 / scaleY * (track + 1) - 50;
 
         registerReactComponent(this);
 
@@ -168,10 +177,22 @@ class DimensionButton extends PureComponent {
             [`min${dimensionKey}`]: dimension,
             [offsetKey]: offset,
             [trackOffsetKey]: trackOffset,
-            transform: vertical ?
-                undefined
-                :
-                `translateY(${finishedFloorHeight}px)`,
+            transform: `${
+                editing ?
+                    ''
+                    :
+                    vertical ?
+                        `scaleX(${1 / scaleX})`
+                        :
+                        `scaleY(${1 / scaleY})`
+                } ${
+                vertical ?
+                    ''
+                    :
+                    `translateY(${
+                    finishedFloorHeight
+                    }px)`
+                }`,
         };
     }
 
@@ -184,6 +205,12 @@ class DimensionButton extends PureComponent {
                 },
             },
             props: {
+                transform: {
+                    scale: {
+                        x: scaleX,
+                        y: scaleY,
+                    },
+                },
                 dimension: {
                     refId,
                     vertical,
@@ -200,6 +227,7 @@ class DimensionButton extends PureComponent {
         } = this;
 
         // console.log({ stringValue });
+        console.log({ style });
 
         return (
             <button
@@ -238,18 +266,28 @@ class DimensionButton extends PureComponent {
                                         key.match(/bottom/) ?
                                             key.replace(/bottom/, 'left')
                                             :
-                                            key.replace(/left/, 'bottom')]: value,
+                                            key.match(/left/) ?
+                                                key.replace(/left/, 'bottom')
+                                                :
+                                                key]: value,
                                 }), {})
                             :
-                            {
-                                ...style,
-                                transform: 'none',
-                            }
+                            style
+                            // {
+                            //     ...style,
+                            //     transform: 'none',
+                            // }
                         }
                     />
                 ) : (
                         <div>
-                            {stringValue}
+                            <div
+                                style={{
+                                    transform: `scaleX(${1 / scaleX})`,
+                                }}
+                            >
+                                {stringValue}
+                            </div>
                         </div>
                     )}
             </button>
@@ -283,4 +321,12 @@ const mapSelectionProps = ({
     scaledOffset: pixelsPerInch * unscaledOffset,
 });
 
-export default withContext(SelectionContext, mapSelectionProps, { pure: true })(withActionContext(DimensionButton));
+export default withContext(
+    SelectionContext,
+    mapSelectionProps,
+    { pure: true },
+)(
+    withTransformContext(
+        withActionContext(DimensionButton)
+    )
+);
