@@ -50,7 +50,7 @@ class EditFrame extends PureComponent {
                             className="sidebar-button action"
                             onClick={() => extendFrames(true)}
                         >
-                            Extend Frame {vertical ? `Down` : `Left`}
+                            Extend {vertical ? 'Down' : 'Left'}
                         </button>
                     ) : null}
                     {allFrames.every(({ canExtendLast }) => canExtendLast) ? (
@@ -58,7 +58,7 @@ class EditFrame extends PureComponent {
                             className="sidebar-button action"
                             onClick={() => extendFrames(false)}
                         >
-                            Extend Frame {vertical ? `Up` : `Right`}
+                            Extend {vertical ? 'Up' : 'Right'}
                         </button>
                     ) : null}
                 </div>
@@ -67,7 +67,7 @@ class EditFrame extends PureComponent {
                         className="sidebar-button danger"
                         onClick={deleteFrames}
                     >
-                        Delete Horizontal
+                        Delete {vertical ? 'Vertical' : 'Horizontal'}
                     </button>
                 ) : null}
             </>

@@ -44,6 +44,7 @@ export default function ElevationPreview({
                 {/* CONTAINERS */}
                 {allContainers.map(({ placement: { x, y, height, width }, refId }) => (
                     <rect
+                        key={refId}
                         id={refId}
                         className="container"
                         x={x}
@@ -55,6 +56,7 @@ export default function ElevationPreview({
                 {/* FRAMES */}
                 {allFrames.map(({ placement: { x, y, height, width }, refId }) => (
                     <rect
+                        key={refId}
                         id={refId}
                         className="frame"
                         x={x}

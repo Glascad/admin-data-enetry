@@ -5,6 +5,8 @@ export const TransformContext = createContext();
 
 export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
 
+export const pixelsPerInch = 4;
+
 const defaultScale = 1;
 
 export default class TransformProvider extends PureComponent {
@@ -185,6 +187,7 @@ export default class TransformProvider extends PureComponent {
     render = () => {
         const {
             state: {
+                pixelsPerInch,
                 scale,
                 translate,
                 spaceKey,
@@ -207,6 +210,7 @@ export default class TransformProvider extends PureComponent {
         return (
             <TransformContext.Provider
                 value={{
+                    pixelsPerInch,
                     scale,
                     translate,
                     updateScale,

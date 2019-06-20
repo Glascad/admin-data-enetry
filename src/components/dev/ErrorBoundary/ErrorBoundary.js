@@ -1,10 +1,16 @@
 import { PureComponent } from 'react';
 
 export default class ErrorBoundary extends PureComponent {
+    static getDerivedStateFromError(error, info) {
+        console.error({ error, info });
+        return {
+            error,
+            info,
+        };
+    }
     state = {};
     componentDidCatch = (error, info) => {
         console.error({ error, info });
-        this.setState({ error, info });
     }
     render = () => {
         const {

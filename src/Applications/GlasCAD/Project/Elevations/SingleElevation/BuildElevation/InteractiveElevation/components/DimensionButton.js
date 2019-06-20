@@ -5,6 +5,7 @@ import { withContext, Input } from '../../../../../../../../components';
 import { unique, ImperialValue } from '../../../../../../../../utils';
 import { MOVE_FRAME } from '../../ducks/actions';
 import { withActionContext } from '../../contexts/ActionContext';
+import { pixelsPerInch } from '../../contexts/TransformContext';
 
 class DimensionButton extends PureComponent {
 
@@ -143,11 +144,11 @@ class DimensionButton extends PureComponent {
                 track,
                 dimension: {
                     vertical,
-                    dimension,
-                    offset,
                     registerReactComponent,
                 },
                 finishedFloorHeight,
+                scaledDimension: dimension,
+                scaledOffset: offset,
             },
             styleKeys: {
                 dimension: dimensionKey,
@@ -260,6 +261,8 @@ const mapSelectionProps = ({
     dimension,
     dimension: {
         containers,
+        dimension: unscaledDimension,
+        offset: unscaledOffset,
     },
     context: {
         items,
@@ -276,6 +279,8 @@ const mapSelectionProps = ({
     editing: selectedDimension === dimension,
     selectDimension,
     selectedDimension,
+    scaledDimension: pixelsPerInch * unscaledDimension,
+    scaledOffset: pixelsPerInch * unscaledOffset,
 });
 
 export default withContext(SelectionContext, mapSelectionProps, { pure: true })(withActionContext(DimensionButton));

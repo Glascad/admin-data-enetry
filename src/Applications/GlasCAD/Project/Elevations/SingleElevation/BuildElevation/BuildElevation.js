@@ -31,6 +31,7 @@ class BuildElevation extends PureComponent {
             },
         ],
         currentIndex: 0,
+        errors: [],
     };
 
     componentDidMount = () => {
@@ -281,12 +282,19 @@ class BuildElevation extends PureComponent {
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
                         />
-                        {/* <ErrorBoundary> */}
-                        <InteractiveElevation
-                            elevation={recursiveElevation}
-                            updateElevation={updateElevation}
-                        />
-                        {/* </ErrorBoundary> */}
+                        <ErrorBoundary
+                            renderError={(error, info) => (
+                                <div>
+                                    <div>Error: {error}</div>
+                                    <div>Info: {info}</div>
+                                </div>
+                            )}
+                        >
+                            <InteractiveElevation
+                                elevation={recursiveElevation}
+                                updateElevation={updateElevation}
+                            />
+                        </ErrorBoundary>
                     </TransformProvider>
                 </ActionProvider>
             </SelectionProvider>

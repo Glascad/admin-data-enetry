@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
+import { pixelsPerInch } from '../../contexts/TransformContext';
+import { transformProps } from '../../../../../../../../components';
 
-export default class Frame extends PureComponent {
+class Frame extends PureComponent {
 
     handleClick = () => this.props.selectItem(this.props._frame);
 
@@ -11,12 +13,12 @@ export default class Frame extends PureComponent {
                     refId,
                     vertical,
                     registerReactComponent,
-                    placement: {
-                        x,
-                        y,
-                        height,
-                        width,
-                    } = {},
+                },
+                scaledPlacement: {
+                    x,
+                    y,
+                    height,
+                    width,
                 },
                 selectable,
             },
@@ -59,3 +61,21 @@ export default class Frame extends PureComponent {
         );
     }
 }
+
+export default transformProps(({
+    _frame: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}))(Frame);

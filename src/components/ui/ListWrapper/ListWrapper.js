@@ -188,7 +188,7 @@ class List extends PureComponent {
                             onEdit={onCreate}
                             onBlur={cancel}
                         />
-                    ) : (onCreate || onFinish || multiSelect || circleButton) && !creating ? (
+                    ) : !creating && (onCreate || onFinish || multiSelect || circleButton) ? (
                         <CircleButton
                             {...circleButton}
                             actionType="add"

@@ -78,12 +78,8 @@ export default class ImperialValue {
     toString = () => `${
         this.feet
         }'${
-        this.inches
-            ?
-            `-${
-            numberToString(this.inches)
-            }"`
-            :
-            ''
+        `-${
+        numberToString(this.inches)
+        }"`
         }`.trim().replace(/ /g, '-').replace(/-+/g, '-');
 }

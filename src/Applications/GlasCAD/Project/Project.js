@@ -1,7 +1,5 @@
 import React from 'react';
 
-import gql from 'graphql-tag';
-
 import {
     ApolloWrapper,
     Navigator,
@@ -10,7 +8,7 @@ import {
 import query from './project-graphql/query';
 
 // import ProjectDetails from './ProjectDetails/ProjectDetails';
-import ProjectSets from './ProjectSets/ProjectSets';
+// import ProjectSets from './ProjectSets/ProjectSets';
 // import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
 // import Details from './Details/Details';
@@ -37,15 +35,7 @@ Project.navigationOptions = ({
     name: (
         <ApolloWrapper
             query={{
-                query: gql`
-                    query Project($id:Int!){
-                        projectById(id:$id){
-                            __typename
-                            nodeId
-                            name
-                        }
-                    }
-                `,
+                query,
                 variables: {
                     id: +parseSearch(search).projectId,
                 },

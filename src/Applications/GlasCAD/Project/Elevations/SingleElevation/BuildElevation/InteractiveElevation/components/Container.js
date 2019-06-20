@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+import { transformProps } from '../../../../../../../../components';
+import { pixelsPerInch } from '../../contexts/TransformContext';
 
-
-export default class Container extends PureComponent {
+class Container extends PureComponent {
 
     handleClick = () => this.props.selectItem(this.props.container);
 
@@ -12,12 +13,12 @@ export default class Container extends PureComponent {
                     refId,
                     customRoughOpening,
                     registerReactComponent,
-                    placement: {
-                        x,
-                        y,
-                        height,
-                        width,
-                    },
+                },
+                scaledPlacement: {
+                    x,
+                    y,
+                    height,
+                    width,
                 },
                 tabIndex,
             },
@@ -62,3 +63,21 @@ export default class Container extends PureComponent {
         );
     }
 }
+
+export default transformProps(({
+    container: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}))(Container);

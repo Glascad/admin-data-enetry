@@ -11,6 +11,7 @@ import { parseSearch } from '../../../../../utils';
 import deleteElevation from './delete-elevation';
 
 export default function ElevationSearch({
+    history,
     location: {
         search,
     },
@@ -62,21 +63,23 @@ export default function ElevationSearch({
                             })}
                             circleButton={{
                                 type: "tile",
-                                otherButtons: [
-                                    {
-                                        children: (
-                                            <Link
-                                                to={`${path}/elevation/create-elevation${parseSearch(search)
-                                                    .remove("elevationId")}`}
-                                            >
-                                                Create
-                                            </Link>
-                                        ),
-                                    },
-                                    {
-                                        text: "Copy",
-                                    },
-                                ],
+                                onClick: () => history.push(`${path}/elevation/create-elevation${parseSearch(search)
+                                    .remove("elevationId")}`),
+                                // otherButtons: [
+                                //     {
+                                //         children: (
+                                //             <Link
+                                //                 to={`${path}/elevation/create-elevation${parseSearch(search)
+                                //                     .remove("elevationId")}`}
+                                //             >
+                                //                 Create
+                                //             </Link>
+                                //         ),
+                                //     },
+                                // {
+                                //     text: "Copy",
+                                // },
+                                // ],
                             }}
                             onDelete={({ arguments: { id } }) => deleteElevation({ elevationId: id })}
                             deleteModal={{

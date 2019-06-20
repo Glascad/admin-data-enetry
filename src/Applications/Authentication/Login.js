@@ -52,9 +52,17 @@ function Login({
             />
             <div className="floating card">
                 {authenticating ? (
-                    <TitleBar
-                        title="Authenticating..."
-                    />
+                    <>
+                        <TitleBar
+                            title="Authenticating..."
+                        />
+                        <button
+                            className="empty"
+                            onClick={logout}
+                        >
+                            Cancel
+                        </button>
+                    </>
                 ) : (
                         <>
                             <TitleBar

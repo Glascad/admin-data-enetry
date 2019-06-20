@@ -213,12 +213,12 @@ export default class CreateElevation extends PureComponent {
                                             initialValue={verticalRoughOpening}
                                             onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
                                         />
-                                        <Input
+                                        {/* <Input
                                             label="Masonry Opening"
                                             type="switch"
                                             readOnly={true}
                                             checked={verticalMasonryOpening}
-                                        />
+                                        /> */}
                                     </div>
                                     <div className="input-group">
                                         <Input
@@ -228,12 +228,12 @@ export default class CreateElevation extends PureComponent {
                                             initialValue={horizontalRoughOpening}
                                             onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
                                         />
-                                        <Input
+                                        {/* <Input
                                             label="Masonry Opening"
                                             type="switch"
                                             readOnly={true}
                                             checked={horizontalMasonryOpening}
-                                        />
+                                        /> */}
                                     </div>
                                 </GroupingBox>
                                 <Input
@@ -268,7 +268,10 @@ export default class CreateElevation extends PureComponent {
                                             from,
                                             to,
                                         }, i) => (
-                                                <div className="input-group">
+                                                <div
+                                                    className="input-group"
+                                                    key={i}
+                                                >
                                                     <Input
                                                         label="Measure From"
                                                         select={{

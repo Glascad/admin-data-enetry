@@ -183,13 +183,30 @@
 
         #FinishedFloor {
             position: absolute;
-            background: $dark-gray;
+            // background: $dark-gray;
             left: -200vw;
             right: -200vw;
-            height: $xx-small;
+            // height: $xx-small;
+            border-bottom: $xx-small solid $dark-gray;
             width: 600vw;
-            transform: translateY($xx-small);
+            // transform: translateY($xx-small) !important;
             z-index: 1;
+        }
+
+        .corner {
+            position: absolute;
+            z-index: 999;
+            height: $xx-small;
+            width: $xx-small;
+            // border: $large solid orange;
+            // border-radius: 100%;
+            background: red;
+            // transform: translate(-50%, -50%);
+            // top: 50% !important;
+            // left: 50% !important;
+            // + .corner {
+            //     display: none;
+            // }
         }
     }
 

@@ -20,6 +20,7 @@ import ApolloWrapper from './state/ApolloWrapper';
 import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
 import withContext from './state/with-context';
+import transformProps from './state/transform-props';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -58,6 +59,7 @@ export {
     SelectionWrapper,
     StateManager,
     withContext,
+    transformProps,
     // NAVIGATION
     Navigator,
     TabNavigator,
