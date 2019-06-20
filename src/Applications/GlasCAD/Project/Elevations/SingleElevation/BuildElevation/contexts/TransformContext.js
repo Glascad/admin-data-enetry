@@ -9,6 +9,8 @@ export const pixelsPerInch = 4;
 
 const defaultScale = 1;
 
+const minScale = 0.1;
+
 export default class TransformProvider extends PureComponent {
 
     state = {
@@ -63,8 +65,8 @@ export default class TransformProvider extends PureComponent {
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,
-                        x: + x + nudgeAmount,
-                        y: + y + nudgeAmount,
+                        x: Math.max(+x + nudgeAmount, minScale) || minScale,
+                        y: Math.max(+y + nudgeAmount, minScale) || minScale,
                     },
                 }))
 
@@ -73,8 +75,8 @@ export default class TransformProvider extends PureComponent {
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,
-                        x: +x - nudgeAmount,
-                        y: +y - nudgeAmount,
+                        x: Math.max(+x - nudgeAmount, minScale) || minScale,
+                        y: Math.max(+y - nudgeAmount, minScale) || minScale,
                     },
                 }))
             }
@@ -122,7 +124,7 @@ export default class TransformProvider extends PureComponent {
     }
 
     pan = e => {
-        
+
         console.log("panning");
 
         e.preventDefault();
@@ -144,18 +146,18 @@ export default class TransformProvider extends PureComponent {
         });
     }
 
-    updateScale = ({ target: { value = 0 } }) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+    updateScale = ({ target: { value = minScale } }) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
         scale: {
             nudgeAmount,
-            x: +value || 0,
-            y: +value || 0,
+            x: Math.max(+value, minScale) || minScale,
+            y: Math.max(+value, minScale) || minScale,
         },
     }));
 
-    updateScaleNudge = ({ target: { value = 0 } }) => this.setState(({ scale }) => ({
+    updateScaleNudge = ({ target: { value = minScale } }) => this.setState(({ scale }) => ({
         scale: {
             ...scale,
-            nudgeAmount: +value || 0,
+            nudgeAmount: Math.max(+value, minScale) || minScale,
         },
     }))
 
@@ -206,6 +208,8 @@ export default class TransformProvider extends PureComponent {
             watchMouseDown,
             watchMouseUp,
         } = this;
+
+        console.log(this.state);
 
         return (
             <TransformContext.Provider

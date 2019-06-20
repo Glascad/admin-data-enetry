@@ -119,8 +119,6 @@ class DimensionButton extends PureComponent {
             },
         } = this;
 
-        console.log({ newDimension });
-
         updateDimension({ newDimension });
     }
 
@@ -226,9 +224,6 @@ class DimensionButton extends PureComponent {
             style,
         } = this;
 
-        // console.log({ stringValue });
-        console.log({ style });
-
         return (
             <button
                 id={refId}
@@ -273,10 +268,6 @@ class DimensionButton extends PureComponent {
                                 }), {})
                             :
                             style
-                            // {
-                            //     ...style,
-                            //     transform: 'none',
-                            // }
                         }
                     />
                 ) : (
