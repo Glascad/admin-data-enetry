@@ -35,6 +35,7 @@ class EditLite extends PureComponent {
                 ACTIONS: {
                     deleteContainers,
                     mergeContainers,
+                    addIntermediates,
                 },
                 elevation,
                 updateElevation,
@@ -109,18 +110,30 @@ class EditLite extends PureComponent {
                     )}
                 <div className="sidebar-group">
                     {allContainers.every(({ canAddVertical }) => canAddVertical) ? (
-                        <SidebarLink
-                            toggleStackedView={toggleStackedView}
-                            View={AddVertical}
-                            Icon={Icons.AddVertical}
-                        />
+                        <button
+                            className="sidebar-button action"
+                            onClick={() => addIntermediates({ vertical: true })}
+                        >
+                            Add Vertical{length > 1 ? 's' : ''}
+                        </button>
+                        // <SidebarLink
+                        //     toggleStackedView={toggleStackedView}
+                        //     View={AddVertical}
+                        //     Icon={Icons.AddVertical}
+                        // />
                     ) : null}
                     {allContainers.every(({ canAddHorizontal }) => canAddHorizontal) ? (
-                        <SidebarLink
-                            toggleStackedView={toggleStackedView}
-                            View={AddHorizontal}
-                            Icon={Icons.AddHorizontal}
-                        />
+                        <button
+                            className="sidebar-button action"
+                            onClick={() => addIntermediates({ vertical: false })}
+                        >
+                            Add Horizontal{length > 1 ? 's' : ''}
+                        </button>
+                        // <SidebarLink
+                        //     toggleStackedView={toggleStackedView}
+                        //     View={AddHorizontal}
+                        //     Icon={Icons.AddHorizontal}
+                        // />
                     ) : null}
                 </div>
                 {allContainers.every(({ canDelete }) => canDelete) ? (
