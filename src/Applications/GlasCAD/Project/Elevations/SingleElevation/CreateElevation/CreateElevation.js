@@ -105,8 +105,6 @@ export default class CreateElevation extends PureComponent {
             ...createdElevation,
         };
 
-        // console.log({ elevation });
-
         const {
             data: {
                 updateEntireElevation: {
@@ -257,9 +255,27 @@ export default class CreateElevation extends PureComponent {
                                     circleButton={{
                                         actionType: "add",
                                         className: "action",
-                                        onClick: () => updateElevation({
-                                            horizontals: horizontals.concat(horizontals[horizontals.length - 1] || defaultHorizontal),
-                                        }),
+                                        onClick: () => {
+                                            const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
+
+                                            const {
+                                                distance: {
+                                                    value,
+                                                },
+                                            } = lastHorizontal;
+
+                                            var { originalContainer: topContainer } = elevation;
+
+                                            while (topContainer.topContainers.length) {
+                                                topContainer = topContainer.topContainers[0];
+                                            }
+
+                                            if (topContainer.daylightOpening.y > value + elevation.sightline) {
+                                                updateElevation({
+                                                    horizontals: horizontals.concat(lastHorizontal),
+                                                });
+                                            }
+                                        },
                                     }}
                                 >
                                     {horizontals.length ?
@@ -269,6 +285,7 @@ export default class CreateElevation extends PureComponent {
                                             to,
                                         }, i) => (
                                                 <div
+                                                    id="add-horizontals"
                                                     className="input-group"
                                                     key={i}
                                                 >
@@ -354,7 +371,7 @@ export default class CreateElevation extends PureComponent {
                                         className="action"
                                         onClick={save}
                                     >
-                                        Build
+                                        Create
                                     </button>
                                 </div>
                             </>

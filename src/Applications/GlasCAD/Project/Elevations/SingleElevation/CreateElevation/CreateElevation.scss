@@ -2,6 +2,16 @@
 @import '../../../../../../styles/variables';
 
 .CreateElevation {
+
+    #add-horizontals {
+        .CircleButton {
+            .circle-button {
+                height: $xxx-large;
+                width: $xxx-large;
+            }
+        }
+    }
+
     .ElevationPreview {
         svg {
             height: $pill-width;
