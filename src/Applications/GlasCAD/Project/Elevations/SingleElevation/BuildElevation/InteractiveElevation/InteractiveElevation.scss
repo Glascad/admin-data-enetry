@@ -89,7 +89,9 @@
     .Detail,
     .DimensionButton,
     .SelectedItem,
-    #elevation-display {
+    #elevation-display,
+    .text,
+    .text > * {
         transition: all 0.1s ease;
     }
 

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { pixelsPerInch } from '../../contexts/TransformContext';
+import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
 import { transformProps } from '../../../../../../../../components';
 
 class Frame extends PureComponent {
@@ -20,12 +20,19 @@ class Frame extends PureComponent {
                     height,
                     width,
                 },
+                transform: {
+                    scale: {
+                        x: scaleX,
+                    },
+                },
                 selectable,
             },
             handleClick,
         } = this;
 
         registerReactComponent(this);
+
+        const padding = 10 / scaleX;
 
         return (
             <div
@@ -38,10 +45,11 @@ class Frame extends PureComponent {
                     }`}
                 style={selectable ?
                     {
-                        left: x - 10,
-                        bottom: y - 10,
-                        height: height + 20,
-                        width: width + 20,
+                        left: x - padding,
+                        bottom: y - padding,
+                        height: height + (2 * padding),
+                        width: width + (2 * padding),
+                        // background: `rgba(0, 0, 128, 0.2)`,
                     } : {
                         left: x,
                         bottom: y,
@@ -78,4 +86,4 @@ export default transformProps(({
         height: pixelsPerInch * height,
         width: pixelsPerInch * width,
     },
-}))(Frame);
+}))(withTransformContext(Frame));
