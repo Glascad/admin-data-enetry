@@ -203,14 +203,14 @@ export default class CreateElevation extends PureComponent {
                         }) => (
                                 <>
                                     <Input
-                                        label="Elevation Id"
+                                        label="Elevation ID"
                                         value={name}
                                         onChange={({ target: { value } }) => updateElevation({
                                             name: value,
                                         })}
                                     />
                                     <Input
-                                        label="System Set"
+                                        label="System set"
                                         select={{
                                             value: {
                                                 label: systemName,
@@ -226,7 +226,7 @@ export default class CreateElevation extends PureComponent {
                                         }}
                                     />
                                     <GroupingBox
-                                        title="Rough Opening"
+                                        title="Rough opening"
                                     >
                                         <div className="input-group">
                                             <Input
@@ -260,7 +260,7 @@ export default class CreateElevation extends PureComponent {
                                         </div>
                                     </GroupingBox>
                                     <Input
-                                        label="Starting Bay Quantity"
+                                        label="Starting bay quantity"
                                         type="number"
                                         min={1}
                                         value={startingBayQuantity}
@@ -269,7 +269,7 @@ export default class CreateElevation extends PureComponent {
                                         })}
                                     />
                                     <Input
-                                        label="Height Above Finished Floor"
+                                        label="Height above finished floor"
                                         type="inches"
                                         min={0}
                                         initialValue={finishedFloorHeight}
@@ -315,7 +315,7 @@ export default class CreateElevation extends PureComponent {
                                                         key={i}
                                                     >
                                                         <Input
-                                                            label="Measure From"
+                                                            label="Measure from"
                                                             select={{
                                                                 value: {
                                                                     value: from,
@@ -332,7 +332,7 @@ export default class CreateElevation extends PureComponent {
                                                             }}
                                                         />
                                                         <Input
-                                                            label="Measure To"
+                                                            label="Measure to"
                                                             select={{
                                                                 value: {
                                                                     value: to,
