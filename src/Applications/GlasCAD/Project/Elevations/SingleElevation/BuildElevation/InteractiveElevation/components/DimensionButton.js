@@ -165,7 +165,7 @@ class DimensionButton extends PureComponent {
         } = this;
 
         // size = 24, space = 12
-        const trackOffset = -36 / scaleY * (track + 1) - 50;
+        const trackOffset = -36 / scaleY * (track + 1) - (vertical ? 200 : 150);
 
         registerReactComponent(this);
 
