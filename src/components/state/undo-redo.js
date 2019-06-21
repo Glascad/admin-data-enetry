@@ -33,13 +33,6 @@ export default function useUndoRedo(firstState) {
         [currentIndex]: currentState,
     } = states;
 
-    console.log({
-        wrappedState,
-        currentIndex,
-        states,
-        currentState,
-    });
-
     const cancel = () => dispatch(({ states: [initialState] }) => ({
         states: [initialState],
         currentIndex: 0,

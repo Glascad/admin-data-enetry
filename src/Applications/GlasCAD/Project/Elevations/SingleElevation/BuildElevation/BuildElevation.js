@@ -96,11 +96,6 @@ class BuildElevation extends PureComponent {
     //     updateState(state => ACTION(state, payload, updateAfterUpdate), cb);
     // }
 
-    // cancel = () => this.setState(({ states: [initialState] }) => ({
-    //     states: [initialState],
-    //     currentIndex: 0,
-    // }));
-
     save = async () => {
         const {
             props: {
