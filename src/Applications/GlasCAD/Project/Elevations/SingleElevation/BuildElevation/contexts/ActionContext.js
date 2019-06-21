@@ -102,25 +102,34 @@ class ActionProvider extends PureComponent {
 
     // MOVE ENTIRELY INTO ACTIONS FOLDER
     performBulkAction = (ACTION, refIds, getPayloadFromRefId, { _replaceState, useTimeout } = {}) => {
-        const {
-            props: {
-                updateElevation,
-            },
-        } = this;
-
+        console.log({
+            ACTION,
+            refIds,
+            getPayloadFromRefId,
+            _replaceState,
+            useTimeout,
+        });
         const performAction = ([refId, ...nextRefIds], prevRefIds = []) => {
+            console.log({
+                refId,
+                nextRefIds,
+                prevRefIds,
+            });
             if (refId) {
                 const {
                     props: {
                         elevation: {
                             getItemByRefId,
                         },
+                        updateElevation,
                     },
                 } = this;
 
                 const performNextAction = () => performAction(nextRefIds, prevRefIds.concat(refId));
 
                 const payload = getPayloadFromRefId(refId, prevRefIds, getItemByRefId);
+
+                console.log({ payload });
 
                 if (payload) updateElevation(
                     ACTION,

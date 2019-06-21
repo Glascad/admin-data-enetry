@@ -170,7 +170,7 @@ class InteractiveElevation extends PureComponent {
                             </div>
                         ))}
                     </div>
-                    <div
+                    {/* <div
                         id="bottom-left"
                         className="corner"
                         style={{
@@ -201,7 +201,7 @@ class InteractiveElevation extends PureComponent {
                             top: 0,
                             right: 0,
                         }}
-                    />
+                    /> */}
                     {/* HORIZONTAL DIMENSIONS */}
                     <div id="bottom-dimension-track">
                         {horizontalContainerDimensionTracks.map((track, i) => (

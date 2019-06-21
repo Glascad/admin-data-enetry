@@ -151,14 +151,14 @@
             .text {
                 // display: none;
                 position: absolute;
-                top: $small;
-                left: $small;
-
+                top: 0;
+                left: 0;
+                
                 > div {
                     width: 0;
                     height: 0;
+                    padding: $small;
                 }
-                // margin: $x-small;
 
                 span {
                     + span {

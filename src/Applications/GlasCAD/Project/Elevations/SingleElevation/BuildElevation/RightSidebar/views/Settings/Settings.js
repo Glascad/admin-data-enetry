@@ -27,7 +27,6 @@ function Settings({
         search,
     },
 }) {
-    console.log({ states });
     return (
         <>
             <TitleBar

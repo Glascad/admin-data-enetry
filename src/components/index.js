@@ -22,6 +22,7 @@ import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
 import withContext from './state/with-context';
 import transformProps from './state/transform-props';
+import useUndoRedo, { withUndoRedo } from './state/undo-redo';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -62,6 +63,8 @@ export {
     StateManager,
     withContext,
     transformProps,
+    useUndoRedo,
+    withUndoRedo,
     // NAVIGATION
     Navigator,
     TabNavigator,
