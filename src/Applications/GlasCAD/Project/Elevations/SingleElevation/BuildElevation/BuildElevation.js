@@ -26,12 +26,10 @@ class BuildElevation extends PureComponent {
 
     componentDidMount = () => {
         this.context.sidebar.toggle(false);
-        window.addEventListener('keydown', this.handleKeyDown);
     }
 
     componentWillUnmount = () => {
         this.context.sidebar.toggle(true);
-        window.removeEventListener('keydown', this.handleKeyDown);
     }
 
     componentDidUpdate = ({ queryStatus: oldQueryStatus }) => {
@@ -44,19 +42,6 @@ class BuildElevation extends PureComponent {
 
         if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, null, true);
     }
-
-    handleKeyDown = ({ key, shiftKey, ctrlKey, metaKey }) => (
-        typeof key === 'string'
-        &&
-        key.match(/z/i)
-        &&
-        (ctrlKey || metaKey)
-    ) && (
-            shiftKey ?
-                this.props.redo()
-                :
-                this.props.undo()
-        );
 
     // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
 

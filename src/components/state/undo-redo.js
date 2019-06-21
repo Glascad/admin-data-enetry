@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export default function useUndoRedo(firstState) {
     const initialState = {
@@ -15,14 +15,13 @@ export default function useUndoRedo(firstState) {
         if (afterSetState) afterSetState();
     }, [afterSetState || null]);
 
-    const dispatch = (setStateCallback, afterSetState) => {
+    const dispatch = useCallback((setStateCallback, afterSetState) => {
         setState(state => ({
-            n: console.log(state),
             ...state,
             ...setStateCallback(state),
         }));
         setAfterSetState({ afterSetState });
-    }
+    }, [setState, setAfterSetState]);
 
     const {
         currentIndex,
@@ -33,41 +32,61 @@ export default function useUndoRedo(firstState) {
         [currentIndex]: currentState,
     } = states;
 
-    const cancel = () => dispatch(({ states: [initialState] }) => ({
+    const cancel = useCallback(() => dispatch(({ states: [initialState] }) => ({
         states: [initialState],
         currentIndex: 0,
-    }));
+    })), [dispatch]);
 
-    const clearHistory = () => dispatch(({ states, currentIndex }) => ({
+    const clearHistory = useCallback(() => dispatch(({ states, currentIndex }) => ({
         states: [states[currentIndex]],
         currentIndex: 0,
-    }));
+    })), [dispatch]);
 
-    const undo = () => dispatch(({ currentIndex }) => ({
+    const undo = useCallback(() => dispatch(({ currentIndex }) => ({
         currentIndex: currentIndex > 0 ?
             currentIndex - 1
             :
             currentIndex,
-    }));
+    })), [dispatch]);
 
-    const redo = () => dispatch(({ states: { length }, currentIndex }) => ({
+    const redo = useCallback(() => dispatch(({ states: { length }, currentIndex }) => ({
         currentIndex: currentIndex < length - 1 ?
             currentIndex + 1
             :
             currentIndex,
-    }));
+    })), [dispatch]);
 
-    const pushState = (setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
+    const pushState = useCallback((setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
         states: states
             .slice(0, currentIndex + 1)
-            .concat(setStateCallback(states[currentIndex])),
+            .concat({
+                ...states[currentIndex],
+                ...setStateCallback(states[currentIndex]),
+            }),
         currentIndex: currentIndex + 1,
-    }), ...args);
+    }), ...args), [dispatch]);
 
-    const replaceState = (setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
+    const replaceState = useCallback((setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
         states: states.slice(0, currentIndex)
-            .concat(setStateCallback(states[currentIndex])),
-    }), ...args);
+            .concat({
+                ...states[currentIndex],
+                ...setStateCallback(states[currentIndex]),
+            }),
+    }), ...args), [dispatch]);
+
+    const onKeyDown = useCallback(e => {
+        const { key = '', ctrlKey, metaKey, shiftKey } = e;
+        if ((ctrlKey || metaKey) && key.match(/^z$/i)) {
+            e.preventDefault();
+            if (shiftKey) redo();
+            else undo();
+        }
+    }, [undo, redo]);
+
+    useEffect(() => {
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onkeydown);
+    }, [onkeydown]);
 
     return {
         currentState,
