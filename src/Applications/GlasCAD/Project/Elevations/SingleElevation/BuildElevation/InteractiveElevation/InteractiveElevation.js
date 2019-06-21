@@ -19,8 +19,6 @@ import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../utils/recursive-elevation/detail';
 
-
-
 class InteractiveElevation extends PureComponent {
 
     InteractiveElevation = createRef();
@@ -129,6 +127,7 @@ class InteractiveElevation extends PureComponent {
                         width: rox * pixelsPerInch,
                         transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
                     }}
+                    onMouseDown={e => e.stopPropagation()}
                 >
                     {/* ROUGH OPENING */}
                     {/* <div /> */}

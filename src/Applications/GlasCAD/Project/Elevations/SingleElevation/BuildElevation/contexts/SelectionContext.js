@@ -30,7 +30,7 @@ export default class SelectionProvider extends PureComponent {
         window.addEventListener('keydown', this.watchHotKeyDown);
         window.addEventListener('keyup', this.watchHotKeyUp);
         window.addEventListener('keydown', this.watchArrowKeyDown);
-        // document.body.addEventListener('mousedown', this.cancelSelection);
+        window.addEventListener('mousedown', this.cancelSelection);
     }
 
     componentWillUnmount = () => {

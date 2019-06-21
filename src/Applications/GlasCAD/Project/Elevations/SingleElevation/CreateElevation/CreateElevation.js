@@ -86,9 +86,9 @@ export default memo(({
         },
     }))
 
-    const elevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
+    const mergedElevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
 
-    const recursiveElevation = useMemo(() => new RecursiveElevation(elevation), [elevation]);
+    const recursiveElevation = useMemo(() => new RecursiveElevation(mergedElevation), [mergedElevation]);
 
     const { projectId } = parseSearch(search);
 
@@ -98,7 +98,7 @@ export default memo(({
             _elevationContainers,
             _containerDetails,
             ...createdElevation
-        } = elevation;
+        } = mergedElevation;
 
         const elevation = {
             projectId: +projectId,
@@ -142,7 +142,7 @@ export default memo(({
             }${
             parseSearch(search).update({ elevationId })
             }`);
-    }, [elevation]);
+    }, [mergedElevation]);
 
     return (
         <>

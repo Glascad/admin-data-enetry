@@ -58,6 +58,7 @@ export default function Header({
                                         cancelSelection
                                         :
                                         () => selectItem(VISIBILITY_SETTINGS)}
+                                    onMouseDown={e => e.stopPropagation()}
                                 />
                             )}
                     </SelectionContext.Consumer>

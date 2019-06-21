@@ -191,6 +191,55 @@ class DimensionButton extends PureComponent {
         };
     }
 
+    get inputStyle() {
+        const {
+            props: {
+                dimension: {
+                    vertical,
+                },
+                transform: {
+                    scale: {
+                        x: scaleX,
+                        y: scaleY,
+                    },
+                },
+            },
+            style,
+            style: {
+                transform,
+            },
+            styleKeys: {
+                dimension: dimensionKey,
+                offset: offsetKey,
+                trackOffset: trackOffsetKey,
+            },
+        } = this;
+
+        return {
+            ...(vertical ?
+                Object.entries(style)
+                    .reduce((reducedStyle, [key, value]) => ({
+                        ...reducedStyle,
+                        [key.match(/height/i) ?
+                            key.replace(/height/, 'width')
+                                .replace(/Height/, 'Width')
+                            :
+                            key.match(/bottom/) ?
+                                key.replace(/bottom/, 'left')
+                                :
+                                key.match(/left/) ?
+                                    key.replace(/left/, 'bottom')
+                                    :
+                                    '']: value,
+                    }), {})
+                :
+                style
+            ),
+            '': undefined,
+            transform: `${transform} ${vertical ? `scaleX(${scaleX})` : `scaleY(${1})`}`,
+        };
+    }
+
     render = () => {
         const {
             state: {
@@ -219,6 +268,7 @@ class DimensionButton extends PureComponent {
             handleKeyDown,
             handleBlur,
             style,
+            inputStyle,
         } = this;
 
         return (
@@ -247,25 +297,7 @@ class DimensionButton extends PureComponent {
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
                         autoFocus={true}
-                        style={vertical ?
-                            Object.entries(style)
-                                .reduce((reducedStyle, [key, value]) => ({
-                                    ...reducedStyle,
-                                    [key.match(/height/i) ?
-                                        key.replace(/height/, 'width')
-                                            .replace(/Height/, 'Width')
-                                        :
-                                        key.match(/bottom/) ?
-                                            key.replace(/bottom/, 'left')
-                                            :
-                                            key.match(/left/) ?
-                                                key.replace(/left/, 'bottom')
-                                                :
-                                                key]: value,
-                                }), {})
-                            :
-                            style
-                        }
+                        style={inputStyle}
                     />
                 ) : (
                         <div>
