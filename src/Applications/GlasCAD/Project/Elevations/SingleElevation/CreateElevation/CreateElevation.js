@@ -221,12 +221,13 @@ export default memo(({
                                             initialValue={verticalRoughOpening}
                                             onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
                                         />
-                                        {/* <Input
-                                                label="Masonry Opening"
-                                                type="switch"
-                                                readOnly={true}
-                                                checked={verticalMasonryOpening}
-                                            /> */}
+                                        <Input
+                                            label="Masonry Opening"
+                                            disabled={true}
+                                            type="switch"
+                                            readOnly={true}
+                                            checked={verticalMasonryOpening}
+                                        />
                                     </div>
                                     <div className="input-group">
                                         <Input
@@ -236,12 +237,13 @@ export default memo(({
                                             initialValue={horizontalRoughOpening}
                                             onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
                                         />
-                                        {/* <Input
-                                                label="Masonry Opening"
-                                                type="switch"
-                                                readOnly={true}
-                                                checked={horizontalMasonryOpening}
-                                            /> */}
+                                        <Input
+                                            label="Masonry Opening"
+                                            disabled={true}
+                                            type="switch"
+                                            readOnly={true}
+                                            checked={horizontalMasonryOpening}
+                                        />
                                     </div>
                                 </GroupingBox>
                                 <Input

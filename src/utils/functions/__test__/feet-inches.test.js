@@ -99,7 +99,7 @@ const testCases = [
         ],
     },
     {
-        string: `1'-3-1/2"`,
+        string: `1'-3 1/2"`,
         feet: 1,
         inches: 3.5,
         value: 15.5,
@@ -176,7 +176,7 @@ const testCases = [
         ],
     },
     {
-        string: `-1'-3-1/2"`,
+        string: `-1'-3 1/2"`,
         feet: -1,
         inches: -3.5,
         value: -15.5,

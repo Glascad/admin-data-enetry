@@ -347,7 +347,8 @@
         position: absolute;
         margin: 0;
         padding: 0;
-        background: transparentize(white, 0.125);
+        // background: transparentize(white, 0.125);
+        background: white;
         display: flex;
         justify-content: center;
         align-items: center;
