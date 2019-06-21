@@ -14,6 +14,10 @@ const minScale = 0.1;
 export default class TransformProvider extends PureComponent {
 
     state = {
+        baseTranslate: {
+            x: 0,
+            y: 0,
+        },
         baseScale: defaultScale,
         scale: {
             x: defaultScale,
@@ -91,7 +95,15 @@ export default class TransformProvider extends PureComponent {
 
                 console.log({ ratio, baseScale });
 
-                this.setState({ baseScale });
+                const baseTranslateX = -x * 0.2;
+
+                this.setState(({ baseTranslate }) => ({
+                    baseScale,
+                    baseTranslate: {
+                        ...baseTranslate,
+                        x: baseTranslateX,
+                    },
+                }));
             }
         }
     }
@@ -236,8 +248,9 @@ export default class TransformProvider extends PureComponent {
         const {
             state: {
                 pixelsPerInch,
-                scale,
                 baseScale,
+                scale,
+                baseTranslate,
                 translate,
                 spaceKey,
                 grabbing,
@@ -265,7 +278,11 @@ export default class TransformProvider extends PureComponent {
                         x: scale.x * baseScale,
                         y: scale.y * baseScale,
                     },
-                    translate,
+                    translate: {
+                        ...translate,
+                        x: translate.x + baseTranslate.x,
+                        y: translate.y + baseTranslate.y,
+                    },
                     updateScale,
                     updateScaleNudge,
                     resetScale,
