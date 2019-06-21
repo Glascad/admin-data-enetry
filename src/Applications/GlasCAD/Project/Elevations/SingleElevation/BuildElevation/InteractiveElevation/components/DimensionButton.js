@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react';
 import { SelectionContext } from '../../contexts/SelectionContext';
 import { withContext, Input } from '../../../../../../../../components';
 import { unique, ImperialValue } from '../../../../../../../../utils';
-import { MOVE_FRAME } from '../../ducks/actions';
 import { withActionContext } from '../../contexts/ActionContext';
 import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
 
@@ -77,8 +76,6 @@ class DimensionButton extends PureComponent {
             // console.log(`UPDATING DIMENSION: ${dimension}`);
 
             const newDimension = new ImperialValue(dimension);
-
-            console.log({ newDimension });
 
             this.setState({ newDimension });
         }
