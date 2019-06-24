@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
+import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
+import { transformProps } from '../../../../../../../../components';
 
-export default class Frame extends PureComponent {
+class Frame extends PureComponent {
 
     handleClick = () => this.props.selectItem(this.props._frame);
 
@@ -11,12 +13,17 @@ export default class Frame extends PureComponent {
                     refId,
                     vertical,
                     registerReactComponent,
-                    placement: {
-                        x,
-                        y,
-                        height,
-                        width,
-                    } = {},
+                },
+                scaledPlacement: {
+                    x,
+                    y,
+                    height,
+                    width,
+                },
+                transform: {
+                    scale: {
+                        x: scaleX,
+                    },
                 },
                 selectable,
             },
@@ -24,6 +31,8 @@ export default class Frame extends PureComponent {
         } = this;
 
         registerReactComponent(this);
+
+        const padding = 10 / scaleX;
 
         return (
             <div
@@ -36,10 +45,11 @@ export default class Frame extends PureComponent {
                     }`}
                 style={selectable ?
                     {
-                        left: x - 10,
-                        bottom: y - 10,
-                        height: height + 20,
-                        width: width + 20,
+                        left: x - padding,
+                        bottom: y - padding,
+                        height: height + (2 * padding),
+                        width: width + (2 * padding),
+                        // background: `rgba(0, 0, 128, 0.2)`,
                     } : {
                         left: x,
                         bottom: y,
@@ -59,3 +69,21 @@ export default class Frame extends PureComponent {
         );
     }
 }
+
+export default transformProps(({
+    _frame: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}))(withTransformContext(Frame));

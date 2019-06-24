@@ -9,12 +9,41 @@ import { withSelectionContext } from './SelectionContext';
 import * as ACTIONS from '../ducks/actions';
 
 import { DIRECTIONS } from '../../utils/recursive-elevation/directions';
+import RecursiveContainer from '../../utils/recursive-elevation/container';
+import RecursiveFrame from '../../utils/recursive-elevation/frame';
 
 export const ActionContext = createContext();
 
 export const withActionContext = withContext(ActionContext, ({ context }) => ({ ACTIONS: context }), { pure: true });
 
 class ActionProvider extends PureComponent {
+
+    componentDidMount = () => {
+        window.addEventListener("keydown", this.handleKeyDown);
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener("keydown", this.handleKeyDown);
+    }
+
+    handleKeyDown = ({ key }) => {
+        const {
+            props: {
+                selection: {
+                    items: {
+                        0: {
+                            class: SelectedClass,
+                        } = {},
+                    },
+                },
+            },
+        } = this;
+        
+        if (key === 'Delete') {
+            if (SelectedClass === RecursiveContainer) this.deleteContainers();
+            else if (SelectedClass === RecursiveFrame) this.deleteFrames();
+        }
+    }
 
     // merge deleted containers automatically
     componentDidUpdate = ({ elevation: oldElevation }) => {
@@ -73,25 +102,34 @@ class ActionProvider extends PureComponent {
 
     // MOVE ENTIRELY INTO ACTIONS FOLDER
     performBulkAction = (ACTION, refIds, getPayloadFromRefId, { _replaceState, useTimeout } = {}) => {
-        const {
-            props: {
-                updateElevation,
-            },
-        } = this;
-
+        console.log({
+            ACTION,
+            refIds,
+            getPayloadFromRefId,
+            _replaceState,
+            useTimeout,
+        });
         const performAction = ([refId, ...nextRefIds], prevRefIds = []) => {
+            console.log({
+                refId,
+                nextRefIds,
+                prevRefIds,
+            });
             if (refId) {
                 const {
                     props: {
                         elevation: {
                             getItemByRefId,
                         },
+                        updateElevation,
                     },
                 } = this;
 
                 const performNextAction = () => performAction(nextRefIds, prevRefIds.concat(refId));
 
                 const payload = getPayloadFromRefId(refId, prevRefIds, getItemByRefId);
+
+                console.log({ payload });
 
                 if (payload) updateElevation(
                     ACTION,

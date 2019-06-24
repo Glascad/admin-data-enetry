@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
+import { withTransformContext } from '../../contexts/TransformContext';
 
-export default class DetailBubble extends PureComponent {
+class DetailBubble extends PureComponent {
 
     handleClick = e => {
         e.stopPropagation();
@@ -10,6 +11,12 @@ export default class DetailBubble extends PureComponent {
     render = () => {
         const {
             props: {
+                transform: {
+                    scale: {
+                        x: scaleX,
+                        y: scaleY,
+                    },
+                },
                 detail: {
                     detailId,
                 },
@@ -21,6 +28,9 @@ export default class DetailBubble extends PureComponent {
             <div
                 className={`detail-bubble-placement`}
                 onClick={handleClick}
+                style={{
+                    transform: `scale(${1 / scaleX}, ${1 / scaleY})`
+                }}
             >
                 <button
                     className="DetailBubble"
@@ -36,3 +46,5 @@ export default class DetailBubble extends PureComponent {
         );
     }
 }
+
+export default withTransformContext(DetailBubble);

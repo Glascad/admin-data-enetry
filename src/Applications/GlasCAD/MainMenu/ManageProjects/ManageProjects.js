@@ -61,7 +61,7 @@ export default function ManageProjects({
                             onCreate={(_, { input }) => createProject({
                                 name: input,
                             })}
-                            onDelete={() => console.log("Cannot delete!")}
+                            // onDelete={() => console.log("Cannot delete!")}
                             circleButton={{
                                 type: "tile",
                             }}

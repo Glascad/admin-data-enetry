@@ -4,7 +4,7 @@ function testImperialValue({
     string,
     feet,
     inches,
-    number,
+    value,
     inputs,
 }) {
     inputs.map(inputValue => {
@@ -19,8 +19,8 @@ function testImperialValue({
             test('inch output is correct', () => {
                 expect(outputValue.inches).toBe(inches);
             });
-            test('number output is correct', () => {
-                expect(outputValue.value).toBe(number);
+            test('value output is correct', () => {
+                expect(outputValue.value).toBe(value);
             });
         });
     })
@@ -88,7 +88,7 @@ const testCases = [
         string: `1'-3"`,
         feet: 1,
         inches: 3,
-        number: 15,
+        value: 15,
         inputs: [
             `15`,
             `1 3`,
@@ -99,10 +99,10 @@ const testCases = [
         ],
     },
     {
-        string: `1'-3-1/2"`,
+        string: `1'-3 1/2"`,
         feet: 1,
         inches: 3.5,
-        number: 15.5,
+        value: 15.5,
         inputs: [
             `15.5`,
             `15.5"`,
@@ -124,7 +124,7 @@ const testCases = [
         string: `1'-1/2"`,
         feet: 1,
         inches: 0.5,
-        number: 12.5,
+        value: 12.5,
         inputs: [
             `12.5`,
             `1 0.5`,
@@ -165,7 +165,7 @@ const testCases = [
         string: `-1'-3"`,
         feet: -1,
         inches: -3,
-        number: -15,
+        value: -15,
         inputs: [
             `-15`,
             `-1 3`,
@@ -176,10 +176,10 @@ const testCases = [
         ],
     },
     {
-        string: `-1'-3-1/2"`,
+        string: `-1'-3 1/2"`,
         feet: -1,
         inches: -3.5,
-        number: -15.5,
+        value: -15.5,
         inputs: [
             `-15.5`,
             `-15.5"`,
@@ -201,7 +201,7 @@ const testCases = [
         string: `-1'-1/2"`,
         feet: -1,
         inches: -0.5,
-        number: -12.5,
+        value: -12.5,
         inputs: [
             `-12.5`,
             `-1 0.5`,
@@ -236,6 +236,53 @@ const testCases = [
             `-0'-12-1/2"`,
             `-0' 12 1/2`,
             `-0' 12 1/2"`,
+        ],
+    },
+    {
+        string: `0'-0"`,
+        feet: 0,
+        inches: 0,
+        value: 0,
+        inputs: [
+            ``,
+            `0`,
+            `0 0`,
+            `0' 0"`,
+            `0'-0"`,
+            `0-0`,
+            `0'-0`,
+            `0'-0-0/2`,
+        ],
+    },
+    {
+        string: `0'-6"`,
+        feet: 0,
+        inches: 6,
+        value: 6,
+        inputs: [
+            `6`,
+            `6"`,
+            `0 6`,
+            `0-6`,
+            `0'-6`,
+            `0'-6"`,
+            // fractional feet not yet supported
+            // `1/2'`,
+            `0 12/2`,
+        ],
+    },
+    {
+        string: `2'-0"`,
+        feet: 2,
+        inches: 0,
+        value: 24,
+        inputs: [
+            `2'`,
+            `2 0`,
+            `2 0 0/2`,
+            `2-0`,
+            `2'-0`,
+            `2'-0"`,
         ],
     },
 ];

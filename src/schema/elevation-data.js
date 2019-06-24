@@ -9,6 +9,7 @@ export const ELEVATION_FIELDS = gql`
         id
         name
         finishedFloorHeight
+        sightline
         roughOpening {
             x
             y

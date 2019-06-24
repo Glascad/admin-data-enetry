@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import {
     ApolloWrapper,
     ToggleNavigator,
+    Ellipsis,
 } from '../../../../components';
 
 import query from './system-graphql/query';
@@ -45,7 +46,7 @@ SingleSystem.navigationOptions = ({
                         name = '',
                     } = {},
                 } = {},
-            }) => name || '...'}
+            }) => name || <Ellipsis />}
         </ApolloWrapper>
     ),
     shouldRender: !!parseSearch(search).systemId,
@@ -88,7 +89,7 @@ export default function SingleSystem({
                             title: systemId ?
                                 `${mnfgName} ${systemName}`.trim()
                                 ||
-                                'Loading...'
+                                <Ellipsis text="Loading" />
                                 :
                                 "New System",
                         }}

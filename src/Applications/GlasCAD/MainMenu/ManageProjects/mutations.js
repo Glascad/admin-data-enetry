@@ -5,11 +5,9 @@ export default {
     createProject: {
         mutation: gql`
             mutation CreateProject($name: String!) {
-                createProject(
+                createAProject(
                     input: {
-                        project: {
-                            name: $name
-                        }
+                        name: $name
                     }
                 ) {
                     project {

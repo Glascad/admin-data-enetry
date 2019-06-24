@@ -188,7 +188,7 @@ class List extends PureComponent {
                             onEdit={onCreate}
                             onBlur={cancel}
                         />
-                    ) : (onCreate || onFinish || multiSelect || circleButton) && !creating ? (
+                    ) : !creating && (onCreate || onFinish || multiSelect || circleButton) ? (
                         <CircleButton
                             {...circleButton}
                             actionType="add"
@@ -239,6 +239,7 @@ class List extends PureComponent {
                         display={deleting}
                         onCancel={cancel}
                         onFinish={handleDelete}
+                        finishButtonText="Delete"
                         danger={true}
                     >
                         Are you sure you want to delete {

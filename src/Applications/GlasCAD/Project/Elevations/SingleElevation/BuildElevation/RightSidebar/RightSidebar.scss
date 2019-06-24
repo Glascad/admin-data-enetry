@@ -37,13 +37,15 @@
         // border-bottom: 1px solid $medium-gray;
         padding-bottom: $x-large;
 
-        &:after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            right: 25%;
-            border-bottom: 1px solid $medium-gray;
+        &:not(:last-child) {
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 25%;
+                right: 25%;
+                border-bottom: 1px solid $medium-gray;
+            }
         }
 
         > * {

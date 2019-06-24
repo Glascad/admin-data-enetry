@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
-import { TransformContext } from '../contexts/TransformContext';
+import { TransformContext, pixelsPerInch } from '../contexts/TransformContext';
 
 import Container from './components/Container';
 import Frame from './components/Frame';
@@ -18,8 +18,6 @@ import { SelectionContext } from '../contexts/SelectionContext';
 import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../utils/recursive-elevation/detail';
-
-
 
 class InteractiveElevation extends PureComponent {
 
@@ -109,8 +107,6 @@ class InteractiveElevation extends PureComponent {
             },
         } = this;
 
-        const baseScaleFactor = 0.8;
-
         return (
             <div
                 id="InteractiveElevation"
@@ -127,10 +123,11 @@ class InteractiveElevation extends PureComponent {
                         selectedClass
                         }-selected`}
                     style={{
-                        height: roy,
-                        width: rox,
-                        transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX * baseScaleFactor}, ${scaleY * baseScaleFactor})`,
+                        height: roy * pixelsPerInch,
+                        width: rox * pixelsPerInch,
+                        transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
                     }}
+                    onMouseDown={e => e.stopPropagation()}
                 >
                     {/* ROUGH OPENING */}
                     {/* <div /> */}
@@ -172,6 +169,38 @@ class InteractiveElevation extends PureComponent {
                             </div>
                         ))}
                     </div>
+                    {/* <div
+                        id="bottom-left"
+                        className="corner"
+                        style={{
+                            bottom: 0,
+                            left: 0,
+                        }}
+                    />
+                    <div
+                        id="bottom-right"
+                        className="corner"
+                        style={{
+                            bottom: 0,
+                            right: 0,
+                        }}
+                    />
+                    <div
+                        id="top-left"
+                        className="corner"
+                        style={{
+                            top: 0,
+                            left: 0,
+                        }}
+                    />
+                    <div
+                        id="top-right"
+                        className="corner"
+                        style={{
+                            top: 0,
+                            right: 0,
+                        }}
+                    /> */}
                     {/* HORIZONTAL DIMENSIONS */}
                     <div id="bottom-dimension-track">
                         {horizontalContainerDimensionTracks.map((track, i) => (

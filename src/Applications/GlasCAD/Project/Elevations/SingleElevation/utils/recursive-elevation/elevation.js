@@ -37,8 +37,6 @@ export default class RecursiveElevation {
         } = {},
     ) {
 
-        console.log({ rawElevation });
-
         const {
             finishedFloorHeight = 0,
             roughOpening = {},

@@ -3,7 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import {
-    ListWrapper, ApolloWrapper,
+    ListWrapper,
+    ApolloWrapper,
+    Ellipsis,
 } from '../../../../../components';
 
 import { parseSearch } from '../../../../../utils';
@@ -11,6 +13,7 @@ import { parseSearch } from '../../../../../utils';
 import deleteElevation from './delete-elevation';
 
 export default function ElevationSearch({
+    history,
     location: {
         search,
     },
@@ -38,7 +41,7 @@ export default function ElevationSearch({
                             identifier="id"
                             titleBar={{
                                 title: "Elevations",
-                                selections: [name]
+                                selections: [name || <Ellipsis />]
                             }}
                             items={_elevations}
                             defaultPillProps={{
@@ -54,7 +57,7 @@ export default function ElevationSearch({
                                                 to={`${path}/elevation/build-elevation${parseSearch(search)
                                                     .update({ elevationId: id })}`}
                                             >
-                                                Build
+                                                Load
                                             </Link>
                                         ),
                                     },
@@ -62,21 +65,23 @@ export default function ElevationSearch({
                             })}
                             circleButton={{
                                 type: "tile",
-                                otherButtons: [
-                                    {
-                                        children: (
-                                            <Link
-                                                to={`${path}/elevation/create-elevation${parseSearch(search)
-                                                    .remove("elevationId")}`}
-                                            >
-                                                Create
-                                            </Link>
-                                        ),
-                                    },
-                                    {
-                                        text: "Copy",
-                                    },
-                                ],
+                                onClick: () => history.push(`${path}/elevation/create-elevation${parseSearch(search)
+                                    .remove("elevationId")}`),
+                                // otherButtons: [
+                                //     {
+                                //         children: (
+                                //             <Link
+                                //                 to={`${path}/elevation/create-elevation${parseSearch(search)
+                                //                     .remove("elevationId")}`}
+                                //             >
+                                //                 Create
+                                //             </Link>
+                                //         ),
+                                //     },
+                                // {
+                                //     text: "Copy",
+                                // },
+                                // ],
                             }}
                             onDelete={({ arguments: { id } }) => deleteElevation({ elevationId: id })}
                             deleteModal={{

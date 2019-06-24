@@ -27,7 +27,6 @@ function Settings({
         search,
     },
 }) {
-    console.log({ states });
     return (
         <>
             <TitleBar
@@ -47,6 +46,7 @@ function Settings({
                     View={SampleElevations}
                 />
                 <SidebarLink
+                    className="danger"
                     toggleStackedView={toggleStackedView}
                     View={ReportBug}
                 />

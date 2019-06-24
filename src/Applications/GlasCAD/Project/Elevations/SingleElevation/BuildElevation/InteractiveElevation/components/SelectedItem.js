@@ -3,8 +3,10 @@ import React, { PureComponent } from 'react';
 import RecursiveContainer from '../../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../../utils/recursive-elevation/detail';
+import { transformProps } from '../../../../../../../../components';
+import { pixelsPerInch } from '../../contexts/TransformContext';
 
-export default class SelectedItem extends PureComponent {
+class SelectedItem extends PureComponent {
 
     handleClick = () => this.props.selectItem(this.props.item);
 
@@ -14,12 +16,12 @@ export default class SelectedItem extends PureComponent {
                 item: {
                     refId,
                     class: SelectedClass,
-                    placement: {
-                        x,
-                        y,
-                        height,
-                        width,
-                    },
+                },
+                scaledPlacement: {
+                    x,
+                    y,
+                    height,
+                    width,
                 },
                 lastSelected,
             },
@@ -56,3 +58,21 @@ export default class SelectedItem extends PureComponent {
         );
     }
 }
+
+export default transformProps(({
+    item: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}))(SelectedItem);

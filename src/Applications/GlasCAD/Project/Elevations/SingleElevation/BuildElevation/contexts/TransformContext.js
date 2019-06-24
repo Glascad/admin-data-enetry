@@ -5,11 +5,20 @@ export const TransformContext = createContext();
 
 export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
 
+export const pixelsPerInch = 4;
+
 const defaultScale = 1;
+
+const minScale = 0.1;
 
 export default class TransformProvider extends PureComponent {
 
     state = {
+        baseTranslate: {
+            x: 0,
+            y: 0,
+        },
+        baseScale: defaultScale,
         scale: {
             x: defaultScale,
             y: defaultScale,
@@ -40,11 +49,68 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('touchup', this.watchMouseUp);
     }
 
+    componentDidUpdate = ({
+        elevation: {
+            roughOpening: oldRO,
+            roughOpening: {
+                x: oldX,
+                y: oldY,
+            } = {},
+        } = {},
+    }) => {
+        const {
+            props: {
+                elevation: {
+                    roughOpening: newRO,
+                    roughOpening: {
+                        x,
+                        y,
+                    } = {},
+                } = {},
+            },
+        } = this;
+        if (
+            (
+                typeof x === 'number'
+            ) && (
+                typeof y === 'number'
+            ) && (
+                !oldX
+                ||
+                !oldY
+                ||
+                typeof oldX !== 'number'
+                ||
+                typeof oldY !== 'number'
+            )
+        ) {
+            console.log({ x, y });
+            console.log(this.props);
+            const IE = document.getElementById("InteractiveElevation");
+            console.log({ IE });
+
+            if (IE) {
+                const ratio = IE.clientHeight / y / pixelsPerInch;
+                const baseScale = ratio * 0.6;
+
+                console.log({ ratio, baseScale });
+
+                const baseTranslateX = -x * 0.2;
+
+                this.setState(({ baseTranslate }) => ({
+                    baseScale,
+                    baseTranslate: {
+                        ...baseTranslate,
+                        x: baseTranslateX,
+                    },
+                }));
+            }
+        }
+    }
+
     watchSpaceKeyDown = e => {
         const { key } = e;
         if (key === ' ' && !this.state.spaceKey) {
-            console.log({ key });
-            // e.preventDefault();
             this.setState(() => ({ spaceKey: true }));
         }
     }
@@ -61,28 +127,26 @@ export default class TransformProvider extends PureComponent {
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,
-                        x: + x + nudgeAmount,
-                        y: + y + nudgeAmount,
+                        x: Math.max(+x + nudgeAmount, minScale) || minScale,
+                        y: Math.max(+y + nudgeAmount, minScale) || minScale,
                     },
-                }))
+                }));
 
             } else if (key === 'ArrowDown') {
                 e.preventDefault();
                 this.setState(({ scale: { x, y, nudgeAmount } }) => ({
                     scale: {
                         nudgeAmount,
-                        x: +x - nudgeAmount,
-                        y: +y - nudgeAmount,
+                        x: Math.max(+x - nudgeAmount, minScale) || minScale,
+                        y: Math.max(+y - nudgeAmount, minScale) || minScale,
                     },
-                }))
+                }));
             }
         }
     }
 
     watchMouseDown = e => {
         if (this.state.spaceKey) {
-
-            console.log("PANNING");
 
             e.preventDefault();
 
@@ -120,8 +184,6 @@ export default class TransformProvider extends PureComponent {
     }
 
     pan = e => {
-        
-        console.log("panning");
 
         e.preventDefault();
 
@@ -142,20 +204,20 @@ export default class TransformProvider extends PureComponent {
         });
     }
 
-    updateScale = ({ target: { value = 0 } }) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+    updateScale = ({ target: { value = minScale } }) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
         scale: {
             nudgeAmount,
-            x: +value || 0,
-            y: +value || 0,
+            x: Math.max(+value, minScale) || minScale,
+            y: Math.max(+value, minScale) || minScale,
         },
     }));
 
-    updateScaleNudge = ({ target: { value = 0 } }) => this.setState(({ scale }) => ({
+    updateScaleNudge = ({ target: { value = minScale } }) => this.setState(({ scale }) => ({
         scale: {
             ...scale,
-            nudgeAmount: +value || 0,
+            nudgeAmount: Math.max(+value, minScale) || minScale,
         },
-    }))
+    }));
 
     updateTranslateX = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
         translate: {
@@ -176,16 +238,19 @@ export default class TransformProvider extends PureComponent {
             ...translate,
             nudgeAmount: +value || 0,
         },
-    }))
+    }));
 
-    resetScale = () => this.setState({ scale: defaultScale });
+    resetScale = () => this.setState({ scale: this.state.baseScale });
 
     resetTranslate = () => this.setState({ translate: { x: 0, y: 0 } });
 
     render = () => {
         const {
             state: {
+                pixelsPerInch,
+                baseScale,
                 scale,
+                baseTranslate,
                 translate,
                 spaceKey,
                 grabbing,
@@ -207,8 +272,17 @@ export default class TransformProvider extends PureComponent {
         return (
             <TransformContext.Provider
                 value={{
-                    scale,
-                    translate,
+                    pixelsPerInch,
+                    scale: {
+                        ...scale,
+                        x: scale.x * baseScale,
+                        y: scale.y * baseScale,
+                    },
+                    translate: {
+                        ...translate,
+                        x: translate.x + baseTranslate.x,
+                        y: translate.y + baseTranslate.y,
+                    },
                     updateScale,
                     updateScaleNudge,
                     resetScale,

@@ -3,6 +3,7 @@ import React from 'react';
 import { DoubleArrow } from '../../../../../../../../components';
 
 export default function SidebarLink({
+    className = 'empty',
     toggleStackedView,
     View,
     View: {
@@ -12,7 +13,7 @@ export default function SidebarLink({
 }) {
     return (
         <button
-            className="sidebar-button empty"
+            className={`sidebar-button ${className}`}
             onClick={() => toggleStackedView(View)}
         >
             {Icon ? (

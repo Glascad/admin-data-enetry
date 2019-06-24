@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 
 import gql from 'graphql-tag';
 
@@ -12,6 +12,7 @@ import {
     Input,
     GroupingBox,
     CircleButton,
+    useUndoRedo,
 } from '../../../../../../components';
 
 import ElevationPreview from './ElevationPreview';
@@ -31,9 +32,20 @@ import {
     defaultElevationInput,
 } from './elevation-input';
 
-export default class CreateElevation extends PureComponent {
+export default memo(({
+    history,
+    location: {
+        search,
+    },
+    match: {
+        path,
+    },
+    mutations: {
+        updateEntireElevation,
+    },
+}) => {
 
-    state = {
+    const initalState = {
         elevation: defaultElevationInput,
         system: {
             id: -1,
@@ -41,44 +53,52 @@ export default class CreateElevation extends PureComponent {
         },
     };
 
-    reset = () => this.setState({ elevation: defaultElevationInput });
+    const UNDO_REDO = useUndoRedo(initalState);
 
-    updateElevation = update => this.setState(({ elevation }) => ({
+    const {
+        currentState,
+        currentState: {
+            elevation: elevationInput,
+            elevation: {
+                name,
+                verticalLock,
+                horizontalLock,
+                verticalRoughOpening,
+                horizontalRoughOpening,
+                verticalMasonryOpening,
+                horizontalMasonryOpening,
+                startingBayQuantity,
+                finishedFloorHeight,
+                horizontals,
+            },
+            system: {
+                id: systemId,
+                name: systemName,
+            },
+        },
+        pushState,
+    } = UNDO_REDO;
+
+    const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {
             ...elevation,
             ...update,
         },
-    }));
+    }))
 
-    save = async () => {
-        const {
-            state: {
-                elevation: elevationInput,
-                elevation: {
-                    name,
-                },
-            },
-            props: {
-                history,
-                location: {
-                    search,
-                },
-                match: {
-                    path,
-                },
-                mutations: {
-                    updateEntireElevation,
-                },
-            },
-        } = this;
+    const mergedElevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
+
+    const recursiveElevation = useMemo(() => new RecursiveElevation(mergedElevation), [mergedElevation]);
+
+    const { projectId } = parseSearch(search);
+
+    const save = useCallback(async () => {
 
         const {
             _elevationContainers,
             _containerDetails,
             ...createdElevation
-        } = generateElevation(elevationInput);
-
-        const { projectId } = parseSearch(search);
+        } = mergedElevation;
 
         const elevation = {
             projectId: +projectId,
@@ -105,8 +125,6 @@ export default class CreateElevation extends PureComponent {
             ...createdElevation,
         };
 
-        // console.log({ elevation });
-
         const {
             data: {
                 updateEntireElevation: {
@@ -124,46 +142,39 @@ export default class CreateElevation extends PureComponent {
             }${
             parseSearch(search).update({ elevationId })
             }`);
-    }
+    }, [mergedElevation]);
 
-    render = () => {
-        const {
-            state: {
-                elevation: elevationInput,
-                elevation: {
-                    name,
-                    verticalLock,
-                    horizontalLock,
-                    verticalRoughOpening,
-                    horizontalRoughOpening,
-                    verticalMasonryOpening,
-                    horizontalMasonryOpening,
-                    startingBayQuantity,
-                    finishedFloorHeight,
-                    horizontals,
-                },
-                system: {
-                    id: systemId,
-                    name: systemName,
-                },
-            },
-            props: {
-                location: {
-                    search,
-                },
-                match: {
-                    path,
-                },
-            },
-            reset,
-            save,
-            updateElevation,
-        } = this;
-
-        const elevation = new RecursiveElevation(generateElevation(elevationInput));
-
-        return (
-            <div className="CreateElevation card">
+    return (
+        <>
+            <TitleBar
+                title="New Elevation"
+                selections={[name]}
+                right={(
+                    <>
+                        <Link
+                            to={`${
+                                path.replace(/\/elevation\/create-elevation/, '')
+                                }${
+                                search
+                                }`}
+                        >
+                            <button>
+                                Cancel
+                            </button>
+                        </Link>
+                        <button
+                            className={`action ${name ? '' : 'disabled'}`}
+                            onClick={save}
+                        >
+                            Create
+                            </button>
+                    </>
+                )}
+            />
+            <div
+                id="CreateElevation"
+                className="card"
+            >
                 <ApolloWrapper
                     query={{
                         query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}`,
@@ -175,19 +186,16 @@ export default class CreateElevation extends PureComponent {
                         },
                     }) => (
                             <>
-                                <TitleBar
-                                    title="New Elevation"
-                                    selections={[name]}
-                                />
                                 <Input
-                                    label="Elevation Id"
+                                    label="Elevation ID"
                                     value={name}
                                     onChange={({ target: { value } }) => updateElevation({
                                         name: value,
                                     })}
                                 />
                                 <Input
-                                    label="System Set"
+                                    label="System set"
+                                    disabled={true}
                                     select={{
                                         value: {
                                             label: systemName,
@@ -203,7 +211,7 @@ export default class CreateElevation extends PureComponent {
                                     }}
                                 />
                                 <GroupingBox
-                                    title="Rough Opening"
+                                    title="Rough opening"
                                 >
                                     <div className="input-group">
                                         <Input
@@ -215,6 +223,7 @@ export default class CreateElevation extends PureComponent {
                                         />
                                         <Input
                                             label="Masonry Opening"
+                                            disabled={true}
                                             type="switch"
                                             readOnly={true}
                                             checked={verticalMasonryOpening}
@@ -230,6 +239,7 @@ export default class CreateElevation extends PureComponent {
                                         />
                                         <Input
                                             label="Masonry Opening"
+                                            disabled={true}
                                             type="switch"
                                             readOnly={true}
                                             checked={horizontalMasonryOpening}
@@ -237,7 +247,7 @@ export default class CreateElevation extends PureComponent {
                                     </div>
                                 </GroupingBox>
                                 <Input
-                                    label="Starting Bay Quantity"
+                                    label="Starting bay quantity"
                                     type="number"
                                     min={1}
                                     value={startingBayQuantity}
@@ -246,7 +256,7 @@ export default class CreateElevation extends PureComponent {
                                     })}
                                 />
                                 <Input
-                                    label="Height Above Finished Floor"
+                                    label="Height above finished floor"
                                     type="inches"
                                     min={0}
                                     initialValue={finishedFloorHeight}
@@ -257,9 +267,27 @@ export default class CreateElevation extends PureComponent {
                                     circleButton={{
                                         actionType: "add",
                                         className: "action",
-                                        onClick: () => updateElevation({
-                                            horizontals: horizontals.concat(horizontals[horizontals.length - 1] || defaultHorizontal),
-                                        }),
+                                        onClick: () => {
+                                            const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
+
+                                            const {
+                                                distance: {
+                                                    value,
+                                                },
+                                            } = lastHorizontal;
+
+                                            var { originalContainer: topContainer } = recursiveElevation;
+
+                                            while (topContainer.topContainers.length) {
+                                                topContainer = topContainer.topContainers[0];
+                                            }
+
+                                            if (topContainer.daylightOpening.y > value + recursiveElevation.sightline) {
+                                                updateElevation({
+                                                    horizontals: horizontals.concat(lastHorizontal),
+                                                });
+                                            }
+                                        },
                                     }}
                                 >
                                     {horizontals.length ?
@@ -268,9 +296,14 @@ export default class CreateElevation extends PureComponent {
                                             from,
                                             to,
                                         }, i) => (
-                                                <div className="input-group">
+                                                <div
+                                                    id="add-horizontals"
+                                                    className="input-group"
+                                                    key={i}
+                                                >
                                                     <Input
-                                                        label="Measure From"
+                                                        label="Measure from"
+                                                        disabled={true}
                                                         select={{
                                                             value: {
                                                                 value: from,
@@ -287,7 +320,8 @@ export default class CreateElevation extends PureComponent {
                                                         }}
                                                     />
                                                     <Input
-                                                        label="Measure To"
+                                                        label="Measure to"
+                                                        disabled={true}
                                                         select={{
                                                             value: {
                                                                 value: to,
@@ -333,7 +367,7 @@ export default class CreateElevation extends PureComponent {
                                         )}
                                 </GroupingBox>
                                 <ElevationPreview
-                                    elevation={elevation}
+                                    elevation={recursiveElevation}
                                 />
                                 <div className="bottom-buttons">
                                     <Link
@@ -348,16 +382,16 @@ export default class CreateElevation extends PureComponent {
                                         </button>
                                     </Link>
                                     <button
-                                        className="action"
+                                        className={`action ${name ? '' : 'disabled'}`}
                                         onClick={save}
                                     >
-                                        Build
+                                        Create
                                     </button>
                                 </div>
                             </>
                         )}
                 </ApolloWrapper>
             </div>
-        );
-    }
-}
+        </>
+    );
+});

@@ -17,24 +17,31 @@ export default function ADD_FRAME({
     distance,
 }) {
 
+    const correctedDistance = distance || (
+        (DLO[vertical ? 'x' : 'y'] - sightline) / 2
+    );
+
     const elevationWithUpdatedDLO = updateDLO(arguments[0], {
         container,
         vertical: !vertical,
-        distance: distance + sightline
+        distance: correctedDistance + sightline
     });
 
     const newDLO = {
         x: vertical ?
-            distance
+            correctedDistance
             :
             DLO.x,
         y: vertical ?
             DLO.y
             :
-            distance,
+            correctedDistance,
     };
 
     const elevationWithAddedContainer = createContainer(elevationWithUpdatedDLO, { daylightOpening: newDLO });
 
-    return updateDetailsAfterAddingFrame(elevationWithAddedContainer, arguments[1]);
+    return updateDetailsAfterAddingFrame(elevationWithAddedContainer, {
+        ...arguments[1],
+        distance: correctedDistance,
+    });
 }
