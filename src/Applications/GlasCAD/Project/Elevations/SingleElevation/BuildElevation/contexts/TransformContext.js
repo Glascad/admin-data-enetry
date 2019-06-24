@@ -38,6 +38,9 @@ export default class TransformProvider extends PureComponent {
         window.addEventListener('keyup', this.watchSpaceKeyUp);
         window.addEventListener('mouseup', this.watchMouseUp);
         window.addEventListener('touchup', this.watchMouseUp);
+        window.addEventListener('mousedown', this.watchMiddleMouseDown, true);
+        window.addEventListener('wheel', this.watchScroll);
+        window.addEventListener('mousedown', this.watchScrollClick);
         // document.addEventListener('visibilitychange');
     }
 
@@ -47,6 +50,7 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('keyup', this.watchSpaceKeyUp);
         window.removeEventListener('mouseup', this.watchMouseUp);
         window.removeEventListener('touchup', this.watchMouseUp);
+        window.addEventListener('wheel', this.watchScroll);
     }
 
     componentDidUpdate = ({
@@ -145,32 +149,66 @@ export default class TransformProvider extends PureComponent {
         }
     }
 
-    watchMouseDown = e => {
-        if (this.state.spaceKey) {
-
+    watchScroll = e => {
+        if (e.deltaY > 0) {
             e.preventDefault();
-
-            const { clientX, clientY } = e;
-
-            this.setState(() => ({ grabbing: true }));
-
-            const {
-                state: {
-                    translate: {
-                        x,
-                        y,
-                    },
+            this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+                scale: {
+                    nudgeAmount,
+                    x: Math.max(+x - nudgeAmount, minScale) || minScale,
+                    y: Math.max(+y - nudgeAmount, minScale) || minScale,
                 },
-            } = this;
-
-            this.mouseStart = {
-                x: +clientX - +x,
-                y: +clientY - +y,
-            };
-
-            window.addEventListener('mousemove', this.pan);
-            window.addEventListener('touchmove', this.pan);
+            }));
         }
+        else if (e.deltaY < 0) {
+            e.preventDefault();
+            this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+                scale: {
+                    nudgeAmount,
+                    x: Math.max(+x + nudgeAmount, minScale) || minScale,
+                    y: Math.max(+y + nudgeAmount, minScale) || minScale,
+                },
+            }));
+        }
+    }
+
+    watchMouseDown = e => {
+        if (this.state.spaceKey){
+            this.startPanning(e);
+        }
+    }
+
+    watchMiddleMouseDown = e => {
+        if (e.which == 2){
+            this.startPanning(e);
+        }
+    }
+
+    startPanning = e => {
+
+        e.preventDefault();
+
+        const { clientX, clientY } = e;
+
+        this.setState(() => ({ grabbing: true }));
+
+        const {
+            state: {
+                translate: {
+                    x,
+                    y,
+                },
+            },
+        } = this;
+
+        this.mouseStart = {
+            x: +clientX - +x,
+            y: +clientY - +y,
+        };
+
+        window.addEventListener('mousemove', this.pan);
+        window.addEventListener('touchmove', this.pan);
+
     };
 
     watchMouseUp = () => {
