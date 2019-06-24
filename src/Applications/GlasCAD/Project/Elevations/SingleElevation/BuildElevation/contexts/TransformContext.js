@@ -19,6 +19,7 @@ export default class TransformProvider extends PureComponent {
             y: 0,
         },
         baseScale: defaultScale,
+        scrollMultiplier: 0.0007,
         scale: {
             x: defaultScale,
             y: defaultScale,
@@ -152,26 +153,13 @@ export default class TransformProvider extends PureComponent {
     }
 
     watchScroll = e => {
-        if (e.deltaY > 0) {
             e.preventDefault();
-            this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+            this.setState(({ scrollMultiplier, scale: { x, y } }) => ({
                 scale: {
-                    nudgeAmount,
-                    x: Math.max(+x - nudgeAmount, minScale) || minScale,
-                    y: Math.max(+y - nudgeAmount, minScale) || minScale,
+                    y: Math.max(+y - scrollMultiplier * e.deltaY, minScale) || minScale,
+                    x: Math.max(+x - scrollMultiplier * e.deltaY, minScale) || minScale,
                 },
             }));
-        }
-        else if (e.deltaY < 0) {
-            e.preventDefault();
-            this.setState(({ scale: { x, y, nudgeAmount } }) => ({
-                scale: {
-                    nudgeAmount,
-                    x: Math.max(+x + nudgeAmount, minScale) || minScale,
-                    y: Math.max(+y + nudgeAmount, minScale) || minScale,
-                },
-            }));
-        }
     }
 
     watchMouseDown = e => {
