@@ -26,17 +26,16 @@ const mapProps = ({
         },
     },
 }) => ({
-    allowedApplications:
-        // role === 'ADMIN' ?
+    allowedApplications: role === 'ADMIN' ?
         { Glascad, DataEntry }
-    // :
-    // role === 'DATA_ENTRY' ?
-    //     { DataEntry }
-    //     :
-    //     role === 'CLIENT' ?
-    //         { Glascad }
-    //         :
-    //         { Login },
+        :
+        role === 'DATA_ENTRY' ?
+            { DataEntry }
+            :
+            role === 'CLIENT' ?
+                { Glascad }
+                :
+                { Login },
 });
 
 export default withContext(AuthenticationContext, mapProps)(AppNavigator);
