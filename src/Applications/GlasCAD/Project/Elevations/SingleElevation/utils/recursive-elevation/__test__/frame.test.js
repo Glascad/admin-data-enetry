@@ -1,8 +1,8 @@
-// import RecursiveElevation from "../elevation";
-// import sample1 from '../../../__test__/sample-elevations/sample1';
+import RecursiveElevation from "../elevation";
+import sample3 from '../../../__test__/sample-elevations/sample3';
 // import sample1Special from '../../../__test__/sample-elevations/sample1-special';
 
-test('', () => { });
+// test('', () => { });
 
 // describe('Frame Tests', () => {
 //     test('sample1 - has correct number of frames', () => {
@@ -37,3 +37,64 @@ test('', () => { });
 //         expect(elevation.details[1798]._frame).toBe(elevation.details[1801]._frame);
 //     });
 // });
+
+
+// const testFrame = ({ elevation, detailId, payload, expectedResult }) => {
+
+//     const sampleResult = new RecursiveElevation(elevation);
+//     sampleResult: {
+//         details[detailId]: {
+//             __frame: frame
+//         }
+//     }
+//     const frame = sampleResult.details[detailId].__frame;
+
+//     describe(`testing frame methods for ${elevation.name}`, () => {
+
+//         test(`testing getDetailAcrossPerpendicularByDirection() for ${elevation.name} for frame connected to ${detailId}`, () => {
+//             expect()
+//         });
+//     });
+// };
+
+function testFrame({ elevation, frames }) {
+    describe(`Testing frame methods for ${elevation.name}`, () => {
+        const sampleElevation = new RecursiveElevation(elevation);
+        frames.forEach(({ detailId, keys, methods }) => {
+
+            const _frame = sampleElevation.details[detailId]._frame;
+
+
+            keys.forEach(([key, value]) => {
+                test(`frame from detail ${detailId} has key: ${key} with value: ${value}`, () => expect(_frame[key]).toEqual(value));
+            });
+            methods.forEach(([method, args, result]) => {
+                test(`frame from detail ${detailId} .${method} === ${result}`, () => {
+                    expect(_frame[method](args).id).toEqual(result)
+                })
+            })
+        })
+    })
+}
+
+
+testFrame({
+    elevation: sample3,
+    frames: [
+        {
+            detailId: 2034,
+            keys: [
+                ["vertical", false],
+                ["sightline", 10],
+            ],
+            methods: [
+                ["getDetailAcrossPerpendicularByDirection", [false], 2044],
+                // ["getContainersByDirection", [true], [802]],
+                // ["getContainersByDirection", [false], [803]],
+                ["getFirstOrLastContainerByDirection", [true, true], 802],
+                ["getFirstOrLastContainerByDirection", [false, true], 803],
+
+            ],
+        },
+    ],
+})
