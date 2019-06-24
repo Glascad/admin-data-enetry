@@ -103,6 +103,7 @@ class RightSidebar extends PureComponent {
                 className={length ? 'open' : 'closed'}
                 onKeyDown={e => e.stopPropagation()}
                 onMouseDown={e => e.stopPropagation()}
+                onWheel={e => e.stopPropagation()}
             >
                 <button
                     className="sidebar-button primary"

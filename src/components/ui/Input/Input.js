@@ -296,7 +296,11 @@ export default class Input extends PureComponent {
                                     :
                                     type}
                             value={onChange || isInches ?
-                                value === undefined && type === "text" ?
+                                (
+                                    (value === undefined || isNaN(value))
+                                    &&
+                                    (type === "text" || type === "number")
+                                ) ?
                                     ""
                                     :
                                     isInches ?

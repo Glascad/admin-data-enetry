@@ -61,7 +61,7 @@ function ZoomAndPan() {
                 label="Translation Nudge Amount"
                 light={true}
                 type="number"
-                value={nudgeAmount || ''}
+                value={nudgeAmount}
                 onChange={({ target: { value } }) => updateTranslateNudge(+value)}
             />
             <Input
@@ -69,7 +69,7 @@ function ZoomAndPan() {
                 light={true}
                 type="number"
                 step={nudgeAmount}
-                value={x || ''}
+                value={x}
                 onChange={({ target: { value } }) => updateTranslateX(+value)}
             />
             <Input
@@ -77,7 +77,7 @@ function ZoomAndPan() {
                 light={true}
                 type="number"
                 step={nudgeAmount}
-                value={-y || ''}
+                value={-y}
                 onChange={({ target: { value } }) => updateTranslateY(+value)}
             />
             <button

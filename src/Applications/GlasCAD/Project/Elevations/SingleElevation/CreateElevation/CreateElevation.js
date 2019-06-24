@@ -55,7 +55,7 @@ export default memo(({
         },
     };
 
-    const UNDO_REDO = useUndoRedo(initalState);
+    const undoRedo = useUndoRedo(initalState);
 
     const {
         currentState,
@@ -79,7 +79,7 @@ export default memo(({
             },
         },
         pushState,
-    } = UNDO_REDO;
+    } = undoRedo;
 
     const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {
@@ -171,7 +171,7 @@ export default memo(({
                             onClick={save}
                         >
                             Create
-                            </button>
+                        </button>
                     </>
                 )}
             />
@@ -243,9 +243,10 @@ export default memo(({
                     label="Starting bay quantity"
                     type="number"
                     min={1}
-                    value={startingBayQuantity}
+                    max={100}
+                    value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
-                        startingBayQuantity: +value,
+                        startingBayQuantity: Math.min(+value, 100),
                     })}
                 />
                 <Input
