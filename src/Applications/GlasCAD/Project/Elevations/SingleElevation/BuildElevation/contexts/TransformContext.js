@@ -95,10 +95,19 @@ export default class TransformProvider extends PureComponent {
             console.log({ IE });
 
             if (IE) {
-                const ratio = IE.clientHeight / y / pixelsPerInch;
-                const baseScale = ratio * 0.6;
+                const ratioY = IE.clientHeight / y / pixelsPerInch;
+                const ratioX = IE.clientWidth / x / pixelsPerInch;
 
-                console.log({ ratio, baseScale });
+                const baseScaleY = ratioY * 0.6;
+                const baseScaleX = ratioX * 0.75;
+
+                const baseScale = Math.min(baseScaleY, baseScaleX);
+
+                console.log({
+                    baseScaleY,
+                    baseScaleX,
+                    baseScale,
+                });
 
                 const baseTranslateX = -x * 0.2;
 
