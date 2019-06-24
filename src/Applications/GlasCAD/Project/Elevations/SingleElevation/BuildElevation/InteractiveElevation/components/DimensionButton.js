@@ -191,6 +191,21 @@ class DimensionButton extends PureComponent {
         };
     }
 
+    get inputStyle() {
+        const {
+            props: {
+                transform: {
+                    scale: {
+                        x: scaleX,
+                        y: scaleY,
+                    },
+                },
+            },
+        } = this;
+
+        return { transform: `scaleX(${1 / scaleX})` };
+    }
+
     render = () => {
         const {
             state: {
@@ -219,6 +234,7 @@ class DimensionButton extends PureComponent {
             handleKeyDown,
             handleBlur,
             style,
+            inputStyle,
         } = this;
 
         return (
@@ -234,6 +250,11 @@ class DimensionButton extends PureComponent {
                         'selected'
                         :
                         ''
+                    } ${
+                    editing ?
+                        'editing'
+                        :
+                        ''
                     }`}
                 style={style}
                 onClick={handleClick}
@@ -247,25 +268,7 @@ class DimensionButton extends PureComponent {
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
                         autoFocus={true}
-                        style={vertical ?
-                            Object.entries(style)
-                                .reduce((reducedStyle, [key, value]) => ({
-                                    ...reducedStyle,
-                                    [key.match(/height/i) ?
-                                        key.replace(/height/, 'width')
-                                            .replace(/Height/, 'Width')
-                                        :
-                                        key.match(/bottom/) ?
-                                            key.replace(/bottom/, 'left')
-                                            :
-                                            key.match(/left/) ?
-                                                key.replace(/left/, 'bottom')
-                                                :
-                                                key]: value,
-                                }), {})
-                            :
-                            style
-                        }
+                        style={inputStyle}
                     />
                 ) : (
                         <div>

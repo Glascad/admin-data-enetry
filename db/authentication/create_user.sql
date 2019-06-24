@@ -28,7 +28,7 @@ BEGIN
         name,
         owner_id
     ) VALUES (
-        un,
+        'Demo Project',
         uid
     );
 

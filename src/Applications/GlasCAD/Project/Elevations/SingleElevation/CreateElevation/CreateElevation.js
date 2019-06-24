@@ -86,9 +86,9 @@ export default memo(({
         },
     }))
 
-    const elevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
+    const mergedElevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
 
-    const recursiveElevation = useMemo(() => new RecursiveElevation(elevation), [elevation]);
+    const recursiveElevation = useMemo(() => new RecursiveElevation(mergedElevation), [mergedElevation]);
 
     const { projectId } = parseSearch(search);
 
@@ -98,7 +98,7 @@ export default memo(({
             _elevationContainers,
             _containerDetails,
             ...createdElevation
-        } = elevation;
+        } = mergedElevation;
 
         const elevation = {
             projectId: +projectId,
@@ -142,7 +142,7 @@ export default memo(({
             }${
             parseSearch(search).update({ elevationId })
             }`);
-    }, [elevation]);
+    }, [mergedElevation]);
 
     return (
         <>
@@ -215,33 +215,35 @@ export default memo(({
                                 >
                                     <div className="input-group">
                                         <Input
-                                            label="Vertical"
-                                            type="inches"
-                                            min={0}
-                                            initialValue={verticalRoughOpening}
-                                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
-                                        />
-                                        {/* <Input
-                                                label="Masonry Opening"
-                                                type="switch"
-                                                readOnly={true}
-                                                checked={verticalMasonryOpening}
-                                            /> */}
-                                    </div>
-                                    <div className="input-group">
-                                        <Input
-                                            label="Horizontal"
+                                            label="Width"
                                             type="inches"
                                             min={0}
                                             initialValue={horizontalRoughOpening}
                                             onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
                                         />
-                                        {/* <Input
-                                                label="Masonry Opening"
-                                                type="switch"
-                                                readOnly={true}
-                                                checked={horizontalMasonryOpening}
-                                            /> */}
+                                        <Input
+                                            label="Masonry Opening"
+                                            disabled={true}
+                                            type="switch"
+                                            readOnly={true}
+                                            checked={horizontalMasonryOpening}
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <Input
+                                            label="Height"
+                                            type="inches"
+                                            min={0}
+                                            initialValue={verticalRoughOpening}
+                                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
+                                        />
+                                        <Input
+                                            label="Masonry Opening"
+                                            disabled={true}
+                                            type="switch"
+                                            readOnly={true}
+                                            checked={verticalMasonryOpening}
+                                        />
                                     </div>
                                 </GroupingBox>
                                 <Input
@@ -254,7 +256,7 @@ export default memo(({
                                     })}
                                 />
                                 <Input
-                                    label="Height above finished floor"
+                                    label="Curb Height"
                                     type="inches"
                                     min={0}
                                     initialValue={finishedFloorHeight}

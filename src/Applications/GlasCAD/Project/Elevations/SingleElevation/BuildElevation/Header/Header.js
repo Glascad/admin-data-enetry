@@ -58,6 +58,7 @@ export default function Header({
                                         cancelSelection
                                         :
                                         () => selectItem(VISIBILITY_SETTINGS)}
+                                    onMouseDown={e => e.stopPropagation()}
                                 />
                             )}
                     </SelectionContext.Consumer>
@@ -73,7 +74,7 @@ export default function Header({
                             }`}
                     >
                         <button>
-                            Cancel
+                            Close
                         </button>
                     </Link>
                     <button
@@ -91,7 +92,7 @@ export default function Header({
                                 }`)
                         }}
                     >
-                        Save and Exit
+                        Save and Close
                     </button>
                     <button
                         className="action"

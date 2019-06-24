@@ -39,7 +39,7 @@ class ActionProvider extends PureComponent {
             },
         } = this;
         
-        if (key === 'Delete') {
+        if (key === 'Delete' || key === 'Backspace') {
             if (SelectedClass === RecursiveContainer) this.deleteContainers();
             else if (SelectedClass === RecursiveFrame) this.deleteFrames();
         }
