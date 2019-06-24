@@ -194,9 +194,6 @@ class DimensionButton extends PureComponent {
     get inputStyle() {
         const {
             props: {
-                dimension: {
-                    vertical,
-                },
                 transform: {
                     scale: {
                         x: scaleX,
@@ -204,40 +201,9 @@ class DimensionButton extends PureComponent {
                     },
                 },
             },
-            style,
-            style: {
-                transform,
-            },
-            styleKeys: {
-                dimension: dimensionKey,
-                offset: offsetKey,
-                trackOffset: trackOffsetKey,
-            },
         } = this;
 
-        return {
-            ...(vertical ?
-                Object.entries(style)
-                    .reduce((reducedStyle, [key, value]) => ({
-                        ...reducedStyle,
-                        [key.match(/height/i) ?
-                            key.replace(/height/, 'width')
-                                .replace(/Height/, 'Width')
-                            :
-                            key.match(/bottom/) ?
-                                key.replace(/bottom/, 'left')
-                                :
-                                key.match(/left/) ?
-                                    key.replace(/left/, 'bottom')
-                                    :
-                                    '']: value,
-                    }), {})
-                :
-                style
-            ),
-            '': undefined,
-            transform: `${transform} ${vertical ? `scaleX(${scaleX})` : `scaleY(${1})`}`,
-        };
+        return { transform: `scaleX(${1 / scaleX})` };
     }
 
     render = () => {
@@ -282,6 +248,11 @@ class DimensionButton extends PureComponent {
                     } ${
                     selected ?
                         'selected'
+                        :
+                        ''
+                    } ${
+                    editing ?
+                        'editing'
                         :
                         ''
                     }`}

@@ -13,7 +13,9 @@ import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
 import { parseSearch } from '../../../../../../utils';
-import { ErrorBoundary, withUndoRedo } from '../../../../../../components';
+import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
+
+import './BuildElevation.scss';
 
 const defaultElevationInput = {
     containers: [],
@@ -168,6 +170,7 @@ class BuildElevation extends PureComponent {
                 queryStatus,
                 queryStatus: {
                     _elevation: {
+                        id,
                         name = '',
                     } = {},
                 },
@@ -219,6 +222,9 @@ class BuildElevation extends PureComponent {
                                 updateElevation={updateElevation}
                             />
                         </ErrorBoundary>
+                        {id ? null : (
+                            <Ellipsis id="elevation-loading" text="Loading" />
+                        )}
                     </TransformProvider>
                 </ActionProvider>
             </SelectionProvider>

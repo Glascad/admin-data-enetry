@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Ellipsis({ text = '', timeout = 300 }) {
+export default function Ellipsis({ text = '', timeout = 300, ...props }) {
     const [count, setCount] = useState(1);
     const updateCount = () => setCount(count === 3 ? 0 : count + 1);
     useEffect(() => {
@@ -8,7 +8,10 @@ export default function Ellipsis({ text = '', timeout = 300 }) {
         return () => clearTimeout(timeoutId);
     }, [count]);
     return (
-        <span className="Ellipsis">
+        <span
+            className="Ellipsis"
+            {...props}
+        >
             <span>
                 {text}
             </span>

@@ -37,6 +37,7 @@ export default class TransformProvider extends PureComponent {
         window.addEventListener('keydown', this.watchArrowKeys);
         window.addEventListener('keyup', this.watchSpaceKeyUp);
         window.addEventListener('mouseup', this.watchMouseUp);
+        window.addEventListener('touchdown', this.watchMouseDown);
         window.addEventListener('touchup', this.watchMouseUp);
         window.addEventListener('mousedown', this.watchMiddleMouseDown, true);
         window.addEventListener('wheel', this.watchScroll);
@@ -49,6 +50,7 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('keydown', this.watchArrowKeys);
         window.removeEventListener('keyup', this.watchSpaceKeyUp);
         window.removeEventListener('mouseup', this.watchMouseUp);
+        window.removeEventListener('touchdown', this.watchMouseDown);
         window.removeEventListener('touchup', this.watchMouseUp);
         window.addEventListener('wheel', this.watchScroll);
     }

@@ -51,13 +51,13 @@ class EditLite extends PureComponent {
                 <TitleBar
                     title="Edit Lite"
                 />
-                <div className="sidebar-group">
+                {/* <div className="sidebar-group">
                     <SidebarLink
                         toggleStackedView={toggleStackedView}
                         View={{ title: "Edit Infill", component: () => null }}
                         Icon={Icons.EditLite}
                     />
-                </div>
+                </div> */}
                 {length === 1 ?
                     mergableDirections.length ? (
                         <div className="sidebar-group">

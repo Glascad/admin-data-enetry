@@ -74,7 +74,7 @@ export default function Header({
                             }`}
                     >
                         <button>
-                            Cancel
+                            Close
                         </button>
                     </Link>
                     <button
@@ -92,7 +92,7 @@ export default function Header({
                                 }`)
                         }}
                     >
-                        Save and Exit
+                        Save and Close
                     </button>
                     <button
                         className="action"
