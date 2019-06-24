@@ -145,7 +145,8 @@
             }
 
             &:hover {
-                box-shadow: inset 0 0 $xx-small $xx-small $dark-gray;
+                // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray;
+                background: $dark-gray;
             }
 
             .text {
@@ -229,10 +230,12 @@
             z-index: 4;
 
             &.selected-container {
-                box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+                // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+                background: transparentize($selected-color, 0.35);
 
                 &.last-selected {
-                    box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+                    // box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+                    background: $selected-color;
                 }
             }
 
@@ -388,7 +391,7 @@
         .Input {
             height: $x-large;
             max-height: $x-large;
-            
+
             input {
                 text-align: center;
                 border: none;

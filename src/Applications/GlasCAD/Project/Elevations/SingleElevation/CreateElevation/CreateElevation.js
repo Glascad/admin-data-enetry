@@ -215,23 +215,7 @@ export default memo(({
                                 >
                                     <div className="input-group">
                                         <Input
-                                            label="Vertical"
-                                            type="inches"
-                                            min={0}
-                                            initialValue={verticalRoughOpening}
-                                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
-                                        />
-                                        <Input
-                                            label="Masonry Opening"
-                                            disabled={true}
-                                            type="switch"
-                                            readOnly={true}
-                                            checked={verticalMasonryOpening}
-                                        />
-                                    </div>
-                                    <div className="input-group">
-                                        <Input
-                                            label="Horizontal"
+                                            label="Width"
                                             type="inches"
                                             min={0}
                                             initialValue={horizontalRoughOpening}
@@ -245,6 +229,22 @@ export default memo(({
                                             checked={horizontalMasonryOpening}
                                         />
                                     </div>
+                                    <div className="input-group">
+                                        <Input
+                                            label="Height"
+                                            type="inches"
+                                            min={0}
+                                            initialValue={verticalRoughOpening}
+                                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
+                                        />
+                                        <Input
+                                            label="Masonry Opening"
+                                            disabled={true}
+                                            type="switch"
+                                            readOnly={true}
+                                            checked={verticalMasonryOpening}
+                                        />
+                                    </div>
                                 </GroupingBox>
                                 <Input
                                     label="Starting bay quantity"
@@ -256,7 +256,7 @@ export default memo(({
                                     })}
                                 />
                                 <Input
-                                    label="Height above finished floor"
+                                    label="Curb Height"
                                     type="inches"
                                     min={0}
                                     initialValue={finishedFloorHeight}
