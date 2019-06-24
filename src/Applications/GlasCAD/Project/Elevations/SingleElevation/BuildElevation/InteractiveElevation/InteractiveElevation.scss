@@ -153,7 +153,7 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                
+
                 > div {
                     width: 0;
                     height: 0;
@@ -356,6 +356,8 @@
         outline: none;
         box-shadow: none;
 
+        overflow: hidden;
+
         &.horizontal {
             height: $x-large;
             max-height: $x-large;
@@ -386,15 +388,16 @@
         .Input {
             height: $x-large;
             max-height: $x-large;
-
+            
             input {
                 text-align: center;
-                border-color: $selected-color;
+                border: none;
+                width: fit-content;
+                max-width: fit-content;
+                min-width: fit-content;
 
-                &::-webkit-inner-spin-button,
-                &::-webkit-outer-spin-button {
-                    -webkit-appearance: none;
-                    margin: 0;
+                &:focus {
+                    box-shadow: none;
                 }
             }
         }
@@ -403,6 +406,15 @@
             @include hoverable-background($selected-color);
 
             color: $off-white;
+
+            &.editing {
+                background: white;
+                border: 1px solid $selected-color;
+
+                &:hover {
+                    background: white;
+                }
+            }
         }
 
         &:hover {

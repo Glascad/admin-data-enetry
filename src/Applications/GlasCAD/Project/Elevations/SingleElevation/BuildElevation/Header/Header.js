@@ -74,7 +74,7 @@ export default function Header({
                             }`}
                     >
                         <button>
-                            Cancel
+                            Exit
                         </button>
                     </Link>
                     <button
