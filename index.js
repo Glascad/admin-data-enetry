@@ -18,11 +18,6 @@ APP.use(cors());
 
 APP.use(express.static(`${__dirname}/build/`));
 
-APP.use((req, res, next) => {
-    console.log(req.headers);
-    return next();
-});
-
 APP.use(postgraphile(CONNECTION_STRING, {
     graphiql: true,
     jwtPgTypeIdentifier: "users.jwt",
