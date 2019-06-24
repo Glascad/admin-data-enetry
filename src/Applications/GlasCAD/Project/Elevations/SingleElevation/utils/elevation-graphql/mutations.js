@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 import F from '../../../../../../../schema';
 import query from './query';
+import projectQuery from '../../../../project-graphql/query';
+import { parseSearch } from '../../../../../../../utils';
 
 export default {
     updateEntireElevation: {
@@ -31,9 +33,7 @@ export default {
                 },
             },
         }) {
-            console.log({ data });
             const oldResult = cache.readQuery({ query, variables: { id } });
-            console.log({ oldResult });
 
             const newResult = {
                 data: {
@@ -49,5 +49,12 @@ export default {
                 ...newResult,
             });
         },
+        awaitRefetchQueries: true,
+        refetchQueries: () => [{
+            query: projectQuery,
+            variables: {
+                id: +parseSearch(window.location.search).projectId,
+            },
+        }],
     },
 };
