@@ -26,7 +26,7 @@ export default class SelectionProvider extends PureComponent {
 
     componentDidMount = () => {
         // this.updateViewportWidth();
-        window.addEventListener('keydown', this.escape);
+        window.addEventListener('keydown', this.escape, true);
         window.addEventListener('keydown', this.watchHotKeyDown);
         window.addEventListener('keyup', this.watchHotKeyUp);
         window.addEventListener('keydown', this.watchArrowKeyDown);
