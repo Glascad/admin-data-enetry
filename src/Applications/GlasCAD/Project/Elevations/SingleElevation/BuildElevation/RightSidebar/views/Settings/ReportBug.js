@@ -11,6 +11,7 @@ export default {
 
 function ReportBug({
     states,
+    currentIndex,
 }) {
     const [complete, setComplete] = useState(false);
     return (
@@ -36,7 +37,7 @@ function ReportBug({
                     </>
                 ) : (
                         <BugReport
-                            state={states.map(({ recursiveElevation, ...state }) => state)}
+                            state={states.slice(0, currentIndex + 1).map(({ recursiveElevation, ...state }) => state)}
                             buttonClassName="sidebar-button danger"
                             onComplete={() => setComplete(true)}
                         />

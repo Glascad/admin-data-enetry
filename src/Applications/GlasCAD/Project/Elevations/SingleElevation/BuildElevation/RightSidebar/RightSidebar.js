@@ -65,6 +65,7 @@ class RightSidebar extends PureComponent {
                 } = {},
             },
             props: {
+                currentIndex,
                 states,
                 elevation,
                 updateElevation,
@@ -122,6 +123,7 @@ class RightSidebar extends PureComponent {
                 <Child
                     {...{
                         states,
+                        currentIndex,
                         elevation,
                         updateElevation,
                         toggleStackedView,
