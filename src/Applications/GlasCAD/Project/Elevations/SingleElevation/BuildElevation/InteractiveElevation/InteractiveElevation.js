@@ -83,8 +83,8 @@ class InteractiveElevation extends PureComponent {
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
-                    verticalContainerDimensionTracks = [],
-                    horizontalContainerDimensionTracks = [],
+                    verticalDimensionTracks = [],
+                    horizontalDimensionTracks = [],
                 } = {},
                 transformContext: {
                     scale: {
@@ -156,7 +156,7 @@ class InteractiveElevation extends PureComponent {
                     <SelectionLayer />
                     {/* VERTICAL DIMENSIONS */}
                     <div id="left-dimension-track">
-                        {verticalContainerDimensionTracks.map((track, i) => (
+                        {verticalDimensionTracks.map((track, i) => (
                             <div key={i}>
                                 {track.map(dimension => (
                                     <DimensionButton
@@ -203,7 +203,7 @@ class InteractiveElevation extends PureComponent {
                     /> */}
                     {/* HORIZONTAL DIMENSIONS */}
                     <div id="bottom-dimension-track">
-                        {horizontalContainerDimensionTracks.map((track, i) => (
+                        {horizontalDimensionTracks.map((track, i) => (
                             <div key={i}>
                                 {track.map(dimension => (
                                     <DimensionButton

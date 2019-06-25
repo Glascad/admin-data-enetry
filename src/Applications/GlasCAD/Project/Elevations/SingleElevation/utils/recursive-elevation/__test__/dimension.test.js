@@ -25,9 +25,9 @@ function testDimensions({
         });
 
         function testTrack(vertical, track, i) {
-            const actualTrack = recursiveElevation[`${vertical ? 'vertical' : 'horizontal'}ContainerDimensionTracks`][i];
+            const actualTrack = recursiveElevation[`${vertical ? 'vertical' : 'horizontal'}DimensionTracks`][i];
             track.forEach(({ containerIds, dimension, offset }) => {
-                test(`${vertical ? 'Vertical' : 'Horizontal'} container dimension track #${i} contains a dimension with all container ids ${containerIds.join(', ')}, dimension ${dimension}, and offset ${offset}`, () => {
+                test(`${vertical ? 'Vertical' : 'Horizontal'} dimension track #${i} contains a dimension with all container ids ${containerIds.join(', ')}, dimension ${dimension}, and offset ${offset}`, () => {
                     expect(actualTrack).toEqual(
                         // array of dimensions
                         expect.arrayContaining([
