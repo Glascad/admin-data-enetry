@@ -30,7 +30,7 @@ export default function ElevationSearch({
 }) {
     const [deleteElevation, deleteResult, deleting] = useMutation(deleteElevationMutation);
 
-    console.log({ deleting });
+    // console.log({ deleting });
 
     return (
         <div className="card">

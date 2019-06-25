@@ -18,7 +18,7 @@ export default function SystemOptions({
     presentationLevels,
     updateSystem,
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     return (
         <ListWrapper
             title="System Options"

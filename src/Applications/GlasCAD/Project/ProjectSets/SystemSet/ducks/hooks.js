@@ -120,7 +120,7 @@ export default function useSystemSetReducer(queryStatus) {
     // merge system input
     const systemSet = useMemo(() => merge(state, queryStatus), [state, queryStatus]);
     
-    console.log({ state, systemSet });
+    // console.log({ state, systemSet });
 
     // expose state object, dispatch function, and merged system set
     return {

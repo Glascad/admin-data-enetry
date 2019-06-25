@@ -37,7 +37,7 @@ export default class TransformProvider extends PureComponent {
         window.addEventListener('touchdown', this.watchMouseDown);
         window.addEventListener('touchup', this.watchMouseUp);
         window.addEventListener('mousedown', this.watchMiddleMouseDown, true);
-        window.addEventListener('wheel', this.watchScroll);
+        window.addEventListener('wheel', this.watchScroll, { passive: false });
         window.addEventListener('mousedown', this.watchScrollClick);
         // document.addEventListener('visibilitychange');
     }
@@ -89,10 +89,10 @@ export default class TransformProvider extends PureComponent {
                 typeof oldY !== 'number'
             )
         ) {
-            console.log({ x, y });
-            console.log(this.props);
+            // console.log({ x, y });
+            // console.log(this.props);
             const IE = document.getElementById("InteractiveElevation");
-            console.log({ IE });
+            // console.log({ IE });
 
             if (IE) {
                 const ratioY = IE.clientHeight / y / pixelsPerInch;
@@ -103,11 +103,11 @@ export default class TransformProvider extends PureComponent {
 
                 const baseScale = Math.min(baseScaleY, baseScaleX);
 
-                console.log({
-                    baseScaleY,
-                    baseScaleX,
-                    baseScale,
-                });
+                // console.log({
+                //     baseScaleY,
+                //     baseScaleX,
+                //     baseScale,
+                // });
 
                 const baseTranslateX = -x * 0.2;
 
@@ -245,13 +245,13 @@ export default class TransformProvider extends PureComponent {
     }
 
     updateScale = (value = minScale) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
-        n: console.log({
-            value,
-            plusValue: + value,
-            maxValue: Math.max(+value, minScale),
-            minScale,
-            nudgeAmount,
-        }),
+        // n: console.log({
+        //     value,
+        //     plusValue: + value,
+        //     maxValue: Math.max(+value, minScale),
+        //     minScale,
+        //     nudgeAmount,
+        // }),
         scale: {
             nudgeAmount,
             x: Math.max(+value, minScale) || minScale,

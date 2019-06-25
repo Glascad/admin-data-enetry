@@ -32,7 +32,7 @@ export default function ManageProjects({
                 },
             }) => (
                     <div className="card">
-                        {console.log({ allProjects })}
+                        {/* {console.log({ allProjects })} */}
                         <TitleBar
                             title="Manage Projects"
                         />

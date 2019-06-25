@@ -50,7 +50,7 @@ export default function mergeSystemUpdate({
     allInfillPocketSizes = [],
     allConfigurationTypes = [],
 }) {
-    console.log(arguments);
+    // console.log(arguments);
     return {
         // other keys
         ..._system,

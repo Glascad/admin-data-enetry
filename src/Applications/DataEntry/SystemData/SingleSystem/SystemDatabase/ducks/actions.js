@@ -56,7 +56,7 @@ export default {
     UPDATE({
         system,
     }, update) {
-        console.log(arguments);
+        // console.log(arguments);
         Object.keys(update).forEach(_validateKey);
         return {
             system: {
@@ -68,7 +68,7 @@ export default {
     UPDATE_LIST({
         system,
     }, update) {
-        console.log(arguments);
+        // console.log(arguments);
         const [[key, { addedItems, deletedItems }], tooMany] = Object.entries(update);
         if (tooMany) throw new Error('Cannot update multiple lists at once: ' + JSON.stringify(update));
         _validateKey(key);
@@ -146,7 +146,7 @@ export default {
             configurationTypeId,
             ...update
         }) {
-            console.log(arguments);
+            // console.log(arguments);
             const override = configurationOverrides.find(o => o.detailTypeId === detailTypeId
                 &&
                 o.configurationTypeId === configurationTypeId);
@@ -224,7 +224,7 @@ export default {
                 systemOptions,
             },
         }, option) {
-            console.log(arguments);
+            // console.log(arguments);
             Object.keys(option).forEach(_validateKey);
             return {
                 system: {
@@ -248,7 +248,7 @@ export default {
             optionId,
             ...update
         }) {
-            console.log(arguments);
+            // console.log(arguments);
             Object.keys(update).forEach(_validateKey);
             // find option in state
             const option = systemOptions
@@ -291,7 +291,7 @@ export default {
             optionId,
             ...update
         }) {
-            console.trace(arguments);
+            // console.trace(arguments);
             const [[key, { addedItems, deletedItems }], tooMany] = Object.entries(update);
             if (tooMany) throw new Error('Cannot update multiple lists at once: ' + JSON.stringify(update));
             _validateKey(key);
@@ -317,16 +317,16 @@ export default {
                         deletedItems,
                     },
                 });
-                console.log({
-                    key,
-                    deleteKey,
-                    addedItems,
-                    deletedItems,
-                    currentAddedItems,
-                    currentDeletedItems,
-                    newAddedItems,
-                    newDeletedItems,
-                });
+                // console.log({
+                //     key,
+                //     deleteKey,
+                //     addedItems,
+                //     deletedItems,
+                //     currentAddedItems,
+                //     currentDeletedItems,
+                //     newAddedItems,
+                //     newDeletedItems,
+                // });
                 return {
                     system: {
                         ...system,
@@ -362,7 +362,7 @@ export default {
         }, {
             optionId,
         }) {
-            console.log(arguments);
+            // console.log(arguments);
             const createdOption = systemOptions
                 .find(option => option.id === optionId);
             // remove option from state
@@ -411,7 +411,7 @@ export default {
                 optionId,
                 ...value
             }) {
-                console.log(arguments);
+                // console.log(arguments);
                 Object.keys(value).forEach(_validateKey)
                 // find option
                 const option = systemOptions
@@ -463,7 +463,7 @@ export default {
                 valueId,
                 ...value
             }) {
-                console.log(arguments);
+                // console.log(arguments);
                 Object.keys(value).forEach(_validateKey)
                 // find option in state
                 const option = systemOptions
@@ -535,7 +535,7 @@ export default {
                 optionId,
                 valueId,
             }) {
-                console.log(arguments);
+                // console.log(arguments);
                 const updatedOption = systemOptions
                     .find(({ id }) => id === optionId);
                 const optionIndex = systemOptions

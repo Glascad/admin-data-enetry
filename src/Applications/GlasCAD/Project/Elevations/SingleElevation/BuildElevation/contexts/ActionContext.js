@@ -102,19 +102,19 @@ class ActionProvider extends PureComponent {
 
     // MOVE ENTIRELY INTO ACTIONS FOLDER
     performBulkAction = (ACTION, refIds, getPayloadFromRefId, { _replaceState, useTimeout } = {}) => {
-        console.log({
-            ACTION,
-            refIds,
-            getPayloadFromRefId,
-            _replaceState,
-            useTimeout,
-        });
+        // console.log({
+        //     ACTION,
+        //     refIds,
+        //     getPayloadFromRefId,
+        //     _replaceState,
+        //     useTimeout,
+        // });
         const performAction = ([refId, ...nextRefIds], prevRefIds = []) => {
-            console.log({
-                refId,
-                nextRefIds,
-                prevRefIds,
-            });
+            // console.log({
+            //     refId,
+            //     nextRefIds,
+            //     prevRefIds,
+            // });
             if (refId) {
                 const {
                     props: {
@@ -129,7 +129,7 @@ class ActionProvider extends PureComponent {
 
                 const payload = getPayloadFromRefId(refId, prevRefIds, getItemByRefId);
 
-                console.log({ payload });
+                // console.log({ payload });
 
                 if (payload) updateElevation(
                     ACTION,
@@ -295,7 +295,7 @@ class ActionProvider extends PureComponent {
             updateDimension,
         } = this;
 
-        console.log(this);
+        // console.log(this);
 
         return (
             <ActionContext.Provider

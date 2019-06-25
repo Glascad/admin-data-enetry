@@ -28,7 +28,7 @@ export default function merge({
         } = {},
     } = {},
 }) {
-    console.log(arguments);
+    // console.log(arguments);
 
     return {
         id,
