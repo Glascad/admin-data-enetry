@@ -83,6 +83,8 @@
     }
 
     .Container,
+    .Container::before,
+    .Container::after,
     .frame-wrapper,
     .Frame,
     .detail-bubble-placement,
@@ -137,7 +139,7 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                // display: none;
+                display: none;
                 border: 2px solid transparentize($danger-color, 0.8) !important;
                 background: transparentize($danger-color, 0.8);
                 // box-shadow: none !important;
@@ -146,7 +148,32 @@
 
             &:hover {
                 // box-shadow: inset 0 0 $xx-small $xx-small $dark-gray;
-                background: $dark-gray;
+                // background: $dark-gray;
+                &::before,
+                &::after {
+                    opacity: 1;
+                }
+            }
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                height: 100%;
+                width: 100%;
+                opacity: 0;
+            }
+
+            &::before {
+                background: linear-gradient(90deg, $dark-gray, transparent 7%, transparent 93%, $dark-gray);
+            }
+
+            &::after {
+                background: linear-gradient($dark-gray, transparent 7%, transparent 93%, $dark-gray);
             }
 
             .text {
@@ -231,11 +258,56 @@
 
             &.selected-container {
                 // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
-                background: transparentize($selected-color, 0.35);
+                // background: transparentize($selected-color, 0.35);
+
+                &::before,
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    height: 100%;
+                    width: 100%;
+                }
+
+                &::before {
+                    background: linear-gradient(
+                        90deg,
+                        transparentize($selected-color, 0.35),
+                        transparent 7%,
+                        transparent 93%,
+                        transparentize($selected-color, 0.35)
+                    );
+                }
+
+                &::after {
+                    background: linear-gradient(
+                        transparentize($selected-color, 0.35),
+                        transparent 7%,
+                        transparent 93%,
+                        transparentize($selected-color, 0.35)
+                    );
+                }
 
                 &.last-selected {
                     // box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-                    background: $selected-color;
+                    // background: $selected-color;
+
+                    &::before {
+                        background: linear-gradient(
+                            90deg,
+                            $selected-color,
+                            transparent 7%,
+                            transparent 93%,
+                            $selected-color
+                        );
+                    }
+
+                    &::after {
+                        background: linear-gradient($selected-color, transparent 7%, transparent 93%, $selected-color);
+                    }
                 }
             }
 
