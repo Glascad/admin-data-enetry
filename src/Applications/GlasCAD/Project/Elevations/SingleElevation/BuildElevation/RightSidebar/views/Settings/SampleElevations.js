@@ -6,10 +6,10 @@ import { parseSearch } from '../../../../../../../../../utils';
 
 export default {
     title: "Sample Elevations",
-    component: withRouter(Settings),
+    component: withRouter(sampleElevations),
 };
 
-function Settings({
+function sampleElevations({
     location: {
         pathname,
         search,

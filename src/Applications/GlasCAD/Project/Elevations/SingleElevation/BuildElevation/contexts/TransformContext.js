@@ -53,7 +53,6 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('mouseup', this.watchMouseUp);
         window.removeEventListener('touchdown', this.watchMouseDown);
         window.removeEventListener('touchup', this.watchMouseUp);
-        window.addEventListener('wheel', this.watchScroll);
     }
 
     componentDidUpdate = ({

@@ -6,10 +6,10 @@ import * as Icons from '../../../../../../../../../assets/icons';
 
 export default {
     title: "All Icons",
-    component: Settings,
+    component: AllIcons,
 };
 
-function Settings({
+function AllIcons({
     elevation,
     updateElevation,
     toggleStackedView,

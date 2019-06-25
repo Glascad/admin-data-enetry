@@ -10,7 +10,7 @@ import ZoomAndPan from './ZoomAndPan';
 import AllIcons from './AllIcons';
 import SampleElevations from "./SampleElevations";
 import ReportBug from "./ReportBug";
-import { parseSearch } from '../../../../../../../../../utils';
+import HotKeys from "./HotKeys";
 
 export default {
     title: "Visibility Settings",
@@ -36,6 +36,10 @@ function Settings({
                 <SidebarLink
                     toggleStackedView={toggleStackedView}
                     View={ZoomAndPan}
+                />
+                <SidebarLink
+                    toggleStackedView={toggleStackedView}
+                    View={HotKeys}
                 />
                 <SidebarLink
                     toggleStackedView={toggleStackedView}
