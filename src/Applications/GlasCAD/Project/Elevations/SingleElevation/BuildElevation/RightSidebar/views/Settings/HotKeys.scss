@@ -19,15 +19,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: fit-content;
             height: $xxx-large;
+            width: fit-content;
+            min-width: $xxx-large;
+            border-radius: $xx-small;
             padding: 0 $x-small;
             border: 1px solid $light-gray;
             box-shadow: 1px 2px $light-gray;
-            border-radius: $xx-small;
 
             &.drag {
+                padding: 0;
                 border: none;
+                // border-radius: 0;
+                // border-bottom: 1px solid $light-gray;
                 box-shadow: none;
             }
             &.up,
