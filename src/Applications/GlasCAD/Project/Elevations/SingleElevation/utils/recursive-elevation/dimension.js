@@ -26,9 +26,9 @@ export default class RecursiveDimension {
             width;
 
         const precedence = vertical ?
-            x
+            x + (width / 2)
             :
-            y;
+            y + (height / 2);
 
         const containers = [container];
         const refIds = [refId];
@@ -50,13 +50,13 @@ export default class RecursiveDimension {
     }
 
     get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}<${this.instanceCount}>`; }
-    
+
     get ref() { return document.getElementById(this.refId); }
 
     registerReactComponent = ReactComponent => this.__ReactComponent = ReactComponent;
 
     get ReactComponent() { return this.__ReactComponent; }
-    
+
     matchContainer = ({
         placement: {
             x,
@@ -89,6 +89,8 @@ export default class RecursiveDimension {
             placement: {
                 x,
                 y,
+                height,
+                width,
             },
         } = container;
 
@@ -101,14 +103,14 @@ export default class RecursiveDimension {
         } = this;
 
         const newContainerPrecedence = vertical ?
-            x
+            x + (width / 2)
             :
-            y;
+            y + (height / 2);
 
-        this.precedence = (precedence * length + newContainerPrecedence) / (length + 1);
+        this.precedence = ((precedence * length) + newContainerPrecedence) / (length + 1);
 
         this.containers.push(container);
-        
+
         this.refIds.push(refId);
 
         return this;

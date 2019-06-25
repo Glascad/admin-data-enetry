@@ -224,6 +224,7 @@ class DimensionButton extends PureComponent {
                 dimension: {
                     refId,
                     vertical,
+                    precedence,
                 },
                 selected,
                 editing,
@@ -277,7 +278,8 @@ class DimensionButton extends PureComponent {
                                     transform: `scaleX(${1 / scaleX})`,
                                 }}
                             >
-                                {stringValue}
+                                {/* {stringValue} */}
+                                {precedence.toFixed(2)}
                             </div>
                         </div>
                     )}
