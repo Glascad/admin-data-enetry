@@ -6,6 +6,7 @@ import {
     TitleBar,
     Input,
     Ellipsis,
+    AsyncButton,
 } from '../../../../../../../components';
 
 import {
@@ -82,7 +83,7 @@ export default function Header({
                     >
                         Cancel Changes
                     </button>
-                    <button
+                    <AsyncButton
                         onClick={async () => {
                             const result = await save();
                             history.push(`${
@@ -93,13 +94,13 @@ export default function Header({
                         }}
                     >
                         Save and Close
-                    </button>
-                    <button
+                    </AsyncButton>
+                    <AsyncButton
                         className="action"
                         onClick={save}
                     >
                         Save
-                    </button>
+                    </AsyncButton>
                 </>
             )}
         />
