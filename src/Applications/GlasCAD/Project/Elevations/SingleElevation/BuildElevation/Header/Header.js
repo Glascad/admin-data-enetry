@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import {
     Input,
     Ellipsis,
     AsyncButton,
+    useMountTracker,
 } from '../../../../../../../components';
 
 import {
@@ -26,6 +27,11 @@ export default function Header({
     save,
     history,
 }) {
+    const [saving, setSaving] = useState(false);
+    const [savingAndExiting, setSavingAndExiting] = useState(false);
+
+    const mountTracker = useMountTracker();
+
     return (
         <TitleBar
             title="Elevation"
@@ -85,19 +91,29 @@ export default function Header({
                     </button>
                     <AsyncButton
                         onClick={async () => {
+                            setSavingAndExiting(true);
                             const result = await save();
                             history.push(`${
                                 path.replace(/elevation\/build-elevation/, 'all-elevations')
                                 }${
                                 parseSearch(search).remove('sampleElevation')
-                                }`)
+                                }`);
+                            mountTracker.ifStillMounted(setSavingAndExiting, false);
                         }}
+                        loading={savingAndExiting}
+                        loadingText="Saving"
                     >
                         Save and Close
                     </AsyncButton>
                     <AsyncButton
                         className="action"
-                        onClick={save}
+                        onClick={async () => {
+                            setSaving(true);
+                            await save();
+                            mountTracker.ifStillMounted(setSaving, false);
+                        }}
+                        loading={saving}
+                        loadingText="Saving"
                     >
                         Save
                     </AsyncButton>

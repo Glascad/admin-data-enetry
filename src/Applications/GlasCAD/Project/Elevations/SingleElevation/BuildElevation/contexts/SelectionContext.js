@@ -38,7 +38,7 @@ export default class SelectionProvider extends PureComponent {
         window.removeEventListener('keydown', this.watchHotKeyDown);
         window.removeEventListener('keyup', this.watchHotKeyUp);
         window.removeEventListener('keydown', this.watchArrowKeyDown);
-        // document.body.removeEventListener('mousedown', this.cancelSelection);
+        window.removeEventListener('mousedown', this.cancelSelection);
     }
 
     componentDidUpdate = ({ elevation: oldElevation }) => {

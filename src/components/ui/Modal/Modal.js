@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import './Modal.scss';
+
 import TitleBar from '../TitleBar/TitleBar';
+
+import AsyncButton from '../AsyncButton/AsyncButton';
 
 export default class Modal extends PureComponent {
 
@@ -59,7 +62,9 @@ export default class Modal extends PureComponent {
                 cancel,
                 onFinish,
                 finish = {},
+                finishing = false,
                 finishButtonText,
+                finishingText,
                 danger,
             },
             stopPropagation,
@@ -67,6 +72,7 @@ export default class Modal extends PureComponent {
             handleCancelClick,
             handleFinishClick,
         } = this;
+
         return display ? (
             <div
                 className={`modal-background ${display ? '' : 'hidden'}`}
@@ -100,10 +106,12 @@ export default class Modal extends PureComponent {
                                 />
                             ) : null}
                             {onFinish ? (
-                                <button
+                                <AsyncButton
                                     className={danger ? "danger" : "action"}
                                     {...finish}
                                     children={finishButtonText || finish.children || "Finish"}
+                                    loading={finishing}
+                                    loadingText={finishingText || "Finishing"}
                                     onClick={handleFinishClick}
                                 />
                             ) : null}

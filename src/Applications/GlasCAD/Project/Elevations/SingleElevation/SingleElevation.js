@@ -3,6 +3,8 @@ import React from 'react';
 import {
     Navigator,
     ApolloWrapper,
+    useQuery,
+    useMutation,
 } from '../../../../../components';
 
 import CreateElevation from './CreateElevation/CreateElevation';
@@ -10,7 +12,7 @@ import EditElevation from './EditElevation/EditElevation';
 import BuildElevation from './BuildElevation/BuildElevation';
 
 import query from './utils/elevation-graphql/query';
-import mutations from './utils/elevation-graphql/mutations';
+import updateElevationMutation from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
 
@@ -49,35 +51,31 @@ export default function SingleElevation({
 
     const { elevationId, sampleElevation } = parseSearch(search);
 
+    const variables = { id: +elevationId };
+
+    const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables });
+
+    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
+
     return (
-        <ApolloWrapper
-            query={{
-                query,
-                variables: {
-                    id: +elevationId,
+        <Navigator
+            routeProps={{
+                fetching,
+                queryStatus: {
+                    ...queryStatus,
+                    // FOR TESTING PURPOSES - `to inject sample elevation code into elevation builder`
+                    // _elevation: sample2,
+                    ...(sampleElevation ?
+                        {
+                            _elevation: SAMPLE_ELEVATIONS[sampleElevation],
+                        }
+                        :
+                        null),
                 },
+                updateEntireElevation,
+                updating,
             }}
-            mutations={mutations}
-        >
-            {apollo => (
-                <Navigator
-                    routeProps={{
-                        ...apollo,
-                        queryStatus: {
-                            ...apollo.queryStatus,
-                            ...(sampleElevation ?
-                                {
-                                    _elevation: SAMPLE_ELEVATIONS[sampleElevation],
-                                }
-                                :
-                                null)
-                            // FOR TESTING PURPOSES - `to inject sample elevation code into elevation builder`
-                            // _elevation: sample2,
-                        },
-                    }}
-                    routes={subroutes}
-                />
-            )}
-        </ApolloWrapper>
+            routes={subroutes}
+        />
     );
 }
