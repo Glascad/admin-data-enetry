@@ -232,7 +232,7 @@ export default class Input extends PureComponent {
             &&
             initialValue !== undefined
         ) {
-            throw new Error("Cannot must provide either `initialValue` or `value` but not both");
+            throw new Error("Must provide either `initialValue` or `value` but not both");
         }
 
         const tag = {
@@ -257,6 +257,8 @@ export default class Input extends PureComponent {
         const isBoolean = booleanTypes.includes(type) || Icon;
 
         const isInches = type === "inches";
+
+        console.log({ label, type, value });
 
         return (
             <tag.name
@@ -295,18 +297,17 @@ export default class Input extends PureComponent {
                                     "text"
                                     :
                                     type}
-                            value={onChange || isInches ?
-                                (
-                                    (value === undefined || isNaN(value))
-                                    &&
-                                    (type === "text" || type === "number")
-                                ) ?
-                                    ""
+                            value={onChange || isInches ? (
+                                (value === undefined || Number.isNaN(value))
+                                &&
+                                ["text", "number", "password"].includes(type)
+                            ) ?
+                                ""
+                                :
+                                isInches ?
+                                    inchInput
                                     :
-                                    isInches ?
-                                        inchInput
-                                        :
-                                        value
+                                    value
                                 :
                                 undefined}
                             checked={isBoolean ?
