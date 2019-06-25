@@ -142,9 +142,9 @@ export default class RecursiveElevation {
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
     // DIMENSIONS
-    get containerDimensions() {
-        return this.__containerDimensions || (
-            this.__containerDimensions = this.allContainers
+    get dimensions() {
+        return this.__dimensions || (
+            this.__dimensions = this.allContainers
                 .reduce(({
                     true: verticals,
                     false: horizontals,
@@ -175,8 +175,8 @@ export default class RecursiveElevation {
         );
     }
 
-    getContainerDimensionTracksByVertical(vertical) {
-        return this.containerDimensions[vertical]
+    getDimensionTracksByVertical(vertical) {
+        return this.dimensions[vertical]
             .reduce((tracks, dimension) => {
                 const correctTrack = tracks
                     .find(track => track.
@@ -193,8 +193,8 @@ export default class RecursiveElevation {
             .sort(sortDimensionTracks);
     }
 
-    get verticalContainerDimensionTracks() { return this.getContainerDimensionTracksByVertical(true); }
-    get horizontalContainerDimensionTracks() { return this.getContainerDimensionTracksByVertical(false); }
+    get verticalDimensionTracks() { return this.getDimensionTracksByVertical(true); }
+    get horizontalDimensionTracks() { return this.getDimensionTracksByVertical(false); }
 
     // OPTIONS / TYPES
     get detailTypes() { return this.allDetails.map(({ type }) => type); }
