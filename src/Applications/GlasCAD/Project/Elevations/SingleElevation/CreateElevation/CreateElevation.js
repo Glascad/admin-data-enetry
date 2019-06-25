@@ -129,21 +129,25 @@ export default memo(({
             ...createdElevation,
         };
 
-        const {
-            updateEntireElevation: {
-                elevation: [
-                    {
-                        id: elevationId,
-                    },
-                ],
-            },
-        } = await updateEntireElevation({ elevation });
+        try {
+            const {
+                updateEntireElevation: {
+                    elevation: [
+                        {
+                            id: elevationId,
+                        },
+                    ],
+                },
+            } = await updateEntireElevation({ elevation });
 
-        history.push(`${
-            path.replace(/create/, 'build')
-            }${
-            parseSearch(search).update({ elevationId })
-            }`);
+            history.push(`${
+                path.replace(/create/, 'build')
+                }${
+                parseSearch(search).update({ elevationId })
+                }`);
+        } catch (err) {
+            console.error(err);
+        }
     }, [mergedElevation]);
 
     return (
@@ -181,6 +185,7 @@ export default memo(({
             >
                 <Input
                     label="Elevation ID"
+                    autoFocus={true}
                     value={name}
                     onChange={({ target: { value } }) => updateElevation({
                         name: value,

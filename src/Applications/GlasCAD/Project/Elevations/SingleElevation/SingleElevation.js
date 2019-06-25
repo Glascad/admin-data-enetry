@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
     Navigator,
@@ -53,7 +53,18 @@ export default function SingleElevation({
 
     const variables = { id: +elevationId };
 
-    const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables });
+    console.log({ variables });
+
+    const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
+
+    useEffect(() => {
+        if (elevationId) {
+            console.log({ variables });
+            fetchQuery();
+        }
+    }, [elevationId]);
+
+    console.log({ queryStatus });
 
     const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
 

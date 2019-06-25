@@ -29,22 +29,29 @@ export function useMutation(mutation, fetchQuery = () => { }) {
 
         setLoading(true);
 
-        const response = await client.mutate({
-            variables,
-            ...mutation,
-        });
+        try {
 
-        const normalResponse = normalizeResponse(response);
+            const response = await client.mutate({
+                variables,
+                ...mutation,
+            });
 
-        tracker.ifStillMounted(() => {
+            const normalResponse = normalizeResponse(response);
+
+            // tracker.ifStillMounted(() => {
             setLoading(false);
 
             setMutationResult(normalResponse);
 
             fetchQuery();
-        });
+            // });
 
-        return normalResponse;
+            return normalResponse;
+
+        } catch (err) {
+            console.trace(mutation);
+            console.log({ err });
+        }
     }
 
     return [mutate, mutationResult, loading];
@@ -61,19 +68,28 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         setLoading(true);
 
-        const response = await client.query(query);
+        try {
 
-        const normalResponse = normalizeResponse(response);
+            console.log(query);
 
-        tracker.ifStillMounted(() => {
+            const response = await client.query(query);
+
+            const normalResponse = normalizeResponse(response);
+
+            // tracker.ifStillMounted(() => {
             setLoading(false);
 
             setQueryResult(normalResponse);
-        });
+            // });
 
-        return normalResponse;
+            return normalResponse;
 
-    }, []);
+        } catch (err) {
+            console.trace(query);
+            console.log({ err });
+        }
+
+    }, [query]);
 
     useEffect(() => {
         if (!doNotFetchOnMount) {

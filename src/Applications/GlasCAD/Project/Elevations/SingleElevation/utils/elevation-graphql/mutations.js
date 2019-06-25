@@ -31,20 +31,30 @@ export default {
             },
         },
     }) {
-        const oldResult = cache.readQuery({ query, variables: { id } });
 
-        const data = {
-            ...oldResult,
-            elevationById: elevation,
-        };
+        // const oldResult = (() => {
+        //     try {
+        //         return cache.readQuery({ query, variables: { id } });
+        //     } catch (err) {
+        //         console.log({ err });
+        //         return {};
+        //     }
+        // })();
 
-        cache.writeQuery({
-            query,
-            variables: {
-                id,
-            },
-            data,
-        });
+        // console.log({ oldResult });
+
+        // const data = {
+        //     ...oldResult,
+        //     elevationById: elevation,
+        // };
+
+        // cache.writeQuery({
+        //     query,
+        //     variables: {
+        //         id,
+        //     },
+        //     data,
+        // });
     },
     awaitRefetchQueries: true,
     refetchQueries: ({

@@ -48,7 +48,7 @@ function AuthenticationProvider({
 
     const getCurrentUser = async () => {
         const result = await fetchQuery();
-        const { currentUser: { projectId } = {} } = result;
+        const { currentUser: { projectId } = {} } = result || {};
         history.push(
             originalLocation.match(/\/(glascad|data-entry)/) ?
                 originalLocation
@@ -73,17 +73,22 @@ function AuthenticationProvider({
         authPromise;
 
     const login = async ({ username, password }) => {
-        const {
-            authenticate: {
-                jwt,
-            },
-        } = await authenticate({ username, password });
+        try {
+            const {
+                authenticate: {
+                    jwt,
+                },
+            } = await authenticate({ username, password });
 
-        if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
-        
+            if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
+
+        } catch (err) {
+            console.log({ err });
+        }
+
         return getCurrentUser();
     };
-    
+
     const logout = async () => {
 
         localStorage.clear();
