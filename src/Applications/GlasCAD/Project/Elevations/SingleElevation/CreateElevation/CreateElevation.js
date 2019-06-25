@@ -13,6 +13,7 @@ import {
     CircleButton,
     useUndoRedo,
     useQuery,
+    AsyncButton,
 } from '../../../../../../components';
 
 import ElevationPreview from './ElevationPreview';
@@ -42,9 +43,8 @@ export default memo(({
     match: {
         path,
     },
-    mutations: {
-        updateEntireElevation,
-    },
+    updateEntireElevation,
+    updating: creating,
 }) => {
 
     const initalState = {
@@ -130,14 +130,12 @@ export default memo(({
         };
 
         const {
-            data: {
-                updateEntireElevation: {
-                    elevation: [
-                        {
-                            id: elevationId,
-                        },
-                    ],
-                },
+            updateEntireElevation: {
+                elevation: [
+                    {
+                        id: elevationId,
+                    },
+                ],
             },
         } = await updateEntireElevation({ elevation });
 
@@ -166,12 +164,14 @@ export default memo(({
                                 Cancel
                             </button>
                         </Link>
-                        <button
+                        <AsyncButton
                             className={`action ${name ? '' : 'disabled'}`}
                             onClick={save}
+                            loading={creating}
+                            loadingText="Creating"
                         >
                             Create
-                        </button>
+                        </AsyncButton>
                     </>
                 )}
             />
@@ -375,12 +375,14 @@ export default memo(({
                             Cancel
                         </button>
                     </Link>
-                    <button
+                    <AsyncButton
                         className={`action ${name ? '' : 'disabled'}`}
                         onClick={save}
+                        loading={creating}
+                        loadingText="Creating"
                     >
                         Create
-                    </button>
+                    </AsyncButton>
                 </div>
             </div>
         </>

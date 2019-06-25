@@ -258,8 +258,6 @@ export default class Input extends PureComponent {
 
         const isInches = type === "inches";
 
-        console.log({ label, type, value });
-
         return (
             <tag.name
                 className={`Input type-${
