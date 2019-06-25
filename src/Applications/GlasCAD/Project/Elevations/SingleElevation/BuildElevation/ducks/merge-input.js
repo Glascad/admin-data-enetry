@@ -1,5 +1,4 @@
 import RecursiveElevation from "../../utils/recursive-elevation/elevation";
-import validateElevation from "./validate-elevation";
 import _ from 'lodash';
 
 function mergeElevationInput(
@@ -73,8 +72,6 @@ export default function ({
 } = {}) {
 
     const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
-
-    validateElevation(mergedElevation);
 
     const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 

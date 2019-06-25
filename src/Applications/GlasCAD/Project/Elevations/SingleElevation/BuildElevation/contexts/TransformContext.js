@@ -14,10 +14,6 @@ const minScale = 0.1;
 export default class TransformProvider extends PureComponent {
 
     state = {
-        baseTranslate: {
-            x: 0,
-            y: 0,
-        },
         baseScale: defaultScale,
         scrollMultiplier: 0.0007,
         scale: {
@@ -41,7 +37,7 @@ export default class TransformProvider extends PureComponent {
         window.addEventListener('touchdown', this.watchMouseDown);
         window.addEventListener('touchup', this.watchMouseUp);
         window.addEventListener('mousedown', this.watchMiddleMouseDown, true);
-        window.addEventListener('wheel', this.watchScroll);
+        window.addEventListener('wheel', this.watchScroll, { passive: false });
         window.addEventListener('mousedown', this.watchScrollClick);
         // document.addEventListener('visibilitychange');
     }
@@ -53,6 +49,9 @@ export default class TransformProvider extends PureComponent {
         window.removeEventListener('mouseup', this.watchMouseUp);
         window.removeEventListener('touchdown', this.watchMouseDown);
         window.removeEventListener('touchup', this.watchMouseUp);
+        window.removeEventListener('wheel', this.watchScroll);
+        window.removeEventListener('mousemove', this.pan);
+        window.removeEventListener('touchmove', this.pan);
     }
 
     componentDidUpdate = ({
@@ -90,23 +89,37 @@ export default class TransformProvider extends PureComponent {
                 typeof oldY !== 'number'
             )
         ) {
-            console.log({ x, y });
-            console.log(this.props);
+            // console.log({ x, y });
+            // console.log(this.props);
             const IE = document.getElementById("InteractiveElevation");
-            console.log({ IE });
+            // console.log({ IE });
 
             if (IE) {
-                const ratio = IE.clientHeight / y / pixelsPerInch;
-                const baseScale = ratio * 0.6;
+                const ratioY = IE.clientHeight / y / pixelsPerInch;
+                const ratioX = IE.clientWidth / x / pixelsPerInch;
 
-                console.log({ ratio, baseScale });
+                const baseScaleY = ratioY * 0.6;
+                const baseScaleX = ratioX * 0.75;
+
+                const baseScale = Math.min(baseScaleY, baseScaleX);
+
+                // console.log({
+                //     baseScaleY,
+                //     baseScaleX,
+                //     baseScale,
+                // });
 
                 const baseTranslateX = -x * 0.2;
 
-                this.setState(({ baseTranslate }) => ({
+                this.setState(({ scale, translate }) => ({
                     baseScale,
-                    baseTranslate: {
-                        ...baseTranslate,
+                    scale: {
+                        ...scale,
+                        x: baseScale,
+                        y: baseScale,
+                    },
+                    translate: {
+                        ...translate,
                         x: baseTranslateX,
                     },
                 }));
@@ -152,30 +165,30 @@ export default class TransformProvider extends PureComponent {
     }
 
     watchScroll = e => {
-            e.preventDefault();
-            this.setState(({ scrollMultiplier, scale: { x, y } }) => ({
-                scale: {
-                    y: Math.max(+y - scrollMultiplier * e.deltaY, minScale) || minScale,
-                    x: Math.max(+x - scrollMultiplier * e.deltaY, minScale) || minScale,
-                },
-            }));
+        e.preventDefault();
+        this.setState(({ scrollMultiplier, scale: { x, y } }) => ({
+            scale: {
+                y: Math.max(+y - scrollMultiplier * e.deltaY, minScale) || minScale,
+                x: Math.max(+x - scrollMultiplier * e.deltaY, minScale) || minScale,
+            },
+        }));
     }
 
     watchMouseDown = e => {
-        if (this.state.spaceKey){
+        if (this.state.spaceKey) {
             this.startPanning(e);
         }
     }
 
     watchMiddleMouseDown = e => {
-        if (e.which == 2){
-            this.startPanning(e);
+        if (e.which == 2) {
+            this.startPanning(e, true);
         }
     }
 
-    startPanning = e => {
+    startPanning = (e, captured) => {
 
-        e.preventDefault();
+        if (!captured) e.preventDefault();
 
         const { clientX, clientY } = e;
 
@@ -231,7 +244,14 @@ export default class TransformProvider extends PureComponent {
         });
     }
 
-    updateScale = ({ target: { value = minScale } }) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+    updateScale = (value = minScale) => this.setState(({ scale: { x, y, nudgeAmount } }) => ({
+        // n: console.log({
+        //     value,
+        //     plusValue: + value,
+        //     maxValue: Math.max(+value, minScale),
+        //     minScale,
+        //     nudgeAmount,
+        // }),
         scale: {
             nudgeAmount,
             x: Math.max(+value, minScale) || minScale,
@@ -239,45 +259,57 @@ export default class TransformProvider extends PureComponent {
         },
     }));
 
-    updateScaleNudge = ({ target: { value = minScale } }) => this.setState(({ scale }) => ({
+    updateScaleNudge = (value = minScale) => this.setState(({ scale }) => ({
         scale: {
             ...scale,
             nudgeAmount: Math.max(+value, minScale) || minScale,
         },
     }));
 
-    updateTranslateX = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
+    updateTranslateX = (value = 0) => this.setState(({ translate }) => ({
         translate: {
             ...translate,
             x: +value || 0,
         },
     }));
 
-    updateTranslateY = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
+    updateTranslateY = (value = 0) => this.setState(({ translate }) => ({
         translate: {
             ...translate,
             y: -value || 0,
         },
     }));
 
-    updateTranslateNudge = ({ target: { value = 0 } }) => this.setState(({ translate }) => ({
+    updateTranslateNudge = (value = 0) => this.setState(({ translate }) => ({
         translate: {
             ...translate,
             nudgeAmount: +value || 0,
         },
     }));
 
-    resetScale = () => this.setState({ scale: this.state.baseScale });
+    // reset zoom
+    resetScale = () => this.setState(({ baseScale, scale }) => ({
+        scale: {
+            ...scale,
+            x: baseScale,
+            y: baseScale,
+        },
+    }));
 
-    resetTranslate = () => this.setState({ translate: { x: 0, y: 0 } });
+    // reset pan
+    resetTranslate = () => this.setState(({ translate }) => ({
+        translate: {
+            ...translate,
+            x: 0,
+            y: 0,
+        },
+    }));
 
     render = () => {
         const {
             state: {
                 pixelsPerInch,
-                baseScale,
                 scale,
-                baseTranslate,
                 translate,
                 spaceKey,
                 grabbing,
@@ -300,16 +332,9 @@ export default class TransformProvider extends PureComponent {
             <TransformContext.Provider
                 value={{
                     pixelsPerInch,
-                    scale: {
-                        ...scale,
-                        x: scale.x * baseScale,
-                        y: scale.y * baseScale,
-                    },
-                    translate: {
-                        ...translate,
-                        x: translate.x + baseTranslate.x,
-                        y: translate.y + baseTranslate.y,
-                    },
+                    scale,
+                    translate,
+                    minScale,
                     updateScale,
                     updateScaleNudge,
                     resetScale,

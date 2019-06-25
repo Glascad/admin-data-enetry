@@ -8,6 +8,8 @@ import {
     replaceByKeys,
 } from '../../utils';
 
+import useMountTracker from './use-mount-tracker';
+
 const normalizeResponse = ({ data }) => removeNullValues(
     flattenNodeArrays(
         replaceByKeys(
@@ -17,6 +19,8 @@ const normalizeResponse = ({ data }) => removeNullValues(
 ) || {};
 
 export function useMutation(mutation, fetchQuery = () => { }) {
+
+    const tracker = useMountTracker();
 
     const [mutationResult, setMutationResult] = useState({});
     const [loading, setLoading] = useState(false);
@@ -30,13 +34,15 @@ export function useMutation(mutation, fetchQuery = () => { }) {
             ...mutation,
         });
 
-        setLoading(false);
-
         const normalResponse = normalizeResponse(response);
 
-        setMutationResult(normalResponse);
+        tracker.ifStillMounted(() => {
+            setLoading(false);
 
-        fetchQuery();
+            setMutationResult(normalResponse);
+
+            fetchQuery();
+        });
 
         return normalResponse;
     }
@@ -45,6 +51,8 @@ export function useMutation(mutation, fetchQuery = () => { }) {
 }
 
 export function useQuery(query, doNotFetchOnMount = false) {
+
+    const tracker = useMountTracker();
 
     const [queryResult, setQueryResult] = useState({});
     const [loading, setLoading] = useState(false);
@@ -55,11 +63,13 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         const response = await client.query(query);
 
-        setLoading(false);
-
         const normalResponse = normalizeResponse(response);
 
-        setQueryResult(normalResponse);
+        tracker.ifStillMounted(() => {
+            setLoading(false);
+
+            setQueryResult(normalResponse);
+        });
 
         return normalResponse;
 

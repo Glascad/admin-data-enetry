@@ -11,7 +11,7 @@ export default function ProjectInfo({
         } = {},
     },
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     return (
         <>
             <TitleBar
@@ -20,7 +20,7 @@ export default function ProjectInfo({
             <Input
                 label="Project Name"
                 value={name}
-                onChange={()=>console.log("Cannot change!")}
+                onChange={() => console.log("Cannot change!")}
             />
         </>
     )

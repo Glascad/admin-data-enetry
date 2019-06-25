@@ -40,11 +40,11 @@ export default class SystemConfigurationOverride extends PureComponent {
                 updatedSystemConfigurationOverride[key] === defaultValues[key.replace(regex, '')]
             );
 
-        console.log({
-            updatedSystemConfigurationOverride,
-            identical,
-            defaultValues,
-        });
+        // console.log({
+        //     updatedSystemConfigurationOverride,
+        //     identical,
+        //     defaultValues,
+        // });
 
         const {
             mirrorableOverride,
@@ -92,7 +92,7 @@ export default class SystemConfigurationOverride extends PureComponent {
             handleChange,
         } = this;
 
-        console.log(this.props);
+        // console.log(this.props);
 
         return (
             <GroupingBox

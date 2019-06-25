@@ -7,7 +7,7 @@ SystemSetConfigurationTypes.navigationOptions = {
 export default function SystemSetConfigurationTypes({
 
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     return (
         <div>
 

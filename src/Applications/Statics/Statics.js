@@ -75,7 +75,13 @@ class Statics extends PureComponent {
                     Viewport,
                 }}
             >
-                <div id="Sidebar" className={open ? "" : "closed"}>
+                <div
+                    id="Sidebar"
+                    className={open ? "" : "closed"}
+                    onKeyDown={e => e.stopPropagation()}
+                    onMouseDown={e => e.stopPropagation()}
+                    onWheel={e => e.stopPropagation()}
+                >
                     <Link
                         id="sidebar-header"
                         to={path}

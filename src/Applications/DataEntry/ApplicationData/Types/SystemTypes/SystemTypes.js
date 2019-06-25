@@ -37,7 +37,7 @@ export default function SystemTypes() {
                 mutations,
             }) => (
                     <ListWrapper
-                        n={console.log({ queryStatus, mutations })}
+                        // n={console.log({ queryStatus, mutations })}
                         title="System Types"
                         items={allSystemTypes}
                         mapPillProps={({ type }) => ({

@@ -240,6 +240,7 @@ class List extends PureComponent {
                         onCancel={cancel}
                         onFinish={handleDelete}
                         finishButtonText="Delete"
+                        finishingText="Deleting"
                         danger={true}
                     >
                         Are you sure you want to delete {

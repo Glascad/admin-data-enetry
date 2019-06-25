@@ -33,23 +33,27 @@ export default function useUndoRedo(firstState) {
     } = states;
 
     const cancel = useCallback(() => dispatch(({ states: [initialState] }) => ({
+        // n: console.log("CANCEL"),
         states: [initialState],
         currentIndex: 0,
     })), [dispatch]);
 
     const clearHistory = useCallback(() => dispatch(({ states, currentIndex }) => ({
+        // n: console.log("CLEARHISTORY"),
         states: [states[currentIndex]],
         currentIndex: 0,
     })), [dispatch]);
 
-    const undo = useCallback(() => dispatch(({ currentIndex }) => ({
+    const undo = useCallback(() => setTimeout(() => dispatch(({ currentIndex }) => ({
+        // n: console.log("UNDO"),
         currentIndex: currentIndex > 0 ?
             currentIndex - 1
             :
             currentIndex,
-    })), [dispatch]);
+    }))), [dispatch]);
 
     const redo = useCallback(() => dispatch(({ states: { length }, currentIndex }) => ({
+        // n: console.log("REDO"),
         currentIndex: currentIndex < length - 1 ?
             currentIndex + 1
             :
@@ -57,6 +61,7 @@ export default function useUndoRedo(firstState) {
     })), [dispatch]);
 
     const pushState = useCallback((setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
+        // n: console.log("PUSHSTATE"),
         states: states
             .slice(0, currentIndex + 1)
             .concat({
@@ -67,8 +72,10 @@ export default function useUndoRedo(firstState) {
     }), ...args), [dispatch]);
 
     const replaceState = useCallback((setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
-        states: states.slice(0, currentIndex)
-            .concat({
+        // n: console.log("REPLACESTATE"),
+        states: states
+            // .slice(0, currentIndex)
+            .replace(currentIndex, {
                 ...states[currentIndex],
                 ...setStateCallback(states[currentIndex]),
             }),
@@ -85,8 +92,13 @@ export default function useUndoRedo(firstState) {
 
     useEffect(() => {
         window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onkeydown);
-    }, [onkeydown]);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [onKeyDown]);
+
+    // console.log({
+    //     currentIndex,
+    //     states,
+    // });
 
     return {
         currentState,

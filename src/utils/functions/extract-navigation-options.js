@@ -32,15 +32,15 @@ export default (functionName, component, props, log = false) => {
             navigationOptions;
 
     if (log) {
-        console.log({
-            name,
-            path,
-            functionName,
-            navigationOptions,
-            options,
-            props,
-            subroutes,
-        });
+        // console.log({
+        //     name,
+        //     path,
+        //     functionName,
+        //     navigationOptions,
+        //     options,
+        //     props,
+        //     subroutes,
+        // });
     }
 
     return {

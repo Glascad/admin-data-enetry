@@ -23,8 +23,8 @@ export default function GlazingInfo({
     },
     updateSystem,
 }) {
-    console.log(arguments[0]);
-    console.log(_systemInfillPocketTypes.map(({ _infillPocketType }) => ({ ..._infillPocketType })));
+    // console.log(arguments[0]);
+    // console.log(_systemInfillPocketTypes.map(({ _infillPocketType }) => ({ ..._infillPocketType })));
     return (
         <>
             <TitleBar

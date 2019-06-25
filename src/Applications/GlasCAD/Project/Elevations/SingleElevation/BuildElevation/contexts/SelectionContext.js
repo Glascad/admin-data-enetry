@@ -26,7 +26,7 @@ export default class SelectionProvider extends PureComponent {
 
     componentDidMount = () => {
         // this.updateViewportWidth();
-        window.addEventListener('keydown', this.escape);
+        window.addEventListener('keydown', this.escape, true);
         window.addEventListener('keydown', this.watchHotKeyDown);
         window.addEventListener('keyup', this.watchHotKeyUp);
         window.addEventListener('keydown', this.watchArrowKeyDown);
@@ -38,7 +38,7 @@ export default class SelectionProvider extends PureComponent {
         window.removeEventListener('keydown', this.watchHotKeyDown);
         window.removeEventListener('keyup', this.watchHotKeyUp);
         window.removeEventListener('keydown', this.watchArrowKeyDown);
-        // document.body.removeEventListener('mousedown', this.cancelSelection);
+        window.removeEventListener('mousedown', this.cancelSelection);
     }
 
     componentDidUpdate = ({ elevation: oldElevation }) => {

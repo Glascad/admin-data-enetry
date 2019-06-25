@@ -22,7 +22,7 @@ export default function InvalidCombinations({
         deleteOptionCombinationConfigurationType,
     }
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     return (
         <div className="unfinished">
             <ListWrapper

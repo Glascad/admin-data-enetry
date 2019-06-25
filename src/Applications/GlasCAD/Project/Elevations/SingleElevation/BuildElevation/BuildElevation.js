@@ -13,7 +13,10 @@ import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
 
 import { parseSearch } from '../../../../../../utils';
+
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
+
+import validateElevation from './ducks/validate-elevation';
 
 import './BuildElevation.scss';
 
@@ -26,12 +29,16 @@ class BuildElevation extends PureComponent {
 
     static contextType = StaticContext;
 
+    mounted = false;
+
     componentDidMount = () => {
         this.context.sidebar.toggle(false);
+        this.mounted = true;
     }
 
     componentWillUnmount = () => {
         this.context.sidebar.toggle(true);
+        this.mounted = false;
     }
 
     componentDidUpdate = ({ queryStatus: oldQueryStatus }) => {
@@ -89,9 +96,7 @@ class BuildElevation extends PureComponent {
                 location: {
                     search,
                 },
-                mutations: {
-                    updateEntireElevation,
-                },
+                updateEntireElevation,
                 currentState: {
                     elevationInput,
                     elevationInput: {
@@ -152,8 +157,10 @@ class BuildElevation extends PureComponent {
             },
         });
 
-        clearHistory();
-
+        if (this.mounted) {    
+            clearHistory();
+        }
+        
         return result;
     }
 
@@ -175,7 +182,9 @@ class BuildElevation extends PureComponent {
                     } = {},
                 },
                 states,
+                currentIndex,
                 currentState: {
+                    mergedElevation,
                     recursiveElevation,
                 },
                 cancel,
@@ -183,6 +192,16 @@ class BuildElevation extends PureComponent {
             updateElevation,
             save,
         } = this;
+
+        clearTimeout(this.timeout);
+
+        this.timeout = setTimeout(() => {
+            try {
+                validateElevation(mergedElevation)
+            } catch (err) {
+                console.error(err);
+            }
+        }, 100);
 
         return (
             <SelectionProvider
@@ -205,6 +224,7 @@ class BuildElevation extends PureComponent {
                             cancel={cancel}
                         />
                         <RightSidebar
+                            currentIndex={currentIndex}
                             states={states}
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
@@ -223,7 +243,10 @@ class BuildElevation extends PureComponent {
                             />
                         </ErrorBoundary>
                         {id ? null : (
-                            <Ellipsis id="elevation-loading" text="Loading" />
+                            <Ellipsis
+                                id="elevation-loading"
+                                text="Loading"
+                            />
                         )}
                     </TransformProvider>
                 </ActionProvider>

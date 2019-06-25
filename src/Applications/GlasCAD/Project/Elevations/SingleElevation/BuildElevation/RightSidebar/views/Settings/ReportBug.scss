@@ -2,8 +2,8 @@
 
 #ReportBug {
     textarea {
-        width: calc(100% - #{$xx-small * 2});
         height: $pill-width;
+        width: calc(100% - #{$xx-small * 2});
         padding: $xx-small;
     }
 }
