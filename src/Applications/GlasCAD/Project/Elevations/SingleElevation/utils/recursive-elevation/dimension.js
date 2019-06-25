@@ -108,6 +108,7 @@ export default class RecursiveDimension {
         this.precedence = (precedence * length + newContainerPrecedence) / (length + 1);
 
         this.containers.push(container);
+        
         this.refIds.push(refId);
 
         return this;
