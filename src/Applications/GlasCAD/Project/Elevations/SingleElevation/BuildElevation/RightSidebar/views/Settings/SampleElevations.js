@@ -3,6 +3,7 @@ import React from 'react';
 import { TitleBar } from '../../../../../../../../../components';
 import { withRouter, Link } from 'react-router-dom';
 import { parseSearch } from '../../../../../../../../../utils';
+import { SAMPLE_ELEVATIONS } from '../../../../SingleElevation';
 
 export default {
     title: "Sample Elevations",
@@ -21,7 +22,7 @@ function sampleElevations({
                 title="Sample Elevations"
             />
             <div className="sidebar-group">
-                {['sample1', 'sample1Special', 'sample2', 'sample3', 'sample3Special', 'sample4'].map(sampleElevation => (
+                {Object.keys(SAMPLE_ELEVATIONS).map(sampleElevation => (
                     <Link
                         key={sampleElevation}
                         to={`${pathname}${parseSearch(search).update({ sampleElevation })}`}
