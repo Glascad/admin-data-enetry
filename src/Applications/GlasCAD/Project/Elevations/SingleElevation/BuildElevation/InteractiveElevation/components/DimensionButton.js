@@ -233,10 +233,14 @@ class DimensionButton extends PureComponent {
                         y: scaleY,
                     },
                 },
+                scaledDimension: dimension,
             },
         } = this;
 
-        return { transform: `scaleX(${1 / scaleX})` };
+        return {
+            transform: `scaleX(${1 / scaleX})`,
+            width: dimension,
+        };
     }
 
     render = () => {
