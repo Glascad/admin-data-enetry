@@ -26,6 +26,7 @@ export default function Header({
     cancel,
     save,
     history,
+    updating,
 }) {
     const [saving, setSaving] = useState(false);
     const [savingAndExiting, setSavingAndExiting] = useState(false);
@@ -98,9 +99,9 @@ export default function Header({
                                 }${
                                 parseSearch(search).remove('sampleElevation')
                                 }`);
-                            mountTracker.ifStillMounted(setSavingAndExiting, false);
+                            setSavingAndExiting(false);
                         }}
-                        loading={savingAndExiting}
+                        loading={savingAndExiting && updating}
                         loadingText="Saving"
                     >
                         Save and Close
@@ -110,9 +111,9 @@ export default function Header({
                         onClick={async () => {
                             setSaving(true);
                             await save();
-                            mountTracker.ifStillMounted(setSaving, false);
+                            setSaving(false);
                         }}
-                        loading={saving}
+                        loading={saving && updating}
                         loadingText="Saving"
                     >
                         Save

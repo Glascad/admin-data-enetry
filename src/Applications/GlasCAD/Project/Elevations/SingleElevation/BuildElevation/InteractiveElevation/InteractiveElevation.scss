@@ -139,7 +139,7 @@
             background: transparentize($light-blue, 0.8);
 
             &.custom-rough-opening {
-                display: none;
+                // display: none;
                 border: 2px solid transparentize($danger-color, 0.8) !important;
                 background: transparentize($danger-color, 0.8);
                 // box-shadow: none !important;
@@ -463,13 +463,26 @@
         .Input {
             height: $x-large;
             max-height: $x-large;
+            min-height: $x-large;
+            // width: 0;
+            // max-width: 0;
+            // min-width: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: fit-content;
+            max-width: unset;
+            min-width: unset;
 
             input {
-                text-align: center;
                 border: none;
+                height: fit-content;
+                max-height: unset;
+                min-height: unset;
                 width: fit-content;
-                max-width: fit-content;
-                min-width: fit-content;
+                max-width: unset;
+                min-width: unset;
+                text-align: center;
 
                 &:focus {
                     box-shadow: none;

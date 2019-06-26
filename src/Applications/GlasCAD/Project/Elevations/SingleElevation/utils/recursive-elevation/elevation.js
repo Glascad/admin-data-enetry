@@ -7,6 +7,15 @@ import RecursiveDimension from './dimension';
 import dimensionsOverlap from './dimensions-overlap';
 import sortDimensionTracks from './sort-dimension-tracks';
 
+import { DIRECTIONS } from './directions';
+
+const {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+} = DIRECTIONS;
+
 /**
  * CALCULATION ORDER
  * 
@@ -18,6 +27,8 @@ import sortDimensionTracks from './sort-dimension-tracks';
  * vvv
  * Calculate Frame & Detail placement (based on Container placement)
  */
+
+const dimensionTracksKey = 'dimensions<vertical>';
 
 export default class RecursiveElevation {
 
@@ -94,6 +105,10 @@ export default class RecursiveElevation {
                         ...all,
                         [id]: new RecursiveContainer(container, this),
                     }), {}),
+                [dimensionTracksKey]: {
+                    true: undefined,
+                    false: undefined,
+                },
             },
         );
 
@@ -142,32 +157,65 @@ export default class RecursiveElevation {
     get placedFrames() { return this.allFrames.map(({ placement }) => placement); }
 
     // DIMENSIONS
-    get dimensions() {
-        return this.__dimensions || (
-            this.__dimensions = this.allContainers
-                .reduce(({
-                    true: verticals,
-                    false: horizontals,
-                },
-                    container
-                ) => {
-                    const prevVerticalDimension = verticals.find(dimension => dimension.matchContainer(container));
-                    const prevHorizontalDimension = horizontals.find(dimension => dimension.matchContainer(container));
 
-                    // CONVERT INTO FUNCTIONAL FORM
-                    if (prevVerticalDimension) prevVerticalDimension.addContainer(container);
-                    if (prevHorizontalDimension) prevHorizontalDimension.addContainer(container);
+    getPrecedenceByVertical = vertical => {
+        const {
+            roughOpening: {
+                y,
+                x,
+            },
+        } = this;
+
+        return vertical ?
+            x / 2
+            :
+            y / 2;
+    }
+
+    get precedence() {
+        return {
+            true: this.getPrecedenceByVertical(true),
+            false: this.getPrecedenceByVertical(false),
+        };
+    }
+
+    getDimensionsByVertical = vertical => {
+        return this.allContainers
+            .reduce((dimensions, container) => {
+
+                const prevDimension = dimensions.find(dimension => dimension.matchContainer(container));
+
+                if (prevDimension) prevDimension.addContainer(container);
+
+                return prevDimension ?
+                    dimensions
+                    :
+                    dimensions.concat(new RecursiveDimension(container, this, vertical));
+            }, []);
+    }
+
+    getDimensionTracksByVertical = vertical => {
+        return this[dimensionTracksKey][vertical] || (
+            this[dimensionTracksKey][vertical] = this.getDimensionsByVertical(vertical)
+                .reduce(({ true: first, false: second }, dimension) => {
+
+                    const { precedence: elevationPrecedence } = this;
+
+                    const { precedence } = dimension;
+
+                    const belongsFirst = precedence <= elevationPrecedence[vertical];
 
                     return {
-                        true: prevVerticalDimension ?
-                            verticals
+                        true: belongsFirst ?
+                            first.concat(dimension)
                             :
-                            verticals.concat(new RecursiveDimension(container, this, true)),
-                        false: prevHorizontalDimension ?
-                            horizontals
+                            first,
+                        false: belongsFirst ?
+                            second
                             :
-                            horizontals.concat(new RecursiveDimension(container, this, false)),
+                            second.concat(dimension),
                     };
+
                 }, {
                         true: [],
                         false: [],
@@ -175,8 +223,15 @@ export default class RecursiveElevation {
         );
     }
 
-    getDimensionTracksByVertical(vertical) {
-        return this.dimensions[vertical]
+    get dimensions() {
+        return {
+            true: this.getDimensionTracksByVertical(true),
+            false: this.getDimensionTracksByVertical(false),
+        };
+    }
+
+    getDimensionTracksByDirection = (vertical, first) => {
+        return this.dimensions[!vertical][first]
             .reduce((tracks, dimension) => {
                 const correctTrack = tracks
                     .find(track => track.
@@ -193,8 +248,22 @@ export default class RecursiveElevation {
             .sort(sortDimensionTracks);
     }
 
-    get verticalDimensionTracks() { return this.getDimensionTracksByVertical(true); }
-    get horizontalDimensionTracks() { return this.getDimensionTracksByVertical(false); }
+    get leftDimensionTracks() { return this.getDimensionTracksByDirection(...LEFT).concat([[this.leftRoughOpeningDimension]]); }
+    get rightDimensionTracks() { return this.getDimensionTracksByDirection(...RIGHT); }
+    get topDimensionTracks() { return this.getDimensionTracksByDirection(...UP); }
+    get bottomDimensionTracks() { return this.getDimensionTracksByDirection(...DOWN).concat([[this.bottomRoughOpeningDimension]]); }
+
+    get leftRoughOpeningDimension() {
+        return this.__leftRoughOpeningDimension || (
+            this.__leftRoughOpeningDimension = new RecursiveDimension(null, this, true)
+        );
+    }
+
+    get bottomRoughOpeningDimension() {
+        return this.__bottomRoughOpeningDimension || (
+            this.__bottomRoughOpeningDimension = new RecursiveDimension(null, this, false)
+        );
+    }
 
     // OPTIONS / TYPES
     get detailTypes() { return this.allDetails.map(({ type }) => type); }

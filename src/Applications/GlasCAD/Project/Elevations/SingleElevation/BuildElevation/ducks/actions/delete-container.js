@@ -16,7 +16,7 @@ export default function DELETE_CONTAINER({
     },
 }) {
 
-    const mergeDirection = Object.values(DIRECTIONS)
+    const mergeDirection = [DIRECTIONS.UP, DIRECTIONS.DOWN]
         .find(direction => {
             const [otherContainer] = container.getImmediateContainersByDirection(...direction);
             return (

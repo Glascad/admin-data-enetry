@@ -33,6 +33,9 @@ class DimensionButton extends PureComponent {
                 dimension,
                 dimension: {
                     containers,
+                    containers: {
+                        length,
+                    },
                 },
                 selectDimension,
             },
@@ -41,23 +44,32 @@ class DimensionButton extends PureComponent {
 
         const currentMilliseconds = Date.now();
 
-        if (currentMilliseconds - mostRecentClick < 500) {
-            // console.log("DOUBLE CLICK - toggle editing state");
-            selectDimension(dimension);
-        }
-        else if (selected) {
-            // console.log("SINGLE CLICK - unselect");
-            containers.forEach(container => unselectItem(container));
-        }
-        else {
-            // console.log("SINGLE CLICK - select");
-            containers.forEach(container => selectItem(container, true));
+        // console.log({
+        //     currentMilliseconds,
+        //     mostRecentClick,
+        // });
+
+        if (length) {
+            if (currentMilliseconds - mostRecentClick < 500) {
+                // console.log("DOUBLE CLICK - toggle editing state");
+                selectDimension(dimension);
+            }
+            else if (selected) {
+                // console.log("SINGLE CLICK - unselect");
+                containers.forEach(container => unselectItem(container));
+            }
+            else {
+                // console.log("SINGLE CLICK - select");
+                containers.forEach(container => selectItem(container, true));
+            }
         }
 
         this.mostRecentClick = currentMilliseconds;
     }
 
-    componentDidMount = () => this.componentDidUpdate({ dimension: {} });
+    componentDidMount = () => {
+        this.componentDidUpdate({ dimension: {} });
+    }
 
     // component doesn't update often -- must be dynamically calculated every time
     componentDidUpdate = ({ editing: oldEditing, dimension: { dimension: oldDimension } }) => {
@@ -124,11 +136,19 @@ class DimensionButton extends PureComponent {
             {
                 dimension: 'Height',
                 offset: 'bottom',
-                trackOffset: 'left',
+                trackOffset:
+                    // this.props.first ?
+                    'left'
+                // :
+                // 'right',
             } : {
                 dimension: 'Width',
                 offset: 'left',
-                trackOffset: 'bottom',
+                trackOffset:
+                    // this.props.first ?
+                    'bottom'
+                // :
+                // 'top',
             };
     }
 
@@ -140,9 +160,15 @@ class DimensionButton extends PureComponent {
             },
             props: {
                 track,
+                first,
                 dimension: {
                     vertical,
-                    registerReactComponent,
+                    elevation: {
+                        roughOpening: {
+                            x: ROx,
+                            y: ROy,
+                        },
+                    },
                 },
                 transform: {
                     scale: {
@@ -162,9 +188,16 @@ class DimensionButton extends PureComponent {
         } = this;
 
         // size = 24, space = 12
-        const trackOffset = (-36 * (track + 1) - (vertical ? 65 : 50)) / scaleY;
-
-        registerReactComponent(this);
+        const trackOffset = ((
+            (36 * (track + 1) + (vertical ? 65 : 50))
+            *
+            (first ? -1 : 1)
+        ) / scaleY
+        ) + (
+                (first ? 0 : vertical ? ROx : ROy)
+                *
+                pixelsPerInch
+            );
 
         return {
             [dimensionKey.toLowerCase()]: dimension,
@@ -200,10 +233,14 @@ class DimensionButton extends PureComponent {
                         y: scaleY,
                     },
                 },
+                scaledDimension: dimension,
             },
         } = this;
 
-        return { transform: `scaleX(${1 / scaleX})` };
+        return {
+            transform: `scaleX(${1 / scaleX})`,
+            width: dimension,
+        };
     }
 
     render = () => {
@@ -224,9 +261,13 @@ class DimensionButton extends PureComponent {
                 dimension: {
                     refId,
                     vertical,
+                    precedence,
+                    registerReactComponent,
+                    isRoughOpening,
                 },
                 selected,
                 editing,
+                scaledDimension,
             },
             handleClick,
             handleFocus,
@@ -236,6 +277,12 @@ class DimensionButton extends PureComponent {
             style,
             inputStyle,
         } = this;
+
+        registerReactComponent(this);
+
+        // console.log({ refId });
+
+        if (!scaledDimension) return null;
 
         return (
             <button
@@ -253,6 +300,11 @@ class DimensionButton extends PureComponent {
                     } ${
                     editing ?
                         'editing'
+                        :
+                        ''
+                    } ${
+                    isRoughOpening ?
+                        'rough-opening'
                         :
                         ''
                     }`}
@@ -278,6 +330,7 @@ class DimensionButton extends PureComponent {
                                 }}
                             >
                                 {stringValue}
+                                {/* {precedence.toFixed(2)} */}
                             </div>
                         </div>
                     )}

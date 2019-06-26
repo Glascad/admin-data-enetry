@@ -64,7 +64,7 @@ class ActionProvider extends PureComponent {
                     if (containerToMerge) return { containerToMerge, directionToMerge };
                     else if (container.customRoughOpening) {
 
-                        const direction = Object.values(DIRECTIONS)
+                        const direction = [DIRECTIONS.UP, DIRECTIONS.DOWN]
                             .find(direction => (
                                 container.canMergeByDirection(...direction, true)
                                 &&
@@ -95,7 +95,7 @@ class ActionProvider extends PureComponent {
                         // replace state instead of pushing
                         true
                     );
-                }, 0);
+                });
             }
         }
     }

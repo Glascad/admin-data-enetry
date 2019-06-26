@@ -83,8 +83,10 @@ class InteractiveElevation extends PureComponent {
                         y: roy = 0,
                     } = {},
                     finishedFloorHeight,
-                    verticalDimensionTracks = [],
-                    horizontalDimensionTracks = [],
+                    topDimensionTracks = [],
+                    rightDimensionTracks = [],
+                    leftDimensionTracks = [],
+                    bottomDimensionTracks = [],
                 } = {},
                 transformContext: {
                     scale: {
@@ -156,11 +158,27 @@ class InteractiveElevation extends PureComponent {
                     <SelectionLayer />
                     {/* VERTICAL DIMENSIONS */}
                     <div id="left-dimension-track">
-                        {verticalDimensionTracks.map((track, i) => (
+                        {leftDimensionTracks.map((track, i) => (
                             <div key={i}>
                                 {track.map(dimension => (
                                     <DimensionButton
                                         key={dimension.refId}
+                                        track={i}
+                                        first={true}
+                                        dimension={dimension}
+                                        updateElevation={updateElevation}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                    <div id="right-dimension-track">
+                        {rightDimensionTracks.map((track, i) => (
+                            <div key={i}>
+                                {track.map(dimension => (
+                                    <DimensionButton
+                                        key={dimension.refId}
+                                        first={false}
                                         track={i}
                                         dimension={dimension}
                                         updateElevation={updateElevation}
@@ -176,23 +194,23 @@ class InteractiveElevation extends PureComponent {
                             bottom: 0,
                             left: 0,
                         }}
-                    />
-                    <div
+                        />
+                        <div
                         id="bottom-right"
                         className="corner"
                         style={{
                             bottom: 0,
                             right: 0,
                         }}
-                    />
-                    <div
+                        />
+                        <div
                         id="top-left"
                         className="corner"
                         style={{
                             top: 0,
                             left: 0,
                         }}
-                    />
+                        />
                     <div
                         id="top-right"
                         className="corner"
@@ -202,13 +220,30 @@ class InteractiveElevation extends PureComponent {
                         }}
                     /> */}
                     {/* HORIZONTAL DIMENSIONS */}
-                    <div id="bottom-dimension-track">
-                        {horizontalDimensionTracks.map((track, i) => (
+                    <div id="top-dimension-track">
+                        {topDimensionTracks.map((track, i) => (
                             <div key={i}>
                                 {track.map(dimension => (
                                     <DimensionButton
                                         key={dimension.refId}
                                         track={i}
+                                        first={false}
+                                        dimension={dimension}
+                                        finishedFloorHeight={finishedFloorHeight}
+                                        updateElevation={updateElevation}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                    <div id="bottom-dimension-track">
+                        {bottomDimensionTracks.map((track, i) => (
+                            <div key={i}>
+                                {track.map(dimension => (
+                                    <DimensionButton
+                                        key={dimension.refId}
+                                        track={i}
+                                        first={true}
                                         dimension={dimension}
                                         finishedFloorHeight={finishedFloorHeight}
                                         updateElevation={updateElevation}

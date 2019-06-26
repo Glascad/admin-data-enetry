@@ -161,7 +161,7 @@ export default class RecursiveFrame {
             const firstEndContainer = this.getFirstOrLastContainerByDirection(true, !first);
             const secondEndContainer = this.getFirstOrLastContainerByDirection(false, !first);
 
-            this[runsAlongEdgeKey][first] = (
+            this[runsAlongEdgeKey][first] = !!(
                 !firstEndContainer
                 ||
                 firstEndContainer.customRoughOpening
@@ -189,11 +189,11 @@ export default class RecursiveFrame {
 
             const firstEndAdjacentContainer = firstEndContainer
                 &&
-                firstEndContainer.getFirstOrLastContainerByDirection(...direction, first);
+                firstEndContainer.getFirstOrLastContainerByDirection(...direction, true);
 
             const secondEndAdjacentContainer = secondEndContainer
                 &&
-                secondEndContainer.getFirstOrLastContainerByDirection(...direction, !first);
+                secondEndContainer.getFirstOrLastContainerByDirection(...direction, false);
 
             this[runsIntoEdgeKey][first] = (
                 (
@@ -221,6 +221,74 @@ export default class RecursiveFrame {
     get firstEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(true); }
     get lastEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(false); }
 
+    getNeedsExtensionByDirectionAndContainerDirection = (first, containerFirst) => {
+        const {
+            elevation: {
+                verticalFramesRunThroughHeadAndSill,
+            },
+            vertical,
+        } = this;
+
+        const endContainer = this.getFirstOrLastContainerByDirection(containerFirst, !first);
+
+        const adjacentContainer = endContainer && endContainer.getFirstOrLastContainerByDirection(this.vertical, first, !containerFirst);
+
+        return vertical && (
+            verticalFramesRunThroughHeadAndSill ?
+                this.getRunsIntoEdgeOfRoughOpening(first)
+                :
+                this.getRunsAlongEdgeOfRoughOpening(first)
+        ) && (
+                !endContainer
+                ||
+                endContainer.customRoughOpening
+                ||
+                !adjacentContainer
+                ||
+                adjacentContainer.customRoughOpening
+            );
+    }
+
+    getNeedsExtensionByDirection = first => {
+        return (
+            this.getNeedsExtensionByDirectionAndContainerDirection(first, true)
+            ||
+            this.getNeedsExtensionByDirectionAndContainerDirection(first, false)
+        );
+    }
+
+    get needsTopExtension() { return this.getNeedsExtensionByDirection(false); }
+    get needsBottomExtension() { return this.getNeedsExtensionByDirection(true); }
+
+    getExtensionByDirectionAndContainerDirection = (first, containerFirst) => {
+        if (!this.getNeedsExtensionByDirection(first)) return 0;
+
+        const endContainer = this.getFirstOrLastContainerByDirection(containerFirst, !first);
+
+        const perpendicular = endContainer && endContainer.getFrameByDirection(this.vertical, first);
+
+        return (
+            (
+                perpendicular
+                &&
+                perpendicular.sightline
+            )
+            ||
+            0
+        );
+    }
+
+    getExtensionByDirection = first => {
+        return (
+            this.getExtensionByDirectionAndContainerDirection(first, true)
+            ||
+            this.getExtensionByDirectionAndContainerDirection(first, false)
+        );
+    }
+
+    get topExtension() { return this.getExtensionByDirection(false); }
+    get bottomExtension() { return this.getExtensionByDirection(true); }
+
     get placement() {
         const {
             vertical,
@@ -232,6 +300,8 @@ export default class RecursiveFrame {
             elevation: {
                 verticalFramesRunThroughHeadAndSill,
             },
+            topExtension,
+            bottomExtension,
         } = this;
 
         // farthest to the bottom / left
@@ -344,79 +414,75 @@ export default class RecursiveFrame {
                     0,
             ) - x;
 
-        const verticalLastContainer = lastLeftContainer
-            &&
-            !lastLeftContainer.customRoughOpening ?
-            lastLeftContainer
-            :
-            lastRightContainer;
+        // const verticalLastContainer = lastLeftContainer && !lastLeftContainer.customRoughOpening ?
+        //     lastLeftContainer
+        //     :
+        //     lastRightContainer;
 
-        const verticalFirstContainer = firstLeftContainer
-            &&
-            !firstLeftContainer.customRoughOpening ?
-            firstLeftContainer
-            :
-            firstRightContainer;
+        // const verticalFirstContainer = firstLeftContainer && !firstLeftContainer.customRoughOpening ?
+        //     firstLeftContainer
+        //     :
+        //     firstRightContainer;
 
-        const needsTopExtension = vertical
-            &&
-            (
-                verticalFramesRunThroughHeadAndSill ?
-                    lastEndRunsIntoEdgeOfRoughOpening
-                    :
-                    lastEndRunsAlongEdgeOfRoughOpening
-            )
-            &&
-            (
-                !verticalLastContainer
-                ||
-                verticalLastContainer.customRoughOpening
-                ||
-                !verticalLastContainer.topContainers.length
-                ||
-                verticalLastContainer.getFirstOrLastContainerByDirection(
-                    vertical,
-                    false,
-                    verticalLastContainer === lastLeftContainer
-                )
-            );
+        // const needsTopExtension = vertical
+        //     &&
+        //     (
+        //         verticalFramesRunThroughHeadAndSill ?
+        //             lastEndRunsIntoEdgeOfRoughOpening
+        //             :
+        //             lastEndRunsAlongEdgeOfRoughOpening
+        //     )
+        //     &&
+        //     (
+        //         !verticalLastContainer
+        //         ||
+        //         verticalLastContainer.customRoughOpening
+        //         ||
+        //         !verticalLastContainer.topContainers.length
+        //         ||
+        //         verticalLastContainer.getFirstOrLastContainerByDirection(
+        //             vertical,
+        //             false,
+        //             verticalLastContainer === lastLeftContainer
+        //         )
+        //     );
 
-        const needsBottomExtension = vertical
-            &&
-            (
-                verticalFramesRunThroughHeadAndSill ?
-                    firstEndRunsIntoEdgeOfRoughOpening
-                    :
-                    firstEndRunsAlongEdgeOfRoughOpening
-            )
-            &&
-            (
-                !verticalFirstContainer
-                ||
-                verticalFirstContainer.customRoughOpening
-                ||
-                !verticalFirstContainer.bottomContainers.length
-                ||
-                verticalFirstContainer.getFirstOrLastContainerByDirection(
-                    vertical,
-                    true,
-                    verticalFirstContainer === firstLeftContainer
-                )
-            );
+        // const needsBottomExtension = vertical
+        //     &&
+        //     (
+        //         verticalFramesRunThroughHeadAndSill ?
+        //             firstEndRunsIntoEdgeOfRoughOpening
+        //             :
+        //             firstEndRunsAlongEdgeOfRoughOpening
+        //     )
+        //     &&
+        //     (
+        //         !verticalFirstContainer
+        //         ||
+        //         verticalFirstContainer.customRoughOpening
+        //         ||
+        //         !verticalFirstContainer.bottomContainers.length
+        //         ||
+        //         verticalFirstContainer.getFirstOrLastContainerByDirection(
+        //             vertical,
+        //             true,
+        //             verticalFirstContainer === firstLeftContainer
+        //         )
+        //     );
 
-        const verticalTopExtension = needsTopExtension ?
-            verticalLastContainer.topFrame.sightline
-            :
-            0;
-        const verticalBottomExtension = needsBottomExtension ?
-            verticalLastContainer.bottomFrame.sightline
-            :
-            0;
+        // const verticalTopExtension = needsTopExtension ?
+        //     verticalLastContainer.topFrame.sightline
+        //     :
+        //     0;
+        // const verticalBottomExtension = needsBottomExtension ?
+        //     verticalLastContainer.bottomFrame.sightline
+        //     :
+        //     0;
 
         return {
             x,
-            y: y - verticalBottomExtension,
-            height: height + verticalBottomExtension + verticalTopExtension,
+            y: y - bottomExtension,
+            height: height + bottomExtension + topExtension,
             width,
         };
     }

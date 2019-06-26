@@ -157,10 +157,10 @@ class BuildElevation extends PureComponent {
             },
         });
 
-        if (this.mounted) {    
+        if (this.mounted) {
             clearHistory();
         }
-        
+
         return result;
     }
 
@@ -188,6 +188,7 @@ class BuildElevation extends PureComponent {
                     recursiveElevation,
                 },
                 cancel,
+                updating,
             },
             updateElevation,
             save,
@@ -222,6 +223,7 @@ class BuildElevation extends PureComponent {
                             elevation={recursiveElevation}
                             save={save}
                             cancel={cancel}
+                            updating={updating}
                         />
                         <RightSidebar
                             currentIndex={currentIndex}

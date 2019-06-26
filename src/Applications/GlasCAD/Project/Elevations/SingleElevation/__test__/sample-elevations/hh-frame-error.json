@@ -1,0 +1,727 @@
+{
+    "__typename": "Elevation",
+    "nodeId": "WyJlbGV2YXRpb25zIiw3NF0=",
+    "id": 74,
+    "name": "HH Frame Error",
+    "finishedFloorHeight": 0,
+    "roughOpening": {
+        "x": 1000,
+        "y": 560,
+        "__typename": "Coordinate"
+    },
+    "_elevationContainers": [
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE0XQ==",
+            "id": 814,
+            "original": true,
+            "daylightOpening": {
+                "x": 115,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE2XQ==",
+            "id": 816,
+            "original": false,
+            "daylightOpening": {
+                "x": 115,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "UPDATED_CONTAINER",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE4XQ==",
+            "id": 818,
+            "original": false,
+            "daylightOpening": {
+                "x": 484.9999999999985,
+                "y": 100,
+                "__typename": "Coordinate"
+            },
+            "customRoughOpening": true
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODE5XQ==",
+            "id": 819,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 100,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODIwXQ==",
+            "id": 820,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODIyXQ==",
+            "id": 822,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 100,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODI0XQ==",
+            "id": 824,
+            "original": false,
+            "daylightOpening": {
+                "x": 115,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODI2XQ==",
+            "id": 826,
+            "original": false,
+            "daylightOpening": {
+                "x": 115,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODI5XQ==",
+            "id": 829,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 100,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODMwXQ==",
+            "id": 830,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODMyXQ==",
+            "id": 832,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 100,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODM0XQ==",
+            "id": 834,
+            "original": false,
+            "daylightOpening": {
+                "x": 115,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODM2XQ==",
+            "id": 836,
+            "original": false,
+            "daylightOpening": {
+                "x": 115,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODM5XQ==",
+            "id": 839,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 100,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQwXQ==",
+            "id": 840,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQyXQ==",
+            "id": 842,
+            "original": false,
+            "daylightOpening": {
+                "x": 153,
+                "y": 100,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQ0XQ==",
+            "id": 844,
+            "original": false,
+            "daylightOpening": {
+                "x": 115.999999999997,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsODQ2XQ==",
+            "id": 846,
+            "original": false,
+            "daylightOpening": {
+                "x": 115.999999999997,
+                "y": 210,
+                "__typename": "Coordinate"
+            }
+        },
+        {
+            "id": -1,
+            "daylightOpening": {
+                "x": 484.9999999999985,
+                "y": 100
+            }
+        }
+    ],
+    "_containerDetails": [
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA2Nl0=",
+            "id": 2066,
+            "vertical": true,
+            "secondContainerId": 814,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA2N10=",
+            "id": 2067,
+            "vertical": true,
+            "firstContainerId": 814,
+            "secondContainerId": 819,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA2OV0=",
+            "id": 2069,
+            "vertical": false,
+            "secondContainerId": 814,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3MV0=",
+            "id": 2071,
+            "vertical": true,
+            "firstContainerId": 814,
+            "secondContainerId": 820,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3Ml0=",
+            "id": 2072,
+            "vertical": false,
+            "firstContainerId": 814,
+            "secondContainerId": 816,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3M10=",
+            "id": 2073,
+            "vertical": true,
+            "secondContainerId": 816,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3NF0=",
+            "id": 2074,
+            "vertical": true,
+            "firstContainerId": 816,
+            "secondContainerId": 820,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3N10=",
+            "id": 2077,
+            "vertical": true,
+            "firstContainerId": 816,
+            "secondContainerId": 822,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3OF0=",
+            "id": 2078,
+            "vertical": false,
+            "firstContainerId": 816,
+            "secondContainerId": 818,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA3OV0=",
+            "id": 2079,
+            "vertical": true,
+            "secondContainerId": 818,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4MV0=",
+            "id": 2081,
+            "vertical": false,
+            "firstContainerId": 818,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4Ml0=",
+            "id": 2082,
+            "vertical": true,
+            "firstContainerId": 819,
+            "secondContainerId": 824,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4M10=",
+            "id": 2083,
+            "vertical": false,
+            "firstContainerId": 819,
+            "secondContainerId": 820,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4NF0=",
+            "id": 2084,
+            "vertical": false,
+            "secondContainerId": 819,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4NV0=",
+            "id": 2085,
+            "vertical": true,
+            "firstContainerId": 820,
+            "secondContainerId": 824,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4N10=",
+            "id": 2087,
+            "vertical": true,
+            "firstContainerId": 820,
+            "secondContainerId": 826,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4OF0=",
+            "id": 2088,
+            "vertical": false,
+            "firstContainerId": 820,
+            "secondContainerId": 822,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4OV0=",
+            "id": 2089,
+            "vertical": true,
+            "firstContainerId": 822,
+            "secondContainerId": 826,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA5MF0=",
+            "id": 2090,
+            "vertical": false,
+            "firstContainerId": 822,
+            "secondContainerId": 818,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA5M10=",
+            "id": 2093,
+            "vertical": true,
+            "firstContainerId": 824,
+            "secondContainerId": 829,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA5NV0=",
+            "id": 2095,
+            "vertical": false,
+            "secondContainerId": 824,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA5Nl0=",
+            "id": 2096,
+            "vertical": true,
+            "firstContainerId": 824,
+            "secondContainerId": 830,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA5N10=",
+            "id": 2097,
+            "vertical": false,
+            "firstContainerId": 824,
+            "secondContainerId": 826,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA5OF0=",
+            "id": 2098,
+            "vertical": true,
+            "firstContainerId": 826,
+            "secondContainerId": 830,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwMF0=",
+            "id": 2100,
+            "vertical": true,
+            "firstContainerId": 826,
+            "secondContainerId": 832,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwMV0=",
+            "id": 2101,
+            "vertical": false,
+            "firstContainerId": 826,
+            "secondContainerId": 818,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwNF0=",
+            "id": 2104,
+            "vertical": true,
+            "firstContainerId": 829,
+            "secondContainerId": 834,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwNV0=",
+            "id": 2105,
+            "vertical": false,
+            "firstContainerId": 829,
+            "secondContainerId": 830,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwNl0=",
+            "id": 2106,
+            "vertical": false,
+            "secondContainerId": 829,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwN10=",
+            "id": 2107,
+            "vertical": true,
+            "firstContainerId": 830,
+            "secondContainerId": 834,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEwOV0=",
+            "id": 2109,
+            "vertical": true,
+            "firstContainerId": 830,
+            "secondContainerId": 836,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExMF0=",
+            "id": 2110,
+            "vertical": false,
+            "firstContainerId": 830,
+            "secondContainerId": 832,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExMV0=",
+            "id": 2111,
+            "vertical": true,
+            "firstContainerId": 832,
+            "secondContainerId": 836,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExMl0=",
+            "id": 2112,
+            "vertical": false,
+            "firstContainerId": 832,
+            "secondContainerId": 818,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExNV0=",
+            "id": 2115,
+            "vertical": true,
+            "firstContainerId": 834,
+            "secondContainerId": 839,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExN10=",
+            "id": 2117,
+            "vertical": false,
+            "secondContainerId": 834,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExOF0=",
+            "id": 2118,
+            "vertical": true,
+            "firstContainerId": 834,
+            "secondContainerId": 840,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExOV0=",
+            "id": 2119,
+            "vertical": false,
+            "firstContainerId": 834,
+            "secondContainerId": 836,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyMF0=",
+            "id": 2120,
+            "vertical": true,
+            "firstContainerId": 836,
+            "secondContainerId": 840,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyMl0=",
+            "id": 2122,
+            "vertical": true,
+            "firstContainerId": 836,
+            "secondContainerId": 842,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "UPDATED_DETAIL",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyM10=",
+            "id": 2123,
+            "vertical": false,
+            "firstContainerId": 836,
+            "secondContainerId": -1,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyNl0=",
+            "id": 2126,
+            "vertical": true,
+            "firstContainerId": 839,
+            "secondContainerId": 844,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyN10=",
+            "id": 2127,
+            "vertical": false,
+            "firstContainerId": 839,
+            "secondContainerId": 840,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyOF0=",
+            "id": 2128,
+            "vertical": false,
+            "secondContainerId": 839,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEyOV0=",
+            "id": 2129,
+            "vertical": true,
+            "firstContainerId": 840,
+            "secondContainerId": 844,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEzMV0=",
+            "id": 2131,
+            "vertical": true,
+            "firstContainerId": 840,
+            "secondContainerId": 846,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEzMl0=",
+            "id": 2132,
+            "vertical": false,
+            "firstContainerId": 840,
+            "secondContainerId": 842,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEzM10=",
+            "id": 2133,
+            "vertical": true,
+            "firstContainerId": 842,
+            "secondContainerId": 846,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "UPDATED_DETAIL",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEzNF0=",
+            "id": 2134,
+            "vertical": false,
+            "firstContainerId": 842,
+            "secondContainerId": -1,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEzN10=",
+            "id": 2137,
+            "vertical": true,
+            "firstContainerId": 844,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjEzOV0=",
+            "id": 2139,
+            "vertical": false,
+            "secondContainerId": 844,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE0MV0=",
+            "id": 2141,
+            "vertical": false,
+            "firstContainerId": 844,
+            "secondContainerId": 846,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE0Ml0=",
+            "id": 2142,
+            "vertical": true,
+            "firstContainerId": 846,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "UPDATED_DETAIL",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE0NV0=",
+            "id": 2145,
+            "vertical": false,
+            "firstContainerId": 846,
+            "secondContainerId": -1,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "UPDATED_DETAIL",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjE0Nl0=",
+            "id": 2146,
+            "vertical": true,
+            "firstContainerId": -1,
+            "_detailOptionValues": []
+        },
+        {
+            "id": -1,
+            "vertical": true,
+            "firstContainerId": 818,
+            "secondContainerId": -1
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjExMl0=",
+            "id": -2,
+            "vertical": false,
+            "firstContainerId": 832,
+            "secondContainerId": -1,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMjA4MV0=",
+            "id": -3,
+            "vertical": false,
+            "firstContainerId": -1,
+            "_detailOptionValues": []
+        }
+    ],
+    "__by": "Id"
+}

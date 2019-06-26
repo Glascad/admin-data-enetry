@@ -5,4 +5,5 @@ const averagePrecedence = track => (
     track.length
 );
 
-export default (trackOne, trackTwo) => averagePrecedence(trackOne) < averagePrecedence(trackTwo);
+// tracks with greater precedence should come first (be closer to the elevation)
+export default (trackOne, trackTwo) => averagePrecedence(trackTwo) - averagePrecedence(trackOne);
