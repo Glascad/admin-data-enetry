@@ -599,7 +599,7 @@ export default class RecursiveFrame {
             &&
             container.canAddIntermediateByVerticalAndDistance(this.vertical, this.firstOrLastDistanceByExtend(first))
             &&
-            !this.getRunsIntoEdgeOfRoughOpening
+            !this.getRunsIntoEdgeOfRoughOpening(first)
         );
     };
 
