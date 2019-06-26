@@ -228,6 +228,29 @@ export default class RecursiveContainer {
             });
     }
 
+    getPrecedenceByVertical = vertical => {
+        const {
+            placement: {
+                x,
+                y,
+                height,
+                width,
+            },
+        } = this;
+
+        return vertical ?
+            x + (width / 2)
+            :
+            y + (height / 2);
+    }
+
+    get precedence() {
+        return {
+            true: this.getPrecedenceByVertical(true),
+            false: this.getPrecedenceByVertical(false),
+        };
+    }
+
     // ACTIONS
 
     // MERGE
@@ -299,9 +322,9 @@ export default class RecursiveContainer {
     get minDistanceForVertical() { return this.minByVertical(true) };
     get maxDistanceForVertical() { return this.minByVertical(true) };
 
-    
 
-    get canAddVertical() {return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening) }
-    get canAddHorizontal() {return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening) }
+
+    get canAddVertical() { return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening) }
+    get canAddHorizontal() { return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening) }
 
 }

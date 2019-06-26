@@ -1,8 +1,5 @@
 
-const log = (...a) => console.log(a) || a[a.length - 1];
-
-const averagePrecedence = track => log(
-    track,
+const averagePrecedence = track => (
     track.reduce((sum, { precedence }) => sum + precedence, 0)
     /
     track.length

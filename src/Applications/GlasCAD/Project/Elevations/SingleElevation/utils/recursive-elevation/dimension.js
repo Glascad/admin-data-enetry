@@ -1,10 +1,8 @@
+import RecursiveContainer from "./container";
+import RecursiveElevation from "./elevation";
 
-export default class RecursiveDimension {
-
-    static instanceCount = 0;
-
-    constructor(container, elevation, vertical) {
-
+const getValuesFromItem = item => {
+    if (item instanceof RecursiveContainer) {
         const {
             refId,
             placement: {
@@ -13,7 +11,48 @@ export default class RecursiveDimension {
                 height,
                 width,
             },
-        } = container;
+        } = item;
+        return {
+            refIds: [refId],
+            containers: [item],
+            x,
+            y,
+            height,
+            width,
+        };
+    }
+    if (item instanceof RecursiveElevation) {
+        const {
+            roughOpening: {
+                x,
+                y,
+            },
+        } = item;
+        return {
+            refIds: [],
+            containers: [],
+            x: 0,
+            y: 0,
+            height: y,
+            width: x,
+        };
+    }
+}
+
+export default class RecursiveDimension {
+
+    static instanceCount = 0;
+
+    constructor(item, elevation, vertical) {
+
+        const {
+            refIds,
+            x,
+            y,
+            height,
+            width,
+            containers,
+        } = getValuesFromItem(item || elevation);
 
         const offset = vertical ?
             y
@@ -29,9 +68,6 @@ export default class RecursiveDimension {
             x + (width / 2)
             :
             y + (height / 2);
-
-        const containers = [container];
-        const refIds = [refId];
 
         Object.assign(
             this,
@@ -85,16 +121,6 @@ export default class RecursiveDimension {
     addContainer = container => {
 
         const {
-            refId,
-            placement: {
-                x,
-                y,
-                height,
-                width,
-            },
-        } = container;
-
-        const {
             vertical,
             precedence,
             refIds: {
@@ -102,10 +128,12 @@ export default class RecursiveDimension {
             },
         } = this;
 
-        const newContainerPrecedence = vertical ?
-            x + (width / 2)
-            :
-            y + (height / 2);
+        const {
+            refId,
+            precedence: {
+                [vertical]: newContainerPrecedence,
+            },
+        } = container;
 
         this.precedence = ((precedence * length) + newContainerPrecedence) / (length + 1);
 
