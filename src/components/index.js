@@ -17,13 +17,13 @@ import AsyncButton from './ui/AsyncButton/AsyncButton';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
-import { useQuery, useMutation } from './state/gql-hooks';
+import { useQuery, useMutation } from './state/use-graphql';
 import ApolloWrapper from './state/ApolloWrapper';
 import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
 import withContext from './state/with-context';
 import transformProps from './state/transform-props';
-import useUndoRedo, { withUndoRedo } from './state/undo-redo';
+import useUndoRedo, { withUndoRedo } from './state/use-undo-redo';
 import useMountTracker from './state/use-mount-tracker';
 
 // NAVIGATION COMPONENTS

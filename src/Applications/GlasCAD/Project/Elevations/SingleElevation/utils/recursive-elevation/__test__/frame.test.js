@@ -128,8 +128,8 @@ testFrame({
             ],
             methods: [
                 ["getDetailAcrossPerpendicularByDirection", [false], { id: 2044 }],
-                ["getContainersByDirection", [true], [({ id: 802 })]],
-                ["getContainersByDirection", [false], [({ id: 803 })]],
+                ["getContainersByDirection", [true], [{ id: 802 }]],
+                ["getContainersByDirection", [false], [{ id: 803 }]],
                 ["getFirstOrLastContainerByDirection", [true, true], { id: 802 }],
                 ["getFirstOrLastContainerByDirection", [false, true], { id: 803 }],
             ],
@@ -139,9 +139,9 @@ testFrame({
             keys: [
                 ["vertical", true],
                 ["sightline", 10],
+                ["canAddBay", true],
             ],
             methods: [
-                ["canAddBay", [], true],
             ],
         },
     ],

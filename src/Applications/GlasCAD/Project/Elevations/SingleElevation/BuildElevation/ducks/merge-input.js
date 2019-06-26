@@ -1,5 +1,6 @@
 import RecursiveElevation from "../../utils/recursive-elevation/elevation";
 import _ from 'lodash';
+import validateElevation from "./validate-elevation";
 
 function mergeElevationInput(
     rawElevation = {},
@@ -63,6 +64,7 @@ function mergeElevationInput(
     };
 }
 
+var timeout = 0;
 
 export default function ({
     elevationInput
@@ -75,6 +77,16 @@ export default function ({
 
     const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
 
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+        try {
+            validateElevation(mergedElevation)
+        } catch (err) {
+            console.error(err);
+        }
+    }, 100);
+    
     return {
         elevationInput,
         rawElevation,

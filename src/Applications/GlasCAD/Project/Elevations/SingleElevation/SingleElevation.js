@@ -43,30 +43,31 @@ export default function SingleElevation({
 
     const variables = { id: +elevationId };
 
-    console.log({ variables });
+    // console.log({ variables });
 
     const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
 
     useEffect(() => {
         if (elevationId) {
-            console.log({ variables });
+            // console.log({ variables });
             fetchQuery();
         }
     }, [elevationId]);
 
-    console.log({ queryStatus });
+    // console.log({ queryStatus });
 
     const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
 
-    const routeProps = sampleElevation ? {
-        queryStatus: {
-            _elevation: SAMPLE_ELEVATIONS[sampleElevation],
-        },
-        updateEntireElevation: () => {
-            throw new Error("Cannot update sample elevation");
-        },
-        updating: false,
-    } : {
+    const routeProps = sampleElevation ?
+        {
+            queryStatus: {
+                _elevation: SAMPLE_ELEVATIONS[sampleElevation],
+            },
+            updateEntireElevation: () => {
+                throw new Error("Cannot update sample elevation");
+            },
+            updating: false,
+        } : {
             fetching,
             queryStatus,
             updateEntireElevation,

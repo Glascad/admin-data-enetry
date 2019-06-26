@@ -16,8 +16,6 @@ import { parseSearch } from '../../../../../../utils';
 
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
 
-import validateElevation from './ducks/validate-elevation';
-
 import './BuildElevation.scss';
 
 const defaultElevationInput = {
@@ -34,6 +32,7 @@ class BuildElevation extends PureComponent {
     componentDidMount = () => {
         this.context.sidebar.toggle(false);
         this.mounted = true;
+        this.componentDidUpdate({});
     }
 
     componentWillUnmount = () => {
@@ -45,11 +44,21 @@ class BuildElevation extends PureComponent {
         const {
             props: {
                 queryStatus: newQueryStatus,
+                resetState,
             },
             updateElevation,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) updateElevation(elevation => elevation, null, null, true);
+        if (oldQueryStatus !== newQueryStatus) {
+            resetState(
+                mergeElevationInput({
+                    elevationInput: defaultElevationInput
+                },
+                    newQueryStatus
+                )
+            );
+        }
+        // updateElevation(elevation => elevation, null, null, true);
     }
 
     // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
@@ -194,15 +203,7 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
-        clearTimeout(this.timeout);
-
-        this.timeout = setTimeout(() => {
-            try {
-                validateElevation(mergedElevation)
-            } catch (err) {
-                console.error(err);
-            }
-        }, 100);
+        console.log(this.props);
 
         return (
             <SelectionProvider
