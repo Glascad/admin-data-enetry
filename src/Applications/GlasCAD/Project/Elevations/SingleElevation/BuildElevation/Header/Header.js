@@ -98,7 +98,7 @@ export default function Header({
                                 }${
                                 parseSearch(search).remove('sampleElevation')
                                 }`);
-                            mountTracker.ifStillMounted(setSavingAndExiting, false);
+                            setSavingAndExiting(false);
                         }}
                         loading={savingAndExiting}
                         loadingText="Saving"
@@ -110,7 +110,7 @@ export default function Header({
                         onClick={async () => {
                             setSaving(true);
                             await save();
-                            mountTracker.ifStillMounted(setSaving, false);
+                            setSaving(false);
                         }}
                         loading={saving}
                         loadingText="Saving"
