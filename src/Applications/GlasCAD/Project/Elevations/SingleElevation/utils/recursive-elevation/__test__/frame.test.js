@@ -98,28 +98,6 @@ function testFrame({ elevation, frames }) {
     });
 }
 
-
-// testFrame({
-//     elevation: sample3,
-//     frames: [
-//         {
-//             detailId: 2034,
-//             keys: [
-//                 ["vertical", false],
-//                 ["sightline", 10],
-//             ],
-//             methods: [
-//                 ["getDetailAcrossPerpendicularByDirection", [false], 2044],
-//                 // ["getContainersByDirection", [true], [802]],
-//                 // ["getContainersByDirection", [false], [803]],
-//                 ["getFirstOrLastContainerByDirection", [true, true], 802],
-//                 ["getFirstOrLastContainerByDirection", [false, true], 803],
-
-//             ],
-//         },
-//     ],
-// });
-
 testFrame({
     elevation: hhFrameError,
     frames: [
@@ -134,24 +112,43 @@ testFrame({
                 ['needsBottomExtension', true],
                 ['topExtension', 10],
                 ['bottomExtension', 10],
-                // ['']
             ],
             methods: [
-                ["getDetailAcrossPerpendicularByDirection", [false], { id: 2044 }],
-                ["getContainersByDirection", [true], [{ id: 802 }]],
-                ["getContainersByDirection", [false], [{ id: 803 }]],
-                ["getFirstOrLastContainerByDirection", [true, true], { id: 802 }],
-                ["getFirstOrLastContainerByDirection", [false, true], { id: 803 }],
+                ["getContainersByDirection", [true], [{ id: 822 }, { id: 820 }, { id: 819 }]],
+                ["getContainersByDirection", [false], [{ id: 826 }, { id: 824 }]],
+                ["getFirstOrLastContainerByDirection", [true, true], { id: 822 }],
+                ["getFirstOrLastContainerByDirection", [false, true], { id: 826 }],
             ],
         },
+        // {
+        //     detailId: 2041,
+        //     keys: [
+        //         ["vertical", true],
+        //         ["sightline", 10],
+        //         // ["canAddBay", true],
+        //     ],
+        //     methods: [
+        //     ],
+        // },
+    ],
+});
+
+testFrame({
+    elevation: sample3,
+    frames: [
         {
-            detailId: 2041,
+            detailId: 2034,
             keys: [
-                ["vertical", true],
+                ["vertical", false],
                 ["sightline", 10],
-                ["canAddBay", true],
             ],
             methods: [
+                ["getDetailAcrossPerpendicularByDirection", [false], {id: 2044}],
+                ["getContainersByDirection", [true], [{id: 802}]],
+                ["getContainersByDirection", [false], [{id: 803}]],
+                ["getFirstOrLastContainerByDirection", [true, true], {id: 802}],
+                ["getFirstOrLastContainerByDirection", [false, true], {id: 803}],
+
             ],
         },
     ],
