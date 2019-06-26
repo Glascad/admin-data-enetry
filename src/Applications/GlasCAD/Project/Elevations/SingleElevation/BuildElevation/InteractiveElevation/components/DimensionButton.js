@@ -44,10 +44,10 @@ class DimensionButton extends PureComponent {
 
         const currentMilliseconds = Date.now();
 
-        console.log({
-            currentMilliseconds,
-            mostRecentClick,
-        });
+        // console.log({
+        //     currentMilliseconds,
+        //     mostRecentClick,
+        // });
 
         if (length) {
             if (currentMilliseconds - mostRecentClick < 500) {
@@ -68,12 +68,7 @@ class DimensionButton extends PureComponent {
     }
 
     componentDidMount = () => {
-        console.log("Mounted");
         this.componentDidUpdate({ dimension: {} });
-    }
-
-    componentWillUnmount = () => {
-        console.log("Unmounting");
     }
 
     // component doesn't update often -- must be dynamically calculated every time
@@ -285,7 +280,7 @@ class DimensionButton extends PureComponent {
 
         registerReactComponent(this);
 
-        console.log({ refId });
+        // console.log({ refId });
 
         if (!scaledDimension) return null;
 

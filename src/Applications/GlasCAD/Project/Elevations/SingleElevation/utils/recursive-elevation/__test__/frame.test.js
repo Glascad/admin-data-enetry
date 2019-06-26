@@ -1,41 +1,42 @@
 import RecursiveElevation from "../elevation";
-import sample3 from '../../../__test__/sample-elevations/sample3';
+
+// import sample1 from '../../../__test__/sample-elevations/sample1';
 // import sample1Special from '../../../__test__/sample-elevations/sample1-special';
 
-// test('', () => { });
+import { sample3, hhFrameError } from '../../../__test__/sample-elevations';
 
 // describe('Frame Tests', () => {
 //     test('sample1 - has correct number of frames', () => {
 //         const elevation = new RecursiveElevation(sample1)
 //         expect(elevation.allFrames).toHaveProperty('length', 9);
 //     });
-//     test('sample1 special - has correct number of frames', () => {
-//         const elevation = new RecursiveElevation(sample1Special)
-//         expect(elevation.allFrames).toHaveProperty('length', 10);
-//     });
-//     test('sample1 special - has correct frame references (slightly offset)', () => {
-//         const elevation = new RecursiveElevation(sample1Special);
-//         expect(elevation.containers[708].rightFrame).not.toBe(elevation.containers[707].rightFrame);
-//         expect(elevation.containers[708].rightFrame).not.toBe(elevation.containers[709].leftFrame);
-//     });
-//     test('sample1 special - non-matching details do not belong to the same frame (verticals, slightly offset)', () => {
-//         const elevation = new RecursiveElevation(sample1Special);
-//         expect(elevation.details[1]._frame).not.toBe(elevation.details[1792]._frame);
-//     });
-//     test('sample1 special - non-matching details do not belong to the same frame (horizontals, no offset)', () => {
-//         const elevation = new RecursiveElevation(sample1Special);
-//         expect(elevation.details[1799]._frame).not.toBe(elevation.details[1793]._frame);
-//     });
-//     test('sample1 special - non-matching details do not belong to the same frame (completely separate)', () => {
-//         const elevation = new RecursiveElevation(sample1Special);
-//         expect(elevation.details[1795]._frame).not.toBe(elevation.details[1792]._frame);
-//         expect(elevation.details[1801]._frame).not.toBe(elevation.details[1792]._frame);
-//     });
-//     test('smaple1 special - matching details belong to the same frame', () => {
-//         const elevation = new RecursiveElevation(sample1Special);
-//         expect(elevation.details[1791]._frame).toBe(elevation.details[1795]._frame);
-//         expect(elevation.details[1798]._frame).toBe(elevation.details[1801]._frame);
-//     });
+//     // test('sample1 special - has correct number of frames', () => {
+//     //     // const elevation = new RecursiveElevation(sample1Special)
+//     //     expect(elevation.allFrames).toHaveProperty('length', 10);
+//     // });
+//     // test('sample1 special - has correct frame references (slightly offset)', () => {
+//     //     // const elevation = new RecursiveElevation(sample1Special);
+//     //     expect(elevation.containers[708].rightFrame).not.toBe(elevation.containers[707].rightFrame);
+//     //     expect(elevation.containers[708].rightFrame).not.toBe(elevation.containers[709].leftFrame);
+//     // });
+//     // test('sample1 special - non-matching details do not belong to the same frame (verticals, slightly offset)', () => {
+//     //     // const elevation = new RecursiveElevation(sample1Special);
+//     //     expect(elevation.details[1]._frame).not.toBe(elevation.details[1792]._frame);
+//     // });
+//     // test('sample1 special - non-matching details do not belong to the same frame (horizontals, no offset)', () => {
+//     //     // const elevation = new RecursiveElevation(sample1Special);
+//     //     expect(elevation.details[1799]._frame).not.toBe(elevation.details[1793]._frame);
+//     // });
+//     // test('sample1 special - non-matching details do not belong to the same frame (completely separate)', () => {
+//     //     // const elevation = new RecursiveElevation(sample1Special);
+//     //     expect(elevation.details[1795]._frame).not.toBe(elevation.details[1792]._frame);
+//     //     expect(elevation.details[1801]._frame).not.toBe(elevation.details[1792]._frame);
+//     // });
+//     // test('smaple1 special - matching details belong to the same frame', () => {
+//     //     // const elevation = new RecursiveElevation(sample1Special);
+//     //     expect(elevation.details[1791]._frame).toBe(elevation.details[1795]._frame);
+//     //     expect(elevation.details[1798]._frame).toBe(elevation.details[1801]._frame);
+//     // });
 // });
 
 
@@ -70,31 +71,54 @@ function testFrame({ elevation, frames }) {
             });
             methods.forEach(([method, args, result]) => {
                 test(`frame from detail ${detailId} .${method} === ${result}`, () => {
-                    expect(_frame[method](args).id).toEqual(result)
-                })
-            })
-        })
-    })
+                    expect(_frame[method](args).id).toEqual(result);
+                });
+            });
+        });
+    });
 }
 
 
+// testFrame({
+//     elevation: sample3,
+//     frames: [
+//         {
+//             detailId: 2034,
+//             keys: [
+//                 ["vertical", false],
+//                 ["sightline", 10],
+//             ],
+//             methods: [
+//                 ["getDetailAcrossPerpendicularByDirection", [false], 2044],
+//                 // ["getContainersByDirection", [true], [802]],
+//                 // ["getContainersByDirection", [false], [803]],
+//                 ["getFirstOrLastContainerByDirection", [true, true], 802],
+//                 ["getFirstOrLastContainerByDirection", [false, true], 803],
+
+//             ],
+//         },
+//     ],
+// });
+
 testFrame({
-    elevation: sample3,
+    elevation: hhFrameError,
     frames: [
         {
-            detailId: 2034,
+            detailId: 2082,
             keys: [
-                ["vertical", false],
-                ["sightline", 10],
+                ['firstEndRunsIntoEdgeOfRoughOpening', true],
+                ['lastEndRunsIntoEdgeOfRoughOpening', true],
+                ['firstEndRunsAlongEdgeOfRoughOpening', false],
+                ['lastEndRunsAlongEdgeOfRoughOpening', false],
+                ['needsTopExtension', true],
+                ['needsBottomExtension', true],
+                ['topExtension', 10],
+                ['bottomExtension', 10],
+                // ['']
             ],
             methods: [
-                ["getDetailAcrossPerpendicularByDirection", [false], 2044],
-                // ["getContainersByDirection", [true], [802]],
-                // ["getContainersByDirection", [false], [803]],
-                ["getFirstOrLastContainerByDirection", [true, true], 802],
-                ["getFirstOrLastContainerByDirection", [false, true], 803],
 
             ],
         },
     ],
-})
+});
