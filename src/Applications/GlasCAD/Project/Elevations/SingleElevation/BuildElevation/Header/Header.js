@@ -26,6 +26,7 @@ export default function Header({
     cancel,
     save,
     history,
+    updating,
 }) {
     const [saving, setSaving] = useState(false);
     const [savingAndExiting, setSavingAndExiting] = useState(false);
@@ -100,7 +101,7 @@ export default function Header({
                                 }`);
                             setSavingAndExiting(false);
                         }}
-                        loading={savingAndExiting}
+                        loading={savingAndExiting && updating}
                         loadingText="Saving"
                     >
                         Save and Close
@@ -112,7 +113,7 @@ export default function Header({
                             await save();
                             setSaving(false);
                         }}
-                        loading={saving}
+                        loading={saving && updating}
                         loadingText="Saving"
                     >
                         Save

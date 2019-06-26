@@ -72,24 +72,24 @@ export default function SingleElevation({
 
     const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
 
+    const routeProps = sampleElevation ? {
+        queryStatus: {
+            _elevation: SAMPLE_ELEVATIONS[sampleElevation],
+        },
+        updateEntireElevation: () => {
+            throw new Error("Cannot update sample elevation");
+        },
+        updating: false,
+    } : {
+            fetching,
+            queryStatus,
+            updateEntireElevation,
+            updating,
+        };
+
     return (
         <Navigator
-            routeProps={{
-                fetching,
-                queryStatus: {
-                    ...queryStatus,
-                    // FOR TESTING PURPOSES - `to inject sample elevation code into elevation builder`
-                    // _elevation: sample2,
-                    ...(sampleElevation ?
-                        {
-                            _elevation: SAMPLE_ELEVATIONS[sampleElevation],
-                        }
-                        :
-                        null),
-                },
-                updateEntireElevation,
-                updating,
-            }}
+            routeProps={routeProps}
             routes={subroutes}
         />
     );
