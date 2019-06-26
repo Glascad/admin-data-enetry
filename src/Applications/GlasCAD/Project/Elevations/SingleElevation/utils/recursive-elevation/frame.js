@@ -532,6 +532,8 @@ export default class RecursiveFrame {
             this.canExtendByDirection
             &&
             container.canAddIntermediateByVerticalAndDistance(this.vertical, this.firstOrLastDistanceByExtend(first))
+            &&
+            !this.getRunsIntoEdgeOfRoughOpening
         );
     };
 

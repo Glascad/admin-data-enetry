@@ -1,5 +1,7 @@
 import RecursiveElevation from "../elevation";
 import sample3 from '../../../__test__/sample-elevations/sample3';
+import sample5 from '../../../__test__/sample-elevations/sample5';
+import sample6 from '../../../__test__/sample-elevations/sample6';
 // import sample1Special from '../../../__test__/sample-elevations/sample1-special';
 
 // test('', () => { });
@@ -70,8 +72,17 @@ function testFrame({ elevation, frames }) {
             });
             methods.forEach(([method, args, result]) => {
                 test(`frame from detail ${detailId} .${method} === ${result}`, () => {
-                    expect(_frame[method](args).id).toEqual(result)
-                })
+                    expect(_frame[method](...args)).toEqual(typeof result === "object" ?
+                        Array.isArray(result) ?
+                            expect.arrayContaining(result.map( item => (
+                                expect.objectContaining(item)
+                            )))
+                            :
+                            expect.objectContaining(result)
+                        :
+                        result
+                    )
+                });
             })
         })
     })
@@ -88,13 +99,56 @@ testFrame({
                 ["sightline", 10],
             ],
             methods: [
-                ["getDetailAcrossPerpendicularByDirection", [false], 2044],
-                // ["getContainersByDirection", [true], [802]],
-                // ["getContainersByDirection", [false], [803]],
-                ["getFirstOrLastContainerByDirection", [true, true], 802],
-                ["getFirstOrLastContainerByDirection", [false, true], 803],
-
+                ["getDetailAcrossPerpendicularByDirection", [false], { id: 2044 }],
+                ["getContainersByDirection", [true], [({ id: 802 })]],
+                ["getContainersByDirection", [false], [({ id: 803 })]],
+                ["getFirstOrLastContainerByDirection", [true, true], { id: 802 }],
+                ["getFirstOrLastContainerByDirection", [false, true], { id: 803 }],
+            ],
+        },
+        {
+            detailId: 2041,
+            keys: [
+                ["vertical", true],
+                ["sightline", 10],
+            ],
+            methods: [
+                ["canAddBay", [], true],
             ],
         },
     ],
-})
+});
+
+testFrame({
+    elevation: sample5,
+    frames: [
+        {
+            detailId: 2204,
+            keys: [
+                ["vertical", true],
+                ["sightline", 10],
+            ],
+            methods: [
+                ["canAddBay", [], false],
+            ],
+        },
+    ],
+});
+
+testFrame({
+    elevation: sample6,
+    frames: [
+        {
+            detailId: 3479,
+            keys: [
+                ["vertical", true],
+                ["sightline", 2],
+            ],
+            methods: [
+                ["canAddBay", [], true],
+                ["canAddBayRight", [], true],
+                ["canAddBayLeft", [], true],
+            ],
+        },
+    ],
+});

@@ -12,7 +12,11 @@ function testContainer({ elevation, sampleContainers }) {
                 test(`container ${id} has key: ${key} with value: ${value}`, () => expect(container[key]).toEqual(value));
             });
             methods.forEach(([method, args, testResult]) => {
-                testResult(container[method](...args));
+                expect(container[method](...args)).toEqual(
+                    expect.arrayContaining(testResult.map(item => (
+                        expect.objectContaining(item)
+                    )))
+                );
             })
         })
     })
@@ -33,9 +37,11 @@ testContainer({
             methods: [
                 ["getDetailsByDirection",
                     [false, true],
-                result => {
-                    expect
-                }
+                    [
+                        { id: -1 },
+                        { id: 2030 },
+                        { id: 2033 }
+                    ]
                 ],
                 ["getDetailsByDirection",
                     [false, false],
