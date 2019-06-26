@@ -15,6 +15,7 @@ const getValuesFromItem = item => {
         return {
             refIds: [refId],
             containers: [item],
+            isRoughOpening: false,
             x,
             y,
             height,
@@ -31,6 +32,7 @@ const getValuesFromItem = item => {
         return {
             refIds: [],
             containers: [],
+            isRoughOpening: true,
             x: 0,
             y: 0,
             height: y,
@@ -52,6 +54,7 @@ export default class RecursiveDimension {
             height,
             width,
             containers,
+            isRoughOpening,
         } = getValuesFromItem(item || elevation);
 
         const offset = vertical ?
@@ -75,6 +78,7 @@ export default class RecursiveDimension {
                 class: RecursiveDimension,
                 instanceCount: ++RecursiveDimension.instanceCount,
                 containers,
+                isRoughOpening,
                 elevation,
                 vertical,
                 dimension,

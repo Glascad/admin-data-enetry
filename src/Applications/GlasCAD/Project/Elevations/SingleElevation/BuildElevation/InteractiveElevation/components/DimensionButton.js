@@ -33,6 +33,9 @@ class DimensionButton extends PureComponent {
                 dimension,
                 dimension: {
                     containers,
+                    containers: {
+                        length,
+                    },
                 },
                 selectDimension,
             },
@@ -46,17 +49,19 @@ class DimensionButton extends PureComponent {
             mostRecentClick,
         });
 
-        if (currentMilliseconds - mostRecentClick < 500) {
-            // console.log("DOUBLE CLICK - toggle editing state");
-            selectDimension(dimension);
-        }
-        else if (selected) {
-            // console.log("SINGLE CLICK - unselect");
-            containers.forEach(container => unselectItem(container));
-        }
-        else {
-            // console.log("SINGLE CLICK - select");
-            containers.forEach(container => selectItem(container, true));
+        if (length) {
+            if (currentMilliseconds - mostRecentClick < 500) {
+                // console.log("DOUBLE CLICK - toggle editing state");
+                selectDimension(dimension);
+            }
+            else if (selected) {
+                // console.log("SINGLE CLICK - unselect");
+                containers.forEach(container => unselectItem(container));
+            }
+            else {
+                // console.log("SINGLE CLICK - select");
+                containers.forEach(container => selectItem(container, true));
+            }
         }
 
         this.mostRecentClick = currentMilliseconds;
@@ -263,9 +268,11 @@ class DimensionButton extends PureComponent {
                     vertical,
                     precedence,
                     registerReactComponent,
+                    isRoughOpening,
                 },
                 selected,
                 editing,
+                scaledDimension,
             },
             handleClick,
             handleFocus,
@@ -279,6 +286,8 @@ class DimensionButton extends PureComponent {
         registerReactComponent(this);
 
         console.log({ refId });
+
+        if (!scaledDimension) return null;
 
         return (
             <button
@@ -296,6 +305,11 @@ class DimensionButton extends PureComponent {
                     } ${
                     editing ?
                         'editing'
+                        :
+                        ''
+                    } ${
+                    isRoughOpening ?
+                        'rough-opening'
                         :
                         ''
                     }`}
