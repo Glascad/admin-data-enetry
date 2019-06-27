@@ -70,8 +70,6 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         try {
 
-            console.log(query);
-
             const response = await client.query(query);
 
             const normalResponse = normalizeResponse(response);

@@ -1,6 +1,6 @@
 
 const FakeIdGenerator = function () {
-    this.fakeId = -1;
+    this.fakeId = -10000;
     return () => this.fakeId--;
 }
 
