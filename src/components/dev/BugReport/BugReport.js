@@ -30,6 +30,8 @@ const mutation = {
 
 function BugReport({
     state,
+    smallerState,
+    smallestState,
     location: {
         pathname,
         search,
@@ -40,6 +42,46 @@ function BugReport({
 }) {
     const [report, updateReport] = useState('');
     const [reportBug] = useMutation(mutation);
+
+    const sendReport = async (tryCount = 1) => {
+        if (tryCount > 3) return;
+        else {
+            const payload = JSON.stringify(tryCount === 1 ?
+                state
+                :
+                tryCount === 2 ?
+                    smallerState
+                    :
+                    smallestState
+            );
+            if (payload) {
+                try {
+                    const {
+                        reportBug: {
+                            success,
+                        },
+                    } = await reportBug({
+                        location: `${pathname}${search}`,
+                        state: payload,
+                        report,
+                    });
+                    onComplete(success);
+                } catch (err) {
+                    console.log({ err });
+                    console.log({ ...err });
+
+                    const {
+                        networkError: {
+                            statusCode,
+                        } = {},
+                    } = err || {};
+                    if (statusCode === 413) {
+                        sendReport(tryCount + 1);
+                    }
+                }
+            }
+        }
+    }
 
     return (
         <>
@@ -54,18 +96,7 @@ function BugReport({
             />
             <button
                 className={buttonClassName}
-                onClick={async () => {
-                    const {
-                        reportBug: {
-                            success,
-                        },
-                    } = await reportBug({
-                        location: `${pathname}${search}`,
-                        state: JSON.stringify(state),
-                        report,
-                    });
-                    onComplete(success);
-                }}
+                onClick={() => sendReport()}
             >
                 Send Report
             </button>

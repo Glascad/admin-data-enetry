@@ -38,6 +38,8 @@ function ReportBug({
                 ) : (
                         <BugReport
                             state={states.slice(0, currentIndex + 1).map(({ recursiveElevation, ...state }) => state)}
+                            smallerState={[states[0], states[currentIndex]].map(({ recursiveElevation, ...state }) => state)}
+                            smallestState={[states[currentIndex]].map(({ recursiveElevation, ...state }) => state)}
                             buttonClassName="sidebar-button danger"
                             onComplete={() => setComplete(true)}
                         />
