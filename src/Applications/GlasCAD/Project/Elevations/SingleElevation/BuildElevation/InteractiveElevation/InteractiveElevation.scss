@@ -41,7 +41,7 @@ $horizontal-bubble-translation: $small * 2.5;
                     transform: rotate(90deg);
                 }
             } @else {
-                left: 0;
+                left: 0%;
 
                 .DetailBubble {
                     transform: translateX(-$bubble-translation);
@@ -108,6 +108,8 @@ $horizontal-bubble-translation: $small * 2.5;
 
     #elevation-display {
         // transition-duration: 0.05s;
+        // height: 100% !important;
+        // width: 100% !important;
 
         &.container-selected {
             .frame-wrapper {
@@ -141,6 +143,35 @@ $horizontal-bubble-translation: $small * 2.5;
             .Container {
                 pointer-events: none;
             }
+        }
+
+        #rough-opening {
+            display: none;
+            position: absolute;
+            top: -$small;
+            left: -$small;
+            right: -$small;
+            bottom: -$small;
+            // background: black;
+            background: none;
+            pointer-events: none;
+            border: $small solid black;
+            // opacity: 0.25;
+            z-index: 999999;
+            box-sizing: content-box;
+        }
+
+        #FinishedFloor {
+            position: absolute;
+            background: black;
+            left: -2000vw;
+            right: -2000vw;
+            height: $small;
+            // border-bottom: $xx-small solid $dark-gray;
+            // border-top: $xx-small solid $dark-gray;
+            width: 4000vw;
+            // transform: translateY($xx-small) !important;
+            z-index: 1;
         }
 
         .Container {
@@ -233,34 +264,6 @@ $horizontal-bubble-translation: $small * 2.5;
                     background: $dark-gray;
                 }
             }
-        }
-
-        #FinishedFloor {
-            position: absolute;
-            // background: $dark-gray;
-            left: -200vw;
-            right: -200vw;
-            // height: $xx-small;
-            border-bottom: $xx-small solid $dark-gray;
-            width: 600vw;
-            // transform: translateY($xx-small) !important;
-            z-index: 1;
-        }
-
-        .corner {
-            position: absolute;
-            z-index: 999;
-            height: $xx-small;
-            width: $xx-small;
-            // border: $large solid orange;
-            // border-radius: 100%;
-            background: red;
-            // transform: translate(-50%, -50%);
-            // top: 50% !important;
-            // left: 50% !important;
-            // + .corner {
-            //     display: none;
-            // }
         }
     }
 
