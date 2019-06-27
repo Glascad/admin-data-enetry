@@ -62,11 +62,12 @@ export default function Header({
                                 <Input
                                     Icon={Hamburger}
                                     checked={selectedItem === VISIBILITY_SETTINGS}
+                                    onMouseDown={e => e.stopPropagation()}
                                     onChange={selectedItem === VISIBILITY_SETTINGS ?
                                         cancelSelection
                                         :
-                                        () => selectItem(VISIBILITY_SETTINGS)}
-                                    onMouseDown={e => e.stopPropagation()}
+                                        () => selectItem(VISIBILITY_SETTINGS)
+                                    }
                                 />
                             )}
                     </SelectionContext.Consumer>

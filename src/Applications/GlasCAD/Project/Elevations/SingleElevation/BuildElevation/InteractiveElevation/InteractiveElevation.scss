@@ -140,10 +140,14 @@
 
             &.custom-rough-opening {
                 // display: none;
-                border: 2px solid transparentize($danger-color, 0.8) !important;
-                background: transparentize($danger-color, 0.8);
+                // border: 2px solid $light-gray;
+                border: 2px solid white;
+                // background: transparentize($danger-color, 0.8);
+                background: none;
                 // box-shadow: none !important;
                 pointer-events: none;
+                background: $off-white;
+                color: $medium-gray;
             }
 
             &:hover {

@@ -218,6 +218,9 @@ export default class Input extends PureComponent {
                 onBlur,
                 onEnter,
                 onKeyDown,
+                onClick,
+                onMouseDown,
+                onMouseUp,
                 ...props
             },
             ref,
@@ -275,6 +278,9 @@ export default class Input extends PureComponent {
                     } ${
                     light ? 'light' : ''
                     }`}
+                onClick={onClick}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
             >
                 {!isBoolean ? (
                     LABEL
