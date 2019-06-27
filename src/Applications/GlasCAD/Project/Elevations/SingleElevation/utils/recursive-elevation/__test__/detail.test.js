@@ -2,6 +2,8 @@ import RecursiveElevation from "../elevation";
 
 import sample1 from '../../../__test__/sample-elevations/sample1';
 
+describe('', () => test('', () => { }));
+
 function testDetails({ elevation, details }) {
     const recursiveElevation = new RecursiveElevation(elevation);
     describe(`Testing ${elevation.name} details`, () => {
