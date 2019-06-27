@@ -8,7 +8,8 @@ import {
     sample3,
     hhFrameError,
     sample5,
-    sample6
+    sample6,
+    error1,
 } from '../../../__test__/sample-elevations';
 
 // describe('Frame Tests', () => {
@@ -67,13 +68,14 @@ import {
 function testFrame({ elevation, frames }) {
     describe(`Testing frame methods for ${elevation.name}`, () => {
         const sampleElevation = new RecursiveElevation(elevation);
-        frames.forEach(({ detailId, keys, methods }) => {
+        frames.forEach(({ detailId, keys = [], methods = [] }) => {
 
             const { _frame } = sampleElevation.details[detailId];
 
             keys.forEach(([key, value]) => {
                 test(`frame from detail ${detailId} has key: ${key} with value: ${value}`, () => {
-                    expect(_frame[key]).toEqual(value);
+                    // expect(_frame[key]).toEqual(value);
+                    expect(_frame).toHaveProperty(key, value);
                 });
             });
 
@@ -143,12 +145,30 @@ testFrame({
                 ["sightline", 10],
             ],
             methods: [
-                ["getDetailAcrossPerpendicularByDirection", [false], {id: 2044}],
-                ["getContainersByDirection", [true], [{id: 802}]],
-                ["getContainersByDirection", [false], [{id: 803}]],
-                ["getFirstOrLastContainerByDirection", [true, true], {id: 802}],
-                ["getFirstOrLastContainerByDirection", [false, true], {id: 803}],
+                ["getDetailAcrossPerpendicularByDirection", [false], { id: 2044 }],
+                ["getContainersByDirection", [true], [{ id: 802 }]],
+                ["getContainersByDirection", [false], [{ id: 803 }]],
+                ["getFirstOrLastContainerByDirection", [true, true], { id: 802 }],
+                ["getFirstOrLastContainerByDirection", [false, true], { id: 803 }],
 
+            ],
+        },
+    ],
+});
+
+testFrame({
+    elevation: error1,
+    frames: [
+        {
+            detailId: 3641,
+            keys: [
+                ["vertical", true],
+                ["needsTopExtension", true],
+                ["needsBottomExtension", true],
+                ["topExtension", 2],
+                ["bottomExtension", 2],
+                ["firstEndRunsIntoEdgeOfRoughOpening", true],
+                ["lastEndRunsIntoEdgeOfRoughOpening", true],
             ],
         },
     ],

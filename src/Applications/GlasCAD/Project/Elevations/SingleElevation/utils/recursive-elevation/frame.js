@@ -220,40 +220,16 @@ export default class RecursiveFrame {
 
     get firstEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(true); }
     get lastEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(false); }
-
-    getNeedsExtensionByDirectionAndContainerDirection = (first, containerFirst) => {
-        const {
-            elevation: {
-                verticalFramesRunThroughHeadAndSill,
-            },
-            vertical,
-        } = this;
-
-        const endContainer = this.getFirstOrLastContainerByDirection(containerFirst, !first);
-
-        const adjacentContainer = endContainer && endContainer.getFirstOrLastContainerByDirection(this.vertical, first, !containerFirst);
-
-        return vertical && (
-            verticalFramesRunThroughHeadAndSill ?
-                this.getRunsIntoEdgeOfRoughOpening(first)
-                :
-                this.getRunsAlongEdgeOfRoughOpening(first)
-        ) && (
-                !endContainer
-                ||
-                endContainer.customRoughOpening
-                ||
-                !adjacentContainer
-                ||
-                adjacentContainer.customRoughOpening
-            );
-    }
-
+    
     getNeedsExtensionByDirection = first => {
-        return (
-            this.getNeedsExtensionByDirectionAndContainerDirection(first, true)
-            ||
-            this.getNeedsExtensionByDirectionAndContainerDirection(first, false)
+        return !!(
+            this.vertical
+            && (
+                this.elevation.verticalFramesRunThroughHeadAndSill ?
+                    this.getRunsIntoEdgeOfRoughOpening(first)
+                    :
+                    this.getRunsAlongEdgeOfRoughOpening(first)
+            )
         );
     }
 
