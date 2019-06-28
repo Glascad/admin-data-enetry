@@ -6,7 +6,7 @@
             height: fill;
             width: fill;
             overflow: hidden;
-            padding: $large;
+            padding: $large $x-small;
 
             svg {
                 height: fit-content;
@@ -19,12 +19,14 @@
                 transform: scaleY(-1);
 
                 rect {
-                    // stroke: $dark-gray;
-                    fill: none;
+                    stroke: $dark-gray;
 
                     &.frame {
-                        // fill: black;
                         fill: $dark-gray;
+                    }
+
+                    &.container {
+                        fill: transparentize($light-blue, 0.8);
                     }
                 }
             }

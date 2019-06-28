@@ -42,7 +42,9 @@ function renderPreview({
                 <rect
                     class="container"
                     x="${x}"
-                    y="${y + finishedFloorHeight}"
+                    y="${y
+                // + finishedFloorHeight
+                }"
                     height="${height}"
                     width="${width}"
                 />
@@ -57,7 +59,9 @@ function renderPreview({
                 <rect
                     class="frame"
                     x="${x}"
-                    y="${y + finishedFloorHeight}"
+                    y="${y
+                // + finishedFloorHeight
+                }"
                     height="${height}"
                     width="${width}"
                 />
