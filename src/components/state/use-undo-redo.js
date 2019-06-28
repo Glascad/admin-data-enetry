@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-export default function useUndoRedo(firstState) {
+export default function useUndoRedo(firstState, dependencies = []) {
     const initialState = {
         states: [firstState],
         currentIndex: 0,
@@ -8,6 +8,11 @@ export default function useUndoRedo(firstState) {
 
     const [wrappedState, setState] = useState(initialState);
     const [{ afterSetState }, setAfterSetState] = useState({ afterSetState() { } });
+
+    // update initial state when dependencies change
+    useEffect(() => {
+        setState(initialState);
+    }, dependencies);
 
     // to simulate behavior of setState(newState, --> callback <--)
     // which is not available in the hook
@@ -84,7 +89,7 @@ export default function useUndoRedo(firstState) {
     const resetState = useCallback((newFirstState = firstState, ...args) => dispatch(() => ({
         states: [newFirstState],
         currentIndex: 0,
-    }), ...args), [dispatch]);  
+    }), ...args), [dispatch]);
 
     const onKeyDown = useCallback(e => {
         const { key = '', ctrlKey, metaKey, shiftKey } = e;

@@ -38,7 +38,7 @@ class ActionProvider extends PureComponent {
                 },
             },
         } = this;
-        
+
         if (key === 'Delete' || key === 'Backspace') {
             if (SelectedClass === RecursiveContainer) this.deleteContainers();
             else if (SelectedClass === RecursiveFrame) this.deleteFrames();
@@ -100,6 +100,10 @@ class ActionProvider extends PureComponent {
         }
     }
 
+    // updateElevationAndSelection = (ACTION, payload, cb, shouldReplaceState, ) => {
+
+    // }
+
     // MOVE ENTIRELY INTO ACTIONS FOLDER
     performBulkAction = (ACTION, refIds, getPayloadFromRefId, { _replaceState, useTimeout } = {}) => {
         // console.log({
@@ -134,10 +138,17 @@ class ActionProvider extends PureComponent {
                 if (payload) updateElevation(
                     ACTION,
                     payload,
-                    useTimeout ?
-                        () => setTimeout(performNextAction)
-                        :
-                        performNextAction,
+                    () => {
+                        const reselect = () => {
+                            ACTION.getSelectedItems(payload)(this.props.elevation).forEach(item => {
+                                this.props.selection.selectItem(item);
+                            });
+                        }
+                        if (prevRefIds.length) reselect();
+                        else this.props.selection.cancelSelection(reselect);
+                        if (useTimeout) setTimeout(performNextAction);
+                        else performNextAction();
+                    },
                     _replaceState || (
                         !useTimeout && refId !== refIds[0]
                     ),
@@ -217,11 +228,11 @@ class ActionProvider extends PureComponent {
             const distance = _frame.firstOrLastDistanceByExtend(first);
             const vertical = _frame.vertical;
 
-            return ({
+            return {
                 container: containerRef,
                 distance,
                 vertical,
-            })
+            };
         },
     );
 

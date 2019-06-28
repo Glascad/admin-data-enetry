@@ -39,6 +39,8 @@ class Detail extends PureComponent {
                     width,
                 },
                 selectItem,
+                containerIsSelected,
+                cancelSelection,
             },
             handleClick,
         } = this;
@@ -81,8 +83,10 @@ class Detail extends PureComponent {
                 onClick={handleClick}
             >
                 <DetailBubble
+                    cancelSelection={cancelSelection}
                     selectItem={selectItem}
                     detail={detail}
+                    containerIsSelected={containerIsSelected}
                 />
             </div>
         );

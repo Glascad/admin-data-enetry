@@ -207,7 +207,15 @@ export default class SelectionProvider extends PureComponent {
         selectedItems: selectedItems.filter(selectedItem => selectedItem !== item),
     }));
 
-    cancelSelection = () => this.setState(() => ({ selectedItems: [], selectedDimension: {} }));
+    cancelSelection = cb => this.setState(() => ({
+        selectedItems: [],
+        selectedDimension: {},
+    }),
+        typeof cb === 'function' ?
+            cb
+            :
+            undefined,
+    );
 
     selectDimension = selectedDimension => {
         const canEditDimension = selectedDimension.containers.every(({ getFrameByDirection }) => {

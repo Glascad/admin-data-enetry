@@ -62,11 +62,12 @@ export default function Header({
                                 <Input
                                     Icon={Hamburger}
                                     checked={selectedItem === VISIBILITY_SETTINGS}
+                                    onMouseDown={e => e.stopPropagation()}
                                     onChange={selectedItem === VISIBILITY_SETTINGS ?
                                         cancelSelection
                                         :
-                                        () => selectItem(VISIBILITY_SETTINGS)}
-                                    onMouseDown={e => e.stopPropagation()}
+                                        () => selectItem(VISIBILITY_SETTINGS)
+                                    }
                                 />
                             )}
                     </SelectionContext.Consumer>
@@ -76,7 +77,7 @@ export default function Header({
                 <>
                     <Link
                         to={`${
-                            path.replace(/elevation\/build-elevation/, 'all-elevations')
+                            path.replace(/elevation\/build-elevation/, 'elevation-search')
                             }${
                             parseSearch(search).remove('sampleElevation')
                             }`}
@@ -95,7 +96,7 @@ export default function Header({
                             setSavingAndExiting(true);
                             const result = await save();
                             history.push(`${
-                                path.replace(/elevation\/build-elevation/, 'all-elevations')
+                                path.replace(/elevation\/build-elevation/, 'elevation-search')
                                 }${
                                 parseSearch(search).remove('sampleElevation')
                                 }`);

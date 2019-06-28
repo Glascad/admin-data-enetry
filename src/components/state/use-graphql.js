@@ -51,6 +51,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         } catch (err) {
             console.trace(mutation);
             console.log({ err });
+            throw err;
         }
     }
 
@@ -70,8 +71,6 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         try {
 
-            console.log(query);
-
             const response = await client.query(query);
 
             const normalResponse = normalizeResponse(response);
@@ -87,6 +86,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
         } catch (err) {
             console.trace(query);
             console.log({ err });
+            throw err;
         }
 
     }, [query]);

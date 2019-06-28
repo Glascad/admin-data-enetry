@@ -13,6 +13,8 @@ import { parseSearch } from '../../../../../utils';
 
 import deleteElevationMutation from './delete-elevation';
 
+import ElevationPreview from '../ElevationPreview/ElevationPreview';
+
 export default function ElevationSearch({
     history,
     location: {
@@ -30,10 +32,8 @@ export default function ElevationSearch({
 }) {
     const [deleteElevation, deleteResult, deleting] = useMutation(deleteElevationMutation);
 
-    // console.log({ deleting });
-
     return (
-        <div className="card">
+        <div id="ElevationSearch" className="card">
             <ListWrapper
                 identifier="id"
                 titleBar={{
@@ -45,7 +45,7 @@ export default function ElevationSearch({
                     type: "tile",
                     align: "left",
                 }}
-                mapPillProps={({ id, name }) => ({
+                mapPillProps={({ id, name, preview }) => ({
                     title: name,
                     hoverButtons: [
                         {
@@ -58,7 +58,22 @@ export default function ElevationSearch({
                                 </Link>
                             ),
                         },
-                    ]
+                        {
+                            children: (
+                                <Link
+                                    to={`${path}/elevation/edit-elevation${parseSearch(search)
+                                        .update({ elevationId: id })}`}
+                                >
+                                    Info
+                                </Link>
+                            ),
+                        },
+                    ],
+                    children: (
+                        <ElevationPreview
+                            preview={preview}
+                        />
+                    ),
                 })}
                 circleButton={{
                     type: "tile",

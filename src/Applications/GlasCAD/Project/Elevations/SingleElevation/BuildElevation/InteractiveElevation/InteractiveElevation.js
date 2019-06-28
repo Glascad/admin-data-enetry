@@ -8,7 +8,6 @@ import { TransformContext, pixelsPerInch } from '../contexts/TransformContext';
 
 import Container from './components/Container';
 import Frame from './components/Frame';
-import FinishedFloor from './components/FinishedFloor';
 import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
@@ -132,7 +131,20 @@ class InteractiveElevation extends PureComponent {
                     onMouseDown={e => e.stopPropagation()}
                 >
                     {/* ROUGH OPENING */}
-                    {/* <div /> */}
+                    <div
+                        id="rough-opening"
+                        style={{
+                            height: roy * pixelsPerInch,
+                            width: rox * pixelsPerInch,
+                        }}
+                    />
+                    {/* FINISHED FLOOR */}
+                    <div
+                        id="FinishedFloor"
+                        style={{
+                            top: `calc(100% + ${finishedFloorHeight * pixelsPerInch}px)`,
+                        }}
+                    />
                     {/* CONTAINERS */}
                     {allContainers.map(container => (
                         <Container
@@ -150,10 +162,6 @@ class InteractiveElevation extends PureComponent {
                             selectable={framesSelectable}
                         />
                     ))}
-                    {/* FINISHED FLOOR */}
-                    <FinishedFloor
-                        finishedFloorHeight={finishedFloorHeight}
-                    />
                     {/* SELECTION */}
                     <SelectionLayer />
                     {/* VERTICAL DIMENSIONS */}
@@ -187,38 +195,6 @@ class InteractiveElevation extends PureComponent {
                             </div>
                         ))}
                     </div>
-                    {/* <div
-                        id="bottom-left"
-                        className="corner"
-                        style={{
-                            bottom: 0,
-                            left: 0,
-                        }}
-                        />
-                        <div
-                        id="bottom-right"
-                        className="corner"
-                        style={{
-                            bottom: 0,
-                            right: 0,
-                        }}
-                        />
-                        <div
-                        id="top-left"
-                        className="corner"
-                        style={{
-                            top: 0,
-                            left: 0,
-                        }}
-                        />
-                    <div
-                        id="top-right"
-                        className="corner"
-                        style={{
-                            top: 0,
-                            right: 0,
-                        }}
-                    /> */}
                     {/* HORIZONTAL DIMENSIONS */}
                     <div id="top-dimension-track">
                         {topDimensionTracks.map((track, i) => (

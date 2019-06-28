@@ -4,8 +4,31 @@ import { withTransformContext } from '../../contexts/TransformContext';
 class DetailBubble extends PureComponent {
 
     handleClick = e => {
+        const {
+            props,
+            props: {
+                containerIsSelected,
+                selectItem,
+                detail,
+                detail: {
+                    _frame,
+                } = {},
+                cancelSelection,
+            },
+        } = this;
+
         e.stopPropagation();
-        this.props.selectItem(this.props.detail);
+
+        console.log({
+            containerIsSelected,
+            selectItem,
+            detail,
+            _frame,
+            props,
+        });
+
+        if (containerIsSelected) cancelSelection(() => selectItem(_frame));
+        else selectItem(detail);
     }
 
     render = () => {

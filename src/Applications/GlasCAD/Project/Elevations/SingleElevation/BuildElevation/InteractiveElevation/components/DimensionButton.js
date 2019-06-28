@@ -136,19 +136,15 @@ class DimensionButton extends PureComponent {
             {
                 dimension: 'Height',
                 offset: 'bottom',
-                trackOffset:
-                    // this.props.first ?
-                    'left'
-                // :
-                // 'right',
+                trackOffset: 'left',
+                borderLeft: 'Bottom',
+                borderRight: 'Top',
             } : {
                 dimension: 'Width',
                 offset: 'left',
-                trackOffset:
-                    // this.props.first ?
-                    'bottom'
-                // :
-                // 'top',
+                trackOffset: 'bottom',
+                borderLeft: 'Left',
+                borderRight: 'Right',
             };
     }
 
@@ -184,6 +180,8 @@ class DimensionButton extends PureComponent {
                 dimension: dimensionKey,
                 offset: offsetKey,
                 trackOffset: trackOffsetKey,
+                borderLeft: borderLeftKey,
+                borderRight: borderRightKey,
             },
         } = this;
 
@@ -221,6 +219,8 @@ class DimensionButton extends PureComponent {
                     finishedFloorHeight
                     }px)`
                 }`,
+            [`border${borderLeftKey}Width`]: 1 / scaleX,
+            [`border${borderRightKey}Width`]: 1 / scaleX,
         };
     }
 

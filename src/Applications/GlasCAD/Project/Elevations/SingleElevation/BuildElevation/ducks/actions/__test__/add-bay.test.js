@@ -1,6 +1,8 @@
 import sample3 from '../../../../__test__/sample-elevations/sample3.json'
 import RecursiveElevation from '../../../../utils/recursive-elevation/elevation.js';
 
+describe('', () => test('', () => { }));
+
 const testAddBay = ({ elevation, deletedDetails, expectedDetails, addBayFirst, expectedDlo, expectedRO, containerId, expectedContainerId }) => {
 
     const sampleResult = applyActionToElevation(elevation, ADD_BAY, ({containerId, addBayFirst}) => ({

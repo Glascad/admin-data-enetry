@@ -37,6 +37,11 @@ export default function SingleElevation({
     location: {
         search,
     },
+    queryStatus: {
+        _project: {
+            defaultElevation,
+        } = {},
+    },
 }) {
 
     const { elevationId, sampleElevation } = parseSearch(search);
@@ -47,16 +52,16 @@ export default function SingleElevation({
 
     const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
 
+    console.log({ queryStatus });
+
+    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
+
     useEffect(() => {
         if (elevationId) {
             // console.log({ variables });
             fetchQuery();
         }
     }, [elevationId]);
-
-    // console.log({ queryStatus });
-
-    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
 
     const routeProps = sampleElevation ?
         {
@@ -67,11 +72,13 @@ export default function SingleElevation({
                 throw new Error("Cannot update sample elevation");
             },
             updating: false,
+            defaultElevation,
         } : {
             fetching,
             queryStatus,
             updateEntireElevation,
             updating,
+            defaultElevation,
         };
 
     return (

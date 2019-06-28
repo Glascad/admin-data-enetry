@@ -1,6 +1,8 @@
 import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from "../../../utils/recursive-elevation/directions";
 import MERGE_CONTAINERS from './merge-containers';
 
+DELETE_CONTAINER.getSelectedItems = ({ }) => ({ }) => ([]);
+
 export default function DELETE_CONTAINER({
     elevationInput,
     elevationInput: {

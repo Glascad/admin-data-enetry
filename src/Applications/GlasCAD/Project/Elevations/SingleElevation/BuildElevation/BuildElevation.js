@@ -16,6 +16,8 @@ import { parseSearch } from '../../../../../../utils';
 
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
 
+import renderPreview from '../../ElevationPreview/render-preview';
+
 import './BuildElevation.scss';
 
 const defaultElevationInput = {
@@ -112,6 +114,7 @@ class BuildElevation extends PureComponent {
                         details,
                         containers,
                     },
+                    recursiveElevation,
                 },
                 clearHistory,
                 cancel,
@@ -162,7 +165,8 @@ class BuildElevation extends PureComponent {
                             'id'
                             :
                             'fakeId']: id,
-                    })),
+                        })),
+                preview: renderPreview(recursiveElevation),
             },
         });
 
@@ -203,7 +207,7 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
-        console.log(this.props);
+        console.log(this);
 
         return (
             <SelectionProvider

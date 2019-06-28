@@ -16,7 +16,7 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
     }));
 
     testElevation({
-        description: `${elevation.name} -add frame - oldContainerId: ${oldContainer.id}, distance: ${newContainer.id}`,
+        description: `${elevation.name} -add frame - old container: ${oldContainer.id}, new container: ${newContainer.id}`,
         elevation: sampleResult.rawElevation,
     });
 
@@ -24,14 +24,27 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
         elevation: sampleResult.rawElevation, ...elevationArrays
     });
 
+    
     describe(`${elevation.name} adds a new frame in container ${oldContainer}. Testing daylight opening, and details`, () => {
-        test(`Testing ${elevation.name}'s ${oldContainer} and ${newContainer} for correct daylight opening and Id`, () => {
-            expect(sampleResult).toMatchObject({
-                containers: {
-                    [newContainer.id]: newContainer,
-                    [oldContainer.id]: oldContainer,
-                },
-            });
+        test(`Testing ${elevation.name}'s containerIds to container new container id and old container id`, () => {
+            expect(sampleResult.containerIds).toEqual(
+                expect.arrayContaining([
+                    `${oldContainer.id}`,
+                    `${newContainer.id}`,
+                ])
+            );
+        });
+        test(`Testing ${elevation.name}'s container ${oldContainer.id} for correct daylight opening and id`, () => {
+            expect(sampleResult.containers[oldContainer.id]).toMatchObject(oldContainer);
+            // expect(sampleResult.containers).toMatchObject({
+            //     [oldContainer.id]: oldContainer,
+            // });
+        });
+        test(`Testing ${elevation.name}'s container ${newContainer.id} for correct daylight opening and id`, () => {
+            expect(sampleResult.containers[newContainer.id]).toMatchObject(newContainer);
+            // expect(sampleResult.containers).toMatchObject({
+            //     [newContainer.id]: newContainer,
+            // });
         });
         test(`Testing ${elevation.name} for correctly adding details`, () => {
             expect(sampleResult.allDetails).toMatchObject(
@@ -71,7 +84,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -1,
+        id: -10000,
         daylightOpening: {
             x: 185,
             y: 90,
@@ -80,18 +93,17 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 887,
-            secondContainerId: -1,
+            secondContainerId: -10000,
         },
         {
             firstContainerId: 886,
-            secondContainerId: -1,
+            secondContainerId: -10000,
         },
     ],
-    deletedDetails: [
-    ],
+    deletedDetails: [],
 });
 
-//Sample3 Test1
+// //Sample3 Test1
 testAddFrame({
     elevation: sample3,
     distance: 30,
@@ -104,7 +116,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -2,
+        id: -10001,
         daylightOpening: {
             x: 86.6666666666667,
             y: 30,
@@ -113,18 +125,18 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 802,
-            secondContainerId: -2,
+            secondContainerId: -10001,
         },
         {
             firstContainerId: 805,
-            secondContainerId: -2,
+            secondContainerId: -10001,
         },
         {
-            firstContainerId: -2,
+            firstContainerId: -10001,
             secondContainerId: 807,
         },
         {
-            firstContainerId: -2,
+            firstContainerId: -10001,
             secondContainerId: 810,
         },
     ],
@@ -135,7 +147,8 @@ testAddFrame({
         },
     ],
 });
-//Sample3 Test2
+
+// Sample3 Test2
 testAddFrame({
     elevation: sample3,
     distance: 55,
@@ -148,7 +161,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -3,
+        id: -10002,
         daylightOpening: {
             x: 86.6666666666667,
             y: 55,
@@ -157,18 +170,18 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 802,
-            secondContainerId: -3,
+            secondContainerId: -10002,
         },
         {
             firstContainerId: 805,
-            secondContainerId: -3,
+            secondContainerId: -10002,
         },
         {
-            firstContainerId: -3,
+            firstContainerId: -10002,
             secondContainerId: 807,
         },
         {
-            firstContainerId: -3,
+            firstContainerId: -10002,
             secondContainerId: 810,
         },
     ],
@@ -184,7 +197,7 @@ testAddFrame({
     ],
 });
 
-//Sample3 Test3
+// Sample3 Test3
 testAddFrame({
     elevation: sample3,
     distance: 60,
@@ -197,7 +210,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -4,
+        id: -10003,
         daylightOpening: {
             x: 86.6666666666667,
             y: 60,
@@ -206,18 +219,18 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 802,
-            secondContainerId: -4,
+            secondContainerId: -10003,
         },
         {
             firstContainerId: 805,
-            secondContainerId: -4,
+            secondContainerId: -10003,
         },
         {
-            firstContainerId: -4,
+            firstContainerId: -10003,
             secondContainerId: 807,
         },
         {
-            firstContainerId: -4,
+            firstContainerId: -10003,
             secondContainerId: 810,
         },
     ],
@@ -233,7 +246,7 @@ testAddFrame({
     ],
 });
 
-//Sample3 Test4
+// Sample3 Test4
 testAddFrame({
     elevation: sample3,
     distance: 65,
@@ -246,7 +259,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -5,
+        id: -10004,
         daylightOpening: {
             x: 86.6666666666667,
             y: 65,
@@ -255,18 +268,18 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 802,
-            secondContainerId: -5,
+            secondContainerId: -10004,
         },
         {
             firstContainerId: 805,
-            secondContainerId: -5,
+            secondContainerId: -10004,
         },
         {
-            firstContainerId: -5,
+            firstContainerId: -10004,
             secondContainerId: 807,
         },
         {
-            firstContainerId: -5,
+            firstContainerId: -10004,
             secondContainerId: 810,
         },
     ],
@@ -280,13 +293,13 @@ testAddFrame({
             secondContainerId: 810,
         },
         {
-            firstContainerId: -5,
+            firstContainerId: -10004,
             secondContainerId: 809,
         },
     ],
 });
 
-//Sample3 Test5
+// Sample3 Test5
 testAddFrame({
     elevation: sample3,
     distance: 120,
@@ -299,7 +312,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -6,
+        id: -10005,
         daylightOpening: {
             x: 86.6666666666667,
             y: 120,
@@ -308,22 +321,22 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 802,
-            secondContainerId: -6,
+            secondContainerId: -10005,
         },
         {
             firstContainerId: 805,
-            secondContainerId: -6,
+            secondContainerId: -10005,
         },
         {
-            firstContainerId: -6,
+            firstContainerId: -10005,
             secondContainerId: 807,
         },
         {
-            firstContainerId: -6,
+            firstContainerId: -10005,
             secondContainerId: 810,
         },
         {
-            firstContainerId: -6,
+            firstContainerId: -10005,
             secondContainerId: 809,
         },
     ],
@@ -343,7 +356,7 @@ testAddFrame({
     ],
 });
 
-//Sample3 Test6
+// Sample3 Test6
 testAddFrame({
     elevation: sample3,
     distance: 180,
@@ -356,7 +369,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -7,
+        id: -10006,
         daylightOpening: {
             x: 86.6666666666667,
             y: 180,
@@ -365,27 +378,27 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 802,
-            secondContainerId: -7,
+            secondContainerId: -10006,
         },
         {
             firstContainerId: 805,
-            secondContainerId: -7,
+            secondContainerId: -10006,
         },
         {
-            firstContainerId: -7,
+            firstContainerId: -10006,
             secondContainerId: 807,
         },
         {
-            firstContainerId: -7,
+            firstContainerId: -10006,
             secondContainerId: 810,
         },
         {
-            firstContainerId: -7,
+            firstContainerId: -10006,
             secondContainerId: 809,
         },
         {
             firstContainerId: 801,
-            secondContainerId: -7,
+            secondContainerId: -10006,
         },
     ],
     deletedDetails: [
@@ -412,7 +425,7 @@ testAddFrame({
     ],
 });
 
-//Sample5 Test1
+// Sample5 Test1
 testAddFrame({
     elevation: sample5,
     distance: 85,
@@ -425,7 +438,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -8,
+        id: -10007,
         daylightOpening: {
             x: 85,
             y: 185,
@@ -434,19 +447,17 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 890,
-            secondContainerId: -8,
+            secondContainerId: -10007,
         },
         {
             firstContainerId: 893,
-            secondContainerId: -8,
+            secondContainerId: -10007,
         },
     ],
-    deletedDetails: [
-
-    ],
+    deletedDetails: [],
 });
 
-//Sample5 Test2
+// Sample5 Test2
 testAddFrame({
     elevation: sample5,
     distance: 180,
@@ -459,7 +470,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -9,
+        id: -10008,
         daylightOpening: {
             x: 180,
             y: 185,
@@ -468,11 +479,11 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 890,
-            secondContainerId: -9,
+            secondContainerId: -10008,
         },
         {
             firstContainerId: 893,
-            secondContainerId: -9,
+            secondContainerId: -10008,
         },
     ],
     deletedDetails: [
@@ -480,11 +491,10 @@ testAddFrame({
             firstContainerId: 893,
             secondContainerId: 890,
         },
-
     ],
 });
 
-//Sample5 Test3
+// Sample5 Test3
 testAddFrame({
     elevation: sample5,
     distance: 185,
@@ -497,7 +507,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -10,
+        id: -10009,
         daylightOpening: {
             x: 185,
             y: 185,
@@ -506,11 +516,11 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 890,
-            secondContainerId: -10,
+            secondContainerId: -10009,
         },
         {
             firstContainerId: 893,
-            secondContainerId: -10,
+            secondContainerId: -10009,
         },
     ],
     deletedDetails: [
@@ -518,16 +528,15 @@ testAddFrame({
             firstContainerId: 893,
             secondContainerId: 890,
         },
-
     ],
     elevationArrays: {
         containerCount: 4,
         detailCount: 12,
         frameCount: 9,
-    }
+    },
 });
 
-//Sample5 Test4
+// Sample5 Test4
 testAddFrame({
     elevation: sample5,
     distance: 190,
@@ -540,7 +549,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -11,
+        id: -10010,
         daylightOpening: {
             x: 190,
             y: 185,
@@ -549,11 +558,11 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 890,
-            secondContainerId: -11,
+            secondContainerId: -10010,
         },
         {
             firstContainerId: 893,
-            secondContainerId: -11,
+            secondContainerId: -10010,
         },
     ],
     deletedDetails: [
@@ -561,7 +570,6 @@ testAddFrame({
             firstContainerId: 893,
             secondContainerId: 890,
         },
-
     ],
     elevationArrays: {
         containerCount: 4,
@@ -570,7 +578,7 @@ testAddFrame({
     }
 });
 
-//Sample5 Test5
+// Sample5 Test5
 testAddFrame({
     elevation: sample5,
     distance: 285,
@@ -583,7 +591,7 @@ testAddFrame({
         },
     },
     newContainer: {
-        id: -12,
+        id: -10011,
         daylightOpening: {
             x: 285,
             y: 185,
@@ -592,15 +600,15 @@ testAddFrame({
     expectedDetails: [
         {
             firstContainerId: 890,
-            secondContainerId: -12,
+            secondContainerId: -10011,
         },
         {
             firstContainerId: 893,
-            secondContainerId: -12,
+            secondContainerId: -10011,
         },
         {
             firstContainerId: 889,
-            secondContainerId: -12,
+            secondContainerId: -10011,
         },
     ],
     deletedDetails: [
@@ -609,11 +617,9 @@ testAddFrame({
             secondContainerId: 890,
         },
     ],
-
     elevationArrays: {
         containerCount: 4,
         detailCount: 13,
         frameCount: 9,
-    }
-
+    },
 });

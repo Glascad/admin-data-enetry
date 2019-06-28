@@ -1,5 +1,7 @@
 import mergeContainers from './merge-containers';
 
+DELETE_FRAME.getSelectedItems = ({ }) => ({ }) => ([]);
+
 export default function DELETE_FRAME({
     elevationInput,
 }, {

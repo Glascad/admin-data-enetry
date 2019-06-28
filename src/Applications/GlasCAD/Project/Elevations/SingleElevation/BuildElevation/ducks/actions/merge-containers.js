@@ -4,6 +4,18 @@ import { GET_RELATIVE_DIRECTIONS } from '../../../utils/recursive-elevation/dire
 import deleteDetail from './utils/delete-detail';
 import redirectDetail from './utils/redirect-detail';
 
+MERGE_CONTAINERS.getSelectedItems = ({
+    container: {
+        id,
+    },
+}) => ({
+    containers: {
+        [id]: container,
+    },
+}) => ([
+    container,
+]);
+
 export default function MERGE_CONTAINERS({
     elevationInput,
     elevationInput: {
