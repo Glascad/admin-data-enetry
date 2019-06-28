@@ -62,15 +62,28 @@ export default class Pill extends PureComponent {
 
     componentDidMount = () => {
         window.addEventListener('keydown', this.blurOnEsc);
-        this.componentDidUpdate();
+        this.componentDidUpdate({});
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.blurOnEsc);
     }
 
-    componentDidUpdate = () => {
-        const { ref } = this;
+    componentDidUpdate = ({ editing: oldEditing }) => {
+        const {
+            props: {
+                editing: newEditing,
+            },
+            ref,
+        } = this;
+
+        if (newEditing !== oldEditing) {
+            this.setState({
+                editing: newEditing,
+                input: this.props.inputValue || this.props.title,
+            });
+        }
+
         if (
             ref
             &&

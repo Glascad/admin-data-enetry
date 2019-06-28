@@ -1,8 +1,6 @@
-
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .CircleButton {
-
     position: relative;
     display: flex;
     justify-content: center;
@@ -20,53 +18,64 @@
         position: relative;
         margin: 0;
         padding: 0;
-        
-        .block-one, .block-two {
+
+        .block-one,
+        .block-two {
             position: absolute;
+            background: $off-white;
+        }
+
+        &:hover {
+            background: $off-white;
         }
     }
-    
+
+    &.primary {
+        .circle-button {
+            background: $selected-color;
+            border-color: $selected-color;
+        }
+
+        &:hover {
+            .block-one,
+            .block-two {
+                background: $selected-color;
+            }
+        }
+    }
+
     &.action {
         .circle-button {
             background: $action-color;
             border-color: $action-color;
-            
-            .block-one, .block-two {
-                background: $off-white;
-            }
-            
+
             &:hover {
-                background: $off-white;
-                
-                .block-one, .block-two {
+                .block-one,
+                .block-two {
                     background: $action-color;
                 }
             }
         }
     }
-    
+
     &.danger {
         .circle-button {
             background: $danger-color;
             border-color: $danger-color;
 
-            .block-one, .block-two {
-                background: $off-white;
-            }
-            
             &:hover {
-                background: $off-white;
-                
-                .block-one, .block-two {
+                .block-one,
+                .block-two {
                     background: $danger-color;
                 }
             }
         }
     }
-    
+
     &.action-type-add {
         .circle-button {
-            .block-one, .block-two {
+            .block-one,
+            .block-two {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
@@ -76,34 +85,35 @@
                 height: 60%;
                 width: 12%;
             }
-            
+
             .block-two {
                 height: 12%;
                 width: 60%;
             }
         }
     }
-    
+
     &.action-type-delete {
         .circle-button {
-            .block-one, .block-two {
+            .block-one,
+            .block-two {
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%) rotate(45deg);
             }
-    
+
             .block-one {
                 height: 60%;
                 width: 12%;
             }
-            
+
             .block-two {
                 height: 12%;
                 width: 60%;
             }
         }
     }
-    
+
     &.type-tile {
         height: $pill-width;
         width: $pill-width;
@@ -114,13 +124,13 @@
             transform: scale(3.33);
         }
     }
-    
+
     &:hover {
         .ButtonTile {
             opacity: 1;
         }
     }
-    
+
     .ButtonTile {
         opacity: 0;
         position: absolute;
