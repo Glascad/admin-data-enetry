@@ -184,9 +184,18 @@
             justify-content: space-between;
         }
 
-        .title {
-            font-weight: bold;
-            margin-bottom: $x-small;
+        
+        > div {
+            overflow: hidden;
+            max-width: 100%;
+
+            .title {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-weight: bold;
+                margin-bottom: $x-small;
+            }
         }
 
         .footer {

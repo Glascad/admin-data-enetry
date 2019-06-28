@@ -114,7 +114,7 @@ export default class RecursiveDimension {
             isRoughOpening,
         } = this;
 
-        return !!customRoughOpening === isRoughOpening && (
+        return (!!customRoughOpening === !!isRoughOpening) && (
             vertical ? (
                 y === offset
                 &&
