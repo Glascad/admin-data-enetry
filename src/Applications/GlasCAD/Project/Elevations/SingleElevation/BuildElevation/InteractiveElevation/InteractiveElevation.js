@@ -142,7 +142,7 @@ class InteractiveElevation extends PureComponent {
                     <div
                         id="FinishedFloor"
                         style={{
-                            top: `calc(100% - ${finishedFloorHeight}px)`,
+                            top: `calc(100% + ${finishedFloorHeight * pixelsPerInch}px)`,
                         }}
                     />
                     {/* CONTAINERS */}
