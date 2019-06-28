@@ -72,7 +72,7 @@ export default function ElevationSearch({
                     align: "left",
                 }}
                 mapPillProps={({ id, name, preview }) => {
-                    const copyingThisElevation = copying && ( id === copiedElevationId);
+                    const copyingThisElevation = copying && (id === copiedElevationId);
                     const selected = copying && (!copiedElevationId || copyingThisElevation);
                     const title = name;
                     const hoverButtons = copying ? [
@@ -93,11 +93,13 @@ export default function ElevationSearch({
                                         newName: `${name} - Copy`,
                                     });
 
-                                    history.push(`${path}/elevation/edit-elevation${parseSearch(search)
-                                        .update({ elevationId: newId })}`);
+
+                                    // history.push(`${path}/elevation/edit-elevation${parseSearch(search)
+                                    //     .update({ elevationId: newId })}`);
 
                                 } catch (err) {
                                     console.log({ err });
+                                } finally {
                                     setCopying(false);
                                     setCopiedElevationId();
                                 }
@@ -126,7 +128,7 @@ export default function ElevationSearch({
                             },
                         ];
                     const children = copyingThisElevation ? (
-                        <Ellipsis />
+                        <Ellipsis text="Copying" />
                     ) : (
                             <ElevationPreview
                                 preview={preview}
@@ -143,7 +145,7 @@ export default function ElevationSearch({
                 circleButton={{
                     type: "tile",
                     className: copying ? "primary" : undefined,
-                    otherButtons: [
+                    otherButtons: copying ? [] : [
                         {
                             children: (
                                 <Link
@@ -151,14 +153,26 @@ export default function ElevationSearch({
                                         .remove("elevationId")}`}
                                 >
                                     Create
-                                </Link>
+                                    </Link>
                             ),
                         },
                         {
                             text: "Copy",
-                            onClick: () => setCopying(copying => !copying),
+                            onClick: () => setCopying(true),
                         },
                     ],
+                    renderTextInsteadOfButton: copying ? (
+                        <>
+                            <div>Select</div>
+                            <div>An</div>
+                            <div>Elevation</div>
+                            <button
+                                onClick={() => setCopying(false)}
+                            >
+                                Cancel
+                            </button>
+                        </>
+                    ) : undefined,
                 }}
                 onDelete={copying ? undefined : ({ arguments: { id } }) => deleteElevation({ elevationId: id })}
                 deleteModal={copying ? undefined : {

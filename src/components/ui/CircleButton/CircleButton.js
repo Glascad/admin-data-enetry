@@ -49,6 +49,7 @@ export default class CircleButton extends PureComponent {
                 onBlur,
                 onClick,
                 className,
+                renderTextInsteadOfButton,
             },
             handleClick
         } = this;
@@ -73,27 +74,37 @@ export default class CircleButton extends PureComponent {
                     }`}
                 onBlur={onBlur}
             >
-                <button
-                    className="circle-button"
-                    onClick={handleClick}
-                >
-                    <div className="block-one" />
-                    <div className="block-two" />
-                </button>
-                {otherButtons.length ? (
-                    <ButtonTile
-                        buttonProps={(onClick ? [{
-                            className: "no-class-name",
-                            text,
-                            onClick: handleClick,
-                        }] : [])
-                            .concat(otherButtons
-                                .map(button => ({
-                                    className: "no-class-name",
-                                    ...button,
-                                })))}
-                    />
-                ) : null}
+                {renderTextInsteadOfButton ? (
+                    <div className="button-text">
+                        <div className="text">
+                            {renderTextInsteadOfButton}
+                        </div>
+                    </div>
+                ) : (
+                        <>
+                            <button
+                                className="circle-button"
+                                onClick={handleClick}
+                            >
+                                <div className="block-one" />
+                                <div className="block-two" />
+                            </button>
+                            {otherButtons.length ? (
+                                <ButtonTile
+                                    buttonProps={(onClick ? [{
+                                        className: "no-class-name",
+                                        text,
+                                        onClick: handleClick,
+                                    }] : [])
+                                        .concat(otherButtons
+                                            .map(button => ({
+                                                className: "no-class-name",
+                                                ...button,
+                                            })))}
+                                />
+                            ) : null}
+                        </>
+                    )}
             </div>
         )
     }

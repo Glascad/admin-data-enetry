@@ -59,10 +59,14 @@ export default class Pill extends PureComponent {
     };
 
     ref = createRef();
+    inputRef = createRef();
 
     componentDidMount = () => {
         window.addEventListener('keydown', this.blurOnEsc);
         this.componentDidUpdate({});
+        setTimeout(() => {
+            this.ref.current.style.opacity = 1;
+        });
     }
 
     componentWillUnmount = () => {
@@ -74,7 +78,7 @@ export default class Pill extends PureComponent {
             props: {
                 editing: newEditing,
             },
-            ref,
+            inputRef,
         } = this;
 
         if (newEditing !== oldEditing) {
@@ -85,14 +89,14 @@ export default class Pill extends PureComponent {
         }
 
         if (
-            ref
+            inputRef
             &&
-            ref.current
+            inputRef.current
             &&
-            ref.current.style
+            inputRef.current.style
         ) {
-            ref.current.style.width = 0;
-            ref.current.style.width = `${ref.current.scrollWidth}px`;
+            inputRef.current.style.width = 0;
+            inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
         }
     }
 
@@ -196,6 +200,7 @@ export default class Pill extends PureComponent {
             saveEditOnEnter,
             handleDeleteClick,
             handleBlur,
+            inputRef,
             ref,
         } = this;
 
@@ -217,6 +222,7 @@ export default class Pill extends PureComponent {
 
         return (
             <tag.name
+                ref={ref}
                 className={`Pill ${
                     className
                     } ${
@@ -252,7 +258,7 @@ export default class Pill extends PureComponent {
                             </select>
                         ) : (
                                 <input
-                                    ref={ref}
+                                    ref={inputRef}
                                     type={inputType}
                                     className="title"
                                     onChange={handleInput}
