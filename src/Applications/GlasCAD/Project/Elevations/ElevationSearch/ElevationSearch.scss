@@ -26,9 +26,15 @@
                     }
 
                     &.container {
-                        fill: transparentize($light-blue, 0.8);
+                        fill: transparentize(mix($light-blue, white), 0.5);
                     }
                 }
+            }
+        }
+
+        &:hover {
+            .ElevationTile {
+                opacity: 0;
             }
         }
     }
