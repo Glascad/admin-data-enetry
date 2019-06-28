@@ -1,8 +1,6 @@
-
-@import '../../../../../../styles/variables';
+@import "../../../../../../styles/variables";
 
 #CreateElevation {
-
     #add-horizontals {
         .CircleButton {
             .circle-button {
@@ -13,25 +11,14 @@
     }
 
     .ElevationPreview {
-        min-width: $pill-width;
-
         svg {
             height: $pill-width;
-            border-top: 2px solid $dark-gray;
-
-            .container {
-                fill: transparentize($light-blue, 0.8);
+            rect {
+                stroke: $medium-gray;
+                &.frame {
+                    fill: $medium-gray;
+                }
             }
-
-            .frame {
-                // fill: $medium-gray;
-                fill: $light-gray;
-            }
-
-            // #finished-floor {
-            //     stroke-width: $x-small;
-            //     stroke: $dark-gray;
-            // }
         }
     }
 }

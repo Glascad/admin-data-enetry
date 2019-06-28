@@ -12,9 +12,8 @@ import {
 import { parseSearch } from '../../../../../utils';
 
 import deleteElevationMutation from './delete-elevation';
-import ElevationTile from './ElevationTile';
 
-import './ElevationSearch.scss';
+import ElevationPreview from '../ElevationPreview/ElevationPreview';
 
 export default function ElevationSearch({
     history,
@@ -63,7 +62,8 @@ export default function ElevationSearch({
                         },
                     ],
                     children: (
-                        <ElevationTile
+                        
+                        <ElevationPreview
                             preview={preview}
                         />
                     )

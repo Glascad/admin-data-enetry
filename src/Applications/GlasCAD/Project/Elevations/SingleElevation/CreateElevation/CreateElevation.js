@@ -16,7 +16,7 @@ import {
     AsyncButton,
 } from '../../../../../../components';
 
-import ElevationPreview from './ElevationPreview';
+import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
@@ -34,6 +34,7 @@ import {
     defaultHorizontal,
     defaultElevationInput,
 } from './elevation-input';
+
 
 const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}` };
 
@@ -368,9 +369,16 @@ export default memo(({
                             </div>
                         )}
                 </GroupingBox>
-                <ElevationPreview
+                {/* <ElevationPreview
                     elevation={recursiveElevation}
-                />
+                /> */}
+                <GroupingBox
+                    title="Preview"
+                >
+                    <ElevationPreview
+                        preview={renderPreview(recursiveElevation)}
+                    />
+                </GroupingBox>
                 <div className="bottom-buttons">
                     <Link
                         to={`${

@@ -7,13 +7,11 @@ function renderPreview({
         x = 0,
         y = 0,
     } = {},
-    finishedFloorHeight,
+    finishedFloorHeight = 0,
 }) {
     return `
         <svg
-            viewBox="${`0 0 ${x} ${y
-        // + finishedFloorHeight
-        }`}"
+            viewBox="${`0 0 ${x} ${y + finishedFloorHeight}`}"
             transform="scale(1, -1)"
         >
             ${
@@ -29,12 +27,15 @@ function renderPreview({
         //         stroke="black"
         //     /> -->
         //     <!-- FINISHED FLOOR -- now in CSS -->
-        //     <!-- <path
-        //         id="finished-floor"
-        //         strokeWidth=${5}
-        //         d=${`M0, -5L${x}, -5`}
-        //     /> -->
         //     <!-- CONTAINERS -->`
+        }
+        ${finishedFloorHeight === 0 ?
+            ''
+            :
+            `<path
+                class="finished-floor"
+                d="M-6, 0L${x + 6}, 0"
+            />`
         }
             ${allContainers
             .filter(({ customRoughOpening }) => !customRoughOpening)
@@ -42,9 +43,7 @@ function renderPreview({
                 <rect
                     class="container"
                     x="${x}"
-                    y="${y
-                // + finishedFloorHeight
-                }"
+                    y="${y + finishedFloorHeight}"
                     height="${height}"
                     width="${width}"
                 />
@@ -59,9 +58,7 @@ function renderPreview({
                 <rect
                     class="frame"
                     x="${x}"
-                    y="${y
-                // + finishedFloorHeight
-                }"
+                    y="${y + finishedFloorHeight}"
                     height="${height}"
                     width="${width}"
                 />

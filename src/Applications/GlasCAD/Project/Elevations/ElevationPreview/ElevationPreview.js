@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 
-export default function ElevationTile({ preview }) {
+import './ElevationPreview.scss';
+
+export default function ElevationPreview({ preview }) {
     console.log({ preview });
     const ref = useRef();
 
@@ -10,7 +12,7 @@ export default function ElevationTile({ preview }) {
 
     return (
         <div
-            className="ElevationTile"
+            className="ElevationPreview"
             ref={ref}
         />
     );
