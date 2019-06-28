@@ -335,12 +335,15 @@ export default class RecursiveContainer {
             !this.getFrameByDirection(false, first).getRunsAlongEdgeOfRoughOpening(first)
             &&
             distance <= this.getFrameByDirection(false, first).maximumMovementByDirection(first)
+            &&
+            this.canAddBayByDirection(first)
         )
-
     };
 
-    get canAddBayRight() { return this.rightFrame.canAddBay }
-    get canAddBayLeft() { return this.leftFrame.canAddBay }
-    get canAddBay() { return this.canAddBayRight || this.canAddBayLeft }
+    canAddBayByDirection = first => this.getFrameByDirection(false, first).canAddBay;
+
+    get canAddBayRight() { return this.canAddBayByDirection(false); }
+    get canAddBayLeft() { return this.canAddBayByDirection(true); }
+    get canAddBay() { return this.canAddBayRight || this.canAddBayLeft; }
 
 }
