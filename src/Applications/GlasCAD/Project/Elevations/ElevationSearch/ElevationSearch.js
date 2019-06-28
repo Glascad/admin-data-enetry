@@ -32,8 +32,6 @@ export default function ElevationSearch({
 }) {
     const [deleteElevation, deleteResult, deleting] = useMutation(deleteElevationMutation);
 
-    // console.log({ deleting });
-
     return (
         <div id="ElevationSearch" className="card">
             <ListWrapper
@@ -60,13 +58,22 @@ export default function ElevationSearch({
                                 </Link>
                             ),
                         },
+                        {
+                            children: (
+                                <Link
+                                    to={`${path}/elevation/edit-elevation${parseSearch(search)
+                                        .update({ elevationId: id })}`}
+                                >
+                                    Info
+                                </Link>
+                            ),
+                        },
                     ],
                     children: (
-                        
                         <ElevationPreview
                             preview={preview}
                         />
-                    )
+                    ),
                 })}
                 circleButton={{
                     type: "tile",

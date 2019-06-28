@@ -47,16 +47,16 @@ export default function SingleElevation({
 
     const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
 
+    // console.log({ queryStatus });
+
+    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
+
     useEffect(() => {
         if (elevationId) {
             // console.log({ variables });
             fetchQuery();
         }
     }, [elevationId]);
-
-    // console.log({ queryStatus });
-
-    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
 
     const routeProps = sampleElevation ?
         {

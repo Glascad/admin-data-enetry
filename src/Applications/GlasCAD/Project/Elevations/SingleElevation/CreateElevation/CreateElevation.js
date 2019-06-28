@@ -89,7 +89,7 @@ export default memo(({
             ...elevation,
             ...update,
         },
-    }))
+    }));
 
     const mergedElevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
 
@@ -224,7 +224,7 @@ export default memo(({
                             onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
                         />
                         <Input
-                            label="Masonry Opening"
+                            label="Masonry opening"
                             disabled={true}
                             type="switch"
                             readOnly={true}
@@ -240,7 +240,7 @@ export default memo(({
                             onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
                         />
                         <Input
-                            label="Masonry Opening"
+                            label="Masonry opening"
                             disabled={true}
                             type="switch"
                             readOnly={true}

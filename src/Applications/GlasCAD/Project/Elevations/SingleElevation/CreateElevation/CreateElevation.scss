@@ -9,16 +9,4 @@
             }
         }
     }
-
-    .ElevationPreview {
-        svg {
-            height: $pill-width;
-            rect {
-                stroke: $medium-gray;
-                &.frame {
-                    fill: $medium-gray;
-                }
-            }
-        }
-    }
 }
