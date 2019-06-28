@@ -17,6 +17,7 @@ import { parseSearch } from '../../../../../../utils';
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
 
 import './BuildElevation.scss';
+import renderPreview from '../utils/recursive-elevation/render-preview';
 
 const defaultElevationInput = {
     containers: [],
@@ -112,6 +113,7 @@ class BuildElevation extends PureComponent {
                         details,
                         containers,
                     },
+                    recursiveElevation,
                 },
                 clearHistory,
                 cancel,
@@ -162,7 +164,8 @@ class BuildElevation extends PureComponent {
                             'id'
                             :
                             'fakeId']: id,
-                    })),
+                        })),
+                preview: renderPreview(recursiveElevation),
             },
         });
 

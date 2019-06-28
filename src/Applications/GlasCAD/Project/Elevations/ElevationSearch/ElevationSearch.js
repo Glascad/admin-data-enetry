@@ -12,6 +12,9 @@ import {
 import { parseSearch } from '../../../../../utils';
 
 import deleteElevationMutation from './delete-elevation';
+import ElevationTile from './ElevationTile';
+
+import './ElevationSearch.scss';
 
 export default function ElevationSearch({
     history,
@@ -33,7 +36,7 @@ export default function ElevationSearch({
     // console.log({ deleting });
 
     return (
-        <div className="card">
+        <div id="ElevationSearch" className="card">
             <ListWrapper
                 identifier="id"
                 titleBar={{
@@ -45,7 +48,7 @@ export default function ElevationSearch({
                     type: "tile",
                     align: "left",
                 }}
-                mapPillProps={({ id, name }) => ({
+                mapPillProps={({ id, name, preview }) => ({
                     title: name,
                     hoverButtons: [
                         {
@@ -58,7 +61,12 @@ export default function ElevationSearch({
                                 </Link>
                             ),
                         },
-                    ]
+                    ],
+                    children: (
+                        <ElevationTile
+                            preview={preview}
+                        />
+                    )
                 })}
                 circleButton={{
                     type: "tile",

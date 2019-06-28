@@ -104,7 +104,8 @@ entire_elevation AS (
     container_ids_to_delete INTEGER[],
     details ENTIRE_CONTAINER_DETAIL[],
     detail_ids_to_delete INTEGER[],
-    sightline FLOAT
+    sightline FLOAT,
+    preview TEXT
 );
 
 CREATE TYPE

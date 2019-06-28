@@ -14,7 +14,8 @@ elevations (
     name VARCHAR(50) NOT NULL,
     rough_opening COORDINATE NOT NULL,
     finished_floor_height FLOAT DEFAULT 0,
-    sightline FLOAT
+    sightline FLOAT,
+    preview VARCHAR(25000)
 );
 
 CREATE TABLE

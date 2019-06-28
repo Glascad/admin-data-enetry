@@ -20,6 +20,8 @@ import ElevationPreview from './ElevationPreview';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
+import renderPreview from '../utils/recursive-elevation/render-preview';
+
 import generateElevation from './generate-elevation';
 
 import { parseSearch, ImperialValue } from '../../../../../../utils';
@@ -127,6 +129,7 @@ export default memo(({
                 secondContainerFakeId: secondContainerId,
             })),
             ...createdElevation,
+            preview: renderPreview(recursiveElevation),
         };
 
         try {

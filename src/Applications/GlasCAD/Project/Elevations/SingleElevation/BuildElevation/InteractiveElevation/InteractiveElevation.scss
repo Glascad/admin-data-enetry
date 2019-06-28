@@ -148,16 +148,15 @@ $horizontal-bubble-translation: $small * 2.5;
         #rough-opening {
             display: none;
             position: absolute;
-            top: -$small;
-            left: -$small;
-            right: -$small;
-            bottom: -$small;
+            top: -$xx-small;
+            left: -$xx-small;
+            right: -$xx-small;
+            bottom: -$xx-small;
             // background: black;
             background: none;
             pointer-events: none;
-            border: $small solid black;
+            border: $xx-small solid black;
             // opacity: 0.25;
-            z-index: 999999;
             box-sizing: content-box;
         }
 
@@ -166,7 +165,7 @@ $horizontal-bubble-translation: $small * 2.5;
             background: black;
             left: -2000vw;
             right: -2000vw;
-            height: $small;
+            height: $xx-small;
             // border-bottom: $xx-small solid $dark-gray;
             // border-top: $xx-small solid $dark-gray;
             width: 4000vw;
