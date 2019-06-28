@@ -199,6 +199,8 @@ export default memo(function CreateElevation({
         }
     }, [mergedElevation]);
 
+    console.log("this is the CREATE elevation page");
+
     return (
         <>
             <TitleBar
