@@ -68,6 +68,12 @@ export default class Input extends PureComponent {
                     inchInput: `${newValue}`,
                     value: newValue,
                 });
+            } else {
+                const convertedNewValue = new ImperialValue(newValue);
+                this.setState({
+                    inchInput: `${convertedNewValue}`,
+                    value: convertedNewValue,
+                });
             }
             console.log({
                 newValue,
