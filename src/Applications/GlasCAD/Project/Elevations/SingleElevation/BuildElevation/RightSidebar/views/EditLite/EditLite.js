@@ -16,6 +16,8 @@ import { withActionContext } from '../../../contexts/ActionContext';
 
 import { AddVertical, AddHorizontal } from '../shared/AddIntermediate';
 
+import AddBay from "../shared/AddBay";
+
 // import EditInfill from './EditInfill';
 // import AddVertical from '../add/AddVertical';
 // import AddHorizontal from '../add/AddHorizontal';
@@ -142,6 +144,22 @@ class EditLite extends PureComponent {
                         // />
                     ) : null}
                 </div>
+                {allContainers.every(({ canAddBay }) => canAddBay)
+                    &&
+                    allContainers.every(({ leftFrame, rightFrame }, i, [firstItem]) => (
+                        leftFrame === firstItem.leftFrame
+                        ||
+                        rightFrame === firstItem.rightFrame
+                    ))
+                    ? (
+                        <div className="sidebar-group">
+                            <SidebarLink
+                                toggleStackedView={toggleStackedView}
+                                View={AddBay}
+                                Icon={Icons.AddLite}
+                            />
+                        </div>
+                    ) : null}
                 {allContainers.every(({ canDelete }) => canDelete) ? (
                     <button
                         className="sidebar-button danger"
