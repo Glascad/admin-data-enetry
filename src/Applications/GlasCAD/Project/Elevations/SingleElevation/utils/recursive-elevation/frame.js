@@ -1,4 +1,5 @@
 import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
+import { unique } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -87,8 +88,8 @@ export default class RecursiveFrame {
     }
 
     getContainersByDirection = first => this[containersKey][first] || (
-        this[containersKey][first] = this.details
-            .map(detail => detail.getContainerByDirection(first))
+        this[containersKey][first] = unique(this.details
+            .map(detail => detail.getContainerByDirection(first)))
         // .filter(Boolean)
     );
 

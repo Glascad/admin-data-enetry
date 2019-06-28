@@ -327,4 +327,20 @@ export default class RecursiveContainer {
     get canAddVertical() { return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening) }
     get canAddHorizontal() { return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening) }
 
+    //ADD_BAY
+    canAddBayByDirectionAndDistance = (first, distance) => {
+        return !!(
+            distance >= this.elevation.minimumDaylightOpening
+            &&
+            !this.getFrameByDirection(false, first).getRunsAlongEdgeOfRoughOpening(first)
+            &&
+            distance <= this.getFrameByDirection(false, first).maximumMovementByDirection(first)
+        )
+
+    };
+
+    get canAddBayRight() { return this.rightFrame.canAddBay }
+    get canAddBayLeft() { return this.leftFrame.canAddBay }
+    get canAddBay() { return this.canAddBayRight || this.canAddBayLeft }
+
 }

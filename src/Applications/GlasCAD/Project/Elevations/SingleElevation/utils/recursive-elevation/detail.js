@@ -223,7 +223,7 @@ export default class RecursiveDetail {
     }
 
     getDetailsWithSharedContainersByContainerDirection = first => {
-        // console.log(this.id, first);
+        // console.log(this.id);
         if (!this.exists) return [];
 
         if (!this[detailsWithSharedContainersKey][first]) {

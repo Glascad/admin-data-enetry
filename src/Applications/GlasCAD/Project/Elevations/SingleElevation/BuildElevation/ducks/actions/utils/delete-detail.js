@@ -7,9 +7,7 @@ export default function deleteDetail({
     },
 }, {
     detail: {
-        rawDetail: {
-            id: detailId,
-        },
+        id: detailId,
     },
 }) {
     return {
