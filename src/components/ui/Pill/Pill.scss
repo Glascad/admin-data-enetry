@@ -9,6 +9,11 @@
     padding: 0 $xxxx-large;
     height: $item-height;
 
+    // updated in componentDidMount
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    transition: background-color 0.1s ease;
+
     // border-width: $icon-thickness !important;
     border-radius: $pill-width;
 
@@ -179,9 +184,18 @@
             justify-content: space-between;
         }
 
-        .title {
-            font-weight: bold;
-            margin-bottom: $x-small;
+        
+        > div {
+            overflow: hidden;
+            max-width: 100%;
+
+            .title {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-weight: bold;
+                margin-bottom: $x-small;
+            }
         }
 
         .footer {

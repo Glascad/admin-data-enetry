@@ -2,7 +2,6 @@
 
 .ElevationPreview {
     svg {
-        fill: none;
         stroke: $dark-gray;
         background-color: transparent;
         transform: scaleY(-1);
@@ -15,7 +14,7 @@
             }
 
             &.container {
-                fill: transparentize(mix($light-blue, white), 0.5);
+                fill: transparentize(mix($light-blue, white), 0.3);
             }
         }
 
@@ -33,7 +32,6 @@
     .ElevationPreview {
         height: fill;
         width: fill;
-        overflow: hidden;
         padding: $large $x-small;
 
         svg {
@@ -41,6 +39,10 @@
             width: fit-content;
             max-width: 100%;
             max-height: 100%;
+
+            // .container {
+            //     fill: $off-white;
+            // }
         }
     }
 

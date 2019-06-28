@@ -11,6 +11,7 @@ import {
 
 import {
     parseSearch,
+    ImperialValue,
 } from '../../../../../../utils';
 
 import renderPreview from '../../ElevationPreview/render-preview';
@@ -67,6 +68,8 @@ export default function EditElevation({
         history.push(`${path.replace(/edit/, 'build')}${search}`);
     }
 
+    console.log("this is the EDIT elevation page");
+
     return (
         <>
             <TitleBar
@@ -116,7 +119,8 @@ export default function EditElevation({
                     <div className="input-group">
                         <Input
                             label="Width"
-                            value={rox}
+                            // type="inches"
+                            value={`${new ImperialValue(rox)}`}
                             onChange={() => { }}
                         />
                         <Input
@@ -128,7 +132,8 @@ export default function EditElevation({
                     <div className="input-group">
                         <Input
                             label="Height"
-                            value={roy}
+                            // type="inches"
+                            value={`${new ImperialValue(roy)}`}
                             onChange={() => { }}
                         />
                         <Input
@@ -140,10 +145,9 @@ export default function EditElevation({
                 </GroupingBox>
                 <Input
                     label="Curb Height"
-                    type="number"
-                    min={0}
-                    value={finishedFloorHeight}
-                    onChange={({ target: { value } }) => updateElevation({
+                    type="inches"
+                    initialValue={new ImperialValue(finishedFloorHeight)}
+                    onChange={({ value }) => updateElevation({
                         finishedFloorHeight: +value,
                     })}
                 />

@@ -64,7 +64,15 @@ export default class Input extends PureComponent {
                     inchInput: `${newValue}`,
                     value: newValue,
                 });
+                console.log({
+                    inchInput: `${newValue}`,
+                    value: newValue,
+                });
             }
+            console.log({
+                newValue,
+                initialValue,
+            });
         }
     }
 
@@ -301,7 +309,7 @@ export default class Input extends PureComponent {
                                     "text"
                                     :
                                     type}
-                            value={onChange || isInches ? (
+                            value={onChange ? (
                                 (value === undefined || Number.isNaN(value))
                                 &&
                                 ["text", "number", "password"].includes(type)
