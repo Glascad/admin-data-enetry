@@ -16,8 +16,9 @@ import { parseSearch } from '../../../../../../utils';
 
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
 
+import renderPreview from '../../ElevationPreview/render-preview';
+
 import './BuildElevation.scss';
-import renderPreview from '../utils/recursive-elevation/render-preview';
 
 const defaultElevationInput = {
     containers: [],

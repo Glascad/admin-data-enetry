@@ -18,9 +18,9 @@ import {
 
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
-import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import renderPreview from '../../ElevationPreview/render-preview';
 
-import renderPreview from '../utils/recursive-elevation/render-preview';
+import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
 import generateElevation from './generate-elevation';
 

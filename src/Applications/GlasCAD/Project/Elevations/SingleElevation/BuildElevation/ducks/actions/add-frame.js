@@ -1,7 +1,20 @@
-import ComparablePlacement from './utils/comparable-placement';
 import updateDLO from './utils/update-dlo';
 import createContainer from './utils/create-container';
 import updateDetailsAfterAddingFrame from './utils/update-details-after-adding-frame';
+
+ADD_FRAME.getSelectedItems = ({
+    container: {
+        id,
+    },
+    vertical,
+    distance,
+}) => ({
+    containers: {
+        [id]: container,
+    },
+ }) => ([
+    container.getFrameByDirection(!vertical, false),
+]);
 
 export default function ADD_FRAME({
     elevationInput,

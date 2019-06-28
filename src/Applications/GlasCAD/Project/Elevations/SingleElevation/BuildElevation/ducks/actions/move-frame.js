@@ -3,6 +3,22 @@ import updateDetailsAfterMovingFrame from './utils/update-details-after-moving-f
 
 import { unique } from '../../../../../../../../utils';
 
+MOVE_FRAME.getSelectedItems = ({
+    _frame: {
+        details: [{
+            id,
+        }],
+    },
+}) => ({
+    details: {
+        [id]: {
+            _frame,
+        },
+    },
+}) => ([
+    _frame,
+]);
+
 export default function MOVE_FRAME({
     elevationInput,
 }, {
