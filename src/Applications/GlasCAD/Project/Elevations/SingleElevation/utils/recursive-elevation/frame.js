@@ -515,8 +515,8 @@ export default class RecursiveFrame {
             (container.placementY + container.daylightOpening.y) - this.placement.y - this.elevation.sightline
     };
 
-    get firstDistanceByExtend() { return this.firstOrLastDistanceByExtend(true) };
-    get lastDistanceByExtend() { return this.firstOrLastDistanceByExtend(false) };
+    get firstDistanceByExtend() { return this.firstOrLastDistanceByExtend(true); }
+    get lastDistanceByExtend() { return this.firstOrLastDistanceByExtend(false); }
 
     canExtendFirstOrLast = first => {
         const container = this.findExtendedContainer(true, first);
@@ -531,7 +531,11 @@ export default class RecursiveFrame {
         );
     };
 
-    get canExtendFirst() { return this.canExtendFirstOrLast(true) };
-    get canExtendLast() { return this.canExtendFirstOrLast(false) };
+    get canExtendFirst() { return this.canExtendFirstOrLast(true); }
+    get canExtendLast() { return this.canExtendFirstOrLast(false); }
 
+    //ADD-BAY
+
+    
+    get canAddBay() { return this.placement.height === this.elevation.roughOpening.y; }
 }
