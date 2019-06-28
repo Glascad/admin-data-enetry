@@ -33,7 +33,6 @@ export default function EditElevation({
     updateEntireElevation,
     updating,
 }) {
-    console.log(arguments[0]);
 
     const [elevationInput, setState] = useState({});
 

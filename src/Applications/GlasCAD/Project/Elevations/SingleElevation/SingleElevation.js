@@ -37,6 +37,11 @@ export default function SingleElevation({
     location: {
         search,
     },
+    queryStatus: {
+        _project: {
+            defaultElevation,
+        } = {},
+    },
 }) {
 
     const { elevationId, sampleElevation } = parseSearch(search);
@@ -67,11 +72,13 @@ export default function SingleElevation({
                 throw new Error("Cannot update sample elevation");
             },
             updating: false,
+            defaultElevation,
         } : {
             fetching,
             queryStatus,
             updateEntireElevation,
             updating,
+            defaultElevation,
         };
 
     return (

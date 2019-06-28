@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 
 import F from '../../../../../../schema';
 
+import _ from 'lodash';
+
 import { Link } from 'react-router-dom';
 
 import {
@@ -14,6 +16,7 @@ import {
     useUndoRedo,
     useQuery,
     AsyncButton,
+    useMutation,
 } from '../../../../../../components';
 
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -35,10 +38,39 @@ import {
     defaultElevationInput,
 } from './elevation-input';
 
+const areEqual = (json, input) => {
+    return _.isEqual({
+        ...JSON.parse(json),
+        name: undefined,
+    }, {
+            ...input,
+            name: undefined,
+        });
+}
 
 const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}` };
 
-export default memo(({
+const saveDefaultMutation = {
+    mutation: gql`
+        mutation UpdateProject($id: Int!, $defaultElevation: JSON!) {
+            updateProjectById(
+                input: {
+                    id: $id
+                    projectPatch: {
+                        defaultElevation: $defaultElevation
+                    }
+                }
+            ) {
+                project {
+                    ...EntireProject
+                }
+            }
+        }
+        ${F.PR_DATA.ENTIRE_PROJECT}
+    `,
+};
+
+export default memo(function CreateElevation({
     history,
     location: {
         search,
@@ -48,17 +80,20 @@ export default memo(({
     },
     updateEntireElevation,
     updating: creating,
-}) => {
+    defaultElevation = JSON.stringify(defaultElevationInput),
+}) {
+
+    const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
     const initalState = {
-        elevation: defaultElevationInput,
+        elevation: JSON.parse(defaultElevation),
         system: {
             id: -1,
             name: "",
         },
     };
 
-    const undoRedo = useUndoRedo(initalState);
+    const undoRedo = useUndoRedo(initalState, [defaultElevation]);
 
     const {
         currentState,
@@ -98,6 +133,16 @@ export default memo(({
     const [fetchAllSystems, { allSystems = [] }] = useQuery(allSystemsQuery);
 
     const { projectId } = parseSearch(search);
+
+    const saveDefault = async () => {
+        const result = await runSaveDefault({
+            id: +parseSearch(search).projectId,
+            defaultElevation: JSON.stringify({
+                ...elevationInput,
+                name: undefined,
+            }),
+        });
+    }
 
     const save = useCallback(async () => {
 
@@ -391,14 +436,28 @@ export default memo(({
                             Cancel
                         </button>
                     </Link>
-                    <AsyncButton
-                        className={`action ${name ? '' : 'disabled'}`}
-                        onClick={save}
-                        loading={creating}
-                        loadingText="Creating"
-                    >
-                        Create
-                    </AsyncButton>
+                    <div className="buttons-right">
+                        <AsyncButton
+                            className={`action ${areEqual(defaultElevation, elevationInput) ?
+                                'disabled'
+                                :
+                                ''
+                                }`}
+                            onClick={saveDefault}
+                            loading={savingDefault}
+                            loadingText="Saving"
+                        >
+                            Save As Default
+                        </AsyncButton>
+                        <AsyncButton
+                            className={`action ${name ? '' : 'disabled'}`}
+                            onClick={save}
+                            loading={creating}
+                            loadingText="Creating"
+                        >
+                            Create
+                        </AsyncButton>
+                    </div>
                 </div>
             </div>
         </>

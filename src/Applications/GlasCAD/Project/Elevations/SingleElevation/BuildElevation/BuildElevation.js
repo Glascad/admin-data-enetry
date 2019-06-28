@@ -207,8 +207,6 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
-        console.log(this.props);
-
         return (
             <SelectionProvider
                 elevation={recursiveElevation}

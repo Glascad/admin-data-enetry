@@ -11,6 +11,7 @@ export const PROJECT_FIELDS = gql`
         nodeId
         id
         name
+        defaultElevation
     }
 `;
 
