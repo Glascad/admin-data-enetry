@@ -1,0 +1,41 @@
+@import "../../../../../../../styles/variables";
+
+#viewport {
+    .NavigationButton {
+        position: absolute;
+        top: 50%;
+        width: 5%;
+        height: 30vh;
+        &.left {
+            left: 0;
+            // transform: rotate(45deg);
+        }
+        &.right {
+            right: 0;
+            // transform: rotate(-45deg);
+        }
+    }
+    .navigation-arrow{
+        width: $item-height;
+        height: $xx-small;
+        border-radius: $xx-small;
+        background: $dark-gray;
+
+        &#right-arrow-top{
+            transform: rotate(45deg);
+            margin: 23px;
+        }
+        &#right-arrow-bottom{
+            transform: rotate(-45deg);
+            margin: 23px;
+        }
+        &#left-arrow-top{
+            transform: rotate(-45deg);
+            margin: 23px;
+        }
+        &#left-arrow-bottom{
+            transform: rotate(45deg);
+            margin: 23px;
+        }
+    }
+}
