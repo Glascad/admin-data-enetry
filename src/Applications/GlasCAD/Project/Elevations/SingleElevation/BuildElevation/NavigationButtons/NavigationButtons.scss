@@ -15,6 +15,12 @@
             // transform: rotate(-45deg);
         }
     }
+    .navigation-background{
+        height: 0;
+        width: 0;
+        border-radius: 100%;
+        border: $xxx-large solid $light-gray;
+    }
     .navigation-arrow{
         width: $item-height;
         height: $xx-small;

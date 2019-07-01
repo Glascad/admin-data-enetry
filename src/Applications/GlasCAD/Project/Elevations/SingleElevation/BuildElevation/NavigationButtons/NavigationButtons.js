@@ -7,7 +7,7 @@ export default function NavigationButtons({
     return (
         <>
             <button className="NavigationButton left">
-                <div>
+                <div className="navigation-background">
                     <div className="navigation-arrow" id="left-arrow-top" />
                     <div className="navigation-arrow" id="left-arrow-bottom" />
                 </div>
