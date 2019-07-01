@@ -14,6 +14,7 @@ import Toggle from './ui/Toggle/Toggle';
 import Input from './ui/Input/Input';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
+import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
@@ -57,6 +58,7 @@ export {
     Input,
     Ellipsis,
     AsyncButton,
+    ConfirmButton,
     // STATE
     asyncComponent,
     ApolloWrapper,

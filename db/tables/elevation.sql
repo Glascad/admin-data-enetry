@@ -15,7 +15,9 @@ elevations (
     rough_opening COORDINATE NOT NULL,
     finished_floor_height FLOAT DEFAULT 0,
     sightline FLOAT,
-    preview VARCHAR(25000)
+    preview VARCHAR(25000),
+    last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_updated_by INTEGER REFERENCES users.users
 );
 
 CREATE TABLE

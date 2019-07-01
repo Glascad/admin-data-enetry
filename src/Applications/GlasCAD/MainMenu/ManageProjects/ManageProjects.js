@@ -18,6 +18,7 @@ export default function ManageProjects({
         path,
     },
 }) {
+    console.log(arguments[0]);
     return (
         <ApolloWrapper
             query={{ query }}
@@ -54,7 +55,7 @@ export default function ManageProjects({
                                             >
                                                 Edit project
                                             </Link>
-                                        )
+                                        ),
                                     },
                                 ],
                             })}

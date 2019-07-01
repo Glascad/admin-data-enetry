@@ -17,6 +17,7 @@ import {
     useQuery,
     AsyncButton,
     useMutation,
+    ConfirmButton,
 } from '../../../../../../components';
 
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -201,6 +202,31 @@ export default memo(function CreateElevation({
 
     console.log("this is the CREATE elevation page");
 
+    const cancelModalProps = {
+        titleBar: {
+            title: "Discard Elevation",
+        },
+        children: (
+            <>
+                <div>
+                    You have unfinished changes.
+                </div>
+                <div>
+                    Are you sure you want to discard your changes and leave this page ?
+                </div>
+            </>
+        ),
+        cancel: {
+            text: "Stay",
+        },
+        finish: {
+            className: "danger",
+            text: "Leave",
+        },
+    };
+
+    const doNotConfirm = areEqual(defaultElevation, elevationInput);
+
     return (
         <>
             <TitleBar
@@ -208,17 +234,17 @@ export default memo(function CreateElevation({
                 selections={[name]}
                 right={(
                     <>
-                        <Link
-                            to={`${
+                        <ConfirmButton
+                            modalProps={cancelModalProps}
+                            onClick={() => history.push(`${
                                 path.replace(/\/elevation\/create-elevation/, '')
                                 }${
                                 search
-                                }`}
+                                }`)}
+                            doNotConfirmWhen={doNotConfirm}
                         >
-                            <button>
-                                Cancel
-                            </button>
-                        </Link>
+                            Cancel
+                        </ConfirmButton>
                         <AsyncButton
                             className={`action ${name ? '' : 'disabled'}`}
                             onClick={save}
@@ -427,20 +453,20 @@ export default memo(function CreateElevation({
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
-                    <Link
-                        to={`${
+                    <ConfirmButton
+                        modalProps={cancelModalProps}
+                        onClick={() => history.push(`${
                             path.replace(/\/elevation\/create-elevation/, '')
                             }${
                             search
-                            }`}
+                            }`)}
+                        doNotConfirmWhen={doNotConfirm}
                     >
-                        <button>
-                            Cancel
-                        </button>
-                    </Link>
+                        Cancel
+                    </ConfirmButton>
                     <div className="buttons-right">
                         <AsyncButton
-                            className={`action ${areEqual(defaultElevation, elevationInput) ?
+                            className={`action ${doNotConfirm ?
                                 'disabled'
                                 :
                                 ''

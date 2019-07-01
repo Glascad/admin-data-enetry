@@ -47,6 +47,7 @@ export default class Modal extends PureComponent {
     handleFinishClick = e => {
         if (this.props.onFinish)
             this.props.onFinish(this.props);
+        this.handleCancelClick();
     }
 
     render = () => {
@@ -59,7 +60,8 @@ export default class Modal extends PureComponent {
                 onReset,
                 reset,
                 onCancel,
-                cancel,
+                cancel = {},
+                cancelButtonText,
                 onFinish,
                 finish = {},
                 finishing = false,
@@ -85,7 +87,9 @@ export default class Modal extends PureComponent {
                     <TitleBar
                         {...titleBar}
                     />
-                    {children}
+                    <div className="content">
+                        {children}
+                    </div>
                     <div className="modal-buttons">
                         <span>
                             {onReset ? (
@@ -99,9 +103,9 @@ export default class Modal extends PureComponent {
                         <span>
                             {onCancel ? (
                                 <button
-                                    children="Cancel"
                                     className="empty"
                                     {...cancel}
+                                    children={cancelButtonText || cancel.children || "Cancel"}
                                     onClick={handleCancelClick}
                                 />
                             ) : null}
@@ -109,9 +113,9 @@ export default class Modal extends PureComponent {
                                 <AsyncButton
                                     className={danger ? "danger" : "action"}
                                     {...finish}
-                                    children={finishButtonText || finish.children || "Finish"}
+                                    children={finishButtonText || finish.children || finish.text || "Finish"}
                                     loading={finishing}
-                                    loadingText={finishingText || "Finishing"}
+                                    loadingText={finishingText || finishButtonText || finish.children || finish.text || "Finishing"}
                                     onClick={handleFinishClick}
                                 />
                             ) : null}

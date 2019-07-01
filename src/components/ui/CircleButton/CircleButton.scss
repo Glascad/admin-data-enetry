@@ -1,5 +1,27 @@
 @import "../../../styles/variables";
 
+@mixin circle-button($color) {
+    .circle-button {
+        background: $color;
+        border-color: $color;
+    }
+
+    &:hover {
+        .circle-button{
+            background: none;
+        }
+
+        .block-one,
+        .block-two {
+            background: $color;
+        }
+    }
+
+    .button-text {
+        color: $color;
+    }
+}
+
 .CircleButton {
     position: relative;
     display: flex;
@@ -31,57 +53,15 @@
     }
 
     &.primary {
-        .circle-button {
-            background: $selected-color;
-            border-color: $selected-color;
-        }
-
-        &:hover {
-            .block-one,
-            .block-two {
-                background: $selected-color;
-            }
-        }
-
-        .button-text {
-            color: $selected-color;
-        }
+        @include circle-button($selected-color);
     }
 
     &.action {
-        .circle-button {
-            background: $action-color;
-            border-color: $action-color;
-
-            &:hover {
-                .block-one,
-                .block-two {
-                    background: $action-color;
-                }
-            }
-        }
-
-        .button-text {
-            color: $action-color;
-        }
+        @include circle-button($action-color);
     }
 
     &.danger {
-        .circle-button {
-            background: $danger-color;
-            border-color: $danger-color;
-
-            &:hover {
-                .block-one,
-                .block-two {
-                    background: $danger-color;
-                }
-            }
-        }
-
-        .button-text {
-            color: $danger-color;
-        }
+        @include circle-button($danger-color);
     }
 
     &.action-type-add {

@@ -20,7 +20,7 @@ import renderPreview from '../../ElevationPreview/render-preview';
 
 import './BuildElevation.scss';
 
-const defaultElevationInput = {
+export const defaultElevationInput = {
     containers: [],
     details: [],
 };
@@ -197,6 +197,7 @@ class BuildElevation extends PureComponent {
                 states,
                 currentIndex,
                 currentState: {
+                    elevationInput,
                     mergedElevation,
                     recursiveElevation,
                 },
@@ -229,6 +230,7 @@ class BuildElevation extends PureComponent {
                             save={save}
                             cancel={cancel}
                             updating={updating}
+                            elevationInput={elevationInput}
                         />
                         <RightSidebar
                             currentIndex={currentIndex}

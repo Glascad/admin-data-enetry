@@ -7,6 +7,7 @@ import {
     Input,
     GroupingBox,
     AsyncButton,
+    ConfirmButton,
 } from '../../../../../../components';
 
 import {
@@ -76,13 +77,24 @@ export default function EditElevation({
                 title="Edit Elevation"
                 right={(
                     <>
-                        <Link
-                            to={`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`}
+                        <ConfirmButton
+                            modalProps={{
+                                titleBar: {
+                                    title: "Change Elevation",
+                                },
+                                children: "Are you sure you want to cancel your changes and leave this page?",
+                                cancel: {
+                                    text: "Stay"
+                                },
+                                finish: {
+                                    className: "danger",
+                                    text: "Leave",
+                                },
+                            }}
+                            onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
                         >
-                            <button>
-                                Change Elevation
-                            </button>
-                        </Link>
+                            Change Elevation
+                        </ConfirmButton>
                         <AsyncButton
                             className="action"
                             loading={updating}

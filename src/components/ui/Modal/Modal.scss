@@ -43,6 +43,24 @@
                 display: flex;
             }
         }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: normal;
+            padding: 0 $small;
+
+            text-align: left;
+
+            > div {
+                width: 100%;
+                + div {
+                    margin-top: $x-small;
+                }
+            }
+        }
     }
 
     &.hidden {
