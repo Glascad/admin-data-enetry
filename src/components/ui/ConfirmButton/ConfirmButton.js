@@ -9,8 +9,6 @@ export default function ConfirmButton({
     ...props
 }) {
 
-    console.log(arguments[0]);
-
     const [display, toggleModal] = useState(false);
 
     return (

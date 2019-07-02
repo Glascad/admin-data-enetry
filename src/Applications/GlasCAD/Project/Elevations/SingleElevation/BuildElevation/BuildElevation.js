@@ -11,6 +11,7 @@ import TransformProvider from './contexts/TransformContext';
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import RightSidebar from './RightSidebar/RightSidebar';
+import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 import { parseSearch } from '../../../../../../utils';
 
@@ -165,7 +166,7 @@ class BuildElevation extends PureComponent {
                             'id'
                             :
                             'fakeId']: id,
-                        })),
+                    })),
                 preview: renderPreview(recursiveElevation),
             },
         });
@@ -257,6 +258,9 @@ class BuildElevation extends PureComponent {
                                 text="Loading"
                             />
                         )}
+                        <NavigationButtons
+
+                        />
                     </TransformProvider>
                 </ActionProvider>
             </SelectionProvider>

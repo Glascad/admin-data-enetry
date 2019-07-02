@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import _ from 'lodash';
+
 import {
     TitleBar,
     Input,
@@ -52,19 +54,24 @@ export default function EditElevation({
             finishedFloorHeight,
         } = {},
     } = recursiveElevation;
+    
+        const doNotConfirm = _.isEqual(elevationInput, {});
 
     const save = async () => {
-        const elevation = {
-            ...elevationInput,
-            id: +parseSearch(search).elevationId,
-        };
 
-        const result = await updateEntireElevation({
-            elevation: {
-                ...elevation,
-                preview: renderPreview(recursiveElevation)
-            },
-        });
+        if (doNotConfirm) {
+            const elevation = {
+                ...elevationInput,
+                id: +parseSearch(search).elevationId,
+            };
+            
+            const result = await updateEntireElevation({
+                elevation: {
+                    ...elevation,
+                    preview: renderPreview(recursiveElevation)
+                },
+            });
+        }
 
         history.push(`${path.replace(/edit/, 'build')}${search}`);
     }
@@ -92,13 +99,14 @@ export default function EditElevation({
                                 },
                             }}
                             onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
+                            doNotConfirmWhen={doNotConfirm}
                         >
                             Change Elevation
                         </ConfirmButton>
                         <AsyncButton
                             className="action"
                             loading={updating}
-                            text="Save and Build"
+                            text={`${doNotConfirm ? "" : "Save and "}Build`}
                             loadingText="Saving"
                             onClick={save}
                         />
@@ -171,13 +179,25 @@ export default function EditElevation({
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
-                    <Link
-                        to={`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`}
+                    <ConfirmButton
+                        modalProps={{
+                            titleBar: {
+                                title: "Change Elevation",
+                            },
+                            children: "Are you sure you want to cancel your changes and leave this page?",
+                            cancel: {
+                                text: "Stay"
+                            },
+                            finish: {
+                                className: "danger",
+                                text: "Leave",
+                            },
+                        }}
+                        onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
+                        doNotConfirmWhen={doNotConfirm}
                     >
-                        <button>
-                            Change Elevation
-                        </button>
-                    </Link>
+                        Change Elevation
+                    </ConfirmButton>
                     <AsyncButton
                         className="action"
                         loading={updating}
