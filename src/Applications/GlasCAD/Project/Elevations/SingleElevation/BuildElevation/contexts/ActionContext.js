@@ -173,6 +173,14 @@ class ActionProvider extends PureComponent {
         },
     );
 
+    stepHead = () => this.performBulkAction(
+        
+    );
+
+    raiseCurb = () => this.performBulkAction(
+        
+    );
+
     mergeContainers = ({ container, direction }) => this.props.updateElevation(
         ACTIONS.MERGE_CONTAINERS,
         {
@@ -237,7 +245,6 @@ class ActionProvider extends PureComponent {
             };
         },
     );
-
 
     updateDimension = ({ newDimension: dimensionInput }) => {
         const {

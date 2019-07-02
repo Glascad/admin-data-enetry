@@ -210,7 +210,7 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
-        console.log(this);
+        // console.log(this);
 
         return (
             <SelectionProvider
@@ -253,14 +253,9 @@ class BuildElevation extends PureComponent {
                                 updateElevation={updateElevation}
                             />
                         </ErrorBoundary>
-                        {id ? null : (
-                            <Ellipsis
-                                id="elevation-loading"
-                                text="Loading"
-                            />
-                        )}
                         <NavigationButtons
                             project={project}
+                            elevationInput={elevationInput}
                         />
                     </TransformProvider>
                 </ActionProvider>

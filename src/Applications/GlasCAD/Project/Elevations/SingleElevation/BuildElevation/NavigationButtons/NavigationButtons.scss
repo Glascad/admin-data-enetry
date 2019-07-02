@@ -1,6 +1,7 @@
 @import "../../../../../../../styles/variables";
+
 #viewport {
-    .NavigationButton {
+    .navigation-button-wrapper {
         position: absolute;
         top: 50%;
         width: 14vw;
@@ -13,39 +14,49 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
         &.left {
             left: 0;
             transform: translate(-50%, -50%);
         }
+
         &.right {
             right: 0;
             transform: translate(50%, -50%);
         }
-        button {
+
+        .NavigationButton {
             width: 90%;
             height: 90%;
             border-radius: 100%;
             background: $light-gray;
-            display: none;
+            display: flex;
             justify-content: space-between;
-            div {
+            padding: $xx-large;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+
+            .arrow {
                 height: $item-height;
                 width: $item-height;
                 border: $xx-small solid $dark-gray;
                 transform: rotate(45deg);
+
                 &:first-of-type {
                     border-left: none;
                     border-bottom: none;
-                    + div {
+
+                    + .arrow {
                         border-top: none;
                         border-right: none;
                     }
                 }
             }
         }
+
         &:hover {
-            button {
-                display: flex;
+            .NavigationButton {
+                opacity: 1;
             }
         }
     }

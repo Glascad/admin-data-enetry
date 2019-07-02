@@ -53,7 +53,7 @@ export default function SingleElevation({
 
     const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
 
-    console.log({ queryStatus });
+    // console.log({ queryStatus });
 
     const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
 

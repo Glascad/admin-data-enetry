@@ -1,35 +1,21 @@
-import React, { Component, PureComponent } from 'react';
+import React, { useContext, memo } from 'react';
+
+
 
 export default (contextType, mapProps = p => p, { pure = false } = {}) => (
-    ComponentWithoutContext => (
-        class ComponentWithContext extends (
-            pure ?
-                PureComponent
-                :
-                Component
-        ) {
-
-            static contextType = contextType;
-
-            render = () => {
-
-                const {
-                    props,
-                    context,
-                } = this;
-
-                const childProps = {
-                    ...props,
-                    context,
-                };
-
-                return (
-                    <ComponentWithoutContext
-                        {...childProps}
-                        {...(mapProps || (p => p))(childProps)}
-                    />
-                );
-            }
+    ComponentWithoutContext => (pure ? memo : c => c)(
+        function ComponentWithContext(props) {
+            const context = useContext(contextType);
+            const childProps = {
+                ...props,
+                context,
+            };
+            return (
+                <ComponentWithoutContext
+                    {...childProps}
+                    {...mapProps(childProps)}
+                />
+            );
         }
     )
 );

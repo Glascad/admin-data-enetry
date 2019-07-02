@@ -61,7 +61,7 @@ export default function Project({
         search,
     },
 }) {
-    console.log(arguments[0])
+    // console.log(arguments[0]);
     return (
         <ApolloWrapper
             query={{
