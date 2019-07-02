@@ -188,6 +188,7 @@ class BuildElevation extends PureComponent {
                 match: {
                     path,
                 },
+                project,
                 queryStatus,
                 queryStatus: {
                     _elevation: {
@@ -259,7 +260,7 @@ class BuildElevation extends PureComponent {
                             />
                         )}
                         <NavigationButtons
-
+                            project={project}
                         />
                     </TransformProvider>
                 </ActionProvider>

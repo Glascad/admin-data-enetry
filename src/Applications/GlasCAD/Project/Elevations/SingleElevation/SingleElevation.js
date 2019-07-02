@@ -38,6 +38,7 @@ export default function SingleElevation({
         search,
     },
     queryStatus: {
+        _project: project,
         _project: {
             defaultElevation,
         } = {},
@@ -73,12 +74,14 @@ export default function SingleElevation({
             },
             updating: false,
             defaultElevation,
+            project,
         } : {
             fetching,
             queryStatus,
             updateEntireElevation,
             updating,
             defaultElevation,
+            project,
         };
 
     return (

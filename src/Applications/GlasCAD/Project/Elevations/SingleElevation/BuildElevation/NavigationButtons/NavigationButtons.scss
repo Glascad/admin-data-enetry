@@ -1,47 +1,52 @@
 @import "../../../../../../../styles/variables";
-
 #viewport {
     .NavigationButton {
         position: absolute;
         top: 50%;
-        width: 5%;
-        height: 30vh;
+        width: 14vw;
+        height: 14vw;
+        max-width: unset;
+        min-width: unset;
+        max-height: unset;
+        min-height: unset;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         &.left {
             left: 0;
-            // transform: rotate(45deg);
+            transform: translate(-50%, -50%);
         }
         &.right {
             right: 0;
-            // transform: rotate(-45deg);
+            transform: translate(50%, -50%);
         }
-    }
-    .navigation-background{
-        height: 0;
-        width: 0;
-        border-radius: 100%;
-        border: $xxx-large solid $light-gray;
-    }
-    .navigation-arrow{
-        width: $item-height;
-        height: $xx-small;
-        border-radius: $xx-small;
-        background: $dark-gray;
-
-        &#right-arrow-top{
-            transform: rotate(45deg);
-            margin: 23px;
+        button {
+            width: 90%;
+            height: 90%;
+            border-radius: 100%;
+            background: $light-gray;
+            display: none;
+            justify-content: space-between;
+            div {
+                height: $item-height;
+                width: $item-height;
+                border: $xx-small solid $dark-gray;
+                transform: rotate(45deg);
+                &:first-of-type {
+                    border-left: none;
+                    border-bottom: none;
+                    + div {
+                        border-top: none;
+                        border-right: none;
+                    }
+                }
+            }
         }
-        &#right-arrow-bottom{
-            transform: rotate(-45deg);
-            margin: 23px;
-        }
-        &#left-arrow-top{
-            transform: rotate(-45deg);
-            margin: 23px;
-        }
-        &#left-arrow-bottom{
-            transform: rotate(45deg);
-            margin: 23px;
+        &:hover {
+            button {
+                display: flex;
+            }
         }
     }
 }
