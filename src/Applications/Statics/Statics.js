@@ -20,8 +20,7 @@ import {
     ApolloWrapper,
     withContext,
 } from '../../components';
-import gql from 'graphql-tag';
-import { STORAGE_KEYS } from '../../apollo-config';
+
 import { AuthenticationContext } from '../Authentication/Authentication';
 
 export const StaticContext = createContext();

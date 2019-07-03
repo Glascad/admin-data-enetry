@@ -1,0 +1,18 @@
+@import "../../../../styles/variables";
+
+#ElevationViewer {
+    p {
+        + div {
+            display: flex;
+            flex-wrap: wrap;
+
+            .ElevationPreview {
+                margin: $large;
+
+                svg {
+                    width: fill;
+                }
+            }
+        }
+    }
+}

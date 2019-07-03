@@ -8,7 +8,11 @@ function renderPreview({
         y = 0,
     } = {},
     finishedFloorHeight = 0,
-}) {
+}, {
+    renderText = false,
+    renderCustomRoughOpenings = false,
+} = {}) {
+    console.log(...arguments);
     return `
         <svg
             viewBox="${`0 0 ${x} ${y + finishedFloorHeight}`}"
@@ -37,11 +41,11 @@ function renderPreview({
                 d="M-6, 0L${x + 6}, 0"
             />`
         }
-            ${allContainers
-            .filter(({ customRoughOpening }) => !customRoughOpening)
-            .map(({ placement: { x, y, height, width } }) => `
+        ${allContainers
+            .filter(({ customRoughOpening }) => renderCustomRoughOpenings || !customRoughOpening)
+            .map(({ customRoughOpening, placement: { x, y, height, width } }) => `
                 <rect
-                    class="container"
+                    class="container ${customRoughOpening ? "custom-rough-opening" : ""}"
                     x="${x}"
                     y="${y + finishedFloorHeight}"
                     height="${height}"
@@ -49,14 +53,28 @@ function renderPreview({
                 />
             `)
             .join('')}
+        ${renderText ?
+            allContainers
+                .filter(({ customRoughOpening }) => renderCustomRoughOpenings || !customRoughOpening)
+                .map(({ id, placement: { x, y } }) => `
+                        <text
+                            x="${x + 5}"
+                            y="${-y - 5}"
+                            transform="scale(1, -1)"
+                        >
+                            ${id}
+                        </text>
+                `)
+            :
+            ""}
             ${
         ''
         // `<!-- FRAMES -->`
         }
             ${allFrames
-            .map(({ placement: { x, y, height, width } }) => `
+            .map(({ vertical, placement: { x, y, height, width } }) => `
                 <rect
-                    class="frame"
+                    class="frame ${vertical ? "vertical" : "horizontal"}"
                     x="${x}"
                     y="${y + finishedFloorHeight}"
                     height="${height}"
@@ -68,4 +86,4 @@ function renderPreview({
     `;
 }
 
-export default elevation => renderPreview(elevation).replace(/\s+/g, ' ').replace(/>\x+</g, '><');
+export default (elevation, options) => renderPreview(elevation, options).replace(/\s+/g, ' ').replace(/>\x+</g, '><');

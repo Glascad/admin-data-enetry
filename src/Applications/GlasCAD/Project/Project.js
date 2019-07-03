@@ -12,6 +12,7 @@ import query from './project-graphql/query';
 // import ProjectSets from './ProjectSets/ProjectSets';
 // import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
+import ElevationDebugger from './ElevationDebugger/ElevationDebugger';
 // import Details from './Details/Details';
 // import Schedules from './Schedules/Schedules';
 // import Notes from './Notes/Notes';
@@ -23,6 +24,7 @@ const subroutes = {
     // ProjectSets,
     // Keyplans,
     Elevations,
+    ElevationDebugger,
     // Details,
     // Schedules,
     // Notes,

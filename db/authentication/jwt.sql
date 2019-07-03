@@ -17,6 +17,16 @@ users.role AS ENUM (
 );
 
 CREATE TYPE
+entire_bug_report AS (
+    id INTEGER,
+    username TEXT,
+    location TEXT,
+    report TEXT,
+    state JSONB,
+    timestamp TIMESTAMP
+);
+
+CREATE TYPE
 users.current_user AS (
     id INTEGER,
     username TEXT,

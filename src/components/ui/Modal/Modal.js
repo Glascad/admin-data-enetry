@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react';
+import React, { PureComponent, useEffect, memo } from 'react';
 import ReactDOM from 'react-dom';
 // import PropTypes from 'prop-types';
 import './Modal.scss';
@@ -40,22 +40,15 @@ const Modal = memo(function ({
     //     finish: PropTypes.object,
     // };
 
-    const cancelOnEsc = ({ key }) => key === 'Escape' && onCancel();
+    const cancelOnEsc = ({ key }) => key === 'Escape' && onCancel(props);
 
     const stopPropagation = e => e.stopPropagation();
 
-    const handleResetClick = e => {
-        if (onReset) onReset(props);
-    }
+    const handleResetClick = () => onReset && onReset(props);
 
-    const handleCancelClick = e => {
-        if (onCancel) onCancel(props)
-    }
+    const handleCancelClick = () => onCancel && onCancel(props)
 
-    const handleFinishClick = e => {
-        if (onFinish) onFinish(props);
-        handleCancelClick();
-    }
+    const handleFinishClick = () => onFinish && onFinish(props);
 
     useEffect(() => {
         window.addEventListener('keydown', cancelOnEsc);
@@ -67,6 +60,8 @@ const Modal = memo(function ({
     }, [display]);
 
     if (!display) return null;
+
+    console.log(arguments[0]);
 
     return (
         <div
@@ -125,20 +120,23 @@ const Modal = memo(function ({
  * Now a Modal can be used anywhere within the tree, but it will actually be rendered next to the root element in the document.body
  */
 
-export default function RenderModal(props) {
-    useEffect(() => {
-        const div = document.createElement("div");
-        document.body.appendChild(div);
-        
-        setTimeout(() => {
-            console.log("rendering modal");
-            ReactDOM.render(<Modal {...props} />, div);
-        });
+const getModalId = (() => {
+    var id = 1;
+    return () => id++;
+})();
 
-        return () => {
-            document.body.removeChild(div);
-        }
-    }, [props]);
-
-    return null;
+export default class AbstractModal extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.element = document.createElement("div");
+        this.element.setAttribute("id", `Modal-${getModalId()}`);
+        document.body.appendChild(this.element);
+    }
+    componentWillUnmount = () => {
+        document.body.removeChild(this.element);
+    }
+    render = () => {
+        ReactDOM.render(<Modal {...this.props} />, this.element);
+        return null;
+    }
 }

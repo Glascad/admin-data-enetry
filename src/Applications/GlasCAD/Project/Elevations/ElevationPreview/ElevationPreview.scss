@@ -2,20 +2,32 @@
 
 .ElevationPreview {
     svg {
-        stroke: $dark-gray;
+        // stroke: $dark-gray;
         background-color: transparent;
         transform: scaleY(-1);
 
         rect {
-            stroke: $dark-gray;
+            // stroke: $dark-gray;
 
             &.frame {
                 fill: $dark-gray;
+
+                &.horizontal {
+                    fill: $medium-gray;
+                }
             }
 
             &.container {
                 fill: transparentize(mix($light-blue, white), 0.3);
+
+                &.custom-rough-opening {
+                    fill: transparentize($light-gray, 0.5);
+                }
             }
+        }
+
+        text {
+            font-size: $x-small;
         }
 
         path {

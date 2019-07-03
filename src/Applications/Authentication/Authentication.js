@@ -50,7 +50,7 @@ function AuthenticationProvider({
         const result = await fetchQuery();
         const { currentUser: { projectId } = {} } = result || {};
         history.push(
-            originalLocation.match(/\/(glascad|data-entry)/) ?
+            originalLocation.match(/\/(glascad|data-entry|debug)/) ?
                 originalLocation
                 :
                 `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
