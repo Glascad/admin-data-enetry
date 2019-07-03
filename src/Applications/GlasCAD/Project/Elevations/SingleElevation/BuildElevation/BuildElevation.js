@@ -19,8 +19,6 @@ import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../compone
 
 import renderPreview from '../../ElevationPreview/render-preview';
 
-import './BuildElevation.scss';
-
 export const defaultElevationInput = {
     containers: [],
     details: [],
@@ -52,17 +50,16 @@ class BuildElevation extends PureComponent {
             updateElevation,
         } = this;
 
-        console.log("updated");
+        // console.log("updated");
 
         if (oldQueryStatus !== newQueryStatus) {
-            console.log("resetting state");
+            // console.log("resetting state");
             resetState(
-                (a => console.log(a) || a)(mergeElevationInput({
+                mergeElevationInput({
                     elevationInput: defaultElevationInput
                 },
                     newQueryStatus,
-                )),
-                (...args) => console.log(...args),
+                ),
             );
         }
         // updateElevation(elevation => elevation, null, null, true);
@@ -186,6 +183,7 @@ class BuildElevation extends PureComponent {
         const {
             props: {
                 history,
+                location,
                 location: {
                     search,
                 },
@@ -193,6 +191,7 @@ class BuildElevation extends PureComponent {
                     path,
                 },
                 project,
+                refetch,
                 queryStatus,
                 queryStatus: {
                     _elevation: {
@@ -215,9 +214,14 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
+        // console.log({
+        //     currentState,
+        //     states,
+        // });
+
         console.log({
-            currentState,
-            states,
+            location,
+            history,
         });
 
         return (
@@ -259,6 +263,7 @@ class BuildElevation extends PureComponent {
                             <InteractiveElevation
                                 elevation={recursiveElevation}
                                 updateElevation={updateElevation}
+                                refetch={refetch}
                             />
                         </ErrorBoundary>
                         <NavigationButtons

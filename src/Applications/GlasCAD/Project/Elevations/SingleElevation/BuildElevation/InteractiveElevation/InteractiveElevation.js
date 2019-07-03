@@ -26,6 +26,10 @@ class InteractiveElevation extends PureComponent {
 
     InteractiveElevation = createRef();
 
+    state = {
+        loadingTooLong: false,
+    };
+
     componentDidMount = () => {
         setTimeout(() => {
             try {
@@ -39,6 +43,9 @@ class InteractiveElevation extends PureComponent {
                 console.error(err);
             }
         });
+        setTimeout(() => {
+            this.setState({ loadingTooLong: true });
+        }, 2000);
         this.resizeViewport();
 
         window.addEventListener('resize', this.resizeViewport);
@@ -77,10 +84,14 @@ class InteractiveElevation extends PureComponent {
 
     render = () => {
         const {
+            state: {
+                loadingTooLong,
+            },
             props: {
                 location: {
                     search,
                 },
+                refetch,
                 elevation: {
                     rawElevation: {
                         id,
@@ -137,9 +148,13 @@ class InteractiveElevation extends PureComponent {
                 onMouseDown={watchMouseDown}
             >
                 {(
-                    id === +elevationId
-                    ||
-                    id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
+                    id && (
+                        (
+                            id === +elevationId
+                        ) || (
+                            id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
+                        )
+                    )
                 ) ? (
                         <div
                             id="elevation-display"
@@ -253,10 +268,20 @@ class InteractiveElevation extends PureComponent {
                             </div>
                         </div>
                     ) : (
-                        <Ellipsis
+                        <div
                             id="elevation-loading"
-                            text="Loading"
-                        />
+                        >
+                            <Ellipsis
+                                text="Loading"
+                            />
+                            {loadingTooLong ? (
+                                <button
+                                    onClick={refetch}
+                                >
+                                    Reload
+                                </button>
+                            ) : null}
+                        </div>
                     )}
             </div>
         );

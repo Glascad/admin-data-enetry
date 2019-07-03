@@ -98,42 +98,50 @@ export default function EditElevation({
         );
     }
 
+    const CHANGE_ELEVATION = (
+        <ConfirmButton
+            modalProps={{
+                titleBar: {
+                    title: "Change Elevation",
+                },
+                children: "Are you sure you want to cancel your changes and leave this page?",
+                cancel: {
+                    text: "Stay"
+                },
+                finish: {
+                    className: "danger",
+                    text: "Leave",
+                },
+            }}
+            onClick={() => history.push(`${
+                path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                }${
+                parseSearch(search).remove("elevationId")
+                }`)}
+            doNotConfirmWhen={doNotConfirm}
+        >
+            Change Elevation
+        </ConfirmButton>
+    );
+
+    const BUILD = (
+        <AsyncButton
+            className="action"
+            loading={updating}
+            text={`${doNotConfirm ? "" : "Save and "}Build`}
+            loadingText="Saving"
+            onClick={save}
+        />
+    );
+
     return (
         <>
             <TitleBar
                 title="Edit Elevation"
                 right={(
                     <>
-                        <ConfirmButton
-                            modalProps={{
-                                titleBar: {
-                                    title: "Change Elevation",
-                                },
-                                children: "Are you sure you want to cancel your changes and leave this page?",
-                                cancel: {
-                                    text: "Stay"
-                                },
-                                finish: {
-                                    className: "danger",
-                                    text: "Leave",
-                                },
-                            }}
-                            onClick={() => history.push(`${
-                                path.replace(/elevation\/edit-elevation/, 'elevation-search')
-                                }${
-                                parseSearch(search).remove("elevationId")
-                                }`)}
-                            doNotConfirmWhen={doNotConfirm}
-                        >
-                            Change Elevation
-                        </ConfirmButton>
-                        <AsyncButton
-                            className="action"
-                            loading={updating}
-                            text={`${doNotConfirm ? "" : "Save and "}Build`}
-                            loadingText="Saving"
-                            onClick={save}
-                        />
+                        {CHANGE_ELEVATION}
+                        {BUILD}
                     </>
                 )}
             />
@@ -203,36 +211,8 @@ export default function EditElevation({
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
-                    <ConfirmButton
-                        modalProps={{
-                            titleBar: {
-                                title: "Change Elevation",
-                            },
-                            children: "Are you sure you want to cancel your changes and leave this page?",
-                            cancel: {
-                                text: "Stay"
-                            },
-                            finish: {
-                                className: "danger",
-                                text: "Leave",
-                            },
-                        }}
-                        onClick={() => history.push(`${
-                            path.replace(/elevation\/edit-elevation/, 'elevation-search')
-                            }${
-                            parseSearch(search).remove("elevationId")
-                            }`)}
-                        doNotConfirmWhen={doNotConfirm}
-                    >
-                        Change Elevation
-                    </ConfirmButton>
-                    <AsyncButton
-                        className="action"
-                        loading={updating}
-                        text="Save and Build"
-                        loadingText="Saving"
-                        onClick={save}
-                    />
+                    {CHANGE_ELEVATION}
+                    {BUILD}
                 </div>
             </div>
         </>

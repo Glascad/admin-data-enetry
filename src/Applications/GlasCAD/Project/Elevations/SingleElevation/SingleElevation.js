@@ -51,16 +51,16 @@ export default function SingleElevation({
 
     // console.log({ variables });
 
-    const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
+    const [refetch, queryStatus, fetching] = useQuery({ query, variables }, true);
 
     // console.log({ queryStatus });
 
-    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
+    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, refetch);
 
     useEffect(() => {
         if (elevationId) {
             // console.log({ variables });
-            fetchQuery();
+            refetch();
         }
     }, [elevationId]);
 
@@ -77,6 +77,7 @@ export default function SingleElevation({
             project,
         } : {
             fetching,
+            refetch,
             queryStatus,
             updateEntireElevation,
             updating,
@@ -84,7 +85,7 @@ export default function SingleElevation({
             project,
         };
     
-    console.log(routeProps);
+    // console.log(routeProps);
 
     return (
         <Navigator
