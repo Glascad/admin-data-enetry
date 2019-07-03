@@ -83,6 +83,8 @@ export default function SingleElevation({
             defaultElevation,
             project,
         };
+    
+    console.log(routeProps);
 
     return (
         <Navigator

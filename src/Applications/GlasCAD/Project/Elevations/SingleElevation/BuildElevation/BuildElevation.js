@@ -52,13 +52,17 @@ class BuildElevation extends PureComponent {
             updateElevation,
         } = this;
 
+        console.log("updated");
+
         if (oldQueryStatus !== newQueryStatus) {
+            console.log("resetting state");
             resetState(
-                mergeElevationInput({
+                (a => console.log(a) || a)(mergeElevationInput({
                     elevationInput: defaultElevationInput
                 },
-                    newQueryStatus
-                )
+                    newQueryStatus,
+                )),
+                (...args) => console.log(...args),
             );
         }
         // updateElevation(elevation => elevation, null, null, true);
@@ -198,6 +202,7 @@ class BuildElevation extends PureComponent {
                 },
                 states,
                 currentIndex,
+                currentState,
                 currentState: {
                     elevationInput,
                     mergedElevation,
@@ -210,7 +215,10 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
-        // console.log(this);
+        console.log({
+            currentState,
+            states,
+        });
 
         return (
             <SelectionProvider

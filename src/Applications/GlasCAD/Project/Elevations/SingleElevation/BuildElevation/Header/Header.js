@@ -80,13 +80,15 @@ export default function Header({
             className="blue-border"
             left={(
                 <>
-                    <ConfirmButton
-                        modalProps={leaveModalProps}
-                        onClick={() => history.push(`${path.replace(/build/, 'edit')}${search}`)}
-                        doNotConfirmWhen={doNotConfirm}
-                    >
-                        Elevation Info
-                    </ConfirmButton>
+                    {parseSearch(search).sampleElevation ? null : (
+                        <ConfirmButton
+                            modalProps={leaveModalProps}
+                            onClick={() => history.push(`${path.replace(/build/, 'edit')}${search}`)}
+                            doNotConfirmWhen={doNotConfirm}
+                        >
+                            Elevation Info
+                        </ConfirmButton>
+                    )}
                     <SelectionContext.Consumer>
                         {({
                             items: [
@@ -116,7 +118,7 @@ export default function Header({
                         onClick={() => history.push(`${
                             path.replace(/elevation\/build-elevation/, 'elevation-search')
                             }${
-                            parseSearch(search).remove('sampleElevation')
+                            parseSearch(search).remove('sampleElevation', 'elevationId')
                             }`)}
                         doNotConfirmWhen={doNotConfirm}
                     >
@@ -136,7 +138,7 @@ export default function Header({
                             history.push(`${
                                 path.replace(/elevation\/build-elevation/, 'elevation-search')
                                 }${
-                                parseSearch(search).remove('sampleElevation')
+                                parseSearch(search).remove('sampleElevation', 'elevationId')
                                 }`);
                             setSavingAndExiting(false);
                         }}

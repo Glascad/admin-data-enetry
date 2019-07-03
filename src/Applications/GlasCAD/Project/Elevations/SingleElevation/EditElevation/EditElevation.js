@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import _ from 'lodash';
 
@@ -54,17 +54,17 @@ export default function EditElevation({
             finishedFloorHeight,
         } = {},
     } = recursiveElevation;
-    
-        const doNotConfirm = _.isEqual(elevationInput, {});
+
+    const doNotConfirm = _.isEqual(elevationInput, {});
 
     const save = async () => {
 
-        if (doNotConfirm) {
+        if (!doNotConfirm) {
             const elevation = {
                 ...elevationInput,
                 id: +parseSearch(search).elevationId,
             };
-            
+
             const result = await updateEntireElevation({
                 elevation: {
                     ...elevation,
@@ -77,6 +77,26 @@ export default function EditElevation({
     }
 
     console.log("this is the EDIT elevation page");
+
+    if (parseSearch(search).sampleElevation) {
+        return (
+            <Redirect
+                to={`${path}${parseSearch(search).remove("sampleElevation")}`}
+            />
+        );
+    }
+
+    if (!parseSearch(search).elevationId) {
+        return (
+            <Redirect
+                to={`${
+                    path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                    }${
+                    search
+                    }`}
+            />
+        );
+    }
 
     return (
         <>
@@ -98,7 +118,11 @@ export default function EditElevation({
                                     text: "Leave",
                                 },
                             }}
-                            onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
+                            onClick={() => history.push(`${
+                                path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                                }${
+                                parseSearch(search).remove("elevationId")
+                                }`)}
                             doNotConfirmWhen={doNotConfirm}
                         >
                             Change Elevation
@@ -193,7 +217,11 @@ export default function EditElevation({
                                 text: "Leave",
                             },
                         }}
-                        onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
+                        onClick={() => history.push(`${
+                            path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                            }${
+                            parseSearch(search).remove("elevationId")
+                            }`)}
                         doNotConfirmWhen={doNotConfirm}
                     >
                         Change Elevation

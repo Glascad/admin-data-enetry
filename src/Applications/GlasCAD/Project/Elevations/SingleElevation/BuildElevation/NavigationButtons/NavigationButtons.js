@@ -27,12 +27,13 @@ function NavigationButtons({
     } = {},
     elevationInput
 }) {
+    // CHANGE TO ITERATE THROUGH SAMPLE ELEVATIONS IF ON A SAMPLE ELEVATION OR BUG REPORT ELEVATIONS
     const elevationIds = _elevations.map(({ id }) => id);
     const { elevationId } = parseSearch(search);
     const currentIndex = elevationIds.indexOf(+elevationId);
     const nextId = elevationIds[(currentIndex + 1) % length];
     const prevId = elevationIds[(currentIndex + length - 1) % length];
-    console.log({ elevationIds, nextId, prevId });
+    // console.log({ elevationIds, nextId, prevId });
     const doNotConfirm = _.isEqual(elevationInput, defaultElevationInput);
     const modalProps = {
         titleBar: {
@@ -66,7 +67,13 @@ function NavigationButtons({
                     <ConfirmButton
                         className="NavigationButton"
                         modalProps={modalProps}
-                        onClick={() => history.push(`${path}${parseSearch(search).update({ elevationId: id })}`)}
+                        onClick={() => history.push(`${
+                            path
+                            }${
+                            parseSearch(search)
+                                .update({ elevationId: id })
+                                .remove("sampleElevation")
+                            }`)}
                         doNotConfirmWhen={doNotConfirm}
                     >
                         <div className="arrow" />

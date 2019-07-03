@@ -25,7 +25,13 @@ function sampleElevations({
                 {Object.keys(SAMPLE_ELEVATIONS).map(sampleElevation => (
                     <Link
                         key={sampleElevation}
-                        to={`${pathname}${parseSearch(search).update({ sampleElevation })}`}
+                        to={`${
+                            pathname
+                            }${
+                            parseSearch(search)
+                                .update({ sampleElevation })
+                                .remove("elevationId")
+                            }`}
                     >
                         <button
                             className="sidebar-button empty"
