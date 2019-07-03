@@ -17,6 +17,16 @@ const query = gql`
     }
 `;
 
+ElevationDebugger.navigationOptions = ({
+    AUTH: {
+        currentUser: {
+            role = '',
+        } = {},
+    } = {},
+}) => ({
+    shouldRender: role === 'ADMIN',
+});
+
 export default function ElevationDebugger() {
 
     const [fetchQuery, { bugReports = [] }] = useQuery({ query });

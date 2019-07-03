@@ -3,17 +3,6 @@ import { ListWrapper, TitleBar } from '../../../../components';
 import ElevationPreview from '../Elevations/ElevationPreview/ElevationPreview';
 import { parseSearch } from '../../../../utils';
 
-BugList.navigationOptions = ({
-    AUTH: {
-        currentUser: {
-            role = '',
-        } = {},
-    } = {},
-}) => ({
-    shouldRender: role === 'ADMIN',
-});
-
-
 export default function BugList({
     history,
     location: {
