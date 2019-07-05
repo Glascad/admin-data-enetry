@@ -18,6 +18,7 @@ import { parseSearch } from '../../../../../../utils';
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
 
 import renderPreview from '../../ElevationPreview/render-preview';
+import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
 export const defaultElevationInput = {
     containers: [],
@@ -41,28 +42,72 @@ class BuildElevation extends PureComponent {
         this.mounted = false;
     }
 
-    componentDidUpdate = ({ queryStatus: oldQueryStatus }) => {
+    componentDidUpdate = ({
+        queryStatus: oldQueryStatus,
+        queryStatus: {
+            bugReports: oldBugReports = [],
+        } = {},
+    }) => {
         const {
             props: {
+                location: {
+                    search,
+                },
                 queryStatus: newQueryStatus,
+                queryStatus: {
+                    bugReports: newBugReports = [],
+                } = {},
                 resetState,
+                loadStates,
             },
             updateElevation,
         } = this;
 
         // console.log("updated");
+        if (
+            (oldQueryStatus !== newQueryStatus)
+            ||
+            (
+                newBugReports
+                &&
+                newBugReports.length
+                &&
+                (oldBugReports !== newBugReports)
+            )
+        ) {
 
-        if (oldQueryStatus !== newQueryStatus) {
-            // console.log("resetting state");
-            resetState(
-                mergeElevationInput({
-                    elevationInput: defaultElevationInput
-                },
-                    newQueryStatus,
-                ),
-            );
+            const { bugId } = parseSearch(search);
+
+            if (bugId) {
+
+                const { state = "[]" } = newBugReports.find(({ id }) => id === +bugId) || {};
+
+                const parsedState = JSON.parse(state);
+
+                const newStates = parsedState.map(state => ({
+                    ...state,
+                    recursiveElevation: new RecursiveElevation({ ...state.mergedElevation, bugId }),
+                }));
+
+                console.log({
+                    bugId,
+                    state,
+                    parsedState,
+                    newStates,
+                });
+
+                loadStates(newStates);
+            } else {
+                // console.log("resetting state");
+                resetState(
+                    mergeElevationInput({
+                        elevationInput: defaultElevationInput
+                    },
+                        newQueryStatus,
+                    ),
+                );
+            }
         }
-        // updateElevation(elevation => elevation, null, null, true);
     }
 
     // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
@@ -219,10 +264,7 @@ class BuildElevation extends PureComponent {
         //     states,
         // });
 
-        console.log({
-            location,
-            history,
-        });
+        console.log(this.props);
 
         return (
             <SelectionProvider
@@ -291,5 +333,5 @@ export default function ErrorBoundedBuildElevation(props) {
         >
             <BuildElevationWithUndoRedo {...props} />
         </ErrorBoundary>
-    )
+    );
 }

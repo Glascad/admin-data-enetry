@@ -118,7 +118,7 @@ export default function Header({
                         onClick={() => history.push(`${
                             path.replace(/elevation\/build-elevation/, 'elevation-search')
                             }${
-                            parseSearch(search).remove('sampleElevation', 'elevationId')
+                            parseSearch(search).remove('sampleElevation', 'elevationId', 'bugId')
                             }`)}
                         doNotConfirmWhen={doNotConfirm}
                     >
@@ -138,7 +138,7 @@ export default function Header({
                             history.push(`${
                                 path.replace(/elevation\/build-elevation/, 'elevation-search')
                                 }${
-                                parseSearch(search).remove('sampleElevation', 'elevationId')
+                                parseSearch(search).remove('sampleElevation', 'elevationId', 'bugId')
                                 }`);
                             setSavingAndExiting(false);
                         }}

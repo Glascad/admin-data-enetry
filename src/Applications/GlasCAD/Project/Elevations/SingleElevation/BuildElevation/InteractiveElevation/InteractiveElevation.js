@@ -94,6 +94,7 @@ class InteractiveElevation extends PureComponent {
                 refetch,
                 elevation: {
                     rawElevation: {
+                        bugId: elevationBugId,
                         id,
                     } = {},
                     allContainers = [],
@@ -153,6 +154,8 @@ class InteractiveElevation extends PureComponent {
                             id === +elevationId
                         ) || (
                             id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
+                        ) || (
+                            +bugId === +elevationBugId
                         )
                     )
                 ) ? (
@@ -275,11 +278,16 @@ class InteractiveElevation extends PureComponent {
                                 text="Loading"
                             />
                             {loadingTooLong ? (
-                                <button
-                                    onClick={refetch}
-                                >
-                                    Reload
-                                </button>
+                                <>
+                                    <p>
+                                        Taking too long?
+                                    </p>
+                                    <button
+                                        onClick={refetch}
+                                    >
+                                        Reload
+                                    </button>
+                                </>
                             ) : null}
                         </div>
                     )}

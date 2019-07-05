@@ -30,7 +30,7 @@ function sampleElevations({
                             }${
                             parseSearch(search)
                                 .update({ sampleElevation })
-                                .remove("elevationId")
+                                .remove("elevationId", "bugId")
                             }`}
                     >
                         <button

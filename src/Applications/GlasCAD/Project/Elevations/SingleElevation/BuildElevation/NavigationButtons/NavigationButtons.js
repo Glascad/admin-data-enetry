@@ -72,7 +72,7 @@ function NavigationButtons({
                             }${
                             parseSearch(search)
                                 .update({ elevationId: id })
-                                .remove("sampleElevation")
+                                .remove("sampleElevation", "bugId")
                             }`)}
                         doNotConfirmWhen={doNotConfirm}
                     >

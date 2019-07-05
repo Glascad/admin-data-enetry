@@ -11,7 +11,7 @@ import CreateElevation from './CreateElevation/CreateElevation';
 import EditElevation from './EditElevation/EditElevation';
 import BuildElevation from './BuildElevation/BuildElevation';
 
-import query from './utils/elevation-graphql/query';
+import query, { bugReportQuery } from './utils/elevation-graphql/query';
 import updateElevationMutation from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
@@ -45,13 +45,27 @@ export default function SingleElevation({
     },
 }) {
 
-    const { elevationId, sampleElevation } = parseSearch(search);
+    const { elevationId, sampleElevation, bugId } = parseSearch(search);
 
-    const variables = { id: +elevationId };
+    const variables = { id: +elevationId || -1 };
 
     // console.log({ variables });
 
-    const [refetch, queryStatus, fetching] = useQuery({ query, variables }, true);
+    const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
+
+    const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
+
+    const fetching = fetchElevation || fetchingBugs;
+
+    const queryStatus = {
+        ...elevationStatus,
+        ...bugStatus,
+    };
+
+    const refetch = () => {
+        fetchElevation({ variables });
+        fetchBugs();
+    }
 
     // console.log({ queryStatus });
 
@@ -84,7 +98,7 @@ export default function SingleElevation({
             defaultElevation,
             project,
         };
-    
+
     // console.log(routeProps);
 
     return (

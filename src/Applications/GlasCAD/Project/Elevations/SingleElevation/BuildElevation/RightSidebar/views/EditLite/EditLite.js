@@ -17,160 +17,161 @@ import { withActionContext } from '../../../contexts/ActionContext';
 import { AddVertical, AddHorizontal } from '../shared/AddIntermediate';
 
 import AddBay from "../shared/AddBay";
+import { StepHead, RaiseCurb } from '../shared/AlterRoughOpening';
 
 // import EditInfill from './EditInfill';
 // import AddVertical from '../add/AddVertical';
 // import AddHorizontal from '../add/AddHorizontal';
 
-class EditLite extends PureComponent {
+function EditLite({
+    selection: {
+        items: allContainers,
+        items: {
+            0: firstContainer,
+            length,
+        },
+    },
+    ACTIONS: {
+        deleteContainers,
+        mergeContainers,
+        addIntermediates,
+    },
+    elevation,
+    updateElevation,
+    toggleStackedView,
+}) {
 
-    render = () => {
-        const {
-            props: {
-                selection: {
-                    items: allContainers,
-                    items: {
-                        0: firstContainer,
-                        length,
-                    },
-                },
-                ACTIONS: {
-                    deleteContainers,
-                    mergeContainers,
-                    addIntermediates,
-                },
-                elevation,
-                updateElevation,
-                toggleStackedView,
-            },
-        } = this;
+    const mergeableDirections = [
+        [DIRECTIONS.UP, "Up", Icons.MergeUp],
+        [DIRECTIONS.DOWN, "Down", Icons.MergeDown],
+        [DIRECTIONS.LEFT, "Left", Icons.MergeLeft],
+        [DIRECTIONS.RIGHT, "Right", Icons.MergeRight],
+    ]
+        .filter(([direction]) => firstContainer.canMergeByDirection(...direction));
 
-        const mergableDirections = Object.entries(DIRECTIONS)
-            .filter(([key, direction]) => firstContainer.canMergeByDirection(...direction));
-
-        return (
-            <>
-                <TitleBar
-                    title="Edit Lite"
-                />
-                {/* <div className="sidebar-group">
+    return (
+        <>
+            <TitleBar
+                title="Edit Lite"
+            />
+            {/* <div className="sidebar-group">
                     <SidebarLink
                         toggleStackedView={toggleStackedView}
                         View={{ title: "Edit Infill", component: () => null }}
                         Icon={Icons.EditLite}
                     />
                 </div> */}
-                {length === 1 ?
-                    mergableDirections.length ? (
-                        <div className="sidebar-group">
+            {length === 1 ?
+                mergeableDirections.length ? (
+                    <div className="sidebar-group">
+                        {mergeableDirections.map(([direction, key, Icon]) => (
+                            <button
+                                key={key}
+                                className="sidebar-button empty"
+                                onClick={() => mergeContainers({
+                                    container: firstContainer,
+                                    direction,
+                                })}
+                            >
+                                <Icon />
+                                <span>
+                                    Merge {key}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                ) : null : (
+                    <>
+                        {/* <button
+                            // key={vertical}
+                            className="sidebar-button empty"
+                            onClick={() => null}
+                            >
+                            Merge
                             {
-                                mergableDirections.map(([key, direction]) => (
-                                    <button
-                                        key={direction.join('-')}
-                                        className="sidebar-button empty"
-                                        onClick={() => mergeContainers({
-                                            container: firstContainer,
-                                            direction,
-                                        })}
-                                    >
-                                        {key === "UP" ? (
-                                            <Icons.MergeUp />
-                                        )
-                                            :
-                                            key === "DOWN" ? (
-                                                <Icons.MergeDown />
-                                            )
-                                                :
-                                                key === "LEFT" ? (
-                                                    <Icons.MergeLeft />
-                                                )
-                                                    :
-                                                    key === "RIGHT" ? (
-                                                        <Icons.MergeRight />
-                                                    ) : null}
-                                        <span>
-                                            Merge {key.slice(0, 1)}{key.slice(1).toLowerCase()}
-                                        </span>
-                                    </button>
-                                ))
+                                // vertical ? 'vertically' : 'horizontally'
                             }
-                        </div>
-                    ) : null : (
-                        <>
-                            {/* <button
-                                    // key={vertical}
-                                    className="sidebar-button empty"
-                                    onClick={() => null}
-                                    >
-                                    Merge
-                                    {
-                                        // vertical ? 'vertically' : 'horizontally'
-                                    }
-                                </button> */}
-
-                        </>
-                    )}
-                <div className="sidebar-group">
-                    {allContainers.every(({ canAddVertical }) => canAddVertical) ? (
-                        <button
-                            className="sidebar-button empty"
-                            onClick={() => addIntermediates({ vertical: true })}
-                        >
-                            <Icons.AddVertical />
-                            <span>
-                                Add Vertical{length > 1 ? 's' : ''}
-                            </span>
-                        </button>
-                        // <SidebarLink
-                        //     toggleStackedView={toggleStackedView}
-                        //     View={AddVertical}
-                        //     Icon={Icons.AddVertical}
-                        // />
-                    ) : null}
-                    {allContainers.every(({ canAddHorizontal }) => canAddHorizontal) ? (
-                        <button
-                            className="sidebar-button empty"
-                            onClick={() => addIntermediates({ vertical: false })}
-                        >
-                            <Icons.AddHorizontal />
-                            <span>
-                                Add Horizontal{length > 1 ? 's' : ''}
-                            </span>
-                        </button>
-                        // <SidebarLink
-                        //     toggleStackedView={toggleStackedView}
-                        //     View={AddHorizontal}
-                        //     Icon={Icons.AddHorizontal}
-                        // />
-                    ) : null}
-                </div>
-                {allContainers.every(({ canAddBay }) => canAddBay)
-                    &&
-                    allContainers.every(({ leftFrame, rightFrame }, i, [firstItem]) => (
-                        leftFrame === firstItem.leftFrame
-                        ||
-                        rightFrame === firstItem.rightFrame
-                    ))
-                    ? (
-                        <div className="sidebar-group">
-                            <SidebarLink
-                                toggleStackedView={toggleStackedView}
-                                View={AddBay}
-                                Icon={Icons.AddLite}
-                            />
-                        </div>
-                    ) : null}
-                {allContainers.every(({ canDelete }) => canDelete) ? (
+                        </button> */}
+                    </>
+                )}
+            <div className="sidebar-group">
+                {allContainers.every(({ canAddVertical }) => canAddVertical) ? (
                     <button
-                        className="sidebar-button danger"
-                        onClick={deleteContainers}
+                        className="sidebar-button empty"
+                        onClick={() => addIntermediates({ vertical: true })}
                     >
-                        Delete Lite{length > 1 ? 's' : ''}
+                        <Icons.AddVertical />
+                        <span>
+                            Add Vertical{length > 1 ? 's' : ''}
+                        </span>
                     </button>
+                    // <SidebarLink
+                    //     toggleStackedView={toggleStackedView}
+                    //     View={AddVertical}
+                    //     Icon={Icons.AddVertical}
+                    // />
                 ) : null}
-            </>
-        );
-    }
+                {allContainers.every(({ canAddHorizontal }) => canAddHorizontal) ? (
+                    <button
+                        className="sidebar-button empty"
+                        onClick={() => addIntermediates({ vertical: false })}
+                    >
+                        <Icons.AddHorizontal />
+                        <span>
+                            Add Horizontal{length > 1 ? 's' : ''}
+                        </span>
+                    </button>
+                    // <SidebarLink
+                    //     toggleStackedView={toggleStackedView}
+                    //     View={AddHorizontal}
+                    //     Icon={Icons.AddHorizontal}
+                    // />
+                ) : null}
+            </div>
+            {allContainers.every(({ canAddBay }) => canAddBay)
+                &&
+                allContainers.every(({ leftFrame, rightFrame }, i, [firstItem]) => (
+                    leftFrame === firstItem.leftFrame
+                    ||
+                    rightFrame === firstItem.rightFrame
+                ))
+                ? (
+                    <div className="sidebar-group">
+                        <SidebarLink
+                            toggleStackedView={toggleStackedView}
+                            View={AddBay}
+                            Icon={Icons.AddLite}
+                        />
+                    </div>
+                ) : null}
+            {allContainers.every(({ canStepHead }) => canStepHead) ? (
+                <div className="sidebar-group">
+                    <SidebarLink
+                        toggleStackedView={toggleStackedView}
+                        View={StepHead}
+                        Icon={Icons.StepHead}
+                    />
+                </div>
+            ) : null}
+            {allContainers.every(({ canRaiseCurb }) => canRaiseCurb) ? (
+                <div className="sidebar-group">
+                    <SidebarLink
+                        toggleStackedView={toggleStackedView}
+                        View={RaiseCurb}
+                        Icon={Icons.StepHead}
+                    />
+                </div>
+            ) : null}
+            {allContainers.every(({ canDelete }) => canDelete) ? (
+                <button
+                    className="sidebar-button danger"
+                    onClick={deleteContainers}
+                >
+                    Delete Lite{length > 1 ? 's' : ''}
+                </button>
+            ) : null}
+        </>
+    );
 }
 
 export default {

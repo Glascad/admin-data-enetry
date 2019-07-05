@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo, useState, useEffect } from 'react';
 
 import gql from 'graphql-tag';
 
@@ -18,6 +18,7 @@ import {
     AsyncButton,
     useMutation,
     ConfirmButton,
+    useInitialState,
 } from '../../../../../../components';
 
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -81,20 +82,24 @@ export default memo(function CreateElevation({
     },
     updateEntireElevation,
     updating: creating,
-    defaultElevation = JSON.stringify(defaultElevationInput),
+    defaultElevation = null,
 }) {
 
     const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
+    const initialElevationInput = JSON.parse(defaultElevation) || defaultElevationInput;
+
     const initalState = {
-        elevation: JSON.parse(defaultElevation),
+        elevation: initialElevationInput,
         system: {
             id: -1,
             name: "",
         },
     };
 
-    const undoRedo = useUndoRedo(initalState, [defaultElevation]);
+    const [initialHorizontalRoughOpening, setInitialHorizontalRoughOpening] = useInitialState(initialElevationInput.horizontalRoughOpening);
+    const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
+    const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(initialElevationInput.finishedFloorHeight);
 
     const {
         currentState,
@@ -118,7 +123,7 @@ export default memo(function CreateElevation({
             },
         },
         pushState,
-    } = undoRedo;
+    } = useUndoRedo(initalState, [defaultElevation]);;
 
     const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {
@@ -293,8 +298,9 @@ export default memo(function CreateElevation({
                             label="Width"
                             type="inches"
                             min={0}
-                            initialValue={horizontalRoughOpening}
+                            initialValue={initialHorizontalRoughOpening}
                             onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
+                            onBlur={setInitialHorizontalRoughOpening}
                         />
                         <Input
                             label="Masonry opening"
@@ -309,8 +315,9 @@ export default memo(function CreateElevation({
                             label="Height"
                             type="inches"
                             min={0}
-                            initialValue={verticalRoughOpening}
+                            initialValue={initialVerticalRoughOpening}
                             onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
+                            onBlur={setInitialVerticalRoughOpening}
                         />
                         <Input
                             label="Masonry opening"
@@ -335,8 +342,9 @@ export default memo(function CreateElevation({
                     label="Curb Height"
                     type="inches"
                     min={0}
-                    initialValue={finishedFloorHeight}
+                    initialValue={initialFinishedFloorHeight}
                     onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
+                    onBlur={setInitialFinishedFloorHeight}
                 />
                 <GroupingBox
                     title="Horizontals"

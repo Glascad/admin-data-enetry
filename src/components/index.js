@@ -26,6 +26,7 @@ import withContext from './state/with-context';
 import transformProps from './state/transform-props';
 import useUndoRedo, { withUndoRedo } from './state/use-undo-redo';
 import useMountTracker from './state/use-mount-tracker';
+import useInitialState from './state/use-initial-state';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -71,6 +72,7 @@ export {
     useUndoRedo,
     withUndoRedo,
     useMountTracker,
+    useInitialState,
     // NAVIGATION
     Navigator,
     TabNavigator,

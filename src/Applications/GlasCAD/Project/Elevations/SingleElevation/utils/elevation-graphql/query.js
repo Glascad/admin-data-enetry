@@ -13,3 +13,16 @@ export default gql`
     ${F.EL_DATA.ENTIRE_ELEVATION}
     ${F.SYS_DATA.ENTIRE_SYSTEM}
 `;
+
+export const bugReportQuery = gql`
+    {
+        bugReports: getBugReports {
+            id
+            report
+            username
+            location
+            timestamp
+            state
+        }
+    }
+`;

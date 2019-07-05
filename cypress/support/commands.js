@@ -10,7 +10,36 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
+Cypress.Commands.add("login", ({ username, password }) => {
+    cy.request({
+        method: "POST",
+        url: "/graphql",
+        body: {
+            query: `
+                mutation {
+                    authenticate(
+                        input: {
+                            username: "${username}"
+                            password: "${password}"
+                        }
+                    ) {
+                        jwt
+                    }
+                }
+            `,
+        },
+    }).then(({
+        body: {
+            data: {
+                authenticate: {
+                    jwt,
+                },
+            },
+        },
+    }) => {
+        window.localStorage.setItem("JSON-Web-Token", jwt);
+    });
+});
 //
 //
 // -- This is a child command --

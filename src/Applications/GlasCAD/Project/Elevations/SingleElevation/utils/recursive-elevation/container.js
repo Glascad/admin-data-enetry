@@ -1,6 +1,6 @@
 
 import { sortDetails } from './sort-details';
-import { unique } from '../../../../../../../utils';
+import { unique, Loggable } from '../../../../../../../utils';
 import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
 import _ from 'lodash';
 
@@ -11,11 +11,12 @@ const allContainersKey = 'all_containers<vertical><first>';
 
 const { UP, DOWN, LEFT, RIGHT } = DIRECTIONS;
 
-export default class RecursiveContainer {
+export default class RecursiveContainer extends Loggable {
 
     static instanceCount = 0;
 
     constructor(container, elevation) {
+        super();
         Object.assign(
             this,
             container,
@@ -293,17 +294,11 @@ export default class RecursiveContainer {
     get canDelete() { return !this.customRoughOpening; }
 
     //ADD INTERMEDIATE
-    //AddIntermediate
-
-    canAddIntermediateByVerticalAndDistance = (vertical, distance, ) => {
-
-        return !!(
-            distance >= this.minByVertical(vertical)
-            &&
-            distance <= this.maxByVertical(vertical)
-        )
-
-    };
+    canAddIntermediateByVerticalAndDistance = (vertical, distance) => !!(
+        distance >= this.minByVertical(vertical)
+        &&
+        distance <= this.maxByVertical(vertical)
+    );
 
     getMinOrMaxByVertical = (vertical, min) => {
         const DLOKey = vertical ? 'x' : 'y';
@@ -324,26 +319,38 @@ export default class RecursiveContainer {
 
 
 
-    get canAddVertical() { return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening) }
-    get canAddHorizontal() { return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening) }
+    get canAddVertical() { return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening); }
+    get canAddHorizontal() { return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening); }
 
     //ADD_BAY
-    canAddBayByDirectionAndDistance = (first, distance) => {
-        return !!(
-            distance >= this.elevation.minimumDaylightOpening
-            &&
-            !this.getFrameByDirection(false, first).getRunsAlongEdgeOfRoughOpening(first)
-            &&
-            distance <= this.getFrameByDirection(false, first).maximumMovementByDirection(first)
-            &&
-            this.canAddBayByDirection(first)
-        )
-    };
+    canAddBayByDirectionAndDistance = (first, distance) => !!(
+        distance >= this.elevation.minimumDaylightOpening
+        &&
+        !this.getFrameByDirection(false, first).getRunsAlongEdgeOfRoughOpening(first)
+        &&
+        distance <= this.getFrameByDirection(false, first).maximumMovementByDirection(first)
+        &&
+        this.canAddBayByDirection(first)
+    );
 
     canAddBayByDirection = first => this.getFrameByDirection(false, first).canAddBay;
 
     get canAddBayRight() { return this.canAddBayByDirection(false); }
     get canAddBayLeft() { return this.canAddBayByDirection(true); }
     get canAddBay() { return this.canAddBayRight || this.canAddBayLeft; }
+
+    // STEP HEAD
+    canAlterRoughOpeningByDirection = first => this.getFrameByDirection(true, first)
+        .details.every(({ getContainerByDirection }) => !getContainerByDirection(first));
+
+    get canStepHead() { return this.canAlterRoughOpeningByDirection(false); }
+    get canRaiseCurb() { return this.canAlterRoughOpeningByDirection(true); }
+
+    getMaxRoughOpeningDistanceByDirection = first => {
+        if (this.canAlterRoughOpeningByDirection(first)) {
+            const { sightline } = this.getFrameByDirection(true, first);
+            return this.daylightOpening.y + sightline;
+        }
+    }
 
 }

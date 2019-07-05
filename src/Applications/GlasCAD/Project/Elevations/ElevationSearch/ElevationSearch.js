@@ -149,8 +149,12 @@ export default function ElevationSearch({
                         {
                             children: (
                                 <Link
-                                    to={`${path}/elevation/create-elevation${parseSearch(search)
-                                        .remove("elevationId")}`}
+                                    to={`${
+                                        path
+                                        }/elevation/create-elevation${
+                                        parseSearch(search)
+                                            .remove("elevationId", "bugId", "sampleElevation")
+                                        }`}
                                 >
                                     Create
                                     </Link>

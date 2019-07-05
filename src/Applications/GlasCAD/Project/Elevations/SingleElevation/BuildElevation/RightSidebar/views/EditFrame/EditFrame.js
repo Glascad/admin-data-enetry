@@ -10,6 +10,7 @@ import MoveFrame from '../shared/MoveFrame';
 
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 import { withActionContext } from '../../../contexts/ActionContext';
+import { StepHead, RaiseCurb } from '../shared/AlterRoughOpening';
 
 class EditFrame extends PureComponent {
 
@@ -35,6 +36,14 @@ class EditFrame extends PureComponent {
         const canExtendLast = allFrames.every(({ canExtendLast }) => canExtendLast);
 
         const canDelete = allFrames.every(({ canDelete }) => canDelete);
+
+        const canStepHead = !vertical
+            &&
+            allFrames.every(_frame => _frame.firstContainers.every(({ canStepHead } = {}) => canStepHead));
+
+        const canRaiseCurb = !vertical
+            &&
+            allFrames.every(_frame => _frame.secondContainers.every(({ canRaiseCurb } = {}) => canRaiseCurb));
 
         return (
             <>
@@ -100,6 +109,24 @@ class EditFrame extends PureComponent {
                                     )}
                             </button>
                         ) : null}
+                    </div>
+                ) : null}
+                {canStepHead ? (
+                    <div className="sidebar-group">
+                        <SidebarLink
+                            toggleStackedView={toggleStackedView}
+                            View={StepHead}
+                            Icon={Icons.StepHead}
+                        />
+                    </div>
+                ) : null}
+                {canRaiseCurb ? (
+                    <div className="sidebar-group">
+                        <SidebarLink
+                            toggleStackedView={toggleStackedView}
+                            View={RaiseCurb}
+                            Icon={Icons.RaiseCurb}
+                        />
                     </div>
                 ) : null}
                 {canDelete ? (

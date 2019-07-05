@@ -10,6 +10,7 @@ import {
     GroupingBox,
     AsyncButton,
     ConfirmButton,
+    useInitialState,
 } from '../../../../../../components';
 
 import {
@@ -33,10 +34,15 @@ export default function EditElevation({
     },
     queryStatus: {
         _elevation,
+        _elevation: {
+            finishedFloorHeight: initialFFH,
+        } = {}
     },
     updateEntireElevation,
     updating,
 }) {
+
+    const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(new ImperialValue(initialFFH), [initialFFH]);
 
     const [elevationInput, setState] = useState({});
 
@@ -81,7 +87,7 @@ export default function EditElevation({
     if (parseSearch(search).sampleElevation) {
         return (
             <Redirect
-                to={`${path}${parseSearch(search).remove("sampleElevation")}`}
+                to={`${path}${parseSearch(search).remove("sampleElevation", "bugId")}`}
             />
         );
     }
@@ -92,7 +98,7 @@ export default function EditElevation({
                 to={`${
                     path.replace(/elevation\/edit-elevation/, 'elevation-search')
                     }${
-                    search
+                    parseSearch(search).remove("bugId")
                     }`}
             />
         );
@@ -106,7 +112,7 @@ export default function EditElevation({
                 },
                 children: "Are you sure you want to cancel your changes and leave this page?",
                 cancel: {
-                    text: "Stay"
+                    text: "Stay",
                 },
                 finish: {
                     className: "danger",
@@ -116,7 +122,7 @@ export default function EditElevation({
             onClick={() => history.push(`${
                 path.replace(/elevation\/edit-elevation/, 'elevation-search')
                 }${
-                parseSearch(search).remove("elevationId")
+                parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
                 }`)}
             doNotConfirmWhen={doNotConfirm}
         >
@@ -171,8 +177,8 @@ export default function EditElevation({
                     <div className="input-group">
                         <Input
                             label="Width"
-                            // type="inches"
-                            value={`${new ImperialValue(rox)}`}
+                            type="inches"
+                            initialValue={new ImperialValue(rox)}
                             onChange={() => { }}
                         />
                         <Input
@@ -184,8 +190,8 @@ export default function EditElevation({
                     <div className="input-group">
                         <Input
                             label="Height"
-                            // type="inches"
-                            value={`${new ImperialValue(roy)}`}
+                            type="inches"
+                            initialValue={new ImperialValue(roy)}
                             onChange={() => { }}
                         />
                         <Input
@@ -198,10 +204,11 @@ export default function EditElevation({
                 <Input
                     label="Curb Height"
                     type="inches"
-                    initialValue={new ImperialValue(finishedFloorHeight)}
+                    initialValue={initialFinishedFloorHeight}
                     onChange={({ value }) => updateElevation({
                         finishedFloorHeight: +value,
                     })}
+                    onBlur={setInitialFinishedFloorHeight}
                 />
                 <GroupingBox
                     title="Preview"
