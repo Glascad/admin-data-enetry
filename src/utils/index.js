@@ -8,6 +8,7 @@ import arraysContainEqualValues from './functions/arrays-contain-equal-values';
 import allocate from './functions/allocate';
 import unique from './functions/unique-array';
 import ImperialValue from './functions/feet-inches';
+import Loggable from './classes/Loggable';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
@@ -23,5 +24,6 @@ export {
     unique,
     validatePath,
     ImperialValue,
+    Loggable,
 };
 

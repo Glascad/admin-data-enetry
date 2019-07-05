@@ -1,5 +1,6 @@
 import RecursiveContainer from "./container";
 import RecursiveElevation from "./elevation";
+import { Loggable } from "../../../../../../../utils";
 
 const getValuesFromItem = item => {
     if (item instanceof RecursiveContainer) {
@@ -42,11 +43,13 @@ const getValuesFromItem = item => {
     }
 }
 
-export default class RecursiveDimension {
+export default class RecursiveDimension extends Loggable {
 
     static instanceCount = 0;
 
     constructor(item, elevation, vertical) {
+
+        super();
 
         const {
             refIds,

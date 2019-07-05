@@ -18,8 +18,7 @@ import { parseSearch } from '../../../../../../utils';
 import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
 
 import renderPreview from '../../ElevationPreview/render-preview';
-
-import './BuildElevation.scss';
+import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
 export const defaultElevationInput = {
     containers: [],
@@ -43,25 +42,72 @@ class BuildElevation extends PureComponent {
         this.mounted = false;
     }
 
-    componentDidUpdate = ({ queryStatus: oldQueryStatus }) => {
+    componentDidUpdate = ({
+        queryStatus: oldQueryStatus,
+        queryStatus: {
+            bugReports: oldBugReports = [],
+        } = {},
+    }) => {
         const {
             props: {
+                location: {
+                    search,
+                },
                 queryStatus: newQueryStatus,
+                queryStatus: {
+                    bugReports: newBugReports = [],
+                } = {},
                 resetState,
+                loadStates,
             },
             updateElevation,
         } = this;
 
-        if (oldQueryStatus !== newQueryStatus) {
-            resetState(
-                mergeElevationInput({
-                    elevationInput: defaultElevationInput
-                },
-                    newQueryStatus
-                )
-            );
+        // console.log("updated");
+        if (
+            (oldQueryStatus !== newQueryStatus)
+            ||
+            (
+                newBugReports
+                &&
+                newBugReports.length
+                &&
+                (oldBugReports !== newBugReports)
+            )
+        ) {
+
+            const { bugId } = parseSearch(search);
+
+            if (bugId) {
+
+                const { state = "[]" } = newBugReports.find(({ id }) => id === +bugId) || {};
+
+                const parsedState = JSON.parse(state);
+
+                const newStates = parsedState.map(state => ({
+                    ...state,
+                    recursiveElevation: new RecursiveElevation({ ...state.mergedElevation, bugId }),
+                }));
+
+                console.log({
+                    bugId,
+                    state,
+                    parsedState,
+                    newStates,
+                });
+
+                loadStates(newStates);
+            } else {
+                // console.log("resetting state");
+                resetState(
+                    mergeElevationInput({
+                        elevationInput: defaultElevationInput
+                    },
+                        newQueryStatus,
+                    ),
+                );
+            }
         }
-        // updateElevation(elevation => elevation, null, null, true);
     }
 
     // ACTION MUST RETURN A NEW state OBJECT WITH KEYS elevationInput, rawElevation, mergedElevation and recursiveElevation
@@ -182,6 +228,7 @@ class BuildElevation extends PureComponent {
         const {
             props: {
                 history,
+                location,
                 location: {
                     search,
                 },
@@ -189,6 +236,7 @@ class BuildElevation extends PureComponent {
                     path,
                 },
                 project,
+                refetch,
                 queryStatus,
                 queryStatus: {
                     _elevation: {
@@ -198,6 +246,7 @@ class BuildElevation extends PureComponent {
                 },
                 states,
                 currentIndex,
+                currentState,
                 currentState: {
                     elevationInput,
                     mergedElevation,
@@ -210,7 +259,12 @@ class BuildElevation extends PureComponent {
             save,
         } = this;
 
-        // console.log(this);
+        // console.log({
+        //     currentState,
+        //     states,
+        // });
+
+        console.log(this.props);
 
         return (
             <SelectionProvider
@@ -251,6 +305,7 @@ class BuildElevation extends PureComponent {
                             <InteractiveElevation
                                 elevation={recursiveElevation}
                                 updateElevation={updateElevation}
+                                refetch={refetch}
                             />
                         </ErrorBoundary>
                         <NavigationButtons
@@ -278,5 +333,5 @@ export default function ErrorBoundedBuildElevation(props) {
         >
             <BuildElevationWithUndoRedo {...props} />
         </ErrorBoundary>
-    )
+    );
 }

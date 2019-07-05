@@ -7,6 +7,8 @@ import sample3Special from './sample3-special.json';
 import sample4 from './sample4.json';
 import sample5 from './sample5.json';
 import sample6 from './sample6.json';
+import sample7 from './sample7.json';
+// from bug reports
 import hhFrameError from './hh-frame-error.json';
 import error1 from './error-1.json';
 
@@ -20,6 +22,7 @@ export {
     sample4,
     sample5,
     sample6,
+    sample7,
     hhFrameError,
     error1,
 };

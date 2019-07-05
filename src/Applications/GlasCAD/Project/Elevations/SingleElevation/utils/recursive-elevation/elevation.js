@@ -8,6 +8,7 @@ import dimensionsOverlap from './dimensions-overlap';
 import sortDimensionTracks from './sort-dimension-tracks';
 
 import { DIRECTIONS } from './directions';
+import { Loggable } from '../../../../../../../utils';
 
 const {
     UP,
@@ -30,7 +31,7 @@ const {
 
 const dimensionTracksKey = 'dimensions<vertical>';
 
-export default class RecursiveElevation {
+export default class RecursiveElevation extends Loggable {
 
     static RecursiveContainer = RecursiveContainer;
     static RecursiveDetail = RecursiveDetail;
@@ -47,6 +48,8 @@ export default class RecursiveElevation {
             } = {},
         } = {},
     ) {
+
+        super();
 
         const {
             finishedFloorHeight = 0,

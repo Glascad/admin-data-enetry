@@ -141,7 +141,7 @@ class ActionProvider extends PureComponent {
                     () => {
                         if (ACTION.getSelectedItems) {
                             const reselect = () => {
-                                ACTION.getSelectedItems(payload)(this.props.elevation).forEach(item => {
+                                ACTION.getSelectedItems(payload)(this.props.elevation, refId).forEach(item => {
                                     this.props.selection.selectItem(item);
                                 });
                             }
@@ -173,12 +173,17 @@ class ActionProvider extends PureComponent {
         },
     );
 
-    stepHead = () => this.performBulkAction(
-        
-    );
-
-    raiseCurb = () => this.performBulkAction(
-        
+    alterRoughOpening = ({ distance, first }) => this.performBulkAction(
+        ACTIONS.ALTER_ROUGH_OPENING,
+        Object.keys(this.props.selection.itemsByRefId),
+        (refId, _, getItemByRefId) => ({
+            container: refId.match(/Container/i) ?
+                getItemByRefId(refId)
+                :
+                getItemByRefId(refId).getContainersByDirection(!first)[0],
+            distance,
+            first,
+        }),
     );
 
     mergeContainers = ({ container, direction }) => this.props.updateElevation(
@@ -316,6 +321,7 @@ class ActionProvider extends PureComponent {
                 children,
             },
             deleteContainers,
+            alterRoughOpening,
             mergeContainers,
             addFrame,
             deleteFrames,
@@ -332,6 +338,7 @@ class ActionProvider extends PureComponent {
             <ActionContext.Provider
                 value={{
                     deleteContainers,
+                    alterRoughOpening,
                     addFrame,
                     mergeContainers,
                     deleteFrames,
@@ -339,7 +346,7 @@ class ActionProvider extends PureComponent {
                     extendFrames,
                     addIntermediates,
                     updateDimension,
-                    addBay
+                    addBay,
                 }}
             >
                 {children}

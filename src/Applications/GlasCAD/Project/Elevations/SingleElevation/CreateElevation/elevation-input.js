@@ -18,7 +18,7 @@ export const measureToOptions = [
 }));
 
 export const defaultHorizontal = {
-    distance: new ImperialValue("3'"),
+    distance: 36,
     from: measureFromOptions[0].value,
     to: measureToOptions[0].value,
 };
@@ -26,12 +26,12 @@ export const defaultHorizontal = {
 export const defaultElevationInput = {
     verticalLock: true,
     horizontalLock: true,
-    verticalRoughOpening: new ImperialValue("10'"),
-    horizontalRoughOpening: new ImperialValue("4'"),
+    verticalRoughOpening: 120,
+    horizontalRoughOpening: 38,
     verticalMasonryOpening: true,
     horizontalMasonryOpening: true,
     startingBayQuantity: 1,
-    finishedFloorHeight: new ImperialValue(0),
-    sightline: new ImperialValue(2),
+    finishedFloorHeight: 0,
+    sightline: 2,
     horizontals: [defaultHorizontal],
 };

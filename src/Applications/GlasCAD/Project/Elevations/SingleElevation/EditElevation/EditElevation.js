@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import _ from 'lodash';
 
@@ -10,6 +10,7 @@ import {
     GroupingBox,
     AsyncButton,
     ConfirmButton,
+    useInitialState,
 } from '../../../../../../components';
 
 import {
@@ -33,10 +34,15 @@ export default function EditElevation({
     },
     queryStatus: {
         _elevation,
+        _elevation: {
+            finishedFloorHeight: initialFFH,
+        } = {}
     },
     updateEntireElevation,
     updating,
 }) {
+
+    const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(new ImperialValue(initialFFH), [initialFFH]);
 
     const [elevationInput, setState] = useState({});
 
@@ -54,17 +60,17 @@ export default function EditElevation({
             finishedFloorHeight,
         } = {},
     } = recursiveElevation;
-    
-        const doNotConfirm = _.isEqual(elevationInput, {});
+
+    const doNotConfirm = _.isEqual(elevationInput, {});
 
     const save = async () => {
 
-        if (doNotConfirm) {
+        if (!doNotConfirm) {
             const elevation = {
                 ...elevationInput,
                 id: +parseSearch(search).elevationId,
             };
-            
+
             const result = await updateEntireElevation({
                 elevation: {
                     ...elevation,
@@ -78,38 +84,70 @@ export default function EditElevation({
 
     console.log("this is the EDIT elevation page");
 
+    if (parseSearch(search).sampleElevation) {
+        return (
+            <Redirect
+                to={`${path}${parseSearch(search).remove("sampleElevation", "bugId")}`}
+            />
+        );
+    }
+
+    if (!parseSearch(search).elevationId) {
+        return (
+            <Redirect
+                to={`${
+                    path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                    }${
+                    parseSearch(search).remove("bugId")
+                    }`}
+            />
+        );
+    }
+
+    const CHANGE_ELEVATION = (
+        <ConfirmButton
+            modalProps={{
+                titleBar: {
+                    title: "Change Elevation",
+                },
+                children: "Are you sure you want to cancel your changes and leave this page?",
+                cancel: {
+                    text: "Stay",
+                },
+                finish: {
+                    className: "danger",
+                    text: "Leave",
+                },
+            }}
+            onClick={() => history.push(`${
+                path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                }${
+                parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
+                }`)}
+            doNotConfirmWhen={doNotConfirm}
+        >
+            Change Elevation
+        </ConfirmButton>
+    );
+
+    const BUILD = (
+        <AsyncButton
+            className="action"
+            loading={updating}
+            text={`${doNotConfirm ? "" : "Save and "}Build`}
+            loadingText="Saving"
+            onClick={save}
+        />
+    );
+
     return (
         <>
             <TitleBar
                 title="Edit Elevation"
                 right={(
                     <>
-                        <ConfirmButton
-                            modalProps={{
-                                titleBar: {
-                                    title: "Change Elevation",
-                                },
-                                children: "Are you sure you want to cancel your changes and leave this page?",
-                                cancel: {
-                                    text: "Stay"
-                                },
-                                finish: {
-                                    className: "danger",
-                                    text: "Leave",
-                                },
-                            }}
-                            onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
-                            doNotConfirmWhen={doNotConfirm}
-                        >
-                            Change Elevation
-                        </ConfirmButton>
-                        <AsyncButton
-                            className="action"
-                            loading={updating}
-                            text={`${doNotConfirm ? "" : "Save and "}Build`}
-                            loadingText="Saving"
-                            onClick={save}
-                        />
+                        {CHANGE_ELEVATION}
+                        {BUILD}
                     </>
                 )}
             />
@@ -139,8 +177,8 @@ export default function EditElevation({
                     <div className="input-group">
                         <Input
                             label="Width"
-                            // type="inches"
-                            value={`${new ImperialValue(rox)}`}
+                            type="inches"
+                            initialValue={new ImperialValue(rox)}
                             onChange={() => { }}
                         />
                         <Input
@@ -152,8 +190,8 @@ export default function EditElevation({
                     <div className="input-group">
                         <Input
                             label="Height"
-                            // type="inches"
-                            value={`${new ImperialValue(roy)}`}
+                            type="inches"
+                            initialValue={new ImperialValue(roy)}
                             onChange={() => { }}
                         />
                         <Input
@@ -166,10 +204,11 @@ export default function EditElevation({
                 <Input
                     label="Curb Height"
                     type="inches"
-                    initialValue={new ImperialValue(finishedFloorHeight)}
+                    initialValue={initialFinishedFloorHeight}
                     onChange={({ value }) => updateElevation({
                         finishedFloorHeight: +value,
                     })}
+                    onBlur={setInitialFinishedFloorHeight}
                 />
                 <GroupingBox
                     title="Preview"
@@ -179,32 +218,8 @@ export default function EditElevation({
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
-                    <ConfirmButton
-                        modalProps={{
-                            titleBar: {
-                                title: "Change Elevation",
-                            },
-                            children: "Are you sure you want to cancel your changes and leave this page?",
-                            cancel: {
-                                text: "Stay"
-                            },
-                            finish: {
-                                className: "danger",
-                                text: "Leave",
-                            },
-                        }}
-                        onClick={() => history.push(`${path.replace(/elevation\/edit-elevation/, 'elevation-search')}${search}`)}
-                        doNotConfirmWhen={doNotConfirm}
-                    >
-                        Change Elevation
-                    </ConfirmButton>
-                    <AsyncButton
-                        className="action"
-                        loading={updating}
-                        text="Save and Build"
-                        loadingText="Saving"
-                        onClick={save}
-                    />
+                    {CHANGE_ELEVATION}
+                    {BUILD}
                 </div>
             </div>
         </>

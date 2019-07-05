@@ -12,7 +12,6 @@ function renderPreview({
     renderText = false,
     renderCustomRoughOpenings = false,
 } = {}) {
-    console.log(...arguments);
     return `
         <svg
             viewBox="${`0 0 ${x} ${y + finishedFloorHeight}`}"

@@ -51,11 +51,26 @@ export default function BugList({
                         subtitle: report,
                         children: <ElevationPreview preview={preview} />,
                         footer: timestamp,
-                        onSelect: () => history.push(`${
-                            path.replace(/bug-list/, 'elevation-viewer')
-                            }${
-                            parseSearch(search).update({ bugId: id })
-                            }`),
+                        hoverButtons: [
+                            {
+                                onClick: () => history.push(`${
+                                    path.replace(/-debugger.*/, 's/elevation/build-elevation')
+                                    }${
+                                    parseSearch(search)
+                                        .update({ bugId: id })
+                                        .remove("elevationId", "sampleElevation")
+                                    }`),
+                                text: "Load",
+                            },
+                            {
+                                onClick: () => history.push(`${
+                                    path.replace(/bug-list/, 'elevation-viewer')
+                                    }${
+                                    parseSearch(search).update({ bugId: id })
+                                    }`),
+                                text: "View"
+                            },
+                        ]
                     };
                 }}
             />

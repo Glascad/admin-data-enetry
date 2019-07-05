@@ -135,8 +135,18 @@ export default class AbstractModal extends PureComponent {
     componentWillUnmount = () => {
         document.body.removeChild(this.element);
     }
-    render = () => {
-        ReactDOM.render(<Modal {...this.props} />, this.element);
-        return null;
+    componentDidUpdate = oldProps => {
+        if (oldProps !== this.props) {
+            const oldEntries = Object.entries(oldProps);
+            const newEntries = Object.entries(this.props);
+            if (
+                (oldEntries.length !== newEntries.length)
+                ||
+                newEntries.some(([key, value]) => oldProps[key] !== value)
+            ) {
+                ReactDOM.render(<Modal {...this.props} />, this.element);
+            }
+        }
     }
+    render = () => null;
 }
