@@ -72,6 +72,8 @@ const saveDefaultMutation = {
     `,
 };
 
+var PROTECTION = 100;
+
 export default memo(function CreateElevation({
     history,
     location: {
@@ -84,6 +86,8 @@ export default memo(function CreateElevation({
     updating: creating,
     defaultElevation = null,
 }) {
+
+    if (PROTECTION-- < 0) return null;
 
     const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
@@ -100,6 +104,12 @@ export default memo(function CreateElevation({
     const [initialHorizontalRoughOpening, setInitialHorizontalRoughOpening] = useInitialState(initialElevationInput.horizontalRoughOpening);
     const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
     const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(initialElevationInput.finishedFloorHeight);
+
+    console.log(
+        initialElevationInput.horizontalRoughOpening,
+        initialElevationInput.verticalRoughOpening,
+        initialElevationInput.finishedFloorHeight,
+    );
 
     const {
         currentState,
