@@ -305,6 +305,7 @@ class BuildElevation extends PureComponent {
                             <InteractiveElevation
                                 elevation={recursiveElevation}
                                 updateElevation={updateElevation}
+                                updating={updating}
                                 refetch={refetch}
                             />
                         </ErrorBoundary>

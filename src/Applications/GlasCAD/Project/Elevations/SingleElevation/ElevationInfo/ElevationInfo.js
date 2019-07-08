@@ -31,6 +31,10 @@ export default function EditElevation({
     },
     location: {
         search,
+        state: {
+            previousPath = '/glascad/project/elevation/elevations/elevation-search',
+            previousSearch = arguments[0].location.search,
+        } = {},
     },
     queryStatus: {
         _elevation,
@@ -79,7 +83,7 @@ export default function EditElevation({
             });
         }
 
-        history.push(`${path.replace(/edit/, 'build')}${search}`);
+        history.push(`${path.replace(/elevation-info/, 'build-elevation')}${search}`);
     }
 
     console.log("this is the EDIT elevation page");
@@ -96,7 +100,7 @@ export default function EditElevation({
         return (
             <Redirect
                 to={`${
-                    path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                    path.replace(/elevation\/elevation-info/, 'elevation-search')
                     }${
                     parseSearch(search).remove("bugId")
                     }`}
@@ -106,9 +110,10 @@ export default function EditElevation({
 
     const CHANGE_ELEVATION = (
         <ConfirmButton
+            data-cy="cancel"
             modalProps={{
                 titleBar: {
-                    title: "Change Elevation",
+                    title: "Cancel",
                 },
                 children: "Are you sure you want to cancel your changes and leave this page?",
                 cancel: {
@@ -120,21 +125,24 @@ export default function EditElevation({
                 },
             }}
             onClick={() => history.push(`${
-                path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                previousPath
+                // path.replace(/elevation\/elevation-info/, 'elevation-search')
                 }${
-                parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
+                previousSearch
+                // parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
                 }`)}
             doNotConfirmWhen={doNotConfirm}
         >
-            Change Elevation
+            Cancel
         </ConfirmButton>
     );
 
     const BUILD = (
         <AsyncButton
-            className="action"
+            data-cy="save"
+            className={`action ${doNotConfirm ? 'disabled' : ''}`}
             loading={updating}
-            text={`${doNotConfirm ? "" : "Save and "}Build`}
+            text="Build"
             loadingText="Saving"
             onClick={save}
         />
@@ -143,7 +151,7 @@ export default function EditElevation({
     return (
         <>
             <TitleBar
-                title="Edit Elevation"
+                title="Elevation Info"
                 right={(
                     <>
                         {CHANGE_ELEVATION}
@@ -153,6 +161,7 @@ export default function EditElevation({
             />
             <div className="card">
                 <Input
+                    data-cy="elevation-id"
                     label="Elevation ID"
                     autoFocus={true}
                     value={name}
@@ -161,27 +170,34 @@ export default function EditElevation({
                     })}
                 />
                 <Input
+                    data-cy="system-set"
                     label="System set"
                     disabled={true}
-                    select={{}}
+                    select={{
+                        options: [{ label: "Trifab451" }],
+                        value: { label: "Trifab451" },
+                    }}
                 />
                 <GroupingBox
                     title="Rough opening"
                     className="disabled"
                 >
                     <Input
+                        data-cy="ro-lock"
                         label="Locked"
                         type="switch"
                         checked={true}
                     />
                     <div className="input-group">
                         <Input
+                            data-cy="ro-width"
                             label="Width"
                             type="inches"
                             initialValue={new ImperialValue(rox)}
                             onChange={() => { }}
                         />
                         <Input
+                            data-cy="mo-horizontal"
                             label="Masonry opening"
                             type="switch"
                             checked={true}
@@ -189,12 +205,14 @@ export default function EditElevation({
                     </div>
                     <div className="input-group">
                         <Input
+                            data-cy="ro-height"
                             label="Height"
                             type="inches"
                             initialValue={new ImperialValue(roy)}
                             onChange={() => { }}
                         />
                         <Input
+                            data-cy="mo-vertical"
                             label="Masonry opening"
                             type="switch"
                             checked={true}
@@ -202,6 +220,7 @@ export default function EditElevation({
                     </div>
                 </GroupingBox>
                 <Input
+                    data-cy="curb-height"
                     label="Curb Height"
                     type="inches"
                     initialValue={initialFinishedFloorHeight}
@@ -214,6 +233,7 @@ export default function EditElevation({
                     title="Preview"
                 >
                     <ElevationPreview
+                        data-cy="elevation-preview"
                         preview={renderPreview(recursiveElevation)}
                     />
                 </GroupingBox>

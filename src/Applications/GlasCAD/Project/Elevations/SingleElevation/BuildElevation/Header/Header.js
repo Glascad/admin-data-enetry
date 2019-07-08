@@ -83,7 +83,14 @@ export default function Header({
                     {parseSearch(search).sampleElevation ? null : (
                         <ConfirmButton
                             modalProps={leaveModalProps}
-                            onClick={() => history.push(`${path.replace(/build/, 'edit')}${search}`)}
+                            onClick={() => history.push(`${
+                                path.replace(/build-elevation/, 'elevation-info')
+                                }${
+                                search
+                                }`, {
+                                    previousPath: path,
+                                    previousSearch: search,
+                                })}
                             doNotConfirmWhen={doNotConfirm}
                         >
                             Elevation Info

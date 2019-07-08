@@ -74,6 +74,7 @@ function Login({
                                 title="Login"
                             />
                             <Input
+                                data-cy="username"
                                 label="username"
                                 autoFocus={true}
                                 value={username}
@@ -81,6 +82,7 @@ function Login({
                                 onChange={({ target: { value } }) => setUsername(value)}
                             />
                             <Input
+                                data-cy="password"
                                 label="password"
                                 type="password"
                                 value={password}

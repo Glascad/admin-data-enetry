@@ -186,14 +186,17 @@ export default class RecursiveElevation extends Loggable {
         return this.allContainers
             .reduce((dimensions, container) => {
 
-                const prevDimension = dimensions.find(dimension => dimension.matchContainer(container));
+                if (container.customRoughOpening) return dimensions;
+                else {
+                    const prevDimension = dimensions.find(dimension => dimension.matchContainer(container));
 
-                if (prevDimension) prevDimension.addContainer(container);
-
-                return prevDimension ?
-                    dimensions
-                    :
-                    dimensions.concat(new RecursiveDimension(container, this, vertical));
+                    if (prevDimension) {
+                        prevDimension.addContainer(container);
+                        return dimensions;
+                    } else {
+                        return dimensions.concat(new RecursiveDimension(container, this, vertical));
+                    }
+                }
             }, []);
     }
 
