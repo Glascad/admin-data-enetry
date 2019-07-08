@@ -12,11 +12,15 @@
 // });
 
 describe('visiting the application', function () {
+
+    beforeEach(() => {
+        cy.login()
+        cy.visit('http://localhost:3000');
+    });
+
     it('can visit the application', function () {
 
-        cy.login({ username: "admin", password: "admin" });
-
-        cy.visit('http://localhost:3000');
+        cy.get('input');
 
         // // login
         // cy.get('input[type="text"]').type('admin');

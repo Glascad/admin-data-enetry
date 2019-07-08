@@ -10,17 +10,22 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add("login", ({ username, password }) => {
+
+const getHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem("JSON-Web-Token")}`,
+});
+
+Cypress.Commands.add("login", () => (
     cy.request({
         method: "POST",
-        url: "/graphql",
+        url: "http://localhost:5001/graphql",
         body: {
             query: `
                 mutation {
                     authenticate(
                         input: {
-                            username: "${username}"
-                            password: "${password}"
+                            username: "cypress"
+                            password: "cypress"
                         }
                     ) {
                         jwt
@@ -36,10 +41,97 @@ Cypress.Commands.add("login", ({ username, password }) => {
                 },
             },
         },
-    }) => {
-        window.localStorage.setItem("JSON-Web-Token", jwt);
-    });
-});
+    }) => window.localStorage.setItem("JSON-Web-Token", jwt))
+));
+
+Cypress.Commands.add("createSampleElevation", () => (
+    cy.request({
+        method: "POST",
+        url: "http://localhost:5001/graphql",
+        headers: getHeaders(),
+        body: {
+            query: `
+                mutation {
+                    updateEntireElevation (
+                        input: {
+                            elevation: {
+                                sightline: 2
+                                roughOpening: {
+                                    x: 240
+                                    y: 120
+                                }
+                                containers: [
+                                    {
+                                        fakeId: 1
+                                        original: true
+                                        daylightOpening: {
+                                            x: 236
+                                            y: 116
+                                        }
+                                    }
+                                ]
+                                details: [
+                                    {
+                                        vertical: true
+                                        secondContainerFakeId: 1
+                                    }
+                                    {
+                                        vertical: true
+                                        firstContainerFakeId: 1
+                                    }
+                                    {
+                                        vertical: false
+                                        secondContainerFakeId: 1
+                                    }
+                                    {
+                                        vertical: false
+                                        firstContainerFakeId: 1
+                                    }
+                                ]
+                            }
+                        }
+                    ) {
+                        elevation: elevations {
+                            id
+                        }
+                    }
+                }
+            `,
+        }
+    }).then(({
+        body,
+        // body: {
+        //     data: {
+        //         updateEntireElevation: {
+        //             elevation: {
+        //                 id,
+        //             },
+        //         },
+        //     },
+        // },
+    }) => console.log(body))
+));
+
+Cypress.Commands.add("deleteSampleElevation", id => (
+    cy.request({
+        method: "POST",
+        url: "http://localhost:5001/graphql",
+        headers: getHeaders(),
+        body: {
+            query: `
+                mutation: {
+                    deleteEntireElevation (
+                        input: {
+                            elevationId: ${id}
+                        }
+                    ) {
+                        elevationId: integer
+                    }
+                }
+            `,
+        },
+    })
+));
 //
 //
 // -- This is a child command --

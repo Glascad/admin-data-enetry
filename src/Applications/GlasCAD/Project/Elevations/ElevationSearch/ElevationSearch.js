@@ -94,7 +94,7 @@ export default function ElevationSearch({
                                     });
 
 
-                                    // history.push(`${path}/elevation/edit-elevation${parseSearch(search)
+                                    // history.push(`${path}/elevation/elevation-info${parseSearch(search)
                                     //     .update({ elevationId: newId })}`);
 
                                 } catch (err) {
@@ -119,7 +119,7 @@ export default function ElevationSearch({
                             {
                                 children: (
                                     <Link
-                                        to={`${path}/elevation/edit-elevation${parseSearch(search)
+                                        to={`${path}/elevation/elevation-info${parseSearch(search)
                                             .update({ elevationId: id })}`}
                                     >
                                         Info
