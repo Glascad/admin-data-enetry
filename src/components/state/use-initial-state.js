@@ -6,7 +6,7 @@ export default function useInitialState(initialState, dependencies) {
 
     useEffect(() => {
         setState(initialState);
-    }, dependencies);
+    }, dependencies || [initialState]);
 
     return [state, setState];
 }
