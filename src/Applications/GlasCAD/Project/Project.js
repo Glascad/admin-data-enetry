@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 import {
     ApolloWrapper,
     Navigator,
@@ -9,7 +11,7 @@ import {
 import query from './project-graphql/query';
 
 // import ProjectDetails from './ProjectDetails/ProjectDetails';
-import ProjectSets from './ProjectSets/ProjectSets';
+// import ProjectSets from './ProjectSets/ProjectSets';
 // import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
 import ElevationDebugger from './ElevationDebugger/ElevationDebugger';
@@ -21,7 +23,7 @@ import { parseSearch } from '../../../utils';
 
 const subroutes = {
     // ProjectDetails,
-    ProjectSets,
+    // ProjectSets,
     // Keyplans,
     Elevations,
     ElevationDebugger,
@@ -59,10 +61,18 @@ Project.navigationOptions = ({
 });
 
 export default function Project({
+    match: {
+        path,
+    },
     location: {
         search,
     },
 }) {
+    if (!parseSearch(search).projectId) return (
+        <Redirect
+            to={path.replace(/project.*/, 'main-menu')}
+        />
+    )
     // console.log(arguments[0]);
     return (
         <ApolloWrapper

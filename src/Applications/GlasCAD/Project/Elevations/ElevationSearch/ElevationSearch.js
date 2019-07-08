@@ -119,8 +119,14 @@ export default function ElevationSearch({
                             {
                                 children: (
                                     <Link
-                                        to={`${path}/elevation/elevation-info${parseSearch(search)
-                                            .update({ elevationId: id })}`}
+                                        to={{
+                                            pathname: `${path}/elevation/elevation-info`,
+                                            search: `${parseSearch(search).update({ elevationId: id })}`,
+                                            state: {
+                                                previousPath: path,
+                                                previousSearch: search,
+                                            },
+                                        }}
                                     >
                                         Info
                                     </Link>
