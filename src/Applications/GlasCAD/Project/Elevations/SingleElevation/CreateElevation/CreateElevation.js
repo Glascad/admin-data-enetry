@@ -245,7 +245,7 @@ export default memo(function CreateElevation({
     return (
         <>
             <TitleBar
-                data-cy="new-elevation"
+                // data-cy="new-elevation"
                 title="New Elevation"
                 selections={[name]}
                 right={(
@@ -475,6 +475,7 @@ export default memo(function CreateElevation({
                     title="Preview"
                 >
                     <ElevationPreview
+                        data-cy="preview"
                         preview={renderPreview(recursiveElevation)}
                     />
                 </GroupingBox>

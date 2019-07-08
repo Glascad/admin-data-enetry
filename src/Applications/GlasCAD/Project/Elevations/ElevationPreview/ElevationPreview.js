@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 import './ElevationPreview.scss';
 
-export default function ElevationPreview({ preview }) {
+export default function ElevationPreview({ preview, ...props }) {
     const ref = useRef();
 
     useEffect(() => {
@@ -11,6 +11,7 @@ export default function ElevationPreview({ preview }) {
 
     return (
         <div
+            {...props}
             className="ElevationPreview"
             ref={ref}
         />
