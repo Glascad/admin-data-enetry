@@ -8,7 +8,7 @@ import {
 } from '../../../../../components';
 
 import CreateElevation from './CreateElevation/CreateElevation';
-import EditElevation from './EditElevation/EditElevation';
+import ElevationInfo from './ElevationInfo/ElevationInfo';
 import BuildElevation from './BuildElevation/BuildElevation';
 
 import query, { bugReportQuery } from './utils/elevation-graphql/query';
@@ -20,7 +20,7 @@ import * as SAMPLE_ELEVATIONS from './__test__/sample-elevations';
 
 const subroutes = {
     CreateElevation,
-    EditElevation,
+    ElevationInfo,
     BuildElevation,
 };
 

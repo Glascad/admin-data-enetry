@@ -96,7 +96,7 @@ export default function EditElevation({
         return (
             <Redirect
                 to={`${
-                    path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                    path.replace(/elevation\/elevation-info/, 'elevation-search')
                     }${
                     parseSearch(search).remove("bugId")
                     }`}
@@ -120,7 +120,7 @@ export default function EditElevation({
                 },
             }}
             onClick={() => history.push(`${
-                path.replace(/elevation\/edit-elevation/, 'elevation-search')
+                path.replace(/elevation\/elevation-info/, 'elevation-search')
                 }${
                 parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
                 }`)}
