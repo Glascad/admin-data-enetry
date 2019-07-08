@@ -1,11 +1,16 @@
 
-describe('edit elevation page', () => {
+describe('elevation info page', () => {
 
     beforeEach(() => {
 
-        const elevationId = cy.login().then(cy.createSampleElevation);
+        cy.setup();
 
-        cy.visit(`/glascad/project/elevations/elevation/elevation-info?elevationId=${elevationId}`);
+        // cy.login();
+        // cy.createElevation();
+        // cy.visit(`/glascad/project/elevations/elevation-search`);
+
+        // cy.get('.circle-button').click();
+        // cy.get('.card .Input:first-child > input').type('AA{enter}');
 
     });
 

@@ -11,16 +11,17 @@
 //     // });
 // });
 
-describe('visiting the application', function () {
+describe('visiting the application', () => {
 
     beforeEach(() => {
-        cy.login()
+        cy.cleanup();
+        cy.setup();
         cy.visit('http://localhost:3000');
     });
 
-    it('can visit the application', function () {
+    it('can visit the application', () => {
 
-        cy.get('input');
+        cy.get('a');
 
         // // login
         // cy.get('input[type="text"]').type('admin');
