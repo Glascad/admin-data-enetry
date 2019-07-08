@@ -317,7 +317,8 @@ export default class RecursiveContainer extends Loggable {
     get minDistanceForVertical() { return this.minByVertical(true) };
     get maxDistanceForVertical() { return this.minByVertical(true) };
 
-
+    canAddVerticalByDistance = distance => this.canAddIntermediateByVerticalAndDistance(true, distance);
+    canAddHorizontalByDistance = distance => this.canAddIntermediateByVerticalAndDistance(false, distance);
 
     get canAddVertical() { return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening); }
     get canAddHorizontal() { return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening); }

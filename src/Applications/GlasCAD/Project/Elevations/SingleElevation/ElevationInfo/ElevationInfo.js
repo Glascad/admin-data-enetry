@@ -106,6 +106,7 @@ export default function EditElevation({
 
     const CHANGE_ELEVATION = (
         <ConfirmButton
+            data-cy="change-elevation"
             modalProps={{
                 titleBar: {
                     title: "Change Elevation",
@@ -132,6 +133,7 @@ export default function EditElevation({
 
     const BUILD = (
         <AsyncButton
+            data-cy="save"
             className="action"
             loading={updating}
             text={`${doNotConfirm ? "" : "Save and "}Build`}
@@ -153,6 +155,7 @@ export default function EditElevation({
             />
             <div className="card">
                 <Input
+                    data-cy="elevation-id"
                     label="Elevation ID"
                     autoFocus={true}
                     value={name}
@@ -161,27 +164,34 @@ export default function EditElevation({
                     })}
                 />
                 <Input
+                    data-cy="system-set"
                     label="System set"
                     disabled={true}
-                    select={{}}
+                    select={{
+                        options: [{ label: "Trifab451" }],
+                        value: { label: "Trifab451" },
+                    }}
                 />
                 <GroupingBox
                     title="Rough opening"
                     className="disabled"
                 >
                     <Input
+                        data-cy="ro-lock"
                         label="Locked"
                         type="switch"
                         checked={true}
                     />
                     <div className="input-group">
                         <Input
+                            data-cy="ro-width"
                             label="Width"
                             type="inches"
                             initialValue={new ImperialValue(rox)}
                             onChange={() => { }}
                         />
                         <Input
+                            data-cy="mo-horizontal"
                             label="Masonry opening"
                             type="switch"
                             checked={true}
@@ -189,12 +199,14 @@ export default function EditElevation({
                     </div>
                     <div className="input-group">
                         <Input
+                            data-cy="ro-height"
                             label="Height"
                             type="inches"
                             initialValue={new ImperialValue(roy)}
                             onChange={() => { }}
                         />
                         <Input
+                            data-cy="mo-vertical"
                             label="Masonry opening"
                             type="switch"
                             checked={true}
@@ -202,6 +214,7 @@ export default function EditElevation({
                     </div>
                 </GroupingBox>
                 <Input
+                    data-cy="curb-height"
                     label="Curb Height"
                     type="inches"
                     initialValue={initialFinishedFloorHeight}
@@ -214,6 +227,7 @@ export default function EditElevation({
                     title="Preview"
                 >
                     <ElevationPreview
+                        data-cy="elevation-preview"
                         preview={renderPreview(recursiveElevation)}
                     />
                 </GroupingBox>

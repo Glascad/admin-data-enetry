@@ -85,7 +85,7 @@ class SelectionLayer extends PureComponent {
                         ))}
                         {filteredDetailsToRender.map(detail => (
                             <Detail
-                                key={detail.refId}
+                                key={detail.detailId}
                                 detail={detail}
                                 selectItem={selectItem}
                                 cancelSelection={cancelSelection}

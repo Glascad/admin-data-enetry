@@ -1,78 +1,60 @@
-import React, { PureComponent } from 'react';
+import React, { memo, useState } from 'react';
 
 import {
     TitleBar,
     Input,
+    useInitialState,
 } from '../../../../../../../../../components';
 
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 import { withActionContext } from '../../../contexts/ActionContext';
 import { ImperialValue } from '../../../../../../../../../utils';
 
-class AddBay extends PureComponent {
+function AddBay({
+    selection: {
+        items,
+    },
+    ACTIONS: {
+        addBay,
+    },
+}) {
 
-    state = {
-        distance: new ImperialValue(6),
-    };
+    const [initialDistance] = useInitialState(new ImperialValue("3'"), []);
+    const [distance, setDistance] = useState(initialDistance.value);
 
-    updateDistance = distance => this.setState({ distance });
-
-    addTheBay = (first, distance) => this.props.ACTIONS.addBay({ first, distance });
-
-    addFirst = () => this.addTheBay(true, this.state.distance.value);
-    addSecond = () => this.addTheBay(false, this.state.distance.value);
-
-    render = () => {
-        const {
-            state: {
-                distance,
-                distance: {
-                    value,
-                },
-            },
-            props: {
-                selection: {
-                    items,
-                },
-            },
-            updateDistance,
-            add,
-        } = this;
-
-        return (
-            <>
-                <TitleBar
-                    title="Add Bay"
-                />
-                <Input
-                    label="Distance"
-                    type="inches"
-                    autoFocus={true}
-                    initialValue={distance}
-                    onChange={updateDistance}
-                />
-                {items.every(({ canAddBayByDirectionAndDistance }) => canAddBayByDirectionAndDistance(true, value)) ? (
-                    <button
-                        className="sidebar-button empty"
-                        onClick={this.addFirst}
-                    >
-                        {'Add Bay Left'}
-                    </button>
-                ) : null} 
-                {items.every(({ canAddBayByDirectionAndDistance }) => canAddBayByDirectionAndDistance(false, value)) ? (
-                    <button
-                        className="sidebar-button empty"
-                        onClick={this.addSecond}
-                    >
-                        {'Add Bay Right'}
-                    </button>
-                ) : null}
-            </>
-        );
-    }
+    return (
+        <>
+            <TitleBar
+                title="Add Bay"
+            />
+            <Input
+                label="Distance"
+                type="inches"
+                autoFocus={true}
+                initialValue={initialDistance}
+                onChange={({ value }) => setDistance(value)}
+            />
+            {items.every(({ canAddBayByDirectionAndDistance }) => canAddBayByDirectionAndDistance(true, distance)) ? (
+                <button
+                    className="sidebar-button empty"
+                    onClick={() => addBay({ first: true, distance })}
+                >
+                    Add Bay Left
+                </button>
+            ) : null}
+            {items.every(({ canAddBayByDirectionAndDistance }) => canAddBayByDirectionAndDistance(false, distance)) ? (
+                <button
+                    className="sidebar-button empty"
+                    onClick={() => addBay({ first: false, distance })}
+                >
+                    Add Bay Right
+                </button>
+            ) : null}
+        </>
+    );
 }
 
 export default {
     title: "Add Bay",
-    component: withSelectionContext(withActionContext(AddBay)),
+    component: withSelectionContext(withActionContext(memo(AddBay))),
 };

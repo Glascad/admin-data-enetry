@@ -1,3 +1,5 @@
+import { getProjectId, setProjectId, getElevationId } from "./localstorage";
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -11,14 +13,40 @@
 //
 // -- This is a parent command --
 
-const getHeaders = () => ({
-    Authorization: `Bearer ${localStorage.getItem("JSON-Web-Token")}`,
+const getBaseRequest = () => ({
+    ...console.log({
+        projectId: getProjectId(),
+        elevationId: getElevationId(),
+    }),
+    method: "POST",
+    url: "http://localhost:5001/graphql",
+    headers: {
+        Authentication: `Bearer ${localStorage.getItem('JSON-Web-Token')}`,
+    },
 });
 
-Cypress.Commands.add("login", () => (
+Cypress.Commands.add("setup", () => {
+    console.log("Logging in");
+    cy.login();
+    console.log("Logged in");
+    console.log(localStorage.getItem('JSON-Web-Token'));
+    console.log("Creating project")
+    cy.createProject();
+    console.log("Created Project");
+    console.log(getProjectId());
+    console.log("Creating Elevation");
+    cy.createElevation();
+    console.log(getElevationId());
+    console.log("Created Elevation");
+});
+
+Cypress.Commands.add("cleanup", id => {
+    cy.deleteProject(id);
+});
+
+Cypress.Commands.add("login", () => {
     cy.request({
-        method: "POST",
-        url: "http://localhost:5001/graphql",
+        ...getBaseRequest(),
         body: {
             query: `
                 mutation {
@@ -41,20 +69,51 @@ Cypress.Commands.add("login", () => (
                 },
             },
         },
-    }) => window.localStorage.setItem("JSON-Web-Token", jwt))
-));
+    }) => window.localStorage.setItem("JSON-Web-Token", jwt));
+});
 
-Cypress.Commands.add("createSampleElevation", () => (
+Cypress.Commands.add("createProject", () => {
     cy.request({
-        method: "POST",
-        url: "http://localhost:5001/graphql",
-        headers: getHeaders(),
+        ...getBaseRequest(),
+        body: {
+            query: `
+                mutation {
+                    createAProject (
+                        input: {
+                            name: "CYPRESS TEST PROJECT"
+                        }
+                    ) {
+                        project {
+                            id
+                        }
+                    }
+                }
+            `,
+        },
+    }).then(({
+        body: {
+            data: {
+                createAProject: {
+                    project: {
+                        id,
+                    },
+                },
+            },
+        },
+    }) => setProjectId(id));
+});
+
+Cypress.Commands.add("createElevation", () => {
+    cy.request({
+        ...getBaseRequest(),
         body: {
             query: `
                 mutation {
                     updateEntireElevation (
                         input: {
                             elevation: {
+                                name: "CYPRESS TEST ELEVATION"
+                                projectId: ${getProjectId()}
                                 sightline: 2
                                 roughOpening: {
                                     x: 240
@@ -99,7 +158,7 @@ Cypress.Commands.add("createSampleElevation", () => (
             `,
         }
     }).then(({
-        body,
+        ...body,
         // body: {
         //     data: {
         //         updateEntireElevation: {
@@ -109,29 +168,27 @@ Cypress.Commands.add("createSampleElevation", () => (
         //         },
         //     },
         // },
-    }) => console.log(body))
-));
+    }) => console.log(body));
+});
 
-Cypress.Commands.add("deleteSampleElevation", id => (
+Cypress.Commands.add("deleteProject", () => {
     cy.request({
-        method: "POST",
-        url: "http://localhost:5001/graphql",
-        headers: getHeaders(),
+        ...getBaseRequest(),
         body: {
             query: `
                 mutation: {
-                    deleteEntireElevation (
+                    deleteEntireProject (
                         input: {
-                            elevationId: ${id}
+                            projectId: ${getProjectId()}
                         }
                     ) {
-                        elevationId: integer
+                        projectId: integer
                     }
                 }
             `,
         },
-    })
-));
+    });
+});
 //
 //
 // -- This is a child command --
