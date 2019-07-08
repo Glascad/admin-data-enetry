@@ -40,6 +40,8 @@ import {
     defaultElevationInput,
 } from './elevation-input';
 
+import AddHorizontals from './AddHorizontals';
+
 const areEqual = (json, input) => {
     return _.isEqual({
         ...JSON.parse(json),
@@ -356,110 +358,13 @@ export default memo(function CreateElevation({
                     onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
                     onBlur={setInitialFinishedFloorHeight}
                 />
-                <GroupingBox
-                    title="Horizontals"
-                    circleButton={{
-                        actionType: "add",
-                        className: "action",
-                        onClick: () => {
-                            const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
-
-                            const {
-                                distance: {
-                                    value,
-                                },
-                            } = lastHorizontal;
-
-                            var { originalContainer: topContainer } = recursiveElevation;
-
-                            while (topContainer.topContainers.length) {
-                                topContainer = topContainer.topContainers[0];
-                            }
-
-                            if (topContainer.daylightOpening.y > value + recursiveElevation.sightline) {
-                                updateElevation({
-                                    horizontals: horizontals.concat(lastHorizontal),
-                                });
-                            }
-                        },
-                    }}
-                >
-                    {horizontals.length ?
-                        horizontals.map(({
-                            distance,
-                            from,
-                            to,
-                        }, i) => (
-                                <div
-                                    id="add-horizontals"
-                                    className="input-group"
-                                    key={i}
-                                >
-                                    <Input
-                                        label="Measure from"
-                                        disabled={true}
-                                        select={{
-                                            value: {
-                                                value: from,
-                                                label: from,
-                                            },
-                                            options: measureFromOptions,
-                                            onChange: ({ value }) => updateElevation({
-                                                horizontals: horizontals.replace(i, {
-                                                    distance,
-                                                    from: value,
-                                                    to,
-                                                }),
-                                            }),
-                                        }}
-                                    />
-                                    <Input
-                                        label="Measure to"
-                                        disabled={true}
-                                        select={{
-                                            value: {
-                                                value: to,
-                                                label: to,
-                                            },
-                                            options: measureToOptions,
-                                            onChange: ({ value }) => updateElevation({
-                                                horizontals: horizontals.replace(i, {
-                                                    distance,
-                                                    from,
-                                                    to: value,
-                                                }),
-                                            }),
-                                        }}
-                                    />
-                                    <Input
-                                        label="Distance"
-                                        type="inches"
-                                        min={0}
-                                        initialValue={distance}
-                                        onChange={distance => updateElevation({
-                                            horizontals: horizontals.replace(i, {
-                                                distance,
-                                                from,
-                                                to,
-                                            }),
-                                        })}
-                                    />
-                                    <CircleButton
-                                        actionType="delete"
-                                        className="danger"
-                                        onClick={() => updateElevation({
-                                            horizontals: horizontals.filter((_, j) => j !== i),
-                                        })}
-                                    >
-                                        Delete
-                                    </CircleButton>
-                                </div>
-                            )) : (
-                            <div>
-                                No Horizontals
-                            </div>
-                        )}
-                </GroupingBox>
+                <AddHorizontals
+                    horizontals={horizontals}
+                    measureFromOptions={measureFromOptions}
+                    measureToOptions={measureToOptions}
+                    updateElevation={updateElevation}
+                    recursiveElevation={recursiveElevation}
+                />
                 {/* <ElevationPreview
                     elevation={recursiveElevation}
                 /> */}
