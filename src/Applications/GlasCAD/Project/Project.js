@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 import {
     ApolloWrapper,
     Navigator,
@@ -59,10 +61,18 @@ Project.navigationOptions = ({
 });
 
 export default function Project({
+    match: {
+        path,
+    },
     location: {
         search,
     },
 }) {
+    if (!parseSearch(search).projectId) return (
+        <Redirect
+            to={path.replace(/project.*/, 'main-menu')}
+        />
+    )
     // console.log(arguments[0]);
     return (
         <ApolloWrapper
