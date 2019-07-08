@@ -245,6 +245,7 @@ export default memo(function CreateElevation({
     return (
         <>
             <TitleBar
+                data-cy="new-elevation"
                 title="New Elevation"
                 selections={[name]}
                 right={(
@@ -276,6 +277,7 @@ export default memo(function CreateElevation({
                 className="card"
             >
                 <Input
+                    data-cy="elevation-id"
                     label="Elevation ID"
                     autoFocus={true}
                     value={name}
@@ -305,6 +307,7 @@ export default memo(function CreateElevation({
                 >
                     <div className="input-group">
                         <Input
+                            data-cy="rough-opening-width"
                             label="Width"
                             type="inches"
                             min={0}
@@ -322,6 +325,7 @@ export default memo(function CreateElevation({
                     </div>
                     <div className="input-group">
                         <Input
+                            data-cy="rough-opening-height"
                             label="Height"
                             type="inches"
                             min={0}
@@ -339,6 +343,7 @@ export default memo(function CreateElevation({
                     </div>
                 </GroupingBox>
                 <Input
+                    data-cy="starting-bay"
                     label="Starting bay quantity"
                     type="number"
                     min={1}
@@ -349,6 +354,7 @@ export default memo(function CreateElevation({
                     })}
                 />
                 <Input
+                    data-cy="curb-height"
                     label="Curb Height"
                     type="inches"
                     min={0}
@@ -432,6 +438,7 @@ export default memo(function CreateElevation({
                                         }}
                                     />
                                     <Input
+                                        data-cy="horizontal-distance"
                                         label="Distance"
                                         type="inches"
                                         min={0}
@@ -445,6 +452,7 @@ export default memo(function CreateElevation({
                                         })}
                                     />
                                     <CircleButton
+                                        data-cy="horizontal-delete"
                                         actionType="delete"
                                         className="danger"
                                         onClick={() => updateElevation({
@@ -472,6 +480,7 @@ export default memo(function CreateElevation({
                 </GroupingBox>
                 <div className="bottom-buttons">
                     <ConfirmButton
+                        data-cy="cancel-button"
                         modalProps={cancelModalProps}
                         onClick={() => history.push(`${
                             path.replace(/\/elevation\/create-elevation/, '')
@@ -484,6 +493,7 @@ export default memo(function CreateElevation({
                     </ConfirmButton>
                     <div className="buttons-right">
                         <AsyncButton
+                            data-cy="save-as-default-button"
                             className={`action ${doNotConfirm ?
                                 'disabled'
                                 :
@@ -496,6 +506,7 @@ export default memo(function CreateElevation({
                             Save As Default
                         </AsyncButton>
                         <AsyncButton
+                            data-cy="create-button"
                             className={`action ${name ? '' : 'disabled'}`}
                             onClick={save}
                             loading={creating}
