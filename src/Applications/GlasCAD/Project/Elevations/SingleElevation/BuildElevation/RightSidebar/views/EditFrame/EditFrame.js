@@ -67,6 +67,7 @@ class EditFrame extends PureComponent {
                     <div className="sidebar-group">
                         {canExtendLast ? (
                             <button
+                                data-cy="extend-up-right"
                                 className="sidebar-button empty"
                                 onClick={() => extendFrames(false)}
                             >
@@ -89,6 +90,7 @@ class EditFrame extends PureComponent {
                         ) : null}
                         {canExtendFirst ? (
                             <button
+                                data-cy="extend-down-left"
                                 className="sidebar-button empty"
                                 onClick={() => extendFrames(true)}
                             >
