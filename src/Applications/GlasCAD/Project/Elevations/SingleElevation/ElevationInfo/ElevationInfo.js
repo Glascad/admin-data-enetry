@@ -31,6 +31,10 @@ export default function EditElevation({
     },
     location: {
         search,
+        state: {
+            previousPath = '/glascad/project/elevation/elevations/elevation-search',
+            previousSearch = arguments[0].location.search,
+        } = {},
     },
     queryStatus: {
         _elevation,
@@ -79,7 +83,7 @@ export default function EditElevation({
             });
         }
 
-        history.push(`${path.replace(/edit/, 'build')}${search}`);
+        history.push(`${path.replace(/elevation-info/, 'build-elevation')}${search}`);
     }
 
     console.log("this is the EDIT elevation page");
@@ -106,10 +110,10 @@ export default function EditElevation({
 
     const CHANGE_ELEVATION = (
         <ConfirmButton
-            data-cy="change-elevation"
+            data-cy="cancel"
             modalProps={{
                 titleBar: {
-                    title: "Change Elevation",
+                    title: "Cancel",
                 },
                 children: "Are you sure you want to cancel your changes and leave this page?",
                 cancel: {
@@ -121,22 +125,24 @@ export default function EditElevation({
                 },
             }}
             onClick={() => history.push(`${
-                path.replace(/elevation\/elevation-info/, 'elevation-search')
+                previousPath
+                // path.replace(/elevation\/elevation-info/, 'elevation-search')
                 }${
-                parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
+                previousSearch
+                // parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
                 }`)}
             doNotConfirmWhen={doNotConfirm}
         >
-            Change Elevation
+            Cancel
         </ConfirmButton>
     );
 
     const BUILD = (
         <AsyncButton
             data-cy="save"
-            className="action"
+            className={`action ${doNotConfirm ? 'disabled' : ''}`}
             loading={updating}
-            text={`${doNotConfirm ? "" : "Save and "}Build`}
+            text="Build"
             loadingText="Saving"
             onClick={save}
         />
@@ -145,7 +151,7 @@ export default function EditElevation({
     return (
         <>
             <TitleBar
-                title="Edit Elevation"
+                title="Elevation Info"
                 right={(
                     <>
                         {CHANGE_ELEVATION}
