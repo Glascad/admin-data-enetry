@@ -312,9 +312,10 @@ export default memo(function CreateElevation({
                             data-cy="rough-opening-width"
                             label="Width"
                             type="inches"
-                            min={0}
+                            min={10}
                             initialValue={initialHorizontalRoughOpening}
-                            onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
+                            onChange={horizontalRoughOpening => updateElevation({ 
+                                horizontalRoughOpening:  Math.max(+horizontalRoughOpening, 10) })}
                             onBlur={setInitialHorizontalRoughOpening}
                         />
                         <Input
@@ -330,9 +331,10 @@ export default memo(function CreateElevation({
                             data-cy="rough-opening-height"
                             label="Height"
                             type="inches"
-                            min={0}
+                            min={10}
                             initialValue={initialVerticalRoughOpening}
-                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
+                            onChange={verticalRoughOpening => updateElevation({ 
+                                verticalRoughOpening: Math.max(+verticalRoughOpening, 10) })}
                             onBlur={setInitialVerticalRoughOpening}
                         />
                         <Input

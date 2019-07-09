@@ -27,7 +27,7 @@ class DetailBubble extends PureComponent {
             props,
         });
 
-        if (containerIsSelected) cancelSelection(() => selectItem(_frame));
+        if (containerIsSelected) cancelSelection(() => selectItem(detail));
         else selectItem(detail);
     }
 
