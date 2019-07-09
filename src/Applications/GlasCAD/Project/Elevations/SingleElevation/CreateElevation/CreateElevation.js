@@ -352,7 +352,7 @@ export default memo(function CreateElevation({
                     max={100}
                     value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
-                        startingBayQuantity: Math.min(+value, 100),
+                        startingBayQuantity: Math.round(Math.min(+value, 100)),
                     })}
                 />
                 <Input
