@@ -219,7 +219,7 @@ class TransformProvider extends PureComponent {
 
     startPanning = (e, captured) => {
 
-        console.log("PANNING");
+        // console.log("PANNING");
 
         if (!captured) e.preventDefault();
 

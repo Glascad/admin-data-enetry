@@ -131,7 +131,7 @@ class InteractiveElevation extends PureComponent {
             },
         } = this;
 
-        console.log(this.props.elevation);
+        // console.log(this.props.elevation); 
 
         const {
             elevationId,

@@ -58,6 +58,7 @@ function Horizontal({
                 }}
             />
             <Input
+                autoSelect="true"
                 label="Distance"
                 type="inches"
                 min={0}
