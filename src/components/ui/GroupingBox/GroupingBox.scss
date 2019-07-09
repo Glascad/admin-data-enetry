@@ -7,6 +7,7 @@
     border-radius: $x-small;
     padding-bottom: $xx-large !important;
     width: fit-content;
+    min-width: $pill-width;
     
     // button {
     //     &:not(.danger) {

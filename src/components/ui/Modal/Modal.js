@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect, memo } from 'react';
+import ReactDOM from 'react-dom';
 // import PropTypes from 'prop-types';
 import './Modal.scss';
 
@@ -6,7 +7,26 @@ import TitleBar from '../TitleBar/TitleBar';
 
 import AsyncButton from '../AsyncButton/AsyncButton';
 
-export default class Modal extends PureComponent {
+const Modal = memo(function ({
+    className,
+    titleBar,
+    children,
+    display,
+    onReset,
+    onUpdate,
+    reset,
+    onCancel,
+    cancel = {},
+    cancelButtonText,
+    onFinish,
+    finish = {},
+    finishing = false,
+    finishButtonText,
+    finishingText,
+    danger,
+}) {
+
+    const props = arguments[0];
 
     // static propTypes = {
     //     title: PropTypes.any.isRequired,
@@ -20,105 +40,113 @@ export default class Modal extends PureComponent {
     //     finish: PropTypes.object,
     // };
 
-    componentDidMount = () => window.addEventListener('keydown', this.cancelOnEsc);
+    const cancelOnEsc = ({ key }) => key === 'Escape' && onCancel(props);
 
-    componentWillUnmount = () => window.removeEventListener('keydown', this.cancelOnEsc);
+    const stopPropagation = e => e.stopPropagation();
 
-    componentDidUpdate = ({ display }) => display !== this.props.display
-        &&
-        this.props.onUpdate
-        &&
-        this.props.onUpdate(this.props);
+    const handleResetClick = () => onReset && onReset(props);
 
-    cancelOnEsc = ({ key }) => key === 'Escape' && this.props.onCancel();
+    const handleCancelClick = () => onCancel && onCancel(props)
 
-    stopPropagation = e => e.stopPropagation();
+    const handleFinishClick = () => onFinish && onFinish(props);
 
-    handleResetClick = e => {
-        if (this.props.onReset)
-            this.props.onReset(this.props);
-    }
+    useEffect(() => {
+        window.addEventListener('keydown', cancelOnEsc);
+        return () => window.removeEventListener('keydown', cancelOnEsc);
+    }, [])
 
-    handleCancelClick = e => {
-        if (this.props.onCancel)
-            this.props.onCancel(this.props)
-    }
+    useEffect(() => {
+        if (onUpdate) onUpdate(props);
+    }, [display]);
 
-    handleFinishClick = e => {
-        if (this.props.onFinish)
-            this.props.onFinish(this.props);
-    }
+    if (!display) return null;
 
-    render = () => {
-        const {
-            props: {
-                className,
-                titleBar,
-                children,
-                display,
-                onReset,
-                reset,
-                onCancel,
-                cancel,
-                onFinish,
-                finish = {},
-                finishing = false,
-                finishButtonText,
-                finishingText,
-                danger,
-            },
-            stopPropagation,
-            handleResetClick,
-            handleCancelClick,
-            handleFinishClick,
-        } = this;
+    console.log(arguments[0]);
 
-        return display ? (
+    return (
+        <div
+            className={`modal-background ${display ? '' : 'hidden'}`}
+            onClick={onCancel}
+        >
             <div
-                className={`modal-background ${display ? '' : 'hidden'}`}
-                onClick={onCancel}
+                className={`Modal ${className}`}
+                onClick={stopPropagation}
             >
-                <div
-                    className={`Modal ${className}`}
-                    onClick={stopPropagation}
-                >
-                    <TitleBar
-                        {...titleBar}
-                    />
+                <TitleBar
+                    {...titleBar}
+                />
+                <div className="content">
                     {children}
-                    <div className="modal-buttons">
-                        <span>
-                            {onReset ? (
-                                <button
-                                    children="reset"
-                                    {...reset}
-                                    onClick={handleResetClick}
-                                />
-                            ) : null}
-                        </span>
-                        <span>
-                            {onCancel ? (
-                                <button
-                                    children="Cancel"
-                                    className="empty"
-                                    {...cancel}
-                                    onClick={handleCancelClick}
-                                />
-                            ) : null}
-                            {onFinish ? (
-                                <AsyncButton
-                                    className={danger ? "danger" : "action"}
-                                    {...finish}
-                                    children={finishButtonText || finish.children || "Finish"}
-                                    loading={finishing}
-                                    loadingText={finishingText || "Finishing"}
-                                    onClick={handleFinishClick}
-                                />
-                            ) : null}
-                        </span>
-                    </div>
+                </div>
+                <div className="modal-buttons">
+                    <span>
+                        {onReset ? (
+                            <button
+                                children="reset"
+                                {...reset}
+                                onClick={handleResetClick}
+                            />
+                        ) : null}
+                    </span>
+                    <span>
+                        {onCancel ? (
+                            <button
+                                className="empty"
+                                {...cancel}
+                                children={cancelButtonText || cancel.children || "Cancel"}
+                                onClick={handleCancelClick}
+                            />
+                        ) : null}
+                        {onFinish ? (
+                            <AsyncButton
+                                className={danger ? "danger" : "action"}
+                                {...finish}
+                                children={finishButtonText || finish.children || finish.text || "Finish"}
+                                loading={finishing}
+                                loadingText={finishingText || finishButtonText || finish.children || finish.text || "Finishing"}
+                                onClick={handleFinishClick}
+                            />
+                        ) : null}
+                    </span>
                 </div>
             </div>
-        ) : null;
+        </div>
+    );
+});
+
+
+/**
+ * This avoids the issue of having Modals nested arbitrarily within the component tree.
+ * Now a Modal can be used anywhere within the tree, but it will actually be rendered next to the root element in the document.body
+ */
+
+const getModalId = (() => {
+    var id = 1;
+    return () => id++;
+})();
+
+export default class AbstractModal extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.element = document.createElement("div");
+        this.element.setAttribute("id", `Modal-${getModalId()}`);
+        document.body.appendChild(this.element);
     }
+    componentWillUnmount = () => {
+        document.body.removeChild(this.element);
+    }
+    componentDidUpdate = oldProps => {
+        if (oldProps !== this.props) {
+            const oldEntries = Object.entries(oldProps);
+            const newEntries = Object.entries(this.props);
+            if (
+                (oldEntries.length !== newEntries.length)
+                ||
+                newEntries.some(([key, value]) => oldProps[key] !== value)
+            ) {
+                ReactDOM.render(<Modal {...this.props} />, this.element);
+            }
+        }
+    }
+    render = () => null;
 }

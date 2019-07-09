@@ -59,27 +59,44 @@ export default class Pill extends PureComponent {
     };
 
     ref = createRef();
+    inputRef = createRef();
 
     componentDidMount = () => {
         window.addEventListener('keydown', this.blurOnEsc);
-        this.componentDidUpdate();
+        this.componentDidUpdate({});
+        setTimeout(() => {
+            this.ref.current.style.opacity = 1;
+        });
     }
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.blurOnEsc);
     }
 
-    componentDidUpdate = () => {
-        const { ref } = this;
+    componentDidUpdate = ({ editing: oldEditing }) => {
+        const {
+            props: {
+                editing: newEditing,
+            },
+            inputRef,
+        } = this;
+
+        if (newEditing !== oldEditing) {
+            this.setState({
+                editing: newEditing,
+                input: this.props.inputValue || this.props.title,
+            });
+        }
+
         if (
-            ref
+            inputRef
             &&
-            ref.current
+            inputRef.current
             &&
-            ref.current.style
+            inputRef.current.style
         ) {
-            ref.current.style.width = 0;
-            ref.current.style.width = `${ref.current.scrollWidth}px`;
+            inputRef.current.style.width = 0;
+            inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
         }
     }
 
@@ -183,6 +200,7 @@ export default class Pill extends PureComponent {
             saveEditOnEnter,
             handleDeleteClick,
             handleBlur,
+            inputRef,
             ref,
         } = this;
 
@@ -204,6 +222,7 @@ export default class Pill extends PureComponent {
 
         return (
             <tag.name
+                ref={ref}
                 className={`Pill ${
                     className
                     } ${
@@ -239,7 +258,7 @@ export default class Pill extends PureComponent {
                             </select>
                         ) : (
                                 <input
-                                    ref={ref}
+                                    ref={inputRef}
                                     type={inputType}
                                     className="title"
                                     onChange={handleInput}

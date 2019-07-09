@@ -8,10 +8,10 @@ import {
 } from '../../../../../components';
 
 import CreateElevation from './CreateElevation/CreateElevation';
-import EditElevation from './EditElevation/EditElevation';
+import ElevationInfo from './ElevationInfo/ElevationInfo';
 import BuildElevation from './BuildElevation/BuildElevation';
 
-import query from './utils/elevation-graphql/query';
+import query, { bugReportQuery } from './utils/elevation-graphql/query';
 import updateElevationMutation from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
@@ -20,7 +20,7 @@ import * as SAMPLE_ELEVATIONS from './__test__/sample-elevations';
 
 const subroutes = {
     CreateElevation,
-    EditElevation,
+    ElevationInfo,
     BuildElevation,
 };
 
@@ -38,28 +38,43 @@ export default function SingleElevation({
         search,
     },
     queryStatus: {
+        _project: project,
         _project: {
             defaultElevation,
         } = {},
     },
 }) {
 
-    const { elevationId, sampleElevation } = parseSearch(search);
+    const { elevationId, sampleElevation, bugId } = parseSearch(search);
 
-    const variables = { id: +elevationId };
+    const variables = { id: +elevationId || -1 };
 
     // console.log({ variables });
 
-    const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables }, true);
+    const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
 
-    console.log({ queryStatus });
+    const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
 
-    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, fetchQuery);
+    const fetching = fetchElevation || fetchingBugs;
+
+    const queryStatus = {
+        ...elevationStatus,
+        ...bugStatus,
+    };
+
+    const refetch = () => {
+        fetchElevation({ variables });
+        fetchBugs();
+    }
+
+    // console.log({ queryStatus });
+
+    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, refetch);
 
     useEffect(() => {
         if (elevationId) {
             // console.log({ variables });
-            fetchQuery();
+            refetch();
         }
     }, [elevationId]);
 
@@ -73,13 +88,18 @@ export default function SingleElevation({
             },
             updating: false,
             defaultElevation,
+            project,
         } : {
             fetching,
+            refetch,
             queryStatus,
             updateEntireElevation,
             updating,
             defaultElevation,
+            project,
         };
+
+    // console.log(routeProps);
 
     return (
         <Navigator

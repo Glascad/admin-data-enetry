@@ -1,5 +1,27 @@
 @import "../../../styles/variables";
 
+@mixin circle-button($color) {
+    .circle-button {
+        background: $color;
+        border-color: $color;
+    }
+
+    &:hover {
+        .circle-button{
+            background: none;
+        }
+
+        .block-one,
+        .block-two {
+            background: $color;
+        }
+    }
+
+    .button-text {
+        color: $color;
+    }
+}
+
 .CircleButton {
     position: relative;
     display: flex;
@@ -22,49 +44,24 @@
         .block-one,
         .block-two {
             position: absolute;
+            background: $off-white;
         }
+
+        &:hover {
+            background: $off-white;
+        }
+    }
+
+    &.primary {
+        @include circle-button($selected-color);
     }
 
     &.action {
-        .circle-button {
-            background: $action-color;
-            border-color: $action-color;
-
-            .block-one,
-            .block-two {
-                background: $off-white;
-            }
-
-            &:hover {
-                background: $off-white;
-
-                .block-one,
-                .block-two {
-                    background: $action-color;
-                }
-            }
-        }
+        @include circle-button($action-color);
     }
 
     &.danger {
-        .circle-button {
-            background: $danger-color;
-            border-color: $danger-color;
-
-            .block-one,
-            .block-two {
-                background: $off-white;
-            }
-
-            &:hover {
-                background: $off-white;
-
-                .block-one,
-                .block-two {
-                    background: $danger-color;
-                }
-            }
-        }
+        @include circle-button($danger-color);
     }
 
     &.action-type-add {
@@ -117,12 +114,38 @@
 
         .circle-button {
             transform: scale(3.33);
+
+            // .button-text {
+            //     .text {
+            //         transform: scale(0.3);
+            //     }
+            // }
         }
     }
 
     &:hover {
         .ButtonTile {
             opacity: 1;
+        }
+    }
+
+    .button-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: $large;
+        font-weight: bold;
+        text-align: center;
+        line-height: 125%;
+        // color: $off-white;
+        position: absolute;
+        background: $off-white;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+
+        button {
+            margin-top: $large;
         }
     }
 

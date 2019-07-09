@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 import {
     TitleBar,
     Input,
     Ellipsis,
     AsyncButton,
-    useMountTracker,
+    ConfirmButton,
 } from '../../../../../../../components';
 
 import {
@@ -16,6 +16,7 @@ import {
 
 import { SelectionContext } from '../contexts/SelectionContext';
 import { parseSearch } from '../../../../../../../utils';
+import { defaultElevationInput } from '../BuildElevation';
 
 const VISIBILITY_SETTINGS = "VISIBILITY_SETTINGS";
 
@@ -27,30 +28,74 @@ export default function Header({
     save,
     history,
     updating,
+    elevationInput,
 }) {
     const [saving, setSaving] = useState(false);
     const [savingAndExiting, setSavingAndExiting] = useState(false);
 
-    const mountTracker = useMountTracker();
+    const leaveModalProps = {
+        titleBar: {
+            title: "Change Elevation",
+        },
+        children: (
+            <>
+                <div>
+                    You have unsaved changes.
+                </div>
+                <div>
+                    Are you sure you want to cancel your changes and leave this page?
+                </div>
+            </>
+        ),
+        cancel: {
+            text: "Stay"
+        },
+        finish: {
+            className: "danger",
+            text: "Leave",
+        },
+    };
+
+    const cancelModalProps = {
+        titleBar: {
+            title: "Cancel Changes",
+        },
+        children: "Are you sure you want to discard your changes?",
+        cancel: {
+            text: "Cancel",
+        },
+        finish: {
+            className: "danger",
+            text: "Discard"
+        },
+    };
+
+    const doNotConfirm = _.isEqual(elevationInput, defaultElevationInput);
 
     return (
         <TitleBar
+            id="Header"
             title="Elevation"
             selections={[name || <Ellipsis />]}
             className="blue-border"
             left={(
                 <>
-                    <Link
-                        to={`${
-                            path.replace(/build/, 'edit')
-                            }${
-                            search
-                            }`}
-                    >
-                        <button>
+                    {parseSearch(search).sampleElevation ? null : (
+                        <ConfirmButton
+                            modalProps={leaveModalProps}
+                            onClick={() => history.push(`${
+                                path.replace(/build-elevation/, 'elevation-info')
+                                }${
+                                search
+                                }`, {
+                                    previousPath: path,
+                                    previousSearch: search,
+                                })}
+                            doNotConfirmWhen={doNotConfirm}
+                        >
                             Elevation Info
-                        </button>
-                    </Link>
+                        </ConfirmButton>
+                    )}
                     <SelectionContext.Consumer>
                         {({
                             items: [
@@ -75,22 +120,24 @@ export default function Header({
             )}
             right={(
                 <>
-                    <Link
-                        to={`${
+                    <ConfirmButton
+                        modalProps={leaveModalProps}
+                        onClick={() => history.push(`${
                             path.replace(/elevation\/build-elevation/, 'elevation-search')
                             }${
-                            parseSearch(search).remove('sampleElevation')
-                            }`}
+                            parseSearch(search).remove('sampleElevation', 'elevationId', 'bugId')
+                            }`)}
+                        doNotConfirmWhen={doNotConfirm}
                     >
-                        <button>
-                            Close
-                        </button>
-                    </Link>
-                    <button
+                        Close
+                    </ConfirmButton>
+                    <ConfirmButton
+                        modalProps={cancelModalProps}
                         onClick={cancel}
+                        doNotConfirmWhen={doNotConfirm}
                     >
-                        Cancel Changes
-                    </button>
+                        Discard Changes
+                    </ConfirmButton>
                     <AsyncButton
                         onClick={async () => {
                             setSavingAndExiting(true);
@@ -98,7 +145,7 @@ export default function Header({
                             history.push(`${
                                 path.replace(/elevation\/build-elevation/, 'elevation-search')
                                 }${
-                                parseSearch(search).remove('sampleElevation')
+                                parseSearch(search).remove('sampleElevation', 'elevationId', 'bugId')
                                 }`);
                             setSavingAndExiting(false);
                         }}

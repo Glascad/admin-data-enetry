@@ -91,6 +91,11 @@ export default function useUndoRedo(firstState, dependencies = []) {
         currentIndex: 0,
     }), ...args), [dispatch]);
 
+    const loadStates = useCallback((states, ...args) => dispatch(() => ({
+        states,
+        currentIndex: states.length - 1,
+    }), ...args), [dispatch]);
+
     const onKeyDown = useCallback(e => {
         const { key = '', ctrlKey, metaKey, shiftKey } = e;
         if ((ctrlKey || metaKey) && key.match(/^z$/i)) {
@@ -122,6 +127,7 @@ export default function useUndoRedo(firstState, dependencies = []) {
         pushState,
         replaceState,
         resetState,
+        loadStates,
     };
 }
 

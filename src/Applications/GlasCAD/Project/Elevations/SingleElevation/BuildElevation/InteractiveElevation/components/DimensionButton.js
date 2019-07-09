@@ -14,17 +14,7 @@ class DimensionButton extends PureComponent {
 
     mostRecentClick = 0;
 
-    handleClick = ({
-        button,
-        buttons,
-        detail,
-        nativeEvent,
-        target,
-        relatedTarget,
-        type,
-        view,
-        timestamp,
-    }) => {
+    handleClick = () => {
         const {
             props: {
                 selected,
@@ -95,8 +85,6 @@ class DimensionButton extends PureComponent {
 
     handleFocus = ({ target }) => setTimeout(() => target.select());
 
-    handleChange = newDimension => this.setState({ newDimension });
-
     handleKeyDown = e => {
         const {
             key,
@@ -114,22 +102,7 @@ class DimensionButton extends PureComponent {
         }
     }
 
-    handleBlur = () => {
-        const {
-            state: {
-                newDimension: {
-                    value: newDimension,
-                },
-            },
-            props: {
-                ACTIONS: {
-                    updateDimension,
-                },
-            },
-        } = this;
-
-        updateDimension({ newDimension });
-    }
+    handleBlur = ({ value: newDimension }) => console.log({ newDimension }) || this.props.ACTIONS.updateDimension({ newDimension });
 
     get styleKeys() {
         return this.props.dimension.vertical ?
@@ -316,7 +289,6 @@ class DimensionButton extends PureComponent {
                         type="inches"
                         initialValue={newDimension}
                         onFocus={handleFocus}
-                        onChange={handleChange}
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
                         autoFocus={true}

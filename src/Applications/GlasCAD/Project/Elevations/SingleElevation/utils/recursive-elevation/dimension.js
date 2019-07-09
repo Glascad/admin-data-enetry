@@ -1,5 +1,6 @@
 import RecursiveContainer from "./container";
 import RecursiveElevation from "./elevation";
+import { Loggable } from "../../../../../../../utils";
 
 const getValuesFromItem = item => {
     if (item instanceof RecursiveContainer) {
@@ -11,11 +12,12 @@ const getValuesFromItem = item => {
                 height,
                 width,
             },
+            customRoughOpening
         } = item;
         return {
             refIds: [refId],
             containers: [item],
-            isRoughOpening: false,
+            isRoughOpening: customRoughOpening,
             x,
             y,
             height,
@@ -41,11 +43,13 @@ const getValuesFromItem = item => {
     }
 }
 
-export default class RecursiveDimension {
+export default class RecursiveDimension extends Loggable {
 
     static instanceCount = 0;
 
     constructor(item, elevation, vertical) {
+
+        super();
 
         const {
             refIds,
@@ -104,22 +108,26 @@ export default class RecursiveDimension {
             height,
             width,
         },
+        customRoughOpening,
     }) => {
         const {
             vertical,
             dimension,
             offset,
+            isRoughOpening,
         } = this;
 
-        return vertical ? (
-            y === offset
-            &&
-            height === dimension
-        ) : (
-                x === offset
+        return (!!customRoughOpening === !!isRoughOpening) && (
+            vertical ? (
+                y === offset
                 &&
-                width === dimension
-            );
+                height === dimension
+            ) : (
+                    x === offset
+                    &&
+                    width === dimension
+                )
+        );
     }
 
     addContainer = container => {

@@ -52,10 +52,10 @@ class Search {
         ...searchObject,
     });
 
-    remove = key => new Search({
-        ...this.parsedSearch,
+    remove = (...keys) => keys.reduce((search, key) => new Search({
+        ...search,
         [key]: undefined,
-    });
+    }), this.parsedSearch);
 
     toString = () => this.search;
 }

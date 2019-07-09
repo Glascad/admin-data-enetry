@@ -10,12 +10,8 @@ import { defaultElevationInput } from '../elevation-input';
 const testGeneration = ({ description, elevationInput }) => {
 
     const {
-        verticalRoughOpening: {
-            value: verticalRoughOpening,
-        },
-        horizontalRoughOpening: {
-            value: horizontalRoughOpening,
-        },
+        verticalRoughOpening,
+        horizontalRoughOpening,
         startingBayQuantity: bayCount,
         horizontals: {
             length: horizontalCount,
@@ -60,11 +56,11 @@ testGeneration({
 testGeneration({
     description: "Sample Input 1",
     elevationInput: {
-        verticalRoughOpening: new ImperialValue(300),
-        horizontalRoughOpening: new ImperialValue(500),
+        verticalRoughOpening: 300,
+        horizontalRoughOpening: 500,
         startingBayQuantity: 3,
-        finishedFloorHeight: new ImperialValue(0),
-        sightline: new ImperialValue(10),
+        finishedFloorHeight: 0,
+        sightline: 10,
         horizontals: [],
     },
 });

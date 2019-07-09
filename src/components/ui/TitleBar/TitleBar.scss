@@ -1,6 +1,4 @@
-
-@import '../../../styles/variables';
-
+@import "../../../styles/variables";
 
 .TitleBar {
     display: flex;
@@ -10,18 +8,19 @@
     min-height: $xxx-large;
     font-size: $x-large;
     margin-bottom: $small;
-    
+
     .title-bar-left {
         display: flex;
         align-items: center;
         white-space: nowrap;
         text-overflow: ellipsis;
     }
-    
-    .title-bar-right, .title-bar-left .left {
+
+    .title-bar-right,
+    .title-bar-left .left {
         display: flex;
         align-items: center;
-        
+
         > * {
             margin-left: $large;
         }
@@ -35,7 +34,8 @@
     }
 }
 
-.card {
+.card,
+.Modal {
     .TitleBar {
         height: auto;
         min-height: auto;
@@ -47,7 +47,7 @@
         color: $dark-gray;
         // color: $dark-blue;
         // color: $off-white;
-        
+
         .title-bar-left {
             position: relative;
             height: $item-height;
@@ -69,7 +69,7 @@
     &.floating {
         .TitleBar {
             margin-bottom: 0;
-            
+
             .title-bar-left {
                 background: none;
             }

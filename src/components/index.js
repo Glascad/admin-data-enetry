@@ -14,6 +14,7 @@ import Toggle from './ui/Toggle/Toggle';
 import Input from './ui/Input/Input';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
+import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
@@ -25,6 +26,7 @@ import withContext from './state/with-context';
 import transformProps from './state/transform-props';
 import useUndoRedo, { withUndoRedo } from './state/use-undo-redo';
 import useMountTracker from './state/use-mount-tracker';
+import useInitialState from './state/use-initial-state';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -57,6 +59,7 @@ export {
     Input,
     Ellipsis,
     AsyncButton,
+    ConfirmButton,
     // STATE
     asyncComponent,
     ApolloWrapper,
@@ -69,6 +72,7 @@ export {
     useUndoRedo,
     withUndoRedo,
     useMountTracker,
+    useInitialState,
     // NAVIGATION
     Navigator,
     TabNavigator,

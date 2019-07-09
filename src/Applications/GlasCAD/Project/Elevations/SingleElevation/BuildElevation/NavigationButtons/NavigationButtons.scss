@@ -1,0 +1,70 @@
+@import "../../../../../../../styles/variables";
+
+#viewport {
+    .navigation-button-wrapper {
+        position: absolute;
+        top: 50%;
+        width: 14vw;
+        height: 14vw;
+        max-width: unset;
+        min-width: unset;
+        max-height: unset;
+        min-height: unset;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .NavigationButton {
+            width: 90%;
+            height: 90%;
+            border-radius: 100%;
+            background: $light-gray;
+            display: flex;
+            justify-content: space-between;
+            padding: $xx-large;
+            transition: all 0.2s;
+
+            .arrow {
+                height: $item-height;
+                width: $item-height;
+                border: $xx-small solid $dark-gray;
+                transform: rotate(45deg);
+
+                &:first-of-type {
+                    border-left: none;
+                    border-bottom: none;
+
+                    + .arrow {
+                        border-top: none;
+                        border-right: none;
+                    }
+                }
+            }
+        }
+
+        &.left {
+            left: 0;
+            transform: translate(-50%, -50%);
+
+            .NavigationButton {
+                transform: translateX(-100%);
+            }
+        }
+
+        &.right {
+            right: 0;
+            transform: translate(50%, -50%);
+
+            .NavigationButton {
+                transform: translateX(100%);
+            }
+        }
+
+        &:hover {
+            .NavigationButton {
+                transform: none;
+            }
+        }
+    }
+}

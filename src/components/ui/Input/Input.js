@@ -31,38 +31,58 @@ export default class Input extends PureComponent {
         disabled: false,
     };
 
-    state = {
-        inchInput: '',
-        value: this.props.initialValue instanceof ImperialValue ?
-            this.props.initialValue
+    constructor(props) {
+        super(props);
+
+        const {
+            initialValue,
+            value,
+        } = props;
+
+        const convertedValue = initialValue instanceof ImperialValue ?
+            initialValue
             :
-            new ImperialValue(this.props.initialValue || this.props.value || 0),
-    };
+            new ImperialValue(initialValue || value || 0);
+
+        this.state = {
+            inchInput: `${convertedValue}`,
+            value: convertedValue,
+        };
+    }
 
     keys = {};
 
     ref = createRef();
 
-    componentDidUpdate = ({ initialValue }) => {
+    componentDidUpdate = ({ initialValue: oldValue }) => {
         const {
             props: {
                 label,
                 type,
-                initialValue: newValue,
+                initialValue,
             },
         } = this;
 
         if (
-            newValue
-            &&
-            !initialValue
+            (initialValue !== oldValue)
             &&
             (type === 'inches')
         ) {
-            if (newValue instanceof ImperialValue) {
+            const convertedValue = initialValue instanceof ImperialValue ?
+                initialValue
+                :
+                new ImperialValue(initialValue);
+
+            const oldConvertedValue = oldValue instanceof ImperialValue ?
+                oldValue
+                :
+                new ImperialValue(oldValue);
+
+            if (convertedValue.value !== oldConvertedValue.value) {
+                console.log("RECEIVED NEW INITIAL VALUE");
                 this.setState({
-                    inchInput: `${newValue}`,
-                    value: newValue,
+                    inchInput: `${convertedValue}`,
+                    value: convertedValue,
                 });
             }
         }
@@ -78,6 +98,7 @@ export default class Input extends PureComponent {
         const {
             props: {
                 onChange,
+                initialValue,
             },
         } = this;
 
@@ -85,13 +106,17 @@ export default class Input extends PureComponent {
 
         this.setState({ inchInput, value });
 
-        if (onChange) onChange(value);
+        if (onChange) {
+            if (initialValue instanceof ImperialValue) onChange(value);
+            else onChange(value.value);
+        }
     }
 
     handleInchblur = ({ target, target: { value: inchInput } }) => {
         const {
             props: {
                 onBlur,
+                initialValue,
             },
         } = this;
 
@@ -103,7 +128,10 @@ export default class Input extends PureComponent {
 
         this.ref.current.value = stringValue;
 
-        if (onBlur) onBlur(value);
+        if (onBlur) {
+            if (initialValue instanceof ImperialValue) onBlur(value);
+            else onBlur(value.value);
+        }
     }
 
     handleKeyDown = e => {
@@ -301,7 +329,7 @@ export default class Input extends PureComponent {
                                     "text"
                                     :
                                     type}
-                            value={onChange || isInches ? (
+                            value={onChange ? (
                                 (value === undefined || Number.isNaN(value))
                                 &&
                                 ["text", "number", "password"].includes(type)

@@ -139,13 +139,15 @@ class ActionProvider extends PureComponent {
                     ACTION,
                     payload,
                     () => {
-                        const reselect = () => {
-                            ACTION.getSelectedItems(payload)(this.props.elevation).forEach(item => {
-                                this.props.selection.selectItem(item);
-                            });
+                        if (ACTION.getSelectedItems) {
+                            const reselect = () => {
+                                ACTION.getSelectedItems(payload)(this.props.elevation, refId).forEach(item => {
+                                    this.props.selection.selectItem(item);
+                                });
+                            }
+                            if (prevRefIds.length) reselect();
+                            else this.props.selection.cancelSelection(reselect);
                         }
-                        if (prevRefIds.length) reselect();
-                        else this.props.selection.cancelSelection(reselect);
                         if (useTimeout) setTimeout(performNextAction);
                         else performNextAction();
                     },
@@ -169,6 +171,19 @@ class ActionProvider extends PureComponent {
         {
             useTimeout: true,
         },
+    );
+
+    alterRoughOpening = ({ distance, first }) => this.performBulkAction(
+        ACTIONS.ALTER_ROUGH_OPENING,
+        Object.keys(this.props.selection.itemsByRefId),
+        (refId, _, getItemByRefId) => ({
+            container: refId.match(/Container/i) ?
+                getItemByRefId(refId)
+                :
+                getItemByRefId(refId).getContainersByDirection(!first)[0],
+            distance,
+            first,
+        }),
     );
 
     mergeContainers = ({ container, direction }) => this.props.updateElevation(
@@ -236,7 +251,6 @@ class ActionProvider extends PureComponent {
         },
     );
 
-
     updateDimension = ({ newDimension: dimensionInput }) => {
         const {
             props: {
@@ -291,12 +305,23 @@ class ActionProvider extends PureComponent {
         }
     }
 
+    addBay = ({ first, distance }) => this.performBulkAction(
+        ACTIONS.ADD_BAY,
+        Object.keys(this.props.selection.itemsByRefId),
+        (refId, _, getItemByRefId) => ({
+            container: getItemByRefId(refId),
+            distance,
+            first,
+        }),
+    );
+
     render = () => {
         const {
             props: {
                 children,
             },
             deleteContainers,
+            alterRoughOpening,
             mergeContainers,
             addFrame,
             deleteFrames,
@@ -304,6 +329,7 @@ class ActionProvider extends PureComponent {
             extendFrames,
             addIntermediates,
             updateDimension,
+            addBay
         } = this;
 
         // console.log(this);
@@ -312,6 +338,7 @@ class ActionProvider extends PureComponent {
             <ActionContext.Provider
                 value={{
                     deleteContainers,
+                    alterRoughOpening,
                     addFrame,
                     mergeContainers,
                     deleteFrames,
@@ -319,6 +346,7 @@ class ActionProvider extends PureComponent {
                     extendFrames,
                     addIntermediates,
                     updateDimension,
+                    addBay,
                 }}
             >
                 {children}

@@ -1,90 +1,79 @@
-import React, { PureComponent } from 'react';
+import React, { memo, useState } from 'react';
 
 import {
     TitleBar,
     Input,
+    useInitialState,
 } from '../../../../../../../../../components';
 
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 import { withActionContext } from '../../../contexts/ActionContext';
 import { ImperialValue } from '../../../../../../../../../utils';
 
-class MoveFrame extends PureComponent {
+function MoveFrame({
+    selection: {
+        items,
+        items: [
+            {
+                vertical,
+            } = {},
+        ],
+    },
+    ACTIONS: {
+        moveFrames,
+    },
+}) {
 
-    state = {
-        distance: new ImperialValue(6),
-    };
+    const [initialDistance] = useInitialState(new ImperialValue(6), []);
+    const [distance, setDistance] = useState(initialDistance.value);
 
-    updateDistance = distance => this.setState({ distance });
+    const canMoveFalse = items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-distance));
+    const canMoveTrue = items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(+distance));
 
-    move = distance => this.props.ACTIONS.moveFrames({ distance });
+    console.log({
+        distance,
+        canMoveFalse,
+        canMoveTrue,
+    });
 
-    moveFalse = () => this.move(-this.state.distance.value);
-
-    moveTrue = () => this.move(+this.state.distance.value);
-
-    render = () => {
-        const {
-            state: {
-                distance,
-                distance: {
-                    value,
-                },
-            },
-            props: {
-                selection: {
-                    items,
-                    items: [
-                        {
-                            vertical,
-                        } = {},
-                    ],
-                },
-            },
-            moveTrue,
-            moveFalse,
-            updateDistance,
-        } = this;
-
-        return (
-            <>
-                <TitleBar
-                    title={`Move ${
-                        vertical ?
-                            'Vertical'
-                            :
-                            'Horizontal'
-                        }`}
-                />
-                <Input
-                    label="Distance"
-                    type="inches"
-                    autoFocus={true}
-                    initialValue={distance}
-                    onChange={updateDistance}
-                />
-                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-value)) ? (
-                    <button
-                        className="sidebar-button empty"
-                        onClick={moveFalse}
-                    >
-                        {vertical ? 'Right' : 'Up'}
-                    </button>
-                ) : null}
-                {items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(+value)) ? (
-                    <button
-                        className="sidebar-button empty"
-                        onClick={moveTrue}
-                    >
-                        {vertical ? 'Left' : 'Down'}
-                    </button>
-                ) : null}
-            </>
-        );
-    }
+    return (
+        <>
+            <TitleBar
+                title={`Move ${
+                    vertical ?
+                        'Vertical'
+                        :
+                        'Horizontal'
+                    }`}
+            />
+            <Input
+                label="Distance"
+                type="inches"
+                autoFocus={true}
+                initialValue={initialDistance}
+                onChange={({ value }) => setDistance(value)}
+            />
+            {canMoveFalse ? (
+                <button
+                    className="sidebar-button empty"
+                    onClick={() => moveFrames({ distance: -distance })}
+                >
+                    Move {vertical ? 'Right' : 'Up'}
+                </button>
+            ) : null}
+            {canMoveTrue ? (
+                <button
+                    className="sidebar-button empty"
+                    onClick={() => moveFrames({ distance })}
+                >
+                    Move {vertical ? 'Left' : 'Down'}
+                </button>
+            ) : null}
+        </>
+    );
 }
 
 export default {
     title: "Move Frame",
-    component: withSelectionContext(withActionContext(MoveFrame)),
+    component: withSelectionContext(withActionContext(memo(MoveFrame))),
 };

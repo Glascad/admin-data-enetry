@@ -1,15 +1,18 @@
 import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
+import { unique, Loggable } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
 const runsIntoEdgeKey = 'runs_into_edge<first>';
 const canDeleteKey = 'can_delete<first>';
 
-export default class RecursiveFrame {
+export default class RecursiveFrame extends Loggable {
 
     static instanceCount = 0;
 
     constructor(details, elevation, initialDetail) {
+
+        super();
 
         const [{ vertical }] = details;
 
@@ -87,8 +90,8 @@ export default class RecursiveFrame {
     }
 
     getContainersByDirection = first => this[containersKey][first] || (
-        this[containersKey][first] = this.details
-            .map(detail => detail.getContainerByDirection(first))
+        this[containersKey][first] = unique(this.details
+            .map(detail => detail.getContainerByDirection(first)))
         // .filter(Boolean)
     );
 
@@ -220,7 +223,7 @@ export default class RecursiveFrame {
 
     get firstEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(true); }
     get lastEndRunsIntoEdgeOfRoughOpening() { return this.getRunsIntoEdgeOfRoughOpening(false); }
-    
+
     getNeedsExtensionByDirection = first => {
         return !!(
             this.vertical
@@ -491,8 +494,8 @@ export default class RecursiveFrame {
             (container.placementY + container.daylightOpening.y) - this.placement.y - this.elevation.sightline
     };
 
-    get firstDistanceByExtend() { return this.firstOrLastDistanceByExtend(true) };
-    get lastDistanceByExtend() { return this.firstOrLastDistanceByExtend(false) };
+    get firstDistanceByExtend() { return this.firstOrLastDistanceByExtend(true); }
+    get lastDistanceByExtend() { return this.firstOrLastDistanceByExtend(false); }
 
     canExtendFirstOrLast = first => {
         const container = this.findExtendedContainer(true, first);
@@ -507,7 +510,9 @@ export default class RecursiveFrame {
         );
     };
 
-    get canExtendFirst() { return this.canExtendFirstOrLast(true) };
-    get canExtendLast() { return this.canExtendFirstOrLast(false) };
+    get canExtendFirst() { return this.canExtendFirstOrLast(true); }
+    get canExtendLast() { return this.canExtendFirstOrLast(false); }
 
+    //ADD-BAY    
+    get canAddBay() { return this.placement.height === this.elevation.roughOpening.y; }
 }

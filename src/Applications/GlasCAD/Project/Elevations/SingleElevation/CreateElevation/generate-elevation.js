@@ -1,30 +1,22 @@
 import { defaultElevationInput } from "./elevation-input";
 
 export default function generateElevation({
-    verticalRoughOpening: {
-        value: verticalRoughOpening,
-    } = defaultElevationInput.verticalRoughOpening,
-    horizontalRoughOpening: {
-        value: horizontalRoughOpening,
-    } = defaultElevationInput.horizontalRoughOpening,
+    verticalRoughOpening = defaultElevationInput.verticalRoughOpening,
+    horizontalRoughOpening = defaultElevationInput.horizontalRoughOpening,
     startingBayQuantity = defaultElevationInput.startingBayQuantity,
-    finishedFloorHeight: {
-        value: finishedFloorHeight,
-    } = defaultElevationInput.finishedFloorHeight,
-    sightline: {
-        value: sightline,
-    } = defaultElevationInput.sightline,
+    finishedFloorHeight = defaultElevationInput.finishedFloorHeight,
+    sightline = defaultElevationInput.sightline,
     horizontals = defaultElevationInput.horizontals,
 } = defaultElevationInput) {
 
     const bayWidth = (horizontalRoughOpening - sightline * (startingBayQuantity + 1)) / startingBayQuantity;
 
     const lastContainerHeight = horizontals
-        .reduce(((height, { distance: { value: distance } }) => height - sightline - distance),
+        .reduce(((height, { distance }) => height - sightline - distance),
             verticalRoughOpening - sightline * 2);
 
     const containerHeights = horizontals
-        .map(({ distance: { value: distance } }) => distance)
+        .map(({ distance }) => distance)
         .concat(lastContainerHeight);
 
     // find Number[Symbol.iterator] in public/index.html

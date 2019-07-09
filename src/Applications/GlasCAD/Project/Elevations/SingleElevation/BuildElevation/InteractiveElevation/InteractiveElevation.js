@@ -3,6 +3,8 @@ import React, {
     createRef,
 } from 'react';
 
+import { withRouter } from 'react-router-dom';
+
 import { StaticContext } from '../../../../../../Statics/Statics';
 import { TransformContext, pixelsPerInch } from '../contexts/TransformContext';
 
@@ -12,15 +14,21 @@ import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
 import SelectionLayer from './components/SelectionLayer';
-import { withContext } from '../../../../../../../components';
+import { withContext, Ellipsis } from '../../../../../../../components';
 import { SelectionContext } from '../contexts/SelectionContext';
 import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../utils/recursive-elevation/detail';
+import { parseSearch } from '../../../../../../../utils';
+import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
 
 class InteractiveElevation extends PureComponent {
 
     InteractiveElevation = createRef();
+
+    state = {
+        loadingTooLong: false,
+    };
 
     componentDidMount = () => {
         setTimeout(() => {
@@ -35,6 +43,9 @@ class InteractiveElevation extends PureComponent {
                 console.error(err);
             }
         });
+        setTimeout(() => {
+            this.setState({ loadingTooLong: true });
+        }, 2000);
         this.resizeViewport();
 
         window.addEventListener('resize', this.resizeViewport);
@@ -73,8 +84,19 @@ class InteractiveElevation extends PureComponent {
 
     render = () => {
         const {
+            state: {
+                loadingTooLong,
+            },
             props: {
+                location: {
+                    search,
+                },
+                refetch,
                 elevation: {
+                    rawElevation: {
+                        bugId: elevationBugId,
+                        id,
+                    } = {},
                     allContainers = [],
                     allFrames = [],
                     roughOpening: {
@@ -101,12 +123,21 @@ class InteractiveElevation extends PureComponent {
                     spaceKey,
                     watchMouseDown,
                 },
+                updating,
                 selectedClass,
                 selectItem,
                 framesSelectable,
                 updateElevation,
             },
         } = this;
+
+        console.log(this.props.elevation);
+
+        const {
+            elevationId,
+            bugId,
+            sampleElevation,
+        } = parseSearch(search);
 
         return (
             <div
@@ -118,123 +149,163 @@ class InteractiveElevation extends PureComponent {
                 ref={this.InteractiveElevation}
                 onMouseDown={watchMouseDown}
             >
-                <div
-                    id="elevation-display"
-                    className={`${
-                        selectedClass
-                        }-selected`}
-                    style={{
-                        height: roy * pixelsPerInch,
-                        width: rox * pixelsPerInch,
-                        transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
-                    }}
-                    onMouseDown={e => e.stopPropagation()}
-                >
-                    {/* ROUGH OPENING */}
+                {updating ? (
                     <div
-                        id="rough-opening"
-                        style={{
-                            height: roy * pixelsPerInch,
-                            width: rox * pixelsPerInch,
-                        }}
-                    />
-                    {/* FINISHED FLOOR */}
-                    <div
-                        id="FinishedFloor"
-                        style={{
-                            top: `calc(100% + ${finishedFloorHeight * pixelsPerInch}px)`,
-                        }}
-                    />
-                    {/* CONTAINERS */}
-                    {allContainers.map(container => (
-                        <Container
-                            key={container.refId}
-                            container={container}
-                            selectItem={selectItem}
+                        id="elevation-loading"
+                    >
+                        <Ellipsis
+                            text="Saving"
                         />
-                    ))}
-                    {/* FRAMES */}
-                    {allFrames.map(_frame => (
-                        <Frame
-                            key={_frame.refId}
-                            _frame={_frame}
-                            selectItem={selectItem}
-                            selectable={framesSelectable}
-                        />
-                    ))}
-                    {/* SELECTION */}
-                    <SelectionLayer />
-                    {/* VERTICAL DIMENSIONS */}
-                    <div id="left-dimension-track">
-                        {leftDimensionTracks.map((track, i) => (
-                            <div key={i}>
-                                {track.map(dimension => (
-                                    <DimensionButton
-                                        key={dimension.refId}
-                                        track={i}
-                                        first={true}
-                                        dimension={dimension}
-                                        updateElevation={updateElevation}
+                    </div>
+                ) : (
+                    id && (
+                        (
+                            id === +elevationId
+                        ) || (
+                            id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
+                        ) || (
+                            +bugId === +elevationBugId
+                        )
+                    )
+                ) ? (
+                            <div
+                                id="elevation-display"
+                                className={`${
+                                    selectedClass
+                                    }-selected`}
+                                style={{
+                                    height: roy * pixelsPerInch,
+                                    width: rox * pixelsPerInch,
+                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
+                                }}
+                                onMouseDown={e => e.stopPropagation()}
+                            >
+                                {/* ROUGH OPENING */}
+                                <div
+                                    id="rough-opening"
+                                    style={{
+                                        height: roy * pixelsPerInch,
+                                        width: rox * pixelsPerInch,
+                                    }}
+                                />
+                                {/* FINISHED FLOOR */}
+                                <div
+                                    id="FinishedFloor"
+                                    style={{
+                                        top: `calc(100% + ${finishedFloorHeight * pixelsPerInch}px)`,
+                                    }}
+                                />
+                                {/* CONTAINERS */}
+                                {allContainers.map(container => (
+                                    <Container
+                                        key={container.refId}
+                                        container={container}
+                                        selectItem={selectItem}
                                     />
                                 ))}
-                            </div>
-                        ))}
-                    </div>
-                    <div id="right-dimension-track">
-                        {rightDimensionTracks.map((track, i) => (
-                            <div key={i}>
-                                {track.map(dimension => (
-                                    <DimensionButton
-                                        key={dimension.refId}
-                                        first={false}
-                                        track={i}
-                                        dimension={dimension}
-                                        updateElevation={updateElevation}
+                                {/* FRAMES */}
+                                {allFrames.map(_frame => (
+                                    <Frame
+                                        key={_frame.refId}
+                                        _frame={_frame}
+                                        selectItem={selectItem}
+                                        selectable={framesSelectable}
                                     />
                                 ))}
+                                {/* SELECTION */}
+                                <SelectionLayer />
+                                {/* VERTICAL DIMENSIONS */}
+                                <div id="left-dimension-track">
+                                    {leftDimensionTracks.map((track, i) => (
+                                        <div key={i}>
+                                            {track.map(dimension => (
+                                                <DimensionButton
+                                                    key={dimension.refId}
+                                                    track={i}
+                                                    first={true}
+                                                    dimension={dimension}
+                                                    updateElevation={updateElevation}
+                                                />
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                                <div id="right-dimension-track">
+                                    {rightDimensionTracks.map((track, i) => (
+                                        <div key={i}>
+                                            {track.map(dimension => (
+                                                <DimensionButton
+                                                    key={dimension.refId}
+                                                    first={false}
+                                                    track={i}
+                                                    dimension={dimension}
+                                                    updateElevation={updateElevation}
+                                                />
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                                {/* HORIZONTAL DIMENSIONS */}
+                                <div id="top-dimension-track">
+                                    {topDimensionTracks.map((track, i) => (
+                                        <div key={i}>
+                                            {track.map(dimension => (
+                                                <DimensionButton
+                                                    key={dimension.refId}
+                                                    track={i}
+                                                    first={false}
+                                                    dimension={dimension}
+                                                    finishedFloorHeight={finishedFloorHeight}
+                                                    updateElevation={updateElevation}
+                                                />
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                                <div id="bottom-dimension-track">
+                                    {bottomDimensionTracks.map((track, i) => (
+                                        <div key={i}>
+                                            {track.map(dimension => (
+                                                <DimensionButton
+                                                    key={dimension.refId}
+                                                    track={i}
+                                                    first={true}
+                                                    dimension={dimension}
+                                                    finishedFloorHeight={finishedFloorHeight}
+                                                    updateElevation={updateElevation}
+                                                />
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        ))}
-                    </div>
-                    {/* HORIZONTAL DIMENSIONS */}
-                    <div id="top-dimension-track">
-                        {topDimensionTracks.map((track, i) => (
-                            <div key={i}>
-                                {track.map(dimension => (
-                                    <DimensionButton
-                                        key={dimension.refId}
-                                        track={i}
-                                        first={false}
-                                        dimension={dimension}
-                                        finishedFloorHeight={finishedFloorHeight}
-                                        updateElevation={updateElevation}
-                                    />
-                                ))}
+                        ) : (
+                            <div
+                                id="elevation-loading"
+                            >
+                                <Ellipsis
+                                    text="Loading"
+                                />
+                                {loadingTooLong ? (
+                                    <>
+                                        <p>
+                                            Taking too long?
+                                    </p>
+                                        <button
+                                            onClick={refetch}
+                                        >
+                                            Reload
+                                    </button>
+                                    </>
+                                ) : null}
                             </div>
-                        ))}
-                    </div>
-                    <div id="bottom-dimension-track">
-                        {bottomDimensionTracks.map((track, i) => (
-                            <div key={i}>
-                                {track.map(dimension => (
-                                    <DimensionButton
-                                        key={dimension.refId}
-                                        track={i}
-                                        first={true}
-                                        dimension={dimension}
-                                        finishedFloorHeight={finishedFloorHeight}
-                                        updateElevation={updateElevation}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                        )}
             </div>
         );
     }
 }
 
-export default (
+export default withRouter(
     withContext(
         StaticContext,
         ({ context }) => ({

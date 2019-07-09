@@ -9,10 +9,10 @@ export default function createDetail({
     vertical,
     firstContainer: {
         id: firstContainerId,
-    },
+    } = {},
     secondContainer: {
         id: secondContainerId,
-    },
+    } = {},
 }) {
 
     // CHECK DELETED DETAILS FOR A MATCHING DETAIL TO `STOP` DELETING

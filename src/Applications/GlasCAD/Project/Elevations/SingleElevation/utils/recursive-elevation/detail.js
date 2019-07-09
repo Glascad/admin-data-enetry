@@ -1,5 +1,5 @@
 
-import { unique } from '../../../../../../../utils';
+import { unique, Loggable } from '../../../../../../../utils';
 import { sortDetails } from './sort-details';
 import { GET_RELATIVE_DIRECTIONS } from './directions';
 
@@ -8,11 +8,12 @@ const detailsByContainerKey = 'details_by_container<first>';
 const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
 const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
-export default class RecursiveDetail {
+export default class RecursiveDetail extends Loggable {
 
     static instanceCount = 0;
 
     constructor(detail, elevation) {
+        super();
         Object.assign(
             this,
             detail,
@@ -223,7 +224,7 @@ export default class RecursiveDetail {
     }
 
     getDetailsWithSharedContainersByContainerDirection = first => {
-        // console.log(this.id, first);
+        // console.log(this.id);
         if (!this.exists) return [];
 
         if (!this[detailsWithSharedContainersKey][first]) {

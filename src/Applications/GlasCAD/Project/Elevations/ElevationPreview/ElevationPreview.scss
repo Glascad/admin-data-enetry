@@ -2,21 +2,32 @@
 
 .ElevationPreview {
     svg {
-        fill: none;
-        stroke: $dark-gray;
+        // stroke: $dark-gray;
         background-color: transparent;
         transform: scaleY(-1);
 
         rect {
-            stroke: $dark-gray;
+            // stroke: $dark-gray;
 
             &.frame {
                 fill: $dark-gray;
+
+                &.horizontal {
+                    fill: $medium-gray;
+                }
             }
 
             &.container {
-                fill: transparentize(mix($light-blue, white), 0.5);
+                fill: transparentize(mix($light-blue, white), 0.3);
+
+                &.custom-rough-opening {
+                    fill: transparentize($light-gray, 0.5);
+                }
             }
+        }
+
+        text {
+            font-size: $x-small;
         }
 
         path {
@@ -33,14 +44,23 @@
     .ElevationPreview {
         height: fill;
         width: fill;
-        overflow: hidden;
         padding: $large $x-small;
+        display: flex;
+        align-items: flex-end;
 
         svg {
-            height: fit-content;
+            height: auto;
+            // height: fit-content;
             width: fit-content;
             max-width: 100%;
             max-height: 100%;
+
+            display: flex;
+            align-items: flex-end;
+
+            // .container {
+            //     fill: $off-white;
+            // }
         }
     }
 

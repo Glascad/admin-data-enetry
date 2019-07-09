@@ -12,6 +12,9 @@ export const PROJECT_FIELDS = gql`
         id
         name
         defaultElevation
+        # elevationsByProjectId {
+        #     totalCount
+        # }
     }
 `;
 

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo, useState, useEffect } from 'react';
 
 import gql from 'graphql-tag';
 
@@ -17,6 +17,8 @@ import {
     useQuery,
     AsyncButton,
     useMutation,
+    ConfirmButton,
+    useInitialState,
 } from '../../../../../../components';
 
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -37,6 +39,8 @@ import {
     defaultHorizontal,
     defaultElevationInput,
 } from './elevation-input';
+
+import AddHorizontals from './AddHorizontals';
 
 const areEqual = (json, input) => {
     return _.isEqual({
@@ -70,6 +74,8 @@ const saveDefaultMutation = {
     `,
 };
 
+var PROTECTION = 100;
+
 export default memo(function CreateElevation({
     history,
     location: {
@@ -80,20 +86,32 @@ export default memo(function CreateElevation({
     },
     updateEntireElevation,
     updating: creating,
-    defaultElevation = JSON.stringify(defaultElevationInput),
+    defaultElevation = null,
 }) {
+
+    if (PROTECTION-- < 0) return null;
 
     const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
+    const initialElevationInput = JSON.parse(defaultElevation) || defaultElevationInput;
+
     const initalState = {
-        elevation: JSON.parse(defaultElevation),
+        elevation: initialElevationInput,
         system: {
             id: -1,
             name: "",
         },
     };
 
-    const undoRedo = useUndoRedo(initalState, [defaultElevation]);
+    const [initialHorizontalRoughOpening, setInitialHorizontalRoughOpening] = useInitialState(initialElevationInput.horizontalRoughOpening);
+    const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
+    const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(initialElevationInput.finishedFloorHeight);
+
+    console.log(
+        initialElevationInput.horizontalRoughOpening,
+        initialElevationInput.verticalRoughOpening,
+        initialElevationInput.finishedFloorHeight,
+    );
 
     const {
         currentState,
@@ -117,7 +135,7 @@ export default memo(function CreateElevation({
             },
         },
         pushState,
-    } = undoRedo;
+    } = useUndoRedo(initalState, [defaultElevation]);;
 
     const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {
@@ -199,6 +217,33 @@ export default memo(function CreateElevation({
         }
     }, [mergedElevation]);
 
+    console.log("this is the CREATE elevation page");
+
+    const cancelModalProps = {
+        titleBar: {
+            title: "Discard Elevation",
+        },
+        children: (
+            <>
+                <div>
+                    You have unfinished changes.
+                </div>
+                <div>
+                    Are you sure you want to discard your changes and leave this page ?
+                </div>
+            </>
+        ),
+        cancel: {
+            text: "Stay",
+        },
+        finish: {
+            className: "danger",
+            text: "Leave",
+        },
+    };
+
+    const doNotConfirm = areEqual(defaultElevation, elevationInput);
+
     return (
         <>
             <TitleBar
@@ -206,17 +251,17 @@ export default memo(function CreateElevation({
                 selections={[name]}
                 right={(
                     <>
-                        <Link
-                            to={`${
+                        <ConfirmButton
+                            modalProps={cancelModalProps}
+                            onClick={() => history.push(`${
                                 path.replace(/\/elevation\/create-elevation/, '')
                                 }${
                                 search
-                                }`}
+                                }`)}
+                            doNotConfirmWhen={doNotConfirm}
                         >
-                            <button>
-                                Cancel
-                            </button>
-                        </Link>
+                            Cancel
+                        </ConfirmButton>
                         <AsyncButton
                             className={`action ${name ? '' : 'disabled'}`}
                             onClick={save}
@@ -265,8 +310,9 @@ export default memo(function CreateElevation({
                             label="Width"
                             type="inches"
                             min={0}
-                            initialValue={horizontalRoughOpening}
+                            initialValue={initialHorizontalRoughOpening}
                             onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
+                            onBlur={setInitialHorizontalRoughOpening}
                         />
                         <Input
                             label="Masonry opening"
@@ -281,8 +327,9 @@ export default memo(function CreateElevation({
                             label="Height"
                             type="inches"
                             min={0}
-                            initialValue={verticalRoughOpening}
+                            initialValue={initialVerticalRoughOpening}
                             onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
+                            onBlur={setInitialVerticalRoughOpening}
                         />
                         <Input
                             label="Masonry opening"
@@ -307,113 +354,17 @@ export default memo(function CreateElevation({
                     label="Curb Height"
                     type="inches"
                     min={0}
-                    initialValue={finishedFloorHeight}
+                    initialValue={initialFinishedFloorHeight}
                     onChange={finishedFloorHeight => updateElevation({ finishedFloorHeight })}
+                    onBlur={setInitialFinishedFloorHeight}
                 />
-                <GroupingBox
-                    title="Horizontals"
-                    circleButton={{
-                        actionType: "add",
-                        className: "action",
-                        onClick: () => {
-                            const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
-
-                            const {
-                                distance: {
-                                    value,
-                                },
-                            } = lastHorizontal;
-
-                            var { originalContainer: topContainer } = recursiveElevation;
-
-                            while (topContainer.topContainers.length) {
-                                topContainer = topContainer.topContainers[0];
-                            }
-
-                            if (topContainer.daylightOpening.y > value + recursiveElevation.sightline) {
-                                updateElevation({
-                                    horizontals: horizontals.concat(lastHorizontal),
-                                });
-                            }
-                        },
-                    }}
-                >
-                    {horizontals.length ?
-                        horizontals.map(({
-                            distance,
-                            from,
-                            to,
-                        }, i) => (
-                                <div
-                                    id="add-horizontals"
-                                    className="input-group"
-                                    key={i}
-                                >
-                                    <Input
-                                        label="Measure from"
-                                        disabled={true}
-                                        select={{
-                                            value: {
-                                                value: from,
-                                                label: from,
-                                            },
-                                            options: measureFromOptions,
-                                            onChange: ({ value }) => updateElevation({
-                                                horizontals: horizontals.replace(i, {
-                                                    distance,
-                                                    from: value,
-                                                    to,
-                                                }),
-                                            }),
-                                        }}
-                                    />
-                                    <Input
-                                        label="Measure to"
-                                        disabled={true}
-                                        select={{
-                                            value: {
-                                                value: to,
-                                                label: to,
-                                            },
-                                            options: measureToOptions,
-                                            onChange: ({ value }) => updateElevation({
-                                                horizontals: horizontals.replace(i, {
-                                                    distance,
-                                                    from,
-                                                    to: value,
-                                                }),
-                                            }),
-                                        }}
-                                    />
-                                    <Input
-                                        label="Distance"
-                                        type="inches"
-                                        min={0}
-                                        initialValue={distance}
-                                        onChange={distance => updateElevation({
-                                            horizontals: horizontals.replace(i, {
-                                                distance,
-                                                from,
-                                                to,
-                                            }),
-                                        })}
-                                    />
-                                    <CircleButton
-                                        actionType="delete"
-                                        className="danger"
-                                        onClick={() => updateElevation({
-                                            horizontals: horizontals.filter((_, j) => j !== i),
-                                        })}
-                                    >
-                                        Delete
-                                    </CircleButton>
-                                </div>
-                            )) : (
-                            <div>
-                                No Horizontals
-                            </div>
-                        )}
-                </GroupingBox>
+                <AddHorizontals
+                    horizontals={horizontals}
+                    measureFromOptions={measureFromOptions}
+                    measureToOptions={measureToOptions}
+                    updateElevation={updateElevation}
+                    recursiveElevation={recursiveElevation}
+                />
                 {/* <ElevationPreview
                     elevation={recursiveElevation}
                 /> */}
@@ -425,20 +376,20 @@ export default memo(function CreateElevation({
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
-                    <Link
-                        to={`${
+                    <ConfirmButton
+                        modalProps={cancelModalProps}
+                        onClick={() => history.push(`${
                             path.replace(/\/elevation\/create-elevation/, '')
                             }${
                             search
-                            }`}
+                            }`)}
+                        doNotConfirmWhen={doNotConfirm}
                     >
-                        <button>
-                            Cancel
-                        </button>
-                    </Link>
+                        Cancel
+                    </ConfirmButton>
                     <div className="buttons-right">
                         <AsyncButton
-                            className={`action ${areEqual(defaultElevation, elevationInput) ?
+                            className={`action ${doNotConfirm ?
                                 'disabled'
                                 :
                                 ''

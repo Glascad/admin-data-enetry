@@ -47,14 +47,19 @@ function AuthenticationProvider({
     const [authenticate, authResult, authPromise] = useMutation(mutation);
 
     const getCurrentUser = async () => {
-        const result = await fetchQuery();
-        const { currentUser: { projectId } = {} } = result || {};
-        history.push(
-            originalLocation.match(/\/(glascad|data-entry)/) ?
-                originalLocation
-                :
-                `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
-        );
+        try {
+            const result = await fetchQuery();
+            const { currentUser: { projectId } = {} } = result || {};
+            console.log({ originalLocation });
+            history.push(
+                originalLocation.match(/\/(glascad|data-entry)/) ?
+                    originalLocation
+                    :
+                    `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
+            );
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     useEffect(() => {

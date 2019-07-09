@@ -1,5 +1,7 @@
 import React, { PureComponent, createContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import { withContext } from '../../../../../../../components';
+import { parseSearch } from '../../../../../../../utils';
 
 export const TransformContext = createContext();
 
@@ -11,7 +13,7 @@ const defaultScale = 1;
 
 const minScale = 0.1;
 
-export default class TransformProvider extends PureComponent {
+class TransformProvider extends PureComponent {
 
     state = {
         baseScale: defaultScale,
@@ -57,6 +59,9 @@ export default class TransformProvider extends PureComponent {
 
     componentDidUpdate = ({
         elevation: {
+            rawElevation: {
+                id: oldId,
+            } = {},
             roughOpening: oldRO,
             roughOpening: {
                 x: oldX,
@@ -67,27 +72,38 @@ export default class TransformProvider extends PureComponent {
         const {
             props: {
                 elevation: {
+                    rawElevation: {
+                        id: newId,
+                    } = {},
                     roughOpening: newRO,
                     roughOpening: {
                         x,
                         y,
                     } = {},
                 } = {},
+                location: {
+                    search,
+                },
             },
         } = this;
+
         if (
             (
-                typeof x === 'number'
-            ) && (
-                typeof y === 'number'
-            ) && (
-                !oldX
-                ||
-                !oldY
-                ||
-                typeof oldX !== 'number'
-                ||
-                typeof oldY !== 'number'
+                oldId !== newId
+            ) || (
+                (
+                    typeof x === 'number'
+                ) && (
+                    typeof y === 'number'
+                ) && (
+                    !oldX
+                    ||
+                    !oldY
+                    ||
+                    typeof oldX !== 'number'
+                    ||
+                    typeof oldY !== 'number'
+                )
             )
         ) {
             // console.log({ x, y });
@@ -372,3 +388,5 @@ export default class TransformProvider extends PureComponent {
         );
     }
 }
+
+export default withRouter(TransformProvider);
