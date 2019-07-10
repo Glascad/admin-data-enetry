@@ -1,9 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 
 import './ElevationPreview.scss';
+import renderPreview from './render-preview';
+import RecursiveElevation from '../SingleElevation/utils/recursive-elevation/elevation';
+import { ErrorBoundary } from '../../../../../components';
 
-export default function ElevationPreview({ preview, ...props }) {
+function ElevationPreview({ preview, elevation, ...props }) {
     const ref = useRef();
+
+    if (!preview) {
+        if (elevation instanceof RecursiveElevation) preview = renderPreview(elevation);
+        else preview = renderPreview(new RecursiveElevation(elevation));
+    }
 
     useEffect(() => {
         ref.current.innerHTML = preview || '';
@@ -16,4 +24,18 @@ export default function ElevationPreview({ preview, ...props }) {
             ref={ref}
         />
     );
+}
+
+export default function ErrorBoundedElevationPreview(props) {
+    return (
+        <ErrorBoundary
+            renderError={(error, info) => (
+                <div></div>
+            )}
+        >
+            <ElevationPreview
+                {...props}
+            />
+        </ErrorBoundary>
+    )
 }

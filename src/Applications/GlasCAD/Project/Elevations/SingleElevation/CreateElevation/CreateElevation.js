@@ -314,9 +314,18 @@ export default memo(function CreateElevation({
                             type="inches"
                             min={10}
                             initialValue={initialHorizontalRoughOpening}
-                            onChange={horizontalRoughOpening => updateElevation({ 
-                                horizontalRoughOpening:  Math.max(+horizontalRoughOpening, 10) })}
-                            onBlur={setInitialHorizontalRoughOpening}
+                            onChange={horizontalRoughOpening => updateElevation({
+                                horizontalRoughOpening: Math.max(
+                                    +horizontalRoughOpening,
+                                    10,
+                                    startingBayQuantity * 5 + (
+                                        startingBayQuantity + (
+                                            1 * recursiveElevation.sightline
+                                        )
+                                    )
+                                )
+                            })}
+                            onBlur={() => setInitialHorizontalRoughOpening(horizontalRoughOpening)}
                         />
                         <Input
                             label="Masonry opening"
@@ -333,9 +342,18 @@ export default memo(function CreateElevation({
                             type="inches"
                             min={10}
                             initialValue={initialVerticalRoughOpening}
-                            onChange={verticalRoughOpening => updateElevation({ 
-                                verticalRoughOpening: Math.max(+verticalRoughOpening, 10) })}
-                            onBlur={setInitialVerticalRoughOpening}
+                            onChange={verticalRoughOpening => updateElevation({
+                                verticalRoughOpening: Math.max(
+                                    +verticalRoughOpening,
+                                    10,
+                                    // horizontals.length * 5 + (
+                                    //     horizontals.length + (
+                                    //         1 * recursiveElevation.sightline
+                                    //     )
+                                    // )
+                                ),
+                            })}
+                            onBlur={() => setInitialVerticalRoughOpening(verticalRoughOpening)}
                         />
                         <Input
                             label="Masonry opening"
@@ -354,7 +372,14 @@ export default memo(function CreateElevation({
                     max={100}
                     value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
-                        startingBayQuantity: Math.round(Math.min(+value, 100)),
+                        startingBayQuantity: Math.round(Math.min(
+                            +value,
+                            (
+                                horizontalRoughOpening - recursiveElevation.sightline
+                            ) / (
+                                5 + recursiveElevation.sightline
+                            )
+                        )),
                     })}
                 />
                 <Input
@@ -381,7 +406,7 @@ export default memo(function CreateElevation({
                 >
                     <ElevationPreview
                         data-cy="preview"
-                        preview={renderPreview(recursiveElevation)}
+                        elevation={recursiveElevation}
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
