@@ -51,30 +51,40 @@ export default function SingleElevation({
 
     // console.log({ variables });
 
-    const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
+    // const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
+    const [refetch, queryStatus, fetching] = useQuery({ query, variables }, true);
 
-    const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
+    // const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
 
-    const fetching = fetchElevation || fetchingBugs;
+    // const fetching = fetchingElevation; // || fetchingBugs;
 
-    const queryStatus = {
-        ...elevationStatus,
-        ...bugStatus,
-    };
+    // const queryStatus = {
+    //     ...bugStatus,
+    //     ...elevationStatus,
+    // };
 
-    const refetch = () => {
-        fetchElevation({ variables });
-        fetchBugs();
-    }
+    // const refetch = () => {
+    //     console.log(variables);
+    //     fetchElevation(variables);
+    //     fetchBugs();
+    // }
 
     // console.log({ queryStatus });
 
-    const [updateEntireElevation, updatedElevation, updating] = useMutation(updateElevationMutation, refetch);
+    const [updateEntireElevation, updatedElevation, updating] = useMutation(
+        updateElevationMutation,
+        () => {
+            if (elevationId) {
+                refetch(variables);
+            }
+        }
+    );
 
     useEffect(() => {
         if (elevationId) {
-            // console.log({ variables });
-            refetch();
+            console.log({ elevationId });
+            console.log({ variables });
+            refetch(variables);
         }
     }, [elevationId]);
 
@@ -99,7 +109,7 @@ export default function SingleElevation({
             project,
         };
 
-    // console.log(routeProps);
+    console.log(routeProps);
 
     return (
         <Navigator

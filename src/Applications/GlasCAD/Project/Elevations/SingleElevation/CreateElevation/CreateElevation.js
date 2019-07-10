@@ -74,8 +74,6 @@ const saveDefaultMutation = {
     `,
 };
 
-var PROTECTION = 100;
-
 export default memo(function CreateElevation({
     history,
     location: {
@@ -88,8 +86,6 @@ export default memo(function CreateElevation({
     updating: creating,
     defaultElevation = null,
 }) {
-
-    if (PROTECTION-- < 0) return null;
 
     const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
@@ -207,6 +203,8 @@ export default memo(function CreateElevation({
                 },
             } = await updateEntireElevation({ elevation });
 
+            console.log({ elevationId });
+
             history.push(`${
                 path.replace(/create/, 'build')
                 }${
@@ -264,7 +262,8 @@ export default memo(function CreateElevation({
                             Cancel
                         </ConfirmButton>
                         <AsyncButton
-                            className={`action ${name ? '' : 'disabled'}`}
+                            data-cy="create"
+                            className={`action ${name && startingBayQuantity ? '' : 'disabled'}`}
                             onClick={save}
                             loading={creating}
                             loadingText="Creating"
@@ -438,7 +437,7 @@ export default memo(function CreateElevation({
                         </AsyncButton>
                         <AsyncButton
                             data-cy="create-button"
-                            className={`action ${name ? '' : 'disabled'}`}
+                            className={`action ${name && startingBayQuantity ? '' : 'disabled'}`}
                             onClick={save}
                             loading={creating}
                             loadingText="Creating"

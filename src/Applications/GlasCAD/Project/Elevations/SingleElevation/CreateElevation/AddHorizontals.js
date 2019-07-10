@@ -14,6 +14,7 @@ function Horizontal({
     measureFromOptions,
     measureToOptions,
     i,
+    length,
 }) {
     const [focused, setFocused] = useState(false);
     // update initial state of input only when input is not focused
@@ -58,7 +59,7 @@ function Horizontal({
                 }}
             />
             <Input
-                autoSelect="true"
+                // autoFocus={i === length - 1}
                 label="Distance"
                 type="inches"
                 min={0}
@@ -125,7 +126,7 @@ export default function AddHorizontal({
             }}
         >
             {horizontals.length ?
-                horizontals.map((horizontal, i) => (
+                horizontals.map((horizontal, i, { length }) => (
                     <Horizontal
                         key={i}
                         i={i}
@@ -134,6 +135,7 @@ export default function AddHorizontal({
                         updateElevation={updateElevation}
                         measureToOptions={measureToOptions}
                         measureFromOptions={measureFromOptions}
+                        length={length}
                     />
                 )) : (
                     <div>
