@@ -74,8 +74,6 @@ const saveDefaultMutation = {
     `,
 };
 
-var PROTECTION = 100;
-
 export default memo(function CreateElevation({
     history,
     location: {
@@ -88,8 +86,6 @@ export default memo(function CreateElevation({
     updating: creating,
     defaultElevation = null,
 }) {
-
-    if (PROTECTION-- < 0) return null;
 
     const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
@@ -207,6 +203,8 @@ export default memo(function CreateElevation({
                 },
             } = await updateEntireElevation({ elevation });
 
+            console.log({ elevationId });
+
             history.push(`${
                 path.replace(/create/, 'build')
                 }${
@@ -247,6 +245,7 @@ export default memo(function CreateElevation({
     return (
         <>
             <TitleBar
+                // data-cy="new-elevation"
                 title="New Elevation"
                 selections={[name]}
                 right={(
@@ -263,7 +262,8 @@ export default memo(function CreateElevation({
                             Cancel
                         </ConfirmButton>
                         <AsyncButton
-                            className={`action ${name ? '' : 'disabled'}`}
+                            data-cy="create"
+                            className={`action ${name && startingBayQuantity ? '' : 'disabled'}`}
                             onClick={save}
                             loading={creating}
                             loadingText="Creating"
@@ -278,6 +278,7 @@ export default memo(function CreateElevation({
                 className="card"
             >
                 <Input
+                    data-cy="elevation-id"
                     label="Elevation ID"
                     autoFocus={true}
                     value={name}
@@ -307,12 +308,23 @@ export default memo(function CreateElevation({
                 >
                     <div className="input-group">
                         <Input
+                            data-cy="rough-opening-width"
                             label="Width"
                             type="inches"
-                            min={0}
+                            min={10}
                             initialValue={initialHorizontalRoughOpening}
-                            onChange={horizontalRoughOpening => updateElevation({ horizontalRoughOpening })}
-                            onBlur={setInitialHorizontalRoughOpening}
+                            onChange={horizontalRoughOpening => updateElevation({
+                                horizontalRoughOpening: Math.max(
+                                    +horizontalRoughOpening,
+                                    10,
+                                    startingBayQuantity * 5 + (
+                                        startingBayQuantity + (
+                                            1 * recursiveElevation.sightline
+                                        )
+                                    )
+                                )
+                            })}
+                            onBlur={() => setInitialHorizontalRoughOpening(horizontalRoughOpening)}
                         />
                         <Input
                             label="Masonry opening"
@@ -324,12 +336,37 @@ export default memo(function CreateElevation({
                     </div>
                     <div className="input-group">
                         <Input
+                            data-cy="rough-opening-height"
                             label="Height"
                             type="inches"
-                            min={0}
+                            min={10}
                             initialValue={initialVerticalRoughOpening}
-                            onChange={verticalRoughOpening => updateElevation({ verticalRoughOpening })}
-                            onBlur={setInitialVerticalRoughOpening}
+                            onChange={verticalRoughOpening => updateElevation({
+                                verticalRoughOpening: Math.max(
+                                    +verticalRoughOpening,
+                                    // 10,
+                                    horizontals
+                                        .reduce((sum, { distance }) => (
+                                            sum
+                                            +
+                                            distance
+                                            +
+                                            recursiveElevation.sightline
+                                        ), (
+                                                recursiveElevation.sightline
+                                                *
+                                                2
+                                                +
+                                                5
+                                            ))
+                                    // horizontals.length * 5 + (
+                                    //     horizontals.length + (
+                                    //         1 * recursiveElevation.sightline
+                                    //     )
+                                    // )
+                                ),
+                            })}
+                            onBlur={() => setInitialVerticalRoughOpening(verticalRoughOpening)}
                         />
                         <Input
                             label="Masonry opening"
@@ -341,16 +378,25 @@ export default memo(function CreateElevation({
                     </div>
                 </GroupingBox>
                 <Input
+                    data-cy="starting-bay"
                     label="Starting bay quantity"
                     type="number"
                     min={1}
                     max={100}
                     value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
-                        startingBayQuantity: Math.min(+value, 100),
+                        startingBayQuantity: Math.round(Math.min(
+                            +value,
+                            (
+                                horizontalRoughOpening - recursiveElevation.sightline
+                            ) / (
+                                5 + recursiveElevation.sightline
+                            )
+                        )),
                     })}
                 />
                 <Input
+                    data-cy="curb-height"
                     label="Curb Height"
                     type="inches"
                     min={0}
@@ -372,11 +418,13 @@ export default memo(function CreateElevation({
                     title="Preview"
                 >
                     <ElevationPreview
-                        preview={renderPreview(recursiveElevation)}
+                        data-cy="preview"
+                        elevation={recursiveElevation}
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">
                     <ConfirmButton
+                        data-cy="cancel-button"
                         modalProps={cancelModalProps}
                         onClick={() => history.push(`${
                             path.replace(/\/elevation\/create-elevation/, '')
@@ -389,6 +437,7 @@ export default memo(function CreateElevation({
                     </ConfirmButton>
                     <div className="buttons-right">
                         <AsyncButton
+                            data-cy="save-as-default-button"
                             className={`action ${doNotConfirm ?
                                 'disabled'
                                 :
@@ -401,7 +450,8 @@ export default memo(function CreateElevation({
                             Save As Default
                         </AsyncButton>
                         <AsyncButton
-                            className={`action ${name ? '' : 'disabled'}`}
+                            data-cy="create-button"
+                            className={`action ${name && startingBayQuantity ? '' : 'disabled'}`}
                             onClick={save}
                             loading={creating}
                             loadingText="Creating"

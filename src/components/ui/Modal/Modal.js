@@ -93,7 +93,7 @@ const Modal = memo(function ({
                             <button
                                 className="empty"
                                 {...cancel}
-                                children={cancelButtonText || cancel.children || "Cancel"}
+                                children={cancelButtonText || cancel.children || cancel.text || "Cancel"}
                                 onClick={handleCancelClick}
                             />
                         ) : null}

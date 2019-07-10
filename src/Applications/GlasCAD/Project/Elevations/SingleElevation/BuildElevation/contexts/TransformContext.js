@@ -106,41 +106,55 @@ class TransformProvider extends PureComponent {
                 )
             )
         ) {
-            // console.log({ x, y });
-            // console.log(this.props);
-            const IE = document.getElementById("InteractiveElevation");
-            // console.log({ IE });
 
-            if (IE) {
-                const ratioY = IE.clientHeight / y / pixelsPerInch;
-                const ratioX = IE.clientWidth / x / pixelsPerInch;
+            this.setZoom(x, y)
 
-                const baseScaleY = ratioY * 0.6;
-                const baseScaleX = ratioX * 0.75;
+            setTimeout(() => {
+                this.setZoom(x, y)
+            })
+        }
+    }
 
-                const baseScale = Math.min(baseScaleY, baseScaleX);
+    setZoom = (x, y) => {
+        // console.log(this.props);
+        const IE = document.getElementById("InteractiveElevation");
 
-                // console.log({
-                //     baseScaleY,
-                //     baseScaleX,
-                //     baseScale,
-                // });
+        // console.log({ IE });
 
-                const baseTranslateX = -x * 0.2;
+        if (IE) {
 
-                this.setState(({ scale, translate }) => ({
-                    baseScale,
-                    scale: {
-                        ...scale,
-                        x: baseScale,
-                        y: baseScale,
-                    },
-                    translate: {
-                        ...translate,
-                        x: baseTranslateX,
-                    },
-                }));
-            }
+            const ratioY = IE.clientHeight / y / pixelsPerInch;
+            const ratioX = IE.clientWidth / x / pixelsPerInch;
+
+            // console.log({ ratioY, ratioX })
+
+            const baseScaleY = ratioY * 0.6;
+            const baseScaleX = ratioX * 0.75;
+
+            // console.log({ baseScaleY, baseScaleX });
+
+            const baseScale = Math.min(baseScaleY, baseScaleX);
+
+            // console.log({
+            //     baseScaleY,
+            //     baseScaleX,
+            //     baseScale,
+            // });
+
+            const baseTranslateX = -x * 0.2;
+
+            this.setState(({ scale, translate }) => ({
+                baseScale,
+                scale: {
+                    ...scale,
+                    x: baseScale,
+                    y: baseScale,
+                },
+                translate: {
+                    ...translate,
+                    x: baseTranslateX,
+                },
+            }));
         }
     }
 
@@ -205,7 +219,7 @@ class TransformProvider extends PureComponent {
 
     startPanning = (e, captured) => {
 
-        console.log("PANNING");
+        // console.log("PANNING");
 
         if (!captured) e.preventDefault();
 

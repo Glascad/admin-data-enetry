@@ -43,9 +43,9 @@ class BuildElevation extends PureComponent {
     }
 
     componentDidUpdate = ({
-        queryStatus: oldQueryStatus,
         queryStatus: {
-            bugReports: oldBugReports = [],
+            _elevation: oldElevation,
+            bugReports: oldBugReports,
         } = {},
     }) => {
         const {
@@ -55,7 +55,8 @@ class BuildElevation extends PureComponent {
                 },
                 queryStatus: newQueryStatus,
                 queryStatus: {
-                    bugReports: newBugReports = [],
+                    _elevation: newElevation,
+                    bugReports: newBugReports,
                 } = {},
                 resetState,
                 loadStates,
@@ -65,7 +66,7 @@ class BuildElevation extends PureComponent {
 
         // console.log("updated");
         if (
-            (oldQueryStatus !== newQueryStatus)
+            (oldElevation !== newElevation)
             ||
             (
                 newBugReports
@@ -98,7 +99,8 @@ class BuildElevation extends PureComponent {
 
                 loadStates(newStates);
             } else {
-                // console.log("resetting state");
+                console.log("resetting state");
+                console.log({ oldElevation, newElevation });
                 resetState(
                     mergeElevationInput({
                         elevationInput: defaultElevationInput
