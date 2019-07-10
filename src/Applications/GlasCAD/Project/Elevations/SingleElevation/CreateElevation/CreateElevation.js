@@ -396,6 +396,7 @@ export default memo(function CreateElevation({
                     measureToOptions={measureToOptions}
                     updateElevation={updateElevation}
                     recursiveElevation={recursiveElevation}
+                    verticalRoughOpening={verticalRoughOpening}
                 />
                 {/* <ElevationPreview
                     elevation={recursiveElevation}
