@@ -51,6 +51,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         } catch (err) {
             console.trace(mutation);
             console.log({ err });
+            setLoading(false);
             throw err;
         }
     }
@@ -65,13 +66,22 @@ export function useQuery(query, doNotFetchOnMount = false) {
     const [queryResult, setQueryResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const fetchQuery = useCallback(async () => {
+    const fetchQuery = async variables => {
+
+        console.log("FETCHING QUERY");
+        console.log({ query, variables });
 
         setLoading(true);
 
         try {
 
-            const response = await client.query(query);
+            const response = await client.query(variables ? { ...query, variables } : query);
+
+            console.log({
+                response,
+                variables,
+                query,
+            });
 
             const normalResponse = normalizeResponse(response);
 
@@ -84,15 +94,21 @@ export function useQuery(query, doNotFetchOnMount = false) {
             return normalResponse;
 
         } catch (err) {
-            console.trace(query);
-            console.log({ err });
+            // console.trace(query);
+            console.log({
+                err,
+                variables,
+                query,
+            });
+            setLoading(false);
             throw err;
         }
 
-    }, [query]);
+    }
 
     useEffect(() => {
         if (!doNotFetchOnMount) {
+            console.log("FETCHING ON MOUNT");
             fetchQuery();
         }
     }, []);

@@ -92,6 +92,7 @@ class InteractiveElevation extends PureComponent {
                     search,
                 },
                 refetch,
+                elevation,
                 elevation: {
                     rawElevation: {
                         bugId: elevationBugId,
@@ -149,6 +150,14 @@ class InteractiveElevation extends PureComponent {
                 ref={this.InteractiveElevation}
                 onMouseDown={watchMouseDown}
             >
+                {console.log({
+                    id,
+                    elevationId,
+                    sampleElevation,
+                    bugId,
+                    elevationBugId,
+                    elevation,
+                })}
                 {updating ? (
                     <div
                         id="elevation-loading"
