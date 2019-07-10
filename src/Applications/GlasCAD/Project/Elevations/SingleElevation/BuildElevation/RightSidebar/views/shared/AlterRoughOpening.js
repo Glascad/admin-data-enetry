@@ -33,6 +33,8 @@ function AlterRoughOpening({
         :
         unique(items.reduce((containers, _frame) => containers.concat(_frame.getContainersByDirection(!first)), []));
 
+    console.log(allContainers);
+
     return (
         <>
             <TitleBar
