@@ -165,12 +165,18 @@ class ActionProvider extends PureComponent {
     deleteContainers = () => this.performBulkAction(
         ACTIONS.DELETE_CONTAINER,
         Object.keys(this.props.selection.itemsByRefId),
-        (refId, _, getItemByRefId) => ({
-            container: getItemByRefId(refId),
-        }),
-        {
-            useTimeout: true,
+        (refId, _, getItemByRefId) => {
+            const item = getItemByRefId(refId);
+
+            const container = item instanceof RecursiveContainer ?
+                item
+                :
+                item.firstContainers[0] || item.secondContainers[0]
+
+            return { container };
+
         },
+        { useTimeout: true }
     );
 
     alterRoughOpening = ({ distance, first }) => this.performBulkAction(
