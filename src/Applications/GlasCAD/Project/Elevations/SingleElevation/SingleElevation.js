@@ -37,6 +37,7 @@ export default function SingleElevation({
     location: {
         search,
     },
+    queryStatus: projectQueryStatus,
     queryStatus: {
         _project: project,
         _project: {
