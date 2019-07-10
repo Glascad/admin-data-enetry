@@ -18,7 +18,7 @@ export const measureToOptions = [
 }));
 
 export const defaultHorizontal = {
-    distance: 5,
+    distance: 32,
     from: measureFromOptions[0].value,
     to: measureToOptions[0].value,
 };
