@@ -344,7 +344,21 @@ export default memo(function CreateElevation({
                             onChange={verticalRoughOpening => updateElevation({
                                 verticalRoughOpening: Math.max(
                                     +verticalRoughOpening,
-                                    10,
+                                    // 10,
+                                    horizontals
+                                        .reduce((sum, { distance }) => (
+                                            sum
+                                            +
+                                            distance
+                                            +
+                                            recursiveElevation.sightline
+                                        ), (
+                                                recursiveElevation.sightline
+                                                *
+                                                2
+                                                +
+                                                5
+                                            ))
                                     // horizontals.length * 5 + (
                                     //     horizontals.length + (
                                     //         1 * recursiveElevation.sightline
