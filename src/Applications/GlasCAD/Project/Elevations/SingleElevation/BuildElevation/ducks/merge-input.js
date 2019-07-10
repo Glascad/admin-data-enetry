@@ -73,6 +73,8 @@ export default function ({
     _system,
 } = {}) {
 
+    console.log("MERGING INPUT");
+
     const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 
     const recursiveElevation = new RecursiveElevation(mergedElevation, _system);
@@ -86,7 +88,7 @@ export default function ({
             console.error(err);
         }
     }, 100);
-    
+
     return {
         elevationInput,
         rawElevation,

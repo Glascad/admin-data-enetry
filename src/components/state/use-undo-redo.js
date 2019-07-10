@@ -21,10 +21,19 @@ export default function useUndoRedo(firstState, dependencies = []) {
     }, [afterSetState || null]);
 
     const dispatch = useCallback((setStateCallback, afterSetState) => {
-        setState(state => ({
-            ...state,
-            ...setStateCallback(state),
-        }));
+        setState(oldState => {
+            const intermediateState = setStateCallback(oldState);
+            const newState = {
+                ...oldState,
+                ...intermediateState,
+            };
+            console.log({
+                oldState,
+                intermediateState,
+                newState,
+            });
+            return newState;
+        });
         setAfterSetState({ afterSetState });
     }, [setState, setAfterSetState]);
 
@@ -87,6 +96,7 @@ export default function useUndoRedo(firstState, dependencies = []) {
     }), ...args), [dispatch]);
 
     const resetState = useCallback((newFirstState = firstState, ...args) => dispatch(() => ({
+        n: console.log({ newFirstState }),
         states: [newFirstState],
         currentIndex: 0,
     }), ...args), [dispatch]);
