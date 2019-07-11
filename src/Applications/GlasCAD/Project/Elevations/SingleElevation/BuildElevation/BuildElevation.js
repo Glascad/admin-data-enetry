@@ -101,13 +101,11 @@ class BuildElevation extends PureComponent {
             } else {
                 console.log("resetting state");
                 console.log({ oldElevation, newElevation });
-                resetState(
-                    mergeElevationInput({
-                        elevationInput: defaultElevationInput
-                    },
-                        newQueryStatus,
-                    ),
-                );
+                const newState = mergeElevationInput({ elevationInput: defaultElevationInput }, newQueryStatus);
+                console.log({ newState });
+                resetState(newState);
+                // functional setstate may not yet be fully supported by usestate hook
+                setTimeout(() => resetState(newState));
             }
         }
     }
@@ -266,7 +264,7 @@ class BuildElevation extends PureComponent {
         //     states,
         // });
 
-        console.log(this.props);
+        console.log(this);
 
         return (
             <SelectionProvider

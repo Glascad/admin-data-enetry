@@ -28,9 +28,10 @@ class DetailBubble extends PureComponent {
         });
 
         // cancelSelection(() => selectItem(_frame));
-        if (containerIsSelected) cancelSelection(() => selectItem(_frame));
-        else selectItem(_frame);
-        // if (containerIsSelected) cancelSelection(() => selectItem(detail));
+        // if (containerIsSelected) cancelSelection(() => selectItem(_frame));
+        // else selectItem(_frame);
+        // if (containerIsSelected) 
+        cancelSelection(() => selectItem(detail));
         // else selectItem(detail);
     }
 
