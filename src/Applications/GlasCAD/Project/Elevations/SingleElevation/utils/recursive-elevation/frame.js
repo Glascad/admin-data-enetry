@@ -116,9 +116,9 @@ export default class RecursiveFrame extends Loggable {
                 :
                 (
                     i === length - 1 ?
-                        this.placement.y + this.placement.height
+                        this.placement.x + this.placement.width
                         :
-                        lastDetail.placement.y + lastDetail.placement.height
+                        lastDetail.placement.x + lastDetail.placement.width
                 ) - x;
 
             return {
