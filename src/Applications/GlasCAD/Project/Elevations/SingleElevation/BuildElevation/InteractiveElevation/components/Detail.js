@@ -31,6 +31,7 @@ const Detail = memo(function Detail({
         height,
         width,
     },
+    scaledFrameDetailPlacement: FDP,
     selectItem,
     containerIsSelected,
     cancelSelection,
@@ -43,49 +44,60 @@ const Detail = memo(function Detail({
     if (!exists) return null;
 
     return (
-        <div
-            id={refId}
-            data-cy={`detail-${id}`}
-            className={`Detail ${
-                frameRefId in itemsByRefId ?
-                    'frame-selected'
-                    :
-                    firstContainerRefId in itemsByRefId ?
-                        'first-container-selected'
+        <>
+            <div
+                id={refId}
+                data-cy={`detail-${id}`}
+                className={`Detail ${
+                    frameRefId in itemsByRefId ?
+                        'frame-selected'
                         :
-                        secondContainerRefId in itemsByRefId ?
-                            'second-container-selected'
+                        firstContainerRefId in itemsByRefId ?
+                            'first-container-selected'
                             :
-                            'detail-selected'
-                } ${
-                firstContainer ?
-                    ''
-                    :
-                    'no-first-container'
-                } ${
-                vertical ?
-                    'vertical'
-                    :
-                    'horizontal'
-                }`}
-            style={{
-                left: x,
-                bottom: y,
-                height,
-                width,
-            }}
-            onClick={() => {
-                unselectItem(detail);
-                selectItem(detail._frame);
-            }}
-        >
-            <DetailBubble
-                cancelSelection={cancelSelection}
-                selectItem={selectItem}
-                detail={detail}
-                containerIsSelected={containerIsSelected}
+                            secondContainerRefId in itemsByRefId ?
+                                'second-container-selected'
+                                :
+                                'detail-selected'
+                    } ${
+                    firstContainer ?
+                        ''
+                        :
+                        'no-first-container'
+                    } ${
+                    vertical ?
+                        'vertical'
+                        :
+                        'horizontal'
+                    }`}
+                style={{
+                    left: x,
+                    bottom: y,
+                    height,
+                    width,
+                }}
+                onClick={() => {
+                    unselectItem(detail);
+                    selectItem(detail._frame);
+                }}
+            >
+                <DetailBubble
+                    cancelSelection={cancelSelection}
+                    selectItem={selectItem}
+                    detail={detail}
+                    containerIsSelected={containerIsSelected}
+                />
+            </div>
+            <div
+                className="frame-detail-placement"
+                style={{
+                    left: FDP.x,
+                    bottom: FDP.y,
+                    height: FDP.height,
+                    width: FDP.width,
+                }}
             />
-        </div>
+        </>
     );
 
 });
@@ -107,5 +119,23 @@ export default transformProps(({
         width: pixelsPerInch * width,
     },
 }))(
-    Detail
+    transformProps(({
+        detail: {
+            placedFrameDetail: {
+                x,
+                y,
+                height,
+                width,
+            },
+        },
+    }) => ({
+        scaledFrameDetailPlacement: {
+            x: pixelsPerInch * x,
+            y: pixelsPerInch * y,
+            height: pixelsPerInch * height,
+            width: pixelsPerInch * width,
+        },
+    }))(
+        Detail
+    )
 );

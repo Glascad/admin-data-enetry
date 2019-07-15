@@ -272,8 +272,8 @@ $horizontal-bubble-translation: $small * 2.5;
                     background: $dark-gray;
                 }
             }
-            &.selected,
-            &.selected-detail {
+            &.selected {
+                // &.selected-detail {
                 .Frame {
                     background: $selected-color;
                 }
@@ -348,7 +348,7 @@ $horizontal-bubble-translation: $small * 2.5;
                     align-items: center;
                 }
             }
-            
+
             &.horizontal {
                 &.detail-selected,
                 &.first-container-selected,
@@ -374,7 +374,12 @@ $horizontal-bubble-translation: $small * 2.5;
             }
 
             &.detail-selected {
-                background: $selected-color;
+                + .frame-detail-placement {
+                    background: $selected-color;
+                    position: absolute;
+                    z-index: 6;
+                }
+                
                 // deep nesting for precedence
                 &.vertical,
                 &.horizontal {

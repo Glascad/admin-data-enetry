@@ -86,6 +86,7 @@ export default class RecursiveFrame extends Loggable {
             ), [])
         );
     }
+    
     get placedFrameDetails() {
         return this.frameDetails.map((placedDetails, i, { length }) => {
             // calculate placement of frame details

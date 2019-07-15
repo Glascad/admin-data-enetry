@@ -65,6 +65,9 @@ export default class RecursiveDetail extends Loggable {
     get frameRefId() { return this._frame.refId; }
     get frameRef() { return this._frame.ref; }
 
+    get frameDetail() { return this._frame.frameDetails.find(fd => fd.includes(this)); }
+    get placedFrameDetail() { return this._frame.placedFrameDetails[this._frame.frameDetails.indexOf(this.frameDetail)]; }
+
     getContainerByDirection = first => this.elevation.containers[
         first ?
             this.firstContainerId
