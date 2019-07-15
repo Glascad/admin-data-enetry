@@ -46,5 +46,18 @@
     ],
     "devDependencies": {
         "cypress": "^3.3.2"
+    },
+    "nodemonConfig": {
+        "verbose": true,
+        "ignore": [
+            "src/*",
+            "db/*",
+            "build/*",
+            "cypress/*",
+            "dev-utils/*",
+            "*.test.js",
+            "*.spec.js",
+            "fixtures/*"
+        ]
     }
 }
