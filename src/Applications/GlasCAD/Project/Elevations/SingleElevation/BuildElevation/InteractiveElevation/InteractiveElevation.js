@@ -10,7 +10,7 @@ import { TransformContext, pixelsPerInch } from '../contexts/TransformContext';
 
 // import Container from './components/Container';
 import Container from './Containers/Container';
-import Frame from './components/Frame';
+import Frame from './Frames/Frame.js';
 import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
@@ -23,6 +23,7 @@ import RecursiveDetail from '../../utils/recursive-elevation/detail';
 import { parseSearch } from '../../../../../../../utils';
 import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
 import Containers from './Containers/Containers';
+import Frames from './Frames/Frames';
 
 class InteractiveElevation extends PureComponent {
 
@@ -212,14 +213,12 @@ class InteractiveElevation extends PureComponent {
                                     selectItem={selectItem}
                                 />
                                 {/* FRAMES */}
-                                {allFrames.map(_frame => (
-                                    <Frame
-                                        key={_frame.refId}
-                                        _frame={_frame}
-                                        selectItem={selectItem}
-                                        selectable={framesSelectable}
-                                    />
-                                ))}
+
+                                <Frames 
+                                    allFrames={allFrames}
+                                    selectItem={selectItem}
+                                    selectable={framesSelectable}
+                                />
                                 {/* SELECTION */}
                                 <SelectionLayer />
                                 {/* VERTICAL DIMENSIONS */}
