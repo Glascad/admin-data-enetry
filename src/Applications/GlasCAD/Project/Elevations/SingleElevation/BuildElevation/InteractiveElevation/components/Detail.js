@@ -17,6 +17,7 @@ class Detail extends PureComponent {
                 itemsByRefId,
                 detail,
                 detail: {
+                    id,
                     exists,
                     refId,
                     vertical,
@@ -52,6 +53,7 @@ class Detail extends PureComponent {
         return (
             <div
                 id={refId}
+                data-cy={`detail-${id}`}
                 className={`Detail ${
                     frameRefId in itemsByRefId ?
                         'frame-selected'
