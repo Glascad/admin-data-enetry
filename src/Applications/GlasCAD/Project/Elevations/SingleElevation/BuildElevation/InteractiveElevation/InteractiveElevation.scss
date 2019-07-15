@@ -272,6 +272,11 @@ $horizontal-bubble-translation: $small * 2.5;
                     background: $dark-gray;
                 }
             }
+            &.selected{
+                .Frame{
+                    background: $selected-color;
+                }
+            }
         }
     }
 
@@ -291,7 +296,8 @@ $horizontal-bubble-translation: $small * 2.5;
 
             &.selected-frame,
             &.selected-detail {
-                background: $selected-color;
+                display: none;
+                // background: $selected-color;
             }
         }
 

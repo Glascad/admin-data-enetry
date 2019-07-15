@@ -50,8 +50,8 @@ export default class RecursiveFrame extends Loggable {
             this.vertical ? 'Vertical' : 'Horizontal'
             }-${
             this.details.map(({ id }) => id).join('-')
-            // }<${
-            // this.instanceCount
+            }<${
+            this.instanceCount
             }>`;
     }
 
