@@ -14,6 +14,10 @@ BEGIN
     WHERE users.users.username = un;
 
     IF authenticatee.password_hash = CRYPT(pw, authenticatee.password_hash) THEN
+        UPDATE users.users
+        SET last_auth = CURRENT_TIMESTAMP
+        WHERE users.users.username = un;
+        
         RETURN ROW(
             'apcdmrglhzyezl',
             EXTRACT(EPOCH FROM NOW() + INTERVAL '7 days'),

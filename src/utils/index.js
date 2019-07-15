@@ -7,6 +7,7 @@ import extractNavigationOptions from './functions/extract-navigation-options';
 import arraysContainEqualValues from './functions/arrays-contain-equal-values';
 import allocate from './functions/allocate';
 import unique from './functions/unique-array';
+import lastItem from './functions/last-item';
 import ImperialValue from './functions/feet-inches';
 import Loggable from './classes/Loggable';
 
@@ -22,6 +23,7 @@ export {
     arraysContainEqualValues,
     allocate,
     unique,
+    lastItem,
     validatePath,
     ImperialValue,
     Loggable,

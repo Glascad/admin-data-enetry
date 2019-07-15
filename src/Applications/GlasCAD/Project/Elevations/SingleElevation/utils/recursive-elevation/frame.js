@@ -1,5 +1,5 @@
 import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
-import { unique, Loggable } from "../../../../../../../utils";
+import { unique, Loggable, lastItem } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -71,6 +71,63 @@ export default class RecursiveFrame extends Loggable {
                 configurationTypes,
             }))
         );
+    }
+
+    get frameDetails() {
+        return this.__allFrameDetails || (
+            this.__allFrameDetails = this.details.reduce((groupedDetails, detail, i, { length }) => (
+                detail.detailId === (lastItem(lastItem(groupedDetails) || []) || {}).detailId ?
+                    groupedDetails.replace(
+                        groupedDetails.length - 1,
+                        lastItem(groupedDetails).concat(detail)
+                    )
+                    :
+                    groupedDetails.concat([[detail]])
+            ), [])
+        );
+    }
+    get placedFrameDetails() {
+        return this.frameDetails.map((placedDetails, i, { length }) => {
+            // calculate placement of frame details
+            const lastDetail = lastItem(placedDetails);
+
+            const y = (this.vertical && i !== 0) ?
+                placedDetails[0].placement.y
+                :
+                this.placement.y;
+
+            const x = (!this.vertical && i !== 0) ?
+                placedDetails[0].placement.x
+                :
+                this.placement.x;
+
+            const height = this.vertical ?
+                (
+                    i === length - 1 ?
+                        this.placement.y + this.placement.height
+                        :
+                        lastDetail.placement.y + lastDetail.placement.height
+                ) - y
+                :
+                this.placement.height;
+
+            const width = this.vertical ?
+                this.placement.width
+                :
+                (
+                    i === length - 1 ?
+                        this.placement.y + this.placement.height
+                        :
+                        lastDetail.placement.y + lastDetail.placement.height
+                ) - x;
+
+            return {
+                x,
+                y,
+                height,
+                width,
+            };
+        });
     }
 
     getDetailAcrossPerpendicularByDirection = first => {

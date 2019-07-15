@@ -8,7 +8,7 @@ import dimensionsOverlap from './dimensions-overlap';
 import sortDimensionTracks from './sort-dimension-tracks';
 
 import { DIRECTIONS } from './directions';
-import { Loggable } from '../../../../../../../utils';
+import { Loggable, lastItem } from '../../../../../../../utils';
 
 const {
     UP,

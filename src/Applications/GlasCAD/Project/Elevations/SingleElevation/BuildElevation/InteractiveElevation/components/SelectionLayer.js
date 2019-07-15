@@ -66,6 +66,8 @@ const SelectionLayer = memo(function SelectionLayer({
                 :
                 all.concat(detail);
         }, []);
+    
+    console.log({ items, filteredDetailsToRender });
 
     return (
         <div id="SelectionLayer" >
