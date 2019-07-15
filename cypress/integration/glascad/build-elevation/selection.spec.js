@@ -8,24 +8,24 @@ describe('testing selection', () => {
         cy.get('[data-cy="container-1542"]').click().should('have.class', 'selected').and('have.class', 'last-selected');
         // can use arrow key to change selection
         cy.get('body').type('{rightarrow}');
-        cy.get('[data-cy="container-1542"]').should('not.have.class','selected');
+        cy.get('[data-cy="container-1542"]').should('not.have.class', 'selected');
         cy.get('[data-cy="container-1543"]').should('have.class', 'selected').and('have.class', 'last-selected');
         // can click to add to selection
         cy.get('[data-cy="container-1515"]').click().should('have.class', 'selected').and('have.class', 'last-selected');
         cy.get('[data-cy="container-1543"]').should('have.class', 'selected');
         // can use shift arrow key to add to selection
         cy.get('body').type('{shift}{rightarrow}');
-        cy.get('[data-cy="container-1542"]').should('not.have.class','selected');
+        cy.get('[data-cy="container-1542"]').should('not.have.class', 'selected');
         cy.get('[data-cy="container-1543"]').should('have.class', 'selected');
         cy.get('[data-cy="container-1515"]').should('have.class', 'selected');
         cy.get('[data-cy="container-1516"]').should('have.class', 'selected').and('have.class', 'last-selected');
         // arrow key cancels selection
         cy.get('body').type('{rightarrow}');
-        cy.get('[data-cy="container-1542"]').should('not.have.class','selected');
-        cy.get('[data-cy="container-1543"]').should('not.have.class','selected');
-        cy.get('[data-cy="container-1515"]').should('not.have.class','selected');
-        cy.get('[data-cy="container-1516"]').should('not.have.class','selected');
-        cy.get('[data-cy="container-1517"]').should('have.class','selected').and('have.class', 'last-selected');
+        cy.get('[data-cy="container-1542"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="container-1543"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="container-1515"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="container-1516"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="container-1517"]').should('have.class', 'selected').and('have.class', 'last-selected');
     });
     it('can hover/select/deselect a frame', () => {
         //checks the hover state
@@ -59,5 +59,9 @@ describe('testing selection', () => {
         cy.get('[data-cy="3946"]').should('not.have.class', 'selected');
         cy.get('[data-cy="3948"]').should('have.class', 'selected');
     });
+    // it("can select/deselect a detail", () => {
+    //     cy.get('[data-cy="3868-3945"]').click();
+    //     cy.get('[data-cy="detail-3868"]').click({ force: true }).should('have.class', 'selected');
+    // })
 
 });

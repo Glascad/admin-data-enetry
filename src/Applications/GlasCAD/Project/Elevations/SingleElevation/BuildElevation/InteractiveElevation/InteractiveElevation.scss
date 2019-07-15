@@ -272,8 +272,9 @@ $horizontal-bubble-translation: $small * 2.5;
                     background: $dark-gray;
                 }
             }
-            &.selected{
-                .Frame{
+            &.selected,
+            &.selected-detail {
+                .Frame {
                     background: $selected-color;
                 }
             }
@@ -285,20 +286,20 @@ $horizontal-bubble-translation: $small * 2.5;
             position: absolute;
             z-index: 4;
 
-            &.selected-container {
-                display: none;
-                // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
+            // &.selected-container {
+            //     display: none;
+            //     // box-shadow: inset 0 0 $xx-small $xx-small transparentize($selected-color, 0.35);
 
-                // &.last-selected {
-                //     box-shadow: inset 0 0 $x-small $xx-small $selected-color;
-                // }
-            }
+            //     // &.last-selected {
+            //     //     box-shadow: inset 0 0 $x-small $xx-small $selected-color;
+            //     // }
+            // }
 
-            &.selected-frame,
-            &.selected-detail {
-                display: none;
-                // background: $selected-color;
-            }
+            // &.selected-frame,
+            // &.selected-detail {
+            //     display: none;
+            //     // background: $selected-color;
+            // }
         }
 
         .Detail {
@@ -347,7 +348,7 @@ $horizontal-bubble-translation: $small * 2.5;
                     align-items: center;
                 }
             }
-
+            
             &.horizontal {
                 &.detail-selected,
                 &.first-container-selected,
@@ -373,6 +374,7 @@ $horizontal-bubble-translation: $small * 2.5;
             }
 
             &.detail-selected {
+                background: $selected-color;
                 // deep nesting for precedence
                 &.vertical,
                 &.horizontal {
