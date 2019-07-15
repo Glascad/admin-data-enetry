@@ -260,6 +260,7 @@ class DimensionButton extends PureComponent {
         return (
             <button
                 id={refId}
+                data-cy={refId.toLowerCase()}
                 className={`DimensionButton ${
                     vertical ?
                         'vertical'

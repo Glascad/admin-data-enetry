@@ -7,6 +7,7 @@ import ContainerId from './ContainerId';
 const Container = memo(function Container({
     container,
     container: {
+        id,
         refId,
         customRoughOpening,
         registerReactComponent,
@@ -28,7 +29,7 @@ const Container = memo(function Container({
     return (
         <div
             id={refId}
-            data-cy={`container-${refId.replace(/^\D*(\d+)\D.*$/, '$1')}`}
+            data-cy={`container-${id}`}
             className={`Container ${
                 customRoughOpening ? 'custom-rough-opening' : ''
                 } ${

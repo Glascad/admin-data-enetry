@@ -10,6 +10,7 @@ class Frame extends PureComponent {
         const {
             props: {
                 _frame: {
+                    id,
                     refId,
                     vertical,
                     registerReactComponent,
@@ -37,6 +38,7 @@ class Frame extends PureComponent {
         return (
             <div
                 id={refId}
+                data-cy={`frame-${id}`}
                 className={`frame-wrapper ${
                     vertical ?
                         'vertical'

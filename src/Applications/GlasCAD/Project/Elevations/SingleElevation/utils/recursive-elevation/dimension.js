@@ -5,6 +5,7 @@ import { Loggable } from "../../../../../../../utils";
 const getValuesFromItem = item => {
     if (item instanceof RecursiveContainer) {
         const {
+            id,
             refId,
             placement: {
                 x,
@@ -15,6 +16,7 @@ const getValuesFromItem = item => {
             customRoughOpening
         } = item;
         return {
+            ids: [id],
             refIds: [refId],
             containers: [item],
             isRoughOpening: customRoughOpening,
@@ -32,6 +34,7 @@ const getValuesFromItem = item => {
             },
         } = item;
         return {
+            ids: [],
             refIds: [],
             containers: [],
             isRoughOpening: true,
@@ -52,6 +55,7 @@ export default class RecursiveDimension extends Loggable {
         super();
 
         const {
+            ids,
             refIds,
             x,
             y,
@@ -89,11 +93,12 @@ export default class RecursiveDimension extends Loggable {
                 offset,
                 precedence,
                 refIds,
+                ids,
             },
         );
     }
 
-    get refId() { return `Dimension${this.refIds.join().replace(/\D+/g, '-')}<${this.instanceCount}>`; }
+    get refId() { return `Dimension-${this.ids.join('-')}<${this.instanceCount}>`; }
 
     get ref() { return document.getElementById(this.refId); }
 
@@ -141,6 +146,7 @@ export default class RecursiveDimension extends Loggable {
         } = this;
 
         const {
+            id,
             refId,
             precedence: {
                 [vertical]: newContainerPrecedence,
@@ -152,6 +158,8 @@ export default class RecursiveDimension extends Loggable {
         this.containers.push(container);
 
         this.refIds.push(refId);
+
+        this.ids.push(id);
 
         return this;
     }

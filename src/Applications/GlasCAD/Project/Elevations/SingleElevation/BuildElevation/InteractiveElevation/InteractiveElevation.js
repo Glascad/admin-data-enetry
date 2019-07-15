@@ -22,6 +22,7 @@ import RecursiveFrame from '../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../utils/recursive-elevation/detail';
 import { parseSearch } from '../../../../../../../utils';
 import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
+import Containers from './Containers/Containers';
 
 class InteractiveElevation extends PureComponent {
 
@@ -206,13 +207,10 @@ class InteractiveElevation extends PureComponent {
                                     }}
                                 />
                                 {/* CONTAINERS */}
-                                {allContainers.map(container => (
-                                    <Container
-                                        key={container.refId}
-                                        container={container}
-                                        selectItem={selectItem}
-                                    />
-                                ))}
+                                <Containers
+                                    containers={allContainers}
+                                    selectItem={selectItem}
+                                />
                                 {/* FRAMES */}
                                 {allFrames.map(_frame => (
                                     <Frame
