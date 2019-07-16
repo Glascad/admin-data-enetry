@@ -213,13 +213,16 @@ testFrame({
     elevation: sample9,
     frames: [
         {
-            id: 6907,
+            detailId: 6907,
             keys: [
                 ["vertical", true],
-                ["details", [{ id: 6924 }, { id: 6907 }, { id: 4574 }, { id: 4570 }]]
+                ["details", [{ id: 6924 }, { id: 6907 }, { id: 4574 }, { id: 4570 }]],
             ],
             methods: [
-                
+                ["getDetailAcrossPerpendicularByDirection", [true], { id: 4574 }],
+                ["getDetailAcrossPerpendicularByDirection", [false], { id: 6924 }],
+                ["getFirstOrLastContainerByDirection", [true, true], { id: 2589 }],
+                ["getFirstOrLastContainerByDirection", [false, true], { id: 2590 }],
             ]
         }
     ]

@@ -332,6 +332,9 @@ export default class RecursiveDetail extends Loggable {
                 &&
                 adjacentContainer.getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
 
+            if (adjacentContainer) console.log(this.id, adjacentContainer.id, {adjacentContainer}, ...dFORWARD, containerFirst);
+            if (sameContainer) console.log(this.id, sameContainer.id, {sameContainer}, ...dBACKWARD, containerFirst);
+
             if (sameContainer && container === sameContainer) {
                 const detail = adjacentContainer.getFirstOrLastDetailByDirection(...cBACKWARD, !detailFirst);
 
@@ -408,11 +411,11 @@ export default class RecursiveDetail extends Loggable {
             [first ? 0 : length - 1]: detail,
         } = allDetailsWithSharedContainers;
 
-        // console.log("GETTING DETAILS ACROSS PERPENDICULAR");
-        // console.log("STARTING AT DETAIL: " + detail.id);
-        // console.log("GOING IN DIRECTION: " + first);
+        console.log("GETTING DETAILS ACROSS PERPENDICULAR");
+        console.log("STARTING AT DETAIL: " + detail.id);
+        console.log("GOING IN DIRECTION: " + first);
 
-        // console.log({ allDetailsWithSharedContainers, detail });
+        console.log({ allDetailsWithSharedContainers, detail });
 
         const detailsAcrossPerpendiculars = shouldRunThroughPerpendiculars ?
             detail.getDetailsAcrossPerpendicularsByDirection(first)

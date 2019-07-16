@@ -86,10 +86,18 @@ testDetails({
             id: 6907,
             keys: [
                 ["vertical", true],
+                ["detailType", "Jamb"],
+                ["runsAlongEdgeOfRoughOpening", true],
+
             ],
             methods: [
                 ["getDetailsAcrossPerpendicularsByDirection", [true], [{ id: 6924 }]],
-                ["getDetailsAcrossPerpendicularsByDirection", [false], [{ id: 4574 }]]
+                ["getDetailsAcrossPerpendicularsByDirection", [false], [{ id: 4574 }]],
+                ["getDetailsAcrossPerpendicularsByDirectionAndContainerDirection", [true, true], [{id: 6924}]],
+                ["getDetailsAcrossPerpendicularsByDirectionAndContainerDirection", [true, false], [{id: 6924}]],
+                ["getDetailsAcrossPerpendicularsByDirectionAndContainerDirection", [false, true], [{id: 4574}]],
+                ["getDetailsAcrossPerpendicularsByDirectionAndContainerDirection", [false, false], [{id: 4574}]],
+
             ]
         }
     ]
