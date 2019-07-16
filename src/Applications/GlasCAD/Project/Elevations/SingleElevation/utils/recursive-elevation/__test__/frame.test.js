@@ -10,6 +10,7 @@ import {
     sample5,
     sample6,
     error1,
+    sample9,
 } from '../../../__test__/sample-elevations';
 
 // describe('Frame Tests', () => {
@@ -207,3 +208,22 @@ testFrame({
         },
     ],
 });
+
+testFrame({
+    elevation: sample9,
+    frames: [
+        {
+            detailId: 6907,
+            keys: [
+                ["vertical", true],
+                ["details", [{ id: 6924 }, { id: 6907 }, { id: 4574 }, { id: 4570 }]],
+            ],
+            methods: [
+                ["getDetailAcrossPerpendicularByDirection", [true], { id: 4574 }],
+                ["getDetailAcrossPerpendicularByDirection", [false], { id: 6924 }],
+                ["getFirstOrLastContainerByDirection", [true, true], { id: 2589 }],
+                ["getFirstOrLastContainerByDirection", [false, true], { id: 2590 }],
+            ]
+        }
+    ]
+})

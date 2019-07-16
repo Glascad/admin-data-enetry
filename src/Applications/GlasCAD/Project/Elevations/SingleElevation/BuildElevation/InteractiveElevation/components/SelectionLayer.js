@@ -4,7 +4,7 @@ import { withSelectionContext } from '../../contexts/SelectionContext';
 
 import SelectedItem from './SelectedItem';
 
-import Detail from './Detail';
+import Details from '../Details/Details';
 
 import { unique } from '../../../../../../../../utils';
 
@@ -25,7 +25,7 @@ const SelectionLayer = memo(function SelectionLayer({
         cancelSelection,
     },
 }) {
-    
+
     const detailIsSelected = firstItem instanceof RecursiveDetail;
     const containerIsSelected = firstItem instanceof RecursiveContainer;
     const frameIsSelected = firstItem instanceof RecursiveFrame;
@@ -66,7 +66,7 @@ const SelectionLayer = memo(function SelectionLayer({
                 :
                 all.concat(detail);
         }, []);
-    
+
     console.log({ items, filteredDetailsToRender });
 
     return (
@@ -81,18 +81,16 @@ const SelectionLayer = memo(function SelectionLayer({
                             lastSelected={i === length - 1}
                         />
                     ))}
-                    {filteredDetailsToRender.map(detail => (
-                        <Detail
-                            key={detail.detailId}
-                            detail={detail}
-                            selectItem={selectItem}
-                            cancelSelection={cancelSelection}
-                            unselectItem={unselectItem}
-                            itemsByRefId={itemsByRefId}
-                            detailIsSelected={detailIsSelected}
-                            containerIsSelected={containerIsSelected}
-                            frameIsSelected={frameIsSelected}
-                        />
+                    <Details
+                        selectItem={selectItem}
+                        cancelSelection={cancelSelection}
+                        unselectItem={unselectItem}
+                        itemsByRefId={itemsByRefId}
+                        detailIsSelected={detailIsSelected}
+                        containerIsSelected={containerIsSelected}
+                        frameIsSelected={frameIsSelected}
+                        filteredDetailsToRender={filteredDetailsToRender}
+                    />
                     ))}
                 </>
             ) : null}

@@ -1,10 +1,9 @@
 import React, { memo } from 'react';
 import _ from 'lodash';
 
-import DetailBubble from './DetailBubble';
+import DetailBubble from '../components/DetailBubble';
 import { transformProps } from '../../../../../../../../components';
 import { pixelsPerInch } from '../../contexts/TransformContext';
-import { withSelectionContext } from '../../contexts/SelectionContext';
 
 const Detail = memo(function Detail({
     itemsByRefId,
@@ -36,7 +35,6 @@ const Detail = memo(function Detail({
     selectItem,
     containerIsSelected,
     cancelSelection,
-    selected,
     unselectItem,
 }) {
 
