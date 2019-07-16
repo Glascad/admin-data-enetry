@@ -10,6 +10,7 @@ import {
     sample5,
     sample6,
     error1,
+    sample9,
 } from '../../../__test__/sample-elevations';
 
 // describe('Frame Tests', () => {
@@ -207,3 +208,19 @@ testFrame({
         },
     ],
 });
+
+testFrame({
+    elevation: sample9,
+    frames: [
+        {
+            id: 6907,
+            keys: [
+                ["vertical", true],
+                ["details", [{ id: 6924 }, { id: 6907 }, { id: 4574 }, { id: 4570 }]]
+            ],
+            methods: [
+                
+            ]
+        }
+    ]
+})
