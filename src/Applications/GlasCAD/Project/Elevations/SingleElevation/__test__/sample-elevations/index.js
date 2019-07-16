@@ -8,6 +8,8 @@ import sample4 from './sample4.json';
 import sample5 from './sample5.json';
 import sample6 from './sample6.json';
 import sample7 from './sample7.json';
+import sample8 from './sample8.json';
+import sample8Error from './sample8-error.json';
 // from bug reports
 import hhFrameError from './hh-frame-error.json';
 import error1 from './error-1.json';
@@ -23,6 +25,8 @@ export {
     sample5,
     sample6,
     sample7,
+    sample8,
+    sample8Error,
     hhFrameError,
     error1,
 };

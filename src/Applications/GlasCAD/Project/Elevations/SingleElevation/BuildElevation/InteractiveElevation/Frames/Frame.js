@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import _ from 'lodash';
 import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
 import { transformProps } from '../../../../../../../../components';
 import { withSelectionContext } from '../../contexts/SelectionContext';
@@ -43,9 +44,9 @@ const Frame = memo(function Frame({
                     :
                     'horizontal'
                 } ${
-                    selected ?
+                selected ?
                     'selected'
-                    : 
+                    :
                     ''
                 }`}
             style={selectable ?
@@ -74,34 +75,39 @@ const Frame = memo(function Frame({
     );
 });
 
-export default withSelectionContext(
-    transformProps(({
-        selection: {
-            items,
+const mapSelection = _.memoize(({
+    selection: {
+        items,
+    },
+    _frame,
+}) => ({
+    selection: undefined,
+    selected: items.includes(_frame),
+}));
+
+const scalePlacement = _.memoize(({
+    _frame: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
         },
-        _frame,
-    }) => ({
-        selection: undefined,
-        selected: items.includes(_frame),
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}));
+
+export default withSelectionContext(
+    transformProps(props => ({
+        ...mapSelection(props),
+        ...scalePlacement(props),
     }))(
-        transformProps(({
-            _frame: {
-                placement: {
-                    x,
-                    y,
-                    height,
-                    width,
-                },
-            },
-        }) => ({
-            scaledPlacement: {
-                x: pixelsPerInch * x,
-                y: pixelsPerInch * y,
-                height: pixelsPerInch * height,
-                width: pixelsPerInch * width,
-            },
-        }))(
-            withTransformContext(Frame)
-        )
+        withTransformContext(Frame)
     )
 );

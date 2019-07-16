@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import _ from 'lodash';
 
 import DetailBubble from './DetailBubble';
 import { transformProps } from '../../../../../../../../components';
@@ -99,10 +100,9 @@ const Detail = memo(function Detail({
             />
         </>
     );
-
 });
 
-export default transformProps(({
+const mapPlacement = _.memoize(({
     detail: {
         placement: {
             x,
@@ -118,24 +118,27 @@ export default transformProps(({
         height: pixelsPerInch * height,
         width: pixelsPerInch * width,
     },
-}))(
-    transformProps(({
-        detail: {
-            placedFrameDetail: {
-                x,
-                y,
-                height,
-                width,
-            },
+}));
+
+const mapFrameDetailPlacement = ({
+    detail: {
+        placedFrameDetail: {
+            x,
+            y,
+            height,
+            width,
         },
-    }) => ({
-        scaledFrameDetailPlacement: {
-            x: pixelsPerInch * x,
-            y: pixelsPerInch * y,
-            height: pixelsPerInch * height,
-            width: pixelsPerInch * width,
-        },
-    }))(
-        Detail
-    )
-);
+    },
+}) => ({
+    scaledFrameDetailPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+});
+
+export default memo(transformProps(props => ({
+    ...mapFrameDetailPlacement(props),
+    ...mapPlacement(props),
+}))(Detail));

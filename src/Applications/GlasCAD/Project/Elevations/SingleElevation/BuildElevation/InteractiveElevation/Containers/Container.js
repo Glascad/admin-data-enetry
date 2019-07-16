@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import _ from 'lodash';
 import { transformProps } from '../../../../../../../../components';
 import { pixelsPerInch } from '../../contexts/TransformContext';
 import { withSelectionContext } from '../../contexts/SelectionContext';
@@ -47,46 +48,49 @@ const Container = memo(function Container({
             tabIndex={tabIndex}
         >
             <ContainerId
-                refId={refId}
+                id={id}
             />
         </div>
     );
 });
 
-export default withSelectionContext(
-    // calculate selection prop to prevent rerendering on selection changes that don't affect this component
-    transformProps(({
-        selection: {
-            items,
-            items: {
-                length,
-            },
+// calculate selection prop to prevent rerendering on selection changes that don't affect this component
+const mapSelection = _.memoize(({
+    selection: {
+        items,
+        items: {
+            length,
         },
-        container,
-    }) => ({
-        selection: undefined,
-        selected: items.includes(container),
-        lastSelected: items[length - 1] === container,
-    }))(
-        // scale inch values to pixels
-        transformProps(({
-            container: {
-                placement: {
-                    x,
-                    y,
-                    height,
-                    width,
-                },
-            },
-        }) => ({
-            scaledPlacement: {
-                x: pixelsPerInch * x,
-                y: pixelsPerInch * y,
-                height: pixelsPerInch * height,
-                width: pixelsPerInch * width,
-            },
-        }))(
-            Container
-        )
-    )
-);
+    },
+    container,
+}) => ({
+    selection: undefined,
+    selected: items.includes(container),
+    lastSelected: items[length - 1] === container,
+}));
+
+// scale inch values to pixels
+const calculatePlacement = _.memoize(({
+    container: {
+        placement: {
+            x,
+            y,
+            height,
+            width,
+        },
+    },
+}) => ({
+    scaledPlacement: {
+        x: pixelsPerInch * x,
+        y: pixelsPerInch * y,
+        height: pixelsPerInch * height,
+        width: pixelsPerInch * width,
+    },
+}));
+
+export default memo(withSelectionContext(
+    transformProps(props => ({
+        ...mapSelection(props),
+        ...calculatePlacement(props),
+    }))(Container)
+));

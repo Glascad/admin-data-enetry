@@ -99,10 +99,10 @@ $horizontal-bubble-translation: $small * 2.5;
     .detail-bubble-placement,
     .Detail,
     // .DimensionButton,
-    .SelectedItem,
     // #elevation-display,
-    .text,
-    .text > * {
+    // .text,
+    // .text > * 
+    .SelectedItem {
         transition: all 0.1s;
     }
 
@@ -379,7 +379,7 @@ $horizontal-bubble-translation: $small * 2.5;
                     position: absolute;
                     z-index: 6;
                 }
-                
+
                 // deep nesting for precedence
                 &.vertical,
                 &.horizontal {

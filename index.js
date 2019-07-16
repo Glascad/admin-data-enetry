@@ -18,7 +18,7 @@ APP.use(cors());
 
 APP.use(express.static(`${__dirname}/build/`));
 
-APP.use(postgraphile(CONNECTION_STRING, {
+APP.use(postgraphile(CONNECTION_STRING, ['public', 'utils'], {
     graphiql: true,
     jwtPgTypeIdentifier: "users.jwt",
     jwtSecret: JWT_SECRET,

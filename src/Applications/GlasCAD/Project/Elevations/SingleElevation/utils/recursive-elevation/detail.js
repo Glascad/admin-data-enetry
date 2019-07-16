@@ -209,7 +209,7 @@ export default class RecursiveDetail extends Loggable {
 
     // NAVIGATION / RENDERING
     getDetailsByContainer = first => {
-        if (!this.exists) return [];
+        // if (!this.exists) return [];
 
         if (!this[detailsByContainerKey][first]) {
             const direction = [!this.vertical, first];
@@ -228,7 +228,7 @@ export default class RecursiveDetail extends Loggable {
 
     getDetailsWithSharedContainersByContainerDirection = first => {
         // console.log(this.id);
-        if (!this.exists) return [];
+        // if (!this.exists) return [];
 
         if (!this[detailsWithSharedContainersKey][first]) {
             const { vertical } = this;
@@ -257,7 +257,7 @@ export default class RecursiveDetail extends Loggable {
     }
 
     get allDetailsWithSharedContainers() {
-        if (!this.exists) return [];
+        // if (!this.exists) return [];
 
         return this.__detailsWithSharedContainers || (
             this.__detailsWithSharedContainers = unique(
@@ -322,48 +322,26 @@ export default class RecursiveDetail extends Loggable {
 
             const adjacentContainer = container
                 &&
-                !container.customRoughOpening
-                &&
                 container.getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
 
             const sameContainer = adjacentContainer
                 &&
-                !adjacentContainer.customRoughOpening
-                &&
                 adjacentContainer.getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
 
-            if (sameContainer && container === sameContainer) {
+            if (
+                sameContainer && (
+                    container === sameContainer
+                ) && (
+                    !container.customRoughOpening
+                    ||
+                    !adjacentContainer.customRoughOpening
+                )
+            ) {
                 const detail = adjacentContainer.getFirstOrLastDetailByDirection(...cBACKWARD, !detailFirst);
 
                 if (detail) {
 
-                    // const { placement: detailPlacement } = detail;
-
-                    // const placementsMatch = vertical ?
-                    //     placement.x === detailPlacement.x
-                    //     &&
-                    //     placement.width === detailPlacement.width
-                    //     :
-                    //     placement.y === detailPlacement.y
-                    //     &&
-                    //     placement.height === detailPlacement.height;
-
-                    // console.log(this.id, detailFirst, containerFirst, {
-                    //     sameContainer,
-                    //     container,
-                    //     adjacentContainer,
-                    //     detail,
-                    //     cBACKWARD,
-                    //     dFORWARD,
-                    //     dBACKWARD,
-                    // });
-
-                    // if (placementsMatch) {
-
                     this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail.getMatchedDetailsByDirection(detailFirst);
-                    // } else {
-                    //     this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = [];
-                    // }
                 } else {
                     this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = [];
                 }

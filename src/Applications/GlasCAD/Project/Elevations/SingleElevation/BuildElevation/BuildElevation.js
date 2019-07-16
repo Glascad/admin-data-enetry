@@ -205,9 +205,14 @@ class BuildElevation extends PureComponent {
                         nodeId,
                         __typename,
                         id,
+                        daylightOpening: {
+                            __typename: dlo_typename,
+                            ...daylightOpening
+                        },
                         ...container
                     }) => ({
-                        ...container,
+                            ...container,
+                        daylightOpening,
                         [id > 0 ?
                             'id'
                             :
