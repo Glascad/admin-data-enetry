@@ -91,7 +91,6 @@ const SelectionLayer = memo(function SelectionLayer({
                         frameIsSelected={frameIsSelected}
                         filteredDetailsToRender={filteredDetailsToRender}
                     />
-                    ))}
                 </>
             ) : null}
         </div>
