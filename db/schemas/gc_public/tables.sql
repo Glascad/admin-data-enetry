@@ -16,15 +16,15 @@ gc_public.system_sets (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects,
     system_id INTEGER REFERENCES systems,
-    system_type_id INTEGER REFERENCES system_types,
+    system_type SYSTEM_TYPE,
     infill_size FLOAT REFERENCES infill_sizes,
     FOREIGN KEY (
         system_id,
-        system_type_id
+        system_type
     )
     REFERENCES systems (
         id,
-        system_type_id
+        system_type
     ),
     FOREIGN KEY (
         system_id,
@@ -34,26 +34,26 @@ gc_public.system_sets (
         system_id,
         infill_size
     ),
-    UNIQUE (id, system_id, system_type_id)
+    UNIQUE (id, system_id, system_type)
 );
 
 CREATE TABLE
 gc_public.system_set_option_values (
     system_set_id INTEGER,
     system_id INTEGER,
-    system_type_id INTEGER,
+    system_type INTEGER,
     system_option_id INTEGER,
     option_value_id INTEGER REFERENCES option_values,
     PRIMARY KEY (system_id, system_option_id),
     FOREIGN KEY (
         system_set_id,
         system_id,
-        system_type_id
+        system_type
     )
     REFERENCES system_sets (
         id,
         system_id,
-        system_type_id
+        system_type
     ),
     FOREIGN KEY (
         system_id,
@@ -77,19 +77,19 @@ CREATE TABLE
 gc_public.system_set_detail_type_configuration_types (
     system_set_id INTEGER,
     system_id INTEGER,
-    system_type_id INTEGER,
-    detail_type_id INTEGER,
-    configuration_type_id INTEGER,
-    PRIMARY KEY (system_id, detail_type_id, configuration_type_id),
+    system_type SYSTEM_TYPE,
+    detail_type DETAIL_TYPE,
+    configuration_type CONFIGURATION_TYPE,
+    PRIMARY KEY (system_id, detail_type, configuration_type),
     FOREIGN KEY (
-        system_set_id,
+        system_set,
         system_id,
-        system_type_id
+        system_type
     )
     REFERENCES system_sets (
         id,
         system_id,
-        system_type_id
+        system_type
     )
 );
 
