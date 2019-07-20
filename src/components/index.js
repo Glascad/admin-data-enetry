@@ -15,6 +15,7 @@ import Input from './ui/Input/Input';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
+import Pinnable from './ui/Pinnable/Pinnable';
 
 // STATE COMPONENTS
 import asyncComponent from './state/async-component';
@@ -42,6 +43,8 @@ import ErrorBoundary from './dev/ErrorBoundary/ErrorBoundary';
 // UNIVERSAL STYLES
 import './index.scss';
 
+
+
 export {
     // UI
     Dropdown,
@@ -60,6 +63,7 @@ export {
     Ellipsis,
     AsyncButton,
     ConfirmButton,
+    Pinnable,
     // STATE
     asyncComponent,
     ApolloWrapper,

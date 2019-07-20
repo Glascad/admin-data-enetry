@@ -15,7 +15,7 @@ import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 import { parseSearch } from '../../../../../../utils';
 
-import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
+import { ErrorBoundary, withUndoRedo, Ellipsis, Pinnable } from '../../../../../../components';
 
 import renderPreview from '../../ElevationPreview/render-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
@@ -211,7 +211,7 @@ class BuildElevation extends PureComponent {
                         },
                         ...container
                     }) => ({
-                            ...container,
+                        ...container,
                         daylightOpening,
                         [id > 0 ?
                             'id'
@@ -293,12 +293,6 @@ class BuildElevation extends PureComponent {
                             updating={updating}
                             elevationInput={elevationInput}
                         />
-                        <RightSidebar
-                            currentIndex={currentIndex}
-                            states={states}
-                            elevation={recursiveElevation}
-                            updateElevation={updateElevation}
-                        />
                         <ErrorBoundary
                             renderError={(error, info) => (
                                 <div>
@@ -318,6 +312,18 @@ class BuildElevation extends PureComponent {
                             project={project}
                             elevationInput={elevationInput}
                         />
+                        <RightSidebar
+                            currentIndex={currentIndex}
+                            states={states}
+                            elevation={recursiveElevation}
+                            updateElevation={updateElevation}
+                        />
+                        <Pinnable
+                            pinned={true}
+                            onClose={() => console.log('pinnable')}
+                        >
+                            pinned
+                        </Pinnable>
                     </TransformProvider>
                 </ActionProvider>
             </SelectionProvider>
