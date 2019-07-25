@@ -13,59 +13,6 @@ import {
     sample9,
 } from '../../../__test__/sample-elevations';
 
-// describe('Frame Tests', () => {
-//     test('sample1 - has correct number of frames', () => {
-//         const elevation = new RecursiveElevation(sample1)
-//         expect(elevation.allFrames).toHaveProperty('length', 9);
-//     });
-//     // test('sample1 special - has correct number of frames', () => {
-//     //     // const elevation = new RecursiveElevation(sample1Special)
-//     //     expect(elevation.allFrames).toHaveProperty('length', 10);
-//     // });
-//     // test('sample1 special - has correct frame references (slightly offset)', () => {
-//     //     // const elevation = new RecursiveElevation(sample1Special);
-//     //     expect(elevation.containers[708].rightFrame).not.toBe(elevation.containers[707].rightFrame);
-//     //     expect(elevation.containers[708].rightFrame).not.toBe(elevation.containers[709].leftFrame);
-//     // });
-//     // test('sample1 special - non-matching details do not belong to the same frame (verticals, slightly offset)', () => {
-//     //     // const elevation = new RecursiveElevation(sample1Special);
-//     //     expect(elevation.details[1]._frame).not.toBe(elevation.details[1792]._frame);
-//     // });
-//     // test('sample1 special - non-matching details do not belong to the same frame (horizontals, no offset)', () => {
-//     //     // const elevation = new RecursiveElevation(sample1Special);
-//     //     expect(elevation.details[1799]._frame).not.toBe(elevation.details[1793]._frame);
-//     // });
-//     // test('sample1 special - non-matching details do not belong to the same frame (completely separate)', () => {
-//     //     // const elevation = new RecursiveElevation(sample1Special);
-//     //     expect(elevation.details[1795]._frame).not.toBe(elevation.details[1792]._frame);
-//     //     expect(elevation.details[1801]._frame).not.toBe(elevation.details[1792]._frame);
-//     // });
-//     // test('smaple1 special - matching details belong to the same frame', () => {
-//     //     // const elevation = new RecursiveElevation(sample1Special);
-//     //     expect(elevation.details[1791]._frame).toBe(elevation.details[1795]._frame);
-//     //     expect(elevation.details[1798]._frame).toBe(elevation.details[1801]._frame);
-//     // });
-// });
-
-
-// const testFrame = ({ elevation, detailId, payload, expectedResult }) => {
-
-//     const sampleResult = new RecursiveElevation(elevation);
-//     sampleResult: {
-//         details[detailId]: {
-//             __frame: frame
-//         }
-//     }
-//     const frame = sampleResult.details[detailId].__frame;
-
-//     describe(`testing frame methods for ${elevation.name}`, () => {
-
-//         test(`testing getDetailAcrossPerpendicularByDirection() for ${elevation.name} for frame connected to ${detailId}`, () => {
-//             expect()
-//         });
-//     });
-// };
-
 function testFrame({ elevation, frames }) {
     describe(`Testing frame methods for ${elevation.name}`, () => {
         const sampleElevation = new RecursiveElevation(elevation);
@@ -101,40 +48,40 @@ function testFrame({ elevation, frames }) {
     });
 }
 
-testFrame({
-    elevation: hhFrameError,
-    frames: [
-        {
-            detailId: 2082,
-            keys: [
-                ['firstEndRunsIntoEdgeOfRoughOpening', true],
-                ['lastEndRunsIntoEdgeOfRoughOpening', true],
-                ['firstEndRunsAlongEdgeOfRoughOpening', false],
-                ['lastEndRunsAlongEdgeOfRoughOpening', false],
-                ['needsTopExtension', true],
-                ['needsBottomExtension', true],
-                ['topExtension', 10],
-                ['bottomExtension', 10],
-            ],
-            methods: [
-                ["getContainersByDirection", [true], [{ id: 822 }, { id: 820 }, { id: 819 }]],
-                ["getContainersByDirection", [false], [{ id: 826 }, { id: 824 }]],
-                ["getFirstOrLastContainerByDirection", [true, true], { id: 822 }],
-                ["getFirstOrLastContainerByDirection", [false, true], { id: 826 }],
-            ],
-        },
-        // {
-        //     detailId: 2041,
-        //     keys: [
-        //         ["vertical", true],
-        //         ["sightline", 10],
-        //         // ["canAddBay", true],
-        //     ],
-        //     methods: [
-        //     ],
-        // },
-    ],
-});
+// testFrame({
+//     elevation: hhFrameError,
+//     frames: [
+//         {
+//             detailId: 2082,
+//             keys: [
+//                 ['firstEndRunsIntoEdgeOfRoughOpening', true],
+//                 ['lastEndRunsIntoEdgeOfRoughOpening', true],
+//                 ['firstEndRunsAlongEdgeOfRoughOpening', false],
+//                 ['lastEndRunsAlongEdgeOfRoughOpening', false],
+//                 ['needsTopExtension', true],
+//                 ['needsBottomExtension', true],
+//                 ['topExtension', 10],
+//                 ['bottomExtension', 10],
+//             ],
+//             methods: [
+//                 ["getContainersByDirection", [true], [{ id: 822 }, { id: 820 }, { id: 819 }]],
+//                 ["getContainersByDirection", [false], [{ id: 826 }, { id: 824 }]],
+//                 ["getFirstOrLastContainerByDirection", [true, true], { id: 822 }],
+//                 ["getFirstOrLastContainerByDirection", [false, true], { id: 826 }],
+//             ],
+//         },
+//         // {
+//         //     detailId: 2041,
+//         //     keys: [
+//         //         ["vertical", true],
+//         //         ["sightline", 10],
+//         //         // ["canAddBay", true],
+//         //     ],
+//         //     methods: [
+//         //     ],
+//         // },
+//     ],
+// });
 
 testFrame({
     elevation: sample3,
@@ -185,7 +132,6 @@ testFrame({
                 ["sightline", 10],
             ],
             methods: [
-                // ["canAddBay", [], false],
             ],
         },
     ],
@@ -197,13 +143,10 @@ testFrame({
         {
             detailId: 3479,
             keys: [
-                // ["vertical", true],
-                // ["sightline", 2],
+                ["vertical", true],
+                ["sightline", 2],
             ],
             methods: [
-                // ["canAddBay", [], true],
-                // ["canAddBayRight", [], true],
-                // ["canAddBayLeft", [], true],
             ],
         },
     ],
@@ -216,13 +159,11 @@ testFrame({
             detailId: 6907,
             keys: [
                 ["vertical", true],
-                ["details", [{ id: 6924 }, { id: 6907 }, { id: 4574 }, { id: 4570 }]],
+                // ["details", [{ id: 6924 }, { id: 6907 }, { id: 4574 }, { id: 4570 }]],
             ],
             methods: [
-                ["getDetailAcrossPerpendicularByDirection", [true], { id: 4574 }],
-                ["getDetailAcrossPerpendicularByDirection", [false], { id: 6924 }],
-                ["getFirstOrLastContainerByDirection", [true, true], { id: 2589 }],
-                ["getFirstOrLastContainerByDirection", [false, true], { id: 2590 }],
+                // ["getFirstOrLastContainerByDirection", [true, true], { id: 2589 }],
+                // ["getFirstOrLastContainerByDirection", [false, true], { id: 2590 }],
             ]
         }
     ]
