@@ -105,7 +105,6 @@ testDetails({
             keys: [
                 ["vertical", true],
                 ["detailType", "Jamb"],
-                ["runsAlongEdgeOfRoughOpening", true],
 
             ],
             methods: [
@@ -116,13 +115,12 @@ testDetails({
             keys: [
                 ["vertical", true],
                 ["detailType", "Jamb"],
-                ["runsAlongEdgeOfRoughOpening", true],
 
             ],
             methods: [
-                ["getDetailAcrossPerpendicularsByDirection", [false], { id: 4574 }],
+                ["getDetailAcrossPerpendicularByDirection", [false], { id: 4574 }],
                 ["getNextDetailByDirection", [false], { id: 4574 }],
-                ["getNextDetailsByDirection", [false], [{ id: 4574 }, { id: 6907 }, { id: 6924 }]],
+                ["getAllNextDetailsByDirection", [false], [{ id: 4574 }, { id: 6907 }, { id: 6924 }]],
             ]
         }
     ]
@@ -135,7 +133,6 @@ testDetails({
             keys: [
                 ["vertical", true],
                 ["detailType", "Jamb"],
-                ["runsAlongEdgeOfRoughOpening", true],
 
             ],
             methods: [
@@ -146,13 +143,11 @@ testDetails({
             keys: [
                 ["vertical", true],
                 ["detailType", "Jamb"],
-                ["runsAlongEdgeOfRoughOpening", true],
 
             ],
             methods: [
-                ["getDetailAcrossPerpendicularsByDirection", [false], { id: 4574 }],
                 ["getNextDetailByDirection", [false], {}],
-                ["getNextDetailsByDirection", [false], []],
+                ["getAllNextDetailsByDirection", [false], []],
             ]
         }
     ]

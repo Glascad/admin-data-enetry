@@ -1,12 +1,12 @@
 
 import { unique, Loggable } from '../../../../../../../utils';
-import { sortDetails } from './sort-details';
+import sortDetails from './sort-details';
 import { GET_RELATIVE_DIRECTIONS } from './directions';
 
 const matchedDetailsKey = 'matched_details<first>';
 const detailsByContainerKey = 'details_by_container<first>';
 const detailsWithSharedContainersKey = 'details_with_shared_container<first>';
-const detailsAcrossPerpendicularsKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
+const detailAcrossPerpendicularKey = 'details_across_perpendiculars<detailFirst><containerFirst>';
 
 export default class RecursiveDetail extends Loggable {
 
@@ -33,7 +33,7 @@ export default class RecursiveDetail extends Loggable {
                     true: undefined,
                     false: undefined,
                 },
-                [detailsAcrossPerpendicularsKey]: {
+                [detailAcrossPerpendicularKey]: {
                     true: {
                         true: undefined,
                         false: undefined,
@@ -103,7 +103,8 @@ export default class RecursiveDetail extends Loggable {
     // OPTIONS / TYPES
     get detailType() {
         // determine detail type
-        return this.exists && (
+        return (
+            // this.exists && (
             this.__type || (
                 this.__type = this.vertical ?
                     (
@@ -135,11 +136,12 @@ export default class RecursiveDetail extends Loggable {
                             :
                             'Horizontal'
             )
+            // )
         );
     }
 
     get configurationTypes() {
-        if (!this.exists) return [];
+        // if (!this.exists) return [];
         // find all configuration types that are applicable to detail type
         return (
             this.__configurationTypes || (
@@ -170,8 +172,8 @@ export default class RecursiveDetail extends Loggable {
     }
 
     compareOtherDetail = detail => (
-        this.exists
-        &&
+        // this.exists
+        // &&
         this.detailType === detail.detailType
         &&
         this.appliedConfigurationTypes.every(act => detail.appliedConfigurationTypes.includes(act))
@@ -180,7 +182,8 @@ export default class RecursiveDetail extends Loggable {
     );
 
     get detailId() {
-        return this.exists && (
+        return (
+            // this.exists && (
             this.__detailId || (
                 this.__detailId = `${
                 this.detailType === 'Horizontal' ?
@@ -231,7 +234,6 @@ export default class RecursiveDetail extends Loggable {
         // if (!this.exists) return [];
 
         if (!this[detailsWithSharedContainersKey][first]) {
-            const { vertical } = this;
 
             const details = this.getDetailsByContainer(first);
 
@@ -250,7 +252,7 @@ export default class RecursiveDetail extends Loggable {
                     []
                     :
                     lastDetail.getDetailsWithSharedContainersByContainerDirection(!first),
-            ).sort(sortDetails(!vertical));
+            ).sort(sortDetails);
 
         }
         return this[detailsWithSharedContainersKey][first];
@@ -264,15 +266,12 @@ export default class RecursiveDetail extends Loggable {
                 this.getDetailsWithSharedContainersByContainerDirection(true),
                 this.getDetailsWithSharedContainersByContainerDirection(false),
             )
-                .sort(sortDetails(true))
-                .sort(sortDetails(false))
+                .sort(sortDetails)
         );
     }
 
     get runsAlongEdgeOfRoughOpening() {
         return (
-            !this.exists
-            ||
             !this.firstContainer
             ||
             this.firstContainer.customRoughOpening
@@ -282,107 +281,84 @@ export default class RecursiveDetail extends Loggable {
             this.secondContainer.customRoughOpening
         );
     }
-
     get shouldRunThroughPerpendiculars() {
         if (!this.exists) return false;
 
-        if (this.__shouldRunThroughPerpendiculars === undefined) {
-            this.__shouldRunThroughPerpendiculars = (
-                this.vertical
-                ||
-                (
-                    this.runsAlongEdgeOfRoughOpening
-                    &&
-                    !this.elevation.verticalFramesRunThroughHeadAndSill
-                )
-            );
-        }
-        return this.__shouldRunThroughPerpendiculars;
+        else return this.vertical;
     }
 
-    getDetailAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
-        // if (!this[detailAcrossPerpendicularsKey][detailFirst][containerFirst]) {
+    getDetailAcrossPerpendicularByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
+        if (!this[detailAcrossPerpendicularKey][detailFirst][containerFirst]) {
 
-        const { vertical } = this;
+            const { vertical } = this;
 
-        const containerDirection = [!vertical, containerFirst];
+            const containerDirection = [!vertical, containerFirst];
 
-        const detailDirection = [vertical, detailFirst];
+            const detailDirection = [vertical, detailFirst];
 
-        const {
-            BACKWARD: cBACKWARD,
-        } = GET_RELATIVE_DIRECTIONS(containerDirection);
+            const {
+                BACKWARD: cBACKWARD,
+            } = GET_RELATIVE_DIRECTIONS(containerDirection);
 
-        const {
-            FORWARD: dFORWARD,
-            BACKWARD: dBACKWARD,
-        } = GET_RELATIVE_DIRECTIONS(detailDirection);
+            const {
+                FORWARD: dFORWARD,
+            } = GET_RELATIVE_DIRECTIONS(detailDirection);
 
-        const container = this.getContainerByDirection(containerFirst);
+            const container = this.getContainerByDirection(containerFirst);
 
-        const adjacentContainer = container
-            &&
-            container.getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
+            const adjacentContainer = container
+                &&
+                container.getFirstOrLastContainerByDirection(...dFORWARD, containerFirst);
 
-        const sameContainer = adjacentContainer
-            &&
-            adjacentContainer.getFirstOrLastContainerByDirection(...dBACKWARD, containerFirst);
-
-        if (
-            sameContainer && (
-                container === sameContainer
-            ) && (
-                !container.customRoughOpening
-                ||
-                !adjacentContainer.customRoughOpening
-            )
-        ) {
-            const detail = adjacentContainer.getFirstOrLastDetailByDirection(...cBACKWARD, detailFirst);
-            if (detail) return detail
+            this[detailAcrossPerpendicularKey][detailFirst][containerFirst] = adjacentContainer
+                &&
+                adjacentContainer.getFirstOrLastDetailByDirection(...cBACKWARD, detailFirst);
         }
-        // }
+        return this[detailAcrossPerpendicularKey][detailFirst][containerFirst];
     }
 
-    getDetailAcrossPerpendicularsByDirection = detailFirst => {
-        if (this.exists) {
-            const firstDetail = this.getDetailAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true);
-            const secondDetail = this.getDetailAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false);
-            if (firstDetail) {
-                if ((firstDetail === secondDetail) || firstDetail.runsAlongEdgeOfRoughOpening) return firstDetail;
-            }
-            if (secondDetail && secondDetail.runsAlongEdgeOfRoughOpening) return secondDetail
+    getDetailAcrossPerpendicularByDirection = detailFirst => {
+        const firstDetail = this.getDetailAcrossPerpendicularByDirectionAndContainerDirection(detailFirst, true);
+        const secondDetail = this.getDetailAcrossPerpendicularByDirectionAndContainerDirection(detailFirst, false);
+
+        if (firstDetail && secondDetail) {
+            if (firstDetail === secondDetail) return firstDetail
+        } else {
+            return firstDetail || secondDetail
         }
     }
-
-    getDetailsAcrossPerpendicularsByDirectionAndContainerDirection = (detailFirst, containerFirst) => {
-        if (!this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst]) {
-            const detail = this.getDetailAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, containerFirst);
-            this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst] = detail.getNextDetailsByDirection(detailFirst);
-        }
-        return this[detailsAcrossPerpendicularsKey][detailFirst][containerFirst];
-    }
-
-    getDetailsAcrossPerpendicularsByDirection = detailFirst => this.exists ?
-        unique(
-            this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, true),
-            this.getDetailsAcrossPerpendicularsByDirectionAndContainerDirection(detailFirst, false),
-        )
-        :
-        [];
 
     get allMatchedDetails() {
         if (!this.__allMatchedDetails) {
             // console.log("GETTING MATCHED DETAILS: " + this.id);
-            this.__allMatchedDetails = this.exists ?
-                unique(
-                    this.getNextDetailsByDirection(true),
-                    this,
-                    this.getNextDetailsByDirection(false),
-                )
-                :
-                [];
+            this.__allMatchedDetails = unique(
+                this.getMatchedDetailsByDirection(true),
+                this,
+                this.getMatchedDetailsByDirection(false),
+            )
         }
         return this.__allMatchedDetails;
+    }
+
+    getNextMatchedDetailByDirection = first => {
+        const nextDetail = this.getNextDetailByDirection(first);
+        return (
+            this.allDetailsWithSharedContainers.includes(nextDetail)
+            ||
+            this.shouldRunThroughPerpendiculars
+        )
+            &&
+            this.exists === (nextDetail && nextDetail.exists)
+            &&
+            nextDetail
+    }
+
+    getMatchedDetailsByDirection = first => {
+        const nextDetail = this.getNextMatchedDetailByDirection(first);
+        return (nextDetail) ?
+            [nextDetail].concat(nextDetail.getMatchedDetailsByDirection(first)).sort(sortDetails)
+            :
+            []
     }
 
     getNextDetailByDirection = first => {
@@ -394,29 +370,26 @@ export default class RecursiveDetail extends Loggable {
             thisIndex + 1;
 
         const nextDetail = allDetailsWithSharedContainers[nextIndex]
+            ||
+            this.getDetailAcrossPerpendicularByDirection(first);
 
-        if (nextDetail) return nextDetail;
-        else {
-            return this.getDetailAcrossPerpendicularsByDirection(first);
-        }
+        return nextDetail;
     }
 
     get previousDetail() { return this.getNextDetailByDirection(false); }
     get nextDetail() { return this.getNextDetailByDirection(true); }
 
-    getNextDetailsByDirection = first => {
-        if (this.exists) {
-            const nextDetail = this.getNextDetailByDirection(first);
-            return (nextDetail && nextDetail.exists && nextDetail.shouldRunThroughPerpendiculars) ?
-                [nextDetail].concat(nextDetail.getNextDetailsByDirection(first))
-                :
-                []
-        }
+    getAllNextDetailsByDirection = first => {
+        const nextDetail = this.getNextDetailByDirection(first);
+        return (nextDetail) ?
+            [nextDetail].concat(nextDetail.getAllNextDetailsByDirection(first)).sort(sortDetails)
+            :
+            []
     }
 
     // PLACEMENT
     get placement() {
-        if (!this.exists) return {};
+        // if (!this.exists) return {};
         if (!this.__placement) {
             const {
                 vertical,

@@ -33,11 +33,17 @@ export default function updateDetailsAfterMovingFrame({
     // look at both ends of the frame
     const { newElevation } = [true, false]
         .reduce(({ newElevation: outerNewElevation }, first) => {
-            const expandingContainer = _frame.getFirstOrLastContainerByDirection(distance < 0, !first);
-            const contractingContainer = _frame.getFirstOrLastContainerByDirection(distance > 0, !first);
+            const endDetail = _frame.getFirstOrLastDetail(!first);
+            const nextFrame = _frame.getNextFrameByDirection(first)
+            const maybeDeletedFrame = endDetail.runsAlongEdgeOfRoughOpening && nextFrame && !nextFrame.exists ?
+                nextFrame
+                :
+                _frame
+            const expandingContainer = maybeDeletedFrame.getFirstOrLastContainerByDirection(distance < 0, !first);
+            const contractingContainer = maybeDeletedFrame.getFirstOrLastContainerByDirection(distance > 0, !first);
             const details = contractingContainer.getDetailsByDirection(vertical, first);
             // This needs to check whether a frame across the perpendicular matches up with the moved frame i.e. that they overlap --- we need to update the frame/detail matching logic to account for frames whose sightlines overlap, but are not the same frame
-            const hasDetailAcrossPerpendicular = !!_frame.getDetailAcrossPerpendicularByDirection(first);
+            const hasDetailAcrossPerpendicular = !!maybeDeletedFrame.getDetailAcrossPerpendicularByDirection(first);
 
             const maybeReversedDetails = distance > 0 ?
                 details.slice().reverse()
@@ -75,7 +81,7 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // all details
                     if (newFramePlacement.inner.isFartherThanOrEqualTo(detailPlacement.outer)) {
-                        console.log(`Redirecting Intermediate Detail`);
+                        // console.log(`Redirecting Intermediate Detail`);
                         return {
                             newElevation: redirectDetail(newElevation, {
                                 detail,
