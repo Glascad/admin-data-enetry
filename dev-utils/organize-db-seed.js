@@ -44,7 +44,7 @@
                 },
             },
         },
-        GC_DEVELOPER: {
+        GC_CONTROLLED: {
             TABLES: DEV_TABLES,
             TYPES: DEV_TYPES,
         },
@@ -125,7 +125,7 @@ ${{ SCHEMAS }}
 
 -- TYPES
 
--- GC_DEVELOPER TYPES;
+-- GC_CONTROLLED TYPES;
 ${{ DEV_TYPES }}
 -- GC_PUBLIC TYPES;
 ${{ UTIL_TYPES }}
@@ -135,7 +135,7 @@ ${{ INPUT_TYPES }}
 
 -- TABLES
 
--- GC_DEVELOPER TABLES;
+-- GC_CONTROLLED TABLES;
 ${{ DEV_TABLES }}
 -- GC_DATA TABLES;
 ${{ APP_DATA }}
@@ -154,7 +154,7 @@ ${{ ELEVATION }}
 
 -- GC_UTIL FUNCTIONS;
 ${{ GET_REAL_ID }}
--- GC_DEVELOPER FUNCTIONS;
+-- GC_CONTROLLED FUNCTIONS;
 ${{ CREATE_A_USER }}
 ${{ GET_BUG_REPORTS }}
 ${{ UPDATE_PASSWORD }}

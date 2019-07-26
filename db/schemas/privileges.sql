@@ -23,12 +23,12 @@ REVOKE ALL PRIVILEGES ON DATABASE defaultdb FROM gc_client;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA gc_public TO gc_client;
 GRANT SELECT ON ALL TABLES IN SCHEMA gc_protected TO gc_client;
 GRANT SELECT ON ALL TABLES IN SCHEMA gc_data TO gc_client;
-GRANT SELECT ON ALL TABLES IN SCHEMA gc_developer TO gc_client;
+GRANT SELECT ON ALL TABLES IN SCHEMA gc_controlled TO gc_client;
 
 -- DATA ENTRY
 -- has no access to client data
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA gc_data TO gc_data_entry;
-GRANT SELECT ON ALL TABLES IN SCHEMA gc_developer TO gc_data_entry;
+GRANT SELECT ON ALL TABLES IN SCHEMA gc_controlled TO gc_data_entry;
 
 -- ADMIN
 -- has all privileges of both data entry and client

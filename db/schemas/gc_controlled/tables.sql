@@ -1,6 +1,6 @@
 
 CREATE TABLE
-gc_developer.valid_option_values (
+gc_controlled.valid_option_values (
     option_name SYSTEM_OPTION_NAME,
     value_name OPTION_VALUE_NAME,
     PRIMARY KEY (option_name, value_name),
@@ -16,7 +16,7 @@ VALUES
 ('stops', 'down');
 
 CREATE TABLE
-gc_developer.ordered_presentation_levels (
+gc_controlled.ordered_presentation_levels (
     value INTEGER UNIQUE,
     level PRESENTATION_LEVEL PRIMARY KEY
 );

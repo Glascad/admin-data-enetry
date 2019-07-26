@@ -1,18 +1,18 @@
 
 CREATE TYPE
-gc_developer.gc_role AS ENUM (
+gc_controlled.gc_role AS ENUM (
     'gc_admin',
     'gc_data_entry',
     'gc_client'
 );
 
 CREATE TYPE
-gc_developer.system_type AS ENUM (
+gc_controlled.system_type AS ENUM (
     'storefront'
 );
 
 CREATE TYPE
-gc_developer.detail_type AS ENUM (
+gc_controlled.detail_type AS ENUM (
     'Head',
     'Jamb',
     'Sill',
@@ -27,7 +27,7 @@ gc_developer.detail_type AS ENUM (
 );
 
 CREATE TYPE
-gc_developer.configuration_type AS ENUM (
+gc_controlled.configuration_type AS ENUM (
     'Head',
     'Jamb',
     'Sill',
@@ -48,13 +48,13 @@ gc_developer.configuration_type AS ENUM (
 );
 
 CREATE TYPE
-gc_developer.system_option_name AS ENUM (
+gc_controlled.system_option_name AS ENUM (
     'glazing',
     'stops'
 );
 
 CREATE TYPE
-gc_developer.option_value_name AS ENUM (
+gc_controlled.option_value_name AS ENUM (
     'inside',
     'outside',
     'up',
@@ -62,7 +62,7 @@ gc_developer.option_value_name AS ENUM (
 );
 
 CREATE TYPE
-gc_developer.presentation_level AS ENUM (
+gc_controlled.presentation_level AS ENUM (
     'system',
     'elevation',
     'lite',

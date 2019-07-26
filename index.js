@@ -23,7 +23,7 @@ APP.use(postgraphile(
     DO_GC_CONNECTION_STRING,
     [
         'gc_private',
-        'gc_developer',
+        'gc_controlled',
         'gc_protected',
         'gc_data',
         'gc_public',
