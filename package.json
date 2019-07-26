@@ -33,7 +33,9 @@
         "cy": "cypress open",
         "eject": "react-scripts eject",
         "normalize-icons": "node ./dev-utils/normalize-icons",
-        "compile-sql": "node ./dev-utils/compile-database-seed"
+        "compile-seed": "node ./dev-utils/organize-db-seed",
+        "map-schemas": "node ./dev-utils/map-schemas",
+        "map-src": "node ./dev-utils/map-src-files"
     },
     "eslintConfig": {
         "extends": "react-app"

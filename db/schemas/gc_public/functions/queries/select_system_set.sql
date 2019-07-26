@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS select_entire_system_set;
 
-CREATE OR REPLACE FUNCTION select_entire_system_set(system_set_id INTEGER)
+CREATE OR REPLACE FUNCTION gc_public.select_entire_system_set(system_set_id INTEGER)
 RETURNS SYSTEM_SET_OUTPUT AS $$
 DECLARE
     ssid ALIAS FOR system_set_id;

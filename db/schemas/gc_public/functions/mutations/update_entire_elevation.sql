@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS update_entire_elevation;
 
-CREATE OR REPLACE FUNCTION update_entire_elevation(elevation ENTIRE_ELEVATION)
+CREATE OR REPLACE FUNCTION gc_public.update_entire_elevation(elevation ENTIRE_ELEVATION)
 RETURNS SETOF ELEVATIONS AS $$
 DECLARE
     -- OWNER

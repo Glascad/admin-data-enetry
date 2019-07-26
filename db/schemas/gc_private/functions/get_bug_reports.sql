@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS get_bug_reports;
 
-CREATE OR REPLACE FUNCTION get_bug_reports()
+CREATE OR REPLACE FUNCTION gc_private.get_bug_reports()
 RETURNS entire_bug_report[] AS $$
 DECLARE
     brs entire_bug_report[];

@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS get_all_projects;
 
-CREATE OR REPLACE FUNCTION get_all_projects()
+CREATE OR REPLACE FUNCTION gc_public.get_all_projects()
 RETURNS SETOF projects AS $$
 BEGIN
     RETURN QUERY SELECT * FROM projects

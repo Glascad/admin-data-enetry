@@ -1,9 +1,9 @@
-DROP FUNCTION IF EXISTS create_user;
+DROP FUNCTION IF EXISTS create_a_user;
 
-CREATE OR REPLACE FUNCTION gc_private.create_user(
+CREATE OR REPLACE FUNCTION gc_private.create_a_user(
     username VARCHAR(50),
     password VARCHAR(50),
-    role VARCHAR(50)
+    role GC_ROLE
 ) RETURNS JWT AS $$
 DECLARE
     uid INTEGER;
@@ -14,7 +14,7 @@ DECLARE
 BEGIN
     hash := CRYPT(pw, GEN_SALT('md5'));
 
-    INSERT INTO users.users (
+    INSERT INTO users (
         username,
         password_hash,
         role
@@ -23,14 +23,6 @@ BEGIN
         hash,
         r
     ) RETURNING id INTO uid;
-
-    INSERT INTO projects (
-        name,
-        owner_id
-    ) VALUES (
-        'Demo Project',
-        uid
-    );
 
     RETURN authenticate(un, pw);
 END;

@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS update_entire_system_set;
 
-CREATE OR REPLACE FUNCTION update_entire_system_set(
+CREATE OR REPLACE FUNCTION gc_public.update_entire_system_set(
     system_set ENTIRE_SYSTEM_SET
 ) RETURNS SYSTEM_SET_OUTPUT AS $$
 DECLARE

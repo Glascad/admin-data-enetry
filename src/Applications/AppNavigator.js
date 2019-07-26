@@ -22,17 +22,17 @@ const AppNavigator = ({ allowedApplications }) => (
 const mapProps = ({
     context: {
         currentUser: {
-            role,
+            role = '',
         },
     },
 }) => ({
-    allowedApplications: role === 'ADMIN' ?
+    allowedApplications: role.match(/ADMIN/i) ?
         { Glascad, DataEntry }
         :
-        role === 'DATA_ENTRY' ?
+        role.match(/DATA.ENTRY/i) ?
             { DataEntry }
             :
-            role === 'CLIENT' ?
+            role.match(/CLIENT/i) ?
                 { Glascad }
                 :
                 { Login },

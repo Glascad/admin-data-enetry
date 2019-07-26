@@ -33,5 +33,5 @@ gc_public.current_user AS (
     id INTEGER,
     username TEXT,
     role TEXT,
-    projectId INTEGER
+    project_id INTEGER
 );

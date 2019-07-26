@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS create_a_project;
 
-CREATE OR REPLACE FUNCTION create_a_project(
+CREATE OR REPLACE FUNCTION gc_public.create_a_project(
     name TEXT,
     OUT project PROJECTS
 )

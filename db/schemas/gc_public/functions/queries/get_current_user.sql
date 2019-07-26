@@ -1,16 +1,16 @@
 DROP FUNCTION IF EXISTS get_current_user;
 
-CREATE OR REPLACE FUNCTION get_current_user()
-RETURNS users.CURRENT_USER AS $$
+CREATE OR REPLACE FUNCTION gc_public.get_current_user()
+RETURNS gc_public.CURRENT_USER AS $$
 DECLARE
     uid INTEGER;
     un TEXT;
-    r users.ROLE;
+    r TEXT;
     pid INTEGER;
 BEGIN
     SELECT id, username, role
     INTO uid, un, r
-    FROM users.users
+    FROM users
     WHERE id = get_current_user_id();
 
     SELECT id
@@ -23,6 +23,6 @@ BEGIN
         un,
         r,
         pid
-    )::users.CURRENT_USER;
+    )::gc_public.CURRENT_USER;
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;

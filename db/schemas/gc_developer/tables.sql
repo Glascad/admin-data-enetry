@@ -15,7 +15,8 @@ VALUES
 ('stops', 'up'),
 ('stops', 'down');
 
-CREATE TABLE ordered_presentation_levels (
+CREATE TABLE
+gc_developer.ordered_presentation_levels (
     value INTEGER UNIQUE,
     level PRESENTATION_LEVEL PRIMARY KEY
 );

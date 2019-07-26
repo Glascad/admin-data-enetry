@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS copy_elevation;
 
-CREATE OR REPLACE FUNCTION copy_elevation(
+CREATE OR REPLACE FUNCTION gc_public.copy_elevation(
     elevation_id INTEGER,
     new_name TEXT
 ) RETURNS elevations AS $$

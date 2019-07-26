@@ -39,7 +39,7 @@ CREATE TYPE
 gc_public.system_set_configuration_type_output AS (
     selected BOOLEAN,
     system_default SYSTEM_CONFIGURATION_TYPE_OUTPUT,
-    detail_types DEATIL_TYPE[]
+    detail_types DETAIL_TYPE[]
 );
 
 -- COMMENT ON TABLE -- public.detail_types -- IS '@name dt';
@@ -72,12 +72,12 @@ gc_public.system_set_detail_type_output AS (
     configuration_types SYSTEM_SET_CONFIGURATION_TYPE_OUTPUT[]
 );
 
-CREATE TYPE
-gc_public.system_type_output AS (
-    id INTEGER,
-    type TEXT,
-    detail_types DETAIL_TYPE_OUTPUT[]
-);
+-- CREATE TYPE
+-- gc_public.system_type_output AS (
+--     id INTEGER,
+--     type TEXT,
+--     detail_types DETAIL_TYPE_OUTPUT[]
+-- );
 
 CREATE TYPE
 gc_public.option_value_output AS (

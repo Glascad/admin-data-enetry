@@ -14,4 +14,4 @@ BEGIN
         WHERE p.fake_id = f;
     RETURN real_id;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;

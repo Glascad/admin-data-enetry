@@ -8,6 +8,7 @@ const {
     env: {
         SERVER_PORT,
         CONNECTION_STRING,
+        DO_GC_CONNECTION_STRING,
         JWT_SECRET,
     },
 } = process;
@@ -18,11 +19,23 @@ APP.use(cors());
 
 APP.use(express.static(`${__dirname}/build/`));
 
-APP.use(postgraphile(CONNECTION_STRING, ['public', 'utils'], {
-    graphiql: true,
-    jwtPgTypeIdentifier: "users.jwt",
-    jwtSecret: JWT_SECRET,
-}));
+APP.use(postgraphile(
+    DO_GC_CONNECTION_STRING,
+    [
+        'gc_private',
+        'gc_developer',
+        'gc_protected',
+        'gc_data',
+        'gc_public',
+        'gc_utils',
+    ],
+    {
+        graphiql: true,
+        jwtPgTypeIdentifier: "gc_public.jwt",
+        jwtSecret: JWT_SECRET,
+        pgDefaultRole: 'gc_client'
+    }
+));
 
 APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/build/`));
 

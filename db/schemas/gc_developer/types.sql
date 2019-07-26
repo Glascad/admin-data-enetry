@@ -1,5 +1,12 @@
 
 CREATE TYPE
+gc_developer.gc_role AS ENUM (
+    'gc_admin',
+    'gc_data_entry',
+    'gc_client'
+);
+
+CREATE TYPE
 gc_developer.system_type AS ENUM (
     'storefront'
 );

@@ -12,7 +12,7 @@ gc_protected.elevations (
     sightline FLOAT,
     preview VARCHAR(25000),
     last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_updated_by INTEGER REFERENCES users.users
+    last_updated_by INTEGER REFERENCES users
 );
 
 CREATE TABLE

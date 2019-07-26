@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS delete_entire_elevation;
 
-CREATE OR REPLACE FUNCTION delete_entire_elevation(elevation_id INTEGER)
+CREATE OR REPLACE FUNCTION gc_public.delete_entire_elevation(elevation_id INTEGER)
 RETURNS INTEGER AS $$
 DECLARE
     pid INTEGER;

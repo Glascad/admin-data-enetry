@@ -1,21 +1,21 @@
 DROP FUNCTION IF EXISTS update_password;
 
-CREATE OR REPLACE FUNCTION update_password(
+CREATE OR REPLACE FUNCTION gc_private.update_password(
     username TEXT,
     old_password TEXT,
     new_password TEXT
-) RETURNS users.JWT AS $$
+) RETURNS JWT AS $$
 DECLARE
     un ALIAS FOR username;
     opw ALIAS FOR old_password;
     npw ALIAS FOR new_password;
-    jwt users.JWT;
+    jwt JWT;
 BEGIN
 
     IF authenticate(un, opw) IS NOT NULL THEN
-        UPDATE users.users
+        UPDATE users
         SET password_hash = CRYPT(npw, GEN_SALT('md5'))
-        WHERE users.users.username = un;
+        WHERE users.username = un;
     ELSE RETURN NULL;
     END IF;
 
