@@ -11,3 +11,5 @@ BEGIN
     RETURNING * INTO project;
 END;
 $$ LANGUAGE plpgsql VOLATILE;
+
+ALTER FUNCTION gc_public.copy_elevation SET OWNER TO pg_invoker;

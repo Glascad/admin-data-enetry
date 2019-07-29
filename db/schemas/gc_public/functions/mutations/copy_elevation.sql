@@ -15,6 +15,8 @@ DECLARE
     id_pairs ID_PAIR[];
 BEGIN
 
+    SET search_path = gc_public,gc_protected,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
+
     SELECT * FROM elevations
     INTO e
     WHERE id = eid;
@@ -104,3 +106,5 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+ALTER FUNCTION gc_public.copy_elevation SET OWNER TO pg_invoker;

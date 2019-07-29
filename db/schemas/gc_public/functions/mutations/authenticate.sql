@@ -9,6 +9,8 @@ DECLARE
     pw ALIAS FOR password;
     authenticatee users%ROWTYPE;
 BEGIN
+    SET search_path = gc_public,gc_private,pg_temp_1,pg_toast,pg_toast_temp_1;
+
     SELECT * FROM users
     INTO authenticatee
     WHERE users.username = un;
@@ -28,3 +30,5 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql STRICT SECURITY DEFINER;
+
+ALTER FUNCTION gc_public.authenticate SET OWNER TO pg_invoker;

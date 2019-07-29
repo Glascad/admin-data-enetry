@@ -18,6 +18,8 @@ DECLARE
     ue ELEVATIONS%ROWTYPE;
 BEGIN
 
+    SET search_path = gc_public,gc_protected,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
+
     -- CHECK CURRENT USER
 
     IF e.id IS NOT NULL THEN
@@ -77,4 +79,6 @@ BEGIN
     
     END IF;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql STRICT SECURITY DEFINER;
+
+ALTER FUNCTION gc_public.update_entire_elevation SET OWNER TO pg_invoker;

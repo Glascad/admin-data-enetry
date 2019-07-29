@@ -1,4 +1,4 @@
-import { getProjectId, setProjectId, getElevationId } from "./localstorage";
+import { getJwt, setJwt, getProjectId, setProjectId, getElevationId } from "./localstorage";
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -21,7 +21,7 @@ const getBaseRequest = () => ({
     method: "POST",
     url: "http://localhost:5001/graphql",
     headers: {
-        Authentication: `Bearer ${localStorage.getItem('JSON-Web-Token')}`,
+        Authentication: `Bearer ${getJwt()}`,
     },
 });
 
@@ -29,7 +29,7 @@ Cypress.Commands.add("setup", () => {
     console.log("Logging in");
     cy.login();
     console.log("Logged in");
-    console.log(localStorage.getItem('JSON-Web-Token'));
+    console.log(getJwt());
     console.log("Creating project")
     cy.createProject();
     console.log("Created Project");
@@ -52,8 +52,8 @@ Cypress.Commands.add("login", () => {
                 mutation {
                     authenticate(
                         input: {
-                            username: "cypress"
-                            password: "cypress"
+                            username: "${Cypress.env("USERNAME")}"
+                            password: "${Cypress.env("PASSWORD")}"
                         }
                     ) {
                         jwt
@@ -69,7 +69,7 @@ Cypress.Commands.add("login", () => {
                 },
             },
         },
-    }) => window.localStorage.setItem("JSON-Web-Token", jwt));
+    }) => setJwt(jwt));
 });
 
 Cypress.Commands.add("createProject", () => {

@@ -33,7 +33,7 @@
         "cy": "cypress open",
         "eject": "react-scripts eject",
         "normalize-icons": "node ./dev-utils/normalize-icons",
-        "compile-seed": "node ./dev-utils/organize-db-seed",
+        "compile-seed": "node ./dev-utils/db-seed",
         "map-schemas": "node ./dev-utils/map-schemas",
         "map-src": "node ./dev-utils/map-src-files"
     },
@@ -51,15 +51,24 @@
     },
     "nodemonConfig": {
         "verbose": true,
+        "env": {
+            "NODE_ENV": "development"
+        },
+        "ext": "js json sql",
         "ignore": [
-            "src/*",
-            "db/*",
-            "build/*",
-            "cypress/*",
-            "dev-utils/*",
-            "*.test.js",
-            "*.spec.js",
-            "fixtures/*"
+            "src/",
+            "compiled/",
+            "build/",
+            "cypress/",
+            "dev-utils/",
+            ".test.js",
+            ".spec.js",
+            "fixtures/"
+        ],
+        "watch": [
+            "db/",
+            ".env",
+            "index.js"
         ]
     }
 }

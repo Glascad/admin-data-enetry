@@ -74,16 +74,17 @@ export const ENTIRE_PROJECT = gql`
         ...ProjectFields
         elevationsByProjectId(orderBy: NAME_ASC) {
             nodes {
-                ...EntireElevation
+                ...ElevationFields
+                # ...EntireElevation
             }
         }
         systemSetsByProjectId {
             nodes {
-                ...EntireSystemSet
+                ...SystemSetFields
             }
         }
     }
     ${PROJECT_FIELDS}
-    ${ED.ENTIRE_ELEVATION}
-    ${ENTIRE_SYSTEM_SET}
+    ${ED.ELEVATION_FIELDS}
+    ${SYSTEM_SET_FIELDS}
 `;

@@ -2,27 +2,24 @@
 // import DB from '../db-seed';
 // import pfs from './promise-fs';
 
-(async () => {
+module.exports = async () => {
     require('dotenv').config();
 
-    await require(`${__dirname}/compile-db-seed`);
-
-    const DB = require(`${__dirname}/../compiled/db-seed.js`);
-    const pfs = require(`${__dirname}/promise-fs`);
+    const DB = require(`${__dirname}/../../compiled/db-seed.js`);
+    const pfs = require(`${__dirname}/../promise-fs`);
 
     const {
         SCHEMAS,
+        ROLES,
         PRIVILEGES,
         GC_PUBLIC: {
             TABLES: PUB_TABLES,
-            // TYPES: PUB_TYPES,
             TYPES: {
                 INPUT_TYPES,
                 OUTPUT_TYPES,
                 UTIL_TYPES,
             },
             FUNCTIONS: {
-                // MUTATIONS: PUB_MUTATIONS,
                 MUTATIONS: {
                     AUTHENTICATE,
                     COPY_ELEVATION,
@@ -34,7 +31,6 @@
                     UPDATE_ENTIRE_ELEVATION,
                     UPDATE_ENTIRE_SYSTEM_SET,
                 },
-                // QUERIES: PUB_QUERIES,
                 QUERIES: {
                     GET_CURRENT_USER,
                     GET_CURRENT_USER_ID,
@@ -50,7 +46,6 @@
         },
         GC_PRIVATE: {
             TABLES: PRIV_TABLES,
-            // FUNCTIONS: PRIV_FUNCTIONS,
             FUNCTIONS: {
                 CREATE_A_USER,
                 GET_BUG_REPORTS,
@@ -58,7 +53,6 @@
             },
         },
         GC_PROTECTED: {
-            // FUNCTIONS: PROT_FUNCTIONS,
             FUNCTIONS: {
                 CREATE_OR_UPDATE_SYSTEM_SET,
                 CREATE_OR_UPDATE_CONTAINER_DETAIL,
@@ -76,7 +70,6 @@
             },
         },
         GC_DATA: {
-            // FUNCTIONS:DATA_FUNCTIONS,
             FUNCTIONS: {
                 UPDATE_ENTIRE_SYSTEM,
             },
@@ -86,7 +79,6 @@
             },
         },
         GC_UTILS: {
-            // FUNCTIONS: UTIL_FUNCTIONS,
             FUNCTIONS: {
                 GET_REAL_ID,
             },
@@ -106,8 +98,6 @@
             return `${seed}${string}${file || ''}`;
         }
 
-        console.log(Object.keys(file));
-
         const [[filename, contents]] = Object.entries(file);
 
         if (contents === undefined) throw new Error(`Invalid file reference: ${filename}`);
@@ -116,6 +106,15 @@
     }, '');
 
 
+    const DEFAULT_USERS = [
+        process.env.USER_ONE,
+        process.env.USER_TWO,
+        process.env.USER_THREE,
+        process.env.USER_FOUR,
+        process.env.USER_FIVE,
+        process.env.USER_SIX,
+    ].filter(Boolean);
+
 
     const DB_SEED = create_seed`
 
@@ -123,7 +122,7 @@
 ${{ SCHEMAS }}
 
 
--- TYPES
+-- TYPES;
 
 -- GC_CONTROLLED TYPES;
 ${{ DEV_TYPES }}
@@ -133,7 +132,7 @@ ${{ OUTPUT_TYPES }}
 ${{ INPUT_TYPES }}
 
 
--- TABLES
+-- TABLES;
 
 -- GC_CONTROLLED TABLES;
 ${{ DEV_TABLES }}
@@ -149,8 +148,32 @@ ${{ SYSTEM }}
 ${{ SYSTEM_SET }}
 ${{ ELEVATION }}
 
+DROP ROLE gc_invoker;
+CREATE ROLE gc_invoker NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+GRANT gc_invoker TO doadmin;
+REVOKE ALL PRIVILEGES ON DATABASE defaultdb FROM gc_invoker;
+REVOKE ALL PRIVILEGES ON SCHEMA
+    public,
+    gc_private,
+    gc_controlled,
+    gc_protected,
+    gc_data,
+    gc_public,
+    gc_utils
+FROM gc_invoker;
+GRANT USAGE ON SCHEMA
+    gc_private,
+    gc_controlled,
+    gc_protected,
+    gc_data,
+    gc_public,
+    gc_utils
+TO gc_invoker;
 
--- FUNCTIONS
+-- FUNCTIONS;
+
+-- gc_invoker is the owner of all public (security definer) functions
+SET ROLE = gc_invoker;
 
 -- GC_UTIL FUNCTIONS;
 ${{ GET_REAL_ID }}
@@ -186,23 +209,32 @@ ${{ SELECT_SYSTEM }}
 ${{ SELECT_SYSTEM_SET }}
 ${{ SELECT_SYSTEM_TYPE }}
 
+SET ROLE = NONE;
 
--- PRIVILEGES;
-${{ PRIVILEGES }}
+
+-- ROLES
+${{ ROLES }}
 
 -- GLASCAD USER;
 DROP USER glascad;
 CREATE USER glascad NOCREATEDB IN GROUP gc_admin ENCRYPTED PASSWORD '${process.env.DO_GC_PASSWORD}';
+
+
+-- PRIVILEGES;
+${{ PRIVILEGES }}
+GRANT gc_invoker TO glascad;
 GRANT glascad TO doadmin;
+
+-- DEFAULT USERS
+${DEFAULT_USERS.map(user => `
+SELECT * FROM create_a_user('${user.split(/,/).join("', '")}');
+`).join('')}
 
 `;
 
-    pfs.writeFile(
-        `${__dirname}/../compiled/db-seed.sql`,
-        DB_SEED.replace(/(\n\s*\n)/g, '\n')
-        // .split(/;/)
-        // .map(line => line.replace(/\s+/g, ' ').trim())
-        // .join(';\n')
-    );
+    const SEED_FILE = DB_SEED.replace(/(\n\s*\n)/g, '\n');
 
-})();
+    pfs.writeFile(`${__dirname}/../../compiled/db-seed.sql`, SEED_FILE);
+
+    return SEED_FILE;
+};
