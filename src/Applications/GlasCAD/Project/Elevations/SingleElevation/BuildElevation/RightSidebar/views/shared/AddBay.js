@@ -37,6 +37,7 @@ function AddBay({
             {items.every(({ canAddBayByDirectionAndDistance }) => canAddBayByDirectionAndDistance(true, distance)) ? (
                 <button
                     className="sidebar-button empty"
+                    data-cy="add-bay-left"
                     onClick={() => addBay({ first: true, distance })}
                 >
                     Add Bay Left
@@ -45,6 +46,7 @@ function AddBay({
             {items.every(({ canAddBayByDirectionAndDistance }) => canAddBayByDirectionAndDistance(false, distance)) ? (
                 <button
                     className="sidebar-button empty"
+                    data-cy="add-bay-right"
                     onClick={() => addBay({ first: false, distance })}
                 >
                     Add Bay Right
@@ -56,5 +58,6 @@ function AddBay({
 
 export default {
     title: "Add Bay",
+    dataCy: "add-bay",
     component: withSelectionContext(withActionContext(memo(AddBay))),
 };

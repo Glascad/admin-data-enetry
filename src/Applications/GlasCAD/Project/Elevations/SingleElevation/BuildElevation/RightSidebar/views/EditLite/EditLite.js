@@ -68,6 +68,7 @@ function EditLite({
                             <button
                                 key={key}
                                 className="sidebar-button empty"
+                                data-cy={`merge-${key.toLowerCase()}`}
                                 onClick={() => mergeContainers({
                                     container: firstContainer,
                                     direction,
@@ -98,8 +99,9 @@ function EditLite({
                 {allContainers.every(({ canAddVertical }) => canAddVertical) ? (
                     <button
                         className="sidebar-button empty"
+                        data-cy="add-vertical"
                         onClick={() => addIntermediates({ vertical: true })}
-                    >
+                        >
                         <Icons.AddVertical />
                         <span>
                             Add Vertical{length > 1 ? 's' : ''}
@@ -114,6 +116,7 @@ function EditLite({
                 {allContainers.every(({ canAddHorizontal }) => canAddHorizontal) ? (
                     <button
                         className="sidebar-button empty"
+                        data-cy="add-horizontal"
                         onClick={() => addIntermediates({ vertical: false })}
                     >
                         <Icons.AddHorizontal />

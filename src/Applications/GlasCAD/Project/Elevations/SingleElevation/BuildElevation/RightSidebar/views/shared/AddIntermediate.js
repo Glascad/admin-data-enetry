@@ -65,6 +65,12 @@ class AddIntermediates extends PureComponent {
                             :
                             'Horizontal'
                         }`}
+                    data-cy={`add-${
+                        vertical ?
+                            'vertical'
+                            :
+                            'horizontal'
+                        }`}
                 />
                 <Input
                     label="Distance"
