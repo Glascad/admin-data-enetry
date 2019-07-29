@@ -27,6 +27,7 @@ function AlterRoughOpening({
     const [distance, setDistance] = useState(initialValue);
 
     const title = first ? "Raise Curb" : "Step Head";
+    const dataCy = first ? "raise-curb" : "step-head";
 
     const allContainers = firstItem instanceof RecursiveContainer ?
         items
@@ -43,6 +44,7 @@ function AlterRoughOpening({
             <Input
                 label="Distance"
                 type="inches"
+                data-cy="distance"
                 initialValue={initialValue}
                 onChange={setDistance}
                 onEnter={() => alterRoughOpening({
@@ -63,6 +65,7 @@ function AlterRoughOpening({
                 )
             )) ? (
                     <button
+                        data-cy={dataCy}
                         className="sidebar-button empty"
                         onClick={() => alterRoughOpening({
                             distance: distance.value,
@@ -86,10 +89,12 @@ function AlterRoughOpening({
 
 export const RaiseCurb = {
     title: "Raise Curb",
+    dataCy: "raise-curb",
     component: withSelectionContext(withActionContext(memo(props => <AlterRoughOpening {...props} first={true} />))),
 };
 
 export const StepHead = {
     title: "Step Head",
+    dataCy: "step-head",
     component: withSelectionContext(withActionContext(memo(props => <AlterRoughOpening {...props} first={false} />))),
 };
