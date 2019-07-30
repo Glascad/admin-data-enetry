@@ -131,3 +131,10 @@ gc_public.entire_system_set AS (
     detail_type_configuration_types SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[],
     detail_type_configuration_types_to_unselect SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[]
 );
+
+CREATE TYPE
+gc_public.entire_project AS (
+    id INTEGER,
+    name TEXT,
+    default_elevation JSONB
+);

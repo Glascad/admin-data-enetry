@@ -49,6 +49,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
             return normalResponse;
 
         } catch (err) {
+            console.log("ERROR in mutation");
             console.trace(mutation);
             console.log({ err });
             setLoading(false);
@@ -95,6 +96,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         } catch (err) {
             // console.trace(query);
+            console.log("ERROR in query");
             console.log({
                 err,
                 variables,

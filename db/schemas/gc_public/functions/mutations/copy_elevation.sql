@@ -107,4 +107,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-ALTER FUNCTION gc_public.copy_elevation SET OWNER TO pg_invoker;
+ALTER FUNCTION gc_public.copy_elevation OWNER TO gc_invoker;

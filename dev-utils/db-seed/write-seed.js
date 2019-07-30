@@ -12,6 +12,7 @@ module.exports = async () => {
         SCHEMAS,
         ROLES,
         PRIVILEGES,
+        INVOKER,
         GC_PUBLIC: {
             TABLES: PUB_TABLES,
             TYPES: {
@@ -23,7 +24,7 @@ module.exports = async () => {
                 MUTATIONS: {
                     AUTHENTICATE,
                     COPY_ELEVATION,
-                    CREATE_A_PROJECT,
+                    CREATE_OR_UPDATE_PROJECT,
                     DELETE_ENTIRE_ELEVATION,
                     DELETE_ENTIRE_PROJECT,
                     GET_ALL_PROJECTS,
@@ -121,7 +122,6 @@ module.exports = async () => {
 -- SCHEMAS;
 ${{ SCHEMAS }}
 
-
 -- TYPES;
 
 -- GC_CONTROLLED TYPES;
@@ -148,36 +148,16 @@ ${{ SYSTEM }}
 ${{ SYSTEM_SET }}
 ${{ ELEVATION }}
 
-DROP ROLE gc_invoker;
-CREATE ROLE gc_invoker NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
-GRANT gc_invoker TO doadmin;
-REVOKE ALL PRIVILEGES ON DATABASE defaultdb FROM gc_invoker;
-REVOKE ALL PRIVILEGES ON SCHEMA
-    public,
-    gc_private,
-    gc_controlled,
-    gc_protected,
-    gc_data,
-    gc_public,
-    gc_utils
-FROM gc_invoker;
-GRANT USAGE ON SCHEMA
-    gc_private,
-    gc_controlled,
-    gc_protected,
-    gc_data,
-    gc_public,
-    gc_utils
-TO gc_invoker;
+
+-- INVOKER ROLE
+${{ INVOKER }}
+
 
 -- FUNCTIONS;
 
--- gc_invoker is the owner of all public (security definer) functions
-SET ROLE = gc_invoker;
-
 -- GC_UTIL FUNCTIONS;
 ${{ GET_REAL_ID }}
--- GC_CONTROLLED FUNCTIONS;
+-- GC PRIVATE FUNCTIONS
 ${{ CREATE_A_USER }}
 ${{ GET_BUG_REPORTS }}
 ${{ UPDATE_PASSWORD }}
@@ -195,7 +175,7 @@ ${{ UPDATE_ENTIRE_SYSTEM }}
 -- GC_PUBLIC MUTATIONS;
 ${{ AUTHENTICATE }}
 ${{ COPY_ELEVATION }}
-${{ CREATE_A_PROJECT }}
+${{ CREATE_OR_UPDATE_PROJECT }}
 ${{ DELETE_ENTIRE_ELEVATION }}
 ${{ DELETE_ENTIRE_PROJECT }}
 ${{ GET_ALL_PROJECTS }}
@@ -209,11 +189,10 @@ ${{ SELECT_SYSTEM }}
 ${{ SELECT_SYSTEM_SET }}
 ${{ SELECT_SYSTEM_TYPE }}
 
-SET ROLE = NONE;
-
 
 -- ROLES
 ${{ ROLES }}
+
 
 -- GLASCAD USER;
 DROP USER glascad;
@@ -225,10 +204,13 @@ ${{ PRIVILEGES }}
 GRANT gc_invoker TO glascad;
 GRANT glascad TO doadmin;
 
--- DEFAULT USERS
+-- DEFAULT USERS;
 ${DEFAULT_USERS.map(user => `
-SELECT * FROM create_a_user('${user.split(/,/).join("', '")}');
+SELECT * FROM create_a_user('${user.split(/,/g).join(`', '`)}');
 `).join('')}
+
+-- PROJECT FOR USER_ONE
+INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
 
 `;
 

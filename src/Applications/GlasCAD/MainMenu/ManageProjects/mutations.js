@@ -5,7 +5,7 @@ import query from "./query";
 export const createProjectMutation = {
     mutation: gql`
         mutation CreateProject($name: String!) {
-            createAProject(
+            createOrUpdateProject(
                 input: {
                     name: $name
                 }

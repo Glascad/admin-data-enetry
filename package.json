@@ -67,6 +67,7 @@
         ],
         "watch": [
             "db/",
+            "dev-utils/",
             ".env",
             "index.js"
         ]

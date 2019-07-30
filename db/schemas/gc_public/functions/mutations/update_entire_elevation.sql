@@ -81,4 +81,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT SECURITY DEFINER;
 
-ALTER FUNCTION gc_public.update_entire_elevation SET OWNER TO pg_invoker;
+ALTER FUNCTION gc_public.update_entire_elevation OWNER TO gc_invoker;

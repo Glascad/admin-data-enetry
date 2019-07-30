@@ -78,7 +78,7 @@ Cypress.Commands.add("createProject", () => {
         body: {
             query: `
                 mutation {
-                    createAProject (
+                    createOrUpdateProject (
                         input: {
                             name: "CYPRESS TEST PROJECT"
                         }
@@ -93,7 +93,7 @@ Cypress.Commands.add("createProject", () => {
     }).then(({
         body: {
             data: {
-                createAProject: {
+                createOrUpdateProject: {
                     project: {
                         id,
                     },

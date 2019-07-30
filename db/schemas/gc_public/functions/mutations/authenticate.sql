@@ -31,4 +31,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT SECURITY DEFINER;
 
-ALTER FUNCTION gc_public.authenticate SET OWNER TO pg_invoker;
+ALTER FUNCTION gc_public.authenticate OWNER TO gc_invoker;
