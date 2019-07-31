@@ -7,7 +7,9 @@ export const createProjectMutation = {
         mutation CreateProject($name: String!) {
             createOrUpdateProject(
                 input: {
-                    name: $name
+                    projectUpdate: {
+                        name: $name
+                    }
                 }
             ) {
                 project {

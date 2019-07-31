@@ -13,9 +13,9 @@ export const SYSTEM_CONFIGURATION_OVERRIDE_FIELDS = gql`
         presentationLevelOverride
         overrideLevelOverride
         systemId
-        systemTypeId
-        detailTypeId
-        configurationTypeId
+        systemType
+        detailType
+        configurationType
     }
 `;
 
@@ -48,20 +48,20 @@ export const SYSTEM_FIELDS = gql`
         nodeId
         id
         manufacturerId
-        systemTypeId
+        systemType
         name
-        depth
-        shimSize
-        defaultGlassSize
-        defaultGlassBite
-        defaultSightline
-        inset
-        frontInset
-        topGap
-        bottomGap
-        sideGap
-        glassGap
-        meetingStileGap
+        # depth
+        # shimSize
+        # defaultGlassSize
+        # defaultGlassBite
+        # defaultSightline
+        # inset
+        # frontInset
+        # topGap
+        # bottomGap
+        # sideGap
+        # glassGap
+        # meetingStileGap
     }
 `;
 
@@ -92,10 +92,7 @@ export const ENTIRE_SYSTEM_OPTION = gql`
         systemOptionConfigurationTypesBySystemOptionId {
             nodes {
                 nodeId
-                configurationTypeId
-                configurationTypeByConfigurationTypeId {
-                    ...ConfigurationTypeFields
-                }
+                configurationType
             }
         }
     }
@@ -113,49 +110,46 @@ export const ENTIRE_SYSTEM = gql`
         systemTypeBySystemTypeId {
             ...EntireSystemType
         }
-        systemSystemTagsBySystemId {
-            nodes {
-                nodeId
-                systemTagId
-                systemTagBySystemTagId {
-                    ...SystemTagFields
-                }
-            }
-        }
-        systemInfillSizesBySystemId {
-            nodes {
-                nodeId
-                infillSize
-                infillSizeByInfillSize {
-                    ...InfillSizeFields
-                }
-            }
-        }
-        systemInfillPocketSizesBySystemId {
-            nodes {
-                nodeId
-                infillPocketSize
-                infillPocketSizeByInfillPocketSize {
-                    ...InfillPocketSizeFields
-                }
-            }
-        }
-        systemInfillPocketTypesBySystemId {
-            nodes {
-                nodeId
-                infillPocketTypeId
-                infillPocketTypeByInfillPocketTypeId {
-                    ...InfillPocketTypeFields
-                }
-            }
-        }
+        # systemSystemTagsBySystemId {
+        #     nodes {
+        #         nodeId
+        #         systemTagId
+        #         systemTagBySystemTagId {
+        #             ...SystemTagFields
+        #         }
+        #     }
+        # }
+        # systemInfillSizesBySystemId {
+        #     nodes {
+        #         nodeId
+        #         infillSize
+        #         infillSizeByInfillSize {
+        #             ...InfillSizeFields
+        #         }
+        #     }
+        # }
+        # systemInfillPocketSizesBySystemId {
+        #     nodes {
+        #         nodeId
+        #         infillPocketSize
+        #         infillPocketSizeByInfillPocketSize {
+        #             ...InfillPocketSizeFields
+        #         }
+        #     }
+        # }
+        # systemInfillPocketTypesBySystemId {
+        #     nodes {
+        #         nodeId
+        #         infillPocketTypeId
+        #         infillPocketTypeByInfillPocketTypeId {
+        #             ...InfillPocketTypeFields
+        #         }
+        #     }
+        # }
         invalidSystemConfigurationTypesBySystemId {
             nodes {
                 nodeId
-                invalidConfigurationTypeId
-                configurationTypeByInvalidConfigurationTypeId {
-                    ...ConfigurationTypeFields
-                }
+                invalidConfigurationType
             }
         }
         systemConfigurationOverridesBySystemId {

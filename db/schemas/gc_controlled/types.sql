@@ -50,7 +50,8 @@ gc_controlled.configuration_type AS ENUM (
 CREATE TYPE
 gc_controlled.system_option_name AS ENUM (
     'glazing',
-    'stops'
+    'stops',
+    'joinery'
 );
 
 CREATE TYPE
@@ -58,7 +59,10 @@ gc_controlled.option_value_name AS ENUM (
     'inside',
     'outside',
     'up',
-    'down'
+    'down',
+    'screw-spline',
+    'shear-block',
+    'stick'
 );
 
 CREATE TYPE

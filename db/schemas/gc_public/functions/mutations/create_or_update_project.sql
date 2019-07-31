@@ -1,13 +1,12 @@
 DROP FUNCTION IF EXISTS create_or_update_project;
 
 CREATE OR REPLACE FUNCTION gc_public.create_or_update_project(
-    project_update ENTIRE_PROJECT,
-    OUT project PROJECTS
+    project_update ENTIRE_PROJECT
 )
 RETURNS projects AS $$
 DECLARE
     pu ALIAS FOR project_update;
-    p ALIAS FOR project;
+    p projects%ROWTYPE;
 BEGIN
     IF pu.id IS NOT NULL THEN
         UPDATE projects SET
@@ -25,6 +24,7 @@ BEGIN
         VALUES (pu.name, get_current_user_id(), pu.default_elevation)
         RETURNING * INTO p;
     END IF;
+    RETURN p;
 END;
 $$ LANGUAGE plpgsql VOLATILE;
 
