@@ -194,15 +194,16 @@ ${{ SELECT_SYSTEM_TYPE }}
 ${{ ROLES }}
 
 
--- GLASCAD USER;
-DROP USER glascad;
-CREATE USER glascad NOCREATEDB IN GROUP gc_admin ENCRYPTED PASSWORD '${process.env.DO_GC_PASSWORD}';
-
-
 -- PRIVILEGES;
 ${{ PRIVILEGES }}
 GRANT gc_invoker TO glascad;
 GRANT glascad TO doadmin;
+
+
+-- GLASCAD USER;
+DROP USER glascad;
+CREATE USER glascad NOCREATEDB IN GROUP gc_admin ENCRYPTED PASSWORD '${process.env.DO_GC_PASSWORD}';
+
 
 -- DEFAULT USERS;
 ${DEFAULT_USERS.map(user => `

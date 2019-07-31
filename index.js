@@ -21,43 +21,54 @@ const {
     },
 } = process;
 
-const APP = express();
 
-APP.listen(SERVER_PORT, () => {
-    console.log(`glascad on port ${SERVER_PORT}`);
+async function seedDatabase(reseed) {
 
-    if (NODE_ENV === 'development') (async () => {
+    if (NODE_ENV === 'development') {
 
-        console.log('Re-seeding database');
-    
+        if (reseed) console.log('Re-seeding database');
+        else console.log('Re-compililng database seed');
+
         const DB_SEED = await compileSeed();
-    
-        const DB = new Client({
-            user: 'doadmin', // DO NOT CHANGE
-            password: DO_ADMIN_PASSWORD,
-            host: DO_ADMIN_HOST,
-            port: DO_ADMIN_PORT,
-            database: DO_ADMIN_DB,
-            ssl: true,
-        });
-    
-        try {
-            await DB.connect();
-            console.log('Successfully connected to db');
-        } catch (err) {
-            console.error('Error connecting to db:');
-            console.error(err);
+
+        if (reseed) {
+            const DB = new Client({
+                user: 'doadmin', // DO NOT CHANGE
+                password: DO_ADMIN_PASSWORD,
+                host: DO_ADMIN_HOST,
+                port: DO_ADMIN_PORT,
+                database: DO_ADMIN_DB,
+                ssl: true,
+            });
+
+            try {
+                console.log('Connecting to db');
+                await DB.connect();
+                console.log('Successfully connected to db');
+            } catch (err) {
+                console.error('Error connecting to db:');
+                console.error(err);
+            }
+
+            try {
+                console.log('Seeding db');
+                await DB.query(DB_SEED);
+                console.log('Successfully seeded db');
+            } catch (err) {
+                console.error('Error seeding db:');
+                console.error(err);
+            }
+        } else {
+            console.log('Not seeding db');
         }
-        
-        try {
-            // await DB.query(`DO $$ BEGIN RAISE EXCEPTION 'Current user is: %', (SELECT current_user); END; $$`);
-            await DB.query(DB_SEED);
-            console.log('Successfully seeded db');
-        } catch (err) {
-            console.error('Error seeding db:');
-            console.error(err);
-        }
-    })();
+
+        console.log('done');
+    }
+}
+
+seedDatabase(true).then(() => setTimeout(() => {
+
+    const APP = express();
 
     APP.use(cors());
 
@@ -66,20 +77,25 @@ APP.listen(SERVER_PORT, () => {
     APP.use(postgraphile(
         DO_GC_CONNECTION_STRING,
         [
-            'gc_public',
             'gc_data',
-            'gc_utils',
+            'gc_public',
             'gc_protected',
-            'gc_controlled',
             'gc_private',
+            'gc_controlled',
+            'gc_utils',
         ],
         {
             graphiql: true,
             jwtPgTypeIdentifier: "gc_public.jwt",
             jwtSecret: JWT_SECRET,
-            pgDefaultRole: 'glascad',
+            exportGqlSchemaPath: `${__dirname}/compiled/gql-schema.gql`,
+            pgDefaultRole: 'unauthorized',
+            // pgDefaultRole: 'glascad',
         },
     ));
 
     APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/build/`));
-});
+
+    APP.listen(SERVER_PORT, () => console.log(`glascad on port ${SERVER_PORT}`));
+
+}, 2500));
