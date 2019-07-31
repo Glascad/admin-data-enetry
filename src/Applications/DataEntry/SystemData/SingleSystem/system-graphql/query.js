@@ -8,20 +8,21 @@ export default gql`
         }
         ...PresentationLevels
         ...AllManufacturers
-        ...AllSystemTypes
-        ...AllSystemTags
-        ...AllInfillSizes
-        ...AllInfillPocketTypes
-        ...AllInfillPocketSizes
-        ...AllConfigurationTypes
+        # ...AllSystemTypes
+        # ...AllSystemTags
+        # ...AllInfillSizes
+        # ...AllInfillPocketTypes
+        # ...AllInfillPocketSizes
+        # ...AllConfigurationTypes
     }
-    ${F.TYPES.PRESENTATION_LEVELS}
+    ${F.CTRLD.PRESENTATION_LEVELS}
     ${F.APP_DATA.ALL_MANUFACTURERS}
     ${F.SYS_DATA.ENTIRE_SYSTEM}
-    ${F.APP_DATA.ALL_SYSTEM_TYPES}
-    ${F.APP_DATA.ALL_SYSTEM_TAGS}
-    ${F.APP_DATA.ALL_INFILL_SIZES}
-    ${F.APP_DATA.ALL_INFILL_POCKET_SIZES}
-    ${F.APP_DATA.ALL_INFILL_POCKET_TYPES}
-    ${F.APP_DATA.ALL_CONFIGURATION_TYPES}
 `;
+
+// # ${F.APP_DATA.ALL_SYSTEM_TYPES}
+// # ${F.APP_DATA.ALL_SYSTEM_TAGS}
+// # ${F.APP_DATA.ALL_INFILL_SIZES}
+// # ${F.APP_DATA.ALL_INFILL_POCKET_SIZES}
+// # ${F.APP_DATA.ALL_INFILL_POCKET_TYPES}
+// # ${F.APP_DATA.ALL_CONFIGURATION_TYPES}

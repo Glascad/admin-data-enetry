@@ -53,5 +53,5 @@ export default {
             }
         }
     }
-    ${F.TYPES.PRESENTATION_LEVELS}`,
+    ${F.CTRLD.PRESENTATION_LEVELS}`,
 };
