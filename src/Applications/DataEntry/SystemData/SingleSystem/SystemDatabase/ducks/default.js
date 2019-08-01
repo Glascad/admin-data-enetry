@@ -1,7 +1,7 @@
 export const system = {
 
     manufacturerId: undefined,
-    systemTypeId: undefined,
+    systemType: undefined,
     name: undefined,
     depth: undefined,
     shimSize: undefined,
@@ -31,8 +31,8 @@ export const system = {
     systemOptions: [],
     systemOptionIdsToDelete: [],
 
-    invalidConfigurationTypeIds: [],
-    invalidConfigurationTypeIdsToDelete: [],
+    invalidConfigurationTypes: [],
+    invalidConfigurationTypesToDelete: [],
 
     configurationOverrides: [],
     configurationOverridesToDelete: [],
@@ -40,33 +40,31 @@ export const system = {
 
 export const override = {
     systemId: undefined,
-    systemTypeId: undefined,
-    detailTypeId: undefined,
-    configurationTypeId: undefined,
+    systemType: undefined,
+    detailType: undefined,
+    configurationType: undefined,
     requiredOverride: undefined,
-    mirrorableOverride: undefined,
-    presentationLevelOverride: undefined,
-    overrideLevelOverride: undefined,
+    // mirrorableOverride: undefined,
+    // presentationLevelOverride: undefined,
+    // overrideLevelOverride: undefined,
 };
 
 export const option = {
-    id: '1',
     name: undefined,
-    presentationLevel: undefined,
-    overrideLevel: undefined,
-    optionOrder: undefined,
+    // presentationLevel: undefined,
+    // overrideLevel: undefined,
+    // optionOrder: undefined,
 
-    configurationTypeIds: [],
-    configurationTypeIdsToDelete: [],
-
+    configurationTypes: [],
+    configurationTypesToDelete: [],
+    
     optionValues: [],
     optionValueIdsToDelete: [],
 };
 
 export const value = {
-    id: '1',
     name: undefined,
     value: undefined,
-    valueOrder: undefined,
-    mirrorFromOptionValueId: undefined,
+    // valueOrder: undefined,
+    // mirrorFromOptionValueId: undefined,
 };

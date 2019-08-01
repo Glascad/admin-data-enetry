@@ -66,10 +66,10 @@ export const SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS = gql`
         systemType
         detailType
         configurationType
-        mirrorable
         required
-        presentationLevel
-        overrideLevel
+        # mirrorable
+        # presentationLevel
+        # overrideLevel
     }
 `;
 

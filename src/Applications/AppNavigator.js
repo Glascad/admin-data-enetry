@@ -1,10 +1,10 @@
 import React, { Suspense, lazy } from 'react';
 
-import { AuthenticationContext } from './Authentication/Authentication';
+import { AuthContext } from '../auth-context';
 
 import { withContext, Navigator } from '../components';
 
-import Login from './Authentication/Login';
+import Login from './Login/Login';
 
 import Glascad from './GlasCAD/GlasCAD';
 import DataEntry from './DataEntry/DataEntry';
@@ -26,16 +26,16 @@ const mapProps = ({
         },
     },
 }) => ({
-    allowedApplications: role.match(/ADMIN/i) ?
+    allowedApplications: role.match(/admin/i) ?
         { Glascad, DataEntry }
         :
-        role.match(/DATA.ENTRY/i) ?
+        role.match(/data.entry/i) ?
             { DataEntry }
             :
-            role.match(/CLIENT/i) ?
+            role.match(/client/i) ?
                 { Glascad }
                 :
                 { Login },
 });
 
-export default withContext(AuthenticationContext, mapProps)(AppNavigator);
+export default withContext(AuthContext, mapProps)(AppNavigator);

@@ -13,6 +13,7 @@ module.exports = async () => {
         ROLES,
         PRIVILEGES,
         INVOKER,
+        SEED_DATA,
         GC_PUBLIC: {
             TABLES: PUB_TABLES,
             TYPES: {
@@ -42,8 +43,9 @@ module.exports = async () => {
             },
         },
         GC_CONTROLLED: {
-            TABLES: DEV_TABLES,
-            TYPES: DEV_TYPES,
+            TABLES: CTRLD_TABLES,
+            TYPES: CTRLD_TYPES,
+            VALUES: CTRLD_VALS,
         },
         GC_PRIVATE: {
             TABLES: PRIV_TABLES,
@@ -127,7 +129,7 @@ ${{ SCHEMAS }}
 -- TYPES;
 
 -- GC_CONTROLLED TYPES;
-${{ DEV_TYPES }}
+${{ CTRLD_TYPES }}
 -- GC_PUBLIC TYPES;
 ${{ UTIL_TYPES }}
 ${{ OUTPUT_TYPES }}
@@ -137,7 +139,7 @@ ${{ INPUT_TYPES }}
 -- TABLES;
 
 -- GC_CONTROLLED TABLES;
-${{ DEV_TABLES }}
+${{ CTRLD_TABLES }}
 -- GC_DATA TABLES;
 ${{ APP_DATA }}
 ${{ CONFIGURATION_DATA }}
@@ -192,6 +194,10 @@ ${{ SELECT_SYSTEM_SET }}
 ${{ SELECT_SYSTEM_TYPE }}
 
 
+--INSERTIONS
+${{ CTRLD_VALS }}
+
+
 -- ROLES
 ${{ ROLES }}
 
@@ -212,8 +218,8 @@ ${DEFAULT_USERS.map(user => `
 SELECT 1 FROM create_a_user('${user.split(/,/g).join(`', '`)}') INTO ___;
 `).join('')}
 
--- PROJECT FOR USER_ONE
-INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
+-- SEED DATA;
+${{ SEED_DATA }}
 
 END $seed$;
 `;

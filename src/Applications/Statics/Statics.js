@@ -21,7 +21,7 @@ import {
     withContext,
 } from '../../components';
 
-import { AuthenticationContext } from '../Authentication/Authentication';
+import { AuthContext } from '../../auth-context';
 
 export const StaticContext = createContext();
 
@@ -136,4 +136,4 @@ class Statics extends PureComponent {
     }
 }
 
-export default withContext(AuthenticationContext, ({ context }) => ({ AUTH: context }))(withRouter(Statics));
+export default withContext(AuthContext, ({ context }) => ({ AUTH: context }))(withRouter(Statics));

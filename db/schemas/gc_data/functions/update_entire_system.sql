@@ -83,53 +83,53 @@ BEGIN
     -- );
 
     -- INVALID CONFIGURATIONS
-    -- INSERT INTO invalid_system_configuration_types (
-    --     system_id,
-    --     invalid_configuration_type_id
-    -- )
-    -- SELECT
-    --     us.id AS system_id,
-    --     ict AS invalid_configuration_type_id
-    -- FROM UNNEST (s.invalid_configuration_type_ids) ict
-    -- ON CONFLICT DO NOTHING;
+    INSERT INTO invalid_system_configuration_types (
+        system_id,
+        invalid_configuration_type_id
+    )
+    SELECT
+        us.id AS system_id,
+        ict AS invalid_configuration_type_id
+    FROM UNNEST (s.invalid_configuration_type_ids) ict
+    ON CONFLICT DO NOTHING;
 
-    -- DELETE FROM invalid_system_configuration_types
-    -- WHERE system_id = s.id
-    -- AND invalid_configuration_type_id IN (
-    --     SELECT * FROM UNNEST (s.invalid_configuration_type_ids_to_delete)
-    -- );
+    DELETE FROM invalid_system_configuration_types
+    WHERE system_id = s.id
+    AND invalid_configuration_type_id IN (
+        SELECT * FROM UNNEST (s.invalid_configuration_type_ids_to_delete)
+    );
 
     -- CONFIGURATION OVERRIDES
-    -- IF s.configuration_overrides IS NOT NULL
-    -- THEN
-    --     FOREACH sco IN ARRAY s.configuration_overrides
-    --     LOOP
-    --         SELECT system_id FROM create_or_update_configuration_override(sco, us.id, us.system_type_id) INTO ___;
-    --     END LOOP;
-    -- END IF;
+    IF s.configuration_overrides IS NOT NULL
+    THEN
+        FOREACH sco IN ARRAY s.configuration_overrides
+        LOOP
+            SELECT system_id FROM create_or_update_configuration_override(sco, us.id, us.system_type_id) INTO ___;
+        END LOOP;
+    END IF;
 
-    -- IF s.configuration_overrides_to_delete IS NOT NULL
-    -- THEN
-    --     FOREACH sco IN ARRAY s.configuration_overrides_to_delete
-    --     LOOP
-    --         SELECT system_id FROM delete_configuration_override(sco, us.id, us.system_type_id) INTO ___;
-    --     END LOOP;
-    -- END IF;
+    IF s.configuration_overrides_to_delete IS NOT NULL
+    THEN
+        FOREACH sco IN ARRAY s.configuration_overrides_to_delete
+        LOOP
+            SELECT system_id FROM delete_configuration_override(sco, us.id, us.system_type_id) INTO ___;
+        END LOOP;
+    END IF;
 
     -- OPTIONS
-    -- IF s.system_options IS NOT NULL
-    -- THEN
-    --     FOREACH so IN ARRAY s.system_options
-    --     LOOP
-    --         SELECT id FROM update_entire_system_option(so, us.id) INTO ___;
-    --     END LOOP;
-    -- END IF;
+    IF s.system_options IS NOT NULL
+    THEN
+        FOREACH so IN ARRAY s.system_options
+        LOOP
+            SELECT id FROM update_entire_system_option(so, us.id) INTO ___;
+        END LOOP;
+    END IF;
 
-    -- DELETE FROM system_options
-    -- WHERE system_id = s.id
-    -- AND id IN (
-    --     SELECT * FROM UNNEST (s.system_option_ids_to_delete)
-    -- );
+    DELETE FROM system_options
+    WHERE system_id = s.id
+    AND id IN (
+        SELECT * FROM UNNEST (s.system_option_ids_to_delete)
+    );
 
     RETURN QUERY SELECT * FROM (SELECT us.*) us;
 END;

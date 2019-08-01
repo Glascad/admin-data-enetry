@@ -27,8 +27,8 @@ async function seedDatabase() {
 
     if (NODE_ENV === 'development') {
 
-        if (RESEED === 'true') console.log('Re-seeding database');
-        else console.log('Re-compililng database seed');
+        if (RESEED === 'true') console.log('[ glascad ] Re-seeding database');
+        else console.log('[ glascad ] Re-compililng database seed');
 
         const DB_SEED = await compileSeed();
 
@@ -43,27 +43,27 @@ async function seedDatabase() {
             });
 
             try {
-                console.log('Connecting to db');
+                console.log('[ glascad ] Connecting to db');
                 await DB.connect();
-                console.log('Successfully connected to db');
+                console.log('[ glascad ] Successfully connected to db');
             } catch (err) {
-                console.error('Error connecting to db:');
+                console.error('[ glascad ] Error connecting to db:');
                 console.error(err);
             }
 
             try {
-                console.log('Seeding db');
+                console.log('[ glascad ] Seeding db');
                 await DB.query(DB_SEED);
-                console.log('Successfully seeded db');
+                console.log('[ glascad ] Successfully seeded db');
             } catch (err) {
-                console.error('Error seeding db:');
+                console.error('[ glascad ] Error seeding db:');
                 console.error(err);
             }
         } else {
-            console.log('Not seeding db');
+            console.log('[ glascad ] Not seeding db');
         }
 
-        console.log('done');
+        console.log('[ glascad ] done');
     }
 }
 
@@ -98,6 +98,6 @@ seedDatabase().then(() => {
 
     APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/build/`));
 
-    APP.listen(SERVER_PORT, () => console.log(`glascad on port ${SERVER_PORT}`));
+    APP.listen(SERVER_PORT, () => console.log(`[ glascad ] listening on port ${SERVER_PORT}`));
 
 });

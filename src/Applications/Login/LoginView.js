@@ -10,9 +10,9 @@ import {
     Ellipsis,
 } from '../../components';
 
-import { AuthenticationContext } from './Authentication';
+import { AuthContext } from '../../auth-context';
 
-import Statics, { StaticContext } from '../Statics/Statics';
+import { StaticContext } from '../Statics/Statics';
 
 import LoginSplash from '../../assets/images/Login Splash.jpeg';
 
@@ -104,20 +104,12 @@ function Login({
     );
 }
 
-const LoginWithContext = withContext(
-    AuthenticationContext,
+export default withContext(
+    AuthContext,
     ({ context }) => ({ AUTH: context }),
 )(
     withContext(
         StaticContext,
         ({ context }) => ({ staticContext: context }),
     )(Login),
-);
-
-export default () => (
-    <Statics
-        routes={{
-            Login: LoginWithContext,
-        }}
-    />
 );

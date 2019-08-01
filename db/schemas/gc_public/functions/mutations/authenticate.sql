@@ -21,7 +21,7 @@ BEGIN
         -- WHERE users.username = un;
         
         RETURN ROW(
-            authenticatee.role,
+            LOWER(authenticatee.role::TEXT),
             EXTRACT(EPOCH FROM NOW() + INTERVAL '24 hours'),
             authenticatee.id
         )::JWT;
