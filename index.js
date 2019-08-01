@@ -18,20 +18,21 @@ const {
         DO_ADMIN_HOST,
         DO_ADMIN_PORT,
         DO_ADMIN_DB,
+        RESEED,
     },
 } = process;
 
 
-async function seedDatabase(reseed) {
+async function seedDatabase() {
 
     if (NODE_ENV === 'development') {
 
-        if (reseed) console.log('Re-seeding database');
+        if (RESEED === 'true') console.log('Re-seeding database');
         else console.log('Re-compililng database seed');
 
         const DB_SEED = await compileSeed();
 
-        if (reseed) {
+        if (RESEED === 'true') {
             const DB = new Client({
                 user: 'doadmin', // DO NOT CHANGE
                 password: DO_ADMIN_PASSWORD,
@@ -66,7 +67,8 @@ async function seedDatabase(reseed) {
     }
 }
 
-seedDatabase(true).then(() => {
+
+seedDatabase().then(() => {
 
     const APP = express();
 
