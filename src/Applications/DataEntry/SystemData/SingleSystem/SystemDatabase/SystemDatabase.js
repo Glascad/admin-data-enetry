@@ -17,7 +17,7 @@ import { parseSearch } from '../../../../../utils';
 
 const subroutes = {
     SystemInfo,
-    GlazingInfo,
+    // GlazingInfo,
     ValidTypes,
     SystemOptions,
     // InvalidCombinations,
@@ -93,9 +93,9 @@ export default class SystemDatabase extends PureComponent {
             props: {
                 queryStatus,
                 queryStatus: {
-                    PresentationLevels: {
-                        enumValues: presentationLevels = [],
-                    } = {},
+                    // PresentationLevels: {
+                    //     enumValues: presentationLevels = [],
+                    // } = {},
                 },
                 mutations,
             },
@@ -104,36 +104,36 @@ export default class SystemDatabase extends PureComponent {
             updateSystem,
         } = this;
 
-        const updatedSystem = mergeSystemUpdate(system, queryStatus);
+        // const updatedSystem = mergeSystemUpdate(system, queryStatus);
 
         const routeProps = {
-            presentationLevels,
+            // presentationLevels,
             queryStatus,
             mutations,
-            system: updatedSystem,
-            updateSystem,
+            // system: updatedSystem,
+            // updateSystem,
         };
 
         return (
-            <TabNavigator
-                routeProps={routeProps}
-                routes={subroutes}
-            >
-                <div className="bottom-buttons">
-                    <button
-                        className="empty"
-                        onClick={reset}
-                    >
-                        Reset
+            // <TabNavigator
+            //     routeProps={routeProps}
+            //     routes={subroutes}
+            // >
+            <div className="bottom-buttons">
+                <button
+                    className="empty"
+                    onClick={reset}
+                >
+                    Reset
                     </button>
-                    <button
-                        className="action"
-                        onClick={save}
-                    >
-                        Save
+                <button
+                    className="action"
+                    onClick={save}
+                >
+                    Save
                     </button>
-                </div>
-            </TabNavigator>
+            </div>
+            // </TabNavigator>
         );
     }
 }

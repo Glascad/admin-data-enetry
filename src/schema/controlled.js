@@ -30,17 +30,17 @@ export const CONFIGURATION_TYPES = gql`
     }
 `;
 
-export const PRESENTATION_LEVELS = gql`
-    fragment PresentationLevels on Query {
-        PresentationLevels: allOrderedPresentationLevels(orderBy: VALUE_ASC) {
-            nodes {
-                nodeId
-                value
-                level
-            }
-        }
-    }
-`;
+// export const PRESENTATION_LEVELS = gql`
+//     fragment PresentationLevels on Query {
+//         PresentationLevels: allOrderedPresentationLevels(orderBy: VALUE_ASC) {
+//             nodes {
+//                 nodeId
+//                 value
+//                 level
+//             }
+//         }
+//     }
+// `;
 
 // export const SYSTEM_OPTION_NAMES = gql`
 //     fragment SystemOptionNames on Query {

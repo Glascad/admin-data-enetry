@@ -69,11 +69,11 @@ gc_controlled.option_value_name AS ENUM (
     'STICK'
 );
 
-CREATE TYPE
-gc_controlled.presentation_level AS ENUM (
-    'SYSTEM',
-    'ELEVATION',
-    'LITE',
-    'FRAME',
-    'DETAIL'
-);
+-- CREATE TYPE
+-- gc_controlled.presentation_level AS ENUM (
+--     'SYSTEM',
+--     'ELEVATION',
+--     'LITE',
+--     'FRAME',
+--     'DETAIL'
+-- );

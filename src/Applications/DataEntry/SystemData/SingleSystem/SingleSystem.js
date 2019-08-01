@@ -81,7 +81,19 @@ export default function SingleSystem({
                             } = {},
                         } = {},
                     },
+                    rawQueryStatus: {
+                        error: {
+                            networkError: {
+                                result: {
+                                    errors = [],
+                                } = {},
+                            } = {},
+                        } = {},
+                    }
                 } = apollo;
+
+                console.log(apollo);
+                errors.forEach(({ message }) => console.log(message));
 
                 return (
                     <ToggleNavigator

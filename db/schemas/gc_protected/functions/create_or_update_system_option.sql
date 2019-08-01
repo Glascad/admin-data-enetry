@@ -14,17 +14,17 @@ BEGIN
     THEN RETURN QUERY
         INSERT INTO system_options(
             system_id,
-            name,
-            presentation_level,
-            override_level,
-            option_order
+            name
+            -- presentation_level,
+            -- override_level,
+            -- option_order
         )
         VALUES (
             sid,
-            eso.name,
-            eso.presentation_level,
-            eso.override_level,
-            eso.option_order
+            eso.name
+            -- eso.presentation_level,
+            -- eso.override_level,
+            -- eso.option_order
         )
         RETURNING *;
     ELSE RETURN QUERY
@@ -32,19 +32,19 @@ BEGIN
             name = CASE
                 WHEN eso.name IS NOT NULL
                     THEN eso.name
-                ELSE system_options.name END,
-            presentation_level = CASE
-                WHEN eso.presentation_level IS NOT NULL
-                    THEN eso.presentation_level
-                ELSE system_options.presentation_level END,
-            override_level = CASE
-                WHEN eso.override_level IS NOT NULL
-                    THEN eso.override_level
-                ELSE system_options.override_level END,
-            option_order = CASE
-                WHEN eso.option_order IS NOT NULL
-                    THEN eso.option_order
-                ELSE system_options.option_order END
+                ELSE system_options.name END
+            -- presentation_level = CASE
+            --     WHEN eso.presentation_level IS NOT NULL
+            --         THEN eso.presentation_level
+            --     ELSE system_options.presentation_level END,
+            -- override_level = CASE
+            --     WHEN eso.override_level IS NOT NULL
+            --         THEN eso.override_level
+            --     ELSE system_options.override_level END,
+            -- option_order = CASE
+            --     WHEN eso.option_order IS NOT NULL
+            --         THEN eso.option_order
+            --     ELSE system_options.option_order END
         WHERE system_options.system_id = sid
         AND system_options.id = eso.id
         RETURNING *;

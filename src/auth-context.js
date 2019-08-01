@@ -4,14 +4,14 @@ import { withRouter } from 'react-router-dom';
 
 import gql from 'graphql-tag';
 
-import F from '../../schema';
+import F from './schema';
 
-import client, { STORAGE_KEYS } from '../../apollo-config';
+import client, { STORAGE_KEYS } from './apollo-config';
 
-import { useQuery, useMutation } from '../../components';
-import { parseSearch } from '../../utils';
+import { useQuery, useMutation } from './components';
+import { parseSearch } from './utils';
 
-export const AuthenticationContext = createContext();
+export const AuthContext = createContext();
 
 const query = {
     query: gql`{ ...CurrentUser } ${F.AUTH.CURRENT_USER}`,
@@ -33,7 +33,7 @@ const mutation = {
     `,
 };
 
-function AuthenticationProvider({
+function AuthProvider({
     children,
     history,
     location: {
@@ -109,7 +109,7 @@ function AuthenticationProvider({
     const { currentUser = {} } = queryResult;
 
     return (
-        <AuthenticationContext.Provider
+        <AuthContext.Provider
             value={{
                 currentUser,
                 authenticating,
@@ -119,8 +119,8 @@ function AuthenticationProvider({
             }}
         >
             {children}
-        </AuthenticationContext.Provider>
+        </AuthContext.Provider>
     );
 }
 
-export default withRouter(AuthenticationProvider);
+export default withRouter(AuthProvider);

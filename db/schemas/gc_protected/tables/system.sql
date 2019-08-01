@@ -1,5 +1,37 @@
 
 CREATE TABLE
+gc_protected.system_type_detail_types (
+    system_type SYSTEM_TYPE REFERENCES system_types,
+    detail_type DETAIL_TYPE,
+    PRIMARY KEY (system_type, detail_type),
+    UNIQUE (system_type, detail_type)
+);
+
+-- tie to enumeration
+CREATE TABLE
+gc_protected.system_type_detail_type_configuration_types (
+    system_type SYSTEM_TYPE REFERENCES system_types,
+    detail_type DETAIL_TYPE,
+    configuration_type CONFIGURATION_TYPE,
+    required BOOLEAN,
+    -- mirrorable BOOLEAN,
+    -- presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    -- override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    PRIMARY KEY (
+        system_type,
+        detail_type,
+        configuration_type
+    ),
+    FOREIGN KEY (
+        system_type,
+        detail_type
+    ) REFERENCES system_type_detail_types (
+        system_type,
+        detail_type
+    )
+);
+
+CREATE TABLE
 gc_protected.systems (
     id SERIAL PRIMARY KEY,
     manufacturer_id INTEGER REFERENCES manufacturers,
@@ -45,9 +77,9 @@ CREATE TABLE
 gc_protected.system_options (
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems,
-    name SYSTEM_OPTION_NAME,
-    presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    name SYSTEM_OPTION_NAME REFERENCES valid_system_options,
+    -- presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    -- override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     option_order INTEGER,
     UNIQUE (id, system_id),
     UNIQUE (id, name)
@@ -57,11 +89,11 @@ gc_protected.system_options (
 CREATE TABLE
 gc_protected.option_values (
     id SERIAL PRIMARY KEY,
-    system_option_id INTEGER,
-    option_name SYSTEM_OPTION_NAME,
+    system_option_id INTEGER REFERENCES system_options,
+    option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options,
     name OPTION_VALUE_NAME,
     value FLOAT,
-    value_order INTEGER,
+    -- value_order INTEGER,
     UNIQUE (id, system_option_id),
     FOREIGN KEY (system_option_id, option_name)
     REFERENCES system_options (id, name),
@@ -69,10 +101,10 @@ gc_protected.option_values (
     REFERENCES valid_option_values (option_name, value_name)
 );
 
-ALTER TABLE
-option_values
-ADD COLUMN
-mirror_from_option_value_id INTEGER REFERENCES option_values;
+-- ALTER TABLE
+-- option_values
+-- ADD COLUMN
+-- mirror_from_option_value_id INTEGER REFERENCES option_values;
 
 -- DELETE ???
 -- CREATE TABLE
@@ -113,12 +145,12 @@ mirror_from_option_value_id INTEGER REFERENCES option_values;
 -- );
 
 -- tie to enumeration
-CREATE TABLE
-gc_protected.system_option_configuration_types (
-    system_option_id INTEGER REFERENCES system_options,
-    configuration_type CONFIGURATION_TYPE,
-    PRIMARY KEY (system_option_id, configuration_type)
-);
+-- CREATE TABLE
+-- gc_protected.system_option_configuration_types (
+--     system_option_id INTEGER REFERENCES system_options,
+--     configuration_type CONFIGURATION_TYPE,
+--     PRIMARY KEY (system_option_id, configuration_type)
+-- );
 
 
 
@@ -146,38 +178,6 @@ gc_protected.invalid_system_configuration_types (
     PRIMARY KEY (system_id, invalid_configuration_type)
 );
 
-CREATE TABLE
-gc_protected.system_type_detail_types (
-    system_type SYSTEM_TYPE REFERENCES system_types,
-    detail_type DETAIL_TYPE,
-    PRIMARY KEY (system_type, detail_type),
-    UNIQUE (system_type, detail_type)
-);
-
--- tie to enumeration
-CREATE TABLE
-gc_protected.system_type_detail_type_configuration_types (
-    system_type SYSTEM_TYPE REFERENCES system_types,
-    detail_type DETAIL_TYPE,
-    configuration_type CONFIGURATION_TYPE,
-    required BOOLEAN,
-    mirrorable BOOLEAN,
-    presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    PRIMARY KEY (
-        system_type,
-        detail_type,
-        configuration_type
-    ),
-    FOREIGN KEY (
-        system_type,
-        detail_type
-    ) REFERENCES system_type_detail_types (
-        system_type,
-        detail_type
-    )
-);
-
 -- tie to enumeration
 CREATE TABLE
 gc_protected.system_configuration_overrides (
@@ -186,9 +186,9 @@ gc_protected.system_configuration_overrides (
     detail_type DETAIL_TYPE,
     configuration_type CONFIGURATION_TYPE,
     required_override BOOLEAN,
-    mirrorable_override BOOLEAN,
-    presentation_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    override_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    -- mirrorable_override BOOLEAN,
+    -- presentation_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    -- override_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     PRIMARY KEY (
         system_id,
         detail_type,

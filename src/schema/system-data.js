@@ -8,14 +8,14 @@ export const SYSTEM_CONFIGURATION_OVERRIDE_FIELDS = gql`
     fragment SystemConfigurationOverrideFields on SystemConfigurationOverride {
         __typename
         nodeId
-        mirrorableOverride
-        requiredOverride
-        presentationLevelOverride
-        overrideLevelOverride
         systemId
         systemType
         detailType
         configurationType
+        requiredOverride
+        # mirrorableOverride
+        # presentationLevelOverride
+        # overrideLevelOverride
     }
 `;
 
@@ -26,9 +26,9 @@ export const SYSTEM_OPTION_FIELDS = gql`
         id
         name
         systemId
-        optionOrder
-        overrideLevel
-        presentationLevel
+        # optionOrder
+        # overrideLevel
+        # presentationLevel
     }
 `;
 
@@ -89,12 +89,12 @@ export const ENTIRE_SYSTEM_OPTION = gql`
                 ...OptionValueFields
             }
         }
-        systemOptionConfigurationTypesBySystemOptionId {
-            nodes {
-                nodeId
-                configurationType
-            }
-        }
+        # systemOptionConfigurationTypesBySystemOptionId {
+        #     nodes {
+        #         nodeId
+        #         configurationType
+        #     }
+        # }
     }
     ${SYSTEM_OPTION_FIELDS}
     ${OPTION_VALUE_FIELDS}
@@ -108,7 +108,7 @@ export const ENTIRE_SYSTEM = gql`
         manufacturerByManufacturerId {
             ...ManufacturerFields
         }
-        systemTypeBySystemTypeId {
+        systemTypeBySystemType {
             ...EntireSystemType
         }
         # systemSystemTagsBySystemId {
