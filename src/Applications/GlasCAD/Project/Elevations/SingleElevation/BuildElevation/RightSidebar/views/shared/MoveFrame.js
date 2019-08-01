@@ -47,6 +47,7 @@ function MoveFrame({
                     }`}
             />
             <Input
+                data-cy="distance"
                 label="Distance"
                 type="inches"
                 autoFocus={true}
@@ -55,6 +56,7 @@ function MoveFrame({
             />
             {canMoveFalse ? (
                 <button
+                    data-cy="move-right-up"
                     className="sidebar-button empty"
                     onClick={() => moveFrames({ distance: -distance })}
                 >
@@ -63,6 +65,7 @@ function MoveFrame({
             ) : null}
             {canMoveTrue ? (
                 <button
+                    data-cy="move-left-down"
                     className="sidebar-button empty"
                     onClick={() => moveFrames({ distance })}
                 >
@@ -75,5 +78,6 @@ function MoveFrame({
 
 export default {
     title: "Move Frame",
+    dataCy: "move-frame",
     component: withSelectionContext(withActionContext(memo(MoveFrame))),
 };

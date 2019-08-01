@@ -8,6 +8,7 @@ export default function SidebarLink({
     View,
     View: {
         title,
+        dataCy,
     },
     Icon,
 }) {
@@ -15,6 +16,7 @@ export default function SidebarLink({
         <button
             className={`sidebar-button ${className}`}
             onClick={() => toggleStackedView(View)}
+            data-cy={dataCy}
         >
             {Icon ? (
                 <Icon

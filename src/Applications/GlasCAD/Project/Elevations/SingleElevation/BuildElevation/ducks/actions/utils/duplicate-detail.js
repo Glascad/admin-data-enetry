@@ -1,6 +1,6 @@
 import { getFakeDetailId } from './get-fake-id';
 
-export default function redirectDetail({
+export default function duplicateDetail({
     elevationInput,
     elevationInput: {
         details = [],
@@ -22,8 +22,8 @@ export default function redirectDetail({
         id: newId,
     },
 }) {
+    console.log(`DUPLICATING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
 
-    // console.log(`DUPLICATING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
     // console.log({ detail, oldContainer, newContainer });
     // console.trace(detail);
 
