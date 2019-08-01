@@ -118,6 +118,8 @@ class List extends PureComponent {
             ||
             {};
 
+        if (mapPillProps) console.warn("Don't use map pill props")
+
         return (
             <>
                 <ListContainer
@@ -176,7 +178,10 @@ class List extends PureComponent {
                                 onDelete={_delete}
                                 arguments={args}
                                 {...defaultPillProps}
-                                {...mapPillProps(item)}
+                                {...(mapPillProps ?
+                                    mapPillProps(item)
+                                    :
+                                    item)}
                             />
                         );
                     }}
@@ -246,7 +251,10 @@ class List extends PureComponent {
                         Are you sure you want to delete {
                             modalName.toLowerCase()
                         }: {
+                            mapPillProps ?
                             mapPillProps(selectedItem).title
+                            :
+                            selectedItem.title
                         }?
                     </Modal>
                 ) : null}
