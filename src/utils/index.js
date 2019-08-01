@@ -1,4 +1,8 @@
-import parseSearch from './functions/parse-search';
+// CLASSES
+import parseSearch from './classes/parse-search';
+import ImperialValue from './classes/imperial-values';
+import Loggable from './classes/loggable';
+// FUNCTIONS
 import removeNullValues from './functions/remove-null-values';
 import replaceByKeys from './functions/replace-by-keys';
 import flattenNodeArrays from './functions/flatten-node-arrays';
@@ -8,13 +12,15 @@ import arraysContainEqualValues from './functions/arrays-contain-equal-values';
 import allocate from './functions/allocate';
 import unique from './functions/unique-array';
 import lastItem from './functions/last-item';
-import ImperialValue from './functions/feet-inches';
-import Loggable from './classes/Loggable';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
 export {
+    // CLASSES
     parseSearch,
+    ImperialValue,
+    Loggable,
+    // FUNCTIONS
     removeNullValues,
     replaceByKeys,
     flattenNodeArrays,
@@ -25,7 +31,5 @@ export {
     unique,
     lastItem,
     validatePath,
-    ImperialValue,
-    Loggable,
 };
 

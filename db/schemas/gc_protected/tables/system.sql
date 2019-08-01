@@ -3,7 +3,7 @@ CREATE TABLE
 gc_protected.systems (
     id SERIAL PRIMARY KEY,
     manufacturer_id INTEGER REFERENCES manufacturers,
-    system_type SYSTEM_TYPE,
+    system_type SYSTEM_TYPE REFERENCES system_types,
     name VARCHAR(50),
     -- depth FLOAT,
     -- default_glass_size FLOAT,
@@ -108,8 +108,8 @@ mirror_from_option_value_id INTEGER REFERENCES option_values;
 -- CREATE TABLE
 -- gc_protected.option_combination_configuration_types (
 --     option_combination_id INTEGER REFERENCES option_combinations,
---     configuration_type_id INTEGER REFERENCES configuration_types,
---     PRIMARY KEY (option_combination_id, configuration_type_id)
+--     configuration_type INTEGER REFERENCES configuration_types,
+--     PRIMARY KEY (option_combination_id, configuration_type)
 -- );
 
 -- tie to enumeration
@@ -146,32 +146,54 @@ gc_protected.invalid_system_configuration_types (
     PRIMARY KEY (system_id, invalid_configuration_type)
 );
 
+CREATE TABLE
+gc_protected.system_type_detail_types (
+    system_type SYSTEM_TYPE REFERENCES system_types,
+    detail_type DETAIL_TYPE,
+    PRIMARY KEY (system_type, detail_type),
+    UNIQUE (system_type, detail_type)
+);
+
 -- tie to enumeration
 CREATE TABLE
 gc_protected.system_type_detail_type_configuration_types (
-    id SERIAL PRIMARY KEY,
-    system_type SYSTEM_TYPE,
+    system_type SYSTEM_TYPE REFERENCES system_types,
     detail_type DETAIL_TYPE,
     configuration_type CONFIGURATION_TYPE,
     required BOOLEAN,
     mirrorable BOOLEAN,
     presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    UNIQUE (system_type, detail_type, configuration_type)
+    PRIMARY KEY (
+        system_type,
+        detail_type,
+        configuration_type
+    ),
+    FOREIGN KEY (
+        system_type,
+        detail_type
+    ) REFERENCES system_type_detail_types (
+        system_type,
+        detail_type
+    )
 );
 
 -- tie to enumeration
 CREATE TABLE
 gc_protected.system_configuration_overrides (
     system_id INTEGER REFERENCES systems,
-    system_type SYSTEM_TYPE,
+    system_type SYSTEM_TYPE REFERENCES system_types,
     detail_type DETAIL_TYPE,
     configuration_type CONFIGURATION_TYPE,
     required_override BOOLEAN,
     mirrorable_override BOOLEAN,
     presentation_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     override_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    PRIMARY KEY (system_id, detail_type, configuration_type),
+    PRIMARY KEY (
+        system_id,
+        detail_type,
+        configuration_type
+    ),
     FOREIGN KEY (
         system_type, 
         detail_type, 

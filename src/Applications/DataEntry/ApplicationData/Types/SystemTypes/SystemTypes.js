@@ -10,6 +10,10 @@ import query from './system-types-graphql/query';
 import mutations from './system-types-graphql/mutations';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
+SystemTypes.navigationOptions = {
+    name: "System Types",
+};
+
 export default function SystemTypes() {
     return (
         <ApolloWrapper
@@ -17,6 +21,29 @@ export default function SystemTypes() {
             mutations={mutations}
         >
             {({
+
+            }) => (
+                    <div className="card">
+                        {/* <ListWrapper>
+                            {({
+
+                            }) => (
+                                    <ListWrapper>
+                                        {({
+
+                                        }) => (
+                                                <ListWrapper>
+                                                    <div>
+
+                                                    </div>
+                                                </ListWrapper>
+                                            )}
+                                    </ListWrapper>
+                                )}
+                        </ListWrapper> */}
+                    </div>
+                )}
+            {/* {({
                 queryStatus: {
                     allSystemTypes = [],
                     allDetailTypes = [],
@@ -35,9 +62,22 @@ export default function SystemTypes() {
                 },
                 queryStatus,
                 mutations,
+                rawQueryStatus,
+                rawQueryStatus: {
+                    error: {
+                        networkError: {
+                            result: {
+                                errors = [],
+                            } = {},
+                        } = {},
+                    } = {},
+                },
             }) => (
                     <ListWrapper
-                        // n={console.log({ queryStatus, mutations })}
+                        // n={console.log({ queryStatus, mutations, rawQueryStatus })}
+                        // n={console.log(errors.map(({ message }) => message))}
+                        // n={errors.forEach(({ message }) => console.log(message))}
+                        // n={errors.forEach(({ message }) => console.log(message.replace(/^cannot query field "(\w+)" on type "(\w+)".*$/i, '$1 - $2')))}
                         title="System Types"
                         items={allSystemTypes}
                         mapPillProps={({ type }) => ({
@@ -230,7 +270,7 @@ export default function SystemTypes() {
                             )}
                     </ListWrapper>
                 )
-            }
+            } */}
         </ApolloWrapper >
     );
 }

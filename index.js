@@ -66,7 +66,7 @@ async function seedDatabase(reseed) {
     }
 }
 
-seedDatabase(true).then(() => setTimeout(() => {
+seedDatabase(true).then(() => {
 
     const APP = express();
 
@@ -98,4 +98,4 @@ seedDatabase(true).then(() => setTimeout(() => {
 
     APP.listen(SERVER_PORT, () => console.log(`glascad on port ${SERVER_PORT}`));
 
-}, 2500));
+});

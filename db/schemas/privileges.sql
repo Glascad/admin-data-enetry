@@ -12,9 +12,9 @@ REVOKE ALL PRIVILEGES ON SCHEMA
 FROM
     PUBLIC,
     unauthorized,
-    gc_admin,
-    gc_data_entry,
-    gc_client;
+    GC_ADMIN,
+    GC_DATA_ENTRY,
+    GC_CLIENT;
 
 REVOKE ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA
     public,
@@ -27,9 +27,9 @@ REVOKE ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA
 FROM
     PUBLIC,
     unauthorized,
-    gc_admin,
-    gc_data_entry,
-    gc_client;
+    GC_ADMIN,
+    GC_DATA_ENTRY,
+    GC_CLIENT;
 
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA
     public,
@@ -42,9 +42,9 @@ REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA
 FROM
     PUBLIC,
     unauthorized,
-    gc_admin,
-    gc_data_entry,
-    gc_client;
+    GC_ADMIN,
+    GC_DATA_ENTRY,
+    GC_CLIENT;
 
 
 -- GRANT
@@ -93,25 +93,25 @@ TO gc_invoker;
 
 -- CLIENT
 -- can only write to client data
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA gc_public TO gc_client;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA gc_public TO GC_CLIENT;
 GRANT SELECT ON ALL TABLES IN SCHEMA
     gc_protected,
     gc_data,
     gc_controlled
-TO gc_client;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_public TO gc_client;
+TO GC_CLIENT;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_public TO GC_CLIENT;
 
 -- DATA ENTRY
 -- has no access to client data
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA gc_data TO gc_data_entry;
-GRANT SELECT ON ALL TABLES IN SCHEMA gc_controlled TO gc_data_entry;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_data TO gc_data_entry;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA gc_data TO GC_DATA_ENTRY;
+GRANT SELECT ON ALL TABLES IN SCHEMA gc_controlled TO GC_DATA_ENTRY;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_data TO GC_DATA_ENTRY;
 
 -- ADMIN
 -- has all privileges of both data entry and client
-GRANT unauthorized, gc_data_entry, gc_client TO gc_admin;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_controlled, gc_private TO gc_admin;
+GRANT unauthorized, GC_DATA_ENTRY, GC_CLIENT TO GC_ADMIN;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_controlled, gc_private TO GC_ADMIN;
 
 -- DEVELOPER
 -- role doadmin already has ownership of all schemas
-GRANT unauthorized, gc_admin, gc_data_entry, gc_client TO doadmin;
+GRANT unauthorized, GC_ADMIN, GC_DATA_ENTRY, GC_CLIENT TO doadmin;

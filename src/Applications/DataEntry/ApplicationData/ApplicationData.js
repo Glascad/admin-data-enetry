@@ -5,7 +5,7 @@ import {
 } from '../../../components';
 
 import Manufacturers from './Manufacturers/Manufacturers';
-// import Types from './Types/Types';
+import Types from './Types/Types';
 // import SystemTags from './SystemTags/SystemTags';
 // import Parts from './Parts/Parts';
 // import Lines from './Lines/Lines';
@@ -13,7 +13,7 @@ import Manufacturers from './Manufacturers/Manufacturers';
 
 const subroutes = {
     Manufacturers,
-    // Types,
+    Types,
     // SystemTags,
     // Parts,
     // Infills,

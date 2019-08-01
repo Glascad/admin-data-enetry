@@ -119,6 +119,8 @@ module.exports = async () => {
 
     const DB_SEED = create_seed`
 
+DO $seed$ DECLARE ___ INTEGER; BEGIN
+
 -- SCHEMAS;
 ${{ SCHEMAS }}
 
@@ -207,12 +209,13 @@ CREATE USER glascad NOCREATEDB IN GROUP gc_admin ENCRYPTED PASSWORD '${process.e
 
 -- DEFAULT USERS;
 ${DEFAULT_USERS.map(user => `
-SELECT * FROM create_a_user('${user.split(/,/g).join(`', '`)}');
+SELECT 1 FROM create_a_user('${user.split(/,/g).join(`', '`)}') INTO ___;
 `).join('')}
 
 -- PROJECT FOR USER_ONE
 INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
 
+END $seed$;
 `;
 
     const SEED_FILE = DB_SEED.replace(/(\n\s*\n)/g, '\n');

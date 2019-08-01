@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import ApolloWrapper from '../../state/ApolloWrapper';
 import Input from '../../ui/Input/Input';
-import { useMutation } from '../../state/use-graphql';
+import { useMutation } from '../../hooks/use-graphql';
 
 import gql from 'graphql-tag';
 

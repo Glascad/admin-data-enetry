@@ -1,15 +1,5 @@
 import gql from 'graphql-tag';
 
-export const PRESENTATION_LEVELS = gql`
-    fragment PresentationLevels on Query {
-        PresentationLevels: allOrderedPresentationLevels {
-            nodeId
-            value
-            level
-        }
-    }
-`;
-
 export const SYSTEM_TYPES = gql`
     fragment SystemTypes on Query {
         SystemTypes: __type(name: "SystemType") {
@@ -40,15 +30,49 @@ export const CONFIGURATION_TYPES = gql`
     }
 `;
 
+export const PRESENTATION_LEVELS = gql`
+    fragment PresentationLevels on Query {
+        PresentationLevels: allOrderedPresentationLevels(orderBy: VALUE_ASC) {
+            nodes {
+                nodeId
+                value
+                level
+            }
+        }
+    }
+`;
+
+// export const SYSTEM_OPTION_NAMES = gql`
+//     fragment SystemOptionNames on Query {
+//         SystemOptionNames: __type(name: "SystemOptionName") {
+//             enumValues {
+//                 name
+//             }
+//         }
+//     }
+// `;
+
+// export const OPTION_VALUE_NAMES = gql`
+//     fragment OptionValueNames on Query {
+//         OptionValueNames: __type(name: "OptionValueName") {
+//             enumValues {
+//                 name
+//             }
+//         }
+//     }
+// `;
+
 export const VALID_SYSTEM_OPTIONS = gql`
     fragment ValidSystemOptions on Query {
         ValidSystemOptions: allValidSystemOptions {
-            nodeId
-            optionName
-            validOptionValuesByOptionName {
-                nodes {
-                    nodeId
-                    valueName
+            nodes {
+                nodeId
+                name
+                validOptionValuesByOptionName {
+                    nodes {
+                        nodeId
+                        valueName
+                    }
                 }
             }
         }

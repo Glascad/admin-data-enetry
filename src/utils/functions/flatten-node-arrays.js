@@ -45,10 +45,13 @@ const flattenNodeArrays = obj => (
                 Array.isArray(value.nodes) ?
                     value.nodes.map(flattenNodeArrays)
                     :
-                    Array.isArray(value) ?
-                        value.map(flattenNodeArrays)
+                    Array.isArray(value.enumValues) ?
+                        value.enumValues.map(({ name }) => name)
                         :
-                        flattenNodeArrays(value)
+                        Array.isArray(value) ?
+                            value.map(flattenNodeArrays)
+                            :
+                            flattenNodeArrays(value)
                 :
                 value,
         }), {});

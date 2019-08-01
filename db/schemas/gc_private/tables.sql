@@ -4,7 +4,7 @@ gc_private.users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(1500) NOT NULL,
-    role GC_ROLE DEFAULT 'gc_client' NOT NULL
+    role GC_ROLE DEFAULT 'GC_CLIENT' NOT NULL
 );
 
 CREATE TABLE

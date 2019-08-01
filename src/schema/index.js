@@ -1,15 +1,15 @@
 import * as AUTH from './authentication';
-import * as APP_DATA from './application-data';
-import * as SYS_DATA from './system-data';
-import * as PR_DATA from './project-data';
-import * as EL_DATA from './elevation-data';
+import * as APP from './application-data';
+import * as SYS from './system-data';
+import * as PRJ from './project-data';
+import * as ELVTN from './elevation-data';
 import * as CTRLD from './controlled';
 
 export default {
     AUTH,
-    APP_DATA,
-    SYS_DATA,
-    PR_DATA,
-    EL_DATA,
+    APP,
+    SYS,
+    PRJ,
+    ELVTN,
     CTRLD,
 };

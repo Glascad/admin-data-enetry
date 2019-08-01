@@ -10,8 +10,8 @@ export default gql`
             ...EntireSystem
         }
     }
-    ${F.EL_DATA.ENTIRE_ELEVATION}
-    ${F.SYS_DATA.ENTIRE_SYSTEM}
+    ${F.ELVTN.ENTIRE_ELEVATION}
+    ${F.SYS.ENTIRE_SYSTEM}
 `;
 
 export const bugReportQuery = gql`

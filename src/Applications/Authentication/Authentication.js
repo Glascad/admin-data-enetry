@@ -14,7 +14,7 @@ import { parseSearch } from '../../utils';
 export const AuthenticationContext = createContext();
 
 const query = {
-    query: gql`{...CurrentUser} ${F.AUTH.CURRENT_USER}`,
+    query: gql`{ ...CurrentUser } ${F.AUTH.CURRENT_USER}`,
     fetchPolicy: 'no-cache',
 };
 
@@ -49,6 +49,7 @@ function AuthenticationProvider({
     const getCurrentUser = async () => {
         try {
             const result = await fetchQuery();
+            console.log({ result });
             const { currentUser: { projectId } = {} } = result || {};
             console.log({ originalLocation });
             history.push(

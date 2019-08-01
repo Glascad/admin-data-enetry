@@ -44,15 +44,15 @@ gc_public.system_set_configuration_type_output AS (
 
 -- COMMENT ON TABLE -- public.detail_types -- IS '@name dt';
 
-CREATE TYPE
-gc_public.detail_type AS (
-    id INTEGER,
-    type TEXT,
-    entrance BOOLEAN,
-    vertical BOOLEAN
-);
+-- CREATE TYPE
+-- gc_public.detail_type AS (
+--     id INTEGER,
+--     type TEXT,
+--     entrance BOOLEAN,
+--     vertical BOOLEAN
+-- );
 
-COMMENT ON TYPE detail_type IS '@name _detailType';
+-- COMMENT ON TYPE detail_type IS '@name _detailType';
 
 CREATE TYPE
 gc_public.detail_type_output AS (

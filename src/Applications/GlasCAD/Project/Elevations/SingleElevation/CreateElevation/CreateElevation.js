@@ -52,7 +52,7 @@ const areEqual = (json, input) => {
         });
 }
 
-const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}` };
+const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS.ALL_SYSTEMS}` };
 
 const saveDefaultMutation = {
     mutation: gql`
@@ -70,7 +70,7 @@ const saveDefaultMutation = {
                 }
             }
         }
-        ${F.PR_DATA.ENTIRE_PROJECT}
+        ${F.PRJ.ENTIRE_PROJECT}
     `,
 };
 

@@ -17,7 +17,7 @@ export const createProjectMutation = {
                 }
             }
         }
-        ${F.PR_DATA.PROJECT_FIELDS}
+        ${F.PRJ.PROJECT_FIELDS}
     `,
     awaitRefetchQueries: true,
     refetchQueries: [{ query }],

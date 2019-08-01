@@ -1,23 +1,27 @@
 
 CREATE TYPE
 gc_controlled.gc_role AS ENUM (
-    'gc_admin',
-    'gc_data_entry',
-    'gc_client'
+    'GC_ADMIN',
+    'GC_DATA_ENTRY',
+    'GC_CLIENT'
 );
 
 CREATE TYPE
 gc_controlled.system_type AS ENUM (
-    'storefront'
+    'STOREFRONT',
+    'ALl_GLASS',
+    'CURTAINWALL'
 );
+
+COMMENT ON TYPE gc_controlled.system_type IS '@name _systemTypes';
 
 CREATE TYPE
 gc_controlled.detail_type AS ENUM (
-    'Head',
-    'Jamb',
-    'Sill',
-    'Horizontal',
-    'Mullion'
+    'HEAD',
+    'JAMB',
+    'SILL',
+    'HORIZONTAL',
+    'MULLION'
     -- 'Post',
     -- 'Transom Bar',
     -- 'Door Header',
@@ -28,15 +32,15 @@ gc_controlled.detail_type AS ENUM (
 
 CREATE TYPE
 gc_controlled.configuration_type AS ENUM (
-    'Head',
-    'Jamb',
-    'Sill',
-    'Horizontal',
-    'Mullion',
-    'Compensating Receptor',
-    'Shim Support',
-    'Stool Trim',
-    'Sill Flashing'
+    'HEAD',
+    'JAMB',
+    'SILL',
+    'HORIZONTAL',
+    'MULLION',
+    'COMPENSATING_RECEPTOR',
+    'SHIM_SUPPORT',
+    'STOOL_TRIM',
+    'SILL_FLASHING'
     -- 'Corner',
     -- 'Post',
     -- 'Door Jamb',
@@ -49,27 +53,27 @@ gc_controlled.configuration_type AS ENUM (
 
 CREATE TYPE
 gc_controlled.system_option_name AS ENUM (
-    'glazing',
-    'stops',
-    'joinery'
+    'GLAZING',
+    'STOPS',
+    'JOINERY'
 );
 
 CREATE TYPE
 gc_controlled.option_value_name AS ENUM (
-    'inside',
-    'outside',
-    'up',
-    'down',
-    'screw-spline',
-    'shear-block',
-    'stick'
+    'INSIDE',
+    'OUTSIDE',
+    'UP',
+    'DOWN',
+    'SCREW_SPLINE',
+    'SHEAR_BLOCK',
+    'STICK'
 );
 
 CREATE TYPE
 gc_controlled.presentation_level AS ENUM (
-    'system',
-    'elevation',
-    'lite',
-    'frame',
-    'detail'
+    'SYSTEM',
+    'ELEVATION',
+    'LITE',
+    'FRAME',
+    'DETAIL'
 );

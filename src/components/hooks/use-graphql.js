@@ -50,7 +50,6 @@ export function useMutation(mutation, fetchQuery = () => { }) {
 
         } catch (err) {
             console.log("ERROR in mutation");
-            console.trace(mutation);
             console.log({ err });
             setLoading(false);
             throw err;
@@ -85,6 +84,8 @@ export function useQuery(query, doNotFetchOnMount = false) {
             });
 
             const normalResponse = normalizeResponse(response);
+
+            console.log({ normalResponse });
 
             // tracker.ifStillMounted(() => {
             setLoading(false);

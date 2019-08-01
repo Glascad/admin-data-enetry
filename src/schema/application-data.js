@@ -50,17 +50,26 @@ export const MANUFACTURER_FIELDS = gql`
 //     }
 // `;
 
+export const SYSTEM_TYPE_DETAIL_TYPE_FIELDS = gql`
+    fragment SystemTypeDetailTypeFields on SystemTypeDetailType {
+        __typename
+        nodeId
+        systemType
+        detailType
+    }
+`;
+
 export const SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS = gql`
     fragment SystemTypeDetailTypeConfigurationTypeFields on SystemTypeDetailTypeConfigurationType {
         __typename
         nodeId
+        systemType
+        detailType
+        configurationType
         mirrorable
         required
         presentationLevel
         overrideLevel
-        systemTypeId
-        detailTypeId
-        configurationTypeId
     }
 `;
 
@@ -189,28 +198,47 @@ export const ALL_MANUFACTURERS = gql`
 
 // ENTIRE TYPE
 
-export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`
-    fragment EntireSystemTypeDetailTypeConfigurationType on SystemTypeDetailTypeConfigurationType {
-        ...SystemTypeDetailTypeConfigurationTypeFields
-        detailTypeByDetailType
-        configurationType
-    }
-    ${SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
-`;
+// export const ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE = gql`
+//     fragment EntireSystemTypeDetailTypeConfigurationType on SystemTypeDetailTypeConfigurationType {
+//         ...SystemTypeDetailTypeConfigurationTypeFields
+//         detailTypeByDetailType
+//         configurationType
+//     }
+//     ${SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
+// `;
 
 // ${DETAIL_TYPE_FIELDS}
 // ${CONFIGURATION_TYPE_FIELDS}
 
 export const ENTIRE_SYSTEM_TYPE = gql`
     fragment EntireSystemType on SystemType {
-        # ...SystemTypeFields
-        systemTypeDetailTypeConfigurationTypesBySystemTypeId {
+        __typename
+        nodeId
+        type
+        systemTypeDetailTypesBySystemType {
             nodes {
-                ...EntireSystemTypeDetailTypeConfigurationType
+                ...SystemTypeDetailTypeFields
+                systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType {
+                    nodes {
+                        ...SystemTypeDetailTypeConfigurationTypeFields
+                    }
+                }
             }
         }
     }
-    ${ENTIRE_SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE}
+    ${SYSTEM_TYPE_DETAIL_TYPE_FIELDS}
+    ${SYSTEM_TYPE_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
 `;
 
 // # ${SYSTEM_TYPE_FIELDS}
+
+export const ALL_SYSTEM_TYPES = gql`
+    fragment AllSystemTypes on Query {
+        allSystemTypes {
+            nodes {
+                ...EntireSystemType
+            }
+        }
+    }
+    ${ENTIRE_SYSTEM_TYPE}
+`;

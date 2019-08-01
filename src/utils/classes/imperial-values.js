@@ -1,4 +1,4 @@
-import { numberToString, parseFraction } from './fractions';
+import { numberToString, parseFraction } from '../functions/fractions';
 
 /**regex that gets the feet, inches and fraction values from a string
 * ^ start of string

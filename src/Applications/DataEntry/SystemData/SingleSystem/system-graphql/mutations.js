@@ -13,7 +13,7 @@ export default {
                     }
                 }
             }
-            ${F.SYS_DATA.ENTIRE_SYSTEM}
+            ${F.SYS.ENTIRE_SYSTEM}
         `,
     },
 };
