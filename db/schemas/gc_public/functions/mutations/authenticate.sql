@@ -9,7 +9,8 @@ DECLARE
     pw ALIAS FOR password;
     authenticatee users%ROWTYPE;
 BEGIN
-    SET search_path = gc_public,gc_private,pg_temp_1,pg_toast,pg_toast_temp_1;
+    -- CANNOT SET IN NON-VOLATILE FUNCTION
+    -- SET search_path = gc_public,gc_private,pg_temp_1,pg_toast,pg_toast_temp_1;
 
     SELECT * FROM users
     INTO authenticatee
@@ -22,7 +23,7 @@ BEGIN
         
         RETURN ROW(
             LOWER(authenticatee.role::TEXT),
-            EXTRACT(EPOCH FROM NOW() + INTERVAL '24 hours'),
+            EXTRACT(EPOCH FROM NOW() + INTERVAL '<<INTERVAL>>'),
             authenticatee.id
         )::JWT;
     ELSE

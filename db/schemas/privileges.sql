@@ -83,10 +83,10 @@ TO PUBLIC;
 
 -- INVOKER
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA
-    -- gc_private,
+    gc_private,
     -- gc_controlled,
     gc_protected,
-    -- gc_data,
+    gc_data,
     gc_public,
     gc_utils
 TO gc_invoker;

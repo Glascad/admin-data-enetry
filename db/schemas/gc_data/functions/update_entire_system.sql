@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS update_entire_system;
 
 CREATE OR REPLACE FUNCTION gc_data.update_entire_system (system ENTIRE_SYSTEM)
-RETURNS SETOF SYSTEMS AS $$
+RETURNS SYSTEMS AS $$
 DECLARE
     -- SYSTEM
     s ALIAS FOR system;
@@ -12,6 +12,9 @@ DECLARE
     -- OUT
     us SYSTEMS%ROWTYPE;
 BEGIN
+
+    SET search_path = gc_public,gc_data,pg_temp_1,pg_toast,pg_toast_temp_1;
+
     SELECT * FROM create_or_update_system(s) INTO us;
 
     -- SYSTEM TAGS
@@ -85,18 +88,18 @@ BEGIN
     -- INVALID CONFIGURATIONS
     INSERT INTO invalid_system_configuration_types (
         system_id,
-        invalid_configuration_type_id
+        invalid_configuration_type
     )
     SELECT
         us.id AS system_id,
-        ict AS invalid_configuration_type_id
-    FROM UNNEST (s.invalid_configuration_type_ids) ict
+        ict AS invalid_configuration_type
+    FROM UNNEST (s.invalid_configuration_types) ict
     ON CONFLICT DO NOTHING;
 
     DELETE FROM invalid_system_configuration_types
     WHERE system_id = s.id
-    AND invalid_configuration_type_id IN (
-        SELECT * FROM UNNEST (s.invalid_configuration_type_ids_to_delete)
+    AND invalid_configuration_type IN (
+        SELECT * FROM UNNEST (s.invalid_configuration_types_to_delete)
     );
 
     -- CONFIGURATION OVERRIDES
@@ -104,7 +107,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides
         LOOP
-            SELECT system_id FROM create_or_update_configuration_override(sco, us.id, us.system_type_id) INTO ___;
+            SELECT system_id FROM create_or_update_configuration_override(sco, us.id, us.system_type) INTO ___;
         END LOOP;
     END IF;
 
@@ -112,7 +115,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides_to_delete
         LOOP
-            SELECT system_id FROM delete_configuration_override(sco, us.id, us.system_type_id) INTO ___;
+            SELECT system_id FROM delete_configuration_override(sco, us.id, us.system_type) INTO ___;
         END LOOP;
     END IF;
 
@@ -131,6 +134,8 @@ BEGIN
         SELECT * FROM UNNEST (s.system_option_ids_to_delete)
     );
 
-    RETURN QUERY SELECT * FROM (SELECT us.*) us;
+    RETURN us;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+ALTER FUNCTION gc_data.update_entire_system OWNER TO gc_invoker;

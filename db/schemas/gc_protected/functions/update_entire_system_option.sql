@@ -30,21 +30,21 @@ BEGIN
             SELECT * FROM UNNEST (so.option_value_ids_to_delete)
         );
     
-    -- CONFIGURATION TYPES
-    INSERT INTO system_option_configuration_types (
-        system_option_id,
-        configuration_type_id
-    )
-    SELECT
-        uso.id AS system_option_id,
-        ct AS configuration_type_id
-    FROM UNNEST (so.configuration_type_ids) ct;
+    -- -- CONFIGURATION TYPES
+    -- INSERT INTO system_option_configuration_types (
+    --     system_option_id,
+    --     configuration_type_id
+    -- )
+    -- SELECT
+    --     uso.id AS system_option_id,
+    --     ct AS configuration_type_id
+    -- FROM UNNEST (so.configuration_type_ids) ct;
 
-    DELETE FROM system_option_configuration_types
-        WHERE system_option_id = uso.id
-        AND configuration_type_id IN (
-            SELECT * FROM UNNEST (so.configuration_type_ids_to_delete)
-        );
+    -- DELETE FROM system_option_configuration_types
+    --     WHERE system_option_id = uso.id
+    --     AND configuration_type_id IN (
+    --         SELECT * FROM UNNEST (so.configuration_type_ids_to_delete)
+    --     );
     
     RETURN QUERY SELECT * FROM (SELECT uso.*) uso;
 END;

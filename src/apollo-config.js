@@ -20,7 +20,7 @@ const getJWT = () => {
 
 // HTTP LINK
 
-const httpLink = new HttpLink({ uri: "/graphql" });
+const httpLink = new HttpLink({ uri: "https://142.93.23.97:5050/graphql" });
 
 
 // MIDDLEWARE

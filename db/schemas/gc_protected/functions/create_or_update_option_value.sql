@@ -16,16 +16,16 @@ BEGIN
         INSERT INTO option_values (        
             system_option_id,
             name,
-            value,
-            value_order,
-            mirror_from_option_value_id
+            value
+            -- value_order,
+            -- mirror_from_option_value_id
         )
         VALUES (
             soid,
             ov.name,
-            ov.value,
-            ov.value_order,
-            ov.mirror_from_option_value_id
+            ov.value
+            -- ov.value_order,
+            -- ov.mirror_from_option_value_id
         )
         RETURNING *;
     ELSE RETURN QUERY
@@ -37,15 +37,15 @@ BEGIN
             value = CASE
                 WHEN ov.value IS NOT NULL
                     THEN ov.value
-                ELSE option_values.value END,
-            value_order = CASE
-                WHEN ov.value_order IS NOT NULL
-                    THEN ov.value_order
-                ELSE option_values.value_order END,
-            mirror_from_option_value_id = CASE
-                WHEN ov.mirror_from_option_value_id IS NOT NULL
-                    THEN ov.mirror_from_option_value_id
-                ELSE option_values.mirror_from_option_value_id END
+                ELSE option_values.value END
+            -- value_order = CASE
+            --     WHEN ov.value_order IS NOT NULL
+            --         THEN ov.value_order
+            --     ELSE option_values.value_order END,
+            -- mirror_from_option_value_id = CASE
+            --     WHEN ov.mirror_from_option_value_id IS NOT NULL
+            --         THEN ov.mirror_from_option_value_id
+            --     ELSE option_values.mirror_from_option_value_id END
         WHERE option_values.id = ov.id
         AND option_values.system_option_id = soid
         RETURNING *;

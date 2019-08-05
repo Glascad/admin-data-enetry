@@ -11,6 +11,7 @@
         "apollo-link-error": "^1.1.10",
         "apollo-link-http": "^1.5.14",
         "apollo-link-state": "^0.4.2",
+        "chalk": "^2.4.2",
         "cors": "^2.8.5",
         "dotenv": "^6.2.0",
         "express": "^4.16.4",
@@ -47,7 +48,7 @@
         "not op_mini all"
     ],
     "devDependencies": {
-        "cypress": "^3.3.2"
+        "cypress": "^3.4.1"
     },
     "nodemonConfig": {
         "verbose": true,
@@ -60,7 +61,6 @@
             "compiled/",
             "build/",
             "cypress/",
-            "dev-utils/",
             ".test.js",
             ".spec.js",
             "fixtures/"

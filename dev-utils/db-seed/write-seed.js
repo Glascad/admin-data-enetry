@@ -4,6 +4,7 @@
 
 module.exports = async () => {
     require('dotenv').config();
+    const chalk = require('chalk');
 
     const DB = require(`${__dirname}/../../compiled/db-seed.js`);
     const pfs = require(`${__dirname}/../promise-fs`);
@@ -104,8 +105,18 @@ module.exports = async () => {
         const [[filename, contents]] = Object.entries(file);
 
         if (contents === undefined) throw new Error(`Invalid file reference: ${filename}`);
+        if (!contents) throw new Error(`File empty: ${filename}`);
 
-        return `${seed}${string}${contents}`;
+        const contentsWithEnv = contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
+            const value = process.env[ENV_VAR];
+            if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
+            else {
+                console.log(`Replacing ${chalk.green(match)} in file ${chalk.cyan(filename)} with environment variable ${chalk.greenBright(ENV_VAR)}`);
+                return value;
+            }
+        });
+
+        return `${seed}${string}${contentsWithEnv}`;
     }, '');
 
 
@@ -121,7 +132,7 @@ module.exports = async () => {
 
     const DB_SEED = create_seed`
 
-DO $seed$ DECLARE ___ INTEGER; BEGIN
+DO $seed$ BEGIN
 
 -- SCHEMAS;
 ${{ SCHEMAS }}
@@ -208,15 +219,14 @@ GRANT gc_invoker TO glascad;
 GRANT glascad TO doadmin;
 
 
--- GLASCAD USER;
-DROP USER glascad;
-CREATE USER glascad NOCREATEDB IN GROUP gc_admin ENCRYPTED PASSWORD '${process.env.DO_GC_PASSWORD}';
-
+DO $users$ DECLARE ___ INTEGER; BEGIN
 
 -- DEFAULT USERS;
 ${DEFAULT_USERS.map(user => `
 SELECT 1 FROM create_a_user('${user.split(/,/g).join(`', '`)}') INTO ___;
 `).join('')}
+
+END $users$;
 
 -- SEED DATA;
 ${{ SEED_DATA }}

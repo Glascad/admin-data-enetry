@@ -12,6 +12,9 @@ DECLARE
     r ALIAS FOR role;
     hash TEXT;
 BEGIN
+
+    SET search_path = gc_public,gc_private,pg_temp_1,pg_toast,pg_toast_temp_1;
+
     hash := CRYPT(pw, GEN_SALT('md5'));
 
     INSERT INTO users (
@@ -27,3 +30,5 @@ BEGIN
     RETURN authenticate(un, pw);
 END;
 $$ LANGUAGE plpgsql STRICT SECURITY DEFINER;
+
+ALTER FUNCTION gc_private.create_a_user OWNER TO gc_invoker;

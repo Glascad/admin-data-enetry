@@ -3,6 +3,7 @@ const cors = require('cors');
 const { Client } = require('pg');
 const { postgraphile } = require('postgraphile');
 const compileSeed = require('./dev-utils/db-seed');
+const chalk = require('chalk');
 
 require('dotenv').config();
 
@@ -27,8 +28,8 @@ async function seedDatabase() {
 
     if (NODE_ENV === 'development') {
 
-        if (RESEED === 'true') console.log('[ glascad ] Re-seeding database');
-        else console.log('[ glascad ] Re-compililng database seed');
+        if (RESEED === 'true') console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} Re-seeding database`);
+        else console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} Re-compililng database seed`);
 
         const DB_SEED = await compileSeed();
 
@@ -43,27 +44,40 @@ async function seedDatabase() {
             });
 
             try {
-                console.log('[ glascad ] Connecting to db');
+                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Connecting to db`);
+
                 await DB.connect();
-                console.log('[ glascad ] Successfully connected to db');
+
+                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully connected to db`);
             } catch (err) {
-                console.error('[ glascad ] Error connecting to db:');
+                console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error connecting to db:')}`);
                 console.error(err);
             }
 
             try {
-                console.log('[ glascad ] Seeding db');
+                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Seeding db`);
+
                 await DB.query(DB_SEED);
-                console.log('[ glascad ] Successfully seeded db');
+
+                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully seeded db`);
             } catch (err) {
-                console.error('[ glascad ] Error seeding db:');
+                console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error seeding db:')}`);
+                console.error(err);
+            }
+            
+            try {
+                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Disconnecting from db`);
+                await DB.end();
+                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully disconnected from db`);
+            } catch (err) {
+                console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error disconnecting from db:')}`);
                 console.error(err);
             }
         } else {
-            console.log('[ glascad ] Not seeding db');
+            console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} Not seeding db`);
         }
 
-        console.log('[ glascad ] done');
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} done`);
     }
 }
 
@@ -98,6 +112,6 @@ seedDatabase().then(() => {
 
     APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/build/`));
 
-    APP.listen(SERVER_PORT, () => console.log(`[ glascad ] listening on port ${SERVER_PORT}`));
+    APP.listen(SERVER_PORT, () => console.log(chalk`${chalk.blueBright(`[glascad]`)} listening on port ${SERVER_PORT}`));
 
 });

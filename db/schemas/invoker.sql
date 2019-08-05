@@ -27,12 +27,12 @@ FROM gc_invoker;
 
 
 GRANT ALL ON SCHEMA gc_public TO gc_invoker;
+GRANT ALL ON SCHEMA gc_data TO gc_invoker;
+GRANT ALL ON SCHEMA gc_private TO gc_invoker;
 
 GRANT USAGE ON SCHEMA
-    gc_private,
     gc_controlled,
     gc_protected,
-    gc_data,
     gc_utils
 TO gc_invoker;
 

@@ -8,6 +8,9 @@ DECLARE
     r TEXT;
     pid INTEGER;
 BEGIN
+
+    -- SET search_path = gc_public,gc_private,pg_temp_1,pg_toast,pg_toast_temp_1;
+
     SELECT id, username, role
     INTO uid, un, r
     FROM users
@@ -26,3 +29,5 @@ BEGIN
     )::gc_public.CURRENT_USER;
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;
+
+ALTER FUNCTION gc_public.get_current_user OWNER TO gc_invoker;
