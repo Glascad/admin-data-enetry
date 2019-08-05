@@ -7,7 +7,7 @@ import {
 } from '../../../../../components';
 
 import query from './system-types-graphql/query';
-import mutations from './system-types-graphql/mutations';
+// import mutations from './system-types-graphql/mutations';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
 SystemTypes.navigationOptions = {
@@ -18,7 +18,7 @@ export default function SystemTypes() {
     return (
         <ApolloWrapper
             query={query}
-            mutations={mutations}
+            mutations={{}}
         >
             {({
                 queryStatus,
@@ -34,7 +34,7 @@ export default function SystemTypes() {
                     createSystemTypeDetailTypeConfigurationType,
                     updateSystemTypeDetailTypeConfigurationType,
                     deleteSystemTypeDetailTypeConfigurationType,
-                },
+                } = {},
             }) => (
                     <div className="card">
                         {console.log(queryStatus)}

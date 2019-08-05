@@ -20,7 +20,7 @@ const getJWT = () => {
 
 // HTTP LINK
 
-const httpLink = new HttpLink({ uri: "/graphql" });
+const httpLink = new HttpLink({ uri: "dev.glascad.com/graphql" });
 
 
 // MIDDLEWARE
