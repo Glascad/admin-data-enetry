@@ -21,7 +21,7 @@ export default class MultiSelect extends PureComponent {
     };
 
     componentDidUpdate = ({ modal: { display } }) => {
-        
+
         const {
             props: {
                 selection: {
@@ -103,15 +103,17 @@ export default class MultiSelect extends PureComponent {
 
         const nonSelectedItems = allItems
             .filter(item => !selectedItems.some(({ [identifier]: id }) => id === item[identifier]));
-        
-        // console.log({
-        //     identifier,
-        //     previousItems,
-        //     addedItems,
-        //     deletedItems,
-        //     selectedItems,
-        //     nonSelectedItems,
-        // });
+
+        console.log(allItems)
+
+        console.log({
+            identifier,
+            previousItems,
+            addedItems,
+            deletedItems,
+            selectedItems,
+            nonSelectedItems,
+        });
 
         return (
             <Modal
