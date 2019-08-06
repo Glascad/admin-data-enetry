@@ -1,33 +1,34 @@
 import React from 'react';
 
-
 import {
     Input,
     ListWrapper,
     TitleBar,
 } from '../../../../../../components';
+
 import ACTIONS from '../ducks/actions';
 
 export default function SystemInfo({
     system: {
         id: systemId,
         name = "",
-        depth = 0,
-        defaultSightline = 0,
-        shimSize = 0,
+        // depth = 0,
+        // defaultSightline = 0,
+        // shimSize = 0,
         _manufacturer: {
             id: manufacturerId,
             name: manufacturerName,
         } = {},
-        _systemType: {
-            id: systemTypeId,
-            type: systemTypeName = "",
-        } = {},
-        _systemSystemTags = [],
+        systemType,
+        // _systemType: {
+        //     id: systemType,
+        //     type: systemTypeName = "",
+        // } = {},
+        // _systemSystemTags = [],
     },
     queryStatus: {
         allSystemTypes = [],
-        allSystemTags = [],
+        // allSystemTags = [],
         allManufacturers = [],
     },
     updateSystem,
@@ -49,36 +50,36 @@ export default function SystemInfo({
                         label: name,
                     })),
                     // can only update manufacturer of new system
-                    onChange: ({ value }) => !systemId && updateSystem(ACTIONS.UPDATE, { manufacturerId: value }),
+                    onChange: ({ value }) => !systemId && updateSystem(ACTIONS.KEYS, { manufacturerId: value }),
                 }}
             />
             <Input
                 label="Name"
                 value={name}
-                onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, { name: value })}
+                onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, { name: value })}
             />
             <Input
                 label="System Type"
                 select={{
                     value: {
-                        value: systemTypeId,
-                        label: systemTypeName,
+                        value: systemType,
+                        label: systemType,
                     },
-                    options: allSystemTypes.map(({ id, type }) => ({
-                        value: id,
+                    options: allSystemTypes.map(({ type }) => ({
+                        value: type,
                         label: type,
                     })),
-                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE, { systemTypeId: value }),
+                    onChange: ({ value }) => updateSystem(ACTIONS.KEYS, { systemType: value }),
                 }}
             />
-            <ListWrapper
+            {/* <ListWrapper
                 label="System Tags"
                 identifier="id"
                 items={_systemSystemTags.map(({ _systemTag }) => ({ ..._systemTag }))}
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.LIST, {
                     systemTagIds: {
                         addedItems: addedItems.map(({ id }) => id),
                         deletedItems: deletedItems.map(({ id }) => id),
@@ -87,13 +88,13 @@ export default function SystemInfo({
                 multiSelect={{
                     allItems: allSystemTags,
                 }}
-            />
-            <div className="input-group">
+            /> */}
+            {/* <div className="input-group">
                 <Input
                     label="System Depth"
                     type="number"
                     value={depth}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
                         depth: +value,
                     })}
                 />
@@ -101,7 +102,7 @@ export default function SystemInfo({
                     label="System Sightline"
                     type="number"
                     value={defaultSightline}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
                         defaultSightline: +value,
                     })}
                 />
@@ -109,11 +110,11 @@ export default function SystemInfo({
                     label="Caulk Joint Size"
                     type="number"
                     value={shimSize}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                    onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
                         shimSize: +value,
                     })}
                 />
-            </div>
+            </div> */}
         </>
     );
 }

@@ -4,50 +4,50 @@ import {
 
 export default function mergeSystemUpdate({
     // lists
-    systemTagIds,
-    systemTagIdsToDelete,
-    infillSizes,
-    infillSizesToDelete,
-    infillPocketSizes,
-    infillPocketSizesToDelete,
-    infillPocketTypeIds,
-    infillPocketTypeIdsToDelete,
+    // systemTagIds,
+    // systemTagIdsToDelete,
+    // infillSizes,
+    // infillSizesToDelete,
+    // infillPocketSizes,
+    // infillPocketSizesToDelete,
+    // infillPocketTypes,
+    // infillPocketTypesToDelete,
     systemOptions,
     systemOptionIdsToDelete,
-    invalidConfigurationTypeIds,
-    invalidConfigurationTypeIdsToDelete,
+    invalidConfigurationTypes,
+    invalidConfigurationTypesToDelete,
     configurationOverrides,
     configurationOverridesToDelete,
     // other keys
-    systemTypeId: newSystemTypeId,
+    systemType: newSystemType,
     manufacturerId: newManufacturerId,
     ...systemUpdate
 }, {
     _system: {
         // lists
-        _systemSystemTags = [],
-        _systemInfillSizes = [],
-        _systemInfillPocketSizes = [],
-        _systemInfillPocketTypes = [],
+        // _systemSystemTags = [],
+        // _systemInfillSizes = [],
+        // _systemInfillPocketSizes = [],
+        // _systemInfillPocketTypes = [],
         _systemOptions = [],
         _invalidSystemConfigurationTypes = [],
         _systemConfigurationOverrides = [],
         // other keys
         manufacturerId,
         _manufacturer,
-        systemTypeId,
+        systemType,
         _systemType,
-        _systemType: {
-            _systemTypeDetailTypeConfigurationTypes = [],
-        } = {},
+        // _systemType: {
+        //     _systemTypeDetailTypeConfigurationTypes = [],
+        // } = {},
         ..._system
     } = {},
     allManufacturers = [],
     allSystemTypes = [],
-    allSystemTags = [],
-    allInfillSizes = [],
-    allInfillPocketTypes = [],
-    allInfillPocketSizes = [],
+    // allSystemTags = [],
+    // allInfillSizes = [],
+    // allInfillPocketTypes = [],
+    // allInfillPocketSizes = [],
     allConfigurationTypes = [],
 }) {
     // console.log(arguments);
@@ -60,42 +60,46 @@ export default function mergeSystemUpdate({
             _manufacturer
             :
             allManufacturers.find(({ id }) => id === newManufacturerId),
-        systemTypeId: newSystemTypeId || systemTypeId,
-        _systemType: newSystemTypeId === undefined || newSystemTypeId === systemTypeId ?
+        systemType: newSystemType || systemType,
+        _systemType: newSystemType === undefined || newSystemType === systemType ?
             _systemType
             :
-            allSystemTypes.find(({ id }) => id === newSystemTypeId),
+            allSystemTypes.find(({ type }) => type === newSystemType),
+        // _systemType: newSystemType === undefined || newSystemType === systemType ?
+        //     _systemType
+        //     :
+        //     allSystemTypes.find(({ id }) => id === newSystemType),
         // lists
-        _systemSystemTags: _systemSystemTags
-            .filter(({ systemTagId }) => !systemTagIdsToDelete
-                .includes(systemTagId))
-            .concat(systemTagIds
-                .map(id => ({
-                    _systemTag: allSystemTags
-                        .find(st => st.id === id)
-                }))),
-        _systemInfillSizes: _systemInfillSizes
-            .filter(({ infillSize }) => !infillSizesToDelete
-                .includes(infillSize))
-            .concat(infillSizes
-                .map(size => ({
-                    infillSize: size,
-                }))),
-        _systemInfillPocketSizes: _systemInfillPocketSizes
-            .filter(({ infillPocketSize }) => !infillPocketSizesToDelete
-                .includes(infillPocketSize))
-            .concat(infillPocketSizes
-                .map(size => ({
-                    infillPocketSize: size,
-                }))),
-        _systemInfillPocketTypes: _systemInfillPocketTypes
-            .filter(({ infillPocketTypeId }) => !infillPocketTypeIdsToDelete
-                .includes(infillPocketTypeId))
-            .concat(infillPocketTypeIds
-                .map(id => ({
-                    _infillPocketType: allInfillPocketTypes
-                        .find(ipt => ipt.id === id)
-                }))),
+        // _systemSystemTags: _systemSystemTags
+        //     .filter(({ systemTagId }) => !systemTagIdsToDelete
+        //         .includes(systemTagId))
+        //     .concat(systemTagIds
+        //         .map(id => ({
+        //             _systemTag: allSystemTags
+        //                 .find(st => st.id === id)
+        //         }))),
+        // _systemInfillSizes: _systemInfillSizes
+        //     .filter(({ infillSize }) => !infillSizesToDelete
+        //         .includes(infillSize))
+        //     .concat(infillSizes
+        //         .map(size => ({
+        //             infillSize: size,
+        //         }))),
+        // _systemInfillPocketSizes: _systemInfillPocketSizes
+        //     .filter(({ infillPocketSize }) => !infillPocketSizesToDelete
+        //         .includes(infillPocketSize))
+        //     .concat(infillPocketSizes
+        //         .map(size => ({
+        //             infillPocketSize: size,
+        //         }))),
+        // _systemInfillPocketTypes: _systemInfillPocketTypes
+        //     .filter(({ infillPocketType }) => !infillPocketTypesToDelete
+        //         .includes(infillPocketType))
+        //     .concat(infillPocketTypes
+        //         .map(id => ({
+        //             _infillPocketType: allInfillPocketTypes
+        //                 .find(ipt => ipt.id === id)
+        //         }))),
         _systemOptions: _systemOptions
             .filter(({ id }) => !systemOptionIdsToDelete
                 .includes(id))
@@ -105,15 +109,15 @@ export default function mergeSystemUpdate({
                 return updatedOption ? {
                     ...so,
                     ...removeNullValues(updatedOption),
-                    _systemOptionConfigurationTypes: so._systemOptionConfigurationTypes
-                        .filter(({ configurationTypeId }) => !updatedOption.configurationTypeIdsToDelete
-                            .includes(configurationTypeId))
-                        .concat(updatedOption.configurationTypeIds
-                            .map(configurationTypeId => ({
-                                configurationTypeId,
-                                _configurationType: allConfigurationTypes
-                                    .find(({ id }) => id === configurationTypeId),
-                            }))),
+                    // _systemOptionConfigurationTypes: so._systemOptionConfigurationTypes
+                    //     .filter(({ configurationType }) => !updatedOption.configurationTypeToDelete
+                    //         .includes(configurationType))
+                    //     .concat(updatedOption.configurationType
+                    //         .map(configurationType => ({
+                    //             configurationType,
+                    //             _configurationType: allConfigurationTypes
+                    //                 .find(({ id }) => id === configurationType),
+                    //         }))),
                     _optionValues: so._optionValues
                         .filter(({ id }) => !updatedOption.optionValueIdsToDelete
                             .includes(id))
@@ -133,39 +137,41 @@ export default function mergeSystemUpdate({
                 .filter(({ id }) => typeof id === 'string')
                 .map(so => ({
                     ...so,
-                    _systemOptionConfigurationTypes: so.configurationTypeIds
-                        .map(configurationTypeId => ({
-                            configurationTypeId,
+                    _systemOptionConfigurationTypes: so.configurationType
+                        .map(configurationType => ({
+                            configurationType,
                             _configurationType: allConfigurationTypes
-                                .find(({ id }) => id === configurationTypeId),
+                                .find(({ id }) => id === configurationType),
                         })),
                     _optionValues: so.optionValues,
                 }))),
         _invalidSystemConfigurationTypes: _invalidSystemConfigurationTypes
-            .filter(({ invalidConfigurationTypeId }) => !invalidConfigurationTypeIdsToDelete
-                .includes(invalidConfigurationTypeId))
-            .concat(invalidConfigurationTypeIds
-                .map(invalidConfigurationTypeId => ({
-                    invalidConfigurationTypeId,
-                    _invalidConfigurationType: allConfigurationTypes
-                        .find(({ id }) => id === invalidConfigurationTypeId),
-                }))),
+            .filter(({ invalidConfigurationType }) => !invalidConfigurationTypesToDelete
+                .some(ict => invalidConfigurationType === ict.invalidConfigurationType))
+            .concat(invalidConfigurationTypes
+                // .map(ict => console.log(ict) || ict)
+                // .map(invalidConfigurationType => ({
+                //     invalidConfigurationType,
+                //     _invalidConfigurationType: allConfigurationTypes
+                //         .find(({ id }) => id === invalidConfigurationType),
+                // }))
+            ),
         _systemConfigurationOverrides: _systemConfigurationOverrides
             .filter(({
-                systemTypeId: stid,
-                detailTypeId,
-                configurationTypeId,
-            }) => stid === (newSystemTypeId || systemTypeId)
+                systemType: stid,
+                detailType,
+                configurationType,
+            }) => stid === (newSystemType || systemType)
                 &&
                 !configurationOverridesToDelete
-                    .some(o => o.detailTypeId === detailTypeId
+                    .some(o => o.detailType === detailType
                         &&
-                        o.configurationTypeId === configurationTypeId))
+                        o.configurationType === configurationType))
             .map(o => {
                 const updatedOverride = configurationOverrides
-                    .find(({ detailTypeId, configurationTypeId }) => o.detailTypeId === detailTypeId
+                    .find(({ detailType, configurationType }) => o.detailType === detailType
                         &&
-                        o.configurationTypeId === configurationTypeId);
+                        o.configurationType === configurationType);
                 return updatedOverride ? {
                     ...o,
                     ...removeNullValues(updatedOverride),
@@ -173,12 +179,12 @@ export default function mergeSystemUpdate({
             })
             .concat(configurationOverrides
                 .filter(o => !_systemConfigurationOverrides
-                    .find(({ detailTypeId, configurationTypeId }) => o.detailTypeId === detailTypeId
+                    .find(({ detailType, configurationType }) => o.detailType === detailType
                         &&
-                        o.configurationTypeId === configurationTypeId))
+                        o.configurationType === configurationType))
                 .map(o => ({
                     ...o,
-                    systemTypeId: (newSystemTypeId || systemTypeId),
+                    systemType: newSystemType || systemType,
                 }))),
     };
 }

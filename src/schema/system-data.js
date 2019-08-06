@@ -4,6 +4,16 @@ import * as AD from './application-data';
 
 // FIELDS
 
+export const INVALID_SYSTEM_CONFIGURATION_TYPE_FIELDS = gql`
+    fragment InvalidSystemConfigurationTypeFields on InvalidSystemConfigurationType {
+        __typename
+        nodeId
+        systemId
+        detailType
+        invalidConfigurationType
+    }
+`;
+
 export const SYSTEM_CONFIGURATION_OVERRIDE_FIELDS = gql`
     fragment SystemConfigurationOverrideFields on SystemConfigurationOverride {
         __typename
@@ -150,7 +160,7 @@ export const ENTIRE_SYSTEM = gql`
         invalidSystemConfigurationTypesBySystemId {
             nodes {
                 nodeId
-                invalidConfigurationType
+                ...InvalidSystemConfigurationTypeFields
             }
         }
         systemConfigurationOverridesBySystemId {
@@ -167,6 +177,7 @@ export const ENTIRE_SYSTEM = gql`
     ${SYSTEM_FIELDS}
     ${AD.MANUFACTURER_FIELDS}
     ${AD.ENTIRE_SYSTEM_TYPE}
+    ${INVALID_SYSTEM_CONFIGURATION_TYPE_FIELDS}
     ${SYSTEM_CONFIGURATION_OVERRIDE_FIELDS}
     ${ENTIRE_SYSTEM_OPTION}
 `;

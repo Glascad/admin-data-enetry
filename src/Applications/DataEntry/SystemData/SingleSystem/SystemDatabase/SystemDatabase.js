@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 
 import SystemInfo from './SystemInfo/SystemInfo';
-import GlazingInfo from './GlazingInfo/GlazingInfo';
+// import GlazingInfo from './GlazingInfo/GlazingInfo';
 import ValidTypes from './ValidTypes/ValidTypes';
-import SystemOptions from './SystemOptions/SystemOptions';
+// import SystemOptions from './SystemOptions/SystemOptions';
 // import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
@@ -12,14 +12,14 @@ import {
 
 import { system as defaultSystem } from './ducks/default';
 import mergeSystemUpdate from './ducks/merge';
-import { _removeFakeIds } from './ducks/actions';
+import { _removeFakeIds } from './ducks/actions/utils';
 import { parseSearch } from '../../../../../utils';
 
 const subroutes = {
     SystemInfo,
     // GlazingInfo,
     ValidTypes,
-    SystemOptions,
+    // SystemOptions,
     // InvalidCombinations,
 };
 
@@ -63,24 +63,36 @@ export default class SystemDatabase extends PureComponent {
 
         const update = _removeFakeIds(system);
 
-        const {
-            data: {
-                updateEntireSystem: {
-                    system: [{
-                        id: systemId,
-                    }],
+        try {
+
+            console.log({ update });
+
+            const result = await updateEntireSystem({
+                system: {
+                    ...update,
+                    id,
                 },
-            },
-        } = await updateEntireSystem({
-            system: {
-                ...update,
-                id,
-            },
-        });
+            });
 
-        reset();
+            console.log({ result });
 
-        history.push(`${pathname}${parseSearch(search).update({ systemId })}`);
+            const {
+                data: {
+                    updateEntireSystem: {
+                        system: {
+                            id: systemId,
+                        },
+                    },
+                },
+            } = result;
+
+            reset();
+
+            history.push(`${pathname}${parseSearch(search).update({ systemId })}`);
+
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     reset = () => this.setState({ system: defaultSystem });
@@ -92,11 +104,6 @@ export default class SystemDatabase extends PureComponent {
             },
             props: {
                 queryStatus,
-                queryStatus: {
-                    // PresentationLevels: {
-                    //     enumValues: presentationLevels = [],
-                    // } = {},
-                },
                 mutations,
             },
             save,
@@ -104,36 +111,37 @@ export default class SystemDatabase extends PureComponent {
             updateSystem,
         } = this;
 
-        // const updatedSystem = mergeSystemUpdate(system, queryStatus);
+        const updatedSystem = mergeSystemUpdate(system, queryStatus);
+
+        // console.log(updatedSystem);
 
         const routeProps = {
-            // presentationLevels,
             queryStatus,
             mutations,
-            // system: updatedSystem,
-            // updateSystem,
+            system: updatedSystem,
+            updateSystem,
         };
 
         return (
-            // <TabNavigator
-            //     routeProps={routeProps}
-            //     routes={subroutes}
-            // >
-            <div className="bottom-buttons">
-                <button
-                    className="empty"
-                    onClick={reset}
-                >
-                    Reset
+            <TabNavigator
+                routeProps={routeProps}
+                routes={subroutes}
+            >
+                <div className="bottom-buttons">
+                    <button
+                        className="empty"
+                        onClick={reset}
+                    >
+                        Reset
                     </button>
-                <button
-                    className="action"
-                    onClick={save}
-                >
-                    Save
+                    <button
+                        className="action"
+                        onClick={save}
+                    >
+                        Save
                     </button>
-            </div>
-            // </TabNavigator>
+                </div>
+            </TabNavigator>
         );
     }
 }
