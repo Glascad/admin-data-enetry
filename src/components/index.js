@@ -18,7 +18,6 @@ import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 
 // STATE COMPONENTS
 import ApolloWrapper from './state/ApolloWrapper';
-import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
 
 // HIGHER ORDER COMPONENTS
@@ -31,6 +30,7 @@ import transformProps from './higher-order/transform-props';
 import useUndoRedo, { withUndoRedo } from './hooks/use-undo-redo';
 import useMountTracker from './hooks/use-mount-tracker';
 import useInitialState from './hooks/use-initial-state';
+import useSelection from './hooks/use-selection';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -66,7 +66,6 @@ export {
     ConfirmButton,
     // STATE
     ApolloWrapper,
-    SelectionWrapper,
     StateManager,
     // HIGHER ORDER
     asyncComponent,
@@ -79,6 +78,7 @@ export {
     useUndoRedo,
     useMountTracker,
     useInitialState,
+    useSelection,
     // NAVIGATION
     Navigator,
     TabNavigator,

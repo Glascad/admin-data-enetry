@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const SYSTEM_TYPES = gql`
     fragment SystemTypes on Query {
-        SystemTypes: __type(name: "SystemType") {
+        systemTypes: __type(name: "SystemType") {
             enumValues {
                 name
             }
@@ -12,7 +12,7 @@ export const SYSTEM_TYPES = gql`
 
 export const DETAIL_TYPES = gql`
     fragment DetailTypes on Query {
-        DetailTypes: __type(name: "DetailType") {
+        detailTypes: __type(name: "DetailType") {
             enumValues {
                 name
             }
@@ -22,7 +22,7 @@ export const DETAIL_TYPES = gql`
 
 export const CONFIGURATION_TYPES = gql`
     fragment ConfigurationTypes on Query {
-        ConfigurationTypes: __type(name: "ConfigurationType") {
+        configurationTypes: __type(name: "ConfigurationType") {
             enumValues {
                 name
             }

@@ -23,9 +23,9 @@ export default function SystemTypes() {
             {({
                 queryStatus,
                 queryStatus: {
-                    ConfigurationTypes = [],
-                    DetailTypes = [],
-                    PresentationLevels = [],
+                    configurationTypes = [],
+                    detailTypes = [],
+                    // PresentationLevels = [],
                     allSystemTypes = [],
                 },
                 mutations: {
@@ -37,7 +37,7 @@ export default function SystemTypes() {
                 } = {},
             }) => (
                     <div className="card">
-                        {console.log(queryStatus)}
+                        {/* {console.log(queryStatus)} */}
                         <ListWrapper
                             title="System Types"
                             items={allSystemTypes.map(system => ({
@@ -51,6 +51,7 @@ export default function SystemTypes() {
                                 id: systemTypeId,
                             }) => (
                                     <ListWrapper
+                                        identifier='title'
                                         titleBar={{
                                             title: "Detail Types",
                                             selections: [systemTypeName],
@@ -60,7 +61,7 @@ export default function SystemTypes() {
                                             title: detail.detailType
                                         }))}
                                         multiSelect={{
-                                            allItems: DetailTypes,
+                                            allItems: detailTypes.map(title => ({ title, })),
                                         }}
                                         onCreate={({ id }) => createSystemTypeDetailType({
                                             systemTypeId,
@@ -78,6 +79,7 @@ export default function SystemTypes() {
                                             detailType: detailTypeName = '',
                                         }) => (
                                                 <ListWrapper
+                                                    identifier='title'
                                                     titleBar={{
                                                         title: "Configuration Types",
                                                         selections: [
@@ -90,7 +92,7 @@ export default function SystemTypes() {
                                                         title: configuration.configurationType,
                                                     }))}
                                                     multiSelect={{
-                                                        allItems: ConfigurationTypes,
+                                                        allItems: configurationTypes.map(title => ({ title, })),
                                                     }}
                                                     onCreate={({ configurationType }) => createSystemTypeDetailTypeConfigurationType({
                                                         configurationType,
@@ -272,7 +274,7 @@ export default function SystemTypes() {
                                         }))}
                                     mapPillProps={({ type }) => ({
                                         title: type,
-                                    })}
+                                    })}np
                                     multiSelect={{
                                         allItems: allDetailTypes,
                                     }}

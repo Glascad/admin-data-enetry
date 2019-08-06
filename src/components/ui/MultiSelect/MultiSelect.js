@@ -1,158 +1,83 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 
+import _ from 'lodash';
 import Modal from '../Modal/Modal';
 import Pill from '../Pill/Pill';
 import ListContainer from '../ListContainer/ListContainer';
 
 import './MultiSelect.scss';
 
-const removeDuplicates = (list, identifier = 'nodeId') => list.filter((item, i) => i === list.findIndex(({ [identifier]: id }) => id === item[identifier]));
+export default function MultiSelect({
+    modal,
+    list: {
+        titleBar
+    },
+    identifier = 'nodeId',
+    previousItems = [],
+    otherItems = [],
+}) {
 
-export default class MultiSelect extends PureComponent {
+    const [added, setAdded] = useState([]);
+    const [removed, setRemoved] = useState([]);
 
-    static defaultProps = {
-        identifier: 'nodeId',
-        mapPillProps: () => null,
-    };
-
-    state = {
-        addedItems: [],
-        deletedItems: [],
-    };
-
-    componentDidUpdate = ({ modal: { display } }) => {
-
-        const {
-            props: {
-                selection: {
-                    selectedNID,
-                    creating,
-                    deleting,
-                } = {},
-                modal: {
-                    display: newDisplay,
-                },
-                identifier,
-                previousItems,
-            },
-        } = this;
-
-        if (display !== newDisplay) {
-            const selectedItem = previousItems.find(({ [identifier]: id }) => id === selectedNID);
-            // console.log({ newDisplay, previousItems, selectedItem, selectedNID });
-            this.setState({
-                addedItems: creating && selectedItem ? [selectedItem] : [],
-                deletedItems: deleting && selectedItem ? [selectedItem] : [],
-            });
-        }
-    }
-
-    handleSelect = ({ arguments: item }) => this.setState(({ addedItems }) => ({
-        addedItems: addedItems.concat(item)
-    }));
-
-    handleDeleteClick = ({ arguments: deletedItem }) => {
-        const {
-            props: {
-                identifier,
-            },
-        } = this;
-        // console.log({ deletedItem, identifier });
-        if (this.props.previousItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
-            if (this.state.deletedItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
-                this.setState(({ deletedItems }) => ({
-                    deletedItems: deletedItems
-                        .filter(({ [identifier]: id }) => id !== deletedItem[identifier])
-                }));
-            } else {
-                this.setState(({ deletedItems }) => ({
-                    deletedItems: deletedItems.concat(deletedItem)
-                }));
-            }
+    const onClick = ({ arguments: { item, preSelected, currentlySelected } }) => {
+        if (preSelected) {
+            if (currentlySelected) setRemoved(removed.concat(item));
+            else setRemoved(removed.filter(({ [identifier]: id }) => id !== item[identifier]));
         } else {
-            this.setState(({ addedItems }) => ({
-                addedItems: addedItems
-                    .filter(({ [identifier]: id }) => id !== deletedItem[identifier])
-            }));
+            if (currentlySelected) setAdded(added.filter(({ [identifier]: id }) => id !== item[identifier]));
+            else setAdded(added.concat(item));
         }
     }
 
-    render = () => {
-        const {
-            state,
-            state: {
-                addedItems,
-                deletedItems,
-            },
-            props,
-            props: {
-                modal,
-                previousItems,
-                allItems,
-                mapPillProps,
-                list: {
-                    titleBar,
-                },
-                identifier,
-            },
-            handleSelect,
-            handleDeleteClick,
-        } = this;
+    const items = previousItems.map(item => ({
+        currentlySelected: !removed.some(({ [identifier]: id }) => id === item[identifier]),
+        preSelected: true,
+        item,
+    })).concat(otherItems.map(item => ({
+        currentlySelected: added.some(({ [identifier]: id }) => id === item[identifier]),
+        preSelected: false,
+        item,
+    })));
 
-        const selectedItems = removeDuplicates(previousItems.concat(addedItems), identifier);
+    const [top, bottom] = _.partition(items, ({ preSelected, currentlySelected }) => preSelected || currentlySelected);
 
-        const nonSelectedItems = allItems
-            .filter(item => !selectedItems.some(({ [identifier]: id }) => id === item[identifier]));
 
-        console.log(allItems)
+    return (
+        <Modal
+            className="MultiSelect"
+            arguments={{ items }}
+            {...modal}
+        >
+            <ListContainer
+                items={top}
+                renderItem={({ item, currentlySelected, preSelected }, i) => (
+                    <Pill
+                        key={item[identifier]}
+                        tagname="li"
+                        selected={!preSelected}
+                        danger={!currentlySelected}
+                        arguments={{ item, currentlySelected, preSelected }}
+                        onSelect={onClick}
+                        onDelete={onClick}
+                        title={item.title}
+                    />
+                )}
+            />
+            <ListContainer
+                titleBar={titleBar}
+                items={bottom}
+                renderItem={({ item }) => (
+                    <Pill
+                        key={item[identifier]}
+                        tagname="li"
+                        onSelect={onClick}
+                        arguments={{ item }}
+                        title={item.title}
+                    />
+                )}
+            />
+        </Modal>
+    );
 
-        console.log({
-            identifier,
-            previousItems,
-            addedItems,
-            deletedItems,
-            selectedItems,
-            nonSelectedItems,
-        });
-
-        return (
-            <Modal
-                className="MultiSelect"
-                arguments={{
-                    ...state,
-                    previousItems,
-                }}
-                {...modal}
-            >
-                <ListContainer
-                    items={selectedItems}
-                    renderItem={(item, i) => (
-                        <Pill
-                            key={item[identifier]}
-                            tagname="li"
-                            selected={!previousItems.includes(item)}
-                            danger={deletedItems.includes(item)}
-                            arguments={item}
-                            onSelect={handleDeleteClick}
-                            onDelete={handleDeleteClick}
-                            {...mapPillProps(item, true)}
-                        />
-                    )}
-                />
-                <ListContainer
-                    titleBar={titleBar}
-                    items={nonSelectedItems}
-                    renderItem={item => (
-                        <Pill
-                            key={item[identifier]}
-                            tagname="li"
-                            onSelect={handleSelect}
-                            arguments={item}
-                            {...mapPillProps(item, false)}
-                        />
-                    )}
-                />
-            </Modal>
-        );
-    }
 }
