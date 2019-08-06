@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { useState } from 'react';
 // import PropTypes from 'prop-types';
 
 /**
@@ -18,73 +18,53 @@ import { PureComponent } from 'react';
  * 
  */
 
-export default class SelectionWrapper extends PureComponent {
+export default function useSelection(identifier = "nodeId") {
 
     // static propTypes = {
     //     children: PropTypes.func.isRequired,
     // };
 
-    static defaultProps = {
-        identifier: "nodeId",
-    };
-
-    static initialState = {
+    const initialState = {
         selectedNID: "",
         creating: false,
         deleting: false,
     };
 
-    state = SelectionWrapper.initialState;
+    const [{ selectedNID, creating, deleting }, setState] = useState(initialState);
 
-    cancel = () => this.setState(() => ({
+    // state = SelectionWrapper.initialState;
+
+    const cancel = () => setState(() => ({
         creating: false,
         deleting: false,
     }));
 
-    handleSelect = ({ arguments: { [this.props.identifier]: id } }) => id !== this.state.selectedNID && this.setState({
+    const handleSelect = ({ arguments: { [identifier]: id } }) => setState(() => ({
         selectedNID: id,
         creating: false,
         deleting: false,
-    });
+    }));
 
-    handleCreateClick = () => this.setState(() => ({
+    const handleCreateClick = () => setState(() => ({
         selectedNID: "",
         creating: true,
         deleting: false,
     }));
 
-    handleDeleteClick = ({ arguments: { [this.props.identifier]: id } }) => this.setState(() => ({
+    const handleDeleteClick = ({ arguments: { [identifier]: id } }) => setState(() => ({
         selectedNID: id,
         creating: false,
         deleting: true,
     }));
 
-    render = () => {
-        const {
-            state: {
-                selectedNID,
-                creating,
-                deleting,
-            },
-            props,
-            props: {
-                children,
-            },
-            handleSelect,
-            handleCreateClick,
-            handleDeleteClick,
-            cancel,
-        } = this;
-
-        return children({
-            ...props,
-            selectedNID,
-            creating,
-            deleting,
-            cancel,
-            handleSelect,
-            handleCreateClick,
-            handleDeleteClick,
-        });
-    }
+    return {
+        selectedNID,
+        creating,
+        deleting,
+        cancel,
+        handleSelect,
+        handleCreateClick,
+        handleDeleteClick,
+    };
 }
+

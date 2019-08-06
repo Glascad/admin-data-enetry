@@ -1,30 +1,33 @@
 import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
-import SelectionWrapper from '../../state/SelectionWrapper';
+import PropTypes from 'prop-types';
 import Pill from '../Pill/Pill';
+import oldMultiSelect from '../MultiSelect/oldMultiSelect';
 import MultiSelect from '../MultiSelect/MultiSelect';
 import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import CircleButton from '../CircleButton/CircleButton';
 
 import './ListWrapper.scss';
+import { deprecated } from '../../../utils';
+import useSelection from '../../hooks/use-selection';
 
 class List extends PureComponent {
 
-    // static propTypes = {
-    //     title: PropTypes.string,
-    //     label: PropTypes.string,
-    //     parent: PropTypes.string,
-    //     items: PropTypes.array.isRequired,
-    //     mapPillProps: PropTypes.func.isRequired,
-    //     onCreate: PropTypes.func,
-    //     onUpdate: PropTypes.func,
-    //     onDelete: PropTypes.func,
-    //     children: PropTypes.func,
-    //     multiSelect: PropTypes.shape({
+    static propTypes = {
+        mapPillProps: deprecated(PropTypes.func, "Don't use map pill props any more")
+        // title: PropTypes.string,
+        // label: PropTypes.string,
+        // parent: PropTypes.string,
+        // items: PropTypes.array.isRequired,
+        // mapPillProps: PropTypes.func.isRequired,
+        // onCreate: PropTypes.func,
+        // onUpdate: PropTypes.func,
+        // onDelete: PropTypes.func,
+        // children: PropTypes.func,
+        // multiSelect: PropTypes.shape({
 
-    //     })
-    // };
+        // })
+    };
 
     static defaultProps = {
         identifier: "nodeId",
@@ -54,6 +57,7 @@ class List extends PureComponent {
     }
 
     handleMultiSelectFinish = async ({ arguments: { addedItems, deletedItems } }) => {
+        console.log(addedItems, deletedItems)
         try {
             await this.props.onFinish ?
                 this.props.onFinish({ addedItems, deletedItems })
@@ -102,6 +106,7 @@ class List extends PureComponent {
                 multiSelect,
                 multiSelect: {
                     title: multiSelectTitle,
+                    allItems,
                     // onCreate: onMultiSelectCreate,
                     // onDelete: onMultiSelectDelete,
                     mapPreviousItems = item => item,
@@ -233,6 +238,7 @@ class List extends PureComponent {
                         }}
                         selection={selection}
                         previousItems={items.map(mapPreviousItems)}
+                        otherItems={allItems.filter(({ [identifier]: id }) => !items.some(item => id === item[identifier]))}
                         mapPillProps={mapPillProps}
                     />
                 ) : deleteModal ? (
@@ -252,9 +258,9 @@ class List extends PureComponent {
                             modalName.toLowerCase()
                         }: {
                             mapPillProps ?
-                            mapPillProps(selectedItem).title
-                            :
-                            selectedItem.title
+                                mapPillProps(selectedItem).title
+                                :
+                                selectedItem.title
                         }?
                     </Modal>
                 ) : null}
@@ -285,6 +291,9 @@ export default function ListWrapper({
     } = {},
     identifier,
 }) {
+
+    const selection = useSelection();
+
     return stateManager ? (
         <List
             {...arguments[0]}
@@ -295,15 +304,9 @@ export default function ListWrapper({
             }}
         />
     ) : (
-            <SelectionWrapper
-                identifier={identifier}
-            >
-                {selection => (
-                    <List
-                        {...arguments[0]}
-                        selection={selection}
-                    />
-                )}
-            </SelectionWrapper>
+            <List
+                {...arguments[0]}
+                selection={selection}
+            />
         );
 }

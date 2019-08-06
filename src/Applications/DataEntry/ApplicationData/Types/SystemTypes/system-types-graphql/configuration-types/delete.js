@@ -9,8 +9,8 @@ export default {
         }){
             systemTypeDetailTypeConfigurationType{
                 nodeId
-                configurationTypeId
-                detailTypeId
+                configurationType
+                detailType
             }
         }
     }`,
