@@ -8,7 +8,7 @@ export default {
                 updateEntireSystem(input: {
                     system: $system
                 }) {
-                    system: systems {
+                    system {
                         ...EntireSystem
                     }
                 }

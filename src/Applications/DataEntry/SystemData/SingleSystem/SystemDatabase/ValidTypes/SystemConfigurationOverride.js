@@ -55,13 +55,13 @@ export default class SystemConfigurationOverride extends PureComponent {
 
         if (identical) {
             // if the override is identical to the systemtypedetailtypeconfigurationtype
-            updateSystem(ACTIONS.OVERRIDE.DELETE, {
+            updateSystem(ACTIONS.DELETE_OVERRIDE, {
                 detailTypeId,
                 configurationTypeId,
             });
         } else {
             // if we are working with a newly-created override
-            updateSystem(ACTIONS.OVERRIDE.UPDATE, {
+            updateSystem(ACTIONS.UPDATE_OVERRIDE, {
                 detailTypeId,
                 configurationTypeId,
                 mirrorableOverride,

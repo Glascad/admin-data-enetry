@@ -34,7 +34,7 @@ export default function GlazingInfo({
                 label="Glass Bite"
                 type="number"
                 value={defaultGlassBite}
-                onChange={({ target: { value } }) => updateSystem(ACTIONS.UPDATE, {
+                onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
                     defaultGlassBite: +value,
                 })}
             />
@@ -48,7 +48,7 @@ export default function GlazingInfo({
                 multiSelect={{
                     allItems: allInfillSizes,
                 }}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.LIST, {
                     infillSizes: {
                         addedItems: addedItems.map(({ size }) => size),
                         deletedItems: deletedItems.map(({ size }) => size),
@@ -67,7 +67,7 @@ export default function GlazingInfo({
                         label: defaultGlassSize,
                         value: defaultGlassSize,
                     },
-                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE, {
+                    onChange: ({ value }) => updateSystem(ACTIONS.KEYS, {
                         defaultGlassSize: +value,
                     }),
                 }}
@@ -82,7 +82,7 @@ export default function GlazingInfo({
                 mapPillProps={({ type }) => ({
                     title: type,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.LIST, {
                     infillPocketTypeIds: {
                         addedItems: addedItems.map(({ id }) => id),
                         deletedItems: deletedItems.map(({ id }) => id),
@@ -99,7 +99,7 @@ export default function GlazingInfo({
                 mapPillProps={({ size }) => ({
                     title: `${size}"`,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.LIST, {
                     infillPocketSizes: {
                         addedItems: addedItems.map(({ size }) => +size),
                         deletedItems: deletedItems.map(({ size }) => +size),

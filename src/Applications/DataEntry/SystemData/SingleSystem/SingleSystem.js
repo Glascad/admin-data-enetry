@@ -97,14 +97,17 @@ export default function SingleSystem({
 
                 return (
                     <ToggleNavigator
-                        titleBar={{
-                            title: systemId ?
-                                `${mnfgName} ${systemName}`.trim()
-                                ||
-                                <Ellipsis text="Loading" />
-                                :
-                                "New System",
-                        }}
+                        titleBar={systemId ?
+                            {
+                                title: mnfgName,
+                                selections: [
+                                    systemName
+                                    ||
+                                    <Ellipsis text="Loading" />
+                                ],
+                            } : {
+                                title: "New System",
+                            }}
                         routeProps={apollo}
                         routes={{
                             SystemDatabase,

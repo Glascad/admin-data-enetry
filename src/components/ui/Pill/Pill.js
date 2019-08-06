@@ -3,6 +3,7 @@ import React, { PureComponent, createRef } from 'react';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import ButtonTile from '../ButtonTile/ButtonTile';
+import { normalCase } from '../../../utils';
 
 export default class Pill extends PureComponent {
 
@@ -272,7 +273,7 @@ export default class Pill extends PureComponent {
                             <h5
                                 className="title"
                                 onClick={handleEditClick}
-                            >{title}</h5>
+                            >{normalCase(title)}</h5>
                         )}
                     {/* SUBTITLE */}
                     {subtitle ? (

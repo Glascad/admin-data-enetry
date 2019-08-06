@@ -2,8 +2,7 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloLink } from 'apollo-link';
-import gql from 'graphql-tag';
-import F from './schema';
+
 
 // LOCALSTORAGE
 
@@ -20,7 +19,7 @@ const getJWT = () => {
 
 // HTTP LINK
 
-const httpLink = new HttpLink({ uri: "https://142.93.23.97:5050/graphql" });
+const httpLink = new HttpLink({ uri: "https://dev.glascad.com/graphql" });
 
 
 // MIDDLEWARE

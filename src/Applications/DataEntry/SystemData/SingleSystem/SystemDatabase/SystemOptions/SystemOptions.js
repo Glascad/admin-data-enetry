@@ -30,14 +30,14 @@ export default function SystemOptions({
             }) => ({
                 title: name,
             })}
-            onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.CREATE, {
+            onCreate={(_, { input }) => updateSystem(ACTIONS.CREATE_OPTION, {
                 name: input,
             })}
-            onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.OPTION.UPDATE, {
+            onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.UPDATE_OPTION, {
                 optionId: id,
                 name: input,
             })}
-            onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.OPTION.DELETE, {
+            onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.DELETE_OPTION, {
                 optionId: id,
             })}
         >
@@ -67,7 +67,7 @@ export default function SystemOptions({
                                         value: name,
                                         label: name,
                                     })),
-                                    onChange: ({ value }) => updateSystem(ACTIONS.OPTION.UPDATE, {
+                                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE_OPTION, {
                                         optionId,
                                         presentationLevel: value,
                                     }),
@@ -85,7 +85,7 @@ export default function SystemOptions({
                                         value: name,
                                         label: name,
                                     })),
-                                    onChange: ({ value }) => updateSystem(ACTIONS.OPTION.UPDATE, {
+                                    onChange: ({ value }) => updateSystem(ACTIONS.UPDATE_OPTION, {
                                         optionId,
                                         overrideLevel: value,
                                     }),
@@ -102,7 +102,7 @@ export default function SystemOptions({
                             mapPillProps={({ type }) => ({
                                 title: type
                             })}
-                            onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.OPTION.UPDATE_LIST, {
+                            onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.UPDATE_OPTION_LIST, {
                                 optionId,
                                 configurationTypeIds: {
                                     addedItems: addedItems.map(({ id }) => id),
@@ -121,16 +121,16 @@ export default function SystemOptions({
                             mapPillProps={({ name, id }) => ({
                                 title: name,
                             })}
-                            onCreate={(_, { input }) => updateSystem(ACTIONS.OPTION.VALUE.CREATE, {
+                            onCreate={(_, { input }) => updateSystem(ACTIONS.CREATE_VALUE, {
                                 optionId,
                                 name: input,
                             })}
-                            onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.OPTION.VALUE.UPDATE, {
+                            onUpdate={({ arguments: { id } }, { input }) => updateSystem(ACTIONS.UPDATE_VALUE, {
                                 optionId,
                                 valueId: id,
                                 name: input,
                             })}
-                            onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.OPTION.VALUE.DELETE, {
+                            onDelete={({ arguments: { id } }) => updateSystem(ACTIONS.DELETE_VALUE, {
                                 optionId,
                                 valueId: id,
                             })}

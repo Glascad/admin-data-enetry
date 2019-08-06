@@ -15,142 +15,167 @@ import './ValidTypes.scss';
 
 ValidTypes.navigationOptions = ({
     system: {
-        systemTypeId: newSystemTypeId,
+        systemType: newSystemType,
     } = {},
     queryStatus: {
         _system: {
-            systemTypeId,
+            systemType,
         } = {},
     },
 }) => ({
-    disabled: newSystemTypeId && newSystemTypeId !== systemTypeId,
+    disabled: newSystemType && newSystemType !== systemType,
     id: "ValidTypes",
 });
 
 export default function ValidTypes({
     system: {
         _systemType: {
-            id: systemTypeId,
-            _systemTypeDetailTypeConfigurationTypes = [],
+            type: systemType,
+            _systemTypeDetailTypes = [],
         } = {},
         _invalidSystemConfigurationTypes = [],
         _systemConfigurationOverrides = [],
     },
-    presentationLevels,
+    presentationLevels = [],
     updateSystem,
 }) {
+    // console.log(arguments[0]);
+    // console.log({
+    //     systemType,
+    //     _systemTypeDetailTypes,
+    //     _invalidSystemConfigurationTypes,
+    //     _systemConfigurationOverrides,
+    // });
     return (
         <ListWrapper
             titleBar={{
                 title: "Valid Detail Types"
             }}
-            items={_systemTypeDetailTypeConfigurationTypes
-                //find only the detail types
-                .filter(({ _configurationType: { id } }) => !id)}
-            mapPillProps={({
-                _detailType: {
-                    type
-                }
-            }) => ({
-                title: type
-            })}
+            items={_systemTypeDetailTypes.map(stdt => ({
+                ...stdt,
+                title: stdt.detailType,
+            }))}
         >
             {({
-                _detailType: {
-                    type: detailTypeName = '',
-                    id: detailTypeId,
-                } = {}
+                detailType,
+                _systemTypeDetailTypeConfigurationTypes = [],
             }) => (
                     <ListWrapper
                         titleBar={{
                             title: "Valid Configuration Types",
-                            selections: [detailTypeName]
+                            selections: [detailType]
                         }}
-                        identifier="configurationTypeId"
-                        items={_systemTypeDetailTypeConfigurationTypes
-                            .filter(({
-                                detailTypeId: id,
-                                _configurationType: {
-                                    id: configurationTypeId
-                                },
-                                // find only the configuration types
-                            }) => configurationTypeId && id === detailTypeId)
-                            .map(({
-                                configurationTypeId,
-                                _detailType,
-                                _configurationType,
-                                ...defaultValues
-                            }) => {
-
-                                // find if the configuration has been marked invalid in the system
-                                const _invalidSystemConfigurationType = _invalidSystemConfigurationTypes
-                                    .find(({
-                                        invalidConfigurationTypeId,
-                                    }) => invalidConfigurationTypeId === configurationTypeId);
-
-                                const _systemConfigurationOverride = _systemConfigurationOverrides
-                                    .find(({
-                                        systemTypeId: stId,
-                                        detailTypeId: dtId,
-                                        configurationTypeId: ctId,
-                                    }) => (
-                                            stId === systemTypeId
-                                            &&
-                                            dtId === detailTypeId
-                                            &&
-                                            ctId === configurationTypeId
-                                        ));
-
-                                return ({
-                                    configurationTypeId,
-                                    _detailType,
-                                    _configurationType,
-                                    defaultValues,
-                                    _invalidSystemConfigurationType,
-                                    _systemConfigurationOverride,
-                                });
-                            })}
-                        mapPillProps={({
-                            _invalidSystemConfigurationType,
-                            _configurationType: {
-                                type
-                            }
-                        }) => ({
-                            title: type,
-                            disabled: !!_invalidSystemConfigurationType,
+                        // identifier="configurationType"
+                        items={_systemTypeDetailTypeConfigurationTypes.map(stdtct => {
+                            const {
+                                configurationType,
+                            } = stdtct;
+                            const invalid = _invalidSystemConfigurationTypes.some(ict => (
+                                (
+                                    ict.detailType === detailType
+                                ) && (
+                                    ict.invalidConfigurationType === configurationType
+                                )
+                            ));
+                            const override = _systemConfigurationOverrides.find(o => (
+                                (
+                                    o.detailType === detailType
+                                ) && (
+                                    o.configurationType === configurationType
+                                )
+                            ));
+                            return {
+                                ...stdtct,
+                                invalid,
+                                override,
+                                title: configurationType,
+                            };
                         })}
+                    // items={_systemTypeDetailTypeConfigurationTypes
+                    //     .map(({
+                    //         // configurationType,
+                    //         // _detailType,
+                    //         // _configurationType,
+                    //         // ...defaultValues
+                    //     }) => {
+
+                    //         // find if the configuration has been marked invalid in the system
+                    //         // const _invalidSystemConfigurationType = _invalidSystemConfigurationTypes
+                    //         //     .find(({
+                    //         //         invalidConfigurationType,
+                    //         //     }) => invalidConfigurationType === configurationType);
+
+                    //         // const _systemConfigurationOverride = _systemConfigurationOverrides
+                    //         //     .find(({
+                    //         //         systemType: stId,
+                    //         //         detailType: dtId,
+                    //         //         configurationType: ctId,
+                    //         //     }) => (
+                    //         //             stId === systemType
+                    //         //             &&
+                    //         //             dtId === detailType
+                    //         //             &&
+                    //         //             ctId === configurationType
+                    //         //         ));
+
+                    //         return ({
+                    //             configurationType,
+                    //             _detailType,
+                    //             _configurationType,
+                    //             defaultValues,
+                    //             // _invalidSystemConfigurationType,
+                    //             // _systemConfigurationOverride,
+                    //         });
+                    //     })}
+                    // mapPillProps={({
+                    //     _invalidSystemConfigurationType,
+                    //     _configurationType: {
+                    //         type
+                    //     }
+                    // }) => ({
+                    //     title: type,
+                    //     disabled: !!_invalidSystemConfigurationType,
+                    // })}
                     >
                         {({
-                            _invalidSystemConfigurationType: {
-                                invalid = true,
-                            } = {
-                                invalid: false,
-                            },
-                            defaultValues,
-                            defaultValues: {
-                                required,
-                                mirrorable,
-                                presentationLevel,
-                                overrideLevel,
-                            } = {},
-                            _configurationType,
-                            _configurationType: {
-                                id: configurationTypeId,
-                                type: configurationTypeName = '',
-                            } = {},
-                            _detailType,
-                            _detailType: {
-                                id: detailTypeId,
-                                type: detailTypeName = '',
-                            } = {},
-                            _systemConfigurationOverride,
+                            invalid,
+                            configurationType,
+                            ...ct
+                            // _invalidSystemConfigurationType: {
+                            //     invalid = true,
+                            // } = {
+                            //     invalid: false,
+                            // },
+                            // defaultValues,
+                            // defaultValues: {
+                            //     required,
+                            //     mirrorable,
+                            //     presentationLevel,
+                            //     overrideLevel,
+                            // } = {},
+                            // _configurationType,
+                            // _configurationType: {
+                            //     id: configurationType,
+                            //     type: configurationTypeName = '',
+                            // } = {},
+                            // _detailType,
+                            // _detailType: {
+                            //     id: detailType,
+                            //     type: detailTypeName = '',
+                            // } = {},
+                            // _systemConfigurationOverride,
                         }) => (
                                 <>
+                                    {/* {console.log({
+                                        invalid,
+                                        configurationType,
+                                        ...ct,
+                                    })} */}
                                     <TitleBar
                                         title="System Configuration Type"
                                         selections={[
-                                            detailTypeName,
-                                            configurationTypeName,
+                                            detailType,
+                                            configurationType,
                                         ]}
                                     />
                                     {/**
@@ -160,11 +185,14 @@ export default function ValidTypes({
                                         label="Invalid"
                                         type="switch"
                                         checked={invalid}
-                                        onChange={({ target: { checked } }) => updateSystem(ACTIONS.UPDATE_LIST, {
-                                            invalidConfigurationTypeIds: {
-                                                addedItems: checked ? [configurationTypeId] : [],
-                                                deletedItems: checked ? [] : [configurationTypeId],
-                                            }
+                                        onChange={({ target: { checked } }) => updateSystem(ACTIONS.LIST, {
+                                            invalidSystemConfigurationTypes: {
+                                                [`${checked ? 'add' : 'delet'}edItems`]: [{
+                                                    detailType,
+                                                    invalidConfigurationType: configurationType,
+                                                    comparisonKeys: ['detailType', 'onfigurationType'],
+                                                }],
+                                            },
                                         })}
                                     />
                                     <div
@@ -182,7 +210,7 @@ export default function ValidTypes({
                                             
                                             If there is no entry in the overrides table, any change will create an entry.
                                         */}
-                                        <SystemTypeDetailTypeConfigurationType
+                                        {/* <SystemTypeDetailTypeConfigurationType
                                             {...{
                                                 presentationLevels,
                                                 _systemConfigurationOverride,
@@ -203,7 +231,7 @@ export default function ValidTypes({
                                                     updateSystem,
                                                 }}
                                             />
-                                        ) : null}
+                                        ) : null} */}
                                     </div>
                                 </>
                             )}

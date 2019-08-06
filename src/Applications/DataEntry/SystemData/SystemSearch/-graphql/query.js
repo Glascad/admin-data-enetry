@@ -1,61 +1,15 @@
 import gql from 'graphql-tag';
+import F from '../../../../../schema';
 
 export default {
-    query: gql`{
-        allSystems{
-            nodes{
-                nodeId
-                id
-                name
-                depth
-                defaultSightline
-                shimSize
-                defaultGlassSize
-                defaultGlassBite
-                manufacturerId
-                systemTypeId
-                manufacturerByManufacturerId{
-                    nodeId
-                    id
-                    name
-                }
-                systemTypeBySystemTypeId{
-                    nodeId
-                    id
-                    type
-                }
-                systemSystemTagsBySystemId{
-                    nodes{
-                        nodeId
-                        systemTagBySystemTagId{
-                            nodeId
-                            id
-                            tag
-                        }
-                    }
-                }
-            }
+    query: gql`
+        {
+            ...AllSystems
+            ...AllManufacturers
+            ...AllSystemTypes
         }
-        allManufacturers{
-            nodes{
-                nodeId
-                id
-                name
-            }
-        }
-        allSystemTypes{
-            nodes{
-                nodeId
-                id
-                type
-            }
-        }
-        allSystemTags{
-            nodes{
-                nodeId
-                id
-                tag
-            }
-        }
-    }`,
+        ${F.SYS.ALL_SYSTEMS}
+        ${F.APP.ALL_MANUFACTURERS}
+        ${F.APP.ALL_SYSTEM_TYPES}
+    `,
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './TitleBar.scss';
+import { normalCase } from '../../../utils';
 
 TitleBar.defaultProps = {
     className: "",
@@ -25,7 +26,7 @@ export default function TitleBar({
                 onClick={onClick}
             >
                 <span className="title">
-                    {title}
+                    {normalCase(title)}
                 </span>
                 {selections.map((item, i) => item ? (
                     <span
@@ -37,7 +38,7 @@ export default function TitleBar({
                             <span>&nbsp;>&nbsp;</span>
                         }
                         <span className="title-bar-item">
-                            {item}
+                            {normalCase(item)}
                         </span>
                     </span>
                 ) : null)}
