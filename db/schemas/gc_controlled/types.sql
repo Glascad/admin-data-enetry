@@ -13,7 +13,7 @@ gc_controlled.system_type AS ENUM (
     'CURTAINWALL'
 );
 
-COMMENT ON TYPE gc_controlled.system_type IS '@name _systemTypes';
+COMMENT ON TYPE gc_controlled.system_type IS '@name _systemType';
 
 CREATE TYPE
 gc_controlled.detail_type AS ENUM (

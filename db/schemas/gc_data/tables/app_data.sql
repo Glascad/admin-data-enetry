@@ -5,6 +5,38 @@ gc_data.manufacturers (
     name VARCHAR(50)
 );
 
+CREATE TABLE
+gc_data.system_type_detail_types (
+    system_type SYSTEM_TYPE REFERENCES system_types,
+    detail_type DETAIL_TYPE,
+    PRIMARY KEY (system_type, detail_type),
+    UNIQUE (system_type, detail_type)
+);
+
+-- tie to enumeration
+CREATE TABLE
+gc_data.system_type_detail_type_configuration_types (
+    system_type SYSTEM_TYPE REFERENCES system_types,
+    detail_type DETAIL_TYPE,
+    configuration_type CONFIGURATION_TYPE,
+    required BOOLEAN,
+    -- mirrorable BOOLEAN,
+    -- presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    -- override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
+    PRIMARY KEY (
+        system_type,
+        detail_type,
+        configuration_type
+    ),
+    FOREIGN KEY (
+        system_type,
+        detail_type
+    ) REFERENCES system_type_detail_types (
+        system_type,
+        detail_type
+    )
+);
+
 -- FUTURE
 -- CREATE TABLE
 -- gc_data.system_tags (

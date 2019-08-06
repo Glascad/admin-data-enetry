@@ -19,8 +19,8 @@ gc_public.entire_system_option AS (
     -- option_order INTEGER,
     option_values ENTIRE_OPTION_VALUE[],
     option_value_ids_to_delete INTEGER[],
-    configuration_type_ids INTEGER[],
-    configuration_type_ids_to_delete INTEGER[]
+    configuration_types INTEGER[],
+    configuration_types_to_delete INTEGER[]
 );
 
 CREATE TYPE
@@ -33,6 +33,12 @@ gc_public.entire_system_configuration_override AS (
     -- mirrorable_override BOOLEAN,
     -- presentation_level_override PRESENTATION_LEVEL,
     -- override_level_override PRESENTATION_LEVEL
+);
+
+CREATE TYPE
+gc_public.entire_invalid_system_configuration_type AS (
+    invalid_configuration_type CONFIGURATION_TYPE,
+    detail_type DETAIL_TYPE
 );
 
 CREATE TYPE
@@ -64,8 +70,8 @@ gc_public.entire_system AS (
     -- infill_pocket_sizes FLOAT[],
     -- infill_pocket_sizes_to_delete FLOAT[],
     -- VALID TYPES
-    invalid_configuration_type_ids INTEGER[],
-    invalid_configuration_type_ids_to_delete INTEGER[],
+    invalid_configuration_types ENTIRE_INVALID_SYSTEM_CONFIGURATION_TYPE[],
+    invalid_configuration_types_to_delete ENTIRE_INVALID_SYSTEM_CONFIGURATION_TYPE[],
     configuration_overrides ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE[],
     configuration_overrides_to_delete ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE[],
     -- OPTIONS

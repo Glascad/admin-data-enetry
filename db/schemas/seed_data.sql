@@ -8,4 +8,4 @@ INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
 INSERT INTO manufacturers (name) VALUES ('Kawneer');
 
 -- INITIAL SYSTEM
--- SELECT 1 FROM update_entire_system() INTO ___;
+INSERT INTO systems (name, manufacturer_id, system_type) VALUES ('Initial System', 1, 'STOREFRONT');
