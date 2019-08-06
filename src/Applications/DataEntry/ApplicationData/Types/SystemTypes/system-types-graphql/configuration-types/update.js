@@ -23,9 +23,9 @@ export default {
                 overrideLevel
                 required
                 mirrorable
-                systemTypeId
-                detailTypeId
-                configurationTypeId
+                systemType
+                detailType
+                configurationType
             }
         }
     }`,

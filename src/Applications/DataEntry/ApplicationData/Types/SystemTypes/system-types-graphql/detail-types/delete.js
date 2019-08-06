@@ -9,9 +9,9 @@ export default {
         }){
             systemTypeDetailType{
                 nodeId
-                detailTypeId
-                systemTypeId
-                systemTypeBySystemTypeId{
+                detailType
+                systemType
+                systemTypeBySystemType{
                     nodeId
                 }
             }

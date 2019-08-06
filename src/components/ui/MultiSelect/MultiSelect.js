@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import _ from 'lodash';
 import Modal from '../Modal/Modal';
@@ -9,6 +9,9 @@ import './MultiSelect.scss';
 
 export default function MultiSelect({
     modal,
+    modal: {
+        display,
+    },
     list: {
         titleBar
     },
@@ -17,25 +20,30 @@ export default function MultiSelect({
     otherItems = [],
 }) {
 
-    const [added, setAdded] = useState([]);
-    const [removed, setRemoved] = useState([]);
+    const [addedItems, setAdded] = useState([]);
+    const [deletedItems, setRemoved] = useState([]);
+
+    // useEffect(() => {
+    //     setAdded([]);
+    //     setRemoved([]);
+    // }, display);
 
     const onClick = ({ arguments: { item, preSelected, currentlySelected } }) => {
         if (preSelected) {
-            if (currentlySelected) setRemoved(removed.concat(item));
-            else setRemoved(removed.filter(({ [identifier]: id }) => id !== item[identifier]));
+            if (currentlySelected) setRemoved(deletedItems.concat(item));
+            else setRemoved(deletedItems.filter(({ [identifier]: id }) => id !== item[identifier]));
         } else {
-            if (currentlySelected) setAdded(added.filter(({ [identifier]: id }) => id !== item[identifier]));
-            else setAdded(added.concat(item));
+            if (currentlySelected) setAdded(addedItems.filter(({ [identifier]: id }) => id !== item[identifier]));
+            else setAdded(addedItems.concat(item));
         }
     }
 
     const items = previousItems.map(item => ({
-        currentlySelected: !removed.some(({ [identifier]: id }) => id === item[identifier]),
+        currentlySelected: !deletedItems.some(({ [identifier]: id }) => id === item[identifier]),
         preSelected: true,
         item,
     })).concat(otherItems.map(item => ({
-        currentlySelected: added.some(({ [identifier]: id }) => id === item[identifier]),
+        currentlySelected: addedItems.some(({ [identifier]: id }) => id === item[identifier]),
         preSelected: false,
         item,
     })));
@@ -46,7 +54,10 @@ export default function MultiSelect({
     return (
         <Modal
             className="MultiSelect"
-            arguments={{ items }}
+            arguments={{
+                addedItems,
+                deletedItems
+            }}
             {...modal}
         >
             <ListContainer

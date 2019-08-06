@@ -2,20 +2,20 @@ import gql from 'graphql-tag';
 
 export default {
     mutation: gql`mutation CreateSystemTypeDetailType(
-        $systemTypeId:Int!,
-        $detailTypeId:Int!
+        $systemType:_SystemType!,
+        $detailType:DetailType!
     ){
         createSystemTypeDetailType(input:{
             systemTypeDetailType:{
-                systemTypeId:$systemTypeId,
-                detailTypeId:$detailTypeId
+                systemType:$systemType,
+                detailType:$detailType
             }
         }){
             systemTypeDetailType{
                 nodeId
-                detailTypeId
-                systemTypeId
-                systemTypeBySystemTypeId{
+                detailType
+                systemType
+                systemTypeBySystemType{
                     nodeId
                 }
             }
