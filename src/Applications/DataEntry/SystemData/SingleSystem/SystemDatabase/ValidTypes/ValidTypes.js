@@ -187,10 +187,10 @@ export default function ValidTypes({
                                         checked={invalid}
                                         onChange={({ target: { checked } }) => updateSystem(ACTIONS.LIST, {
                                             invalidSystemConfigurationTypes: {
+                                                comparisonKeys: ['detailType', 'invalidConfigurationType'],
                                                 [`${checked ? 'add' : 'delet'}edItems`]: [{
                                                     detailType,
                                                     invalidConfigurationType: configurationType,
-                                                    comparisonKeys: ['detailType', 'onfigurationType'],
                                                 }],
                                             },
                                         })}

@@ -31,8 +31,8 @@ export const system = {
     systemOptions: [],
     systemOptionIdsToDelete: [],
 
-    invalidConfigurationTypes: [],
-    invalidConfigurationTypesToDelete: [],
+    invalidSystemConfigurationTypes: [],
+    invalidSystemConfigurationTypesToDelete: [],
 
     configurationOverrides: [],
     configurationOverridesToDelete: [],

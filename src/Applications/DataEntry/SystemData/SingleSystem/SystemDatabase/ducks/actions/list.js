@@ -1,6 +1,6 @@
-import { allocate } from "../../../../../../../utils";
+import { allocate, logInputOutput } from "../../../../../../../utils";
 
-export default ({ system }, payload) => {
+export default logInputOutput("Update System List", ({ system }, payload) => {
     // console.log(arguments);
     const [[key, { addedItems = [], deletedItems = [], comparisonKeys }], tooMany] = Object.entries(payload);
     if (tooMany) throw new Error('Cannot update multiple lists at once: ' + JSON.stringify(payload));
@@ -22,16 +22,14 @@ export default ({ system }, payload) => {
         },
         comparisonKeys,
     });
-    console.log({
-        deleteKey,
-        currentAddedItems,
-        currentDeletedItems,
-        newAddedItems,
-        newDeletedItems,
-        comparisonKeys,
-        payload,
-        system,
-    });
+    // console.log({
+    //     deleteKey,
+    //     currentAddedItems,
+    //     currentDeletedItems,
+    //     newAddedItems,
+    //     newDeletedItems,
+    //     comparisonKeys,
+    // });
     return {
         system: {
             ...system,
@@ -39,4 +37,4 @@ export default ({ system }, payload) => {
             [deleteKey]: newDeletedItems,
         },
     };
-}
+});
