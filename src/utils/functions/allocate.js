@@ -10,13 +10,13 @@ const allocateItems = (arr, positive = [], negative = [], compare) => {
     const [toRemove, toAdd] = _.partition(arr, a => negative.some(b => compare(a, b)));
     const left = positive.concat(toAdd);
     const right = negative.filter(a => !toRemove.some(b => compare(a, b)));
-    console.log({
-        arr,
-        positive,
-        negative,
-        left,
-        right,
-    });
+    // console.log({
+    //     arr,
+    //     positive,
+    //     negative,
+    //     left,
+    //     right,
+    // });
     return [left, right];
 }
 

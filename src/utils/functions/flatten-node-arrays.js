@@ -56,11 +56,4 @@ const flattenNodeArrays = obj => (
                 value,
         }), {});
 
-export default obj => {
-    console.log("Flattening Node Arrays");
-    console.log(obj);
-    const flattened = flattenNodeArrays(obj);
-    console.log('Flattened Node Arrays');
-    console.log(flattened);
-    return flattened;
-};
+export default flattenNodeArrays;
