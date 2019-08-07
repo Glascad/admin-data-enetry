@@ -292,8 +292,8 @@ export default function ListWrapper({
     identifier,
 }) {
 
-    const selection = useSelection();
-
+    const selection = useSelection(identifier);
+    
     return stateManager ? (
         <List
             {...arguments[0]}
