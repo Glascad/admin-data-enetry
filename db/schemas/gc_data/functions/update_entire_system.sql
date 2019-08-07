@@ -95,16 +95,16 @@ BEGIN
         us.id AS system_id,
         ict.detail_type AS detail_type,
         ict.invalid_configuration_type AS invalid_configuration_type
-    FROM UNNEST (s.invalid_configuration_types) ict
+    FROM UNNEST (s.invalid_system_configuration_types) ict
     ON CONFLICT DO NOTHING;
 
     DELETE FROM invalid_system_configuration_types
     WHERE system_id = s.id
     AND invalid_configuration_type IN (
-        SELECT invalid_configuration_type FROM UNNEST (s.invalid_configuration_types_to_delete)
+        SELECT invalid_configuration_type FROM UNNEST (s.invalid_system_configuration_types_to_delete)
     )
     AND detail_type IN (
-        SELECT detail_type FROM UNNEST (s.invalid_configuration_types_to_delete)
+        SELECT detail_type FROM UNNEST (s.invalid_system_configuration_types_to_delete)
     );
 
     -- CONFIGURATION OVERRIDES
