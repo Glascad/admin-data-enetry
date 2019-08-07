@@ -23,7 +23,7 @@ export default function MultiSelect({
     const [addedItems, setAdded] = useState([]);
     const [deletedItems, setRemoved] = useState([]);
 
-    useEffect(item => {
+    useEffect(() => {
         setAdded([]);
         setRemoved([]);
     }, [display]);

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 import {
     GroupingBox,
@@ -9,26 +9,30 @@ import ACTIONS from '../ducks/actions';
 
 const isNullOrUndefined = item => item === undefined || item === null;
 
-export default class SystemConfigurationOverride extends PureComponent {
-
-    handleChange = (key, value) => {
-        const {
-            props: {
-                _systemConfigurationOverride,
-                _detailType: {
-                    id: detailTypeId,
-                },
-                _configurationType: {
-                    id: configurationTypeId,
-                },
-                defaultValues,
-                updateSystem,
-            },
-        } = this;
+export default function SystemConfigurationOverride({
+    presentationLevels,
+    defaultValues,
+    required,
+    // mirrorable,
+    // presentationLevel,
+    // overrideLevel,
+    detailType,
+    configurationType,
+    override,
+    override: {
+        requiredOverride,
+        // mirrorableOverride,
+        // presentationLevelOverride,
+        // overrideLevelOverride,
+    } = {},
+    updateSystem,
+}) {
+    const handleChange = (key, value) => {
         const updatedSystemConfigurationOverride = {
-            ..._systemConfigurationOverride,
+            ...override,
             [key]: value,
         };
+        // console.log(updatedSystemConfigurationOverride)
         const regex = /Override/;
         const identical = Object.entries(updatedSystemConfigurationOverride)
             .every(([key, value]) => !key.match(regex)
@@ -37,116 +41,87 @@ export default class SystemConfigurationOverride extends PureComponent {
                 ||
                 isNullOrUndefined(updatedSystemConfigurationOverride[key])
                 ||
-                updatedSystemConfigurationOverride[key] === defaultValues[key.replace(regex, '')]
+                updatedSystemConfigurationOverride[key] === [key.replace(regex, '')]
             );
 
-        // console.log({
-        //     updatedSystemConfigurationOverride,
-        //     identical,
-        //     defaultValues,
-        // });
-
         const {
-            mirrorableOverride,
             requiredOverride,
-            presentationLevelOverride,
-            overrideLevelOverride,
+            // mirrorableOverride,
+            // presentationLevelOverride,
+            // overrideLevelOverride,
         } = updatedSystemConfigurationOverride;
 
         if (identical) {
             // if the override is identical to the systemtypedetailtypeconfigurationtype
             updateSystem(ACTIONS.DELETE_OVERRIDE, {
-                detailTypeId,
-                configurationTypeId,
+                detailType,
+                configurationType,
             });
         } else {
             // if we are working with a newly-created override
             updateSystem(ACTIONS.UPDATE_OVERRIDE, {
-                detailTypeId,
-                configurationTypeId,
-                mirrorableOverride,
+                detailType,
+                configurationType,
                 requiredOverride,
-                presentationLevelOverride,
-                overrideLevelOverride,
+                // mirrorableOverride,
+                // presentationLevelOverride,
+                // overrideLevelOverride,
             });
         }
     }
 
-    render = () => {
-        const {
-            props: {
-                defaultValues: {
-                    mirrorable,
-                    required,
-                    presentationLevel,
-                    overrideLevel,
-                },
-                _systemConfigurationOverride: {
-                    mirrorableOverride,
-                    requiredOverride,
-                    presentationLevelOverride,
-                    overrideLevelOverride,
-                },
-                presentationLevels,
-            },
-            handleChange,
-        } = this;
-
-        // console.log(this.props);
-
-        return (
-            <GroupingBox
-                title="Override Settings"
-            >
-                <Input
-                    label="Mirrorable"
-                    type="switch"
-                    checked={mirrorableOverride === undefined ?
-                        mirrorable
-                        :
-                        mirrorableOverride}
-                    onChange={({ target: { checked } }) => handleChange("mirrorableOverride", checked)}
-                />
-                <Input
-                    label="Required"
-                    type="switch"
-                    checked={requiredOverride === undefined ?
-                        required
-                        :
-                        requiredOverride}
-                    onChange={({ target: { checked } }) => handleChange("requiredOverride", checked)}
-                />
-                <Input
-                    label="Presentation Level"
-                    type="select"
-                    select={{
-                        value: {
-                            value: presentationLevelOverride,
-                            label: presentationLevelOverride,
-                        },
-                        options: presentationLevels.map(({ name }) => ({
-                            value: name,
-                            label: name,
-                        })),
-                        onChange: ({ name }) => handleChange("presentationLevelOverride", name)
-                    }}
-                />
-                <Input
-                    label="Override Level"
-                    type="select"
-                    select={{
-                        value: {
-                            value: overrideLevelOverride,
-                            label: overrideLevelOverride,
-                        },
-                        options: presentationLevels.map(({ name }) => ({
-                            value: name,
-                            label: name,
-                        })),
-                        onChange: ({ name }) => handleChange("overrideLevelOverride", name)
-                    }}
-                />
-            </GroupingBox>
-        );
-    }
+    return (
+        <GroupingBox
+            title="Override Settings"
+        >
+            {/* <Input
+                label="Mirrorable"
+                type="switch"
+                checked={mirrorableOverride === undefined ?
+                    mirrorable
+                    :
+                    mirrorableOverride}
+                onChange={({ target: { checked } }) => handleChange("mirrorableOverride", checked)}
+            /> */}
+            <Input
+                label="Required"
+                type="switch"
+                checked={requiredOverride === undefined ?
+                    required
+                    :
+                    requiredOverride}
+                onChange={({ target: { checked } }) => handleChange("requiredOverride", checked)}
+            />
+            {/* <Input
+                label="Presentation Level"
+                type="select"
+                select={{
+                    value: {
+                        value: presentationLevelOverride,
+                        label: presentationLevelOverride,
+                    },
+                    options: presentationLevels.map(({ name }) => ({
+                        value: name,
+                        label: name,
+                    })),
+                    onChange: ({ name }) => handleChange("presentationLevelOverride", name)
+                }}
+            /> */}
+            {/* <Input
+                label="Override Level"
+                type="select"
+                select={{
+                    value: {
+                        value: overrideLevelOverride,
+                        label: overrideLevelOverride,
+                    },
+                    options: presentationLevels.map(({ name }) => ({
+                        value: name,
+                        label: name,
+                    })),
+                    onChange: ({ name }) => handleChange("overrideLevelOverride", name)
+                }}
+            /> */}
+        </GroupingBox>
+    );
 }

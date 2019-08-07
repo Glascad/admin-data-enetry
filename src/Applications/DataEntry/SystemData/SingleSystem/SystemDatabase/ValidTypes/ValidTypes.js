@@ -17,6 +17,7 @@ ValidTypes.navigationOptions = ({
     system: {
         systemType: newSystemType,
     } = {},
+    queryStatus,
     queryStatus: {
         _system: {
             systemType,
@@ -84,6 +85,13 @@ export default function ValidTypes({
                                     o.configurationType === configurationType
                                 )
                             ));
+                            // console.log({
+                            //     ...stdtct,
+                            //     invalid,
+                            //     override,
+                            //     _systemConfigurationOverrides,
+                            //     title: configurationType,
+                            // })
                             return {
                                 ...stdtct,
                                 invalid,
@@ -140,13 +148,13 @@ export default function ValidTypes({
                         {({
                             invalid,
                             configurationType,
-                            ...ct
+                            detailType,
                             // _invalidSystemConfigurationType: {
                             //     invalid = true,
                             // } = {
                             //     invalid: false,
                             // },
-                            // defaultValues,
+                            required,
                             // defaultValues: {
                             //     required,
                             //     mirrorable,
@@ -164,11 +172,13 @@ export default function ValidTypes({
                             //     type: detailTypeName = '',
                             // } = {},
                             // _systemConfigurationOverride,
+                            override,
+                            ...ct
                         }) => (
                                 <>
                                     {/* {console.log({
                                         invalid,
-                                        configurationType,
+                                        override,
                                         ...ct,
                                     })} */}
                                     <TitleBar
@@ -210,31 +220,32 @@ export default function ValidTypes({
                                             
                                             If there is no entry in the overrides table, any change will create an entry.
                                         */}
-                                        {/* <SystemTypeDetailTypeConfigurationType
+                                        <SystemTypeDetailTypeConfigurationType
                                             {...{
                                                 presentationLevels,
-                                                _systemConfigurationOverride,
-                                                defaultValues,
-                                                _detailType,
-                                                _configurationType,
+                                                override,
+                                                required,
+                                                detailType,
+                                                configurationType,
                                                 updateSystem,
                                             }}
                                         />
-                                        {_systemConfigurationOverride ? (
+                                        {override ? (
                                             <SystemConfigurationOverride
                                                 {...{
                                                     presentationLevels,
-                                                    defaultValues,
-                                                    _detailType,
-                                                    _configurationType,
-                                                    _systemConfigurationOverride,
+                                                    required,
+                                                    detailType,
+                                                    configurationType,
+                                                    override,
                                                     updateSystem,
                                                 }}
                                             />
-                                        ) : null} */}
+                                        ) : null}
                                     </div>
                                 </>
-                            )}
+                            )
+                        }
                     </ListWrapper>
                 )}
         </ListWrapper>
