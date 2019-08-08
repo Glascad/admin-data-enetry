@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS update_system_configuration_override;
 
-CREATE OR REPLACE FUNCTION update_system_configuration_override(
+CREATE OR REPLACE FUNCTION gc_protected.update_system_configuration_override(
     override ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE,
     system_id INTEGER,
     system_type SYSTEM_TYPE
@@ -44,6 +44,8 @@ BEGIN
             AND configuration_type = o.configuration_type
         RETURNING * INTO uo;
     END IF;
+
+    RETURN uo;
 
 END;
 $$ LANGUAGE plpgsql;
