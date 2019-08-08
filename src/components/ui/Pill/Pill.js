@@ -1,51 +1,54 @@
 import React, { PureComponent, createRef } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import ButtonTile from '../ButtonTile/ButtonTile';
 import { normalCase } from '../../../utils';
+import customPropTypes from '../../custom-prop-types';
+import Input from '../Input/Input';
 
 export default class Pill extends PureComponent {
 
-    // static propTypes = {
-    //     type: PropTypes.oneOf([
-    //         'pill',
-    //         'tile'
-    //     ]),
-    //     inputValue: PropTypes.any,
-    //     // BOOLEANS
-    //     selected: PropTypes.bool,
-    //     editing: PropTypes.bool,
-    //     default: PropTypes.bool,
-    //     danger: PropTypes.bool,
-    //     disabled: PropTypes.bool,
-    //     // STRINGS
-    //     inputType: PropTypes.string,
-    //     align: PropTypes.oneOf([
-    //         'left',
-    //         'right',
-    //         'center'
-    //     ]),
-    //     tagname: PropTypes.string,
-    //     title: PropTypes.oneOfType([
-    //         PropTypes.string,
-    //         PropTypes.number,
-    //     ]),
-    //     subtitle: PropTypes.string,
-    //     // CONTENT
-    //     children: PropTypes.any,
-    //     // HOVER BUTTONS
-    //     hoverButtons: PropTypes.arrayOf(PropTypes.object),
-    //     // CALLBACKS
-    //     onSelect: PropTypes.func,
-    //     onDisabledSelect: PropTypes.func,
-    //     onBlur: PropTypes.func,
-    //     onEdit: PropTypes.func,
-    //     onDrag: PropTypes.func,
-    //     onDrop: PropTypes.func,
-    //     // STYLES
-    //     style: PropTypes.object,
-    // };
+    static propTypes = {
+        // text
+        title: customPropTypes.renderable,
+        subtitle: customPropTypes.renderable,
+        children: customPropTypes.renderable,
+        footer: customPropTypes.renderable,
+        // passed props
+        hoverButtons: ButtonTile.propTypes.buttonProps,
+        inputValue: Input.propTypes.value,
+        // styles
+        type: PropTypes.oneOf([
+            'pill',
+            'tile',
+        ]),
+        inputType: PropTypes.oneOf([
+            // 'select',
+            'text',
+            'number',
+        ]),
+        align: PropTypes.oneOf([
+            'left',
+            'center',
+            'right',
+        ]),
+        className: PropTypes.string,
+        style: PropTypes.object,
+        tagname: PropTypes.string,
+        // booleans
+        selected: PropTypes.bool,
+        danger: PropTypes.bool,
+        disabled: PropTypes.bool,
+        editing: PropTypes.bool,
+        // event handlers
+        onDelete: PropTypes.func,
+        onEdit: PropTypes.func,
+        onDrag: PropTypes.func,
+        onSelect: PropTypes.func,
+        onEdit: PropTypes.func,
+        onBlur: PropTypes.func,
+    };
 
     static defaultProps = {
         editing: false,
@@ -249,27 +252,27 @@ export default class Pill extends PureComponent {
                 <div>
                     {/* TITLE */}
                     {editing ? (
-                        inputType === 'select' ? (
-                            <select
-                                onChange={handleInput}
-                                onKeyDown={saveEditOnEnter}
-                                value={input}
-                                onBlur={handleBlur}
-                                autoFocus={true}
-                            >
-                            </select>
-                        ) : (
-                                <input
-                                    ref={inputRef}
-                                    type={inputType}
-                                    className="title"
-                                    onChange={handleInput}
-                                    onKeyDown={saveEditOnEnter}
-                                    value={input}
-                                    onBlur={handleBlur}
-                                    autoFocus={true}
-                                />
-                            )
+                        // inputType === 'select' ? (
+                        //     <select
+                        //         onChange={handleInput}
+                        //         onKeyDown={saveEditOnEnter}
+                        //         value={input}
+                        //         onBlur={handleBlur}
+                        //         autoFocus={true}
+                        //     >
+                        //     </select>
+                        // ) : (
+                        <input
+                            ref={inputRef}
+                            type={inputType}
+                            className="title"
+                            onChange={handleInput}
+                            onKeyDown={saveEditOnEnter}
+                            value={input}
+                            onBlur={handleBlur}
+                            autoFocus={true}
+                        />
+                        // )
                     ) : (
                             <h5
                                 className="title"
