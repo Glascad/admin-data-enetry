@@ -12,9 +12,9 @@ gc_controlled.valid_system_options (
 CREATE TABLE
 gc_controlled.valid_option_values (
     option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options,
-    value_name OPTION_VALUE_NAME,
-    PRIMARY KEY (option_name, value_name),
-    UNIQUE (option_name, value_name)
+    name OPTION_VALUE_NAME,
+    PRIMARY KEY (option_name, name),
+    UNIQUE (option_name, name)
 );
 
 -- CREATE TABLE
