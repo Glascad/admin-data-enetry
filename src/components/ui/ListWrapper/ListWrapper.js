@@ -7,13 +7,13 @@ import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import CircleButton from '../CircleButton/CircleButton';
 
-import { deprecated } from '../../../utils';
 import useSelection from '../../hooks/use-selection';
+import customPropTypes from '../../custom-prop-types';
 
 class List extends PureComponent {
 
     static propTypes = {
-        mapPillProps: deprecated(PropTypes.func, "Don't use map pill props any more")
+        mapPillProps: customPropTypes.deprecated(PropTypes.func, "Don't use map pill props any more")
         // title: PropTypes.string,
         // label: PropTypes.string,
         // parent: PropTypes.string,
@@ -292,7 +292,7 @@ export default function ListWrapper({
 }) {
 
     const selection = useSelection(identifier);
-    
+
     return stateManager ? (
         <List
             {...arguments[0]}

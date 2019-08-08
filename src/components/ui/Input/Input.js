@@ -1,11 +1,14 @@
 import React, { PureComponent, createRef } from 'react';
+import PropTypes from 'prop-types';
 
 import Select from 'react-select';
+
+import { ImperialValue } from '../../../utils';
 
 // import FlipSwitch from '../FlipSwitch/FlipSwitch';
 
 import './Input.scss';
-import { ImperialValue } from '../../../utils';
+import customPropTypes from '../../custom-prop-types';
 
 const booleanTypes = [
     "switch",
@@ -23,12 +26,68 @@ const booleanTypes = [
 
 export default class Input extends PureComponent {
 
+    static propTypes = {
+        className: PropTypes.string,
+        tagname: PropTypes.string,
+        label: PropTypes.string,
+        direction: PropTypes.oneOf([
+            'row',
+            'column',
+        ]),
+        light: PropTypes.bool,
+        type: PropTypes.oneOf([
+            'text',
+            'number',
+            'inches',
+            ...booleanTypes,
+        ]),
+        select: PropTypes.shape(Select.propTypes || {
+            value: PropTypes.shape({
+                value: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number,
+                ]),
+                label: customPropTypes.renderable,
+            }),
+            options: PropTypes.arrayOf(PropTypes.shape({
+                value: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number,
+                ]),
+                label: customPropTypes.renderable,
+            })),
+        }),
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool,
+            PropTypes.instanceOf(ImperialValue),
+        ]),
+        initialValue: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool,
+            PropTypes.instanceOf(ImperialValue),
+        ]),
+        checked: PropTypes.bool,
+        disabled: PropTypes.bool,
+        onChange: PropTypes.func,
+        handleChange: PropTypes.func,
+        Icon: PropTypes.func,
+        onBlur: PropTypes.func,
+        onEnter: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onClick: PropTypes.func,
+        onMouseDown: PropTypes.func,
+        onMouseUp: PropTypes.func,
+    };
+
     static defaultProps = {
         className: '',
         tagname: "label",
         type: "text",
         checked: false,
-        direction: '',
+        direction: 'column',
         disabled: false,
     };
 

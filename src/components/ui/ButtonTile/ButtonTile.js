@@ -1,10 +1,16 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './ButtonTile.scss';
+import customPropTypes from '../../custom-prop-types';
 
-// ButtonTile.propTypes = {
-//     buttonProps: PropTypes.arrayOf(PropTypes.object).isRequired
-// };
+ButtonTile.propTypes = {
+    buttonProps: PropTypes.arrayOf(PropTypes.shape({
+        className: PropTypes.string,
+        onClick: PropTypes.func,
+        text: PropTypes.string,
+        children: customPropTypes.renderable,
+    })).isRequired
+};
 
 ButtonTile.defaultProps = {
     buttonProps: [],

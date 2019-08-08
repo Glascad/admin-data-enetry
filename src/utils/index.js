@@ -13,7 +13,6 @@ import allocate from './functions/allocate';
 import unique from './functions/unique-array';
 import lastItem from './functions/last-item';
 import normalCase from './functions/normal-case';
-import deprecated from './functions/deprecated';
 import logInputOutput from './functions/log-input-output';
 
 const validatePath = path => path.replace(/\/+/g, '/');
@@ -35,7 +34,6 @@ export {
     lastItem,
     validatePath,
     normalCase,
-    deprecated,
     logInputOutput,
 };
 

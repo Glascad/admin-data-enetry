@@ -1,7 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { normalCase } from '../../../utils';
+import customPropTypes from '../../custom-prop-types';
 
 import './TitleBar.scss';
-import { normalCase } from '../../../utils';
+
+TitleBar.propTypes = {
+    className: PropTypes.string,
+    title: customPropTypes.renderable.isRequired,
+    left: customPropTypes.renderable,
+    right: customPropTypes.renderable,
+    selections: PropTypes.arrayOf(customPropTypes.renderable),
+    onClick: PropTypes.func,
+};
 
 TitleBar.defaultProps = {
     className: "",

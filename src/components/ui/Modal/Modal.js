@@ -1,13 +1,39 @@
 import React, { PureComponent, useEffect, memo } from 'react';
 import ReactDOM from 'react-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './Modal.scss';
 
 import TitleBar from '../TitleBar/TitleBar';
 
 import AsyncButton from '../AsyncButton/AsyncButton';
+import customPropTypes from '../../custom-prop-types';
 
-const Modal = memo(function ({
+Modal.propTypes = {
+    className: PropTypes.string,
+    titleBar: PropTypes.shape(TitleBar.propTypes),
+    children: customPropTypes.renderable,
+    display: PropTypes.bool,
+    finishing: PropTypes.bool,
+    danger: PropTypes.bool,
+    reset: PropTypes.shape({
+        children: customPropTypes.renderable,
+        text: PropTypes.string,
+    }),
+    cancel: PropTypes.shape({
+        children: customPropTypes.renderable,
+        text: PropTypes.string,
+    }),
+    finish: PropTypes.shape(AsyncButton.propTypes),
+    cancelButtonText: PropTypes.string,
+    finishButtonText: PropTypes.string,
+    finishingText: PropTypes.string,
+    onReset: PropTypes.func,
+    onUpdate: PropTypes.func,
+    onCancel: PropTypes.func,
+    onFinish: PropTypes.func,
+};
+
+function Modal({
     className,
     titleBar,
     children,
@@ -112,7 +138,7 @@ const Modal = memo(function ({
             </div>
         </div>
     );
-});
+}
 
 
 /**
@@ -126,6 +152,7 @@ const getModalId = (() => {
 })();
 
 export default class AbstractModal extends PureComponent {
+    static PropTypes = Modal.propTypes;
     constructor(props) {
         super(props);
         this.element = document.createElement("div");

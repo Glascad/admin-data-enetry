@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
+Ellipsis.propTypes = {
+    text: PropTypes.string,
+    timeout: PropTypes.number,
+};
 
 export default function Ellipsis({ text = '', timeout = 300, ...props }) {
     const [count, setCount] = useState(1);

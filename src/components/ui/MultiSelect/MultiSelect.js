@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Modal from '../Modal/Modal';
 import Pill from '../Pill/Pill';
 import ListContainer from '../ListContainer/ListContainer';
 
 import './MultiSelect.scss';
+import TitleBar from '../TitleBar/TitleBar';
+
+MultiSelect.propTypes = {
+    modal: PropTypes.shape(Modal.propTypes),
+    list: PropTypes.shape({
+        titleBar: PropTypes.shape(TitleBar.propTypes)
+    }),
+    identifier: PropTypes.string,
+    previousItems: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+    otherItems: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+};
 
 export default function MultiSelect({
     modal,
