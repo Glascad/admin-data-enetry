@@ -8,59 +8,53 @@ import {
 import ACTIONS from '../ducks/actions';
 
 export default function SystemTypeDetailTypeConfigurationType({
-    _systemConfigurationOverride,
-    defaultValues: {
-        mirrorable,
-        required,
-        presentationLevel,
-        overrideLevel,
-    } = {},
-    _configurationType: {
-        id: configurationTypeId,
-    } = {},
-    _detailType: {
-        id: detailTypeId,
-    } = {},
-    presentationLevels,
+    override,
+    required,
+    // mirrorable,
+    // presentationLevel,
+    // overrideLevel,
+    configurationType,
+    detailType,
+    // presentationLevels,
     updateSystem,
 }) {
     return (
         <GroupingBox
             title="Default Settings"
-            className="disabled"
+            // className="disabled"
             toggle={{
                 buttons: [
                     {
                         text: "Override",
                         selected: false,
-                        className: _systemConfigurationOverride ?
+                        className: override ?
                             "selected"
                             :
                             "danger",
-                        onClick: () => updateSystem(_systemConfigurationOverride ?
-                            ACTIONS.OVERRIDE.DELETE
+                        onClick: () => updateSystem(override ?
+                            ACTIONS.DELETE_OVERRIDE
                             :
-                            ACTIONS.OVERRIDE.CREATE, {
-                                detailTypeId,
-                                configurationTypeId,
+                            ACTIONS.CREATE_OVERRIDE, {
+                                detailType,
+                                configurationType,
                             }),
                     },
                 ],
             }}
         >
-            <Input
+            {/* <Input
                 label="Mirrorable"
                 type="switch"
                 checked={mirrorable}
                 readOnly={true}
-            />
+            /> */}
             <Input
                 label="Required"
                 type="switch"
                 checked={required}
                 readOnly={true}
             />
-            <Input
+            {/* <Input
                 label="Presentation Level"
                 type="select"
                 select={{
@@ -74,8 +68,8 @@ export default function SystemTypeDetailTypeConfigurationType({
                         label: name,
                     }))
                 }}
-            />
-            <Input
+            /> */}
+            {/* <Input
                 label="Override Level"
                 type="select"
                 select={{
@@ -89,7 +83,7 @@ export default function SystemTypeDetailTypeConfigurationType({
                         label: name,
                     })),
                 }}
-            />
+            /> */}
         </GroupingBox>
     );
 }

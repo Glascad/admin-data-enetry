@@ -23,10 +23,10 @@ export default function MultiSelect({
     const [addedItems, setAdded] = useState([]);
     const [deletedItems, setRemoved] = useState([]);
 
-    // useEffect(() => {
-    //     setAdded([]);
-    //     setRemoved([]);
-    // }, display);
+    useEffect(() => {
+        setAdded([]);
+        setRemoved([]);
+    }, [display]);
 
     const onClick = ({ arguments: { item, preSelected, currentlySelected } }) => {
         if (preSelected) {

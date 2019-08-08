@@ -4,16 +4,17 @@ export default ({
     system,
     system: {
         configurationOverrides,
+        id: systemId,
+        systemType,
     },
 }, {
-    detailTypeId,
-    configurationTypeId,
+    detailType,
+    configurationType,
     ...update
 }) => {
-    // console.log(arguments);
-    const override = configurationOverrides.find(o => o.detailTypeId === detailTypeId
+    const override = configurationOverrides.find(o => o.detailType === detailType
         &&
-        o.configurationTypeId === configurationTypeId);
+        o.configurationType === configurationType);
     if (override) {
         const overrideIndex = configurationOverrides.indexOf(override);
         return {
@@ -33,8 +34,8 @@ export default ({
                 configurationOverrides: configurationOverrides
                     .concat({
                         ...defaultOverride,
-                        detailTypeId,
-                        configurationTypeId,
+                        detailType,
+                        configurationType,
                         ...update,
                     }),
             },

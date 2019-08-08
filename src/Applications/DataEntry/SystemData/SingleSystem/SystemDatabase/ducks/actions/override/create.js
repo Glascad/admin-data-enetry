@@ -7,12 +7,12 @@ export default ({
         configurationOverridesToDelete,
     },
 }, {
-    detailTypeId,
-    configurationTypeId,
+    detailType,
+    configurationType,
 }) => {
-    const deletedOverride = configurationOverridesToDelete.find(o => o.detailTypeId === detailTypeId
+    const deletedOverride = configurationOverridesToDelete.find(o => o.detailType === detailType
         &&
-        o.configurationTypeId === configurationTypeId);
+        o.configurationType === configurationType);
     if (deletedOverride) {
         return {
             system: {
@@ -29,8 +29,8 @@ export default ({
                     .concat({
                         ...defaultOverride,
                         __created: true,
-                        detailTypeId,
-                        configurationTypeId,
+                        detailType,
+                        configurationType,
                     }),
             },
         };

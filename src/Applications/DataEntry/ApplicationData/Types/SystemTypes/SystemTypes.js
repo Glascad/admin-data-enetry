@@ -38,7 +38,6 @@ export default function SystemTypes() {
                 mutations
             }) => (
                     <div className="card">
-                        {console.log(mutations)}
                         <ListWrapper
                             title="System Types"
                             items={allSystemTypes.map(system => ({
@@ -108,9 +107,6 @@ export default function SystemTypes() {
                                                         configurationType,
                                                         detailType,
                                                         systemType,
-                                                    })}
-                                                    onUpdate={({ nodeId }) => updateSystemTypeDetailTypeConfigurationType({
-                                                        nodeId
                                                     })}
                                                     onDelete={({ nodeId }) => deleteSystemTypeDetailTypeConfigurationType({
                                                         nodeId
