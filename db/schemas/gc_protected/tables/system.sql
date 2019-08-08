@@ -3,9 +3,9 @@
 CREATE TABLE
 gc_protected.systems (
     id SERIAL PRIMARY KEY,
-    manufacturer_id INTEGER REFERENCES manufacturers,
-    system_type SYSTEM_TYPE REFERENCES system_types,
-    name VARCHAR(50),
+    manufacturer_id INTEGER REFERENCES manufacturers NOT NULL,
+    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
+    name VARCHAR(50) NOT NULL,
     -- depth FLOAT,
     -- default_glass_size FLOAT,
     -- default_glass_bite FLOAT,
@@ -49,11 +49,11 @@ gc_protected.systems (
 CREATE TABLE
 gc_protected.system_options (
     id SERIAL PRIMARY KEY,
-    system_id INTEGER REFERENCES systems,
-    name SYSTEM_OPTION_NAME REFERENCES valid_system_options,
+    system_id INTEGER REFERENCES systems NOT NULL,
+    name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
     -- presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     -- override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    option_order INTEGER,
+    -- option_order INTEGER,
     UNIQUE (id, system_id),
     UNIQUE (id, name)
 );
@@ -62,9 +62,9 @@ gc_protected.system_options (
 CREATE TABLE
 gc_protected.option_values (
     id SERIAL PRIMARY KEY,
-    system_option_id INTEGER REFERENCES system_options,
-    option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options,
-    name OPTION_VALUE_NAME,
+    system_option_id INTEGER REFERENCES system_options NOT NULL,
+    option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
+    name OPTION_VALUE_NAME NOT NULL,
     value FLOAT,
     -- value_order INTEGER,
     UNIQUE (id, system_option_id),
@@ -156,9 +156,9 @@ gc_protected.invalid_system_configuration_types (
 CREATE TABLE
 gc_protected.system_configuration_overrides (
     system_id INTEGER REFERENCES systems,
-    system_type SYSTEM_TYPE REFERENCES system_types,
-    detail_type DETAIL_TYPE,
-    configuration_type CONFIGURATION_TYPE,
+    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
+    detail_type DETAIL_TYPE NOT NULL,
+    configuration_type CONFIGURATION_TYPE NOT NULL,
     required_override BOOLEAN,
     -- mirrorable_override BOOLEAN,
     -- presentation_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
@@ -169,8 +169,8 @@ gc_protected.system_configuration_overrides (
         configuration_type
     ),
     FOREIGN KEY (
-        system_type, 
-        detail_type, 
+        system_type,
+        detail_type,
         configuration_type
     )
     REFERENCES system_type_detail_type_configuration_types (

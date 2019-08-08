@@ -112,7 +112,7 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides
         LOOP
-            SELECT system_id FROM update_system_configuration_override(sco, us.id, us.system_type) INTO ___;
+            SELECT system_id FROM update_entire_system_configuration_override(sco, us.id, us.system_type) INTO ___;
         END LOOP;
     END IF;
 
