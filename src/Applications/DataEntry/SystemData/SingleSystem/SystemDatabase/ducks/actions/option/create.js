@@ -1,7 +1,8 @@
 import { option as defaultSystemOption } from '../../default';
 import { _getFakeId } from '../utils';
+import { logInputOutput } from '../../../../../../../../utils';
 
-export default ({
+export default logInputOutput('Create System Option', ({
     system,
     system: {
         systemOptions,
@@ -16,9 +17,9 @@ export default ({
             systemOptions: systemOptions
                 .concat({
                     ...defaultSystemOption,
-                    id: _getFakeId(),
+                    nodeId: _getFakeId(),
                     ...option,
                 }),
         },
     };
-}
+});

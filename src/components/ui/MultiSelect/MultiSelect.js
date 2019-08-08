@@ -71,6 +71,7 @@ export default function MultiSelect({
                         arguments={{ item, currentlySelected, preSelected }}
                         onSelect={onClick}
                         onDelete={onClick}
+                        {...item}
                         title={item.title}
                     />
                 )}
@@ -84,11 +85,11 @@ export default function MultiSelect({
                         tagname="li"
                         onSelect={onClick}
                         arguments={{ item }}
+                        {...item}
                         title={item.title}
                     />
                 )}
             />
         </Modal>
     );
-
 }

@@ -50,6 +50,7 @@ export default class Pill extends PureComponent {
     static defaultProps = {
         editing: false,
         inputType: "text",
+        className: '',
         hoverButtons: [],
         title: "",
     };

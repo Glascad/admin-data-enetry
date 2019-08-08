@@ -21,7 +21,8 @@ export default logInputOutput("Merge System Update", ({
     // other keys
     systemType: newSystemType,
     manufacturerId: newManufacturerId,
-    ...systemUpdate
+    name: newName,
+    // ...systemUpdate
 }, {
     _system: {
         // lists
@@ -37,6 +38,7 @@ export default logInputOutput("Merge System Update", ({
         _manufacturer,
         systemType,
         _systemType,
+        name,
         // _systemType: {
         //     _systemTypeDetailTypeConfigurationTypes = [],
         // } = {},
@@ -52,7 +54,8 @@ export default logInputOutput("Merge System Update", ({
 }) => ({
     // other keys
     ..._system,
-    ...removeNullValues(systemUpdate),
+    name: newName === undefined ? name : newName,
+    // ...removeNullValues(systemUpdate),
     manufacturerId: newManufacturerId || manufacturerId,
     _manufacturer: newManufacturerId === undefined || newManufacturerId === manufacturerId ?
         _manufacturer
@@ -99,11 +102,12 @@ export default logInputOutput("Merge System Update", ({
     //                 .find(ipt => ipt.id === id)
     //         }))),
     _systemOptions: _systemOptions
-        .filter(({ id }) => !systemOptionIdsToDelete
-            .includes(id))
+        // .filter(({ id }) => !systemOptionIdsToDelete
+        //     .includes(id))
         .map(so => {
-            const updatedOption = systemOptions
-                .find(({ id }) => id === so.id);
+            const updatedOption = null;
+            // systemOptions
+            // .find(({ id }) => id === so.id);
             return updatedOption ? {
                 ...so,
                 ...removeNullValues(updatedOption),
@@ -132,15 +136,15 @@ export default logInputOutput("Merge System Update", ({
             } : so;
         })
         .concat(systemOptions
-            .filter(({ id }) => typeof id === 'string')
+            // .filter(({ id }) => typeof id === 'string')
             .map(so => ({
                 ...so,
-                _systemOptionConfigurationTypes: so.configurationType
-                    .map(configurationType => ({
-                        configurationType,
-                        _configurationType: allConfigurationTypes
-                            .find(({ id }) => id === configurationType),
-                    })),
+                // _systemOptionConfigurationTypes: so.configurationType
+                //     .map(configurationType => ({
+                //         configurationType,
+                //         _configurationType: allConfigurationTypes
+                //             .find(({ id }) => id === configurationType),
+                //     })),
                 _optionValues: so.optionValues,
             }))),
     _invalidSystemConfigurationTypes: _invalidSystemConfigurationTypes

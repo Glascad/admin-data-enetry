@@ -27,8 +27,8 @@ SingleSystem.navigationOptions = ({
         <ApolloWrapper
             query={{
                 query: gql`
-                    query System($id:Int!){
-                        systemById(id:$id){
+                    query System($id: Int!) {
+                        systemById(id: $id) {
                             __typename
                             nodeId
                             name

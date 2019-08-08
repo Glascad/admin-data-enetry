@@ -6,7 +6,7 @@ import {
     TitleBar,
 } from '../../../../../../components';
 
-import ACTIONS from '../ducks/actions';
+import { UPDATE_KEYS } from '../ducks/actions';
 
 export default function SystemInfo({
     system: {
@@ -50,13 +50,13 @@ export default function SystemInfo({
                         label: name,
                     })),
                     // can only update manufacturer of new system
-                    onChange: ({ value }) => !systemId && updateSystem(ACTIONS.KEYS, { manufacturerId: value }),
+                    onChange: ({ value }) => !systemId && updateSystem(UPDATE_KEYS, { manufacturerId: value }),
                 }}
             />
             <Input
                 label="Name"
                 value={name}
-                onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, { name: value })}
+                onChange={({ target: { value } }) => updateSystem(UPDATE_KEYS, { name: value })}
             />
             <Input
                 label="System Type"
@@ -69,7 +69,7 @@ export default function SystemInfo({
                         value: type,
                         label: type,
                     })),
-                    onChange: ({ value }) => updateSystem(ACTIONS.KEYS, { systemType: value }),
+                    onChange: ({ value }) => updateSystem(UPDATE_KEYS, { systemType: value }),
                 }}
             />
             {/* <ListWrapper
@@ -79,7 +79,7 @@ export default function SystemInfo({
                 mapPillProps={({ tag }) => ({
                     title: tag,
                 })}
-                onFinish={({ addedItems, deletedItems }) => updateSystem(ACTIONS.LIST, {
+                onFinish={({ addedItems, deletedItems }) => updateSystem(UPDATE_LIST, {
                     systemTagIds: {
                         addedItems: addedItems.map(({ id }) => id),
                         deletedItems: deletedItems.map(({ id }) => id),
@@ -94,7 +94,7 @@ export default function SystemInfo({
                     label="System Depth"
                     type="number"
                     value={depth}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
+                    onChange={({ target: { value } }) => updateSystem(UPDATE_KEYS, {
                         depth: +value,
                     })}
                 />
@@ -102,7 +102,7 @@ export default function SystemInfo({
                     label="System Sightline"
                     type="number"
                     value={defaultSightline}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
+                    onChange={({ target: { value } }) => updateSystem(UPDATE_KEYS, {
                         defaultSightline: +value,
                     })}
                 />
@@ -110,7 +110,7 @@ export default function SystemInfo({
                     label="Caulk Joint Size"
                     type="number"
                     value={shimSize}
-                    onChange={({ target: { value } }) => updateSystem(ACTIONS.KEYS, {
+                    onChange={({ target: { value } }) => updateSystem(UPDATE_KEYS, {
                         shimSize: +value,
                     })}
                 />

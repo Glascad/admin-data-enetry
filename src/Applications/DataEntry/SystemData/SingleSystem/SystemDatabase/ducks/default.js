@@ -1,5 +1,4 @@
 export const system = {
-
     manufacturerId: undefined,
     systemType: undefined,
     name: undefined,

@@ -6,10 +6,10 @@ import {
     TitleBar,
 } from '../../../../../../components';
 
-import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
-import SystemConfigurationOverride from './SystemConfigurationOverride';
+// import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
+// import SystemConfigurationOverride from './SystemConfigurationOverride';
 
-import ACTIONS from '../ducks/actions';
+import { UPDATE_LIST } from '../ducks/actions';
 
 import './ValidTypes.scss';
 
@@ -185,7 +185,7 @@ export default function ValidTypes({
                                         label="Invalid"
                                         type="switch"
                                         checked={invalid}
-                                        onChange={({ target: { checked } }) => updateSystem(ACTIONS.LIST, {
+                                        onChange={({ target: { checked } }) => updateSystem(UPDATE_LIST, {
                                             invalidSystemConfigurationTypes: {
                                                 comparisonKeys: ['detailType', 'invalidConfigurationType'],
                                                 [`${checked ? 'add' : 'delet'}edItems`]: [{

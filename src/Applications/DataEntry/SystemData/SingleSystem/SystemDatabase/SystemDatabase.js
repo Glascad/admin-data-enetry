@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import SystemInfo from './SystemInfo/SystemInfo';
 // import GlazingInfo from './GlazingInfo/GlazingInfo';
 import ValidTypes from './ValidTypes/ValidTypes';
-// import SystemOptions from './SystemOptions/SystemOptions';
+import SystemOptions from './SystemOptions/SystemOptions';
 // import InvalidCombinations from './InvalidCombinations/InvalidCombinations';
 
 import {
@@ -19,7 +19,7 @@ const subroutes = {
     SystemInfo,
     // GlazingInfo,
     ValidTypes,
-    // SystemOptions,
+    SystemOptions,
     // InvalidCombinations,
 };
 

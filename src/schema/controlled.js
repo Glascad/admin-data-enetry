@@ -64,7 +64,7 @@ export const CONFIGURATION_TYPES = gql`
 
 export const VALID_SYSTEM_OPTIONS = gql`
     fragment ValidSystemOptions on Query {
-        ValidSystemOptions: allValidSystemOptions {
+        validSystemOptions: allValidSystemOptions {
             nodes {
                 nodeId
                 name
