@@ -6,53 +6,37 @@ export default ({
         systemOptions,
     },
 }, {
-    optionId,
-    valueId,
+    optionName,
+    name,
 }) => {
     // console.log(arguments);
     const updatedOption = systemOptions
-        .find(({ id }) => id === optionId);
+        .find(({ name }) => name === optionName);
     const optionIndex = systemOptions
         .indexOf(updatedOption);
     if (updatedOption) {
-        // find value in option
+        // find name in option
         const {
             optionValues,
-            optionValueIdsToDelete,
+            optionValuesToDelete,
         } = updatedOption;
-        const createdValue = optionValues.find(value => value.id === valueId);
+        const createdValue = optionValues.find(v => v === name);
         if (createdValue) {
-            // check if value previously existed
-            if (typeof createdValue.id === 'string') {
-                // only remove from list
-                return {
-                    system: {
-                        ...system,
-                        systemOptions: systemOptions
-                            .replace(optionIndex, {
-                                ...updatedOption,
-                                optionValues: optionValues
-                                    .filter(value => value !== createdValue),
-                            }),
-                    },
-                };
-            } else {
-                // remove update from list and add id to deletions
-                return {
-                    system: {
-                        ...system,
-                        systemOptions: systemOptions
-                            .replace(optionIndex, {
-                                ...updatedOption,
-                                optionValues: optionValues
-                                    .filter(value => value !== createdValue),
-                                optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
-                            }),
-                    },
-                };
-            }
+            // check if name previously existed
+            // only remove from list
+            return {
+                system: {
+                    ...system,
+                    systemOptions: systemOptions
+                        .replace(optionIndex, {
+                            ...updatedOption,
+                            optionValues: optionValues
+                                .filter(v => v !== createdValue),
+                        }),
+                },
+            };
         } else {
-            // add value to delete array
+            // add name to delete array
             return {
                 system: {
                     ...system,
@@ -60,21 +44,20 @@ export default ({
                         .replace(optionIndex, {
                             ...updatedOption,
                             // optionValues: optionValues.replace()
-                            optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
+                            optionValuesToDelete: optionValuesToDelete.concat(name),
                         }),
                 },
             };
         }
     } else {
-        // add option with deleted value to state
+        // add option with deleted name to state
         return {
             system: {
                 ...system,
                 systemOptions: systemOptions
                     .concat({
                         ...defaultSystemOption,
-                        id: optionId,
-                        optionValueIdsToDelete: [valueId],
+                        optionValuesToDelete: [name],
                     }),
             },
         };

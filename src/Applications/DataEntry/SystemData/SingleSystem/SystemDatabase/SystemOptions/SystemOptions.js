@@ -10,7 +10,7 @@ import { normalCase } from '../../../../../../utils';
 
 import {
     CREATE_OPTION,
-    // UPDATE_OPTION,
+    // UPDATE_OPTION_LIST,
     DELETE_OPTION,
     CREATE_VALUE,
     // UPDATE_VALUE,
@@ -32,12 +32,14 @@ export default function SystemOptions({
     console.log(arguments[0]);
     return (
         <ListWrapper
-            title="System Options"
-            // identifier="id"
+            titleBar={{
+                title: "System Options"
+            }}
             items={_systemOptions.map(o => ({
                 ...o,
                 title: o.name,
             }))}
+            identifier='title'
             multiSelect={{
                 allItems: validSystemOptions.map(o => ({
                     ...o,
@@ -50,19 +52,11 @@ export default function SystemOptions({
                 })),
             }}
             onCreate={({ name }) => updateSystem(CREATE_OPTION, { name })}
-            // onUpdate={({ arguments: { id } }, { input }) => updateSystem(UPDATE_OPTION, {
-            //     optionId: id,
-            //     name: input,
-            // })}
             onDelete={({ name }) => updateSystem(DELETE_OPTION, { name })}
         >
             {({
-                id: optionId,
                 name: optionName,
-                // presentationLevel,
-                // overrideLevel,
-                // _systemOptionConfigurationTypes = [],
-                _optionValues = [],
+                optionValues = [],
             }) => (
                     // <>
                     //     {/* <TitleBar
@@ -82,7 +76,7 @@ export default function SystemOptions({
                     //                     value: name,
                     //                     label: name,
                     //                 })),
-                    //                 onChange: ({ value }) => updateSystem(UPDATE_OPTION, {
+                    //                 onChange: ({ value }) => updateSystem(UPDATE_OPTION_LIST, {
                     //                     optionId,
                     //                     presentationLevel: value,
                     //                 }),
@@ -100,7 +94,7 @@ export default function SystemOptions({
                     //                     value: name,
                     //                     label: name,
                     //                 })),
-                    //                 onChange: ({ value }) => updateSystem(UPDATE_OPTION, {
+                    //                 onChange: ({ value }) => updateSystem(UPDATE_OPTION_LIST, {
                     //                     optionId,
                     //                     overrideLevel: value,
                     //                 }),
@@ -130,55 +124,29 @@ export default function SystemOptions({
                     //         }}
                     //     /> */}
                     <ListWrapper
-                        title="Values"
-                        // identifier="id"
-                        // items={_optionValues.map(v => ({
-                        //     ...v,
-                        //     title: v.name,
-                        // }))}
-                        items={(validSystemOptions
-                            .reduce(((items, { name, _validOptionValues = [] }) => items.length || (name !== optionName) ?
-                                items
-                                :
-                                _validOptionValues
-                            ), []))
-                            .map(v => ({
-                                ...v,
-                                title: v.valueName,
-                            }))}
-                        defaultPillProps={{
-                            onSelect: ({ valueName }) => updateSystem(CREATE_VALUE, {
-                                optionId,
-                                name: valueName,
-                            }),
+                        titleBar={{
+                            title: "Values"
                         }}
-                        // mapPillProps={({ name, id }) => ({
-                        //     title: name,
-                        // })}
-                        // multiSelect={{
-                        //     allItems: (validSystemOptions
-                        //         .reduce(((items, { name, _validOptionValues = [] }) => items || (
-                        //             (name === optionName)
-                        //             &&
-                        //             _validOptionValues
-                        //         )), null)
-                        //         || [])
-                        //         .map(v => ({
-                        //             ...v,
-                        //             title: v.valueName,
-                        //         })),
-                        // }}
-                        // onUpdate={({ arguments: { id } }, { input }) => updateSystem(UPDATE_VALUE, {
-                        //     optionId,
-                        //     valueId: id,
-                        //     name: input,
-                        // })}
-                        onDelete={({ arguments: { id } }) => updateSystem(DELETE_VALUE, {
-                            optionId,
-                            valueId: id,
-                        })}
+                        identifier='title'
+                        items={(optionValues.map(v => ({
+                            ...v,
+                            title: v,
+                        })))}
+                        onCreate={({ name }) => updateSystem(CREATE_VALUE, { optionName, name })}
+                        onDelete={({title: name}) => updateSystem(DELETE_VALUE, { optionName, name })}
+                        multiSelect={{
+                            allItems: (validSystemOptions
+                                .reduce(((items, { name, _validOptionValues = [] }) => items.length || (name !== optionName) ?
+                                    items
+                                    :
+                                    _validOptionValues
+                                ), []))
+                                .map(v => ({
+                                    ...v,
+                                    title: v.valueName,
+                                }))
+                        }}
                     />
-                    // </>
                 )}
         </ListWrapper>
     );

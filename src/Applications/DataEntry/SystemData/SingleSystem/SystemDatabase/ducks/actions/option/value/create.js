@@ -7,14 +7,14 @@ export default ({
         systemOptions,
     },
 }, {
-    optionId,
-    ...value
+    optionName,
+    value
 }) => {
-    // console.log(arguments);
+    // console.log(value);
     // Object.keys(value).forEach(_validateKey)
     // find option
     const option = systemOptions
-        .find(({ id }) => id === optionId);
+        .find(({ name }) => name === optionName);
     if (option) {
         const optionIndex = systemOptions
             .indexOf(option);
@@ -26,11 +26,7 @@ export default ({
                     .replace(optionIndex, {
                         ...option,
                         optionValues: option.optionValues
-                            .concat({
-                                ...defaultOptionValue,
-                                id: _getFakeId(),
-                                ...value,
-                            }),
+                            .concat(value),
                     }),
             },
         };
@@ -42,11 +38,7 @@ export default ({
                 systemOptions: systemOptions
                     .concat({
                         ...defaultSystemOption,
-                        id: optionId,
-                        optionValues: [{
-                            id: _getFakeId(),
-                            ...value,
-                        }],
+                        optionValues: [value],
                     }),
             },
         };

@@ -47,7 +47,13 @@ export default function SystemConfigurationOverride({
                     mirrorable
                     :
                     mirrorableOverride}
-                onChange={({ target: { checked } }) => handleChange("mirrorableOverride", checked)}
+                onChange={({ target: { checked } }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        mirrorableOverride: checked
+                    })
+                }
             /> */}
             <Input
                 label="Required"
@@ -60,9 +66,7 @@ export default function SystemConfigurationOverride({
                     {
                         detailType,
                         configurationType,
-                        requiredOverride,
-                        ...override,
-                        ["requiredOverride"]: checked
+                        requiredOverride: checked
                     })
                 }
             />
@@ -78,7 +82,13 @@ export default function SystemConfigurationOverride({
                         value: name,
                         label: name,
                     })),
-                    onChange: ({ name }) => handleChange("presentationLevelOverride", name)
+                    onChange: ({ name }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        presentationLevelOverride: name
+                    })
+                }
                 }}
             /> */}
             {/* <Input
@@ -93,7 +103,12 @@ export default function SystemConfigurationOverride({
                         value: name,
                         label: name,
                     })),
-                    onChange: ({ name }) => handleChange("overrideLevelOverride", name)
+                    onChange: ({ name }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        overrideLevelOverride: name
+                    })
                 }}
             /> */}
         </GroupingBox>

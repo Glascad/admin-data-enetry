@@ -31,7 +31,7 @@
                     "name": "Other New Option Value"
                 }
             ],
-            "optionValueIdsToDelete": []
+            "optionValuesToDelete": []
         },
         {
             "id": 4,
@@ -47,7 +47,7 @@
                     "name": "Updated Option Value"
                 }
             ],
-            "optionValueIdsToDelete": [
+            "optionValuesToDelete": [
                 11
             ]
         }

@@ -58,7 +58,7 @@ export const option = {
     // configurationTypesToDelete: [],
     
     optionValues: [],
-    optionValueIdsToDelete: [],
+    optionValuesToDelete: [],
 };
 
 export const value = {

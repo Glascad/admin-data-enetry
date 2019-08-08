@@ -41,6 +41,9 @@ export default class SystemDatabase extends PureComponent {
         const {
             state: {
                 system,
+                system:{
+                    systemOptions,
+                },
             },
             props: {
                 history,
@@ -70,7 +73,14 @@ export default class SystemDatabase extends PureComponent {
             const result = await updateEntireSystem({
                 system: {
                     ...update,
+                    nodeId: undefined,
                     id,
+                    systemOptions: systemOptions.map(({
+                        nodeId,
+                        ...systemOptions
+                    }) => ({
+                        ...systemOptions
+                    })),
                 },
             });
 

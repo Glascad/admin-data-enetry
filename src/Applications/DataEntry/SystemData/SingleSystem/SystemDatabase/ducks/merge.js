@@ -121,7 +121,7 @@ export default logInputOutput("Merge System Update", ({
                 //                 .find(({ id }) => id === configurationType),
                 //         }))),
                 _optionValues: so._optionValues
-                    .filter(({ id }) => !updatedOption.optionValueIdsToDelete
+                    .filter(({ id }) => !updatedOption.optionValuesToDelete
                         .includes(id))
                     .map(ov => {
                         const updatedValue = updatedOption.optionValues
