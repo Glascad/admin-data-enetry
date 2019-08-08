@@ -1,4 +1,6 @@
 
+-- SYSTEM
+
 CREATE TYPE
 gc_public.entire_option_value AS (
     id INTEGER,
@@ -17,7 +19,7 @@ gc_public.entire_system_option AS (
     -- presentation_level PRESENTATION_LEVEL,
     -- override_level PRESENTATION_LEVEL,
     -- option_order INTEGER,
-    option_values ENTIRE_OPTION_VALUE[],
+    option_values [],
     option_value_ids_to_delete INTEGER[],
     configuration_types INTEGER[],
     configuration_types_to_delete INTEGER[]
@@ -79,6 +81,8 @@ gc_public.entire_system AS (
     system_option_ids_to_delete INTEGER[]
 );
 
+-- ELEVATION
+
 CREATE TYPE
 gc_public.entire_elevation_container AS (
     id INTEGER,
@@ -114,10 +118,12 @@ gc_public.entire_elevation AS (
     preview TEXT
 );
 
+-- SYSTEM SET
+
 CREATE TYPE
 gc_public.selected_option_value AS (
-    option_value_id INTEGER,
-    system_option_id INTEGER
+    system_option SYSTEM_OPTION_NAME,
+    option_value OPTION_VALUE_NAME
 );
 
 CREATE TYPE

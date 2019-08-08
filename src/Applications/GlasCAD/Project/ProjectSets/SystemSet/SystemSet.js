@@ -38,6 +38,14 @@ function SystemSet({
         dispatch,
     } = useSystemSetReducer(queryStatus);
 
+    // const routeProps = {
+    //     queryStatus,
+    //     filters,
+    //     systemSetInput,
+    //     systemSet,
+    //     dispatch,
+    // };
+
     return (
         <>
             <TitleBar
@@ -62,6 +70,15 @@ function SystemSet({
                     </>
                 )}
             />
+            {/* <SystemSetInfo
+                {...routeProps}
+            />
+            <SystemSetOptions
+                {...routeProps}
+            />
+            <SystemSetConfigurationTypes
+                {...routeProps}
+            /> */}
             <TabNavigator
                 routes={{
                     SystemSetInfo,

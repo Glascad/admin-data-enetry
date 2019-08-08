@@ -61,7 +61,6 @@ export default function MultiSelect({
 
     const [top, bottom] = _.partition(items, ({ preSelected, currentlySelected }) => preSelected || currentlySelected);
 
-
     return (
         <Modal
             className="MultiSelect"

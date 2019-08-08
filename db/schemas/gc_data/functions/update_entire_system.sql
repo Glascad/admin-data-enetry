@@ -29,7 +29,7 @@ BEGIN
     -- ON CONFLICT DO NOTHING;
 
     -- DELETE FROM system_system_tags
-    -- WHERE system_id = s.id
+    -- WHERE system_id = us.id
     -- AND system_tag_id IN (
     --     SELECT * FROM UNNEST (s.system_tag_ids_to_delete)
     -- );
@@ -46,7 +46,7 @@ BEGIN
     -- ON CONFLICT DO NOTHING;
 
     -- DELETE FROM system_infill_sizes
-    -- WHERE system_id = s.id
+    -- WHERE system_id = us.id
     -- AND infill_size IN (
     --     SELECT * FROM UNNEST (s.infill_sizes_to_delete)
     -- );
@@ -63,7 +63,7 @@ BEGIN
     -- ON CONFLICT DO NOTHING;
 
     -- DELETE FROM system_infill_pocket_sizes
-    -- WHERE system_id = s.id
+    -- WHERE system_id = us.id
     -- AND infill_pocket_size IN (
     --     SELECT * FROM UNNEST (s.infill_pocket_sizes_to_delete)
     -- );
@@ -80,7 +80,7 @@ BEGIN
     -- ON CONFLICT DO NOTHING;
 
     -- DELETE FROM system_infill_pocket_types
-    -- WHERE system_id = s.id
+    -- WHERE system_id = us.id
     -- AND infill_pocket_type_id IN (
     --     SELECT * FROM UNNEST (s.infill_pocket_type_ids_to_delete)
     -- );
@@ -99,7 +99,7 @@ BEGIN
     ON CONFLICT DO NOTHING;
 
     DELETE FROM invalid_system_configuration_types
-    WHERE system_id = s.id
+    WHERE system_id = us.id
     AND invalid_configuration_type IN (
         SELECT invalid_configuration_type FROM UNNEST (s.invalid_system_configuration_types_to_delete)
     )
@@ -133,11 +133,20 @@ BEGIN
         END LOOP;
     END IF;
 
-    DELETE FROM system_options
-    WHERE system_id = s.id
-    AND id IN (
-        SELECT * FROM UNNEST (s.system_option_ids_to_delete)
-    );
+    IF s.system_options_to_delete IS NOT NULL
+    AND us.id IS NOT NULL THEN
+        DELETE FROM option_values
+        WHERE system_id = us.id
+        AND option_name IN (
+            SELECT * FROM UNNEST (s.system_options_to_delete)
+        );
+
+        DELETE FROM system_options
+        WHERE system_id = us.id
+        AND name IN (
+            SELECT * FROM UNNEST (s.system_options_to_delete)
+        );
+    END IF;
 
     RETURN us;
 END;

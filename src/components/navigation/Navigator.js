@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import {
     Redirect,
@@ -13,6 +13,7 @@ import {
     validatePath,
     extractNavigationOptions,
 } from '../../utils';
+import customPropTypes from '../custom-prop-types';
 
 
 /**
@@ -47,6 +48,13 @@ class NavigatorChild extends PureComponent {
 
 
 class Navigator extends PureComponent {
+
+    static propTypes = {
+        children: PropTypes.func,
+        initialRoute: PropTypes.string,
+        routeProps: PropTypes.object,
+        routes: PropTypes.objectOf(PropTypes.func),
+    };
 
     static defaultProps = {
         children: (_, Children) => Children,
@@ -121,7 +129,8 @@ class Navigator extends PureComponent {
                     .map(({ exact, component: RouteChild, disabled, ...route }, i) => !disabled && (
                         <Route
                             key={route.path}
-                            {...route}
+                            // {...console.log(Object.keys(route))}
+                            // {...route}
                             exact={exact}
                             path={validatePath(`${
                                 path

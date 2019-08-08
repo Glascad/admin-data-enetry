@@ -70,7 +70,7 @@ export default class Pill extends PureComponent {
         window.addEventListener('keydown', this.blurOnEsc);
         this.componentDidUpdate({});
         setTimeout(() => {
-            this.ref.current.style.opacity = 1;
+            if (this.ref && this.ref.current) this.ref.current.style.opacity = 1;
         });
     }
 

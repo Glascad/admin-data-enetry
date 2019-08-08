@@ -1,6 +1,18 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import './Toggle.scss';
+import customPropTypes from '../../custom-prop-types';
+
+Toggle.propTypes = {
+    buttons: PropTypes.arrayOf(PropTypes.shape({
+        text: PropTypes.string,
+        selected: PropTypes.bool,
+        className: PropTypes.string,
+    })),
+    label: PropTypes.string,
+    title: customPropTypes.renderable,
+    className: PropTypes.string,
+};
 
 Toggle.defaultProps = {
     className: "",

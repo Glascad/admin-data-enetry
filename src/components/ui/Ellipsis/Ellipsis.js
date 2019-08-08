@@ -16,7 +16,8 @@ export default function Ellipsis({ text = '', timeout = 300, ...props }) {
     return (
         <span
             className="Ellipsis"
-            {...props}
+            // VVV is this spread necessary?
+            // {...props}
         >
             <span>
                 {text}
