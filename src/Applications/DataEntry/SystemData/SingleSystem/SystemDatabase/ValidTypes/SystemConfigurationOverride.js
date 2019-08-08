@@ -27,48 +27,16 @@ export default function SystemConfigurationOverride({
     } = {},
     updateSystem,
 }) {
-    const handleChange = (key, value) => {
-        const updatedSystemConfigurationOverride = {
-            ...override,
-            [key]: value,
-        };
-        // console.log(updatedSystemConfigurationOverride)
-        const regex = /Override/;
-        const identical = Object.entries(updatedSystemConfigurationOverride)
-            .every(([key, value]) => !key.match(regex)
-                ||
-                typeof value === 'object'
-                ||
-                isNullOrUndefined(updatedSystemConfigurationOverride[key])
-                ||
-                updatedSystemConfigurationOverride[key] === [key.replace(regex, '')]
-            );
+    
+    // updateSystem(ACTIONS.UPDATE_OVERRIDE, {
+    //     detailType,
+    //     configurationType,
+    //     requiredOverride,
+        // mirrorableOverride,
+        // presentationLevelOverride,
+        // overrideLevelOverride,
+    // });
 
-        const {
-            requiredOverride,
-            // mirrorableOverride,
-            // presentationLevelOverride,
-            // overrideLevelOverride,
-        } = updatedSystemConfigurationOverride;
-
-        if (identical) {
-            // if the override is identical to the systemtypedetailtypeconfigurationtype
-            updateSystem(ACTIONS.DELETE_OVERRIDE, {
-                detailType,
-                configurationType,
-            });
-        } else {
-            // if we are working with a newly-created override
-            updateSystem(ACTIONS.UPDATE_OVERRIDE, {
-                detailType,
-                configurationType,
-                requiredOverride,
-                // mirrorableOverride,
-                // presentationLevelOverride,
-                // overrideLevelOverride,
-            });
-        }
-    }
 
     return (
         <GroupingBox
@@ -90,7 +58,15 @@ export default function SystemConfigurationOverride({
                     required
                     :
                     requiredOverride}
-                onChange={({ target: { checked } }) => handleChange("requiredOverride", checked)}
+                onChange={({ target: { checked } }) => updateSystem(ACTIONS.UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        requiredOverride,
+                        ...override,
+                        ["requiredOverride"]: checked
+                    })
+                }
             />
             {/* <Input
                 label="Presentation Level"
