@@ -82,7 +82,7 @@ async function seedDatabase() {
 }
 
 
-seedDatabase().then(() => {
+function startServer() {
 
     const APP = express();
 
@@ -114,4 +114,6 @@ seedDatabase().then(() => {
 
     APP.listen(SERVER_PORT, () => console.log(chalk`${chalk.blueBright(`[glascad]`)} listening on port ${SERVER_PORT}`));
 
-});
+}
+
+seedDatabase().then(startServer);

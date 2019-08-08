@@ -70,8 +70,8 @@ gc_public.entire_system AS (
     -- infill_pocket_sizes FLOAT[],
     -- infill_pocket_sizes_to_delete FLOAT[],
     -- VALID TYPES
-    invalid_configuration_types ENTIRE_INVALID_SYSTEM_CONFIGURATION_TYPE[],
-    invalid_configuration_types_to_delete ENTIRE_INVALID_SYSTEM_CONFIGURATION_TYPE[],
+    invalid_system_configuration_types ENTIRE_INVALID_SYSTEM_CONFIGURATION_TYPE[],
+    invalid_system_configuration_types_to_delete ENTIRE_INVALID_SYSTEM_CONFIGURATION_TYPE[],
     configuration_overrides ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE[],
     configuration_overrides_to_delete ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE[],
     -- OPTIONS
