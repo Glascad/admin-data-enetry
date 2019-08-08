@@ -112,17 +112,17 @@ BEGIN
     THEN
         FOREACH sco IN ARRAY s.configuration_overrides
         LOOP
-            SELECT system_id FROM create_or_update_configuration_override(sco, us.id, us.system_type) INTO ___;
+            SELECT system_id FROM update_system_configuration_override(sco, us.id, us.system_type) INTO ___;
         END LOOP;
     END IF;
 
-    IF s.configuration_overrides_to_delete IS NOT NULL
-    THEN
-        FOREACH sco IN ARRAY s.configuration_overrides_to_delete
-        LOOP
-            SELECT system_id FROM delete_configuration_override(sco, us.id, us.system_type) INTO ___;
-        END LOOP;
-    END IF;
+    -- IF s.configuration_overrides_to_delete IS NOT NULL
+    -- THEN
+    --     FOREACH sco IN ARRAY s.configuration_overrides_to_delete
+    --     LOOP
+    --         SELECT system_id FROM delete_system_configuration_override(sco, us.id, us.system_type) INTO ___;
+    --     END LOOP;
+    -- END IF;
 
     -- OPTIONS
     IF s.system_options IS NOT NULL
