@@ -1,8 +1,17 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import './GroupingBox.scss';
-import { Toggle } from '../..';
+import Toggle from '../Toggle/Toggle';
 import CircleButton from '../CircleButton/CircleButton';
+import customPropTypes from '../../custom-prop-types';
+
+GroupingBox.propTypes = {
+    title: PropTypes.string,
+    toggle: PropTypes.shape(Toggle.propTypes),
+    circleButton: PropTypes.shape(CircleButton.propTypes),
+    children: customPropTypes.renderable,
+    className: PropTypes.string,
+};
 
 GroupingBox.defaultProps = {
     className: "",

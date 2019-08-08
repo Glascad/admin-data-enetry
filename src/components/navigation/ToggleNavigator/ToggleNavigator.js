@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import {
     withRouter,
     // NavLink,
@@ -8,6 +8,11 @@ import {
 import Toggle from '../../ui/Toggle/Toggle';
 import Navigator from '../Navigator';
 import TitleBar from '../../ui/TitleBar/TitleBar';
+
+ToggleNavigator.propTypes = {
+    ...Navigator.propTypes,
+    titleBar: PropTypes.shape(TitleBar.propTypes),
+};
 
 function ToggleNavigator({
     history,

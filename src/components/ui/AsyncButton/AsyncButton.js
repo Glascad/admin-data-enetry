@@ -35,5 +35,5 @@ export default function AsyncButton({
                 text
             }
         </button>
-    )
+    );
 }

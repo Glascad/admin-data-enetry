@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 /**
  * PURPOSE
@@ -18,11 +18,20 @@ import { useState } from 'react';
  * 
  */
 
-export default function useSelection(identifier = "nodeId") {
+export const selectionProps = {
+    selectedNID: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    creating: PropTypes.bool,
+    deleting: PropTypes.bool,
+    cancel: PropTypes.func,
+    handleSelect: PropTypes.func,
+    handleCreateClick: PropTypes.func,
+    handleDeleteClick: PropTypes.func,
+};
 
-    // static propTypes = {
-    //     children: PropTypes.func.isRequired,
-    // };
+export default function useSelection(identifier = "nodeId") {
 
     const initialState = {
         selectedNID: "",
@@ -31,8 +40,6 @@ export default function useSelection(identifier = "nodeId") {
     };
 
     const [{ selectedNID, creating, deleting }, setState] = useState(initialState);
-
-    // state = SelectionWrapper.initialState;
 
     const cancel = () => setState(() => ({
         creating: false,

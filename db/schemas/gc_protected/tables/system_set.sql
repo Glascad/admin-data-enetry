@@ -5,7 +5,8 @@ gc_protected.system_sets (
     project_id INTEGER REFERENCES projects,
     system_id INTEGER REFERENCES systems,
     system_type SYSTEM_TYPE,
-    infill_size FLOAT,
+    name VARCHAR(50),
+    -- infill_size FLOAT,
     FOREIGN KEY (
         system_id,
         system_type
@@ -30,9 +31,9 @@ gc_protected.system_set_option_values (
     system_set_id INTEGER,
     system_id INTEGER,
     system_type SYSTEM_TYPE,
-    system_option_id INTEGER REFERENCES system_options,
-    option_value_id INTEGER REFERENCES option_values,
-    PRIMARY KEY (system_id, system_option_id),
+    system_option SYSTEM_OPTION_NAME REFERENCES valid_system_options,
+    option_value OPTION_VALUE_NAME REFERENCES valid_option_values,
+    PRIMARY KEY (system_set_id, system_option),
     FOREIGN KEY (
         system_set_id,
         system_id,
@@ -45,18 +46,18 @@ gc_protected.system_set_option_values (
     ),
     FOREIGN KEY (
         system_id,
-        system_option_id
+        system_option
     )
     REFERENCES system_options (
         system_id,
         id
     ),
     FOREIGN KEY (
-        system_option_id,
-        option_value_id
+        system_option,
+        option_value
     )
     REFERENCES option_values (
-        system_option_id,
+        system_option,
         id
     )
 );

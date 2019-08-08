@@ -421,7 +421,8 @@ export default class Input extends PureComponent {
                                 handleKeyDown
                                 :
                                 onKeyDown}
-                            {...props}
+                        // VVV is this spread necessary?
+                        // {...props}
                         />
                     )
                 }

@@ -7,25 +7,37 @@ import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import CircleButton from '../CircleButton/CircleButton';
 
-import useSelection from '../../hooks/use-selection';
+import useSelection, { selectionProps } from '../../hooks/use-selection';
 import customPropTypes from '../../custom-prop-types';
+import TitleBar from '../TitleBar/TitleBar';
 
 class List extends PureComponent {
 
     static propTypes = {
-        mapPillProps: customPropTypes.deprecated(PropTypes.func, "Don't use map pill props any more")
-        // title: PropTypes.string,
-        // label: PropTypes.string,
-        // parent: PropTypes.string,
-        // items: PropTypes.array.isRequired,
-        // mapPillProps: PropTypes.func.isRequired,
-        // onCreate: PropTypes.func,
-        // onUpdate: PropTypes.func,
-        // onDelete: PropTypes.func,
-        // children: PropTypes.func,
-        // multiSelect: PropTypes.shape({
-
-        // })
+        mapPillProps: customPropTypes.deprecated(PropTypes.func, "Don't use map pill props"),
+        titleBar: PropTypes.shape(TitleBar.propTypes),
+        label: customPropTypes.renderable,
+        identifier: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        items: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+        defaultPillProps: PropTypes.shape(Pill.propTypes),
+        circleButton: PropTypes.shape(CircleButton.propTypes),
+        onDisabledSelect: PropTypes.func,
+        onCreate: PropTypes.func,
+        onFinish: PropTypes.func,
+        onUpdate: PropTypes.func,
+        onDelete: PropTypes.func,
+        deleteModal: PropTypes.shape(Modal.propTypes),
+        selection: selectionProps,
+        multiSelect: PropTypes.shape({
+            ...MultiSelect.propTypes,
+            allItems: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+            mapPreviousItems: customPropTypes.deprecated(PropTypes.func, "Don't use map previous items"),
+            title: customPropTypes.renderable,
+        }),
+        children: customPropTypes.renderable,
     };
 
     static defaultProps = {
@@ -121,8 +133,6 @@ class List extends PureComponent {
             items[0]
             ||
             {};
-
-        if (mapPillProps) console.warn("Don't use map pill props")
 
         return (
             <>

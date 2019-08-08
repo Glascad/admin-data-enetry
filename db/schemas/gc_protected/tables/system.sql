@@ -48,30 +48,29 @@ gc_protected.systems (
 -- ENUMERATE (tie to enumeration)
 CREATE TABLE
 gc_protected.system_options (
-    id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems NOT NULL,
     name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
     -- presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     -- override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
     -- option_order INTEGER,
-    UNIQUE (id, system_id),
-    UNIQUE (id, name)
+    PRIMARY KEY (name, system_id),
+    UNIQUE (name, system_id)
 );
 
 -- ENUMERATE (tie to enumeration)
 CREATE TABLE
 gc_protected.option_values (
-    id SERIAL PRIMARY KEY,
-    system_option_id INTEGER REFERENCES system_options NOT NULL,
+    system_id INTEGER REFERENCES systems NOT NULL,
     option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
     value FLOAT,
     -- value_order INTEGER,
-    UNIQUE (id, system_option_id),
-    FOREIGN KEY (system_option_id, option_name)
-    REFERENCES system_options (id, name),
+    PRIMARY KEY (system_id, option_name, name),
+    UNIQUE (system_id, option_name, name),
+    FOREIGN KEY (system_id, option_name)
+    REFERENCES system_options (system_id, name),
     FOREIGN KEY (option_name, name)
-    REFERENCES valid_option_values (option_name, value_name)
+    REFERENCES valid_option_values (option_name, name)
 );
 
 -- ALTER TABLE

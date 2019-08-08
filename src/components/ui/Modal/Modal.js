@@ -152,7 +152,11 @@ const getModalId = (() => {
 })();
 
 export default class AbstractModal extends PureComponent {
+<<<<<<< HEAD
     // static PropTypes = Modal.propTypes;
+=======
+    static propTypes = Modal.propTypes;
+>>>>>>> 3f72cbd62a13f61dc213c933dd7c5e40c693ebd6
     constructor(props) {
         super(props);
         this.element = document.createElement("div");
