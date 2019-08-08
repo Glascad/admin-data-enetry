@@ -5,7 +5,7 @@ import {
     Input,
 } from '../../../../../../components';
 
-import ACTIONS from '../ducks/actions';
+import { DELETE_OVERRIDE, CREATE_OVERRIDE } from '../ducks/actions';
 
 export default function SystemTypeDetailTypeConfigurationType({
     override,
@@ -32,9 +32,9 @@ export default function SystemTypeDetailTypeConfigurationType({
                             :
                             "danger",
                         onClick: () => updateSystem(override ?
-                            ACTIONS.DELETE_OVERRIDE
+                            DELETE_OVERRIDE
                             :
-                            ACTIONS.CREATE_OVERRIDE, {
+                            CREATE_OVERRIDE, {
                                 detailType,
                                 configurationType,
                             }),
@@ -51,6 +51,7 @@ export default function SystemTypeDetailTypeConfigurationType({
             <Input
                 label="Required"
                 type="switch"
+                className="disabled"
                 checked={required}
                 readOnly={true}
             />

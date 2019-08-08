@@ -5,7 +5,7 @@ import {
     Input,
 } from '../../../../../../components';
 
-import ACTIONS from '../ducks/actions';
+import { DELETE_OVERRIDE, UPDATE_OVERRIDE } from '../ducks/actions';
 
 const isNullOrUndefined = item => item === undefined || item === null;
 
@@ -53,13 +53,13 @@ export default function SystemConfigurationOverride({
 
         if (identical) {
             // if the override is identical to the systemtypedetailtypeconfigurationtype
-            updateSystem(ACTIONS.DELETE_OVERRIDE, {
+            updateSystem(DELETE_OVERRIDE, {
                 detailType,
                 configurationType,
             });
         } else {
             // if we are working with a newly-created override
-            updateSystem(ACTIONS.UPDATE_OVERRIDE, {
+            updateSystem(UPDATE_OVERRIDE, {
                 detailType,
                 configurationType,
                 requiredOverride,

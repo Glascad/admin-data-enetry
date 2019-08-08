@@ -24,6 +24,7 @@ const booleanTypes = [
 export default class Input extends PureComponent {
 
     static defaultProps = {
+        className: '',
         tagname: "label",
         type: "text",
         checked: false,
@@ -230,6 +231,7 @@ export default class Input extends PureComponent {
                 inchInput,
             },
             props: {
+                className,
                 tagname,
                 label,
                 direction,
@@ -291,7 +293,9 @@ export default class Input extends PureComponent {
 
         return (
             <tag.name
-                className={`Input type-${
+                className={`Input ${
+                    className
+                    } type-${
                     Icon ? 'icon'
                         :
                         select ? 'select'
