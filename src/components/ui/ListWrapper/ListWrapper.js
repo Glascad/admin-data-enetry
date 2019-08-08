@@ -7,7 +7,6 @@ import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import CircleButton from '../CircleButton/CircleButton';
 
-import './ListWrapper.scss';
 import { deprecated } from '../../../utils';
 import useSelection from '../../hooks/use-selection';
 

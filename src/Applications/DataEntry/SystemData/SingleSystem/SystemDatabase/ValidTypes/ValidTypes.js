@@ -6,8 +6,8 @@ import {
     TitleBar,
 } from '../../../../../../components';
 
-// import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
-// import SystemConfigurationOverride from './SystemConfigurationOverride';
+import SystemTypeDetailTypeConfigurationType from './SystemTypeDetailTypeConfigurationType';
+import SystemConfigurationOverride from './SystemConfigurationOverride';
 
 import { UPDATE_LIST } from '../ducks/actions';
 

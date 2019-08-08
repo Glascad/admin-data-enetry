@@ -5,9 +5,7 @@ import {
     Input,
 } from '../../../../../../components';
 
-import ACTIONS from '../ducks/actions';
-
-const isNullOrUndefined = item => item === undefined || item === null;
+import { DELETE_OVERRIDE, UPDATE_OVERRIDE } from '../ducks/actions';
 
 export default function SystemConfigurationOverride({
     presentationLevels,
@@ -58,7 +56,7 @@ export default function SystemConfigurationOverride({
                     required
                     :
                     requiredOverride}
-                onChange={({ target: { checked } }) => updateSystem(ACTIONS.UPDATE_OVERRIDE,
+                onChange={({ target: { checked } }) => updateSystem(UPDATE_OVERRIDE,
                     {
                         detailType,
                         configurationType,

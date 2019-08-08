@@ -6,6 +6,8 @@ import {
     TitleBar,
 } from '../../../../../../components';
 
+import { normalCase } from '../../../../../../utils';
+
 import {
     CREATE_OPTION,
     // UPDATE_OPTION,
@@ -14,7 +16,6 @@ import {
     // UPDATE_VALUE,
     DELETE_VALUE,
 } from '../ducks/actions';
-import { normalCase } from '../../../../../../utils';
 
 export default function SystemOptions({
     system: {
