@@ -29,7 +29,7 @@ VALUES
 ('STOREFRONT', 'MULLION', 'MULLION', false);
 
 INSERT INTO valid_option_values
-(option_name, value_name)
+(option_name, name)
 VALUES
 ('GLAZING', 'INSIDE'),
 ('GLAZING', 'OUTSIDE'),
