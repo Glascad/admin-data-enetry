@@ -7,8 +7,6 @@ import {
 
 import { DELETE_OVERRIDE, UPDATE_OVERRIDE } from '../ducks/actions';
 
-const isNullOrUndefined = item => item === undefined || item === null;
-
 export default function SystemConfigurationOverride({
     presentationLevels,
     defaultValues,
@@ -27,48 +25,16 @@ export default function SystemConfigurationOverride({
     } = {},
     updateSystem,
 }) {
-    const handleChange = (key, value) => {
-        const updatedSystemConfigurationOverride = {
-            ...override,
-            [key]: value,
-        };
-        // console.log(updatedSystemConfigurationOverride)
-        const regex = /Override/;
-        const identical = Object.entries(updatedSystemConfigurationOverride)
-            .every(([key, value]) => !key.match(regex)
-                ||
-                typeof value === 'object'
-                ||
-                isNullOrUndefined(updatedSystemConfigurationOverride[key])
-                ||
-                updatedSystemConfigurationOverride[key] === [key.replace(regex, '')]
-            );
+    
+    // updateSystem(ACTIONS.UPDATE_OVERRIDE, {
+    //     detailType,
+    //     configurationType,
+    //     requiredOverride,
+        // mirrorableOverride,
+        // presentationLevelOverride,
+        // overrideLevelOverride,
+    // });
 
-        const {
-            requiredOverride,
-            // mirrorableOverride,
-            // presentationLevelOverride,
-            // overrideLevelOverride,
-        } = updatedSystemConfigurationOverride;
-
-        if (identical) {
-            // if the override is identical to the systemtypedetailtypeconfigurationtype
-            updateSystem(DELETE_OVERRIDE, {
-                detailType,
-                configurationType,
-            });
-        } else {
-            // if we are working with a newly-created override
-            updateSystem(UPDATE_OVERRIDE, {
-                detailType,
-                configurationType,
-                requiredOverride,
-                // mirrorableOverride,
-                // presentationLevelOverride,
-                // overrideLevelOverride,
-            });
-        }
-    }
 
     return (
         <GroupingBox
@@ -81,7 +47,13 @@ export default function SystemConfigurationOverride({
                     mirrorable
                     :
                     mirrorableOverride}
-                onChange={({ target: { checked } }) => handleChange("mirrorableOverride", checked)}
+                onChange={({ target: { checked } }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        mirrorableOverride: checked
+                    })
+                }
             /> */}
             <Input
                 label="Required"
@@ -90,7 +62,13 @@ export default function SystemConfigurationOverride({
                     required
                     :
                     requiredOverride}
-                onChange={({ target: { checked } }) => handleChange("requiredOverride", checked)}
+                onChange={({ target: { checked } }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        requiredOverride: checked
+                    })
+                }
             />
             {/* <Input
                 label="Presentation Level"
@@ -104,7 +82,13 @@ export default function SystemConfigurationOverride({
                         value: name,
                         label: name,
                     })),
-                    onChange: ({ name }) => handleChange("presentationLevelOverride", name)
+                    onChange: ({ name }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        presentationLevelOverride: name
+                    })
+                }
                 }}
             /> */}
             {/* <Input
@@ -119,7 +103,12 @@ export default function SystemConfigurationOverride({
                         value: name,
                         label: name,
                     })),
-                    onChange: ({ name }) => handleChange("overrideLevelOverride", name)
+                    onChange: ({ name }) => updateSystem(UPDATE_OVERRIDE,
+                    {
+                        detailType,
+                        configurationType,
+                        overrideLevelOverride: name
+                    })
                 }}
             /> */}
         </GroupingBox>

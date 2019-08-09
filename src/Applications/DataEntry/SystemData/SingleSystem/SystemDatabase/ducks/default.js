@@ -28,7 +28,7 @@ export const system = {
     // infillPocketTypeIdsToDelete: [],
 
     systemOptions: [],
-    systemOptionIdsToDelete: [],
+    systemOptionsToDelete: [],
 
     invalidSystemConfigurationTypes: [],
     invalidSystemConfigurationTypesToDelete: [],
@@ -58,7 +58,7 @@ export const option = {
     // configurationTypesToDelete: [],
     
     optionValues: [],
-    optionValueIdsToDelete: [],
+    optionValuesToDelete: [],
 };
 
 export const value = {

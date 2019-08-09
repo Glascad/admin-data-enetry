@@ -6,24 +6,24 @@ export default ({
         systemOptions,
     },
 }, {
-    optionId,
-    valueId,
+    optionName,
+    name,
 }) => {
-    // console.log(arguments);
+    console.log({system, optionName, name});
     const updatedOption = systemOptions
-        .find(({ id }) => id === optionId);
+        .find(so => so.name === optionName);
     const optionIndex = systemOptions
         .indexOf(updatedOption);
     if (updatedOption) {
         // find value in option
         const {
             optionValues,
-            optionValueIdsToDelete,
+            optionValuesToDelete,
         } = updatedOption;
-        const createdValue = optionValues.find(value => value.id === valueId);
+        const createdValue = optionValues.find(ov => ov.name === name);
         if (createdValue) {
             // check if value previously existed
-            if (typeof createdValue.id === 'string') {
+            if (typeof createdValue.name === 'string') {
                 // only remove from list
                 return {
                     system: {
@@ -32,7 +32,7 @@ export default ({
                             .replace(optionIndex, {
                                 ...updatedOption,
                                 optionValues: optionValues
-                                    .filter(value => value !== createdValue),
+                                    .filter(ov => ov.name !== createdValue.name),
                             }),
                     },
                 };
@@ -45,8 +45,8 @@ export default ({
                             .replace(optionIndex, {
                                 ...updatedOption,
                                 optionValues: optionValues
-                                    .filter(value => value !== createdValue),
-                                optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
+                                    .filter(ov => ov.name !== createdValue.name),
+                                optionValuesToDelete: optionValuesToDelete.concat(name),
                             }),
                     },
                 };
@@ -60,7 +60,7 @@ export default ({
                         .replace(optionIndex, {
                             ...updatedOption,
                             // optionValues: optionValues.replace()
-                            optionValueIdsToDelete: optionValueIdsToDelete.concat(valueId),
+                            optionValuesToDelete: optionValuesToDelete.concat(name),
                         }),
                 },
             };
@@ -73,8 +73,8 @@ export default ({
                 systemOptions: systemOptions
                     .concat({
                         ...defaultSystemOption,
-                        id: optionId,
-                        optionValueIdsToDelete: [valueId],
+                        name: optionName,
+                        optionValuesToDelete: [name],
                     }),
             },
         };

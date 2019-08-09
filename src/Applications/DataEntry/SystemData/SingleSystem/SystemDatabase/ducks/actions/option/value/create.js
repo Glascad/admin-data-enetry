@@ -1,20 +1,21 @@
 import { _getFakeId } from "../../utils";
 import { value as defaultOptionValue, option as defaultSystemOption } from '../../../default';
+import { logInputOutput } from "../../../../../../../../../utils";
 
-export default ({
+export default logInputOutput("createOptionValue",({
     system,
     system: {
         systemOptions,
     },
 }, {
-    optionId,
-    ...value
+    optionName,
+    name
 }) => {
-    // console.log(arguments);
+    // console.log(systemOptions);
     // Object.keys(value).forEach(_validateKey)
     // find option
     const option = systemOptions
-        .find(({ id }) => id === optionId);
+        .find(({ name }) => name === optionName);
     if (option) {
         const optionIndex = systemOptions
             .indexOf(option);
@@ -26,11 +27,7 @@ export default ({
                     .replace(optionIndex, {
                         ...option,
                         optionValues: option.optionValues
-                            .concat({
-                                ...defaultOptionValue,
-                                id: _getFakeId(),
-                                ...value,
-                            }),
+                            .concat({name}),
                     }),
             },
         };
@@ -42,13 +39,10 @@ export default ({
                 systemOptions: systemOptions
                     .concat({
                         ...defaultSystemOption,
-                        id: optionId,
-                        optionValues: [{
-                            id: _getFakeId(),
-                            ...value,
-                        }],
+                        name: optionName,
+                        optionValues: [{name}],
                     }),
             },
         };
     }
-}
+})

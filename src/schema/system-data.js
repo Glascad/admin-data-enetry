@@ -33,7 +33,6 @@ export const SYSTEM_OPTION_FIELDS = gql`
     fragment SystemOptionFields on SystemOption {
         __typename
         nodeId
-        id
         name
         systemId
         # optionOrder
@@ -46,7 +45,6 @@ export const OPTION_VALUE_FIELDS = gql`
     fragment OptionValueFields on OptionValue {
         __typename
         nodeId
-        id
         name
         value
     }
@@ -94,7 +92,7 @@ export const ALL_SYSTEMS = gql`
 export const ENTIRE_SYSTEM_OPTION = gql`
     fragment EntireSystemOption on SystemOption {
         ...SystemOptionFields
-        optionValuesBySystemOptionId {
+        optionValuesBySystemIdAndOptionName {
             nodes {
                 ...OptionValueFields
             }

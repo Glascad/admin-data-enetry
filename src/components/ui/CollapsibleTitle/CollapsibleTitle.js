@@ -12,7 +12,7 @@ export default class CollapsibleTitle extends PureComponent {
         open: PropTypes.bool,
         children: customPropTypes.renderable,
         titleBar: PropTypes.shape(TitleBar.propTypes),
-        title: PropTypes.renderable,
+        title: customPropTypes.renderable,
     };
 
     static defaultProps = {

@@ -71,7 +71,7 @@ export const VALID_SYSTEM_OPTIONS = gql`
                 validOptionValuesByOptionName {
                     nodes {
                         nodeId
-                        valueName
+                        name
                     }
                 }
             }

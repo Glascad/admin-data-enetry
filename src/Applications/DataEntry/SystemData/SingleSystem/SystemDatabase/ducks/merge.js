@@ -13,7 +13,7 @@ export default logInputOutput("Merge System Update", ({
     // infillPocketTypes,
     // infillPocketTypesToDelete,
     systemOptions,
-    systemOptionIdsToDelete,
+    systemOptionsToDelete,
     invalidSystemConfigurationTypes,
     invalidSystemConfigurationTypesToDelete,
     configurationOverrides,
@@ -102,12 +102,11 @@ export default logInputOutput("Merge System Update", ({
     //                 .find(ipt => ipt.id === id)
     //         }))),
     _systemOptions: _systemOptions
-        // .filter(({ id }) => !systemOptionIdsToDelete
-        //     .includes(id))
+        .filter(({ name }) => !systemOptionsToDelete
+            .includes(name))
         .map(so => {
-            const updatedOption = null;
-            // systemOptions
-            // .find(({ id }) => id === so.id);
+            const updatedOption = systemOptions
+                .find(({ name }) => name === so.name);
             return updatedOption ? {
                 ...so,
                 ...removeNullValues(updatedOption),
@@ -121,22 +120,23 @@ export default logInputOutput("Merge System Update", ({
                 //                 .find(({ id }) => id === configurationType),
                 //         }))),
                 _optionValues: so._optionValues
-                    .filter(({ id }) => !updatedOption.optionValueIdsToDelete
-                        .includes(id))
+                    .filter(({ name }) => !updatedOption.optionValuesToDelete
+                        .includes(name))
                     .map(ov => {
                         const updatedValue = updatedOption.optionValues
-                            .find(({ id }) => id === ov.id);
+                            .find(({ name }) => name === ov.name);
                         return updatedValue ? {
                             ...ov,
                             ...removeNullValues(updatedValue),
                         } : ov;
                     })
                     .concat(updatedOption.optionValues
-                        .filter(({ id }) => typeof id === 'string')),
+                        // .filter(({ name }) => typeof name === 'string')
+                    ),
             } : so;
         })
         .concat(systemOptions
-            // .filter(({ id }) => typeof id === 'string')
+            .filter(({ name }) => !_systemOptions.some(o => o.name === name))
             .map(so => ({
                 ...so,
                 // _systemOptionConfigurationTypes: so.configurationType

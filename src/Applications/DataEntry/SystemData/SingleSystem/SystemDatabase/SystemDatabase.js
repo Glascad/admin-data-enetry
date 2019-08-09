@@ -41,6 +41,9 @@ export default class SystemDatabase extends PureComponent {
         const {
             state: {
                 system,
+                system: {
+                    systemOptions,
+                },
             },
             props: {
                 history,
@@ -60,21 +63,32 @@ export default class SystemDatabase extends PureComponent {
             },
             reset,
         } = this;
-
+        
         const update = _removeFakeIds(system);
-
+        
         try {
-
-            console.log({ update });
+            
+            // console.log({ update });
+            
+            reset();
 
             const result = await updateEntireSystem({
                 system: {
                     ...update,
+                    nodeId: undefined,
                     id,
+                    systemOptions: systemOptions.map(({
+                        nodeId,
+                        optionValues,
+                        ...systemOption
+                    }) => ({
+                        ...systemOption,
+                        optionValues: optionValues.map(({ name }) => name)
+                    })),
                 },
             });
 
-            console.log({ result });
+            // console.log({ result });
 
             const {
                 data: {
@@ -86,11 +100,11 @@ export default class SystemDatabase extends PureComponent {
                 },
             } = result;
 
-            reset();
-
             history.push(`${pathname}${parseSearch(search).update({ systemId })}`);
 
         } catch (err) {
+            console.log(err)
+            console.log({ err })
             console.error(err);
         }
     }
@@ -113,7 +127,7 @@ export default class SystemDatabase extends PureComponent {
 
         const updatedSystem = mergeSystemUpdate(system, queryStatus);
 
-        // console.log(updatedSystem);
+        console.log(system);
 
         const routeProps = {
             queryStatus,
