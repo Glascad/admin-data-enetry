@@ -2,14 +2,14 @@ export default ({
     system,
     system: {
         systemOptions,
-        systemOptionIdsToDelete,
+        systemOptionsToDelete,
     }
 }, {
-    optionId,
+    name,
 }) => {
     // console.log(arguments);
     const createdOption = systemOptions
-        .find(option => option.id === optionId);
+        .find(o => o.name === name);
     // remove option from state
     if (createdOption) {
         // check if option previously existed
@@ -29,7 +29,7 @@ export default ({
                     ...system,
                     systemOptions: systemOptions
                         .filter(option => option !== createdOption),
-                    systemOptionIdsToDelete: systemOptionIdsToDelete.concat(optionId)
+                    systemOptionsToDelete: systemOptionsToDelete.concat(name)
                 },
             };
         }
@@ -38,7 +38,7 @@ export default ({
         return {
             system: {
                 ...system,
-                systemOptionIdsToDelete: systemOptionIdsToDelete.concat(optionId)
+                systemOptionsToDelete: systemOptionsToDelete.concat(name)
             },
         };
     }

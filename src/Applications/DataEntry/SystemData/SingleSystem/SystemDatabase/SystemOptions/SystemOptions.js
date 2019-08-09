@@ -10,10 +10,8 @@ import { normalCase } from '../../../../../../utils';
 
 import {
     CREATE_OPTION,
-    // UPDATE_OPTION_LIST,
     DELETE_OPTION,
     CREATE_VALUE,
-    // UPDATE_VALUE,
     DELETE_VALUE,
 } from '../ducks/actions';
 
@@ -46,8 +44,8 @@ export default function SystemOptions({
                     title: o.name,
                     // type: 'tile',
                     // align: 'left',
-                    // children: (o._validOptionValues || []).map(({ valueName }) => (
-                    //     <div>{normalCase(valueName)}</div>
+                    // children: (o._validOptionValues || []).map(({ name }) => (
+                    //     <div>{normalCase(name)}</div>
                     // )),
                 })),
             }}
@@ -56,7 +54,7 @@ export default function SystemOptions({
         >
             {({
                 name: optionName,
-                optionValues = [],
+                _optionValues = [],
             }) => (
                     // <>
                     //     {/* <TitleBar
@@ -128,10 +126,11 @@ export default function SystemOptions({
                             title: "Values"
                         }}
                         identifier='title'
-                        items={(optionValues.map(v => ({
+                        items={(_optionValues.map(v => ({
                             ...v,
-                            title: v,
+                            title: v.name,
                         })))}
+                        // onCreate={args => console.log(args)}
                         onCreate={({ name }) => updateSystem(CREATE_VALUE, { optionName, name })}
                         onDelete={({title: name}) => updateSystem(DELETE_VALUE, { optionName, name })}
                         multiSelect={{
@@ -143,7 +142,7 @@ export default function SystemOptions({
                                 ), []))
                                 .map(v => ({
                                     ...v,
-                                    title: v.valueName,
+                                    title: v.name,
                                 }))
                         }}
                     />

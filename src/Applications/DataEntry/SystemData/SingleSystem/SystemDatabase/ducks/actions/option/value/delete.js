@@ -9,34 +9,50 @@ export default ({
     optionName,
     name,
 }) => {
-    // console.log(arguments);
+    console.log({system, optionName, name});
     const updatedOption = systemOptions
-        .find(({ name }) => name === optionName);
+        .find(so => so.name === optionName);
     const optionIndex = systemOptions
         .indexOf(updatedOption);
     if (updatedOption) {
-        // find name in option
+        // find value in option
         const {
             optionValues,
             optionValuesToDelete,
         } = updatedOption;
-        const createdValue = optionValues.find(v => v === name);
+        const createdValue = optionValues.find(ov => ov.name === name);
         if (createdValue) {
-            // check if name previously existed
-            // only remove from list
-            return {
-                system: {
-                    ...system,
-                    systemOptions: systemOptions
-                        .replace(optionIndex, {
-                            ...updatedOption,
-                            optionValues: optionValues
-                                .filter(v => v !== createdValue),
-                        }),
-                },
-            };
+            // check if value previously existed
+            if (typeof createdValue.name === 'string') {
+                // only remove from list
+                return {
+                    system: {
+                        ...system,
+                        systemOptions: systemOptions
+                            .replace(optionIndex, {
+                                ...updatedOption,
+                                optionValues: optionValues
+                                    .filter(ov => ov.name !== createdValue.name),
+                            }),
+                    },
+                };
+            } else {
+                // remove update from list and add id to deletions
+                return {
+                    system: {
+                        ...system,
+                        systemOptions: systemOptions
+                            .replace(optionIndex, {
+                                ...updatedOption,
+                                optionValues: optionValues
+                                    .filter(ov => ov.name !== createdValue.name),
+                                optionValuesToDelete: optionValuesToDelete.concat(name),
+                            }),
+                    },
+                };
+            }
         } else {
-            // add name to delete array
+            // add value to delete array
             return {
                 system: {
                     ...system,
@@ -50,13 +66,14 @@ export default ({
             };
         }
     } else {
-        // add option with deleted name to state
+        // add option with deleted value to state
         return {
             system: {
                 ...system,
                 systemOptions: systemOptions
                     .concat({
                         ...defaultSystemOption,
+                        name: optionName,
                         optionValuesToDelete: [name],
                     }),
             },
