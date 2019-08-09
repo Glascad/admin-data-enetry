@@ -13,7 +13,7 @@ DECLARE
     us SYSTEMS%ROWTYPE;
 BEGIN
 
-    SET search_path = gc_public,gc_data,gc_protected,pg_temp_1,pg_toast,pg_toast_temp_1;
+    SET search_path = gc_public,gc_data,gc_protected,gc_controlled,pg_temp_1,pg_toast,pg_toast_temp_1;
 
     SELECT * FROM create_or_update_system(s) INTO us;
 

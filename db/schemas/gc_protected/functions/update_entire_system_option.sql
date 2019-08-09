@@ -11,7 +11,7 @@ DECLARE
         THEN system_id
         ELSE so.system_id END;
     -- LOOP
-    ov entire_option_value;
+    ov OPTION_VALUE_NAME;
     ___ INTEGER;
     -- OUT
     uso system_options%ROWTYPE;

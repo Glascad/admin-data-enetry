@@ -16,7 +16,7 @@ BEGIN
     END IF;
 
     -- IF so.id IS NULL THEN
-        INSERT INTO system_options(
+        INSERT INTO system_options (
             system_id,
             name
             -- presentation_level,
@@ -32,6 +32,14 @@ BEGIN
         )
         ON CONFLICT DO NOTHING
         RETURNING * INTO uso;
+
+    IF uso IS NULL THEN
+        SELECT * FROM system_options _so
+        WHERE _so.system_id = sid
+        AND _so.name = so.name
+        INTO uso;
+    END IF;
+
     -- ELSE RETURN QUERY
     --     UPDATE system_options SET
     --         -- name = CASE

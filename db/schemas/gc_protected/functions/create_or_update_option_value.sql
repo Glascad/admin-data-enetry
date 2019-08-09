@@ -1,12 +1,13 @@
 DROP FUNCTION IF EXISTS create_or_update_option_value;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_option_value (
-    option_value entire_option_value,
+    value_name OPTION_VALUE_NAME,
     option_name SYSTEM_OPTION_NAME,
     system_id INTEGER
 ) RETURNS OPTION_VALUES AS $$
 DECLARE
-    ov ALIAS FOR option_value;
+    vn ALIAS FOR value_name;
+    -- ov ALIAS FOR option_value;
     sid ALIAS FOR system_id;
     o ALIAS FOR option_name;
     -- soid INTEGER = CASE WHEN option_name IS NOT NULL
@@ -14,20 +15,24 @@ DECLARE
     --     ELSE ov.option_name END;
     uov option_values%ROWTYPE;
 BEGIN
+
+    IF o IS NULL THEN RAISE EXCEPTION 'Cannot have NULL `option_name` - CREATE_OR_UPDATE_OPTION_VALUE';
+    END IF;
+
     -- IF ov.id IS NULL THEN
         INSERT INTO option_values (
             system_id,
             option_name,
-            name,
-            value
+            name
+            -- value
             -- value_order,
             -- mirror_from_option_value_id
         )
         VALUES (
             sid,
             o,
-            ov.name,
-            ov.value
+            vn
+            -- ov.value
             -- ov.value_order,
             -- ov.mirror_from_option_value_id
         )
