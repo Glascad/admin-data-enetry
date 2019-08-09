@@ -50,7 +50,7 @@ FROM
 -- GRANT
 
 -- public usage
-GRANT USAGE ON SCHEMA 
+GRANT USAGE ON SCHEMA
     -- gc_private
     gc_controlled,
     gc_protected,
@@ -58,8 +58,6 @@ GRANT USAGE ON SCHEMA
     gc_public
     -- gc_utils
 TO PUBLIC;
-
-GRANT EXECUTE ON FUNCTION gc_public.authenticate TO PUBLIC;
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA
     gc_private,
@@ -79,6 +77,13 @@ GRANT SELECT ON ALL TABLES IN SCHEMA
     gc_public
     -- gc_utils
 TO PUBLIC;
+
+-- UNAUTHORIZED ACCESS
+GRANT EXECUTE ON FUNCTION
+    gc_public.authenticate,
+    gc_public.get_current_user_id,
+    gc_public.get_current_user
+TO unauthorized;
 
 
 -- INVOKER

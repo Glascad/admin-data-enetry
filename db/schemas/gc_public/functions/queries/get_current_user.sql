@@ -13,7 +13,7 @@ BEGIN
 
     SELECT id, username, role
     INTO uid, un, r
-    FROM users
+    FROM gc_private.users
     WHERE id = get_current_user_id();
 
     SELECT id

@@ -4,7 +4,7 @@ gc_protected.system_sets (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects NOT NULL,
     system_id INTEGER REFERENCES systems NOT NULL,
-    system_type SYSTEM_TYPE NOT NULL,
+    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
     name VARCHAR(50),
     -- infill_size FLOAT,
     FOREIGN KEY (
@@ -81,6 +81,16 @@ gc_protected.system_set_detail_type_configuration_types (
         id,
         system_id,
         system_type
+    ),
+    FOREIGN KEY (
+        system_type,
+        detail_type,
+        configuration_type
+    )
+    REFERENCES system_type_detail_type_configuration_types (
+        system_type,
+        detail_type,
+        configuration_type
     )
 );
 
