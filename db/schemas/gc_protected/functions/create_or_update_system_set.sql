@@ -1,12 +1,12 @@
 DROP FUNCTION IF EXISTS create_or_update_system_set;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_set(system_set ENTIRE_SYSTEM_SET)
-RETURNS SETOF SYSTEM_SETS AS $$
+RETURNS SYSTEM_SETS AS $$
 DECLARE
     ss ALIAS FOR system_set;
+    uss system_sets%ROWTYPE;
 BEGIN
-    IF ss.id IS NULL
-    THEN RETURN QUERY
+    IF ss.id IS NULL THEN
         INSERT INTO system_sets (
             project_id,
             system_id,
@@ -26,8 +26,8 @@ BEGIN
             ss.name
             -- ss.infill_size
         )
-        RETURNING *;
-    ELSE RETURN QUERY
+        RETURNING * INTO uss;
+    ELSE
         UPDATE system_sets SET
             name = CASE WHEN ss.name IS NOT NULL
                 THEN ss.name
@@ -36,7 +36,13 @@ BEGIN
             --     THEN ss.infill_size
             --     ELSE system_sets.infill_size END
         WHERE system_sets.id = ss.id
-        RETURNING *;
+        RETURNING * INTO uss;
     END IF;
+
+    IF uss IS NULL THEN RAISE EXCEPTION 'uss is NULL - CREATE_OR_UPDATE_SYSTEM_SET';
+    END IF;
+
+    RETURN uss;
+
 END;
 $$ LANGUAGE plpgsql;

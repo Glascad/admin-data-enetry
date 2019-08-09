@@ -3,7 +3,7 @@ DROP FUNCTION IF EXISTS update_entire_system_option;
 CREATE OR REPLACE FUNCTION gc_protected.update_entire_system_option (
     system_option entire_system_option,
     system_id INTEGER
-) RETURNS SETOF system_options AS $$
+) RETURNS SYSTEM_OPTIONS AS $$
 DECLARE
     -- OPTION
     so ALIAS FOR system_option;
@@ -19,25 +19,27 @@ BEGIN
     SELECT * FROM create_or_update_system_option(so, sid) INTO uso;
 
     -- OPTION VALUES
-    FOREACH ov IN ARRAY so.option_values
-    LOOP
-        SELECT id FROM create_or_update_option_value(ov, uso.name, sid) INTO ___;
-    END LOOP;
+    IF so.option_values IS NOT NULL THEN
+        FOREACH ov IN ARRAY so.option_values
+        LOOP
+            SELECT 1 FROM create_or_update_option_value(ov, uso.name, sid) INTO ___;
+        END LOOP;
+    END IF;
 
-    DELETE FROM option_values ov
-        WHERE ov.option_name = uso.name
-        AND ov.system_id = sid
-        AND id IN (
+    DELETE FROM option_values _ov
+        WHERE _ov.option_name = uso.name
+        AND _ov.system_id = sid
+        AND name IN (
             SELECT * FROM UNNEST (so.option_values_to_delete)
         );
-    
+
     -- -- CONFIGURATION TYPES
     -- INSERT INTO system_option_configuration_types (
     --     system_option,
     --     configuration_type_id
     -- )
     -- SELECT
-    --     uso.name AS system_option,
+    --     uso.name AS option_name,
     --     ct AS configuration_type_id
     -- FROM UNNEST (so.configuration_type_ids) ct;
 
@@ -46,7 +48,7 @@ BEGIN
     --     AND configuration_type_id IN (
     --         SELECT * FROM UNNEST (so.configuration_type_ids_to_delete)
     --     );
-    
-    RETURN QUERY SELECT * FROM (SELECT uso.*) uso;
+
+    RETURN uso;
 END;
 $$ LANGUAGE plpgsql;

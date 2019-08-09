@@ -35,9 +35,9 @@ gc_protected.container_details (
     UNIQUE (first_container_id, second_container_id, vertical)
 );
 
-CREATE TABLE
-gc_protected.detail_option_values (
-    id SERIAL PRIMARY KEY,
-    container_detail_id INTEGER REFERENCES container_details,
-    option_value_id INTEGER REFERENCES option_values
-);
+-- CREATE TABLE
+-- gc_protected.detail_option_values (
+--     id SERIAL PRIMARY KEY,
+--     container_detail_id INTEGER REFERENCES container_details,
+--     option_value_id INTEGER REFERENCES option_values
+-- );

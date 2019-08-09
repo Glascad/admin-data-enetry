@@ -39,7 +39,7 @@ BEGIN
     ELSE
 
         -- IF AUTHORIZED
-        
+
         SELECT * FROM create_or_update_elevation(e) INTO ue;
 
         -- CREATE OR UPDATE CONTAINERS
@@ -76,7 +76,7 @@ BEGIN
         );
 
         RETURN QUERY SELECT * FROM (SELECT ue.*) ue;
-    
+
     END IF;
 END;
 $$ LANGUAGE plpgsql STRICT SECURITY DEFINER;

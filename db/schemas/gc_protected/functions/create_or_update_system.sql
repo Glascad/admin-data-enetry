@@ -1,12 +1,12 @@
 DROP FUNCTION IF EXISTS create_or_update_system;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system (system ENTIRE_SYSTEM)
-RETURNS SETOF SYSTEMS AS $$
+RETURNS SYSTEMS AS $$
 DECLARE
     s ALIAS FOR system;
+    us systems%ROWTYPE;
 BEGIN
-    IF s.id IS NULL
-    THEN RETURN QUERY
+    IF s.id IS NULL THEN
         INSERT INTO systems(
             name,
             manufacturer_id,
@@ -27,8 +27,8 @@ BEGIN
             -- s.default_glass_bite,
             -- s.default_glass_size
         )
-        RETURNING *;
-    ELSE RETURN QUERY
+        RETURNING * INTO us;
+    ELSE
     -- BEFORE QUERY MUST DELETE ALL OVERRIDES FROM PREVIOUS SYSTEM TYPE IF SYSTEM TYPE IS UPDATED
         UPDATE systems SET
             name = CASE
@@ -64,7 +64,10 @@ BEGIN
             --         THEN s.default_glass_bite
             --     ELSE systems.default_glass_bite END
         WHERE systems.id = s.id
-        RETURNING *;
+        RETURNING * INTO us;
     END IF;
+
+    RETURN us;
+
 END;
 $$ LANGUAGE plpgsql;

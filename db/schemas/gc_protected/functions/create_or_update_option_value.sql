@@ -12,10 +12,10 @@ DECLARE
     -- soid INTEGER = CASE WHEN option_name IS NOT NULL
     --     THEN option_name
     --     ELSE ov.option_name END;
+    uov option_values%ROWTYPE;
 BEGIN
     -- IF ov.id IS NULL THEN
-    RETURN QUERY
-        INSERT INTO option_values (        
+        INSERT INTO option_values (
             system_id,
             option_name,
             name,
@@ -31,7 +31,7 @@ BEGIN
             -- ov.value_order,
             -- ov.mirror_from_option_value_id
         )
-        RETURNING *;
+        RETURNING * INTO uov;
     -- ELSE RETURN QUERY
     --     UPDATE option_values SET
     --         name = CASE
@@ -54,5 +54,8 @@ BEGIN
     --     AND option_values.option_name = soid
     --     RETURNING *;
     -- END IF;
+
+    RETURN uov;
+
 END;
 $$ LANGUAGE plpgsql;

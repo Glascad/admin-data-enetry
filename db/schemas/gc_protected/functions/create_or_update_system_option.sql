@@ -3,15 +3,19 @@ DROP FUNCTION IF EXISTS create_or_update_system_option;
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_option (
     system_option entire_system_option,
     system_id INTEGER
-) RETURNS SETOF system_options AS $$
+) RETURNS SYSTEM_OPTIONS AS $$
 DECLARE
     so ALIAS FOR system_option;
     sid INTEGER = CASE WHEN so.system_id IS NOT NULL
         THEN so.system_id
         ELSE system_id END;
+    uso system_options%ROWTYPE;
 BEGIN
+
+    IF so.name IS NULL THEN RAISE EXCEPTION 'System Option `name` cannot be NULL';
+    END IF;
+
     -- IF so.id IS NULL THEN
-    RETURN QUERY
         INSERT INTO system_options(
             system_id,
             name
@@ -26,7 +30,8 @@ BEGIN
             -- so.override_level,
             -- so.option_order
         )
-        RETURNING *;
+        ON CONFLICT DO NOTHING
+        RETURNING * INTO uso;
     -- ELSE RETURN QUERY
     --     UPDATE system_options SET
     --         -- name = CASE
@@ -49,5 +54,8 @@ BEGIN
     --     AND system_options.name = so.name
     --     RETURNING *;
     -- END IF;
+
+    RETURN uso;
+
 END;
 $$ LANGUAGE plpgsql;

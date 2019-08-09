@@ -129,7 +129,7 @@ BEGIN
     THEN
         FOREACH so IN ARRAY s.system_options
         LOOP
-            SELECT id FROM update_entire_system_option(so, us.id) INTO ___;
+            SELECT 1 FROM update_entire_system_option(so, us.id) INTO ___;
         END LOOP;
     END IF;
 
