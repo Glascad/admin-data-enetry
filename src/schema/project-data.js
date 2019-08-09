@@ -23,6 +23,7 @@ export const SYSTEM_SET_FIELDS = gql`
         __typename
         nodeId
         id
+        name
     }
 `;
 
@@ -81,6 +82,15 @@ export const ENTIRE_PROJECT = gql`
         systemSetsByProjectId {
             nodes {
                 ...SystemSetFields
+                systemBySystemId {
+                    name
+                    manufacturerByManufacturerId {
+                        name
+                    }
+                }
+                elevationsBySystemSetId {
+                    totalCount
+                }
             }
         }
     }

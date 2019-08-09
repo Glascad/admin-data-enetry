@@ -6,6 +6,8 @@ import {
     TabNavigator,
     TitleBar,
     ApolloWrapper,
+    useQuery,
+    useMutation,
 } from '../../../../../components';
 
 import SystemSetInfo from './views/SystemSetInfo';
@@ -13,13 +15,13 @@ import SystemSetOptions from './views/SystemSetOptions';
 import SystemSetConfigurationTypes from './views/SystemSetConfigurationTypes';
 
 import query from './system-set-graphql/query';
-import updateEntireSystemSet from './system-set-graphql/mutation';
+import updateEntireSystemSetMutation from './system-set-graphql/mutation';
 
 import { parseSearch } from '../../../../../utils';
 
 import useSystemSetReducer from './ducks/hooks';
 
-function SystemSet({
+export default function SystemSet({
     location: {
         search,
     },
@@ -28,6 +30,18 @@ function SystemSet({
     },
     queryStatus,
 }) {
+
+    const { projectId, systemSetId } = parseSearch(search);
+
+    const [] = useQuery({
+        query,
+        variables: {
+            projectId: +projectId || 0,
+            systemSetId: +systemSetId || 0,
+        },
+    });
+
+    const [updateEntireSystemSet] = useMutation(updateEntireSystemSetMutation);
 
     const {
         state: {
@@ -45,6 +59,8 @@ function SystemSet({
     //     systemSet,
     //     dispatch,
     // };
+
+    console.log(arguments[0]);
 
     return (
         <>
@@ -80,11 +96,6 @@ function SystemSet({
                 {...routeProps}
             /> */}
             <TabNavigator
-                routes={{
-                    SystemSetInfo,
-                    SystemSetOptions,
-                    SystemSetConfigurationTypes,
-                }}
                 routeProps={{
                     queryStatus,
                     filters,
@@ -92,45 +103,12 @@ function SystemSet({
                     systemSet,
                     dispatch,
                 }}
+                routes={{
+                    SystemSetInfo,
+                    SystemSetOptions,
+                    SystemSetConfigurationTypes,
+                }}
             />
         </>
-    );
-}
-
-export default function SystemSetWrapper(props) {
-    const {
-        location: {
-            search,
-        },
-        queryStatus: queryStatusOne,
-    } = props;
-
-    const { projectId, systemSetId } = parseSearch(search);
-
-    return (
-        <ApolloWrapper
-            query={{
-                query,
-                variables: {
-                    projectId: +projectId || 0,
-                    systemSetId: +systemSetId || 0,
-                },
-            }}
-            mutations={{ updateEntireSystemSet }}
-        >
-            {({
-                queryStatus: queryStatusTwo,
-                mutations,
-            }) => (
-                    <SystemSet
-                        {...props}
-                        queryStatus={{
-                            ...queryStatusOne,
-                            ...queryStatusTwo,
-                        }}
-                        mutations={mutations}
-                    />
-                )}
-        </ApolloWrapper>
     );
 }
