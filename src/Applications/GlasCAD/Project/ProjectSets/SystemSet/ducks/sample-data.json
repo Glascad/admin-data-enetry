@@ -1,0 +1,137 @@
+{
+    "mutation": {
+        "systemSet": {
+            "id": 2,
+            "projectId": 1,
+            "name": "SYSTEM SET",
+            "systemId": 1,
+            "selectedOptionValues": [
+                {
+                    "optionName": "STOPS",
+                    "name": "DOWN"
+                }
+            ],
+            "detailTypeConfigurationTypes": [
+                {
+                    "detailType": "HEAD",
+                    "configurationType": "COMPENSATING_RECEPTOR"
+                }
+            ],
+            "detailTypeConfigurationTypesToUnselect": [
+                {
+                    "detailType": "SILL",
+                    "configurationType": "SILL_FLASHING"
+                }
+            ]
+        }
+    },
+    "result": {
+        "systemSet": {
+            "id": 2,
+            "name": "SYSTEM SET",
+            "systemId": 1,
+            "projectId": 1,
+            "systemSetOptionValuesBySystemSetIdAndSystemIdAndSystemType": {
+                "nodes": [
+                    {
+                        "systemOptionBySystemIdAndOptionName": {
+                            "name": "STOPS"
+                        },
+                        "optionValueBySystemIdAndOptionNameAndName": {
+                            "name": "DOWN"
+                        }
+                    }
+                ]
+            },
+            "systemSetDetailTypeConfigurationTypesBySystemSetIdAndSystemIdAndSystemType": {
+                "nodes": [
+                    {
+                        "detailType": "HEAD",
+                        "configurationType": "COMPENSATING_RECEPTOR"
+                    },
+                    {
+                        "detailType": "SILL",
+                        "configurationType": "SILL_FLASHING"
+                    }
+                ]
+            },
+            "systemBySystemId": {
+                "name": "Initial System"
+            },
+            "systemTypeBySystemType": {
+                "type": "STOREFRONT",
+                "systemTypeDetailTypesBySystemType": {
+                    "nodes": [
+                        {
+                            "detailType": "HEAD",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "HEAD",
+                                        "required": true
+                                    },
+                                    {
+                                        "configurationType": "COMPENSATING_RECEPTOR",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "JAMB",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "JAMB",
+                                        "required": true
+                                    },
+                                    {
+                                        "configurationType": "COMPENSATING_RECEPTOR",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "SILL",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "SILL",
+                                        "required": true
+                                    },
+                                    {
+                                        "configurationType": "SILL_FLASHING",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "HORIZONTAL",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "HORIZONTAL",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "MULLION",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "MULLION",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

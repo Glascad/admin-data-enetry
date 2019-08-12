@@ -30,19 +30,19 @@ CREATE TABLE
 gc_protected.system_set_option_values (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
     system_id INTEGER REFERENCES systems NOT NULL,
-    system_type SYSTEM_TYPE NOT NULL,
+    -- system_type SYSTEM_TYPE NOT NULL,
     option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
     PRIMARY KEY (system_set_id, option_name),
     FOREIGN KEY (
         system_set_id,
-        system_id,
-        system_type
+        system_id
+        -- system_type
     )
     REFERENCES system_sets (
         id,
-        system_id,
-        system_type
+        system_id
+        -- system_type
     ),
     FOREIGN KEY (
         system_id,
@@ -63,6 +63,8 @@ gc_protected.system_set_option_values (
         name
     )
 );
+
+COMMENT ON TABLE gc_protected.system_set_option_values IS 'Entries represent option values which have been selected within the system type - if no entry exists, then the default (first) option value is selected.';
 
 CREATE TABLE
 gc_protected.system_set_detail_type_configuration_types (
@@ -93,6 +95,8 @@ gc_protected.system_set_detail_type_configuration_types (
         configuration_type
     )
 );
+
+COMMENT ON TABLE gc_protected.system_set_detail_type_configuration_types IS 'Entries represent optional configuration types which have been selected within each detail type within the system set - if no entry exists, the optional configuration type is excluded - entries must only reference optional configuration types, however this is not yet enforced.';
 
 -- FUTURE
 -- CREATE TABLE
