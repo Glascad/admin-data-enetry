@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Select from 'react-select';
 
-import { ImperialValue } from '../../../utils';
+import { ImperialValue, normalCase } from '../../../utils';
 
 // import FlipSwitch from '../FlipSwitch/FlipSwitch';
 
@@ -29,6 +29,7 @@ export default class Input extends PureComponent {
     static propTypes = {
         className: PropTypes.string,
         tagname: PropTypes.string,
+        title: PropTypes.string,
         label: PropTypes.string,
         direction: PropTypes.oneOf([
             'row',
@@ -292,6 +293,7 @@ export default class Input extends PureComponent {
             props: {
                 className,
                 tagname,
+                title,
                 label,
                 direction,
                 light,
@@ -342,7 +344,8 @@ export default class Input extends PureComponent {
             <div
                 className="label"
             >
-                {label}
+                <span className="title">{normalCase(title)}</span>
+                <span>{normalCase(title ? ` (${label})` : label)}</span>
             </div>
         ) : null;
 
@@ -381,6 +384,14 @@ export default class Input extends PureComponent {
                         {...select}
                         ref={ref}
                         className={`Select ${select.isMulti ? "multi" : ""}`}
+                        value={{
+                            ...select.value,
+                            label: normalCase(select.value.label),
+                        }}
+                        options={select.options.map(o => ({
+                            ...o,
+                            label: normalCase(o.label),
+                        }))}
                     />
                 ) : (
                         <inputTag.name

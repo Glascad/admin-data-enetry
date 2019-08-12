@@ -1,11 +1,11 @@
 
 export default str => typeof str === 'string' ?
     str
-        .split(/[_|\W]/g)
-        .map(([f = '', ...w]) => `${
-            f.toUpperCase()
-            }${
-            w.join('').toLowerCase()
+        .split(/[_|\s]/g)
+        .map(w => `${
+            w.replace(/^(\W*\w)(.*)$/, '$1').toUpperCase()
+        }${
+            w.replace(/^(\W*\w)(.*)$/, '$2').toLowerCase()
             }`)
         .join(' ')
     :

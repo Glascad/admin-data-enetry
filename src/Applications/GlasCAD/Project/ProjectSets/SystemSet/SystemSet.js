@@ -99,7 +99,10 @@ export default function SystemSet({
             /> */}
             <TabNavigator
                 routeProps={{
-                    queryStatus,
+                    queryStatus: {
+                        ...queryStatus,
+                        ...queryStatusTwo,
+                    },
                     filters,
                     systemSetInput,
                     systemSet,

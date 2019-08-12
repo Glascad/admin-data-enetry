@@ -4,6 +4,7 @@ import './GroupingBox.scss';
 import Toggle from '../Toggle/Toggle';
 import CircleButton from '../CircleButton/CircleButton';
 import customPropTypes from '../../custom-prop-types';
+import { normalCase } from '../../../utils';
 
 GroupingBox.propTypes = {
     title: PropTypes.string,
@@ -29,7 +30,7 @@ export default function GroupingBox({
             className={`GroupingBox ${className}`}
         >
             <div className="title">
-                {title}
+                {normalCase(title)}
             </div>
             {toggle ? (
                 <div className="toggle-background">
