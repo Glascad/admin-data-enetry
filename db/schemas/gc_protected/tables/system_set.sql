@@ -23,6 +23,7 @@ gc_protected.system_sets (
     --     system_id,
     --     infill_size
     -- ),
+    UNIQUE (id, system_id),
     UNIQUE (id, system_id, system_type)
 );
 
