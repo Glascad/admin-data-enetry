@@ -34,12 +34,8 @@
             "systemSetOptionValuesBySystemSetIdAndSystemIdAndSystemType": {
                 "nodes": [
                     {
-                        "systemOptionBySystemIdAndOptionName": {
-                            "name": "STOPS"
-                        },
-                        "optionValueBySystemIdAndOptionNameAndName": {
-                            "name": "DOWN"
-                        }
+                        "optionName": "STOPS",
+                        "name": "DOWN"
                     }
                 ]
             },
