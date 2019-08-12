@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 
 SystemSetConfigurationTypes.navigationOptions = {
+    path: "/configuration-types",
     name: "Optional Parts",
 };
 

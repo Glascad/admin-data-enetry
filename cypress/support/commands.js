@@ -19,7 +19,7 @@ const getBaseRequest = () => ({
         elevationId: getElevationId(),
     }),
     method: "POST",
-    url: "http://localhost:5001/graphql",
+    url: "https://dev.glascad.com/graphql",
     headers: {
         Authentication: `Bearer ${getJwt()}`,
     },

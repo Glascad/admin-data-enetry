@@ -28,13 +28,31 @@ export const SYSTEM_SET_FIELDS = gql`
     }
 `;
 
+export const SYSTEM_SET_OPTION_VALUE_FIELDS = gql`
+    fragment SystemSetOptionValueFields on SystemSetOptionValue {
+        __typename
+        nodeId
+        optionName
+        name
+    }
+`;
+
+export const SYSTEM_SET_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS = gql`
+    fragment SystemSetDetailTypeConfigurationTypeFields on SystemSetDetailTypeConfigurationType {
+        __typename
+        nodeId
+        detailType
+        configurationType
+    }
+`;
+
 // ALL OF TYPE
 
 // replace with RLS
 export const ALL_PROJECTS = gql`
     fragment AllProjects on Query {
         __typename
-        allProjects: getAllProjects {
+        allProjects {
             nodes {
                 ...ProjectFields
             }
@@ -66,9 +84,15 @@ export const ENTIRE_SYSTEM_SET = gql`
         systemBySystemId {
             ...EntireSystem
         }
-        systemSetOptionValuesBySystemSetIdAndSystemIdAndSystemType {
+        systemSetOptionValuesBySystemSetIdAndSystemId {
             nodes {
-               ...EntireSystemSetOptionValue
+            #    ...EntireSystemSetOptionValue
+                ...SystemSetOptionValueFields
+            }
+        }
+        systemSetDetailTypeConfigurationTypesBySystemSetIdAndSystemIdAndSystemType {
+            nodes {
+                ...SystemSetDetailTypeConfigurationTypeFields
             }
         }
         elevationsBySystemSetId {
@@ -78,7 +102,8 @@ export const ENTIRE_SYSTEM_SET = gql`
     ${SD.ENTIRE_SYSTEM}
     ${SD.ENTIRE_SYSTEM_OPTION}
     ${SD.OPTION_VALUE_FIELDS}
-    ${ENTIRE_SYSTEM_SET_OPTION_VALUE}
+    ${SYSTEM_SET_OPTION_VALUE_FIELDS}
+    ${SYSTEM_SET_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
 `;
 
 export const ENTIRE_PROJECT = gql`
