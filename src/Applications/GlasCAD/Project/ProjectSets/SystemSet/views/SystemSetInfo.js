@@ -7,6 +7,7 @@ import {
 import { UPDATE_INFILL_SIZE, UPDATE_FILTER, UPDATE_SYSTEM_SET } from '../ducks/actions';
 
 SystemSetInfo.navigationOptions = {
+    path: "/info",
     name: "System Set",
 };
 
@@ -32,7 +33,7 @@ export default function SystemSetInfo({
         manufacturerId,
         systemTypeId,
     },
-    
+
     dispatch,
 }) {
 

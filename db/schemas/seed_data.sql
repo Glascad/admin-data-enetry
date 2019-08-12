@@ -9,3 +9,12 @@ INSERT INTO manufacturers (name) VALUES ('Kawneer');
 
 -- INITIAL SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type) VALUES ('Initial System', 1, 'STOREFRONT');
+INSERT INTO system_options (name, system_id) VALUES ('STOPS', 1), ('GLAZING', 1). ('JOINERY', 1);
+INSERT INTO option_values (name, option_name, system_id) VALUES
+('UP', 'STOPS', 1),
+('DOWN', 'STOPS', 1),
+('STICK', 'JOINERY', 1),
+('SCREW_SPLINE', 'JOINERY', 1),
+('SHEAR_BLOCK', 'JOINERY', 1),
+('INSIDE', 'GLAZING', 1),
+('OUTSIDE', 'GLAZING', 1);

@@ -66,7 +66,7 @@ export const ENTIRE_SYSTEM_SET = gql`
         systemBySystemId {
             ...EntireSystem
         }
-        systemSetOptionValuesBySystemSetIdAndSystemIdAndSystemType {
+        systemSetOptionValuesBySystemSetIdAndSystemId {
             nodes {
                ...EntireSystemSetOptionValue
             }

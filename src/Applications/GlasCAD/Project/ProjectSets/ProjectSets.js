@@ -12,6 +12,10 @@ import SystemSet from './SystemSet/SystemSet';
 
 import { parseSearch } from '../../../../utils';
 
+ProjectSetsRouter.navigationOptions = {
+    path: "/sets",
+};
+
 export default function ProjectSetsRouter(props) {
     return (
         <Navigator
@@ -23,6 +27,10 @@ export default function ProjectSetsRouter(props) {
         />
     );
 }
+
+ProjectSets.navigationOptions = {
+    path: "/all",
+};
 
 function ProjectSets({
     queryStatus: {

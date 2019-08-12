@@ -3,6 +3,7 @@ import { Input } from '../../../../../../components';
 import { SELECT_OPTION_VALUE } from '../ducks/actions';
 
 SystemSetOptions.navigationOptions = {
+    path: "/options",
     name: "System Options",
 };
 
