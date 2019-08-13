@@ -17,5 +17,6 @@ export const systemSetUpdate = {
         systemId: 0,
         selectedOptionValues: [],
         detailTypeConfigurationTypes: [],
+        detailTypeConfigurationTypesToUnselect: [],
     },
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Toggle.scss';
 import customPropTypes from '../../custom-prop-types';
+import { normalCase } from '../../../utils';
 
 Toggle.propTypes = {
     buttons: PropTypes.arrayOf(PropTypes.shape({
@@ -28,11 +29,11 @@ export default function Toggle({
         <>
             {title ? (
                 <div className="title">
-                    {title}
+                    {normalCase(title)}
                 </div>
             ) : label ? (
                 <div className="label">
-                    {label}
+                    {normalCase(label)}
                 </div>
             ) : null}
             <div
@@ -55,7 +56,7 @@ export default function Toggle({
                                 }`}
                             {...buttonProps}
                         >
-                            {text}
+                            {normalCase(text)}
                         </button>
                     )
                 })}

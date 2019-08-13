@@ -1,5 +1,4 @@
-
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .Input {
     position: relative;
@@ -7,16 +6,23 @@
     flex-direction: column;
     justify-content: center;
 
-    &:focus-within, &:focus {
+    &:focus-within,
+    &:focus {
         input {
             box-shadow: 0 0 1px 1px $selected-color;
         }
         .Select {
             box-shadow: 0 0 1px 1px $selected-color;
-            
+
             input {
                 box-shadow: none;
             }
+        }
+    }
+
+    .label {
+        .title {
+            color: $dark-gray;
         }
     }
 
@@ -35,42 +41,41 @@
             margin-right: $base-size;
         }
     }
-    
+
     &.type-checkbox {
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
         width: fit-content;
         cursor: pointer;
-        
+
         .label {
             margin: 0;
         }
-        
+
         .check {
             margin-right: $x-small;
             height: $checkbox-height;
             width: $checkbox-height;
             background: $light-gray;
             border-radius: $xx-small;
-            
+
             &:after {
                 content: "";
                 display: block;
                 height: $checkbox-height / 3;
                 width: $checkbox-height / 2;
-                transform: rotate(-45deg)  translate(0.5px, 4.5px);
+                transform: rotate(-45deg) translate(0.5px, 4.5px);
                 border-bottom: $icon-thickness solid $off-white;
                 border-left: $icon-thickness solid $off-white;
                 border-color: rgba(0, 0, 0, 0);
             }
         }
-        
-        
+
         input {
             margin: 0;
             padding: 0;
-            
+
             &:checked {
                 + .check {
                     background: $selected-color;
@@ -80,14 +85,14 @@
                 }
             }
         }
-        
+
         &:hover {
             .check {
                 &:after {
                     border-color: $dark-gray;
                 }
             }
-            
+
             input {
                 &:checked {
                     + .check {
@@ -128,19 +133,21 @@
                 // border-radius: $item-height / 2;
                 border-radius: $xxx-large / 2;
                 margin: 2.5px;
-                box-shadow: 2px 1px $xx-small rgba(74,74,74,.8);
+                box-shadow: 2px 1px $xx-small rgba(74, 74, 74, 0.8);
             }
         }
-        
+
         input {
             &:checked {
                 + .track {
                     justify-content: flex-end;
-                    background: transparentize($selected-color, 0.75);
-                    
+                    // background: transparentize($selected-color, 0.75);
+                    // background: $light-gray;
+                    // background: none;
+
                     .switch {
                         background: $selected-color;
-                        box-shadow: -2px 1px $xx-small rgba(74,74,74,.8);
+                        box-shadow: -2px 1px $xx-small rgba(74, 74, 74, 0.8);
                     }
                 }
             }
@@ -190,18 +197,18 @@
             }
         }
     }
-    
+
     .Select {
         box-sizing: border-box;
         width: $pill-width;
-        // height: $item-height;
+        height: $item-height;
         height: $xxx-large;
         min-height: $xxx-large;
         max-height: $xxx-large;
         border-radius: $xx-small;
-        
+
         > div {
-            &:first-of-type{
+            &:first-of-type {
                 // height: $item-height;
                 height: $xxx-large;
                 min-height: $xxx-large;
@@ -209,7 +216,7 @@
                 border: 1px solid $light-gray;
                 outline: none;
                 box-shadow: none;
-                
+
                 > div {
                     height: $xxx-large;
                     min-height: $xxx-large;

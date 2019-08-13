@@ -33,15 +33,17 @@ export default function SystemSet({
 
     const { projectId, systemSetId } = parseSearch(search);
 
-    const [] = useQuery({
+    const [refetch, queryStatusTwo] = useQuery({
         query,
         variables: {
-            projectId: +projectId || 0,
-            systemSetId: +systemSetId || 0,
+            // projectId: +projectId || 0,
+            id: +systemSetId || 0,
         },
     });
 
-    const [updateEntireSystemSet] = useMutation(updateEntireSystemSetMutation);
+    console.log({ queryStatusTwo, refetch });
+
+    // const [updateEntireSystemSet] = useMutation(updateEntireSystemSetMutation);
 
     const {
         state: {
@@ -97,7 +99,10 @@ export default function SystemSet({
             /> */}
             <TabNavigator
                 routeProps={{
-                    queryStatus,
+                    queryStatus: {
+                        ...queryStatus,
+                        ...queryStatusTwo,
+                    },
                     filters,
                     systemSetInput,
                     systemSet,
