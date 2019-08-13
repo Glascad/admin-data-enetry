@@ -31,13 +31,11 @@ BEGIN
                 INSERT INTO system_set_option_values (
                     system_set_id,
                     system_id,
-                    system_type,
                     option_name,
                     name
                 ) VALUES (
                     uss.id,
                     uss.system_id,
-                    uss.system_type,
                     sov.option_name,
                     sov.name
                 );

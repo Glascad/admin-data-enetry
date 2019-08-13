@@ -15,6 +15,7 @@ module.exports = async () => {
         PRIVILEGES,
         INVOKER,
         SEED_DATA,
+        POLICIES,
         GC_PUBLIC: {
             TABLES: PUB_TABLES,
             TYPES: {
@@ -213,9 +214,9 @@ ${{ UPDATE_ENTIRE_SYSTEM_SET }}
 -- GC_PUBLIC QUERIES;
 ${{ GET_CURRENT_USER }}
 ${{ GET_CURRENT_USER_ID }}
-${{ SELECT_SYSTEM }}
-${{ SELECT_SYSTEM_SET }}
-${{ SELECT_SYSTEM_TYPE }}
+-- >>>>>>>> {{ SELECT_SYSTEM }}
+-- >>>>>>>> {{ SELECT_SYSTEM_SET }}
+-- >>>>>>>> {{ SELECT_SYSTEM_TYPE }}
 
 
 -- INSERTIONS
@@ -243,6 +244,9 @@ END $users$;
 
 -- SEED DATA;
 ${{ SEED_DATA }}
+
+-- POLICIES;
+${{  POLICIES }}
 
 END $seed$;
 `;
