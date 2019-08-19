@@ -5,6 +5,7 @@ import { AuthContext } from '../auth-context';
 import { withContext, Navigator } from '../components';
 
 import Login from './Login/Login';
+import Practice from './Practice/Practice';
 
 import Glascad from './GlasCAD/GlasCAD';
 import DataEntry from './DataEntry/DataEntry';
@@ -36,6 +37,7 @@ const mapProps = ({
                 { Glascad }
                 :
                 { Login },
+                // { Practice },
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);
