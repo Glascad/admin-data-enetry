@@ -9,7 +9,7 @@ export default gql`
         # ...PresentationLevels
         ...AllManufacturers
         ...AllSystemTypes
-        ...ValidSystemOptions
+        ...ValidOptions
         # ...AllSystemTags
         # ...AllInfillSizes
         # ...AllInfillPocketTypes
@@ -19,7 +19,7 @@ export default gql`
     ${F.SYS.ENTIRE_SYSTEM}
     ${F.APP.ALL_MANUFACTURERS}
     ${F.APP.ALL_SYSTEM_TYPES}
-    ${F.CTRLD.VALID_SYSTEM_OPTIONS}
+    ${F.CTRLD.VALID_OPTIONS}
 `;
 
 // # ${F.CTRLD.PRESENTATION_LEVELS}

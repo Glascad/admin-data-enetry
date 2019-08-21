@@ -3,9 +3,17 @@ INSERT INTO system_types
 (type)
 SELECT UNNEST(ENUM_RANGE(NULL::SYSTEM_TYPE));
 
-INSERT INTO valid_system_options
+INSERT INTO detail_types
+(type)
+SELECT UNNEST(ENUM_RANGE(NULL::DETAIL_TYPE));
+
+INSERT INTO configuration_types
+(type)
+SELECT UNNEST(ENUM_RANGE(NULL::CONFIGURATION_TYPE));
+
+INSERT INTO valid_options
 (name)
-SELECT UNNEST(ENUM_RANGE(NULL::SYSTEM_OPTION_NAME));
+SELECT UNNEST(ENUM_RANGE(NULL::OPTION_NAME));
 
 INSERT INTO system_type_detail_types
 (system_type, detail_type)
@@ -37,7 +45,13 @@ VALUES
 ('STOPS', 'DOWN'),
 ('JOINERY', 'SCREW_SPLINE'),
 ('JOINERY', 'SHEAR_BLOCK'),
-('JOINERY', 'STICK');
+('JOINERY', 'STICK'),
+('SET', 'FRONT'),
+('SET', 'BACK'),
+('SET', 'CENTER'),
+('SET', 'MULTI_PLANE'),
+('RECEPTOR_TYPE', 'STANDARD'),
+('RECEPTOR_TYPE', 'HIGH_PROFILE');
 
 -- INSERT INTO ordered_presentation_levels
 -- (value, level)

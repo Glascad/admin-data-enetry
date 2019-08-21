@@ -5,7 +5,7 @@ CREATE TABLE
 gc_protected.elevations (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects NOT NULL,
-    system_set_id INTEGER REFERENCES system_sets,
+    -- system_set_id INTEGER REFERENCES system_sets,
     name VARCHAR(50) NOT NULL,
     rough_opening COORDINATE NOT NULL,
     finished_floor_height FLOAT DEFAULT 0,

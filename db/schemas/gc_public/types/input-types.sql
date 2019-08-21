@@ -3,7 +3,7 @@
 
 CREATE TYPE
 gc_public.entire_option_value AS (
-    option_name SYSTEM_OPTION_NAME,
+    option_name OPTION_NAME,
     name OPTION_VALUE_NAME,
     value FLOAT
     -- value_order INTEGER,
@@ -13,7 +13,7 @@ gc_public.entire_option_value AS (
 CREATE TYPE
 gc_public.entire_system_option AS (
     system_id INTEGER,
-    name SYSTEM_OPTION_NAME,
+    name OPTION_NAME,
     -- presentation_level PRESENTATION_LEVEL,
     -- override_level PRESENTATION_LEVEL,
     -- option_order INTEGER,
@@ -76,7 +76,7 @@ gc_public.entire_system AS (
     configuration_overrides_to_delete ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE[],
     -- OPTIONS
     system_options ENTIRE_SYSTEM_OPTION[],
-    system_options_to_delete SYSTEM_OPTION_NAME[]
+    system_options_to_delete OPTION_NAME[]
 );
 
 -- ELEVATION
@@ -120,7 +120,7 @@ gc_public.entire_elevation AS (
 
 CREATE TYPE
 gc_public.selected_option_value AS (
-    option_name SYSTEM_OPTION_NAME,
+    option_name OPTION_NAME,
     name OPTION_VALUE_NAME
 );
 

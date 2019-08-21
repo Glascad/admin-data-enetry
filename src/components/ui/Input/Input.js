@@ -299,6 +299,12 @@ export default class Input extends PureComponent {
                 light,
                 type,
                 select,
+                select: {
+                    value: selectValue,
+                    value: {
+                        label: selectValueLabel,
+                    } = {},
+                } = {},
                 value,
                 initialValue,
                 checked,
@@ -384,10 +390,10 @@ export default class Input extends PureComponent {
                         {...select}
                         ref={ref}
                         className={`Select ${select.isMulti ? "multi" : ""}`}
-                        value={{
-                            ...select.value,
-                            label: normalCase(select.value.label),
-                        }}
+                        value={selectValue ? {
+                            ...selectValue,
+                            label: normalCase(selectValueLabel),
+                        } : undefined}
                         options={select.options.map(o => ({
                             ...o,
                             label: normalCase(o.label),

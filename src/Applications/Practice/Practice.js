@@ -1,45 +1,280 @@
 import React, { useState } from 'react';
 import Statics from '../Statics/Statics';
-import { TitleBar, Pill, ListWrapper } from '../../components';
-import optionTree from './options';
+import { TitleBar, Pill, ListWrapper, Tree } from '../../components';
+import { logInputOutput } from '../../utils';
 
-console.log({ optionTree });
+const option = "option";
+const value = "value";
+const detail = "detail";
+const detailOption = "detail-option";
+const detailOptionValue = "detail-option-value";
+const configuration = "configuration";
+const configurationOption = "configuration-option";
+const configurationOptionValue = "configuration-option-value";
 
-const renderNextItem = ({ nextOption, details = [] }) => nextOption && Object.keys(nextOption).length ? (
-    <Option
-        option={nextOption}
-    />
-) : details.length ? (
-    <ListWrapper
-        titleBar={{ title: "Details" }}
-        identifier="id"
-        items={details.map(detail => ({
-            ...detail,
-            title: detail.name,
-        }))}
-    >
-        {renderNextItem}
-    </ListWrapper>
-) : null;
-
-
-function Option({ option: { id, name, values = [] } }) {
-    console.log(arguments[0]);
-    console.log({ id, name, values });
-    return (
-        <ListWrapper
-            titleBar={{ title: name }}
-            identifier="id"
-            items={values.map(value => ({
-                ...value,
-                title: value.name,
-            }))}
-        >
-            {renderNextItem}
-        </ListWrapper>
-    );
-}
-
+const trunk = {
+    item: {
+        type: option,
+        name: "Set",
+    },
+    branches: [
+        {
+            item: {
+                type: value,
+                name: "Front",
+            },
+            branches: [],
+        },
+        {
+            item: {
+                type: value,
+                name: "Back",
+            },
+            branches: [],
+        },
+        {
+            item: {
+                type: value,
+                name: "Center",
+            },
+            branches: [
+                {
+                    item: {
+                        type: option,
+                        name: "Joinery",
+                    },
+                    branches: [
+                        {
+                            item: {
+                                type: value,
+                                name: "Screw Spline",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Head",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Stops",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: detailOptionValue,
+                                                        name: "Up",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: detailOptionValue,
+                                                        name: "Down",
+                                                    },
+                                                    branches: [
+                                                        {
+                                                            item: {
+                                                                type: detailOption,
+                                                                name: "Glazing",
+                                                            },
+                                                            branches: [
+                                                                {
+                                                                    item: {
+                                                                        type: detailOptionValue,
+                                                                        name: "Inside",
+                                                                    },
+                                                                    branches: [],
+                                                                },
+                                                                {
+                                                                    item: {
+                                                                        type: detailOptionValue,
+                                                                        name: "Outside",
+                                                                    },
+                                                                    branches: [],
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Shear Block",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Head",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Stops",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: detailOptionValue,
+                                                        name: "Up",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: detailOptionValue,
+                                                        name: "Down",
+                                                    },
+                                                    branches: [
+                                                        {
+                                                            item: {
+                                                                type: detailOption,
+                                                                name: "Glazing",
+                                                            },
+                                                            branches: [
+                                                                {
+                                                                    item: {
+                                                                        type: detailOptionValue,
+                                                                        name: "Inside",
+                                                                    },
+                                                                    branches: [],
+                                                                },
+                                                                {
+                                                                    item: {
+                                                                        type: detailOptionValue,
+                                                                        name: "Outside",
+                                                                    },
+                                                                    branches: [],
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Stick",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Head",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Stops",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: detailOptionValue,
+                                                        name: "Up",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: detailOptionValue,
+                                                        name: "Down",
+                                                    },
+                                                    branches: [
+                                                        {
+                                                            item: {
+                                                                type: detailOption,
+                                                                name: "Glazing",
+                                                            },
+                                                            branches: [
+                                                                {
+                                                                    item: {
+                                                                        type: detailOptionValue,
+                                                                        name: "Inside",
+                                                                    },
+                                                                    branches: [],
+                                                                },
+                                                                {
+                                                                    item: {
+                                                                        type: detailOptionValue,
+                                                                        name: "Outside",
+                                                                    },
+                                                                    branches: [
+                                                                        {
+                                                                            item: {
+                                                                                type: configuration,
+                                                                                name: "Head",
+                                                                            },
+                                                                            branches: [
+                                                                                {
+                                                                                    item: {
+                                                                                        type: configurationOption,
+                                                                                        name: "Head Type",
+                                                                                    },
+                                                                                    branches: [
+                                                                                        {
+                                                                                            item: {
+                                                                                                type: configurationOptionValue,
+                                                                                                name: "Standard",
+                                                                                            },
+                                                                                        },
+                                                                                        {
+                                                                                            item: {
+                                                                                                type: configurationOptionValue,
+                                                                                                name: "High-Profile",
+                                                                                            },
+                                                                                        },
+                                                                                        {
+                                                                                            item: {
+                                                                                                type: configurationOptionValue,
+                                                                                                name: "Brake-Metal",
+                                                                                            },
+                                                                                        },
+                                                                                    ],
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    ],
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            item: {
+                type: value,
+                name: "Multi-Plane",
+            },
+            branches: [],
+        },
+    ],
+};
 
 function Practice() {
     return (
@@ -47,11 +282,19 @@ function Practice() {
             <TitleBar
                 title="Test Options"
             />
-            <div className="card">
-                <Option
-                    option={optionTree.options}
-                />
-            </div>
+            <Tree
+                trunk={trunk}
+                renderItem={logInputOutput('Render Item', ({ name, type }, { toggleOpen, level }) => (
+                    <div
+                        onClick={toggleOpen}
+                        className={`type-${type}`}
+                    >
+                        <span>
+                            {name}
+                        </span>
+                    </div>
+                ))}
+            />
         </>
     );
 }

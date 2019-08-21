@@ -1,54 +1,6 @@
 import gql from 'graphql-tag';
 
-import * as AD from './application-data';
-
 // FIELDS
-
-export const INVALID_SYSTEM_CONFIGURATION_TYPE_FIELDS = gql`
-    fragment InvalidSystemConfigurationTypeFields on InvalidSystemConfigurationType {
-        __typename
-        nodeId
-        systemId
-        detailType
-        invalidConfigurationType
-    }
-`;
-
-export const SYSTEM_CONFIGURATION_OVERRIDE_FIELDS = gql`
-    fragment SystemConfigurationOverrideFields on SystemConfigurationOverride {
-        __typename
-        nodeId
-        systemId
-        systemType
-        detailType
-        configurationType
-        requiredOverride
-        # mirrorableOverride
-        # presentationLevelOverride
-        # overrideLevelOverride
-    }
-`;
-
-export const SYSTEM_OPTION_FIELDS = gql`
-    fragment SystemOptionFields on SystemOption {
-        __typename
-        nodeId
-        name
-        systemId
-        # optionOrder
-        # overrideLevel
-        # presentationLevel
-    }
-`;
-
-export const OPTION_VALUE_FIELDS = gql`
-    fragment OptionValueFields on OptionValue {
-        __typename
-        nodeId
-        name
-        value
-    }
-`;
 
 export const SYSTEM_FIELDS = gql`
     fragment SystemFields on System {
@@ -73,6 +25,94 @@ export const SYSTEM_FIELDS = gql`
     }
 `;
 
+export const SYSTEM_OPTION_FIELDS = gql`
+    fragment SystemOptionFields on SystemOption {
+        __typename
+        nodeId
+        id
+        name
+        parentSystemOptionValueId
+    }
+`;
+
+export const SYSTEM_OPTION_VALUE_FIELDS = gql`
+    fragment SystemOptionValueFields on SystemOptionValue {
+        __typename
+        nodeId
+        id
+        name
+        raisedOptionNames
+        raisedConfigurationTypes
+    }
+`;
+
+export const SYSTEM_DETAIL_TYPE_FIELDS = gql`
+    fragment SystemDetailTypeFields on SystemDetailType {
+        __typename
+        nodeId
+        id
+        detailType
+    }
+`;
+
+export const DETAIL_OPTION_FIELDS = gql`
+    fragment DetailOptionFields on DetailOption {
+        __typename
+        nodeId
+        id
+        name
+        systemDetailTypeId
+        parentDetailOptionValueId
+    }
+`;
+
+export const DETAIL_OPTION_VALUE_FIELDS = gql`
+    fragment DetailOptionValueFields on DetailOptionValue {
+        __typename
+        nodeId
+        id
+        name
+    }
+`;
+
+export const SYSTEM_CONFIGURATION_TYPE_FIELDS = gql`
+    fragment SystemConfigurationTypeFields on SystemConfigurationType {
+        __typename
+        nodeId
+        id
+        configurationType
+        optional
+    }
+`;
+
+export const CONFIGURATION_OPTION_FIELDS = gql`
+    fragment ConfigurationOptionFields on ConfigurationOption {
+        __typename
+        nodeId
+        id
+        name
+        systemConfigurationTypeId
+        parentConfigurationOptionId
+    }
+`;
+
+export const CONFIGURATION_OPTION_VALUE_FIELDS = gql`
+    fragment ConfigurationOptionValueFields on ConfigurationOptionValue {
+        __typename
+        nodeId
+        id
+        name
+    }
+`;
+
+export const CONFIGURATION_FIELDS = gql`
+    fragment ConfigurationFields on Configuration {
+        __typename
+        nodeId
+        id
+    }
+`;
+
 // ALL OF TYPE
 
 export const ALL_SYSTEMS = gql`
@@ -89,100 +129,112 @@ export const ALL_SYSTEMS = gql`
 
 // ENTIRE TYPE
 
+export const ENTIRE_CONFIGURATION = gql`
+    fragment EntireConfiguration on Configuration {
+        ...ConfigurationFields
+    }
+    ${CONFIGURATION_FIELDS}
+`;
+
+export const ENTIRE_CONFIGURATION_OPTION_VALUE = gql`
+    fragment EntireConfigurationOptionValue on ConfigurationOptionValue {
+        ...ConfigurationOptionValueFields
+        configurationsByConfigurationOptionValueId(orderBy: ID_ASC) {
+            nodes {
+                ...EntireConfiguration
+            }
+        }
+    }
+    ${CONFIGURATION_OPTION_VALUE_FIELDS}
+    ${ENTIRE_CONFIGURATION}
+`;
+
+export const ENTIRE_CONFIGURATION_OPTION = gql`
+    fragment EntireConfigurationOption on ConfigurationOption {
+        ...ConfigurationOptionFields
+        configurationOptionValuesByConfigurationOptionId(orderBy: ID_ASC) {
+            nodes {
+                ...EntireConfigurationOptionValue
+            }
+        }
+    }
+    ${CONFIGURATION_OPTION_FIELDS}
+    ${ENTIRE_CONFIGURATION_OPTION_VALUE}
+`;
+
+export const ENTIRE_DETAIL_OPTION_VALUE = gql`
+    fragment EntireDetailOptionValue on DetailOptionValue {
+        ...DetailOptionValueFields
+        systemConfigurationTypesByDetailOptionValueId(orderBy: ID_ASC) {
+            nodes {
+                ...SystemConfigurationTypeFields
+            }
+        }
+    }
+    ${DETAIL_OPTION_VALUE_FIELDS}
+    ${SYSTEM_CONFIGURATION_TYPE_FIELDS}
+`;
+
+export const ENTIRE_DETAIL_OPTION = gql`
+    fragment EntireDetailOption on DetailOption {
+        ...DetailOptionFields
+        detailOptionValuesByDetailOptionId(orderBy: ID_ASC) {
+            nodes {
+                ...EntireDetailOptionValue
+            }
+        }
+    }
+    ${DETAIL_OPTION_FIELDS}
+    ${ENTIRE_DETAIL_OPTION_VALUE}
+`;
+
+export const ENTIRE_SYSTEM_OPTION_VALUE = gql`
+    fragment EntireSystemOptionValue on SystemOptionValue {
+        ...SystemOptionValueFields
+        systemDetailTypesBySystemOptionValueId(orderBy: ID_ASC) {
+            nodes {
+                ...SystemDetailTypeFields
+            }
+        }
+    }
+    ${SYSTEM_OPTION_VALUE_FIELDS}
+    ${SYSTEM_DETAIL_TYPE_FIELDS}
+`;
+
 export const ENTIRE_SYSTEM_OPTION = gql`
     fragment EntireSystemOption on SystemOption {
         ...SystemOptionFields
-        optionValuesBySystemIdAndOptionName {
+        systemOptionValuesBySystemOptionId(orderBy: ID_ASC) {
             nodes {
-                ...OptionValueFields
+                ...EntireSystemOptionValue
             }
         }
-        # systemOptionConfigurationTypesBySystemOptionId {
-        #     nodes {
-        #         nodeId
-        #         configurationType
-        #     }
-        # }
     }
     ${SYSTEM_OPTION_FIELDS}
-    ${OPTION_VALUE_FIELDS}
+    ${ENTIRE_SYSTEM_OPTION_VALUE}
 `;
-
-// # ${AD.CONFIGURATION_TYPE_FIELDS}
 
 export const ENTIRE_SYSTEM = gql`
     fragment EntireSystem on System {
         ...SystemFields
-        manufacturerByManufacturerId {
-            ...ManufacturerFields
-        }
-        systemTypeBySystemType {
-            ...EntireSystemType
-        }
-        # systemSystemTagsBySystemId {
-        #     nodes {
-        #         nodeId
-        #         systemTagId
-        #         systemTagBySystemTagId {
-        #             ...SystemTagFields
-        #         }
-        #     }
-        # }
-        # systemInfillSizesBySystemId {
-        #     nodes {
-        #         nodeId
-        #         infillSize
-        #         infillSizeByInfillSize {
-        #             ...InfillSizeFields
-        #         }
-        #     }
-        # }
-        # systemInfillPocketSizesBySystemId {
-        #     nodes {
-        #         nodeId
-        #         infillPocketSize
-        #         infillPocketSizeByInfillPocketSize {
-        #             ...InfillPocketSizeFields
-        #         }
-        #     }
-        # }
-        # systemInfillPocketTypesBySystemId {
-        #     nodes {
-        #         nodeId
-        #         infillPocketTypeId
-        #         infillPocketTypeByInfillPocketTypeId {
-        #             ...InfillPocketTypeFields
-        #         }
-        #     }
-        # }
-        invalidSystemConfigurationTypesBySystemId {
-            nodes {
-                nodeId
-                ...InvalidSystemConfigurationTypeFields
-            }
-        }
-        systemConfigurationOverridesBySystemId {
-            nodes {
-                ...SystemConfigurationOverrideFields
-            }
-        }
-        systemOptionsBySystemId {
+        systemOptionsBySystemId(orderBy: PARENT_SYSTEM_OPTION_VALUE_ID_ASC) {
             nodes {
                 ...EntireSystemOption
             }
         }
+        detailOptionsBySystemId(orderBy: PARENT_DETAIL_OPTION_VALUE_ID_ASC) {
+            nodes {
+                ...EntireDetailOption
+            }
+        }
+        configurationOptionsBySystemId(orderBy: PARENT_CONFIGURATION_OPTION_ID_ASC) {
+            nodes {
+                ...EntireConfigurationOption
+            }
+        }
     }
     ${SYSTEM_FIELDS}
-    ${AD.MANUFACTURER_FIELDS}
-    ${AD.ENTIRE_SYSTEM_TYPE}
-    ${INVALID_SYSTEM_CONFIGURATION_TYPE_FIELDS}
-    ${SYSTEM_CONFIGURATION_OVERRIDE_FIELDS}
     ${ENTIRE_SYSTEM_OPTION}
+    ${ENTIRE_DETAIL_OPTION}
+    ${ENTIRE_CONFIGURATION_OPTION}
 `;
-
-// # ${AD.SYSTEM_TAG_FIELDS}
-// # ${AD.INFILL_SIZE_FIELDS}
-// # ${AD.INFILL_POCKET_SIZE_FIELDS}
-// # ${AD.INFILL_POCKET_TYPE_FIELDS}
-// # ${AD.CONFIGURATION_TYPE_FIELDS}
-

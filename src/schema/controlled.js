@@ -43,8 +43,8 @@ export const CONFIGURATION_TYPES = gql`
 // `;
 
 // export const SYSTEM_OPTION_NAMES = gql`
-//     fragment SystemOptionNames on Query {
-//         SystemOptionNames: __type(name: "SystemOptionName") {
+//     fragment OptionNames on Query {
+//         OptionNames: __type(name: "OptionName") {
 //             enumValues {
 //                 name
 //             }
@@ -62,9 +62,9 @@ export const CONFIGURATION_TYPES = gql`
 //     }
 // `;
 
-export const VALID_SYSTEM_OPTIONS = gql`
-    fragment ValidSystemOptions on Query {
-        validSystemOptions: allValidSystemOptions {
+export const VALID_OPTIONS = gql`
+    fragment ValidOptions on Query {
+        validOptions: allValidOptions {
             nodes {
                 nodeId
                 name

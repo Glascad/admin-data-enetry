@@ -19,7 +19,7 @@ const getJWT = () => {
 
 // HTTP LINK
 
-const httpLink = new HttpLink({ uri: "https://dev.glascad.com/graphql" });
+const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_BASE_URL}/graphql` });
 
 
 // MIDDLEWARE

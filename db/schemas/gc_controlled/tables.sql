@@ -5,13 +5,23 @@ gc_controlled.system_types (
 );
 
 CREATE TABLE
-gc_controlled.valid_system_options (
-    name SYSTEM_OPTION_NAME PRIMARY KEY
+gc_controlled.detail_types (
+    type DETAIL_TYPE PRIMARY KEY
+);
+
+CREATE TABLE
+gc_controlled.configuration_types (
+    type CONFIGURATION_TYPE PRIMARY KEY
+);
+
+CREATE TABLE
+gc_controlled.valid_options (
+    name OPTION_NAME PRIMARY KEY
 );
 
 CREATE TABLE
 gc_controlled.valid_option_values (
-    option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options,
+    option_name OPTION_NAME REFERENCES valid_options,
     name OPTION_VALUE_NAME,
     PRIMARY KEY (option_name, name),
     UNIQUE (option_name, name)

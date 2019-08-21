@@ -13,6 +13,7 @@ const {
         SERVER_PORT,
         CONNECTION_STRING,
         DO_GC_CONNECTION_STRING,
+        // DO_GC_PRACTICE_CONNECTION_STRING,
         JWT_SECRET,
         DO_ADMIN_USERNAME,
         DO_ADMIN_PASSWORD,
@@ -92,6 +93,7 @@ function startServer() {
 
     APP.use(postgraphile(
         DO_GC_CONNECTION_STRING,
+        // DO_GC_PRACTICE_CONNECTION_STRING,
         [
             'gc_data',
             'gc_public',

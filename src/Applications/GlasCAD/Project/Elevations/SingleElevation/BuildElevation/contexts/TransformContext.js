@@ -107,15 +107,13 @@ class TransformProvider extends PureComponent {
             )
         ) {
 
-            this.setZoom(x, y)
+            this.setInitialZoom(x, y);
 
-            setTimeout(() => {
-                this.setZoom(x, y)
-            })
+            setTimeout(() => this.setInitialZoom(x, y));
         }
     }
 
-    setZoom = (x, y) => {
+    setInitialZoom = (x, y) => {
         // console.log(this.props);
         const IE = document.getElementById("InteractiveElevation");
 

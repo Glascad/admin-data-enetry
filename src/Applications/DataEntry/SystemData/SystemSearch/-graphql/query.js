@@ -6,10 +6,10 @@ export default {
         {
             ...AllSystems
             ...AllManufacturers
-            ...AllSystemTypes
+            # ...AllSystemTypes
         }
         ${F.SYS.ALL_SYSTEMS}
         ${F.APP.ALL_MANUFACTURERS}
-        ${F.APP.ALL_SYSTEM_TYPES}
     `,
+    // ${F.APP.ALL_SYSTEM_TYPES}
 };

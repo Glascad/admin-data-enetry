@@ -30,6 +30,8 @@ gc_controlled.detail_type AS ENUM (
     -- 'Corner'
 );
 
+COMMENT ON TYPE gc_controlled.detail_type IS '@name _detailType';
+
 CREATE TYPE
 gc_controlled.configuration_type AS ENUM (
     'HEAD',
@@ -51,22 +53,32 @@ gc_controlled.configuration_type AS ENUM (
     -- 'Steel Reinforcing'
 );
 
+COMMENT ON TYPE gc_controlled.configuration_type IS '@name _configurationType';
+
 CREATE TYPE
-gc_controlled.system_option_name AS ENUM (
-    'GLAZING',
+gc_controlled.option_name AS ENUM (
+    'SET',
+    'JOINERY',
     'STOPS',
-    'JOINERY'
+    'GLAZING',
+    'RECEPTOR_TYPE'
 );
 
 CREATE TYPE
 gc_controlled.option_value_name AS ENUM (
-    'INSIDE',
-    'OUTSIDE',
-    'UP',
-    'DOWN',
+    'FRONT',
+    'CENTER',
+    'BACK',
+    'MULTI_PLANE',
     'SCREW_SPLINE',
     'SHEAR_BLOCK',
-    'STICK'
+    'STICK',
+    'UP',
+    'DOWN',
+    'INSIDE',
+    'OUTSIDE',
+    'STANDARD',
+    'HIGH_PROFILE'
 );
 
 -- CREATE TYPE

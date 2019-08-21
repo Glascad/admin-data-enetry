@@ -13,7 +13,7 @@ module.exports = async () => {
 
         const SEED_FILE = await writeSeed();
 
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully wrote datbase seed to ./compiled/db-seed.sql`);
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully wrote database seed to ./compiled/db-seed.sql`);
 
         return SEED_FILE;
 

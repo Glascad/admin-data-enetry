@@ -28,153 +28,238 @@ gc_protected.systems (
     )
 );
 
--- FUTURE
--- CREATE TABLE
--- gc_protected.system_infill_sizes (
---     system_id INTEGER REFERENCES systems,
---     infill_size FLOAT REFERENCES infill_sizes,
---     PRIMARY KEY (system_id, infill_size)
--- );
 
--- FUTURE
--- CREATE TABLE
--- gc_protected.system_system_tags (
---     system_id INTEGER REFERENCES systems,
---     system_tag_id INTEGER REFERENCES system_tags,
---     PRIMARY KEY (system_id, system_tag_id)
--- );
+-- SYSTEM OPTIONS
 
-
--- ENUMERATE (tie to enumeration)
 CREATE TABLE
 gc_protected.system_options (
-    system_id INTEGER REFERENCES systems NOT NULL,
-    name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
-    -- presentation_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    -- override_level PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    -- option_order INTEGER,
-    PRIMARY KEY (name, system_id),
-    UNIQUE (name, system_id)
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems,
+    name OPTION_NAME REFERENCES valid_options,
+    -- for foreign keys
+    UNIQUE (id, system_id, name)
 );
 
--- ENUMERATE (tie to enumeration)
 CREATE TABLE
-gc_protected.option_values (
-    system_id INTEGER REFERENCES systems NOT NULL,
-    option_name SYSTEM_OPTION_NAME REFERENCES valid_system_options NOT NULL,
-    name OPTION_VALUE_NAME NOT NULL,
-    value FLOAT,
-    -- value_order INTEGER,
-    PRIMARY KEY (system_id, option_name, name),
-    UNIQUE (system_id, option_name, name),
-    FOREIGN KEY (system_id, option_name)
-    REFERENCES system_options (system_id, name),
+gc_protected.system_option_values (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems,
+    system_option_id INTEGER REFERENCES system_options,
+    option_name OPTION_NAME,
+    name OPTION_VALUE_NAME,
+    raised_option_names OPTION_NAME[],
+    raised_configuration_types CONFIGURATION_TYPE[],
+    -- for foreign keys
+    UNIQUE (id, system_id),
+    -- only one of each value per option
+    UNIQUE (system_option_id, name),
+    -- must reference option within correct system
+    FOREIGN KEY (
+        system_id,
+        system_option_id,
+        option_name
+    )
+    REFERENCES system_options (
+        system_id,
+        id,
+        name
+    ),
+    -- must reference valid option value for option name
     FOREIGN KEY (option_name, name)
     REFERENCES valid_option_values (option_name, name)
 );
 
--- ALTER TABLE
--- option_values
--- ADD COLUMN
--- mirror_from_option_value_id INTEGER REFERENCES option_values;
+-- recursion
+ALTER TABLE gc_protected.system_options ADD COLUMN parent_system_option_value_id INTEGER REFERENCES system_option_values;
 
--- DELETE ???
 -- CREATE TABLE
--- gc_protected.option_combinations (
---     id SERIAL PRIMARY KEY,
+-- gc_protected.raised_option_names (
 --     system_id INTEGER REFERENCES systems,
---     invalid BOOLEAN,
---     depth_override FLOAT,
---     glass_size_override FLOAT,
---     glass_bite_override FLOAT,
---     sightline_override FLOAT,
---     top_gap_override FLOAT,
---     bottom_gap_override FLOAT,
---     side_gap_override FLOAT,
---     meeting_stile_gap_override FLOAT,
---     glass_gap_override FLOAT,
---     shim_size_override FLOAT,
---     inset_override FLOAT,
---     front_inset_override BOOLEAN
+--     option_name OPTION_NAME,
+--     option_value_name OPTION_VALUE_NAME,
+--     raised_option_name OPTION_NAME,
+
 -- );
 
-
-
--- DELETE ???
 -- CREATE TABLE
--- gc_protected.option_combination_option_values (
---     option_combination_id INTEGER REFERENCES option_combinations,
---     option_value_id INTEGER REFERENCES option_values,
---     PRIMARY KEY (option_combination_id, option_value_id)
+-- gc_protected.raised_configuration_types (
+
 -- );
 
--- DELETE ???
--- CREATE TABLE
--- gc_protected.option_combination_configuration_types (
---     option_combination_id INTEGER REFERENCES option_combinations,
---     configuration_type INTEGER REFERENCES configuration_types,
---     PRIMARY KEY (option_combination_id, configuration_type)
--- );
+-- DETAIL TYPES
 
--- tie to enumeration
--- CREATE TABLE
--- gc_protected.system_option_configuration_types (
---     system_option_id INTEGER REFERENCES system_options,
---     configuration_type CONFIGURATION_TYPE,
---     PRIMARY KEY (system_option_id, configuration_type)
--- );
-
-
-
--- FUTURE
--- CREATE TABLE
--- gc_protected.system_infill_pocket_types (
---     system_id INTEGER REFERENCES systems,
---     infill_pocket_type_id INTEGER REFERENCES infill_pocket_types,
---     PRIMARY KEY (system_id, infill_pocket_type_id)
--- );
-
--- FUTURE
--- CREATE TABLE
--- gc_protected.system_infill_pocket_sizes (
---     system_id INTEGER REFERENCES systems,
---     infill_pocket_size FLOAT REFERENCES infill_pocket_sizes,
---     PRIMARY KEY (system_id, infill_pocket_size)
--- );
-
--- tie to enumeration
 CREATE TABLE
-gc_protected.invalid_system_configuration_types (
-    system_id INTEGER REFERENCES systems NOT NULL,
-    detail_type DETAIL_TYPE NOT NULL,
-    invalid_configuration_type CONFIGURATION_TYPE NOT NULL,
-    PRIMARY KEY (system_id, invalid_configuration_type)
+gc_protected.system_detail_types (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems,
+    system_option_value_id INTEGER REFERENCES system_option_values,
+    detail_type DETAIL_TYPE REFERENCES detail_types,
+    -- for foreign keys
+    UNIQUE (id, system_id),
+    -- only one of each detail type per option value
+    UNIQUE (system_option_value_id, detail_type),
+    -- must reference value within correct system
+    FOREIGN KEY (
+        system_id,
+        system_option_value_id
+    )
+    REFERENCES system_option_values (
+        system_id,
+        id
+    )
 );
 
--- tie to enumeration
+-- DETAIL OPTIONS
+
 CREATE TABLE
-gc_protected.system_configuration_overrides (
+gc_protected.detail_options (
+    id SERIAL PRIMARY KEY,
+    system_detail_type_id INTEGER REFERENCES system_detail_types,
     system_id INTEGER REFERENCES systems,
-    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
-    detail_type DETAIL_TYPE NOT NULL,
-    configuration_type CONFIGURATION_TYPE NOT NULL,
-    required_override BOOLEAN,
-    -- mirrorable_override BOOLEAN,
-    -- presentation_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    -- override_level_override PRESENTATION_LEVEL REFERENCES ordered_presentation_levels,
-    PRIMARY KEY (
-        system_id,
-        detail_type,
-        configuration_type
-    ),
+    name OPTION_NAME REFERENCES valid_options,
+    -- for foreign keys
+    UNIQUE (id, system_id, name),
+    -- only one of each option within each detail
+    UNIQUE (system_detail_type_id, name),
+    -- must reference detail type in correct system
     FOREIGN KEY (
-        system_type,
-        detail_type,
-        configuration_type
+        system_id,
+        system_detail_type_id
     )
-    REFERENCES system_type_detail_type_configuration_types (
-        system_type,
-        detail_type,
-        configuration_type
+    REFERENCES system_detail_types (
+        system_id,
+        id
+    )
+);
+
+CREATE TABLE
+gc_protected.detail_option_values (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems,
+    detail_option_id INTEGER REFERENCES detail_options,
+    option_name OPTION_NAME,
+    name OPTION_VALUE_NAME,
+    -- MAYBE FUTURE
+    -- raised_option_names OPTION_NAME[],
+    -- raised_configuration_types CONFIGURATION_TYPE[],
+    --
+    -- for foreign keys
+    UNIQUE (system_id, id),
+    -- must reference option in correct system
+    FOREIGN KEY (
+        system_id,
+        detail_option_id,
+        option_name
+    )
+    REFERENCES detail_options (
+        system_id,
+        id,
+        name
+    ),
+    -- must reference valid option value for option name
+    FOREIGN KEY (option_name, name)
+    REFERENCES valid_option_values (option_name, name)
+);
+
+-- recursion
+ALTER TABLE gc_protected.detail_options ADD COLUMN parent_detail_option_value_id INTEGER REFERENCES detail_option_values;
+
+
+-- CONFIGURATION TYPES
+
+CREATE TABLE
+gc_protected.system_configuration_types (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems,
+    detail_option_value_id INTEGER REFERENCES detail_option_values,
+    configuration_type CONFIGURATION_TYPE REFERENCES configuration_types,
+    optional BOOLEAN DEFAULT FALSE,
+    -- for foreign keys
+    UNIQUE (id, system_id),
+    -- only one of each detail type per option value
+    UNIQUE (detail_option_value_id, configuration_type),
+    -- must reference value within correct system
+    FOREIGN KEY (
+        system_id,
+        detail_option_value_id
+    )
+    REFERENCES detail_option_values (
+        system_id,
+        id
+    )
+);
+
+-- CONFIGURATION OPTIONS
+
+CREATE TABLE
+gc_protected.configuration_options (
+    id SERIAL PRIMARY KEY,
+    system_configuration_type_id INTEGER REFERENCES system_configuration_types,
+    system_id INTEGER REFERENCES systems,
+    name OPTION_NAME REFERENCES valid_options,
+    -- for foreign keys
+    UNIQUE (id, system_id, name),
+    -- only one of each option within each configuration
+    UNIQUE (system_configuration_type_id, name),
+    -- must reference configuration type in correct system
+    FOREIGN KEY (
+        system_id,
+        system_configuration_type_id
+    )
+    REFERENCES system_configuration_types (
+        system_id,
+        id
+    )
+);
+
+CREATE TABLE
+gc_protected.configuration_option_values (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems,
+    configuration_option_id INTEGER REFERENCES configuration_options,
+    option_name OPTION_NAME,
+    name OPTION_VALUE_NAME,
+    -- MAYBE FUTURE
+    -- raised_option_names OPTION_NAME[],
+    -- raised_configuration_types CONFIGURATION_TYPE[],
+    --
+    -- for foreign keys
+    UNIQUE (system_id, id),
+    -- must reference option in correct system
+    FOREIGN KEY (
+        system_id,
+        configuration_option_id,
+        option_name
+    )
+    REFERENCES configuration_options (
+        system_id,
+        id,
+        name
+    ),
+    -- must reference valid option value for option name
+    FOREIGN KEY (option_name, name)
+    REFERENCES valid_option_values (option_name, name)
+);
+
+ALTER TABLE gc_protected.configuration_options ADD COLUMN parent_configuration_option_id INTEGER REFERENCES configuration_option_values;
+
+-- CONFIGURATIONS
+
+CREATE TABLE
+gc_protected.configurations (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES SYSTEMS,
+    configuration_option_value_id INTEGER REFERENCES configuration_option_values,
+    configuration_type CONFIGURATION_TYPE REFERENCES configuration_types,
+    -- only one of each configuration type per option value
+    UNIQUE (configuration_option_value_id, configuration_type),
+    -- must reference value within correct system
+    FOREIGN KEY (
+        system_id,
+        configuration_option_value_id
+    )
+    REFERENCES configuration_option_values (
+        system_id,
+        id
     )
 );
