@@ -2,36 +2,48 @@ import React, { PureComponent } from 'react';
 import './RightSidebar.scss';
 import {
     DoubleArrow,
-    withContext,
 } from '../../../components';
 
-export default class ElevationRightSidebar extends PureComponent {
+export default class RightSidebar extends PureComponent {
 
     render = () => {
         const {
             props: {
-                toggleStackedView,
                 stackedView,
-                currentIndex,
-                states,
-                title,
-                Child,
-                length,
-                handleClick,
+                stackedView: {
+                    title: stackedTitle = '',
+                    component: StackedChild = () => null,
+                } = {},
+                View: {
+                    title: initialTitle,
+                    component: InitialPureComponent,
+                },
+                open,
+                handleCloseClick,
+                childProps,
             },
         } = this;
 
-        return (    
+        const title = stackedView ?
+            stackedTitle
+            :
+            initialTitle;
+
+        const Child = stackedView ?
+            StackedChild
+            :
+            InitialPureComponent;
+
+        return (
             <div
-                id="RightSidebar"
-                className={length ? 'open' : 'closed'}
+                className={`RightSidebar ${open}`}
                 onKeyDown={e => e.stopPropagation()}
                 onMouseDown={e => e.stopPropagation()}
                 onWheel={e => e.stopPropagation()}
             >
                 <button
                     className="sidebar-button primary"
-                    onClick={handleClick}
+                    onClick={handleCloseClick}
                 >
                     {stackedView ? (
                         <DoubleArrow
@@ -44,11 +56,7 @@ export default class ElevationRightSidebar extends PureComponent {
                     </span>
                 </button>
                 <Child
-                    {...{
-                        states,
-                        currentIndex,
-                        toggleStackedView,
-                    }}
+                    {...{ ...childProps }}
                 />
             </div>
         );

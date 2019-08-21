@@ -58,10 +58,6 @@ class ElevationRightSidebar extends PureComponent {
         const {
             state: {
                 stackedView,
-                stackedView: {
-                    title: stackedTitle = '',
-                    component: StackedChild = () => null,
-                } = {},
             },
             props: {
                 currentIndex,
@@ -75,39 +71,28 @@ class ElevationRightSidebar extends PureComponent {
                     cancelSelection,
                 },
                 View,
-                View: {
-                    title: initialTitle,
-                    component: InitialPureComponent,
-                },
             },
             toggleStackedView,
         } = this;
 
-        const handleClick = stackedView ?
+        const handleCloseClick = stackedView ?
             () => toggleStackedView()
             :
             cancelSelection;
 
-        const title = stackedView ?
-            stackedTitle
-            :
-            initialTitle;
-
-        const Child = stackedView ?
-            StackedChild
-            :
-            InitialPureComponent;
-
-        return (    
+        return (
             <RightSidebar
-            toggleStackedView={toggleStackedView}
-            stackedView={stackedView}
-            currentIndex={currentIndex}
-            states={states}
-            Child={Child}
-            title={title}
-            length={length}
-            handleClick={handleClick}
+                stackedView={stackedView}
+                View={View}
+                open={length ? "open" : "closed"}
+                handleCloseClick={handleCloseClick}
+                childProps={{
+                    toggleStackedView,
+                    currentIndex,
+                    states,
+                    updateElevation,
+                    elevation
+                }}
             />
         );
     }

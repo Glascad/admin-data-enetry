@@ -3,8 +3,8 @@
 /*
     Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
 */
-
-#RightSidebar {
+#viewport .RightSidebar,
+.RightSidebar {
     background: $dark-blue;
     z-index: 6;
     position: fixed;
@@ -12,6 +12,7 @@
     right: 0;
     bottom: 0;
     width: $right-sidebar-width;
+    max-width: unset;
     padding: $x-large;
     box-shadow: -2px 0 $xx-small rgba(74, 74, 74, 0.8);
     overflow-y: scroll;
