@@ -15,6 +15,7 @@ import Input from './ui/Input/Input';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
+import RightSidebar from './ui/RightSidebar/RightSidebar';
 
 // STATE COMPONENTS
 import ApolloWrapper from './state/ApolloWrapper';
@@ -64,6 +65,7 @@ export {
     Ellipsis,
     AsyncButton,
     ConfirmButton,
+    RightSidebar,
     // STATE
     ApolloWrapper,
     StateManager,

@@ -10,7 +10,7 @@ import TransformProvider from './contexts/TransformContext';
 
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
-import RightSidebar from './RightSidebar/RightSidebar';
+import ElevationRightSidebar from './ElevationRightSidebar/ElevationRightSidebar';
 import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 import { parseSearch } from '../../../../../../utils';
@@ -293,7 +293,7 @@ class BuildElevation extends PureComponent {
                             updating={updating}
                             elevationInput={elevationInput}
                         />
-                        <RightSidebar
+                        <ElevationRightSidebar
                             currentIndex={currentIndex}
                             states={states}
                             elevation={recursiveElevation}

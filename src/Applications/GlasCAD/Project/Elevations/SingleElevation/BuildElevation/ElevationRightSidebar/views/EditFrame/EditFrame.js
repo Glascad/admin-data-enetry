@@ -4,7 +4,7 @@ import * as Icons from '../../../../../../../../../assets/icons';
 
 import { TitleBar } from '../../../../../../../../../components';
 
-import SidebarLink from '../../components/SidebarLink';
+import SidebarLink from '../../../../../../../../../components/ui/RightSidebar/components/SidebarLink';
 
 import MoveFrame from '../shared/MoveFrame';
 
