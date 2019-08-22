@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './Tree.scss';
+import Ellipsis from '../Ellipsis/Ellipsis';
 
 Branch.propTypes = {
     item: PropTypes.object.isRequired,
@@ -16,10 +17,12 @@ function Branch({
     item,
     branches = [],
     level = 0,
-    open = true,
-    toggleOpen,
+    // open = true,
+    // toggleOpen,
     renderItem,
 }) {
+    const [open, setOpen] = useState(true);
+    const toggleOpen = () => setOpen(o => !o);
     return (
         <div
             className={`Branch level-${level}`}
@@ -33,14 +36,20 @@ function Branch({
             <div
                 className="tree-branches"
             >
-                {open ? branches.map((branch, i) => (
-                    <Branch
-                        key={i}
-                        {...branch}
-                        renderItem={renderItem}
-                        level={level + 1}
-                    />
-                )) : null}
+                {branches.length ?
+                    open ?
+                        branches.map((branch, i) => (
+                            <Branch
+                                key={i}
+                                {...branch}
+                                renderItem={renderItem}
+                                level={level + 1}
+                            />
+                        )) : (
+                            <Ellipsis
+                                timeout={false}
+                            />
+                        ) : null}
             </div>
         </div>
     );

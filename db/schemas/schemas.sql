@@ -36,3 +36,6 @@ SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_contro
 
 -- CRYPTO
 CREATE EXTENSION pgcrypto WITH SCHEMA gc_private;
+
+-- GIST
+CREATE EXTENSION btree_gist WITH SCHEMA gc_utils;

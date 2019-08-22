@@ -27,13 +27,13 @@ INSERT INTO system_detail_types (system_id, system_option_value_id, detail_type)
 (1, 5, 'JAMB'),
 (1, 5, 'MULLION');
 INSERT INTO detail_options (name, system_detail_type_id, system_id) VALUES ('STOPS', 1, 1);
-INSERT INTO detail_option_values (system_id, detail_option_id, option_name, name) VALUES
-(1, 1, 'STOPS', 'UP'),
-(1, 1, 'STOPS', 'DOWN');
-INSERT INTO detail_options (name, parent_detail_option_value_id, system_id) VALUES ('GLAZING', 2, 1);
-INSERT INTO detail_option_values (system_id, detail_option_id, option_name, name) VALUES
-(1, 1, 'STOPS', 'UP'),
-(1, 1, 'STOPS', 'DOWN');
+INSERT INTO detail_option_values (system_id, detail_option_id, system_detail_type_id, option_name, name) VALUES
+(1, 1, 1, 'STOPS', 'UP'),
+(1, 1, 1, 'STOPS', 'DOWN');
+INSERT INTO detail_options (name, parent_detail_option_value_id, system_detail_type_id, system_id) VALUES ('GLAZING', 2, 1, 1);
+INSERT INTO detail_option_values (system_id, detail_option_id, system_detail_type_id, option_name, name) VALUES
+(1, 1, 1, 'STOPS', 'UP'),
+(1, 1, 1, 'STOPS', 'DOWN');
 INSERT INTO system_configuration_types (system_id, detail_option_value_id, configuration_type, optional) VALUES
 (1, 1, 'HEAD', false),
 (1, 1, 'COMPENSATING_RECEPTOR', true),

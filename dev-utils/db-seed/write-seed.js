@@ -59,15 +59,21 @@ module.exports = async () => {
         },
         GC_PROTECTED: {
             FUNCTIONS: {
-                CREATE_OR_UPDATE_SYSTEM_SET,
-                CREATE_OR_UPDATE_CONTAINER_DETAIL,
-                CREATE_OR_UPDATE_ELEVATION,
-                CREATE_OR_UPDATE_ELEVATION_CONTAINER,
-                CREATE_OR_UPDATE_OPTION_VALUE,
-                CREATE_OR_UPDATE_SYSTEM,
-                CREATE_OR_UPDATE_SYSTEM_OPTION,
-                UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE,
-                UPDATE_ENTIRE_SYSTEM_OPTION,
+                ELEVATION: {
+                    CREATE_OR_UPDATE_CONTAINER_DETAIL,
+                    CREATE_OR_UPDATE_ELEVATION,
+                    CREATE_OR_UPDATE_ELEVATION_CONTAINER,
+                },
+                SYSTEM: {
+                    CREATE_OR_UPDATE_SYSTEM,
+                    DELETE_ENTIRE_CONFIGURATION_OPTION,
+                    DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE,
+                },
+                // CREATE_OR_UPDATE_SYSTEM_SET,
+                // CREATE_OR_UPDATE_OPTION_VALUE,
+                // CREATE_OR_UPDATE_SYSTEM_OPTION,
+                // UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE,
+                // UPDATE_ENTIRE_SYSTEM_OPTION,
             },
             TABLES: {
                 ELEVATION,
@@ -92,7 +98,6 @@ module.exports = async () => {
     } = DB;
 
 
-
     const create_seed = (strings, ...files) => strings.reduce((seed, string, i) => {
         const file = files[i];
 
@@ -108,6 +113,7 @@ module.exports = async () => {
 
         if (contents === undefined) throw new Error(`Invalid file reference: ${filename}`);
         if (!contents) throw new Error(`File empty: ${filename}`);
+        if (contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))) console.warn(`${chalk.yellow`Empty or commented out file:`} ${chalk.yellowBright(filename)}`);
 
         const contentsWithEnv = contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
             const value = process.env[ENV_VAR];
@@ -147,7 +153,7 @@ ${{ CTRLD_TYPES }}
 
 -- GC_PUBLIC TYPES;
 ${{ UTIL_TYPES }}
-${{ OUTPUT_TYPES }}
+-- >>>>>>>> {{ OUTPUT_TYPES }}
 ${{ INPUT_TYPES }}
 
 
@@ -158,7 +164,7 @@ ${{ CTRLD_TABLES }}
 
 -- GC_DATA TABLES;
 ${{ APP_DATA }}
-${{ CONFIGURATION_DATA }}
+-- >>>>>>>> {{ CONFIGURATION_DATA }}
 
 -- GC_PRIVATE TABLES;
 ${{ PRIV_TABLES }}
@@ -168,7 +174,7 @@ ${{ PUB_TABLES }}
 
 -- GC_PROTECTED TABLES;
 ${{ SYSTEM }}
-${{ SYSTEM_SET }}
+-- >>>>>>>> {{ SYSTEM_SET }}
 ${{ ELEVATION }}
 
 
@@ -187,15 +193,19 @@ ${{ GET_BUG_REPORTS }}
 ${{ UPDATE_PASSWORD }}
 
 -- GC_PROTECTED FUNCTIONS;
-${{ CREATE_OR_UPDATE_SYSTEM_SET }}
+-- ELEVATION
+${{ CREATE_OR_UPDATE_ELEVATION_CONTAINER }}
 ${{ CREATE_OR_UPDATE_CONTAINER_DETAIL }}
 ${{ CREATE_OR_UPDATE_ELEVATION }}
-${{ CREATE_OR_UPDATE_ELEVATION_CONTAINER }}
-${{ CREATE_OR_UPDATE_OPTION_VALUE }}
+-- SYSTEM
+-- >>>>>>>> {{ DELETE_ENTIRE_CONFIGURATION_OPTION }}
+-- >>>>>>>> {{ DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE }}
 ${{ CREATE_OR_UPDATE_SYSTEM }}
-${{ CREATE_OR_UPDATE_SYSTEM_OPTION }}
-${{ UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE }}
-${{ UPDATE_ENTIRE_SYSTEM_OPTION }}
+-- >>>>>>>> {{ CREATE_OR_UPDATE_SYSTEM_SET }}
+-- >>>>>>>> {{ CREATE_OR_UPDATE_OPTION_VALUE }}
+-- >>>>>>>> {{ CREATE_OR_UPDATE_SYSTEM_OPTION }}
+-- >>>>>>>> {{ UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE }}
+-- >>>>>>>> {{ UPDATE_ENTIRE_SYSTEM_OPTION }}
 
 -- GC_DATA FUNCTIONS;
 ${{ UPDATE_ENTIRE_SYSTEM }}
@@ -209,7 +219,7 @@ ${{ DELETE_ENTIRE_PROJECT }}
 ${{ GET_ALL_PROJECTS }}
 ${{ REPORT_BUG }}
 ${{ UPDATE_ENTIRE_ELEVATION }}
-${{ UPDATE_ENTIRE_SYSTEM_SET }}
+-- >>>>>>>> {{ UPDATE_ENTIRE_SYSTEM_SET }}
 
 -- GC_PUBLIC QUERIES;
 ${{ GET_CURRENT_USER }}
@@ -246,7 +256,7 @@ END $users$;
 ${{ SEED_DATA }}
 
 -- POLICIES;
-${{  POLICIES }}
+${{ POLICIES }}
 
 END $seed$;
 `;
