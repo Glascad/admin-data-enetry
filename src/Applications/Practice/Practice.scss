@@ -1,3 +1,5 @@
+@import "../../styles/variables";
+
 #Practice {
     width: fit-content;
     max-width: fit-content;
@@ -12,41 +14,77 @@
                     // border-bottom-left-radius: 0;
 
                     &.type-option {
-                        background: transparentize(violet, 0.5);
-                        border-radius: 5px;
+                        background: transparentize($light-gray, 0.5);
+                        //     // background: $dark-gray;
+                        //     // color: $off-white;
+                        //     color: $dark-gray;
+                        //     // border-radius: 5px;
+                        //     // border-bottom: 2px solid $dark-gray;
                     }
 
                     &.type-value {
-                        background: transparentize(violet, 0.75);
-                        border-radius: 100px;
+                        //     border: 2px solid $dark-gray;
+                        //     border-bottom: none;
+                        //     margin: 0 -1px;
+                        //     margin-bottom: 10px;
+                        //     // background: $light-gray;
+                        //     color: $dark-gray;
+                        //     // border-radius: 5px;
                     }
 
                     &.type-detail {
-                        background: transparentize(blue, 0.5);
+                        background: transparentize($light-blue, 0.5);
+                        //     // background: $light-blue;
+                        //     // background: $logo-blue;
+                        //     // border-radius: 100px;
+                        //     color: $dark-gray;
+                        //     // color: $off-white;
                     }
-
+                    
                     &.type-detail-option {
-                        background: transparentize(blue, 0.7);
-                        border-radius: 5px;
+                        background: transparentize($light-gray, 0.5);
+                        //     // background: $dark-gray;
+                        //     // color: $off-white;
+                        //     color: $dark-gray;
+                        //     // border-radius: 5px;
+                        //     // border-bottom: 2px solid $dark-gray;
                     }
-
+                    
                     &.type-detail-option-value {
-                        background: transparentize(blue, 0.85);
-                        border-radius: 100px;
+                        //     border: 2px solid $dark-gray;
+                        //     border-bottom: none;
+                        //     margin: 0 -1px;
+                        //     margin-bottom: 10px;
+                        //     // background: $light-gray;
+                        //     color: $dark-gray;
+                        //     // border-radius: 5px;
                     }
-
+                    
                     &.type-configuration {
-                        background: transparentize(seagreen, 0.5);
+                        background: transparentize($light-blue, 0.75);
+                        //     // background: transparentize($light-blue, 0.5);
+                        //     // background: $light-blue;
+                        //     color: $dark-gray;
+                        //     // border-radius: 100px;
                     }
 
                     &.type-configuration-option {
-                        background: transparentize(seagreen, 0.7);
-                        border-radius: 5px;
+                        background: transparentize($light-gray, 0.5);
+                        //     // background: $dark-gray;
+                        //     // color: $off-white;
+                        //     color: $dark-gray;
+                        //     // border-radius: 5px;
+                        //     // border-bottom: 2px solid $dark-gray;
                     }
 
                     &.type-configuration-option-value {
-                        background: transparentize(seagreen, 0.85);
-                        border-radius: 100px;
+                        //     border: 2px solid $dark-gray;
+                        //     border-bottom: none;
+                        //     margin: 0 -1px;
+                        //     margin-bottom: 10px;
+                        //     // background: $light-gray;
+                        //     color: $dark-gray;
+                        //     // border-radius: 5px;
                     }
                 }
             }

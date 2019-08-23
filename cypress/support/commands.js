@@ -13,13 +13,14 @@ import { getJwt, setJwt, getProjectId, setProjectId, getElevationId } from "./lo
 //
 // -- This is a parent command --
 
-const getBaseRequest = () => ({
+export const getBaseRequest = () => ({
     ...console.log({
         projectId: getProjectId(),
         elevationId: getElevationId(),
     }),
     method: "POST",
-    url: "https://dev.glascad.com/graphql",
+    // url: "https://dev.glascad.com/graphql",
+    url: "/graphql",
     headers: {
         Authentication: `Bearer ${getJwt()}`,
     },

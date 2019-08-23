@@ -29,6 +29,8 @@ BEGIN
         IF psovid IS NULL THEN
             RAISE EXCEPTION 'Fake system option value id: % not found in previous items. Please reorder array', fake_psovid;
         END IF;
+    ELSE
+        psovid := system_option.parent_system_option_value_id;
     END IF;
 
     IF so.id IS NOT NULL THEN
@@ -52,7 +54,7 @@ BEGIN
         ) VALUES (
             s.id,
             so.name,
-            so.parent_system_option_value_id
+            psovid
         )
         RETURNING * INTO uso;
 

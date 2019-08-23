@@ -18,28 +18,75 @@ BEGIN
 
     -- DELETE FROM BOTTOM UP
 
+    -- DELETE TYPES
+
+    IF s.system_configuration_type_ids_to_delete IS NOT NULL THEN
+        DELETE FROM system_configuration_types sct
+        WHERE sct.id IN (
+            SELECT * FROM UNNEST (s.system_configuration_type_ids_to_delete)
+        )
+        AND sct.system_id = s.id;
+    END IF;
+
+    -- delete detail types
+    IF s.system_detail_type_ids_to_delete IS NOT NULL THEN
+        DELETE FROM system_detail_types sdt
+        WHERE sdt.id IN (
+            SELECT * FROM UNNEST (s.system_detail_type_ids_to_delete)
+        )
+        AND sdt.system_id = s.id;
+    END IF;
+
+    -- DELETE VALUES
+
+    IF s.system_option_value_ids_to_delete IS NOT NULL THEN
+        DELETE FROM system_option_values ov
+        WHERE ov.id IN (
+            SELECT * FROM UNNEST (s.system_option_value_ids_to_delete)
+        )
+        AND ov.system_id = s.id;
+    END IF;
+
+    IF s.detail_option_value_ids_to_delete IS NOT NULL THEN
+        DELETE FROM detail_option_values ov
+        WHERE ov.id IN (
+            SELECT * FROM UNNEST (s.detail_option_value_ids_to_delete)
+        )
+        AND ov.system_id = s.id;
+    END IF;
+
+    IF s.configuration_option_value_ids_to_delete IS NOT NULL THEN
+        DELETE FROM configuration_option_values ov
+        WHERE ov.id IN (
+            SELECT * FROM UNNEST (s.configuration_option_value_ids_to_delete)
+        )
+        AND ov.system_id = s.id;
+    END IF;
+
+    -- DELETE OPTIONS
+
     IF s.configuration_option_ids_to_delete IS NOT NULL THEN
-        DELETE FROM configuration_options co
-        WHERE co.id IN (
+        DELETE FROM configuration_options o
+        WHERE o.id IN (
             SELECT * FROM UNNEST(s.configuration_option_ids_to_delete)
         )
-        AND system_id = us.id;
+        AND o.system_id = us.id;
     END IF;
 
     IF s.detail_option_ids_to_delete IS NOT NULL THEN
-        DELETE FROM detail_options _do
-        WHERE _do.id IN (
+        DELETE FROM detail_options o
+        WHERE o.id IN (
             SELECT * FROM UNNEST(s.detail_option_ids_to_delete)
         )
-        AND system_id = us.id;
+        AND o.system_id = us.id;
     END IF;
 
     IF s.system_option_ids_to_delete IS NOT NULL THEN
-        DELETE FROM system_options so
-        WHERE so.id IN (
+        DELETE FROM system_options o
+        WHERE o.id IN (
             SELECT * FROM UNNEST(s.system_option_ids_to_delete)
         )
-        AND system_id = us.id;
+        AND o.system_id = us.id;
     END IF;
 
     -- UPDATE FROM TOP DOWN

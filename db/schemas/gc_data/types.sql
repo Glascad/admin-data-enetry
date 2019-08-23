@@ -88,11 +88,16 @@ gc_data.entire_system AS (
     manufacturer_id INTEGER,
     system_type SYSTEM_TYPE,
     system_options ENTIRE_SYSTEM_OPTION[],
-    system_option_ids_to_delete INTEGER[],
     detail_options ENTIRE_DETAIL_OPTION[],
-    detail_option_ids_to_delete INTEGER[],
     configuration_options ENTIRE_CONFIGURATION_OPTION[],
-    configuration_option_ids_to_delete INTEGER[]
+    system_option_ids_to_delete INTEGER[],
+    detail_option_ids_to_delete INTEGER[],
+    configuration_option_ids_to_delete INTEGER[],
+    system_option_value_ids_to_delete INTEGER[],
+    detail_option_value_ids_to_delete INTEGER[],
+    configuration_option_value_ids_to_delete INTEGER[],
+    system_detail_type_ids_to_delete INTEGER[],
+    system_configuration_type_ids_to_delete INTEGER[]
 );
 
 CREATE TYPE

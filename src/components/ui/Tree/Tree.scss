@@ -1,3 +1,5 @@
+@import "../../../styles/variables";
+
 .Tree {
     .Branch {
         width: fill;
@@ -24,7 +26,10 @@
                 justify-content: center;
                 white-space: nowrap;
                 width: fill;
-                margin: 5px;
+                border-left: 1px solid $dark-gray;
+                border-right: 1px solid $dark-gray;
+                // margin: 5px;
+                margin: -0.5px;
                 padding: 10px;
                 // border-radius: 5px;
             }
