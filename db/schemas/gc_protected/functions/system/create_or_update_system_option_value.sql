@@ -19,7 +19,7 @@ DECLARE
     soid INTEGER;
 BEGIN
 
-    -- get real parent system option value id
+    -- get real parent system option id
     so_id_pairs := id_map.system_option_id_pairs;
 
     soid := CASE WHEN so.id IS NOT NULL

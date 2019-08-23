@@ -65,7 +65,7 @@ BEGIN
             so.fake_id
         )::ID_PAIR;
     ELSE
-        RAISE EXCEPTION 'Must specify option `id` or `fake_id`';
+        RAISE EXCEPTION 'Must specify system option `id` or `fake_id`';
     END IF;
 
     RETURN id_map;
