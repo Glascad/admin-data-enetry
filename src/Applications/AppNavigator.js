@@ -37,7 +37,7 @@ const mapProps = ({
         //         role.match(/client/i) ?
         //             { Glascad }
         //             :
-        //             { Login },
+                    // { Login },
         { Practice },
 });
 

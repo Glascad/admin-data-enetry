@@ -19,47 +19,14 @@
         }
 
         .tree-item {
-            
-            > div {
+            > * {
                 display: flex;
                 justify-content: center;
                 white-space: nowrap;
                 width: fill;
                 margin: 5px;
-                padding: 5px;
-                border-radius: 5px;
-
-                &.type-option {
-                    background: transparentize(violet, 0.5);
-                }
-                
-                &.type-value {
-                    background: transparentize(violet, 0.75);
-                }
-
-                &.type-detail {
-                    background: transparentize(blue, 0.5);
-                }
-
-                &.type-detail-option {
-                    background: transparentize(blue, 0.7);
-                }
-
-                &.type-detail-option-value {
-                    background: transparentize(blue, 0.85);
-                }
-
-                &.type-configuration {
-                    background: transparentize(seagreen, 0.5);
-                }
-
-                &.type-configuration-option {
-                    background: transparentize(seagreen, 0.7);
-                }
-
-                &.type-configuration-option-value {
-                    background: transparentize(seagreen, 0.85);
-                }
+                padding: 10px;
+                // border-radius: 5px;
             }
         }
         .tree-branches {

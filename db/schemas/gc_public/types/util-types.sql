@@ -1,7 +1,7 @@
 
 CREATE TYPE
 gc_public.id_pair AS (
-    id INTEGER,
+    real_id INTEGER,
     fake_id INTEGER
 );
 

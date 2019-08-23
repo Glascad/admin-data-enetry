@@ -66,8 +66,13 @@ module.exports = async () => {
                 },
                 SYSTEM: {
                     CREATE_OR_UPDATE_SYSTEM,
-                    DELETE_ENTIRE_CONFIGURATION_OPTION,
-                    DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE,
+                    UPDATE_ENTIRE_SYSTEM_OPTION,
+                    UPDATE_ENTIRE_DETAIL_OPTION,
+                    UPDATE_ENTIRE_CONFIGURATION_OPTION,
+                    CREATE_OR_UPDATE_SYSTEM_OPTION,
+                    CREATE_OR_UPDATE_SYSTEM_OPTION_VALUE,
+                    // DELETE_ENTIRE_CONFIGURATION_OPTION,
+                    // DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE,
                 },
                 // CREATE_OR_UPDATE_SYSTEM_SET,
                 // CREATE_OR_UPDATE_OPTION_VALUE,
@@ -89,6 +94,7 @@ module.exports = async () => {
                 APP_DATA,
                 CONFIGURATION_DATA,
             },
+            TYPES: GC_DATA_TYPES,
         },
         GC_UTILS: {
             FUNCTIONS: {
@@ -112,8 +118,8 @@ module.exports = async () => {
         const [[filename, contents]] = Object.entries(file);
 
         if (contents === undefined) throw new Error(`Invalid file reference: ${filename}`);
-        if (!contents) throw new Error(`File empty: ${filename}`);
-        if (contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))) console.warn(`${chalk.yellow`Empty or commented out file:`} ${chalk.yellowBright(filename)}`);
+        if (!contents || contents.match(/^\s*$/)) throw new Error(`File empty: ${filename}`);
+        if (contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))) console.warn(`${chalk.yellow`File commented out:`} ${chalk.yellowBright(filename)}`);
 
         const contentsWithEnv = contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
             const value = process.env[ENV_VAR];
@@ -150,11 +156,13 @@ ${{ SCHEMAS }}
 -- GC_CONTROLLED TYPES;
 ${{ CTRLD_TYPES }}
 
-
 -- GC_PUBLIC TYPES;
 ${{ UTIL_TYPES }}
 -- >>>>>>>> {{ OUTPUT_TYPES }}
 ${{ INPUT_TYPES }}
+
+-- GC_DATA TYPES
+${{ GC_DATA_TYPES }}
 
 
 -- TABLES;
@@ -197,10 +205,15 @@ ${{ UPDATE_PASSWORD }}
 ${{ CREATE_OR_UPDATE_ELEVATION_CONTAINER }}
 ${{ CREATE_OR_UPDATE_CONTAINER_DETAIL }}
 ${{ CREATE_OR_UPDATE_ELEVATION }}
+${{ CREATE_OR_UPDATE_SYSTEM_OPTION }}
+${{ CREATE_OR_UPDATE_SYSTEM_OPTION_VALUE }}
 -- SYSTEM
 -- >>>>>>>> {{ DELETE_ENTIRE_CONFIGURATION_OPTION }}
 -- >>>>>>>> {{ DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE }}
 ${{ CREATE_OR_UPDATE_SYSTEM }}
+${{ UPDATE_ENTIRE_SYSTEM_OPTION }}
+${{ UPDATE_ENTIRE_DETAIL_OPTION }}
+${{ UPDATE_ENTIRE_CONFIGURATION_OPTION }}
 -- >>>>>>>> {{ CREATE_OR_UPDATE_SYSTEM_SET }}
 -- >>>>>>>> {{ CREATE_OR_UPDATE_OPTION_VALUE }}
 -- >>>>>>>> {{ CREATE_OR_UPDATE_SYSTEM_OPTION }}

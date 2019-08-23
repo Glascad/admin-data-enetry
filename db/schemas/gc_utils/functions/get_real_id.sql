@@ -8,10 +8,11 @@ DECLARE
     f ALIAS FOR fake_id;
     real_id INTEGER;
 BEGIN
-    SELECT p.id
-        FROM UNNEST (id_pairs) p
-        INTO real_id
-        WHERE p.fake_id = f;
+    SELECT p.real_id
+    FROM UNNEST (id_pairs) p
+    INTO real_id
+    WHERE p.fake_id = f;
+
     RETURN real_id;
 END;
-$$ LANGUAGE plpgsql IMMUTABLE;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;

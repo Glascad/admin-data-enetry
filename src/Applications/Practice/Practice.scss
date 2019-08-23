@@ -1,0 +1,55 @@
+#Practice {
+    width: fit-content;
+    max-width: fit-content;
+
+    .Tree {
+        .Branch {
+            .tree-item {
+                > * {
+                    // border-top-right-radius: 100px;
+                    // border-top-left-radius: 100px;
+                    // border-bottom-right-radius: 0;
+                    // border-bottom-left-radius: 0;
+
+                    &.type-option {
+                        background: transparentize(violet, 0.5);
+                        border-radius: 5px;
+                    }
+
+                    &.type-value {
+                        background: transparentize(violet, 0.75);
+                        border-radius: 100px;
+                    }
+
+                    &.type-detail {
+                        background: transparentize(blue, 0.5);
+                    }
+
+                    &.type-detail-option {
+                        background: transparentize(blue, 0.7);
+                        border-radius: 5px;
+                    }
+
+                    &.type-detail-option-value {
+                        background: transparentize(blue, 0.85);
+                        border-radius: 100px;
+                    }
+
+                    &.type-configuration {
+                        background: transparentize(seagreen, 0.5);
+                    }
+
+                    &.type-configuration-option {
+                        background: transparentize(seagreen, 0.7);
+                        border-radius: 5px;
+                    }
+
+                    &.type-configuration-option-value {
+                        background: transparentize(seagreen, 0.85);
+                        border-radius: 100px;
+                    }
+                }
+            }
+        }
+    }
+}

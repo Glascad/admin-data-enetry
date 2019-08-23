@@ -92,7 +92,7 @@ export const CONFIGURATION_OPTION_FIELDS = gql`
         id
         name
         systemConfigurationTypeId
-        parentConfigurationOptionId
+        parentConfigurationOptionValueId
     }
 `;
 
@@ -227,7 +227,7 @@ export const ENTIRE_SYSTEM = gql`
                 ...EntireDetailOption
             }
         }
-        configurationOptionsBySystemId(orderBy: PARENT_CONFIGURATION_OPTION_ID_ASC) {
+        configurationOptionsBySystemId(orderBy: PARENT_CONFIGURATION_OPTION_VALUE_ID_ASC) {
             nodes {
                 ...EntireConfigurationOption
             }

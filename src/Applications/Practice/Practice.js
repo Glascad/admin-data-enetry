@@ -5,6 +5,8 @@ import { logInputOutput } from '../../utils';
 import gql from 'graphql-tag';
 import F from '../../schema';
 
+import './Practice.scss';
+
 const option = "option";
 const value = "value";
 const detail = "detail";
@@ -340,13 +342,13 @@ const trunk = {
                 },
             ],
         },
-        {
-            item: {
-                type: value,
-                name: "Multi-Plane",
-            },
-            branches: [],
-        },
+        // {
+        //     item: {
+        //         type: value,
+        //         name: "Multi-Plane",
+        //     },
+        //     branches: [],
+        // },
     ],
 };
 
@@ -391,13 +393,13 @@ function Practice() {
         }),
     };
     return (
-        <>
+        <div id="Practice">
             <TitleBar
                 title="Test Options"
             />
             <Tree
                 trunk={trunk}
-                renderItem={logInputOutput('Render Item', (item, props) => (
+                renderItem={(item, props) => (
                     <div
                         onClick={() => {
                             if (props.toggleOpen) props.toggleOpen();
@@ -409,9 +411,9 @@ function Practice() {
                             {item.name}
                         </span>
                     </div>
-                ))}
+                )}
             />
-        </>
+        </div>
     );
 }
 
