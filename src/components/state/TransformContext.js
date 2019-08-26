@@ -164,18 +164,18 @@ const TransformProvider = ({
     };
 
     useEffect(() => {
-        Window.addEventListener('keydown', watchArrowKeys);
-        Window.addEventListener('keydown', watchSpaceKeyDown);
-        Window.addEventListener('keyup', watchSpaceKeyUp);
+        window.addEventListener('keydown', watchArrowKeys);
+        window.addEventListener('keydown', watchSpaceKeyDown);
+        window.addEventListener('keyup', watchSpaceKeyUp);
         window.addEventListener('mouseup', watchMouseUp);
         window.addEventListener('mousedown', watchMouseDown);
         window.addEventListener('touchdown', startPanning);
         window.addEventListener('touchup', watchMouseUp);
         window.addEventListener('wheel', watchScroll, { passive: false });
         return () => {
-            Window.addEventListener('keydown', watchArrowKeys);
-            Window.addEventListener('keydown', watchSpaceKeyDown);
-            Window.addEventListener('keyup', watchSpaceKeyUp);
+            window.addEventListener('keydown', watchArrowKeys);
+            window.addEventListener('keydown', watchSpaceKeyDown);
+            window.addEventListener('keyup', watchSpaceKeyUp);
             window.removeEventListener('mouseup', watchMouseUp);
             window.removeEventListener('mousedown', watchMouseDown);
             window.removeEventListener('touchdown', startPanning);
