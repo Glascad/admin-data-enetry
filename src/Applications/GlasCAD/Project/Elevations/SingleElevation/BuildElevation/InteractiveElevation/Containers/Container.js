@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import _ from 'lodash';
 import { transformProps } from '../../../../../../../../components';
-import { pixelsPerInch } from '../../contexts/TransformContext';
+import { pixelsPerInch } from '../../contexts/ElevationTransformContext';
 import { withSelectionContext } from '../../contexts/SelectionContext';
 import ContainerId from './ContainerId';
 

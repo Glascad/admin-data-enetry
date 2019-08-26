@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import DetailBubble from '../components/DetailBubble';
 import { transformProps } from '../../../../../../../../components';
-import { pixelsPerInch } from '../../contexts/TransformContext';
+import { pixelsPerInch } from '../../contexts/ElevationTransformContext';
 
 const Detail = memo(function Detail({
     itemsByRefId,

@@ -6,7 +6,7 @@ import mergeElevationInput from './ducks/merge-input';
 
 import ActionProvider from './contexts/ActionContext';
 import SelectionProvider from './contexts/SelectionContext';
-import TransformProvider from './contexts/TransformContext';
+import ElevationTransformProvider from './contexts/ElevationTransformContext';
 
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
@@ -279,7 +279,7 @@ class BuildElevation extends PureComponent {
                     elevation={recursiveElevation}
                     updateElevation={updateElevation}
                 >
-                    <TransformProvider
+                    <ElevationTransformProvider
                         elevation={recursiveElevation}
                     >
                         <Header
@@ -318,7 +318,7 @@ class BuildElevation extends PureComponent {
                             project={project}
                             elevationInput={elevationInput}
                         />
-                    </TransformProvider>
+                    </ElevationTransformProvider>
                 </ActionProvider>
             </SelectionProvider>
         );

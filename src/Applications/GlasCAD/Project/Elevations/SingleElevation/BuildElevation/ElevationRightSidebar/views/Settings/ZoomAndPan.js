@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { ElevationTransformContext } from '../../../contexts/TransformContext';
+import { ElevationTransformContext } from '../../../contexts/ElevationTransformContext';
 
 import {
     Input,
