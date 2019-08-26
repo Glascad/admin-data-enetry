@@ -113,20 +113,20 @@ class InteractiveElevation extends PureComponent {
                     leftDimensionTracks = [],
                     bottomDimensionTracks = [],
                 } = {},
-                ElevationtransformContext: {
+                ElevationTransformContext: {
                     scale: {
                         nudgeAmount: scaleNudge,
                         x: scaleX,
                         y: scaleY,
-                    },
+                    } = {},
                     translate: {
                         nudgeAmount,
                         x,
                         y,
-                    },
+                    } = {},
                     spaceKey,
                     watchMouseDown,
-                },
+                } = {},
                 updating,
                 selectedClass,
                 selectItem,
@@ -135,7 +135,7 @@ class InteractiveElevation extends PureComponent {
             },
         } = this;
 
-        console.log(this.props.elevation); 
+        console.log(this.props.elevation);
 
         const {
             elevationId,
@@ -214,7 +214,7 @@ class InteractiveElevation extends PureComponent {
                                 />
                                 {/* FRAMES */}
 
-                                <Frames 
+                                <Frames
                                     allFrames={allFrames}
                                     selectItem={selectItem}
                                     selectable={framesSelectable}
@@ -364,7 +364,7 @@ export default withRouter(
                 ElevationTransformContext,
                 ({ context }) => ({
                     context: undefined,
-                    ElevationtransformContext: context,
+                    ElevationTransformContext: context,
                 }),
                 { pure: true },
             )(
