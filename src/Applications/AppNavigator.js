@@ -39,6 +39,6 @@ const mapProps = ({
         //             :
                     // { Login },
         { Practice },
-});
+    });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);

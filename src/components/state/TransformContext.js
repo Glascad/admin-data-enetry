@@ -5,6 +5,7 @@ import withContext from '../higher-order/with-context';
 
 export const TransformContext = createContext();
 
+// this is the higher-order component that we can use to add the value from below onto props
 export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
 
 const defaultScale = 1;
@@ -41,6 +42,8 @@ const TransformProvider = ({
         initialTranslateY,
         initialTranslateNudge,
     ];
+
+    // I think that's why we are using setInitialState here, so that those values can be passed as props at any time to override whatever state has accumulated.
 
     const [baseScale, setBaseScale] = useInitialState(initialBaseScale, dependencies);
     const [scrollMultiplier, setScrollMultiplier] = useInitialState(initialScrollMultiplier, dependencies);
@@ -184,11 +187,18 @@ const TransformProvider = ({
     }, []);
 
     return (
+        // this is the provider that provides its value to the consumers
         <TransformContext.Provider
             value={{
-                scaleX,
-                scaleY,
-                scaleNudge,
+                // this is the value that is provided
+                // we want to shape it more nicely for receiving props in the children
+                // like this
+                scale: {
+                    x: scaleX,
+                    y: scaleY,
+                    nudgeAmount: scaleNudge,
+                },
+                // and so on...
                 translateX,
                 translateY,
                 translateNudge,

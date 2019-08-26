@@ -1,7 +1,11 @@
 import React, { useEffect, createContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withContext, useInitialState } from '../../../../../../../components';
-import { TransformContext } from '../../../../../../../components/state/TransformContext';
+// here we need to import the provider, just like in App.js
+import TransformProvider, /** not sure we need this --> */ { TransformContext, withTransformContext } from '../../../../../../../components/state/TransformContext';
+
+
+// so here we don't need to create a new context, we simply use `withTransformContext()` to add the context to props
 
 export const ElevationTransformContext = createContext();
 
@@ -17,7 +21,7 @@ const ElevationTransformProvider = ({
     elevation,
     elevation: {
         rawElevation: {
-            id: initialId,
+            id,
         } = {},
         roughOpening: initialRO,
     } = {},
@@ -33,6 +37,21 @@ const ElevationTransformProvider = ({
     //     } = {},
     // } = {},
 }) => {
+
+    // here we have to use state for the initial values, that we can send as props (only when the elevation on props changes), so that the provider will use it as the initial state
+
+    // It takes some getting used to. It didn't make much sense to me at first, but useEffect runs whenever it's dependencies change
+
+    useEffect(() => {
+        // set initial zoom
+
+        // vvv only when the id changes (from navigating to a new elevation)
+    }, [id]);
+
+    // any other questions? sweet.
+    // see you this afternoon haha
+    // i'll push this so you can pull my notes
+
 
     // const [scaleX, setScaleX] = useInitialState(initialScaleX, dependencies);
     // const [scaleY, setScaleY] = useInitialState(initialScaleY, dependencies);
@@ -142,11 +161,14 @@ const ElevationTransformProvider = ({
     // }
 
     return (
-        <TransformContext
-            children={children}
+        <TransformProvider
+            // children can be passed between the tags
+            // children={children}
         >
-        </TransformContext>
+            {children}
+        </TransformProvider>
     );
 }
 
-export default withRouter(ElevationTransformProvider);
+// add it down here, like this
+export default withRouter(withTransformContext(ElevationTransformProvider));
