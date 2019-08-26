@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import { ElevationTransformContext } from '../../../contexts/ElevationTransformContext';
-
 import {
     Input,
     TitleBar,
 } from '../../../../../../../../../components';
+
+import { TransformContext } from '../../../contexts/ElevationTransformContext';
 
 export default {
     title: "Zoom and Pan",
@@ -31,7 +31,7 @@ function ZoomAndPan() {
         updateTranslateY,
         updateTranslateNudge,
         resetTranslate,
-    } = useContext(ElevationTransformContext);
+    } = useContext(TransformContext);
 
     return (
         <>

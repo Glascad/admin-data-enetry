@@ -9,7 +9,6 @@ export const TransformContext = createContext();
 export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
 
 const defaultScale = 1;
-
 const minScale = 0.1;
 
 const TransformProvider = ({
@@ -23,9 +22,9 @@ const TransformProvider = ({
             nudgeAmount: initialScaleNudge = 0.01,
         } = {},
         translate: {
-            nudgeAmount: initialTranslateNudge = 10,
             x: initialTranslateX = 0,
             y: initialTranslateY = 0,
+            nudgeAmount: initialTranslateNudge = 10,
         } = {},
     } = {},
     children,
@@ -42,6 +41,11 @@ const TransformProvider = ({
         initialTranslateY,
         initialTranslateNudge,
     ];
+
+    useEffect(() => {
+        console.log('DEPENDENCIES CHANGED');
+        console.log(dependencies);
+    }, dependencies);
 
     // I think that's why we are using setInitialState here, so that those values can be passed as props at any time to override whatever state has accumulated.
 
@@ -61,15 +65,15 @@ const TransformProvider = ({
     const watchArrowKeys = e => {
         const { key } = e;
         if (spaceKeyRef.current) {
-            if (key === "UpArrow") {
+            if (key === "ArrowUp") {
                 e.preventDefault();
-                setScaleX(Math.max(+defaultScale + scaleNudge, minScale) || minScale);
-                setScaleY(Math.max(+defaultScale + scaleNudge, minScale) || minScale);
+                setScaleX(Math.max(+scaleX + scaleNudge, minScale) || minScale);
+                setScaleY(Math.max(+scaleY + scaleNudge, minScale) || minScale);
 
-            } else if (key === "DownArrow") {
+            } else if (key === "ArrowDown") {
                 e.preventDefault();
-                setScaleX(Math.max(+defaultScale - scaleNudge, minScale) || minScale)
-                setScaleY(Math.max(+defaultScale - scaleNudge, minScale) || minScale)
+                setScaleX(Math.max(+scaleX - scaleNudge, minScale) || minScale)
+                setScaleY(Math.max(+scaleY - scaleNudge, minScale) || minScale)
             }
         }
     };
@@ -84,8 +88,11 @@ const TransformProvider = ({
 
     const watchScroll = e => {
         e.preventDefault();
-        setScaleX(Math.max(+defaultScale - scrollMultiplier * e.deltaY, minScale) || minScale);
-        setScaleY(Math.max(+defaultScale - scrollMultiplier * e.deltaY, minScale) || minScale);
+        const newScaleX = Math.max(+scaleX - scrollMultiplier * e.deltaY, minScale) || minScale;
+        const newScaleY = Math.max(+scaleY - scrollMultiplier * e.deltaY, minScale) || minScale;
+        console.log({ newScaleX, newScaleY });
+        setScaleX(newScaleX);
+        setScaleY(newScaleY);
     };
 
     const watchMouseDown = e => {
@@ -104,10 +111,10 @@ const TransformProvider = ({
 
         setGrabbing(true);
 
-        mouseStartRef.current = ({
+        mouseStartRef.current = {
             x: +clientX - +defaultScale,
             y: +clientY - +defaultScale,
-        });
+        };
 
         window.addEventListener('mousemove', pan);
         window.addEventListener('touchmove', pan);
@@ -120,7 +127,7 @@ const TransformProvider = ({
         const {
             x: mouseStartX,
             y: mouseStartY
-        } = mouseStartRef.current
+        } = mouseStartRef.current;
 
         e.preventDefault();
         setTranslateX(+clientX - +mouseStartX)
@@ -137,10 +144,12 @@ const TransformProvider = ({
         }
     }
 
-
     const updateScale = (value = minScale) => {
-        setScaleX(Math.max(+value, minScale) || minScale)
-        setScaleY(Math.max(+value, minScale) || minScale)
+        const newScaleX = Math.max(+value, minScale) || minScale;
+        setScaleX(newScaleX);
+        const newScaleY = Math.max(+value, minScale) || minScale;
+        setScaleY(newScaleY);
+        console.log({ newScaleX, newScaleY });
     };
 
     const updateScaleNudge = (value = minScale) => setScaleNudge(Math.max(+value, minScale) || minScale);
@@ -186,35 +195,36 @@ const TransformProvider = ({
         }
     }, []);
 
+    const value = {
+        scale: {
+            x: scaleX,
+            y: scaleY,
+            nudgeAmount: scaleNudge,
+        },
+        translate: {
+            x: translateX,
+            y: translateY,
+            nudgeAmount: translateNudge,
+        },
+        minScale,
+        updateScale,
+        updateScaleNudge,
+        resetScale,
+        updateTranslateX,
+        updateTranslateY,
+        updateTranslateNudge,
+        resetTranslate,
+        watchMouseDown,
+        watchMouseUp,
+        spaceKeyRef,
+        grabbing,
+    };
+    
+    console.log(value);
+
     return (
-        // this is the provider that provides its value to the consumers
         <TransformContext.Provider
-            value={{
-                // this is the value that is provided
-                // we want to shape it more nicely for receiving props in the children
-                // like this
-                scale: {
-                    x: scaleX,
-                    y: scaleY,
-                    nudgeAmount: scaleNudge,
-                },
-                // and so on...
-                translateX,
-                translateY,
-                translateNudge,
-                minScale,
-                updateScale,
-                updateScaleNudge,
-                resetScale,
-                updateTranslateX,
-                updateTranslateY,
-                updateTranslateNudge,
-                resetTranslate,
-                watchMouseDown,
-                watchMouseUp,
-                spaceKeyRef,
-                grabbing,
-            }}
+            value={value}
         >
             {children}
             {grabbing ? (
@@ -233,6 +243,7 @@ const TransformProvider = ({
                     }}
                 />
             ) : null}
+            {JSON.stringify(value, null, 4)}
         </TransformContext.Provider>
     );
 }

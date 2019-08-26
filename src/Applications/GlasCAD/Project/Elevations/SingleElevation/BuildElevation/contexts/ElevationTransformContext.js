@@ -1,11 +1,16 @@
 import React, { useEffect, createContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withContext, useInitialState } from '../../../../../../../components';
-// here we need to import the provider, just like in App.js
-import TransformProvider, { withTransformContext } from '../../../../../../../components/state/TransformContext';
+import TransformProvider, {
+    withTransformContext,
+    TransformContext,
+} from '../../../../../../../components/state/TransformContext';
 
-// so here we don't need to create a new context, we simply use `withTransformContext()` to add the context to props
-
+export {
+    withTransformContext,
+    TransformContext,
+};
+    
 export const pixelsPerInch = 4;
 
 const defaultScale = 1; //import
@@ -42,30 +47,36 @@ const ElevationTransformProvider = ({
     const [translateY, setTranslateY] = useInitialState(initialTranslateY, dependencies); //do we need this?
 
     useEffect(() => {
-        setZoom(scaleX, scaleY)
-    }, [id]);
-
-    const setZoom = (x, y) => {
         const IE = document.getElementById("InteractiveElevation");
-
+    
+        console.log({ IE, scaleX, scaleY });
+    
         if (IE) {
-
-            const ratioY = IE.clientHeight / y / pixelsPerInch;
-            const ratioX = IE.clientWidth / x / pixelsPerInch;
-
+    
+            const ratioY = IE.clientHeight / scaleY / pixelsPerInch;
+            const ratioX = IE.clientWidth / scaleX / pixelsPerInch;
+    
             const baseScaleY = ratioY * 0.6;
             const baseScaleX = ratioX * 0.75;
-
+    
             const baseScale = Math.min(baseScaleY, baseScaleX);
-
-            const baseTranslateX = -x * 0.2;
-
+    
+            const baseTranslateX = -scaleX * 0.2;
+    
+            console.log({
+                ratioY,
+                ratioX,
+                baseScaleX,
+                baseScaleY,
+                baseScale,
+                baseTranslateX,
+            });
+    
             setScaleX(baseScale);
             setScaleY(baseScale);
             setTranslateX(baseTranslateX)
         };
-    }
-
+    }, [id]);
 
     return (
         <TransformProvider
