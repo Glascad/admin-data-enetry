@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import './RightSidebar.scss';
-import {
-    DoubleArrow,
-} from '../../../components';
+import DoubleArrow from '../DoubleArrow/DoubleArrow';
 
 export default class RightSidebar extends PureComponent {
 

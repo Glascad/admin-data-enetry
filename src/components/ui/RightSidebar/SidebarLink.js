@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DoubleArrow } from '../../../../components';
+import DoubleArrow from '../DoubleArrow/DoubleArrow';
 
 export default function SidebarLink({
     className = 'empty',

@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 import { TitleBar, BugReport } from '../../../../../../../../../components';
 
-import SidebarLink from '../../../../../../../../../components/ui/RightSidebar/components/SidebarLink';
+import SidebarLink from '../../../../../../../../../components/ui/RightSidebar/SidebarLink';
 
 import ZoomAndPan from './ZoomAndPan';
 import AllIcons from './AllIcons';

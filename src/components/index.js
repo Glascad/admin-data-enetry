@@ -15,11 +15,8 @@ import Input from './ui/Input/Input';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
-<<<<<<< HEAD
 import Tree from './ui/Tree/Tree';
-=======
 import RightSidebar from './ui/RightSidebar/RightSidebar';
->>>>>>> 07ca7a07f04a571b8d6ac7cb951782b306a46650
 
 // STATE COMPONENTS
 import ApolloWrapper from './state/ApolloWrapper';
@@ -70,11 +67,8 @@ export {
     Ellipsis,
     AsyncButton,
     ConfirmButton,
-<<<<<<< HEAD
     Tree,
-=======
     RightSidebar,
->>>>>>> 07ca7a07f04a571b8d6ac7cb951782b306a46650
     // STATE
     ApolloWrapper,
     StateManager,

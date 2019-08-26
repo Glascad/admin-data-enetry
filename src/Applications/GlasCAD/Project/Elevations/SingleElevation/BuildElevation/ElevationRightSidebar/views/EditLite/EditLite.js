@@ -8,7 +8,7 @@ import {
     TitleBar,
 } from '../../../../../../../../../components';
 
-import SidebarLink from '../../../../../../../../../components/ui/RightSidebar/components/SidebarLink';
+import SidebarLink from '../../../../../../../../../components/ui/RightSidebar/SidebarLink';
 
 import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
 
