@@ -11,10 +11,10 @@ const option = "option";
 const value = "value";
 const detail = "detail";
 const detailOption = "detail-option";
-const detailOptionValue = "detail-option-value";
+const detailValue = "detail-option-value";
 const configuration = "configuration";
 const configurationOption = "configuration-option";
-const configurationOptionValue = "configuration-option-value";
+const configurationValue = "configuration-option-value";
 
 const query = gql`
 {
@@ -25,330 +25,792 @@ const query = gql`
     ${F.SYS.ENTIRE_SYSTEM}
 `;
 
+// const trunk = {
+//     item: {
+//         type: option,
+//         name: "Set",
+//     },
+//     branches: [
+//         {
+//             item: {
+//                 type: value,
+//                 name: "Front",
+//             },
+//             branches: [],
+//         },
+//         {
+//             item: {
+//                 type: value,
+//                 name: "Back",
+//             },
+//             branches: [],
+//         },
+//         {
+//             item: {
+//                 type: value,
+//                 name: "Center",
+//             },
+//             branches: [
+//                 {
+//                     item: {
+//                         type: option,
+//                         name: "Joinery",
+//                     },
+//                     branches: [
+//                         {
+//                             item: {
+//                                 type: value,
+//                                 name: "Screw Spline",
+//                             },
+//                             branches: [
+//                                 {
+//                                     item: {
+//                                         type: detail,
+//                                         name: "Head",
+//                                     },
+//                                     branches: [
+//                                         {
+//                                             item: {
+//                                                 type: detailOption,
+//                                                 name: "Stops",
+//                                             },
+//                                             branches: [
+//                                                 {
+//                                                     item: {
+//                                                         type: detailValue,
+//                                                         name: "Up",
+//                                                     },
+//                                                     branches: [],
+//                                                 },
+//                                                 {
+//                                                     item: {
+//                                                         type: detailValue,
+//                                                         name: "Down",
+//                                                     },
+//                                                     branches: [
+//                                                         {
+//                                                             item: {
+//                                                                 type: detailOption,
+//                                                                 name: "Glazing",
+//                                                             },
+//                                                             branches: [
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: detailValue,
+//                                                                         name: "Inside",
+//                                                                     },
+//                                                                     branches: [],
+//                                                                 },
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: detailValue,
+//                                                                         name: "Outside",
+//                                                                     },
+//                                                                     branches: [],
+//                                                                 },
+//                                                             ],
+//                                                         },
+//                                                     ],
+//                                                 },
+//                                             ],
+//                                         },
+//                                     ],
+//                                 },
+//                             ],
+//                         },
+//                         {
+//                             item: {
+//                                 type: value,
+//                                 name: "Shear Block",
+//                             },
+//                             branches: [
+//                                 {
+//                                     item: {
+//                                         type: detail,
+//                                         name: "Head",
+//                                     },
+//                                     branches: [
+//                                         {
+//                                             item: {
+//                                                 type: detailOption,
+//                                                 name: "Stops",
+//                                             },
+//                                             branches: [
+//                                                 {
+//                                                     item: {
+//                                                         type: detailValue,
+//                                                         name: "Up",
+//                                                     },
+//                                                     branches: [],
+//                                                 },
+//                                                 {
+//                                                     item: {
+//                                                         type: detailValue,
+//                                                         name: "Down",
+//                                                     },
+//                                                     branches: [
+//                                                         {
+//                                                             item: {
+//                                                                 type: detailOption,
+//                                                                 name: "Glazing",
+//                                                             },
+//                                                             branches: [
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: detailValue,
+//                                                                         name: "Inside",
+//                                                                     },
+//                                                                     branches: [],
+//                                                                 },
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: detailValue,
+//                                                                         name: "Outside",
+//                                                                     },
+//                                                                     branches: [],
+//                                                                 },
+//                                                             ],
+//                                                         },
+//                                                     ],
+//                                                 },
+//                                             ],
+//                                         },
+//                                     ],
+//                                 },
+//                             ],
+//                         },
+//                         {
+//                             item: {
+//                                 type: value,
+//                                 name: "Stick",
+//                             },
+//                             branches: [
+//                                 {
+//                                     item: {
+//                                         type: detail,
+//                                         name: "Head",
+//                                     },
+//                                     branches: [
+//                                         {
+//                                             item: {
+//                                                 type: detailOption,
+//                                                 name: "Stops",
+//                                             },
+//                                             branches: [
+//                                                 {
+//                                                     item: {
+//                                                         type: detailValue,
+//                                                         name: "Up",
+//                                                     },
+//                                                     branches: [
+//                                                         {
+//                                                             item: {
+//                                                                 type: configuration,
+//                                                                 name: "Head",
+//                                                             },
+//                                                             branches: [
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: configurationOption,
+//                                                                         name: "Head Type",
+//                                                                     },
+//                                                                     branches: [
+//                                                                         {
+//                                                                             item: {
+//                                                                                 type: configurationValue,
+//                                                                                 name: "Standard",
+//                                                                             },
+//                                                                         },
+//                                                                         {
+//                                                                             item: {
+//                                                                                 type: configurationValue,
+//                                                                                 name: "High-Profile",
+//                                                                             },
+//                                                                         },
+//                                                                         {
+//                                                                             item: {
+//                                                                                 type: configurationValue,
+//                                                                                 name: "Brake-Metal",
+//                                                                             },
+//                                                                         },
+//                                                                     ],
+//                                                                 },
+//                                                             ],
+//                                                         },
+//                                                         {
+//                                                             item: {
+//                                                                 type: configuration,
+//                                                                 name: "Compensating Receptor",
+//                                                             },
+//                                                             branches: [
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: configurationOption,
+//                                                                         name: "Receptor Type",
+//                                                                     },
+//                                                                     branches: [
+//                                                                         {
+//                                                                             item: {
+//                                                                                 type: configurationValue,
+//                                                                                 name: "Standard",
+//                                                                             },
+//                                                                         },
+//                                                                         {
+//                                                                             item: {
+//                                                                                 type: configurationValue,
+//                                                                                 name: "High Profile",
+//                                                                             },
+//                                                                         },
+//                                                                     ],
+//                                                                 },
+//                                                             ],
+//                                                         },
+//                                                     ],
+//                                                 },
+//                                                 {
+//                                                     item: {
+//                                                         type: detailValue,
+//                                                         name: "Down",
+//                                                     },
+//                                                     branches: [
+//                                                         {
+//                                                             item: {
+//                                                                 type: detailOption,
+//                                                                 name: "Glazing",
+//                                                             },
+//                                                             branches: [
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: detailValue,
+//                                                                         name: "Inside",
+//                                                                     },
+//                                                                     branches: [],
+//                                                                 },
+//                                                                 {
+//                                                                     item: {
+//                                                                         type: detailValue,
+//                                                                         name: "Outside",
+//                                                                     },
+//                                                                     branches: [
+//                                                                         {
+//                                                                             item: {
+//                                                                                 type: configuration,
+//                                                                                 name: "Head",
+//                                                                             },
+//                                                                             branches: [
+//                                                                                 {
+//                                                                                     item: {
+//                                                                                         type: configurationOption,
+//                                                                                         name: "Head Type",
+//                                                                                     },
+//                                                                                     branches: [
+//                                                                                         {
+//                                                                                             item: {
+//                                                                                                 type: configurationValue,
+//                                                                                                 name: "Standard",
+//                                                                                             },
+//                                                                                         },
+//                                                                                         {
+//                                                                                             item: {
+//                                                                                                 type: configurationValue,
+//                                                                                                 name: "High-Profile",
+//                                                                                             },
+//                                                                                         },
+//                                                                                         {
+//                                                                                             item: {
+//                                                                                                 type: configurationValue,
+//                                                                                                 name: "Brake-Metal",
+//                                                                                             },
+//                                                                                         },
+//                                                                                     ],
+//                                                                                 },
+//                                                                             ],
+//                                                                         },
+//                                                                     ],
+//                                                                 },
+//                                                             ],
+//                                                         },
+//                                                     ],
+//                                                 },
+//                                             ],
+//                                         },
+//                                     ],
+//                                 },
+//                             ],
+//                         },
+//                     ],
+//                 },
+//             ],
+//         },
+//         // {
+//         //     item: {
+//         //         type: value,
+//         //         name: "Multi-Plane",
+//         //     },
+//         //     branches: [],
+//         // },
+//     ],
+// };
+
 const trunk = {
     item: {
         type: option,
-        name: "Set",
+        name: "System Option",
     },
     branches: [
         {
             item: {
                 type: value,
-                name: "Front",
-            },
-            branches: [],
-        },
-        {
-            item: {
-                type: value,
-                name: "Back",
-            },
-            branches: [],
-        },
-        {
-            item: {
-                type: value,
-                name: "Center",
+                name: "Value",
             },
             branches: [
                 {
                     item: {
                         type: option,
-                        name: "Joinery",
+                        name: "System Option",
                     },
                     branches: [
                         {
                             item: {
                                 type: value,
-                                name: "Screw Spline",
+                                name: "Value",
                             },
                             branches: [
                                 {
                                     item: {
                                         type: detail,
-                                        name: "Head",
+                                        name: "Detail",
                                     },
                                     branches: [
                                         {
                                             item: {
                                                 type: detailOption,
-                                                name: "Stops",
+                                                name: "Detail Option",
                                             },
                                             branches: [
                                                 {
                                                     item: {
-                                                        type: detailOptionValue,
-                                                        name: "Up",
+                                                        type: value,
+                                                        name: "Detail Value",
                                                     },
                                                     branches: [],
                                                 },
                                                 {
                                                     item: {
-                                                        type: detailOptionValue,
-                                                        name: "Down",
-                                                    },
-                                                    branches: [
-                                                        {
-                                                            item: {
-                                                                type: detailOption,
-                                                                name: "Glazing",
-                                                            },
-                                                            branches: [
-                                                                {
-                                                                    item: {
-                                                                        type: detailOptionValue,
-                                                                        name: "Inside",
-                                                                    },
-                                                                    branches: [],
-                                                                },
-                                                                {
-                                                                    item: {
-                                                                        type: detailOptionValue,
-                                                                        name: "Outside",
-                                                                    },
-                                                                    branches: [],
-                                                                },
-                                                            ],
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            item: {
-                                type: value,
-                                name: "Shear Block",
-                            },
-                            branches: [
-                                {
-                                    item: {
-                                        type: detail,
-                                        name: "Head",
-                                    },
-                                    branches: [
-                                        {
-                                            item: {
-                                                type: detailOption,
-                                                name: "Stops",
-                                            },
-                                            branches: [
-                                                {
-                                                    item: {
-                                                        type: detailOptionValue,
-                                                        name: "Up",
+                                                        type: value,
+                                                        name: "Detail Value",
                                                     },
                                                     branches: [],
                                                 },
                                                 {
                                                     item: {
-                                                        type: detailOptionValue,
-                                                        name: "Down",
+                                                        type: value,
+                                                        name: "Detail Value",
                                                     },
-                                                    branches: [
-                                                        {
-                                                            item: {
-                                                                type: detailOption,
-                                                                name: "Glazing",
-                                                            },
-                                                            branches: [
-                                                                {
-                                                                    item: {
-                                                                        type: detailOptionValue,
-                                                                        name: "Inside",
-                                                                    },
-                                                                    branches: [],
-                                                                },
-                                                                {
-                                                                    item: {
-                                                                        type: detailOptionValue,
-                                                                        name: "Outside",
-                                                                    },
-                                                                    branches: [],
-                                                                },
-                                                            ],
-                                                        },
-                                                    ],
+                                                    branches: [],
                                                 },
                                             ],
-                                        },
+                                        }
                                     ],
-                                },
+                                }
                             ],
                         },
                         {
                             item: {
                                 type: value,
-                                name: "Stick",
+                                name: "Value",
                             },
                             branches: [
                                 {
                                     item: {
                                         type: detail,
-                                        name: "Head",
+                                        name: "Detail",
                                     },
                                     branches: [
                                         {
                                             item: {
                                                 type: detailOption,
-                                                name: "Stops",
+                                                name: "Detail Option",
                                             },
                                             branches: [
                                                 {
                                                     item: {
-                                                        type: detailOptionValue,
-                                                        name: "Up",
+                                                        type: value,
+                                                        name: "Detail Value",
                                                     },
-                                                    branches: [
-                                                        {
-                                                            item: {
-                                                                type: configuration,
-                                                                name: "Head",
-                                                            },
-                                                            branches: [
-                                                                {
-                                                                    item: {
-                                                                        type: configurationOption,
-                                                                        name: "Head Type",
-                                                                    },
-                                                                    branches: [
-                                                                        {
-                                                                            item: {
-                                                                                type: configurationOptionValue,
-                                                                                name: "Standard",
-                                                                            },
-                                                                        },
-                                                                        {
-                                                                            item: {
-                                                                                type: configurationOptionValue,
-                                                                                name: "High-Profile",
-                                                                            },
-                                                                        },
-                                                                        {
-                                                                            item: {
-                                                                                type: configurationOptionValue,
-                                                                                name: "Brake-Metal",
-                                                                            },
-                                                                        },
-                                                                    ],
-                                                                },
-                                                            ],
-                                                        },
-                                                        {
-                                                            item: {
-                                                                type: configuration,
-                                                                name: "Compensating Receptor",
-                                                            },
-                                                            branches: [
-                                                                {
-                                                                    item: {
-                                                                        type: configurationOption,
-                                                                        name: "Receptor Type",
-                                                                    },
-                                                                    branches: [
-                                                                        {
-                                                                            item: {
-                                                                                type: configurationOptionValue,
-                                                                                name: "Standard",
-                                                                            },
-                                                                        },
-                                                                        {
-                                                                            item: {
-                                                                                type: configurationOptionValue,
-                                                                                name: "High Profile",
-                                                                            },
-                                                                        },
-                                                                    ],
-                                                                },
-                                                            ],
-                                                        },
-                                                    ],
+                                                    branches: [],
                                                 },
                                                 {
                                                     item: {
-                                                        type: detailOptionValue,
-                                                        name: "Down",
+                                                        type: value,
+                                                        name: "Detail Value",
                                                     },
-                                                    branches: [
-                                                        {
-                                                            item: {
-                                                                type: detailOption,
-                                                                name: "Glazing",
-                                                            },
-                                                            branches: [
-                                                                {
-                                                                    item: {
-                                                                        type: detailOptionValue,
-                                                                        name: "Inside",
-                                                                    },
-                                                                    branches: [],
-                                                                },
-                                                                {
-                                                                    item: {
-                                                                        type: detailOptionValue,
-                                                                        name: "Outside",
-                                                                    },
-                                                                    branches: [
-                                                                        {
-                                                                            item: {
-                                                                                type: configuration,
-                                                                                name: "Head",
-                                                                            },
-                                                                            branches: [
-                                                                                {
-                                                                                    item: {
-                                                                                        type: configurationOption,
-                                                                                        name: "Head Type",
-                                                                                    },
-                                                                                    branches: [
-                                                                                        {
-                                                                                            item: {
-                                                                                                type: configurationOptionValue,
-                                                                                                name: "Standard",
-                                                                                            },
-                                                                                        },
-                                                                                        {
-                                                                                            item: {
-                                                                                                type: configurationOptionValue,
-                                                                                                name: "High-Profile",
-                                                                                            },
-                                                                                        },
-                                                                                        {
-                                                                                            item: {
-                                                                                                type: configurationOptionValue,
-                                                                                                name: "Brake-Metal",
-                                                                                            },
-                                                                                        },
-                                                                                    ],
-                                                                                },
-                                                                            ],
-                                                                        },
-                                                                    ],
-                                                                },
-                                                            ],
-                                                        },
-                                                    ],
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
                                                 },
                                             ],
-                                        },
+                                        }
                                     ],
-                                },
+                                }
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
                             ],
                         },
                     ],
-                },
+                }
             ],
         },
-        // {
-        //     item: {
-        //         type: value,
-        //         name: "Multi-Plane",
-        //     },
-        //     branches: [],
-        // },
+        {
+            item: {
+                type: value,
+                name: "Value",
+            },
+            branches: [
+                {
+                    item: {
+                        type: option,
+                        name: "System Option",
+                    },
+                    branches: [
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                    ],
+                }
+            ],
+        },
+        {
+            item: {
+                type: value,
+                name: "Value",
+            },
+            branches: [
+                {
+                    item: {
+                        type: option,
+                        name: "System Option",
+                    },
+                    branches: [
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                        {
+                            item: {
+                                type: value,
+                                name: "Value",
+                            },
+                            branches: [
+                                {
+                                    item: {
+                                        type: detail,
+                                        name: "Detail",
+                                    },
+                                    branches: [
+                                        {
+                                            item: {
+                                                type: detailOption,
+                                                name: "Detail Option",
+                                            },
+                                            branches: [
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                                {
+                                                    item: {
+                                                        type: value,
+                                                        name: "Detail Value",
+                                                    },
+                                                    branches: [],
+                                                },
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                    ],
+                }
+            ],
+        },
     ],
 };
 
