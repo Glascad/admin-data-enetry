@@ -104,5 +104,5 @@ gc_data.entire_system_id_map AS (
     system_detail_type_id_pairs ID_PAIR[],
     configuration_option_id_pairs ID_PAIR[],
     configuration_option_value_id_pairs ID_PAIR[],
-    system_configuration_id_pairs ID_PAIR[]
+    system_configuration_type_id_pairs ID_PAIR[]
 );

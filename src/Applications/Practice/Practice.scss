@@ -1,10 +1,10 @@
 @import "../../styles/variables";
 
 #Practice {
-    width: fit-content;
-    max-width: fit-content;
-
+    
     .Tree {
+        width: fit-content;
+        max-width: fit-content;
         .Branch {
             .tree-item {
                 > * {

@@ -78,11 +78,13 @@ BEGIN
         INSERT INTO detail_options (
             system_id,
             name,
-            parent_detail_option_value_id
+            parent_detail_option_value_id,
+            system_detail_type_id
         ) VALUES (
             s.id,
             _do.name,
-            pdovid
+            pdovid,
+            sdtid
         )
         RETURNING * INTO udo;
 

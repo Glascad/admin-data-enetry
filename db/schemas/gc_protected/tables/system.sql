@@ -126,7 +126,7 @@ CREATE TABLE
 gc_protected.detail_options (
     id SERIAL PRIMARY KEY,
     -- UNIQUE because only one parent option is allowed under each detail type
-    system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED,
     system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
     -- only one of each option within each detail
@@ -190,6 +190,13 @@ ADD CONSTRAINT single_parent_detail_option EXCLUDE USING gist (
     system_detail_type_id WITH =,
     -- then parent_detail_option_value_id must be unique
     COALESCE(parent_detail_option_value_id, 0) WITH =
+);
+
+ALTER TABLE gc_protected.detail_options
+ADD CONSTRAINT parent_or_child_detail_option CHECK (
+    parent_detail_option_value_id IS NOT NULL
+    OR
+    system_detail_type_id IS NOT NULL
 );
 
 -- CONFIGURATION TYPES
@@ -287,6 +294,14 @@ ADD CONSTRAINT single_parent_configuration_option EXCLUDE USING gist (
     -- then parent_configuration_option_value_id must be unique
     COALESCE(parent_configuration_option_value_id, 0) WITH =
 );
+
+ALTER TABLE gc_protected.configuration_options
+ADD CONSTRAINT parent_or_child_configuration_option CHECK (
+    parent_configuration_option_value_id IS NOT NULL
+    OR
+    system_configuration_type_id IS NOT NULL
+);
+
 -- CONFIGURATIONS
 
 CREATE TABLE

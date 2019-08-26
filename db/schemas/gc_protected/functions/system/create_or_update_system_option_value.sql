@@ -59,7 +59,7 @@ BEGIN
             sov.fake_id
         )::ID_PAIR;
     ELSE
-        RAISE EXCEPTION 'Must specify option value `id` or `fake_id`';
+        RAISE EXCEPTION 'Must specify system option value `id` or `fake_id`';
     END IF;
 
     RETURN id_map;

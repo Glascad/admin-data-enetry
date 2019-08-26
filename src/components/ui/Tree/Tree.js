@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './Tree.scss';
 import Ellipsis from '../Ellipsis/Ellipsis';
+import useInitialState from '../../hooks/use-initial-state';
 
 Branch.propTypes = {
     item: PropTypes.object.isRequired,
@@ -17,11 +18,11 @@ function Branch({
     item,
     branches = [],
     level = 0,
-    // open = true,
+    open: propsOpen = true,
     // toggleOpen,
     renderItem,
 }) {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useInitialState(propsOpen);
     const toggleOpen = () => setOpen(o => !o);
     return (
         <div
@@ -41,6 +42,7 @@ function Branch({
                         branches.map((branch, i) => (
                             <Branch
                                 key={i}
+                                open={!open}
                                 {...branch}
                                 renderItem={renderItem}
                                 level={level + 1}
