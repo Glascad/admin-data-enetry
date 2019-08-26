@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withTransformContext } from '../../contexts/TransformContext';
+import { withElevationTransformContext } from '../../contexts/ElevationTransformContext';
 
 class DetailBubble extends PureComponent {
 
@@ -74,4 +74,4 @@ class DetailBubble extends PureComponent {
     }
 }
 
-export default withTransformContext(DetailBubble);
+export default withElevationTransformContext(DetailBubble);

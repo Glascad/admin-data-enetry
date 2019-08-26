@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTransformContext } from "../../contexts/TransformContext";
+import { withElevationTransformContext } from "../../contexts/ElevationTransformContext";
 
 const ContainerId = ({ id, transform: { scale: { x, y } } }) => (
     <div className="text">
@@ -25,4 +25,4 @@ const ContainerId = ({ id, transform: { scale: { x, y } } }) => (
     </div>
 );
 
-export default withTransformContext(ContainerId);
+export default withElevationTransformContext(ContainerId);

@@ -6,11 +6,11 @@ import mergeElevationInput from './ducks/merge-input';
 
 import ActionProvider from './contexts/ActionContext';
 import SelectionProvider from './contexts/SelectionContext';
-import TransformProvider from './contexts/TransformContext';
+import ElevationTransformProvider from './contexts/ElevationTransformContext';
 
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
-import RightSidebar from './RightSidebar/RightSidebar';
+import ElevationRightSidebar from './ElevationRightSidebar/ElevationRightSidebar';
 import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 import { parseSearch } from '../../../../../../utils';
@@ -279,7 +279,7 @@ class BuildElevation extends PureComponent {
                     elevation={recursiveElevation}
                     updateElevation={updateElevation}
                 >
-                    <TransformProvider
+                    <ElevationTransformProvider
                         elevation={recursiveElevation}
                     >
                         <Header
@@ -293,7 +293,7 @@ class BuildElevation extends PureComponent {
                             updating={updating}
                             elevationInput={elevationInput}
                         />
-                        <RightSidebar
+                        <ElevationRightSidebar
                             currentIndex={currentIndex}
                             states={states}
                             elevation={recursiveElevation}
@@ -318,7 +318,7 @@ class BuildElevation extends PureComponent {
                             project={project}
                             elevationInput={elevationInput}
                         />
-                    </TransformProvider>
+                    </ElevationTransformProvider>
                 </ActionProvider>
             </SelectionProvider>
         );

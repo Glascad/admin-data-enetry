@@ -6,13 +6,12 @@ import RecursiveElevation from '../../utils/recursive-elevation/elevation';
 
 import VIEWS from './views';
 
-import './RightSidebar.scss';
 import {
-    DoubleArrow,
     withContext,
+    RightSidebar,
 } from '../../../../../../../components';
 
-class RightSidebar extends PureComponent {
+class ElevationRightSidebar extends PureComponent {
 
     state = {
         stackedView: undefined,
@@ -59,10 +58,6 @@ class RightSidebar extends PureComponent {
         const {
             state: {
                 stackedView,
-                stackedView: {
-                    title: stackedTitle = '',
-                    component: StackedChild = () => null,
-                } = {},
             },
             props: {
                 currentIndex,
@@ -75,61 +70,30 @@ class RightSidebar extends PureComponent {
                     },
                     cancelSelection,
                 },
-                View: {
-                    title: initialTitle,
-                    component: InitialPureComponent,
-                },
+                View,
             },
             toggleStackedView,
         } = this;
 
-        const handleClick = stackedView ?
+        const handleCloseClick = stackedView ?
             () => toggleStackedView()
             :
             cancelSelection;
 
-        const title = stackedView ?
-            stackedTitle
-            :
-            initialTitle;
-
-        const Child = stackedView ?
-            StackedChild
-            :
-            InitialPureComponent;
-
         return (
-            <div
-                id="RightSidebar"
-                className={length ? 'open' : 'closed'}
-                onKeyDown={e => e.stopPropagation()}
-                onMouseDown={e => e.stopPropagation()}
-                onWheel={e => e.stopPropagation()}
-            >
-                <button
-                    className="sidebar-button primary"
-                    onClick={handleClick}
-                >
-                    {stackedView ? (
-                        <DoubleArrow
-                            className="icon"
-                            tagname="div"
-                        />
-                    ) : null}
-                    <span>
-                        Close {title}
-                    </span>
-                </button>
-                <Child
-                    {...{
-                        states,
-                        currentIndex,
-                        elevation,
-                        updateElevation,
-                        toggleStackedView,
-                    }}
-                />
-            </div>
+            <RightSidebar
+                stackedView={stackedView}
+                View={View}
+                open={length ? "open" : "closed"}
+                handleCloseClick={handleCloseClick}
+                childProps={{
+                    toggleStackedView,
+                    currentIndex,
+                    states,
+                    updateElevation,
+                    elevation
+                }}
+            />
         );
     }
 }
@@ -165,4 +129,4 @@ const mapProps = ({
                 VIEWS.Settings,
 });
 
-export default withContext(SelectionContext, mapProps)(RightSidebar);
+export default withContext(SelectionContext, mapProps)(ElevationRightSidebar);
