@@ -20,6 +20,7 @@ import RightSidebar from './ui/RightSidebar/RightSidebar';
 // STATE COMPONENTS
 import ApolloWrapper from './state/ApolloWrapper';
 import StateManager from './state/StateManager';
+import TransformContext from './state/TransformContext';
 
 // HIGHER ORDER COMPONENTS
 import asyncComponent from './higher-order/async-component';
@@ -69,6 +70,7 @@ export {
     // STATE
     ApolloWrapper,
     StateManager,
+    TransformContext,
     // HIGHER ORDER
     asyncComponent,
     withContext,

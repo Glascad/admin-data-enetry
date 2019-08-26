@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { TransformContext } from '../../../contexts/TransformContext';
+import { ElevationTransformContext } from '../../../contexts/TransformContext';
 
 import {
     Input,
@@ -31,7 +31,7 @@ function ZoomAndPan() {
         updateTranslateY,
         updateTranslateNudge,
         resetTranslate,
-    } = useContext(TransformContext);
+    } = useContext(ElevationTransformContext);
 
     return (
         <>

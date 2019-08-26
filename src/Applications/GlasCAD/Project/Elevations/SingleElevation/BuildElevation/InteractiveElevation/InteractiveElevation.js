@@ -6,7 +6,7 @@ import React, {
 import { withRouter } from 'react-router-dom';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
-import { TransformContext, pixelsPerInch } from '../contexts/TransformContext';
+import { ElevationTransformContext, pixelsPerInch } from '../contexts/TransformContext';
 
 // import Container from './components/Container';
 import Container from './Containers/Container';
@@ -113,7 +113,7 @@ class InteractiveElevation extends PureComponent {
                     leftDimensionTracks = [],
                     bottomDimensionTracks = [],
                 } = {},
-                transformContext: {
+                ElevationtransformContext: {
                     scale: {
                         nudgeAmount: scaleNudge,
                         x: scaleX,
@@ -361,10 +361,10 @@ export default withRouter(
             { pure: true },
         )(
             withContext(
-                TransformContext,
+                ElevationTransformContext,
                 ({ context }) => ({
                     context: undefined,
-                    transformContext: context,
+                    ElevationtransformContext: context,
                 }),
                 { pure: true },
             )(
