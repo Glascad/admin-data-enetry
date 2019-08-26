@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
-import { withContext, useInitialState } from '../../components';
+import useInitialState from '../hooks/use-initial-state';
+import withContext from '../higher-order/with-context';
 
 export const TransformContext = createContext();
 
