@@ -19,7 +19,6 @@
         "graphql-tag": "^2.10.1",
         "node-sass": "^4.12.0",
         "postgraphile": "^4.2.0",
-        "prop-types": "^15.6.2",
         "react": "^16.7.0-alpha.2",
         "react-apollo": "^2.3.1",
         "react-dom": "^16.7.0-alpha.0",
@@ -48,7 +47,8 @@
         "not op_mini all"
     ],
     "devDependencies": {
-        "cypress": "^3.4.1"
+        "cypress": "^3.4.1",
+        "prop-types": "^15.7.2"
     },
     "nodemonConfig": {
         "verbose": true,

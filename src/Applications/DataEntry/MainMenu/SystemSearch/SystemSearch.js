@@ -7,11 +7,11 @@ import {
     ApolloWrapper,
     ListWrapper,
     StateManager,
+    TitleBar,
 } from '../../../../components'
 
 import query from './-graphql/query';
 import mutations from './-graphql/mutations';
-import TitleBar from '../../../../components/ui/TitleBar/TitleBar';
 
 export default function SystemSearch({
     match: {

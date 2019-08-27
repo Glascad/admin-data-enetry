@@ -4,17 +4,17 @@ import {
     Navigator,
 } from '../../../components';
 
-import SingleSystem from './SingleSystem/SingleSystem';
+import SystemSearch from './SystemSearch/SystemSearch';
 
 const subroutes = {
-    SingleSystem,
+    SystemSearch,
 };
 
-SystemData.navigationOptions = {
+MainMenu.navigationOptions = {
     subroutes,
 };
 
-export default function SystemData() {
+export default function MainMenu() {
     return (
         <Navigator
             routes={subroutes}

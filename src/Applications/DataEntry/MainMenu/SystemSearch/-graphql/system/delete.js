@@ -1,13 +1,13 @@
 import gql from 'graphql-tag';
 
 export default {
-    mutation: gql`mutation DeleteSystem($nodeId:ID!){
+    mutation: gql`mutation DeleteSystem($nodeId:ID!) {
         deleteSystem(
-            input:{
-                nodeId:$nodeId
+            input: {
+                nodeId: $nodeId
             }
-        ){
-            system{
+        ) {
+            system {
                 nodeId
                 id
                 name
