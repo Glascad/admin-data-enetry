@@ -16,10 +16,13 @@ export const pixelsPerInch = 4;
 const defaultScale = 1; //import
 
 const ElevationTransformProvider = ({
-    elevation,
     elevation: {
         rawElevation: {
             id,
+        } = {},
+        roughOpening:{
+            x: rox,
+            y: roy,
         } = {},
     } = {},
     children,
@@ -30,7 +33,6 @@ const ElevationTransformProvider = ({
         } = {},
         translate: {
             x: initialTranslateX = 0,
-            y: initialTranslateY = 0,
         } = {},
     } = {},
 }) => {
@@ -38,39 +40,26 @@ const ElevationTransformProvider = ({
         initialScaleX,
         initialScaleY,
         initialTranslateX,
-        initialScaleY
     ];
 
     const [scaleX, setScaleX] = useInitialState(initialScaleX, dependencies);
     const [scaleY, setScaleY] = useInitialState(initialScaleY, dependencies);
     const [translateX, setTranslateX] = useInitialState(initialTranslateX, dependencies);
-    const [translateY, setTranslateY] = useInitialState(initialTranslateY, dependencies); //do we need this?
 
     useEffect(() => {
         const IE = document.getElementById("InteractiveElevation");
     
-        console.log({ IE, scaleX, scaleY });
-    
         if (IE) {
     
-            const ratioY = IE.clientHeight / scaleY / pixelsPerInch;
-            const ratioX = IE.clientWidth / scaleX / pixelsPerInch;
+            const ratioY = IE.clientHeight / roy / pixelsPerInch;
+            const ratioX = IE.clientWidth / rox / pixelsPerInch;
     
             const baseScaleY = ratioY * 0.6;
             const baseScaleX = ratioX * 0.75;
     
             const baseScale = Math.min(baseScaleY, baseScaleX);
     
-            const baseTranslateX = -scaleX * 0.2;
-    
-            console.log({
-                ratioY,
-                ratioX,
-                baseScaleX,
-                baseScaleY,
-                baseScale,
-                baseTranslateX,
-            });
+            const baseTranslateX = -rox * 0.2;
     
             setScaleX(baseScale);
             setScaleY(baseScale);
@@ -87,7 +76,6 @@ const ElevationTransformProvider = ({
                 },
                 translate: {
                     x: translateX,
-                    y: translateY,
                 },
             }}
         >
