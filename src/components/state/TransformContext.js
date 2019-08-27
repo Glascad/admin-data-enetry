@@ -42,13 +42,6 @@ const TransformProvider = ({
         initialTranslateNudge,
     ];
 
-    useEffect(() => {
-        console.log('DEPENDENCIES CHANGED');
-        console.log(dependencies);
-    }, dependencies);
-
-    // I think that's why we are using setInitialState here, so that those values can be passed as props at any time to override whatever state has accumulated.
-
     const [baseScale, setBaseScale] = useInitialState(initialBaseScale, dependencies);
     const [scrollMultiplier, setScrollMultiplier] = useInitialState(initialScrollMultiplier, dependencies);
     const [grabbing, setGrabbing] = useInitialState(initialGrabbing, dependencies);
@@ -59,7 +52,6 @@ const TransformProvider = ({
     const [translateY, setTranslateY] = useInitialState(initialTranslateY, dependencies);
     const [translateNudge, setTranslateNudge] = useInitialState(initialTranslateNudge, dependencies);
 
-    const mouseStartRef = useRef({ x: 0, y: 0 });
     const spaceKeyRef = useRef(false);
 
     const watchArrowKeys = e => {
@@ -67,13 +59,13 @@ const TransformProvider = ({
         if (spaceKeyRef.current) {
             if (key === "ArrowUp") {
                 e.preventDefault();
-                setScaleX(Math.max(+scaleX + scaleNudge, minScale) || minScale);
-                setScaleY(Math.max(+scaleY + scaleNudge, minScale) || minScale);
+                setScaleX(scaleX => Math.max(+scaleX + scaleNudge, minScale) || minScale);
+                setScaleY(scaleY => Math.max(+scaleY + scaleNudge, minScale) || minScale);
 
             } else if (key === "ArrowDown") {
                 e.preventDefault();
-                setScaleX(Math.max(+scaleX - scaleNudge, minScale) || minScale)
-                setScaleY(Math.max(+scaleY - scaleNudge, minScale) || minScale)
+                setScaleX(scaleX => Math.max(+scaleX - scaleNudge, minScale) || minScale)
+                setScaleY(scaleY => Math.max(+scaleY - scaleNudge, minScale) || minScale)
             }
         }
     };
@@ -88,68 +80,64 @@ const TransformProvider = ({
 
     const watchScroll = e => {
         e.preventDefault();
-        const newScaleX = Math.max(+scaleX - scrollMultiplier * e.deltaY, minScale) || minScale;
-        const newScaleY = Math.max(+scaleY - scrollMultiplier * e.deltaY, minScale) || minScale;
-        console.log({ newScaleX, newScaleY });
-        setScaleX(newScaleX);
-        setScaleY(newScaleY);
+        setScaleX(scaleX => Math.max(+scaleX - scrollMultiplier * e.deltaY, minScale) || minScale);
+        setScaleY(scaleY => Math.max(+scaleY - scrollMultiplier * e.deltaY, minScale) || minScale);
     };
 
     const watchMouseDown = e => {
-        if (spaceKeyRef.current) {
+        if (spaceKeyRef.current || e.which === 2) {
             startPanning(e);
-        } else if (e.which === 2) {
-            startPanning(e, true);
         }
     };
 
-    const startPanning = (e, captured) => {
-
-        if (!captured) e.preventDefault();
-
-        const { clientX, clientY } = e;
-
-        setGrabbing(true);
-
-        mouseStartRef.current = {
-            x: +clientX - +defaultScale,
-            y: +clientY - +defaultScale,
-        };
-
-        window.addEventListener('mousemove', pan);
-        window.addEventListener('touchmove', pan);
-
-    };
-
-    const pan = e => {
-
-        const { clientX, clientY } = e;
-        const {
-            x: mouseStartX,
-            y: mouseStartY
-        } = mouseStartRef.current;
+    const startPanning = e => {
 
         e.preventDefault();
-        setTranslateX(+clientX - +mouseStartX)
-        setTranslateY(+clientY - +mouseStartY)
-    };
+        e.stopPropagation();
 
-    const watchMouseUp = () => {
-        if (grabbing) {
+        const { clientX, clientY } = e;
 
-            window.removeEventListener('mousemove', pan);
-            window.removeEventListener('touchmove', pan);
+        const mouseStart = {
+            x: +clientX - +translateX,
+            y: +clientY - +translateY,
+        };
+
+        const pan = e => {
+
+            const { clientX, clientY } = e;
+            const {
+                x: mouseStartX,
+                y: mouseStartY
+            } = mouseStart;
+
+            e.preventDefault();
+            setTranslateX(+clientX - +mouseStartX)
+            setTranslateY(+clientY - +mouseStartY)
+        };
+
+        const stopPanning = () => {
+
+            window.removeEventListener('mousemove', pan, true);
+            window.removeEventListener('touchmove', pan, true);
 
             setGrabbing(false);
         }
-    }
+
+        setGrabbing(true);
+
+        setTimeout(() => {
+            window.addEventListener('mousemove', pan, true);
+            window.addEventListener('touchmove', pan, true);
+            window.addEventListener('mouseup', stopPanning, true);
+            window.addEventListener('touchup', stopPanning, true);
+        });
+    };
 
     const updateScale = (value = minScale) => {
         const newScaleX = Math.max(+value, minScale) || minScale;
         setScaleX(newScaleX);
         const newScaleY = Math.max(+value, minScale) || minScale;
         setScaleY(newScaleY);
-        console.log({ newScaleX, newScaleY });
     };
 
     const updateScaleNudge = (value = minScale) => setScaleNudge(Math.max(+value, minScale) || minScale);
@@ -176,24 +164,18 @@ const TransformProvider = ({
         window.addEventListener('keydown', watchArrowKeys);
         window.addEventListener('keydown', watchSpaceKeyDown);
         window.addEventListener('keyup', watchSpaceKeyUp);
-        window.addEventListener('mouseup', watchMouseUp);
-        window.addEventListener('mousedown', watchMouseDown);
+        window.addEventListener('mousedown', watchMouseDown, true);
         window.addEventListener('touchdown', startPanning);
-        window.addEventListener('touchup', watchMouseUp);
         window.addEventListener('wheel', watchScroll, { passive: false });
         return () => {
-            window.addEventListener('keydown', watchArrowKeys);
-            window.addEventListener('keydown', watchSpaceKeyDown);
-            window.addEventListener('keyup', watchSpaceKeyUp);
-            window.removeEventListener('mouseup', watchMouseUp);
-            window.removeEventListener('mousedown', watchMouseDown);
+            window.removeEventListener('keydown', watchArrowKeys);
+            window.removeEventListener('keydown', watchSpaceKeyDown);
+            window.removeEventListener('keyup', watchSpaceKeyUp);
+            window.removeEventListener('mousedown', watchMouseDown, true);
             window.removeEventListener('touchdown', startPanning);
-            window.removeEventListener('touchup', watchMouseUp);
-            window.removeEventListener('wheel', watchScroll);
-            window.removeEventListener('mousemove', pan);
-            window.removeEventListener('touchmove', pan);
+            window.removeEventListener('wheel', watchScroll, { passive: false });
         }
-    }, []);
+    }, [translateX, translateY]);
 
     const value = {
         scale: {
@@ -215,12 +197,11 @@ const TransformProvider = ({
         updateTranslateNudge,
         resetTranslate,
         watchMouseDown,
-        watchMouseUp,
         spaceKeyRef,
         grabbing,
     };
-    
-    console.log(value);
+
+    // console.log(value);
 
     return (
         <TransformContext.Provider
@@ -243,7 +224,6 @@ const TransformProvider = ({
                     }}
                 />
             ) : null}
-            {JSON.stringify(value, null, 4)}
         </TransformContext.Provider>
     );
 }
