@@ -1,17 +1,20 @@
 const chalk = require('chalk');
-const readFiles = require(`${__dirname}/read-files`);
-const writeSeed = require(`${__dirname}/write-seed`);
+const compileDbFiles = require('./compile-db-files');
+const generateSeedFile = require('./generate-seed-file');
+const pfs = require('../promise-fs');
 
-module.exports = async function generateSeed() {
+module.exports = async function writeSeed() {
     try {
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Compiling database seed`);
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ./db/schemas`);
 
-        await readFiles();
+        await compileDbFiles();
 
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully read files from ./db/schemas`);
 
-        const SEED_FILE = await writeSeed();
+        const SEED_FILE = generateSeedFile();
+
+        await pfs.writeFile(`${__dirname}/../../compiled/db-seed.sql`, SEED_FILE);
 
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully wrote database seed to ./compiled/db-seed.sql`);
 

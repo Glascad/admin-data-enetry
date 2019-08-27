@@ -1,7 +1,8 @@
 const pfs = require('../promise-fs');
 const filesToJSON = require('../files-to-json');
 
-module.exports = async () => {
+module.exports = async function compileDbFiles() {
+    
     const filesWithComments = await filesToJSON(`${__dirname}/../../db/schemas`);
 
     const removeComments = obj => typeof obj === 'object' ?

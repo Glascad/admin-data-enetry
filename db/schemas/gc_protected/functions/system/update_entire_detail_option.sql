@@ -11,7 +11,7 @@ DECLARE
     dov ENTIRE_DETAIL_OPTION_VALUE;
 BEGIN
 
-    -- create or update system option
+    -- create or update detail option
     id_map := create_or_update_detail_option(_do, s, id_map);
 
     -- create or update values
