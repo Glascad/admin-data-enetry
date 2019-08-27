@@ -2,7 +2,7 @@ const chalk = require('chalk');
 const readFiles = require(`${__dirname}/read-files`);
 const writeSeed = require(`${__dirname}/write-seed`);
 
-module.exports = async () => {
+module.exports = async function generateSeed() {
     try {
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Compiling database seed`);
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ./db/schemas`);

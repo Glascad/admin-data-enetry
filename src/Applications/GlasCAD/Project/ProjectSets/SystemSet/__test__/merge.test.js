@@ -22,7 +22,7 @@ function testSystemSetMerge({
         detailTypeConfigurationTypes: Object.entries().map(({detailType, name}) => ({
             detailType,
             name,
-        })),,
+        })),
     };
     describe(`Merge systemSet - ${systemSetName}`, () => {
 

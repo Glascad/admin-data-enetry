@@ -1,10 +1,14 @@
 @import "../../styles/variables";
 
 #Practice {
-    
+    // display: flex;
+    // align-items: center;
+    // flex-direction: column;
+
     .Tree {
-        width: fit-content;
-        max-width: fit-content;
+        // width: fit-content;
+        min-width: fit-content;
+
         .Branch {
             .tree-item {
                 > * {
@@ -40,7 +44,7 @@
                         //     color: $dark-gray;
                         //     // color: $off-white;
                     }
-                    
+
                     &.type-detail-option {
                         background: transparentize($light-gray, 0.5);
                         //     // background: $dark-gray;
@@ -49,7 +53,7 @@
                         //     // border-radius: 5px;
                         //     // border-bottom: 2px solid $dark-gray;
                     }
-                    
+
                     &.type-detail-option-value {
                         //     border: 2px solid $dark-gray;
                         //     border-bottom: none;
@@ -59,7 +63,7 @@
                         //     color: $dark-gray;
                         //     // border-radius: 5px;
                     }
-                    
+
                     &.type-configuration {
                         background: transparentize($light-blue, 0.75);
                         //     // background: transparentize($light-blue, 0.5);

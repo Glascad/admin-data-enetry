@@ -1,145 +1,52 @@
-// for autocomplete only
-// import DB from '../db-seed';
-// import pfs from './promise-fs';
+const _require = require;
 
 module.exports = async () => {
+    const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
+        const value = process.env[ENV_VAR];
+        if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
+        else {
+            console.log(`Inserting environment variable ${chalk.green(ENV_VAR)} in file ${chalk.cyan(path)}`);
+            return value;
+        }
+    });
+
+    const getDbContents = path => {
+        const contents = path
+            .replace('../../db/schemas/', '')
+            .replace(/-/, '_')
+            .replace(/\.sql/, '')
+            .split(/\//)
+            .reduce((obj, filename) => obj[filename.toUpperCase()], DB);
+
+        if (contents === undefined) throw new Error(`Invalid file reference: ${path}`);
+        if (typeof contents === 'object') throw new Error(`Cannot reference directory: ${path}. Nested files include: ${Object.keys(contents).join(', ')}`)
+        if (!contents || contents.match(/^\s*$/)) throw new Error(`File empty: ${path}`);
+        if (contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))) console.warn(`${chalk.yellow`File commented out:`} ${chalk.yellowBright(path)}`);
+
+        return insertEnvVars(path, contents);
+    }
+
+    const requiredPaths = [];
+
+    const require = path => {
+        if (requiredPaths.includes(path)) throw new Error(`Duplicate path required: ${path}`);
+        else {
+            requiredPaths.push(path);
+            return path.match(/\/|\./) ?
+                path.startsWith('../../db/schemas/') ?
+                    getDbContents(path)
+                    :
+                    _require(`${__dirname}/${path}`)
+                :
+                _require(path);
+        }
+    }
     require('dotenv').config();
+
     const chalk = require('chalk');
 
-    const DB = require(`${__dirname}/../../compiled/db-seed.js`);
-    const pfs = require(`${__dirname}/../promise-fs`);
-
-    const {
-        SCHEMAS,
-        ROLES,
-        PRIVILEGES,
-        INVOKER,
-        SEED_DATA,
-        POLICIES,
-        GC_PUBLIC: {
-            TABLES: PUB_TABLES,
-            TYPES: {
-                INPUT_TYPES,
-                OUTPUT_TYPES,
-                UTIL_TYPES,
-            },
-            FUNCTIONS: {
-                MUTATIONS: {
-                    AUTHENTICATE,
-                    COPY_ELEVATION,
-                    CREATE_OR_UPDATE_PROJECT,
-                    DELETE_ENTIRE_ELEVATION,
-                    DELETE_ENTIRE_PROJECT,
-                    GET_ALL_PROJECTS,
-                    REPORT_BUG,
-                    UPDATE_ENTIRE_ELEVATION,
-                    UPDATE_ENTIRE_SYSTEM_SET,
-                },
-                QUERIES: {
-                    GET_CURRENT_USER,
-                    GET_CURRENT_USER_ID,
-                    SELECT_SYSTEM,
-                    SELECT_SYSTEM_SET,
-                    SELECT_SYSTEM_TYPE,
-                },
-            },
-        },
-        GC_CONTROLLED: {
-            TABLES: CTRLD_TABLES,
-            TYPES: CTRLD_TYPES,
-            VALUES: CTRLD_VALS,
-        },
-        GC_PRIVATE: {
-            TABLES: PRIV_TABLES,
-            FUNCTIONS: {
-                CREATE_A_USER,
-                GET_BUG_REPORTS,
-                UPDATE_PASSWORD,
-            },
-        },
-        GC_PROTECTED: {
-            FUNCTIONS: {
-                ELEVATION: {
-                    CREATE_OR_UPDATE_CONTAINER_DETAIL,
-                    CREATE_OR_UPDATE_ELEVATION,
-                    CREATE_OR_UPDATE_ELEVATION_CONTAINER,
-                },
-                SYSTEM: {
-                    CREATE_OR_UPDATE_SYSTEM,
-                    UPDATE_ENTIRE_SYSTEM_OPTION,
-                    UPDATE_ENTIRE_DETAIL_OPTION,
-                    UPDATE_ENTIRE_CONFIGURATION_OPTION,
-                    CREATE_OR_UPDATE_SYSTEM_OPTION,
-                    CREATE_OR_UPDATE_SYSTEM_OPTION_VALUE,
-                    UPDATE_ENTIRE_SYSTEM_OPTION_VALUE,
-                    CREATE_OR_UPDATE_SYSTEM_DETAIL_TYPE,
-                    CREATE_OR_UPDATE_DETAIL_OPTION,
-                    CREATE_OR_UPDATE_DETAIL_OPTION_VALUE,
-                    UPDATE_ENTIRE_DETAIL_OPTION_VALUE,
-                    CREATE_OR_UPDATE_SYSTEM_CONFIGURATION_TYPE,
-                    
-                    // DELETE_ENTIRE_CONFIGURATION_OPTION,
-                    // DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE,
-                },
-                // CREATE_OR_UPDATE_SYSTEM_SET,
-                // CREATE_OR_UPDATE_OPTION_VALUE,
-                // CREATE_OR_UPDATE_SYSTEM_OPTION,
-                // UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE,
-                // UPDATE_ENTIRE_SYSTEM_OPTION,
-            },
-            TABLES: {
-                ELEVATION,
-                SYSTEM,
-                SYSTEM_SET,
-            },
-        },
-        GC_DATA: {
-            FUNCTIONS: {
-                UPDATE_ENTIRE_SYSTEM,
-            },
-            TABLES: {
-                APP_DATA,
-                CONFIGURATION_DATA,
-            },
-            TYPES: GC_DATA_TYPES,
-        },
-        GC_UTILS: {
-            FUNCTIONS: {
-                GET_REAL_ID,
-            },
-        },
-    } = DB;
-
-
-    const create_seed = (strings, ...files) => strings.reduce((seed, string, i) => {
-        const file = files[i];
-
-        if (
-            !file
-            ||
-            (typeof file === 'string')
-        ) {
-            return `${seed}${string}${file || ''}`;
-        }
-
-        const [[filename, contents]] = Object.entries(file);
-
-        if (contents === undefined) throw new Error(`Invalid file reference: ${filename}`);
-        if (!contents || contents.match(/^\s*$/)) throw new Error(`File empty: ${filename}`);
-        if (contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))) console.warn(`${chalk.yellow`File commented out:`} ${chalk.yellowBright(filename)}`);
-
-        const contentsWithEnv = contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
-            const value = process.env[ENV_VAR];
-            if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
-            else {
-                console.log(`Replacing ${chalk.green(match)} in file ${chalk.cyan(filename)} with environment variable ${chalk.greenBright(ENV_VAR)}`);
-                return value;
-            }
-        });
-
-        return `${seed}${string}${contentsWithEnv}`;
-    }, '');
-
+    const DB = require('../../compiled/db-seed.js');
+    const pfs = require('../promise-fs');
 
     const DEFAULT_USERS = [
         process.env.USER_ONE,
@@ -150,121 +57,119 @@ module.exports = async () => {
         process.env.USER_SIX,
     ].filter(Boolean);
 
-
-    const DB_SEED = create_seed`
+    const DB_SEED = `
 
 DO $seed$ BEGIN
 
 -- SCHEMAS;
-${{ SCHEMAS }}
+${require('../../db/schemas/schemas.sql')}
 
 -- TYPES;
 
 -- GC_CONTROLLED TYPES;
-${{ CTRLD_TYPES }}
+${require('../../db/schemas/gc_controlled/types.sql')}
 
 -- GC_PUBLIC TYPES;
-${{ UTIL_TYPES }}
--- >>>>>>>> {{ OUTPUT_TYPES }}
-${{ INPUT_TYPES }}
+${require('../../db/schemas/gc_public/types/util-types.sql')}
+-- OUTPUT_TYPES
+${require('../../db/schemas/gc_public/types/input-types.sql')}
 
 -- GC_DATA TYPES
-${{ GC_DATA_TYPES }}
-
+${require('../../db/schemas/gc_data/types.sql')}
 
 -- TABLES;
 
 -- GC_CONTROLLED TABLES;
-${{ CTRLD_TABLES }}
+${require('../../db/schemas/gc_controlled/tables.sql')}
 
 -- GC_DATA TABLES;
-${{ APP_DATA }}
--- >>>>>>>> {{ CONFIGURATION_DATA }}
+${require('../../db/schemas/gc_data/tables/app_data.sql')}
+-- CONFIGURATION_DATA
 
 -- GC_PRIVATE TABLES;
-${{ PRIV_TABLES }}
+${require('../../db/schemas/gc_private/tables.sql')}
 
 -- GC_PUBLIC TABLES;
-${{ PUB_TABLES }}
+${require('../../db/schemas/gc_public/tables.sql')}
 
 -- GC_PROTECTED TABLES;
-${{ SYSTEM }}
--- >>>>>>>> {{ SYSTEM_SET }}
-${{ ELEVATION }}
+${require('../../db/schemas/gc_protected/tables/system.sql')}
+-- SYSTEM_SET
+${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 
 
 -- INVOKER ROLE
-${{ INVOKER }}
+${require('../../db/schemas/invoker.sql')}
 
 
 -- FUNCTIONS;
 
 -- GC_UTIL FUNCTIONS;
-${{ GET_REAL_ID }}
+${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
 
 -- GC PRIVATE FUNCTIONS
-${{ CREATE_A_USER }}
-${{ GET_BUG_REPORTS }}
-${{ UPDATE_PASSWORD }}
+${require('../../db/schemas/gc_private/functions/create_a_user.sql')}
+${require('../../db/schemas/gc_private/functions/get_bug_reports.sql')}
+${require('../../db/schemas/gc_private/functions/update_password.sql')}
 
 -- GC_PROTECTED FUNCTIONS;
 -- ELEVATION
-${{ CREATE_OR_UPDATE_ELEVATION_CONTAINER }}
-${{ CREATE_OR_UPDATE_CONTAINER_DETAIL }}
-${{ CREATE_OR_UPDATE_ELEVATION }}
-${{ CREATE_OR_UPDATE_SYSTEM_OPTION }}
-${{ CREATE_OR_UPDATE_SYSTEM_OPTION_VALUE }}
-${{ UPDATE_ENTIRE_SYSTEM_OPTION_VALUE }}
-${{ CREATE_OR_UPDATE_SYSTEM_DETAIL_TYPE }}
-${{ CREATE_OR_UPDATE_DETAIL_OPTION }}
-${{ CREATE_OR_UPDATE_DETAIL_OPTION_VALUE }}
-${{ UPDATE_ENTIRE_DETAIL_OPTION_VALUE }}
-${{ CREATE_OR_UPDATE_SYSTEM_CONFIGURATION_TYPE }}
+${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
+${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
+${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation.sql')}
 -- SYSTEM
--- >>>>>>>> {{ DELETE_ENTIRE_CONFIGURATION_OPTION }}
--- >>>>>>>> {{ DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE }}
-${{ CREATE_OR_UPDATE_SYSTEM }}
-${{ UPDATE_ENTIRE_SYSTEM_OPTION }}
-${{ UPDATE_ENTIRE_DETAIL_OPTION }}
-${{ UPDATE_ENTIRE_CONFIGURATION_OPTION }}
--- >>>>>>>> {{ CREATE_OR_UPDATE_SYSTEM_SET }}
--- >>>>>>>> {{ CREATE_OR_UPDATE_OPTION_VALUE }}
--- >>>>>>>> {{ CREATE_OR_UPDATE_SYSTEM_OPTION }}
--- >>>>>>>> {{ UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE }}
--- >>>>>>>> {{ UPDATE_ENTIRE_SYSTEM_OPTION }}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system/update_entire_system_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_detail_type.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system/update_entire_detail_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_configuration_type.sql')}
+-- DELETE_ENTIRE_CONFIGURATION_OPTION
+-- DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE
+${require('../../db/schemas/gc_protected/functions/system/update_entire_system_option.sql')}
+${require('../../db/schemas/gc_protected/functions/system/update_entire_detail_option.sql')}
+${require('../../db/schemas/gc_protected/functions/system/update_entire_configuration_option.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_system.sql')}
+-- CREATE_OR_UPDATE_SYSTEM_SET
+-- CREATE_OR_UPDATE_OPTION_VALUE
+-- CREATE_OR_UPDATE_SYSTEM_OPTION
+-- UPDATE_ENTIRE_SYSTEM_CONFIGURATION_OVERRIDE
+-- UPDATE_ENTIRE_SYSTEM_OPTION
 
 -- GC_DATA FUNCTIONS;
-${{ UPDATE_ENTIRE_SYSTEM }}
+${require('../../db/schemas/gc_data/functions/update_entire_system.sql')}
 
 -- GC_PUBLIC MUTATIONS;
-${{ AUTHENTICATE }}
-${{ COPY_ELEVATION }}
-${{ CREATE_OR_UPDATE_PROJECT }}
-${{ DELETE_ENTIRE_ELEVATION }}
-${{ DELETE_ENTIRE_PROJECT }}
-${{ GET_ALL_PROJECTS }}
-${{ REPORT_BUG }}
-${{ UPDATE_ENTIRE_ELEVATION }}
--- >>>>>>>> {{ UPDATE_ENTIRE_SYSTEM_SET }}
+${require('../../db/schemas/gc_public/functions/mutations/authenticate.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/copy_elevation.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/create_or_update_project.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/delete_entire_elevation.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/delete_entire_project.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/get_all_projects.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/report_bug.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/update_entire_elevation.sql')}
+-- UPDATE_ENTIRE_SYSTEM_SET
 
 -- GC_PUBLIC QUERIES;
-${{ GET_CURRENT_USER }}
-${{ GET_CURRENT_USER_ID }}
--- >>>>>>>> {{ SELECT_SYSTEM }}
--- >>>>>>>> {{ SELECT_SYSTEM_SET }}
--- >>>>>>>> {{ SELECT_SYSTEM_TYPE }}
+${require('../../db/schemas/gc_public/functions/queries/get_current_user.sql')}
+${require('../../db/schemas/gc_public/functions/queries/get_current_user_id.sql')}
+-- SELECT_SYSTEM
+-- SELECT_SYSTEM_SET
+-- SELECT_SYSTEM_TYPE
 
 
 -- INSERTIONS
-${{ CTRLD_VALS }}
+${require('../../db/schemas/gc_controlled/values.sql')}
 
 
 -- ROLES
-${{ ROLES }}
+${require('../../db/schemas/roles.sql')}
 
 
 -- PRIVILEGES;
-${{ PRIVILEGES }}
+${require('../../db/schemas/privileges.sql')}
 GRANT gc_invoker TO glascad;
 GRANT glascad TO doadmin;
 
@@ -279,10 +184,10 @@ SELECT 1 FROM create_a_user('${user.split(/,/g).join(`', '`)}') INTO ___;
 END $users$;
 
 -- SEED DATA;
-${{ SEED_DATA }}
+${require('../../db/schemas/seed_data.sql')}
 
 -- POLICIES;
-${{ POLICIES }}
+${require('../../db/schemas/policies.sql')}
 
 END $seed$;
 `;
