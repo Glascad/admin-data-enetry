@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
 
+import * as AD from './application-data';
+
 // FIELDS
 
 export const SYSTEM_FIELDS = gql`
@@ -121,10 +123,14 @@ export const ALL_SYSTEMS = gql`
         allSystems {
             nodes {
                 ...SystemFields
+                manufacturerByManufacturerId {
+                    ...ManufacturerFields
+                }
             }
         }
     }
     ${SYSTEM_FIELDS}
+    ${AD.MANUFACTURER_FIELDS}
 `;
 
 // ENTIRE TYPE

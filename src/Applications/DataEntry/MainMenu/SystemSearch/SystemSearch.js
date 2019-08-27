@@ -55,7 +55,8 @@ export default function SystemSearch({
                                     update,
                                 }) => (
                                         <>
-                                            <Input
+                                            {console.log({ allSystems })}
+                                            {/* <Input
                                                 label="Search"
                                                 value={state.name}
                                                 placeholder={"System Name"}
@@ -117,9 +118,9 @@ export default function SystemSearch({
                                                         label="Option Value"
                                                     />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <ListWrapper
-                                                title="Search Results"
+                                                // title="Search Results"
                                                 items={allSystems.filter(({
                                                     name = "",
                                                     _manufacturer: {
@@ -178,26 +179,26 @@ export default function SystemSearch({
                                                         name: mnfgName,
                                                     } = {}
                                                 }) => ({
-                                                    title: mnfgName,
-                                                    subtitle: systemName,
+                                                    title: mnfgName || 'Unkown',
+                                                    subtitle: systemName || 'Untitled',
                                                     hoverButtons: [
                                                         {
                                                             children: (
                                                                 <Link
-                                                                    to={path.replace(/system-search.*/,
-                                                                        `info/database/system-info?systemId=${id}`)}
+                                                                    to={path.replace(/main-menu\/system-search.*/,
+                                                                        `system/build?systemId=${id}`)}
                                                                 >
-                                                                    Edit Database
+                                                                    Load
                                                                 </Link>
                                                             ),
                                                         },
                                                         {
                                                             children: (
                                                                 <Link
-                                                                    to={path.replace(/system-search.*/,
-                                                                        `info/details?systemId=${id}`)}
+                                                                    to={path.replace(/main-menu\/system-search.*/,
+                                                                        `system/info?systemId=${id}`)}
                                                                 >
-                                                                    Edit Details
+                                                                    Info
                                                                 </Link>
                                                             ),
                                                         },
