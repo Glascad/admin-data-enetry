@@ -40,14 +40,14 @@ const mapProps = ({
                     DataEntry,
                 }
                 :
-                role.match(/client/i) ?
+                // role.match(/client/i) ?
                     {
                         Glascad,
                     }
-                    :
-                    {
-                        Login,
-                    },
+                    // :
+                    // {
+                    //     Login,
+                    // },
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);
