@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import F from '../../../../../schema';
+import F from '../../../../../schemas';
 
 export const query = {
     query: gql`{ ...AllInfillPocketTypes } ${F.APP.ALL_INFILL_POCKET_TYPES}`,

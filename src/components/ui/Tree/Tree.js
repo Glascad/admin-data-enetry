@@ -32,7 +32,7 @@ function Branch({
                 className="tree-item"
                 onClick={toggleOpen}
             >
-                {renderItem(item, arguments[0])}
+                {renderItem(item, { depth, open, toggleOpen })}
             </div>
             <div
                 className="tree-branches"

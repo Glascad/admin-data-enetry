@@ -16,7 +16,7 @@ import updateElevationMutation from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
 
-import * as SAMPLE_ELEVATIONS from './__test__/sample-elevations';
+import * as SAMPLE_ELEVATIONS from './utils/sample-elevations';
 
 const subroutes = {
     CreateElevation,

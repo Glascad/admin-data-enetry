@@ -3,7 +3,7 @@ import Statics from '../Statics/Statics';
 import { TitleBar, Pill, ListWrapper, Tree, useQuery } from '../../components';
 import { logInputOutput } from '../../utils';
 import gql from 'graphql-tag';
-import F from '../../schema';
+import F from '../../schemas';
 
 import './Practice.scss';
 

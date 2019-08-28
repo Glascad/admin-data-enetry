@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo, useState, useEffect } from 'react';
 
 import gql from 'graphql-tag';
 
-import F from '../../../../../../schema';
+import F from '../../../../../../schemas';
 
 import _ from 'lodash';
 
