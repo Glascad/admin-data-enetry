@@ -8,7 +8,7 @@ import useInitialState from '../../hooks/use-initial-state';
 Branch.propTypes = {
     item: PropTypes.object.isRequired,
     branches: PropTypes.array,
-    level: PropTypes.number.isRequired,
+    depth: PropTypes.number.isRequired,
     open: PropTypes.bool.isRequired,
     toggleOpen: PropTypes.func.isRequired,
     renderItem: PropTypes.func.isRequired,
@@ -17,7 +17,7 @@ Branch.propTypes = {
 function Branch({
     item,
     branches = [],
-    level = 0,
+    depth = 0,
     open: propsOpen = true,
     // toggleOpen,
     renderItem,
@@ -26,7 +26,7 @@ function Branch({
     const toggleOpen = () => setOpen(o => !o);
     return (
         <div
-            className={`Branch level-${level}`}
+            className={`Branch depth-${depth}`}
         >
             <div
                 className="tree-item"
@@ -45,7 +45,7 @@ function Branch({
                                 open={!open}
                                 {...branch}
                                 renderItem={renderItem}
-                                level={level + 1}
+                                depth={depth + 1}
                             />
                         )) : (
                             <Ellipsis

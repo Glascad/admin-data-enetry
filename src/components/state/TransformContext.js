@@ -129,7 +129,7 @@ const TransformProvider = ({
             window.addEventListener('mousemove', pan, true);
             window.addEventListener('touchmove', pan, true);
             window.addEventListener('mouseup', stopPanning, true);
-            window.addEventListener('touchup', stopPanning, true);
+            window.addEventListener('touchend', stopPanning, true);
         });
     };
 
@@ -165,14 +165,14 @@ const TransformProvider = ({
         window.addEventListener('keydown', watchSpaceKeyDown);
         window.addEventListener('keyup', watchSpaceKeyUp);
         window.addEventListener('mousedown', watchMouseDown, true);
-        window.addEventListener('touchdown', startPanning);
+        window.addEventListener('touchstart', startPanning);
         window.addEventListener('wheel', watchScroll, { passive: false });
         return () => {
             window.removeEventListener('keydown', watchArrowKeys);
             window.removeEventListener('keydown', watchSpaceKeyDown);
             window.removeEventListener('keyup', watchSpaceKeyUp);
             window.removeEventListener('mousedown', watchMouseDown, true);
-            window.removeEventListener('touchdown', startPanning);
+            window.removeEventListener('touchstart', startPanning);
             window.removeEventListener('wheel', watchScroll, { passive: false });
         }
     }, [translateX, translateY]);

@@ -7,7 +7,7 @@ import { ApolloLink } from 'apollo-link';
 // LOCALSTORAGE
 
 export const STORAGE_KEYS = {
-    JWT: "JSON-Web-Token",
+    JWT: "jwt",
     RECENT_ACTIVITY: "Recent-Activity",
 };
 

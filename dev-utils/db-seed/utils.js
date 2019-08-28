@@ -1,6 +1,48 @@
 const chalk = require('chalk');
 require('dotenv').config();
 
+
+// Compile Utils
+
+const removeComments = obj => typeof obj === 'object' ?
+    Object.entries(obj).reduce((all, [key, value]) => ({
+        ...all,
+        [key]: removeComments(value)
+    }), {})
+    :
+    typeof obj === 'string'
+        ?
+        obj.replace(/--.*\n/g, '\n')
+        :
+        obj;
+
+
+const removeExt = obj => typeof obj === 'object' ?
+    Object.entries(obj).reduce((all, [key, value]) => ({
+        ...all,
+        [key.replace(/\.sql/, '')]: removeExt(value),
+    }), {})
+    :
+    obj;
+
+const cleanKeys = obj => typeof obj === 'object' ?
+    Object.entries(obj).reduce((all, [key, value]) => ({
+        ...all,
+        [key.replace(/\W+/, '_').toUpperCase()]: cleanKeys(value)
+    }), {})
+    :
+    obj;
+
+const getKeys = obj => typeof obj === 'object' ?
+    Object.entries(obj).reduce((all, [key, value]) => ({
+        ...all,
+        [key]: getKeys(value)
+    }), {})
+    :
+    "";
+
+// Write Utils
+
 const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
     const value = process.env[ENV_VAR];
     if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
@@ -56,6 +98,10 @@ const DEFAULT_USERS = [
 ].filter(Boolean);
 
 module.exports = {
+    removeComments,
+    removeExt,
+    cleanKeys,
+    getKeys,
     _require,
     removeEmptyLines,
     DEFAULT_USERS,
