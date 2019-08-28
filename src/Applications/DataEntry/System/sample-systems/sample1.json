@@ -4,7 +4,7 @@
     "id": 1,
     "manufacturerId": 1,
     "systemType": "STOREFRONT",
-    "name": "Initial System",
+    "name": "Sample 1",
     "_systemOptions": [
         {
             "__typename": "SystemOption",

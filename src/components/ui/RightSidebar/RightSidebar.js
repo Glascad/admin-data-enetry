@@ -1,62 +1,73 @@
 import React, { PureComponent } from 'react';
-import './RightSidebar.scss';
+import PropTypes from 'prop-types';
 import DoubleArrow from '../DoubleArrow/DoubleArrow';
+import customPropTypes from '../../custom-prop-types';
 
-export default class RightSidebar extends PureComponent {
+import './RightSidebar.scss';
 
-    render = () => {
-        const {
-            props: {
-                stackedView,
-                stackedView: {
-                    title: stackedTitle = '',
-                    component: StackedChild = () => null,
-                } = {},
-                View: {
-                    title: initialTitle,
-                    component: InitialPureComponent,
-                },
-                open,
-                handleCloseClick,
-                childProps,
-            },
-        } = this;
+RightSidebar.propTypes = {
+    stackedView: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        component: customPropTypes.renderable.isRequired,
+    }).isRequired,
+    View: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        component: customPropTypes.renderable.isRequired,
+    }),
+    open: PropTypes.bool.isRequired,
+    handleCloseClick: PropTypes.func,
+    childProps: PropTypes.object,
+};
 
-        const title = stackedView ?
-            stackedTitle
-            :
-            initialTitle;
+export default function RightSidebar({
+    stackedView,
+    stackedView: {
+        title: stackedTitle = '',
+        component: StackedChild = () => null,
+    } = {},
+    View: {
+        title: initialTitle,
+        component: InitialPureComponent,
+    },
+    open,
+    handleCloseClick,
+    childProps,
+}) {
 
-        const Child = stackedView ?
-            StackedChild
-            :
-            InitialPureComponent;
+    const title = stackedView ?
+        stackedTitle
+        :
+        initialTitle;
 
-        return (
-            <div
-                className={`RightSidebar ${open}`}
-                onKeyDown={e => e.stopPropagation()}
-                onMouseDown={e => e.stopPropagation()}
-                onWheel={e => e.stopPropagation()}
+    const Child = stackedView ?
+        StackedChild
+        :
+        InitialPureComponent;
+
+    return (
+        <div
+            className={`RightSidebar ${open ? "open" : "closed"}`}
+            onKeyDown={e => e.stopPropagation()}
+            onMouseDown={e => e.stopPropagation()}
+            onWheel={e => e.stopPropagation()}
+        >
+            <button
+                className="sidebar-button primary"
+                onClick={handleCloseClick}
             >
-                <button
-                    className="sidebar-button primary"
-                    onClick={handleCloseClick}
-                >
-                    {stackedView ? (
-                        <DoubleArrow
-                            className="icon"
-                            tagname="div"
-                        />
-                    ) : null}
-                    <span>
-                        Close {title}
-                    </span>
-                </button>
-                <Child
-                    {...{ ...childProps }}
-                />
-            </div>
-        );
-    }
+                {stackedView ? (
+                    <DoubleArrow
+                        className="icon"
+                        tagname="div"
+                    />
+                ) : null}
+                <span>
+                    Close {title}
+                </span>
+            </button>
+            <Child
+                {...childProps}
+            />
+        </div>
+    );
 }

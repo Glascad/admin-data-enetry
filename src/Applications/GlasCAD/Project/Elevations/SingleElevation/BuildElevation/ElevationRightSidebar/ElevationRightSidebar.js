@@ -84,7 +84,7 @@ class ElevationRightSidebar extends PureComponent {
             <RightSidebar
                 stackedView={stackedView}
                 View={View}
-                open={length ? "open" : "closed"}
+                open={!!length}
                 handleCloseClick={handleCloseClick}
                 childProps={{
                     toggleStackedView,
