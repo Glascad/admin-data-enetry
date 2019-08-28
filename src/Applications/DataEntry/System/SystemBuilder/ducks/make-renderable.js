@@ -1,6 +1,58 @@
 export default function makeRenderable() {
     return {
         item: {},
-        branches: [],
+        branches: [
+            {
+                item: {},
+                branches: [
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                ],
+            },
+            {
+                item: {},
+                branches: [
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                ],
+            },
+            {
+                item: {},
+                branches: [
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                    {
+                        item: {},
+                        branches: [],
+                    },
+                ],
+            },
+        ],
     };
 }

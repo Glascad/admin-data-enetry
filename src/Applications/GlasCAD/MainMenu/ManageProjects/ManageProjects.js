@@ -1,5 +1,5 @@
 import React from 'react';
-import F from '../../../../schema';
+import F from '../../../../schemas';
 
 import {
     Link,

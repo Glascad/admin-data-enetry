@@ -223,6 +223,9 @@ export const ENTIRE_SYSTEM_OPTION = gql`
 export const ENTIRE_SYSTEM = gql`
     fragment EntireSystem on System {
         ...SystemFields
+        manufacturerByManufacturerId {
+            ...ManufacturerFields
+        }
         systemOptionsBySystemId(orderBy: PARENT_SYSTEM_OPTION_VALUE_ID_ASC) {
             nodes {
                 ...EntireSystemOption
@@ -240,6 +243,7 @@ export const ENTIRE_SYSTEM = gql`
         }
     }
     ${SYSTEM_FIELDS}
+    ${AD.MANUFACTURER_FIELDS}
     ${ENTIRE_SYSTEM_OPTION}
     ${ENTIRE_DETAIL_OPTION}
     ${ENTIRE_CONFIGURATION_OPTION}

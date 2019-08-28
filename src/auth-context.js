@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import gql from 'graphql-tag';
 
-import F from './schema';
+import F from './schemas';
 
 import client, { STORAGE_KEYS } from './apollo-config';
 

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import F from '../../../../schema';
+import F from '../../../../schemas';
 
 export default gql`
     query ProjectById($id:Int!) {
