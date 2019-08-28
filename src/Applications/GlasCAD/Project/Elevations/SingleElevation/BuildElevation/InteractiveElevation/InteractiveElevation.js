@@ -6,7 +6,7 @@ import React, {
 import { withRouter } from 'react-router-dom';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
-import { TransformContext, pixelsPerInch } from '../contexts/TransformContext';
+import { TransformContext, pixelsPerInch, withTransformContext } from '../contexts/TransformContext';
 
 // import Container from './components/Container';
 import Container from './Containers/Container';
@@ -24,6 +24,41 @@ import { parseSearch } from '../../../../../../../utils';
 import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
 import Containers from './Containers/Containers';
 import Frames from './Frames/Frames';
+
+const TransformedElevationDisplay = withTransformContext(function TransformedElevationDisplay({
+    transform: {
+        translate: {
+            x,
+            y,
+        },
+        scale: {
+            x: scaleX,
+            y: scaleY,
+        },
+    },
+    height,
+    width,
+    finishedFloorHeight,
+    selectedClass,
+    children,
+}) {
+    return (
+        <div
+            id="elevation-display"
+            className={`${
+                selectedClass
+                }-selected`}
+            style={{
+                height,
+                width,
+                transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
+            }}
+            onMouseDown={e => e.stopPropagation()}
+        >
+            {children}
+        </div>
+    );
+})
 
 class InteractiveElevation extends PureComponent {
 
@@ -113,20 +148,8 @@ class InteractiveElevation extends PureComponent {
                     leftDimensionTracks = [],
                     bottomDimensionTracks = [],
                 } = {},
-                transformContext: {
-                    scale: {
-                        nudgeAmount: scaleNudge,
-                        x: scaleX,
-                        y: scaleY,
-                    },
-                    translate: {
-                        nudgeAmount,
-                        x,
-                        y,
-                    },
-                    spaceKey,
-                    watchMouseDown,
-                },
+                spaceKey,
+                watchMouseDown,
                 updating,
                 selectedClass,
                 selectItem,
@@ -135,7 +158,7 @@ class InteractiveElevation extends PureComponent {
             },
         } = this;
 
-        console.log(this.props.elevation); 
+        console.log(this.props.elevation);
 
         const {
             elevationId,
@@ -180,17 +203,11 @@ class InteractiveElevation extends PureComponent {
                         )
                     )
                 ) ? (
-                            <div
-                                id="elevation-display"
-                                className={`${
-                                    selectedClass
-                                    }-selected`}
-                                style={{
-                                    height: roy * pixelsPerInch,
-                                    width: rox * pixelsPerInch,
-                                    transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
-                                }}
-                                onMouseDown={e => e.stopPropagation()}
+                            <TransformedElevationDisplay
+                                finishedFloorHeight={finishedFloorHeight}
+                                selectedClass={selectedClass}
+                                height={roy * pixelsPerInch}
+                                width={rox * pixelsPerInch}
                             >
                                 {/* ROUGH OPENING */}
                                 <div
@@ -214,7 +231,7 @@ class InteractiveElevation extends PureComponent {
                                 />
                                 {/* FRAMES */}
 
-                                <Frames 
+                                <Frames
                                     allFrames={allFrames}
                                     selectItem={selectItem}
                                     selectable={framesSelectable}
@@ -285,7 +302,8 @@ class InteractiveElevation extends PureComponent {
                                         </div>
                                     ))}
                                 </div>
-                            </div>
+                                {/* </div> */}
+                            </TransformedElevationDisplay>
                         ) : (
                             <div
                                 id="elevation-loading"
@@ -362,9 +380,10 @@ export default withRouter(
         )(
             withContext(
                 TransformContext,
-                ({ context }) => ({
+                ({ context: { spaceKey, watchMouseDown } }) => ({
                     context: undefined,
-                    transformContext: context,
+                    spaceKey,
+                    watchMouseDown,
                 }),
                 { pure: true },
             )(

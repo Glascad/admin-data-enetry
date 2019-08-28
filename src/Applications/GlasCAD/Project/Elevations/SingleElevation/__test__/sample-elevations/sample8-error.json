@@ -24,7 +24,7 @@
             }
         },
         {
-            "__typename": "UPDATED_CONTAINER",
+            "__typename": "ElevationContainer",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU2Nl0=",
             "id": 2566,
             "original": false,
@@ -36,7 +36,7 @@
             "customRoughOpening": true
         },
         {
-            "__typename": "UPDATED_CONTAINER",
+            "__typename": "ElevationContainer",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU2N10=",
             "id": 2567,
             "original": false,
@@ -103,7 +103,7 @@
             "customRoughOpening": true
         },
         {
-            "__typename": "UPDATED_CONTAINER",
+            "__typename": "ElevationContainer",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3M10=",
             "id": 2573,
             "daylightOpening": {
@@ -156,7 +156,7 @@
             "customRoughOpening": true
         },
         {
-            "__typename": "UPDATED_CONTAINER",
+            "__typename": "ElevationContainer",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3OV0=",
             "id": 2579,
             "daylightOpening": {
@@ -229,7 +229,7 @@
             }
         },
         {
-            "__typename": "UPDATED_CONTAINER",
+            "__typename": "ElevationContainer",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4Nl0=",
             "id": 2586,
             "daylightOpening": {
@@ -240,7 +240,7 @@
             "customRoughOpening": true
         },
         {
-            "__typename": "UPDATED_CONTAINER",
+            "__typename": "ElevationContainer",
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4N10=",
             "id": 2587,
             "daylightOpening": {
@@ -309,15 +309,15 @@
             "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNjg1Ml0=",
             "id": 6852,
             "vertical": false,
-            "firstContainerId": 2573,
+            "firstContainerId": 2572,
             "_detailOptionValues": []
         },
         {
-            "__typename": "UPDATED_DETAIL",
+            "__typename": "ContainerDetail",
             "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNjg1M10=",
             "id": 6853,
             "vertical": false,
-            "secondContainerId": 2567,
+            "secondContainerId": 2566,
             "_detailOptionValues": []
         },
         {
@@ -753,23 +753,6 @@
             "id": 6904,
             "vertical": true,
             "secondContainerId": 2588,
-            "_detailOptionValues": []
-        },
-        {
-            "__typename": "ContainerDetail",
-            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNjg1Nl0=",
-            "id": -10004,
-            "vertical": false,
-            "secondContainerId": 2566,
-            "_detailOptionValues": []
-        },
-        {
-            "__typename": "ContainerDetail",
-            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsNjg4NF0=",
-            "id": -10005,
-            "vertical": false,
-            "firstContainerId": 2572,
-            "secondContainerId": 2579,
             "_detailOptionValues": []
         }
     ],
