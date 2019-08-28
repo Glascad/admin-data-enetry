@@ -1,17 +1,18 @@
 import React from 'react';
-import { TitleBar } from "../../../../components";
+import { TitleBar, TransformProvider } from "../../../../components";
+import SystemTree from './SystemTree/SystemTree';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
 };
 
 export default function SystemBuilder({
-    
+
 }) {
 
     return (
-        <TitleBar
-            title="System Builder"
-        />
+        <TransformProvider>
+            <SystemTree />
+        </TransformProvider>
     );
 }
