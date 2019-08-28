@@ -3,7 +3,7 @@ import { TitleBar, TransformProvider, useSelection } from "../../../../component
 import SystemTree from './SystemTree/SystemTree';
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
-import { elevationUpdate } from './ducks/schemas';
+import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 
 SystemBuilder.navigationOptions = {
@@ -18,12 +18,16 @@ export default function SystemBuilder({
     },
 }) {
 
-    const [elevationInput, setState] = useState(elevationUpdate);
+    const [systemInput, setState] = useState(systemUpdate);
     const selection = useSelection();
 
-    const dispatch = (ACTION, payload) => setState(elevationInput => ({ ...elevationInput, ...ACTION(payload) }));
+    const dispatch = (ACTION, payload) => setState(systemInput => ({ ...systemInput, ...ACTION(payload) }));
 
-    const system = merge(elevationInput, queryStatus);
+    const system = merge(systemInput, queryStatus);
+
+    const save = async () => {
+        console.log(systemInput);
+    }
 
     console.log(arguments[0]);
 
@@ -31,9 +35,11 @@ export default function SystemBuilder({
         <TransformProvider>
             <Header
                 queryStatus={queryStatus}
+                systemInput={systemInput}
                 system={system}
                 dispatch={dispatch}
                 selection={selection}
+                save={save}
             />
             <SystemTree
                 queryStatus={queryStatus}

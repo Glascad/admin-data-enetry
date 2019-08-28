@@ -1,12 +1,20 @@
 import React from 'react';
-import { TitleBar, Ellipsis } from '../../../../components';
+import { withRouter } from 'react-router-dom';
+import { TitleBar, Ellipsis, ConfirmButton } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 
 SystemInfo.navigationOptions = {
     path: '/info',
 };
 
-export default function SystemInfo({
+function SystemInfo({
+    location: {
+        search,
+    },
+    match: {
+        path,
+    },
+    history,
     fetching,
     queryStatus: {
         _system: {
@@ -15,9 +23,6 @@ export default function SystemInfo({
                 name: mnfgName = "",
             } = {},
         } = {},
-    },
-    location: {
-        search,
     },
 }) {
     const { systemId } = parseSearch(search);
@@ -32,6 +37,39 @@ export default function SystemInfo({
                 :
                 "New System"}
             selections={systemId && !fetching ? [systemName] : []}
+            right={(
+                <>
+                    <ConfirmButton
+                        data-cy="close"
+                        doNotConfirmWhen={true}
+                        onClick={() => {
+                            history.push(`${
+                                path.replace(/system\/info/, 'main-menu/system-search')
+                                }${
+                                search
+                                }`);
+                        }}
+                    >
+                        Close
+                    </ConfirmButton>
+                    <ConfirmButton
+                        data-cy="load"
+                        className="action"
+                        doNotConfirmWhen={true}
+                        onClick={() => {
+                            history.push(`${
+                                path.replace(/info/, 'build')
+                                }${
+                                search
+                                }`);
+                        }}
+                    >
+                        Load
+                    </ConfirmButton>
+                </>
+            )}
         />
     );
 }
+
+export default withRouter(SystemInfo);

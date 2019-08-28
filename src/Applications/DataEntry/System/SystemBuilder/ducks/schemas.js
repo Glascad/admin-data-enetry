@@ -1,3 +1,3 @@
-export const elevationUpdate = {
+export const systemUpdate = {
     id: 0,
 };
