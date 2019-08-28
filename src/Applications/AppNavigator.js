@@ -28,29 +28,29 @@ const mapProps = ({
     },
 }) => ({
     allowedApplications:
-    // {
-    //     DataEntry,
-    //     Glascad,
-    // }
-    role.match(/admin/i) ?
-        {
-            DataEntry,
-            Glascad,
-        }
-        :
-        role.match(/data.entry/i) ?
-            {
-                DataEntry,
-            }
-            :
-            role.match(/client/i) ?
-                {
-                    Glascad,
-                }
-                :
-                {
-                    Login,
-                },
+    {
+        DataEntry,
+        Glascad,
+    }
+    // role.match(/admin/i) ?
+    //     {
+    //         DataEntry,
+    //         Glascad,
+    //     }
+    //     :
+    //     role.match(/data.entry/i) ?
+    //         {
+    //             DataEntry,
+    //         }
+    //         :
+    //         role.match(/client/i) ?
+    //             {
+    //                 Glascad,
+    //             }
+    //             :
+    //             {
+    //                 Login,
+    //             },
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);

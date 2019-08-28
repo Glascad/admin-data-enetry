@@ -1,6 +1,6 @@
 
 const storagekeys = {
-    jwt: 'JSON-Web-Token',
+    jwt: 'jwt',
     project: 'cypress-project-id',
     elevation: 'cypress-elevation-id',
 };

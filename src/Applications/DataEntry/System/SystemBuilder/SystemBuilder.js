@@ -7,7 +7,7 @@ SystemBuilder.navigationOptions = {
 };
 
 export default function SystemBuilder({
-
+    
 }) {
 
     return (
