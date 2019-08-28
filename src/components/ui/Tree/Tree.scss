@@ -1,0 +1,43 @@
+@import "../../../styles/variables";
+
+.Tree {
+    .Branch {
+        width: fill;
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        // margin: 5px;
+        // padding: 5px;
+        // background: transparentize(tomato, 0.85);
+        // border: 1px solid purple;
+        border-top: none;
+        border-bottom: none;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-bottom: 0;
+
+        &.level-0 {
+            border: none;
+        }
+
+        .tree-item {
+            > * {
+                display: flex;
+                justify-content: center;
+                white-space: nowrap;
+                width: fill;
+                border-left: 1px solid $dark-gray;
+                border-right: 1px solid $dark-gray;
+                // margin: 5px;
+                margin: -0.5px;
+                padding: 10px;
+                // border-radius: 5px;
+            }
+        }
+        .tree-branches {
+            display: flex;
+            justify-content: space-evenly;
+            // background: transparentize(red, 0.95);
+        }
+    }
+}

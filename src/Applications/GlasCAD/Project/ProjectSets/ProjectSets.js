@@ -12,6 +12,10 @@ import SystemSet from './SystemSet/SystemSet';
 
 import { parseSearch } from '../../../../utils';
 
+ProjectSetsRouter.navigationOptions = {
+    path: "/sets",
+};
+
 export default function ProjectSetsRouter(props) {
     return (
         <Navigator
@@ -23,6 +27,10 @@ export default function ProjectSetsRouter(props) {
         />
     );
 }
+
+ProjectSets.navigationOptions = {
+    path: "/all",
+};
 
 function ProjectSets({
     queryStatus: {
@@ -38,6 +46,7 @@ function ProjectSets({
         path,
     },
 }) {
+    console.log(arguments[0]);
     return (
         <div className="card">
             <CollapsibleTitle
@@ -46,38 +55,40 @@ function ProjectSets({
                 }}
             >
                 <ListWrapper
-                    items={_systemSets}
                     identifier="id"
-                    defaultPillProps={{
-                        type: 'tile',
-                        align: 'left',
-                    }}
-                    mapPillProps={({
-                        id: systemSetId,
-                        _system: {
-                            name: systemName = '',
-                            _manufacturer: {
-                                name: manufacturerName = '',
-                            } = {},
-                            _elevations: {
-                                totalCount = 0,
-                            } = {},
-                        },
-                    }) => ({
-                        title: manufacturerName,
-                        subtitle: systemName,
-                        footer: `Applied to ${totalCount} elevation${totalCount === 1 ? '' : 's'}`,
-                        hoverButtons: [
-                            {
-                                children: (
-                                    <Link
-                                        to={`${path}/system-set${parseSearch(search).update({ systemSetId })}`}
-                                    >
-                                        Edit System
-                                    </Link>
-                                ),
+                    items={_systemSets.map(ss => {
+                        const {
+                            id,
+                            name,
+                            _system: {
+                                name: systemName,
+                                _manufacturer: {
+                                    name: manufacturerName,
+                                },
                             },
-                        ],
+                            _elevations: {
+                                totalCount,
+                            },
+                        } = ss;
+                        return {
+                            ...ss,
+                            title: name,
+                            subtitle: `${manufacturerName} - ${systemName}`,
+                            footer: `Applied to ${totalCount} elevation${totalCount === 1 ? '' : 's'}`,
+                            type: 'tile',
+                            align: 'left',
+                            hoverButtons: [
+                                {
+                                    children: (
+                                        <Link
+                                            to={`${path}/system-set${parseSearch(search).update({ systemSetId: id })}`}
+                                        >
+                                            Edit System
+                                        </Link>
+                                    ),
+                                },
+                            ],
+                        };
                     })}
                     onDelete={() => { }}
                     circleButton={{

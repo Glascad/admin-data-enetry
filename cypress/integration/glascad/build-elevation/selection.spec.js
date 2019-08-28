@@ -36,8 +36,8 @@ describe('testing selection', () => {
         cy.get('[data-cy="3862-3941"]').click().should('have.class', 'selected');
         cy.get('[data-cy="3859-3939"]').should('have.class', 'selected');
         //clicking unselects the frame
-        cy.get('[data-cy="3862-3941"]').click().should('not.have.class', 'selected');
-        cy.get('[data-cy="3859-3939"]').click().should('not.have.class', 'selected');
+        cy.get('[data-cy="3862-3941"]').click({force: true}).should('not.have.class', 'selected');
+        cy.get('[data-cy="3859-3939"]').click({force: true}).should('not.have.class', 'selected');
         //testing arrow keys on extending frames
         cy.get('[data-cy="3942"]').click().should('have.class', 'selected');
         cy.get('body').type('{rightarrow}');
@@ -55,13 +55,15 @@ describe('testing selection', () => {
         //testing arrow key cancels frame select
         cy.get('body').type('{rightarrow}');
         cy.get('[data-cy="3942"]').should('not.have.class', 'selected');
-        cy.get('[data-cy="3944"]').should('not.have.class', 'selected');
-        cy.get('[data-cy="3946"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="3944"]').should('have.class', 'selected');
+        cy.get('[data-cy="3946"]').should('have.class', 'selected');
         cy.get('[data-cy="3948"]').should('have.class', 'selected');
+        cy.get('body').type('{leftarrow}');
+        cy.get('body').type('{leftarrow}');
+        cy.get('[data-cy="3940"]').should('have.class', 'selected');
+        cy.get('[data-cy="3942"]').should('have.class', 'selected');
+        cy.get('[data-cy="3944"]').should('have.class', 'selected');
+        cy.get('[data-cy="3946"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="3948"]').should('not.have.class', 'selected');
     });
-    // it("can select/deselect a detail", () => {
-    //     cy.get('[data-cy="3868-3945"]').click();
-    //     cy.get('[data-cy="detail-3868"]').click({ force: true }).should('have.class', 'selected');
-    // })
-
 });

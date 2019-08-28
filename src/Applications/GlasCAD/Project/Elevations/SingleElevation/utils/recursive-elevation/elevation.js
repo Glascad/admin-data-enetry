@@ -124,8 +124,6 @@ export default class RecursiveElevation extends Loggable {
     }
 
     // LOGIC
-    get verticalFramesRunThroughHeadAndSill() { return true; }
-
     // REFERENCES
     // ALL
     get allContainers() { return this.containerIds.map(id => this.containers[id]); }
@@ -133,8 +131,6 @@ export default class RecursiveElevation extends Loggable {
     get allFrames() {
         return this.__allFrames || (
             this.__allFrames = this.allDetails.reduce((all, detail) => (
-                detail.exists
-                &&
                 !all.some(_frame => _frame.contains(detail))
             ) ?
                 all.concat(new RecursiveFrame(detail.allMatchedDetails, this, detail))

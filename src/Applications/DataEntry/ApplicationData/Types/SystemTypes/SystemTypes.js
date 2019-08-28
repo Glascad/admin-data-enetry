@@ -10,6 +10,10 @@ import query from './system-types-graphql/query';
 import mutations from './system-types-graphql/mutations';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 
+SystemTypes.navigationOptions = {
+    name: "System Types",
+};
+
 export default function SystemTypes() {
     return (
         <ApolloWrapper
@@ -17,6 +21,190 @@ export default function SystemTypes() {
             mutations={mutations}
         >
             {({
+                queryStatus,
+                queryStatus: {
+                    configurationTypes = [],
+                    detailTypes = [],
+                    allSystemTypes = [],
+                    // PresentationLevels = [],
+                },
+                mutations: {
+                    createSystemTypeDetailType,
+                    deleteSystemTypeDetailType,
+                    createSystemTypeDetailTypeConfigurationType,
+                    updateSystemTypeDetailTypeConfigurationType,
+                    deleteSystemTypeDetailTypeConfigurationType,
+                } = {},
+                mutations
+            }) => (
+                    <div className="card">
+                        <ListWrapper
+                            title="System Types"
+                            items={allSystemTypes.map(system => ({
+                                ...system,
+                                title: system.type,
+                            }))}
+                        >
+                            {({
+                                _systemTypeDetailTypes: systemDetailTypes = [],
+                                type: systemType = '',
+                            }) => (
+                                    <ListWrapper
+                                        identifier='title'
+                                        titleBar={{
+                                            title: "Detail Types",
+                                            selections: [systemType],
+                                        }}
+                                        items={systemDetailTypes.map(detail => ({
+                                            ...detail,
+                                            title: detail.detailType
+                                        }))}
+                                        multiSelect={{
+                                            allItems: detailTypes.map(dt => ({
+                                                title: dt,
+                                                arguments: {
+                                                    detailType: dt
+                                                }
+                                            })),
+                                        }}
+                                        onCreate={({ arguments: { detailType } }) => createSystemTypeDetailType({
+                                            systemType,
+                                            detailType,
+                                        })}
+                                        onDelete={({ nodeId }) => deleteSystemTypeDetailType({
+                                            nodeId
+                                        })}
+                                        deleteModal={{
+                                            name: "Detail Type"
+                                        }}
+                                    >
+                                        {({
+                                            _systemTypeDetailTypeConfigurationTypes: detailConfigurationTypes = [],
+                                            detailType = '',
+                                        }) => (
+                                                <ListWrapper
+                                                    identifier='title'
+                                                    titleBar={{
+                                                        title: "Configuration Types",
+                                                        selections: [
+                                                            systemType,
+                                                            detailType,
+                                                        ]
+                                                    }}
+                                                    items={detailConfigurationTypes.map(configuration => ({
+                                                        ...configuration,
+                                                        title: configuration.configurationType,
+                                                    }))}
+                                                    multiSelect={{
+                                                        allItems: configurationTypes.map(ct => ({
+                                                            title: ct,
+                                                            arguments: {
+                                                                configurationType: ct
+                                                            }
+                                                        })),
+                                                    }}
+                                                    onCreate={({ arguments: { configurationType } }) => createSystemTypeDetailTypeConfigurationType({
+                                                        configurationType,
+                                                        detailType,
+                                                        systemType,
+                                                    })}
+                                                    onDelete={({ nodeId }) => deleteSystemTypeDetailTypeConfigurationType({
+                                                        nodeId
+                                                    })}
+                                                    deleteModal={{
+                                                        name: "Configuration Type"
+                                                    }}
+                                                >
+                                                    {({
+                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID = '',
+                                                        configurationType: configurationTypeName = '',
+                                                        required = false,
+                                                        // mirrorable = false,
+                                                        // presentationLevel = '',
+                                                        // overrideLevel = '',
+                                                    }) => (
+                                                            <>
+                                                                <TitleBar
+                                                                    title="Configuration Type Settings"
+                                                                    selections={[
+                                                                        systemType,
+                                                                        detailType,
+                                                                        configurationTypeName,
+                                                                    ]}
+                                                                />
+                                                                {/* <Input
+                                                                    label="Mirrorable"
+                                                                    type="switch"
+                                                                    checked={mirrorable}
+                                                                    onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                        mirrorable: checked,
+                                                                    })}
+                                                                /> */}
+                                                                <Input
+                                                                    label="Required"
+                                                                    type="switch"
+                                                                    checked={required}
+                                                                    onChange={({ target: { checked } }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                        nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                        required: checked,
+                                                                    })}
+                                                                />
+                                                                {/* <div
+                                                                    className={`nested ${
+                                                                        required ?
+                                                                            "disabled"
+                                                                            :
+                                                                            ""
+                                                                        }`}
+                                                                    style={{ marginTop: "1.25rem" }}
+                                                                >
+                                                                    <Input
+                                                                        label="Presentation Level"
+                                                                        select={{
+                                                                            value: {
+                                                                                label: presentationLevel,
+                                                                                value: presentationLevel,
+                                                                            },
+                                                                            options: PresentationLevels.map(({ level }) => ({
+                                                                                label: level,
+                                                                                value: level,
+                                                                            })),
+                                                                            onChange: ({ value }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                                nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                                presentationLevel: value,
+                                                                            }),
+                                                                        }}
+                                                                    />
+                                                                    <Input
+                                                                        label="Override Level"
+                                                                        select={{
+                                                                            value: {
+                                                                                label: overrideLevel,
+                                                                                value: overrideLevel,
+                                                                            },
+                                                                            options: PresentationLevels.map(({ level }) => ({
+                                                                                label: level,
+                                                                                value: level,
+                                                                            })),
+                                                                            onChange: ({ value }) => updateSystemTypeDetailTypeConfigurationType({
+                                                                                nodeId: systemTypeDetailTypeConfigurationTypeNID,
+                                                                                overrideLevel: value,
+                                                                            }),
+                                                                        }}
+                                                                    />
+                                                                </div> */}
+                                                            </>
+                                                        )}
+                                                </ListWrapper>
+                                            )}
+                                    </ListWrapper>
+                                )
+                            }
+                        </ListWrapper>
+                    </div>
+                )}
+            {/* {({
                 queryStatus: {
                     allSystemTypes = [],
                     allDetailTypes = [],
@@ -35,9 +223,22 @@ export default function SystemTypes() {
                 },
                 queryStatus,
                 mutations,
+                rawQueryStatus,
+                rawQueryStatus: {
+                    error: {
+                        networkError: {
+                            result: {
+                                errors = [],
+                            } = {},
+                        } = {},
+                    } = {},
+                },
             }) => (
                     <ListWrapper
-                        // n={console.log({ queryStatus, mutations })}
+                        // n={console.log({ queryStatus, mutations, rawQueryStatus })}
+                        // n={console.log(errors.map(({ message }) => message))}
+                        // n={errors.forEach(({ message }) => console.log(message))}
+                        // n={errors.forEach(({ message }) => console.log(message.replace(/^cannot query field "(\w+)" on type "(\w+)".*$/i, '$1 - $2')))}
                         title="System Types"
                         items={allSystemTypes}
                         mapPillProps={({ type }) => ({
@@ -55,14 +256,13 @@ export default function SystemTypes() {
                         })}
                     >
                         {({
-                            id: systemTypeId,
-                            type: systemTypeName = '',
+                            type: systemType = '',
                             _systemTypeDetailTypeConfigurationTypes = [],
                         }) => (
                                 <ListWrapper
                                     titleBar={{
                                         title: "Detail Types",
-                                        selections: [systemTypeName],
+                                        selections: [systemType],
                                     }}
                                     items={_systemTypeDetailTypeConfigurationTypes
                                         .filter(({
@@ -79,12 +279,11 @@ export default function SystemTypes() {
                                         }))}
                                     mapPillProps={({ type }) => ({
                                         title: type,
-                                    })}
+                                    })}np
                                     multiSelect={{
                                         allItems: allDetailTypes,
                                     }}
                                     onCreate={({ id }) => createSystemTypeDetailTypeConfigurationType({
-                                        systemTypeId,
                                         detailTypeId: id,
                                     })}
                                     onDelete={({ systemTypeDetailTypeConfigurationTypeNID }) => deleteSystemTypeDetailTypeConfigurationType({
@@ -94,14 +293,14 @@ export default function SystemTypes() {
                                     {({
                                         nodeId: detailTypeNID,
                                         id: detailTypeId,
-                                        type: detailTypeName = '',
+                                        type: detailType = '',
                                     }) => (
                                             <ListWrapper
                                                 titleBar={{
                                                     title: "Configuration Types",
                                                     selections: [
-                                                        systemTypeName,
-                                                        detailTypeName,
+                                                        systemType,
+                                                        detailType,
                                                     ]
                                                 }}
                                                 items={_systemTypeDetailTypeConfigurationTypes
@@ -135,7 +334,6 @@ export default function SystemTypes() {
                                                     allItems: allConfigurationTypes,
                                                 }}
                                                 onCreate={({ id }) => createSystemTypeDetailTypeConfigurationType({
-                                                    systemTypeId,
                                                     detailTypeId,
                                                     configurationTypeId: id,
                                                 })}
@@ -155,8 +353,8 @@ export default function SystemTypes() {
                                                             <TitleBar
                                                                 title="Configuration Type Settings"
                                                                 selections={[
-                                                                    systemTypeName,
-                                                                    detailTypeName,
+                                                                    systemType,
+                                                                    detailType,
                                                                     configurationTypeName,
                                                                 ]}
                                                             />
@@ -230,7 +428,7 @@ export default function SystemTypes() {
                             )}
                     </ListWrapper>
                 )
-            }
+            } */}
         </ApolloWrapper >
     );
 }

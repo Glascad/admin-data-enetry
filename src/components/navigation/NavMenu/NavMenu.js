@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import {
     NavLink,
     withRouter,
@@ -11,6 +11,12 @@ import './NavMenu.scss';
 
 import { extractNavigationOptions } from '../../../utils';
 
+import Navigator from '../Navigator';
+
+NavMenu.propTypes = {
+    ...Navigator.propTypes,
+    closed: PropTypes.bool,
+};
 
 function NavMenu({
     location: {

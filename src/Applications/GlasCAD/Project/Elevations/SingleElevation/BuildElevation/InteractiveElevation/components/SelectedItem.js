@@ -4,7 +4,7 @@ import RecursiveContainer from '../../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../../utils/recursive-elevation/frame';
 import RecursiveDetail from '../../../utils/recursive-elevation/detail';
 import { transformProps } from '../../../../../../../../components';
-import { pixelsPerInch } from '../../contexts/TransformContext';
+import { pixelsPerInch } from '../../contexts/ElevationTransformContext';
 
 class SelectedItem extends PureComponent {
 

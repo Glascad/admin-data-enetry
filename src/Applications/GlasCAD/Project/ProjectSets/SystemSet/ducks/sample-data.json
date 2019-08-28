@@ -1,0 +1,369 @@
+{
+    "mutation": {
+        "systemSet": {
+            "id": 2,
+            "projectId": 1,
+            "name": "SYSTEM SET",
+            "systemId": 1,
+            "selectedOptionValues": [
+                {
+                    "optionName": "STOPS",
+                    "name": "DOWN"
+                }
+            ],
+            "detailTypeConfigurationTypes": [
+                {
+                    "detailType": "HEAD",
+                    "configurationType": "COMPENSATING_RECEPTOR"
+                }
+            ],
+            "detailTypeConfigurationTypesToUnselect": [
+                {
+                    "detailType": "SILL",
+                    "configurationType": "SILL_FLASHING"
+                }
+            ]
+        }
+    },
+    "rawResult": {
+        "systemSet": {
+            "id": 2,
+            "name": "SYSTEM SET",
+            "systemId": 1,
+            "projectId": 1,
+            "systemSetOptionValuesBySystemSetIdAndSystemIdAndSystemType": {
+                "nodes": [
+                    {
+                        "optionName": "STOPS",
+                        "name": "DOWN"
+                    }
+                ]
+            },
+            "systemSetDetailTypeConfigurationTypesBySystemSetIdAndSystemIdAndSystemType": {
+                "nodes": [
+                    {
+                        "detailType": "HEAD",
+                        "configurationType": "COMPENSATING_RECEPTOR"
+                    },
+                    {
+                        "detailType": "SILL",
+                        "configurationType": "SILL_FLASHING"
+                    }
+                ]
+            },
+            "systemBySystemId": {
+                "name": "Initial System"
+            },
+            "systemTypeBySystemType": {
+                "type": "STOREFRONT",
+                "systemTypeDetailTypesBySystemType": {
+                    "nodes": [
+                        {
+                            "detailType": "HEAD",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "HEAD",
+                                        "required": true
+                                    },
+                                    {
+                                        "configurationType": "COMPENSATING_RECEPTOR",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "JAMB",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "JAMB",
+                                        "required": true
+                                    },
+                                    {
+                                        "configurationType": "COMPENSATING_RECEPTOR",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "SILL",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "SILL",
+                                        "required": true
+                                    },
+                                    {
+                                        "configurationType": "SILL_FLASHING",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "HORIZONTAL",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "HORIZONTAL",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "detailType": "MULLION",
+                            "systemTypeDetailTypeConfigurationTypesBySystemTypeAndDetailType": {
+                                "nodes": [
+                                    {
+                                        "configurationType": "MULLION",
+                                        "required": false
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "normalizedResult": {
+        "__typename": "SystemSet",
+        "nodeId": "WyJzeXN0ZW1fc2V0cyIsM10=",
+        "id": 3,
+        "_system": {
+            "__typename": "System",
+            "nodeId": "WyJzeXN0ZW1zIiwxXQ==",
+            "id": 1,
+            "manufacturerId": 1,
+            "systemType": "STOREFRONT",
+            "name": "Initial System",
+            "_manufacturer": {
+                "__typename": "Manufacturer",
+                "nodeId": "WyJtYW51ZmFjdHVyZXJzIiwxXQ==",
+                "id": 1,
+                "name": "Kawneer",
+                "__by": "ManufacturerId"
+            },
+            "_systemType": {
+                "__typename": "SystemType",
+                "nodeId": "WyJzeXN0ZW1fdHlwZXMiLCJTVE9SRUZST05UIl0=",
+                "type": "STOREFRONT",
+                "_systemTypeDetailTypes": [
+                    {
+                        "__typename": "SystemTypeDetailType",
+                        "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZXMiLCJTVE9SRUZST05UIiwiSEVBRCJd",
+                        "systemType": "STOREFRONT",
+                        "detailType": "HEAD",
+                        "_systemTypeDetailTypeConfigurationTypes": [
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIkhFQUQiLCJIRUFEIl0=",
+                                "systemType": "STOREFRONT",
+                                "detailType": "HEAD",
+                                "configurationType": "HEAD",
+                                "required": true
+                            },
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIkhFQUQiLCJDT01QRU5TQVRJTkdfUkVDRVBUT1IiXQ==",
+                                "systemType": "STOREFRONT",
+                                "detailType": "HEAD",
+                                "configurationType": "COMPENSATING_RECEPTOR",
+                                "required": false
+                            }
+                        ]
+                    },
+                    {
+                        "__typename": "SystemTypeDetailType",
+                        "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZXMiLCJTVE9SRUZST05UIiwiSkFNQiJd",
+                        "systemType": "STOREFRONT",
+                        "detailType": "JAMB",
+                        "_systemTypeDetailTypeConfigurationTypes": [
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIkpBTUIiLCJKQU1CIl0=",
+                                "systemType": "STOREFRONT",
+                                "detailType": "JAMB",
+                                "configurationType": "JAMB",
+                                "required": true
+                            },
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIkpBTUIiLCJDT01QRU5TQVRJTkdfUkVDRVBUT1IiXQ==",
+                                "systemType": "STOREFRONT",
+                                "detailType": "JAMB",
+                                "configurationType": "COMPENSATING_RECEPTOR",
+                                "required": false
+                            }
+                        ]
+                    },
+                    {
+                        "__typename": "SystemTypeDetailType",
+                        "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZXMiLCJTVE9SRUZST05UIiwiU0lMTCJd",
+                        "systemType": "STOREFRONT",
+                        "detailType": "SILL",
+                        "_systemTypeDetailTypeConfigurationTypes": [
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIlNJTEwiLCJTSUxMIl0=",
+                                "systemType": "STOREFRONT",
+                                "detailType": "SILL",
+                                "configurationType": "SILL",
+                                "required": true
+                            },
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIlNJTEwiLCJTSUxMX0ZMQVNISU5HIl0=",
+                                "systemType": "STOREFRONT",
+                                "detailType": "SILL",
+                                "configurationType": "SILL_FLASHING",
+                                "required": false
+                            }
+                        ]
+                    },
+                    {
+                        "__typename": "SystemTypeDetailType",
+                        "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZXMiLCJTVE9SRUZST05UIiwiSE9SSVpPTlRBTCJd",
+                        "systemType": "STOREFRONT",
+                        "detailType": "HORIZONTAL",
+                        "_systemTypeDetailTypeConfigurationTypes": [
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIkhPUklaT05UQUwiLCJIT1JJWk9OVEFMIl0=",
+                                "systemType": "STOREFRONT",
+                                "detailType": "HORIZONTAL",
+                                "configurationType": "HORIZONTAL",
+                                "required": true
+                            }
+                        ]
+                    },
+                    {
+                        "__typename": "SystemTypeDetailType",
+                        "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZXMiLCJTVE9SRUZST05UIiwiTVVMTElPTiJd",
+                        "systemType": "STOREFRONT",
+                        "detailType": "MULLION",
+                        "_systemTypeDetailTypeConfigurationTypes": [
+                            {
+                                "__typename": "SystemTypeDetailTypeConfigurationType",
+                                "nodeId": "WyJzeXN0ZW1fdHlwZV9kZXRhaWxfdHlwZV9jb25maWd1cmF0aW9uX3R5cGVzIiwiU1RPUkVGUk9OVCIsIk1VTExJT04iLCJNVUxMSU9OIl0=",
+                                "systemType": "STOREFRONT",
+                                "detailType": "MULLION",
+                                "configurationType": "MULLION",
+                                "required": false
+                            }
+                        ]
+                    }
+                ],
+                "__by": "SystemType"
+            },
+            "_invalidSystemConfigurationTypes": [],
+            "_systemConfigurationOverrides": [],
+            "_systemOptions": [
+                {
+                    "__typename": "SystemOption",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsIkdMQVpJTkciLDFd",
+                    "name": "GLAZING",
+                    "systemId": 1,
+                    "_optionValues": [
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJHTEFaSU5HIiwiSU5TSURFIl0=",
+                            "name": "INSIDE"
+                        },
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJHTEFaSU5HIiwiT1VUU0lERSJd",
+                            "name": "OUTSIDE"
+                        }
+                    ]
+                },
+                {
+                    "__typename": "SystemOption",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsIlNUT1BTIiwxXQ==",
+                    "name": "STOPS",
+                    "systemId": 1,
+                    "_optionValues": [
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJTVE9QUyIsIlVQIl0=",
+                            "name": "UP"
+                        },
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJTVE9QUyIsIkRPV04iXQ==",
+                            "name": "DOWN"
+                        }
+                    ]
+                },
+                {
+                    "__typename": "SystemOption",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsIkpPSU5FUlkiLDFd",
+                    "name": "JOINERY",
+                    "systemId": 1,
+                    "_optionValues": [
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJKT0lORVJZIiwiU0NSRVdfU1BMSU5FIl0=",
+                            "name": "SCREW_SPLINE"
+                        },
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJKT0lORVJZIiwiU0hFQVJfQkxPQ0siXQ==",
+                            "name": "SHEAR_BLOCK"
+                        },
+                        {
+                            "__typename": "OptionValue",
+                            "nodeId": "WyJvcHRpb25fdmFsdWVzIiwxLCJKT0lORVJZIiwiU1RJQ0siXQ==",
+                            "name": "STICK"
+                        }
+                    ]
+                }
+            ],
+            "__by": "SystemId"
+        },
+        "_systemSetOptionValues": [
+            {
+                "__typename": "SystemSetOptionValue",
+                "nodeId": "WyJzeXN0ZW1fc2V0X29wdGlvbl92YWx1ZXMiLDMsIkdMQVpJTkciXQ==",
+                "optionName": "GLAZING",
+                "name": "INSIDE"
+            },
+            {
+                "__typename": "SystemSetOptionValue",
+                "nodeId": "WyJzeXN0ZW1fc2V0X29wdGlvbl92YWx1ZXMiLDMsIlNUT1BTIl0=",
+                "optionName": "STOPS",
+                "name": "DOWN"
+            }
+        ],
+        "_systemSetDetailTypeConfigurationTypes": [
+            {
+                "__typename": "SystemSetDetailTypeConfigurationType",
+                "nodeId": "WyJzeXN0ZW1fc2V0X2RldGFpbF90eXBlX2NvbmZpZ3VyYXRpb25fdHlwZXMiLDEsIkhFQUQiLCJDT01QRU5TQVRJTkdfUkVDRVBUT1IiXQ==",
+                "detailType": "HEAD",
+                "configurationType": "COMPENSATING_RECEPTOR"
+            },
+            {
+                "__typename": "SystemSetDetailTypeConfigurationType",
+                "nodeId": "WyJzeXN0ZW1fc2V0X2RldGFpbF90eXBlX2NvbmZpZ3VyYXRpb25fdHlwZXMiLDEsIkpBTUIiLCJDT01QRU5TQVRJTkdfUkVDRVBUT1IiXQ==",
+                "detailType": "JAMB",
+                "configurationType": "COMPENSATING_RECEPTOR"
+            },
+            {
+                "__typename": "SystemSetDetailTypeConfigurationType",
+                "nodeId": "WyJzeXN0ZW1fc2V0X2RldGFpbF90eXBlX2NvbmZpZ3VyYXRpb25fdHlwZXMiLDEsIlNJTEwiLCJTSUxMX0ZMQVNISU5HIl0=",
+                "detailType": "SILL",
+                "configurationType": "SILL_FLASHING"
+            }
+        ],
+        "_elevations": {
+            "totalCount": 0,
+            "__typename": "ElevationsConnection",
+            "__by": "SystemSetId"
+        },
+        "__by": "Id"
+    }
+}

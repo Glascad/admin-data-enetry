@@ -1,4 +1,4 @@
-import ImperialValue from "../feet-inches";
+import { ImperialValue } from "../..";
 
 function testImperialValue({
     string,

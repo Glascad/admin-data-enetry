@@ -6,7 +6,7 @@ import React, {
 import { withRouter } from 'react-router-dom';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
-import { TransformContext, pixelsPerInch, withTransformContext } from '../contexts/TransformContext';
+import { TransformContext, pixelsPerInch, withTransformContext } from '../contexts/ElevationTransformContext';
 
 // import Container from './components/Container';
 import Container from './Containers/Container';
@@ -158,8 +158,6 @@ class InteractiveElevation extends PureComponent {
             },
         } = this;
 
-        console.log(this.props.elevation);
-
         const {
             elevationId,
             bugId,
@@ -176,14 +174,14 @@ class InteractiveElevation extends PureComponent {
                 ref={this.InteractiveElevation}
                 onMouseDown={watchMouseDown}
             >
-                {console.log({
+                {/* {console.log({
                     id,
                     elevationId,
                     sampleElevation,
                     bugId,
                     elevationBugId,
                     elevation,
-                })}
+                })} */}
                 {updating ? (
                     <div
                         id="elevation-loading"

@@ -1,14 +1,22 @@
 import React, { PureComponent } from 'react';
-
+import PropTypes from 'prop-types';
 import TitleBar from '../TitleBar/TitleBar';
 
 import './CollapsibleTitle.scss';
+import customPropTypes from '../../custom-prop-types';
 
 export default class CollapsibleTitle extends PureComponent {
 
+    static propTypes = {
+        className: PropTypes.string,
+        open: PropTypes.bool,
+        children: customPropTypes.renderable,
+        titleBar: PropTypes.shape(TitleBar.propTypes),
+        title: customPropTypes.renderable,
+    };
+
     static defaultProps = {
         className: "",
-        triangle: true,
         open: true,
     };
 
@@ -16,23 +24,19 @@ export default class CollapsibleTitle extends PureComponent {
         open: this.props.open,
     };
 
-    open = () => this.setState({
-        open: true
-    });
+    open = () => this.setState({ open: true });
 
-    close = () => this.setState({
-        open: false
-    });
+    close = () => this.setState({ open: false });
 
     componentDidUpdate = (_, { open }) => {
         if (!open && this.props.open === true) this.open();
         if (open && this.props.open === false) this.close();
     }
 
-    handleClick = () => {
-        if (this.state.open) this.close();
-        else this.open();
-    }
+    handleClick = () => this.state.open ?
+        this.close()
+        :
+        this.open();
 
     render = () => {
         const {
@@ -40,7 +44,7 @@ export default class CollapsibleTitle extends PureComponent {
                 open,
             },
             props: {
-                className = '',
+                className,
                 children,
                 title,
                 titleBar,

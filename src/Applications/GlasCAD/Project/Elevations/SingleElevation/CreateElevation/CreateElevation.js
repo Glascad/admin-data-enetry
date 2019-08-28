@@ -52,7 +52,7 @@ const areEqual = (json, input) => {
         });
 }
 
-const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}` };
+const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS.ALL_SYSTEMS}` };
 
 const saveDefaultMutation = {
     mutation: gql`
@@ -70,7 +70,7 @@ const saveDefaultMutation = {
                 }
             }
         }
-        ${F.PR_DATA.ENTIRE_PROJECT}
+        ${F.PRJ.ENTIRE_PROJECT}
     `,
 };
 
@@ -149,13 +149,18 @@ export default memo(function CreateElevation({
     const { projectId } = parseSearch(search);
 
     const saveDefault = async () => {
-        const result = await runSaveDefault({
-            id: +parseSearch(search).projectId,
-            defaultElevation: JSON.stringify({
-                ...elevationInput,
-                name: undefined,
-            }),
-        });
+        try {
+            const result = await runSaveDefault({
+                id: +parseSearch(search).projectId,
+                defaultElevation: JSON.stringify({
+                    ...elevationInput,
+                    name: undefined,
+                }),
+            });
+        } catch (err) {
+            console.error(`Error saving default elevation`);
+            console.error(err);
+        }
     }
 
     const save = useCallback(async () => {
@@ -211,6 +216,7 @@ export default memo(function CreateElevation({
                 parseSearch(search).update({ elevationId })
                 }`);
         } catch (err) {
+            console.error(`Error saving elevation`);
             console.error(err);
         }
     }, [mergedElevation]);

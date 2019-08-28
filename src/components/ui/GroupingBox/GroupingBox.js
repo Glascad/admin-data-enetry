@@ -1,8 +1,18 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import './GroupingBox.scss';
-import { Toggle } from '../..';
+import Toggle from '../Toggle/Toggle';
 import CircleButton from '../CircleButton/CircleButton';
+import customPropTypes from '../../custom-prop-types';
+import { normalCase } from '../../../utils';
+
+GroupingBox.propTypes = {
+    title: PropTypes.string,
+    toggle: PropTypes.shape(Toggle.propTypes),
+    circleButton: PropTypes.shape(CircleButton.propTypes),
+    children: customPropTypes.renderable,
+    className: PropTypes.string,
+};
 
 GroupingBox.defaultProps = {
     className: "",
@@ -20,7 +30,7 @@ export default function GroupingBox({
             className={`GroupingBox ${className}`}
         >
             <div className="title">
-                {title}
+                {normalCase(title)}
             </div>
             {toggle ? (
                 <div className="toggle-background">

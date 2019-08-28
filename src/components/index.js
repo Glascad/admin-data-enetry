@@ -15,18 +15,25 @@ import Input from './ui/Input/Input';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
+import Tree from './ui/Tree/Tree';
+import RightSidebar from './ui/RightSidebar/RightSidebar';
 
 // STATE COMPONENTS
-import asyncComponent from './state/async-component';
-import { useQuery, useMutation } from './state/use-graphql';
 import ApolloWrapper from './state/ApolloWrapper';
-import SelectionWrapper from './state/SelectionWrapper';
 import StateManager from './state/StateManager';
-import withContext from './state/with-context';
-import transformProps from './state/transform-props';
-import useUndoRedo, { withUndoRedo } from './state/use-undo-redo';
-import useMountTracker from './state/use-mount-tracker';
-import useInitialState from './state/use-initial-state';
+import TransformContext from './state/TransformContext';
+
+// HIGHER ORDER COMPONENTS
+import asyncComponent from './higher-order/async-component';
+import { useQuery, useMutation } from './hooks/use-graphql';
+import withContext from './higher-order/with-context';
+import transformProps from './higher-order/transform-props';
+
+// HOOKS
+import useUndoRedo, { withUndoRedo } from './hooks/use-undo-redo';
+import useMountTracker from './hooks/use-mount-tracker';
+import useInitialState from './hooks/use-initial-state';
+import useSelection from './hooks/use-selection';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -60,19 +67,24 @@ export {
     Ellipsis,
     AsyncButton,
     ConfirmButton,
+    Tree,
+    RightSidebar,
     // STATE
-    asyncComponent,
     ApolloWrapper,
-    useQuery,
-    useMutation,
-    SelectionWrapper,
     StateManager,
+    TransformContext,
+    // HIGHER ORDER
+    asyncComponent,
     withContext,
     transformProps,
-    useUndoRedo,
     withUndoRedo,
+    // HOOKS
+    useQuery,
+    useMutation,
+    useUndoRedo,
     useMountTracker,
     useInitialState,
+    useSelection,
     // NAVIGATION
     Navigator,
     TabNavigator,

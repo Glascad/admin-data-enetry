@@ -1,7 +1,3 @@
-import createSystemType from './system-types/create';
-import updateSystemType from './system-types/update';
-import deleteSystemType from './system-types/delete';
-
 import createSystemTypeDetailType from './detail-types/create';
 import deleteSystemTypeDetailType from './detail-types/delete';
 
@@ -10,9 +6,6 @@ import updateSystemTypeDetailTypeConfigurationType from './configuration-types/u
 import deleteSystemTypeDetailTypeConfigurationType from './configuration-types/delete';
 
 export default {
-    createSystemType,
-    updateSystemType,
-    deleteSystemType,
     createSystemTypeDetailType,
     deleteSystemTypeDetailType,
     createSystemTypeDetailTypeConfigurationType,

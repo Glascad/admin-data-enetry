@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
     NavLink,
     withRouter,
@@ -8,6 +8,12 @@ import {
 import Navigator from '../Navigator';
 
 import './TabNavigator.scss';
+import customPropTypes from '../../custom-prop-types';
+
+TabNavigator.propTypes = {
+    ...Navigator.propTypes,
+    children: customPropTypes.renderable,
+};
 
 function TabNavigator({
     location: {

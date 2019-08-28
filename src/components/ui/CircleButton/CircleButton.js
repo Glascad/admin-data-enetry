@@ -1,50 +1,44 @@
 import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './CircleButton.scss';
 import ButtonTile from '../ButtonTile/ButtonTile';
+import customPropTypes from '../../custom-prop-types';
 
 export default class CircleButton extends PureComponent {
 
-    // static propTypes = {
-    //     type: PropTypes.oneOf([
-    //         'small',
-    //         "tile",
-    //         'input'
-    //     ]),
-    //     text: PropTypes.string,
-    //     inputType: PropTypes.string,
-    //     onClick: PropTypes.func.isRequired,
-    //     onBlur: PropTypes.func,
-    //     otherButtons: PropTypes.arrayOf(PropTypes.object)
-    // };
+    static propTypes = {
+        text: PropTypes.string,
+        className: PropTypes.string,
+        type: PropTypes.oneOf([
+            'small',
+            "tile",
+            'input'
+        ]),
+        actionType: PropTypes.oneOf([
+            'add',
+            'delete',
+        ]),
+        otherButtons: PropTypes.shape(ButtonTile.propTypes),
+        onBlur: PropTypes.func,
+        onClick: PropTypes.func.isRequired,
+        renderTextInsteadOfButton: customPropTypes.renderable,
+    };
 
     static defaultProps = {
         text: "Create",
         type: "",
         actionType: "",
-        inputType: "",
         otherButtons: [],
     };
 
-    state = {
-        editing: false
-    };
-
-    handleClick = e => this.props.type === "input" ?
-        this.setState({ editing: true })
-        :
-        this.props.onClick(this.props);
+    handleClick = () => this.props.onClick(this.props);
 
     render = () => {
         const {
-            state: {
-                editing,
-            },
             props: {
                 text,
                 type,
                 actionType,
-                inputType,
                 otherButtons,
                 onBlur,
                 onClick,
@@ -62,10 +56,6 @@ export default class CircleButton extends PureComponent {
                     type ? `type-${type}` : ''
                     } ${
                     actionType ? `action-type-${actionType}` : ''
-                    } ${
-                    inputType ? `input-${inputType}` : ''
-                    } ${
-                    editing ? 'editing' : ''
                     } ${
                     otherButtons.length ?
                         'with-other-buttons'
@@ -106,6 +96,6 @@ export default class CircleButton extends PureComponent {
                         </>
                     )}
             </div>
-        )
+        );
     }
 }

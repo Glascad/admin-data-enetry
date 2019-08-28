@@ -17,7 +17,7 @@ export default {
                 }
             }
         }
-        ${F.EL_DATA.ENTIRE_ELEVATION}
+        ${F.ELVTN.ENTIRE_ELEVATION}
     `,
     update(cache, {
         data: {
