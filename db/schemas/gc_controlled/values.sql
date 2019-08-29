@@ -51,7 +51,7 @@ VALUES
 ('SET', 'CENTER'),
 ('SET', 'MULTI_PLANE'),
 ('RECEPTOR_TYPE', 'STANDARD'),
-('RECEPTOR_TYPE', 'HIGH_PROFILE');
+('RECEPTOR_TYPE', 'HIGH_PERFORMANCE');
 
 -- INSERT INTO ordered_presentation_levels
 -- (value, level)

@@ -78,7 +78,7 @@ gc_controlled.option_value_name AS ENUM (
     'INSIDE',
     'OUTSIDE',
     'STANDARD',
-    'HIGH_PROFILE'
+    'HIGH_PERFORMANCE'
 );
 
 -- CREATE TYPE

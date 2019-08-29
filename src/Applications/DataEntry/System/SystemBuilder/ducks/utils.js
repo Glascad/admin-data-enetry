@@ -5,26 +5,31 @@ export const getFirstItem = ({ _systemOptions }) => _systemOptions.find(({ paren
 export const getChildren = ({
     __typename,
     id,
-    _systemOptionValues,
-    _systemDetailTypes, 
-    _detailOptionValues,
-    _systemConfigurationTypes,
-    _configurationOptionValues,
+    _systemOptionValues = [],
+    _systemDetailTypes = [],
+    _detailOptionValues = [],
+    _systemConfigurationTypes = [],
+    _configurationOptionValues = [],
 }, {
-    _systemOptions,
-    _detailOptions,
-    _configurationOptions,
+    _systemOptions = [],
+    _detailOptions = [],
+    _configurationOptions = [],
 }) => match(__typename)
-    .equals('SystemOption', () => _systemOptionValues)
-    .equals('SystemOptionValue', () => _systemOptions.filter(({ parentSystemOptionValueId }) => parentSystemOptionValueId === id)
-        .concat(_systemDetailTypes))    
-    .equals('SystemDetailType', () => _detailOptions.filter(({ systemDetailTypeId }) => systemDetailTypeId === id))
-    .equals('DetailOption', () => _detailOptionValues)
-    .equals('DetailOptionValue', () => { })
-    .equals('SystemConfigurationType', () => _configurationOptions.filter(({ systemConfigurationTypeId }) => systemConfigurationTypeId === id))
-    .equals('ConfigurationOption', () => _configurationOptionValues)
-    .equals('ConfigurationOptionValue', () => { })
-    .finally(() => { });
-export const makeRenderable = ({
+    .equals({
+        SystemOption: () => _systemOptionValues,
+        DetailOption: () => _detailOptionValues,
+        ConfigurationOption: () => _configurationOptionValues,
+        SystemOptionValue: () => _systemDetailTypes.concat(
+            _systemOptions.filter(({ parentSystemOptionValueId }) => parentSystemOptionValueId === id)
+        ),
+        DetailOptionValue: () => _systemConfigurationTypes.concat(
+            _detailOptions.filter(({ parentDetailOptionValueId }) => parentDetailOptionValueId === id)
+        ),
+        ConfigurationOptionValue: () => _configurationOptions.filter(({ parentConfigurationOptionValueId }) => parentConfigurationOptionValueId === id),
+        SystemDetailType: () => _detailOptions.filter(({ systemDetailTypeId }) => systemDetailTypeId === id),
+        SystemConfigurationType: () => _configurationOptions.filter(({ systemConfigurationTypeId }) => systemConfigurationTypeId === id),
+    })
+    .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) })
+    .finally(c => c);
 
-}) => { }
+export const makeRenderable = () => { }

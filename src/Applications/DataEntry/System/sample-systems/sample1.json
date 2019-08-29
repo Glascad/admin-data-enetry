@@ -242,7 +242,7 @@
                     "__typename": "ConfigurationOptionValue",
                     "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDJd",
                     "id": 2,
-                    "name": "HIGH_PROFILE",
+                    "name": "HIGH_PERFORMANCE",
                     "_configurations": []
                 }
             ]
@@ -265,7 +265,7 @@
                     "__typename": "ConfigurationOptionValue",
                     "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDRd",
                     "id": 4,
-                    "name": "HIGH_PROFILE",
+                    "name": "HIGH_PERFORMANCE",
                     "_configurations": []
                 }
             ]
@@ -288,7 +288,7 @@
                     "__typename": "ConfigurationOptionValue",
                     "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDZd",
                     "id": 6,
-                    "name": "HIGH_PROFILE",
+                    "name": "HIGH_PERFORMANCE",
                     "_configurations": []
                 }
             ]
@@ -311,7 +311,7 @@
                     "__typename": "ConfigurationOptionValue",
                     "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDhd",
                     "id": 8,
-                    "name": "HIGH_PROFILE",
+                    "name": "HIGH_PERFORMANCE",
                     "_configurations": []
                 }
             ]

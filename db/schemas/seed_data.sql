@@ -50,13 +50,13 @@ INSERT INTO configuration_options (system_id, system_configuration_type_id, name
 (1, 8, 'RECEPTOR_TYPE');
 INSERT INTO configuration_option_values (system_id, configuration_option_id, option_name, name) VALUES
 (1, 1, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 1, 'RECEPTOR_TYPE', 'HIGH_PROFILE'),
+(1, 1, 'RECEPTOR_TYPE', 'HIGH_PERFORMANCE'),
 (1, 2, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 2, 'RECEPTOR_TYPE', 'HIGH_PROFILE'),
+(1, 2, 'RECEPTOR_TYPE', 'HIGH_PERFORMANCE'),
 (1, 3, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 3, 'RECEPTOR_TYPE', 'HIGH_PROFILE'),
+(1, 3, 'RECEPTOR_TYPE', 'HIGH_PERFORMANCE'),
 (1, 4, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 4, 'RECEPTOR_TYPE', 'HIGH_PROFILE');
+(1, 4, 'RECEPTOR_TYPE', 'HIGH_PERFORMANCE');
 
 -- TEST SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type)
