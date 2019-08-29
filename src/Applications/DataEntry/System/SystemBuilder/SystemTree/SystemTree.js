@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tree } from '../../../../../components';
-import makeRenderable from '../ducks/make-renderable';
+import { makeRenderable } from '../ducks/utils';
 
 export default function SystemTree({
     system,

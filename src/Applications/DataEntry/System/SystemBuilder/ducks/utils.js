@@ -17,5 +17,58 @@ export const getChildren = (item, system) => {
 export const makeRenderable = ({
 
 }) => ({
-
+    item: {},
+    branches: [
+        {
+            item: {},
+            branches: [
+                {
+                    item: {},
+                    branches:[],
+                },
+                {
+                    item: {},
+                    branches:[],
+                },
+                {
+                    item: {},
+                    branches:[],
+                },
+            ],
+        },
+        {
+            item: {},
+            branches: [
+                {
+                    item: {},
+                    branches:[],
+                },
+                {
+                    item: {},
+                    branches:[],
+                },
+                {
+                    item: {},
+                    branches:[],
+                },
+            ],
+        },
+        {
+            item: {},
+            branches: [
+                {
+                    item: {},
+                    branches:[],
+                },
+                {
+                    item: {},
+                    branches:[],
+                },
+                {
+                    item: {},
+                    branches:[],
+                },
+            ],
+        },
+    ],
 });
