@@ -15,13 +15,13 @@ function testMakeRenderable(system) {
                 parentTypeName = '',
             ) => (
                     match(parentTypeName)
-                        .condition(parentTypeName.match(/option/i), tn => {
+                        .regex(/option/i, tn => {
                             expect(tn).toMatch(/value$/i);
                         })
-                        .condition(parentTypeName.match(/value/i), tn => {
+                        .regex(/value/i, tn => {
                             expect(tn).toMatch(/(type|value)$/i);
                         })
-                        .condition(parentTypeName === '' || parentTypeName.match(/type/), tn => {
+                        .regex(/(^$)|(type)/i, tn => {
                             expect(tn).toMatch(/option$/i);
                         })
                         .otherwise(tn => {
