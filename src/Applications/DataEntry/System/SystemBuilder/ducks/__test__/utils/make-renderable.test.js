@@ -14,13 +14,13 @@ function testMakeRenderable(system) {
             } = {},
                 parentTypeName = '') => {
                 match(parentTypeName)
-                    .on(tn => tn.match(/option/i), () => {
+                    .condition(parentTypeName.match(/option/i), () => {
                         expect(__typename).toMatch(/value$/i);
                     })
-                    .on(tn => tn.match(/value/i), () => {
+                    .condition(parentTypeName.match(/value/i), () => {
                         expect(__typename).toMatch(/(type|value)$/i);
                     })
-                    .on(tn => tn === '' || tn.match(/type/), () => {
+                    .condition(parentTypeName === '' || parentTypeName.match(/type/), () => {
                         expect(__typename).toMatch(/option$/i);
                     })
                     .otherwise(() => {
