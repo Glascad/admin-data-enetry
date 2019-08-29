@@ -22,7 +22,7 @@ export default function duplicateDetail({
         id: newId,
     },
 }) {
-    console.log(`DUPLICATING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
+    // console.log(`DUPLICATING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
 
     // console.log({ detail, oldContainer, newContainer });
     // console.trace(detail);

@@ -1,5 +1,5 @@
 import ALTER_ROUGH_OPENING from "../alter-rough-opening";
-import { sample7 } from "../../../../__test__/sample-elevations";
+import { sample7 } from "../../../../utils/sample-elevations";
 import applyActionToElevation from "./apply-action";
 import '../../../../../../../../../../public';
 import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";

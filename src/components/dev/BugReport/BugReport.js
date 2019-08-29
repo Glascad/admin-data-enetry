@@ -67,8 +67,8 @@ function BugReport({
                     });
                     onComplete(success);
                 } catch (err) {
-                    console.log({ err });
-                    console.log({ ...err });
+                    // console.log({ err });
+                    // console.log({ ...err });
 
                     const {
                         networkError: {

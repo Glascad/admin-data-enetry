@@ -68,8 +68,8 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
     const fetchQuery = async variables => {
 
-        console.log("FETCHING QUERY");
-        console.log({ query, variables });
+        // console.log("FETCHING QUERY");
+        // console.log({ query, variables });
 
         setLoading(true);
 
@@ -77,15 +77,15 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
             const response = await client.query(variables ? { ...query, variables } : query);
 
-            console.log({
-                response,
-                variables,
-                query,
-            });
+            // console.log({
+            //     response,
+            //     variables,
+            //     query,
+            // });
 
             const normalResponse = normalizeResponse(response);
 
-            console.log({ normalResponse });
+            // console.log({ normalResponse });
 
             // tracker.ifStillMounted(() => {
             setLoading(false);
@@ -111,7 +111,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
     useEffect(() => {
         if (!doNotFetchOnMount) {
-            console.log("FETCHING ON MOUNT");
+            // console.log("FETCHING ON MOUNT");
             fetchQuery();
         }
     }, []);

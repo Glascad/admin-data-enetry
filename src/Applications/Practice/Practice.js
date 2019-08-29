@@ -136,12 +136,12 @@ const trunk = {
     })),
 };
 
-console.log(trunk);
+// console.log(trunk);
 
 function Practice() {
     const [fetch, queryStatus] = useQuery({ query });
-    console.log(queryStatus);
-    setTimeout(() => console.log(queryStatus));
+    // console.log(queryStatus);
+    // setTimeout(() => console.log(queryStatus));
     const {
         _system,
         _system: {
@@ -189,7 +189,7 @@ function Practice() {
                     <div
                         onClick={() => {
                             if (props.toggleOpen) props.toggleOpen();
-                            console.log({ item, props });
+                            // console.log({ item, props });
                         }}
                         className={`type-${item.type}`}
                     >

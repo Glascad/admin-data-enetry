@@ -1,8 +1,8 @@
 import mergeElevationInput from '../merge-input';
-import sample1 from '../../../__test__/sample-elevations/sample1.json';
-import sample2 from '../../../__test__/sample-elevations/sample2.json';
-import sample3 from '../../../__test__/sample-elevations/sample3.json';
-import sample3Special from '../../../__test__/sample-elevations/sample3-special.json';
+import sample1 from '../../../utils/sample-elevations/sample1.json';
+import sample2 from '../../../utils/sample-elevations/sample2.json';
+import sample3 from '../../../utils/sample-elevations/sample3.json';
+import sample3Special from '../../../utils/sample-elevations/sample3-special.json';
 import { defaultElevationInput } from '../../../CreateElevation/elevation-input';
 
 function testMergeInput({

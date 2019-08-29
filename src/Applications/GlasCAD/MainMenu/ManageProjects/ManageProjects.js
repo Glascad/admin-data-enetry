@@ -22,7 +22,7 @@ export default function ManageProjects({
         path,
     },
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     const allProjectsQuery = { query: gql`{ ...AllProjects } ${F.PRJ.ALL_PROJECTS}` };
     const [fetchQuery, { allProjects = [] }, loading] = useQuery(allProjectsQuery);
     const [deleteProject, deleteResult, deleting] = useMutation(deleteProjectMutation, fetchQuery);

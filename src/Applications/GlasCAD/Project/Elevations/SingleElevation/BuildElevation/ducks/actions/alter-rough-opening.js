@@ -36,7 +36,7 @@ export default function ALTER_ROUGH_OPENING({
     first,
 }) {
 
-    console.log(arguments);
+    // console.log(arguments);
 
     const _frame = container.getFrameByDirection(true, first);
 

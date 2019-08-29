@@ -49,9 +49,9 @@ function AuthProvider({
     const getCurrentUser = async () => {
         try {
             const result = await fetchQuery();
-            console.log({ result });
+            // console.log({ result });
             const { currentUser: { projectId } = {} } = result || {};
-            console.log({ originalLocation });
+            // console.log({ originalLocation });
             history.push(
                 originalLocation.match(/\/(glascad|data-entry)/) ?
                     originalLocation
@@ -89,7 +89,7 @@ function AuthProvider({
             if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
 
         } catch (err) {
-            console.log({ err });
+            // console.log({ err });
         }
 
         return getCurrentUser();

@@ -1,8 +1,8 @@
 import RecursiveElevation from "../elevation";
-// import sample3 from '../../../__test__/sample-elevations/sample3';
-// import sample5 from '../../../__test__/sample-elevations/sample5';
-// import sample6 from '../../../__test__/sample-elevations/sample6';
-// import sample1Special from '../../../__test__/sample-elevations/sample1-special';
+// import sample3 from '../../../utils/sample-elevations/sample3';
+// import sample5 from '../../../utils/sample-elevations/sample5';
+// import sample6 from '../../../utils/sample-elevations/sample6';
+// import sample1Special from '../../../utils/sample-elevations/sample1-special';
 
 import {
     sample3,
@@ -11,7 +11,7 @@ import {
     sample6,
     error1,
     sample9,
-} from '../../../__test__/sample-elevations';
+} from '../../../utils/sample-elevations';
 
 function testFrame({ elevation, frames }) {
     describe(`Testing frame methods for ${elevation.name}`, () => {

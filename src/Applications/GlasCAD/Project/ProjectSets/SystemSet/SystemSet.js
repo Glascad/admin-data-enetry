@@ -41,7 +41,7 @@ export default function SystemSet({
         },
     });
 
-    console.log({ queryStatusTwo, refetch });
+    // console.log({ queryStatusTwo, refetch });
 
     // const [updateEntireSystemSet] = useMutation(updateEntireSystemSetMutation);
 
@@ -62,7 +62,7 @@ export default function SystemSet({
     //     dispatch,
     // };
 
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
 
     return (
         <>

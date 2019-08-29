@@ -90,19 +90,19 @@ class BuildElevation extends PureComponent {
                     recursiveElevation: new RecursiveElevation({ ...state.mergedElevation, bugId }),
                 }));
 
-                console.log({
-                    bugId,
-                    state,
-                    parsedState,
-                    newStates,
-                });
+                // console.log({
+                //     bugId,
+                //     state,
+                //     parsedState,
+                //     newStates,
+                // });
 
                 loadStates(newStates);
             } else {
-                console.log("resetting state");
-                console.log({ oldElevation, newElevation });
+                // console.log("resetting state");
+                // console.log({ oldElevation, newElevation });
                 const newState = mergeElevationInput({ elevationInput: defaultElevationInput }, newQueryStatus);
-                console.log({ newState });
+                // console.log({ newState });
                 resetState(newState);
                 // functional setstate may not yet be fully supported by usestate hook
                 setTimeout(() => resetState(newState));
@@ -269,7 +269,7 @@ class BuildElevation extends PureComponent {
         //     states,
         // });
 
-        console.log(this);
+        // console.log(this);
 
         return (
             <SelectionProvider

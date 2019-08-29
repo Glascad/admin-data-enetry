@@ -1,5 +1,7 @@
-// import { sample8Error } from "../../../../../__test__/sample-elevations";
+// import { sample8Error } from "../../../../../utils/sample-elevations";
 // import testMoveFrame from "./test-move-frame";
+
+describe('', () => test('', () => { }));
 
 // // Sample2 Test1
 // testMoveFrame({

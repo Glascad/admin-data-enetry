@@ -68,7 +68,7 @@ class List extends PureComponent {
     }
 
     handleMultiSelectFinish = async ({ arguments: { addedItems, deletedItems } }) => {
-        console.log({ addedItems, deletedItems });
+        // console.log({ addedItems, deletedItems });
         try {
             await this.props.onFinish ?
                 this.props.onFinish({ addedItems, deletedItems })

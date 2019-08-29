@@ -103,11 +103,11 @@ export default memo(function CreateElevation({
     const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
     const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(initialElevationInput.finishedFloorHeight);
 
-    console.log(
-        initialElevationInput.horizontalRoughOpening,
-        initialElevationInput.verticalRoughOpening,
-        initialElevationInput.finishedFloorHeight,
-    );
+    // console.log(
+    //     initialElevationInput.horizontalRoughOpening,
+    //     initialElevationInput.verticalRoughOpening,
+    //     initialElevationInput.finishedFloorHeight,
+    // );
 
     const {
         currentState,
@@ -208,7 +208,7 @@ export default memo(function CreateElevation({
                 },
             } = await updateEntireElevation({ elevation });
 
-            console.log({ elevationId });
+            // console.log({ elevationId });
 
             history.push(`${
                 path.replace(/create/, 'build')
@@ -221,7 +221,7 @@ export default memo(function CreateElevation({
         }
     }, [mergedElevation]);
 
-    console.log("this is the CREATE elevation page");
+    // console.log("this is the CREATE elevation page");
 
     const cancelModalProps = {
         titleBar: {

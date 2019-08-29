@@ -1,4 +1,4 @@
-import sample1 from "../../../../../__test__/sample-elevations/sample1.json";
+import sample1 from "../../../../../utils/sample-elevations/sample1.json";
 import deleteContainer from "../delete-container.js";
 import RecursiveElevation from "../../../../../utils/recursive-elevation/elevation.js";
 

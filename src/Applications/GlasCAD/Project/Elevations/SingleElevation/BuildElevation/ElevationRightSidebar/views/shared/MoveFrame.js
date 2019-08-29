@@ -30,11 +30,11 @@ function MoveFrame({
     const canMoveFalse = items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(-distance));
     const canMoveTrue = items.every(({ canMoveByDistance }) => canMoveByDistance && canMoveByDistance(+distance));
 
-    console.log({
-        distance,
-        canMoveFalse,
-        canMoveTrue,
-    });
+    // console.log({
+    //     distance,
+    //     canMoveFalse,
+    //     canMoveTrue,
+    // });
 
     return (
         <>

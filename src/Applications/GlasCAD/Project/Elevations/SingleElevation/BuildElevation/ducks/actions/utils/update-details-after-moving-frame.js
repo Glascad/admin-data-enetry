@@ -93,7 +93,7 @@ export default function updateDetailsAfterMovingFrame({
                     // last detail (ending next to another detail)
                     // do nothing if frame ends up even with another frame across perpendicular
                     if (newFramePlacement.inner.isCloserThanOrEqualTo(detailPlacement.inner)) {
-                        console.log(`Doing nothing to Last Detail`);
+                        // console.log(`Doing nothing to Last Detail`);
                         return {
                             done: true,
                             newElevation,
@@ -101,7 +101,7 @@ export default function updateDetailsAfterMovingFrame({
                     }
                     // redirect if frame ends up even with the outer frame across perpendicular
                     if (newFramePlacement.outer.isCloserThan(detailPlacement.outer)) {
-                        console.log(`Duplicating Last Detail`);
+                        // console.log(`Duplicating Last Detail`);
                         return {
                             done: true,
                             newElevation: duplicateDetail(newElevation, {
@@ -112,7 +112,7 @@ export default function updateDetailsAfterMovingFrame({
                         };
                     }
                     {
-                        console.log(`Redirecting Last Detail`);
+                        // console.log(`Redirecting Last Detail`);
                         return {
                             done: true,
                             newElevation: redirectDetail(newElevation, {

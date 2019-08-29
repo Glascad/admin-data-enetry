@@ -20,7 +20,7 @@ export default function SystemSetOptions({
     },
     dispatch,
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     return (
         <>
             {_systemOptions.map(({ name, _optionValues }) => (

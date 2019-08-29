@@ -26,4 +26,4 @@ export default function systemTree(system) {
     return systemOptionTree(firstItem, system);
 }
 
-console.log(systemTree(sampleSystem));
+// console.log(systemTree(sampleSystem));

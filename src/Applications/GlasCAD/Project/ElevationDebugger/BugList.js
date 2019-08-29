@@ -13,7 +13,7 @@ export default function BugList({
     },
     bugReports,
 }) {
-    console.log({ bugReports });
+    // console.log({ bugReports });
     return (
         <div className="card">
             <TitleBar
@@ -41,11 +41,11 @@ export default function BugList({
                             preview
                         }
                     } = lastState;
-                    console.log({
-                        parsedState,
-                        lastState,
-                        preview,
-                    });
+                    // console.log({
+                    //     parsedState,
+                    //     lastState,
+                    //     preview,
+                    // });
                     return {
                         title: `User: ${username}`,
                         subtitle: report,

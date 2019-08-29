@@ -102,7 +102,7 @@ class DimensionButton extends PureComponent {
         }
     }
 
-    handleBlur = ({ value: newDimension }) => console.log({ newDimension }) || this.props.ACTIONS.updateDimension({ newDimension });
+    handleBlur = ({ value: newDimension }) => this.props.ACTIONS.updateDimension({ newDimension });
 
     get styleKeys() {
         return this.props.dimension.vertical ?

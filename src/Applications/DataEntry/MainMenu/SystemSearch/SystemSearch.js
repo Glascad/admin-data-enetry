@@ -55,7 +55,7 @@ export default function SystemSearch({
                                     update,
                                 }) => (
                                         <>
-                                            {console.log({ allSystems })}
+                                            {/* {console.log({ allSystems })} */}
                                             {/* <Input
                                                 label="Search"
                                                 value={state.name}

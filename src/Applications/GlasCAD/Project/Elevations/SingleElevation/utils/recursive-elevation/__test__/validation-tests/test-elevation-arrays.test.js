@@ -1,5 +1,5 @@
-import sample1 from '../../../../__test__/sample-elevations/sample1.json';
-import sample2 from '../../../../__test__/sample-elevations/sample2.json';
+import sample1 from '../../../../utils/sample-elevations/sample1.json';
+import sample2 from '../../../../utils/sample-elevations/sample2.json';
 import RecursiveElevation from '../../elevation';
 
 export default function testElevationArrays({

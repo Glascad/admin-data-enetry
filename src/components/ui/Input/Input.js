@@ -140,7 +140,7 @@ export default class Input extends PureComponent {
                 new ImperialValue(oldValue);
 
             if (convertedValue.value !== oldConvertedValue.value) {
-                console.log("RECEIVED NEW INITIAL VALUE");
+                // console.log("RECEIVED NEW INITIAL VALUE");
                 this.setState({
                     inchInput: `${convertedValue}`,
                     value: convertedValue,

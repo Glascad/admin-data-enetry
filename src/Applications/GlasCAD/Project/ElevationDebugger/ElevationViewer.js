@@ -20,7 +20,7 @@ export default function ElevationViewer({
         length,
     },
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
 
     const { bugId } = parseSearch(search);
 
@@ -41,9 +41,9 @@ export default function ElevationViewer({
 
     const time = new Date(timestamp);
 
-    console.log({ states });
+    // console.log({ states });
 
-    console.log({ currentBugReport });
+    // console.log({ currentBugReport });
 
     return (
         <>

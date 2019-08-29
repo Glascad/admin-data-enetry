@@ -83,8 +83,8 @@ export default function SingleElevation({
 
     useEffect(() => {
         if (elevationId) {
-            console.log({ elevationId });
-            console.log({ variables });
+            // console.log({ elevationId });
+            // console.log({ variables });
             refetch(variables);
         }
     }, [elevationId]);
@@ -110,7 +110,7 @@ export default function SingleElevation({
             project,
         };
 
-    console.log(routeProps);
+    // console.log(routeProps);
 
     return (
         <Navigator

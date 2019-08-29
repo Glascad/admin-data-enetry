@@ -1,7 +1,7 @@
 import RecursiveElevation from "../elevation";
 
-import sample1 from '../../../__test__/sample-elevations/sample1';
-import { sample9, sample9_5, sample6 } from "../../../__test__/sample-elevations";
+import sample1 from '../../../utils/sample-elevations/sample1';
+import { sample9, sample9_5, sample6 } from "../../../utils/sample-elevations";
 
 function testDetails({ elevation, details }) {
     describe(`Testing frame methods for ${elevation.name}`, () => {

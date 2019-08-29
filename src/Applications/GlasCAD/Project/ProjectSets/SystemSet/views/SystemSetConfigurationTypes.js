@@ -52,11 +52,11 @@ export default function SystemSetConfigurationTypes({
                 ))
         ), []);
 
-    console.log({ allConfigurationTypes });
+    // console.log({ allConfigurationTypes });
 
     const groupedConfigurationTypes = _.groupBy(allConfigurationTypes, 'configurationType');
 
-    console.log({ groupedConfigurationTypes });
+    // console.log({ groupedConfigurationTypes });
 
     return (
         <>
