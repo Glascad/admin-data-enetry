@@ -1,5 +1,5 @@
-import { sample1 } from "../../../sample-systems";
-import getFirstItem from "../actions/get-first-item";
+import { sample1 } from "../../../../sample-systems";
+import { getFirstItem } from "../../utils";
 
 function testGetFirstItem({
     system,
@@ -10,7 +10,7 @@ function testGetFirstItem({
 
     describe(`Testing ${system.name} to get correct first optionValue`, () => {
         test(`testing name, id, typename and nodeId match`, () => {
-            // expect(firstItemResult).toMatchObject(firstItem);
+            expect(firstItemResult).toMatchObject(firstItem);
         });
     });
 };

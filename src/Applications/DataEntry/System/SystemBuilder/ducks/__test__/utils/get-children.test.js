@@ -1,5 +1,5 @@
-import { sample1 } from "../../../sample-systems";
-import getChildren from "../actions/get-children";
+import { sample1 } from "../../../../sample-systems";
+import { getChildren } from "../../utils";
 
 function testGetChildren({
     system,
@@ -7,11 +7,15 @@ function testGetChildren({
     children,
 }) {
 
-    const childrenResult = getChildren(item, system);
-
     describe(`Testing ${system.name} to get correct first optionValue`, () => {
+
+        const childrenResult = getChildren(item, system);
+
+        test(`result has correct length`, () => {
+            expect(childrenResult.length).toBe(children.length);
+        });
         test(`testing name, id, typename and nodeId match`, () => {
-            // expect(childrenResult).toMatchObject(children);
+            expect(childrenResult).toMatchObject(children);
         });
     });
 };
