@@ -23,8 +23,8 @@ BEGIN
         
         RETURN ROW(
             LOWER(authenticatee.role::TEXT),
-            NULL,
-            -- EXTRACT(EPOCH FROM NOW() + INTERVAL '<<INTERVAL>>'),
+            -- NULL,
+            EXTRACT(EPOCH FROM NOW() + INTERVAL '<<INTERVAL>>'),
             authenticatee.id
         )::JWT;
     ELSE

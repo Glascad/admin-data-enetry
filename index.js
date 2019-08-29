@@ -95,6 +95,11 @@ function startServer() {
 
     APP.use(express.static(`${__dirname}/build/`));
 
+    APP.use((req, res, next) => {
+        console.log(req.headers);
+        next();
+    })
+
     APP.use(postgraphile(
         DO_GC_CONNECTION_STRING,
         // DO_GC_PRACTICE_CONNECTION_STRING,

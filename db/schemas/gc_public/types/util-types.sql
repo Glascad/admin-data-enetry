@@ -14,7 +14,7 @@ gc_public.coordinate AS (
 CREATE TYPE
 gc_public.jwt AS (
     role VARCHAR(100),
-    expiration_date INTEGER,
+    exp INTEGER,
     user_id INTEGER
 );
 

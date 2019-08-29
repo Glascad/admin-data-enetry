@@ -10,13 +10,17 @@ export default function SystemTree({
     const trunk = makeRenderable(system);
 
     return (
-        <Tree
-            trunk={trunk}
-            renderItem={(_, { depth }) => (
-                <span>
-                    item
-                </span>
-            )}
-        />
+        <div
+            id="SystemTree"
+        >
+            <Tree
+                trunk={trunk}
+                renderItem={({ name, detailType, configurationType } = {}, { depth }) => (
+                    <span>
+                        {name || detailType || configurationType}
+                    </span>
+                )}
+            />
+        </div>
     );
 }

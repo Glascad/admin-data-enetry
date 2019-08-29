@@ -1,6 +1,6 @@
 import { makeRenderable } from '../../utils';
 import { sample1 } from '../../../../sample-systems';
-import { match } from '../../../../../../../utils';
+import { match, logInputOutput } from '../../../../../../../utils';
 
 function testMakeRenderable(system) {
     describe(`Testing MakeRenderable on ${system.name}`, () => {
@@ -13,18 +13,16 @@ function testMakeRenderable(system) {
                 branches = [],
             } = {},
                 parentTypeName = '',
-            ) => (
-                    match(parentTypeName)
-                        .regex(/option/i, tn => expect(tn).toMatch(/value$/i))
-                        .regex(/value/i, tn => expect(tn).toMatch(/(type|option)$/i))
-                        .regex(/(^$)|(type)/i, tn => expect(tn).toMatch(/option$/i))
-                        .otherwise(tn => {
-                            throw new Error(`Expected option value or type __typename, received ${tn}`);
-                        })
-                        .finally(() => {
-                            branches.forEach(branch => testNode(branch, __typename));
-                        })
-                );
+            ) => match(parentTypeName)
+                .regex(/option$/i, () => expect(__typename).toMatch(/value$/i))
+                .regex(/value$/i, () => expect(__typename).toMatch(/(type|option)$/i))
+                .regex(/(^)|(type)$/i, () => expect(__typename).toMatch(/option$/i))
+                .otherwise(() => {
+                    throw new Error(`Expected option value or type __typename, received ${__typename}`);
+                })
+                .finally(() => {
+                    branches.forEach(branch => testNode(branch, __typename));
+                });
             testNode(result);
         });
     });

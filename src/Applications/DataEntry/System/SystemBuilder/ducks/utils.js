@@ -1,6 +1,6 @@
-import { match } from '../../../../../utils';
+import { match, logInputOutput } from '../../../../../utils';
 
-export const getFirstItem = ({ _systemOptions }) => _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId);
+export const getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId);
 
 export const getChildren = ({
     __typename,
@@ -10,12 +10,12 @@ export const getChildren = ({
     _detailOptionValues = [],
     _systemConfigurationTypes = [],
     _configurationOptionValues = [],
-}, {
+} = {}, {
     _systemOptions = [],
     _detailOptions = [],
     _configurationOptions = [],
 }) => match(__typename)
-    .equals({
+    .against({
         SystemOption: () => _systemOptionValues,
         DetailOption: () => _detailOptionValues,
         ConfigurationOption: () => _configurationOptionValues,
@@ -28,8 +28,15 @@ export const getChildren = ({
         ConfigurationOptionValue: () => _configurationOptions.filter(({ parentConfigurationOptionValueId }) => parentConfigurationOptionValueId === id),
         SystemDetailType: () => _detailOptions.filter(({ systemDetailTypeId }) => systemDetailTypeId === id),
         SystemConfigurationType: () => _configurationOptions.filter(({ systemConfigurationTypeId }) => systemConfigurationTypeId === id),
+        undefined: logInputOutput("UNDEFINED TYPENAME", () => []),
     })
     .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) })
     .finally(c => c);
 
-export const makeRenderable = () => { }
+export const makeRenderable = system => {
+    const makeNodeRenderable = node => ({
+        item: node,
+        branches: getChildren(node, system).map(makeNodeRenderable),
+    });
+    return makeNodeRenderable(getFirstItem(system));
+}
