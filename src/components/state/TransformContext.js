@@ -8,7 +8,7 @@ export const TransformContext = createContext();
 // this is the higher-order component that we can use to add the value from below onto props
 export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
 
-export const defaultScale = 1;
+const defaultScale = 1;
 const minScale = 0.1;
 
 const TransformProvider = ({
