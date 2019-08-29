@@ -14,7 +14,7 @@ export default function SystemTree({
             trunk={trunk}
             renderItem={(_, { depth }) => (
                 <span>
-                    &nbsp;{`${' --'.repeat(depth)} item`}
+                    item
                 </span>
             )}
         />

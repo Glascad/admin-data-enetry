@@ -1,14 +1,14 @@
-import { sample1 } from "../../../../sample-systems";
 import { getFirstItem } from "../../utils";
+import { sample1 } from "../../../../sample-systems";
 
 function testGetFirstItem({
     system,
     firstItem,
 }) {
 
-    const firstItemResult = getFirstItem(system);
+    describe(`Testing getFirstItem() on '${system.name}' to get correct first optionValue`, () => {
+        const firstItemResult = getFirstItem(system);
 
-    describe(`Testing ${system.name} to get correct first optionValue`, () => {
         test(`testing name, id, typename and nodeId match`, () => {
             expect(firstItemResult).toMatchObject(firstItem);
         });

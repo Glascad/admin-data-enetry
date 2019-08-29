@@ -1,5 +1,5 @@
-import { sample1 } from "../../../../sample-systems";
 import { getChildren } from "../../utils";
+import { sample1 } from "../../../../sample-systems";
 
 function testGetChildren({
     system,

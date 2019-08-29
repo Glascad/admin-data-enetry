@@ -7,68 +7,15 @@ export const getChildren = (item, system) => {
         id,
     } = item;
 
-    // if (__typename === "SystemOption"){
+    // if (__typename === "SystemOption") {
 
-    // }else if (__typename === "SystemOptionValue"){
+    // } else if (__typename === "SystemOptionValue") {
 
-    // }else if(__typename === "DetailOptionValue")
+    // } else if (__typename === "DetailOptionValue")
 };
 
 export const makeRenderable = ({
 
-}) => ({
-    item: {},
-    branches: [
-        {
-            item: {},
-            branches: [
-                {
-                    item: {},
-                    branches:[],
-                },
-                {
-                    item: {},
-                    branches:[],
-                },
-                {
-                    item: {},
-                    branches:[],
-                },
-            ],
-        },
-        {
-            item: {},
-            branches: [
-                {
-                    item: {},
-                    branches:[],
-                },
-                {
-                    item: {},
-                    branches:[],
-                },
-                {
-                    item: {},
-                    branches:[],
-                },
-            ],
-        },
-        {
-            item: {},
-            branches: [
-                {
-                    item: {},
-                    branches:[],
-                },
-                {
-                    item: {},
-                    branches:[],
-                },
-                {
-                    item: {},
-                    branches:[],
-                },
-            ],
-        },
-    ],
-});
+}) => {
+
+};

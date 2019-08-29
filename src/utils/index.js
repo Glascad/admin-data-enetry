@@ -14,6 +14,7 @@ import unique from './functions/unique-array';
 import lastItem from './functions/last-item';
 import normalCase from './functions/normal-case';
 import logInputOutput from './functions/log-input-output';
+import match from './functions/match';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
@@ -35,5 +36,5 @@ export {
     validatePath,
     normalCase,
     logInputOutput,
+    match,
 };
-
