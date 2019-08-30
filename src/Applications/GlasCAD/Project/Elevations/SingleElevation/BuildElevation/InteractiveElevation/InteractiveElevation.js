@@ -15,7 +15,7 @@ import DimensionButton from './components/DimensionButton';
 
 import './InteractiveElevation.scss';
 import SelectionLayer from './components/SelectionLayer';
-import { withContext, Ellipsis } from '../../../../../../../components';
+import { withContext, Ellipsis, TransformBox } from '../../../../../../../components';
 import { SelectionContext } from '../contexts/SelectionContext';
 import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
@@ -24,41 +24,6 @@ import { parseSearch } from '../../../../../../../utils';
 import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
 import Containers from './Containers/Containers';
 import Frames from './Frames/Frames';
-
-const TransformedElevationDisplay = withTransformContext(function TransformedElevationDisplay({
-    transform: {
-        translate: {
-            x,
-            y,
-        },
-        scale: {
-            x: scaleX,
-            y: scaleY,
-        },
-    },
-    height,
-    width,
-    finishedFloorHeight,
-    selectedClass,
-    children,
-}) {
-    return (
-        <div
-            id="elevation-display"
-            className={`${
-                selectedClass
-                }-selected`}
-            style={{
-                height,
-                width,
-                transform: `translate(${x}px, ${y - finishedFloorHeight}px) scale(${scaleX}, ${scaleY})`,
-            }}
-            onMouseDown={e => e.stopPropagation()}
-        >
-            {children}
-        </div>
-    );
-})
 
 class InteractiveElevation extends PureComponent {
 
@@ -201,11 +166,16 @@ class InteractiveElevation extends PureComponent {
                         )
                     )
                 ) ? (
-                            <TransformedElevationDisplay
-                                finishedFloorHeight={finishedFloorHeight}
+                            <TransformBox
+                                id="elevation-display"
+                                className={`${
+                                    selectedClass
+                                    }-selected`}
                                 selectedClass={selectedClass}
-                                height={roy * pixelsPerInch}
-                                width={rox * pixelsPerInch}
+                                style={{
+                                    height: roy * pixelsPerInch,
+                                    width: rox * pixelsPerInch,
+                                }}
                             >
                                 {/* ROUGH OPENING */}
                                 <div
@@ -301,7 +271,7 @@ class InteractiveElevation extends PureComponent {
                                     ))}
                                 </div>
                                 {/* </div> */}
-                            </TransformedElevationDisplay>
+                            </TransformBox>
                         ) : (
                             <div
                                 id="elevation-loading"

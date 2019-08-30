@@ -30,8 +30,7 @@ export const getChildren = ({
         SystemConfigurationType: () => _configurationOptions.filter(({ systemConfigurationTypeId }) => systemConfigurationTypeId === id),
         undefined: logInputOutput("UNDEFINED TYPENAME", () => []),
     })
-    .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) })
-    .finally(c => c);
+    .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) });
 
 export const makeRenderable = system => {
     const makeNodeRenderable = node => ({

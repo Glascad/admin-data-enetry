@@ -1,5 +1,5 @@
 
-const final = result => ({
+export const final = result => ({
     finally: cb => cb(result),
 });
 
@@ -9,7 +9,7 @@ const matched = result => ({
     against: () => matched(result),
     equals: () => matched(result),
     regex: () => matched(result),
-    otherwise: () => final(result),
+    otherwise: () => result,
     finally: () => { throw new Error(`Must use \`otherwise()\` before using finally`) },
 });
 
@@ -25,7 +25,7 @@ const match = input => ({
         (regex, fn) => input.match(regex) ? matched(fn(input)) : match(input)
         :
         () => { throw new Error(`Cannot use \`regex()\` on non-string match. Received value: ${input}`) },
-    otherwise: fn => final(fn(input)),
+    otherwise: fn => fn(input),
     finally: () => { throw new Error(`Must use \`otherwise()\` before using finally`) },
 });
 

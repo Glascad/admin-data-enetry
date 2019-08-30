@@ -18,10 +18,13 @@ import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 import Tree from './ui/Tree/Tree';
 import RightSidebar from './ui/RightSidebar/RightSidebar';
 
+// CONTEXTS
+import TransformProvider from './contexts/transform/TransformContext';
+import TransformBox from './contexts/transform/TransformBox';
+
 // STATE COMPONENTS
 import ApolloWrapper from './state/ApolloWrapper';
 import StateManager from './state/StateManager';
-import TransformProvider from './state/TransformContext';
 
 // HIGHER ORDER COMPONENTS
 import asyncComponent from './higher-order/async-component';
@@ -69,10 +72,12 @@ export {
     ConfirmButton,
     Tree,
     RightSidebar,
+    // CONTEXT,
+    TransformProvider,
+    TransformBox,
     // STATE
     ApolloWrapper,
     StateManager,
-    TransformProvider,
     // HIGHER ORDER
     asyncComponent,
     withContext,

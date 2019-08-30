@@ -4,7 +4,7 @@ import { withContext, useInitialState } from '../../../../../../../components';
 import TransformProvider, {
     withTransformContext,
     TransformContext,
-} from '../../../../../../../components/state/TransformContext';
+} from '../../../../../../../components/contexts/transform/TransformContext';
 
 export {
     withTransformContext,
@@ -24,6 +24,7 @@ const ElevationTransformProvider = ({
             x: rox,
             y: roy,
         } = {},
+        finishedFloorHeight,
     } = {},
     children,
     initialState: {
@@ -76,6 +77,7 @@ const ElevationTransformProvider = ({
                 },
                 translate: {
                     x: translateX,
+                    y: -finishedFloorHeight,
                 },
             }}
         >

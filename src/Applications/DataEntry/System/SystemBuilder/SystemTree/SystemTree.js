@@ -28,8 +28,7 @@ export default function SystemTree({
                         SystemConfigurationType: () => <span>{name || detailType || configurationType}</span>,
                         undefined: () => null,
                     })
-                    .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) })
-                    .finally(c => c)}
+                    .otherwise(() => { throw new Error(`Unknown typename: ${__typename}`) })}
             />
         </div>
     );

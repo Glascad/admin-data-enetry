@@ -2,7 +2,7 @@ import React from 'react';
 
 import Statics from '../Statics/Statics';
 
-import Activity from './Activity/Activity';
+// import Activity from './Activity/Activity';
 import MainMenu from './MainMenu/MainMenu';
 
 import System from './System/System';
@@ -13,7 +13,7 @@ export default function DataEntry() {
     return (
         <Statics
             routes={{
-                Activity,
+                // Activity,
                 MainMenu,
                 System,
                 // ApplicationData,
