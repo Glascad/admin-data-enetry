@@ -1,6 +1,8 @@
 import React, {
-    PureComponent,
-    createRef,
+    useRef,
+    useState,
+    useContext,
+    useEffect,
 } from 'react';
 
 import { withRouter } from 'react-router-dom';
@@ -25,47 +27,90 @@ import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
 import Containers from './Containers/Containers';
 import Frames from './Frames/Frames';
 
-class InteractiveElevation extends PureComponent {
+const InteractiveElevation = ({
+    location: {
+        search,
+    },
+    refetch,
+    elevation,
+    elevation: {
+        rawElevation: {
+            bugId: elevationBugId,
+            id,
+        } = {},
+        allContainers = [],
+        allFrames = [],
+        roughOpening: {
+            x: rox = 0,
+            y: roy = 0,
+        } = {},
+        finishedFloorHeight,
+        topDimensionTracks = [],
+        rightDimensionTracks = [],
+        leftDimensionTracks = [],
+        bottomDimensionTracks = [],
+    } = {},
+    spaceKey,
+    watchMouseDown,
+    updating,
+    selectedClass,
+    selectItem,
+    framesSelectable,
+    updateElevation,
+}) => {
+    const InteractiveElevation = useRef();
+    
+    const [loadingTooLong, setLoadingTooLong] = useState(false);
+    
+    const staticContext = useContext(StaticContext);
 
-    InteractiveElevation = createRef();
+    const [{ paddingBottom, marginBottom, overflowY }, setPreviousViewportStyles] = useState({});
 
-    state = {
-        loadingTooLong: false,
-    };
-
-    componentDidMount = () => {
+    useEffect(() => {
         setTimeout(() => {
             try {
-                this.previousViewportStyles = {
-                    paddingBottom: this.props.staticContext.Viewport.current.style.paddingBottom,
-                    marginBottom: this.props.staticContext.Viewport.current.style.marginBottom,
-                    overflowY: this.props.staticContext.Viewport.current.style.overflowY,
-                    overflowX: this.props.staticContext.Viewport.current.style.overflowX,
-                };
+                setPreviousViewportStyles({
+                    paddingBottom: staticContext.Viewport.current.style.paddingBottom,
+                    marginBottom: staticContext.Viewport.current.style.marginBottom,
+                    overflowY: staticContext.Viewport.current.style.overflowY,
+                    overflowX: staticContext.Viewport.current.style.overflowX,
+                });
             } catch (err) {
                 console.error(err);
             }
         });
         setTimeout(() => {
-            this.setState({ loadingTooLong: true });
+            setLoadingTooLong(true);
         }, 2000);
-        this.resizeViewport();
+        resizeViewport();
 
-        window.addEventListener('resize', this.resizeViewport);
-    }
+        window.addEventListener('resize', resizeViewport);
 
-    resizeViewport = () => {
+        return () => {
+            setTimeout(() => {
+                try {
+                    staticContext.Viewport.current.style.paddingBottom = paddingBottom;
+                    staticContext.Viewport.current.style.marginBottom = marginBottom;
+                    staticContext.Viewport.current.style.overflowY = overflowY;
+                } catch (err) {
+                    console.error(err);
+                }
+                window.removeEventListener('resize', resizeViewport);
+            })
+        };
+    },[]);
+
+    const resizeViewport = () => {
         setTimeout(() => {
             try {
-                // console.log(this.props.staticContext.Viewport);
-                this.props.staticContext.Viewport.current.style.paddingBottom = "0";
-                this.props.staticContext.Viewport.current.style.marginBottom = "0";
-                this.props.staticContext.Viewport.current.style.overflowY = "hidden";
-                this.props.staticContext.Viewport.current.style.overflowX = "hidden";
-                this.InteractiveElevation.current.style.height = `${
+                staticContext.Viewport.current.style.paddingBottom = "0";
+                staticContext.Viewport.current.style.marginBottom = "0";
+                staticContext.Viewport.current.style.overflowY = "hidden";
+                staticContext.Viewport.current.style.overflowX = "hidden";
+                InteractiveElevation.current.style.height = `${
                     window.innerHeight
                     -
-                    this.InteractiveElevation.current.offsetTop
+                    InteractiveElevation.current.offsetTop
                     -
                     48}px`;
             } catch (err) {
@@ -74,228 +119,170 @@ class InteractiveElevation extends PureComponent {
         });
     }
 
-    componentWillUnmount = () => {
-        try {
-            this.props.staticContext.Viewport.current.style.paddingBottom = this.previousViewportStyles.paddingBottom;
-            this.props.staticContext.Viewport.current.style.marginBottom = this.previousViewportStyles.marginBottom;
-            this.props.staticContext.Viewport.current.style.overflowY = this.previousViewportStyles.overflowY;
-        } catch (err) {
-            console.error(err);
-        }
-        window.removeEventListener('resize', this.resizeViewport);
-    }
+    const {
+        elevationId,
+        bugId,
+        sampleElevation,
+    } = parseSearch(search);
 
-    render = () => {
-        const {
-            state: {
-                loadingTooLong,
-            },
-            props: {
-                location: {
-                    search,
-                },
-                refetch,
-                elevation,
-                elevation: {
-                    rawElevation: {
-                        bugId: elevationBugId,
-                        id,
-                    } = {},
-                    allContainers = [],
-                    allFrames = [],
-                    roughOpening: {
-                        x: rox = 0,
-                        y: roy = 0,
-                    } = {},
-                    finishedFloorHeight,
-                    topDimensionTracks = [],
-                    rightDimensionTracks = [],
-                    leftDimensionTracks = [],
-                    bottomDimensionTracks = [],
-                } = {},
-                spaceKey,
-                watchMouseDown,
-                updating,
-                selectedClass,
-                selectItem,
-                framesSelectable,
-                updateElevation,
-            },
-        } = this;
-
-        const {
-            elevationId,
-            bugId,
-            sampleElevation,
-        } = parseSearch(search);
-
-        return (
-            <div
-                id="InteractiveElevation"
-                className={spaceKey ?
-                    'spacebar-pressed'
-                    :
-                    ''}
-                ref={this.InteractiveElevation}
-                onMouseDown={watchMouseDown}
-            >
-                {/* {console.log({
-                    id,
-                    elevationId,
-                    sampleElevation,
-                    bugId,
-                    elevationBugId,
-                    elevation,
-                })} */}
-                {updating ? (
-                    <div
-                        id="elevation-loading"
-                    >
-                        <Ellipsis
-                            text="Saving"
-                        />
-                    </div>
-                ) : (
-                    id && (
-                        (
-                            id === +elevationId
-                        ) || (
-                            id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
-                        ) || (
-                            +bugId === +elevationBugId
-                        )
+    return (
+        <div
+            id="InteractiveElevation"
+            className={spaceKey ?
+                'spacebar-pressed'
+                :
+                ''}
+            ref={InteractiveElevation}
+            onMouseDown={watchMouseDown}
+        >
+            {updating ? (
+                <div
+                    id="elevation-loading"
+                >
+                    <Ellipsis
+                        text="Saving"
+                    />
+                </div>
+            ) : (
+                id && (
+                    (
+                        id === +elevationId
+                    ) || (
+                        id === (SAMPLE_ELEVATIONS[sampleElevation] || {}).id
+                    ) || (
+                        +bugId === +elevationBugId
                     )
-                ) ? (
-                            <TransformBox
-                                id="elevation-display"
-                                className={`${
-                                    selectedClass
-                                    }-selected`}
-                                selectedClass={selectedClass}
+                )
+            ) ? (
+                        <TransformBox
+                            id="elevation-display"
+                            className={`${
+                                selectedClass
+                                }-selected`}
+                            selectedClass={selectedClass}
+                            style={{
+                                height: roy * pixelsPerInch,
+                                width: rox * pixelsPerInch,
+                            }}
+                        >
+                            {/* ROUGH OPENING */}
+                            <div
+                                id="rough-opening"
                                 style={{
                                     height: roy * pixelsPerInch,
                                     width: rox * pixelsPerInch,
                                 }}
-                            >
-                                {/* ROUGH OPENING */}
-                                <div
-                                    id="rough-opening"
-                                    style={{
-                                        height: roy * pixelsPerInch,
-                                        width: rox * pixelsPerInch,
-                                    }}
-                                />
-                                {/* FINISHED FLOOR */}
-                                <div
-                                    id="FinishedFloor"
-                                    style={{
-                                        top: `calc(100% + ${finishedFloorHeight * pixelsPerInch}px)`,
-                                    }}
-                                />
-                                {/* CONTAINERS */}
-                                <Containers
-                                    containers={allContainers}
-                                    selectItem={selectItem}
-                                />
-                                {/* FRAMES */}
-
-                                <Frames
-                                    allFrames={allFrames}
-                                    selectItem={selectItem}
-                                    selectable={framesSelectable}
-                                />
-                                {/* SELECTION */}
-                                <SelectionLayer />
-                                {/* VERTICAL DIMENSIONS */}
-                                <div id="left-dimension-track">
-                                    {leftDimensionTracks.map((track, i) => (
-                                        <div key={i}>
-                                            {track.map(dimension => (
-                                                <DimensionButton
-                                                    key={dimension.refId}
-                                                    track={i}
-                                                    first={true}
-                                                    dimension={dimension}
-                                                    updateElevation={updateElevation}
-                                                />
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div id="right-dimension-track">
-                                    {rightDimensionTracks.map((track, i) => (
-                                        <div key={i}>
-                                            {track.map(dimension => (
-                                                <DimensionButton
-                                                    key={dimension.refId}
-                                                    first={false}
-                                                    track={i}
-                                                    dimension={dimension}
-                                                    updateElevation={updateElevation}
-                                                />
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                {/* HORIZONTAL DIMENSIONS */}
-                                <div id="top-dimension-track">
-                                    {topDimensionTracks.map((track, i) => (
-                                        <div key={i}>
-                                            {track.map(dimension => (
-                                                <DimensionButton
-                                                    key={dimension.refId}
-                                                    track={i}
-                                                    first={false}
-                                                    dimension={dimension}
-                                                    finishedFloorHeight={finishedFloorHeight}
-                                                    updateElevation={updateElevation}
-                                                />
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div id="bottom-dimension-track">
-                                    {bottomDimensionTracks.map((track, i) => (
-                                        <div key={i}>
-                                            {track.map(dimension => (
-                                                <DimensionButton
-                                                    key={dimension.refId}
-                                                    track={i}
-                                                    first={true}
-                                                    dimension={dimension}
-                                                    finishedFloorHeight={finishedFloorHeight}
-                                                    updateElevation={updateElevation}
-                                                />
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                {/* </div> */}
-                            </TransformBox>
-                        ) : (
+                            />
+                            {/* FINISHED FLOOR */}
                             <div
-                                id="elevation-loading"
-                            >
-                                <Ellipsis
-                                    text="Loading"
-                                />
-                                {loadingTooLong ? (
-                                    <>
-                                        <p>
-                                            Taking too long?
-                                    </p>
-                                        <button
-                                            onClick={refetch}
-                                        >
-                                            Reload
-                                    </button>
-                                    </>
-                                ) : null}
+                                id="FinishedFloor"
+                                style={{
+                                    top: `calc(100% + ${finishedFloorHeight * pixelsPerInch}px)`,
+                                }}
+                            />
+                            {/* CONTAINERS */}
+                            <Containers
+                                containers={allContainers}
+                                selectItem={selectItem}
+                            />
+                            {/* FRAMES */}
+
+                            <Frames
+                                allFrames={allFrames}
+                                selectItem={selectItem}
+                                selectable={framesSelectable}
+                            />
+                            {/* SELECTION */}
+                            <SelectionLayer />
+                            {/* VERTICAL DIMENSIONS */}
+                            <div id="left-dimension-track">
+                                {leftDimensionTracks.map((track, i) => (
+                                    <div key={i}>
+                                        {track.map(dimension => (
+                                            <DimensionButton
+                                                key={dimension.refId}
+                                                track={i}
+                                                first={true}
+                                                dimension={dimension}
+                                                updateElevation={updateElevation}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
                             </div>
-                        )}
-            </div>
-        );
-    }
+                            <div id="right-dimension-track">
+                                {rightDimensionTracks.map((track, i) => (
+                                    <div key={i}>
+                                        {track.map(dimension => (
+                                            <DimensionButton
+                                                key={dimension.refId}
+                                                first={false}
+                                                track={i}
+                                                dimension={dimension}
+                                                updateElevation={updateElevation}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            {/* HORIZONTAL DIMENSIONS */}
+                            <div id="top-dimension-track">
+                                {topDimensionTracks.map((track, i) => (
+                                    <div key={i}>
+                                        {track.map(dimension => (
+                                            <DimensionButton
+                                                key={dimension.refId}
+                                                track={i}
+                                                first={false}
+                                                dimension={dimension}
+                                                finishedFloorHeight={finishedFloorHeight}
+                                                updateElevation={updateElevation}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            <div id="bottom-dimension-track">
+                                {bottomDimensionTracks.map((track, i) => (
+                                    <div key={i}>
+                                        {track.map(dimension => (
+                                            <DimensionButton
+                                                key={dimension.refId}
+                                                track={i}
+                                                first={true}
+                                                dimension={dimension}
+                                                finishedFloorHeight={finishedFloorHeight}
+                                                updateElevation={updateElevation}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            {/* </div> */}
+                        </TransformBox>
+                    ) : (
+                        <div
+                            id="elevation-loading"
+                        >
+                            <Ellipsis
+                                text="Loading"
+                            />
+                            {loadingTooLong ? (
+                                <>
+                                    <p>
+                                        Taking too long?
+                                    </p>
+                                    <button
+                                        onClick={refetch}
+                                    >
+                                        Reload
+                                    </button>
+                                </>
+                            ) : null}
+                        </div>
+                    )}
+        </div>
+    );
 }
 
 export default withRouter(

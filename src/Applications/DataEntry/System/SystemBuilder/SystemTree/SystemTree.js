@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tree } from '../../../../../components';
+import { Tree, TransformBox } from '../../../../../components';
 import { makeRenderable } from '../ducks/utils';
 import { match } from '../../../../../utils';
 
@@ -11,7 +11,7 @@ export default function SystemTree({
     const trunk = makeRenderable(system);
 
     return (
-        <div
+        <TransformBox
             id="SystemTree"
         >
             <Tree
@@ -30,6 +30,6 @@ export default function SystemTree({
                     })
                     .otherwise(() => { throw new Error(`Unknown typename: ${__typename}`) })}
             />
-        </div>
+        </TransformBox>
     );
 }
