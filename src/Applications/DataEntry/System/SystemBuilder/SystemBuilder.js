@@ -38,20 +38,21 @@ export default function SystemBuilder({
                 systemInput={systemInput}
                 system={system}
                 dispatch={dispatch}
-                selection={selection}
+                selectItem={selectItem}
                 save={save}
             />
             <SystemTree
                 queryStatus={queryStatus}
                 system={system}
                 dispatch={dispatch}
-                selection={selection}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
             />
             <Sidebar
                 queryStatus={queryStatus}
                 system={system}
                 dispatch={dispatch}
-                selection={selection}
+                selectedItem={selectedItem}
             />
         </TransformProvider>
     );
