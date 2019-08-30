@@ -98,7 +98,7 @@ function startServer() {
     APP.use((req, res, next) => {
         console.log(req.headers);
         next();
-    })
+    });
 
     APP.use(postgraphile(
         DO_GC_CONNECTION_STRING,
@@ -115,7 +115,7 @@ function startServer() {
             graphiql: true,
             jwtPgTypeIdentifier: "gc_public.jwt",
             jwtSecret: JWT_SECRET,
-            exportGqlSchemaPath: `${__dirname}/compiled/gql-schema.gql`,
+            // exportGqlSchemaPath: `${__dirname}/compiled/gql-schema.gql`,
             pgDefaultRole: 'unauthorized',
             // pgDefaultRole: 'glascad',
         },
