@@ -26,13 +26,13 @@ import { parseSearch } from '../../../../../../../utils';
 import { SAMPLE_ELEVATIONS } from '../../SingleElevation';
 import Containers from './Containers/Containers';
 import Frames from './Frames/Frames';
+import TransformViewport from '../../../../../../../components/contexts/transform/TransformViewport';
 
 const InteractiveElevation = ({
     location: {
         search,
     },
     refetch,
-    elevation,
     elevation: {
         rawElevation: {
             bugId: elevationBugId,
@@ -58,66 +58,17 @@ const InteractiveElevation = ({
     framesSelectable,
     updateElevation,
 }) => {
-    const InteractiveElevation = useRef();
-    
-    const [loadingTooLong, setLoadingTooLong] = useState(false);
-    
-    const staticContext = useContext(StaticContext);
+    const transformationRef = useRef();
 
-    const [{ paddingBottom, marginBottom, overflowY }, setPreviousViewportStyles] = useState({});
+    const [loadingTooLong, setLoadingTooLong] = useState(false);
+
+    TransformViewport({ transformationRef, setLoadingTooLong });
 
     useEffect(() => {
         setTimeout(() => {
-            try {
-                setPreviousViewportStyles({
-                    paddingBottom: staticContext.Viewport.current.style.paddingBottom,
-                    marginBottom: staticContext.Viewport.current.style.marginBottom,
-                    overflowY: staticContext.Viewport.current.style.overflowY,
-                    overflowX: staticContext.Viewport.current.style.overflowX,
-                });
-            } catch (err) {
-                console.error(err);
-            }
-        });
-        setTimeout(() => {
             setLoadingTooLong(true);
         }, 2000);
-        resizeViewport();
-
-        window.addEventListener('resize', resizeViewport);
-
-        return () => {
-            setTimeout(() => {
-                try {
-                    staticContext.Viewport.current.style.paddingBottom = paddingBottom;
-                    staticContext.Viewport.current.style.marginBottom = marginBottom;
-                    staticContext.Viewport.current.style.overflowY = overflowY;
-                } catch (err) {
-                    console.error(err);
-                }
-                window.removeEventListener('resize', resizeViewport);
-            })
-        };
-    },[]);
-
-    const resizeViewport = () => {
-        setTimeout(() => {
-            try {
-                staticContext.Viewport.current.style.paddingBottom = "0";
-                staticContext.Viewport.current.style.marginBottom = "0";
-                staticContext.Viewport.current.style.overflowY = "hidden";
-                staticContext.Viewport.current.style.overflowX = "hidden";
-                InteractiveElevation.current.style.height = `${
-                    window.innerHeight
-                    -
-                    InteractiveElevation.current.offsetTop
-                    -
-                    48}px`;
-            } catch (err) {
-                console.error(err);
-            }
-        });
-    }
+    }, []);
 
     const {
         elevationId,
@@ -132,7 +83,7 @@ const InteractiveElevation = ({
                 'spacebar-pressed'
                 :
                 ''}
-            ref={InteractiveElevation}
+            ref={transformationRef}
             onMouseDown={watchMouseDown}
         >
             {updating ? (

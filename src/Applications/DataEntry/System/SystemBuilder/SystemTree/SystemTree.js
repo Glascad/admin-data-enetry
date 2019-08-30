@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import { Tree, TransformBox } from '../../../../../components';
 import { makeRenderable } from '../ducks/utils';
 import { match } from '../../../../../utils';
+import TransformViewPort from '../../../../../components/contexts/transform/TransformViewport';
 
 export default function SystemTree({
     system,
 }) {
-    console.log(arguments[0]);
+    const transformationRef = useRef();
+
+    TransformViewPort({ transformationRef });
 
     const trunk = makeRenderable(system);
 
