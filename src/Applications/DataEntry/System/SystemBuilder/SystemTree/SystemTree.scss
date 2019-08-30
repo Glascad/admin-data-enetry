@@ -1,0 +1,32 @@
+@import "../../../../../styles/variables";
+
+#SystemTree {
+    overflow: hidden;
+
+    .Tree {
+        .Branch {
+            .tree-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                white-space: nowrap;
+                background: $light-gray;
+                border-radius: $xx-small;
+                height: $item-height;
+                margin: 0 $x-small $small;
+                padding: 0 $small;
+
+                // > * {
+                //     display: flex;
+                //     width: fill;
+                //     border-left: 1px solid $dark-gray;
+                //     border-right: 1px solid $dark-gray;
+                //     // margin: 5px;
+                //     margin: -0.5px;
+                //     padding: 10px;
+                //     // border-radius: 5px;
+                // }
+            }
+        }
+    }
+}

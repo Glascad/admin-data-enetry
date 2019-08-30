@@ -19,7 +19,7 @@ export default function SystemBuilder({
 }) {
 
     const [systemInput, setState] = useState(systemUpdate);
-    const selection = useSelection();
+    const [selectedItem, selectItem] = useState();
 
     const dispatch = (ACTION, payload) => setState(systemInput => ({ ...systemInput, ...ACTION(payload) }));
 

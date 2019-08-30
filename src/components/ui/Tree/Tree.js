@@ -28,12 +28,7 @@ function Branch({
         <div
             className={`Branch depth-${depth}`}
         >
-            <div
-                className="tree-item"
-                onClick={toggleOpen}
-            >
-                {renderItem(item, { depth, open, toggleOpen })}
-            </div>
+            {renderItem(item, { depth, open, toggleOpen })}
             <div
                 className="tree-branches"
             >
@@ -42,7 +37,7 @@ function Branch({
                         branches.map((branch, i) => (
                             <Branch
                                 key={i}
-                                open={!open}
+                                // open={!open}
                                 {...branch}
                                 renderItem={renderItem}
                                 depth={depth + 1}
