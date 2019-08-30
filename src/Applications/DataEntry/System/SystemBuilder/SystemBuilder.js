@@ -5,18 +5,24 @@ import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
+import { parseSearch } from '../../../../utils';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
 };
 
 export default function SystemBuilder({
+    location: {
+        search,
+    },
     queryStatus,
     queryStatus: {
         _system,
         validOptions = [],
     },
 }) {
+
+    const { systemId } = parseSearch(search);
 
     const [systemInput, setState] = useState(systemUpdate);
     const [selectedItem, selectItem] = useState();
@@ -47,11 +53,12 @@ export default function SystemBuilder({
                 dispatch={dispatch}
                 selectItem={selectItem}
                 selectedItem={selectedItem}
-            />
+                />
             <Sidebar
                 queryStatus={queryStatus}
                 system={system}
                 dispatch={dispatch}
+                selectItem={selectItem}
                 selectedItem={selectedItem}
             />
         </TransformProvider>

@@ -46,12 +46,13 @@ export default function RightSidebar({
 
     return (
         <div
-            className={`RightSidebar ${open ? "open" : "closed"}`}
-            onKeyDown={e => e.stopPropagation()}
-            onMouseDown={e => e.stopPropagation()}
-            onWheel={e => e.stopPropagation()}
+        className={`RightSidebar ${open ? "open" : "closed"}`}
+        onKeyDown={e => e.stopPropagation()}
+        onMouseDown={e => e.stopPropagation()}
+        onWheel={e => e.stopPropagation()}
         >
             <button
+                data-cy="right-sidebar-close-button"
                 className="sidebar-button primary"
                 onClick={handleCloseClick}
             >

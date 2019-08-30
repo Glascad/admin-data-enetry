@@ -6,6 +6,8 @@ import './SystemTree.scss';
 
 export default function SystemTree({
     system,
+    selectedItem,
+    selectItem,
 }) {
     console.log(arguments[0]);
 
@@ -17,18 +19,24 @@ export default function SystemTree({
         >
             <Tree
                 trunk={trunk}
-                renderItem={({ name, detailType, configurationType, __typename = '', } = {}, { depth, toggleOpen }) => (
-                    <div
-                        className={`tree-item type-${
-                            __typename.replace(/^.*(option|value|type)$/, '$1').toLowerCase()
-                            } subtype-${
-                            __typename.toLowerCase()
-                            }`}
-                        // onClick={toggleOpen}
-                    >
-                        <div className="title">{normalCase(name || detailType || configurationType)}</div>
-                    </div>
-                )}
+                renderItem={(item = {}, { depth, toggleOpen }) => {
+                    const { name = '', detailType = '', configurationType = '', __typename = '', } = item;
+                    return (
+                        <div
+                            data-cy={`${__typename}-${(name || detailType || configurationType).toLowerCase()}`}
+                            className={`tree-item type-${
+                                __typename.replace(/^.*(option|value|type)$/, '$1').toLowerCase()
+                                } subtype-${
+                                __typename.toLowerCase()
+                                } ${
+                                item === selectedItem ? 'selected' : ''
+                                }`}
+                            onClick={() => selectItem(item)}
+                        >
+                            <div className="title">{normalCase(name || detailType || configurationType)}</div>
+                        </div>
+                    );
+                }}
             // renderItem={({ name, detailType, configurationType, __typename } = {}, { depth }) => match(__typename)
             //     .against({
             //         SystemOption: () => <span>{name || detailType || configurationType}</span>,

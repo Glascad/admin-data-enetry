@@ -16,6 +16,10 @@
                 margin: 0 $x-small $small;
                 padding: 0 $small;
 
+                &.selected {
+                    background: $selected-color;
+                }
+
                 // > * {
                 //     display: flex;
                 //     width: fill;

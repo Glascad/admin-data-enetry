@@ -73,8 +73,6 @@ gc_data.entire_system_option AS (
     values ENTIRE_SYSTEM_OPTION_VALUE[]
 );
 
--- CREATE TYPE
-
 CREATE TYPE
 gc_data.entire_system AS (
     id INTEGER,

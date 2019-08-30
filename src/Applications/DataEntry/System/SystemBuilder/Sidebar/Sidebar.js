@@ -1,16 +1,20 @@
 import React from 'react';
 import { RightSidebar } from '../../../../../components';
 
-export default function Sidebar({
+import * as VIEWS from './views';
 
+export default function Sidebar({
+    selectedItem,
+    selectedItem: {
+        __typename = '',
+    } = {},
+    selectItem,
 }) {
     return (
         <RightSidebar
-            open={false}
-            View={{
-                title: "Sidebar",
-                component: () => "Sidebar",
-            }}
+            open={!!selectedItem}
+            handleCloseClick={() => selectItem()}
+            View={VIEWS[__typename] || { title: '', component: () => null }}
         />
     );
 }
