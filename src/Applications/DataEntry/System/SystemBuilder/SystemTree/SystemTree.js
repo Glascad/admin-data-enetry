@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tree } from '../../../../../components';
 import { makeRenderable } from '../ducks/utils';
+import { match } from '../../../../../utils';
 
 export default function SystemTree({
     system,
@@ -15,11 +16,20 @@ export default function SystemTree({
         >
             <Tree
                 trunk={trunk}
-                renderItem={({ name, detailType, configurationType } = {}, { depth }) => (
-                    <span>
-                        {name || detailType || configurationType}
-                    </span>
-                )}
+                renderItem={({ name, detailType, configurationType, __typename } = {}, { depth }) => match(__typename)
+                    .against({
+                        SystemOption: () => <span>{name || detailType || configurationType}</span>,
+                        DetailOption: () => <span>{name || detailType || configurationType}</span>,
+                        ConfigurationOption: () => <span>{name || detailType || configurationType}</span>,
+                        SystemOptionValue: () => <span>{name || detailType || configurationType}</span>,
+                        DetailOptionValue: () => <span>{name || detailType || configurationType}</span>,
+                        ConfigurationOptionValue: () => <span>{name || detailType || configurationType}</span>,
+                        SystemDetailType: () => <span>{name || detailType || configurationType}</span>,
+                        SystemConfigurationType: () => <span>{name || detailType || configurationType}</span>,
+                        undefined: () => null,
+                    })
+                    .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) })
+                    .finally(c => c)}
             />
         </div>
     );
