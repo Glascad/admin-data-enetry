@@ -1,0 +1,18 @@
+@import "../../../styles/variables";
+
+.TransformBox {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fill;
+    overflow: hidden;
+
+    &.spacebar-pressed {
+        cursor: grab;
+
+        #elevation-display {
+            pointer-events: none;
+        }
+    }
+}

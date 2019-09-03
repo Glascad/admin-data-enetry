@@ -1,7 +1,6 @@
 @import "../../../../../styles/variables";
 
 #SystemTree {
-    overflow: hidden;
 
     .Tree {
         .Branch {
@@ -18,6 +17,7 @@
 
                 &.selected {
                     background: $selected-color;
+                    color: $off-white;
                 }
 
                 // > * {

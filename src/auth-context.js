@@ -9,6 +9,7 @@ import F from './schemas';
 import client, { STORAGE_KEYS } from './apollo-config';
 
 import { useQuery, useMutation } from './components';
+
 import { parseSearch } from './utils';
 
 export const AuthContext = createContext();

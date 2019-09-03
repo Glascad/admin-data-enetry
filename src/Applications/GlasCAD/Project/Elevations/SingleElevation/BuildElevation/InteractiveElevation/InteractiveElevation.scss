@@ -76,20 +76,6 @@ $horizontal-bubble-translation: $small * 2.5;
 }
 
 #InteractiveElevation {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: fill;
-    overflow: hidden;
-
-    &.spacebar-pressed {
-        cursor: grab;
-
-        #elevation-display {
-            pointer-events: none;
-        }
-    }
 
     .Container,
     .Container::before,
@@ -106,7 +92,7 @@ $horizontal-bubble-translation: $small * 2.5;
         transition: all 0.1s;
     }
 
-    #elevation-display {
+    .inner-transform-box {
         // transition-duration: 0.05s;
         // height: 100% !important;
         // width: 100% !important;

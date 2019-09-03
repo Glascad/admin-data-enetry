@@ -136,4 +136,18 @@ class Statics extends PureComponent {
     }
 }
 
-export default withContext(AuthContext, ({ context }) => ({ AUTH: context }))(withRouter(Statics));
+console.trace();
+
+console.log({
+    withRouter,
+    StaticContext,
+    AuthContext,
+    Statics,
+    withContext,
+});
+
+const Exported = withContext(AuthContext, ({ context }) => ({ AUTH: context }))(withRouter(Statics));
+
+console.log({ Exported });
+
+export default props => console.trace(props) || <Exported {...props} />;

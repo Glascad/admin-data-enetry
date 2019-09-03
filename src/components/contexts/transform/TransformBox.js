@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { withTransformContext } from './TransformContext';
+import useTransformBox from './use-viewport-transform-hook';
+import './TransformBox.scss';
 
 function TransformBox({
     transform: {
@@ -11,22 +13,47 @@ function TransformBox({
             x: scaleX,
             y: scaleY,
         },
+        spaceKey,
     },
-    style,
-    selectedClass,
     children,
+    outerTransformRef,
+    innerTransformRef,
+    outerStyle,
+    innerStyle,
+    viewportRef,
+    className = '',
     ...props
 }) {
+    const outerContainer = useRef(outerTransformRef);
+    const innerContainer = useRef(innerTransformRef);
+
+    useTransformBox(outerContainer, viewportRef);
+
     return (
         <div
             {...props}
-            style={{
-                ...style,
-                transform: `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`,
-            }}
-            onMouseDown={e => e.stopPropagation()}
+            style={outerStyle}
+            ref={outerContainer}
+            className={`TransformBox ${
+                className
+                } ${
+                spaceKey ?
+                    'spacebar-pressed'
+                    :
+                    ''
+                }`}
         >
-            {children}
+            <div
+                ref={innerContainer}
+                style={{
+                    ...innerStyle,
+                    transform: `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`,
+                }}
+                className={`inner-transform-box`}
+                onMouseDown={e => e.stopPropagation()}
+            >
+                {children}
+            </div>
         </div>
     );
 }
