@@ -22,7 +22,7 @@ export default function SystemTree({
                     const { name = '', detailType = '', configurationType = '', __typename = '', } = item;
                     return (
                         <div
-                            data-cy={`${__typename}-${(name || detailType || configurationType).toLowerCase()}`}
+                            data-cy={`${__typename}-${name || detailType || configurationType}`}
                             className={`tree-item type-${
                                 __typename.replace(/^.*(option|value|type)$/, '$1').toLowerCase()
                                 } subtype-${
