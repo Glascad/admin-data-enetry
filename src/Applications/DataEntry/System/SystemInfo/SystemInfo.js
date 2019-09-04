@@ -50,13 +50,13 @@ function SystemInfo({
             },
         } = await updateEntireSystem({
             system: {
-                id: systemId,
+                id: +systemId,
                 name: sName,
                 manufacturerId: mId,
                 systemType: sType,
             },
         });
-        history.push(`${path}?systemId=${id}`);
+        history.push(`${path.replace(/info/, 'build')}?systemId=${id}`);
     }
 
     return (
@@ -85,31 +85,14 @@ function SystemInfo({
                         >
                             Cancel
                         </ConfirmButton>
-                        {systemId ? (
-                            <ConfirmButton
-                                data-cy="load"
-                                className="action"
-                                doNotConfirmWhen={true}
-                                onClick={() => {
-                                    history.push(`${
-                                        path.replace(/info/, 'build')
-                                        }${
-                                        search
-                                        }`);
-                                }}
-                            >
-                                Load
-                            </ConfirmButton>
-                        ) : (
-                                <AsyncButton
-                                    className="action"
-                                    data-cy="save"
-                                    onClick={save}
-                                    loading={updating}
-                                >
-                                    Save
-                                </AsyncButton>
-                            )}
+                        <AsyncButton
+                            className="action"
+                            data-cy="save"
+                            onClick={save}
+                            loading={updating}
+                        >
+                            {systemId ? "Load" : "Save"}
+                        </AsyncButton>
                     </>
                 )}
             />

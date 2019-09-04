@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TitleBar, TransformProvider, useSelection } from "../../../../components";
+import { TitleBar, TransformProvider, useSelection, useUndoRedo } from "../../../../components";
 import SystemTree from './SystemTree/SystemTree';
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
@@ -24,10 +24,15 @@ export default function SystemBuilder({
 
     const { systemId } = parseSearch(search);
 
-    const [systemInput, setState] = useState(systemUpdate);
+    // const [systemInput, setState] = useState(systemUpdate);
     const [selectedItem, selectItem] = useState();
 
-    const dispatch = (ACTION, payload) => setState(systemInput => ({ ...systemInput, ...ACTION(payload) }));
+    const {
+        currentState: systemInput,
+        pushState,
+    } = useUndoRedo(systemUpdate);
+
+    const dispatch = (ACTION, payload) => pushState(systemInput => ({ ...systemInput, ...ACTION(payload) }));
 
     const system = merge(systemInput, queryStatus);
 
@@ -44,6 +49,7 @@ export default function SystemBuilder({
                 systemInput={systemInput}
                 system={system}
                 dispatch={dispatch}
+                selectedItem={selectedItem}
                 selectItem={selectItem}
                 save={save}
             />
@@ -53,7 +59,7 @@ export default function SystemBuilder({
                 dispatch={dispatch}
                 selectItem={selectItem}
                 selectedItem={selectedItem}
-                />
+            />
             <Sidebar
                 queryStatus={queryStatus}
                 system={system}

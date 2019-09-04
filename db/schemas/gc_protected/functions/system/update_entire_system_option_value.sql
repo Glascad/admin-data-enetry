@@ -25,8 +25,8 @@ BEGIN
     id_map := create_or_update_system_option_value(sov, so, s, id_map);
 
     -- update detail types
-    IF sov.detail_types IS NOT NULL THEN
-        FOREACH dt IN ARRAY sov.detail_types LOOP
+    IF sov.system_detail_types IS NOT NULL THEN
+        FOREACH dt IN ARRAY sov.system_detail_types LOOP
             id_map := create_or_update_system_detail_type(dt, sov, s, id_map);
         END LOOP;
     END IF;

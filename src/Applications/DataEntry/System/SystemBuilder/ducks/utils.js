@@ -1,4 +1,4 @@
-import { match, logInputOutput } from '../../../../../utils';
+import { match } from '../../../../../utils';
 
 export const getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId);
 
@@ -28,7 +28,7 @@ export const getChildren = ({
         ConfigurationOptionValue: () => _configurationOptions.filter(({ parentConfigurationOptionValueId }) => parentConfigurationOptionValueId === id),
         SystemDetailType: () => _detailOptions.filter(({ systemDetailTypeId }) => systemDetailTypeId === id),
         SystemConfigurationType: () => _configurationOptions.filter(({ systemConfigurationTypeId }) => systemConfigurationTypeId === id),
-        undefined: logInputOutput("UNDEFINED TYPENAME", () => []),
+        undefined: () => [],
     })
     .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) });
 

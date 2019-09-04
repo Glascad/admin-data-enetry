@@ -37,7 +37,7 @@ ${F.PRJ.ENTIRE_SYSTEM_SET}
 //             }
 //             systemOptionsBySystemId(
 //                 orderBy: OPTION_ORDER_ASC,
-//                 condition: {
+//                 case: {
 //                     presentationLevel: SYSTEM
 //                 }
 //             ) {

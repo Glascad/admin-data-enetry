@@ -15,6 +15,7 @@ export default function Sidebar({
             open={!!selectedItem}
             handleCloseClick={() => selectItem()}
             View={VIEWS[__typename] || { title: '', component: () => null }}
+            childProps={arguments[0]}
         />
     );
 }

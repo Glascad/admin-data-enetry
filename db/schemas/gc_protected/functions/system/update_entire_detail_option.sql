@@ -15,8 +15,8 @@ BEGIN
     id_map := create_or_update_detail_option(_do, s, id_map);
 
     -- create or update values
-    IF _do.values IS NOT NULL THEN
-        FOREACH dov IN ARRAY _do.values LOOP
+    IF _do.detail_option_values IS NOT NULL THEN
+        FOREACH dov IN ARRAY _do.detail_option_values LOOP
             id_map := update_entire_detail_option_value(dov, _do, s, id_map);
         END LOOP;
     END IF;

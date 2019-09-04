@@ -15,8 +15,8 @@ BEGIN
     id_map := create_or_update_configuration_option(co, s, id_map);
 
     -- create or update values
-    IF co.values IS NOT NULL THEN
-        FOREACH cov IN ARRAY co.values LOOP
+    IF co.configuration_option_values IS NOT NULL THEN
+        FOREACH cov IN ARRAY co.configuration_option_values LOOP
             id_map := create_or_update_configuration_option_value(cov, co, s, id_map);
         END LOOP;
     END IF;

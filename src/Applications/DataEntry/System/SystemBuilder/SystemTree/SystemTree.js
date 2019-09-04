@@ -1,16 +1,36 @@
 import React, { useRef, useState } from 'react';
 import { Tree, TransformBox } from '../../../../../components';
 import { makeRenderable } from '../ducks/utils';
-import { match, normalCase } from '../../../../../utils';
+import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
+
+const noOptions = {
+    item: {
+        __typename: "SystemOption",
+        name: "_OPTION",
+    },
+    branches: [],
+};
 
 export default function SystemTree({
     system,
+    system: {
+        _systemOptions: {
+            length,
+        } = [],
+    } = {},
     selectedItem,
     selectItem,
+    loading,
 }) {
 
-    const trunk = makeRenderable(system);
+    const trunk = loading ?
+        {}
+        :
+        length ?
+            makeRenderable(system)
+            :
+            noOptions;
 
     return (
         <TransformBox

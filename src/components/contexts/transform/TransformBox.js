@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { withTransformContext } from './TransformContext';
-import useTransformBox from './use-viewport-transform-hook';
 import './TransformBox.scss';
 
 function TransformBox({
@@ -27,7 +26,67 @@ function TransformBox({
     const outerContainer = useRef(outerTransformRef);
     const innerContainer = useRef(innerTransformRef);
 
-    useTransformBox(outerContainer, viewportRef);
+    useEffect(() => {
+        const resizeViewport = () => {
+            setTimeout(() => {
+                try {
+                    viewportRef.current.style.paddingBottom = "0";
+                    viewportRef.current.style.marginBottom = "0";
+                    viewportRef.current.style.overflowY = "hidden";
+                    viewportRef.current.style.overflowX = "hidden";
+                    outerContainer.current.style.height = `${
+                        window.innerHeight
+                        -
+                        outerContainer.current.offsetTop
+                        -
+                        48}px`;
+                } catch (err) {
+                    console.error(err);
+                }
+                console.log(viewportRef);
+            });
+        }
+
+        var previousViewportStyles;
+
+        setTimeout(() => {
+            try {
+                previousViewportStyles = {
+                    paddingBottom: viewportRef.current.style.paddingBottom,
+                    marginBottom: viewportRef.current.style.marginBottom,
+                    overflowY: viewportRef.current.style.overflowY,
+                    overflowX: viewportRef.current.style.overflowX,
+                };
+            } catch (err) {
+                console.error(err);
+            }
+            console.log(viewportRef);
+        });
+
+        resizeViewport();
+
+        window.addEventListener('resize', resizeViewport);
+
+        return () => {
+            setTimeout(() => {
+                try {
+                    const {
+                        paddingBottom,
+                        marginBottom,
+                        overflowY,
+                    } = previousViewportStyles;
+
+                    viewportRef.current.style.paddingBottom = paddingBottom;
+                    viewportRef.current.style.marginBottom = marginBottom;
+                    viewportRef.current.style.overflowY = overflowY;
+                } catch (err) {
+                    console.error(err);
+                }
+                console.log(viewportRef);
+                window.removeEventListener('resize', resizeViewport);
+            });
+        };
+    }, []);
 
     return (
         <div

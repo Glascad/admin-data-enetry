@@ -27,6 +27,10 @@ function Header({
             name: mnfgName = '',
         } = {},
     } = {},
+    selectedItem: {
+        __typename: selectedTypename,
+    } = {},
+    selectItem,
     save,
 }) {
 
@@ -61,9 +65,13 @@ function Header({
                     <Input
                         data-cy="settings-icon"
                         Icon={Hamburger}
-                        checked={false}
+                        checked={selectedTypename === 'Settings'}
                         onMouseDown={e => e.stopPropagation()}
-                        onChange={() => { }}
+                        onChange={() => selectItem(selectedTypename === 'Settings' ?
+                            undefined
+                            :
+                            { __typename: 'Settings' }
+                        )}
                     />
                 </>
             )}

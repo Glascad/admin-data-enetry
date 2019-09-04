@@ -14,11 +14,14 @@ export default function useUndoRedo(firstState, dependencies = []) {
         setState(initialState);
     }, dependencies);
 
+    console.log(dependencies);
+
     // to simulate behavior of setState(newState, --> callback <--)
     // which is not available in the hook
+    const effectDependency = afterSetState || null;
     useEffect(() => {
         if (afterSetState) afterSetState();
-    }, [afterSetState || null]);
+    }, [effectDependency]);
 
     const dispatch = useCallback((setStateCallback, afterSetState) => {
         setState(oldState => {

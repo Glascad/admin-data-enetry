@@ -74,7 +74,7 @@ export default class Input extends PureComponent {
         disabled: PropTypes.bool,
         onChange: PropTypes.func,
         handleChange: PropTypes.func,
-        Icon: PropTypes.func,
+        Icon: PropTypes.object,
         onBlur: PropTypes.func,
         onEnter: PropTypes.func,
         onKeyDown: PropTypes.func,

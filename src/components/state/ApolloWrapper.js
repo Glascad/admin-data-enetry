@@ -41,8 +41,15 @@ const normalizeResponse = ({ data }) => removeNullValues(
 export default class ApolloWrapper extends PureComponent {
 
     static propTypes = {
-        query: PropTypes.shape(Query.propTypes),
-        mutations: PropTypes.objectOf(PropTypes.shape(Mutation.propTypes)),
+        query: PropTypes.shape({
+            ...Query.propTypes,
+            children: undefined,
+        }),
+        mutations: PropTypes.objectOf(PropTypes.shape({
+            ...Mutation.propTypes,
+            children: undefined,
+        })),
+        children: PropTypes.func.isRequired,
     };
 
     static defaultProps = {

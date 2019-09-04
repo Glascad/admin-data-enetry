@@ -5,7 +5,7 @@ export const final = result => ({
 
 const matched = result => ({
     on: () => matched(result),
-    condition: () => matched(result),
+    case: () => matched(result),
     against: () => matched(result),
     equals: () => matched(result),
     regex: () => matched(result),
@@ -15,7 +15,7 @@ const matched = result => ({
 
 const match = input => ({
     on: (pred, fn) => pred(input) ? matched(fn(input)) : match(input),
-    condition: (condition, fn) => condition ? matched(fn(input)) : match(input),
+    case: (condition, fn) => condition ? matched(fn(input)) : match(input),
     against: obj => Object.entries(obj)
         .reduce((acc, [key, cb]) => (
             acc.equals(key, cb)
@@ -27,6 +27,16 @@ const match = input => ({
         () => { throw new Error(`Cannot use \`regex()\` on non-string match. Received value: ${input}`) },
     otherwise: fn => fn(input),
     finally: () => { throw new Error(`Must use \`otherwise()\` before using finally`) },
+});
+
+const matchedCondition = result => ({
+    when: () => matchedCondition(result),
+    otherwise: () => result,
+});
+
+export const when = () => ({
+    when: (con, result) => con ? matchedCondition(result) : when(),
+    otherwise: result => result,
 });
 
 export default match;

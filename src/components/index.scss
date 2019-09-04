@@ -55,10 +55,8 @@
     }
 
     > * {
-        margin-top: $x-large;
-
-        &:first-child {
-            margin-top: 0;
+        &:not(:first-child) {
+            margin-top: $x-large;
         }
 
         &:last-child {
@@ -176,6 +174,59 @@
         }
     }
 }
+
+
+
+.Sidebar,
+.RightSidebar {
+    .GroupingBox {
+
+        > * {
+            &:not(:first-child) {
+                margin-top: $base-size;
+            }
+        }
+
+        .title {
+            background: $dark-blue;
+            box-shadow: 0 0 0 $x-small $dark-blue;
+            color: $medium-gray;
+            font-weight: normal;
+        }
+        width: fill;
+
+        .toggle-background,
+        .add-button-background {
+            background: $dark-blue;
+            .CircleButton {
+                .circle-button {
+                    height: $x-large;
+                    width: $x-large;
+
+                    .block-one,
+                    .block-two {
+                        background: $dark-blue;
+                    }
+                }
+            }
+        }
+
+        .toggle-background {
+        }
+        
+        .add-button-background {
+            top: -$x-large / 2;
+        }
+
+        .Input {
+            input {
+                width: $pill-width / 2;
+            }
+        }
+    }
+}
+
+
 
 .unfinished {
     border: 2px solid red;
