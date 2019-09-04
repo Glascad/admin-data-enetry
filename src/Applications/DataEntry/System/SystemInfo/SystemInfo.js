@@ -18,19 +18,46 @@ function SystemInfo({
     fetching,
     queryStatus: {
         _system: {
+            id,
             name: systemName = "",
             _manufacturer: {
-                id: manufacturerId,
+                id: mnfgId,
                 name: mnfgName = "",
             } = {},
             systemType,
         } = {},
-        allManufacturers,
-        allSystemTypes,
+        allManufacturers = [],
+        allSystemTypes = [],
     },
     updateEntireSystem,
+    updating,
 }) {
+
+    console.log(arguments[0]);
+
     const { systemId } = parseSearch(search);
+
+    const [sName, setSName] = useInitialState(systemName, [id]);
+    const [[mId, mName], setMnfg] = useInitialState([mnfgId, mnfgName], [id]);
+    const [sType, setSystemType] = useInitialState(systemType, [id]);
+
+    const save = async () => {
+        const {
+            updateEntireSystem: {
+                system: {
+                    id,
+                },
+            },
+        } = await updateEntireSystem({
+            system: {
+                id: systemId,
+                name: sName,
+                manufacturerId: mId,
+                systemType: sType,
+            },
+        });
+        history.push(`${path}?systemId=${id}`);
+    }
 
     return (
         <>
@@ -39,14 +66,14 @@ function SystemInfo({
                     fetching ?
                         <Ellipsis text="Loading" />
                         :
-                        mnfgName
+                        mName
                     :
                     "New System"}
-                selections={systemId && !fetching ? [systemName] : []}
+                selections={systemId && !fetching ? [sName] : []}
                 right={(
                     <>
                         <ConfirmButton
-                            data-cy="close"
+                            data-cy="cancel"
                             doNotConfirmWhen={true}
                             onClick={() => {
                                 history.push(`${
@@ -56,7 +83,7 @@ function SystemInfo({
                                     }`);
                             }}
                         >
-                            Close
+                            Cancel
                         </ConfirmButton>
                         {systemId ? (
                             <ConfirmButton
@@ -76,8 +103,9 @@ function SystemInfo({
                         ) : (
                                 <AsyncButton
                                     className="action"
-                                // onClick={save}
-                                // loading={updating}
+                                    data-cy="save"
+                                    onClick={save}
+                                    loading={updating}
                                 >
                                     Save
                                 </AsyncButton>
@@ -88,12 +116,39 @@ function SystemInfo({
             <div className="card">
                 <Input
                     data-cy="system-name"
+                    label="System Name"
+                    value={sName}
+                    onChange={({ target: { value } }) => setSName(value)}
                 />
                 <Input
                     data-cy="system-type"
+                    label="System Type"
+                    select={{
+                        value: {
+                            value: sType,
+                            label: sType,
+                        },
+                        options: allSystemTypes.map(({ type }) => ({
+                            value: type,
+                            label: type,
+                        })),
+                        onChange: ({ value }) => setSystemType(value),
+                    }}
                 />
                 <Input
                     data-cy="manufacturer"
+                    label="Manufacturer"
+                    select={{
+                        value: {
+                            value: mId,
+                            label: mName,
+                        },
+                        options: allManufacturers.map(({ name, id }) => ({
+                            value: id,
+                            label: name,
+                        })),
+                        onChange: ({ label, value }) => setMnfg([value, label]),
+                    }}
                 />
             </div>
         </>
