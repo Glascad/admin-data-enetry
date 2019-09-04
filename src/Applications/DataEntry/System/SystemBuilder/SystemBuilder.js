@@ -24,6 +24,7 @@ export default function SystemBuilder({
     const dispatch = (ACTION, payload) => setState(systemInput => ({ ...systemInput, ...ACTION(payload) }));
 
     const system = merge(systemInput, queryStatus);
+    // console.log(system);
 
     const save = async () => {
         console.log(systemInput);
