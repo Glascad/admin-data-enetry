@@ -84,32 +84,14 @@ export default function System({
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
-    const [systemUpdate, setSystemUpdate] = useInitialState({
-        // name: sysName,
-        // manufacturerId,
-        // systemType,
-    }, [
-        // sysName, manufacturerId, systemType
-    ]);
-
-    const save = () => {
-
-    }
-
-    const updateSystem = () => {
-
-    }
-
     return (
         <Navigator
             routes={subroutes}
             routeProps={{
                 queryStatus,
                 fetching,
-                updateSystem,
+                updateEntireSystem,
                 updating,
-                systemUpdate,
-                save,
             }}
         />
     );

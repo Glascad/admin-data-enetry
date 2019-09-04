@@ -382,7 +382,7 @@ export default class Input extends PureComponent {
                 onClick={onClick}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
-                data-cy={dataCy}
+                {...(isBoolean ? { "data-cy": dataCy } : null)}
             >
                 {!isBoolean ? (
                     LABEL
@@ -400,6 +400,7 @@ export default class Input extends PureComponent {
                             ...o,
                             label: normalCase(o.label),
                         }))}
+                        data-cy={dataCy}
                     />
                 ) : (
                         <inputTag.name
@@ -440,8 +441,9 @@ export default class Input extends PureComponent {
                                 handleKeyDown
                                 :
                                 onKeyDown}
-                            // VVV is this spread necessary?
-                            // {...props}
+                            {...(isBoolean ? null : { "data-cy": dataCy })}
+                        // VVV is this spread necessary?
+                        // {...props}
                         />
                     )
                 }

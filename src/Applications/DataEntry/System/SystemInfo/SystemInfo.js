@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { TitleBar, Ellipsis, ConfirmButton, AsyncButton, useQuery, useMutation, useInitialState, Input } from '../../../../components';
 import { parseSearch } from '../../../../utils';
-import { updateEntireSystem } from '../system-graphql/mutations';
 
 SystemInfo.navigationOptions = {
     path: '/info',
@@ -29,6 +28,7 @@ function SystemInfo({
         allManufacturers,
         allSystemTypes,
     },
+    updateEntireSystem,
 }) {
     const { systemId } = parseSearch(search);
 
@@ -57,28 +57,31 @@ function SystemInfo({
                             }}
                         >
                             Close
-                    </ConfirmButton>
-                        <ConfirmButton
-                            data-cy="load"
-                            className="action"
-                            doNotConfirmWhen={true}
-                            onClick={() => {
-                                history.push(`${
-                                    path.replace(/info/, 'build')
-                                    }${
-                                    search
-                                    }`);
-                            }}
-                        >
-                            Load
-                    </ConfirmButton>
-                        <AsyncButton
-                            className="action"
-                            // onClick={save}
-                            // loading={updating}
-                        >
-                            Save
-                    </AsyncButton>
+                        </ConfirmButton>
+                        {systemId ? (
+                            <ConfirmButton
+                                data-cy="load"
+                                className="action"
+                                doNotConfirmWhen={true}
+                                onClick={() => {
+                                    history.push(`${
+                                        path.replace(/info/, 'build')
+                                        }${
+                                        search
+                                        }`);
+                                }}
+                            >
+                                Load
+                            </ConfirmButton>
+                        ) : (
+                                <AsyncButton
+                                    className="action"
+                                // onClick={save}
+                                // loading={updating}
+                                >
+                                    Save
+                                </AsyncButton>
+                            )}
                     </>
                 )}
             />

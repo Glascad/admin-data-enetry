@@ -94,20 +94,20 @@ export default function SingleElevation({
             queryStatus: {
                 _elevation: SAMPLE_ELEVATIONS[sampleElevation],
             },
-            updateEntireElevation: () => {
-                throw new Error("Cannot update sample elevation");
-            },
             updating: false,
             defaultElevation,
             project,
+            updateEntireElevation: () => {
+                throw new Error("Cannot update sample elevation");
+            },
         } : {
             fetching,
             refetch,
             queryStatus,
-            updateEntireElevation,
             updating,
             defaultElevation,
             project,
+            updateEntireElevation,
         };
 
     // console.log(routeProps);
