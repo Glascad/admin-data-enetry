@@ -10,6 +10,7 @@ import {
     useQuery,
     TitleBar,
     Navigator,
+    useInitialState,
 } from '../../../components';
 
 import query from './system-graphql/query';
@@ -81,7 +82,23 @@ export default function System({
 
     const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
-    const [updateEntireSystem] = useMutation(updateEntireSystemMutation, fetchQuery);
+    const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
+
+    const [systemUpdate, setSystemUpdate] = useInitialState({
+        // name: sysName,
+        // manufacturerId,
+        // systemType,
+    }, [
+        // sysName, manufacturerId, systemType
+    ]);
+
+    const save = () => {
+
+    }
+
+    const updateSystem = () => {
+
+    }
 
     return (
         <Navigator
@@ -89,7 +106,10 @@ export default function System({
             routeProps={{
                 queryStatus,
                 fetching,
-                updateEntireSystem,
+                updateSystem,
+                updating,
+                systemUpdate,
+                save,
             }}
         />
     );

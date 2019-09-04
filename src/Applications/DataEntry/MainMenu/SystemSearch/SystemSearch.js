@@ -24,10 +24,13 @@ export default function SystemSearch({
                 title="Select System"
                 right={(
                     <Link
-                        to={path.replace(/system-search.*/,
-                            "info/database/system-info")}
+                        to={path.replace(/main-menu.*/,
+                            "system/info")}
                     >
-                        <button className="action">
+                        <button
+                            className="action"
+                            data-cy="new-system-link"
+                        >
                             New System
                         </button>
                     </Link>
