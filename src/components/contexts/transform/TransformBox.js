@@ -43,7 +43,6 @@ function TransformBox({
                 } catch (err) {
                     console.error(err);
                 }
-                console.log(viewportRef);
             });
         }
 
@@ -60,7 +59,6 @@ function TransformBox({
             } catch (err) {
                 console.error(err);
             }
-            console.log(viewportRef);
         });
 
         resizeViewport();
@@ -82,7 +80,6 @@ function TransformBox({
                 } catch (err) {
                     console.error(err);
                 }
-                console.log(viewportRef);
                 window.removeEventListener('resize', resizeViewport);
             });
         };

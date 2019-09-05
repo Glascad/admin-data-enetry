@@ -20,6 +20,7 @@ export default function SystemBuilder({
         _system,
         validOptions = [],
     },
+    fetching,
 }) {
 
     const { systemId } = parseSearch(search);
@@ -56,6 +57,7 @@ export default function SystemBuilder({
             />
             <SystemTree
                 queryStatus={queryStatus}
+                fetching={fetching}
                 system={system}
                 dispatch={dispatch}
                 selectItem={selectItem}

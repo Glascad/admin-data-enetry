@@ -52,7 +52,7 @@ export default function merge({
                         .filter(({ id }) => !systemOptionValueIdsToDelete.includes(id))
                         .map(value => {
 
-                            const [systemDetailTypesToUpdate, systemDetailTypesToAdd] = _.partition(value, ({ id }) => id);
+                            const [systemDetailTypesToUpdate, systemDetailTypesToAdd] = _.partition(value._systemDetailTypes, ({ id }) => id);
 
                             const valueUpdate = systemOptionValuesToUpdate.find(({ id }) => id === value.id);
                             return {
@@ -86,7 +86,7 @@ export default function merge({
                         .filter(({ id }) => !detailOptionValueIdsToDelete.includes(id))
                         .map(value => {
 
-                            const [systemConfigurationTypesToUpdate, systemConfigurationTypesToAdd] = _.partition(value, ({ id }) => id);
+                            const [systemConfigurationTypesToUpdate, systemConfigurationTypesToAdd] = _.partition(value._systemConfigurationTypes, ({ id }) => id);
 
                             const valueUpdate = detailOptionValuesToUpdate.find(({ id }) => id === value.id);
                             return {
