@@ -1,6 +1,6 @@
-import { UPDATE_SYSTEM_OPTION } from "../../../actions";
-import { systemUpdate, systemOptionUpdate } from "../../../schemas";
-import "../../../../../../../../../public";
+import { UPDATE_SYSTEM_OPTION } from "../../actions";
+import { systemUpdate, systemOptionUpdate } from "../../schemas";
+import "../../../../../../../../public";
 
 function testUpdateSystemOption({
     systemInput,

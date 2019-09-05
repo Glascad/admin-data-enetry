@@ -1,9 +1,9 @@
 import React from 'react';
-import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../../components";
-import { UPDATE_SYSTEM_OPTION } from '../../../ducks/actions';
+import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
+import { UPDATE_SYSTEM_OPTION, ADD_SYSTEM_OPTION_VALUE } from '../../ducks/actions';
 
 
-function SystemOption({
+function EditOption({
     selectedItem,
     selectedItem: {
         id: oId,
@@ -51,7 +51,11 @@ function SystemOption({
                 circleButton={{
                     actionType: "add",
                     className: "action",
-                    onClick: () => { },
+                    onClick: () => dispatch(ADD_SYSTEM_OPTION_VALUE, {
+                        id: oId,
+                        fakeId: oFId,
+                        // systemOptionValues: 
+                    }),
                 }}
             >
                 {_systemOptionValues.length ?
@@ -64,7 +68,18 @@ function SystemOption({
                                         label: name,
                                         value: id,
                                     },
-                                    options: [],
+                                    options: validOptions
+                                        .reduce((values, { name: vName, _validOptionValues }) => (
+                                            vName === name ?
+                                                _validOptionValues
+                                                :
+                                                values
+                                        ), [])
+                                        .filter(({ name }) => !_systemOptionValues.some(v => v.name === name))
+                                        .map(({ name }) => ({
+                                            value: name,
+                                            label: name,
+                                        })),
                                     onChange: () => { },
                                 }}
                             />
@@ -85,7 +100,10 @@ function SystemOption({
     )
 }
 
-export default {
+export const SystemOption = {
     title: "Edit Option",
-    component: SystemOption,
+    component: EditOption,
 };
+
+export const DetailOption = SystemOption;
+export const ConfigurationOption = DetailOption;

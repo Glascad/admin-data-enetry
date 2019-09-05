@@ -1,32 +1,33 @@
-import { systemOptionUpdate } from "../../schemas";
+import { systemOptionUpdate, systemOptionValueUpdate } from "../schemas";
 
-export default function UPDATE_SYSTEM_OPTION({
-    // queryStatus not needed ?
-    //     // queryStatus
-    // }, {
-    // systemInput
+export default function ADD_SYSTEM_OPTION_VALUE({
     systemOptions,
-},
-    optionUpdate
-) {
+}, {
+    optionId,
+    optionFakeId,
+}) {
+
     const updatedOption = systemOptions.find(({ id, fakeId }) => (
-        id && id === optionUpdate.id
+        id && id === optionId
     ) || (
-            fakeId && fakeId === optionUpdate.fakeId
+            fakeId && fakeId === optionFakeId
         )
     );
     const updatedIndex = systemOptions.indexOf(updatedOption);
+
     return {
         ...arguments[0],
         systemOptions: updatedOption ?
             systemOptions.replace(updatedIndex, {
                 ...updatedOption,
-                ...optionUpdate,
+
             })
             :
             systemOptions.concat({
                 ...systemOptionUpdate,
-                ...optionUpdate,
+                id: optionId,
+                fakeId: optionFakeId,
+                systemOptionValues: ((updatedOption || {}).systemOptionValues || []).concat(systemOptionValueUpdate)
             }),
     };
 }

@@ -10,7 +10,8 @@ describe('Testing sidbar actions in system builder', () => {
         cy.get('[data-cy="SystemOption-ADD_OPTION"]').click();
         cy.get('.RightSidebar').should('have.class', 'open');
         cy.get('[data-cy="edit-option-name"]').find('input').type('Set{enter}', { force: true });
-        cy.get('[data-cy="edit-option-name"]').contains('Set').should('be.visible');
+        // React Select is a pain
+        cy.get('[data-cy="edit-option-name"]').find('div > div > div').contains('Set').should('be.visible');
         cy.get('[data-cy="edit-option-values"]').contains(/back/i);
         cy.get('[data-cy="edit-option-values"]').contains(/center/i);
         cy.get('[data-cy="edit-option-values"]').contains(/front/i);
@@ -22,7 +23,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.get('[data-cy="SystemOptionValue-CENTER"]').click();
         cy.get('[data-cy="toggle-child-option"]').click();
         cy.get('[data-cy="edit-option-name"]').find('input').type('Joinery{enter}', { force: true });
-        cy.get('[data-cy="edit-option-name"]').contains('Joinery').should('be.visible');
+        cy.get('[data-cy="edit-option-name"]').find('div > div > div').contains('Joinery').should('be.visible');
 
         cy.get('[data-cy="SystemOption-JOINERY"]').click();
         cy.get('[data-cy="edit-option-values"]').contains(/shear/i);
@@ -41,7 +42,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.get('[data-cy="SystemDetailType-HEAD"]').click();
         // cy.get('[data-cy="toggle-child-option"]').click();
         cy.get('[data-cy="edit-option-name"]').find('input').type('Stops{enter}', { force: true });
-        cy.get('[data-cy="edit-option-name"]').contains('Stops').should('be.visible');
+        cy.get('[data-cy="edit-option-name"]').find('div > div > div').contains('Stops').should('be.visible');
 
         // cy.get('[data-cy="SystemOption-SIGHTLINE"]').click();
         // cy.get('[data-cy="edit-option-values"]').contains(/4\.5"/i);

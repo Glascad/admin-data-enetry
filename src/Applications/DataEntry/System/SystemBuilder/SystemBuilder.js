@@ -62,9 +62,7 @@ export default function SystemBuilder({
         console.log(systemInput);
     }
 
-    // console.log(arguments[0]);
-
-    console.log({ originalSelectedItem, selectedItem, system });
+    console.log(arguments[0]);
 
     return (
         <TransformProvider>
