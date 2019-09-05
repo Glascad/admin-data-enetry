@@ -44,6 +44,7 @@ export default class CircleButton extends PureComponent {
                 onClick,
                 className,
                 renderTextInsteadOfButton,
+                "data-cy": dataCy,
             },
             handleClick
         } = this;
@@ -65,7 +66,10 @@ export default class CircleButton extends PureComponent {
                 onBlur={onBlur}
             >
                 {renderTextInsteadOfButton ? (
-                    <div className="button-text">
+                    <div
+                        className="button-text"
+                        data-cy={dataCy}
+                    >
                         <div className="text">
                             {renderTextInsteadOfButton}
                         </div>
@@ -75,6 +79,7 @@ export default class CircleButton extends PureComponent {
                             <button
                                 className="circle-button"
                                 onClick={handleClick}
+                                data-cy={dataCy}
                             >
                                 <div className="block-one" />
                                 <div className="block-two" />
