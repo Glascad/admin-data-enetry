@@ -1,4 +1,5 @@
 @import "../styles/variables";
+@import "../components/ui/CircleButton/CircleButton";
 
 .card {
     background: $off-white;
@@ -175,16 +176,17 @@
     }
 }
 
-
-
 .Sidebar,
 .RightSidebar {
     .GroupingBox {
+        width: fill;
+        padding-bottom: $large;
 
         > * {
             &:not(:first-child) {
                 margin-top: $base-size;
             }
+            // margin-left: $base-size;
         }
 
         .title {
@@ -193,7 +195,6 @@
             color: $medium-gray;
             font-weight: normal;
         }
-        width: fill;
 
         .toggle-background,
         .add-button-background {
@@ -202,31 +203,47 @@
                 .circle-button {
                     height: $x-large;
                     width: $x-large;
-
-                    .block-one,
-                    .block-two {
-                        background: $dark-blue;
-                    }
                 }
             }
         }
 
         .toggle-background {
         }
-        
+
         .add-button-background {
             top: -$x-large / 2;
         }
 
-        .Input {
-            input {
-                width: $pill-width / 2;
+        .input-group {
+            > * {
+                + * {
+                    margin-left: $small;
+                }
+            }
+
+            .Input {
+                input,
+                .Select {
+                    width: $pill-width * 0.6;
+                }
+            }
+        }
+
+        .CircleButton {
+            &.primary {
+                @include circle-button($selected-color, $dark-blue);
+            }
+
+            &.action {
+                @include circle-button($action-color, $dark-blue);
+            }
+
+            &.danger {
+                @include circle-button($danger-color, $dark-blue);
             }
         }
     }
 }
-
-
 
 .unfinished {
     border: 2px solid red;

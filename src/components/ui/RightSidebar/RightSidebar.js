@@ -9,7 +9,7 @@ RightSidebar.propTypes = {
     stackedView: PropTypes.shape({
         title: PropTypes.string.isRequired,
         component: customPropTypes.renderable.isRequired,
-    }).isRequired,
+    }),
     View: PropTypes.shape({
         title: PropTypes.string.isRequired,
         component: customPropTypes.renderable.isRequired,

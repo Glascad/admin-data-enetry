@@ -8,7 +8,8 @@ import { StaticContext } from '../../../../Statics/Statics';
 const noOptions = {
     item: {
         __typename: "SystemOption",
-        name: "_OPTION",
+        fakeId: -1,
+        name: "ADD_OPTION",
     },
     branches: [],
 };
@@ -31,12 +32,6 @@ export default function SystemTree({
         makeRenderable(system)
         :
         noOptions;
-
-    console.log({
-        fetching,
-        system,
-        trunk,
-    });
 
     return (
         <TransformBox

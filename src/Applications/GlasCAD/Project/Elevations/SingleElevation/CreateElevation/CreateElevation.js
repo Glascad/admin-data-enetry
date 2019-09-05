@@ -31,8 +31,6 @@ import generateElevation from './generate-elevation';
 
 import { parseSearch, ImperialValue } from '../../../../../../utils';
 
-import './CreateElevation.scss';
-
 import {
     measureFromOptions,
     measureToOptions,

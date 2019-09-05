@@ -1,76 +1,85 @@
 
 export const configurationOptionValueUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
+    __typename: "ConfigurationOptionValue",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
 };
 
 export const configurationOptionUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
-    systemConfigurationTypeId: 0,
-    systemConfigurationTypeFakeId: 0,
-    parentConfigurationOptionValueId: 0,
-    parentConfigurationOptionValueFakeId: 0,
+    __typename: "ConfigurationOption",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
+    systemConfigurationTypeId: undefined,
+    systemConfigurationTypeFakeId: undefined,
+    parentConfigurationOptionValueId: undefined,
+    parentConfigurationOptionValueFakeId: undefined,
     configurationOptionValues: [],
 };
 
 export const systemConfigurationTypeUpdate = {
-    id: 0,
-    fakeId: 0,
-    configurationType: "",
+    __typename: "SystemConfigurationType",
+    id: undefined,
+    fakeId: undefined,
+    configurationType: undefined,
     optional: false,
 };
 
 export const detailOptionValueUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
+    __typename: "DetailOptionValue",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
     systemConfigurationTypes: [],
 };
 
 export const detailOptionUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
-    systemDetailTypeId: 0,
-    systemDetailTypeFakeId: 0,
-    parentDetailOptionValueId: 0,
-    parentDetailOptionValueFakeId: 0,
+    __typename: "DetailOption",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
+    systemDetailTypeId: undefined,
+    systemDetailTypeFakeId: undefined,
+    parentDetailOptionValueId: undefined,
+    parentDetailOptionValueFakeId: undefined,
     detailOptionValues: [],
 };
 
 export const systemDetailTypeUpdate = {
-    id: 0,
-    fakeId: 0,
-    detailType: ""
+    __typename: "SystemDetailType",
+    id: undefined,
+    fakeId: undefined,
+    detailType: undefined
 };
 
 export const systemOptionValueUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
+    __typename: "SystemOptionValue",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
     raisedOptionNames: [],
     raisedConfigurationTypes: [],
     systemDetailTypes: [],
 };
 
 export const systemOptionUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
-    parentSystemOptionValueId: 0,
-    parentSystemOptionValueFakeId: 0,
+    __typename: "SystemOption",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
+    parentSystemOptionValueId: undefined,
+    parentSystemOptionValueFakeId: undefined,
     systemOptionValues: [],
 };
 
 export const systemUpdate = {
-    id: 0,
-    fakeId: 0,
-    name: "",
-    manufacturerId: 0,
-    systemType: "",
+    __typename: "System",
+    id: undefined,
+    fakeId: undefined,
+    name: undefined,
+    manufacturerId: undefined,
+    systemType: undefined,
     systemOptions: [],
     detailOptions: [],
     configurationOptions: [],

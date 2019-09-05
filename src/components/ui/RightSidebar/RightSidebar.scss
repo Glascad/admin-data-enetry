@@ -16,6 +16,7 @@
     padding: $x-large;
     box-shadow: -2px 0 $xx-small rgba(74, 74, 74, 0.8);
     overflow-y: scroll;
+    color: $medium-gray;
 
     &.closed {
         display: none;

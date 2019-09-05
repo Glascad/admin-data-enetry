@@ -11,8 +11,8 @@ export default class CircleButton extends PureComponent {
         className: PropTypes.string,
         type: PropTypes.oneOf([
             'small',
-            "tile",
-            'input'
+            'tile',
+            // 'input',
         ]),
         actionType: PropTypes.oneOf([
             'add',
@@ -26,7 +26,7 @@ export default class CircleButton extends PureComponent {
 
     static defaultProps = {
         text: "Create",
-        type: "",
+        type: "small",
         actionType: "",
         otherButtons: [],
     };

@@ -39,3 +39,17 @@ export const makeRenderable = system => {
     });
     return makeNodeRenderable(getFirstItem(system));
 }
+
+export const findItemByIdAndTypename = (system, { id, fakeId, __typename } = {}) => Object.values(system)
+    .filter(item => item && typeof item === 'object')
+    .reduce((result, item) => result || (
+        ((id && id === item.id) || (fakeId && fakeId === item.fakeId)) && __typename && __typename === item.__typename ?
+            item
+            :
+            findItemByIdAndTypename(item, { id, fakeId, __typename })
+    ), null) || undefined;
+
+export const getFakeId = (() => {
+    var fakeId = -1;
+    return () => fakeId--;
+})();

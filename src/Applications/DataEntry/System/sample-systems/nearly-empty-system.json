@@ -1,0 +1,26 @@
+{
+    "__typename": "System",
+    "nodeId": "WyJzeXN0ZW1zIiwyXQ==",
+    "id": 2,
+    "manufacturerId": 1,
+    "systemType": "STOREFRONT",
+    "name": "Test System",
+    "_manufacturer": {
+        "__typename": "Manufacturer",
+        "nodeId": "WyJtYW51ZmFjdHVyZXJzIiwxXQ==",
+        "id": 1,
+        "name": "Kawneer",
+        "__by": "ManufacturerId"
+    },
+    "_systemOptions": [
+        {
+            "__typename": "SystemOption",
+            "fakeId": -1,
+            "name": "Joinery",
+            "systemOptionValues": []
+        }
+    ],
+    "_detailOptions": [],
+    "_configurationOptions": [],
+    "__by": "Id"
+}
