@@ -1,6 +1,6 @@
 import { systemOptionUpdate, systemOptionValueUpdate } from "../schemas";
 
-export default function ADD_SYSTEM_OPTION_VALUE({
+export default function ADD_OPTION_VALUE({
     systemOptions,
 }, {
     optionId,
