@@ -1,6 +1,8 @@
 import merge from "../merge";
 import { sample1 } from "../../../sample-systems";
 
+
+//THIS TEST IS CURRENTLY NOT WORKING PROPERLY
 function testMerge({
     systemInput,
     systemInput: {
@@ -201,13 +203,13 @@ testMerge({
     },
     _system: sample1,
     result: {
-        systemOptionIdsToInclude: [2, 999], //this should fail because of the 999
-        detailOptionIdsToInclude: [1, 999], //this should fail because of the 999
-        configurationOptionIdsToInclude: [2, 3, 4, 999], //this should fail because of the 999
-        systemOptionValueIdsToInclude: [5, 6, 999], //this should fail because of the 999
-        detailOptionValueIdsToInclude: [2, 3, 4, 999], //this should fail because of the 999
-        configurationOptionValueIdsToInclude: [4, 5, 6, 7, 8, 999], //this should fail because of the 999
-        systemDetailTypeIdsToInclude: [1, 3, 4, 5, 999], //this should fail because of the 999
-        systemConfigurationTypeIdsToInclude: [4, 5, 6, 7, 8, 999], //this should fail because of the 999
+        systemOptionIdsToInclude: [2],
+        detailOptionIdsToInclude: [1],
+        configurationOptionIdsToInclude: [2, 3, 4],
+        systemOptionValueIdsToInclude: [5, 6],
+        detailOptionValueIdsToInclude: [2, 3, 4],
+        configurationOptionValueIdsToInclude: [4, 5, 6, 7, 8],
+        systemDetailTypeIdsToInclude: [1, 3, 4, 5],
+        systemConfigurationTypeIdsToInclude: [4, 5, 6, 7, 8],
     }
 });

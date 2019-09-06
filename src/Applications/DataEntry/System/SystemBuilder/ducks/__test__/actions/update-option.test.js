@@ -1,108 +1,347 @@
-import { UPDATE_SYSTEM_OPTION } from "../../actions";
-import { systemUpdate, systemOptionUpdate } from "../../schemas";
+import { UPDATE_OPTION } from "../../actions";
+import { systemUpdate, systemOptionUpdate, detailOptionUpdate } from "../../schemas";
 import "../../../../../../../../public";
 
-function testUpdateSystemOption({
+function testUpdateOption({
     systemInput,
-    option,
-    systemOptions,
+    payload,
+    systemOutput,
 }) {
-    describe('Testing update system option', () => {
-        const result = UPDATE_SYSTEM_OPTION({ ...systemUpdate, ...systemInput }, option);
-        test('Result should be correct', () => {
-            console.log({ option, systemOptions, result: result.systemOptions });
-            expect(result.systemOptions).toMatchObject(systemOptions.map(o => ({
-                ...o,
-                __typename: "SystemOption",
-            })));
+    describe(`Testing update options`, () => {
+        const result = UPDATE_OPTION({ ...systemUpdate, ...systemInput }, payload);
+        test(`Result should be correct for ${payload.name}`, () => {
+            console.log({ payload, systemOutput, result: result.systemOptions });
+            expect(result).toMatchObject(systemOutput);
         });
     });
 }
 
-testUpdateSystemOption({
+//System Options
+testUpdateOption({
     systemInput: {},
-    option: {
+    payload: {
         id: 1,
         name: "JOINERY",
+        __typename: "SystemOption",
     },
-    systemOptions: [
-        {
-            id: 1,
-            name: "JOINERY",
-        },
-    ],
+    systemOutput: {
+        systemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "JOINERY",
+                __typename: "SystemOption",
+            })
+        ])
+    },
 });
 
-testUpdateSystemOption({
+testUpdateOption({
     systemInput: {
         systemOptions: [
             {
                 ...systemOptionUpdate,
                 id: 1,
                 name: "SET",
+                __typename: "SystemOption",
             },
         ],
     },
-    option: {
+    payload: {
         id: 1,
         name: "JOINERY",
+        __typename: "SystemOption",
     },
-    systemOptions: [
-        {
-            id: 1,
-            name: "JOINERY",
-        },
-    ],
+    systemOutput: {
+        systemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "JOINERY",
+                __typename: "SystemOption",
+            }),
+        ])
+    },
 });
 
-testUpdateSystemOption({
+testUpdateOption({
     systemInput: {
         systemOptions: [
             {
                 ...systemOptionUpdate,
                 id: 1,
                 name: "SET",
+                __typename: "SystemOption",
             },
         ],
     },
-    option: {
+    payload: {
         id: 2,
         name: "JOINERY",
+        __typename: "SystemOption",
     },
-    systemOptions: [
-        {
-            id: 1,
-            name: "SET",
-        },
-        {
-            id: 2,
-            name: "JOINERY",
-        },
-    ],
+    systemOutput: {
+        systemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "SET",
+                __typename: "SystemOption",
+            }),
+            expect.objectContaining({
+                id: 2,
+                name: "JOINERY",
+                __typename: "SystemOption",
+            }),
+        ])
+    },
 });
 
-testUpdateSystemOption({
+testUpdateOption({
     systemInput: {
         systemOptions: [
             {
                 ...systemOptionUpdate,
                 fakeId: 1,
                 name: "SET",
+                __typename: "SystemOption",
             },
         ],
     },
-    option: {
+    payload: {
         fakeId: 2,
         name: "JOINERY",
+        __typename: "SystemOption",
     },
-    systemOptions: [
-        {
-            fakeId: 1,
-            name: "SET",
-        },
-        {
-            fakeId: 2,
-            name: "JOINERY",
-        },
-    ],
+    systemOutput: {
+        systemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                fakeId: 1,
+                name: "SET",
+                __typename: "SystemOption",
+            }),
+            expect.objectContaining({
+                fakeId: 2,
+                name: "JOINERY",
+                __typename: "SystemOption",
+            }),
+        ])
+    },
+});
+
+//Detail Options
+testUpdateOption({
+    systemInput: {},
+    payload: {
+        id: 1,
+        name: "GLAZING",
+        __typename: "DetailOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "GLAZING",
+                __typename: "DetailOption",
+            }),
+        ])
+    },
+});
+
+testUpdateOption({
+    systemInput: {
+        detailOptions: [
+            {
+                ...detailOptionUpdate,
+                id: 1,
+                name: "STOPS",
+                __typename: "DetailOption",
+            },
+        ],
+    },
+    payload: {
+        id: 1,
+        name: "GLAZING",
+        __typename: "DetailOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "GLAZING",
+                __typename: "DetailOption",
+            }),
+        ])
+    },
+});
+
+testUpdateOption({
+    systemInput: {
+        detailOptions: [
+            {
+                ...detailOptionUpdate,
+                id: 1,
+                name: "STOPS",
+                __typename: "DetailOption",
+            },
+        ],
+    },
+    payload: {
+        id: 2,
+        name: "GLAZING",
+        __typename: "DetailOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "STOPS",
+                __typename: "DetailOption",
+            }),
+            expect.objectContaining({
+                id: 2,
+                name: "GLAZING",
+                __typename: "DetailOption",
+            }),
+        ])
+    },
+});
+
+testUpdateOption({
+    systemInput: {
+        detailOptions: [
+            {
+                ...detailOptionUpdate,
+                fakeId: 1,
+                name: "STOPS",
+                __typename: "DetailOption",
+            },
+        ],
+    },
+    payload: {
+        fakeId: 2,
+        name: "GLAZING",
+        __typename: "DetailOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                fakeId: 1,
+                name: "STOPS",
+                __typename: "DetailOption",
+            }),
+            expect.objectContaining({
+                fakeId: 2,
+                name: "GLAZING",
+                __typename: "DetailOption",
+            }),
+        ])
+    },
+});
+
+//Configuration Options
+testUpdateOption({
+    systemInput: {},
+    payload: {
+        id: 1,
+        name: "SILL_FLASHING",
+        __typename: "ConfigurationOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "SILL_FLASHING",
+                __typename: "ConfigurationOption",
+            }),
+        ])
+    },
+});
+
+testUpdateOption({
+    systemInput: {
+        detailOptions: [
+            {
+                ...detailOptionUpdate,
+                id: 1,
+                name: "COMPENSATING_RECEPTOR",
+                __typename: "ConfigurationOption",
+            },
+        ],
+    },
+    payload: {
+        id: 1,
+        name: "SILL_FLASHING",
+        __typename: "ConfigurationOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "SILL_FLASHING",
+                __typename: "ConfigurationOption",
+            }),
+        ])
+    },
+});
+
+testUpdateOption({
+    systemInput: {
+        detailOptions: [
+            {
+                ...detailOptionUpdate,
+                id: 1,
+                name: "COMPENSATING_RECEPTOR",
+                __typename: "ConfigurationOption",
+            },
+        ],
+    },
+    payload: {
+        id: 2,
+        name: "SILL_FLASHING",
+        __typename: "ConfigurationOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                id: 1,
+                name: "COMPENSATING_RECEPTOR",
+                __typename: "ConfigurationOption",
+            }),
+            expect.objectContaining({
+                id: 2,
+                name: "SILL_FLASHING",
+                __typename: "ConfigurationOption",
+            }),
+        ])
+    },
+});
+
+testUpdateOption({
+    systemInput: {
+        detailOptions: [
+            {
+                ...detailOptionUpdate,
+                fakeId: 1,
+                name: "COMPENSATING_RECEPTOR",
+                __typename: "ConfigurationOption",
+            },
+        ],
+    },
+    payload: {
+        fakeId: 2,
+        name: "SILL_FLASHING",
+        __typename: "ConfigurationOption",
+    },
+    systemOutput: {
+        detailOptions: expect.arrayContaining([
+            expect.objectContaining({
+                fakeId: 1,
+                name: "COMPENSATING_RECEPTOR",
+                __typename: "ConfigurationOption",
+            }),
+            expect.objectContaining({
+                fakeId: 2,
+                name: "SILL_FLASHING",
+                __typename: "ConfigurationOption",
+            }),
+        ])
+    },
 });
