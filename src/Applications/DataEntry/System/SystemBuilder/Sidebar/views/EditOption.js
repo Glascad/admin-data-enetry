@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
-import { UPDATE_OPTION, ADD_SYSTEM_OPTION_VALUE } from '../../ducks/actions';
+import { UPDATE_OPTION, ADD_OPTION_VALUE } from '../../ducks/actions';
+import { systemOptionUpdate } from '../../ducks/schemas';
 
 
 function EditOption({
@@ -17,6 +18,9 @@ function EditOption({
     dispatch,
 }) {
     console.log(arguments[0]);
+    const [newValue, setNewValue] = useState();
+    const handleAddClick = () => setNewValue(systemOptionUpdate);
+    const handleBlur = () => dispatch(ADD_OPTION_VALUE)
     return (
         <>
             <TitleBar
@@ -49,9 +53,10 @@ function EditOption({
                 data-cy="edit-option-values"
                 title="Option Values"
                 circleButton={{
+                    "data-cy": "add-option-value",
                     actionType: "add",
                     className: "action",
-                    onClick: () => dispatch(ADD_SYSTEM_OPTION_VALUE, {
+                    onClick: () => dispatch(ADD_OPTION_VALUE, {
                         id: oId,
                         fakeId: oFId,
                         // systemOptionValues: 
