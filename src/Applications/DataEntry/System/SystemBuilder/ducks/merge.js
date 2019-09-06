@@ -30,10 +30,15 @@ export default function merge({
         _systemOptions = [],
         _detailOptions = [],
         _configurationOptions = [],
+        _systemOptionValues = [],
+        _detailOptionValues = [],
+        _configurationOptionValues = [],
+        _systemDetailTypes = [],
+        _systemConfigurationTypes = [],
     } = {},
 }) {
 
-    const separateUpdateAndAdd = arr => _.partition(({ id }) => id);
+    const separateUpdateAndAdd = arr => _.partition(arr, ({ id }) => id);
 
     const [systemOptionsToUpdate, systemOptionsToAdd] = separateUpdateAndAdd(systemOptions);
     const [systemOptionValuesToUpdate, systemOptionValuesToAdd] = separateUpdateAndAdd(systemOptionValues);
@@ -59,7 +64,7 @@ export default function merge({
                     ...optionUpdate,
                 }
             }).concat(systemOptionsToAdd),
-        _systemOptionValues: option._systemOptionValues
+        _systemOptionValues: _systemOptionValues
             .filter(({ id }) => !systemOptionValueIdsToDelete.includes(id))
             .map(value => {
 
@@ -69,7 +74,7 @@ export default function merge({
                     ...valueUpdate,
                 }
             }).concat(systemOptionValuesToAdd),
-        _systemDetailTypes: value._systemDetailTypes
+        _systemDetailTypes: _systemDetailTypes
             .filter(({ id }) => !systemDetailTypeIdsToDelete.includes(id))
             .map(type => {
                 const typeUpdate = systemDetailTypesToUpdate.find(({ id }) => id === type.id);
@@ -88,7 +93,7 @@ export default function merge({
                     ...optionUpdate,
                 }
             }).concat(detailOptionsToAdd),
-        _detailOptionValues: option._detailOptionValues
+        _detailOptionValues: _detailOptionValues
             .filter(({ id }) => !detailOptionValueIdsToDelete.includes(id))
             .map(value => {
 
@@ -98,7 +103,7 @@ export default function merge({
                     ...valueUpdate,
                 }
             }).concat(detailOptionValuesToAdd),
-        _systemConfigurationTypes: value._systemConfigurationTypes
+        _systemConfigurationTypes: _systemConfigurationTypes
             .filter(({ id }) => !systemConfigurationTypeIdsToDelete.includes(id))
             .map(type => {
                 const typeUpdate = systemConfigurationTypesToUpdate.find(({ id }) => id === type.id);
@@ -117,7 +122,7 @@ export default function merge({
                     ...optionUpdate,
                 }
             }).concat(configurationOptionsToAdd),
-        _configurationOptionValues: option._configurationOptionValues
+        _configurationOptionValues: _configurationOptionValues
             .filter(({ id }) => !configurationOptionValueIdsToDelete.includes(id))
             .map(value => {
 
