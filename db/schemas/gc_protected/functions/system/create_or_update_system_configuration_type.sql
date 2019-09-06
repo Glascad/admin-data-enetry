@@ -8,7 +8,6 @@ CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_configuration_ty
 ) RETURNS ENTIRE_SYSTEM_ID_MAP AS $$
 DECLARE
     sct ALIAS FOR system_configuration_type;
-    dov ALIAS FOR detail_option_value;
     s ALIAS FOR system;
     usct system_configuration_types%ROWTYPE;
     real_id INTEGER;
@@ -16,15 +15,15 @@ DECLARE
     -- fake system option id
     fake_dovid INTEGER;
     -- system option id
-    dovid INTEGER;
+    pdovid INTEGER;
 BEGIN
 
     -- get real parent system option value id
     dov_id_pairs := id_map.detail_option_value_id_pairs;
 
-    dovid := CASE WHEN dov.id IS NOT NULL
-        THEN dov.id
-        ELSE get_real_id(dov_id_pairs, dov.fake_id) END;
+    pdovid := CASE WHEN sct.parent_detail_option_value_id IS NOT NULL
+        THEN sct.parent_detail_option_value_id
+        ELSE get_real_id(dov_id_pairs, sct.parent_detail_option_value_fake_id) END;
 
     IF sct.id IS NOT NULL THEN
         -- update
@@ -47,7 +46,7 @@ BEGIN
         ) VALUES (
             s.id,
             sct.configuration_type,
-            dovid,
+            pdovid,
             sct.optional
         )
         RETURNING * INTO usct;

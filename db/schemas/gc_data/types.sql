@@ -3,7 +3,9 @@ CREATE TYPE
 gc_data.entire_configuration_option_value AS (
     id INTEGER,
     fake_id INTEGER,
-    name OPTION_VALUE_NAME
+    name OPTION_VALUE_NAME,
+    parent_configuration_option_id INTEGER,
+    parent_configuration_option_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -11,11 +13,10 @@ gc_data.entire_configuration_option AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_NAME,
-    system_configuration_type_id INTEGER,
-    system_configuration_type_fake_id INTEGER,
+    parent_system_configuration_type_id INTEGER,
+    parent_system_configuration_type_fake_id INTEGER,
     parent_configuration_option_value_id INTEGER,
-    parent_configuration_option_value_fake_id INTEGER,
-    configuration_option_values ENTIRE_CONFIGURATION_OPTION_VALUE[]
+    parent_configuration_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -23,7 +24,9 @@ gc_data.entire_system_configuration_type AS (
     id INTEGER,
     fake_id INTEGER,
     configuration_type CONFIGURATION_TYPE,
-    optional BOOLEAN
+    optional BOOLEAN,
+    parent_detail_option_value_id INTEGER,
+    parent_detail_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -31,7 +34,8 @@ gc_data.entire_detail_option_value AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_VALUE_NAME,
-    system_configuration_types ENTIRE_SYSTEM_CONFIGURATION_TYPE[]
+    parent_detail_option_id INTEGER,
+    parent_detail_option_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -39,18 +43,19 @@ gc_data.entire_detail_option AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_NAME,
-    system_detail_type_id INTEGER,
-    system_detail_type_fake_id INTEGER,
+    parent_system_detail_type_id INTEGER,
+    parent_system_detail_type_fake_id INTEGER,
     parent_detail_option_value_id INTEGER,
-    parent_detail_option_value_fake_id INTEGER,
-    detail_option_values ENTIRE_DETAIL_OPTION_VALUE[]
+    parent_detail_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
 gc_data.entire_system_detail_type AS (
     id INTEGER,
     fake_id INTEGER,
-    detail_type DETAIL_TYPE
+    detail_type DETAIL_TYPE,
+    parent_system_option_value_id INTEGER,
+    parent_system_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -60,7 +65,8 @@ gc_data.entire_system_option_value AS (
     name OPTION_VALUE_NAME,
     raised_option_names OPTION_NAME[],
     raised_configuration_types CONFIGURATION_TYPE[],
-    system_detail_types ENTIRE_SYSTEM_DETAIL_TYPE[]
+    parent_system_option_id INTEGER,
+    parent_system_option_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -69,8 +75,7 @@ gc_data.entire_system_option AS (
     fake_id INTEGER,
     name OPTION_NAME,
     parent_system_option_value_id INTEGER,
-    parent_system_option_value_fake_id INTEGER,
-    system_option_values ENTIRE_SYSTEM_OPTION_VALUE[]
+    parent_system_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -80,15 +85,26 @@ gc_data.entire_system AS (
     name TEXT,
     manufacturer_id INTEGER,
     system_type SYSTEM_TYPE,
+
     system_options ENTIRE_SYSTEM_OPTION[],
     detail_options ENTIRE_DETAIL_OPTION[],
     configuration_options ENTIRE_CONFIGURATION_OPTION[],
+
+    system_option_values ENTIRE_SYSTEM_OPTION_VALUE[],
+    detail_option_values ENTIRE_DETAIL_OPTION_VALUE[],
+    configuration_option_values ENTIRE_CONFIGURATION_OPTION_VALUE[],
+
+    system_detail_types ENTIRE_SYSTEM_DETAIL_TYPE[],
+    system_configuration_types ENTIRE_SYSTEM_CONFIGURATION_TYPE[],
+
     system_option_ids_to_delete INTEGER[],
     detail_option_ids_to_delete INTEGER[],
     configuration_option_ids_to_delete INTEGER[],
+
     system_option_value_ids_to_delete INTEGER[],
     detail_option_value_ids_to_delete INTEGER[],
     configuration_option_value_ids_to_delete INTEGER[],
+
     system_detail_type_ids_to_delete INTEGER[],
     system_configuration_type_ids_to_delete INTEGER[]
 );

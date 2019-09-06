@@ -2,13 +2,11 @@ DROP FUNCTION IF EXISTS create_or_update_system_option_value;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_option_value(
     system_option_value ENTIRE_SYSTEM_OPTION_VALUE,
-    system_option ENTIRE_SYSTEM_OPTION,
     system SYSTEMS,
     id_map ENTIRE_SYSTEM_ID_MAP
 ) RETURNS ENTIRE_SYSTEM_ID_MAP AS $$
 DECLARE
     sov ALIAS FOR system_option_value;
-    so ALIAS FOR system_option;
     s ALIAS FOR system;
     usov system_option_values%ROWTYPE;
     real_id INTEGER;
@@ -17,14 +15,18 @@ DECLARE
     fake_soid INTEGER;
     -- system option id
     soid INTEGER;
+    -- system option name
+    son TEXT;
 BEGIN
 
     -- get real parent system option id
     so_id_pairs := id_map.system_option_id_pairs;
 
-    soid := CASE WHEN so.id IS NOT NULL
-        THEN so.id
-        ELSE get_real_id(so_id_pairs, so.fake_id) END;
+    soid := CASE WHEN so.parent_system_option_id IS NOT NULL
+        THEN so.parent_system_option_id
+        ELSE get_real_id(so_id_pairs, so.parent_system_option_fake_id) END;
+
+    SELECT name FROM system_options INTO son WHERE id = soid;
 
     IF sov.id IS NOT NULL THEN
         -- update
@@ -48,7 +50,7 @@ BEGIN
             s.id,
             sov.name,
             soid,
-            so.name
+            son
         )
         RETURNING * INTO usov;
 

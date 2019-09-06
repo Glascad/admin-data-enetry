@@ -2,29 +2,31 @@ DROP FUNCTION IF EXISTS create_or_update_detail_option_value;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_detail_option_value(
     detail_option_value ENTIRE_DETAIL_OPTION_VALUE,
-    detail_option ENTIRE_DETAIL_OPTION,
     system SYSTEMS,
     id_map ENTIRE_SYSTEM_ID_MAP
 ) RETURNS ENTIRE_SYSTEM_ID_MAP AS $$
 DECLARE
     dov ALIAS FOR detail_option_value;
-    _do ALIAS FOR detail_option;
     s ALIAS FOR system;
     udov detail_option_values%ROWTYPE;
     real_id INTEGER;
     do_id_pairs ID_PAIR[];
-    -- fake system option id
+    -- fake detail option id
     fake_doid INTEGER;
-    -- system option id
+    -- detail option id
     doid INTEGER;
+    -- detail option name
+    don TEXT;
 BEGIN
 
-    -- get real parent system option id
+    -- get real parent detail option id
     do_id_pairs := id_map.detail_option_id_pairs;
 
-    doid := CASE WHEN _do.id IS NOT NULL
-        THEN _do.id
-        ELSE get_real_id(do_id_pairs, _do.fake_id) END;
+    doid := CASE WHEN dov.parent_detail_option_id IS NOT NULL
+        THEN dov.parent_detail_option_id
+        ELSE get_real_id(do_id_pairs, dov.parent_detail_option_fake_id) END;
+
+    SELECT name FROM detail_options INTO don WHERE id = doid;
 
     IF dov.id IS NOT NULL THEN
         -- update
@@ -48,7 +50,7 @@ BEGIN
             s.id,
             dov.name,
             doid,
-            _do.name
+            don
         )
         RETURNING * INTO udov;
 

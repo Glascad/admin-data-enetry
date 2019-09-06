@@ -38,6 +38,7 @@ export const makeRenderable = system => {
         item: node,
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
+    console.log({ systemMap });
     return makeNodeRenderable(getFirstItem(system));
 }
 
