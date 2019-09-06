@@ -1,33 +1,53 @@
-import { systemOptionUpdate, systemOptionValueUpdate } from "../schemas";
+import * as schemas from "../schemas";
+import { getFakeId } from "../utils";
 
-export default function ADD_OPTION_VALUE({
-    systemOptions,
-}, {
+export default function ADD_OPTION_VALUE(systemInput, {
     optionId,
     optionFakeId,
+    name,
+    __typename,
 }) {
 
-    const updatedOption = systemOptions.find(({ id, fakeId }) => (
+    const optionsKey = __typename.toLowerCase().replace(/OptionValue/i, 'Options');
+    const optionUpdateKey = __typename.toLowerCase().replace(/OptionValue/i, 'OptionUpdate');
+    const valuesKey = __typename.toLowerCase().replace(/OptionValue/i, 'OptionValues');
+    const valueUpdateKey = __typename.toLowerCase().replace(/OptionValue/i, 'OptionValueUpdate');
+
+    const { [optionsKey]: optionsArray } = systemInput;
+    const {
+        [optionUpdateKey]: optionUpdate,
+        [valueUpdateKey]: valueUpdate,
+    } = schemas;
+
+    const updatedOption = optionsArray.find(({ id, fakeId }) => (
         id && id === optionId
     ) || (
             fakeId && fakeId === optionFakeId
         )
     );
-    const updatedIndex = systemOptions.indexOf(updatedOption);
+    const updatedIndex = optionsArray.indexOf(updatedOption);
 
     return {
         ...arguments[0],
-        systemOptions: updatedOption ?
-            systemOptions.replace(updatedIndex, {
+        [optionsKey]: updatedOption ?
+            optionsArray.replace(updatedIndex, {
                 ...updatedOption,
-
+                [valuesKey]: (updatedOption[valuesKey] || []).concat({
+                    ...valueUpdate,
+                    fakeId: getFakeId(),
+                    name,
+                })
             })
             :
-            systemOptions.concat({
-                ...systemOptionUpdate,
+            optionsArray.concat({
+                ...optionUpdate,
                 id: optionId,
                 fakeId: optionFakeId,
-                systemOptionValues: ((updatedOption || {}).systemOptionValues || []).concat(systemOptionValueUpdate)
+                [valuesKey]: [{
+                    ...valueUpdate,
+                    fakeId: getFakeId(),
+                    name,
+                }],
             }),
     };
 }

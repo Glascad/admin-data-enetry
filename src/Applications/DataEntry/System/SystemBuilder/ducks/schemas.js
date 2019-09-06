@@ -76,7 +76,6 @@ export const systemOptionUpdate = {
 export const systemUpdate = {
     __typename: "System",
     id: undefined,
-    fakeId: undefined,
     name: undefined,
     manufacturerId: undefined,
     systemType: undefined,

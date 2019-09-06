@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
-import { UPDATE_SYSTEM_OPTION, ADD_OPTION_VALUE } from '../../ducks/actions';
+import { UPDATE_OPTION, ADD_OPTION_VALUE } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
 
 
@@ -41,7 +41,7 @@ function EditOption({
                                 value: name,
                                 label: name,
                             })),
-                        onChange: ({ label }) => dispatch(UPDATE_SYSTEM_OPTION, {
+                        onChange: ({ label }) => dispatch(UPDATE_OPTION, {
                             id: oId,
                             fakeId: oFId,
                             name: label,
