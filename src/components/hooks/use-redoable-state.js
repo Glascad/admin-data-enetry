@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-export default function useUndoRedo(firstState, dependencies = []) {
+export default function useRedoableState(firstState, dependencies = []) {
     const initialState = {
         states: [firstState],
         currentIndex: 0,
@@ -142,8 +142,8 @@ export default function useUndoRedo(firstState, dependencies = []) {
     };
 }
 
-export const withUndoRedo = (firstState, mapProps = p => ({ undoRedo: p })) => WrappedComponent => props => {
-    const undoRedo = useUndoRedo(firstState);
+export const withRedoableState = (firstState, mapProps = p => ({ undoRedo: p })) => WrappedComponent => props => {
+    const undoRedo = useRedoableState(firstState);
     return (
         <WrappedComponent
             {...props}

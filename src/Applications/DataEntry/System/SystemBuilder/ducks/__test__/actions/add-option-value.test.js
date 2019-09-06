@@ -16,9 +16,7 @@ function testAddOptionValue({
 }
 
 testAddOptionValue({
-    systemInput: {
-
-    },
+    systemInput: {},
     payload: {
         optionId: 3,
         __typename: "SystemOptionValue",
@@ -38,9 +36,7 @@ testAddOptionValue({
 });
 
 testAddOptionValue({
-    systemInput: {
-
-    },
+    systemInput: {},
     payload: {
         optionFakeId: 3,
         __typename: "DetailOptionValue",

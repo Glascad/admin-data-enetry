@@ -13,7 +13,7 @@ import {
     Input,
     GroupingBox,
     CircleButton,
-    useUndoRedo,
+    useRedoableState,
     useQuery,
     AsyncButton,
     useMutation,
@@ -129,7 +129,7 @@ export default memo(function CreateElevation({
             },
         },
         pushState,
-    } = useUndoRedo(initalState, [defaultElevation]);;
+    } = useRedoableState(initalState, [defaultElevation]);;
 
     const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {

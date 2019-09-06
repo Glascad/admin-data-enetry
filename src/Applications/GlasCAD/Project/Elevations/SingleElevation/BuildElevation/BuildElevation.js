@@ -15,7 +15,7 @@ import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 import { parseSearch } from '../../../../../../utils';
 
-import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
+import { ErrorBoundary, withRedoableState, Ellipsis } from '../../../../../../components';
 
 import renderPreview from '../../ElevationPreview/render-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
@@ -325,7 +325,7 @@ class BuildElevation extends PureComponent {
     }
 }
 
-const BuildElevationWithUndoRedo = withUndoRedo({ elevationInput: defaultElevationInput }, p => p)(BuildElevation);
+const BuildElevationWithUndoRedo = withRedoableState({ elevationInput: defaultElevationInput }, p => p)(BuildElevation);
 
 export default function ErrorBoundedBuildElevation(props) {
     return (

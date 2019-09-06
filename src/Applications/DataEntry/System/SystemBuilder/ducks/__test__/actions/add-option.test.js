@@ -7,7 +7,7 @@ function testAddOption({
     systemOutput,
 }) {
     describe('testing add option', () => {
-        const result = ADD_OPTION({ systemUpdate, ...systemInput }, payload);
+        const result = ADD_OPTION({ ...systemUpdate, ...systemInput }, payload);
         test('result should have correct values', () => {
             expect(result).toMatchObject(systemOutput);
         });
@@ -34,13 +34,13 @@ testAddOption({
     systemInput: {},
     payload: {
         name: "GLAZING",
-        detailTypeId: 1,
+        parentTypeId: 1,
         __typename: "DetailOption",
     },
     systemOutput: {
         detailOptions: expect.arrayContaining([
             expect.objectContaining({
-                detailTypeId: 1,
+                systemDetailTypeId: 1,
                 fakeId: expect.any(Number),
                 name: "GLAZING",
             }),
@@ -51,16 +51,16 @@ testAddOption({
 testAddOption({
     systemInput: {},
     payload: {
-        name: "GLAZING",
-        configurationTypeId: 1,
+        name: "STOPS",
+        parentTypeId: 1,
         __typename: "ConfigurationOption",
     },
     systemOutput: {
-        detailOptions: expect.arrayContaining([
+        configurationOptions: expect.arrayContaining([
             expect.objectContaining({
-                configurationTypeId: 1,
+                systemConfigurationTypeId: 1,
                 fakeId: expect.any(Number),
-                name: "GLAZING",
+                name: "STOPS",
             }),
         ]),
     },
@@ -88,7 +88,7 @@ testAddOption({
     systemInput: {},
     payload: {
         parentOptionValueId: 1,
-        name: "GLAZING",
+        name: "OTHER_OPTION",
         __typename: "DetailOption",
     },
     systemOutput: {
@@ -96,7 +96,7 @@ testAddOption({
             expect.objectContaining({
                 fakeId: expect.any(Number),
                 parentDetailOptionValueId: 1,
-                name: "GLAZING",
+                name: "OTHER_OPTION",
             }),
         ]),
     },
@@ -106,15 +106,15 @@ testAddOption({
     systemInput: {},
     payload: {
         parentOptionValueId: 1,
-        name: "GLAZING",
+        name: "OPTION_TWO",
         __typename: "ConfigurationOption",
     },
     systemOutput: {
-        detailOptions: expect.arrayContaining([
+        configurationOptions: expect.arrayContaining([
             expect.objectContaining({
                 fakeId: expect.any(Number),
                 parentConfigurationOptionValueId: 1,
-                name: "GLAZING",
+                name: "OPTION_TWO",
             }),
         ]),
     },
