@@ -11,6 +11,7 @@ function EditOption({
         fakeId: oFId,
         name: oName,
         _systemOptionValues = [],
+        __typename,
     } = {},
     queryStatus: {
         validOptions = [],
@@ -45,6 +46,7 @@ function EditOption({
                             id: oId,
                             fakeId: oFId,
                             name: label,
+                            __typename,
                         }),
                     }}
                 />

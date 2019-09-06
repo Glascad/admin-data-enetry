@@ -1,5 +1,5 @@
 import { UPDATE_OPTION } from "../../actions";
-import { systemUpdate, systemOptionUpdate, detailOptionUpdate } from "../../schemas";
+import { systemUpdate, systemOptionUpdate, detailOptionUpdate, configurationOptionUpdate } from "../../schemas";
 import "../../../../../../../../public";
 
 function testUpdateOption({
@@ -23,6 +23,7 @@ testUpdateOption({
         id: 1,
         name: "JOINERY",
         __typename: "SystemOption",
+        parentSystemOptionValueId: 5,
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
@@ -30,6 +31,7 @@ testUpdateOption({
                 id: 1,
                 name: "JOINERY",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             })
         ])
     },
@@ -43,6 +45,7 @@ testUpdateOption({
                 id: 1,
                 name: "SET",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             },
         ],
     },
@@ -57,6 +60,7 @@ testUpdateOption({
                 id: 1,
                 name: "JOINERY",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             }),
         ])
     },
@@ -70,6 +74,7 @@ testUpdateOption({
                 id: 1,
                 name: "SET",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             },
         ],
     },
@@ -84,11 +89,13 @@ testUpdateOption({
                 id: 1,
                 name: "SET",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             }),
             expect.objectContaining({
                 id: 2,
                 name: "JOINERY",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             }),
         ])
     },
@@ -102,6 +109,7 @@ testUpdateOption({
                 fakeId: 1,
                 name: "SET",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             },
         ],
     },
@@ -116,232 +124,234 @@ testUpdateOption({
                 fakeId: 1,
                 name: "SET",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             }),
             expect.objectContaining({
                 fakeId: 2,
                 name: "JOINERY",
                 __typename: "SystemOption",
+                parentSystemOptionValueId: 5,
             }),
         ])
     },
 });
 
-//Detail Options
-testUpdateOption({
-    systemInput: {},
-    payload: {
-        id: 1,
-        name: "GLAZING",
-        __typename: "DetailOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                id: 1,
-                name: "GLAZING",
-                __typename: "DetailOption",
-            }),
-        ])
-    },
-});
+// //Detail Options
+// testUpdateOption({
+//     systemInput: {},
+//     payload: {
+//         id: 1,
+//         name: "GLAZING",
+//         __typename: "DetailOption",
+//     },
+//     systemOutput: {
+//         detailOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 id: 1,
+//                 name: "GLAZING",
+//                 __typename: "DetailOption",
+//             }),
+//         ])
+//     },
+// });
 
-testUpdateOption({
-    systemInput: {
-        detailOptions: [
-            {
-                ...detailOptionUpdate,
-                id: 1,
-                name: "STOPS",
-                __typename: "DetailOption",
-            },
-        ],
-    },
-    payload: {
-        id: 1,
-        name: "GLAZING",
-        __typename: "DetailOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                id: 1,
-                name: "GLAZING",
-                __typename: "DetailOption",
-            }),
-        ])
-    },
-});
+// testUpdateOption({
+//     systemInput: {
+//         detailOptions: [
+//             {
+//                 ...detailOptionUpdate,
+//                 id: 1,
+//                 name: "STOPS",
+//                 __typename: "DetailOption",
+//             },
+//         ],
+//     },
+//     payload: {
+//         id: 1,
+//         name: "GLAZING",
+//         __typename: "DetailOption",
+//     },
+//     systemOutput: {
+//         detailOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 id: 1,
+//                 name: "GLAZING",
+//                 __typename: "DetailOption",
+//             }),
+//         ])
+//     },
+// });
 
-testUpdateOption({
-    systemInput: {
-        detailOptions: [
-            {
-                ...detailOptionUpdate,
-                id: 1,
-                name: "STOPS",
-                __typename: "DetailOption",
-            },
-        ],
-    },
-    payload: {
-        id: 2,
-        name: "GLAZING",
-        __typename: "DetailOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                id: 1,
-                name: "STOPS",
-                __typename: "DetailOption",
-            }),
-            expect.objectContaining({
-                id: 2,
-                name: "GLAZING",
-                __typename: "DetailOption",
-            }),
-        ])
-    },
-});
+// testUpdateOption({
+//     systemInput: {
+//         detailOptions: [
+//             {
+//                 ...detailOptionUpdate,
+//                 id: 1,
+//                 name: "STOPS",
+//                 __typename: "DetailOption",
+//             },
+//         ],
+//     },
+//     payload: {
+//         id: 2,
+//         name: "GLAZING",
+//         __typename: "DetailOption",
+//     },
+//     systemOutput: {
+//         detailOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 id: 1,
+//                 name: "STOPS",
+//                 __typename: "DetailOption",
+//             }),
+//             expect.objectContaining({
+//                 id: 2,
+//                 name: "GLAZING",
+//                 __typename: "DetailOption",
+//             }),
+//         ])
+//     },
+// });
 
-testUpdateOption({
-    systemInput: {
-        detailOptions: [
-            {
-                ...detailOptionUpdate,
-                fakeId: 1,
-                name: "STOPS",
-                __typename: "DetailOption",
-            },
-        ],
-    },
-    payload: {
-        fakeId: 2,
-        name: "GLAZING",
-        __typename: "DetailOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                fakeId: 1,
-                name: "STOPS",
-                __typename: "DetailOption",
-            }),
-            expect.objectContaining({
-                fakeId: 2,
-                name: "GLAZING",
-                __typename: "DetailOption",
-            }),
-        ])
-    },
-});
+// testUpdateOption({
+//     systemInput: {
+//         detailOptions: [
+//             {
+//                 ...detailOptionUpdate,
+//                 fakeId: 1,
+//                 name: "STOPS",
+//                 __typename: "DetailOption",
+//             },
+//         ],
+//     },
+//     payload: {
+//         fakeId: 2,
+//         name: "GLAZING",
+//         __typename: "DetailOption",
+//     },
+//     systemOutput: {
+//         detailOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 fakeId: 1,
+//                 name: "STOPS",
+//                 __typename: "DetailOption",
+//             }),
+//             expect.objectContaining({
+//                 fakeId: 2,
+//                 name: "GLAZING",
+//                 __typename: "DetailOption",
+//             }),
+//         ])
+//     },
+// });
 
-//Configuration Options
-testUpdateOption({
-    systemInput: {},
-    payload: {
-        id: 1,
-        name: "SILL_FLASHING",
-        __typename: "ConfigurationOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                id: 1,
-                name: "SILL_FLASHING",
-                __typename: "ConfigurationOption",
-            }),
-        ])
-    },
-});
+// //Configuration Options
+// testUpdateOption({
+//     systemInput: {},
+//     payload: {
+//         id: 1,
+//         name: "SILL_FLASHING",
+//         __typename: "ConfigurationOption",
+//     },
+//     systemOutput: {
+//         configurationOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 id: 1,
+//                 name: "SILL_FLASHING",
+//                 __typename: "ConfigurationOption",
+//             }),
+//         ])
+//     },
+// });
 
-testUpdateOption({
-    systemInput: {
-        detailOptions: [
-            {
-                ...detailOptionUpdate,
-                id: 1,
-                name: "COMPENSATING_RECEPTOR",
-                __typename: "ConfigurationOption",
-            },
-        ],
-    },
-    payload: {
-        id: 1,
-        name: "SILL_FLASHING",
-        __typename: "ConfigurationOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                id: 1,
-                name: "SILL_FLASHING",
-                __typename: "ConfigurationOption",
-            }),
-        ])
-    },
-});
+// testUpdateOption({
+//     systemInput: {
+//         configurationOptions: [
+//             {
+//                 ...configurationOptionUpdate,
+//                 id: 1,
+//                 name: "COMPENSATING_RECEPTOR",
+//                 __typename: "ConfigurationOption",
+//             },
+//         ],
+//     },
+//     payload: {
+//         id: 1,
+//         name: "SILL_FLASHING",
+//         __typename: "ConfigurationOption",
+//     },
+//     systemOutput: {
+//         configurationOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 id: 1,
+//                 name: "SILL_FLASHING",
+//                 __typename: "ConfigurationOption",
+//             }),
+//         ])
+//     },
+// });
 
-testUpdateOption({
-    systemInput: {
-        detailOptions: [
-            {
-                ...detailOptionUpdate,
-                id: 1,
-                name: "COMPENSATING_RECEPTOR",
-                __typename: "ConfigurationOption",
-            },
-        ],
-    },
-    payload: {
-        id: 2,
-        name: "SILL_FLASHING",
-        __typename: "ConfigurationOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                id: 1,
-                name: "COMPENSATING_RECEPTOR",
-                __typename: "ConfigurationOption",
-            }),
-            expect.objectContaining({
-                id: 2,
-                name: "SILL_FLASHING",
-                __typename: "ConfigurationOption",
-            }),
-        ])
-    },
-});
+// testUpdateOption({
+//     systemInput: {
+//         configurationOptions: [
+//             {
+//                 ...configurationOptionUpdate,
+//                 id: 1,
+//                 name: "COMPENSATING_RECEPTOR",
+//                 __typename: "ConfigurationOption",
+//             },
+//         ],
+//     },
+//     payload: {
+//         id: 2,
+//         name: "SILL_FLASHING",
+//         __typename: "ConfigurationOption",
+//     },
+//     systemOutput: {
+//         configurationOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 id: 1,
+//                 name: "COMPENSATING_RECEPTOR",
+//                 __typename: "ConfigurationOption",
+//             }),
+//             expect.objectContaining({
+//                 id: 2,
+//                 name: "SILL_FLASHING",
+//                 __typename: "ConfigurationOption",
+//             }),
+//         ])
+//     },
+// });
 
-testUpdateOption({
-    systemInput: {
-        detailOptions: [
-            {
-                ...detailOptionUpdate,
-                fakeId: 1,
-                name: "COMPENSATING_RECEPTOR",
-                __typename: "ConfigurationOption",
-            },
-        ],
-    },
-    payload: {
-        fakeId: 2,
-        name: "SILL_FLASHING",
-        __typename: "ConfigurationOption",
-    },
-    systemOutput: {
-        detailOptions: expect.arrayContaining([
-            expect.objectContaining({
-                fakeId: 1,
-                name: "COMPENSATING_RECEPTOR",
-                __typename: "ConfigurationOption",
-            }),
-            expect.objectContaining({
-                fakeId: 2,
-                name: "SILL_FLASHING",
-                __typename: "ConfigurationOption",
-            }),
-        ])
-    },
-});
+// testUpdateOption({
+//     systemInput: {
+//         configurationOptions: [
+//             {
+//                 ...configurationOptionUpdate,
+//                 fakeId: 1,
+//                 name: "COMPENSATING_RECEPTOR",
+//                 __typename: "ConfigurationOption",
+//             },
+//         ],
+//     },
+//     payload: {
+//         fakeId: 2,
+//         name: "SILL_FLASHING",
+//         __typename: "ConfigurationOption",
+//     },
+//     systemOutput: {
+//         configurationOptions: expect.arrayContaining([
+//             expect.objectContaining({
+//                 fakeId: 1,
+//                 name: "COMPENSATING_RECEPTOR",
+//                 __typename: "ConfigurationOption",
+//             }),
+//             expect.objectContaining({
+//                 fakeId: 2,
+//                 name: "SILL_FLASHING",
+//                 __typename: "ConfigurationOption",
+//             }),
+//         ])
+//     },
+// });

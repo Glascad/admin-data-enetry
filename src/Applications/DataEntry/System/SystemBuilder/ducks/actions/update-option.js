@@ -1,35 +1,57 @@
-import { systemOptionUpdate } from "../schemas";
+import * as schemas from "../schemas";
+import { removeNullValues } from "../../../../../../utils";
 
 export default function UPDATE_OPTION(
     systemInput,
     payload,
 ) {
 
-    const optionKey = payload.__typename.toLower().replace(/option/i, "Options");
-    
-    console.log(optionKey);
+    console.log({systemInput, payload});
 
-    const updatedOption = systemInput[optionKey].find(({ id, fakeId }) => (
+    const optionsKey = payload.__typename.toLowerCase().replace(/Option/i, 'Options');
+    const optionUpdateKey = payload.__typename.toLowerCase().replace(/Option/i, 'OptionUpdate');
+
+    const { [optionsKey]: optionsArray } = systemInput;
+    const {
+        [optionUpdateKey]: optionUpdate,
+    } = schemas
+
+    console.log(optionsArray);
+
+    optionsArray.forEach(({ id, fakeId }) => {
+       console.log("OPTIONS");
+       console.log({id, fakeId}, payload.id, payload.fakeId); 
+    });
+
+
+    const updatedOption = optionsArray.find(({ id, fakeId }) => (
         id && id === payload.id
     ) || (
             fakeId && fakeId === payload.fakeId
         )
     );
 
-    const updatedIndex = systemInput[optionKey].indexOf(updatedOption);
+    const updatedIndex = optionsArray.indexOf(updatedOption);
 
-console.log({payload, updatedOption, updatedIndex})
+    console.log({ payload, updatedOption, updatedIndex, optionsKey, optionUpdateKey })
+
+    const thisIsUpdated = optionsArray.replace(updatedIndex, {
+        ...updatedOption,
+        ...removeNullValues(payload),
+    })
+
+    console.log(thisIsUpdated);
 
     return {
         ...arguments[0],
-        [optionKey]: updatedOption ?
-            systemInput[optionKey].replace(updatedIndex, {
+        [optionsKey]: updatedOption ?
+            optionsArray.replace(updatedIndex, {
                 ...updatedOption,
-                ...payload,
+                ...removeNullValues(payload),
             })
             :
-            systemInput[optionKey].concat({
-                ...systemOptionUpdate,
+            optionsArray.concat({
+                ...optionUpdate,
                 ...payload,
             }),
     };
