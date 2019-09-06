@@ -4,6 +4,8 @@ export const configurationOptionValueUpdate = {
     id: undefined,
     fakeId: undefined,
     name: undefined,
+    parentConfigurationOptionId: undefined,
+    parentConfigurationOptionFakeId: undefined,
 };
 
 export const configurationOptionUpdate = {
@@ -11,11 +13,10 @@ export const configurationOptionUpdate = {
     id: undefined,
     fakeId: undefined,
     name: undefined,
-    systemConfigurationTypeId: undefined,
-    systemConfigurationTypeFakeId: undefined,
+    parentSystemConfigurationTypeId: undefined,
+    parentSystemConfigurationTypeFakeId: undefined,
     parentConfigurationOptionValueId: undefined,
     parentConfigurationOptionValueFakeId: undefined,
-    configurationOptionValues: [],
 };
 
 export const systemConfigurationTypeUpdate = {
@@ -24,6 +25,8 @@ export const systemConfigurationTypeUpdate = {
     fakeId: undefined,
     configurationType: undefined,
     optional: false,
+    parentDetailOptionValueId: undefined,
+    parentDetailOptionValueFakeId: undefined,
 };
 
 export const detailOptionValueUpdate = {
@@ -31,7 +34,8 @@ export const detailOptionValueUpdate = {
     id: undefined,
     fakeId: undefined,
     name: undefined,
-    systemConfigurationTypes: [],
+    parentDetailOptionId: undefined,
+    parentDetailOptionFakeId: undefined,
 };
 
 export const detailOptionUpdate = {
@@ -39,18 +43,19 @@ export const detailOptionUpdate = {
     id: undefined,
     fakeId: undefined,
     name: undefined,
-    systemDetailTypeId: undefined,
-    systemDetailTypeFakeId: undefined,
+    parentSystemDetailTypeId: undefined,
+    parentSystemDetailTypeFakeId: undefined,
     parentDetailOptionValueId: undefined,
     parentDetailOptionValueFakeId: undefined,
-    detailOptionValues: [],
 };
 
 export const systemDetailTypeUpdate = {
     __typename: "SystemDetailType",
     id: undefined,
     fakeId: undefined,
-    detailType: undefined
+    detailType: undefined,
+    parentSystemOptionValueId: undefined,
+    parentSystemOptionValueFakeId: undefined,
 };
 
 export const systemOptionValueUpdate = {
@@ -60,7 +65,8 @@ export const systemOptionValueUpdate = {
     name: undefined,
     raisedOptionNames: [],
     raisedConfigurationTypes: [],
-    systemDetailTypes: [],
+    parentSystemOptionValueId: undefined,
+    parentSystemOptionValueFakeId: undefined,
 };
 
 export const systemOptionUpdate = {
@@ -70,7 +76,6 @@ export const systemOptionUpdate = {
     name: undefined,
     parentSystemOptionValueId: undefined,
     parentSystemOptionValueFakeId: undefined,
-    systemOptionValues: [],
 };
 
 export const systemUpdate = {
@@ -82,6 +87,11 @@ export const systemUpdate = {
     systemOptions: [],
     detailOptions: [],
     configurationOptions: [],
+    systemOptionValues: [],
+    detailOptionValues: [],
+    configurationOptionValues: [],
+    systemDetailTypes: [],
+    systemConfigurationTypes: [],
     systemOptionIdsToDelete: [],
     detailOptionIdsToDelete: [],
     configurationOptionIdsToDelete: [],

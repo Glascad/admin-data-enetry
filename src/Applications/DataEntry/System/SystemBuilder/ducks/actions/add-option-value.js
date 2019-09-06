@@ -28,7 +28,7 @@ export default function ADD_OPTION_VALUE(systemInput, {
     const updatedIndex = optionsArray.indexOf(updatedOption);
 
     return {
-        ...arguments[0],
+        ...systemInput,
         [optionsKey]: updatedOption ?
             optionsArray.replace(updatedIndex, {
                 ...updatedOption,

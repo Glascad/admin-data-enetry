@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TitleBar, TransformProvider, useSelection, useUndoRedo } from "../../../../components";
+import { TitleBar, TransformProvider, useSelection, useRedoableState } from "../../../../components";
 import SystemTree from './SystemTree/SystemTree';
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
@@ -17,10 +17,6 @@ export default function SystemBuilder({
         search,
     },
     queryStatus,
-    queryStatus: {
-        _system,
-        validOptions = [],
-    },
     fetching,
 }) {
 
@@ -41,7 +37,7 @@ export default function SystemBuilder({
     const {
         currentState: systemInput,
         pushState,
-    } = useUndoRedo(systemUpdate);
+    } = useRedoableState(systemUpdate);
 
     const system = merge(systemInput, queryStatus);
 
@@ -54,7 +50,6 @@ export default function SystemBuilder({
             payload,
         ),
     }));
-
 
     // console.log(system);
 

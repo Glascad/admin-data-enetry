@@ -33,9 +33,10 @@ export const getChildren = ({
     .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) });
 
 export const makeRenderable = system => {
+    const systemMap = generateSystemMap(system);
     const makeNodeRenderable = node => ({
         item: node,
-        branches: getChildren(node, system).map(makeNodeRenderable),
+        branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
     return makeNodeRenderable(getFirstItem(system));
 }
