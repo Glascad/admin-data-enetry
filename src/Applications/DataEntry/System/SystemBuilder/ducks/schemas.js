@@ -65,8 +65,8 @@ export const systemOptionValueUpdate = {
     name: undefined,
     raisedOptionNames: [],
     raisedConfigurationTypes: [],
-    parentSystemOptionValueId: undefined,
-    parentSystemOptionValueFakeId: undefined,
+    parentSystemOptionId: undefined,
+    parentSystemOptionFakeId: undefined,
 };
 
 export const systemOptionUpdate = {

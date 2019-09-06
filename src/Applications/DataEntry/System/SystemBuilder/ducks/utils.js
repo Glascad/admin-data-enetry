@@ -1,36 +1,36 @@
-import { match } from '../../../../../utils';
+import _ from 'lodash';
 
 export const getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId);
 
-export const getChildren = ({
-    __typename,
-    id,
-    _systemOptionValues = [],
-    _systemDetailTypes = [],
-    _detailOptionValues = [],
-    _systemConfigurationTypes = [],
-    _configurationOptionValues = [],
-} = {}, {
+const generateSystemMap = ({
     _systemOptions = [],
     _detailOptions = [],
     _configurationOptions = [],
-}) => match(__typename)
-    .against({
-        SystemOption: () => _systemOptionValues,
-        DetailOption: () => _detailOptionValues,
-        ConfigurationOption: () => _configurationOptionValues,
-        SystemOptionValue: () => _systemDetailTypes.concat(
-            _systemOptions.filter(({ parentSystemOptionValueId }) => parentSystemOptionValueId === id)
-        ),
-        DetailOptionValue: () => _systemConfigurationTypes.concat(
-            _detailOptions.filter(({ parentDetailOptionValueId }) => parentDetailOptionValueId === id)
-        ),
-        ConfigurationOptionValue: () => _configurationOptions.filter(({ parentConfigurationOptionValueId }) => parentConfigurationOptionValueId === id),
-        SystemDetailType: () => _detailOptions.filter(({ systemDetailTypeId }) => systemDetailTypeId === id),
-        SystemConfigurationType: () => _configurationOptions.filter(({ systemConfigurationTypeId }) => systemConfigurationTypeId === id),
-        undefined: () => [],
-    })
-    .otherwise(() => { throw new Error(`Node type not found: ${__typename}`) });
+    _systemOptionValues = [],
+    _detailOptionValues = [],
+    _configurationOptionValues = [],
+    _systemDetailTypes = [],
+    _systemConfigurationTypes = [],
+}) => _.groupBy([
+    ..._systemOptions,
+    ..._detailOptions,
+    ..._configurationOptions,
+    ..._systemOptionValues,
+    ..._detailOptionValues,
+    ..._configurationOptionValues,
+    ..._systemDetailTypes,
+    ..._systemConfigurationTypes,
+], item => {
+    const parentKey = Object.keys(item).find(key => key.match(/^parent/));
+    const { [parentKey]: id } = item;
+    return `${parentKey}:${id}`;
+});
+
+export const getChildren = ({ __typename, fakeId, id } = {}, systemMap) => (
+    systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]
+    ||
+    []
+);
 
 export const makeRenderable = system => {
     const systemMap = generateSystemMap(system);
