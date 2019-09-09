@@ -30,28 +30,28 @@ function EditOption({
                 title='Edit Option'
             />
             {/* <div className='sidebar-group'> */}
-                <Input
-                    label='Option Name'
-                    data-cy='edit-option-name'
-                    select={{
-                        value: {
-                            value: oName,
-                            label: oName,
-                        },
-                        options: validOptions
-                            .filter(({ name }) => name !== oName)
-                            .map(({ name }) => ({
-                                value: name,
-                                label: name,
-                            })),
-                        onChange: ({ label }) => dispatch(UPDATE_OPTION, {
-                            id: oId,
-                            fakeId: oFId,
-                            name: label,
-                            __typename,
-                        }),
-                    }}
-                />
+            <Input
+                label='Option Name'
+                data-cy='edit-option-name'
+                select={{
+                    value: {
+                        value: oName,
+                        label: oName,
+                    },
+                    options: validOptions
+                        .filter(({ name }) => name !== oName)
+                        .map(({ name }) => ({
+                            value: name,
+                            label: name,
+                        })),
+                    onChange: ({ label }) => dispatch(UPDATE_OPTION, {
+                        id: oId,
+                        fakeId: oFId,
+                        name: label,
+                        __typename,
+                    }),
+                }}
+            />
             {/* </div> */}
             <GroupingBox
                 data-cy="edit-option-values"
@@ -61,9 +61,10 @@ function EditOption({
                     actionType: "add",
                     className: "action",
                     onClick: () => dispatch(ADD_OPTION_VALUE, {
-                        id: oId,
-                        fakeId: oFId,
-                        // systemOptionValues: 
+                        parentOptionId: oId,
+                        parentOptionFakeId: oFId,
+                        name: oName,
+                        __typename,
                     }),
                 }}
             >
