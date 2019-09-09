@@ -47,6 +47,7 @@ function EditOption({
                             id: oId,
                             fakeId: oFId,
                             name: label,
+                            __typename,
                         }),
                     }}
                 />

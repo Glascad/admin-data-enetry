@@ -1,15 +1,16 @@
-import { ADD_TYPE } from "../../actions";
-import { systemUpdate } from "../../schemas";
+import ADD_TYPE from "../../actions/add-type";
+import { systemCOMPENSATING_RECEPTORSdate } from "../../schemas";
+import "../../../../../../../../public";
 
 function testAddType({
     systemInput,
     payload,
     systemOutput,
 }) {
-    describe('testing add type', () => {
-        const result = ADD_TYPE({ ...systemUpdate, ...systemInput }, payload);
-        test('result must be correct', () => {
-            expect(result).toMatchObject(systemOutput);
+    describe('testing add option value', () => {
+        const result = ADD_TYPE({ ...systemCOMPENSATING_RECEPTORSdate, ...systemInput }, payload);
+        test('result should have correct shape', () => {
+            expect(result).toMatchObject(systemOutput)
         });
     });
 }
@@ -17,11 +18,144 @@ function testAddType({
 testAddType({
     systemInput: {},
     payload: {
-        
-        parentOptionValueId: 1,
+        parentOptionValueId: 3,
         __typename: "SystemDetailType",
     },
     systemOutput: {
-        
+        systemDetailTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentSystemOptionValueId: 3,
+                __typename: "SystemDetailType",
+            }),
+        ]),
+    },
+});
+
+testAddType({
+    systemInput: {},
+    payload: {
+        parentOptionValueFakeId: 4,
+        __typename: "SystemDetailType",
+    },
+    systemOutput: {
+        systemDetailTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentSystemOptionValueFakeId: 4,
+                __typename: "SystemDetailType",
+            }),
+        ]),
+    },
+});
+
+testAddType({
+    systemInput: {},
+    payload: {
+        parentOptionValueFakeId: 3,
+        __typename: "SystemDetailType",
+        name: "HEAD",
+    },
+    systemOutput: {
+        systemDetailTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentSystemOptionValueFakeId: 3,
+                __typename: "SystemDetailType",
+                name: "HEAD",
+            }),
+        ]),
+    },
+});
+
+testAddType({
+    systemInput: {},
+    payload: {
+        parentOptionValueFakeId: 2,
+        __typename: "SystemConfigurationType",
+        name: "COMPENSATING_RECEPTOR",
+    },
+    systemOutput: {
+        systemConfigurationTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentDetailOptionValueFakeId: 2,
+                __typename: "SystemConfigurationType",
+                name: "COMPENSATING_RECEPTOR",
+            }),
+        ]),
+    },
+});
+
+testAddType({
+    systemInput: {
+        systemConfigurationTypes: [
+            {
+                parentDetailOptionValueFakeId: 1,
+                name: "SOME_TYPE",
+            },
+        ],
+    },
+    payload: {
+        parentOptionValueFakeId: 1,
+        __typename: "SystemConfigurationType",
+        name: "COMPENSATING_RECEPTORS",
+    },
+    systemOutput: {
+        systemConfigurationTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentDetailOptionValueFakeId: 1,
+                fakeId: expect.any(Number),
+                name: "COMPENSATING_RECEPTORS",
+            }),
+        ]),
+    },
+});
+
+testAddType({
+    systemInput: {
+        systemDetailTypes: [
+            {
+                parentSystemOptionValueFakeId: 1,
+                fakeId: 1,
+                name: "HEAD",
+            },
+        ],
+    },
+    payload: {
+        parentOptionValueFakeId: 1,
+        __typename: "SystemDetailType",
+        name: "SILL",
+    },
+    systemOutput: {
+        systemDetailTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentSystemOptionValueFakeId: 1,
+                fakeId: expect.any(Number),
+                name: "SILL",
+            }),
+        ]),
+    },
+});
+
+testAddType({
+    systemInput: {
+        systemDetailTypes: [
+            {
+                parentSystemOptionValueFakeId: 1,
+                fakeId: 1,
+                name: "SILL",
+            },
+        ],
+    },
+    payload: {
+        parentOptionValueFakeId: 1,
+        __typename: "SystemDetailType",
+        name: "HEAD",
+    },
+    systemOutput: {
+        systemDetailTypes: expect.arrayContaining([
+            expect.objectContaining({
+                parentSystemOptionValueFakeId: 1,
+                fakeId: expect.any(Number),
+                name: "HEAD",
+            }),
+        ]),
     },
 });

@@ -18,18 +18,14 @@ function testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        optionId: 3,
+        parentOptionId: 3,
         __typename: "SystemOptionValue",
     },
     systemOutput: {
-        systemOptions: expect.arrayContaining([
+        systemOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                id: 3,
-                systemOptionValues: expect.arrayContaining([
-                    expect.objectContaining({
-                        __typename: "SystemOptionValue",
-                    }),
-                ]),
+                parentSystemOptionId: 3,
+                __typename: "SystemOptionValue",
             }),
         ]),
     },
@@ -38,20 +34,16 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        optionFakeId: 3,
+        parentOptionFakeId: 3,
         __typename: "DetailOptionValue",
         name: "UP",
     },
     systemOutput: {
-        detailOptions: expect.arrayContaining([
+        detailOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                fakeId: 3,
-                detailOptionValues: expect.arrayContaining([
-                    expect.objectContaining({
-                        __typename: "DetailOptionValue",
-                        name: "UP",
-                    }),
-                ]),
+                parentDetailOptionFakeId: 3,
+                __typename: "DetailOptionValue",
+                name: "UP",
             }),
         ]),
     },
@@ -60,20 +52,16 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        optionFakeId: 2,
+        parentOptionFakeId: 2,
         __typename: "ConfigurationOptionValue",
         name: "DOWN",
     },
     systemOutput: {
-        configurationOptions: expect.arrayContaining([
+        configurationOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                fakeId: 2,
-                configurationOptionValues: expect.arrayContaining([
-                    expect.objectContaining({
-                        __typename: "ConfigurationOptionValue",
-                        name: "DOWN",
-                    }),
-                ]),
+                parentConfigurationOptionFakeId: 2,
+                __typename: "ConfigurationOptionValue",
+                name: "DOWN",
             }),
         ]),
     },
@@ -81,33 +69,24 @@ testAddOptionValue({
 
 testAddOptionValue({
     systemInput: {
-        configurationOptions: [
+        configurationOptionValues: [
             {
-                fakeId: 1,
-                configurationOptionValues: [
-                    {
-                        fakeId: 1,
-                        name: "UP",
-                    },
-                ],
+                parentConfigurationOptionFakeId: 1,
+                name: "DOWN",
             },
         ],
     },
     payload: {
-        optionFakeId: 1,
+        parentOptionFakeId: 1,
         __typename: "ConfigurationOptionValue",
         name: "UP",
     },
     systemOutput: {
-        configurationOptions: expect.arrayContaining([
+        configurationOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                fakeId: 1,
-                configurationOptionValues: expect.arrayContaining([
-                    expect.objectContaining({
-                        fakeId: expect.any(Number),
-                        name: "UP",
-                    }),
-                ]),
+                parentConfigurationOptionFakeId: 1,
+                fakeId: expect.any(Number),
+                name: "UP",
             }),
         ]),
     },
@@ -115,33 +94,25 @@ testAddOptionValue({
 
 testAddOptionValue({
     systemInput: {
-        detailOptions: [
+        detailOptionValues: [
             {
+                parentDetailOptionFakeId: 1,
                 fakeId: 1,
-                detailOptionValues: [
-                    {
-                        fakeId: 1,
-                        name: "UP",
-                    },
-                ],
+                name: "Down",
             },
         ],
     },
     payload: {
-        optionFakeId: 1,
+        parentOptionFakeId: 1,
         __typename: "DetailOptionValue",
         name: "UP",
     },
     systemOutput: {
-        detailOptions: expect.arrayContaining([
+        detailOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                fakeId: 1,
-                detailOptionValues: expect.arrayContaining([
-                    expect.objectContaining({
-                        fakeId: expect.any(Number),
-                        name: "UP",
-                    }),
-                ]),
+                parentDetailOptionFakeId: 1,
+                fakeId: expect.any(Number),
+                name: "UP",
             }),
         ]),
     },
@@ -149,33 +120,25 @@ testAddOptionValue({
 
 testAddOptionValue({
     systemInput: {
-        systemOptions: [
+        systemOptionValues: [
             {
+                parentSystemOptionFakeId: 1,
                 fakeId: 1,
-                systemOptionValues: [
-                    {
-                        fakeId: 1,
-                        name: "UP",
-                    },
-                ],
+                name: "UP",
             },
         ],
     },
     payload: {
-        optionFakeId: 1,
+        parentOptionId: 1,
         __typename: "SystemOptionValue",
         name: "UP",
     },
     systemOutput: {
-        systemOptions: expect.arrayContaining([
+        systemOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                fakeId: 1,
-                systemOptionValues: expect.arrayContaining([
-                    expect.objectContaining({
-                        fakeId: expect.any(Number),
-                        name: "UP",
-                    }),
-                ]),
+                parentSystemOptionFakeId: 1,
+                fakeId: expect.any(Number),
+                name: "UP",
             }),
         ]),
     },
