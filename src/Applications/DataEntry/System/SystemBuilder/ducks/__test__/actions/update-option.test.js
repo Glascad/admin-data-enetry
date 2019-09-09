@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { UPDATE_OPTION } from "../../actions";
 import { systemUpdate, systemOptionUpdate, detailOptionUpdate, configurationOptionUpdate } from "../../schemas";
-=======
-import UPDATE_SYSTEM_OPTION from "../../actions/update-option";
-import { systemUpdate, systemOptionUpdate } from "../../schemas";
->>>>>>> dc068484bbd5ad8b372b743707b6fec96d713436
 import "../../../../../../../../public";
 
 function testUpdateOption({
