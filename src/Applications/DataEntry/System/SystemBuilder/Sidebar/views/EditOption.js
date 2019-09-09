@@ -11,6 +11,7 @@ function EditOption({
         id: oId,
         fakeId: oFId,
         name: oName,
+        __typename,
     } = {},
     systemMap,
     queryStatus: {
