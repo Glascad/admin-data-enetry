@@ -3,10 +3,12 @@ import UPDATE_OPTION from "./update-option";
 import ADD_OPTION_VALUE from './add-option-value';
 import UPDATE_OPTION_VALUE from "./update-option-value";
 import ADD_TYPE from "./add-type";
+import UPDATE_TYPE from "./update-type";
 
 export {
     UPDATE_OPTION,
     UPDATE_OPTION_VALUE,
+    UPDATE_TYPE,
     ADD_OPTION_VALUE,
     ADD_OPTION,
     ADD_TYPE,

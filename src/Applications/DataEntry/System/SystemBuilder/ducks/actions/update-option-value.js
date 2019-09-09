@@ -1,7 +1,7 @@
 import * as schemas from "../schemas";
 import { removeNullValues } from "../../../../../../utils";
 
-export default function UPDATE_OPTION(
+export default function UPDATE_OPTION_VALUE(
     systemInput,
     payload,
 ) {
@@ -22,17 +22,6 @@ export default function UPDATE_OPTION(
     );
 
     const updatedIndex = optionValuesArray.indexOf(updatedOptionValue);
-
-    console.log({
-        systemInput,
-        payload,
-        optionValuesKey,
-        optionValueUpdateKey,
-        optionValuesArray,
-        optionValueUpdate,
-        updatedOptionValue,
-        updatedIndex,
-    })
 
     return {
         ...arguments[0],

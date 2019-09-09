@@ -2,7 +2,7 @@ import { UPDATE_OPTION_VALUE } from "../../actions";
 import { systemUpdate, systemOptionValueUpdate, detailOptionValueUpdate, configurationOptionValueUpdate } from "../../schemas";
 import "../../../../../../../../public";
 
-function testUpdateOption({
+function testUpdateOptionValue({
     systemInput,
     payload,
     systemOutput,
@@ -16,7 +16,7 @@ function testUpdateOption({
 }
 
 //System Option Values
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {},
     payload: {
         id: 1,
@@ -36,7 +36,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         systemOptionValues: [
             {
@@ -66,7 +66,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         systemOptionValues: [
             {
@@ -102,7 +102,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         systemOptionValues: [
             {
@@ -139,7 +139,7 @@ testUpdateOption({
 });
 
 //Detail Options
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {},
     payload: {
         id: 1,
@@ -159,7 +159,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         detailOptionValues: [
             {
@@ -189,7 +189,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         detailOptionValues: [
             {
@@ -225,7 +225,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         detailOptionValues: [
             {
@@ -262,7 +262,7 @@ testUpdateOption({
 });
 
 //Configuration Options
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {},
     payload: {
         id: 1,
@@ -282,7 +282,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         configurationOptionValues: [
             {
@@ -312,7 +312,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         configurationOptionValues: [
             {
@@ -348,7 +348,7 @@ testUpdateOption({
     },
 });
 
-testUpdateOption({
+testUpdateOptionValue({
     systemInput: {
         configurationOptionValues: [
             {
