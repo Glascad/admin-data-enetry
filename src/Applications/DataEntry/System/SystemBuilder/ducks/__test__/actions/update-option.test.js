@@ -1,4 +1,4 @@
-import { UPDATE_SYSTEM_OPTION } from "../../actions";
+import UPDATE_SYSTEM_OPTION from "../../actions/update-option";
 import { systemUpdate, systemOptionUpdate } from "../../schemas";
 import "../../../../../../../../public";
 

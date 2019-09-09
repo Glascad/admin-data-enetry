@@ -194,9 +194,15 @@ ADD CONSTRAINT single_parent_detail_option EXCLUDE USING gist (
 
 ALTER TABLE gc_protected.detail_options
 ADD CONSTRAINT parent_or_child_detail_option CHECK (
-    parent_detail_option_value_id IS NOT NULL
-    OR
-    parent_system_detail_type_id IS NOT NULL
+    (
+        parent_detail_option_value_id IS NOT NULL
+        OR
+        parent_system_detail_type_id IS NOT NULL
+    ) AND (
+        parent_detail_option_value_id IS NULL
+        OR
+        parent_system_detail_type_id IS NULL
+    )
 );
 
 -- CONFIGURATION TYPES
@@ -297,9 +303,15 @@ ADD CONSTRAINT single_parent_configuration_option EXCLUDE USING gist (
 
 ALTER TABLE gc_protected.configuration_options
 ADD CONSTRAINT parent_or_child_configuration_option CHECK (
-    parent_configuration_option_value_id IS NOT NULL
-    OR
-    parent_system_configuration_type_id IS NOT NULL
+    (
+        parent_configuration_option_value_id IS NOT NULL
+        OR
+        parent_system_configuration_type_id IS NOT NULL
+    ) AND (
+        parent_configuration_option_value_id IS NULL
+        OR
+        parent_system_configuration_type_id IS NULL
+    )
 );
 
 -- CONFIGURATIONS

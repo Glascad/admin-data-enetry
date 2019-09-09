@@ -38,16 +38,16 @@ export default function merge({
     } = {},
 }) {
 
-    const separateUpdateAndAdd = arr => _.partition(arr, ({ id }) => id);
+    const separateUpdateFromAdd = arr => _.partition(arr, ({ id }) => id);
 
-    const [systemOptionsToUpdate, systemOptionsToAdd] = separateUpdateAndAdd(systemOptions);
-    const [systemOptionValuesToUpdate, systemOptionValuesToAdd] = separateUpdateAndAdd(systemOptionValues);
-    const [systemDetailTypesToUpdate, systemDetailTypesToAdd] = separateUpdateAndAdd(systemDetailTypes);
-    const [detailOptionsToUpdate, detailOptionsToAdd] = separateUpdateAndAdd(detailOptions);
-    const [detailOptionValuesToUpdate, detailOptionValuesToAdd] = separateUpdateAndAdd(detailOptionValues);
-    const [systemConfigurationTypesToUpdate, systemConfigurationTypesToAdd] = separateUpdateAndAdd(systemConfigurationTypes);
-    const [configurationOptionsToUpdate, configurationOptionsToAdd] = separateUpdateAndAdd(configurationOptions);
-    const [configurationOptionValuesToUpdate, configurationOptionValuesToAdd] = separateUpdateAndAdd(configurationOptionValues);
+    const [systemOptionsToUpdate, systemOptionsToAdd] = separateUpdateFromAdd(systemOptions);
+    const [systemOptionValuesToUpdate, systemOptionValuesToAdd] = separateUpdateFromAdd(systemOptionValues);
+    const [systemDetailTypesToUpdate, systemDetailTypesToAdd] = separateUpdateFromAdd(systemDetailTypes);
+    const [detailOptionsToUpdate, detailOptionsToAdd] = separateUpdateFromAdd(detailOptions);
+    const [detailOptionValuesToUpdate, detailOptionValuesToAdd] = separateUpdateFromAdd(detailOptionValues);
+    const [systemConfigurationTypesToUpdate, systemConfigurationTypesToAdd] = separateUpdateFromAdd(systemConfigurationTypes);
+    const [configurationOptionsToUpdate, configurationOptionsToAdd] = separateUpdateFromAdd(configurationOptions);
+    const [configurationOptionValuesToUpdate, configurationOptionValuesToAdd] = separateUpdateFromAdd(configurationOptionValues);
 
     return {
         // name: newName || name,

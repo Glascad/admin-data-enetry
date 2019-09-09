@@ -63,6 +63,7 @@ function EditOption({
                     }),
                 }}
             >
+                {console.log({ _systemOptionValues })}
                 {_systemOptionValues.length ?
                     _systemOptionValues.map(({ name, id, fakeId }) => (
                         <div className="input-group">
