@@ -1,7 +1,7 @@
 import * as schemas from "../schemas";
 import { removeNullValues } from "../../../../../../utils";
 
-export default function UPDATE_OPTION(
+export default function UPDATE_OPTION_VALUE(
     systemInput,
     payload,
 ) {
@@ -11,8 +11,8 @@ export default function UPDATE_OPTION(
     const optionValuesKey = payload.__typename.toLowerCase().replace(/OptionValue/i, 'OptionValues');
     const optionValueUpdateKey = payload.__typename.toLowerCase().replace(/OptionValue/i, 'OptionValueUpdate');
 
-    const { [optionValuesKey]: optionValuesArray } = systemInput;
-    const { [optionValueUpdateKey]: optionUpdate, } = schemas
+    const { [optionValuesKey]: optionValuesArray = [] } = systemInput;
+    const { [optionValueUpdateKey]: optionValueUpdate, } = schemas
 
     const updatedOptionValue = optionValuesArray.find(({ id, fakeId }) => (
         id && id === payload.id
@@ -32,7 +32,7 @@ export default function UPDATE_OPTION(
             })
             :
             optionValuesArray.concat({
-                ...optionUpdate,
+                ...optionValueUpdate,
                 ...payload,
             }),
     };
