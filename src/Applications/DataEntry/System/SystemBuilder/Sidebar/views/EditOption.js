@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
-import { UPDATE_OPTION, ADD_OPTION_VALUE } from '../../ducks/actions';
+import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
 import { getChildren } from '../../ducks/utils';
 
@@ -24,6 +24,24 @@ function EditOption({
     const handleAddClick = () => setNewValue(systemOptionUpdate);
     const handleBlur = () => dispatch(ADD_OPTION_VALUE)
     const optionValues = getChildren(option, systemMap);
+
+    const validOptionValues = validOptions
+        .reduce((values, { name, _validOptionValues }) => (
+            oName.toLowerCase() === name.toLowerCase() ?
+                _validOptionValues
+                :
+                values
+        ), []);
+
+    const selectValidOptionValues = validOptionValues
+        .filter(({ name }) => !optionValues.some(v => v.name === name))
+        .map(({ name }) => ({
+            value: name,
+            label: name,
+        }));
+
+    console.log({ optionValues, validOptionValues })
+
     return (
         <>
             <TitleBar
@@ -56,42 +74,37 @@ function EditOption({
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"
-                circleButton={{
+                circleButton={selectValidOptionValues.length > 0 ? {
                     "data-cy": "add-option-value",
                     actionType: "add",
                     className: "action",
                     onClick: () => dispatch(ADD_OPTION_VALUE, {
                         parentOptionId: oId,
                         parentOptionFakeId: oFId,
-                        name: oName,
-                        __typename,
+                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === ov.name)) || {}).name || 'New Value',
+                        __typename: `${__typename}Value`,
                     }),
-                }}
+                } : undefined}
             >
                 {console.log({ optionValues })}
                 {optionValues.length ?
-                    optionValues.map(({ name, id, fakeId }) => (
+                    optionValues.map(({ name, id, fakeId }, i, { length }) => (
                         <div className="input-group">
                             <Input
                                 key={id || fakeId}
                                 select={{
+                                    autoFocus: i === length - 1,
                                     value: {
                                         label: name,
                                         value: id,
                                     },
-                                    options: validOptions
-                                        .reduce((values, { name: vName, _validOptionValues }) => (
-                                            vName === name ?
-                                                _validOptionValues
-                                                :
-                                                values
-                                        ), [])
-                                        .filter(({ name }) => !optionValues.some(v => v.name === name))
-                                        .map(({ name }) => ({
-                                            value: name,
-                                            label: name,
-                                        })),
-                                    onChange: () => { },
+                                    options: selectValidOptionValues,
+                                    onChange: ({ value }) => dispatch(UPDATE_OPTION_VALUE, {
+                                        id,
+                                        fakeId,
+                                        name: value,
+                                        __typename: `${__typename}Value`,
+                                    }),
                                 }}
                             />
                             <CircleButton

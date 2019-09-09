@@ -12,7 +12,31 @@ describe('Testing sidbar actions in system builder', () => {
         cy.get('[data-cy="edit-option-name"]').find('input').type('Set{enter}', { force: true });
         // React Select is a pain
         cy.get('[data-cy="edit-option-name"]').find('div > div > div').contains('Set').should('be.visible');
+        // No option values should be selected automatically
+        // Clicking "+" will add the first enumerated value to the list. 
         cy.get('[data-cy="add-option-value"]').click();
+        // Select should be auto-focused
+        // Typing into the select should allow us to select other values
+        cy.focused().type('Center{enter}');
+        cy.get('[data-cy="SystemOptionValue-CENTER"]');
+        //  When values are added the option should not be changable. The select background should turn to color $warning
+        // cy.get('[data-cy="edit-option-name"]').find('input').should('have.class', 'warning');
+
+        cy.get('[data-cy="add-option-value"]').click();
+        cy.focused().type('Back{enter}');
+        cy.get('[data-cy="SystemOptionValue-BACK"]');
+        
+        cy.get('[data-cy="add-option-value"]').click();
+        cy.focused().type('Front{enter}');
+        cy.get('[data-cy="SystemOptionValue-FRONT"]');
+        
+        cy.get('[data-cy="add-option-value"]').click();
+        cy.focused().type('Mult-plane{enter}');
+        cy.get('[data-cy="SystemOptionValue-MULTI_PLANE"]');
+        // Clicking the "X" should remove the value
+        // When all values are added, the "+" should disappear
+        cy.get('[data-cy="add-option-value"]').should('not.exist')
+        // Maybe add an "Add All" button later?
         // cy.get('[data-cy="edit-option-values"]').contains(/back/i);
         // cy.get('[data-cy="edit-option-values"]').contains(/center/i);
         // cy.get('[data-cy="edit-option-values"]').contains(/front/i);
@@ -21,7 +45,6 @@ describe('Testing sidbar actions in system builder', () => {
         cy.get('[data-cy="SystemOptionValue-BACK"]');
         cy.get('[data-cy="SystemOptionValue-FRONT"]');
         cy.get('[data-cy="SystemOptionValue-MULTI_PLANE"]');
-        cy.get('[data-cy="SystemOptionValue-CENTER"]').click();
         cy.get('[data-cy="toggle-child-option"]').click();
         cy.get('[data-cy="edit-option-name"]').find('input').type('Joinery{enter}', { force: true });
         cy.get('[data-cy="edit-option-name"]').find('div > div > div').contains('Joinery').should('be.visible');
