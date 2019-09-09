@@ -6,7 +6,7 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename } from './ducks/utils';
+import { findItemByIdAndTypename, generateSystemMap } from './ducks/utils';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
@@ -41,6 +41,8 @@ export default function SystemBuilder({
 
     const system = merge(systemInput, queryStatus);
 
+    const systemMap = generateSystemMap(system);
+
     const selectedItem = findItemByIdAndTypename(system, originalSelectedItem) || originalSelectedItem;
 
     const dispatch = (ACTION, payload) => pushState(systemInput => ({
@@ -65,6 +67,7 @@ export default function SystemBuilder({
                 queryStatus={queryStatus}
                 systemInput={systemInput}
                 system={system}
+                systemMap={systemMap}
                 dispatch={dispatch}
                 selectedItem={selectedItem}
                 selectItem={selectItem}
@@ -74,6 +77,7 @@ export default function SystemBuilder({
                 queryStatus={queryStatus}
                 fetching={fetching}
                 system={system}
+                systemMap={systemMap}
                 dispatch={dispatch}
                 selectItem={selectItem}
                 selectedItem={selectedItem}
@@ -81,6 +85,7 @@ export default function SystemBuilder({
             <Sidebar
                 queryStatus={queryStatus}
                 system={system}
+                systemMap={systemMap}
                 dispatch={dispatch}
                 selectItem={selectItem}
                 selectedItem={selectedItem}

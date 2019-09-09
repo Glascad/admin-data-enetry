@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
 import { UPDATE_OPTION, ADD_OPTION_VALUE } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
+import { getChildren } from '../../ducks/utils';
 
 
 function EditOption({
-    selectedItem,
+    selectedItem: option,
     selectedItem: {
         id: oId,
         fakeId: oFId,
         name: oName,
-        _systemOptionValues = [],
     } = {},
+    systemMap,
     queryStatus: {
         validOptions = [],
     } = {},
@@ -21,6 +22,7 @@ function EditOption({
     const [newValue, setNewValue] = useState();
     const handleAddClick = () => setNewValue(systemOptionUpdate);
     const handleBlur = () => dispatch(ADD_OPTION_VALUE)
+    const optionValues = getChildren(option, systemMap);
     return (
         <>
             <TitleBar
@@ -63,9 +65,9 @@ function EditOption({
                     }),
                 }}
             >
-                {console.log({ _systemOptionValues })}
-                {_systemOptionValues.length ?
-                    _systemOptionValues.map(({ name, id, fakeId }) => (
+                {console.log({ optionValues })}
+                {optionValues.length ?
+                    optionValues.map(({ name, id, fakeId }) => (
                         <div className="input-group">
                             <Input
                                 key={id || fakeId}
@@ -81,7 +83,7 @@ function EditOption({
                                                 :
                                                 values
                                         ), [])
-                                        .filter(({ name }) => !_systemOptionValues.some(v => v.name === name))
+                                        .filter(({ name }) => !optionValues.some(v => v.name === name))
                                         .map(({ name }) => ({
                                             value: name,
                                             label: name,
