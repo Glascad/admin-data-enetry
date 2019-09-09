@@ -16,8 +16,7 @@
         {
             "__typename": "SystemOption",
             "fakeId": -1,
-            "name": "Joinery",
-            "systemOptionValues": []
+            "name": "Joinery"
         }
     ],
     "_detailOptions": [],

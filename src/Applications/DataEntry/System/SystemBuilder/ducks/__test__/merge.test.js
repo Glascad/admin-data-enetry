@@ -31,141 +31,93 @@ function testMerge({
     const mergedSystem = merge({ ...systemInput }, { _system });
 
     const {
-        _systemOptions: mergedSystemOptions = [],
-        _detailOptions: mergedDetailOptions = [],
-        _configurationOptions: mergedConfigurationOptions = [],
+        _systemOptions = [],
+        _systemOptionValues = [],
+        _systemDetailTypes = [],
+        _detailOptions = [],
+        _detailOptionValues = [],
+        _systemConfigurationTypes = [],
+        _configurationOptions = [],
+        _configurationOptionValues = [],
     } = mergedSystem;
 
     describe(`Merging System on System Options.`, () => {
-        test(`Testing merged System Options have the correct ID's`, () => {
-            mergedSystemOptions.forEach(({ id }) => {
-                expect(systemOptionIdsToInclude).toContain(id);
-            })
+        test(`Testing merged System Options have the correct Id's`, () => {
+            systemOptionIdsToInclude.forEach(id => {
+                expect(_systemOptions).toContainEqual(expect.objectContaining({ id }));
+            });
+            // _systemOptions.forEach(({ id }) => {
+            //     expect(systemOptionIdsToInclude).toContain(id);
+            // });
             systemOptionIdsToDelete.forEach(id => {
-                expect(mergedSystemOptions).toEqual(
-                    expect.not.arrayContaining([
-                        expect.objectContaining({ id })
-                    ])
-                );
-            })
-        });
-
-        test(`Testing merged System Options Values have the correct ID's`, () => {
-            mergedSystemOptions.forEach(({ _systemOptionValues }) => {
-                _systemOptionValues.forEach(({ id }) => {
-                    expect(systemOptionValueIdsToInclude).toContain(id);
-                })
-            })
-            systemOptionValueIdsToDelete.forEach(id => {
-                mergedSystemOptions.forEach(value => {
-                    expect(value.id).toEqual(
-                        expect.not.arrayContaining([
-                            expect.objectContaining({ id })
-                        ])
-                    );
-                })
+                expect(_systemOptions).not.toContainEqual(expect.objectContaining({ id }));
             });
         });
 
-        test(`Testing merged System Detail Types to have the correct ID's`, () => {
-            mergedSystemOptions.forEach(({ _systemOptionValues = [] }) => {
-                _systemOptionValues.forEach(({ _systemDetailType = [] }) => {
-                    _systemDetailType.forEach(({ id = 0 }) => {
-                        expect(systemDetailTypeIdsToInclude).toContain(id);
-                    })
-                })
-            })
-            systemDetailTypeIdsToDelete.forEach(id => {
-                mergedSystemOptions.forEach(value => {
-                    expect(value.id).toEqual(
-                        expect.not.arrayContaining([
-                            expect.objectContaining({ id })
-                        ])
-                    );
-                })
+        test(`Testing merged System Options Values have the correct Id's`, () => {
+            systemOptionValueIdsToInclude.forEach(id => {
+                expect(_systemOptionValues).toContainEqual(expect.objectContaining({ id }));
+            });
+            systemOptionValueIdsToDelete.forEach(id => {
+                expect(_systemOptionValues).not.toContainEqual(expect.objectContaining({ id }));
             });
         });
     });
 
     describe(`Merging System on Detail Options.`, () => {
-        test(`Testing merged Detail Options have the correct ID's`, () => {
-            mergedDetailOptions.forEach(({ id }) => {
-                expect(detailOptionIdsToInclude).toContain(id);
-            })
-            detailOptionIdsToDelete.forEach(id => {
-                expect(mergedDetailOptions).toEqual(
-                    expect.not.arrayContaining([
-                        expect.objectContaining({ id })
-                    ])
-                );
-            })
-        });
-
-        test(`Testing merged Detail Options Values have the correct ID's`, () => {
-            mergedDetailOptions.forEach(({ _detailOptionValues }) => {
-                _detailOptionValues.forEach(({ id }) => {
-                    expect(detailOptionValueIdsToInclude).toContain(id);
-                })
-            })
-            detailOptionValueIdsToDelete.forEach(id => {
-                mergedDetailOptions.forEach(value => {
-                    expect(value.id).toEqual(
-                        expect.not.arrayContaining([
-                            expect.objectContaining({ id })
-                        ])
-                    );
-                })
+        test(`Testing merged System Detail Types to have the correct Id's`, () => {
+            systemDetailTypeIdsToInclude.forEach(id => {
+                expect(_systemDetailTypes).toContainEqual(expect.objectContaining({ id }));
+            });
+            systemDetailTypeIdsToDelete.forEach(id => {
+                expect(_systemDetailTypes).not.toContainEqual(expect.objectContaining({ id }));
             });
         });
 
-        test(`Testing merged System Configuration Types to have the correct ID's`, () => {
-            mergedDetailOptions.forEach(({ _detailOptionValues = [] }) => {
-                _detailOptionValues.forEach(({ _systemConfigurationType = [] }) => {
-                    _systemConfigurationType.forEach(({ id = 0 }) => {
-                        expect(systemConfigurationTypeIdsToInclude).toContain(id);
-                    })
-                })
-            })
-            systemConfigurationTypeIdsToDelete.forEach(id => {
-                mergedDetailOptions.forEach(value => {
-                    expect(value.id).toEqual(
-                        expect.not.arrayContaining([
-                            expect.objectContaining({ id })
-                        ])
-                    );
-                })
+        test(`Testing merged Detail Options have the correct Id's`, () => {
+            detailOptionIdsToInclude.forEach(id => {
+                expect(_detailOptions).toContainEqual(expect.objectContaining({ id }));
+            });
+            detailOptionIdsToDelete.forEach(id => {
+                expect(_detailOptions).not.toContainEqual(expect.objectContaining({ id }));
+            });
+        });
+
+        test(`Testing merged Detail Option Values have the correct Id's`, () => {
+            detailOptionValueIdsToInclude.forEach(id => {
+                expect(_detailOptionValues).toContainEqual(expect.objectContaining({ id }));
+            });
+            detailOptionValueIdsToDelete.forEach(id => {
+                expect(_detailOptionValues).not.toContainEqual(expect.objectContaining({ id }));
             });
         });
     });
 
     describe(`Merging System on Configuration Options.`, () => {
-        test(`Testing merged Configuration Options have the correct ID's`, () => {
-            mergedConfigurationOptions.forEach(({ id }) => {
-                expect(configurationOptionIdsToInclude).toContain(id);
-            })
-            configurationOptionIdsToDelete.forEach(id => {
-                expect(mergedConfigurationOptions).toEqual(
-                    expect.not.arrayContaining([
-                        expect.objectContaining({ id })
-                    ])
-                );
-            })
+        test(`Testing merged System Configuration Types to have the correct Id's`, () => {
+            systemConfigurationTypeIdsToInclude.forEach(id => {
+                expect(_systemConfigurationTypes).toContainEqual(expect.objectContaining({ id }));
+            });
+            systemConfigurationTypeIdsToDelete.forEach(id => {
+                expect(_systemConfigurationTypes).not.toContainEqual(expect.objectContaining({ id }));
+            });
         });
 
-        test(`Testing merged Configuration Options Values have the correct ID's`, () => {
-            mergedConfigurationOptions.forEach(({ _configurationOptionValues }) => {
-                _configurationOptionValues.forEach(({ id }) => {
-                    expect(configurationOptionValueIdsToInclude).toContain(id);
-                })
-            })
+        test(`Testing merged Configuration Options have the correct Id's`, () => {
+            configurationOptionIdsToInclude.forEach(id => {
+                expect(_configurationOptions).toContainEqual(expect.objectContaining({ id }));
+            });
+            configurationOptionIdsToDelete.forEach(id => {
+                expect(_configurationOptions).not.toContainEqual(expect.objectContaining({ id }));
+            });
+        });
+
+        test(`Testing merged Configuration Option Values have the correct Id's`, () => {
+            configurationOptionValueIdsToInclude.forEach(id => {
+                expect(_configurationOptionValues).toContainEqual(expect.objectContaining({ id }));
+            });
             configurationOptionValueIdsToDelete.forEach(id => {
-                mergedConfigurationOptions.forEach(value => {
-                    expect(value.id).toEqual(
-                        expect.not.arrayContaining([
-                            expect.objectContaining({ id })
-                        ])
-                    );
-                })
+                expect(_configurationOptionValues).not.toContainEqual(expect.objectContaining({ id }));
             });
         });
     });
@@ -181,29 +133,28 @@ testMerge({
                 fakeId: 2000,
                 name: "HOPPERY",
                 parentSystemOptionValueId: 3,
-                _systemOptionValues: [],
             },
             {
                 __typename: "SystemOption",
                 fakeId: 3000,
                 name: "HOPPERY",
-                _systemOptionValues: [],
             },
         ],
+        systemOptionIdsToDelete: [1], // Set
+        systemOptionValueIdsToDelete: [7], // STICK
+        systemDetailTypeIdsToDelete: [2], // HORIZONTAL
         detailOptions: [],
+        detailOptionIdsToDelete: [2], // Glazing
+        detailOptionValueIdsToDelete: [1], // UP
         configurationOptions: [],
-        systemOptionIdsToDelete: [1], //Set
-        detailOptionIdsToDelete: [2], //Glazing
-        configurationOptionIdsToDelete: [1], //RECEPTOR_TYPE
-        systemOptionValueIdsToDelete: [7], //STICK
-        detailOptionValueIdsToDelete: [1], //UP
-        configurationOptionValueIdsToDelete: [3], //STANDARD
-        systemDetailTypeIdsToDelete: [2], //HORIZONTAL
-        systemConfigurationTypeIdsToDelete: [3], //HEAD
+        configurationOptionIdsToDelete: [1], // RECEPTOR_TYPE
+        configurationOptionValueIdsToDelete: [3], // STANDARD
+        systemConfigurationTypeIdsToDelete: [3], // HEAD
     },
     _system: sample1,
     result: {
         systemOptionIdsToInclude: [2],
+<<<<<<< HEAD
         detailOptionIdsToInclude: [1],
         configurationOptionIdsToInclude: [2, 3, 4],
         systemOptionValueIdsToInclude: [5, 6],
@@ -212,4 +163,14 @@ testMerge({
         systemDetailTypeIdsToInclude: [1, 3, 4, 5],
         systemConfigurationTypeIdsToInclude: [4, 5, 6, 7, 8],
     }
+=======
+        systemOptionValueIdsToInclude: [5, 6],
+        systemDetailTypeIdsToInclude: [1, 3, 4, 5],
+        detailOptionIdsToInclude: [1],
+        detailOptionValueIdsToInclude: [2],
+        systemConfigurationTypeIdsToInclude: [],
+        configurationOptionValueIdsToInclude: [],
+        configurationOptionIdsToInclude: [],
+    },
+>>>>>>> dc068484bbd5ad8b372b743707b6fec96d713436
 });
