@@ -6,7 +6,7 @@ export default function UPDATE_OPTION(
     payload,
 ) {
 
-    console.log({systemInput, payload});
+    // console.log({systemInput, payload});
 
     const optionsKey = payload.__typename.toLowerCase().replace(/Option/i, 'Options');
     const optionUpdateKey = payload.__typename.toLowerCase().replace(/Option/i, 'OptionUpdate');
@@ -16,14 +16,6 @@ export default function UPDATE_OPTION(
         [optionUpdateKey]: optionUpdate,
     } = schemas
 
-    console.log(optionsArray);
-
-    optionsArray.forEach(({ id, fakeId }) => {
-       console.log("OPTIONS");
-       console.log({id, fakeId}, payload.id, payload.fakeId); 
-    });
-
-
     const updatedOption = optionsArray.find(({ id, fakeId }) => (
         id && id === payload.id
     ) || (
@@ -32,15 +24,6 @@ export default function UPDATE_OPTION(
     );
 
     const updatedIndex = optionsArray.indexOf(updatedOption);
-
-    console.log({ payload, updatedOption, updatedIndex, optionsKey, optionUpdateKey })
-
-    const thisIsUpdated = optionsArray.replace(updatedIndex, {
-        ...updatedOption,
-        ...removeNullValues(payload),
-    })
-
-    console.log(thisIsUpdated);
 
     return {
         ...arguments[0],

@@ -53,6 +53,7 @@ testUpdateOption({
         id: 1,
         name: "JOINERY",
         __typename: "SystemOption",
+        parentSystemOptionValueId: 5,
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
@@ -82,6 +83,7 @@ testUpdateOption({
         id: 2,
         name: "JOINERY",
         __typename: "SystemOption",
+        parentSystemOptionValueId: 5,
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
@@ -109,7 +111,7 @@ testUpdateOption({
                 fakeId: 1,
                 name: "SET",
                 __typename: "SystemOption",
-                parentSystemOptionValueId: 5,
+                parentSystemOptionValueFakeId: 5,
             },
         ],
     },
@@ -117,6 +119,7 @@ testUpdateOption({
         fakeId: 2,
         name: "JOINERY",
         __typename: "SystemOption",
+        parentSystemOptionValueFakeId: 5,
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
@@ -124,13 +127,13 @@ testUpdateOption({
                 fakeId: 1,
                 name: "SET",
                 __typename: "SystemOption",
-                parentSystemOptionValueId: 5,
+                parentSystemOptionValueFakeId: 5,
             }),
             expect.objectContaining({
                 fakeId: 2,
                 name: "JOINERY",
                 __typename: "SystemOption",
-                parentSystemOptionValueId: 5,
+                parentSystemOptionValueFakeId: 5,
             }),
         ])
     },
@@ -143,6 +146,7 @@ testUpdateOption({
         id: 1,
         name: "GLAZING",
         __typename: "DetailOption",
+        parentDetailOptionValueId: 3,
     },
     systemOutput: {
         detailOptions: expect.arrayContaining([
@@ -150,6 +154,7 @@ testUpdateOption({
                 id: 1,
                 name: "GLAZING",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             }),
         ])
     },
@@ -163,6 +168,7 @@ testUpdateOption({
                 id: 1,
                 name: "STOPS",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             },
         ],
     },
@@ -170,6 +176,7 @@ testUpdateOption({
         id: 1,
         name: "GLAZING",
         __typename: "DetailOption",
+        parentDetailOptionValueId: 3,
     },
     systemOutput: {
         detailOptions: expect.arrayContaining([
@@ -177,6 +184,7 @@ testUpdateOption({
                 id: 1,
                 name: "GLAZING",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             }),
         ])
     },
@@ -190,6 +198,7 @@ testUpdateOption({
                 id: 1,
                 name: "STOPS",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             },
         ],
     },
@@ -197,6 +206,7 @@ testUpdateOption({
         id: 2,
         name: "GLAZING",
         __typename: "DetailOption",
+        parentDetailOptionValueId: 3,
     },
     systemOutput: {
         detailOptions: expect.arrayContaining([
@@ -204,11 +214,13 @@ testUpdateOption({
                 id: 1,
                 name: "STOPS",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             }),
             expect.objectContaining({
                 id: 2,
                 name: "GLAZING",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             }),
         ])
     },
@@ -222,6 +234,7 @@ testUpdateOption({
                 fakeId: 1,
                 name: "STOPS",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             },
         ],
     },
@@ -229,6 +242,7 @@ testUpdateOption({
         fakeId: 2,
         name: "GLAZING",
         __typename: "DetailOption",
+        parentDetailOptionValueId: 3,
     },
     systemOutput: {
         detailOptions: expect.arrayContaining([
@@ -236,11 +250,13 @@ testUpdateOption({
                 fakeId: 1,
                 name: "STOPS",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             }),
             expect.objectContaining({
                 fakeId: 2,
                 name: "GLAZING",
                 __typename: "DetailOption",
+                parentDetailOptionValueId: 3,
             }),
         ])
     },
@@ -253,6 +269,7 @@ testUpdateOption({
         id: 1,
         name: "SILL_FLASHING",
         __typename: "ConfigurationOption",
+        parentConfigurationOptionValueId: 7,
     },
     systemOutput: {
         configurationOptions: expect.arrayContaining([
@@ -260,6 +277,7 @@ testUpdateOption({
                 id: 1,
                 name: "SILL_FLASHING",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             }),
         ])
     },
@@ -273,6 +291,7 @@ testUpdateOption({
                 id: 1,
                 name: "COMPENSATING_RECEPTOR",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             },
         ],
     },
@@ -280,6 +299,7 @@ testUpdateOption({
         id: 1,
         name: "SILL_FLASHING",
         __typename: "ConfigurationOption",
+        parentConfigurationOptionValueId: 7,
     },
     systemOutput: {
         configurationOptions: expect.arrayContaining([
@@ -287,6 +307,7 @@ testUpdateOption({
                 id: 1,
                 name: "SILL_FLASHING",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             }),
         ])
     },
@@ -300,6 +321,7 @@ testUpdateOption({
                 id: 1,
                 name: "COMPENSATING_RECEPTOR",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             },
         ],
     },
@@ -307,6 +329,7 @@ testUpdateOption({
         id: 2,
         name: "SILL_FLASHING",
         __typename: "ConfigurationOption",
+        parentConfigurationOptionValueId: 7,
     },
     systemOutput: {
         configurationOptions: expect.arrayContaining([
@@ -314,11 +337,13 @@ testUpdateOption({
                 id: 1,
                 name: "COMPENSATING_RECEPTOR",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             }),
             expect.objectContaining({
                 id: 2,
                 name: "SILL_FLASHING",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             }),
         ])
     },
@@ -332,6 +357,7 @@ testUpdateOption({
                 fakeId: 1,
                 name: "COMPENSATING_RECEPTOR",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             },
         ],
     },
@@ -339,6 +365,7 @@ testUpdateOption({
         fakeId: 2,
         name: "SILL_FLASHING",
         __typename: "ConfigurationOption",
+        parentConfigurationOptionValueId: 7,
     },
     systemOutput: {
         configurationOptions: expect.arrayContaining([
@@ -346,11 +373,13 @@ testUpdateOption({
                 fakeId: 1,
                 name: "COMPENSATING_RECEPTOR",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             }),
             expect.objectContaining({
                 fakeId: 2,
                 name: "SILL_FLASHING",
                 __typename: "ConfigurationOption",
+                parentConfigurationOptionValueId: 7,
             }),
         ])
     },
