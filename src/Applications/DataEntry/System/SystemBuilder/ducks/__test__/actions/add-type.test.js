@@ -138,21 +138,21 @@ testAddType({
     systemInput: {
         systemDetailTypes: [
             {
-                parentSystemOptionFakeId: 1,
+                parentSystemOptionValueFakeId: 1,
                 fakeId: 1,
                 name: "SILL",
             },
         ],
     },
     payload: {
-        parentOptionId: 1,
-        __typename: "SystemOptionValue",
+        parentOptionValueFakeId: 1,
+        __typename: "SystemDetailType",
         name: "HEAD",
     },
     systemOutput: {
         systemDetailTypes: expect.arrayContaining([
             expect.objectContaining({
-                parentSystemOptionFakeId: 1,
+                parentSystemOptionValueFakeId: 1,
                 fakeId: expect.any(Number),
                 name: "HEAD",
             }),
