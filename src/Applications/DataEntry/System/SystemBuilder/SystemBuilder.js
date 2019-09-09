@@ -64,7 +64,10 @@ export default function SystemBuilder({
         console.log(systemInput);
     }
 
-    console.log(arguments[0]);
+    console.log({
+        props: arguments[0],
+        state: systemInput,
+    });
 
     return (
         <TransformProvider>

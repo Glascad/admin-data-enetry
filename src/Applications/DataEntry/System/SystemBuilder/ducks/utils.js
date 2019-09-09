@@ -1,11 +1,5 @@
 import _ from 'lodash';
 
-export const getFirstItem = ({ "undefined:undefined": [firstItem] = [], _systemOptions = [] }) => (
-    firstItem
-    ||
-    _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId)
-);
-
 export const generateSystemMap = ({
     _systemOptions = [],
     _detailOptions = [],
@@ -30,6 +24,10 @@ export const generateSystemMap = ({
     return `${parentKey}:${id}`;
 });
 
+export const getFirstItem = ({ _systemOptions = [] }) => (
+    _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId)
+);
+
 export const getChildren = ({ __typename, fakeId, id } = {}, systemMap) => (
     systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]
     ||
@@ -43,7 +41,7 @@ export const makeRenderable = system => {
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
     console.log({ systemMap });
-    return makeNodeRenderable(getFirstItem(systemMap));
+    return makeNodeRenderable(getFirstItem(system));
 }
 
 export const findItemByIdAndTypename = (system, { id, fakeId, __typename } = {}) => Object.values(system)

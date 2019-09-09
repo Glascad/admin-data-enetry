@@ -1,18 +1,10 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
 import { makeRenderable } from '../ducks/utils';
 import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
-
-const noOptions = {
-    item: {
-        __typename: "SystemOption",
-        fakeId: -1,
-        name: "ADD_OPTION",
-    },
-    branches: [],
-};
+import { ADD_OPTION } from '../ducks/actions';
 
 export default function SystemTree({
     system,
@@ -24,14 +16,19 @@ export default function SystemTree({
     selectedItem,
     selectItem,
     fetching,
+    dispatch,
 }) {
 
     const { Viewport } = useContext(StaticContext);
 
-    const trunk = length ?
-        makeRenderable(system)
-        :
-        noOptions;
+    useEffect(() => {
+        if (!length && !fetching) dispatch(ADD_OPTION, {
+            __typename: "SystemOption",
+            name: "ADD_OPTION",
+        });
+    }, [fetching]);
+
+    const trunk = makeRenderable(system);
 
     return (
         <TransformBox
