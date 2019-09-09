@@ -49,6 +49,7 @@ export default function RightSidebar({
         className={`RightSidebar ${open ? "open" : "closed"}`}
         onKeyDown={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         onWheel={e => e.stopPropagation()}
         >
             <button

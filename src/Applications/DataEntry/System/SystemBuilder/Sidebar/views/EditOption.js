@@ -29,7 +29,7 @@ function EditOption({
             <TitleBar
                 title='Edit Option'
             />
-            <div className='sidebar-group'>
+            {/* <div className='sidebar-group'> */}
                 <Input
                     label='Option Name'
                     data-cy='edit-option-name'
@@ -52,7 +52,7 @@ function EditOption({
                         }),
                     }}
                 />
-            </div>
+            {/* </div> */}
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"

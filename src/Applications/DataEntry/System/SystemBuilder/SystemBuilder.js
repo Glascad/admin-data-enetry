@@ -28,10 +28,15 @@ export default function SystemBuilder({
     const selectItem = item => setSelection(selectedItem => item === selectedItem ? undefined : item);
 
     const cancelSelectionOnEscape = ({ key }) => key === "Escape" && selectItem();
+    const cancelSelectionOnClick = () => selectItem();
 
     useEffect(() => {
         window.addEventListener('keydown', cancelSelectionOnEscape);
-        return () => window.removeEventListener('keydown', cancelSelectionOnEscape);
+        window.addEventListener('click', cancelSelectionOnClick);
+        return () => {
+            window.removeEventListener('keydown', cancelSelectionOnEscape);
+            window.removeEventListener('click', cancelSelectionOnClick);
+        }
     }, []);
 
     const {

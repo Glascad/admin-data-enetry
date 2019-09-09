@@ -51,13 +51,16 @@ export default function SystemTree({
                                 <div
                                     data-cy={`${__typename}-${name || detailType || configurationType}`}
                                     className={`tree-item type-${
-                                        __typename.replace(/^.*(option|value|type)$/, '$1').toLowerCase()
+                                        __typename.replace(/^.*(option|value|type)$/i, '$1').toLowerCase()
                                         } subtype-${
                                         __typename.toLowerCase()
                                         } ${
                                         item === selectedItem ? 'selected' : ''
                                         }`}
-                                    onClick={() => selectItem(item)}
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        selectItem(item);
+                                    }}
                                 >
                                     <div className="title">{normalCase(name || detailType || configurationType)}</div>
                                 </div>
