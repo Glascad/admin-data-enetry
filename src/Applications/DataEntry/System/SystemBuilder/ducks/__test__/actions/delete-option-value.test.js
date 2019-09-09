@@ -2,15 +2,13 @@ import { DELETE_OPTION_VALUE } from "../../actions";
 import { systemUpdate, systemOptionValueUpdate, detailOptionValueUpdate, configurationOptionValueUpdate } from "../../schemas";
 import "../../../../../../../../public";
 
-function testUpdateOptionValue({
+function testDeleteOptionValue({
     systemInput,
     payload,
     systemOutput,
 }) {
     describe(`Testing update options`, () => {
         const result = DELETE_OPTION_VALUE({ ...systemUpdate, ...systemInput }, payload);
-
-        console.log(result);
 
         test(`Result should be correct for ${payload.name}`, () => {
             expect(result).toMatchObject(systemOutput);
@@ -19,7 +17,7 @@ function testUpdateOptionValue({
 }
 
 //System OptionValues
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {},
     payload: {
         id: 1,
@@ -33,7 +31,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         systemOptionValues: [{
             fakeId: 1,
@@ -54,7 +52,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         systemOptionValues: [
             {
@@ -78,7 +76,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         systemOptionValues: [
             {
@@ -110,7 +108,7 @@ testUpdateOptionValue({
 });
 
 //Detail OptionValues
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {},
     payload: {
         id: 1,
@@ -123,7 +121,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         detailOptionValues: [{
             fakeId: 1,
@@ -144,7 +142,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         detailOptionValues: [
             {
@@ -168,7 +166,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         detailOptionValues: [
             {
@@ -200,7 +198,7 @@ testUpdateOptionValue({
 });
 
 //Configuration OptionValues
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {},
     payload: {
         id: 1,
@@ -213,7 +211,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         configurationOptionValues: [{
             fakeId: 1,
@@ -234,7 +232,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         configurationOptionValues: [
             {
@@ -258,7 +256,7 @@ testUpdateOptionValue({
     },
 });
 
-testUpdateOptionValue({
+testDeleteOptionValue({
     systemInput: {
         configurationOptionValues: [
             {
