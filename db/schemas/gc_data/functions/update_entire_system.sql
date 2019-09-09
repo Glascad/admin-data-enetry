@@ -10,6 +10,11 @@ DECLARE
     so ENTIRE_SYSTEM_OPTION;
     _do ENTIRE_DETAIL_OPTION;
     co ENTIRE_CONFIGURATION_OPTION;
+    sov ENTIRE_SYSTEM_OPTION_VALUE;
+    dov ENTIRE_DETAIL_OPTION_VALUE;
+    cov ENTIRE_CONFIGURATION_OPTION_VALUE;
+    sdt ENTIRE_SYSTEM_DETAIL_TYPE;
+    sct ENTIRE_SYSTEM_CONFIGURATION_TYPE;
 BEGIN
 
     SET search_path = gc_public,gc_data,gc_protected,gc_controlled,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
@@ -95,21 +100,69 @@ BEGIN
     -- if a dependent fake id comes before its referenced fake id, throw an error telling the user to put the items in the correct order
     -- on the front end, make sure to order items correctly
 
+    -- SYSTEM
+
+    -- OPTIONS
+
     IF s.system_options IS NOT NULL THEN
         FOREACH so IN ARRAY s.system_options LOOP
-            id_map := update_entire_system_option(so, us, id_map);
+            id_map := create_or_update_system_option(so, us, id_map);
         END LOOP;
     END IF;
+
+    -- VALUES
+
+    IF s.system_option_values IS NOT NULL THEN
+        FOREACH sov IN ARRAY s.system_option_values LOOP
+            id_map := create_or_update_system_option_value(sov, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- DETAIL TYPES
+
+    IF s.system_detail_types IS NOT NULL THEN
+        FOREACH sdt IN ARRAY s.system_detail_types LOOP
+            id_map := create_or_update_system_detail_type(sdt, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- OPTIONS
 
     IF s.detail_options IS NOT NULL THEN
         FOREACH _do IN ARRAY s.detail_options LOOP
-            id_map := update_entire_detail_option(_do, us, id_map);
+            id_map := create_or_update_detail_option(_do, us, id_map);
         END LOOP;
     END IF;
 
+    -- VALUES
+
+    IF s.detail_option_values IS NOT NULL THEN
+        FOREACH dov IN ARRAY s.detail_option_values LOOP
+            id_map := create_or_update_detail_option_value(dov, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- CONFIGURATION TYPES
+
+    IF s.system_configuration_types IS NOT NULL THEN
+        FOREACH sct IN ARRAY s.system_configuration_types LOOP
+            id_map := create_or_update_system_configuration_type(sct, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- OPTIONS
+
     IF s.configuration_options IS NOT NULL THEN
         FOREACH co IN ARRAY s.configuration_options LOOP
-            id_map := update_entire_configuration_option(co, us, id_map);
+            id_map := create_or_update_configuration_option(co, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- VALUES
+
+    IF s.configuration_option_values IS NOT NULL THEN
+        FOREACH cov IN ARRAY s.configuration_option_values LOOP
+            id_map := create_or_update_configuration_option_value(cov, us, id_map);
         END LOOP;
     END IF;
 

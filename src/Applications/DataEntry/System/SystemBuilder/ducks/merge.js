@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { value } from "pg-sql2";
+import { removeNullValues } from '../../../../../utils';
 
 export default function merge({
     // name: newName,
@@ -61,7 +61,7 @@ export default function merge({
                 const optionUpdate = systemOptionsToUpdate.find(({ id }) => id === option.id);
                 return {
                     ...option,
-                    ...optionUpdate,
+                    ...removeNullValues(optionUpdate),
                 }
             }).concat(systemOptionsToAdd),
         _systemOptionValues: _systemOptionValues
@@ -71,7 +71,7 @@ export default function merge({
                 const valueUpdate = systemOptionValuesToUpdate.find(({ id }) => id === value.id);
                 return {
                     ...value,
-                    ...valueUpdate,
+                    ...removeNullValues(valueUpdate),
                 }
             }).concat(systemOptionValuesToAdd),
         _systemDetailTypes: _systemDetailTypes
@@ -80,7 +80,7 @@ export default function merge({
                 const typeUpdate = systemDetailTypesToUpdate.find(({ id }) => id === type.id);
                 return {
                     ...type,
-                    ...typeUpdate,
+                    ...removeNullValues(typeUpdate),
                 }
             }).concat(systemDetailTypesToAdd),
         _detailOptions: _detailOptions
@@ -90,7 +90,7 @@ export default function merge({
                 const optionUpdate = detailOptionsToUpdate.find(({ id }) => id === option.id);
                 return {
                     ...option,
-                    ...optionUpdate,
+                    ...removeNullValues(optionUpdate),
                 }
             }).concat(detailOptionsToAdd),
         _detailOptionValues: _detailOptionValues
@@ -100,7 +100,7 @@ export default function merge({
                 const valueUpdate = detailOptionValuesToUpdate.find(({ id }) => id === value.id);
                 return {
                     ...value,
-                    ...valueUpdate,
+                    ...removeNullValues(valueUpdate),
                 }
             }).concat(detailOptionValuesToAdd),
         _systemConfigurationTypes: _systemConfigurationTypes
@@ -109,7 +109,7 @@ export default function merge({
                 const typeUpdate = systemConfigurationTypesToUpdate.find(({ id }) => id === type.id);
                 return {
                     ...type,
-                    ...typeUpdate,
+                    ...removeNullValues(typeUpdate),
                 }
             }).concat(systemConfigurationTypesToAdd),
         _configurationOptions: _configurationOptions
@@ -119,7 +119,7 @@ export default function merge({
                 const optionUpdate = configurationOptionsToUpdate.find(({ id }) => id === option.id);
                 return {
                     ...option,
-                    ...optionUpdate,
+                    ...removeNullValues(optionUpdate),
                 }
             }).concat(configurationOptionsToAdd),
         _configurationOptionValues: _configurationOptionValues
@@ -129,7 +129,7 @@ export default function merge({
                 const valueUpdate = configurationOptionValuesToUpdate.find(({ id }) => id === value.id);
                 return {
                     ...value,
-                    ...valueUpdate,
+                    ...removeNullValues(valueUpdate),
                 }
             }).concat(configurationOptionValuesToAdd),
     };

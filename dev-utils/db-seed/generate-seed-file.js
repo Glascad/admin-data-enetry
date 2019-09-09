@@ -56,19 +56,14 @@ ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_el
 -- SYSTEM
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option_value.sql')}
-${require('../../db/schemas/gc_protected/functions/system/update_entire_system_option_value.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_detail_type.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option_value.sql')}
-${require('../../db/schemas/gc_protected/functions/system/update_entire_detail_option_value.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_configuration_type.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_configuration_option.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_configuration_option_value.sql')}
 -- DELETE_ENTIRE_CONFIGURATION_OPTION
 -- DELETE_ENTIRE_SYSTEM_CONFIGURATION_TYPE
-${require('../../db/schemas/gc_protected/functions/system/update_entire_system_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/update_entire_detail_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/update_entire_configuration_option.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_system.sql')}
 -- CREATE_OR_UPDATE_SYSTEM_SET
 -- CREATE_OR_UPDATE_OPTION_VALUE
