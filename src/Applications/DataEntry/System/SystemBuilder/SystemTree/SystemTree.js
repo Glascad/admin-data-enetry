@@ -25,6 +25,8 @@ export default function SystemTree({
         if (!length && !fetching) dispatch(ADD_OPTION, {
             __typename: "SystemOption",
             name: "ADD_OPTION",
+        }, {
+            replaceState: true,
         });
     }, [fetching]);
 

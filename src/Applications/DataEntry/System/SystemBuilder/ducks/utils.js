@@ -19,7 +19,7 @@ export const generateSystemMap = ({
     ..._systemDetailTypes,
     ..._systemConfigurationTypes,
 ], item => {
-    const parentKey = Object.keys(item).find(key => key.match(/^parent/));
+    const [parentKey] = Object.entries(item).find(([key, value]) => key.match(/^parent/) && value) || [];
     const { [parentKey]: id } = item;
     return `${parentKey}:${id}`;
 });
@@ -27,6 +27,15 @@ export const generateSystemMap = ({
 export const getFirstItem = ({ _systemOptions = [] }) => (
     _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId)
 );
+
+export const getParent = (item, system) => Object.entries(item).reduce((parent, [key, value]) => parent || (
+    key.match(/parent/)
+    &&
+    value
+    &&
+    (system[`_${key[6].toLowerCase()}${key.slice(7).replace(/(Fake)?Id/, '')}s`] || [])
+        .find(({ [key.match(/Fake/i) ? 'fakeId' : 'id']: id }) => id === value)
+), null);
 
 export const getChildren = ({ __typename, fakeId, id } = {}, systemMap) => (
     systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]

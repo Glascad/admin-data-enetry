@@ -42,6 +42,7 @@ export default function SystemBuilder({
     const {
         currentState: systemInput,
         pushState,
+        replaceState,
     } = useRedoableState(systemUpdate);
 
     const system = merge(systemInput, queryStatus);
@@ -50,7 +51,11 @@ export default function SystemBuilder({
 
     const selectedItem = findItemByIdAndTypename(system, originalSelectedItem) || originalSelectedItem;
 
-    const dispatch = (ACTION, payload) => pushState(systemInput => ({
+    const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
+        replaceState
+        :
+        pushState
+    )(systemInput => ({
         ...systemInput,
         ...ACTION(
             systemInput,

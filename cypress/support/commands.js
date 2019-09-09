@@ -13,6 +13,10 @@ import { getJwt, setJwt, getProjectId, setProjectId, getElevationId } from "./lo
 //
 // -- This is a parent command --
 
+Cypress.Commands.add("getDataCy", (strings, interpolatedValues = []) => (
+    cy.get(`[data-cy="${strings.reduce((acc, str, i) => `${acc}${str}${interpolatedValues[i] || ''}`, '')}"]`)
+));
+
 export const getBaseRequest = () => ({
     ...console.log({
         projectId: getProjectId(),
