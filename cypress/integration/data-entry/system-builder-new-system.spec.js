@@ -18,9 +18,25 @@ describe('Testing sidbar actions in system builder', () => {
         // cy.get('[data-cy="edit-option-values"]').contains(/front/i);
         // cy.get('[data-cy="edit-option-values"]').contains(/multi/i);
 
+        // Clicks on an option.
+
+        // X Adds a value (probably part of options)
+
+        // clicks on the value and checks to make sure its selected and is a value
+
+        // clicks the name and changes it => makes sure it is updated
+
+        // clicks makes default => is default => default button disappears? (or changes test to default?)
+
+        // clicks add Detail => 
+            // Adds the detail and hides the add option
+
+        // Delete Value => deletes the value (default should change to another value if other value exists)
+
+            
         cy.get('[data-cy="SystemOptionValue-BACK"]');
         cy.get('[data-cy="SystemOptionValue-FRONT"]');
-        cy.get('[data-cy="SystemOptionValue-MULTI_PLANE"]');
+        cy.get('[data-cy="SystemOptionValue-MULTI-PLANE"]');
         cy.get('[data-cy="SystemOptionValue-CENTER"]').click();
         cy.get('[data-cy="toggle-child-option"]').click();
         cy.get('[data-cy="edit-option-name"]').find('input').type('Joinery{enter}', { force: true });
