@@ -54,7 +54,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`SystemOptionValue-MULTI_PLANE`.click();
         cy.get('.RightSidebar').should('be.visible').and('have.class', 'open');
         // can change value name
-        cy.getDataCy`edit-value-name`.find('input').type('Center{enter}');
+        cy.getDataCy`edit-value-name`.find('input').type('Center{enter}', { force: true });
         // -- (only after business logic is defined) -- can mark as mirrored and not mirrored
         // can select option or details as child/children
         cy.getDataCy`toggle-child-option`.click().should('have.class', 'selected');

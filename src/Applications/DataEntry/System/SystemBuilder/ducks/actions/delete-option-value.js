@@ -1,12 +1,8 @@
-export default function DELETE_OPTION_VALUE(
-    systemInput,
-    payload,
-) {
-    const {
-        id,
-        fakeId,
-        __typename,
-    } = payload;
+export default function DELETE_OPTION_VALUE(systemInput, {
+    id,
+    fakeId,
+    __typename,
+}) {
 
     const optionValuesKey = __typename.toLowerCase().replace(/OptionValue/i, 'OptionValues'); //systemOptionValues
     const optionsValueToDeleteKey = __typename.toLowerCase().replace(/OptionValue/i, 'OptionValueIdsToDelete'); //systemOptionValueIdsToDelete

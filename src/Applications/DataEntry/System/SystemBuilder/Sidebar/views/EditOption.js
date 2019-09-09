@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
-import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE } from '../../ducks/actions';
+import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
 import { getChildren } from '../../ducks/utils';
 
@@ -100,7 +100,10 @@ function EditOption({
             >
                 {optionValues.length ?
                     optionValues.map(({ name, id, fakeId }, i, { length }) => (
-                        <div className="input-group">
+                        <div
+                            key={name}
+                            className="input-group"
+                        >
                             <Input
                                 key={id || fakeId}
                                 select={{
@@ -123,7 +126,11 @@ function EditOption({
                                 className="danger"
                                 type="small"
                                 actionType="delete"
-                                onClick={() => { }}
+                                onClick={() => dispatch(DELETE_OPTION_VALUE, {
+                                    id,
+                                    fakeId,
+                                    __typename: `${__typename}Value`,
+                                })}
                             />
                         </div>
                     )) : (
