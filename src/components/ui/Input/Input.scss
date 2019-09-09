@@ -33,6 +33,19 @@
         }
     }
 
+    &.warning {
+        pointer-events: none;
+        > input,
+        .Select > div:first-of-type {
+            background: mix($warning-color, white, 25) !important;
+        }
+
+        > input,
+        .Select > div {
+            border-color: mix($warning-color, white, 75) !important;
+        }
+    }
+
     &.direction-row {
         flex-direction: row-reverse;
         align-items: center;

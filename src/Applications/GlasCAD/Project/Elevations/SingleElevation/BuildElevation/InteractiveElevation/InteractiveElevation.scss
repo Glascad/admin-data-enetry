@@ -76,7 +76,6 @@ $horizontal-bubble-translation: $small * 2.5;
 }
 
 #InteractiveElevation {
-
     .Container,
     .Container::before,
     .Container::after,
@@ -415,8 +414,8 @@ $horizontal-bubble-translation: $small * 2.5;
         // border-radius: 0;
 
         &.rough-opening {
-            border-color: rgba(255, 180, 0, 0.75);
-            background: rgba(255, 180, 0, 0.125);
+            border-color: transparentize($warning-color, 0.25);
+            background: transparentize($warning-color, 0.75);
             pointer-events: none;
         }
 

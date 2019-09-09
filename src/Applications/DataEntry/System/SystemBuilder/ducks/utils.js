@@ -19,7 +19,7 @@ export const generateSystemMap = ({
     ..._systemDetailTypes,
     ..._systemConfigurationTypes,
 ], item => {
-    const parentKey = Object.keys(item).find(key => key.match(/^parent/));
+    const [parentKey] = Object.entries(item).find(([key, value]) => key.match(/^parent/) && value) || [];
     const { [parentKey]: id } = item;
     return `${parentKey}:${id}`;
 });
