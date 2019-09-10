@@ -18,6 +18,9 @@
         position: absolute;
         top: -$text-size / 2;
         left: $large;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0;
         background: white;
         font-weight: bold;

@@ -49,7 +49,11 @@ export default function SystemBuilder({
 
     const systemMap = generateSystemMap(system);
 
-    const selectedItem = findItemByIdAndTypename(system, originalSelectedItem) || originalSelectedItem;
+    const selectedItem = findItemByIdAndTypename(system, originalSelectedItem);
+
+    useEffect(() => {
+        if (!selectedItem) selectItem();
+    }, [selectedItem]);
 
     const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
         replaceState

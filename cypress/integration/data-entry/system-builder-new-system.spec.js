@@ -64,7 +64,7 @@ describe('Testing sidbar actions in system builder', () => {
         // cannot toggle to detail when option exists
         cy.getDataCy`toggle-child-detail`.click().should('not.have.class', 'selected');
         // can change option
-        cy.getDataCy`edit-option-name`.find('input').type('Joinery{enter}');
+        cy.getDataCy`edit-option-name`.find('input').type('Joinery{enter}', { force: true });
 
         // can remove option
         cy.getDataCy`delete-option`.click();
@@ -84,7 +84,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`toggle-child-option`.click().should('have.class', 'selected');
         // can add option
         cy.getDataCy`add-option`.click().should('not.exist');
-        cy.getDataCy`edit-option-name`.type('Joinery{enter}');
+        cy.getDataCy`edit-option-name`.type('Joinery{enter}', { force: true });
 
         // Clicks on an option.
 

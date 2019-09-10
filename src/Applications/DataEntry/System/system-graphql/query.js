@@ -10,6 +10,7 @@ export default gql`
         ...AllManufacturers
         ...AllSystemTypes
         ...ValidOptions
+        ...DetailTypes
         # ...AllSystemTags
         # ...AllInfillSizes
         # ...AllInfillPocketTypes
@@ -19,6 +20,7 @@ export default gql`
     ${F.SYS.ENTIRE_SYSTEM}
     ${F.APP.ALL_MANUFACTURERS}
     ${F.APP.ALL_SYSTEM_TYPES}
+    ${F.CTRLD.DETAIL_TYPES}
     ${F.CTRLD.VALID_OPTIONS}
 `;
 

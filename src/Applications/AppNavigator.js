@@ -29,6 +29,7 @@ const mapProps = ({
 }) => ({
     allowedApplications:
     {
+        // Login,
         DataEntry,
         Glascad,
     }
