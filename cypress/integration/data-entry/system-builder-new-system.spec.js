@@ -79,12 +79,14 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`toggle-child-option`.click().should('not.have.class', 'selected');
         // can remove detail
         cy.getDataCy`delete-detail-type-HEAD`.click().should('not.exist');
-        cy.get('.Sidebar').find('.Select > div:first-child').contains(/head/i).should('not.exist');
+        cy.get('.RightSidebar').find('.Select > div:first-child').contains(/head/i).should('not.exist');
         // can toggle back to option when all details deleted
         cy.getDataCy`toggle-child-option`.click().should('have.class', 'selected');
         // can add option
         cy.getDataCy`add-option`.click().should('not.exist');
-        cy.getDataCy`edit-option-name`.type('Joinery{enter}', { force: true });
+        cy.focused().type('Joinery{enter}', { force: true });
+
+        // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
 
         // Clicks on an option.
 
