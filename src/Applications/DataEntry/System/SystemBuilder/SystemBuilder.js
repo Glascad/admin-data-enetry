@@ -76,6 +76,7 @@ export default function SystemBuilder({
     console.log({
         props: arguments[0],
         state: systemInput,
+        system,
     });
 
     return (
