@@ -29,11 +29,11 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Back{enter}');
         cy.getDataCy`SystemOptionValue-BACK`;
-        
+
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Front{enter}');
         cy.getDataCy`SystemOptionValue-FRONT`;
-        
+
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Mult-plane{enter}');
         cy.getDataCy`SystemOptionValue-MULTI_PLANE`;
@@ -49,9 +49,9 @@ describe('Testing sidbar actions in system builder', () => {
         // Clicking the "X" should remove the value
         cy.getDataCy`delete-option-value-CENTER`.click().should('not.exist');
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/center/i).should('not.exist');
-        
+
         // EDIT VALUE
-        
+
         cy.getDataCy`SystemOptionValue-MULTI_PLANE`.click();
         cy.get('.RightSidebar').should('be.visible').and('have.class', 'open');
         // can change value name
@@ -63,10 +63,10 @@ describe('Testing sidbar actions in system builder', () => {
         // add option button should disappear when clicked
         cy.getDataCy`add-option`.click().should('not.exist');
         // cannot toggle to detail when option exists
-        cy.getDataCy`toggle-child-detail`.click().should('not.have.class', 'selected');
+        cy.getDataCy`toggle-child-detail`.click({ force: true }).should('not.have.class', 'selected');
         // can change option
         cy.getDataCy`edit-option-name`.find('input').type('Joinery{enter}', { force: true });
-        
+
         // can remove option
         cy.getDataCy`delete-option`.click();
         // can switch to detail when option is deleted
@@ -77,7 +77,7 @@ describe('Testing sidbar actions in system builder', () => {
         // detail select should autofocus
         cy.focused().type('Head{enter}');
         // cannot toggle to option when detail exists
-        cy.getDataCy`toggle-child-option`.click().should('not.have.class', 'selected');
+        cy.getDataCy`toggle-child-option`.click({ force: true }).should('not.have.class', 'selected');
         // can remove detail
         cy.getDataCy`delete-detail-type-HEAD`.click().should('not.exist');
         cy.get('.RightSidebar').find('.Select > div:first-child').contains(/head/i).should('not.exist');
@@ -91,7 +91,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`toggle-child-detail`.click().should('have.class', 'selected');
         cy.getDataCy`add-detail`.click();
         cy.focused().type('Head{enter}');
-        
+
         // Can select detail
         cy.getDataCy`SystemDetailType-HEAD`.click();
         cy.getDataCy`edit-detail-type`.find('input').type('Horizontal{enter}', { force: true });
@@ -105,76 +105,83 @@ describe('Testing sidbar actions in system builder', () => {
         // Can add/delete option value
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Down{enter}');
-        cy.getDataCy`delete-option`.click();  
+        cy.getDataCy`delete-option-value-DOWN`.click();
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Down{enter}');
         cy.getDataCy`DetailOptionValue-DOWN`;
-        cy.getDataCy`add-option`.click().should('not.exist');
+        cy.getDataCy`add-option-value`.click().should('not.exist');
         cy.focused().type('Up{enter}');
-        cy.getDataCy`DetailOptionValue-UP`.click();
+        cy.getDataCy`DetailOptionValue-UP`;
         
+        cy.focused().blur();
+
         // All detail option values should exist after adding them
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/down/i);
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/up/i);
         
+        cy.getDataCy`DetailOptionValue-UP`.click();
         // Can toggle to configuration
         cy.getDataCy`toggle-child-configuration`.click().should('have.class', 'selected');
         // Can add/delete configurations
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
-        cy.getDataCy`delete-configuration`.click();
+        cy.getDataCy`delete-configuration-type-HEAD`.click();
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
         cy.getDataCy`SystemConfigurationType-HEAD`;
         // cannot toggle to option when option exists
-        cy.getDataCy`toggle-child-option`.click().should('not.have.class', 'selected');
-        
+        cy.getDataCy`toggle-child-option`.click({ force: true }).should('not.have.class', 'selected');
+
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Compensating{enter}');
         cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`;
-        
+
         // Need to tie configurations to STDTCT
         cy.getDataCy`add-configuration`.click()
-            // .should('not.exist');
+        // .should('not.exist');
         cy.focused().type('Shim{enter}');
         cy.getDataCy`SystemConfigurationType-SHIM_SUPPORT`;
-        
+
+        cy.focused().blur();
+
         // All configurations should exist after adding them
-        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/head/i);
-        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/comp/i);
-        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/shim/i);
-        
+        cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/head/i);
+        cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/comp/i);
+        cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/shim/i);
+
         // Can add configuration option
         cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`.click();
         cy.getDataCy`add-option`.click().should('not.exist');
-        cy.focused().type('Receptor{enter}');
-        cy.getDataCy`ConfigurationOption-RECEPTOR_TYPE`.click();
-        
+        cy.focused().type('Durability{enter}');
+        cy.getDataCy`ConfigurationOption-DURABILITY`.click();
+
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Standard Duty{enter}');
-        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`delete-option-value-STANDARD_DUTY`.click();
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Standard{enter}');
         cy.getDataCy`ConfigurationOptionValue-STANDARD_DUTY`;
-        
+
         cy.getDataCy`add-option-value`.click().should('not.exist');
         cy.focused().type('Heavy{enter}');
-        cy.getDataCy`ConfigurationOptionValue-HEAVY_DUTY`;
-        
+        cy.getDataCy`ConfigurationOptionValue-HIGH_PERFORMANCE`;
+
+        cy.focused().blur();
+
         // All configurations option values should exist after adding them
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/standard/i);
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/heavy/i);
-        
+        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/high/i);
+
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
-        
+
         // Test that select options have the correct values listed
-        
+
         // Clicks on an option.
-        
+
         // X Adds a value (probably part of options)
-        
+
         // clicks on the value and checks to make sure its selected and is a value
-        
+
         // clicks the name and changes it => makes sure it is updated
 
         // clicks makes default => is default => default button disappears? (or changes test to default?)

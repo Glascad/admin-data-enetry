@@ -61,7 +61,7 @@ gc_controlled.option_name AS ENUM (
     'JOINERY',
     'STOPS',
     'GLAZING',
-    'RECEPTOR_TYPE'
+    'DURABILITY'
 );
 
 CREATE TYPE
@@ -77,7 +77,7 @@ gc_controlled.option_value_name AS ENUM (
     'DOWN',
     'INSIDE',
     'OUTSIDE',
-    'STANDARD',
+    'STANDARD_DUTY',
     'HIGH-PERFORMANCE'
 );
 

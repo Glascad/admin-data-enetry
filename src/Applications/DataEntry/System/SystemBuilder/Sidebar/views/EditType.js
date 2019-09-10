@@ -40,6 +40,7 @@ function EditType({
             <Input
                 data-cy={`edit-${type.toLowerCase()}-type`}
                 className={childOption ? 'warning' : ''}
+                label={type}
                 select={{
                     value: {
                         value: detailType || configurationType,

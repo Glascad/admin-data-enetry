@@ -264,15 +264,15 @@
 
         .CircleButton {
             &.primary {
-                @include circle-button($selected-color, $dark-blue);
+                @include circle-button($selected-color, $dark-blue, true);
             }
 
             &.action {
-                @include circle-button($action-color, $dark-blue);
+                @include circle-button($action-color, $dark-blue, true);
             }
 
             &.danger {
-                @include circle-button($danger-color, $dark-blue);
+                @include circle-button($danger-color, $dark-blue, true);
             }
         }
     }

@@ -22,9 +22,6 @@ function EditOption({
     dispatch,
 }) {
     console.log(arguments[0]);
-    const [newValue, setNewValue] = useState();
-    const handleAddClick = () => setNewValue(systemOptionUpdate);
-    const handleBlur = () => dispatch(ADD_OPTION_VALUE)
     const optionValues = getChildren(option, systemMap);
 
     const validOptionValues = validOptions

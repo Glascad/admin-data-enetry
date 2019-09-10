@@ -147,8 +147,8 @@ testMerge({
         detailOptionIdsToDelete: [2], // Glazing
         detailOptionValueIdsToDelete: [1], // UP
         configurationOptions: [],
-        configurationOptionIdsToDelete: [1], // RECEPTOR_TYPE
-        configurationOptionValueIdsToDelete: [3], // STANDARD
+        configurationOptionIdsToDelete: [1], // DURABILITY
+        configurationOptionValueIdsToDelete: [3], // STANDARD_DUTY
         systemConfigurationTypeIdsToDelete: [3], // HEAD
     },
     _system: sample1,

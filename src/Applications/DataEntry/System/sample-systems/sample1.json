@@ -228,21 +228,21 @@
             "__typename": "ConfigurationOption",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
             "id": 1,
-            "name": "RECEPTOR_TYPE",
+            "name": "DURABILITY",
             "parentSystemConfigurationTypeId": 2
         },
         {
             "__typename": "ConfigurationOption",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDJd",
             "id": 2,
-            "name": "RECEPTOR_TYPE",
+            "name": "DURABILITY",
             "parentSystemConfigurationTypeId": 4
         },
         {
             "__typename": "ConfigurationOption",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDNd",
             "id": 3,
-            "name": "RECEPTOR_TYPE",
+            "name": "DURABILITY",
             "parentSystemConfigurationTypeId": 6
         }
     ],
@@ -251,7 +251,7 @@
             "__typename": "ConfigurationOptionValue",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDFd",
             "id": 1,
-            "name": "STANDARD",
+            "name": "STANDARD_DUTY",
             "parentConfigurationOptionId": 1
         },
         {
@@ -265,7 +265,7 @@
             "__typename": "ConfigurationOptionValue",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDNd",
             "id": 3,
-            "name": "STANDARD",
+            "name": "STANDARD_DUTY",
             "parentConfigurationOptionId": 2
         },
         {
@@ -279,7 +279,7 @@
             "__typename": "ConfigurationOptionValue",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDVd",
             "id": 5,
-            "name": "STANDARD",
+            "name": "STANDARD_DUTY",
             "parentConfigurationOptionId": 3
         },
         {

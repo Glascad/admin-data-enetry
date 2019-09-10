@@ -112,6 +112,7 @@ function EditOptionValue({
                 }}
             />
             <GroupingBox
+                data-cy="edit-children"
                 title={(
                     <Toggle
                         buttons={[
@@ -123,8 +124,8 @@ function EditOptionValue({
                                 onClick: () => !hasChildren && setOptionIsSelected(true),
                             },
                             {
-                                text: `${childTypeType}s`,
-                                "data-cy": `toggle-child-${childTypeType}`,
+                                text: `${childTypeType.slice(0, 6)}s`,
+                                "data-cy": `toggle-child-${childTypeType.toLowerCase()}`,
                                 selected: !optionIsSelected,
                                 className: (hasChildren && optionIsSelected) ? 'warning' : '',
                                 onClick: () => !hasChildren && setOptionIsSelected(false),
@@ -149,7 +150,7 @@ function EditOptionValue({
                         }
                     :
                     valueChildren.length < selectValidTypes.length ? {
-                        "data-cy": `add-${childTypeType}`,
+                        "data-cy": `add-${childTypeType.toLowerCase()}`,
                         actionType: "add",
                         className: "action",
                         onClick: () => dispatch(ADD_TYPE, {
@@ -228,7 +229,7 @@ function EditOptionValue({
                                             }}
                                         />
                                         <CircleButton
-                                            data-cy={`delete-${childTypeType}-type-${(detailType || configurationType)}`}
+                                            data-cy={`delete-${childTypeType.toLowerCase()}-type-${(detailType || configurationType)}`}
                                             type="small"
                                             className="danger"
                                             actionType="delete"

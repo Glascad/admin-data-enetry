@@ -31,10 +31,10 @@ export default function SystemBuilder({
     const cancelSelectionOnClick = () => selectItem();
 
     useEffect(() => {
-        window.addEventListener('keydown', cancelSelectionOnEscape);
+        window.addEventListener('keydown', cancelSelectionOnEscape, true);
         window.addEventListener('click', cancelSelectionOnClick);
         return () => {
-            window.removeEventListener('keydown', cancelSelectionOnEscape);
+            window.removeEventListener('keydown', cancelSelectionOnEscape, true);
             window.removeEventListener('click', cancelSelectionOnClick);
         }
     }, []);

@@ -69,7 +69,7 @@ testGetChildren({
             __typename: "ConfigurationOption",
             nodeId: "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
             id: 1,
-            name: "RECEPTOR_TYPE",
+            name: "DURABILITY",
             parentSystemConfigurationTypeId: 2,
         },
     ],

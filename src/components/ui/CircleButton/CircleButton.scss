@@ -1,33 +1,64 @@
 @import "../../../styles/variables";
 
-@mixin circle-button($bg-color, $block-color: false) {
-    .circle-button {
-        background: $bg-color;
-        border-color: $bg-color;
-    }
-
-    .block-one,
-    .block-two {
-        @if ($block-color) {
-            background: $block-color;
-        } @else {
-            background: $off-white;
-        }
-    }
-
-    &:hover {
+@mixin circle-button($bg-color, $block-color: false, $invert: false) {
+    @if (invert) {
         .circle-button {
-            background: none;
+            background: $block-color;
+            border-color: $bg-color;
         }
 
         .block-one,
         .block-two {
-            background: $bg-color;
+            @if ($bg-color) {
+                background: $bg-color;
+            } @else {
+                background: $off-white;
+            }
         }
-    }
 
-    .button-text {
-        color: $bg-color;
+        &:hover {
+            .circle-button {
+                background: $bg-color;
+            }
+
+            .block-one,
+            .block-two {
+                background: $block-color;
+            }
+        }
+
+        .button-text {
+            color: $block-color;
+        }
+    } @else {
+        .circle-button {
+            background: $bg-color;
+            border-color: $bg-color;
+        }
+
+        .block-one,
+        .block-two {
+            @if ($block-color) {
+                background: $block-color;
+            } @else {
+                background: $off-white;
+            }
+        }
+
+        &:hover {
+            .circle-button {
+                background: none;
+            }
+
+            .block-one,
+            .block-two {
+                background: $bg-color;
+            }
+        }
+
+        .button-text {
+            color: $bg-color;
+        }
     }
 }
 

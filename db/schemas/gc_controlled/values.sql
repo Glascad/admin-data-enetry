@@ -50,8 +50,8 @@ VALUES
 ('SET', 'BACK'),
 ('SET', 'CENTER'),
 ('SET', 'MULTI-PLANE'),
-('RECEPTOR_TYPE', 'STANDARD'),
-('RECEPTOR_TYPE', 'HIGH-PERFORMANCE');
+('DURABILITY', 'STANDARD_DUTY'),
+('DURABILITY', 'HIGH-PERFORMANCE');
 
 -- INSERT INTO ordered_presentation_levels
 -- (value, level)
