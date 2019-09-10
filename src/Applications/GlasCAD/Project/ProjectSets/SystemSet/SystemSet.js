@@ -28,12 +28,12 @@ export default function SystemSet({
     match: {
         path,
     },
-    queryStatus,
+    queryResult,
 }) {
 
     const { projectId, systemSetId } = parseSearch(search);
 
-    const [refetch, queryStatusTwo] = useQuery({
+    const [refetch, queryResultTwo] = useQuery({
         query,
         variables: {
             // projectId: +projectId || 0,
@@ -41,7 +41,7 @@ export default function SystemSet({
         },
     });
 
-    // console.log({ queryStatusTwo, refetch });
+    // console.log({ queryResultTwo, refetch });
 
     // const [updateEntireSystemSet] = useMutation(updateEntireSystemSetMutation);
 
@@ -52,10 +52,10 @@ export default function SystemSet({
         },
         systemSet,
         dispatch,
-    } = useSystemSetReducer(queryStatus);
+    } = useSystemSetReducer(queryResult);
 
     // const routeProps = {
-    //     queryStatus,
+    //     queryResult,
     //     filters,
     //     systemSetInput,
     //     systemSet,
@@ -99,9 +99,9 @@ export default function SystemSet({
             /> */}
             <TabNavigator
                 routeProps={{
-                    queryStatus: {
-                        ...queryStatus,
-                        ...queryStatusTwo,
+                    queryResult: {
+                        ...queryResult,
+                        ...queryResultTwo,
                     },
                     filters,
                     systemSetInput,

@@ -86,7 +86,7 @@ export default class ApolloWrapper extends PureComponent {
                             {/* THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN */}
                             {accumulatedProps => children({
                                 ...accumulatedProps,
-                                queryStatus: normalizeResponse(rawQueryStatus),
+                                queryResult: normalizeResponse(rawQueryStatus),
                                 rawQueryStatus,
                             })}
                         </ApolloWrapper>

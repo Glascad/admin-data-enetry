@@ -16,7 +16,7 @@ export default function SystemBuilder({
     location: {
         search,
     },
-    queryStatus,
+    queryResult,
     fetching,
 }) {
 
@@ -45,7 +45,7 @@ export default function SystemBuilder({
         replaceState,
     } = useRedoableState(systemUpdate);
 
-    const system = merge(systemInput, queryStatus);
+    const system = merge(systemInput, queryResult);
 
     const systemMap = generateSystemMap(system);
 
@@ -81,7 +81,7 @@ export default function SystemBuilder({
     return (
         <TransformProvider>
             <Header
-                queryStatus={queryStatus}
+                queryResult={queryResult}
                 systemInput={systemInput}
                 system={system}
                 systemMap={systemMap}
@@ -91,7 +91,7 @@ export default function SystemBuilder({
                 save={save}
             />
             <SystemTree
-                queryStatus={queryStatus}
+                queryResult={queryResult}
                 fetching={fetching}
                 system={system}
                 systemMap={systemMap}
@@ -100,7 +100,7 @@ export default function SystemBuilder({
                 selectedItem={selectedItem}
             />
             <Sidebar
-                queryStatus={queryStatus}
+                queryResult={queryResult}
                 system={system}
                 systemMap={systemMap}
                 dispatch={dispatch}

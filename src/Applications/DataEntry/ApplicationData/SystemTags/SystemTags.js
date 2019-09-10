@@ -12,7 +12,7 @@ export default function SystemTags() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allSystemTags = [],
                 },
                 mutations: {

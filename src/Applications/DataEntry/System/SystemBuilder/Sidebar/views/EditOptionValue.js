@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton } from '../../../../../../components';
 import { getParent, getChildren } from '../../ducks/utils';
 import { UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, ADD_OPTION, ADD_TYPE, UPDATE_OPTION, DELETE_OPTION, DELETE_TYPE, UPDATE_TYPE } from '../../ducks/actions';
@@ -14,9 +14,10 @@ function EditOptionValue({
     },
     system,
     systemMap,
-    queryStatus: {
+    queryResult: {
         validOptions = [],
         detailTypes = [],
+        configurationTypes = [],
     } = {},
     dispatch,
 }) {
@@ -50,10 +51,12 @@ function EditOptionValue({
         } = {},
     } = valueChildren;
 
-    const childTypeTypname = `System${__typename
-        .replace(/OptionValue/i, 'Type')
+    const childTypeTypename = `System${__typename
+        .replace(/OptionValue/i, '')
         .replace(/Detail/i, 'Configuration')
-        .replace(/System/i, 'Detail')}`;
+        .replace(/System/i, 'Detail')}Type`;
+
+    const childTypeType = __typename.match(/SystemOption/i) ? 'Detail' : 'Configuration';
 
     const [optionSelected, setOptionIsSelected] = useState(true);
 
@@ -63,8 +66,17 @@ function EditOptionValue({
         :
         optionSelected;
 
-    const selectDetailTypes = detailTypes
-        .filter(name => !valueChildren.some(dt => name.toLowerCase() === dt.name.toLowerCase()))
+    const selectValidTypes = childTypename.match(/detail/i) ?
+        detailTypes
+        :
+        configurationTypes;
+
+    console.log({ selectValidTypes, childTypename, childTypeType, valueChildren });
+
+    const selectTypes = selectValidTypes
+        .filter(name => !valueChildren.some(({ detailType = '', configurationType = '' }) => (
+            name.toLowerCase() === (detailType || configurationType).toLowerCase()
+        )))
         .map(name => ({
             value: name,
             label: name,
@@ -108,14 +120,14 @@ function EditOptionValue({
                                 "data-cy": "toggle-child-option",
                                 selected: optionIsSelected,
                                 className: (hasChildren && !optionIsSelected) ? 'warning' : '',
-                                onClick: () => setOptionIsSelected(true),
+                                onClick: () => !hasChildren && setOptionIsSelected(true),
                             },
                             {
-                                text: "Details",
-                                "data-cy": "toggle-child-detail",
+                                text: `${childTypeType}s`,
+                                "data-cy": `toggle-child-${childTypeType}`,
                                 selected: !optionIsSelected,
                                 className: (hasChildren && optionIsSelected) ? 'warning' : '',
-                                onClick: () => setOptionIsSelected(false),
+                                onClick: () => !hasChildren && setOptionIsSelected(false),
                             },
                         ]}
                     />
@@ -136,15 +148,15 @@ function EditOptionValue({
                             }),
                         }
                     :
-                    selectValidValues.length ? {
-                        "data-cy": "add-detail",
+                    valueChildren.length < selectValidTypes.length ? {
+                        "data-cy": `add-${childTypeType}`,
                         actionType: "add",
                         className: "action",
                         onClick: () => dispatch(ADD_TYPE, {
-                            __typename: childTypeTypname,
+                            __typename: childTypeTypename,
                             parentOptionValueId: ovId,
                             parentOptionValueFakeId: ovFId,
-                            name: "Select Detail Type",
+                            type: `Select ${childTypeType} Type`,
                         }),
                     }
                         :
@@ -188,35 +200,35 @@ function EditOptionValue({
                     ) : (
                             <div>
                                 No Option
-                                </div>
+                            </div>
                         )
                 ) : (
                         hasChildren ? (
                             <>
-                                {valueChildren.map(({ name, id, fakeId }, i, { length }) => (
+                                {valueChildren.map(({ detailType, configurationType, id, fakeId }, i, { length }) => (
                                     <div
                                         className="input-group"
-                                        key={name}
+                                        key={(detailType || configurationType)}
                                     >
                                         <Input
-                                            data-cy={`edit-detail-type-${name}`}
+                                            data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
                                             select={{
                                                 autoFocus: i === length - 1,
                                                 value: {
-                                                    label: name,
-                                                    value: name,
+                                                    label: (detailType || configurationType),
+                                                    value: (detailType || configurationType),
                                                 },
-                                                options: selectDetailTypes,
+                                                options: selectTypes,
                                                 onChange: ({ value }) => dispatch(UPDATE_TYPE, {
-                                                    __typename: childTypeTypname,
+                                                    __typename: childTypeTypename,
                                                     id,
                                                     fakeId,
-                                                    name: value,
+                                                    type: value,
                                                 }),
                                             }}
                                         />
                                         <CircleButton
-                                            data-cy={`delete-detail-type-${name}`}
+                                            data-cy={`delete-${childTypeType}-type-${(detailType || configurationType)}`}
                                             type="small"
                                             className="danger"
                                             actionType="delete"
@@ -231,8 +243,8 @@ function EditOptionValue({
                             </>
                         ) : (
                                 <div>
-                                    No Details
-                                    </div>
+                                    No {childTypeType}
+                                </div>
                             )
                     )}
             </GroupingBox>

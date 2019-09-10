@@ -36,7 +36,7 @@ export default function EditElevation({
             previousSearch = arguments[0].location.search,
         } = {},
     },
-    queryStatus: {
+    queryResult: {
         _elevation,
         _elevation: {
             finishedFloorHeight: initialFFH,

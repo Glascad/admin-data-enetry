@@ -13,7 +13,7 @@ export default function Manufacturers() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allManufacturers = [],
                 },
                 mutations: {

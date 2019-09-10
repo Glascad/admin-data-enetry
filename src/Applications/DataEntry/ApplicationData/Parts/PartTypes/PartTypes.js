@@ -12,7 +12,7 @@ export default function PartTypes() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allPartTypes = [],
                 },
                 mutations: {

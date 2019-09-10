@@ -14,7 +14,7 @@ export default function DetailTypes() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allDetailTypes = [],
                 },
                 mutations: {

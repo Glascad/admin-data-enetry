@@ -16,7 +16,7 @@ function EditOption({
         parentSystemOptionValueFakeId,
     } = {},
     systemMap,
-    queryStatus: {
+    queryResult: {
         validOptions = [],
     } = {},
     dispatch,

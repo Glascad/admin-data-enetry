@@ -15,7 +15,7 @@ export default function LineWeights() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allLineWeights = [],
                 },
                 mutations: {

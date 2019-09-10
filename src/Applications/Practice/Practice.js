@@ -138,9 +138,9 @@ const trunk = {
 // console.log(trunk);
 
 function Practice() {
-    const [fetch, queryStatus] = useQuery({ query });
-    // console.log(queryStatus);
-    // setTimeout(() => console.log(queryStatus));
+    const [fetch, queryResult] = useQuery({ query });
+    // console.log(queryResult);
+    // setTimeout(() => console.log(queryResult));
     const {
         _system,
         _system: {
@@ -148,7 +148,7 @@ function Practice() {
             _detailOptions = [],
             _configurationOptions = [],
         } = {},
-    } = queryStatus;
+    } = queryResult;
     const firstItem = _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId) || {};
     const treeTrunk = {
         item: firstItem,

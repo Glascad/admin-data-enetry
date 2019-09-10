@@ -51,7 +51,7 @@ System.navigationOptions = ({
             }}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     _system: {
                         name = '',
                     } = {},
@@ -80,7 +80,7 @@ export default function System({
 
     const { systemId } = parseSearch(search);
 
-    const [fetchQuery, queryStatus, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
@@ -88,7 +88,7 @@ export default function System({
         <Navigator
             routes={subroutes}
             routeProps={{
-                queryStatus,
+                queryResult,
                 fetching,
                 updateEntireSystem,
                 updating,

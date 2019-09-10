@@ -22,7 +22,7 @@ export const DETAIL_TYPES = gql`
 
 export const CONFIGURATION_TYPES = gql`
     fragment ConfigurationTypes on Query {
-        configurationTypes: __type(name: "ConfigurationType") {
+        configurationTypes: __type(name: "_ConfigurationType") {
             enumValues {
                 name
             }

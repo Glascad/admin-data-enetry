@@ -9,7 +9,7 @@ SystemSetOptions.navigationOptions = {
 
 export default function SystemSetOptions({
     // change to get `systemSet` directly from props
-    queryStatus: {
+    queryResult: {
         _systemSet: {
             // selectedOptionValues = [],
             _systemSetOptionValues = [],

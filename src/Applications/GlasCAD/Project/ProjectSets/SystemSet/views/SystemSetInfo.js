@@ -12,7 +12,7 @@ SystemSetInfo.navigationOptions = {
 };
 
 export default function SystemSetInfo({
-    queryStatus: {
+    queryResult: {
         systemSet: {
             id,
             infillSize: systemSetInfillSize,

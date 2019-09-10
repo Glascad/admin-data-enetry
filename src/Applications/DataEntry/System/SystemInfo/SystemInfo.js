@@ -16,7 +16,7 @@ function SystemInfo({
     },
     history,
     fetching,
-    queryStatus: {
+    queryResult: {
         _system: {
             id,
             name: systemName = "",
