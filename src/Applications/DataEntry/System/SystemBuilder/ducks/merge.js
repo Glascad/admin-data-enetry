@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { value } from "pg-sql2";
+import { removeNullValues } from '../../../../../utils';
 
 export default function merge({
     // name: newName,
@@ -8,6 +8,11 @@ export default function merge({
     systemOptions = [],
     detailOptions = [],
     configurationOptions = [],
+    systemOptionValues = [],
+    detailOptionValues = [],
+    configurationOptionValues = [],
+    systemDetailTypes = [],
+    systemConfigurationTypes = [],
     systemOptionIdsToDelete = [],
     detailOptionIdsToDelete = [],
     configurationOptionIdsToDelete = [],
@@ -25,13 +30,24 @@ export default function merge({
         _systemOptions = [],
         _detailOptions = [],
         _configurationOptions = [],
+        _systemOptionValues = [],
+        _detailOptionValues = [],
+        _configurationOptionValues = [],
+        _systemDetailTypes = [],
+        _systemConfigurationTypes = [],
     } = {},
 }) {
 
-    const [systemOptionsToUpdate, systemOptionsToAdd] = _.partition(systemOptions, ({ id }) => id);
-    const [detailOptionsToUpdate, detailOptionsToAdd] = _.partition(detailOptions, ({ id }) => id);
-    const [configurationOptionsToUpdate, configurationOptionsToAdd] = _.partition(configurationOptions, ({ id }) => id);
+    const separateUpdateFromAdd = arr => _.partition(arr, ({ id }) => id);
 
+    const [systemOptionsToUpdate, systemOptionsToAdd] = separateUpdateFromAdd(systemOptions);
+    const [systemOptionValuesToUpdate, systemOptionValuesToAdd] = separateUpdateFromAdd(systemOptionValues);
+    const [systemDetailTypesToUpdate, systemDetailTypesToAdd] = separateUpdateFromAdd(systemDetailTypes);
+    const [detailOptionsToUpdate, detailOptionsToAdd] = separateUpdateFromAdd(detailOptions);
+    const [detailOptionValuesToUpdate, detailOptionValuesToAdd] = separateUpdateFromAdd(detailOptionValues);
+    const [systemConfigurationTypesToUpdate, systemConfigurationTypesToAdd] = separateUpdateFromAdd(systemConfigurationTypes);
+    const [configurationOptionsToUpdate, configurationOptionsToAdd] = separateUpdateFromAdd(configurationOptions);
+    const [configurationOptionValuesToUpdate, configurationOptionValuesToAdd] = separateUpdateFromAdd(configurationOptionValues);
 
     return {
         // name: newName || name,
@@ -42,92 +58,79 @@ export default function merge({
             .filter(({ id }) => !systemOptionIdsToDelete.includes(id))
             .map(option => {
 
-                const [systemOptionValuesToUpdate, systemOptionValuesToAdd] = _.partition(option._systemOptionValues, ({ id }) => id);
-
                 const optionUpdate = systemOptionsToUpdate.find(({ id }) => id === option.id);
                 return {
                     ...option,
-                    ...optionUpdate,
-                    _systemOptionValues: option._systemOptionValues
-                        .filter(({ id }) => !systemOptionValueIdsToDelete.includes(id))
-                        .map(value => {
-
-                            const [systemDetailTypesToUpdate, systemDetailTypesToAdd] = _.partition(value, ({ id }) => id);
-
-                            const valueUpdate = systemOptionValuesToUpdate.find(({ id }) => id === value.id);
-                            return {
-                                ...value,
-                                ...valueUpdate,
-                                _systemDetailTypes: value._systemDetailTypes
-                                    .filter(({ id }) => !systemDetailTypeIdsToDelete.includes(id))
-                                    .map(type => {
-                                        const typeUpdate = systemDetailTypesToUpdate.find(({ id }) => id === type.id);
-                                        return {
-                                            ...type,
-                                            ...typeUpdate,
-                                        }
-                                    }).concat(systemDetailTypesToAdd)
-                            }
-                        }).concat(systemOptionValuesToAdd)
+                    ...removeNullValues(optionUpdate),
                 }
             }).concat(systemOptionsToAdd),
+        _systemOptionValues: _systemOptionValues
+            .filter(({ id }) => !systemOptionValueIdsToDelete.includes(id))
+            .map(value => {
 
+                const valueUpdate = systemOptionValuesToUpdate.find(({ id }) => id === value.id);
+                return {
+                    ...value,
+                    ...removeNullValues(valueUpdate),
+                }
+            }).concat(systemOptionValuesToAdd),
+        _systemDetailTypes: _systemDetailTypes
+            .filter(({ id }) => !systemDetailTypeIdsToDelete.includes(id))
+            .map(type => {
+                const typeUpdate = systemDetailTypesToUpdate.find(({ id }) => id === type.id);
+                return {
+                    ...type,
+                    ...removeNullValues(typeUpdate),
+                }
+            }).concat(systemDetailTypesToAdd),
         _detailOptions: _detailOptions
             .filter(({ id }) => !detailOptionIdsToDelete.includes(id))
             .map(option => {
 
-                const [detailOptionValuesToUpdate, detailOptionValuesToAdd] = _.partition(option._detailOptionValues, ({ id }) => id);
-
                 const optionUpdate = detailOptionsToUpdate.find(({ id }) => id === option.id);
                 return {
                     ...option,
-                    ...optionUpdate,
-                    _detailOptionValues: option._detailOptionValues
-                        .filter(({ id }) => !detailOptionValueIdsToDelete.includes(id))
-                        .map(value => {
-
-                            const [systemConfigurationTypesToUpdate, systemConfigurationTypesToAdd] = _.partition(value, ({ id }) => id);
-
-                            const valueUpdate = detailOptionValuesToUpdate.find(({ id }) => id === value.id);
-                            return {
-                                ...value,
-                                ...valueUpdate,
-                                _systemConfigurationTypes: value._systemConfigurationTypes
-                                    .filter(({ id }) => !systemConfigurationTypeIdsToDelete.includes(id))
-                                    .map(type => {
-                                        const typeUpdate = systemConfigurationTypesToUpdate.find(({ id }) => id === type.id);
-                                        return {
-                                            ...type,
-                                            ...typeUpdate,
-                                        }
-                                    }).concat(systemConfigurationTypesToAdd)
-                            }
-                        }).concat(detailOptionValuesToAdd)
+                    ...removeNullValues(optionUpdate),
                 }
             }).concat(detailOptionsToAdd),
+        _detailOptionValues: _detailOptionValues
+            .filter(({ id }) => !detailOptionValueIdsToDelete.includes(id))
+            .map(value => {
 
+                const valueUpdate = detailOptionValuesToUpdate.find(({ id }) => id === value.id);
+                return {
+                    ...value,
+                    ...removeNullValues(valueUpdate),
+                }
+            }).concat(detailOptionValuesToAdd),
+        _systemConfigurationTypes: _systemConfigurationTypes
+            .filter(({ id }) => !systemConfigurationTypeIdsToDelete.includes(id))
+            .map(type => {
+                const typeUpdate = systemConfigurationTypesToUpdate.find(({ id }) => id === type.id);
+                return {
+                    ...type,
+                    ...removeNullValues(typeUpdate),
+                }
+            }).concat(systemConfigurationTypesToAdd),
         _configurationOptions: _configurationOptions
             .filter(({ id }) => !configurationOptionIdsToDelete.includes(id))
             .map(option => {
 
-                const [configurationOptionValuesToUpdate, configurationOptionValuesToAdd] = _.partition(option._configurationOptionValues, ({ id }) => id);
-
                 const optionUpdate = configurationOptionsToUpdate.find(({ id }) => id === option.id);
                 return {
                     ...option,
-                    ...optionUpdate,
-                    _configurationOptionValues: option._configurationOptionValues
-                        .filter(({ id }) => !configurationOptionValueIdsToDelete.includes(id))
-                        .map(value => {
-
-                            const valueUpdate = configurationOptionValuesToUpdate.find(({ id }) => id === value.id);
-                            return {
-                                ...value,
-                                ...valueUpdate,
-                            }
-                        }).concat(configurationOptionValuesToAdd)
+                    ...removeNullValues(optionUpdate),
                 }
             }).concat(configurationOptionsToAdd),
+        _configurationOptionValues: _configurationOptionValues
+            .filter(({ id }) => !configurationOptionValueIdsToDelete.includes(id))
+            .map(value => {
 
-    }
+                const valueUpdate = configurationOptionValuesToUpdate.find(({ id }) => id === value.id);
+                return {
+                    ...value,
+                    ...removeNullValues(valueUpdate),
+                }
+            }).concat(configurationOptionValuesToAdd),
+    };
 }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Statics from '../Statics/Statics';
 import { TitleBar, Pill, ListWrapper, Tree, useQuery } from '../../components';
-import { logInputOutput } from '../../utils';
 import gql from 'graphql-tag';
 import F from '../../schemas';
 

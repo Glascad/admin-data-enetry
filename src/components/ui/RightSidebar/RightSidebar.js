@@ -9,7 +9,7 @@ RightSidebar.propTypes = {
     stackedView: PropTypes.shape({
         title: PropTypes.string.isRequired,
         component: customPropTypes.renderable.isRequired,
-    }).isRequired,
+    }),
     View: PropTypes.shape({
         title: PropTypes.string.isRequired,
         component: customPropTypes.renderable.isRequired,
@@ -49,6 +49,7 @@ export default function RightSidebar({
         className={`RightSidebar ${open ? "open" : "closed"}`}
         onKeyDown={e => e.stopPropagation()}
         onMouseDown={e => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         onWheel={e => e.stopPropagation()}
         >
             <button

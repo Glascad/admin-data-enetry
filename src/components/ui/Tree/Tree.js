@@ -10,14 +10,14 @@ Branch.propTypes = {
     branches: PropTypes.array,
     depth: PropTypes.number.isRequired,
     open: PropTypes.bool.isRequired,
-    toggleOpen: PropTypes.func.isRequired,
+    // toggleOpen: PropTypes.func.isRequired,
     renderItem: PropTypes.func.isRequired,
 };
 
 function Branch({
     item,
     branches = [],
-    depth = 0,
+    depth,
     open: propsOpen = true,
     // toggleOpen,
     renderItem,
@@ -62,6 +62,7 @@ export default function Tree({ trunk, renderItem }) {
         <div className="Tree">
             <Branch
                 {...trunk}
+                depth={0}
                 renderItem={renderItem}
             />
         </div>

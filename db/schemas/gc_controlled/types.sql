@@ -9,7 +9,7 @@ gc_controlled.gc_role AS ENUM (
 CREATE TYPE
 gc_controlled.system_type AS ENUM (
     'STOREFRONT',
-    'ALl_GLASS',
+    'ALL_GLASS',
     'CURTAINWALL'
 );
 
@@ -69,7 +69,7 @@ gc_controlled.option_value_name AS ENUM (
     'FRONT',
     'CENTER',
     'BACK',
-    'MULTI_PLANE',
+    'MULTI-PLANE',
     'SCREW_SPLINE',
     'SHEAR_BLOCK',
     'STICK',
@@ -78,7 +78,7 @@ gc_controlled.option_value_name AS ENUM (
     'INSIDE',
     'OUTSIDE',
     'STANDARD',
-    'HIGH_PERFORMANCE'
+    'HIGH-PERFORMANCE'
 );
 
 -- CREATE TYPE

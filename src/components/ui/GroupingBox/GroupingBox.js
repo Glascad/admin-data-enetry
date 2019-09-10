@@ -24,10 +24,12 @@ export default function GroupingBox({
     circleButton,
     children,
     className,
+    "data-cy": dataCy,
 }) {
     return (
         <div
             className={`GroupingBox ${className}`}
+            data-cy={dataCy}
         >
             <div className="title">
                 {normalCase(title)}

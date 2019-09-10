@@ -13,7 +13,7 @@ import {
     Input,
     GroupingBox,
     CircleButton,
-    useUndoRedo,
+    useRedoableState,
     useQuery,
     AsyncButton,
     useMutation,
@@ -30,8 +30,6 @@ import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import generateElevation from './generate-elevation';
 
 import { parseSearch, ImperialValue } from '../../../../../../utils';
-
-import './CreateElevation.scss';
 
 import {
     measureFromOptions,
@@ -131,7 +129,7 @@ export default memo(function CreateElevation({
             },
         },
         pushState,
-    } = useUndoRedo(initalState, [defaultElevation]);;
+    } = useRedoableState(initalState, [defaultElevation]);;
 
     const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {

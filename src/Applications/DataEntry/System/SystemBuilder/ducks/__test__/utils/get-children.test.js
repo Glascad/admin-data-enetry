@@ -1,4 +1,4 @@
-import { getChildren } from "../../utils";
+import { getChildren, generateSystemMap } from "../../utils";
 import { sample1 } from "../../../../sample-systems";
 
 function testGetChildren({
@@ -9,7 +9,7 @@ function testGetChildren({
 
     describe(`Testing ${system.name} to get correct first optionValue`, () => {
 
-        const childrenResult = getChildren(item, system);
+        const childrenResult = getChildren(item, generateSystemMap(system));
 
         test(`result has correct length`, () => {
             expect(childrenResult.length).toBe(children.length);
@@ -70,7 +70,7 @@ testGetChildren({
             nodeId: "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
             id: 1,
             name: "RECEPTOR_TYPE",
-            systemConfigurationTypeId: 2,
+            parentSystemConfigurationTypeId: 2,
         },
     ],
 });

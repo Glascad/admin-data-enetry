@@ -73,7 +73,7 @@ const InteractiveElevation = ({
     } = parseSearch(search);
 
     return match()
-        .condition(updating, () => (
+        .case(updating, () => (
             <div
                 id="elevation-loading"
             >
@@ -82,7 +82,7 @@ const InteractiveElevation = ({
                 />
             </div>
         ))
-        .condition(id && (
+        .case(id && (
             (
                 id === +elevationId
             ) || (

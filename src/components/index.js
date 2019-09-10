@@ -33,7 +33,7 @@ import withContext from './higher-order/with-context';
 import transformProps from './higher-order/transform-props';
 
 // HOOKS
-import useUndoRedo, { withUndoRedo } from './hooks/use-undo-redo';
+import useRedoableState, { withRedoableState } from './hooks/use-redoable-state';
 import useMountTracker from './hooks/use-mount-tracker';
 import useInitialState from './hooks/use-initial-state';
 import useSelection from './hooks/use-selection';
@@ -82,11 +82,11 @@ export {
     asyncComponent,
     withContext,
     transformProps,
-    withUndoRedo,
+    withRedoableState,
     // HOOKS
     useQuery,
     useMutation,
-    useUndoRedo,
+    useRedoableState,
     useMountTracker,
     useInitialState,
     useSelection,

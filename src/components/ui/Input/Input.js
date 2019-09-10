@@ -74,7 +74,7 @@ export default class Input extends PureComponent {
         disabled: PropTypes.bool,
         onChange: PropTypes.func,
         handleChange: PropTypes.func,
-        Icon: PropTypes.func,
+        Icon: PropTypes.object,
         onBlur: PropTypes.func,
         onEnter: PropTypes.func,
         onKeyDown: PropTypes.func,
@@ -382,7 +382,7 @@ export default class Input extends PureComponent {
                 onClick={onClick}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
-                {...(isBoolean ? { "data-cy": dataCy } : null)}
+                {...(isBoolean || select ? { "data-cy": dataCy } : null)}
             >
                 {!isBoolean ? (
                     LABEL
@@ -400,7 +400,6 @@ export default class Input extends PureComponent {
                             ...o,
                             label: normalCase(o.label),
                         }))}
-                        data-cy={dataCy}
                     />
                 ) : (
                         <inputTag.name

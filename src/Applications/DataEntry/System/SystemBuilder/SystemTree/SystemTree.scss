@@ -1,6 +1,8 @@
 @import "../../../../../styles/variables";
 
 #SystemTree {
+    display: flex;
+    align-items: flex-start;
 
     .Tree {
         .Branch {
@@ -9,14 +11,34 @@
                 justify-content: center;
                 align-items: center;
                 white-space: nowrap;
-                background: $light-gray;
                 border-radius: $xx-small;
                 height: $item-height;
                 margin: 0 $x-small $small;
                 padding: 0 $small;
+                cursor: default;
+
+                &.type-option {
+                    background: $dark-gray;
+                    color: $off-white;
+                }
+
+                &.type-value {
+                    background: none;
+                    border: 1px solid $dark-gray;
+                }
+
+                &.type-type {
+                    background: $light-gray;
+                }
+
+                &.subtype-systemdetailtype {
+                    background: $light-blue;
+                    color: $dark-gray;
+                }
 
                 &.selected {
                     background: $selected-color;
+                    border: none;
                     color: $off-white;
                 }
 

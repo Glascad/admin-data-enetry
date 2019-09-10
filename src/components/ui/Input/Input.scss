@@ -12,6 +12,7 @@
             box-shadow: 0 0 1px 1px $selected-color;
         }
         .Select {
+            color: $dark-gray;
             box-shadow: 0 0 1px 1px $selected-color;
 
             input {
@@ -29,6 +30,19 @@
     &.light {
         .label {
             color: $light-gray;
+        }
+    }
+
+    &.warning {
+        pointer-events: none;
+        > input,
+        .Select > div:first-of-type {
+            background: mix($warning-color, white, 25) !important;
+        }
+
+        > input,
+        .Select > div {
+            border-color: mix($warning-color, white, 75) !important;
         }
     }
 

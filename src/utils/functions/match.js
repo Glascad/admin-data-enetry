@@ -5,7 +5,7 @@ export const final = result => ({
 
 const matched = result => ({
     on: () => matched(result),
-    condition: () => matched(result),
+    case: () => matched(result),
     against: () => matched(result),
     equals: () => matched(result),
     regex: () => matched(result),
@@ -14,19 +14,29 @@ const matched = result => ({
 });
 
 const match = input => ({
-    on: (pred, fn) => pred(input) ? matched(fn(input)) : match(input),
-    condition: (condition, fn) => condition ? matched(fn(input)) : match(input),
+    on: (pred, cb) => pred(input) ? matched(cb(input)) : match(input),
+    case: (condition, cb) => condition ? matched(cb(input)) : match(input),
     against: obj => Object.entries(obj)
         .reduce((acc, [key, cb]) => (
             acc.equals(key, cb)
         ), match(`${input}`)),
-    equals: (val, fn) => (input === val ? matched(fn(input)) : match(input)),
+    equals: (val, cb) => (input === val ? matched(cb(input)) : match(input)),
     regex: typeof input === 'string' ?
-        (regex, fn) => input.match(regex) ? matched(fn(input)) : match(input)
+        (regex, cb) => input.match(regex) ? matched(cb(input)) : match(input)
         :
         () => { throw new Error(`Cannot use \`regex()\` on non-string match. Received value: ${input}`) },
-    otherwise: fn => fn(input),
+    otherwise: cb => cb(input),
     finally: () => { throw new Error(`Must use \`otherwise()\` before using finally`) },
+});
+
+const matchedWhen = result => ({
+    when: () => matchedWhen(result),
+    otherwise: () => result,
+});
+
+export const when = (cond, result) => cond ? matchedWhen(result) : ({
+    when: (cond, result) => cond ? matchedWhen(result) : when(),
+    otherwise: result => result,
 });
 
 export default match;

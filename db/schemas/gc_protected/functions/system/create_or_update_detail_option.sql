@@ -16,8 +16,8 @@ DECLARE
     pdovid INTEGER;
     -- system detail type
     sdt_id_pairs ID_PAIR[];
-    fake_sdtid INTEGER;
-    sdtid INTEGER;
+    fake_psdtid INTEGER;
+    psdtid INTEGER;
 BEGIN
 
     -- PARENT VALUE
@@ -42,18 +42,18 @@ BEGIN
 
     -- get real parent system option value id
     sdt_id_pairs := id_map.system_detail_type_id_pairs;
-    fake_sdtid := _do.system_detail_type_fake_id;
+    fake_psdtid := _do.parent_system_detail_type_fake_id;
 
     -- expect fake parent id to be in provided id map
     -- if fake id, get real id
-    IF fake_sdtid IS NOT NULL THEN
-        sdtid := get_real_id(sdt_id_pairs, fake_sdtid);
+    IF fake_psdtid IS NOT NULL THEN
+        psdtid := get_real_id(sdt_id_pairs, fake_psdtid);
 
-        IF sdtid IS NULL THEN
-            RAISE EXCEPTION 'Fake detail type id: % not found in previous items. Please place fake ids earlier in the array than their references.', fake_sdtid;
+        IF psdtid IS NULL THEN
+            RAISE EXCEPTION 'Fake detail type id: % not found in previous items. Please place fake ids earlier in the array than their references.', fake_psdtid;
         END IF;
     ELSE
-        sdtid := detail_option.system_detail_type_id;
+        psdtid := detail_option.parent_system_detail_type_id;
     END IF;
 
     -- CREATE OR UPDATE
@@ -64,9 +64,9 @@ BEGIN
             name = CASE WHEN _do.name IS NOT NULL
                 THEN _do.name
                 ELSE detail_options.name END,
-            system_detail_type_id = CASE WHEN sdtid IS NOT NULL
-                THEN sdtid
-                ELSE detail_options.system_detail_type_id END,
+            parent_system_detail_type_id = CASE WHEN psdtid IS NOT NULL
+                THEN psdtid
+                ELSE detail_options.parent_system_detail_type_id END,
             parent_detail_option_value_id = CASE WHEN pdovid IS NOT NULL
                 THEN pdovid
                 ELSE detail_options.parent_detail_option_value_id END
@@ -79,12 +79,12 @@ BEGIN
             system_id,
             name,
             parent_detail_option_value_id,
-            system_detail_type_id
+            parent_system_detail_type_id
         ) VALUES (
             s.id,
             _do.name,
             pdovid,
-            sdtid
+            psdtid
         )
         RETURNING * INTO udo;
 

@@ -1,24 +1,33 @@
 @import "../../../styles/variables";
 
-@mixin circle-button($color) {
+@mixin circle-button($bg-color, $block-color: false) {
     .circle-button {
-        background: $color;
-        border-color: $color;
+        background: $bg-color;
+        border-color: $bg-color;
+    }
+
+    .block-one,
+    .block-two {
+        @if ($block-color) {
+            background: $block-color;
+        } @else {
+            background: $off-white;
+        }
     }
 
     &:hover {
-        .circle-button{
+        .circle-button {
             background: none;
         }
 
         .block-one,
         .block-two {
-            background: $color;
+            background: $bg-color;
         }
     }
 
     .button-text {
-        color: $color;
+        color: $bg-color;
     }
 }
 
@@ -44,11 +53,11 @@
         .block-one,
         .block-two {
             position: absolute;
-            background: $off-white;
+            // background: $off-white;
         }
 
         &:hover {
-            background: $off-white;
+            // background: $off-white;
         }
     }
 
