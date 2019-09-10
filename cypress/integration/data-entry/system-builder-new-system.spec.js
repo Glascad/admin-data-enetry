@@ -65,7 +65,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`toggle-child-detail`.click().should('not.have.class', 'selected');
         // can change option
         cy.getDataCy`edit-option-name`.find('input').type('Joinery{enter}', { force: true });
-
+        
         // can remove option
         cy.getDataCy`delete-option`.click();
         // can switch to detail when option is deleted
@@ -85,13 +85,26 @@ describe('Testing sidbar actions in system builder', () => {
         // can add option
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Joinery{enter}', { force: true });
-
+        // delete option
+        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`toggle-child-detail`.click().should('have.class', 'selected');
+        cy.getDataCy`add-detail`.click();
+        cy.focused().type('Head{enter}');
+        // Can select detail
+        cy.getDataCy`SystemDetailType-HEAD`.click();
+        cy.getDataCy`edit-detail-type`.find('input').type('Horizontal{enter}', { force: true });
+        cy.getDataCy`add-option`.click().should('not.exist');
+        cy.focused().type('Stops{enter}');
+        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`add-option`.click().should('not.exist');
+        cy.focused().type('Stops{enter}');
+        
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
 
         // Test that select options have the correct values listed
 
         // Clicks on an option.
-
+        
         // X Adds a value (probably part of options)
 
         // clicks on the value and checks to make sure its selected and is a value
