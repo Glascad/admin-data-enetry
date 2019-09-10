@@ -63,6 +63,15 @@ function EditOptionValue({
         :
         optionSelected;
 
+    const selectDetailTypes = detailTypes
+        .filter(name => !valueChildren.some(dt => name.toLowerCase() === dt.name.toLowerCase()))
+        .map(name => ({
+            value: name,
+            label: name,
+        }));
+
+    console.log({ validValues, selectValidValues });
+
     return (
         <>
             <TitleBar
@@ -141,95 +150,91 @@ function EditOptionValue({
                         :
                         undefined}
             >
-                {
-                    optionIsSelected ? (
-                        hasChildren ? (
-                            <div className="input-group">
-                                <Input
-                                    data-cy="edit-option-name"
-                                    select={{
-                                        autoFocus: true,
-                                        value: {
-                                            label: childOptionName,
-                                            value: childOptionName,
-                                        },
-                                        options: validOptions.map(({ name }) => ({
-                                            value: name,
-                                            label: name,
-                                        })),
-                                        onChange: ({ value }) => dispatch(UPDATE_OPTION, {
-                                            __typename: __typename.replace(/value/i, ''),
-                                            id: childOptionId,
-                                            fakeId: childOptionFakeId,
-                                            name: value,
-                                        }),
-                                    }}
-                                />
-                                <CircleButton
-                                    data-cy="delete-option"
-                                    type="small"
-                                    className="danger"
-                                    actionType="delete"
-                                    onClick={() => dispatch(DELETE_OPTION, {
+                {optionIsSelected ? (
+                    hasChildren ? (
+                        <div className="input-group">
+                            <Input
+                                data-cy="edit-option-name"
+                                select={{
+                                    autoFocus: true,
+                                    value: {
+                                        label: childOptionName,
+                                        value: childOptionName,
+                                    },
+                                    options: validOptions.map(({ name }) => ({
+                                        value: name,
+                                        label: name,
+                                    })),
+                                    onChange: ({ value }) => dispatch(UPDATE_OPTION, {
                                         __typename: __typename.replace(/value/i, ''),
                                         id: childOptionId,
                                         fakeId: childOptionFakeId,
-                                    })}
-                                />
-                            </div>
-                        ) : (
-                                <div>
-                                    No Option
-                                </div>
-                            )
+                                        name: value,
+                                    }),
+                                }}
+                            />
+                            <CircleButton
+                                data-cy="delete-option"
+                                type="small"
+                                className="danger"
+                                actionType="delete"
+                                onClick={() => dispatch(DELETE_OPTION, {
+                                    __typename: __typename.replace(/value/i, ''),
+                                    id: childOptionId,
+                                    fakeId: childOptionFakeId,
+                                })}
+                            />
+                        </div>
                     ) : (
-                            hasChildren ? (
-                                <>
-                                    {valueChildren.map(({ name, id, fakeId }) => (
-                                        <div
-                                            className="input-group"
-                                            key={name}
-                                        >
-                                            <Input
-                                                data-cy={`edit-detail-type-${name}`}
-                                                select={{
-                                                    autoFocus: true,
-                                                    value: {
-                                                        label: name,
-                                                        value: name,
-                                                    },
-                                                    options: detailTypes.map(name => ({
-                                                        value: name,
-                                                        label: name,
-                                                    })),
-                                                    onChange: ({ value }) => dispatch(UPDATE_TYPE, {
-                                                        __typename: childTypeTypname,
-                                                        id,
-                                                        fakeId,
-                                                        name: value,
-                                                    }),
-                                                }}
-                                            />
-                                            <CircleButton
-                                                data-cy={`delete-detail-type-${name}`}
-                                                type="small"
-                                                className="danger"
-                                                actionType="delete"
-                                                onClick={() => dispatch(DELETE_TYPE, {
-                                                    __typename: childTypename,
+                            <div>
+                                No Option
+                                </div>
+                        )
+                ) : (
+                        hasChildren ? (
+                            <>
+                                {valueChildren.map(({ name, id, fakeId }, i, { length }) => (
+                                    <div
+                                        className="input-group"
+                                        key={name}
+                                    >
+                                        <Input
+                                            data-cy={`edit-detail-type-${name}`}
+                                            select={{
+                                                autoFocus: i === length - 1,
+                                                value: {
+                                                    label: name,
+                                                    value: name,
+                                                },
+                                                options: selectDetailTypes,
+                                                onChange: ({ value }) => dispatch(UPDATE_TYPE, {
+                                                    __typename: childTypeTypname,
                                                     id,
                                                     fakeId,
-                                                })}
-                                            />
-                                        </div>
-                                    ))}
-                                </>
-                            ) : (
-                                    <div>
-                                        No Details
+                                                    name: value,
+                                                }),
+                                            }}
+                                        />
+                                        <CircleButton
+                                            data-cy={`delete-detail-type-${name}`}
+                                            type="small"
+                                            className="danger"
+                                            actionType="delete"
+                                            onClick={() => dispatch(DELETE_TYPE, {
+                                                __typename: childTypename,
+                                                id,
+                                                fakeId,
+                                            })}
+                                        />
                                     </div>
-                                )
-                        )}
+                                ))}
+                            </>
+                        ) : (
+                                <div>
+                                    No Details
+                                    </div>
+                            )
+                    )}
             </GroupingBox>
             <button
                 className="sidebar-button danger"

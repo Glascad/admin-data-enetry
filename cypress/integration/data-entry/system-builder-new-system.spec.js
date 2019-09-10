@@ -88,6 +88,8 @@ describe('Testing sidbar actions in system builder', () => {
 
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
 
+        // Test that select options have the correct values listed
+
         // Clicks on an option.
 
         // X Adds a value (probably part of options)
