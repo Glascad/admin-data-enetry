@@ -22,17 +22,18 @@ describe('Testing sidbar actions in system builder', () => {
         // Typing into the select should allow us to select other values
         cy.focused().type('Center{enter}');
         cy.getDataCy`SystemOptionValue-CENTER`;
-        //  When values are added the option should not be changable. The select background should turn to color $warning
+        // When values are added the option should not be changable. The select background should turn to color $warning
+        // Make default
         cy.getDataCy`edit-option-name`.should('have.class', 'warning');
 
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Back{enter}');
         cy.getDataCy`SystemOptionValue-BACK`;
-
+        
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Front{enter}');
         cy.getDataCy`SystemOptionValue-FRONT`;
-
+        
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Mult-plane{enter}');
         cy.getDataCy`SystemOptionValue-MULTI_PLANE`;
@@ -48,9 +49,9 @@ describe('Testing sidbar actions in system builder', () => {
         // Clicking the "X" should remove the value
         cy.getDataCy`delete-option-value-CENTER`.click().should('not.exist');
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/center/i).should('not.exist');
-
+        
         // EDIT VALUE
-
+        
         cy.getDataCy`SystemOptionValue-MULTI_PLANE`.click();
         cy.get('.RightSidebar').should('be.visible').and('have.class', 'open');
         // can change value name
@@ -90,6 +91,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`toggle-child-detail`.click().should('have.class', 'selected');
         cy.getDataCy`add-detail`.click();
         cy.focused().type('Head{enter}');
+        
         // Can select detail
         cy.getDataCy`SystemDetailType-HEAD`.click();
         cy.getDataCy`edit-detail-type`.find('input').type('Horizontal{enter}', { force: true });
@@ -98,17 +100,81 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`delete-option`.click();
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Stops{enter}');
+        // Can select option
+        cy.getDataCy`DetailOption-STOPS`.click();
+        // Can add/delete option value
+        cy.getDataCy`add-option-value`.click();
+        cy.focused().type('Down{enter}');
+        cy.getDataCy`delete-option`.click();  
+        cy.getDataCy`add-option-value`.click();
+        cy.focused().type('Down{enter}');
+        cy.getDataCy`DetailOptionValue-DOWN`;
+
+        // All detail option values should exist after adding them
+        cy.getDataCy`edit-detail-option-values`.find('.Select > div:first-child').contains(/down/i);
+        cy.getDataCy`edit-detail-option-values`.find('.Select > div:first-child').contains(/up/i);
+        
+        cy.getDataCy`add-option`.click().should('not.exist');
+        cy.focused().type('Up{enter}');
+        cy.getDataCy`DetailOptionValue-UP`;
+        // Can select option value 
+        cy.getDataCy`DetailOptionValue-UP`.click();
+        // Can toggle to configuration
+        cy.getDataCy`toggle-child-configuration`.click().should('have.class', 'selected');
+        // Can add/delete configurations
+        cy.getDataCy`add-configuration`.click();
+        cy.focused().type('Head{enter}');
+        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`add-configuration`.click();
+        cy.focused().type('Head{enter}');
+        cy.getDataCy`SystemConfigurationType-HEAD`;
+        // cannot toggle to option when option exists
+        cy.getDataCy`toggle-child-option`.click().should('not.have.class', 'selected');
+        
+        cy.getDataCy`add-configuration`.click();
+        cy.focused().type('Compensating{enter}');
+        cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`;
+        
+        cy.getDataCy`add-configuration`.click().should('not.exist');
+        cy.focused().type('Shim{enter}');
+        cy.getDataCy`SystemConfigurationType-SHIM_SUPPORT`;
+        
+        // All configurations should exist after adding them
+        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/head/i);
+        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/shim/i);
+        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/head/i);
+        
+        // Can add configuration option
+        cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`;
+        cy.getDataCy`add-option`.click().should('not.exist');
+        cy.focused().type('Receptor{enter}');
+        cy.getDataCy`ConfigurationOption-RECEPTOR_TYPE`;
+        
+        cy.getDataCy`add-option-value`.click();
+        cy.focused().type('Standard Duty{enter}');
+        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`add-option-value`.click();
+        cy.focused().type('Standard Duty{enter}');
+        cy.getDataCy`ConfigurationOptionValue-STANDARD_DUTY`;
+        
+        cy.getDataCy`add-option-value`.click().should('not.exist');
+        cy.focused().type('Heavy Duty{enter}');
+        cy.getDataCy`ConfigurationOptionValue-HEAVY_DUTY`;
+        
+        // All configurations option valuesshould exist after adding them
+        cy.getDataCy`edit-configuration-option-values`.find('.Select > div:first-child').contains(/standard/i);
+        cy.getDataCy`edit-configuration-option-values`.find('.Select > div:first-child').contains(/heavy/i);
         
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
-
+        
         // Test that select options have the correct values listed
-
+        
         // Clicks on an option.
         
         // X Adds a value (probably part of options)
-
+        
         // clicks on the value and checks to make sure its selected and is a value
-
+        
         // clicks the name and changes it => makes sure it is updated
 
         // clicks makes default => is default => default button disappears? (or changes test to default?)
