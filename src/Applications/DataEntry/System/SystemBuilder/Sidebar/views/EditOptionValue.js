@@ -70,18 +70,24 @@ function EditOptionValue({
             />
             <Input
                 data-cy="edit-value-name"
+                className={hasChildren ? 'warning' : ''}
                 select={{
                     value: {
                         label: ovName,
                         value: ovName,
                     },
-                    options: selectValidValues,
-                    onChange: ({ value }) => dispatch(UPDATE_OPTION_VALUE, {
-                        id: ovId,
-                        fakeId: ovFId,
-                        __typename,
-                        name: value,
-                    }),
+                    ...(hasChildren ? {
+                        options: [],
+                        onChange: () => { },
+                    } : {
+                            options: selectValidValues,
+                            onChange: ({ value }) => dispatch(UPDATE_OPTION_VALUE, {
+                                id: ovId,
+                                fakeId: ovFId,
+                                __typename,
+                                name: value,
+                            }),
+                        }),
                 }}
             />
             <GroupingBox
