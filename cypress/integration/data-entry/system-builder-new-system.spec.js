@@ -109,22 +109,20 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Down{enter}');
         cy.getDataCy`DetailOptionValue-DOWN`;
-
-        // All detail option values should exist after adding them
-        cy.getDataCy`edit-detail-option-values`.find('.Select > div:first-child').contains(/down/i);
-        cy.getDataCy`edit-detail-option-values`.find('.Select > div:first-child').contains(/up/i);
-        
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Up{enter}');
-        cy.getDataCy`DetailOptionValue-UP`;
-        // Can select option value 
         cy.getDataCy`DetailOptionValue-UP`.click();
+        
+        // All detail option values should exist after adding them
+        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/down/i);
+        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/up/i);
+        
         // Can toggle to configuration
         cy.getDataCy`toggle-child-configuration`.click().should('have.class', 'selected');
         // Can add/delete configurations
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
-        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`delete-configuration`.click();
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
         cy.getDataCy`SystemConfigurationType-HEAD`;
@@ -135,35 +133,37 @@ describe('Testing sidbar actions in system builder', () => {
         cy.focused().type('Compensating{enter}');
         cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`;
         
-        cy.getDataCy`add-configuration`.click().should('not.exist');
+        // Need to tie configurations to STDTCT
+        cy.getDataCy`add-configuration`.click()
+            // .should('not.exist');
         cy.focused().type('Shim{enter}');
         cy.getDataCy`SystemConfigurationType-SHIM_SUPPORT`;
         
         // All configurations should exist after adding them
         cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/head/i);
+        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/comp/i);
         cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/shim/i);
-        cy.getDataCy`edit-configurations`.find('.Select > div:first-child').contains(/head/i);
         
         // Can add configuration option
-        cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`;
+        cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`.click();
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Receptor{enter}');
-        cy.getDataCy`ConfigurationOption-RECEPTOR_TYPE`;
+        cy.getDataCy`ConfigurationOption-RECEPTOR_TYPE`.click();
         
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Standard Duty{enter}');
         cy.getDataCy`delete-option`.click();
         cy.getDataCy`add-option-value`.click();
-        cy.focused().type('Standard Duty{enter}');
+        cy.focused().type('Standard{enter}');
         cy.getDataCy`ConfigurationOptionValue-STANDARD_DUTY`;
         
         cy.getDataCy`add-option-value`.click().should('not.exist');
-        cy.focused().type('Heavy Duty{enter}');
+        cy.focused().type('Heavy{enter}');
         cy.getDataCy`ConfigurationOptionValue-HEAVY_DUTY`;
         
-        // All configurations option valuesshould exist after adding them
-        cy.getDataCy`edit-configuration-option-values`.find('.Select > div:first-child').contains(/standard/i);
-        cy.getDataCy`edit-configuration-option-values`.find('.Select > div:first-child').contains(/heavy/i);
+        // All configurations option values should exist after adding them
+        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/standard/i);
+        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/heavy/i);
         
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
         
