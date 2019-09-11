@@ -5,7 +5,7 @@ import {
 } from '../../../../../components';
 
 export default function ProjectInfo({
-    queryStatus: {
+    queryResult: {
         _project: {
             name = '',
         } = {},

@@ -33,7 +33,7 @@ ProjectSets.navigationOptions = {
 };
 
 function ProjectSets({
-    queryStatus: {
+    queryResult: {
         _project: {
             _systemSets = [],
         } = {},

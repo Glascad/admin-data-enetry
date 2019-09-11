@@ -42,7 +42,7 @@ export default function SystemSearch({
                     mutations={mutations}
                 >
                     {({
-                        queryStatus: {
+                        queryResult: {
                             allSystems = [],
                             allManufacturers = [],
                             allSystemTypes = [],

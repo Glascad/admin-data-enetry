@@ -37,8 +37,8 @@ export default function SingleElevation({
     location: {
         search,
     },
-    queryStatus: projectQueryStatus,
-    queryStatus: {
+    queryResult: projectQueryStatus,
+    queryResult: {
         _project: project,
         _project: {
             defaultElevation,
@@ -53,13 +53,13 @@ export default function SingleElevation({
     // console.log({ variables });
 
     // const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
-    const [refetch, queryStatus, fetching] = useQuery({ query, variables }, true);
+    const [refetch, queryResult, fetching] = useQuery({ query, variables }, true);
 
     // const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
 
     // const fetching = fetchingElevation; // || fetchingBugs;
 
-    // const queryStatus = {
+    // const queryResult = {
     //     ...bugStatus,
     //     ...elevationStatus,
     // };
@@ -70,7 +70,7 @@ export default function SingleElevation({
     //     fetchBugs();
     // }
 
-    // console.log({ queryStatus });
+    // console.log({ queryResult });
 
     const [updateEntireElevation, updatedElevation, updating] = useMutation(
         updateElevationMutation,
@@ -91,7 +91,7 @@ export default function SingleElevation({
 
     const routeProps = sampleElevation ?
         {
-            queryStatus: {
+            queryResult: {
                 _elevation: SAMPLE_ELEVATIONS[sampleElevation],
             },
             updating: false,
@@ -103,7 +103,7 @@ export default function SingleElevation({
         } : {
             fetching,
             refetch,
-            queryStatus,
+            queryResult,
             updating,
             defaultElevation,
             project,

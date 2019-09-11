@@ -70,6 +70,12 @@ button {
             color: $dark-gray;
         }
     }
+
+    &.warning {
+        pointer-events: none;
+        background: mix($warning-color, white, 25) !important;
+        border-color: mix($warning-color, white, 75) !important;
+    }
 }
 
 textarea {

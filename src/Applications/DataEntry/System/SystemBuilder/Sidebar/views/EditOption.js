@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
-import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE } from '../../ducks/actions';
+import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, DELETE_OPTION } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
 import { getChildren } from '../../ducks/utils';
 
@@ -16,15 +16,12 @@ function EditOption({
         parentSystemOptionValueFakeId,
     } = {},
     systemMap,
-    queryStatus: {
+    queryResult: {
         validOptions = [],
     } = {},
     dispatch,
 }) {
     console.log(arguments[0]);
-    const [newValue, setNewValue] = useState();
-    const handleAddClick = () => setNewValue(systemOptionUpdate);
-    const handleBlur = () => dispatch(ADD_OPTION_VALUE)
     const optionValues = getChildren(option, systemMap);
 
     const validOptionValues = validOptions
@@ -139,7 +136,7 @@ function EditOption({
                         </div>
                     )}
             </GroupingBox>
-            {!optionValues.length && (
+            {(
                 __typename !== 'SystemOption'
                 ||
                 parentSystemOptionValueFakeId
@@ -148,7 +145,11 @@ function EditOption({
             ) ? (
                     <button
                         className="sidebar-button danger"
-                        onClick={() => { }}
+                        onClick={() => dispatch(DELETE_OPTION, {
+                            id: oId,
+                            fakeId: oFId,
+                            __typename,
+                        })}
                     >
                         Delete Option
                     </button>

@@ -202,7 +202,7 @@ testDeleteOptionValue({
     systemInput: {},
     payload: {
         id: 1,
-        name: "STANDARD",
+        name: "STANDARD_DUTY",
         __typename: "ConfigurationOptionValue",
         parentConfigurationOptionValueValueId: 5,
     },
@@ -215,14 +215,14 @@ testDeleteOptionValue({
     systemInput: {
         configurationOptionValues: [{
             fakeId: 1,
-            name: "STANDARD",
+            name: "STANDARD_DUTY",
             __typename: "ConfigurationOptionValue",
             parentConfigurationOptionValueValueId: 5,
         }]
     },
     payload: {
         fakeId: 1,
-        name: "STANDARD",
+        name: "STANDARD_DUTY",
         __typename: "ConfigurationOptionValue",
         parentConfigurationOptionValueValueId: 5,
     },
@@ -270,7 +270,7 @@ testDeleteOptionValue({
     },
     payload: {
         id: 2,
-        name: "STANDARD",
+        name: "STANDARD_DUTY",
         __typename: "ConfigurationOptionValue",
         parentConfigurationOptionValueValueId: 5,
     },

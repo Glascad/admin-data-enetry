@@ -12,7 +12,7 @@ export default function PartTags() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allPartTags = [],
                 },
                 mutations: {

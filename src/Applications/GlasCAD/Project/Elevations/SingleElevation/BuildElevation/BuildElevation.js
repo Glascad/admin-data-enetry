@@ -43,7 +43,7 @@ class BuildElevation extends PureComponent {
     }
 
     componentDidUpdate = ({
-        queryStatus: {
+        queryResult: {
             _elevation: oldElevation,
             bugReports: oldBugReports,
         } = {},
@@ -53,8 +53,8 @@ class BuildElevation extends PureComponent {
                 location: {
                     search,
                 },
-                queryStatus: newQueryStatus,
-                queryStatus: {
+                queryResult: newQueryStatus,
+                queryResult: {
                     _elevation: newElevation,
                     bugReports: newBugReports,
                 } = {},
@@ -117,7 +117,7 @@ class BuildElevation extends PureComponent {
             props: {
                 replaceState,
                 pushState,
-                queryStatus,
+                queryResult,
             },
             updateElevation,
         } = this;
@@ -134,7 +134,7 @@ class BuildElevation extends PureComponent {
 
         // const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
 
-        return updateState(state => mergeElevationInput(ACTION(state, payload), queryStatus), cb);
+        return updateState(state => mergeElevationInput(ACTION(state, payload), queryResult), cb);
     }
 
     // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
@@ -242,8 +242,8 @@ class BuildElevation extends PureComponent {
                 },
                 project,
                 refetch,
-                queryStatus,
-                queryStatus: {
+                queryResult,
+                queryResult: {
                     _elevation: {
                         id,
                         name = '',

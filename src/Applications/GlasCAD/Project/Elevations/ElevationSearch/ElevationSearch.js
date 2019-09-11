@@ -24,7 +24,7 @@ export default function ElevationSearch({
     match: {
         path,
     },
-    queryStatus: {
+    queryResult: {
         _project: {
             name = "",
             _elevations = [],

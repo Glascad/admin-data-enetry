@@ -13,7 +13,7 @@ export default function Orientations() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allOrientations = [],
                 },
                 mutations: {

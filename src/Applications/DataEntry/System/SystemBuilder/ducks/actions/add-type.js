@@ -4,26 +4,35 @@ import { getFakeId } from "../utils";
 export default function ADD_TYPE(systemInput, {
     parentOptionValueId,
     parentOptionValueFakeId,
-    name,
+    type,
     __typename,
 }) {
 
-    const typeKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetailTypes
-    const typeUpdateKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'TypeUpdate'); //SystemDetailTypeUpdate
+    const typesKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetailTypes
+    const typeKey = __typename.replace(/System/i, '').toLowerCase().replace(/type/i, 'Type');
+    const typeUpdateKey = `${__typename.replace(/System/i, 'system')}Update`; //SystemDetailTypeUpdate
     const parentOptionValueKey = `parent${__typename
         .replace(/SystemConfigurationType/i, 'DetailOptionValue')
         .replace(/SystemDetailType/i, 'SystemOptionValue')
         }${parentOptionValueFakeId ? 'Fake' : ''}Id` // `parentSystemOptionValueId`
 
-    const { [typeKey]: typeArray = [] } = systemInput;
+    const { [typesKey]: typeArray = [] } = systemInput;
     const { [typeUpdateKey]: typeUpdate, } = schemas;
+
+    // console.log({
+    //     typesKey,
+    //     parentOptionValueId,
+    //     parentOptionValueFakeId,
+    //     type,
+    //     typeKey,
+    // });
 
     return {
         ...systemInput,
-        [typeKey]: typeArray.concat({
+        [typesKey]: typeArray.concat({
             ...typeUpdate,
             fakeId: getFakeId(),
-            name,
+            [typeKey]: type,
             [parentOptionValueKey]: parentOptionValueFakeId || parentOptionValueId,
         }),
     };

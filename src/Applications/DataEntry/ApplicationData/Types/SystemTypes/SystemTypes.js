@@ -21,8 +21,8 @@ export default function SystemTypes() {
             mutations={mutations}
         >
             {({
-                queryStatus,
-                queryStatus: {
+                queryResult,
+                queryResult: {
                     configurationTypes = [],
                     detailTypes = [],
                     allSystemTypes = [],
@@ -205,7 +205,7 @@ export default function SystemTypes() {
                     </div>
                 )}
             {/* {({
-                queryStatus: {
+                queryResult: {
                     allSystemTypes = [],
                     allDetailTypes = [],
                     allConfigurationTypes = [],
@@ -221,7 +221,7 @@ export default function SystemTypes() {
                     updateSystemTypeDetailTypeConfigurationType,
                     deleteSystemTypeDetailTypeConfigurationType,
                 },
-                queryStatus,
+                queryResult,
                 mutations,
                 rawQueryStatus,
                 rawQueryStatus: {
@@ -235,7 +235,7 @@ export default function SystemTypes() {
                 },
             }) => (
                     <ListWrapper
-                        // n={console.log({ queryStatus, mutations, rawQueryStatus })}
+                        // n={console.log({ queryResult, mutations, rawQueryStatus })}
                         // n={console.log(errors.map(({ message }) => message))}
                         // n={errors.forEach(({ message }) => console.log(message))}
                         // n={errors.forEach(({ message }) => console.log(message.replace(/^cannot query field "(\w+)" on type "(\w+)".*$/i, '$1 - $2')))}

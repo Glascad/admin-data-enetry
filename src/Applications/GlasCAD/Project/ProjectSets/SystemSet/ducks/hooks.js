@@ -81,8 +81,8 @@ const callbacks = [
     removeInfillSizeAfterSystemChange,
 ];
 
-const reduceState = (state, intermediateState, queryStatus) => callbacks.reduce(
-    (accumulatedState, cb) => cb(state, accumulatedState, queryStatus),
+const reduceState = (state, intermediateState, queryResult) => callbacks.reduce(
+    (accumulatedState, cb) => cb(state, accumulatedState, queryResult),
     intermediateState
 );
 
@@ -90,16 +90,16 @@ const reduceState = (state, intermediateState, queryStatus) => callbacks.reduce(
  * REDUX
  */
 
-const createReducer = queryStatus => (
+const createReducer = queryResult => (
     (state, { action, payload } = {}) => (
         reduceState(
             state,
             action(
                 state,
                 payload,
-                queryStatus
+                queryResult
             ) || state,
-            queryStatus
+            queryResult
         )
     )
 );
@@ -108,9 +108,9 @@ const createReducer = queryStatus => (
  * CUSTOM HOOK
  */
 
-export default function useSystemSetReducer(queryStatus) {
+export default function useSystemSetReducer(queryResult) {
 
-    const reducer = useMemo(() => createReducer(queryStatus), [queryStatus]);
+    const reducer = useMemo(() => createReducer(queryResult), [queryResult]);
 
     const [state, rawDispatch] = useReducer(reducer, initialState);
     
@@ -118,7 +118,7 @@ export default function useSystemSetReducer(queryStatus) {
     const dispatch = useCallback((action, payload) => rawDispatch({ action, payload }), [rawDispatch]);
     
     // merge system input
-    const systemSet = useMemo(() => merge(state, queryStatus), [state, queryStatus]);
+    const systemSet = useMemo(() => merge(state, queryResult), [state, queryResult]);
     
     // console.log({ state, systemSet });
 

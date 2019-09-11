@@ -47,7 +47,7 @@ Project.navigationOptions = ({
             }}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     _project: {
                         name = '',
                     } = {},

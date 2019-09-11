@@ -16,7 +16,7 @@ export default function SystemBuilder({
     location: {
         search,
     },
-    queryStatus,
+    queryResult,
     fetching,
 }) {
 
@@ -31,10 +31,10 @@ export default function SystemBuilder({
     const cancelSelectionOnClick = () => selectItem();
 
     useEffect(() => {
-        window.addEventListener('keydown', cancelSelectionOnEscape);
+        window.addEventListener('keydown', cancelSelectionOnEscape, true);
         window.addEventListener('click', cancelSelectionOnClick);
         return () => {
-            window.removeEventListener('keydown', cancelSelectionOnEscape);
+            window.removeEventListener('keydown', cancelSelectionOnEscape, true);
             window.removeEventListener('click', cancelSelectionOnClick);
         }
     }, []);
@@ -45,11 +45,15 @@ export default function SystemBuilder({
         replaceState,
     } = useRedoableState(systemUpdate);
 
-    const system = merge(systemInput, queryStatus);
+    const system = merge(systemInput, queryResult);
 
     const systemMap = generateSystemMap(system);
 
-    const selectedItem = findItemByIdAndTypename(system, originalSelectedItem) || originalSelectedItem;
+    const selectedItem = findItemByIdAndTypename(system, originalSelectedItem);
+
+    useEffect(() => {
+        if (!selectedItem) selectItem();
+    }, [selectedItem]);
 
     const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
         replaceState
@@ -72,12 +76,13 @@ export default function SystemBuilder({
     console.log({
         props: arguments[0],
         state: systemInput,
+        system,
     });
 
     return (
         <TransformProvider>
             <Header
-                queryStatus={queryStatus}
+                queryResult={queryResult}
                 systemInput={systemInput}
                 system={system}
                 systemMap={systemMap}
@@ -87,7 +92,7 @@ export default function SystemBuilder({
                 save={save}
             />
             <SystemTree
-                queryStatus={queryStatus}
+                queryResult={queryResult}
                 fetching={fetching}
                 system={system}
                 systemMap={systemMap}
@@ -96,7 +101,7 @@ export default function SystemBuilder({
                 selectedItem={selectedItem}
             />
             <Sidebar
-                queryStatus={queryStatus}
+                queryResult={queryResult}
                 system={system}
                 systemMap={systemMap}
                 dispatch={dispatch}

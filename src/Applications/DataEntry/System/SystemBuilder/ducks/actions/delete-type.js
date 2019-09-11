@@ -1,4 +1,4 @@
-export default function DELETE_OPTION(
+export default function DELETE_TYPE(
     systemInput,
     payload,
 ) {

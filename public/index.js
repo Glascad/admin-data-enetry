@@ -4,9 +4,26 @@ Number.prototype[Symbol.iterator] = function* () {
         yield i;
     }
 };
-Array.prototype.replace = function (i, val) {
-    if (parseInt(i) !== i) throw new TypeError("First argument to Array.replace() must be an integer");
+
+Array.prototype.replace = function replace(i, val) {
+    if (parseInt(i) !== i) throw new TypeError("First argument to replace() must be an integer");
     const newArr = this.slice();
     newArr[i] = val;
     return newArr;
 };
+
+window.addEventListener("keydown", ({ key, keyCode }) => {
+    if (!window.keys) window.keys = {};
+    if (!window.keyCodes) window.keyCodes = {};
+
+    window.keys[key] = true;
+    window.keyCodes[keyCode] = true;
+});
+
+window.addEventListener("keyup", ({ key, keyCode }) => {
+    if (!window.keys) window.keys = {};
+    if (!window.keyCodes) window.keyCodes = {};
+
+    window.keys[key] = false;
+    window.keyCodes[keyCode] = false;
+});

@@ -1,4 +1,5 @@
 @import "../../../styles/variables";
+@import "../CircleButton/CircleButton.scss";
 
 /*
     Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
@@ -184,6 +185,95 @@
             width: calc((100% - #{$small * 2}) / 3) !important;
             max-width: calc((100% - #{$small * 2}) / 3) !important;
             min-width: calc((100% - #{$small * 2}) / 3) !important;
+        }
+    }
+
+    .GroupingBox {
+        width: fill;
+        padding-bottom: $large;
+
+        > * {
+            &:not(:first-child) {
+                margin-top: $base-size;
+            }
+            // margin-left: $base-size;
+        }
+
+        .title {
+            background: $dark-blue;
+            box-shadow: 0 0 0 $x-small $dark-blue;
+            color: $medium-gray;
+            font-weight: normal;
+
+            .Toggle {
+                transform: translateY(-$xx-small);
+                
+                button {
+                    height: $x-large;
+                    max-height: $x-large;
+                    width: unset;
+                    min-width: unset;
+                    padding-left: $x-small;
+                    padding-right: $x-small;
+
+                    &:not(.selected) {
+                        color: $medium-gray;
+                    }
+                    &:first-child {
+                        padding-left: $small;
+                    }
+                    &:last-child {
+                        padding-right: $small;
+                    }
+                }
+            }
+        }
+
+        .toggle-background,
+        .add-button-background {
+            background: $dark-blue;
+            .CircleButton {
+                .circle-button {
+                    height: $x-large;
+                    width: $x-large;
+                }
+            }
+        }
+
+        .toggle-background {
+        }
+
+        .add-button-background {
+            top: -$x-large / 2;
+        }
+
+        .input-group {
+            > * {
+                + * {
+                    margin-left: $small;
+                }
+            }
+
+            .Input {
+                input,
+                .Select {
+                    width: $pill-width * 0.75;
+                }
+            }
+        }
+
+        .CircleButton {
+            &.primary {
+                @include circle-button($selected-color, $dark-blue, true);
+            }
+
+            &.action {
+                @include circle-button($action-color, $dark-blue, true);
+            }
+
+            &.danger {
+                @include circle-button($danger-color, $dark-blue, true);
+            }
         }
     }
 }

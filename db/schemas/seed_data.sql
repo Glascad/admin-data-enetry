@@ -44,19 +44,19 @@ INSERT INTO system_configuration_types (system_id, parent_detail_option_value_id
 (1, 4, 'HEAD', false),
 (1, 4, 'COMPENSATING_RECEPTOR', true);
 INSERT INTO configuration_options (system_id, parent_system_configuration_type_id, name) VALUES
-(1, 2, 'RECEPTOR_TYPE'),
-(1, 4, 'RECEPTOR_TYPE'),
-(1, 6, 'RECEPTOR_TYPE'); -- ,
--- (1, 8, 'RECEPTOR_TYPE');
+(1, 2, 'DURABILITY'),
+(1, 4, 'DURABILITY'),
+(1, 6, 'DURABILITY'); -- ,
+-- (1, 8, 'DURABILITY');
 INSERT INTO configuration_option_values (system_id, parent_configuration_option_id, option_name, name) VALUES
-(1, 1, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 1, 'RECEPTOR_TYPE', 'HIGH-PERFORMANCE'),
-(1, 2, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 2, 'RECEPTOR_TYPE', 'HIGH-PERFORMANCE'),
-(1, 3, 'RECEPTOR_TYPE', 'STANDARD'),
-(1, 3, 'RECEPTOR_TYPE', 'HIGH-PERFORMANCE'); -- ,
--- (1, 4, 'RECEPTOR_TYPE', 'STANDARD'),
--- (1, 4, 'RECEPTOR_TYPE', 'HIGH-PERFORMANCE');
+(1, 1, 'DURABILITY', 'STANDARD_DUTY'),
+(1, 1, 'DURABILITY', 'HIGH-PERFORMANCE'),
+(1, 2, 'DURABILITY', 'STANDARD_DUTY'),
+(1, 2, 'DURABILITY', 'HIGH-PERFORMANCE'),
+(1, 3, 'DURABILITY', 'STANDARD_DUTY'),
+(1, 3, 'DURABILITY', 'HIGH-PERFORMANCE'); -- ,
+-- (1, 4, 'DURABILITY', 'STANDARD_DUTY'),
+-- (1, 4, 'DURABILITY', 'HIGH-PERFORMANCE');
 
 -- TEST SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type)

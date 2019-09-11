@@ -17,7 +17,7 @@ export default function ConfigurationTypes() {
             mutations={mutations}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allConfigurationTypes = [],
                     allPartTypes = [],
                 },

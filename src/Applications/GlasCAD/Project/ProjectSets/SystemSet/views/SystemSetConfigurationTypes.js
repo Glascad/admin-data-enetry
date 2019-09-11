@@ -9,7 +9,7 @@ SystemSetConfigurationTypes.navigationOptions = {
 };
 
 export default function SystemSetConfigurationTypes({
-    queryStatus: {
+    queryResult: {
         _systemSet: {
             _systemSetDetailTypeConfigurationTypes = [],
             _system: {

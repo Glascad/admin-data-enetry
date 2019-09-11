@@ -35,15 +35,24 @@
 
     &.warning {
         pointer-events: none;
+
         > input,
         .Select > div:first-of-type {
             background: mix($warning-color, white, 25) !important;
+            border-color: mix($warning-color, white, 75) !important;
+        }
+
+        > input,
+        .Select > div > div > div,
+        .Select svg {
+            color: $medium-gray !important;
         }
 
         > input,
         .Select > div {
             border-color: mix($warning-color, white, 75) !important;
         }
+
     }
 
     &.direction-row {
