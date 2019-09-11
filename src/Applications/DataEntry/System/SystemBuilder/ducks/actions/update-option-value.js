@@ -1,5 +1,5 @@
 import * as schemas from "../schemas";
-import { removeNullValues } from "../../../../../../utils";
+import { removeNullValues, replace } from "../../../../../../utils";
 
 export default function UPDATE_OPTION_VALUE(
     systemInput,
@@ -26,10 +26,7 @@ export default function UPDATE_OPTION_VALUE(
     return {
         ...arguments[0],
         [optionValuesKey]: updatedOptionValue ?
-            optionValuesArray.replace(updatedIndex, {
-                ...updatedOptionValue,
-                ...removeNullValues(payload),
-            })
+            replace(optionValuesArray, updatedIndex, { ...updatedOptionValue, ...removeNullValues(payload) })
             :
             optionValuesArray.concat({
                 ...optionValueUpdate,

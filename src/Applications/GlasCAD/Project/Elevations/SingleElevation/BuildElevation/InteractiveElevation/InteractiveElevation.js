@@ -13,10 +13,10 @@ import { TransformContext, pixelsPerInch, withTransformContext } from '../contex
 // import Container from './components/Container';
 import Container from './Containers/Container';
 import Frame from './Frames/Frame.js';
-import DimensionButton from './components/DimensionButton';
+import DimensionButton from './components/DimensionButton/DimensionButton';
 
 import './InteractiveElevation.scss';
-import SelectionLayer from './components/SelectionLayer';
+import SelectionLayer from './components/SelectionLayer/SelectionLayer';
 import { withContext, Ellipsis, TransformBox } from '../../../../../../../components';
 import { SelectionContext } from '../contexts/SelectionContext';
 import RecursiveContainer from '../../utils/recursive-elevation/container';

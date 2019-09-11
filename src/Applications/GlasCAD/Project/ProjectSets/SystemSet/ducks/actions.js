@@ -1,3 +1,4 @@
+import { replace } from "../../../../../../utils";
 
 /**
  * These functions are the actions received by the reducer in ./hooks.js
@@ -43,7 +44,7 @@ export const SELECT_OPTION_VALUE = ({
         systemSetInput: {
             ...systemSetInput,
             selectedOptionValues: optionIndex !== -1 ?
-                selectedOptionValues.replace(optionIndex, selectedOptionValue)
+                replace(selectedOptionValues, optionIndex, selectedOptionValue)
                 :
                 selectedOptionValues.concat(selectedOptionValue)
         },

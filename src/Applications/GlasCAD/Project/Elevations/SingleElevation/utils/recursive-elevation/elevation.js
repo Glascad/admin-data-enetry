@@ -8,7 +8,7 @@ import dimensionsOverlap from './dimensions-overlap';
 import sortDimensionTracks from './sort-dimension-tracks';
 
 import { DIRECTIONS } from './directions';
-import { Loggable, lastItem } from '../../../../../../../utils';
+import { Loggable, lastItem, replace } from '../../../../../../../utils';
 
 const {
     UP,
@@ -219,9 +219,9 @@ export default class RecursiveElevation extends Loggable {
                     };
 
                 }, {
-                        true: [],
-                        false: [],
-                    })
+                    true: [],
+                    false: [],
+                })
         );
     }
 
@@ -240,7 +240,7 @@ export default class RecursiveElevation extends Loggable {
                         every(otherDimension => !dimensionsOverlap(dimension, otherDimension)));
 
                 return correctTrack ?
-                    tracks.replace(
+                    replace(tracks,
                         tracks.indexOf(correctTrack),
                         correctTrack.concat(dimension),
                     )

@@ -1,3 +1,4 @@
+import { replace } from "../../../../../../../../../utils";
 
 export default function updateDLO({
     elevationInput,
@@ -40,7 +41,7 @@ export default function updateDLO({
         elevationInput: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
-                containers.replace(
+                replace(containers,
                     containers.indexOf(previouslyUpdatedContainer),
                     updatedContainer,
                 )

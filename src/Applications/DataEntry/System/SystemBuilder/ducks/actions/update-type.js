@@ -1,5 +1,5 @@
 import * as schemas from "../schemas";
-import { removeNullValues } from "../../../../../../utils";
+import { removeNullValues, replace } from "../../../../../../utils";
 
 export default function UPDATE_TYPE(systemInput, {
     type,
@@ -37,7 +37,7 @@ export default function UPDATE_TYPE(systemInput, {
     return {
         ...arguments[0],
         [typesKey]: updatedType ?
-            typesArray.replace(updatedIndex, {
+            replace(typesArray, updatedIndex, {
                 ...updatedType,
                 ...removeNullValues({
                     // ...payload,

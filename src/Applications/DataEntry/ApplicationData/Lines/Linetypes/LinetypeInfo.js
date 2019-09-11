@@ -5,6 +5,7 @@ import {
     Input,
 } from '../../../../../components';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
+import { replace } from '../../../../../utils';
 
 export default class LinetypeInfo extends PureComponent {
 
@@ -69,8 +70,7 @@ export default class LinetypeInfo extends PureComponent {
 
     handlePatternInput = i => ({ target: { value } }) => {
         this.setState({
-            // Array.prototype.replace is in `public/index.html`
-            pattern: this.state.pattern.replace(i, value)
+            pattern: replace(this.state.pattern, i, value);
         });
     }
 

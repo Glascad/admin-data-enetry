@@ -1,3 +1,4 @@
+import { replace } from "../../../../../../../../../utils";
 
 export default function redirectDetail({
     elevationInput,
@@ -64,7 +65,7 @@ export default function redirectDetail({
         elevationInput: {
             ...elevationInput,
             details: previouslyUpdatedDetail ?
-                details.replace(
+                replace(details,
                     details.indexOf(previouslyUpdatedDetail),
                     updatedDetail,
                 )

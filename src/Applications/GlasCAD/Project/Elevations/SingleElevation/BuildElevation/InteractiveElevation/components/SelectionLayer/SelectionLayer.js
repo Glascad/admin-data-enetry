@@ -1,16 +1,16 @@
 import React, { PureComponent, memo } from 'react';
 
-import { withSelectionContext } from '../../contexts/SelectionContext';
+import { withSelectionContext } from '../../../contexts/SelectionContext';
 
-import SelectedItem from './SelectedItem';
+import SelectedItem from '../SelectedItem/SelectedItem';
 
-import Details from '../Details/Details';
+import Details from '../../Details/Details';
 
-import { unique } from '../../../../../../../../utils';
+import { unique, replace } from '../../../../../../../../../utils';
 
-import RecursiveDetail from '../../../utils/recursive-elevation/detail';
-import RecursiveContainer from '../../../utils/recursive-elevation/container';
-import RecursiveFrame from '../../../utils/recursive-elevation/frame';
+import RecursiveDetail from '../../../../utils/recursive-elevation/detail';
+import RecursiveContainer from '../../../../utils/recursive-elevation/container';
+import RecursiveFrame from '../../../../utils/recursive-elevation/frame';
 
 const SelectionLayer = memo(function SelectionLayer({
     selection: {
@@ -60,7 +60,7 @@ const SelectionLayer = memo(function SelectionLayer({
             );
             return prevDetail ?
                 shouldReplace ?
-                    all.replace(all.indexOf(prevDetail), detail)
+                    replace(all, all.indexOf(prevDetail), detail)
                     :
                     all
                 :

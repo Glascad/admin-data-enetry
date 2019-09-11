@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { replace } from '../../utils';
 
 export default function useRedoableState(firstState, dependencies = []) {
     const initialState = {
@@ -88,9 +89,8 @@ export default function useRedoableState(firstState, dependencies = []) {
 
     const replaceState = useCallback((setStateCallback, ...args) => dispatch(({ states, currentIndex }) => ({
         // n: console.log("REPLACESTATE"),
-        states: states
-            // .slice(0, currentIndex)
-            .replace(currentIndex, {
+        states:
+            replace(states, currentIndex, {
                 ...states[currentIndex],
                 ...setStateCallback(states[currentIndex]),
             }),

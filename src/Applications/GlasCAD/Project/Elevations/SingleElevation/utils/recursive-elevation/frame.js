@@ -1,5 +1,5 @@
 import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
-import { unique, Loggable, lastItem } from "../../../../../../../utils";
+import { unique, Loggable, lastItem, replace } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -78,7 +78,7 @@ export default class RecursiveFrame extends Loggable {
         return this.__allFrameDetails || (
             this.__allFrameDetails = this.details.reduce((groupedDetails, detail, i, { length }) => (
                 detail.detailId === (lastItem(lastItem(groupedDetails) || []) || {}).detailId ?
-                    groupedDetails.replace(
+                    replace(groupedDetails,
                         groupedDetails.length - 1,
                         lastItem(groupedDetails).concat(detail)
                     )
