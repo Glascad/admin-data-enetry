@@ -1,6 +1,5 @@
 import { DELETE_OPTION } from "../../actions";
 import { systemUpdate, systemOptionUpdate, detailOptionUpdate, configurationOptionUpdate } from "../../schemas";
-import "../../../../../../../../public";
 
 function testDeleteOption({
     systemInput,

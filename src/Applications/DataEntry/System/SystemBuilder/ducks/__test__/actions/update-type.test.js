@@ -1,6 +1,5 @@
 import { UPDATE_TYPE } from "../../actions";
 import { systemUpdate, systemDetailTypeUpdate, systemConfigurationTypeUpdate } from "../../schemas";
-import "../../../../../../../../public";
 
 function testUpdateType({
     systemInput,

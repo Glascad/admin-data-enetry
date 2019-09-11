@@ -1,6 +1,5 @@
 import { DELETE_TYPE } from "../../actions";
 import { systemUpdate } from "../../schemas";
-import "../../../../../../../../public";
 
 function testDeleteType({
     systemInput,

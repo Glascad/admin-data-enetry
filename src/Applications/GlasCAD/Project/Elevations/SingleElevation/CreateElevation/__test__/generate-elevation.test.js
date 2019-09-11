@@ -1,6 +1,5 @@
 import generateElevation from '../generate-elevation';
 import testElevation from '../../utils/recursive-elevation/__test__/validation-tests/index.test';
-import '../../../../../../../../public';
 import calculateDetailCount from './calculate-detail-count';
 import calculateFrameCount from './calculate-frame-count';
 import testElevationArrays from '../../utils/recursive-elevation/__test__/validation-tests/test-elevation-arrays.test';

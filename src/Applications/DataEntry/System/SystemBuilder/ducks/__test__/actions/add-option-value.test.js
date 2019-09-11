@@ -1,6 +1,5 @@
 import ADD_OPTION_VALUE from "../../actions/add-option-value";
 import { systemUpdate } from "../../schemas";
-import "../../../../../../../../public";
 
 function testAddOptionValue({
     systemInput,

@@ -1,6 +1,5 @@
 import ADD_TYPE from "../../actions/add-type";
 import { systemCOMPENSATING_RECEPTORdate } from "../../schemas";
-import "../../../../../../../../public";
 
 function testAddType({
     systemInput,

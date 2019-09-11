@@ -20,7 +20,6 @@ export default function generateElevation({
         .map(({ distance }) => distance)
         .concat(lastContainerHeight);
 
-    // find Number[Symbol.iterator] in public/index.html
     const _elevationContainers = _.range(startingBayQuantity)
         .reduce((bays, i) => bays
             .concat(containerHeights

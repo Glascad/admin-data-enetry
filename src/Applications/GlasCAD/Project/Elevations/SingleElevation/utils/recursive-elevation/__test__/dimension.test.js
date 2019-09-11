@@ -1,8 +1,6 @@
 
 import RecursiveElevation from "../elevation";
 
-import '../../../../../../../../../public';
-
 import sample6 from '../../../utils/sample-elevations/sample6.json';
 import sample3 from '../../../utils/sample-elevations/sample3.json';
 
