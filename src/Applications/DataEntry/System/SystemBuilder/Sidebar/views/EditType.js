@@ -1,7 +1,7 @@
 import React from 'react';
-import { TitleBar, GroupingBox, Input, CircleButton } from '../../../../../../components';
+import { TitleBar, GroupingBox, Input, CircleButton, DeleteButton } from '../../../../../../components';
 import { getChildren } from '../../ducks/utils';
-import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE } from '../../ducks/actions';
+import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
 
 function EditType({
     selectedItem: selectedType,
@@ -126,6 +126,16 @@ function EditType({
                         </div>
                     )}
             </GroupingBox>
+            <button
+                className="sidebar-button danger"
+                onClick={() => dispatch(DELETE_TYPE, {
+                    id: oId,
+                    fakeId: oFId,
+                    __typename,
+                })}
+            >
+                Delete Type
+            </button>
         </>
     );
 }
