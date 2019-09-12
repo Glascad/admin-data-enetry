@@ -1,6 +1,5 @@
 const pfs = require('./promise-fs');
 
-
 async function readFile(path, done) {
     try {
         const results = await pfs.readFile(path);

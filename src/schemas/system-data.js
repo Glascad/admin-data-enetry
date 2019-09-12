@@ -43,6 +43,7 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
+        isDefault
         raisedOptionNames
         raisedConfigurationTypes
         parentSystemOptionId
@@ -76,6 +77,7 @@ export const DETAIL_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
+        isDefault
         parentDetailOptionId
     }
 `;
@@ -108,6 +110,7 @@ export const CONFIGURATION_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
+        isDefault
         parentConfigurationOptionId
     }
 `;

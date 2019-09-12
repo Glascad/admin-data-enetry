@@ -72,9 +72,17 @@ const getDbContents = path => {
 
 const requiredPaths = [];
 
+// const limit = Infinity
+// var finished = false;
+
 const _require = path => {
+    // if (finished) return '';
     if (requiredPaths.includes(path)) throw new Error(`Duplicate path required: ${path}`);
     else {
+        // if (requiredPaths.length === limit) {
+        //     finished = true;
+        //     console.log(`Last path: ${path}`);
+        // }
         requiredPaths.push(path);
         return path.match(/\/|\./) ?
             path.startsWith('../../db/schemas/') ?

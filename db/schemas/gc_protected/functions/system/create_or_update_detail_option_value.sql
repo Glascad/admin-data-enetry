@@ -36,7 +36,10 @@ BEGIN
                 ELSE detail_option_values.name END,
             detail_option_id = CASE WHEN doid IS NOT NULL
                 THEN doid
-                ELSE detail_option_values.detail_option_id END
+                ELSE detail_option_values.detail_option_id END,
+            is_default = CASE WHEN dov.is_default IS NOT NULL
+                THEN dov.is_default
+                ELSE detail_option_values.is_default END
         WHERE id = dov.id
         AND system_id = s.id;
     ELSIF dov.fake_id IS NOT NULL THEN
@@ -45,12 +48,14 @@ BEGIN
             system_id,
             name,
             detail_option_id,
-            option_name
+            option_name,
+            is_default
         ) VALUES (
             s.id,
             dov.name,
             doid,
-            don
+            don,
+            dov.is_default
         )
         RETURNING * INTO udov;
 

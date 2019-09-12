@@ -6,7 +6,7 @@ import GroupingBox from './ui/GroupingBox/GroupingBox';
 import ListContainer from './ui/ListContainer/ListContainer';
 import Pill from './ui/Pill/Pill';
 import CircleButton from './ui/CircleButton/CircleButton';
-import Modal from './ui/Modal/Modal';
+import Modal, { confirmWithModal } from './ui/Modal/Modal';
 import DeleteButton from './ui/DeleteButton/DeleteButton';
 import DoubleArrow from './ui/DoubleArrow/DoubleArrow';
 import ListWrapper from './ui/ListWrapper/ListWrapper';
@@ -99,4 +99,7 @@ export {
     CheatSheet,
     BugReport,
     ErrorBoundary,
+    // SPECIAL FUNCTIONS
+    confirmWithModal,
 };
+    

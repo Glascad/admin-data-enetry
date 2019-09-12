@@ -33,7 +33,7 @@
             :
             null;
 
-    const __NOTE__ = "This file was automatically generated in `/dev-utils/map-schemas.js`";
+    const __NOTE__ = "This file was automatically generated in `/server/map-schemas.js`";
 
     const dbTree = {
         __NOTE__,

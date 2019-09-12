@@ -1,202 +1,72 @@
 import React, { useState } from 'react';
 import Statics from '../Statics/Statics';
-import { TitleBar, Pill, ListWrapper, Tree, useQuery } from '../../components';
-import gql from 'graphql-tag';
-import F from '../../schemas';
+import { TitleBar, Pill, ListWrapper, Tree, useQuery, RightSidebar, Input, GroupingBox, Toggle } from '../../components';
 
 import './Practice.scss';
 
-const option = "option";
-const value = "value";
-const detail = "detail";
-const detailOption = "detail-option";
-const detailValue = "detail-option-value";
-const configuration = "configuration";
-const configurationOption = "configuration-option";
-const configurationValue = "configuration-option-value";
-
-const query = gql`
-{
-    systemById(id:1) {
-        ...EntireSystem
-    }
-}
-    ${F.SYS.ENTIRE_SYSTEM}
-`;
-
-const trunk = {
-    item: {
-        type: option,
-        name: "System Option",
-    },
-    branches: [1, 2, 3].map(n => ({
-        item: {
-            type: value,
-            name: `Value ${n}`,
-        },
-        branches: [
-            {
-                item: {
-                    type: option,
-                    name: "System Option",
-                },
-                branches: [1, 2, 3].map(n => ({
-                    item: {
-                        type: value,
-                        name: `Value ${n}`,
-                    },
-                    branches: [
-                        {
-                            item: {
-                                type: option,
-                                name: "System Option",
-                            },
-                            branches: [1, 2, 3].map(n => ({
-                                item: {
-                                    type: value,
-                                    name: `Value ${n}`,
-                                },
-                                branches: [
-                                    {
-                                        item: {
-                                            type: option,
-                                            name: "System Option",
-                                        },
-                                        branches: [1, 2, 3].map(n => ({
-                                            item: {
-                                                type: value,
-                                                name: `Value ${n}`,
-                                            },
-                                            branches: ['Head', 'Horizontal', 'Sill'].map(name => ({
-                                                item: {
-                                                    type: detail,
-                                                    name,
-                                                },
-                                                open: false,
-                                                branches: [
-                                                    {
-                                                        item: {
-                                                            type: detailOption,
-                                                            name: "Detail Option",
-                                                        },
-                                                        branches: [1, 2, 3].map(n => ({
-                                                            item: {
-                                                                type: detailValue,
-                                                                name: `Value ${n}`,
-                                                            },
-                                                            branches: [
-                                                                {
-                                                                    item: {
-                                                                        type: detailOption,
-                                                                        name: "Detail Option",
-                                                                    },
-                                                                    branches: [1, 2, 3].map(n => ({
-                                                                        item: {
-                                                                            type: detailValue,
-                                                                            name: `Value ${n}`,
-                                                                        },
-                                                                        branches: [1, 2, 3].map(n => ({
-                                                                            item: {
-                                                                                type: configuration,
-                                                                                name: `Config ${n}`,
-                                                                            },
-                                                                            branches: [
-                                                                                {
-                                                                                    item: {
-                                                                                        type: configurationOption,
-                                                                                        name: "Config Option",
-                                                                                    },
-                                                                                    open: false,
-                                                                                    branches: [1, 2, 3].map(n => ({
-                                                                                        item: {
-                                                                                            type: configurationValue,
-                                                                                            name: n,
-                                                                                        },
-                                                                                    })),
-                                                                                },
-                                                                            ],
-                                                                        })),
-                                                                    })),
-                                                                },
-                                                            ],
-                                                        })),
-                                                    },
-                                                ],
-                                            })),
-                                        })),
-                                    },
-                                ],
-                            })),
-                        },
-                    ],
-                })),
-            },
-        ],
-    })),
-};
-
-// console.log(trunk);
-
 function Practice() {
-    const [fetch, queryResult] = useQuery({ query });
-    // console.log(queryResult);
-    // setTimeout(() => console.log(queryResult));
-    const {
-        _system,
-        _system: {
-            _systemOptions = [],
-            _detailOptions = [],
-            _configurationOptions = [],
-        } = {},
-    } = queryResult;
-    const firstItem = _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId) || {};
-    const treeTrunk = {
-        item: firstItem,
-        branches: (firstItem._systemOptionValues || []).map(item => {
-            const {
-                branchItems,
-                branchType,
-            } = item._systemDetailTypes && item._systemDetailTypes.length ?
-                    {
-                        branchType: "detailType",
-                        branchItems: item._systemDetailTypes
-                    } : {
-                        branchType: "systemOption",
-                        branchItems: _systemOptions.filter(({ parentSystemOptionValueId }) => parentSystemOptionValueId === item.id),
-                    };
-            return {
-                item,
-                branches: branchItems.map(item => ({
-                    item,
-                    branches: branchType === "detailType" ? (
-                        _detailOptions.map(item => ({
-                            item,
-                        }))
-                    ) : ([]),
-                })),
-            };
-        }),
-    };
     return (
         <div id="Practice">
             <TitleBar
                 title="Test Options"
             />
-            <Tree
-                trunk={trunk}
-                renderItem={(item, props) => (
-                    <div
-                        onClick={() => {
-                            if (props.toggleOpen) props.toggleOpen();
-                            // console.log({ item, props });
-                        }}
-                        className={`type-${item.type}`}
-                    >
-                        <span>
-                            {item.name}
-                        </span>
-                    </div>
-                )}
+            <RightSidebar
+                open={true}
+                View={{
+                    title: "Sidebar",
+                    component: () => (
+                        <>
+                            <TitleBar
+                                title="Configurations"
+                            />
+                            {["Head", "Shim Support", "Compensating Receptor", "Infills"].map(ct => (
+                                <Input
+                                    label={ct}
+                                    type="switch"
+                                    checked={true}
+                                />
+                            ))}
+                            {/* <GroupingBox
+                                title="Compensating Receptor"
+                            // switch={{}}
+                            > */}
+                            {/* <Toggle
+                                    label="Durability"
+                                    buttons={[
+                                        {
+                                            text: "Standard Duty",
+                                        },
+                                        {
+                                            text: "High-Performance",
+                                            selected: true,
+                                        },
+                                    ]}
+                                    />
+                                <Toggle
+                                    label="Other Option"
+                                    buttons={[
+                                        {
+                                            text: "Value 1",
+                                            selected: true,
+                                        },
+                                        {
+                                            text: "Value 2",
+                                        },
+                                    ]}
+                                /> */}
+                            {/* {["Standard Duty", "High-Performance"].map(ov => (
+                                    <Input
+                                        label={ov}
+                                        type="switch"
+                                    />
+                                ))} */}
+                            {/* </GroupingBox> */}
+                            <TitleBar
+                                title="Infills"
+                            />
+                        </>
+                    )
+                }}
             />
         </div>
     );

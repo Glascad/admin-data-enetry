@@ -36,7 +36,10 @@ BEGIN
                 ELSE configuration_option_values.name END,
             parent_configuration_option_id = CASE WHEN coid IS NOT NULL
                 THEN coid
-                ELSE configuration_option_values.parent_configuration_option_id END
+                ELSE configuration_option_values.parent_configuration_option_id END,
+            is_default = CASE WHEN cov.is_default IS NOT NULL
+                THEN cov.is_default
+                ELSE configuration_option_values.is_default END
         WHERE id = cov.id
         AND system_id = s.id;
     ELSIF cov.fake_id IS NOT NULL THEN
@@ -45,12 +48,14 @@ BEGIN
             system_id,
             name,
             parent_configuration_option_id,
-            option_name
+            option_name,
+            is_default
         ) VALUES (
             s.id,
             cov.name,
             coid,
-            con
+            con,
+            cov.is_default
         )
         RETURNING * INTO ucov;
 

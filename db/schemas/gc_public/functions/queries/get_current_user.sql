@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS get_current_user;
 
 CREATE OR REPLACE FUNCTION gc_public.get_current_user()
-RETURNS gc_public.CURRENT_USER AS $$
+RETURNS gc_controlled.current_user AS $$
 DECLARE
     uid INTEGER;
     un TEXT;
@@ -26,7 +26,7 @@ BEGIN
         un,
         r,
         pid
-    )::gc_public.CURRENT_USER;
+    )::gc_controlled.current_user;
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;
 

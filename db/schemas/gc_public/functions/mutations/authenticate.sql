@@ -26,7 +26,7 @@ BEGIN
             -- NULL,
             EXTRACT(EPOCH FROM NOW() + INTERVAL '<<INTERVAL>>'),
             authenticatee.id
-        )::JWT;
+        )::gc_controlled.JWT;
     ELSE
         RETURN NULL;
     END IF;

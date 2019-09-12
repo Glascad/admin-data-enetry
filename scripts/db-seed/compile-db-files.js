@@ -1,5 +1,5 @@
-const pfs = require('../promise-fs');
-const filesToJSON = require('../files-to-json');
+const pfs = require('../../server/utils/promise-fs');
+const filesToJSON = require('../../server/utils/files-to-json');
 const { removeComments, cleanKeys, removeExt, getKeys } = require('./utils');
 
 module.exports = async function compileDbFiles() {

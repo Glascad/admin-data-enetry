@@ -1,11 +1,5 @@
 
 CREATE TABLE
-gc_data.manufacturers (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50)
-);
-
-CREATE TABLE
 gc_data.system_type_detail_types (
     system_type SYSTEM_TYPE REFERENCES system_types,
     detail_type DETAIL_TYPE,

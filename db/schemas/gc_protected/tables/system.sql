@@ -47,6 +47,7 @@ gc_protected.system_option_values (
     parent_system_option_id INTEGER REFERENCES system_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     option_name OPTION_NAME NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE,
     raised_option_names OPTION_NAME[],
     raised_configuration_types CONFIGURATION_TYPE[],
     -- only one of each value per option
@@ -153,6 +154,7 @@ gc_protected.detail_option_values (
     parent_detail_option_id INTEGER REFERENCES detail_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     option_name OPTION_NAME,
     name OPTION_VALUE_NAME,
+    is_default BOOLEAN DEFAULT FALSE,
     -- only one of each value per option
     UNIQUE (parent_detail_option_id, name),
     -- MAYBE FUTURE
@@ -262,6 +264,7 @@ gc_protected.configuration_option_values (
     parent_configuration_option_id INTEGER REFERENCES configuration_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     option_name OPTION_NAME,
     name OPTION_VALUE_NAME,
+    is_default BOOLEAN DEFAULT FALSE,
     -- only one of each value per option
     UNIQUE (parent_configuration_option_id, name),
     -- MAYBE FUTURE

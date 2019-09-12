@@ -13,11 +13,13 @@ ${require('../../db/schemas/schemas.sql')}
 
 -- TYPES;
 -- GC_CONTROLLED TYPES;
-${require('../../db/schemas/gc_controlled/types.sql')}
+${require('../../db/schemas/gc_controlled/types/util_types.sql')}
+${require('../../db/schemas/gc_controlled/types/auth_types.sql')}
+${require('../../db/schemas/gc_controlled/types/storage_types.sql')}
+${require('../../db/schemas/gc_controlled/types/architecture_types.sql')}
 -- GC_PUBLIC TYPES;
-${require('../../db/schemas/gc_public/types/util-types.sql')}
+${require('../../db/schemas/gc_public/types')}
 -- OUTPUT_TYPES
-${require('../../db/schemas/gc_public/types/input-types.sql')}
 -- GC_DATA TYPES
 ${require('../../db/schemas/gc_data/types.sql')}
 
@@ -26,6 +28,8 @@ ${require('../../db/schemas/gc_data/types.sql')}
 ${require('../../db/schemas/gc_controlled/tables.sql')}
 -- GC_DATA TABLES;
 ${require('../../db/schemas/gc_data/tables/app_data.sql')}
+${require('../../db/schemas/gc_data/tables/manufacturer_data.sql')}
+${require('../../db/schemas/gc_data/tables/system_data.sql')}
 -- CONFIGURATION_DATA
 -- GC_PRIVATE TABLES;
 ${require('../../db/schemas/gc_private/tables.sql')}
@@ -46,7 +50,6 @@ ${require('../../db/schemas/invoker.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
 -- GC PRIVATE FUNCTIONS
 ${require('../../db/schemas/gc_private/functions/create_a_user.sql')}
-${require('../../db/schemas/gc_private/functions/get_bug_reports.sql')}
 ${require('../../db/schemas/gc_private/functions/update_password.sql')}
 -- GC_PROTECTED FUNCTIONS;
 -- ELEVATION

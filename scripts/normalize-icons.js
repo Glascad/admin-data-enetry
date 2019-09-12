@@ -1,5 +1,5 @@
-const filesToJSON = require('./files-to-json');
-const pfs = require('./promise-fs');
+const filesToJSON = require('../server/utils/files-to-json');
+const pfs = require('../server/utils/promise-fs');
 
 const assetsFolder = `src/assets`;
 
@@ -111,7 +111,7 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
 
     const newExports = `export {\n    ${newIconNames.join(',\n    ')},\n};`;
 
-    const indexJS = `// This file was automatically generated in ${__dirname}/dev-utils/normalize-icons.js\n\n${newImports}\n${newExports}`;
+    const indexJS = `// This file was automatically generated in ${__dirname}/server/normalize-icons.js\n\n${newImports}\n${newExports}`;
 
     await pfs.writeFile(`${pathToIcons}/index.js`, indexJS);
 

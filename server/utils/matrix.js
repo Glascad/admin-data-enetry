@@ -9,9 +9,7 @@ const M = require('mathjs');
  * @param {number} degrees - the angle in degrees that should be converted to radians
  */
 
-function radians(degrees) {
-    return degrees * Math.PI / 180;
-}
+const radians = degrees => degrees * Math.PI / 180;
 
 /**
  * DEGREES
@@ -21,9 +19,7 @@ function radians(degrees) {
  * @param {number} radians - the angle in radians that should be converted to degrees
  */
 
-function degrees(radians) {
-    return radians * 180 / Math.PI;
-}
+const degrees = radians => radians * 180 / Math.PI;
 
 
 
@@ -37,9 +33,7 @@ function degrees(radians) {
  * @param {number} degrees - the angle in degrees
  */
 
-function sin(degrees) {
-    return Math.sin(radians(degrees));
-}
+const sin = degrees => Math.sin(radians(degrees));
 
 /**
  * COSINE
@@ -49,9 +43,7 @@ function sin(degrees) {
  * @param {number} degrees - the angle in degrees
  */
 
-function cos(degrees) {
-    return Math.cos(radians(degrees));
-}
+const cos = degrees => Math.cos(radians(degrees));
 
 
 
@@ -85,17 +77,15 @@ const IDENTITY_MATRIX = [
  * @param {number} [T.i=1] - Do not use
  */
 
-function createTransformation({
+const createTransformation = ({
     a = 1, b = 0, c = 0,
     d = 0, e = 1, f = 0,
     g = 0, h = 0, i = 1
-} = {}) {
-    return [
+} = {}) => [
         [a, b, c],
         [d, e, f],
         [g, h, i]
     ];
-}
 
 const z = undefined;
 const origin = { x: 0, y: 0 };
@@ -113,9 +103,7 @@ const origin = { x: 0, y: 0 };
  * @param {number} f - translation factor along the vertical axis (y)
  */
 
-function createTranslation(c, f) {
-    return createTransformation({ c, f });
-}
+const createTranslation = (c, f) => createTransformation({ c, f });
 
 /**
  * CREATE SCALE
@@ -126,9 +114,7 @@ function createTranslation(c, f) {
  * @param {number} e - scale factor along the vertical axis (y)
  */
 
-function createScale(a, e) {
-    return createTransformation({ a, e });
-}
+const createScale = (a, e) => createTransformation({ a, e });
 
 /**
  * CREATE SHEAR
@@ -139,9 +125,7 @@ function createScale(a, e) {
  * @param {number} d - vertical shear factor (y in relation to x)
  */
 
-function createShear(b, d) {
-    return createTransformation({ b, d });
-}
+const createShear = (b, d) => createTransformation({ b, d });
 
 /**
  * CREATE ROTATION
@@ -151,12 +135,10 @@ function createShear(b, d) {
  * @param {number} phi - the number of degrees to rotate counter-clockwise (given rightward X and upward Y axes)
  */
 
-function createRotation(phi) {
-    return createTransformation({
-        a: cos(phi), b: -sin(phi),
-        d: sin(phi), e: cos(phi)
-    });
-}
+const createRotation = phi => createTransformation({
+    a: cos(phi), b: -sin(phi),
+    d: sin(phi), e: cos(phi)
+});
 
 
 
@@ -176,16 +158,11 @@ function createRotation(phi) {
  * @param {number} P.y - y coordinate of the center point
  */
 
-function createCenteredScale(S, P) {
-    let translation1 = createTranslation(-P.x, -P.y);
-    let scale = createScale(S.x, S.y);
-    let translation2 = createTranslation(P.x, P.y);
-    return M.multiply(
-        translation2,
-        scale,
-        translation1
-    );
-}
+const createCenteredScale = (S, P) => M.multiply(
+    createTranslation(P.x, P.y), // translation 2
+    createScale(S.x, S.y), // scale
+    createTranslation(-P.x, -P.y), // translation 1
+);
 
 
 /**
@@ -200,16 +177,11 @@ function createCenteredScale(S, P) {
  * @param {number} P.y - y coordinate of the center point
  */
 
-function createCenteredRotation(phi, P) {
-    let translation1 = createTranslation(-P.x, -P.y);
-    let rotation = createRotation(phi);
-    let translation2 = createTranslation(P.x, P.y);
-    return M.multiply(
-        translation2,
-        rotation,
-        translation1
-    );
-}
+const createCenteredRotation = (phi, P) => M.multiply(
+    createTranslation(P.x, P.y), //  translation 2
+    createRotation(phi), //  rotation
+    createTranslation(-P.x, -P.y), //  translation 1
+);
 
 /**
  * CREATE SCALE WITH AXIS
@@ -227,20 +199,13 @@ function createCenteredRotation(phi, P) {
  * @param {number} P.y - y coordinate of the axis center point
  */
 
-function createScaleWithAxis(S, phi, P) {
-    let translation1 = createTranslation(-P.x, -P.y);
-    let rotation1 = createRotation(phi);
-    let scale = createScale(S.x, S.y);
-    let rotation2 = createRotation(-phi);
-    let translation2 = createTranslation(P.x, P.y);
-    return M.multiply(
-        translation2,
-        rotation2,
-        scale,
-        rotation1,
-        translation1
-    );
-}
+const createScaleWithAxis = (S, phi, P) => M.multiply(
+    createTranslation(P.x, P.y), // translation 2
+    createRotation(-phi), // rotation 2
+    createScale(S.x, S.y), // scale
+    createRotation(phi), // rotation 1
+    createTranslation(-P.x, -P.y), // translation 1
+);
 
 /**
  * CREATE MIRROR ACROSS AXIS
@@ -254,10 +219,7 @@ function createScaleWithAxis(S, phi, P) {
  * @param {number} P.y - y coordinate of the axis center point
  */
 
-function createMirrorAcrossAxis(phi, P) {
-    return createScaleWithAxis({ x: -1, y: 1 }, phi, P);
-}
-
+const createMirrorAcrossAxis = (phi, P) => createScaleWithAxis({ x: -1, y: 1 }, phi, P);
 
 
 Object.assign(module.exports, {

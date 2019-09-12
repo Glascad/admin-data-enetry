@@ -1,4 +1,14 @@
 
+CREATE TYPE
+gc_public.entire_bug_report AS (
+    id INTEGER,
+    username TEXT,
+    location TEXT,
+    report TEXT,
+    state JSONB,
+    timestamp TIMESTAMP
+);
+
 -- CREATE TYPE
 -- gc_public.name_output AS (
 --     id INTEGER,

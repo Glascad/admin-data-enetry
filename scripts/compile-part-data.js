@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const pfs = require('./promise-fs');
+const pfs = require('../server/utils/promise-fs');
 const filesToJSON = require('./fs-to-json');
 const oldParts = require('../parts.json');
 

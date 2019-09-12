@@ -29,9 +29,10 @@ const mapProps = ({
 }) => ({
     allowedApplications:
     {
+        // Practice,
         // Login,
         DataEntry,
-        Glascad,
+        // Glascad,
     }
     // role.match(/admin/i) ?
     //     {

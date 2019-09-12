@@ -19,12 +19,14 @@ import { updateEntireSystem as updateEntireSystemMutation } from './system-graph
 
 import SystemInfo from './SystemInfo/SystemInfo';
 import SystemBuilder from './SystemBuilder/SystemBuilder';
+import DetailBuilder from './DetailBuilder/DetailBuilder';
 
 import { parseSearch } from '../../../utils';
 
 const subroutes = {
     SystemInfo,
     SystemBuilder,
+    DetailBuilder,
 };
 
 // this is for rendering the correct name in the sidebar

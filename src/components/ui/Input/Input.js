@@ -42,22 +42,24 @@ export default class Input extends PureComponent {
             'inches',
             ...booleanTypes,
         ]),
-        select: PropTypes.shape(Select.propTypes || {
-            value: PropTypes.shape({
-                value: PropTypes.oneOfType([
-                    PropTypes.string,
-                    PropTypes.number,
-                ]),
-                label: customPropTypes.renderable,
+        select: PropTypes.shape(
+            // Select.propTypes || 
+            {
+                value: PropTypes.shape({
+                    value: PropTypes.oneOfType([
+                        PropTypes.string,
+                        PropTypes.number,
+                    ]),
+                    label: customPropTypes.renderable,
+                }),
+                options: PropTypes.arrayOf(PropTypes.shape({
+                    value: PropTypes.oneOfType([
+                        PropTypes.string,
+                        PropTypes.number,
+                    ]),
+                    label: customPropTypes.renderable,
+                })),
             }),
-            options: PropTypes.arrayOf(PropTypes.shape({
-                value: PropTypes.oneOfType([
-                    PropTypes.string,
-                    PropTypes.number,
-                ]),
-                label: customPropTypes.renderable,
-            })),
-        }),
         value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -218,73 +220,6 @@ export default class Input extends PureComponent {
         if (onKeyDown) onKeyDown(arg);
     }
 
-    // componentWillUnmount = () => {
-    //     window.removeEventListener('keydown', this.handleKeyDown);
-    //     window.removeEventListener('keyup', this.handleKeyUp);
-    // }
-
-    // handleKeyDown = e => {
-    //     const { key, altKey, target } = e;
-
-    //     this.keys[key] = true;
-    //     this.keys.Alt = altKey;
-
-    //     if (key === 'Enter') target.blur();
-    // }
-
-    // handleKeyUp = e => {
-    //     const { key, altKey } = e;
-
-    //     this.keys[key] = false;
-    //     this.keys.Alt = altKey;
-    // }
-
-    // handleNumberChange = e => {
-    //     const {
-    //         target,
-    //         target: {
-    //             value: oldValue,
-    //         },
-    //     } = e;
-
-    //     const {
-    //         keys: {
-    //             ArrowDown,
-    //             ArrowUp,
-    //             Control,
-    //             Meta,
-    //             Shift,
-    //             Alt,
-    //         },
-    //     } = this;
-
-    //     if (ArrowUp || ArrowDown) {
-    //         const delta = Meta || Control ?
-    //             100 - 1
-    //             :
-    //             Shift ?
-    //                 10 - 1
-    //                 :
-    //                 // Alt ?
-    //                 //     0.1 - 1
-    //                 //     :
-    //                 1 - 1;
-
-    //         const value = ArrowUp ?
-    //             +oldValue + delta
-    //             :
-    //             +oldValue - delta;
-
-    //         if (this.props.onChange) {
-    //             e.preventDefault();
-    //             target.value = value;
-    //             this.props.onChange({ ...e, target });
-    //         } else {
-    //             target.value = value;
-    //         }
-    //     }
-    // }
-
     render = () => {
         const {
             state: {
@@ -424,22 +359,10 @@ export default class Input extends PureComponent {
                                     value
                                 :
                                 undefined}
-                            checked={isBoolean ?
-                                checked
-                                :
-                                undefined}
-                            onChange={isInches ?
-                                handleInchChange
-                                :
-                                onChange}
-                            onBlur={isInches ?
-                                handleInchblur
-                                :
-                                onBlur}
-                            onKeyDown={onEnter ?
-                                handleKeyDown
-                                :
-                                onKeyDown}
+                            checked={isBoolean ? checked : undefined}
+                            onChange={isInches ? handleInchChange : onChange}
+                            onBlur={isInches ? handleInchblur : onBlur}
+                            onKeyDown={onEnter ? handleKeyDown : onKeyDown}
                             {...(isBoolean ? null : { "data-cy": dataCy })}
                         // VVV is this spread necessary?
                         // {...props}

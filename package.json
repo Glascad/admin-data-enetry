@@ -32,10 +32,10 @@
         "test": "react-scripts test",
         "cy": "cypress open",
         "eject": "react-scripts eject",
-        "normalize-icons": "node ./dev-utils/normalize-icons",
-        "compile-seed": "node ./dev-utils/db-seed",
-        "map-schemas": "node ./dev-utils/map-schemas",
-        "map-src": "node ./dev-utils/map-src-files"
+        "normalize-icons": "node ./scripts/normalize-icons",
+        "compile-seed": "node ./scripts/db-seed",
+        "map-schemas": "node ./scripts/map-schemas",
+        "map-src": "node ./scripts/map-src-files"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -67,7 +67,7 @@
         ],
         "watch": [
             "db/",
-            "dev-utils/",
+            "server/",
             ".env",
             "index.js"
         ]

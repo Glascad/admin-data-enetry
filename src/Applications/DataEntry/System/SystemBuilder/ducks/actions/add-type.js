@@ -11,10 +11,13 @@ export default function ADD_TYPE(systemInput, {
     const typesKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetailTypes
     const typeKey = __typename.replace(/System/i, '').toLowerCase().replace(/type/i, 'Type');
     const typeUpdateKey = `${__typename.replace(/System/i, 'system')}Update`; //SystemDetailTypeUpdate
-    const parentOptionValueKey = `parent${__typename
-        .replace(/SystemConfigurationType/i, 'DetailOptionValue')
-        .replace(/SystemDetailType/i, 'SystemOptionValue')
-        }${parentOptionValueFakeId ? 'Fake' : ''}Id` // `parentSystemOptionValueId`
+    const parentOptionValueKey = `parent${
+        __typename
+            .replace(/SystemConfigurationType/i, 'DetailOptionValue')
+            .replace(/SystemDetailType/i, 'SystemOptionValue')
+        }${
+        parentOptionValueFakeId ? 'Fake' : ''
+        }Id` // `parentSystemOptionValueId`
 
     const { [typesKey]: typeArray = [] } = systemInput;
     const { [typeUpdateKey]: typeUpdate, } = schemas;

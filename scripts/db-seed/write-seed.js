@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const compileDbFiles = require('./compile-db-files');
 const generateSeedFile = require('./generate-seed-file');
-const pfs = require('../promise-fs');
+const pfs = require('../../server/utils/promise-fs');
 
 module.exports = async function writeSeed() {
     try {

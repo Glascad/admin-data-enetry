@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TitleBar, Input, GroupingBox, CircleButton, useInitialState } from "../../../../../../components";
+import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal } from "../../../../../../components";
 import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, DELETE_OPTION } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
 import { getChildren } from '../../ducks/utils';
@@ -76,7 +76,7 @@ function EditOption({
                                 name: label,
                                 __typename,
                             }),
-                        })
+                        }),
                 }}
             />
             {/* </div> */}

@@ -5,6 +5,7 @@ import Toggle from '../Toggle/Toggle';
 import CircleButton from '../CircleButton/CircleButton';
 import customPropTypes from '../../custom-prop-types';
 import { normalCase } from '../../../utils';
+import { Input } from '../..';
 
 GroupingBox.propTypes = {
     title: PropTypes.string,
@@ -20,6 +21,7 @@ GroupingBox.defaultProps = {
 
 export default function GroupingBox({
     title,
+    switch: switchProps,
     toggle,
     circleButton,
     children,
@@ -44,6 +46,13 @@ export default function GroupingBox({
                 <div className="add-button-background">
                     <CircleButton
                         {...circleButton}
+                    />
+                </div>
+            ) : switchProps ? (
+                <div className="add-button-background">
+                    <Input
+                        type="switch"
+                        {...switchProps}
                     />
                 </div>
             ) : null}

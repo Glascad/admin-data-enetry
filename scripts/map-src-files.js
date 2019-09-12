@@ -22,7 +22,7 @@
             :
             '';
 
-    const __NOTE__ = "This file was automatically generated in `/dev-utils/map-src-files.js`";
+    const __NOTE__ = "This file was automatically generated in `/server/map-src-files.js`";
 
     const srcTree = {
         __NOTE__,

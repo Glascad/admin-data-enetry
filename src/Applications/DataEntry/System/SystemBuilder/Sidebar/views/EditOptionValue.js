@@ -10,6 +10,7 @@ function EditOptionValue({
         id: ovId,
         fakeId: ovFId,
         name: ovName,
+        isDefault,
         __typename,
     },
     system,
@@ -111,6 +112,18 @@ function EditOptionValue({
                         }),
                 }}
             />
+            {isDefault ? null : (
+                <button
+                    className="sidebar-button light"
+                // onClick={() => dispatch(MAKE_DEFAULT, {
+                //     id: ovId,
+                //     fakeId: ovFId,
+                //     __typename,
+                // })}
+                >
+                    Make Default
+                </button>
+            )}
             <GroupingBox
                 data-cy="edit-children"
                 title={(

@@ -1,12 +1,5 @@
 
 CREATE TYPE
-gc_controlled.gc_role AS ENUM (
-    'GC_ADMIN',
-    'GC_DATA_ENTRY',
-    'GC_CLIENT'
-);
-
-CREATE TYPE
 gc_controlled.system_type AS ENUM (
     'STOREFRONT',
     'ALL_GLASS',
