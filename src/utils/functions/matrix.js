@@ -1,4 +1,4 @@
-const M = require('mathjs');
+import { multiply } from 'mathjs';
 
 
 /**
@@ -9,7 +9,7 @@ const M = require('mathjs');
  * @param {number} degrees - the angle in degrees that should be converted to radians
  */
 
-const radians = degrees => degrees * Math.PI / 180;
+export const radians = degrees => degrees * Math.PI / 180;
 
 /**
  * DEGREES
@@ -19,7 +19,7 @@ const radians = degrees => degrees * Math.PI / 180;
  * @param {number} radians - the angle in radians that should be converted to degrees
  */
 
-const degrees = radians => radians * 180 / Math.PI;
+export const degrees = radians => radians * 180 / Math.PI;
 
 
 
@@ -33,7 +33,7 @@ const degrees = radians => radians * 180 / Math.PI;
  * @param {number} degrees - the angle in degrees
  */
 
-const sin = degrees => Math.sin(radians(degrees));
+export const sin = degrees => Math.sin(radians(degrees));
 
 /**
  * COSINE
@@ -43,7 +43,7 @@ const sin = degrees => Math.sin(radians(degrees));
  * @param {number} degrees - the angle in degrees
  */
 
-const cos = degrees => Math.cos(radians(degrees));
+export const cos = degrees => Math.cos(radians(degrees));
 
 
 
@@ -51,7 +51,7 @@ const cos = degrees => Math.cos(radians(degrees));
 
 // IDENTITY MATRIX
 
-const IDENTITY_MATRIX = [
+export const IDENTITY_MATRIX = [
     [1, 0, 0],
     [0, 1, 0],
     [0, 0, 1]
@@ -77,7 +77,7 @@ const IDENTITY_MATRIX = [
  * @param {number} [T.i=1] - Do not use
  */
 
-const createTransformation = ({
+export const createTransformation = ({
     a = 1, b = 0, c = 0,
     d = 0, e = 1, f = 0,
     g = 0, h = 0, i = 1
@@ -87,8 +87,8 @@ const createTransformation = ({
         [g, h, i]
     ];
 
-const z = undefined;
-const origin = { x: 0, y: 0 };
+export const z = undefined;
+export const origin = { x: 0, y: 0 };
 
 
 
@@ -103,7 +103,7 @@ const origin = { x: 0, y: 0 };
  * @param {number} f - translation factor along the vertical axis (y)
  */
 
-const createTranslation = (c, f) => createTransformation({ c, f });
+export const createTranslation = (c, f) => createTransformation({ c, f });
 
 /**
  * CREATE SCALE
@@ -114,7 +114,7 @@ const createTranslation = (c, f) => createTransformation({ c, f });
  * @param {number} e - scale factor along the vertical axis (y)
  */
 
-const createScale = (a, e) => createTransformation({ a, e });
+export const createScale = (a, e) => createTransformation({ a, e });
 
 /**
  * CREATE SHEAR
@@ -125,7 +125,7 @@ const createScale = (a, e) => createTransformation({ a, e });
  * @param {number} d - vertical shear factor (y in relation to x)
  */
 
-const createShear = (b, d) => createTransformation({ b, d });
+export const createShear = (b, d) => createTransformation({ b, d });
 
 /**
  * CREATE ROTATION
@@ -135,9 +135,9 @@ const createShear = (b, d) => createTransformation({ b, d });
  * @param {number} phi - the number of degrees to rotate counter-clockwise (given rightward X and upward Y axes)
  */
 
-const createRotation = phi => createTransformation({
+export const createRotation = phi => createTransformation({
     a: cos(phi), b: -sin(phi),
-    d: sin(phi), e: cos(phi)
+    d: sin(phi), e: cos(phi),
 });
 
 
@@ -158,7 +158,7 @@ const createRotation = phi => createTransformation({
  * @param {number} P.y - y coordinate of the center point
  */
 
-const createCenteredScale = (S, P) => M.multiply(
+export const createCenteredScale = (S, P) => multiply(
     createTranslation(P.x, P.y), // translation 2
     createScale(S.x, S.y), // scale
     createTranslation(-P.x, -P.y), // translation 1
@@ -177,7 +177,7 @@ const createCenteredScale = (S, P) => M.multiply(
  * @param {number} P.y - y coordinate of the center point
  */
 
-const createCenteredRotation = (phi, P) => M.multiply(
+export const createCenteredRotation = (phi, P) => multiply(
     createTranslation(P.x, P.y), //  translation 2
     createRotation(phi), //  rotation
     createTranslation(-P.x, -P.y), //  translation 1
@@ -199,7 +199,7 @@ const createCenteredRotation = (phi, P) => M.multiply(
  * @param {number} P.y - y coordinate of the axis center point
  */
 
-const createScaleWithAxis = (S, phi, P) => M.multiply(
+export const createScaleWithAxis = (S, phi, P) => multiply(
     createTranslation(P.x, P.y), // translation 2
     createRotation(-phi), // rotation 2
     createScale(S.x, S.y), // scale
@@ -219,18 +219,4 @@ const createScaleWithAxis = (S, phi, P) => M.multiply(
  * @param {number} P.y - y coordinate of the axis center point
  */
 
-const createMirrorAcrossAxis = (phi, P) => createScaleWithAxis({ x: -1, y: 1 }, phi, P);
-
-
-Object.assign(module.exports, {
-    IDENTITY_MATRIX,
-    createTransformation,
-    createTranslation,
-    createScale,
-    createShear,
-    createRotation,
-    createCenteredScale,
-    createCenteredRotation,
-    createScaleWithAxis,
-    createMirrorAcrossAxis
-});
+export const createMirrorAcrossAxis = (phi, P) => createScaleWithAxis({ x: -1, y: 1 }, phi, P);
