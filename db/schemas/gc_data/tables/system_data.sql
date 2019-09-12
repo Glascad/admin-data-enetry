@@ -1,7 +1,20 @@
 
+-- CONFIGURATIONS
+
 CREATE TABLE
-gc_data.configurations (
-    id SERIAL PRIMARY KEY
+gc_protected.configurations (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES SYSTEMS ON DELETE CASCADE INITIALLY DEFERRED,
+    configuration_option_value_id INTEGER UNIQUE REFERENCES configuration_option_values,
+    -- must reference value within correct system
+    FOREIGN KEY (
+        system_id,
+        configuration_option_value_id
+    )
+    REFERENCES configuration_option_values (
+        system_id,
+        id
+    )
 
     -- configuration_type_id INTEGER REFERENCES configuration_types,
     -- infill_pocket_type_id INTEGER REFERENCES infill_pocket_types,

@@ -34,7 +34,7 @@ module.exports = function startServer() {
         ],
         {
             graphiql: true,
-            jwtPgTypeIdentifier: "gc_public.jwt",
+            jwtPgTypeIdentifier: "gc_controlled.jwt",
             jwtSecret: JWT_SECRET,
             // exportGqlSchemaPath: `${__dirname}/compiled/gql-schema.gql`,
             pgDefaultRole: 'unauthorized',

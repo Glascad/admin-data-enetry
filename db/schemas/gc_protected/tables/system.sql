@@ -72,31 +72,6 @@ gc_protected.system_option_values (
     ON DELETE CASCADE INITIALLY DEFERRED
 );
 
--- recursion
-ALTER TABLE gc_protected.system_options
-ADD COLUMN parent_system_option_value_id INTEGER REFERENCES system_option_values ON DELETE CASCADE INITIALLY DEFERRED;
-
--- cannot have two rows with the same system_id and NULL parent_system_option_value_ids
-ALTER TABLE gc_protected.system_options
-ADD CONSTRAINT single_parent_system_option EXCLUDE USING gist (
-    system_id WITH =,
-    COALESCE(parent_system_option_value_id, 0) WITH =
-);
-
--- CREATE TABLE
--- gc_protected.raised_option_names (
---     system_id INTEGER REFERENCES systems,
---     option_name OPTION_NAME,
---     option_value_name OPTION_VALUE_NAME,
---     raised_option_name OPTION_NAME,
-
--- );
-
--- CREATE TABLE
--- gc_protected.raised_configuration_types (
-
--- );
-
 -- DETAIL TYPES
 
 CREATE TABLE
@@ -133,7 +108,7 @@ gc_protected.detail_options (
     -- only one of each option within each detail
     UNIQUE (parent_system_detail_type_id, name),
     -- for foreign keys
-    UNIQUE (id, system_id, name),
+    UNIQUE (id, parent_system_detail_type_id, system_id, name),
     -- must reference detail type in correct system
     FOREIGN KEY (
         system_id,
@@ -150,7 +125,7 @@ CREATE TABLE
 gc_protected.detail_option_values (
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    -- parent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    grandparent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     parent_detail_option_id INTEGER REFERENCES detail_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     option_name OPTION_NAME,
     name OPTION_VALUE_NAME,
@@ -162,17 +137,17 @@ gc_protected.detail_option_values (
     -- raised_configuration_types CONFIGURATION_TYPE[],
     --
     -- for foreign keys
-    UNIQUE (system_id, id),
+    UNIQUE (grandparent_system_detail_type_id, system_id, id),
     -- must reference option in correct system
     FOREIGN KEY (
         system_id,
-        -- parent_system_detail_type_id,
+        grandparent_system_detail_type_id,
         parent_detail_option_id,
         option_name
     )
     REFERENCES detail_options (
         system_id,
-        -- parent_system_detail_type_id,
+        parent_system_detail_type_id,
         id,
         name
     ),
@@ -181,8 +156,118 @@ gc_protected.detail_option_values (
     REFERENCES valid_option_values (option_name, name)
 );
 
+-- CONFIGURATION TYPES
+
+CREATE TABLE
+gc_protected.system_configuration_types (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    grandparent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_detail_option_value_id INTEGER REFERENCES detail_option_values ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    configuration_type CONFIGURATION_TYPE REFERENCES configuration_types NOT NULL,
+    optional BOOLEAN NOT NULL DEFAULT FALSE,
+    -- only one of each configuration type per option value
+    UNIQUE (parent_detail_option_value_id, configuration_type),
+    -- for foreign keys
+    UNIQUE (id, system_id, grandparent_system_detail_type_id),
+    -- must reference value within correct system
+    FOREIGN KEY (
+        system_id,
+        parent_detail_option_value_id,
+        grandparent_system_detail_type_id
+    )
+    REFERENCES detail_option_values (
+        system_id,
+        id,
+        grandparent_system_detail_type_id
+    )
+    ON DELETE CASCADE INITIALLY DEFERRED
+);
+
+-- CONFIGURATION OPTIONS
+
+CREATE TABLE
+gc_protected.configuration_options (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    -- UNIQUE because only one parent option is allowed beneath each configuration type
+    parent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_system_configuration_type_id INTEGER REFERENCES system_configuration_types ON DELETE CASCADE INITIALLY DEFERRED UNIQUE NOT NULL,
+    name OPTION_NAME REFERENCES valid_options NOT NULL,
+    -- only one of each option within each configuration
+    UNIQUE (parent_system_configuration_type_id, name),
+    -- for foreign keys
+    UNIQUE (id, system_id, name, parent_system_detail_type_id, parent_system_configuration_type_id),
+    -- must reference configuration type in correct system
+    FOREIGN KEY (
+        system_id,
+        parent_system_configuration_type_id,
+        parent_system_detail_type_id
+    )
+    REFERENCES system_configuration_types (
+        system_id,
+        id,
+        parent_system_detail_type_id
+    )
+    ON DELETE CASCADE INITIALLY DEFERRED
+);
+
+CREATE TABLE
+gc_protected.configuration_option_values (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_system_configuration_type_id INTEGER REFERENCES system_configuration_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_configuration_option_id INTEGER REFERENCES configuration_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    option_name OPTION_NAME,
+    name OPTION_VALUE_NAME,
+    is_default BOOLEAN DEFAULT FALSE,
+    -- only one of each value per option
+    UNIQUE (parent_configuration_option_id, name),
+    -- MAYBE FUTURE
+    -- raised_option_names OPTION_NAME[],
+    -- raised_configuration_types CONFIGURATION_TYPE[],
+    --
+    -- for foreign keys
+    UNIQUE (system_id, id),
+    -- must reference option in correct system
+    FOREIGN KEY (
+        system_id,
+        parent_configuration_option_id,
+        option_name,
+        parent_system_detail_type_id,
+        parent_system_configuration_type_id
+    )
+    REFERENCES configuration_options (
+        system_id,
+        id,
+        name,
+        parent_system_detail_type_id,
+        parent_system_configuration_type_id
+    )
+    ON DELETE CASCADE INITIALLY DEFERRED,
+    -- must reference valid option value for option name
+    FOREIGN KEY (option_name, name)
+    REFERENCES valid_option_values (option_name, name)
+    ON DELETE CASCADE INITIALLY DEFERRED
+);
+
+
+
+
+-- System Options
+ALTER TABLE gc_protected.system_options
+ADD COLUMN parent_system_option_value_id INTEGER REFERENCES system_option_values ON DELETE CASCADE INITIALLY DEFERRED;
+
+-- cannot have two rows with the same system_id and NULL parent_system_option_value_ids
+ALTER TABLE gc_protected.system_options
+ADD CONSTRAINT single_parent_system_option EXCLUDE USING gist (
+    system_id WITH =,
+    COALESCE(parent_system_option_value_id, 0) WITH =
+);
+
+-- Detail Options
 ALTER TABLE gc_protected.detail_options
--- recursion
 ADD COLUMN parent_detail_option_value_id INTEGER REFERENCES detail_option_values ON DELETE CASCADE INITIALLY DEFERRED;
 
 -- cannot have two columns with the same parent_system_detail_type_id and NULL parent_detail_option_value_ids
@@ -207,91 +292,7 @@ ADD CONSTRAINT parent_or_child_detail_option CHECK (
     )
 );
 
--- CONFIGURATION TYPES
-
-CREATE TABLE
-gc_protected.system_configuration_types (
-    id SERIAL PRIMARY KEY,
-    system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    parent_detail_option_value_id INTEGER REFERENCES detail_option_values ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    configuration_type CONFIGURATION_TYPE REFERENCES configuration_types NOT NULL,
-    optional BOOLEAN NOT NULL DEFAULT FALSE,
-    -- only one of each configuration type per option value
-    UNIQUE (parent_detail_option_value_id, configuration_type),
-    -- for foreign keys
-    UNIQUE (id, system_id),
-    -- must reference value within correct system
-    FOREIGN KEY (
-        system_id,
-        parent_detail_option_value_id
-    )
-    REFERENCES detail_option_values (
-        system_id,
-        id
-    )
-    ON DELETE CASCADE INITIALLY DEFERRED
-);
-
--- CONFIGURATION OPTIONS
-
-CREATE TABLE
-gc_protected.configuration_options (
-    id SERIAL PRIMARY KEY,
-    system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    -- UNIQUE because only one parent option is allowed beneath each configuration type
-    parent_system_configuration_type_id INTEGER REFERENCES system_configuration_types ON DELETE CASCADE INITIALLY DEFERRED UNIQUE NOT NULL,
-    name OPTION_NAME REFERENCES valid_options NOT NULL,
-    -- only one of each option within each configuration
-    UNIQUE (parent_system_configuration_type_id, name),
-    -- for foreign keys
-    UNIQUE (id, system_id, name),
-    -- must reference configuration type in correct system
-    FOREIGN KEY (
-        system_id,
-        parent_system_configuration_type_id
-    )
-    REFERENCES system_configuration_types (
-        system_id,
-        id
-    )
-    ON DELETE CASCADE INITIALLY DEFERRED
-);
-
-CREATE TABLE
-gc_protected.configuration_option_values (
-    id SERIAL PRIMARY KEY,
-    system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    parent_configuration_option_id INTEGER REFERENCES configuration_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    option_name OPTION_NAME,
-    name OPTION_VALUE_NAME,
-    is_default BOOLEAN DEFAULT FALSE,
-    -- only one of each value per option
-    UNIQUE (parent_configuration_option_id, name),
-    -- MAYBE FUTURE
-    -- raised_option_names OPTION_NAME[],
-    -- raised_configuration_types CONFIGURATION_TYPE[],
-    --
-    -- for foreign keys
-    UNIQUE (system_id, id),
-    -- must reference option in correct system
-    FOREIGN KEY (
-        system_id,
-        parent_configuration_option_id,
-        option_name
-    )
-    REFERENCES configuration_options (
-        system_id,
-        id,
-        name
-    )
-    ON DELETE CASCADE INITIALLY DEFERRED,
-    -- must reference valid option value for option name
-    FOREIGN KEY (option_name, name)
-    REFERENCES valid_option_values (option_name, name)
-    ON DELETE CASCADE INITIALLY DEFERRED
-);
-
--- recursion
+-- Configuration Options
 ALTER TABLE gc_protected.configuration_options
 ADD COLUMN parent_configuration_option_value_id INTEGER REFERENCES configuration_option_values ON DELETE CASCADE INITIALLY DEFERRED;
 
@@ -315,26 +316,4 @@ ADD CONSTRAINT parent_or_child_configuration_option CHECK (
         OR
         parent_system_configuration_type_id IS NULL
     )
-);
-
--- CONFIGURATIONS
-
-CREATE TABLE
-gc_protected.configurations (
-    id SERIAL PRIMARY KEY,
-    system_id INTEGER REFERENCES SYSTEMS ON DELETE CASCADE INITIALLY DEFERRED,
-    configuration_option_value_id INTEGER REFERENCES configuration_option_values ON DELETE CASCADE INITIALLY DEFERRED,
-    configuration_type CONFIGURATION_TYPE REFERENCES configuration_types,
-    -- only one of each configuration type per option value
-    UNIQUE (configuration_option_value_id, configuration_type),
-    -- must reference value within correct system
-    FOREIGN KEY (
-        system_id,
-        configuration_option_value_id
-    )
-    REFERENCES configuration_option_values (
-        system_id,
-        id
-    )
-    ON DELETE CASCADE INITIALLY DEFERRED
 );

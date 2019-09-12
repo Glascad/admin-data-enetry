@@ -94,7 +94,7 @@ const _require = path => {
     }
 }
 
-const removeEmptyLines = sql => sql.replace(/(\n\s*\n)/g, '\n');
+const removeEmptyLines = (strings, ...imports) => strings.reduce((sql, str, i) => `${sql}${str}${imports[i] || ''}`, '').replace(/(\n\s*\n)/g, '\n');
 
 const DEFAULT_USERS = [
     process.env.USER_ONE,
