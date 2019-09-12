@@ -129,12 +129,12 @@ function EditType({
             <button
                 className="sidebar-button danger"
                 onClick={() => dispatch(DELETE_TYPE, {
-                    id: oId,
-                    fakeId: oFId,
+                    id: tId,
+                    fakeId: tFId,
                     __typename,
                 })}
             >
-                Delete Type
+                {`Delete ${detailType ? 'Detail' : 'Configuration'}`}
             </button>
         </>
     );
