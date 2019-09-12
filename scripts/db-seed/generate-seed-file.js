@@ -28,7 +28,6 @@ ${require('../../db/schemas/gc_data/tables/manufacturer_data.sql')}
 ${require('../../db/schemas/gc_private/tables.sql')}
 ${require('../../db/schemas/gc_public/tables.sql')}
 ${require('../../db/schemas/gc_protected/tables/system.sql')}
-${require('../../db/schemas/gc_data/tables/system_data.sql')}
 -- system_set
 ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 
@@ -99,6 +98,8 @@ ${require('../../db/schemas/seed_data.sql')}
 
 -- policies;
 ${require('../../db/schemas/policies.sql')}
+
+RAISE EXCEPTION 'FINISHED WITH SUCCESS';
 
 END $seed$;
 `;

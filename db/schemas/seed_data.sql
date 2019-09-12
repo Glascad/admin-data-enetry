@@ -9,13 +9,13 @@ INSERT INTO manufacturers (name) VALUES ('Kawneer');
 
 -- INITIAL SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type) VALUES ('Initial System', 1, 'STOREFRONT');
-INSERT INTO system_options (name, system_id) VALUES ('SET', 1);
-INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id) VALUES
-('FRONT', 'SET', 1, 1),
-('BACK', 'SET', 1, 1),
-('CENTER', 'SET', 1, 1),
-('MULTI-PLANE', 'SET', 1, 1);
-INSERT INTO system_options (name, system_id, parent_system_option_value_id) VALUES ('JOINERY', 1, 3);
+INSERT INTO system_options (name, system_id, is_recursive) VALUES ('SET', 1, FALSE);
+INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id, is_recursive) VALUES
+('FRONT', 'SET', 1, 1, TRUE),
+('BACK', 'SET', 1, 1, TRUE),
+('CENTER', 'SET', 1, 1, TRUE),
+('MULTI-PLANE', 'SET', 1, 1, TRUE);
+INSERT INTO system_options (name, system_id, parent_system_option_value_id, is_recursive) VALUES ('JOINERY', 1, 3, TRUE);
 INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id, raised_option_names) VALUES
 ('SCREW_SPLINE', 'JOINERY', 2, 1, '{"STOPS", "GLAZING"}'),
 ('SHEAR_BLOCK', 'JOINERY', 2, 1, '{"STOPS", "GLAZING"}'),
@@ -26,10 +26,10 @@ INSERT INTO system_detail_types (system_id, parent_system_option_value_id, detai
 (1, 5, 'SILL'),
 (1, 5, 'JAMB'),
 (1, 5, 'MULLION');
-INSERT INTO detail_options (name, parent_system_detail_type_id, system_id) VALUES ('STOPS', 1, 1);
-INSERT INTO detail_option_values (system_id, parent_detail_option_id, option_name, name) VALUES
-(1, 1, 'STOPS', 'UP'),
-(1, 1, 'STOPS', 'DOWN');
+INSERT INTO detail_options (name, parent_system_detail_type_id, system_id, is_recursive) VALUES ('STOPS', 1, 1, FALSE);
+INSERT INTO detail_option_values (system_id, parent_detail_option_id, option_name, name, is_recursive) VALUES
+(1, 1, 'STOPS', 'UP', TRUE),
+(1, 1, 'STOPS', 'DOWN', TRUE);
 INSERT INTO detail_options (name, parent_detail_option_value_id, system_id) VALUES ('GLAZING', 2, 1);
 INSERT INTO detail_option_values (system_id, parent_detail_option_id, option_name, name) VALUES
 (1, 2, 'GLAZING', 'INSIDE'),
