@@ -14,7 +14,7 @@ export default function ADD_OPTION(systemInput, {
     const optionsKey = __typename.toLowerCase().replace(/Option/i, 'Options'); // `systemOptions`
     const updateKey = __typename.toLowerCase().replace(/Option/i, 'OptionUpdate');
     const parentOptionValueKey = `parent${__typename}Value${parentOptionValueFakeId ? 'Fake' : ''}Id` // `parentSystemOptionValueId`
-    const parentTypeKey = `parentSystem${__typename.replace(/Option/i, 'Type')}${parentTypeFakeId ? 'Fake' : ''}Id`; // `systemDetailFakeId`
+    const parentTypeKey = `parentSystem${__typename.replace(/Option/i, '')}${parentTypeFakeId ? 'Fake' : ''}Id`; // `systemDetailFakeId`
 
     const { [optionsKey]: optionsArray } = systemInput;
     const { [updateKey]: optionUpdate } = schemas;
