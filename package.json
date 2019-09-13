@@ -33,7 +33,8 @@
         "cy": "cypress open",
         "eject": "react-scripts eject",
         "normalize-icons": "node ./scripts/normalize-icons",
-        "compile-seed": "node ./scripts/db-seed",
+        "compile-seed": "node ./scripts/db-seed/write-seed",
+        "seed-db": "node ./scripts/db-seed",
         "map-schemas": "node ./scripts/map-schemas",
         "map-src": "node ./scripts/map-src-files"
     },

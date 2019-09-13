@@ -110,12 +110,26 @@ function EditOption({
                                         value: id,
                                     },
                                     options: selectValidOptionValues,
-                                    onChange: ({ value }) => dispatch(UPDATE_OPTION_VALUE, {
-                                        id,
-                                        fakeId,
-                                        name: value,
-                                        __typename: `${__typename}Value`,
-                                    }),
+                                    onChange: ({ value }) => {
+                                        const childOption = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
+                                        return childOption.length > 0 ?
+                                            confirmWithModal(() => dispatch(UPDATE_OPTION_VALUE, {
+                                                id,
+                                                fakeId,
+                                                name: value,
+                                                __typename: `${__typename}Value`,
+                                            }), {
+                                                finishButtonText: 'Update Name',
+                                            })
+                                            :
+                                            dispatch(UPDATE_OPTION_VALUE, {
+                                                id,
+                                                fakeId,
+                                                name: value,
+                                                __typename: `${__typename}Value`,
+                                            })
+                                    }
+
                                 }}
                             />
                             <CircleButton
@@ -125,7 +139,7 @@ function EditOption({
                                 actionType="delete"
                                 onClick={() => {
                                     const childOption = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
-                                    childOption.length > 0 ?
+                                    return childOption.length > 0 ?
                                         confirmWithModal(() => dispatch(DELETE_OPTION_VALUE, {
                                             id,
                                             fakeId,

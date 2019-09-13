@@ -171,10 +171,29 @@ describe('Testing sidbar actions in system builder', () => {
         // All configurations option values should exist after adding them
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/standard/i);
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/high/i);
-
+        
         // ADD CONFIRMATION TO UPDATE VALUES AND CONFIGURATIONS WITH CHILDREN
-
-
+        
+        //Value has children
+        cy.getDataCy`DetailOptionValue-BACK`.click();
+        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`DetailOptionValue-FRONT`.click();
+        cy.getDataCy`toggle-child-detail`.click()
+        cy.getDataCy`add-detail`.click();
+        cy.focused().type('Mullion{enter}');
+        cy.getDataCy`edit-value-name`.click();
+        cy.getDataCy`edit-value-name`.find('input').type('Back{enter}', { force: true });
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-finish-button`.click();
+        
+        //Type has children
+        cy.getDataCy`SystemDetailType-MULLION`.click();
+        cy.getDataCy`add-option`.click(); 
+        cy.focused().type('Joinery{enter}');
+        cy.getDataCy`edit-value-name`.click();
+        cy.getDataCy`edit-value-name`.find('input').type('Jamb{enter}', { force: true });
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-finish-button`.click();
 
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
 

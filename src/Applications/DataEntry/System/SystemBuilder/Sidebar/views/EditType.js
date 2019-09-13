@@ -32,6 +32,8 @@ function EditType({
             __typename: oTypename,
         } = {},
     } = getChildren(selectedType, systemMap);
+
+    const childValues = getChildren(childOption, systemMap); //Types' Child's children
     return (
         <>
             <TitleBar
@@ -39,7 +41,7 @@ function EditType({
             />
             <Input
                 data-cy={`edit-${type.toLowerCase()}-type`}
-                className={childOption ? 'warning' : ''}
+                // className={childOption ? 'warning' : ''}
                 label={type}
                 select={{
                     value: {
@@ -90,6 +92,7 @@ function EditType({
                 {childOption ? (
                     <div className="input-group">
                         <Input
+                        className={childValues.length > 0 ? 'warning' : ''}
                             select={{
                                 autoFocus: true,
                                 value: {
@@ -114,7 +117,6 @@ function EditType({
                             actionType="delete"
                             className="danger"
                             onClick={() => {
-                                const childValues = getChildren(childOption, systemMap);
                                 return childValues.length > 0 ?
                                     confirmWithModal(() => dispatch(DELETE_OPTION, {
                                         id: oId,

@@ -85,6 +85,8 @@ function EditOptionValue({
 
     console.log({ validValues, selectValidValues });
 
+    const childValues = getChildren(childOption, systemMap); //Option Value's Child's Child
+
     return (
         <>
             <TitleBar
@@ -92,7 +94,7 @@ function EditOptionValue({
             />
             <Input
                 data-cy="edit-value-name"
-                className={hasChildren ? 'warning' : ''}
+                // className={hasChildren ? 'warning' : ''}
                 select={{
                     value: {
                         label: ovName,
@@ -180,6 +182,7 @@ function EditOptionValue({
                     hasChildren ? (
                         <div className="input-group">
                             <Input
+                                className={childValues.length > 0 ? 'warning' : ''}
                                 data-cy="edit-option-name"
                                 select={{
                                     autoFocus: true,
@@ -205,8 +208,7 @@ function EditOptionValue({
                                 className="danger"
                                 actionType="delete"
                                 onClick={() => {
-                                    const childValue = getChildren(childOption, systemMap);
-                                    return childValue.length > 0 ?
+                                    return childValues.length > 0 ?
                                         confirmWithModal(() => dispatch(DELETE_OPTION, {
                                             __typename: __typename.replace(/value/i, ''),
                                             id: childOptionId,
@@ -232,36 +234,47 @@ function EditOptionValue({
                 ) : (
                         hasChildren ? (
                             <>
-                                {valueChildren.map(({ detailType, configurationType, id, fakeId }, i, { length }) => (
-                                    <div
-                                        className="input-group"
-                                        key={(detailType || configurationType)}
-                                    >
-                                        <Input
-                                            data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
-                                            select={{
-                                                autoFocus: i === length - 1,
-                                                value: {
-                                                    label: (detailType || configurationType),
-                                                    value: (detailType || configurationType),
-                                                },
-                                                options: selectTypes,
-                                                onChange: ({ value }) => dispatch(UPDATE_TYPE, {
-                                                    __typename: childTypeTypename,
-                                                    id,
-                                                    fakeId,
-                                                    type: value,
-                                                }),
-                                            }}
-                                        />
-                                        <CircleButton
-                                            data-cy={`delete-${childTypeType.toLowerCase()}-type-${(detailType || configurationType)}`}
-                                            type="small"
-                                            className="danger"
-                                            actionType="delete"
-                                            onClick={() => {
-                                                const childType = getChildren(childOption, systemMap);
-                                                return childType.length > 0 ?
+                                {valueChildren.map(({ detailType, configurationType, id, fakeId }, i, { length }) => {
+                                    const childType = getChildren(childOption, systemMap);
+                                    return (
+                                        <div
+                                            className="input-group"
+                                            key={(detailType || configurationType)}
+                                        >
+                                            <Input
+                                                data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
+                                                select={{
+                                                    autoFocus: i === length - 1,
+                                                    value: {
+                                                        label: (detailType || configurationType),
+                                                        value: (detailType || configurationType),
+                                                    },
+                                                    options: selectTypes,
+                                                    onChange: ({ value }) => childType.length > 0 ?
+                                                        confirmWithModal(() => dispatch(UPDATE_TYPE, {
+                                                            __typename: childTypeTypename,
+                                                            id,
+                                                            fakeId,
+                                                            type: value,
+                                                        }), {
+                                                            danger: true,
+                                                            finishButtonText: 'Update Name',
+                                                        })
+                                                        :
+                                                        dispatch(UPDATE_TYPE, {
+                                                            __typename: childTypeTypename,
+                                                            id,
+                                                            fakeId,
+                                                            type: value,
+                                                        })
+                                                }}
+                                            />
+                                            <CircleButton
+                                                data-cy={`delete-${childTypeType.toLowerCase()}-type-${(detailType || configurationType)}`}
+                                                type="small"
+                                                className="danger"
+                                                actionType="delete"
+                                                onClick={() => childType.length > 0 ?
                                                     confirmWithModal(() => dispatch(DELETE_TYPE, {
                                                         __typename: childTypename,
                                                         id,
@@ -275,11 +288,12 @@ function EditOptionValue({
                                                         __typename: childTypename,
                                                         id,
                                                         fakeId,
-                                                    })
-                                            }}
-                                        />
-                                    </div>
-                                ))}
+                                                    })}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                )}
                             </>
                         ) : (
                                 <div>
