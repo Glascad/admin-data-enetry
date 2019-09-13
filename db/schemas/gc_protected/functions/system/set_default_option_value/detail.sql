@@ -9,7 +9,7 @@ DECLARE
 BEGIN
 
     UPDATE detail_options
-        SET default_detail_option_value = COALESCE(
+        SET default_detail_option_value_id = COALESCE(
             _do.default_detail_option_value_id,
             get_real_id(
                 id_map.detail_option_value_id_pairs,

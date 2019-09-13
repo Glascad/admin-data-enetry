@@ -34,9 +34,9 @@ BEGIN
             name = CASE WHEN dov.name IS NOT NULL
                 THEN dov.name
                 ELSE detail_option_values.name END,
-            detail_option_id = CASE WHEN doid IS NOT NULL
+            parent_detail_option_id = CASE WHEN doid IS NOT NULL
                 THEN doid
-                ELSE detail_option_values.detail_option_id END
+                ELSE detail_option_values.parent_detail_option_id END
         WHERE id = dov.id
         AND system_id = s.id;
     ELSIF dov.fake_id IS NOT NULL THEN
@@ -44,7 +44,7 @@ BEGIN
         INSERT INTO detail_option_values (
             system_id,
             name,
-            detail_option_id,
+            parent_detail_option_id,
             option_name
         ) VALUES (
             s.id,

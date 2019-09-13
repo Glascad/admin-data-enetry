@@ -9,7 +9,7 @@ DECLARE
 BEGIN
 
     UPDATE configuration_options
-        SET default_configuration_option_value = COALESCE(
+        SET default_configuration_option_value_id = COALESCE(
             co.default_configuration_option_value_id,
             get_real_id(
                 id_map.configuration_option_value_id_pairs,
