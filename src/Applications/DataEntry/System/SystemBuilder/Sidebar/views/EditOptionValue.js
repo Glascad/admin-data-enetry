@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TitleBar, Input, GroupingBox, Toggle, CircleButton } from '../../../../../../components';
+import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal } from '../../../../../../components';
 import { getParent, getChildren } from '../../ducks/utils';
 import { UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, ADD_OPTION, ADD_TYPE, UPDATE_OPTION, DELETE_OPTION, DELETE_TYPE, UPDATE_TYPE } from '../../ducks/actions';
 import { when } from '../../../../../../utils';
@@ -204,11 +204,24 @@ function EditOptionValue({
                                 type="small"
                                 className="danger"
                                 actionType="delete"
-                                onClick={() => dispatch(DELETE_OPTION, {
-                                    __typename: __typename.replace(/value/i, ''),
-                                    id: childOptionId,
-                                    fakeId: childOptionFakeId,
-                                })}
+                                onClick={() => {
+                                    const childValue = getChildren(childOption, systemMap);
+                                    return childValue.length > 0 ?
+                                        confirmWithModal(() => dispatch(DELETE_OPTION, {
+                                            __typename: __typename.replace(/value/i, ''),
+                                            id: childOptionId,
+                                            fakeId: childOptionFakeId,
+                                        }), {
+                                            danger: true,
+                                            finishButtonText: 'Delete',
+                                        })
+                                        :
+                                        dispatch(DELETE_OPTION, {
+                                            __typename: __typename.replace(/value/i, ''),
+                                            id: childOptionId,
+                                            fakeId: childOptionFakeId,
+                                        })
+                                }}
                             />
                         </div>
                     ) : (
@@ -246,11 +259,24 @@ function EditOptionValue({
                                             type="small"
                                             className="danger"
                                             actionType="delete"
-                                            onClick={() => dispatch(DELETE_TYPE, {
-                                                __typename: childTypename,
-                                                id,
-                                                fakeId,
-                                            })}
+                                            onClick={() => {
+                                                const childType = getChildren(childOption, systemMap);
+                                                return childType.length > 0 ?
+                                                    confirmWithModal(() => dispatch(DELETE_TYPE, {
+                                                        __typename: childTypename,
+                                                        id,
+                                                        fakeId,
+                                                    }), {
+                                                        danger: true,
+                                                        finishButtonText: 'Delete',
+                                                    })
+                                                    :
+                                                    dispatch(DELETE_TYPE, {
+                                                        __typename: childTypename,
+                                                        id,
+                                                        fakeId,
+                                                    })
+                                            }}
                                         />
                                     </div>
                                 ))}
@@ -264,11 +290,23 @@ function EditOptionValue({
             </GroupingBox>
             <button
                 className="sidebar-button danger"
-                onClick={() => dispatch(DELETE_OPTION_VALUE, {
-                    id: ovId,
-                    fakeId: ovFId,
-                    __typename,
-                })}
+                data-cy="edit-option-value-delete-button"
+                onClick={() => hasChildren ?
+                    confirmWithModal(() => dispatch(DELETE_OPTION_VALUE, {
+                        id: ovId,
+                        fakeId: ovFId,
+                        __typename,
+                    }), {
+                        className: "sidebar-button danger",
+                        danger: true,
+                        finishButtonText: 'Delete',
+                    })
+                    :
+                    dispatch(DELETE_OPTION_VALUE, {
+                        id: ovId,
+                        fakeId: ovFId,
+                        __typename,
+                    })}
             >
                 Delete Option Value
             </button>

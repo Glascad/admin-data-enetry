@@ -1,5 +1,5 @@
 import React from 'react';
-import { TitleBar, GroupingBox, Input, CircleButton, DeleteButton } from '../../../../../../components';
+import { TitleBar, GroupingBox, Input, CircleButton, DeleteButton, confirmWithModal } from '../../../../../../components';
 import { getChildren } from '../../ducks/utils';
 import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
 
@@ -113,11 +113,25 @@ function EditType({
                             type="small"
                             actionType="delete"
                             className="danger"
-                            onClick={() => dispatch(DELETE_OPTION, {
-                                id: oId,
-                                fakeId: oFId,
-                                __typename: oTypename,
-                            })}
+                            onClick={() => {
+                                const childValues = getChildren(childOption, systemMap);
+                                return childValues.length > 0 ?
+                                    confirmWithModal(() => dispatch(DELETE_OPTION, {
+                                        id: oId,
+                                        fakeId: oFId,
+                                        __typename: oTypename,
+                                    }), {
+                                        danger: true,
+                                        finishButtonText: 'Delete',
+                                    })
+                                    :
+                                    dispatch(DELETE_OPTION, {
+                                        id: oId,
+                                        fakeId: oFId,
+                                        __typename: oTypename,
+                                    })
+                                }
+                            }
                         />
                     </div>
                 ) : (
@@ -128,11 +142,24 @@ function EditType({
             </GroupingBox>
             <button
                 className="sidebar-button danger"
-                onClick={() => dispatch(DELETE_TYPE, {
-                    id: tId,
-                    fakeId: tFId,
-                    __typename,
-                })}
+                data-cy="edit-type-delete-button"
+                onClick={() => childOption ?
+                    confirmWithModal(() => dispatch(DELETE_TYPE, {
+                        id: tId,
+                        fakeId: tFId,
+                        __typename,
+                    }), {
+                        className: "sidebar-button danger",
+                        danger: true,
+                        finishButtonText: 'Delete',
+                    })
+                    :
+                    dispatch(DELETE_TYPE, {
+                        id: tId,
+                        fakeId: tFId,
+                        __typename,
+                    })
+                }
             >
                 {`Delete ${detailType ? 'Detail' : 'Configuration'}`}
             </button>

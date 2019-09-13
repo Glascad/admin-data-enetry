@@ -96,7 +96,7 @@ function EditOption({
                 } : undefined}
             >
                 {optionValues.length ?
-                    optionValues.map(({ name, id, fakeId }, i, { length }) => (
+                    optionValues.map(({ name, id, fakeId, __typename: valueTypename }, i, { length }) => (
                         <div
                             key={name}
                             className="input-group"
@@ -123,11 +123,24 @@ function EditOption({
                                 className="danger"
                                 type="small"
                                 actionType="delete"
-                                onClick={() => dispatch(DELETE_OPTION_VALUE, {
-                                    id,
-                                    fakeId,
-                                    __typename: `${__typename}Value`,
-                                })}
+                                onClick={() => {
+                                    const childOption = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
+                                    childOption.length > 0 ?
+                                        confirmWithModal(() => dispatch(DELETE_OPTION_VALUE, {
+                                            id,
+                                            fakeId,
+                                            __typename: `${__typename}Value`,
+                                        }), {
+                                            danger: true,
+                                            finishButtonText: 'Delete',
+                                        })
+                                        :
+                                        dispatch(DELETE_OPTION_VALUE, {
+                                            id,
+                                            fakeId,
+                                            __typename: `${__typename}Value`,
+                                        })
+                                }}
                             />
                         </div>
                     )) : (
@@ -145,11 +158,23 @@ function EditOption({
             ) ? (
                     <button
                         className="sidebar-button danger"
-                        onClick={() => dispatch(DELETE_OPTION, {
-                            id: oId,
-                            fakeId: oFId,
-                            __typename,
-                        })}
+                        data-cy="edit-option-delete-button"
+                        onClick={() => optionValues.length > 0 ?
+                            confirmWithModal(() => dispatch(DELETE_OPTION, {
+                                id: oId,
+                                fakeId: oFId,
+                                __typename,
+                            }), {
+                                danger: true,
+                                finishButtonText: 'Delete',
+                                // titleBar: `Are you sure you want to delete ${oName}?`,
+                            })
+                            :
+                            dispatch(DELETE_OPTION, {
+                                id: oId,
+                                fakeId: oFId,
+                                __typename,
+                            })}
                     >
                         Delete Option
                     </button>

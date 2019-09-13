@@ -93,6 +93,7 @@ function Modal({
         <div
             className={`modal-background ${display ? '' : 'hidden'}`}
             onClick={onCancel}
+            data-cy='modal'
         >
             <div
                 className={`Modal ${className}`}
@@ -118,6 +119,7 @@ function Modal({
                         {onCancel ? (
                             <button
                                 className="empty"
+                                data-cy="modal-cancel-button"
                                 {...cancel}
                                 children={cancelButtonText || cancel.children || cancel.text || "Cancel"}
                                 onClick={handleCancelClick}
@@ -126,6 +128,7 @@ function Modal({
                         {onFinish ? (
                             <AsyncButton
                                 className={danger ? "danger" : "action"}
+                                data-cy="modal-finish-button"
                                 {...finish}
                                 children={finishButtonText || finish.children || finish.text || "Finish"}
                                 loading={finishing}
