@@ -79,12 +79,14 @@ BEGIN
             system_id,
             name,
             parent_configuration_option_value_id,
-            parent_system_configuration_type_id
+            parent_system_configuration_type_id,
+            is_recursive
         ) VALUES (
             s.id,
             co.name,
             pcovid,
-            psctid
+            psctid,
+            pcovid IS NOT NULL
         )
         RETURNING * INTO uco;
 
@@ -96,6 +98,13 @@ BEGIN
         )::ID_PAIR;
     ELSE
         RAISE EXCEPTION 'Must specify configuration option `id` or `fake_id`';
+    END IF;
+
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: TRUE
+    IF pcovid IS NOT NULL THEN
+        UPDATE configuration_option_values cov SET
+            is_recursive = TRUE
+        WHERE cov.id = pcovid;
     END IF;
 
     RETURN id_map;

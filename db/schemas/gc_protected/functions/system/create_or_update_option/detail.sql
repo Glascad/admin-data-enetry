@@ -79,12 +79,14 @@ BEGIN
             system_id,
             name,
             parent_detail_option_value_id,
-            parent_system_detail_type_id
+            parent_system_detail_type_id,
+            is_recursive
         ) VALUES (
             s.id,
             _do.name,
             pdovid,
-            psdtid
+            psdtid,
+            pdovid IS NOT NULL
         )
         RETURNING * INTO udo;
 
@@ -96,6 +98,13 @@ BEGIN
         )::ID_PAIR;
     ELSE
         RAISE EXCEPTION 'Must specify detail option `id` or `fake_id`';
+    END IF;
+
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: TRUE
+    IF pdovid IS NOT NULL THEN
+        UPDATE detail_option_values dov SET
+            is_recursive = TRUE
+        WHERE dov.id = pdovid;
     END IF;
 
     RETURN id_map;

@@ -36,10 +36,7 @@ BEGIN
                 ELSE system_option_values.name END,
             system_option_id = CASE WHEN soid IS NOT NULL
                 THEN soid
-                ELSE system_option_values.system_option_id END,
-            is_default = CASE WHEN sov.is_default IS NOT NULL
-                THEN sov.is_default
-                ELSE system_option_values.is_default END
+                ELSE system_option_values.system_option_id END
         WHERE id = sov.id
         AND system_id = s.id;
     ELSIF sov.fake_id IS NOT NULL THEN
@@ -48,14 +45,12 @@ BEGIN
             system_id,
             name,
             system_option_id,
-            option_name,
-            is_default
+            option_name
         ) VALUES (
             s.id,
             sov.name,
             soid,
-            son,
-            sov.is_default
+            son
         )
         RETURNING * INTO usov;
 

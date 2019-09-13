@@ -41,17 +41,17 @@ ${require('../../db/schemas/gc_private/functions/update_password.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option_value.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_detail_type.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option_value.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_configuration_type.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_configuration_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_configuration_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option/configuration.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option_value/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option_value/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option_value/configuration.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/configuration.sql')}
 -- delete_entire_configuration_option
 -- delete_entire_system_configuration_type
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system.sql')}
 -- create_or_update_system_set
 -- create_or_update_option_value
 -- create_or_update_system_option

@@ -4,7 +4,6 @@ gc_data.entire_configuration_option_value AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_VALUE_NAME,
-    is_default BOOLEAN,
     parent_configuration_option_id INTEGER,
     parent_configuration_option_fake_id INTEGER
 );
@@ -17,7 +16,9 @@ gc_data.entire_configuration_option AS (
     parent_system_configuration_type_id INTEGER,
     parent_system_configuration_type_fake_id INTEGER,
     parent_configuration_option_value_id INTEGER,
-    parent_configuration_option_value_fake_id INTEGER
+    parent_configuration_option_value_fake_id INTEGER,
+    default_configuration_option_value_id INTEGER,
+    default_configuration_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -35,7 +36,6 @@ gc_data.entire_detail_option_value AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_VALUE_NAME,
-    is_default BOOLEAN,
     parent_detail_option_id INTEGER,
     parent_detail_option_fake_id INTEGER
 );
@@ -48,7 +48,9 @@ gc_data.entire_detail_option AS (
     parent_system_detail_type_id INTEGER,
     parent_system_detail_type_fake_id INTEGER,
     parent_detail_option_value_id INTEGER,
-    parent_detail_option_value_fake_id INTEGER
+    parent_detail_option_value_fake_id INTEGER,
+    default_detail_option_value_id INTEGER,
+    default_detail_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
@@ -65,7 +67,6 @@ gc_data.entire_system_option_value AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_VALUE_NAME,
-    is_default BOOLEAN,
     raised_option_names OPTION_NAME[],
     raised_configuration_types CONFIGURATION_TYPE[],
     parent_system_option_id INTEGER,
@@ -78,7 +79,9 @@ gc_data.entire_system_option AS (
     fake_id INTEGER,
     name OPTION_NAME,
     parent_system_option_value_id INTEGER,
-    parent_system_option_value_fake_id INTEGER
+    parent_system_option_value_fake_id INTEGER,
+    default_system_option_value_id INTEGER,
+    default_system_option_value_fake_id INTEGER
 );
 
 CREATE TYPE
