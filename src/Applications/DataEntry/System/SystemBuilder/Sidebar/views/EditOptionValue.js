@@ -100,18 +100,24 @@ function EditOptionValue({
                         label: ovName,
                         value: ovName,
                     },
-                    ...(hasChildren ? {
-                        options: [],
-                        onChange: () => { },
-                    } : {
-                            options: selectValidValues,
-                            onChange: ({ value }) => dispatch(UPDATE_OPTION_VALUE, {
+                    options: selectValidValues,
+                    onChange: ({ value }) => hasChildren ?
+                        confirmWithModal(() =>
+                            dispatch(UPDATE_OPTION_VALUE, {
                                 id: ovId,
                                 fakeId: ovFId,
                                 __typename,
                                 name: value,
-                            }),
-                        }),
+                            }), {
+                            finishingText: 'Update Name'
+                        })
+                        :
+                        dispatch(UPDATE_OPTION_VALUE, {
+                            id: ovId,
+                            fakeId: ovFId,
+                            __typename,
+                            name: value,
+                        })
                 }}
             />
             {isDefault ? null : (

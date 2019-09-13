@@ -48,30 +48,35 @@ function EditType({
                         value: detailType || configurationType,
                         label: detailType || configurationType,
                     },
-                    ...(childOption ? {
-                        options: [],
-                        onChange: () => { }
-                    } : {
-                            options: (isDetail ?
-                                detailTypes
-                                :
-                                configurationTypes
-                            )
-                                .filter(type => isDetail ?
-                                    type !== detailType
-                                    :
-                                    type !== configurationType
-                                )
-                                .map(type => ({
-                                    value: type,
-                                    label: type,
-                                })),
-                            onChange: ({ value }) => dispatch(UPDATE_TYPE, {
-                                id: tId,
-                                fakeId: tFId,
-                                __typename,
-                                type: value
-                            }),
+                    options: (isDetail ?
+                        detailTypes
+                        :
+                        configurationTypes
+                    )
+                        .filter(type => isDetail ?
+                            type !== detailType
+                            :
+                            type !== configurationType
+                        )
+                        .map(type => ({
+                            value: type,
+                            label: type,
+                        })),
+                    onChange: ({ value }) => childOption ?
+                        confirmWithModal(() => dispatch(UPDATE_TYPE, {
+                            id: tId,
+                            fakeId: tFId,
+                            __typename,
+                            type: value
+                        }), {
+                            finishButtonText: "Update Name"
+                        })
+                        :
+                        dispatch(UPDATE_TYPE, {
+                            id: tId,
+                            fakeId: tFId,
+                            __typename,
+                            type: value
                         })
                 }}
             />
@@ -92,7 +97,7 @@ function EditType({
                 {childOption ? (
                     <div className="input-group">
                         <Input
-                        className={childValues.length > 0 ? 'warning' : ''}
+                            className={childValues.length > 0 ? 'warning' : ''}
                             select={{
                                 autoFocus: true,
                                 value: {
@@ -132,7 +137,7 @@ function EditType({
                                         fakeId: oFId,
                                         __typename: oTypename,
                                     })
-                                }
+                            }
                             }
                         />
                     </div>
