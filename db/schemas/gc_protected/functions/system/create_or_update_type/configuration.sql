@@ -61,6 +61,13 @@ BEGIN
         RAISE EXCEPTION 'Must specify detail type `id` or `fake_id`';
     END IF;
 
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: FALSE
+    IF pcovid IS NOT NULL THEN
+        UPDATE detail_option_values cov SET
+            is_recursive = FALSE
+        WHERE cov.id = pcovid;
+    END IF;
+
     RETURN id_map;
 
 END;

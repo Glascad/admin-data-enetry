@@ -28,6 +28,7 @@ ${require('../../db/schemas/gc_data/tables/manufacturer_data.sql')}
 ${require('../../db/schemas/gc_private/tables.sql')}
 ${require('../../db/schemas/gc_public/tables.sql')}
 ${require('../../db/schemas/gc_protected/tables/system.sql')}
+${require('../../db/schemas/gc_protected/tables/system_constraints.sql')}
 -- system_set
 ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 
@@ -50,6 +51,9 @@ ${require('../../db/schemas/gc_protected/functions/system/create_or_update_optio
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/system.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/detail.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/configuration.sql')}
+${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/configuration.sql')}
 -- delete_entire_configuration_option
 -- delete_entire_system_configuration_type
 -- create_or_update_system_set
@@ -99,7 +103,7 @@ ${require('../../db/schemas/seed_data.sql')}
 -- policies;
 ${require('../../db/schemas/policies.sql')}
 
-RAISE EXCEPTION 'FINISHED WITH SUCCESS';
+-- RAISE EXCEPTION 'FINISHED WITH SUCCESS';
 
 END $seed$;
 `;

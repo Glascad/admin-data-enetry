@@ -67,6 +67,13 @@ BEGIN
         RETURNING * INTO us;
     END IF;
 
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: FALSE
+    IF psovid IS NOT NULL THEN
+        UPDATE system_option_values sov SET
+            is_recursive = FALSE
+        WHERE sov.id = psovid;
+    END IF;
+
     RETURN us;
 
 END;

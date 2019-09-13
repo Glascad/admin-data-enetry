@@ -71,7 +71,7 @@ gc_public.entire_bug_report AS (
 -- );
 
 -- CREATE TYPE
--- gc_public.system_detail_type_output AS (
+-- gc_public.system_detail_output AS (
 --     detail_type DETAIL_TYPE,
 --     configuration_types SYSTEM_CONFIGURATION_TYPE_OUTPUT[]
 -- );
@@ -155,7 +155,7 @@ gc_public.entire_bug_report AS (
 -- gc_public.system_output AS (
 --     system SYSTEM,
 --     system_options SYSTEM_OPTION_OUTPUT[],
---     detail_types SYSTEM_DETAIL_TYPE_OUTPUT[]
+--     detail_types system_detail_OUTPUT[]
 -- );
 
 -- CREATE TYPE

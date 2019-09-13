@@ -27,8 +27,8 @@
 --     dtp DETAIL_TYPE;
 --     dto DETAIL_TYPE_OUTPUT;
 --     dtos DETAIL_TYPE_OUTPUT[];
---     sdto SYSTEM_DETAIL_TYPE_OUTPUT;
---     sdtos SYSTEM_DETAIL_TYPE_OUTPUT[];
+--     sdto system_detail_OUTPUT;
+--     sdtos system_detail_OUTPUT[];
 --     ct RECORD;
 --     cto CONFIGURATION_TYPE_OUTPUT;
 --     ctos CONFIGURATION_TYPE_OUTPUT[];
@@ -205,7 +205,7 @@
 --             sdtos := sdtos || ROW(
 --                 dto.detail_type,
 --                 sctos
---             )::SYSTEM_DETAIL_TYPE_OUTPUT;
+--             )::system_detail_OUTPUT;
 --         END LOOP;
 --     END IF;
 

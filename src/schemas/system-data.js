@@ -50,7 +50,7 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
     }
 `;
 
-export const SYSTEM_DETAIL_TYPE_FIELDS = gql`
+export const system_detail_FIELDS = gql`
     fragment SystemDetailTypeFields on SystemDetailType {
         __typename
         nodeId
@@ -212,7 +212,7 @@ export const ALL_SYSTEMS = gql`
 //         }
 //     }
 //     ${SYSTEM_OPTION_VALUE_FIELDS}
-//     ${SYSTEM_DETAIL_TYPE_FIELDS}
+//     ${system_detail_FIELDS}
 // `;
 
 // export const ENTIRE_SYSTEM_OPTION = gql`
@@ -279,7 +279,7 @@ export const ENTIRE_SYSTEM = gql`
     ${AD.MANUFACTURER_FIELDS}
     ${SYSTEM_OPTION_FIELDS}
     ${SYSTEM_OPTION_VALUE_FIELDS}
-    ${SYSTEM_DETAIL_TYPE_FIELDS}
+    ${system_detail_FIELDS}
     ${DETAIL_OPTION_FIELDS}
     ${DETAIL_OPTION_VALUE_FIELDS}
     ${SYSTEM_CONFIGURATION_TYPE_FIELDS}

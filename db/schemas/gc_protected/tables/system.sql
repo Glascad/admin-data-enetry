@@ -77,7 +77,7 @@ gc_protected.system_option_values (
 -- DETAIL TYPES
 
 CREATE TABLE
-gc_protected.system_detail_types (
+gc_protected.system_details (
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     parent_system_option_value_id INTEGER REFERENCES system_option_values ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
@@ -105,19 +105,19 @@ CREATE TABLE
 gc_protected.detail_options (
     id SERIAL PRIMARY KEY,
     -- UNIQUE because only one parent option is allowed under each detail type
-    parent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED,
+    parent_system_detail_id INTEGER REFERENCES system_details ON DELETE CASCADE INITIALLY DEFERRED,
     system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
     -- only one of each option within each detail
-    UNIQUE (parent_system_detail_type_id, name),
+    UNIQUE (parent_system_detail_id, name),
     -- for foreign keys
     UNIQUE (id, system_id, name),
     -- must reference detail type in correct system
     FOREIGN KEY (
         system_id,
-        parent_system_detail_type_id
+        parent_system_detail_id
     )
-    REFERENCES system_detail_types (
+    REFERENCES system_details (
         system_id,
         id
     )
@@ -128,7 +128,7 @@ CREATE TABLE
 gc_protected.detail_option_values (
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    -- parent_system_detail_type_id INTEGER REFERENCES system_detail_types ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    -- parent_system_detail_id INTEGER REFERENCES system_details ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     parent_detail_option_id INTEGER REFERENCES detail_options ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     option_name OPTION_NAME,
     name OPTION_VALUE_NAME,
@@ -289,184 +289,3 @@ gc_protected.configuration_parts (
     -- part_orientation_id INTEGER REFERENCES part_orientations,
     -- transform FLOAT[3][3]
 );
-
-
-
-
--- RECURSION
-
--- System Options
-ALTER TABLE gc_protected.system_options
-ADD COLUMN parent_system_option_value_id INTEGER REFERENCES system_option_values ON DELETE CASCADE INITIALLY DEFERRED,
-ADD COLUMN is_recursive BOOLEAN DEFAULT TRUE,
-ADD COLUMN default_system_option_value_id INTEGER REFERENCES system_option_values INITIALLY DEFERRED NOT NULL;
-
--- cannot have two rows with the same system_id and NULL parent_system_option_value_ids
-ALTER TABLE gc_protected.system_options
-ADD CONSTRAINT single_parent_system_option EXCLUDE USING gist (
-    system_id WITH =,
-    COALESCE(parent_system_option_value_id, 0) WITH =
-),
--- options must reference an option_value that IS recursive
-ADD CONSTRAINT recursive_parent_system_option_value FOREIGN KEY (
-    is_recursive,
-    parent_system_option_value_id
-) REFERENCES system_option_values (
-    is_recursive,
-    id
-),
-ADD CONSTRAINT recursive_system_option CHECK (
-    (
-        parent_system_option_value_id IS NULL
-        AND
-        is_recursive = FALSE
-    ) OR (
-        parent_system_option_value_id IS NOT NULL
-        AND
-        is_recursive = TRUE
-    )
-),
-ADD CONSTRAINT default_system_option_value_child FOREIGN KEY (
-    id,
-    default_system_option_value_id
-) REFERENCES system_option_values (
-    parent_system_option_id,
-    id
-) INITIALLY DEFERRED;
-
-ALTER TABLE gc_protected.system_detail_types
-ADD CONSTRAINT non_recursive_parent_system_option_value FOREIGN KEY (
-    is_recursive,
-    parent_system_option_value_id
-) REFERENCES system_option_values (
-    is_recursive,
-    id
-) INITIALLY DEFERRED,
-ADD CONSTRAINT non_recursive_system_detail_type CHECK (is_recursive = FALSE);
-
--- Detail Options
-ALTER TABLE gc_protected.detail_options
-ADD COLUMN parent_detail_option_value_id INTEGER REFERENCES detail_option_values ON DELETE CASCADE INITIALLY DEFERRED,
-ADD COLUMN is_recursive BOOLEAN DEFAULT TRUE,
-ADD COLUMN default_detail_option_value_id INTEGER REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL;
-
-
--- cannot have two columns with the same parent_system_detail_type_id and NULL parent_detail_option_value_ids
-ALTER TABLE gc_protected.detail_options
-ADD CONSTRAINT single_parent_detail_option EXCLUDE USING gist (
-    -- if parent_system_detail_type_id is EQUAL
-    parent_system_detail_type_id WITH =,
-    -- then parent_detail_option_value_id must be unique
-    COALESCE(parent_detail_option_value_id, 0) WITH =
-),
--- options must reference an option_value that IS recursive
-ADD CONSTRAINT recursive_parent_detail_option_value FOREIGN KEY (
-    is_recursive,
-    parent_detail_option_value_id
-) REFERENCES detail_option_values (
-    is_recursive,
-    id
-) INITIALLY DEFERRED,
-ADD CONSTRAINT parent_or_child_detail_option CHECK (
-    (
-        parent_detail_option_value_id IS NOT NULL
-        OR
-        parent_system_detail_type_id IS NOT NULL
-    ) AND (
-        parent_detail_option_value_id IS NULL
-        OR
-        parent_system_detail_type_id IS NULL
-    )
-),
-ADD CONSTRAINT recursive_detail_option CHECK (
-    (
-        parent_detail_option_value_id IS NULL
-        AND
-        is_recursive = FALSE
-    ) OR (
-        parent_detail_option_value_id IS NOT NULL
-        AND
-        is_recursive = TRUE
-    )
-),
-ADD CONSTRAINT default_detail_option_value_child FOREIGN KEY (
-    id,
-    default_detail_option_value_id
-) REFERENCES detail_option_values (
-    parent_detail_option_id,
-    id
-) INITIALLY DEFERRED;
-
-ALTER TABLE gc_protected.system_configuration_types
-ADD CONSTRAINT non_recursive_parent_detail_option_value FOREIGN KEY (
-    is_recursive,
-    parent_detail_option_value_id
-) REFERENCES detail_option_values (
-    is_recursive,
-    id
-) INITIALLY DEFERRED,
-ADD CONSTRAINT non_recursive_system_configuration_type CHECK (is_recursive = FALSE);
-
--- Configuration Options
-ALTER TABLE gc_protected.configuration_options
-ADD COLUMN parent_configuration_option_value_id INTEGER REFERENCES configuration_option_values ON DELETE CASCADE INITIALLY DEFERRED,
-ADD COLUMN is_recursive BOOLEAN DEFAULT TRUE,
-ADD COLUMN default_configuration_option_value_id INTEGER REFERENCES configuration_option_values INITIALLY DEFERRED NOT NULL;
-
--- cannot have two columns with the same parent_system_configuration_type_id and NULL parent_configuration_option_value_ids
-ALTER TABLE gc_protected.configuration_options
-ADD CONSTRAINT single_parent_configuration_option EXCLUDE USING gist (
-    -- if system_configuration_type_id is EQUAL
-    parent_system_configuration_type_id WITH =,
-    -- then parent_configuration_option_value_id must be unique
-    COALESCE(parent_configuration_option_value_id, 0) WITH =
-),
--- ADD CONSTRAINT parent_or_child_configuration_option CHECK (
---     (
---         parent_configuration_option_value_id IS NOT NULL
---         OR
---         parent_system_configuration_type_id IS NOT NULL
---     ) AND (
---         parent_configuration_option_value_id IS NULL
---         OR
---         parent_system_configuration_type_id IS NULL
---     )
--- ),
--- options must reference an option_value that IS recursive
--- ALTER TABLE gc_protected.configuration_options
-ADD CONSTRAINT recursive_parent_configuration_option_value FOREIGN KEY (
-    is_recursive,
-    parent_configuration_option_value_id
-) REFERENCES configuration_option_values (
-    is_recursive,
-    id
-) INITIALLY DEFERRED,
-ADD CONSTRAINT recursive_configuration_option CHECK (
-    (
-        parent_configuration_option_value_id IS NULL
-        AND
-        is_recursive = FALSE
-    ) OR (
-        parent_configuration_option_value_id IS NOT NULL
-        AND
-        is_recursive = TRUE
-    )
-),
-ADD CONSTRAINT default_configuration_option_value_child FOREIGN KEY (
-    id,
-    default_configuration_option_value_id
-) REFERENCES configuration_option_values (
-    parent_configuration_option_id,
-    id
-) INITIALLY DEFERRED;
-
--- Configuration Parts
-ALTER TABLE gc_protected.configuration_parts
-ADD CONSTRAINT part_recursive_parent_configuration_option_value FOREIGN KEY (
-    is_recursive,
-    configuration_option_value_id
-) REFERENCES configuration_option_values (
-    is_recursive,
-    id
-) INITIALLY DEFERRED,
-ADD CONSTRAINT recursive_configuration_option CHECK (is_recursive = FALSE);

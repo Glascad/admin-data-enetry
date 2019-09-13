@@ -13,7 +13,7 @@ DECLARE
     sov ENTIRE_SYSTEM_OPTION_VALUE;
     dov ENTIRE_DETAIL_OPTION_VALUE;
     cov ENTIRE_CONFIGURATION_OPTION_VALUE;
-    sdt ENTIRE_SYSTEM_DETAIL_TYPE;
+    sdt ENTIRE_system_detail;
     sct ENTIRE_SYSTEM_CONFIGURATION_TYPE;
 BEGIN
 
@@ -34,10 +34,10 @@ BEGIN
     END IF;
 
     -- delete detail types
-    IF s.system_detail_type_ids_to_delete IS NOT NULL THEN
-        DELETE FROM system_detail_types sdt
+    IF s.system_detail_ids_to_delete IS NOT NULL THEN
+        DELETE FROM system_details sdt
         WHERE sdt.id IN (
-            SELECT * FROM UNNEST (s.system_detail_type_ids_to_delete)
+            SELECT * FROM UNNEST (s.system_detail_ids_to_delete)
         )
         AND sdt.system_id = s.id;
     END IF;
@@ -118,11 +118,19 @@ BEGIN
         END LOOP;
     END IF;
 
+    -- DEFAULT VALUES
+
+    IF s.system_options IS NOT NULL THEN
+        FOREACH so IN ARRAY s.system_options LOOP
+            id_map := set_default_system_option_value(so, id_map);
+        END LOOP;
+    END IF;
+
     -- DETAIL TYPES
 
-    IF s.system_detail_types IS NOT NULL THEN
-        FOREACH sdt IN ARRAY s.system_detail_types LOOP
-            id_map := create_or_update_system_detail_type(sdt, us, id_map);
+    IF s.system_details IS NOT NULL THEN
+        FOREACH sdt IN ARRAY s.system_details LOOP
+            id_map := create_or_update_system_detail(sdt, us, id_map);
         END LOOP;
     END IF;
 
@@ -139,6 +147,14 @@ BEGIN
     IF s.detail_option_values IS NOT NULL THEN
         FOREACH dov IN ARRAY s.detail_option_values LOOP
             id_map := create_or_update_detail_option_value(dov, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- DEFAULT VALUES
+
+    IF s.detail_options IS NOT NULL THEN
+        FOREACH _do IN ARRAY s.detail_options LOOP
+            id_map := set_default_detail_option_value(_do, id_map);
         END LOOP;
     END IF;
 
@@ -163,6 +179,14 @@ BEGIN
     IF s.configuration_option_values IS NOT NULL THEN
         FOREACH cov IN ARRAY s.configuration_option_values LOOP
             id_map := create_or_update_configuration_option_value(cov, us, id_map);
+        END LOOP;
+    END IF;
+
+    -- DEFAULT VALUES
+
+    IF s.configuration_options IS NOT NULL THEN
+        FOREACH co IN ARRAY s.configuration_options LOOP
+            id_map := set_default_configuration_option_value(co, id_map);
         END LOOP;
     END IF;
 
