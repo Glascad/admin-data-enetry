@@ -90,37 +90,37 @@
             "parentSystemOptionId": 2
         }
     ],
-    "_systemDetailTypes": [
+    "_systemDetails": [
         {
-            "__typename": "SystemDetailType",
+            "__typename": "SystemDetail",
             "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiwxXQ==",
             "id": 1,
             "detailType": "HEAD",
             "parentSystemOptionValueId": 5
         },
         {
-            "__typename": "SystemDetailType",
+            "__typename": "SystemDetail",
             "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiwyXQ==",
             "id": 2,
             "detailType": "HORIZONTAL",
             "parentSystemOptionValueId": 5
         },
         {
-            "__typename": "SystemDetailType",
+            "__typename": "SystemDetail",
             "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiwzXQ==",
             "id": 3,
             "detailType": "SILL",
             "parentSystemOptionValueId": 5
         },
         {
-            "__typename": "SystemDetailType",
+            "__typename": "SystemDetail",
             "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiw0XQ==",
             "id": 4,
             "detailType": "JAMB",
             "parentSystemOptionValueId": 5
         },
         {
-            "__typename": "SystemDetailType",
+            "__typename": "SystemDetail",
             "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiw1XQ==",
             "id": 5,
             "detailType": "MULLION",
@@ -133,7 +133,7 @@
             "nodeId": "WyJkZXRhaWxfb3B0aW9ucyIsMV0=",
             "id": 1,
             "name": "STOPS",
-            "parentSystemDetailTypeId": 1
+            "parentSystemDetailId": 1
         },
         {
             "__typename": "DetailOption",
@@ -173,9 +173,9 @@
             "parentDetailOptionId": 2
         }
     ],
-    "_systemConfigurationTypes": [
+    "_systemConfigurations": [
         {
-            "__typename": "SystemConfigurationType",
+            "__typename": "SystemConfiguration",
             "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsMV0=",
             "id": 1,
             "configurationType": "HEAD",
@@ -183,7 +183,7 @@
             "parentDetailOptionValueId": 1
         },
         {
-            "__typename": "SystemConfigurationType",
+            "__typename": "SystemConfiguration",
             "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsMl0=",
             "id": 2,
             "configurationType": "COMPENSATING_RECEPTOR",
@@ -191,7 +191,7 @@
             "parentDetailOptionValueId": 1
         },
         {
-            "__typename": "SystemConfigurationType",
+            "__typename": "SystemConfiguration",
             "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsM10=",
             "id": 3,
             "configurationType": "HEAD",
@@ -199,7 +199,7 @@
             "parentDetailOptionValueId": 3
         },
         {
-            "__typename": "SystemConfigurationType",
+            "__typename": "SystemConfiguration",
             "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsNF0=",
             "id": 4,
             "configurationType": "COMPENSATING_RECEPTOR",
@@ -207,7 +207,7 @@
             "parentDetailOptionValueId": 3
         },
         {
-            "__typename": "SystemConfigurationType",
+            "__typename": "SystemConfiguration",
             "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsNV0=",
             "id": 5,
             "configurationType": "HEAD",
@@ -215,7 +215,7 @@
             "parentDetailOptionValueId": 4
         },
         {
-            "__typename": "SystemConfigurationType",
+            "__typename": "SystemConfiguration",
             "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsNl0=",
             "id": 6,
             "configurationType": "COMPENSATING_RECEPTOR",
@@ -229,21 +229,21 @@
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
             "id": 1,
             "name": "DURABILITY",
-            "parentSystemConfigurationTypeId": 2
+            "parentSystemConfigurationId": 2
         },
         {
             "__typename": "ConfigurationOption",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDJd",
             "id": 2,
             "name": "DURABILITY",
-            "parentSystemConfigurationTypeId": 4
+            "parentSystemConfigurationId": 4
         },
         {
             "__typename": "ConfigurationOption",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDNd",
             "id": 3,
             "name": "DURABILITY",
-            "parentSystemConfigurationTypeId": 6
+            "parentSystemConfigurationId": 6
         }
     ],
     "_configurationOptionValues": [

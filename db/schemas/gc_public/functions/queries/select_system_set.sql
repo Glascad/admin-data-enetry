@@ -14,10 +14,10 @@
 --     ssoos SYSTEM_SET_OPTION_OUTPUT[];
 --     selected BOOLEAN;
 --     cto CONFIGURATION_TYPE_OUTPUT;
---     scto SYSTEM_CONFIGURATION_TYPE_OUTPUT;
+--     scto system_configuration_OUTPUT;
 --     ssctos SYSTEM_SET_CONFIGURATION_TYPE_OUTPUT[];
 --     dt DETAIL_TYPE;
---     sdto SYSTEM_DETAIL_TYPE_OUTPUT;
+--     sdto system_detail_OUTPUT;
 --     ssdtos SYSTEM_SET_DETAIL_TYPE_OUTPUT[];
 -- BEGIN
 --     SELECT * FROM system_sets

@@ -41,8 +41,8 @@ BEGIN
     -- PARENT DETAIL TYPE
 
     -- get real parent system option value id
-    sdt_id_pairs := id_map.system_detail_type_id_pairs;
-    fake_psdtid := _do.parent_system_detail_type_fake_id;
+    sdt_id_pairs := id_map.system_detail_id_pairs;
+    fake_psdtid := _do.parent_system_detail_fake_id;
 
     -- expect fake parent id to be in provided id map
     -- if fake id, get real id
@@ -53,7 +53,7 @@ BEGIN
             RAISE EXCEPTION 'Fake detail type id: % not found in previous items. Please place fake ids earlier in the array than their references.', fake_psdtid;
         END IF;
     ELSE
-        psdtid := detail_option.parent_system_detail_type_id;
+        psdtid := detail_option.parent_system_detail_id;
     END IF;
 
     -- CREATE OR UPDATE
@@ -64,9 +64,9 @@ BEGIN
             name = CASE WHEN _do.name IS NOT NULL
                 THEN _do.name
                 ELSE detail_options.name END,
-            parent_system_detail_type_id = CASE WHEN psdtid IS NOT NULL
+            parent_system_detail_id = CASE WHEN psdtid IS NOT NULL
                 THEN psdtid
-                ELSE detail_options.parent_system_detail_type_id END,
+                ELSE detail_options.parent_system_detail_id END,
             parent_detail_option_value_id = CASE WHEN pdovid IS NOT NULL
                 THEN pdovid
                 ELSE detail_options.parent_detail_option_value_id END
@@ -79,12 +79,14 @@ BEGIN
             system_id,
             name,
             parent_detail_option_value_id,
-            parent_system_detail_type_id
+            parent_system_detail_id,
+            is_recursive
         ) VALUES (
             s.id,
             _do.name,
             pdovid,
-            psdtid
+            psdtid,
+            pdovid IS NOT NULL
         )
         RETURNING * INTO udo;
 
@@ -96,6 +98,13 @@ BEGIN
         )::ID_PAIR;
     ELSE
         RAISE EXCEPTION 'Must specify detail option `id` or `fake_id`';
+    END IF;
+
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: TRUE
+    IF pdovid IS NOT NULL THEN
+        UPDATE detail_option_values dov SET
+            is_recursive = TRUE
+        WHERE dov.id = pdovid;
     END IF;
 
     RETURN id_map;

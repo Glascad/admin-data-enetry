@@ -69,6 +69,8 @@
         "watch": [
             "db/",
             "server/",
+            "db/*",
+            "server/*",
             ".env",
             "index.js"
         ]

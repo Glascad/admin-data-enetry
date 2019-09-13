@@ -1,5 +1,5 @@
 import { UPDATE_TYPE } from "../../actions";
-import { systemUpdate, systemDetailTypeUpdate, systemConfigurationTypeUpdate } from "../../schemas";
+import { systemUpdate, systemDetailUpdate, systemConfigurationUpdate } from "../../schemas";
 
 function testUpdateType({
     systemInput,
@@ -20,15 +20,15 @@ testUpdateType({
     payload: {
         id: 1,
         type: "HEAD",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         // parentSystemOptionValueId: 3,
     },
     systemOutput: {
-        systemDetailTypes: expect.arrayContaining([
+        systemDetails: expect.arrayContaining([
             expect.objectContaining({
                 id: 1,
                 detailType: "HEAD",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 // parentSystemOptionValueId: 3,
             }),
         ])
@@ -37,12 +37,12 @@ testUpdateType({
 
 testUpdateType({
     systemInput: {
-        systemDetailTypes: [
+        systemDetails: [
             {
-                ...systemDetailTypeUpdate,
+                ...systemDetailUpdate,
                 id: 1,
                 detailType: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueId: 3,
             },
         ],
@@ -50,15 +50,15 @@ testUpdateType({
     payload: {
         id: 1,
         type: "HEAD",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         // parentSystemOptionValueId: 3,
     },
     systemOutput: {
-        systemDetailTypes: expect.arrayContaining([
+        systemDetails: expect.arrayContaining([
             expect.objectContaining({
                 id: 1,
                 detailType: "HEAD",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 // parentSystemOptionValueId: 3,
             }),
         ])
@@ -67,12 +67,12 @@ testUpdateType({
 
 testUpdateType({
     systemInput: {
-        systemDetailTypes: [
+        systemDetails: [
             {
-                ...systemDetailTypeUpdate,
+                ...systemDetailUpdate,
                 id: 1,
                 detailType: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueId: 3,
             },
         ],
@@ -80,21 +80,21 @@ testUpdateType({
     payload: {
         id: 2,
         type: "HEAD",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         // parentSystemOptionValueId: 3,
     },
     systemOutput: {
-        systemDetailTypes: expect.arrayContaining([
+        systemDetails: expect.arrayContaining([
             expect.objectContaining({
                 id: 1,
                 detailType: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueId: 3,
             }),
             expect.objectContaining({
                 id: 2,
                 detailType: "HEAD",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 // parentSystemOptionValueId: 3,
             }),
         ])
@@ -103,12 +103,12 @@ testUpdateType({
 
 testUpdateType({
     systemInput: {
-        systemDetailTypes: [
+        systemDetails: [
             {
-                ...systemDetailTypeUpdate,
+                ...systemDetailUpdate,
                 fakeId: 1,
                 detailType: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueFakeId: 3,
             },
         ],
@@ -116,21 +116,21 @@ testUpdateType({
     payload: {
         fakeId: 2,
         type: "HEAD",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         // parentSystemOptionValueFakeId: 3,
     },
     systemOutput: {
-        systemDetailTypes: expect.arrayContaining([
+        systemDetails: expect.arrayContaining([
             expect.objectContaining({
                 fakeId: 1,
                 detailType: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueFakeId: 3,
             }),
             expect.objectContaining({
                 fakeId: 2,
                 detailType: "HEAD",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 // parentSystemOptionValueFakeId: 3,
             }),
         ])
@@ -143,15 +143,15 @@ testUpdateType({
     payload: {
         id: 1,
         type: "CONFIGURATION_TYPE_A",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         // parentDetailOptionValueId: 7,
     },
     systemOutput: {
-        systemConfigurationTypes: expect.arrayContaining([
+        systemConfigurations: expect.arrayContaining([
             expect.objectContaining({
                 id: 1,
                 configurationType: "CONFIGURATION_TYPE_A",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 // parentDetailOptionValueId: 7,
             }),
         ])
@@ -160,12 +160,12 @@ testUpdateType({
 
 testUpdateType({
     systemInput: {
-        systemConfigurationTypes: [
+        systemConfigurations: [
             {
-                ...systemConfigurationTypeUpdate,
+                ...systemConfigurationUpdate,
                 id: 1,
                 configurationType: "PRESENT?",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueId: 7,
             },
         ],
@@ -173,15 +173,15 @@ testUpdateType({
     payload: {
         id: 1,
         type: "CONFIGURATION_TYPE_A",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         // parentDetailOptionValueId: 7,
     },
     systemOutput: {
-        systemConfigurationTypes: expect.arrayContaining([
+        systemConfigurations: expect.arrayContaining([
             expect.objectContaining({
                 id: 1,
                 configurationType: "CONFIGURATION_TYPE_A",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 // parentDetailOptionValueId: 7,
             }),
         ])
@@ -190,12 +190,12 @@ testUpdateType({
 
 testUpdateType({
     systemInput: {
-        systemConfigurationTypes: [
+        systemConfigurations: [
             {
-                ...systemConfigurationTypeUpdate,
+                ...systemConfigurationUpdate,
                 id: 1,
                 configurationType: "PRESENT?",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueId: 7,
             },
         ],
@@ -203,21 +203,21 @@ testUpdateType({
     payload: {
         id: 2,
         type: "CONFIGURATION_TYPE_A",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         // parentDetailOptionValueId: 7,
     },
     systemOutput: {
-        systemConfigurationTypes: expect.arrayContaining([
+        systemConfigurations: expect.arrayContaining([
             expect.objectContaining({
                 id: 1,
                 configurationType: "PRESENT?",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueId: 7,
             }),
             expect.objectContaining({
                 id: 2,
                 configurationType: "CONFIGURATION_TYPE_A",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 // parentDetailOptionValueId: 7,
             }),
         ])
@@ -226,12 +226,12 @@ testUpdateType({
 
 testUpdateType({
     systemInput: {
-        systemConfigurationTypes: [
+        systemConfigurations: [
             {
-                ...systemConfigurationTypeUpdate,
+                ...systemConfigurationUpdate,
                 fakeId: 1,
                 configurationType: "PRESENT?",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueFakeId: 7,
             },
         ],
@@ -239,21 +239,21 @@ testUpdateType({
     payload: {
         fakeId: 2,
         type: "CONFIGURATION_TYPE_A",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         // parentDetailOptionValueFakeId: 7,
     },
     systemOutput: {
-        systemConfigurationTypes: expect.arrayContaining([
+        systemConfigurations: expect.arrayContaining([
             expect.objectContaining({
                 fakeId: 1,
                 configurationType: "PRESENT?",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueFakeId: 7,
             }),
             expect.objectContaining({
                 fakeId: 2,
                 configurationType: "CONFIGURATION_TYPE_A",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 // parentDetailOptionValueFakeId: 7,
             }),
         ])

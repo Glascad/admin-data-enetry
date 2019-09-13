@@ -12,13 +12,13 @@ function testMakeRenderable(system) {
                 } = {},
                 branches = [],
             } = {},
-                parentTypeName = '',
-            ) => final(match(parentTypeName)
+                parentTypename = '',
+            ) => final(match(parentTypename)
                 .regex(/option$/i, () => expect(__typename).toMatch(/value$/i))
-                .regex(/value$/i, () => expect(__typename).toMatch(/(type|option)$/i))
-                .regex(/(^)|(type)$/i, () => expect(__typename).toMatch(/option$/i))
+                .regex(/value$/i, () => expect(__typename).toMatch(/(detail|configuration|option)$/i))
+                .regex(/(^)|(configuration)|(detail)$/i, () => expect(__typename).toMatch(/option$/i))
                 .otherwise(() => {
-                    throw new Error(`Expected option value or type __typename, received ${__typename}`);
+                    throw new Error(`Expected option value or type __typename, received parentTypename: "${parentTypename}", and __typename: "${__typename}"`);
                 }))
                 .finally(() => branches.forEach(branch => testNode(branch, __typename)));
             testNode(result);

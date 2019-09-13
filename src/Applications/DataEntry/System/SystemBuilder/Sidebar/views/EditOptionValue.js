@@ -55,7 +55,7 @@ function EditOptionValue({
     const childTypeTypename = `System${__typename
         .replace(/OptionValue/i, '')
         .replace(/Detail/i, 'Configuration')
-        .replace(/System/i, 'Detail')}Type`;
+        .replace(/System/i, 'Detail')}`;
 
     const childTypeType = __typename.match(/SystemOption/i) ? 'Detail' : 'Configuration';
 

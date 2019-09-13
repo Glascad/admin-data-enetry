@@ -21,43 +21,43 @@ testDeleteType({
     payload: {
         id: 1,
         name: "CT_A",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         parentSystemOptionValueId: 5,
     },
     systemOutput: {
-        systemDetailTypes: [],
-        systemDetailTypeIdsToDelete: [1]
+        systemDetails: [],
+        systemDetailIdsToDelete: [1]
     },
 });
 
 testDeleteType({
     systemInput: {
-        systemDetailTypes: [{
+        systemDetails: [{
             fakeId: 1,
             name: "CT_A",
-            __typename: "SystemDetailType",
+            __typename: "SystemDetail",
             parentSystemOptionValueId: 5,
         }]
     },
     payload: {
         fakeId: 1,
         name: "CT_A",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         parentSystemOptionValueId: 5,
     },
     systemOutput: {
-        systemDetailTypes: [],
-        systemDetailTypeIdsToDelete: []
+        systemDetails: [],
+        systemDetailIdsToDelete: []
     },
 });
 
 testDeleteType({
     systemInput: {
-        systemDetailTypes: [
+        systemDetails: [
             {
                 id: 1,
                 name: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueId: 5,
             },
         ],
@@ -65,22 +65,22 @@ testDeleteType({
     payload: {
         id: 1,
         name: "SILL",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         parentSystemOptionValueId: 5,
     },
     systemOutput: {
-        systemDetailTypes: [],
-        systemDetailTypeIdsToDelete: [1]
+        systemDetails: [],
+        systemDetailIdsToDelete: [1]
     },
 });
 
 testDeleteType({
     systemInput: {
-        systemDetailTypes: [
+        systemDetails: [
             {
                 fakeId: 1,
                 name: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueId: 5,
             },
         ],
@@ -88,19 +88,19 @@ testDeleteType({
     payload: {
         id: 2,
         name: "CT_A",
-        __typename: "SystemDetailType",
+        __typename: "SystemDetail",
         parentSystemOptionValueId: 5,
     },
     systemOutput: {
-        systemDetailTypes: expect.arrayContaining([
+        systemDetails: expect.arrayContaining([
             expect.objectContaining({
                 fakeId: 1,
                 name: "SILL",
-                __typename: "SystemDetailType",
+                __typename: "SystemDetail",
                 parentSystemOptionValueId: 5,
             }),
         ]),
-        systemDetailTypeIdsToDelete: [2]
+        systemDetailIdsToDelete: [2]
     },
 });
 
@@ -110,42 +110,42 @@ testDeleteType({
     payload: {
         id: 1,
         name: "CT_A",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         parentDetailOptionValueId: 5,
     },
     systemOutput: {
-        systemConfigurationTypeIdsToDelete: [1]
+        systemConfigurationIdsToDelete: [1]
     },
 });
 
 testDeleteType({
     systemInput: {
-        systemConfigurationTypes: [{
+        systemConfigurations: [{
             fakeId: 1,
             name: "CT_2",
-            __typename: "SystemConfigurationType",
+            __typename: "SystemConfiguration",
             parentDetailOptionValueId: 5,
         }]
     },
     payload: {
         fakeId: 1,
         name: "CT_2",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         parentDetailOptionValueId: 5,
     },
     systemOutput: {
-        systemConfigurationTypes: [],
-        systemConfigurationTypeIdsToDelete: []
+        systemConfigurations: [],
+        systemConfigurationIdsToDelete: []
     },
 });
 
 testDeleteType({
     systemInput: {
-        systemConfigurationTypes: [
+        systemConfigurations: [
             {
                 id: 1,
                 name: "DOWN",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueId: 5,
             },
         ],
@@ -153,22 +153,22 @@ testDeleteType({
     payload: {
         id: 1,
         name: "DOWN",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         parentDetailOptionValueId: 5,
     },
     systemOutput: {
-        systemConfigurationTypes: [],
-        systemConfigurationTypeIdsToDelete: [1]
+        systemConfigurations: [],
+        systemConfigurationIdsToDelete: [1]
     },
 });
 
 testDeleteType({
     systemInput: {
-        systemConfigurationTypes: [
+        systemConfigurations: [
             {
                 fakeId: 1,
                 name: "DOWN",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueId: 5,
             },
         ],
@@ -176,19 +176,19 @@ testDeleteType({
     payload: {
         id: 2,
         name: "CT_2",
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         parentDetailOptionValueId: 5,
     },
     systemOutput: {
-        systemConfigurationTypes: expect.arrayContaining([
+        systemConfigurations: expect.arrayContaining([
             expect.objectContaining({
                 fakeId: 1,
                 name: "DOWN",
-                __typename: "SystemConfigurationType",
+                __typename: "SystemConfiguration",
                 parentDetailOptionValueId: 5,
             }),
         ]),
-        systemConfigurationTypeIdsToDelete: [2]
+        systemConfigurationIdsToDelete: [2]
     },
 });
 

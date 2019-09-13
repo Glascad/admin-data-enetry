@@ -11,9 +11,9 @@ export default function UPDATE_TYPE(systemInput, {
 
     // console.log({systemInput, payload});
 
-    const typesKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetailTypes
-    const typeKey = __typename.replace(/System/i, '').toLowerCase().replace(/type/i, 'Type');
-    const typesUpdateKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'TypeUpdate'); //SystemDetailTypeUpdate
+    const typesKey = `${__typename.replace(/System/i, 'system')}s`; // systemDetails
+    const typeKey = `${__typename.replace(/System/i, '').toLowerCase()}Type`; // detailType
+    const typesUpdateKey = `${__typename.replace(/System/i, 'system')}Update`; // SystemDetailUpdate
 
     const { [typesKey]: typesArray = [] } = systemInput;
     const { [typesUpdateKey]: typesUpdate, } = schemas

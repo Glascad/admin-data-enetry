@@ -50,11 +50,13 @@ BEGIN
         INSERT INTO system_options (
             system_id,
             name,
-            parent_system_option_value_id
+            parent_system_option_value_id,
+            is_recursive
         ) VALUES (
             s.id,
             so.name,
-            psovid
+            psovid,
+            psovid IS NOT NULL
         )
         RETURNING * INTO uso;
 
@@ -66,6 +68,13 @@ BEGIN
         )::ID_PAIR;
     ELSE
         RAISE EXCEPTION 'Must specify system option `id` or `fake_id`';
+    END IF;
+
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: TRUE
+    IF psovid IS NOT NULL THEN
+        UPDATE system_option_values sov SET
+            is_recursive = TRUE
+        WHERE sov.id = psovid;
     END IF;
 
     RETURN id_map;

@@ -8,13 +8,13 @@ export default function ADD_TYPE(systemInput, {
     __typename,
 }) {
 
-    const typesKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetailTypes
-    const typeKey = __typename.replace(/System/i, '').toLowerCase().replace(/type/i, 'Type');
-    const typeUpdateKey = `${__typename.replace(/System/i, 'system')}Update`; //SystemDetailTypeUpdate
+    const typesKey = `${__typename.replace(/System/i, 'system')}s`; // systemDetails
+    const typeKey = `${__typename.replace(/System/i, '').toLowerCase()}Type`; // detailType
+    const typeUpdateKey = `${__typename.replace(/System/i, 'system')}Update`; // SystemDetailUpdate
     const parentOptionValueKey = `parent${
         __typename
-            .replace(/SystemConfigurationType/i, 'DetailOptionValue')
-            .replace(/SystemDetailType/i, 'SystemOptionValue')
+            .replace(/SystemConfiguration/i, 'DetailOptionValue')
+            .replace(/SystemDetail/i, 'SystemOptionValue')
         }${
         parentOptionValueFakeId ? 'Fake' : ''
         }Id` // `parentSystemOptionValueId`

@@ -28,7 +28,7 @@ ${require('../../db/schemas/gc_data/tables/manufacturer_data.sql')}
 ${require('../../db/schemas/gc_private/tables.sql')}
 ${require('../../db/schemas/gc_public/tables.sql')}
 ${require('../../db/schemas/gc_protected/tables/system.sql')}
-${require('../../db/schemas/gc_data/tables/system_data.sql')}
+${require('../../db/schemas/gc_protected/tables/system_constraints.sql')}
 -- system_set
 ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 
@@ -42,17 +42,20 @@ ${require('../../db/schemas/gc_private/functions/update_password.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_option_value.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_detail_type.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_detail_option_value.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system_configuration_type.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_configuration_option.sql')}
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_configuration_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option/configuration.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option_value/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option_value/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_option_value/configuration.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/create_or_update_type/configuration.sql')}
+${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/system.sql')}
+${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/detail.sql')}
+${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/configuration.sql')}
 -- delete_entire_configuration_option
--- delete_entire_system_configuration_type
-${require('../../db/schemas/gc_protected/functions/system/create_or_update_system.sql')}
+-- delete_entire_system_configuration
 -- create_or_update_system_set
 -- create_or_update_option_value
 -- create_or_update_system_option
@@ -99,6 +102,8 @@ ${require('../../db/schemas/seed_data.sql')}
 
 -- policies;
 ${require('../../db/schemas/policies.sql')}
+
+-- RAISE EXCEPTION 'FINISHED WITH SUCCESS';
 
 END $seed$;
 `;

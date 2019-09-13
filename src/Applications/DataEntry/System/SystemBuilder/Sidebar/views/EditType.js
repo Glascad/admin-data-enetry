@@ -22,7 +22,7 @@ function EditType({
     dispatch,
 }) {
     const isDetail = !!__typename.match(/Detail/i);
-    const type = __typename.replace(/^System(.*)Type$/, '$1');
+    const type = __typename.replace(/System/i, '');
     const {
         0: childOption,
         0: {
@@ -169,9 +169,9 @@ function EditType({
     );
 }
 
-export const SystemDetailType = {
+export const SystemDetail = {
     title: "Edit Detail",
     component: EditType,
 };
 
-export const SystemConfigurationType = SystemDetailType;
+export const SystemConfiguration = SystemDetail;

@@ -27,13 +27,13 @@
 --     dtp DETAIL_TYPE;
 --     dto DETAIL_TYPE_OUTPUT;
 --     dtos DETAIL_TYPE_OUTPUT[];
---     sdto SYSTEM_DETAIL_TYPE_OUTPUT;
---     sdtos SYSTEM_DETAIL_TYPE_OUTPUT[];
+--     sdto system_detail_OUTPUT;
+--     sdtos system_detail_OUTPUT[];
 --     ct RECORD;
 --     cto CONFIGURATION_TYPE_OUTPUT;
 --     ctos CONFIGURATION_TYPE_OUTPUT[];
---     scto SYSTEM_CONFIGURATION_TYPE_OUTPUT;
---     sctos SYSTEM_CONFIGURATION_TYPE_OUTPUT[];
+--     scto system_configuration_OUTPUT;
+--     sctos system_configuration_OUTPUT[];
 --     invalid BOOLEAN;
 --     sco RECORD;
 -- BEGIN
@@ -166,9 +166,9 @@
 --                 FOREACH cto IN ARRAY dto.configuration_types
 --                 LOOP
 --                     invalid := EXISTS (
---                         SELECT * FROM invalid_system_configuration_types
---                         WHERE invalid_system_configuration_types.system_id = sid
---                         AND invalid_system_configuration_types.invalid_configuration_type_id = cto.id
+--                         SELECT * FROM invalid_system_configurations
+--                         WHERE invalid_system_configurations.system_id = sid
+--                         AND invalid_system_configurations.invalid_configuration_type_id = cto.id
 --                     );
 
 --                     SELECT * FROM system_configuration_overrides
@@ -198,14 +198,14 @@
 --                                 ELSE cto.override_level END
 --                         )::CONFIGURATION_TYPE_OUTPUT,
 --                         cto
---                     )::SYSTEM_CONFIGURATION_TYPE_OUTPUT;
+--                     )::system_configuration_OUTPUT;
 --                 END LOOP;
 --             END IF;
 
 --             sdtos := sdtos || ROW(
 --                 dto.detail_type,
 --                 sctos
---             )::SYSTEM_DETAIL_TYPE_OUTPUT;
+--             )::system_detail_OUTPUT;
 --         END LOOP;
 --     END IF;
 

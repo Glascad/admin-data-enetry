@@ -22,9 +22,13 @@ BEGIN
     -- get real parent system option id
     co_id_pairs := id_map.configuration_option_id_pairs;
 
-    coid := CASE WHEN cov.parent_configuration_option_id IS NOT NULL
-        THEN cov.parent_configuration_option_id
-        ELSE get_real_id(co_id_pairs, co.parent_configuration_option_fake_id) END;
+    coid := COALESCE(
+        cov.parent_configuration_option_id,
+        get_real_id(
+            co_id_pairs,
+            co.parent_configuration_option_fake_id
+        )
+    );
 
     SELECT name FROM configuration_options INTO con WHERE id = coid;
 
@@ -36,10 +40,7 @@ BEGIN
                 ELSE configuration_option_values.name END,
             parent_configuration_option_id = CASE WHEN coid IS NOT NULL
                 THEN coid
-                ELSE configuration_option_values.parent_configuration_option_id END,
-            is_default = CASE WHEN cov.is_default IS NOT NULL
-                THEN cov.is_default
-                ELSE configuration_option_values.is_default END
+                ELSE configuration_option_values.parent_configuration_option_id END
         WHERE id = cov.id
         AND system_id = s.id;
     ELSIF cov.fake_id IS NOT NULL THEN
@@ -48,14 +49,12 @@ BEGIN
             system_id,
             name,
             parent_configuration_option_id,
-            option_name,
-            is_default
+            option_name
         ) VALUES (
             s.id,
             cov.name,
             coid,
-            con,
-            cov.is_default
+            con
         )
         RETURNING * INTO ucov;
 

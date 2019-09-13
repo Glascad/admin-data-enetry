@@ -41,8 +41,8 @@ BEGIN
     -- PARENT CONFIGURATION TYPE
 
     -- get real parent system option value id
-    sdt_id_pairs := id_map.system_configuration_type_id_pairs;
-    fake_psctid := co.parent_system_configuration_type_fake_id;
+    sdt_id_pairs := id_map.system_configuration_id_pairs;
+    fake_psctid := co.parent_system_configuration_fake_id;
 
     -- expect fake parent id to be in provided id map
     -- if fake id, get real id
@@ -53,7 +53,7 @@ BEGIN
             RAISE EXCEPTION 'Fake configuration type id: % not found in previous items. Please place fake ids earlier in the array than their references.', fake_psctid;
         END IF;
     ELSE
-        psctid := configuration_option.parent_system_configuration_type_id;
+        psctid := configuration_option.parent_system_configuration_id;
     END IF;
 
     -- CREATE OR UPDATE
@@ -64,9 +64,9 @@ BEGIN
             name = CASE WHEN co.name IS NOT NULL
                 THEN co.name
                 ELSE configuration_options.name END,
-            parent_system_configuration_type_id = CASE WHEN psctid IS NOT NULL
+            parent_system_configuration_id = CASE WHEN psctid IS NOT NULL
                 THEN psctid
-                ELSE configuration_options.parent_system_configuration_type_id END,
+                ELSE configuration_options.parent_system_configuration_id END,
             parent_configuration_option_value_id = CASE WHEN pcovid IS NOT NULL
                 THEN pcovid
                 ELSE configuration_options.parent_configuration_option_value_id END
@@ -79,12 +79,14 @@ BEGIN
             system_id,
             name,
             parent_configuration_option_value_id,
-            parent_system_configuration_type_id
+            parent_system_configuration_id,
+            is_recursive
         ) VALUES (
             s.id,
             co.name,
             pcovid,
-            psctid
+            psctid,
+            pcovid IS NOT NULL
         )
         RETURNING * INTO uco;
 
@@ -96,6 +98,13 @@ BEGIN
         )::ID_PAIR;
     ELSE
         RAISE EXCEPTION 'Must specify configuration option `id` or `fake_id`';
+    END IF;
+
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: TRUE
+    IF pcovid IS NOT NULL THEN
+        UPDATE configuration_option_values cov SET
+            is_recursive = TRUE
+        WHERE cov.id = pcovid;
     END IF;
 
     RETURN id_map;

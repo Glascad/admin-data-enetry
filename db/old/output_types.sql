@@ -39,7 +39,7 @@ gc_public.entire_bug_report AS (
 -- );
 
 -- CREATE TYPE
--- gc_public.system_configuration_type_output AS (
+-- gc_public.system_configuration_output AS (
 --     invalid BOOLEAN,
 --     configuration_type CONFIGURATION_TYPE_OUTPUT,
 --     system_type_default CONFIGURATION_TYPE_OUTPUT
@@ -48,7 +48,7 @@ gc_public.entire_bug_report AS (
 -- CREATE TYPE
 -- gc_public.system_set_configuration_type_output AS (
 --     selected BOOLEAN,
---     system_default SYSTEM_CONFIGURATION_TYPE_OUTPUT,
+--     system_default system_configuration_OUTPUT,
 --     detail_types DETAIL_TYPE[]
 -- );
 
@@ -71,9 +71,9 @@ gc_public.entire_bug_report AS (
 -- );
 
 -- CREATE TYPE
--- gc_public.system_detail_type_output AS (
+-- gc_public.system_detail_output AS (
 --     detail_type DETAIL_TYPE,
---     configuration_types SYSTEM_CONFIGURATION_TYPE_OUTPUT[]
+--     configuration_types system_configuration_OUTPUT[]
 -- );
 
 -- CREATE TYPE
@@ -155,7 +155,7 @@ gc_public.entire_bug_report AS (
 -- gc_public.system_output AS (
 --     system SYSTEM,
 --     system_options SYSTEM_OPTION_OUTPUT[],
---     detail_types SYSTEM_DETAIL_TYPE_OUTPUT[]
+--     detail_types system_detail_OUTPUT[]
 -- );
 
 -- CREATE TYPE

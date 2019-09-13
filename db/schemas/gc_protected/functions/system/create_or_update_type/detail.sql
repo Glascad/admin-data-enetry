@@ -1,14 +1,14 @@
-DROP FUNCTION IF EXISTS create_or_update_system_detail_type;
+DROP FUNCTION IF EXISTS create_or_update_system_detail;
 
-CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_detail_type(
-    system_detail_type ENTIRE_SYSTEM_DETAIL_TYPE,
+CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_detail(
+    system_detail ENTIRE_system_detail,
     system SYSTEMS,
     id_map ENTIRE_SYSTEM_ID_MAP
 ) RETURNS ENTIRE_SYSTEM_ID_MAP AS $$
 DECLARE
-    sdt ALIAS FOR system_detail_type;
+    sdt ALIAS FOR system_detail;
     s ALIAS FOR system;
-    usdt system_detail_types%ROWTYPE;
+    usdt system_details%ROWTYPE;
     real_id INTEGER;
     sov_id_pairs ID_PAIR[];
     -- fake system option id
@@ -26,15 +26,15 @@ BEGIN
 
     IF sdt.id IS NOT NULL THEN
         -- update
-        UPDATE system_detail_types SET
+        UPDATE system_details SET
             detail_type = CASE WHEN sdt.detail_type IS NOT NULL
                 THEN sdt.detail_type
-                ELSE system_detail_types.detail_type END
+                ELSE system_details.detail_type END
         WHERE id = sdt.id
         AND system_id = s.id;
     ELSIF sdt.fake_id IS NOT NULL THEN
         -- insert and update id map
-        INSERT INTO system_detail_types (
+        INSERT INTO system_details (
             system_id,
             detail_type,
             parent_system_option_value_id
@@ -46,13 +46,20 @@ BEGIN
         RETURNING * INTO usdt;
 
         -- add detail type id to updated id map
-        id_map.system_detail_type_id_pairs := id_map.system_detail_type_id_pairs || ROW(
+        id_map.system_detail_id_pairs := id_map.system_detail_id_pairs || ROW(
             -- link fake id to real id
             usdt.id,
             sdt.fake_id
         )::ID_PAIR;
     ELSE
         RAISE EXCEPTION 'Must specify detail type `id` or `fake_id`';
+    END IF;
+
+    -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: FALSE
+    IF pdovid IS NOT NULL THEN
+        UPDATE detail_option_values dov SET
+            is_recursive = FALSE
+        WHERE dov.id = pdovid;
     END IF;
 
     RETURN id_map;

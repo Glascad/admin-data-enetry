@@ -32,11 +32,11 @@ describe('Testing selection in system builder', () => {
 
     it('Can select type', () => {
         cy.get('.RightSidebar').should('have.class', 'closed');
-        cy.get('[data-cy="SystemDetailType-HEAD"]').click().should('have.class', 'selected');
+        cy.get('[data-cy="SystemDetail-HEAD"]').click().should('have.class', 'selected');
         cy.get('.RightSidebar').should('have.class', 'open');
         cy.get('[data-cy="right-sidebar-close-button"]').click();
         cy.get('.RightSidebar').should('have.class', 'closed');
-        cy.get('[data-cy="SystemDetailType-HEAD"]').should('not.have.class', 'selected');
+        cy.get('[data-cy="SystemDetail-HEAD"]').should('not.have.class', 'selected');
     });
 
     // deselection
