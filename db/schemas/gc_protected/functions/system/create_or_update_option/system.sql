@@ -51,12 +51,14 @@ BEGIN
             system_id,
             name,
             parent_system_option_value_id,
-            is_recursive
+            is_recursive,
+            default_system_option_value_id
         ) VALUES (
             s.id,
             so.name,
             psovid,
-            psovid IS NOT NULL
+            psovid IS NOT NULL,
+            0
         )
         RETURNING * INTO uso;
 

@@ -16,7 +16,7 @@ DECLARE
     -- system option id
     coid INTEGER;
     -- system option name
-    con TEXT;
+    con OPTION_NAME;
 BEGIN
 
     -- get real parent system option id

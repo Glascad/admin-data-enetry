@@ -16,7 +16,7 @@ DECLARE
     -- detail option id
     doid INTEGER;
     -- detail option name
-    don TEXT;
+    don OPTION_NAME;
 BEGIN
 
     -- get real parent detail option id

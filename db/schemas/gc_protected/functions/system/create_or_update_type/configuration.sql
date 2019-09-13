@@ -62,10 +62,10 @@ BEGIN
     END IF;
 
     -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: FALSE
-    IF pcovid IS NOT NULL THEN
+    IF pdovid IS NOT NULL THEN
         UPDATE detail_option_values cov SET
             is_recursive = FALSE
-        WHERE cov.id = pcovid;
+        WHERE cov.id = pdovid;
     END IF;
 
     RETURN id_map;

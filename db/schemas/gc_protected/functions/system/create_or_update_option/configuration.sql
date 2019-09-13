@@ -80,13 +80,15 @@ BEGIN
             name,
             parent_configuration_option_value_id,
             parent_system_configuration_id,
-            is_recursive
+            is_recursive,
+            default_configuration_option_value_id
         ) VALUES (
             s.id,
             co.name,
             pcovid,
             psctid,
-            pcovid IS NOT NULL
+            pcovid IS NOT NULL,
+            0
         )
         RETURNING * INTO uco;
 
