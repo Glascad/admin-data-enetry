@@ -103,6 +103,17 @@ export function useQuery(query, doNotFetchOnMount = false) {
                 variables,
                 query,
             });
+
+            const {
+                networkError: {
+                    result: {
+                        errors = [],
+                    } = {},
+                } = {},
+            } = err;
+
+            errors.forEach(({ message }) => console.error(message));
+
             setLoading(false);
             throw err;
         }

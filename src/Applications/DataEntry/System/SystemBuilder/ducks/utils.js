@@ -7,8 +7,8 @@ export const generateSystemMap = ({
     _systemOptionValues = [],
     _detailOptionValues = [],
     _configurationOptionValues = [],
-    _systemDetailTypes = [],
-    _systemConfigurationTypes = [],
+    _systemDetails = [],
+    _systemConfigurations = [],
 }) => _.groupBy([
     ..._systemOptions,
     ..._detailOptions,
@@ -16,8 +16,8 @@ export const generateSystemMap = ({
     ..._systemOptionValues,
     ..._detailOptionValues,
     ..._configurationOptionValues,
-    ..._systemDetailTypes,
-    ..._systemConfigurationTypes,
+    ..._systemDetails,
+    ..._systemConfigurations,
 ], item => {
     const [parentKey] = Object.entries(item).find(([key, value]) => key.match(/^parent/) && value) || [];
     const { [parentKey]: id } = item;

@@ -101,7 +101,7 @@ ADD CONSTRAINT default_detail_option_value_child FOREIGN KEY (
     id
 ) INITIALLY DEFERRED;
 
-ALTER TABLE gc_protected.system_configuration_types
+ALTER TABLE gc_protected.system_configurations
 ADD CONSTRAINT non_recursive_parent_detail_option_value FOREIGN KEY (
     is_recursive,
     parent_detail_option_value_id
@@ -109,7 +109,7 @@ ADD CONSTRAINT non_recursive_parent_detail_option_value FOREIGN KEY (
     is_recursive,
     id
 ) INITIALLY DEFERRED,
-ADD CONSTRAINT non_recursive_system_configuration_type CHECK (is_recursive = FALSE);
+ADD CONSTRAINT non_recursive_system_configuration CHECK (is_recursive = FALSE);
 
 -- Configuration Options
 ALTER TABLE gc_protected.configuration_options
@@ -117,11 +117,11 @@ ADD COLUMN parent_configuration_option_value_id INTEGER REFERENCES configuration
 ADD COLUMN is_recursive BOOLEAN DEFAULT TRUE,
 ADD COLUMN default_configuration_option_value_id INTEGER REFERENCES configuration_option_values INITIALLY DEFERRED NOT NULL;
 
--- cannot have two columns with the same parent_system_configuration_type_id and NULL parent_configuration_option_value_ids
+-- cannot have two columns with the same parent_system_configuration_id and NULL parent_configuration_option_value_ids
 ALTER TABLE gc_protected.configuration_options
 ADD CONSTRAINT single_parent_configuration_option EXCLUDE USING gist (
-    -- if system_configuration_type_id is EQUAL
-    parent_system_configuration_type_id WITH =,
+    -- if system_configuration_id is EQUAL
+    parent_system_configuration_id WITH =,
     -- then parent_configuration_option_value_id must be unique
     COALESCE(parent_configuration_option_value_id, 0) WITH =
 ),
@@ -129,11 +129,11 @@ ADD CONSTRAINT single_parent_configuration_option EXCLUDE USING gist (
 --     (
 --         parent_configuration_option_value_id IS NOT NULL
 --         OR
---         parent_system_configuration_type_id IS NOT NULL
+--         parent_system_configuration_id IS NOT NULL
 --     ) AND (
 --         parent_configuration_option_value_id IS NULL
 --         OR
---         parent_system_configuration_type_id IS NULL
+--         parent_system_configuration_id IS NULL
 --     )
 -- ),
 -- options must reference an option_value that IS recursive

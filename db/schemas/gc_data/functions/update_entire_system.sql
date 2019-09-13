@@ -14,7 +14,7 @@ DECLARE
     dov ENTIRE_DETAIL_OPTION_VALUE;
     cov ENTIRE_CONFIGURATION_OPTION_VALUE;
     sdt ENTIRE_system_detail;
-    sct ENTIRE_SYSTEM_CONFIGURATION_TYPE;
+    sct ENTIRE_system_configuration;
 BEGIN
 
     SET search_path = gc_public,gc_data,gc_protected,gc_controlled,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
@@ -25,10 +25,10 @@ BEGIN
 
     -- DELETE TYPES
 
-    IF s.system_configuration_type_ids_to_delete IS NOT NULL THEN
-        DELETE FROM system_configuration_types sct
+    IF s.system_configuration_ids_to_delete IS NOT NULL THEN
+        DELETE FROM system_configurations sct
         WHERE sct.id IN (
-            SELECT * FROM UNNEST (s.system_configuration_type_ids_to_delete)
+            SELECT * FROM UNNEST (s.system_configuration_ids_to_delete)
         )
         AND sct.system_id = s.id;
     END IF;
@@ -160,9 +160,9 @@ BEGIN
 
     -- CONFIGURATION TYPES
 
-    IF s.system_configuration_types IS NOT NULL THEN
-        FOREACH sct IN ARRAY s.system_configuration_types LOOP
-            id_map := create_or_update_system_configuration_type(sct, us, id_map);
+    IF s.system_configurations IS NOT NULL THEN
+        FOREACH sct IN ARRAY s.system_configurations LOOP
+            id_map := create_or_update_system_configuration(sct, us, id_map);
         END LOOP;
     END IF;
 

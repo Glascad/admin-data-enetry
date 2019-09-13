@@ -140,9 +140,9 @@ function EditType({
     );
 }
 
-export const SystemDetailType = {
+export const SystemDetail = {
     title: "Edit Detail",
     component: EditType,
 };
 
-export const SystemConfigurationType = SystemDetailType;
+export const SystemConfiguration = SystemDetail;

@@ -58,7 +58,7 @@ testGetChildren({
 testGetChildren({
     system: sample1,
     item: {
-        __typename: "SystemConfigurationType",
+        __typename: "SystemConfiguration",
         nodeId: "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsMl0=",
         id: 2,
         configurationType: "COMPENSATING_RECEPTOR",
@@ -70,7 +70,7 @@ testGetChildren({
             nodeId: "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
             id: 1,
             name: "DURABILITY",
-            parentSystemConfigurationTypeId: 2,
+            parentSystemConfigurationId: 2,
         },
     ],
 });

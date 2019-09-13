@@ -260,7 +260,7 @@
                 ],
                 "__by": "SystemType"
             },
-            "_invalidSystemConfigurationTypes": [],
+            "_invalidSystemConfigurations": [],
             "_systemConfigurationOverrides": [],
             "_systemOptions": [
                 {

@@ -41,7 +41,7 @@ testAddOption({
     systemOutput: {
         detailOptions: expect.arrayContaining([
             expect.objectContaining({
-                parentSystemDetailTypeId: 1,
+                parentSystemDetailId: 1,
                 fakeId: expect.any(Number),
                 name: "GLAZING",
                 __typename: "DetailOption",
@@ -60,7 +60,7 @@ testAddOption({
     systemOutput: {
         configurationOptions: expect.arrayContaining([
             expect.objectContaining({
-                parentSystemConfigurationTypeId: 1,
+                parentSystemConfigurationId: 1,
                 fakeId: expect.any(Number),
                 name: "STOPS",
                 __typename: "ConfigurationOption",
@@ -99,7 +99,7 @@ testAddOption({
         detailOptions: expect.arrayContaining([
             expect.objectContaining({
                 fakeId: expect.any(Number),
-                parentSystemDetailTypeId: 1,
+                parentSystemDetailId: 1,
                 name: "OTHER_OPTION",
                 __typename: "DetailOption",
             }),

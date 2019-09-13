@@ -13,7 +13,7 @@ export default function SystemSetConfigurationTypes({
         _systemSet: {
             _systemSetDetailTypeConfigurationTypes = [],
             _system: {
-                _invalidSystemConfigurationTypes = [],
+                _invalidSystemConfigurations = [],
                 _systemConfigurationOverrides = [],
                 _systemType: {
                     _systemTypeDetailTypes = [],
@@ -44,7 +44,7 @@ export default function SystemSetConfigurationTypes({
                         ))
                     )
                     &&
-                    !_invalidSystemConfigurationTypes.some(isct => (
+                    !_invalidSystemConfigurations.some(isct => (
                         isct.detailType === detailType
                         &&
                         isct.configurationType === configurationType

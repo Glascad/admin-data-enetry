@@ -34,6 +34,7 @@ export const SYSTEM_OPTION_FIELDS = gql`
         id
         name
         parentSystemOptionValueId
+        defaultSystemOptionValueId
     }
 `;
 
@@ -43,7 +44,6 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
-        isDefault
         raisedOptionNames
         raisedConfigurationTypes
         parentSystemOptionId
@@ -51,7 +51,7 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
 `;
 
 export const system_detail_FIELDS = gql`
-    fragment SystemDetailTypeFields on SystemDetailType {
+    fragment SystemDetailFields on SystemDetail {
         __typename
         nodeId
         id
@@ -66,8 +66,9 @@ export const DETAIL_OPTION_FIELDS = gql`
         nodeId
         id
         name
-        parentSystemDetailTypeId
+        parentSystemDetailId
         parentDetailOptionValueId
+        defaultDetailOptionValueId
     }
 `;
 
@@ -77,13 +78,12 @@ export const DETAIL_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
-        isDefault
         parentDetailOptionId
     }
 `;
 
-export const SYSTEM_CONFIGURATION_TYPE_FIELDS = gql`
-    fragment SystemConfigurationTypeFields on SystemConfigurationType {
+export const SYSTEM_CONFIGURATION_FIELDS = gql`
+    fragment SystemConfigurationFields on SystemConfiguration {
         __typename
         nodeId
         id
@@ -99,8 +99,9 @@ export const CONFIGURATION_OPTION_FIELDS = gql`
         nodeId
         id
         name
-        parentSystemConfigurationTypeId
+        parentSystemConfigurationId
         parentConfigurationOptionValueId
+        defaultConfigurationOptionValueId
     }
 `;
 
@@ -110,16 +111,7 @@ export const CONFIGURATION_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
-        isDefault
         parentConfigurationOptionId
-    }
-`;
-
-export const CONFIGURATION_FIELDS = gql`
-    fragment ConfigurationFields on Configuration {
-        __typename
-        nodeId
-        id
     }
 `;
 
@@ -179,14 +171,14 @@ export const ALL_SYSTEMS = gql`
 // export const ENTIRE_DETAIL_OPTION_VALUE = gql`
 //     fragment EntireDetailOptionValue on DetailOptionValue {
 //         ...DetailOptionValueFields
-//         systemConfigurationTypesByDetailOptionValueId {
+//         systemConfigurationsByDetailOptionValueId {
 //             nodes {
-//                 ...SystemConfigurationTypeFields
+//                 ...SystemConfigurationFields
 //             }
 //         }
 //     }
 //     ${DETAIL_OPTION_VALUE_FIELDS}
-//     ${SYSTEM_CONFIGURATION_TYPE_FIELDS}
+//     ${SYSTEM_CONFIGURATION_FIELDS}
 // `;
 
 // export const ENTIRE_DETAIL_OPTION = gql`
@@ -205,9 +197,9 @@ export const ALL_SYSTEMS = gql`
 // export const ENTIRE_SYSTEM_OPTION_VALUE = gql`
 //     fragment EntireSystemOptionValue on SystemOptionValue {
 //         ...SystemOptionValueFields
-//         systemDetailTypesBySystemOptionValueId {
+//         systemDetailsBySystemOptionValueId {
 //             nodes {
-//                 ...SystemDetailTypeFields
+//                 ...SystemDetailFields
 //             }
 //         }
 //     }
@@ -244,9 +236,9 @@ export const ENTIRE_SYSTEM = gql`
                 ...SystemOptionValueFields
             }
         }
-        systemDetailTypesBySystemId {
+        systemDetailsBySystemId {
             nodes {
-                ...SystemDetailTypeFields
+                ...SystemDetailFields
             }
         }
         detailOptionsBySystemId {
@@ -259,9 +251,9 @@ export const ENTIRE_SYSTEM = gql`
                 ...DetailOptionValueFields
             }
         }
-        systemConfigurationTypesBySystemId {
+        systemConfigurationsBySystemId {
             nodes {
-                ...SystemConfigurationTypeFields
+                ...SystemConfigurationFields
             }
         }
         configurationOptionsBySystemId {
@@ -282,7 +274,7 @@ export const ENTIRE_SYSTEM = gql`
     ${system_detail_FIELDS}
     ${DETAIL_OPTION_FIELDS}
     ${DETAIL_OPTION_VALUE_FIELDS}
-    ${SYSTEM_CONFIGURATION_TYPE_FIELDS}
+    ${SYSTEM_CONFIGURATION_FIELDS}
     ${CONFIGURATION_OPTION_FIELDS}
     ${CONFIGURATION_OPTION_VALUE_FIELDS}
 `;

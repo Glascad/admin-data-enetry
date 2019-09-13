@@ -11,8 +11,8 @@ import {
 } from './EditOptionValue';
 
 import {
-    SystemDetailType,
-    SystemConfigurationType,
+    SystemDetail,
+    SystemConfiguration,
 } from './EditType';
 
 import Settings from './Settings';
@@ -20,10 +20,10 @@ import Settings from './Settings';
 export {
     SystemOption,
     SystemOptionValue,
-    SystemDetailType,
+    SystemDetail,
     DetailOption,
     DetailOptionValue,
-    SystemConfigurationType,
+    SystemConfiguration,
     ConfigurationOption,
     ConfigurationOptionValue,
     Settings,

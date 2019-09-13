@@ -8,8 +8,8 @@ export default function DELETE_TYPE(
         __typename,
     } = payload;
 
-    const typesKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetailTypes
-    const typesToDeleteKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'TypeIdsToDelete'); //systemDetailTypeIdsToDelete
+    const typesKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'Types'); //systemDetails
+    const typesToDeleteKey = __typename.replace(/System/i, 'system').replace(/Type/i, 'TypeIdsToDelete'); //systemDetailIdsToDelete
 
     const { [typesKey]: typesArray } = systemInput;
     const { [typesToDeleteKey]: typesToDeleteArray } = systemInput;

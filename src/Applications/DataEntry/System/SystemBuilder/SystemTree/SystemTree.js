@@ -73,8 +73,8 @@ export default function SystemTree({
                     //         SystemOptionValue: () => <span>{name || detailType || configurationType}</span>,
                     //         DetailOptionValue: () => <span>{name || detailType || configurationType}</span>,
                     //         ConfigurationOptionValue: () => <span>{name || detailType || configurationType}</span>,
-                    //         SystemDetailType: () => <span>{name || detailType || configurationType}</span>,
-                    //         SystemConfigurationType: () => <span>{name || detailType || configurationType}</span>,
+                    //         SystemDetail: () => <span>{name || detailType || configurationType}</span>,
+                    //         SystemConfiguration: () => <span>{name || detailType || configurationType}</span>,
                     //         undefined: () => null,
                     //     })
                     //     .otherwise(() => { throw new Error(`Unknown typename: ${__typename}`) })}

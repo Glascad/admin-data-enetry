@@ -55,7 +55,7 @@ ${require('../../db/schemas/gc_protected/functions/system/set_default_option_val
 ${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/detail.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/set_default_option_value/configuration.sql')}
 -- delete_entire_configuration_option
--- delete_entire_system_configuration_type
+-- delete_entire_system_configuration
 -- create_or_update_system_set
 -- create_or_update_option_value
 -- create_or_update_system_option

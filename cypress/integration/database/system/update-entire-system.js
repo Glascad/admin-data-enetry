@@ -73,7 +73,7 @@ describe('Update entire system tests', () => {
                                                 name
                                                 raisedOptionNames
                                                 raisedConfigurationTypes
-                                                systemDetailTypesBySystemOptionValueId(orderBy: ID_ASC) {
+                                                systemDetailsBySystemOptionValueId(orderBy: ID_ASC) {
                                                     nodes {
                                                         id
                                                         detailType
@@ -85,7 +85,7 @@ describe('Update entire system tests', () => {
                                 }
                                 detailOptionsBySystemId(orderBy: PARENT_DETAIL_OPTION_VALUE_ID_ASC) {
                                     nodes {
-                                        systemDetailTypeId
+                                        systemDetailId
                                         parentDetailOptionValueId
                                         id
                                         name
@@ -93,7 +93,7 @@ describe('Update entire system tests', () => {
                                             nodes {
                                             id
                                             name
-                                            systemConfigurationTypesByDetailOptionValueId(orderBy: ID_ASC) {
+                                            systemConfigurationsByDetailOptionValueId(orderBy: ID_ASC) {
                                                 nodes {
                                                     id
                                                     configurationType
@@ -106,7 +106,7 @@ describe('Update entire system tests', () => {
                                 }
                                 configurationOptionsBySystemId(orderBy: PARENT_CONFIGURATION_OPTION_VALUE_ID_ASC) {
                                     nodes {
-                                        systemConfigurationTypeId
+                                        systemConfigurationId
                                         parentConfigurationOptionValueId
                                         id
                                         name

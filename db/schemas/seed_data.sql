@@ -34,7 +34,7 @@ INSERT INTO detail_options (name, parent_detail_option_value_id, system_id, defa
 INSERT INTO detail_option_values (system_id, parent_detail_option_id, option_name, name, is_recursive) VALUES
 (1, 2, 'GLAZING', 'INSIDE', FALSE),
 (1, 2, 'GLAZING', 'OUTSIDE', FALSE);
-INSERT INTO system_configuration_types (system_id, parent_detail_option_value_id, configuration_type, optional, is_recursive) VALUES
+INSERT INTO system_configurations (system_id, parent_detail_option_value_id, configuration_type, optional, is_recursive) VALUES
 (1, 1, 'HEAD', FALSE, FALSE),
 (1, 1, 'COMPENSATING_RECEPTOR', TRUE, FALSE),
 -- (1, 2, 'HEAD', FALSE, FALSE),
@@ -43,7 +43,7 @@ INSERT INTO system_configuration_types (system_id, parent_detail_option_value_id
 (1, 3, 'COMPENSATING_RECEPTOR', TRUE, FALSE),
 (1, 4, 'HEAD', FALSE, FALSE),
 (1, 4, 'COMPENSATING_RECEPTOR', TRUE, FALSE);
-INSERT INTO configuration_options (system_id, parent_system_configuration_type_id, name, default_configuration_option_value_id, is_recursive) VALUES
+INSERT INTO configuration_options (system_id, parent_system_configuration_id, name, default_configuration_option_value_id, is_recursive) VALUES
 (1, 2, 'DURABILITY', 1, FALSE),
 (1, 4, 'DURABILITY', 3, FALSE),
 (1, 6, 'DURABILITY', 5, FALSE); -- ,

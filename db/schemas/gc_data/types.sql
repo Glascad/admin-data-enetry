@@ -13,8 +13,8 @@ gc_data.entire_configuration_option AS (
     id INTEGER,
     fake_id INTEGER,
     name OPTION_NAME,
-    parent_system_configuration_type_id INTEGER,
-    parent_system_configuration_type_fake_id INTEGER,
+    parent_system_configuration_id INTEGER,
+    parent_system_configuration_fake_id INTEGER,
     parent_configuration_option_value_id INTEGER,
     parent_configuration_option_value_fake_id INTEGER,
     default_configuration_option_value_id INTEGER,
@@ -22,7 +22,7 @@ gc_data.entire_configuration_option AS (
 );
 
 CREATE TYPE
-gc_data.entire_system_configuration_type AS (
+gc_data.entire_system_configuration AS (
     id INTEGER,
     fake_id INTEGER,
     configuration_type CONFIGURATION_TYPE,
@@ -100,7 +100,7 @@ gc_data.entire_system AS (
     configuration_option_values ENTIRE_CONFIGURATION_OPTION_VALUE[],
 
     system_details ENTIRE_system_detail[],
-    system_configuration_types ENTIRE_SYSTEM_CONFIGURATION_TYPE[],
+    system_configurations ENTIRE_system_configuration[],
 
     system_option_ids_to_delete INTEGER[],
     detail_option_ids_to_delete INTEGER[],
@@ -111,7 +111,7 @@ gc_data.entire_system AS (
     configuration_option_value_ids_to_delete INTEGER[],
 
     system_detail_ids_to_delete INTEGER[],
-    system_configuration_type_ids_to_delete INTEGER[]
+    system_configuration_ids_to_delete INTEGER[]
 );
 
 CREATE TYPE
@@ -123,5 +123,5 @@ gc_data.entire_system_id_map AS (
     system_detail_id_pairs ID_PAIR[],
     configuration_option_id_pairs ID_PAIR[],
     configuration_option_value_id_pairs ID_PAIR[],
-    system_configuration_type_id_pairs ID_PAIR[]
+    system_configuration_id_pairs ID_PAIR[]
 );

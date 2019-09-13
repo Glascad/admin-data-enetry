@@ -13,14 +13,14 @@ export const configurationOptionUpdate = {
     id: undefined,
     fakeId: undefined,
     name: undefined,
-    parentSystemConfigurationTypeId: undefined,
-    parentSystemConfigurationTypeFakeId: undefined,
+    parentSystemConfigurationId: undefined,
+    parentSystemConfigurationFakeId: undefined,
     parentConfigurationOptionValueId: undefined,
     parentConfigurationOptionValueFakeId: undefined,
 };
 
-export const systemConfigurationTypeUpdate = {
-    __typename: "SystemConfigurationType",
+export const systemConfigurationUpdate = {
+    __typename: "SystemConfiguration",
     id: undefined,
     fakeId: undefined,
     configurationType: undefined,
@@ -43,14 +43,14 @@ export const detailOptionUpdate = {
     id: undefined,
     fakeId: undefined,
     name: undefined,
-    parentSystemDetailTypeId: undefined,
-    parentSystemDetailTypeFakeId: undefined,
+    parentSystemDetailId: undefined,
+    parentSystemDetailFakeId: undefined,
     parentDetailOptionValueId: undefined,
     parentDetailOptionValueFakeId: undefined,
 };
 
-export const systemDetailTypeUpdate = {
-    __typename: "SystemDetailType",
+export const systemDetailUpdate = {
+    __typename: "SystemDetail",
     id: undefined,
     fakeId: undefined,
     detailType: undefined,
@@ -90,14 +90,14 @@ export const systemUpdate = {
     systemOptionValues: [],
     detailOptionValues: [],
     configurationOptionValues: [],
-    systemDetailTypes: [],
-    systemConfigurationTypes: [],
+    systemDetails: [],
+    systemConfigurations: [],
     systemOptionIdsToDelete: [],
     detailOptionIdsToDelete: [],
     configurationOptionIdsToDelete: [],
     systemOptionValueIdsToDelete: [],
     detailOptionValueIdsToDelete: [],
     configurationOptionValueIdsToDelete: [],
-    systemDetailTypeIdsToDelete: [],
-    systemConfigurationTypeIdsToDelete: [],
+    systemDetailIdsToDelete: [],
+    systemConfigurationIdsToDelete: [],
 };

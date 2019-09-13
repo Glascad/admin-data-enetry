@@ -46,7 +46,7 @@ export default function SystemTypes() {
                             }))}
                         >
                             {({
-                                _systemTypeDetailTypes: systemDetailTypes = [],
+                                _systemTypeDetailTypes: systemDetails = [],
                                 type: systemType = '',
                             }) => (
                                     <ListWrapper
@@ -55,7 +55,7 @@ export default function SystemTypes() {
                                             title: "Detail Types",
                                             selections: [systemType],
                                         }}
-                                        items={systemDetailTypes.map(detail => ({
+                                        items={systemDetails.map(detail => ({
                                             ...detail,
                                             title: detail.detailType
                                         }))}

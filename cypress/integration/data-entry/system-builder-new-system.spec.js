@@ -93,7 +93,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.focused().type('Head{enter}');
 
         // Can select detail
-        cy.getDataCy`SystemDetailType-HEAD`.click();
+        cy.getDataCy`SystemDetail-HEAD`.click();
         cy.getDataCy`edit-detail-type`.find('input').type('Horizontal{enter}', { force: true });
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Stops{enter}');
@@ -128,19 +128,19 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`delete-configuration-type-HEAD`.click();
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
-        cy.getDataCy`SystemConfigurationType-HEAD`;
+        cy.getDataCy`SystemConfiguration-HEAD`;
         // cannot toggle to option when option exists
         cy.getDataCy`toggle-child-option`.click({ force: true }).should('not.have.class', 'selected');
 
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Compensating{enter}');
-        cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`;
+        cy.getDataCy`SystemConfiguration-COMPENSATING_RECEPTOR`;
 
         // Need to tie configurations to STDTCT
         cy.getDataCy`add-configuration`.click()
         // .should('not.exist');
         cy.focused().type('Shim{enter}');
-        cy.getDataCy`SystemConfigurationType-SHIM_SUPPORT`;
+        cy.getDataCy`SystemConfiguration-SHIM_SUPPORT`;
 
         cy.focused().blur();
 
@@ -150,7 +150,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/shim/i);
 
         // Can add configuration option
-        cy.getDataCy`SystemConfigurationType-COMPENSATING_RECEPTOR`.click();
+        cy.getDataCy`SystemConfiguration-COMPENSATING_RECEPTOR`.click();
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Durability{enter}');
         cy.getDataCy`ConfigurationOption-DURABILITY`.click();
@@ -213,7 +213,7 @@ describe('Testing sidbar actions in system builder', () => {
         // // cy.getDataCy`edit-detail-types`.contains(/jamb/i);
         // // cy.getDataCy`edit-detail-types`.contains(/mullion/i);
 
-        // cy.getDataCy`SystemDetailType-HEAD`.click();
+        // cy.getDataCy`SystemDetail-HEAD`.click();
         // // cy.getDataCy`toggle-child-option`.click();
         // cy.getDataCy`edit-option-name`.find('input').type('Stops{enter}', { force: true });
         // cy.getDataCy`edit-option-name`.find('div > div > div').contains('Stops').should('be.visible');
@@ -256,10 +256,10 @@ describe('Testing sidbar actions in system builder', () => {
     //     cy.getDataCy`delete-option`.click();
     // });
     // SystemOptionValue
-    // SystemDetailType
+    // SystemDetail
     // DetailOption
     // DetailOptionValue
-    // SystemConfigurationType
+    // SystemConfiguration
     // ConfigurationOption
     // ConfigurationOptionValue
 
