@@ -10,7 +10,6 @@ function EditOptionValue({
         id: ovId,
         fakeId: ovFId,
         name: ovName,
-        isDefault,
         __typename,
     },
     system,
@@ -26,6 +25,9 @@ function EditOptionValue({
     const option = getParent(optionValue, system);
     const values = getChildren(option, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
+
+    const defaultOptionValueIdKey = `default${__typename.replace(/OptionValue/i, "OptionValueId")}`
+    const isDefault = option[defaultOptionValueIdKey] === ovId;
 
     const validValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -72,8 +74,6 @@ function EditOptionValue({
         :
         configurationTypes;
 
-    console.log({ selectValidTypes, childTypename, childTypeType, valueChildren });
-
     const selectTypes = selectValidTypes
         .filter(name => !valueChildren.some(({ detailType = '', configurationType = '' }) => (
             name.toLowerCase() === (detailType || configurationType).toLowerCase()
@@ -85,7 +85,7 @@ function EditOptionValue({
 
     console.log({ validValues, selectValidValues });
 
-    const childValues = getChildren(childOption, systemMap); //Option Value's Child's Child
+    const childOptionChildren = getChildren(childOption, systemMap); //Option Value's Child's Child
 
     return (
         <>
@@ -109,7 +109,9 @@ function EditOptionValue({
                                 __typename,
                                 name: value,
                             }), {
-                            finishingText: 'Update Name'
+                            titleBar: { title: `Change ${ovName}?` },
+                            children: 'Are you Sure?',
+                            finishButtonText: 'Change',
                         })
                         :
                         dispatch(UPDATE_OPTION_VALUE, {
@@ -123,11 +125,10 @@ function EditOptionValue({
             {isDefault ? null : (
                 <button
                     className="sidebar-button light"
-                // onClick={() => dispatch(MAKE_DEFAULT, {
-                //     id: ovId,
-                //     fakeId: ovFId,
-                //     __typename,
-                // })}
+                    onClick={() => dispatch(UPDATE_OPTION, {
+                        ...option,
+                        [defaultOptionValueIdKey]: ovId,
+                    })}
                 >
                     Make Default
                 </button>
@@ -188,7 +189,7 @@ function EditOptionValue({
                     hasChildren ? (
                         <div className="input-group">
                             <Input
-                                className={childValues.length > 0 ? 'warning' : ''}
+                                className={childOptionChildren.length > 0 ? 'warning' : ''}
                                 data-cy="edit-option-name"
                                 select={{
                                     autoFocus: true,
@@ -214,12 +215,14 @@ function EditOptionValue({
                                 className="danger"
                                 actionType="delete"
                                 onClick={() => {
-                                    return childValues.length > 0 ?
+                                    return childOptionChildren.length > 0 ?
                                         confirmWithModal(() => dispatch(DELETE_OPTION, {
                                             __typename: __typename.replace(/value/i, ''),
                                             id: childOptionId,
                                             fakeId: childOptionFakeId,
                                         }), {
+                                            titleBar: { title: `Delete ${childOptionName}` },
+                                            children: `Deleting ${childOptionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                             danger: true,
                                             finishButtonText: 'Delete',
                                         })
@@ -240,65 +243,65 @@ function EditOptionValue({
                 ) : (
                         hasChildren ? (
                             <>
-                                {valueChildren.map(({ detailType, configurationType, id, fakeId }, i, { length }) => {
-                                    const childType = getChildren(childOption, systemMap);
-                                    return (
-                                        <div
-                                            className="input-group"
-                                            key={(detailType || configurationType)}
-                                        >
-                                            <Input
-                                                data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
-                                                select={{
-                                                    autoFocus: i === length - 1,
-                                                    value: {
-                                                        label: (detailType || configurationType),
-                                                        value: (detailType || configurationType),
-                                                    },
-                                                    options: selectTypes,
-                                                    onChange: ({ value }) => childType.length > 0 ?
-                                                        confirmWithModal(() => dispatch(UPDATE_TYPE, {
-                                                            __typename: childTypeTypename,
-                                                            id,
-                                                            fakeId,
-                                                            type: value,
-                                                        }), {
-                                                            danger: true,
-                                                            finishButtonText: 'Update Name',
-                                                        })
-                                                        :
-                                                        dispatch(UPDATE_TYPE, {
-                                                            __typename: childTypeTypename,
-                                                            id,
-                                                            fakeId,
-                                                            type: value,
-                                                        })
-                                                }}
-                                            />
-                                            <CircleButton
-                                                data-cy={`delete-${childTypeType.toLowerCase()}-type-${(detailType || configurationType)}`}
-                                                type="small"
-                                                className="danger"
-                                                actionType="delete"
-                                                onClick={() => childType.length > 0 ?
-                                                    confirmWithModal(() => dispatch(DELETE_TYPE, {
-                                                        __typename: childTypename,
+                                {valueChildren.map(({ detailType, configurationType, id, fakeId }, i, { length }) => (
+                                    <div
+                                        className="input-group"
+                                        key={(detailType || configurationType)}
+                                    >
+                                        <Input
+                                            data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
+                                            select={{
+                                                autoFocus: i === length - 1,
+                                                value: {
+                                                    label: (detailType || configurationType),
+                                                    value: (detailType || configurationType),
+                                                },
+                                                options: selectTypes,
+                                                onChange: ({ value }) => childOptionChildren.length > 0 ?
+                                                    confirmWithModal(() => dispatch(UPDATE_TYPE, {
+                                                        __typename: childTypeTypename,
                                                         id,
                                                         fakeId,
+                                                        type: value,
                                                     }), {
-                                                        danger: true,
-                                                        finishButtonText: 'Delete',
+                                                        titleBar: { title: `Change ${detailType || configurationType}` },
+                                                        children: 'Are you sure?',
+                                                        finishButtonText: 'Change',
                                                     })
                                                     :
-                                                    dispatch(DELETE_TYPE, {
-                                                        __typename: childTypename,
+                                                    dispatch(UPDATE_TYPE, {
+                                                        __typename: childTypeTypename,
                                                         id,
                                                         fakeId,
-                                                    })}
-                                            />
-                                        </div>
-                                    )
-                                }
+                                                        type: value,
+                                                    })
+                                            }}
+                                        />
+                                        <CircleButton
+                                            data-cy={`delete-${childTypeType.toLowerCase()}-type-${(detailType || configurationType)}`}
+                                            type="small"
+                                            className="danger"
+                                            actionType="delete"
+                                            onClick={() => childOptionChildren.length > 0 ?
+                                                confirmWithModal(() => dispatch(DELETE_TYPE, {
+                                                    __typename: childTypename,
+                                                    id,
+                                                    fakeId,
+                                                }), {
+                                                    titleBar: { title: `Delete ${detailType || configurationType}` },
+                                                    children: `Deleting ${(detailType || configurationType).toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                                    danger: true,
+                                                    finishButtonText: 'Delete',
+                                                })
+                                                :
+                                                dispatch(DELETE_TYPE, {
+                                                    __typename: childTypename,
+                                                    id,
+                                                    fakeId,
+                                                })}
+                                        />
+                                    </div>
+                                )
                                 )}
                             </>
                         ) : (
@@ -317,7 +320,8 @@ function EditOptionValue({
                         fakeId: ovFId,
                         __typename,
                     }), {
-                        className: "sidebar-button danger",
+                        titleBar: { title: `Delete ${ovName}?` },
+                        children: `Deleting ${ovName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
                         danger: true,
                         finishButtonText: 'Delete',
                     })

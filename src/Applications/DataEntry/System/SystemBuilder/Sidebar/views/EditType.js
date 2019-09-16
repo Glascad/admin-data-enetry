@@ -69,7 +69,9 @@ function EditType({
                             __typename,
                             type: value
                         }), {
-                            finishButtonText: "Update Name"
+                            titleBar: { title: `Change ${oName}` },
+                            children: 'Are you sure?',
+                            finishButtonText: "Change"
                         })
                         :
                         dispatch(UPDATE_TYPE, {
@@ -128,8 +130,10 @@ function EditType({
                                         fakeId: oFId,
                                         __typename: oTypename,
                                     }), {
-                                        danger: true,
+                                        titleBar: { title: `Delete ${oName}` },
+                                        children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                         finishButtonText: 'Delete',
+                                        danger: true,
                                     })
                                     :
                                     dispatch(DELETE_OPTION, {
@@ -156,9 +160,10 @@ function EditType({
                         fakeId: tFId,
                         __typename,
                     }), {
-                        className: "sidebar-button danger",
-                        danger: true,
+                        titleBar: { title: `Delete ${detailType || configurationType}` },
+                        children: `Deleting ${(detailType || configurationType).toLowerCase()} will delete all the items below it. Do you want to continue?`,
                         finishButtonText: 'Delete',
+                        danger: true,
                     })
                     :
                     dispatch(DELETE_TYPE, {

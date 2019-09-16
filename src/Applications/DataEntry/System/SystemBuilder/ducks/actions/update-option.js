@@ -23,6 +23,7 @@ export default function UPDATE_OPTION(
 
     const updatedIndex = optionsArray.indexOf(updatedOption);
 
+
     return {
         ...arguments[0],
         [optionsKey]: updatedOption ?
