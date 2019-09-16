@@ -11,22 +11,22 @@ DECLARE
     ucov configuration_option_values%ROWTYPE;
     real_id INTEGER;
     co_id_pairs ID_PAIR[];
-    -- fake system option id
+    -- fake configuration option id
     fake_coid INTEGER;
-    -- system option id
+    -- configuration option id
     coid INTEGER;
-    -- system option name
-    con TEXT;
+    -- configuration option name
+    con OPTION_NAME;
 BEGIN
 
-    -- get real parent system option id
+    -- get real parent configuration option id
     co_id_pairs := id_map.configuration_option_id_pairs;
 
     coid := COALESCE(
         cov.parent_configuration_option_id,
         get_real_id(
             co_id_pairs,
-            co.parent_configuration_option_fake_id
+            cov.parent_configuration_option_fake_id
         )
     );
 

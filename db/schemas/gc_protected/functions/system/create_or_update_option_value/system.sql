@@ -16,15 +16,15 @@ DECLARE
     -- system option id
     soid INTEGER;
     -- system option name
-    son TEXT;
+    son OPTION_NAME;
 BEGIN
 
     -- get real parent system option id
     so_id_pairs := id_map.system_option_id_pairs;
 
-    soid := CASE WHEN so.parent_system_option_id IS NOT NULL
-        THEN so.parent_system_option_id
-        ELSE get_real_id(so_id_pairs, so.parent_system_option_fake_id) END;
+    soid := CASE WHEN sov.parent_system_option_id IS NOT NULL
+        THEN sov.parent_system_option_id
+        ELSE get_real_id(so_id_pairs, sov.parent_system_option_fake_id) END;
 
     SELECT name FROM system_options INTO son WHERE id = soid;
 
@@ -34,9 +34,9 @@ BEGIN
             name = CASE WHEN sov.name IS NOT NULL
                 THEN sov.name
                 ELSE system_option_values.name END,
-            system_option_id = CASE WHEN soid IS NOT NULL
+            parent_system_option_id = CASE WHEN soid IS NOT NULL
                 THEN soid
-                ELSE system_option_values.system_option_id END
+                ELSE system_option_values.parent_system_option_id END
         WHERE id = sov.id
         AND system_id = s.id;
     ELSIF sov.fake_id IS NOT NULL THEN
@@ -44,7 +44,7 @@ BEGIN
         INSERT INTO system_option_values (
             system_id,
             name,
-            system_option_id,
+            parent_system_option_id,
             option_name
         ) VALUES (
             s.id,

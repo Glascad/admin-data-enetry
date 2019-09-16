@@ -1,8 +1,7 @@
 DROP FUNCTION IF EXISTS create_or_update_system_configuration;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_configuration(
-    system_configuration ENTIRE_system_configuration,
-    detail_option_value ENTIRE_DETAIL_OPTION_VALUE,
+    system_configuration ENTIRE_SYSTEM_CONFIGURATION,
     system SYSTEMS,
     id_map ENTIRE_SYSTEM_ID_MAP
 ) RETURNS ENTIRE_SYSTEM_ID_MAP AS $$
@@ -41,13 +40,13 @@ BEGIN
         INSERT INTO system_configurations (
             system_id,
             configuration_type,
-            detail_option_value_id,
+            parent_detail_option_value_id,
             optional
         ) VALUES (
             s.id,
             sct.configuration_type,
             pdovid,
-            sct.optional
+            COALESCE(sct.optional, FALSE)
         )
         RETURNING * INTO usct;
 
@@ -62,10 +61,10 @@ BEGIN
     END IF;
 
     -- UPDATE PARENT OPTION VALUE TO HAVE is_recursive: FALSE
-    IF pcovid IS NOT NULL THEN
+    IF pdovid IS NOT NULL THEN
         UPDATE detail_option_values cov SET
             is_recursive = FALSE
-        WHERE cov.id = pcovid;
+        WHERE cov.id = pdovid;
     END IF;
 
     RETURN id_map;

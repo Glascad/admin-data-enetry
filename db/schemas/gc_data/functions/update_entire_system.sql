@@ -15,6 +15,7 @@ DECLARE
     cov ENTIRE_CONFIGURATION_OPTION_VALUE;
     sdt ENTIRE_system_detail;
     sct ENTIRE_system_configuration;
+    ___ INTEGER;
 BEGIN
 
     SET search_path = gc_public,gc_data,gc_protected,gc_controlled,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
@@ -122,7 +123,7 @@ BEGIN
 
     IF s.system_options IS NOT NULL THEN
         FOREACH so IN ARRAY s.system_options LOOP
-            id_map := set_default_system_option_value(so, id_map);
+            SELECT 1 FROM set_default_system_option_value(so, id_map) INTO ___;
         END LOOP;
     END IF;
 
@@ -154,7 +155,7 @@ BEGIN
 
     IF s.detail_options IS NOT NULL THEN
         FOREACH _do IN ARRAY s.detail_options LOOP
-            id_map := set_default_detail_option_value(_do, id_map);
+            SELECT 1 FROM set_default_detail_option_value(_do, id_map) INTO ___;
         END LOOP;
     END IF;
 
@@ -186,7 +187,7 @@ BEGIN
 
     IF s.configuration_options IS NOT NULL THEN
         FOREACH co IN ARRAY s.configuration_options LOOP
-            id_map := set_default_configuration_option_value(co, id_map);
+            SELECT 1 FROM set_default_configuration_option_value(co, id_map) INTO ___;
         END LOOP;
     END IF;
 

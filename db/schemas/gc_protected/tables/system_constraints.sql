@@ -18,7 +18,7 @@ ADD CONSTRAINT recursive_parent_system_option_value FOREIGN KEY (
 ) REFERENCES system_option_values (
     is_recursive,
     id
-),
+) INITIALLY DEFERRED,
 ADD CONSTRAINT recursive_system_option CHECK (
     (
         parent_system_option_value_id IS NULL
@@ -71,17 +71,17 @@ ADD CONSTRAINT recursive_parent_detail_option_value FOREIGN KEY (
     is_recursive,
     id
 ) INITIALLY DEFERRED,
-ADD CONSTRAINT parent_or_child_detail_option CHECK (
-    (
-        parent_detail_option_value_id IS NOT NULL
-        OR
-        parent_system_detail_id IS NOT NULL
-    ) AND (
-        parent_detail_option_value_id IS NULL
-        OR
-        parent_system_detail_id IS NULL
-    )
-),
+-- ADD CONSTRAINT parent_or_child_detail_option CHECK (
+--     (
+--         parent_detail_option_value_id IS NOT NULL
+--         OR
+--         parent_system_detail_id IS NOT NULL
+--     ) AND (
+--         parent_detail_option_value_id IS NULL
+--         OR
+--         parent_system_detail_id IS NULL
+--     )
+-- ),
 ADD CONSTRAINT recursive_detail_option CHECK (
     (
         parent_detail_option_value_id IS NULL

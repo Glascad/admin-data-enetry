@@ -80,13 +80,15 @@ BEGIN
             name,
             parent_detail_option_value_id,
             parent_system_detail_id,
-            is_recursive
+            is_recursive,
+            default_detail_option_value_id
         ) VALUES (
             s.id,
             _do.name,
             pdovid,
             psdtid,
-            pdovid IS NOT NULL
+            pdovid IS NOT NULL,
+            0
         )
         RETURNING * INTO udo;
 
