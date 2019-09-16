@@ -44,8 +44,8 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
         nodeId
         id
         name
-        raisedOptionNames
-        raisedConfigurationTypes
+        # raisedOptionNames
+        # raisedConfigurationTypes
         parentSystemOptionId
     }
 `;

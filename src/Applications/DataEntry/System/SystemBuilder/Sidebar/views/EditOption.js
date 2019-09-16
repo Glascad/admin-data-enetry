@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal } from "../../../../../../components";
 import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, DELETE_OPTION } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
-import { getChildren } from '../../ducks/utils';
+import { getChildren, filterOptionsAbove } from '../../ducks/utils';
 
 
 function EditOption({
@@ -15,6 +15,7 @@ function EditOption({
         parentSystemOptionValueId,
         parentSystemOptionValueFakeId,
     } = {},
+    system,
     systemMap,
     queryResult: {
         validOptions = [],
@@ -64,12 +65,12 @@ function EditOption({
                     ...(optionValues.length ? {
                         options: [],
                     } : {
-                            options: validOptions
-                                .filter(({ name }) => name !== oName)
-                                .map(({ name }) => ({
-                                    value: name,
-                                    label: name,
-                                })),
+                            options: filterOptionsAbove(option, system, validOptions)
+                            // .filter(({ name }) => name !== oName)
+                            .map(({ name }) => ({
+                                value: name,
+                                label: name,
+                            })),
                             onChange: ({ label }) => dispatch(UPDATE_OPTION, {
                                 id: oId,
                                 fakeId: oFId,

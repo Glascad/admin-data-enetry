@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, DeleteButton, confirmWithModal } from '../../../../../../components';
-import { getChildren } from '../../ducks/utils';
+import { getChildren, filterOptionsAbove } from '../../ducks/utils';
 import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
 
 function EditType({
@@ -106,10 +106,11 @@ function EditType({
                                     value: oName,
                                     label: oName,
                                 },
-                                options: validOptions.map(({ name }) => ({
-                                    value: name,
-                                    label: name,
-                                })),
+                                options: filterOptionsAbove(selectedType, system, validOptions)
+                                    .map(({ name }) => ({
+                                        value: name,
+                                        label: name,
+                                    })),
                                 onChange: ({ value }) => dispatch(UPDATE_OPTION, {
                                     id: oId,
                                     fakeId: oFId,

@@ -66,3 +66,13 @@ export const getFakeId = (() => {
     var fakeId = -1;
     return () => fakeId--;
 })();
+
+export const filterOptionsAbove = (item, system, optionList) => {
+    const parentItem = getParent(item, system);
+    const filteredOptions = optionList.filter(({ name }) => !(name === item.name));
+
+    return parentItem ?
+        filterOptionsAbove(parentItem, system, filteredOptions)
+        :
+        filteredOptions;
+}
