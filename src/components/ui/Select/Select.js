@@ -41,6 +41,7 @@ export default function Select({
     return (
         <label
             className="Select"
+            data-cy={dataCy}
         >
             <div className="label">
                 {label}
@@ -64,7 +65,6 @@ export default function Select({
                     Home: () => setSelectedOptionIndex(0),
                     End: () => setSelectedOptionIndex(filteredOptionCount - 1),
                 }).otherwise(() => console.log({ key }))}
-                data-cy={dataCy}
             />
             <div className="select-options">
                 {filteredOptions.map((o, i) => (

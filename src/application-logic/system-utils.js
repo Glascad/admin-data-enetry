@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+
 export const generateSystemMap = ({
     _systemOptions = [],
     _detailOptions = [],
@@ -24,9 +25,11 @@ export const generateSystemMap = ({
     return `${parentKey}:${id}`;
 });
 
+
 export const getFirstItem = ({ _systemOptions = [] }) => (
     _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId)
 );
+
 
 export const getParent = (item, system) => item ?
     Object.entries(item).reduce((parent, [key, value]) => parent || (
@@ -40,6 +43,7 @@ export const getParent = (item, system) => item ?
     :
     undefined;
 
+    
 export const getParentTrail = (item, system, trail = []) => {
     const parent = getParent(item, system);
     return (item && parent) ?
@@ -48,11 +52,13 @@ export const getParentTrail = (item, system, trail = []) => {
         trail;
 }
 
+
 export const getChildren = ({ __typename, fakeId, id } = {}, systemMap) => (
     systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]
     ||
     []
 );
+
 
 export const makeRenderable = system => {
     const systemMap = generateSystemMap(system);
@@ -64,6 +70,7 @@ export const makeRenderable = system => {
     return makeNodeRenderable(getFirstItem(system));
 }
 
+
 export const findItemByIdAndTypename = (system, { id, fakeId, __typename } = {}) => Object.values(system)
     .filter(item => item && typeof item === 'object')
     .reduce((result, item) => result || (
@@ -73,6 +80,7 @@ export const findItemByIdAndTypename = (system, { id, fakeId, __typename } = {})
             findItemByIdAndTypename(item, { id, fakeId, __typename })
     ), null) || undefined;
 
+    
 export const getFakeId = (() => {
     var fakeId = -1;
     return () => fakeId--;

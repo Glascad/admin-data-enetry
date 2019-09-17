@@ -1,5 +1,5 @@
-import { getChildren, generateSystemMap } from "../../utils";
-import { sample1 } from "../../../../sample-systems";
+import { getChildren, generateSystemMap } from "../../system-utils";
+import { sample1 } from "../sample-systems";
 
 function testGetChildren({
     system,

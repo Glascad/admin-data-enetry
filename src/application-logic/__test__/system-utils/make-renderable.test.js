@@ -1,6 +1,6 @@
-import { makeRenderable } from '../../utils';
-import { sample1 } from '../../../../sample-systems';
-import { match, final } from '../../../../../../../utils';
+import { makeRenderable } from '../../system-utils';
+import { sample1 } from '../sample-systems';
+import { match, final } from '../../../utils';
 
 function testMakeRenderable(system) {
     describe(`Testing MakeRenderable on ${system.name}`, () => {

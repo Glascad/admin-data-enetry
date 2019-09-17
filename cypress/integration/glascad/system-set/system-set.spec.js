@@ -10,8 +10,10 @@ describe('System Set Tests', () => {
         // can change name of system set
         cy.getDataCy`system-set-name`.find('input').should('have.value', 'Trifab451 - Set');
         // has the correct options and values in order
-        cy.getDataCy`SystemOption-1`.contains('Set').should('exist');
-        cy.getDataCy`SystemOption-1`.contains('Center').should('have.class', 'selected');
+        cy.getDataCy`system-option-1`.find('.label').contains('Set');
+        cy.getDataCy`system-option-1`.find('input').should('have.value', 'Center');
+        cy.getDataCy`system-option-2`.find('.label').contains('Joinery');
+        cy.getDataCy`system-option-2`.find('input').should('have.value', 'Screw Spline');
         // can change option values
         // default values are automatically selected when a new upstream selection is made
         // raised option values are displayed in correct locations
