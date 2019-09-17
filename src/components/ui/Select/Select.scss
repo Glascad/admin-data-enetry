@@ -1,11 +1,5 @@
 @import "../../../styles/variables";
 
-html,
-body,
-#root {
-    background: $dark-blue;
-}
-
 .Select {
     width: $pill-width;
     position: relative;
@@ -27,8 +21,8 @@ body,
                 position: absolute;
                 display: flex;
                 flex-direction: column;
-                border-radius: $xx-small;
                 overflow: hidden;
+                z-index: 10;
 
                 .select-option {
                     height: $xxx-large;
@@ -36,8 +30,22 @@ body,
                     display: flex;
                     align-items: center;
                     padding: 0 $x-small;
-                    background: $off-white;
-                    border-bottom: 1px solid $light-gray;
+                    background: white;
+                    border: 1px solid $light-gray;
+
+                    + .select-option {
+                        border-top: none;
+                    }
+
+                    &:first-child {
+                        border-top-left-radius: $xx-small;
+                        border-top-right-radius: $xx-small;
+                    }
+
+                    &:last-child {
+                        border-bottom-left-radius: $xx-small;
+                        border-bottom-right-radius: $xx-small;
+                    }
 
                     &.selected {
                         background: $selected-color;

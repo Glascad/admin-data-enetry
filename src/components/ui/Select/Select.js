@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import './Select.scss';
@@ -26,21 +26,9 @@ export default function Select({
     const { length: filteredOptionCount } = filteredOptions;
     const [selectedOptionIndex, setSelectedOptionIndex] = useInitialState(0, [input]);
 
-    // const selectedOption = [
-    //     o => o === input,
-    //     o => o.toLowerCase() === input.toLowerCase(),
-    //     o => [...input].reduce(([passed, index], letter) => [
-    //         passed && o.slice(index).includes(letter),
-    //         o.indexOf(letter),
-    //     ], [true, 0])[0],
-    //     o => [...input].reduce(([passed, index], letter) => [
-    //         passed && o.slice(index).toLowerCase().includes(letter.toLowerCase()),
-    //         o.toLowerCase().indexOf(letter.toLowerCase()),
-    //     ], [true, 0])[0],
-    //     o => [...input].every(letter => o.includes(letter)),
-    //     o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())),
-    //     () => true,
-    // ].reduce((option, cb) => option || filteredOptions.find(cb), null);
+    useEffect(() => {
+        if (autoFocus) setInput('');
+    }, [autoFocus]);
 
     return (
         <label
@@ -56,7 +44,7 @@ export default function Select({
                 value={input}
                 onFocus={() => setInput('')}
                 onBlur={() => setInput(value)}
-                onChange={({ target: { value } }) => setInput(value)}
+                onChange={({ target: { value } }) => setInput(value || '')}
                 onKeyDown={({ key, target }) => match(key).against({
                     Escape: () => target.blur(),
                     Enter: () => {

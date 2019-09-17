@@ -42,7 +42,7 @@ export default class Input extends PureComponent {
             'inches',
             ...booleanTypes,
         ]),
-        select: PropTypes.shape(
+        select: customPropTypes.deprecated(PropTypes.shape(
             // Select.propTypes || 
             {
                 value: PropTypes.shape({
@@ -59,7 +59,7 @@ export default class Input extends PureComponent {
                     ]),
                     label: customPropTypes.renderable,
                 })),
-            }),
+            })),
         value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
