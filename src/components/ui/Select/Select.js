@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-import './Select.scss';
+import { compareTwoStrings, findBestMatch } from 'string-similarity';
 import useInitialState from '../../hooks/use-initial-state';
 import customPropTypes from '../../utils/custom-prop-types';
 import { match, normalCase } from '../../../utils';
+
+import './Select.scss';
 
 Select.propTypes = {
     label: PropTypes.string,
@@ -20,9 +21,16 @@ export default function Select({
     options,
     autoFocus = false,
     onChange,
+    "data-cy": dataCy,
 }) {
-    const [input, setInput] = useInitialState(value);
-    const filteredOptions = options.filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())));
+    const [input, setInput] = useInitialState(normalCase(value));
+    const filteredOptions = options
+        .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
+        .reduce((sorted, next, i, arr) => sorted.concat(
+            findBestMatch(
+                input,
+                arr.filter(item => !sorted.includes(item))).bestMatch.target
+        ), []);
     const { length: filteredOptionCount } = filteredOptions;
     const [selectedOptionIndex, setSelectedOptionIndex] = useInitialState(0, [input]);
 
@@ -43,7 +51,7 @@ export default function Select({
                 placeholder={value}
                 value={input}
                 onFocus={() => setInput('')}
-                onBlur={() => setInput(value)}
+                onBlur={() => setInput(normalCase(value))}
                 onChange={({ target: { value } }) => setInput(value || '')}
                 onKeyDown={({ key, target }) => match(key).against({
                     Escape: () => target.blur(),
@@ -56,10 +64,13 @@ export default function Select({
                     Home: () => setSelectedOptionIndex(0),
                     End: () => setSelectedOptionIndex(filteredOptionCount - 1),
                 }).otherwise(() => console.log({ key }))}
+                data-cy={dataCy}
             />
             <div className="select-options">
                 {filteredOptions.map((o, i) => (
                     <div
+                        key={o}
+                        data-cy={`select-option-${o}`}
                         className={`select-option ${
                             i === selectedOptionIndex ? 'selected' : ''
                             }`}

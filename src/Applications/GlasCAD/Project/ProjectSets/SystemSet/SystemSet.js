@@ -52,7 +52,7 @@ export default function SystemSets({
             <Select
                 label="System Set"
                 value={value}
-                options={["one", "two", "three", "four", "five"]}
+                options={["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]}
                 onChange={setValue}
             />
         </div>
