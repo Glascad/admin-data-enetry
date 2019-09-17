@@ -1,9 +1,6 @@
 
 SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_controlled, gc_private;
 
--- PROJECT FOR USER_ONE
-INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
-INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
 -- INITIAL MANUFACTURER
 INSERT INTO manufacturers (name) VALUES ('Kawneer');
 
@@ -16,10 +13,10 @@ INSERT INTO system_option_values (name, option_name, parent_system_option_id, sy
 ('CENTER', 'SET', 1, 1, TRUE),
 ('MULTI-PLANE', 'SET', 1, 1, TRUE);
 INSERT INTO system_options (name, system_id, parent_system_option_value_id, is_recursive, default_system_option_value_id) VALUES ('JOINERY', 1, 3, TRUE, 5);
-INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id, raised_option_names) VALUES
-('SCREW_SPLINE', 'JOINERY', 2, 1, '{"STOPS", "GLAZING"}'),
-('SHEAR_BLOCK', 'JOINERY', 2, 1, '{"STOPS", "GLAZING"}'),
-('STICK', 'JOINERY', 2, 1, '{"STOPS", "GLAZING"}');
+INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id) VALUES -- , raised_option_names) VALUES
+('SCREW_SPLINE', 'JOINERY', 2, 1), -- '{"STOPS", "GLAZING"}'),
+('SHEAR_BLOCK', 'JOINERY', 2, 1), -- '{"STOPS", "GLAZING"}'),
+('STICK', 'JOINERY', 2, 1); -- '{"STOPS", "GLAZING"}');
 INSERT INTO system_details (system_id, parent_system_option_value_id, detail_type) VALUES
 (1, 5, 'HEAD'),
 (1, 5, 'HORIZONTAL'),
@@ -61,3 +58,13 @@ INSERT INTO configuration_option_values (system_id, parent_configuration_option_
 -- TEST SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type)
 VALUES ('Test System', 1, 'STOREFRONT');
+
+-- PROJECT FOR USER_ONE
+INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
+
+-- TEST PROJECT
+INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
+
+-- TEST SYSTEM SET
+INSERT INTO system_sets (project_id, system_id, system_option_value_id, name) VALUES
+(2, 1, 5, 'Trifab451 - Set');

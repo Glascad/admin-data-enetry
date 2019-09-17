@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton } from '../../../../../../components';
-import { getParent, getChildren } from '../../ducks/utils';
+import { getParent, getChildren } from '../../../../../../application-logic/system-utils';
 import { UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, ADD_OPTION, ADD_TYPE, UPDATE_OPTION, DELETE_OPTION, DELETE_TYPE, UPDATE_TYPE } from '../../ducks/actions';
 import { when } from '../../../../../../utils';
 

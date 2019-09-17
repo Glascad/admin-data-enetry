@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './CircleButton.scss';
 import ButtonTile from '../ButtonTile/ButtonTile';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 export default class CircleButton extends PureComponent {
 

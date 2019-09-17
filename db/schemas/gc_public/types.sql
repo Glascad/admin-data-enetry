@@ -38,16 +38,23 @@ gc_public.entire_elevation AS (
 
 -- SYSTEM SET
 
-CREATE TYPE
-gc_public.selected_option_value AS (
-    option_name OPTION_NAME,
-    name OPTION_VALUE_NAME
-);
+-- CREATE TYPE
+-- gc_public.selected_option_value AS (
+--     option_name OPTION_NAME,
+--     name OPTION_VALUE_NAME
+-- );
+
+-- CREATE TYPE
+-- gc_public.selected_detail_type_configuration_type AS (
+--     detail_type DETAIL_TYPE,
+--     configuration_type CONFIGURATION_TYPE
+-- );
 
 CREATE TYPE
-gc_public.selected_detail_type_configuration_type AS (
-    detail_type DETAIL_TYPE,
-    configuration_type CONFIGURATION_TYPE
+gc_public.entire_raised_option_value AS (
+    id INTEGER,
+    option_name OPTION_NAME,
+    option_value_name OPTION_VALUE_NAME
 );
 
 CREATE TYPE
@@ -55,12 +62,14 @@ gc_public.entire_system_set AS (
     id INTEGER,
     project_id INTEGER,
     system_id INTEGER,
-    system_type SYSTEM_TYPE,
     name VARCHAR(50),
+    system_option_value_id INTEGER,
+    raised_option_values ENTIRE_RAISED_OPTION_VALUE[]
+    -- system_type SYSTEM_TYPE,
     -- infill_size FLOAT,
-    selected_option_values SELECTED_OPTION_VALUE[],
-    detail_type_configuration_types SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[],
-    detail_type_configuration_types_to_unselect SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[]
+    -- selected_option_values SELECTED_OPTION_VALUE[],
+    -- detail_type_configuration_types SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[],
+    -- detail_type_configuration_types_to_unselect SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE[]
 );
 
 CREATE TYPE

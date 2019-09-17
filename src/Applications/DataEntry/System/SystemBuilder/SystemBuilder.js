@@ -6,7 +6,7 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename, generateSystemMap } from './ducks/utils';
+import { findItemByIdAndTypename, generateSystemMap } from '../../../../application-logic/system-utils';
 
 SystemBuilder.navigationOptions = {
     path: '/build',

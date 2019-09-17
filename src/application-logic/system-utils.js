@@ -28,14 +28,25 @@ export const getFirstItem = ({ _systemOptions = [] }) => (
     _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId)
 );
 
-export const getParent = (item, system) => Object.entries(item).reduce((parent, [key, value]) => parent || (
-    key.match(/parent/)
-    &&
-    value
-    &&
-    (system[`_${key[6].toLowerCase()}${key.slice(7).replace(/(Fake)?Id/, '')}s`] || [])
-        .find(({ [key.match(/Fake/i) ? 'fakeId' : 'id']: id }) => id === value)
-), null);
+export const getParent = (item, system) => item ?
+    Object.entries(item).reduce((parent, [key, value]) => parent || (
+        key.match(/parent/)
+        &&
+        value
+        &&
+        (system[`_${key[6].toLowerCase()}${key.slice(7).replace(/(Fake)?Id/, '')}s`] || [])
+            .find(({ [key.match(/Fake/i) ? 'fakeId' : 'id']: id }) => id === value)
+    ), null)
+    :
+    undefined;
+
+export const getParentTrail = (item, system, trail = []) => {
+    const parent = getParent(item, system);
+    return (item && parent) ?
+        trail.concat(getParentTrail(parent, system, trail))
+        :
+        trail;
+}
 
 export const getChildren = ({ __typename, fakeId, id } = {}, systemMap) => (
     systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]

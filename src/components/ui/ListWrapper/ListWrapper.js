@@ -8,7 +8,7 @@ import ListContainer from '../ListContainer/ListContainer';
 import CircleButton from '../CircleButton/CircleButton';
 
 import useSelection, { selectionProps } from '../../hooks/use-selection';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 import TitleBar from '../TitleBar/TitleBar';
 
 class List extends PureComponent {

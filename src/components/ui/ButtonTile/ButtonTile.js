@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './ButtonTile.scss';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 ButtonTile.propTypes = {
     buttonProps: PropTypes.arrayOf(PropTypes.shape({

@@ -6,7 +6,7 @@ import './Modal.scss';
 import TitleBar from '../TitleBar/TitleBar';
 
 import AsyncButton from '../AsyncButton/AsyncButton';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 Modal.propTypes = {
     className: PropTypes.string,

@@ -1,0 +1,50 @@
+@import "../../../styles/variables";
+
+html,
+body,
+#root {
+    background: $dark-blue;
+}
+
+.Select {
+    width: $pill-width;
+    position: relative;
+    max-width: $pill-width;
+    min-width: $pill-width;
+
+    .label {
+    }
+
+    .select-input {
+        position: relative;
+
+        + .select-options {
+            display: none;
+        }
+
+        &:focus {
+            + .select-options {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                border-radius: $xx-small;
+                overflow: hidden;
+
+                .select-option {
+                    height: $xxx-large;
+                    width: $pill-width;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 $x-small;
+                    background: $off-white;
+                    border-bottom: 1px solid $light-gray;
+
+                    &.selected {
+                        background: $selected-color;
+                        color: $off-white;
+                    }
+                }
+            }
+        }
+    }
+}

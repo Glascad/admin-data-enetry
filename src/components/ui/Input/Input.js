@@ -8,7 +8,7 @@ import { ImperialValue, normalCase } from '../../../utils';
 // import FlipSwitch from '../FlipSwitch/FlipSwitch';
 
 import './Input.scss';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 const booleanTypes = [
     "switch",

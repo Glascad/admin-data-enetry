@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
-import { makeRenderable } from '../ducks/utils';
+import { makeRenderable } from '../../../../../application-logic/system-utils';
 import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';

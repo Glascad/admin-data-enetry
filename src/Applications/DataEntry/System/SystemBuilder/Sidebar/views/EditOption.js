@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal } from "../../../../../../components";
 import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, DELETE_OPTION } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
-import { getChildren } from '../../ducks/utils';
+import { getChildren } from '../../../../../../application-logic/system-utils';
 
 
 function EditOption({

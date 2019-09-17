@@ -1,119 +1,53 @@
 import React from 'react';
-
-import { Link } from 'react-router-dom';
-
-import {
-    TabNavigator,
-    TitleBar,
-    ApolloWrapper,
-    useQuery,
-    useMutation,
-} from '../../../../../components';
-
-import SystemSetInfo from './views/SystemSetInfo';
-import SystemSetOptions from './views/SystemSetOptions';
-import SystemSetConfigurationTypes from './views/SystemSetConfigurationTypes';
-
-import query from './system-set-graphql/query';
-import updateEntireSystemSetMutation from './system-set-graphql/mutation';
-
+import { TitleBar, useQuery } from '../../../../../components';
+import gql from 'graphql-tag';
+import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
+import { getParentTrail } from '../../../../../application-logic/system-utils';
 
-import useSystemSetReducer from './ducks/hooks';
+const query = gql`query SystemSet($systemSetId: Int!) {
+    systemSetById(id: $systemSetId) {
+        ...EntireSystemSet
+    }
+} ${F.PRJ.ENTIRE_SYSTEM_SET}`;
 
-export default function SystemSet({
+export default function SystemSets({
     location: {
         search,
     },
-    match: {
-        path,
-    },
-    queryResult,
 }) {
+    const { systemSetId } = parseSearch(search);
 
-    const { projectId, systemSetId } = parseSearch(search);
+    console.log(arguments[0]);
 
-    const [refetch, queryResultTwo] = useQuery({
-        query,
-        variables: {
-            // projectId: +projectId || 0,
-            id: +systemSetId || 0,
-        },
-    });
+    const [fetchQuery, queryResult] = useQuery({ query, variables: { systemSetId: +systemSetId } });
 
-    // console.log({ queryResultTwo, refetch });
-
-    // const [updateEntireSystemSet] = useMutation(updateEntireSystemSetMutation);
+    console.log({ queryResult, fetchQuery });
 
     const {
-        state: {
-            filters,
-            systemSetInput,
-        },
-        systemSet,
-        dispatch,
-    } = useSystemSetReducer(queryResult);
+        _systemSet: {
+            systemOptionValueId,
+            _system,
+            _system: {
+                _systemOptionValues = [],
+            } = {},
+        } = {},
+    } = queryResult;
 
-    // const routeProps = {
-    //     queryResult,
-    //     filters,
-    //     systemSetInput,
-    //     systemSet,
-    //     dispatch,
-    // };
+    const systemOptionValue = _systemOptionValues.find(({ id }) => id === systemOptionValueId);
 
-    // console.log(arguments[0]);
+    console.log({ systemOptionValue });
+
+    const parentTrail = getParentTrail(systemOptionValueId, _system);
+
+    console.log({ parentTrail });
 
     return (
-        <>
+        <div className="card">
             <TitleBar
                 title="System Set"
-                right={(
-                    <>
-                        <Link
-                            to={`${path.replace(/\/system-set/, '')}${search}`}
-                        >
-                            <button>
-                                Cancel
-                            </button>
-                        </Link>
-                        <button>
-                            Reset
-                        </button>
-                        <button
-                            className="action"
-                        >
-                            Save
-                        </button>
-                    </>
-                )}
             />
-            {/* <SystemSetInfo
-                {...routeProps}
-            />
-            <SystemSetOptions
-                {...routeProps}
-            />
-            <SystemSetConfigurationTypes
-                {...routeProps}
-            /> */}
-            <TabNavigator
-                routeProps={{
-                    queryResult: {
-                        ...queryResult,
-                        ...queryResultTwo,
-                    },
-                    filters,
-                    systemSetInput,
-                    systemSet,
-                    dispatch,
-                }}
-                routes={{
-                    SystemSetInfo,
-                    SystemSetOptions,
-                    SystemSetConfigurationTypes,
-                }}
-            />
-        </>
+
+        </div>
     );
 }

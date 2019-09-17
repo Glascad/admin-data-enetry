@@ -8,7 +8,7 @@ import {
 import Navigator from '../Navigator';
 
 import './TabNavigator.scss';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 TabNavigator.propTypes = {
     ...Navigator.propTypes,

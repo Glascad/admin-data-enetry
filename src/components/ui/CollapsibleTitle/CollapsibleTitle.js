@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TitleBar from '../TitleBar/TitleBar';
 
 import './CollapsibleTitle.scss';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 export default class CollapsibleTitle extends PureComponent {
 
