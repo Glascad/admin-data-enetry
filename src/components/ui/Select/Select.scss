@@ -6,7 +6,22 @@
     max-width: $pill-width;
     min-width: $pill-width;
 
-    .label {
+    &::after {
+        content: "";
+        position: absolute;
+        border-left: 3px solid $medium-gray;
+        border-bottom: 3px solid $medium-gray;
+        height: 5px;
+        width: 5px;
+        top: 50%;
+        right: $x-small;
+        transform: rotate(-45deg) translateY(-100%);
+    }
+
+    &:hover {
+        &::after {
+            border-color: $dark-gray;
+        }
     }
 
     .select-input {
@@ -45,6 +60,10 @@
                     &:last-child {
                         border-bottom-left-radius: $xx-small;
                         border-bottom-right-radius: $xx-small;
+                    }
+
+                    &:hover {
+                        background: $light-gray;
                     }
 
                     &.selected {

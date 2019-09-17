@@ -8,7 +8,7 @@ import { match, normalCase } from '../../../utils';
 
 Select.propTypes = {
     label: PropTypes.string,
-    selection: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,
     autoFocus: PropTypes.bool,
@@ -53,7 +53,9 @@ export default function Select({
                     },
                     ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
                     ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
-                })}
+                    Home: () => setSelectedOptionIndex(0),
+                    End: () => setSelectedOptionIndex(filteredOptionCount - 1),
+                }).otherwise(() => console.log({ key }))}
             />
             <div className="select-options">
                 {filteredOptions.map((o, i) => (
@@ -61,6 +63,10 @@ export default function Select({
                         className={`select-option ${
                             i === selectedOptionIndex ? 'selected' : ''
                             }`}
+                        onMouseDown={() => {
+                            onChange(filteredOptions[i]);
+                            document.activeElement.blur();
+                        }}
                     >
                         {normalCase(o)}
                     </div>

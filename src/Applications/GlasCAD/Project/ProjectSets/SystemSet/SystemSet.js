@@ -1,5 +1,5 @@
-import React from 'react';
-import { TitleBar, useQuery } from '../../../../../components';
+import React, { useState } from 'react';
+import { TitleBar, useQuery, Select } from '../../../../../components';
 import gql from 'graphql-tag';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
@@ -42,12 +42,19 @@ export default function SystemSets({
 
     console.log({ parentTrail });
 
+    const [value, setValue] = useState("one");
+
     return (
         <div className="card">
             <TitleBar
                 title="System Set"
             />
-
+            <Select
+                label="System Set"
+                value={value}
+                options={["one", "two", "three", "four", "five"]}
+                onChange={setValue}
+            />
         </div>
     );
 }
