@@ -48,7 +48,7 @@ export default function Select({
             <input
                 className="select-input"
                 autoFocus={autoFocus}
-                placeholder={value}
+                placeholder={normalCase(value)}
                 value={input}
                 onFocus={() => setInput('')}
                 onBlur={() => setInput(normalCase(value))}
