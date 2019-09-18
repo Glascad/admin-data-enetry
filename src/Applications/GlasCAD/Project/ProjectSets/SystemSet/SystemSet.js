@@ -66,7 +66,7 @@ export default function SystemSets({
                     />
                     <Input
                         data-cy="system-set-name"
-                        label="Name"
+                        label="System Set Name"
                         value={name}
                         onChange={() => { }}
                     />
