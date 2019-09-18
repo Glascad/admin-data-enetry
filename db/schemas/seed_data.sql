@@ -67,4 +67,4 @@ INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
 
 -- TEST SYSTEM SET
 INSERT INTO system_sets (project_id, system_id, system_option_value_id, name) VALUES
-(2, 1, 5, 'Trifab451 - Set');
+(2, 1, 5, 'Initial System Set');

@@ -40,32 +40,34 @@ export default function Select({
 
     return (
         <label
-            className="Select"
+            className="Input Select"
             data-cy={dataCy}
         >
             <div className="label">
-                {label}
+                {normalCase(label)}
             </div>
-            <input
-                className="select-input"
-                autoFocus={autoFocus}
-                placeholder={normalCase(value)}
-                value={input}
-                onFocus={() => setInput('')}
-                onBlur={() => setInput(normalCase(value))}
-                onChange={({ target: { value } }) => setInput(value || '')}
-                onKeyDown={({ key, target }) => match(key).against({
-                    Escape: () => target.blur(),
-                    Enter: () => {
-                        onChange(filteredOptions[selectedOptionIndex]);
-                        target.blur();
-                    },
-                    ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
-                    ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
-                    Home: () => setSelectedOptionIndex(0),
-                    End: () => setSelectedOptionIndex(filteredOptionCount - 1),
-                }).otherwise(() => console.log({ key }))}
-            />
+            <div className="select-input-wrapper">
+                <input
+                    className="select-input"
+                    autoFocus={autoFocus}
+                    placeholder={normalCase(value)}
+                    value={input}
+                    onFocus={() => setInput('')}
+                    onBlur={() => setInput(normalCase(value))}
+                    onChange={({ target: { value } }) => setInput(value || '')}
+                    onKeyDown={({ key, target }) => match(key).against({
+                        Escape: () => target.blur(),
+                        Enter: () => {
+                            onChange(filteredOptions[selectedOptionIndex]);
+                            target.blur();
+                        },
+                        ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
+                        ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
+                        Home: () => setSelectedOptionIndex(0),
+                        End: () => setSelectedOptionIndex(filteredOptionCount - 1),
+                    }).otherwise(() => console.log({ key }))}
+                />
+            </div>
             <div className="select-options">
                 {filteredOptions.map((o, i) => (
                     <div

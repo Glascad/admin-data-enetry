@@ -31,6 +31,12 @@
                 right: $base-size;
                 transform: translateY(-50%) rotate(-90deg);
             }
+
+            &:hover {
+                &::after {
+                    border-right-color: $dark-gray;
+                }
+            }
         }
     }
 }

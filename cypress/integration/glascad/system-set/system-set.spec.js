@@ -7,13 +7,17 @@ describe('System Set Tests', () => {
 
     it('Can select option values and raised option values', () => {
         // displays name of system set
+        cy.getDataCy`system-set-name`.should('have.value', 'Initial System Set');
         // can change name of system set
-        cy.getDataCy`system-set-name`.find('input').should('have.value', 'Trifab451 - Set');
+        // displays name of system
+        cy.getDataCy`system-name`.find('input').should('have.value', 'Initial System');
         // has the correct options and values in order
         cy.getDataCy`system-option-1`.find('.label').contains('Set');
         cy.getDataCy`system-option-1`.find('input').should('have.value', 'Center');
         cy.getDataCy`system-option-2`.find('.label').contains('Joinery');
         cy.getDataCy`system-option-2`.find('input').should('have.value', 'Screw Spline');
+        // default option values are selected for items downstream of the initial selection
+        // cy.getDataCy``
         // can change option values
         // default values are automatically selected when a new upstream selection is made
         // raised option values are displayed in correct locations
@@ -21,7 +25,7 @@ describe('System Set Tests', () => {
     });
 
     // it('Can create new system-set', () => {
-        
+
     // });
 
 

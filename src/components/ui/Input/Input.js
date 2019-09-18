@@ -326,7 +326,7 @@ export default class Input extends PureComponent {
                     <Select
                         {...select}
                         ref={ref}
-                        className={`Select ${select.isMulti ? "multi" : ""}`}
+                        className={`React-Select ${select.isMulti ? "multi" : ""}`}
                         value={selectValue ? {
                             ...selectValue,
                             label: normalCase(selectValueLabel),

@@ -5,7 +5,7 @@ import CollapsibleTitle from '../CollapsibleTitle/CollapsibleTitle';
 import './Dropdown.scss';
 
 export default function Dropdown({
-    title,
+    label,
     children,
     className,
     triangle = true,
@@ -15,7 +15,7 @@ export default function Dropdown({
     return (
         <div className={`Dropdown ${className}`}>
             <CollapsibleTitle
-                title={(
+                label={(
                     <>
                         {triangle ? (
                             <div className="triangle-wrapper">
@@ -23,7 +23,7 @@ export default function Dropdown({
                             </div>
                         ) : null}
                         <span>
-                            {title}
+                            {label}
                         </span>
                     </>
                 )}

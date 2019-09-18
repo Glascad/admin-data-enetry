@@ -4,82 +4,56 @@ import TitleBar from '../TitleBar/TitleBar';
 
 import './CollapsibleTitle.scss';
 import customPropTypes from '../../utils/custom-prop-types';
+import { useInitialState } from '../..';
 
-export default class CollapsibleTitle extends PureComponent {
+CollapsibleTitle.propTypes = {
+    className: PropTypes.string,
+    open: PropTypes.bool,
+    children: customPropTypes.renderable,
+    titleBar: PropTypes.shape(TitleBar.propTypes),
+    title: customPropTypes.renderable,
+};
 
-    static propTypes = {
-        className: PropTypes.string,
-        open: PropTypes.bool,
-        children: customPropTypes.renderable,
-        titleBar: PropTypes.shape(TitleBar.propTypes),
-        title: customPropTypes.renderable,
-    };
+CollapsibleTitle.defaultProps = {
+    className: "",
+    open: true,
+};
 
-    static defaultProps = {
-        className: "",
-        open: true,
-    };
+export default function CollapsibleTitle({
+    open: propsOpen,
+    className,
+    children,
+    title,
+    titleBar,
+    label,
+}) {
 
-    state = {
-        open: this.props.open,
-    };
+    const [open, setOpen] = useInitialState(propsOpen);
 
-    open = () => this.setState({ open: true });
-
-    close = () => this.setState({ open: false });
-
-    componentDidUpdate = (_, { open }) => {
-        if (!open && this.props.open === true) this.open();
-        if (open && this.props.open === false) this.close();
-    }
-
-    handleClick = () => this.state.open ?
-        this.close()
-        :
-        this.open();
-
-    render = () => {
-        const {
-            state: {
-                open,
-            },
-            props: {
-                className,
-                children,
-                title,
-                titleBar,
-            },
-            handleClick,
-        } = this;
-
-        const tag = {
-            name: titleBar ?
-                TitleBar
-                :
-                'div',
-        };
-
-        return (
-            <>
-                <div
-                    className={`CollapsibleTitle ${
-                        className
-                        }${
-                        !children || !children.length ? 'empty' : ''
-                        } ${
-                        open ? 'open' : 'closed'
-                        }`}
-                >
-                    <tag.name
-                        className="title"
-                        onClick={handleClick}
+    return (
+        <>
+            <div
+                className={`CollapsibleTitle ${
+                    className
+                    }${
+                    !children || !children.length ? 'empty' : ''
+                    } ${
+                    open ? 'open' : 'closed'
+                    }`}
+            >
+                {(title || titleBar) ? (
+                    <TitleBar
+                        onClick={() => setOpen(open => !open)}
+                        title={title}
                         {...titleBar}
-                    >
-                        {title}
-                    </tag.name>
-                </div>
-                {open ? children : null}
-            </>
-        );
-    }
+                    />
+                ) : (
+                        <div className="title">
+                            {label}
+                        </div>
+                    )}
+            </div>
+            {open ? children : null}
+        </>
+    );
 }

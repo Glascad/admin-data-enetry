@@ -9,7 +9,7 @@ function testGetParentTrail({
     describe('Testing get parent trail', () => {
         const result = getParentTrail(item, system);
         test('Trail has correct length', () => {
-            expect(result.length).toBe(trail.length);
+            expect(result).toHaveLength(trail.length);
         });
         test('Trail has correct items', () => {
             result.forEach((item, i) => {
@@ -24,19 +24,31 @@ testGetParentTrail({
     item: {
         __typename: "SystemOptionValue",
         id: 5,
+        name: "SCREW_SPLINE",
+        parentSystemOptionId: 2,
     },
     trail: [
-        {
-            __typename: "SystemOption",
-            id: 2
-        },
+        // {
+        //     __typename: "SystemOption",
+        //     id: 2
+        // },
+        // only needs to retrieve selected option values upward in the tree
         {
             __typename: "SystemOptionValue",
-            id: 3
+            id: 3,
+            name: "CENTER",
         },
+        // along with the passed in item
         {
-            __typename: "SystemOption",
-            id: 1,
+            __typename: "SystemOptionValue",
+            id: 5,
+            name: "SCREW_SPLINE",
+            parentSystemOptionId: 2,
         },
+        // that way the array has a single shape
+        // {
+        //     __typename: "SystemOption",
+        //     id: 1,
+        // },
     ],
 });
