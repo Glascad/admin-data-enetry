@@ -42,6 +42,20 @@
                     color: $off-white;
                 }
 
+                &.default {
+                    &::before {
+                        content: ">";
+                        display: inline-block;
+                        margin-right: $x-small;
+                    }
+                    
+                    &::after {
+                        content: "<";
+                        display: inline-block;
+                        margin-left: $x-small;
+                    }
+                }
+
                 // > * {
                 //     display: flex;
                 //     width: fill;

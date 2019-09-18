@@ -44,8 +44,20 @@ export default function SystemTree({
             ) : (
                     <Tree
                         trunk={trunk}
-                        renderItem={(item = {}, { depth, toggleOpen }) => {
-                            const { name = '', detailType = '', configurationType = '', __typename = '', } = item;
+                        renderItem={(item = {}, { depth, toggleOpen, parent = {} }) => {
+                            const {
+                                name = '',
+                                detailType = '',
+                                configurationType = '',
+                                __typename = '',
+                                id,
+                                fakeId,
+                            } = item;
+                            const isDefault = Object.entries(parent).some(([key, value]) => (
+                                (key.match(/default.*fake/i) && value === fakeId)
+                                ||
+                                (key.match(/default/i) && value === id)
+                            ));
                             return (
                                 <div
                                     data-cy={`${__typename}-${name || detailType || configurationType}`}
@@ -55,6 +67,8 @@ export default function SystemTree({
                                         __typename.toLowerCase()
                                         } ${
                                         item === selectedItem ? 'selected' : ''
+                                        } ${
+                                        isDefault ? 'default' : ''
                                         }`}
                                     onClick={e => {
                                         e.stopPropagation();
