@@ -6,10 +6,7 @@ export default function UPDATE_TYPE(systemInput, {
     id,
     fakeId,
     __typename,
-    // ...payload
 }) {
-
-    // console.log({systemInput, payload});
 
     const typesKey = `${__typename.replace(/System/i, 'system')}s`; // systemDetails
     const typeKey = `${__typename.replace(/System/i, '').toLowerCase()}Type`; // detailType
@@ -40,7 +37,6 @@ export default function UPDATE_TYPE(systemInput, {
             replace(typesArray, updatedIndex, {
                 ...updatedType,
                 ...removeNullValues({
-                    // ...payload,
                     id,
                     fakeId,
                     [typeKey]: type,
@@ -50,7 +46,6 @@ export default function UPDATE_TYPE(systemInput, {
             :
             typesArray.concat({
                 ...typesUpdate,
-                // ...payload,
                 id,
                 fakeId,
                 [typeKey]: type,

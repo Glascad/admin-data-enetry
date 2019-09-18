@@ -62,24 +62,20 @@ function EditType({
                             value: type,
                             label: type,
                         })),
-                    onChange: ({ value }) => childOption ?
-                        confirmWithModal(() => dispatch(UPDATE_TYPE, {
+                    onChange: ({ value }) => {
+                        const updateType = () => dispatch(UPDATE_TYPE, {
                             id: tId,
                             fakeId: tFId,
                             __typename,
                             type: value
-                        }), {
+                        })
+                        if (childOption) confirmWithModal(updateType, {
                             titleBar: { title: `Change ${oName}` },
                             children: 'Are you sure?',
                             finishButtonText: "Change"
-                        })
-                        :
-                        dispatch(UPDATE_TYPE, {
-                            id: tId,
-                            fakeId: tFId,
-                            __typename,
-                            type: value
-                        })
+                        });
+                        else updateType();
+                    }
                 }}
             />
             <GroupingBox
@@ -125,25 +121,19 @@ function EditType({
                             actionType="delete"
                             className="danger"
                             onClick={() => {
-                                return childValues.length > 0 ?
-                                    confirmWithModal(() => dispatch(DELETE_OPTION, {
-                                        id: oId,
-                                        fakeId: oFId,
-                                        __typename: oTypename,
-                                    }), {
-                                        titleBar: { title: `Delete ${oName}` },
-                                        children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                        finishButtonText: 'Delete',
-                                        danger: true,
-                                    })
-                                    :
-                                    dispatch(DELETE_OPTION, {
-                                        id: oId,
-                                        fakeId: oFId,
-                                        __typename: oTypename,
-                                    })
-                            }
-                            }
+                                const deleteOption = () => dispatch(DELETE_OPTION, {
+                                    id: oId,
+                                    fakeId: oFId,
+                                    __typename: oTypename,
+                                });
+                                if (childValues.length > 0) confirmWithModal(deleteOption, {
+                                    titleBar: { title: `Delete ${oName}` },
+                                    children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                    finishButtonText: 'Delete',
+                                    danger: true,
+                                });
+                                else deleteOption();
+                            }}
                         />
                     </div>
                 ) : (
@@ -155,24 +145,20 @@ function EditType({
             <button
                 className="sidebar-button danger"
                 data-cy="edit-type-delete-button"
-                onClick={() => childOption ?
-                    confirmWithModal(() => dispatch(DELETE_TYPE, {
+                onClick={() => {
+                    const deleteType = () => dispatch(DELETE_TYPE, {
                         id: tId,
                         fakeId: tFId,
                         __typename,
-                    }), {
+                    })
+                    if (childOption) confirmWithModal(deleteType, {
                         titleBar: { title: `Delete ${detailType || configurationType}` },
                         children: `Deleting ${(detailType || configurationType).toLowerCase()} will delete all the items below it. Do you want to continue?`,
                         finishButtonText: 'Delete',
                         danger: true,
-                    })
-                    :
-                    dispatch(DELETE_TYPE, {
-                        id: tId,
-                        fakeId: tFId,
-                        __typename,
-                    })
-                }
+                    });
+                    else deleteType();
+                }}
             >
                 {`Delete ${detailType ? 'Detail' : 'Configuration'}`}
             </button>
