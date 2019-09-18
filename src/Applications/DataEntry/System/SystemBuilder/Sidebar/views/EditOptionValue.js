@@ -21,13 +21,13 @@ function EditOptionValue({
     } = {},
     dispatch,
 }) {
-
     const option = getParent(optionValue, system);
     const values = getChildren(option, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
 
-    const defaultOptionValueIdKey = `default${__typename.replace(/OptionValue/i, "OptionValueId")}`
-    const isDefault = option[defaultOptionValueIdKey] === ovId;
+    const defaultOptionValueIdKey = `defaultOptionValue${ovFId ? 'Fake' : ''}Id`;
+    const optionDefaultOptionValueIdKey = `default${__typename}${ovFId ? 'Fake' : ''}Id`;
+    const isDefault = option[optionDefaultOptionValueIdKey] === (ovId || ovFId);
 
     const validValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -53,6 +53,8 @@ function EditOptionValue({
             __typename: childTypename = ''
         } = {},
     } = valueChildren;
+
+    const childOptionChildren = getChildren(childOption, systemMap); //Option Value's Child's Child
 
     const childTypeTypename = `System${__typename
         .replace(/OptionValue/i, '')
@@ -83,10 +85,16 @@ function EditOptionValue({
             label: name,
         }));
 
-    console.log({ validValues, selectValidValues });
+    const newDefaultId = (values.length > 1) && isDefault ?
+        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).ovId
+        :
+        undefined;
+    const newDefaultFakeId = !newDefaultId && isDefault && (values.length > 1) ?
+        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).fakeId
+        :
+        undefined;
 
-    const childOptionChildren = getChildren(childOption, systemMap); //Option Value's Child's Child
-
+    console.log(ovId, ovFId)
     return (
         <>
             <TitleBar
@@ -101,25 +109,20 @@ function EditOptionValue({
                         value: ovName,
                     },
                     options: selectValidValues,
-                    onChange: ({ value }) => hasChildren ?
-                        confirmWithModal(() =>
-                            dispatch(UPDATE_OPTION_VALUE, {
-                                id: ovId,
-                                fakeId: ovFId,
-                                __typename,
-                                name: value,
-                            }), {
-                            titleBar: { title: `Change ${ovName}?` },
-                            children: 'Are you Sure?',
-                            finishButtonText: 'Change',
-                        })
-                        :
-                        dispatch(UPDATE_OPTION_VALUE, {
+                    onChange: ({ value }) => {
+                        const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
                             id: ovId,
                             fakeId: ovFId,
                             __typename,
                             name: value,
                         })
+                        if (hasChildren) confirmWithModal(updateOptionValue, {
+                            titleBar: { title: `Change ${ovName}?` },
+                            children: 'Are you Sure?',
+                            finishButtonText: 'Change',
+                        })
+                        else updateOptionValue()
+                    }
                 }}
             />
             {isDefault ? null : (
@@ -127,7 +130,7 @@ function EditOptionValue({
                     className="sidebar-button light"
                     onClick={() => dispatch(UPDATE_OPTION, {
                         ...option,
-                        [defaultOptionValueIdKey]: ovId,
+                        [defaultOptionValueIdKey]: ovId || ovFId,
                     })}
                 >
                     Make Default
@@ -216,23 +219,18 @@ function EditOptionValue({
                                 className="danger"
                                 actionType="delete"
                                 onClick={() => {
-                                    return childOptionChildren.length > 0 ?
-                                        confirmWithModal(() => dispatch(DELETE_OPTION, {
-                                            __typename: __typename.replace(/value/i, ''),
-                                            id: childOptionId,
-                                            fakeId: childOptionFakeId,
-                                        }), {
-                                            titleBar: { title: `Delete ${childOptionName}` },
-                                            children: `Deleting ${childOptionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                            danger: true,
-                                            finishButtonText: 'Delete',
-                                        })
-                                        :
-                                        dispatch(DELETE_OPTION, {
-                                            __typename: __typename.replace(/value/i, ''),
-                                            id: childOptionId,
-                                            fakeId: childOptionFakeId,
-                                        })
+                                    const deleteOption = () => dispatch(DELETE_OPTION, {
+                                        __typename: __typename.replace(/value/i, ''),
+                                        id: childOptionId,
+                                        fakeId: childOptionFakeId,
+                                    });
+                                    if (childOptionChildren.length > 0) confirmWithModal(deleteOption, {
+                                        titleBar: { title: `Delete ${childOptionName}` },
+                                        children: `Deleting ${childOptionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                        danger: true,
+                                        finishButtonText: 'Delete',
+                                    })
+                                    else deleteOption();
                                 }}
                             />
                         </div>
@@ -258,24 +256,20 @@ function EditOptionValue({
                                                     value: (detailType || configurationType),
                                                 },
                                                 options: selectTypes,
-                                                onChange: ({ value }) => childOptionChildren.length > 0 ?
-                                                    confirmWithModal(() => dispatch(UPDATE_TYPE, {
+                                                onChange: ({ value }) => {
+                                                    const updateType = () => dispatch(UPDATE_TYPE, {
                                                         __typename: childTypeTypename,
                                                         id,
                                                         fakeId,
                                                         type: value,
-                                                    }), {
+                                                    });
+                                                    if (childOptionChildren.length > 0) confirmWithModal(updateType, {
                                                         titleBar: { title: `Change ${detailType || configurationType}` },
                                                         children: 'Are you sure?',
                                                         finishButtonText: 'Change',
-                                                    })
-                                                    :
-                                                    dispatch(UPDATE_TYPE, {
-                                                        __typename: childTypeTypename,
-                                                        id,
-                                                        fakeId,
-                                                        type: value,
-                                                    })
+                                                    });
+                                                    else updateType();
+                                                }
                                             }}
                                         />
                                         <CircleButton
@@ -283,23 +277,20 @@ function EditOptionValue({
                                             type="small"
                                             className="danger"
                                             actionType="delete"
-                                            onClick={() => childOptionChildren.length > 0 ?
-                                                confirmWithModal(() => dispatch(DELETE_TYPE, {
+                                            onClick={() => {
+                                                const deleteType = () => dispatch(DELETE_TYPE, {
                                                     __typename: childTypename,
                                                     id,
                                                     fakeId,
-                                                }), {
+                                                });
+                                                if (childOptionChildren.length > 0) confirmWithModal(deleteType, {
                                                     titleBar: { title: `Delete ${detailType || configurationType}` },
                                                     children: `Deleting ${(detailType || configurationType).toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                                     danger: true,
                                                     finishButtonText: 'Delete',
-                                                })
-                                                :
-                                                dispatch(DELETE_TYPE, {
-                                                    __typename: childTypename,
-                                                    id,
-                                                    fakeId,
-                                                })}
+                                                });
+                                                else deleteType();
+                                            }}
                                         />
                                     </div>
                                 )
@@ -315,23 +306,22 @@ function EditOptionValue({
             <button
                 className="sidebar-button danger"
                 data-cy="edit-option-value-delete-button"
-                onClick={() => hasChildren ?
-                    confirmWithModal(() => dispatch(DELETE_OPTION_VALUE, {
+                onClick={() => {
+                    const deleteOptionValue = () => dispatch(DELETE_OPTION_VALUE, {
                         id: ovId,
                         fakeId: ovFId,
                         __typename,
-                    }), {
+                        newDefaultId,
+                        newDefaultFakeId,
+                    });
+                    if (hasChildren) confirmWithModal(deleteOptionValue, {
                         titleBar: { title: `Delete ${ovName}?` },
                         children: `Deleting ${ovName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
                         danger: true,
                         finishButtonText: 'Delete',
-                    })
-                    :
-                    dispatch(DELETE_OPTION_VALUE, {
-                        id: ovId,
-                        fakeId: ovFId,
-                        __typename,
-                    })}
+                    });
+                    else deleteOptionValue();
+                }}
             >
                 Delete Option Value
             </button>

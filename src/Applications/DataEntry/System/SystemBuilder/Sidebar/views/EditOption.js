@@ -66,11 +66,11 @@ function EditOption({
                         options: [],
                     } : {
                             options: filterOptionsAbove(option, system, validOptions)
-                            // .filter(({ name }) => name !== oName)
-                            .map(({ name }) => ({
-                                value: name,
-                                label: name,
-                            })),
+                                // .filter(({ name }) => name !== oName)
+                                .map(({ name }) => ({
+                                    value: name,
+                                    label: name,
+                                })),
                             onChange: ({ label }) => dispatch(UPDATE_OPTION, {
                                 id: oId,
                                 fakeId: oFId,
@@ -93,6 +93,7 @@ function EditOption({
                         parentOptionFakeId: oFId,
                         name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === ov.name)) || {}).name || 'New Value',
                         __typename: `${__typename}Value`,
+                        setAsDefault: !!(optionValues.length === 0)
                     }),
                 } : undefined}
             >
@@ -113,24 +114,18 @@ function EditOption({
                                     options: selectValidOptionValues,
                                     onChange: ({ value }) => {
                                         const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
-                                        return valueChildren.length > 0 ?
-                                            confirmWithModal(() => dispatch(UPDATE_OPTION_VALUE, {
-                                                id,
-                                                fakeId,
-                                                name: value,
-                                                __typename: `${__typename}Value`,
-                                            }), {
-                                                titleBar: { title: `Change ${value}` },
-                                                children: 'Are you sure?',
-                                                finishButtonText: 'Change',
-                                            })
-                                            :
-                                            dispatch(UPDATE_OPTION_VALUE, {
-                                                id,
-                                                fakeId,
-                                                name: value,
-                                                __typename: `${__typename}Value`,
-                                            })
+                                        const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
+                                            id,
+                                            fakeId,
+                                            name: value,
+                                            __typename: `${__typename}Value`,
+                                        })
+                                        if (valueChildren.length > 0) confirmWithModal(updateOptionValue, {
+                                            titleBar: { title: `Change ${value}` },
+                                            children: 'Are you sure?',
+                                            finishButtonText: 'Change',
+                                        })
+                                        else updateOptionValue();
                                     }
 
                                 }}
@@ -142,23 +137,35 @@ function EditOption({
                                 actionType="delete"
                                 onClick={() => {
                                     const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
-                                    return valueChildren.length > 0 ?
-                                        confirmWithModal(() => dispatch(DELETE_OPTION_VALUE, {
-                                            id,
-                                            fakeId,
-                                            __typename: `${__typename}Value`,
-                                        }), {
-                                            titleBar: { title: `Delete ${vName}` },
-                                            children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                            finishButtonText: 'Delete',
-                                            danger: true,
-                                        })
+                                    const defaultOptionValueIdKey = `default${__typename}ValueId`
+                                    const defaultOptionValueFakeIdKey = `default${__typename}ValueFakeId`
+                                    const isDefault = id ? option[defaultOptionValueIdKey] === id : option[defaultOptionValueFakeIdKey] === fakeId;
+                                    const newDefaultId = (optionValues.length > 1) && isDefault ?
+                                        optionValues.find(v => (v.id !== id) || (v.fakeId !== fakeId)).id
                                         :
-                                        dispatch(DELETE_OPTION_VALUE, {
-                                            id,
-                                            fakeId,
-                                            __typename: `${__typename}Value`,
-                                        })
+                                        undefined;
+                                    const newDefaultFakeId = !newDefaultId && isDefault && (optionValues.length > 1) ?
+                                        optionValues.find(v => (v.id !== id) || (v.fakeId !== fakeId)).fakeId
+                                        :
+                                        undefined;
+
+                                    console.log({ newDefaultId, newDefaultFakeId });
+                                    const deleteOptionValue = () => dispatch(DELETE_OPTION_VALUE, {
+                                        parentOptionId: oId,
+                                        parentOptionFakeId: oFId,
+                                        id,
+                                        fakeId,
+                                        __typename: `${__typename}Value`,
+                                        newDefaultId,
+                                        newDefaultFakeId,
+                                    });
+                                    if (valueChildren.length > 0) confirmWithModal(deleteOptionValue, {
+                                        titleBar: { title: `Delete ${vName}` },
+                                        children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                        finishButtonText: 'Delete',
+                                        danger: true,
+                                    })
+                                    else deleteOptionValue();
                                 }}
                             />
                         </div>
@@ -178,23 +185,20 @@ function EditOption({
                     <button
                         className="sidebar-button danger"
                         data-cy="edit-option-delete-button"
-                        onClick={() => optionValues.length > 0 ?
-                            confirmWithModal(() => dispatch(DELETE_OPTION, {
+                        onClick={() => {
+                            const deleteOption = () => dispatch(DELETE_OPTION, {
                                 id: oId,
                                 fakeId: oFId,
                                 __typename,
-                            }), {
+                            })
+                            if (optionValues.length > 0) confirmWithModal(deleteOption, {
                                 titleBar: { title: `Delete ${oName}?` },
                                 children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                 finishButtonText: 'Delete',
                                 danger: true,
                             })
-                            :
-                            dispatch(DELETE_OPTION, {
-                                id: oId,
-                                fakeId: oFId,
-                                __typename,
-                            })}
+                            else deleteOption();
+                        }}
                     >
                         Delete Option
                     </button>
