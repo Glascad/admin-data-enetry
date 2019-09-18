@@ -23,6 +23,7 @@ testUpdateOption({
         name: "JOINERY",
         __typename: "SystemOption",
         parentSystemOptionValueId: 5,
+        defaultSystemOptionValueId: 7,
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
@@ -31,6 +32,7 @@ testUpdateOption({
                 name: "JOINERY",
                 __typename: "SystemOption",
                 parentSystemOptionValueId: 5,
+                defaultSystemOptionValueId: 7,
             })
         ])
     },
@@ -53,6 +55,7 @@ testUpdateOption({
         name: "JOINERY",
         __typename: "SystemOption",
         parentSystemOptionValueId: 5,
+        defaultSystemOptionValueId: 7,
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
@@ -61,6 +64,7 @@ testUpdateOption({
                 name: "JOINERY",
                 __typename: "SystemOption",
                 parentSystemOptionValueId: 5,
+                defaultSystemOptionValueId: 7,
             }),
         ])
     },
@@ -167,6 +171,7 @@ testUpdateOption({
                 id: 1,
                 name: "STOPS",
                 __typename: "DetailOption",
+                defaultDetailOptionValueId: 4,
                 parentDetailOptionValueId: 3,
             },
         ],
@@ -176,6 +181,7 @@ testUpdateOption({
         name: "GLAZING",
         __typename: "DetailOption",
         parentDetailOptionValueId: 3,
+        defaultDetailOptionValueId: 2,
     },
     systemOutput: {
         detailOptions: expect.arrayContaining([
@@ -184,6 +190,7 @@ testUpdateOption({
                 name: "GLAZING",
                 __typename: "DetailOption",
                 parentDetailOptionValueId: 3,
+                defaultDetailOptionValueId: 2,
             }),
         ])
     },
@@ -329,6 +336,7 @@ testUpdateOption({
         name: "SILL_FLASHING",
         __typename: "ConfigurationOption",
         parentConfigurationOptionValueId: 7,
+        defaultConfigurationOptionValueId: 2
     },
     systemOutput: {
         configurationOptions: expect.arrayContaining([
@@ -343,6 +351,7 @@ testUpdateOption({
                 name: "SILL_FLASHING",
                 __typename: "ConfigurationOption",
                 parentConfigurationOptionValueId: 7,
+                defaultConfigurationOptionValueId: 2
             }),
         ])
     },

@@ -112,13 +112,13 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`add-option-value`.click().should('not.exist');
         cy.focused().type('Up{enter}');
         cy.getDataCy`DetailOptionValue-UP`;
-        
+
         cy.focused().blur();
 
         // All detail option values should exist after adding them
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/down/i);
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/up/i);
-        
+
         cy.getDataCy`DetailOptionValue-UP`.click();
         // Can toggle to configuration
         cy.getDataCy`toggle-child-configuration`.click().should('have.class', 'selected');
@@ -171,8 +171,86 @@ describe('Testing sidbar actions in system builder', () => {
         // All configurations option values should exist after adding them
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/standard/i);
         cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/high/i);
+        
+        // ADD CONFIRMATION TO UPDATE VALUES AND CONFIGURATIONS WITH CHILDREN
+        
+        //Value has children
+        cy.getDataCy`SystemOptionValue-BACK`.click();
+        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`SystemOptionValue-FRONT`.click();
+        cy.getDataCy`toggle-child-detail`.click()
+        cy.getDataCy`add-detail`.click();
+        cy.focused().type('Mullion{enter}');
+        cy.getDataCy`edit-value-name`.click();
+        cy.getDataCy`edit-value-name`.find('input').type('Back{enter}', { force: true });
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-finish-button`.click();
+        
+        //Type has children
+        cy.getDataCy`SystemDetail-MULLION`.click();
+        cy.getDataCy`add-option`.click(); 
+        cy.focused().type('Joinery{enter}');
+        cy.getDataCy`edit-detail-type`.click();
+        cy.getDataCy`edit-detail-type`.find('input').type('Jamb{enter}', { force: true });
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-finish-button`.click();
 
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
+
+        //Option Has children
+        cy.getDataCy`ConfigurationOption-DURABILITY`.click();
+        cy.getDataCy`edit-option-delete-button`.click();
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-cancel-button`.click();
+        cy.getDataCy`ConfigurationOption-DURABILITY`.should('exist');
+        cy.getDataCy`SystemConfiguration-COMPENSATING_RECEPTOR`.click();
+        cy.getDataCy`delete-option`.click();
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-finish-button`.click();
+        cy.getDataCy`ConfigurationOption-DURABILITY`.should('not.exist');
+        
+        //Value has children
+        cy.getDataCy`DetailOptionValue-UP`.click();
+        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-cancel-button`.click();
+        cy.getDataCy`DetailOption-STOPS`.click();
+        cy.getDataCy`delete-option-value-UP`.click();
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-finish-button`.click();
+        cy.getDataCy`DetailOptionValue-UP`.should('not.exist');
+        
+        //Type has children
+        cy.getDataCy`SystemDetail-HORIZONTAL`.click();
+        cy.getDataCy`edit-type-delete-button`.click();
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-cancel-button`.click();
+        cy.getDataCy`modal`.should('not.exist');
+        cy.getDataCy`SystemDetail-HORIZONTAL`.should('exist');
+        cy.getDataCy`SystemOptionValue-CENTER`.click();
+        cy.getDataCy`delete-detail-type-HORIZONTAL`.click();
+        cy.getDataCy`modal`.should('exist');
+        cy.getDataCy`modal-cancel-button`.click();
+        cy.getDataCy`modal`.should('not.exist');
+        cy.getDataCy`SystemDetail-HORIZONTAL`.should('exist');
+        
+        //Value doesn't have children
+        cy.getDataCy`DetailOptionValue-DOWN`.click();
+        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`modal`.should('not.exist');
+        cy.getDataCy`DetailOptionValue-DOWN`.should('not.exist');
+        
+        //Option doesn't have children
+        cy.getDataCy`DetailOption-STOPS`.click();
+        cy.getDataCy`edit-option-delete-button`.click();
+        cy.getDataCy`modal`.should('not.exist');
+        cy.getDataCy`DetailOptionValue-UP`.should('not.exist');
+        
+        //Type doesn't have children
+        cy.getDataCy`SystemDetail-HORIZONTAL`.click();
+        cy.getDataCy`edit-type-delete-button`.click();
+        cy.getDataCy`modal`.should('not.exist');
+        cy.getDataCy`DetailOptionValue-UP`.should('not.exist');
 
         // Test that select options have the correct values listed
 

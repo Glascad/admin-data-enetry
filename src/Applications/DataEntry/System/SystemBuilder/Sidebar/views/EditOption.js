@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal } from "../../../../../../components";
 import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, DELETE_OPTION } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
-import { getChildren } from '../../../../../../application-logic/system-utils';
+import { getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
 
 
 function EditOption({
@@ -15,6 +15,7 @@ function EditOption({
         parentSystemOptionValueId,
         parentSystemOptionValueFakeId,
     } = {},
+    system,
     systemMap,
     queryResult: {
         validOptions = [],
@@ -64,12 +65,12 @@ function EditOption({
                     ...(optionValues.length ? {
                         options: [],
                     } : {
-                            options: validOptions
-                                .filter(({ name }) => name !== oName)
-                                .map(({ name }) => ({
-                                    value: name,
-                                    label: name,
-                                })),
+                            options: filterOptionsAbove(option, system, validOptions)
+                            // .filter(({ name }) => name !== oName)
+                            .map(({ name }) => ({
+                                value: name,
+                                label: name,
+                            })),
                             onChange: ({ label }) => dispatch(UPDATE_OPTION, {
                                 id: oId,
                                 fakeId: oFId,
@@ -96,7 +97,7 @@ function EditOption({
                 } : undefined}
             >
                 {optionValues.length ?
-                    optionValues.map(({ name, id, fakeId }, i, { length }) => (
+                    optionValues.map(({ name, id, fakeId, __typename: valueTypename, name: vName }, i, { length }) => (
                         <div
                             key={name}
                             className="input-group"
@@ -110,12 +111,28 @@ function EditOption({
                                         value: id,
                                     },
                                     options: selectValidOptionValues,
-                                    onChange: ({ value }) => dispatch(UPDATE_OPTION_VALUE, {
-                                        id,
-                                        fakeId,
-                                        name: value,
-                                        __typename: `${__typename}Value`,
-                                    }),
+                                    onChange: ({ value }) => {
+                                        const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
+                                        return valueChildren.length > 0 ?
+                                            confirmWithModal(() => dispatch(UPDATE_OPTION_VALUE, {
+                                                id,
+                                                fakeId,
+                                                name: value,
+                                                __typename: `${__typename}Value`,
+                                            }), {
+                                                titleBar: { title: `Change ${value}` },
+                                                children: 'Are you sure?',
+                                                finishButtonText: 'Change',
+                                            })
+                                            :
+                                            dispatch(UPDATE_OPTION_VALUE, {
+                                                id,
+                                                fakeId,
+                                                name: value,
+                                                __typename: `${__typename}Value`,
+                                            })
+                                    }
+
                                 }}
                             />
                             <CircleButton
@@ -123,11 +140,26 @@ function EditOption({
                                 className="danger"
                                 type="small"
                                 actionType="delete"
-                                onClick={() => dispatch(DELETE_OPTION_VALUE, {
-                                    id,
-                                    fakeId,
-                                    __typename: `${__typename}Value`,
-                                })}
+                                onClick={() => {
+                                    const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
+                                    return valueChildren.length > 0 ?
+                                        confirmWithModal(() => dispatch(DELETE_OPTION_VALUE, {
+                                            id,
+                                            fakeId,
+                                            __typename: `${__typename}Value`,
+                                        }), {
+                                            titleBar: { title: `Delete ${vName}` },
+                                            children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                            finishButtonText: 'Delete',
+                                            danger: true,
+                                        })
+                                        :
+                                        dispatch(DELETE_OPTION_VALUE, {
+                                            id,
+                                            fakeId,
+                                            __typename: `${__typename}Value`,
+                                        })
+                                }}
                             />
                         </div>
                     )) : (
@@ -145,11 +177,24 @@ function EditOption({
             ) ? (
                     <button
                         className="sidebar-button danger"
-                        onClick={() => dispatch(DELETE_OPTION, {
-                            id: oId,
-                            fakeId: oFId,
-                            __typename,
-                        })}
+                        data-cy="edit-option-delete-button"
+                        onClick={() => optionValues.length > 0 ?
+                            confirmWithModal(() => dispatch(DELETE_OPTION, {
+                                id: oId,
+                                fakeId: oFId,
+                                __typename,
+                            }), {
+                                titleBar: { title: `Delete ${oName}?` },
+                                children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                finishButtonText: 'Delete',
+                                danger: true,
+                            })
+                            :
+                            dispatch(DELETE_OPTION, {
+                                id: oId,
+                                fakeId: oFId,
+                                __typename,
+                            })}
                     >
                         Delete Option
                     </button>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TitleBar, GroupingBox, Input, CircleButton, DeleteButton } from '../../../../../../components';
-import { getChildren } from '../../../../../../application-logic/system-utils';
+import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal } from '../../../../../../components';
+import { getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
 import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
 
 function EditType({
@@ -32,6 +32,8 @@ function EditType({
             __typename: oTypename,
         } = {},
     } = getChildren(selectedType, systemMap);
+
+    const childValues = getChildren(childOption, systemMap); //Types' Child's children
     return (
         <>
             <TitleBar
@@ -39,37 +41,44 @@ function EditType({
             />
             <Input
                 data-cy={`edit-${type.toLowerCase()}-type`}
-                className={childOption ? 'warning' : ''}
+                // className={childOption ? 'warning' : ''}
                 label={type}
                 select={{
                     value: {
                         value: detailType || configurationType,
                         label: detailType || configurationType,
                     },
-                    ...(childOption ? {
-                        options: [],
-                        onChange: () => { }
-                    } : {
-                            options: (isDetail ?
-                                detailTypes
-                                :
-                                configurationTypes
-                            )
-                                .filter(type => isDetail ?
-                                    type !== detailType
-                                    :
-                                    type !== configurationType
-                                )
-                                .map(type => ({
-                                    value: type,
-                                    label: type,
-                                })),
-                            onChange: ({ value }) => dispatch(UPDATE_TYPE, {
-                                id: tId,
-                                fakeId: tFId,
-                                __typename,
-                                type: value
-                            }),
+                    options: (isDetail ?
+                        detailTypes
+                        :
+                        configurationTypes
+                    )
+                        .filter(type => isDetail ?
+                            type !== detailType
+                            :
+                            type !== configurationType
+                        )
+                        .map(type => ({
+                            value: type,
+                            label: type,
+                        })),
+                    onChange: ({ value }) => childOption ?
+                        confirmWithModal(() => dispatch(UPDATE_TYPE, {
+                            id: tId,
+                            fakeId: tFId,
+                            __typename,
+                            type: value
+                        }), {
+                            titleBar: { title: `Change ${oName}` },
+                            children: 'Are you sure?',
+                            finishButtonText: "Change"
+                        })
+                        :
+                        dispatch(UPDATE_TYPE, {
+                            id: tId,
+                            fakeId: tFId,
+                            __typename,
+                            type: value
                         })
                 }}
             />
@@ -90,16 +99,18 @@ function EditType({
                 {childOption ? (
                     <div className="input-group">
                         <Input
+                            className={childValues.length > 0 ? 'warning' : ''}
                             select={{
                                 autoFocus: true,
                                 value: {
                                     value: oName,
                                     label: oName,
                                 },
-                                options: validOptions.map(({ name }) => ({
-                                    value: name,
-                                    label: name,
-                                })),
+                                options: filterOptionsAbove(selectedType, system, validOptions)
+                                    .map(({ name }) => ({
+                                        value: name,
+                                        label: name,
+                                    })),
                                 onChange: ({ value }) => dispatch(UPDATE_OPTION, {
                                     id: oId,
                                     fakeId: oFId,
@@ -113,11 +124,26 @@ function EditType({
                             type="small"
                             actionType="delete"
                             className="danger"
-                            onClick={() => dispatch(DELETE_OPTION, {
-                                id: oId,
-                                fakeId: oFId,
-                                __typename: oTypename,
-                            })}
+                            onClick={() => {
+                                return childValues.length > 0 ?
+                                    confirmWithModal(() => dispatch(DELETE_OPTION, {
+                                        id: oId,
+                                        fakeId: oFId,
+                                        __typename: oTypename,
+                                    }), {
+                                        titleBar: { title: `Delete ${oName}` },
+                                        children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                        finishButtonText: 'Delete',
+                                        danger: true,
+                                    })
+                                    :
+                                    dispatch(DELETE_OPTION, {
+                                        id: oId,
+                                        fakeId: oFId,
+                                        __typename: oTypename,
+                                    })
+                            }
+                            }
                         />
                     </div>
                 ) : (
@@ -128,11 +154,25 @@ function EditType({
             </GroupingBox>
             <button
                 className="sidebar-button danger"
-                onClick={() => dispatch(DELETE_TYPE, {
-                    id: tId,
-                    fakeId: tFId,
-                    __typename,
-                })}
+                data-cy="edit-type-delete-button"
+                onClick={() => childOption ?
+                    confirmWithModal(() => dispatch(DELETE_TYPE, {
+                        id: tId,
+                        fakeId: tFId,
+                        __typename,
+                    }), {
+                        titleBar: { title: `Delete ${detailType || configurationType}` },
+                        children: `Deleting ${(detailType || configurationType).toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                        finishButtonText: 'Delete',
+                        danger: true,
+                    })
+                    :
+                    dispatch(DELETE_TYPE, {
+                        id: tId,
+                        fakeId: tFId,
+                        __typename,
+                    })
+                }
             >
                 {`Delete ${detailType ? 'Detail' : 'Configuration'}`}
             </button>
