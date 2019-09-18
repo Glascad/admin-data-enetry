@@ -25,13 +25,19 @@ function EditOptionValue({
     const values = getChildren(option, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
 
+    const {
+        id: oId,
+        fakeId: oFId,
+        name: oName,
+    } = option;
+
     const defaultOptionValueIdKey = `defaultOptionValue${ovFId ? 'Fake' : ''}Id`;
     const optionDefaultOptionValueIdKey = `default${__typename}${ovFId ? 'Fake' : ''}Id`;
     const isDefault = option[optionDefaultOptionValueIdKey] === (ovId || ovFId);
 
     const validValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
-            option.name.toLowerCase() === name.toLowerCase() ?
+            oName.toLowerCase() === name.toLowerCase() ?
                 _validOptionValues
                 :
                 values
@@ -85,16 +91,6 @@ function EditOptionValue({
             label: name,
         }));
 
-    const newDefaultId = (values.length > 1) && isDefault ?
-        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).ovId
-        :
-        undefined;
-    const newDefaultFakeId = !newDefaultId && isDefault && (values.length > 1) ?
-        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).fakeId
-        :
-        undefined;
-
-    console.log(ovId, ovFId)
     return (
         <>
             <TitleBar
@@ -307,7 +303,17 @@ function EditOptionValue({
                 className="sidebar-button danger"
                 data-cy="edit-option-value-delete-button"
                 onClick={() => {
+                    const newDefaultId = (values.length > 1) && isDefault ?
+                        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).ovId
+                        :
+                        undefined;
+                    const newDefaultFakeId = !newDefaultId && isDefault && (values.length > 1) ?
+                        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).fakeId
+                        :
+                        undefined;
                     const deleteOptionValue = () => dispatch(DELETE_OPTION_VALUE, {
+                        parentOptionId: oId,
+                        parentOptionFakeId: oFId,
                         id: ovId,
                         fakeId: ovFId,
                         __typename,
