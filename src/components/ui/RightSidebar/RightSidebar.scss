@@ -190,13 +190,13 @@
 
     .GroupingBox {
         width: fill;
-        padding-bottom: $large;
+        padding-top: $base-size;
+        padding-bottom: $x-large;
 
         > * {
             &:not(:first-child) {
                 margin-top: $base-size;
             }
-            // margin-left: $base-size;
         }
 
         .title {
