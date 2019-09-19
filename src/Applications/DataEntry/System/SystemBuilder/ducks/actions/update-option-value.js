@@ -6,8 +6,6 @@ export default function UPDATE_OPTION_VALUE(
     payload,
 ) {
 
-    // console.log({systemInput, payload});
-
     const optionValuesKey = payload.__typename.toLowerCase().replace(/OptionValue/i, 'OptionValues');
     const optionValueUpdateKey = payload.__typename.toLowerCase().replace(/OptionValue/i, 'OptionValueUpdate');
 

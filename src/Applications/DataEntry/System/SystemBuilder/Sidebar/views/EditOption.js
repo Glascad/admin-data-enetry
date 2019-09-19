@@ -22,7 +22,6 @@ function EditOption({
     } = {},
     dispatch,
 }) {
-    console.log(arguments[0]);
     const optionValues = getChildren(option, systemMap);
 
     const validOptionValues = validOptions
@@ -39,13 +38,6 @@ function EditOption({
             value: name,
             label: name,
         }));
-
-    console.log({
-        optionValues,
-        validOptions,
-        validOptionValues,
-        selectValidOptionValues,
-    });
 
     return (
         <>

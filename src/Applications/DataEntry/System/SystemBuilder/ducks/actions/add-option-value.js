@@ -19,13 +19,6 @@ export default function ADD_OPTION_VALUE(systemInput, {
 
     const { [valuesKey]: valuesArray } = systemInput;
     const { [valueUpdateKey]: valueUpdate, } = schemas;
-    console.log({
-        valuesKey,
-        valueUpdateKey,
-        parentOptionKey,
-        valuesArray,
-        valueUpdate
-    });
 
     const fakeId = getFakeId();
 
@@ -38,8 +31,6 @@ export default function ADD_OPTION_VALUE(systemInput, {
             [parentOptionKey]: parentOptionFakeId || parentOptionId,
         }),
     };
-
-    console.log({ setAsDefault });
 
     return setAsDefault ?
         UPDATE_OPTION(newSystemInput, {

@@ -25,7 +25,7 @@ export default function DELETE_OPTION_VALUE(systemInput, {
         )),
         [optionsValueToDeleteKey]: id ? optionValuesToDeleteArray.concat(id) : optionValuesToDeleteArray
     };
-    console.log({newDefaultId, newDefaultFakeId})
+    
     return (newDefaultId || newDefaultFakeId) ?
         UPDATE_OPTION(newSystemInput, {
             id: parentOptionId,

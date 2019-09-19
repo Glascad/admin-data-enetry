@@ -22,14 +22,6 @@ export default function ADD_TYPE(systemInput, {
     const { [typesKey]: typeArray = [] } = systemInput;
     const { [typeUpdateKey]: typeUpdate, } = schemas;
 
-    // console.log({
-    //     typesKey,
-    //     parentOptionValueId,
-    //     parentOptionValueFakeId,
-    //     type,
-    //     typeKey,
-    // });
-
     return {
         ...systemInput,
         [typesKey]: typeArray.concat({
