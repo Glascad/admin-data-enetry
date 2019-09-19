@@ -13,7 +13,7 @@ import {
     validatePath,
     extractNavigationOptions,
 } from '../../utils';
-import customPropTypes from '../custom-prop-types';
+import customPropTypes from '../utils/custom-prop-types';
 
 
 /**

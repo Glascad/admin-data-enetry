@@ -18,15 +18,27 @@ export const PROJECT_FIELDS = gql`
     }
 `;
 
-// export const SYSTEM_SET_FIELDS = gql`
-//     fragment SystemSetFields on SystemSet {
-//         __typename
-//         nodeId
-//         id
-//         name
-//         systemType
-//     }
-// `;
+export const SYSTEM_SET_FIELDS = gql`
+    fragment SystemSetFields on SystemSet {
+        __typename
+        nodeId
+        id
+        name
+        systemId
+        projectId
+        systemOptionValueId
+    }
+`;
+
+export const SYSTEM_SET_RAISED_OPTION_VALUE_FIELDS = gql`
+    fragment SystemSetRaisedOptionValueFields on SystemSetRaisedOptionValue {
+        __typename
+        nodeId
+        id
+        optionName
+        optionValueName
+    }
+`;
 
 // export const SYSTEM_SET_OPTION_VALUE_FIELDS = gql`
 //     fragment SystemSetOptionValueFields on SystemSetOptionValue {
@@ -62,6 +74,23 @@ export const ALL_PROJECTS = gql`
 `;
 
 // ENTIRE TYPE
+
+export const ENTIRE_SYSTEM_SET = gql`
+    fragment EntireSystemSet on SystemSet {
+        ...SystemSetFields
+        systemSetRaisedOptionValuesBySystemSetId {
+            nodes {
+                ...SystemSetRaisedOptionValueFields
+            }
+        }
+        systemBySystemId {
+            ...EntireSystem
+        }
+    }
+    ${SYSTEM_SET_FIELDS}
+    ${SD.ENTIRE_SYSTEM}
+    ${SYSTEM_SET_RAISED_OPTION_VALUE_FIELDS}
+`;
 
 // export const ENTIRE_SYSTEM_SET_OPTION_VALUE = gql`
 //     fragment EntireSystemSetOptionValue on SystemSetOptionValue {

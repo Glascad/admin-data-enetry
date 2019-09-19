@@ -25,6 +25,25 @@
                 &.type-value {
                     background: none;
                     border: 1px solid $dark-gray;
+                    box-shadow: inset -1px -1px 3px $dark-gray;
+                    
+                    &.default {
+                        font-weight: bold;
+                        box-shadow: inset 1px 1px 3px $dark-gray;
+                        // text-decoration: underline;
+                        // border-width: 2px;
+                        // &::before {
+                        //     content: "<";
+                        //     display: inline-block;
+                        //     margin-right: $xx-small;
+                        // }
+
+                        // &::after {
+                        //     content: ">";
+                        //     display: inline-block;
+                        //     margin-left: $xx-small;
+                        // }
+                    }
                 }
 
                 &.type-systemconfiguration {

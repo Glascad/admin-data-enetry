@@ -48,8 +48,8 @@ gc_protected.system_option_values (
     name OPTION_VALUE_NAME NOT NULL,
     -- flag indicating whether the children are options (TRUE) or details (FALSE)
     is_recursive BOOLEAN DEFAULT FALSE NOT NULL,
-    raised_option_names OPTION_NAME[],
-    raised_configuration_types CONFIGURATION_TYPE[],
+    -- raised_option_names OPTION_NAME[],
+    -- raised_configuration_types CONFIGURATION_TYPE[],
     -- only one of each value per option
     UNIQUE (parent_system_option_id, name),
     -- for foreign keys
@@ -288,4 +288,24 @@ gc_protected.configuration_parts (
     -- linetype_id INTEGER REFERENCES linetypes,
     -- part_orientation_id INTEGER REFERENCES part_orientations,
     -- transform FLOAT[3][3]
+);
+
+-- RAISED PRESENTATION LEVELS
+
+CREATE TABLE
+gc_protected.raised_option_names (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems NOT NULL,
+    system_option_value_id INTEGER REFERENCES system_option_values NOT NULL,
+    option_name OPTION_NAME NOT NULL,
+    UNIQUE (system_option_value_id, option_name),
+    -- for foreign keys
+    UNIQUE (system_id, option_name),
+    FOREIGN KEY (
+        system_option_value_id,
+        system_id
+    ) REFERENCES system_option_values (
+        id,
+        system_id
+    )
 );

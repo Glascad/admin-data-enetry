@@ -1,4 +1,54 @@
 
+CREATE TABLE
+gc_protected.system_sets (
+    id SERIAL PRIMARY KEY,
+    project_id INTEGER REFERENCES projects NOT NULL,
+    system_id INTEGER REFERENCES systems NOT NULL,
+    system_option_value_id INTEGER REFERENCES system_option_values NOT NULL,
+    name VARCHAR(50),
+    -- for foreign keys
+    UNIQUE (id, system_id),
+    FOREIGN KEY (
+        system_id,
+        system_option_value_id
+    ) REFERENCES system_option_values (
+        system_id,
+        id
+    )
+);
+
+CREATE TABLE
+gc_protected.system_set_raised_option_values (
+    id SERIAL PRIMARY KEY,
+    system_set_id INTEGER REFERENCES system_sets NOT NULL,
+    system_id INTEGER REFERENCES systems NOT NULL,
+    option_name OPTION_NAME REFERENCES valid_options NOT NULL,
+    option_value_name OPTION_VALUE_NAME NOT NULL,
+    FOREIGN KEY (
+        option_name,
+        option_value_name
+    ) REFERENCES valid_option_values (
+        option_name,
+        name
+    ),
+    FOREIGN KEY (
+        system_id,
+        option_name
+    ) REFERENCES raised_option_names (
+        system_id,
+        option_name
+    )
+);
+
+-- CREATE TABLE
+-- gc_protected.system_set_detail_option_values (
+--     id SERIAL PRIMARY KEY,
+--     system_set_id INTEGER REFERENCES system_sets NOT NULL,
+--     system_id INTEGER REFERENCES systems NOT NULL,
+--     detail_option_value_id INTEGER REFERENCES detail_option_values NOT NULL,
+    
+-- );
+
 -- CREATE TABLE
 -- gc_protected.system_sets (
 --     id SERIAL PRIMARY KEY,

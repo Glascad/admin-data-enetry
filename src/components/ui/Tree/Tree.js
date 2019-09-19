@@ -16,6 +16,7 @@ Branch.propTypes = {
 
 function Branch({
     item,
+    parent,
     branches = [],
     depth,
     open: propsOpen = true,
@@ -28,7 +29,7 @@ function Branch({
         <div
             className={`Branch depth-${depth}`}
         >
-            {renderItem(item, { depth, open, toggleOpen })}
+            {renderItem(item, { depth, open, toggleOpen, parent })}
             <div
                 className="tree-branches"
             >
@@ -37,6 +38,7 @@ function Branch({
                         branches.map((branch, i) => (
                             <Branch
                                 key={i}
+                                parent={item}
                                 // open={!open}
                                 {...branch}
                                 renderItem={renderItem}

@@ -47,7 +47,7 @@ function NavMenu({
                 }, i) => subroutes ? (
                     <Dropdown
                         key={i}
-                        title={name}
+                        label={name}
                         open={closed === true ? false : pathname.includes(path) || undefined}
                         className={
                             pathname.includes(path) ?

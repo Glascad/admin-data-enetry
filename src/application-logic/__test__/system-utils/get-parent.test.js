@@ -1,5 +1,5 @@
-import { getParent } from "../../utils";
-import { sample1 } from "../../../../sample-systems";
+import { getParent } from "../../system-utils";
+import { sample1 } from "../sample-systems";
 
 describe('testing get parent', () => {
     const result = getParent({

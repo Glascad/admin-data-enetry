@@ -207,7 +207,7 @@
 
             .Toggle {
                 transform: translateY(-$xx-small);
-                
+
                 button {
                     height: $x-large;
                     max-height: $x-large;
@@ -254,10 +254,13 @@
                 }
             }
 
-            .Input {
+            .Input,
+            .Select {
+                width: $pill-width * 0.715;
+
                 input,
-                .Select {
-                    width: $pill-width * 0.75;
+                .React-Select {
+                    width: $pill-width * 0.715;
                 }
             }
         }

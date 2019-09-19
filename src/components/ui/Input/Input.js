@@ -8,7 +8,7 @@ import { ImperialValue, normalCase } from '../../../utils';
 // import FlipSwitch from '../FlipSwitch/FlipSwitch';
 
 import './Input.scss';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 const booleanTypes = [
     "switch",
@@ -42,7 +42,7 @@ export default class Input extends PureComponent {
             'inches',
             ...booleanTypes,
         ]),
-        select: PropTypes.shape(
+        select: customPropTypes.deprecated(PropTypes.shape(
             // Select.propTypes || 
             {
                 value: PropTypes.shape({
@@ -59,7 +59,7 @@ export default class Input extends PureComponent {
                     ]),
                     label: customPropTypes.renderable,
                 })),
-            }),
+            })),
         value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -326,7 +326,7 @@ export default class Input extends PureComponent {
                     <Select
                         {...select}
                         ref={ref}
-                        className={`Select ${select.isMulti ? "multi" : ""}`}
+                        className={`React-Select ${select.isMulti ? "multi" : ""}`}
                         value={selectValue ? {
                             ...selectValue,
                             label: normalCase(selectValueLabel),

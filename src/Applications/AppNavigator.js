@@ -32,7 +32,7 @@ const mapProps = ({
         // Practice,
         // Login,
         DataEntry,
-        // Glascad,
+        Glascad,
     }
     // role.match(/admin/i) ?
     //     {

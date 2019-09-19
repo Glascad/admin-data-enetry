@@ -1,5 +1,5 @@
-import { findItemByIdAndTypename } from "../../utils";
-import { nearlyEmptySystem } from '../../../../sample-systems';
+import { findItemByIdAndTypename } from "../../system-utils";
+import { nearlyEmptySystem } from '../sample-systems';
 
 function testFindItemByIdAndTypname(system, item, expectedResult) {
     describe('testing find item by id and typename', () => {

@@ -1,5 +1,5 @@
-import { getFirstItem } from "../../utils";
-import { sample1 } from "../../../../sample-systems";
+import { getFirstItem } from "../../system-utils";
+import { sample1 } from "../sample-systems";
 
 function testGetFirstItem({
     system,

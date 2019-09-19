@@ -1,5 +1,5 @@
 import * as schemas from "../schemas";
-import { getFakeId, getChildren } from "../utils";
+import { getFakeId } from "../../../../../../application-logic/system-utils";
 import UPDATE_OPTION from "./update-option";
 
 export default function ADD_OPTION_VALUE(systemInput, {

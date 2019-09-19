@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Ellipsis from '../Ellipsis/Ellipsis';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 
 AsyncButton.propTypes = {
     className: PropTypes.string,

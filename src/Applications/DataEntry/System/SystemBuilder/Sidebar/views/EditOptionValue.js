@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal } from '../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove } from '../../ducks/utils';
+import { getParent, getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
 import { UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, ADD_OPTION, ADD_TYPE, UPDATE_OPTION, DELETE_OPTION, DELETE_TYPE, UPDATE_TYPE } from '../../ducks/actions';
-import { when } from '../../../../../../utils';
 
 function EditOptionValue({
     selectedItem: optionValue,

@@ -1,5 +1,5 @@
 import merge from "../merge";
-import { sample1 } from "../../../sample-systems";
+import { sample1 } from "../../../../../../application-logic/__test__/sample-systems";
 
 
 //THIS TEST IS CURRENTLY NOT WORKING PROPERLY

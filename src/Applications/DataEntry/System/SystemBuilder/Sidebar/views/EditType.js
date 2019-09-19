@@ -1,6 +1,6 @@
 import React from 'react';
-import { TitleBar, GroupingBox, Input, CircleButton, DeleteButton, confirmWithModal } from '../../../../../../components';
-import { getChildren, filterOptionsAbove } from '../../ducks/utils';
+import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal } from '../../../../../../components';
+import { getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
 import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
 
 function EditType({

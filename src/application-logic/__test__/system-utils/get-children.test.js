@@ -1,5 +1,5 @@
-import { getChildren, generateSystemMap } from "../../utils";
-import { sample1 } from "../../../../sample-systems";
+import { getChildren, SystemMap } from "../../system-utils";
+import { sample1 } from "../sample-systems";
 
 function testGetChildren({
     system,
@@ -9,7 +9,7 @@ function testGetChildren({
 
     describe(`Testing ${system.name} to get correct first optionValue`, () => {
 
-        const childrenResult = getChildren(item, generateSystemMap(system));
+        const childrenResult = getChildren(item, new SystemMap(system));
 
         test(`result has correct length`, () => {
             expect(childrenResult.length).toBe(children.length);

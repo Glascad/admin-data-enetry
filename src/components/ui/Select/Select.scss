@@ -1,0 +1,79 @@
+@import "../../../styles/variables";
+
+.Select {
+    .select-input-wrapper {
+        position: relative;
+        width: $pill-width;
+
+        &::after {
+            content: "";
+            position: absolute;
+            border-left: 3px solid $medium-gray;
+            border-bottom: 3px solid $medium-gray;
+            height: 5px;
+            width: 5px;
+            top: 50%;
+            right: $x-small;
+            transform: rotate(-45deg) translateY(-100%);
+        }
+
+        &:hover {
+            &::after {
+                border-color: $dark-gray;
+            }
+        }
+
+        .select-input {
+            position: relative;
+            cursor: default;
+        }
+
+        + .select-options {
+            display: none;
+        }
+
+        &:focus-within {
+            + .select-options {
+                position: absolute;
+                top: 100%;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                z-index: 10;
+
+                .select-option {
+                    height: $xxx-large;
+                    width: $pill-width;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 $x-small;
+                    background: white;
+                    border: 1px solid $light-gray;
+
+                    + .select-option {
+                        border-top: none;
+                    }
+
+                    &:first-child {
+                        border-top-left-radius: $xx-small;
+                        border-top-right-radius: $xx-small;
+                    }
+
+                    &:last-child {
+                        border-bottom-left-radius: $xx-small;
+                        border-bottom-right-radius: $xx-small;
+                    }
+
+                    &:hover {
+                        background: $light-gray;
+                    }
+
+                    &.selected {
+                        background: $selected-color;
+                        color: $off-white;
+                    }
+                }
+            }
+        }
+    }
+}

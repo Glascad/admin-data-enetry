@@ -6,7 +6,7 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename, generateSystemMap } from './ducks/utils';
+import { findItemByIdAndTypename, SystemMap } from '../../../../application-logic/system-utils';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
@@ -47,7 +47,7 @@ export default function SystemBuilder({
 
     const system = merge(systemInput, queryResult);
 
-    const systemMap = generateSystemMap(system);
+    const systemMap = new SystemMap(system);
 
     const selectedItem = findItemByIdAndTypename(system, originalSelectedItem);
 

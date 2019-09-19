@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
-import { makeRenderable } from '../ducks/utils';
+import { makeRenderable } from '../../../../../application-logic/system-utils';
 import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
@@ -44,8 +44,20 @@ export default function SystemTree({
             ) : (
                     <Tree
                         trunk={trunk}
-                        renderItem={(item = {}, { depth, toggleOpen }) => {
-                            const { name = '', detailType = '', configurationType = '', __typename = '', } = item;
+                        renderItem={(item = {}, { depth, toggleOpen, parent = {} }) => {
+                            const {
+                                name = '',
+                                detailType = '',
+                                configurationType = '',
+                                __typename = '',
+                                id,
+                                fakeId,
+                            } = item;
+                            const isDefault = Object.entries(parent).some(([key, value]) => (
+                                (key.match(/default.*fake/i) && value === fakeId)
+                                ||
+                                (key.match(/default/i) && value === id)
+                            ));
                             return (
                                 <div
                                     data-cy={`${__typename}-${name || detailType || configurationType}`}
@@ -55,6 +67,8 @@ export default function SystemTree({
                                         __typename.toLowerCase()
                                         } ${
                                         item === selectedItem ? 'selected' : ''
+                                        } ${
+                                        isDefault ? 'default' : ''
                                         }`}
                                     onClick={e => {
                                         e.stopPropagation();

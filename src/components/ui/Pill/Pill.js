@@ -4,7 +4,7 @@ import './Pill.scss';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import ButtonTile from '../ButtonTile/ButtonTile';
 import { normalCase } from '../../../utils';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 import Input from '../Input/Input';
 
 export default class Pill extends PureComponent {

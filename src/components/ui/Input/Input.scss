@@ -11,7 +11,7 @@
         input {
             box-shadow: 0 0 1px 1px $selected-color;
         }
-        .Select {
+        .React-Select {
             color: $dark-gray;
             box-shadow: 0 0 1px 1px $selected-color;
 
@@ -37,19 +37,19 @@
         pointer-events: none;
 
         > input,
-        .Select > div:first-of-type {
+        .React-Select > div:first-of-type {
             background: mix($warning-color, white, 25) !important;
             border-color: mix($warning-color, white, 75) !important;
         }
 
         > input,
-        .Select > div > div > div,
-        .Select svg {
+        .React-Select > div > div > div,
+        .React-Select svg {
             color: $medium-gray !important;
         }
 
         > input,
-        .Select > div {
+        .React-Select > div {
             border-color: mix($warning-color, white, 75) !important;
         }
 
@@ -221,7 +221,7 @@
         }
     }
 
-    .Select {
+    .React-Select {
         box-sizing: border-box;
         width: $pill-width;
         height: $item-height;

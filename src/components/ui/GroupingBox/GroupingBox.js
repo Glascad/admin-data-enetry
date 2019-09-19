@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './GroupingBox.scss';
 import Toggle from '../Toggle/Toggle';
 import CircleButton from '../CircleButton/CircleButton';
-import customPropTypes from '../../custom-prop-types';
+import customPropTypes from '../../utils/custom-prop-types';
 import { normalCase } from '../../../utils';
 import { Input } from '../..';
 

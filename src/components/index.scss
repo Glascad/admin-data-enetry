@@ -164,6 +164,7 @@
 .input-group {
     display: flex;
     align-items: flex-end;
+    flex-flow: row wrap;
 
     > * {
         + * {
@@ -173,6 +174,10 @@
                 margin-left: $xxxxx-large;
             }
         }
+    }
+
+    .GroupingBox {
+        margin-top: $x-small;
     }
 }
 
