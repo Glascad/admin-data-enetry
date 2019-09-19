@@ -30,6 +30,8 @@ export default function CollapsibleTitle({
 
     const [open, setOpen] = useInitialState(propsOpen);
 
+    const toggleOpen = () => setOpen(open => !open);
+
     return (
         <>
             <div
@@ -43,12 +45,15 @@ export default function CollapsibleTitle({
             >
                 {(title || titleBar) ? (
                     <TitleBar
-                        onClick={() => setOpen(open => !open)}
+                        onClick={toggleOpen}
                         title={title}
                         {...titleBar}
                     />
                 ) : (
-                        <div className="title">
+                        <div
+                            className="title"
+                            onClick={toggleOpen}
+                        >
                             {label}
                         </div>
                     )}

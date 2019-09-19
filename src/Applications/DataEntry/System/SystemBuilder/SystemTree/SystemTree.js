@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
-import { makeRenderable } from '../../../../../application-logic/system-utils';
+import { makeRenderable, getChildren } from '../../../../../application-logic/system-utils';
 import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
@@ -53,7 +53,7 @@ export default function SystemTree({
                                 id,
                                 fakeId,
                             } = item;
-                            const isDefault = Object.entries(parent).some(([key, value]) => (
+                            const isDefault = Object.entries(parent).some(([key, value]) => value && (
                                 (key.match(/default.*fake/i) && value === fakeId)
                                 ||
                                 (key.match(/default/i) && value === id)

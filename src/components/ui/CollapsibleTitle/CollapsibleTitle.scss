@@ -1,42 +1,40 @@
 @import "../../../styles/variables";
 
 .CollapsibleTitle {
-    &.closed {
-        .TitleBar {
-            .title-bar-left {
-                &::after {
-                    transform: translateY(-50%);
-                }
-            }
-        }
-
-        .content {
-            display: none;
-        }
-    }
-
     .TitleBar {
         .title-bar-left {
             position: relative;
             padding-right: $large;
 
             &::after {
+                @include triangle(9px, $medium-gray);
                 position: absolute;
                 content: "";
                 width: 0;
-                border-right: 9px solid $medium-gray;
-                border-bottom: 7px solid rgba(0, 0, 0, 0);
-                border-top: 7px solid rgba(0, 0, 0, 0);
                 top: 50%;
                 right: $base-size;
-                transform: translateY(-50%) rotate(-90deg);
+                transform: translateY(-50%) rotate(90deg);
             }
 
             &:hover {
                 &::after {
-                    border-right-color: $dark-gray;
+                    border-left-color: $dark-gray;
                 }
             }
+        }
+    }
+
+    &.closed {
+        .TitleBar {
+            .title-bar-left {
+                &::after {
+                    transform: translateY(-50%) rotate(180deg) !important;
+                }
+            }
+        }
+
+        .content {
+            display: none;
         }
     }
 }

@@ -66,3 +66,11 @@ $checkbox-height: $item-height / 2;
         }
     }
 }
+
+@mixin triangle($size: 9px, $color: $medium-gray, $rotation: 0deg) {
+    width: 0;
+    border-left: $size solid $color;
+    border-bottom: $size * 7 / 9 solid rgba(0, 0, 0, 0);
+    border-top: $size * 7 / 9 solid rgba(0, 0, 0, 0);
+    transform: rotate($rotation);
+}

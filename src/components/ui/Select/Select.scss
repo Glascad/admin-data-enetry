@@ -6,20 +6,18 @@
         width: $pill-width;
 
         &::after {
+            @include triangle(6px, $medium-gray);
             content: "";
             position: absolute;
-            border-left: 3px solid $medium-gray;
-            border-bottom: 3px solid $medium-gray;
-            height: 5px;
-            width: 5px;
             top: 50%;
-            right: $x-small;
-            transform: rotate(-45deg) translateY(-100%);
+            right: $small;
+            transform: translateY(-50%) rotate(90deg);
+            // transform: rotate(-45deg) translateY(-100%);
         }
 
         &:hover {
             &::after {
-                border-color: $dark-gray;
+                border-left-color: $dark-gray;
             }
         }
 

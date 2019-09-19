@@ -1,5 +1,5 @@
 import React, { } from 'react';
-import { TitleBar, useQuery, Select, Input, CollapsibleTitle, GroupingBox } from '../../../../../components';
+import { TitleBar, useQuery, Select, Input, CollapsibleTitle, GroupingBox, Toggle } from '../../../../../components';
 import gql from 'graphql-tag';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
@@ -55,7 +55,7 @@ export default function SystemSets({
             />
             <div className="card">
                 <CollapsibleTitle
-                    title="System Set Info"
+                    title="System Info"
                 >
                     <Select
                         data-cy="system-name"
@@ -66,7 +66,7 @@ export default function SystemSets({
                     />
                     <Input
                         data-cy="system-set-name"
-                        label="System Set Name"
+                        label="Set Name"
                         value={name}
                         onChange={() => { }}
                     />
@@ -91,17 +91,78 @@ export default function SystemSets({
                 <CollapsibleTitle
                     title="Details"
                 >
-                    <div
-                        className="input-group"
-                    >
-                        {details.map(({ detailType }) => (
-                            <GroupingBox
-                                title={detailType}
-                            >
-
-                            </GroupingBox>
-                        ))}
-                    </div>
+                    {/* <div className="input-group"> */}
+                    {details.map(({ detailType }) => (
+                        <GroupingBox
+                            title={detailType}
+                        >
+                            <Input
+                                type="switch"
+                                checked={true}
+                                onChange={() => { }}
+                                label="Compensating Receptor"
+                            />
+                            <ul className="nested">
+                                <Select
+                                    label="Durability"
+                                    value="Standard"
+                                    options={["Standard", "High Performance"]}
+                                />
+                                <Select
+                                    label="Option"
+                                    value="Value"
+                                    options={["Value 1", "Value 2"]}
+                                />
+                                <Select
+                                    label="Other Option"
+                                    value="Value"
+                                    options={["Value 1", "Value 2"]}
+                                />
+                            </ul>
+                            <Input
+                                type="switch"
+                                checked={false}
+                                onChange={() => { }}
+                                label="Compensating Receptor"
+                            />
+                            <Input
+                                type="switch"
+                                checked={true}
+                                onChange={() => { }}
+                                label="Compensating Receptor"
+                            />
+                            <ul className="nested">
+                                <Select
+                                    label="Durability"
+                                    value="Standard"
+                                    options={["Standard", "High Performance"]}
+                                />
+                                <Select
+                                    label="Option"
+                                    value="Value"
+                                    options={["Value 1", "Value 2"]}
+                                />
+                                <div className="input-group">
+                                    <Toggle
+                                        label="Other Option"
+                                        buttons={[
+                                            {
+                                                text: "Value 1",
+                                                selected: true,
+                                                onClick: () => { },
+                                            },
+                                            {
+                                                text: "Value 2",
+                                                selected: false,
+                                                onClick: () => { },
+                                            },
+                                        ]}
+                                    />
+                                </div>
+                            </ul>
+                        </GroupingBox>
+                    ))}
+                    {/* </div> */}
                 </CollapsibleTitle>
             </div>
         </>

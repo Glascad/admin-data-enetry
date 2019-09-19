@@ -48,7 +48,7 @@ function NavMenu({
                     <Dropdown
                         key={i}
                         label={name}
-                        open={closed === true ? false : pathname.includes(path) || undefined}
+                        open={(closed === true) ? false : !!pathname.includes(path)}
                         className={
                             pathname.includes(path) ?
                                 'matched'

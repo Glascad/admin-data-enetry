@@ -73,28 +73,9 @@
     }
 }
 
-.nested,
-.GroupingBox {
-    padding: $x-small 0;
-    margin: $xxxx-large 0 0;
-
-    > * {
-        margin-left: $x-large;
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-}
-
-.GroupingBox {
-    > * {
-        margin-right: $x-large;
-    }
-}
-
 .nested {
     border-left: $small solid $selected-color;
+    padding: $x-small 0;
 
     .nested {
         margin-top: $xxxx-large;
@@ -130,6 +111,71 @@
 
     .GroupingBox {
         // margin-top: $large + $text-size / 2 !important;
+    }
+}
+
+.nested,
+.GroupingBox {
+    margin: $xxxx-large 0 0;
+
+    > * {
+        margin-left: $x-large;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.GroupingBox {
+    > * {
+        margin-right: $x-large;
+    }
+
+    .nested {
+        margin-top: $small !important;
+        border: none;
+
+        > * {
+            margin: 0 !important;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            // margin-left: $xx-large;
+            border-left: 1px solid $medium-gray;
+            padding: 0;
+
+            .Toggle {
+                height: $xxx-large;
+                min-width: $pill-width;
+                width: $pill-width;
+                
+                .toggle-button {
+                    height: $xxx-large;
+                    padding: 0 $large;
+                }
+            }
+
+            .label {
+                margin-right: $small;
+                // padding-left: $x-small;
+
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    margin-right: $small;
+                }
+
+                + * {
+                    margin-top: 0;
+                }
+            }
+
+            + * {
+                padding-top: $small;
+            }
+        }
     }
 }
 

@@ -39,6 +39,7 @@ VALUES
 INSERT INTO valid_option_values
 (option_name, name)
 VALUES
+('VOID', 'VOID'),
 ('GLAZING', 'INSIDE'),
 ('GLAZING', 'OUTSIDE'),
 ('STOPS', 'UP'),

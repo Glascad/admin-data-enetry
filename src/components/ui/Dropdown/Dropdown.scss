@@ -21,10 +21,7 @@
 
                 .triangle {
                     // opacity: 0;
-                    width: 0;
-                    border-left: 9px solid $medium-gray;
-                    border-bottom: 7px solid rgba(0, 0, 0, 0);
-                    border-top: 7px solid rgba(0, 0, 0, 0);
+                   @include triangle(9px, $medium-gray);
                 }
             }
         }
