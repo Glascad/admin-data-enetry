@@ -22,6 +22,9 @@ function EditOption({
     } = {},
     dispatch,
 }) {
+
+    console.log(arguments[0])
+
     const optionValues = getChildren(option, systemMap);
 
     const validOptionValues = validOptions
@@ -133,11 +136,11 @@ function EditOption({
                                     const defaultOptionValueFakeIdKey = `default${__typename}ValueFakeId`
                                     const isDefault = id ? option[defaultOptionValueIdKey] === id : option[defaultOptionValueFakeIdKey] === fakeId;
                                     const newDefaultId = (optionValues.length > 1) && isDefault ?
-                                        optionValues.find(v => (v.id !== id) || (v.fakeId !== fakeId)).id
+                                        optionValues.find(v => !(v.id === id && v.fakeId === fakeId)).id
                                         :
                                         undefined;
                                     const newDefaultFakeId = !newDefaultId && isDefault && (optionValues.length > 1) ?
-                                        optionValues.find(v => (v.id !== id) || (v.fakeId !== fakeId)).fakeId
+                                        optionValues.find(v => !(v.id === id && v.fakeId === fakeId)).fakeId
                                         :
                                         undefined;
 

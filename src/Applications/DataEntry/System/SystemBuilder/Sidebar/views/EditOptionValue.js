@@ -20,6 +20,8 @@ function EditOptionValue({
     } = {},
     dispatch,
 }) {
+    console.log(optionValue);
+
     const option = getParent(optionValue, system);
     const values = getChildren(option, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
@@ -303,11 +305,11 @@ function EditOptionValue({
                 data-cy="edit-option-value-delete-button"
                 onClick={() => {
                     const newDefaultId = (values.length > 1) && isDefault ?
-                        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).ovId
+                        values.find(v => !(v.id === ovId && v.fakeId === ovFId)).id
                         :
                         undefined;
                     const newDefaultFakeId = !newDefaultId && isDefault && (values.length > 1) ?
-                        values.find(v => (v.id !== ovId) || (v.fakeId !== ovFId)).fakeId
+                        values.find(v => !(v.id === ovId && v.fakeId === ovFId)).fakeId
                         :
                         undefined;
                     const deleteOptionValue = () => dispatch(DELETE_OPTION_VALUE, {
@@ -319,6 +321,7 @@ function EditOptionValue({
                         newDefaultId,
                         newDefaultFakeId,
                     });
+
                     if (hasChildren) confirmWithModal(deleteOptionValue, {
                         titleBar: { title: `Delete ${ovName}?` },
                         children: `Deleting ${ovName.toLowerCase()} will delete all the items below it. Do you want to continue?`,

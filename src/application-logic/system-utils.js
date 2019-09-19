@@ -113,7 +113,7 @@ export const getFakeId = (() => {
 
 export const filterOptionsAbove = (item, system, optionList) => {
     const parentItem = getParent(item, system);
-    const filteredOptions = optionList.filter(({ name }) => !(name === item.name));
+    const filteredOptions = optionList.filter(({ name }) => !(name.toLowerCase() === item.name.toLowerCase()));
 
     return parentItem ?
         filterOptionsAbove(parentItem, system, filteredOptions)
