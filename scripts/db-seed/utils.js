@@ -64,25 +64,21 @@ const getDbContents = path => {
 
     if (contents === undefined) throw new Error(`Invalid file reference: ${path}`);
     if (typeof contents === 'object') throw new Error(`Cannot reference directory: ${path}. Nested files include: ${Object.keys(contents).join(', ')}`)
-    if (!contents || contents.match(/^\s*$/)) throw new Error(`File empty: ${path}`);
-    if (contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))) console.warn(`${chalk.yellow`File commented out:`} ${chalk.yellowBright(path)}`);
+    if (typeof contents !== 'string') throw new Error(`File empty: ${path}`);
+    if (
+        contents.match(/^\s*$/)
+        ||
+        contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))
+    ) console.warn(`${chalk.yellow`Warning:`} File commented out: ${chalk.yellowBright(path)}`);
 
     return insertEnvVars(path, contents);
 }
 
 const requiredPaths = [];
 
-// const limit = Infinity
-// var finished = false;
-
 const _require = path => {
-    // if (finished) return '';
     if (requiredPaths.includes(path)) throw new Error(`Duplicate path required: ${path}`);
     else {
-        // if (requiredPaths.length === limit) {
-        //     finished = true;
-        //     console.log(`Last path: ${path}`);
-        // }
         requiredPaths.push(path);
         return path.match(/\/|\./) ?
             path.startsWith('../../db/schemas/') ?

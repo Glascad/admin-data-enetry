@@ -64,12 +64,14 @@ ADD CONSTRAINT single_parent_detail_option EXCLUDE USING gist (
     COALESCE(parent_detail_option_value_id, 0) WITH =
 ),
 -- options must reference an option_value that IS recursive
-ADD CONSTRAINT recursive_parent_detail_option_value FOREIGN KEY (
+ADD CONSTRAINT recursive_parent_detail_option_value_and_others FOREIGN KEY (
     is_recursive,
-    parent_detail_option_value_id
+    parent_detail_option_value_id,
+    grandparent_system_option_value_id
 ) REFERENCES detail_option_values (
     is_recursive,
-    id
+    id,
+    grandparent_system_option_value_id
 ) INITIALLY DEFERRED,
 -- ADD CONSTRAINT parent_or_child_detail_option CHECK (
 --     (
@@ -138,7 +140,7 @@ ADD CONSTRAINT single_parent_configuration_option EXCLUDE USING gist (
 -- ),
 -- options must reference an option_value that IS recursive
 -- ALTER TABLE gc_protected.configuration_options
-ADD CONSTRAINT recursive_parent_configuration_option_value FOREIGN KEY (
+ADD CONSTRAINT recursive_parent_configuration_option_value_and_others FOREIGN KEY (
     is_recursive,
     parent_configuration_option_value_id
 ) REFERENCES configuration_option_values (

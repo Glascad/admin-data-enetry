@@ -32,7 +32,21 @@ gc_protected.container_details (
     first_container_id INTEGER REFERENCES elevation_containers,
     second_container_id INTEGER REFERENCES elevation_containers,
     vertical BOOLEAN,
-    UNIQUE (first_container_id, second_container_id, vertical)
+    UNIQUE (first_container_id, second_container_id),
+    FOREIGN KEY (
+        elevation_id,
+        first_container_id
+    ) REFERENCES elevation_containers (
+        elevation_id,
+        id
+    ),
+    FOREIGN KEY (
+        elevation_id,
+        second_container_id
+    ) REFERENCES elevation_containers (
+        elevation_id,
+        id
+    )
 );
 
 -- CREATE TABLE

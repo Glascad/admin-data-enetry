@@ -1,15 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
-
 import { withRouter } from 'react-router-dom';
-
 import gql from 'graphql-tag';
-
 import F from './schemas';
-
 import client, { STORAGE_KEYS } from './apollo-config';
-
 import { useQuery, useMutation } from './components';
-
 import { parseSearch } from './utils';
 
 export const AuthContext = createContext();
