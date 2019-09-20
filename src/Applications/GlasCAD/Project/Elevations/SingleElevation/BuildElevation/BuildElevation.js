@@ -6,16 +6,16 @@ import mergeElevationInput from './ducks/merge-input';
 
 import ActionProvider from './contexts/ActionContext';
 import SelectionProvider from './contexts/SelectionContext';
-import TransformProvider from './contexts/TransformContext';
+import ElevationTransformProvider from './contexts/ElevationTransformContext';
 
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
-import RightSidebar from './RightSidebar/RightSidebar';
+import ElevationRightSidebar from './ElevationRightSidebar/ElevationRightSidebar';
 import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 import { parseSearch } from '../../../../../../utils';
 
-import { ErrorBoundary, withUndoRedo, Ellipsis } from '../../../../../../components';
+import { ErrorBoundary, withRedoableState, Ellipsis } from '../../../../../../components';
 
 import renderPreview from '../../ElevationPreview/render-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
@@ -43,7 +43,7 @@ class BuildElevation extends PureComponent {
     }
 
     componentDidUpdate = ({
-        queryStatus: {
+        queryResult: {
             _elevation: oldElevation,
             bugReports: oldBugReports,
         } = {},
@@ -53,8 +53,8 @@ class BuildElevation extends PureComponent {
                 location: {
                     search,
                 },
-                queryStatus: newQueryStatus,
-                queryStatus: {
+                queryResult: newQueryStatus,
+                queryResult: {
                     _elevation: newElevation,
                     bugReports: newBugReports,
                 } = {},
@@ -90,19 +90,19 @@ class BuildElevation extends PureComponent {
                     recursiveElevation: new RecursiveElevation({ ...state.mergedElevation, bugId }),
                 }));
 
-                console.log({
-                    bugId,
-                    state,
-                    parsedState,
-                    newStates,
-                });
+                // console.log({
+                //     bugId,
+                //     state,
+                //     parsedState,
+                //     newStates,
+                // });
 
                 loadStates(newStates);
             } else {
-                console.log("resetting state");
-                console.log({ oldElevation, newElevation });
+                // console.log("resetting state");
+                // console.log({ oldElevation, newElevation });
                 const newState = mergeElevationInput({ elevationInput: defaultElevationInput }, newQueryStatus);
-                console.log({ newState });
+                // console.log({ newState });
                 resetState(newState);
                 // functional setstate may not yet be fully supported by usestate hook
                 setTimeout(() => resetState(newState));
@@ -117,7 +117,7 @@ class BuildElevation extends PureComponent {
             props: {
                 replaceState,
                 pushState,
-                queryStatus,
+                queryResult,
             },
             updateElevation,
         } = this;
@@ -134,7 +134,7 @@ class BuildElevation extends PureComponent {
 
         // const dispatch = (newPayload, newCb, newReplaceState) => updateElevation(ACTION, newPayload, newCb, newReplaceState);
 
-        return updateState(state => mergeElevationInput(ACTION(state, payload), queryStatus), cb);
+        return updateState(state => mergeElevationInput(ACTION(state, payload), queryResult), cb);
     }
 
     // updateElevation = (ACTION, payload, cb, shouldReplaceState) => {
@@ -242,8 +242,8 @@ class BuildElevation extends PureComponent {
                 },
                 project,
                 refetch,
-                queryStatus,
-                queryStatus: {
+                queryResult,
+                queryResult: {
                     _elevation: {
                         id,
                         name = '',
@@ -269,7 +269,7 @@ class BuildElevation extends PureComponent {
         //     states,
         // });
 
-        console.log(this);
+        // console.log(this);
 
         return (
             <SelectionProvider
@@ -279,7 +279,7 @@ class BuildElevation extends PureComponent {
                     elevation={recursiveElevation}
                     updateElevation={updateElevation}
                 >
-                    <TransformProvider
+                    <ElevationTransformProvider
                         elevation={recursiveElevation}
                     >
                         <Header
@@ -293,7 +293,7 @@ class BuildElevation extends PureComponent {
                             updating={updating}
                             elevationInput={elevationInput}
                         />
-                        <RightSidebar
+                        <ElevationRightSidebar
                             currentIndex={currentIndex}
                             states={states}
                             elevation={recursiveElevation}
@@ -318,14 +318,14 @@ class BuildElevation extends PureComponent {
                             project={project}
                             elevationInput={elevationInput}
                         />
-                    </TransformProvider>
+                    </ElevationTransformProvider>
                 </ActionProvider>
             </SelectionProvider>
         );
     }
 }
 
-const BuildElevationWithUndoRedo = withUndoRedo({ elevationInput: defaultElevationInput }, p => p)(BuildElevation);
+const BuildElevationWithUndoRedo = withRedoableState({ elevationInput: defaultElevationInput }, p => p)(BuildElevation);
 
 export default function ErrorBoundedBuildElevation(props) {
     return (

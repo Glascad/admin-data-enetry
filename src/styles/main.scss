@@ -10,6 +10,7 @@ button,
 input {
     outline: none;
     border-radius: $xx-small;
+    height: $xxx-large;
 }
 
 button {
@@ -21,7 +22,6 @@ button {
     justify-content: center;
     align-items: center;
     // height: $item-height;
-    height: $xxx-large;
     min-width: $pill-width * 0.75;
     padding: 0 $large;
     font-size: $text-size;
@@ -70,6 +70,12 @@ button {
             color: $dark-gray;
         }
     }
+
+    &.warning {
+        pointer-events: none;
+        background: mix($warning-color, white, 25) !important;
+        border-color: mix($warning-color, white, 75) !important;
+    }
 }
 
 textarea {
@@ -80,9 +86,8 @@ input {
     border: none;
     border: 1px solid $light-gray;
     // height: $item-height;
-    height: $xxx-large;
     width: $pill-width;
-    padding: 0 $small;
+    padding: 0 $x-small;
     font-size: $text-size;
 }
 

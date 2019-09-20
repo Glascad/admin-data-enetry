@@ -17,7 +17,7 @@ export default function InfillPocketSizes() {
             mutations={mutations}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allInfillPocketSizes = [],
                 },
                 mutations: {

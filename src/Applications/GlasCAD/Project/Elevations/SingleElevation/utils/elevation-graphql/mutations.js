@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import F from '../../../../../../../schema';
+import F from '../../../../../../../schemas';
 import query from './query';
 import projectQuery from '../../../../project-graphql/query';
 import { parseSearch } from '../../../../../../../utils';
@@ -17,7 +17,7 @@ export default {
                 }
             }
         }
-        ${F.EL_DATA.ENTIRE_ELEVATION}
+        ${F.ELVTN.ENTIRE_ELEVATION}
     `,
     update(cache, {
         data: {

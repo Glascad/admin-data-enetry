@@ -2,22 +2,22 @@ import gql from 'graphql-tag';
 
 export default {
     mutation: gql`mutation CreateSystemTypeDetailTypeConfigurationType(
-        $systemTypeId:Int!,
-        $detailTypeId:Int!,
-        $configurationTypeId:Int
+        $systemType:_SystemType!,
+        $detailType:DetailType!,
+        $configurationType:ConfigurationType!
     ){
         createSystemTypeDetailTypeConfigurationType(input:{
             systemTypeDetailTypeConfigurationType:{
-                systemTypeId:$systemTypeId,
-                detailTypeId:$detailTypeId,
-                configurationTypeId:$configurationTypeId
+                systemType:$systemType,
+                detailType:$detailType,
+                configurationType:$configurationType
             }
         }){
             systemTypeDetailTypeConfigurationType{
                 nodeId
-                systemTypeId
-                detailTypeId
-                configurationTypeId
+                systemType
+                detailType
+                configurationType
             }
         }
     }`,

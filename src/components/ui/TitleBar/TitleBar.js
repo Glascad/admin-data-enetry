@@ -1,6 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { normalCase } from '../../../utils';
+import customPropTypes from '../../utils/custom-prop-types';
 
 import './TitleBar.scss';
+
+TitleBar.propTypes = {
+    className: PropTypes.string,
+    title: customPropTypes.renderable.isRequired,
+    left: customPropTypes.renderable,
+    right: customPropTypes.renderable,
+    selections: PropTypes.arrayOf(customPropTypes.renderable),
+    onClick: PropTypes.func,
+};
 
 TitleBar.defaultProps = {
     className: "",
@@ -25,7 +37,7 @@ export default function TitleBar({
                 onClick={onClick}
             >
                 <span className="title">
-                    {title}
+                    {normalCase(title)}
                 </span>
                 {selections.map((item, i) => item ? (
                     <span
@@ -37,7 +49,7 @@ export default function TitleBar({
                             <span>&nbsp;>&nbsp;</span>
                         }
                         <span className="title-bar-item">
-                            {item}
+                            {normalCase(item)}
                         </span>
                     </span>
                 ) : null)}

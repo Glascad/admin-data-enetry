@@ -1,0 +1,29 @@
+@import "../../../styles/variables";
+
+.Tree {
+    .Branch {
+        width: fill;
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        // margin: 5px;
+        // padding: 5px;
+        // background: transparentize(tomato, 0.85);
+        // border: 1px solid purple;
+        // border-top: none;
+        // border-bottom: none;
+        // margin-top: 0;
+        // margin-bottom: 0;
+        // padding-bottom: 0;
+
+        // &.depth-0 {
+        //     border: none;
+        // }
+
+        .tree-branches {
+            display: flex;
+            justify-content: space-evenly;
+            // background: transparentize(red, 0.95);
+        }
+    }
+}

@@ -1,11 +1,14 @@
 import React, { PureComponent, createRef } from 'react';
+import PropTypes from 'prop-types';
 
 import Select from 'react-select';
+
+import { ImperialValue, normalCase } from '../../../utils';
 
 // import FlipSwitch from '../FlipSwitch/FlipSwitch';
 
 import './Input.scss';
-import { ImperialValue } from '../../../utils';
+import customPropTypes from '../../utils/custom-prop-types';
 
 const booleanTypes = [
     "switch",
@@ -23,11 +26,71 @@ const booleanTypes = [
 
 export default class Input extends PureComponent {
 
+    static propTypes = {
+        className: PropTypes.string,
+        tagname: PropTypes.string,
+        title: PropTypes.string,
+        label: PropTypes.string,
+        direction: PropTypes.oneOf([
+            'row',
+            'column',
+        ]),
+        light: PropTypes.bool,
+        type: PropTypes.oneOf([
+            'text',
+            'number',
+            'inches',
+            ...booleanTypes,
+        ]),
+        select: customPropTypes.deprecated(PropTypes.shape(
+            // Select.propTypes || 
+            {
+                value: PropTypes.shape({
+                    value: PropTypes.oneOfType([
+                        PropTypes.string,
+                        PropTypes.number,
+                    ]),
+                    label: customPropTypes.renderable,
+                }),
+                options: PropTypes.arrayOf(PropTypes.shape({
+                    value: PropTypes.oneOfType([
+                        PropTypes.string,
+                        PropTypes.number,
+                    ]),
+                    label: customPropTypes.renderable,
+                })),
+            })),
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool,
+            PropTypes.instanceOf(ImperialValue),
+        ]),
+        initialValue: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+            PropTypes.bool,
+            PropTypes.instanceOf(ImperialValue),
+        ]),
+        checked: PropTypes.bool,
+        disabled: PropTypes.bool,
+        onChange: PropTypes.func,
+        handleChange: PropTypes.func,
+        Icon: PropTypes.object,
+        onBlur: PropTypes.func,
+        onEnter: PropTypes.func,
+        onKeyDown: PropTypes.func,
+        onClick: PropTypes.func,
+        onMouseDown: PropTypes.func,
+        onMouseUp: PropTypes.func,
+    };
+
     static defaultProps = {
+        className: '',
         tagname: "label",
         type: "text",
         checked: false,
-        direction: '',
+        direction: 'column',
         disabled: false,
     };
 
@@ -79,7 +142,7 @@ export default class Input extends PureComponent {
                 new ImperialValue(oldValue);
 
             if (convertedValue.value !== oldConvertedValue.value) {
-                console.log("RECEIVED NEW INITIAL VALUE");
+                // console.log("RECEIVED NEW INITIAL VALUE");
                 this.setState({
                     inchInput: `${convertedValue}`,
                     value: convertedValue,
@@ -157,85 +220,26 @@ export default class Input extends PureComponent {
         if (onKeyDown) onKeyDown(arg);
     }
 
-    // componentWillUnmount = () => {
-    //     window.removeEventListener('keydown', this.handleKeyDown);
-    //     window.removeEventListener('keyup', this.handleKeyUp);
-    // }
-
-    // handleKeyDown = e => {
-    //     const { key, altKey, target } = e;
-
-    //     this.keys[key] = true;
-    //     this.keys.Alt = altKey;
-
-    //     if (key === 'Enter') target.blur();
-    // }
-
-    // handleKeyUp = e => {
-    //     const { key, altKey } = e;
-
-    //     this.keys[key] = false;
-    //     this.keys.Alt = altKey;
-    // }
-
-    // handleNumberChange = e => {
-    //     const {
-    //         target,
-    //         target: {
-    //             value: oldValue,
-    //         },
-    //     } = e;
-
-    //     const {
-    //         keys: {
-    //             ArrowDown,
-    //             ArrowUp,
-    //             Control,
-    //             Meta,
-    //             Shift,
-    //             Alt,
-    //         },
-    //     } = this;
-
-    //     if (ArrowUp || ArrowDown) {
-    //         const delta = Meta || Control ?
-    //             100 - 1
-    //             :
-    //             Shift ?
-    //                 10 - 1
-    //                 :
-    //                 // Alt ?
-    //                 //     0.1 - 1
-    //                 //     :
-    //                 1 - 1;
-
-    //         const value = ArrowUp ?
-    //             +oldValue + delta
-    //             :
-    //             +oldValue - delta;
-
-    //         if (this.props.onChange) {
-    //             e.preventDefault();
-    //             target.value = value;
-    //             this.props.onChange({ ...e, target });
-    //         } else {
-    //             target.value = value;
-    //         }
-    //     }
-    // }
-
     render = () => {
         const {
             state: {
                 inchInput,
             },
             props: {
+                className,
                 tagname,
+                title,
                 label,
                 direction,
                 light,
                 type,
                 select,
+                select: {
+                    value: selectValue,
+                    value: {
+                        label: selectValueLabel,
+                    } = {},
+                } = {},
                 value,
                 initialValue,
                 checked,
@@ -249,6 +253,7 @@ export default class Input extends PureComponent {
                 onClick,
                 onMouseDown,
                 onMouseUp,
+                "data-cy": dataCy,
                 ...props
             },
             ref,
@@ -281,7 +286,8 @@ export default class Input extends PureComponent {
             <div
                 className="label"
             >
-                {label}
+                <span className="title">{normalCase(title)}</span>
+                <span>{normalCase(title ? ` (${label})` : label)}</span>
             </div>
         ) : null;
 
@@ -291,7 +297,9 @@ export default class Input extends PureComponent {
 
         return (
             <tag.name
-                className={`Input type-${
+                className={`Input ${
+                    className
+                    } type-${
                     Icon ? 'icon'
                         :
                         select ? 'select'
@@ -309,6 +317,7 @@ export default class Input extends PureComponent {
                 onClick={onClick}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
+                {...(isBoolean || select ? { "data-cy": dataCy } : null)}
             >
                 {!isBoolean ? (
                     LABEL
@@ -317,7 +326,15 @@ export default class Input extends PureComponent {
                     <Select
                         {...select}
                         ref={ref}
-                        className={`Select ${select.isMulti ? "multi" : ""}`}
+                        className={`React-Select ${select.isMulti ? "multi" : ""}`}
+                        value={selectValue ? {
+                            ...selectValue,
+                            label: normalCase(selectValueLabel),
+                        } : undefined}
+                        options={select.options.map(o => ({
+                            ...o,
+                            label: normalCase(o.label),
+                        }))}
                     />
                 ) : (
                         <inputTag.name
@@ -342,23 +359,13 @@ export default class Input extends PureComponent {
                                     value
                                 :
                                 undefined}
-                            checked={isBoolean ?
-                                checked
-                                :
-                                undefined}
-                            onChange={isInches ?
-                                handleInchChange
-                                :
-                                onChange}
-                            onBlur={isInches ?
-                                handleInchblur
-                                :
-                                onBlur}
-                            onKeyDown={onEnter ?
-                                handleKeyDown
-                                :
-                                onKeyDown}
-                            {...props}
+                            checked={isBoolean ? checked : undefined}
+                            onChange={isInches ? handleInchChange : onChange}
+                            onBlur={isInches ? handleInchblur : onBlur}
+                            onKeyDown={onEnter ? handleKeyDown : onKeyDown}
+                            {...(isBoolean ? null : { "data-cy": dataCy })}
+                        // VVV is this spread necessary?
+                        // {...props}
                         />
                     )
                 }

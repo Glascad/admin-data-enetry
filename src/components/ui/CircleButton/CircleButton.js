@@ -1,55 +1,50 @@
 import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './CircleButton.scss';
 import ButtonTile from '../ButtonTile/ButtonTile';
+import customPropTypes from '../../utils/custom-prop-types';
 
 export default class CircleButton extends PureComponent {
 
-    // static propTypes = {
-    //     type: PropTypes.oneOf([
-    //         'small',
-    //         "tile",
-    //         'input'
-    //     ]),
-    //     text: PropTypes.string,
-    //     inputType: PropTypes.string,
-    //     onClick: PropTypes.func.isRequired,
-    //     onBlur: PropTypes.func,
-    //     otherButtons: PropTypes.arrayOf(PropTypes.object)
-    // };
+    static propTypes = {
+        text: PropTypes.string,
+        className: PropTypes.string,
+        type: PropTypes.oneOf([
+            'small',
+            'tile',
+            // 'input',
+        ]),
+        actionType: PropTypes.oneOf([
+            'add',
+            'delete',
+        ]),
+        otherButtons: PropTypes.shape(ButtonTile.propTypes),
+        onBlur: PropTypes.func,
+        onClick: PropTypes.func.isRequired,
+        renderTextInsteadOfButton: customPropTypes.renderable,
+    };
 
     static defaultProps = {
         text: "Create",
-        type: "",
+        type: "small",
         actionType: "",
-        inputType: "",
         otherButtons: [],
     };
 
-    state = {
-        editing: false
-    };
-
-    handleClick = e => this.props.type === "input" ?
-        this.setState({ editing: true })
-        :
-        this.props.onClick(this.props);
+    handleClick = () => this.props.onClick(this.props);
 
     render = () => {
         const {
-            state: {
-                editing,
-            },
             props: {
                 text,
                 type,
                 actionType,
-                inputType,
                 otherButtons,
                 onBlur,
                 onClick,
                 className,
                 renderTextInsteadOfButton,
+                "data-cy": dataCy,
             },
             handleClick
         } = this;
@@ -63,10 +58,6 @@ export default class CircleButton extends PureComponent {
                     } ${
                     actionType ? `action-type-${actionType}` : ''
                     } ${
-                    inputType ? `input-${inputType}` : ''
-                    } ${
-                    editing ? 'editing' : ''
-                    } ${
                     otherButtons.length ?
                         'with-other-buttons'
                         :
@@ -75,7 +66,10 @@ export default class CircleButton extends PureComponent {
                 onBlur={onBlur}
             >
                 {renderTextInsteadOfButton ? (
-                    <div className="button-text">
+                    <div
+                        className="button-text"
+                        data-cy={dataCy}
+                    >
                         <div className="text">
                             {renderTextInsteadOfButton}
                         </div>
@@ -85,6 +79,7 @@ export default class CircleButton extends PureComponent {
                             <button
                                 className="circle-button"
                                 onClick={handleClick}
+                                data-cy={dataCy}
                             >
                                 <div className="block-one" />
                                 <div className="block-two" />
@@ -106,6 +101,6 @@ export default class CircleButton extends PureComponent {
                         </>
                     )}
             </div>
-        )
+        );
     }
 }

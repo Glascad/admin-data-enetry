@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { GroupingBox, Input, CircleButton, useInitialState } from "../../../../../../components";
 import { defaultHorizontal } from './elevation-input';
+import { replace } from '../../../../../../utils';
 
 function Horizontal({
     horizontals,
@@ -32,7 +33,7 @@ function Horizontal({
                     },
                     options: measureFromOptions,
                     onChange: ({ value }) => updateElevation({
-                        horizontals: horizontals.replace(i, {
+                        horizontals: replace(horizontals, i, {
                             distance,
                             from: value,
                             to,
@@ -50,7 +51,7 @@ function Horizontal({
                     },
                     options: measureToOptions,
                     onChange: ({ value }) => updateElevation({
-                        horizontals: horizontals.replace(i, {
+                        horizontals: replace(horizontals, i, {
                             distance,
                             from,
                             to: value,
@@ -65,7 +66,7 @@ function Horizontal({
                 min={0}
                 initialValue={initialDistance}
                 onChange={distance => updateElevation({
-                    horizontals: horizontals.replace(i, {
+                    horizontals: replace(horizontals, i, {
                         distance,
                         from,
                         to,

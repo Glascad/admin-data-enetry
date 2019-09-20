@@ -1,0 +1,287 @@
+@import "../../../styles/variables";
+@import "../CircleButton/CircleButton.scss";
+
+/*
+    Viewport margin is controlled in JavaScript, since RightSidebar is nested deep within the Viewport
+*/
+#viewport .RightSidebar,
+.RightSidebar {
+    background: $dark-blue;
+    z-index: 6;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $right-sidebar-width;
+    max-width: unset;
+    padding: $x-large;
+    box-shadow: -2px 0 $xx-small rgba(74, 74, 74, 0.8);
+    overflow-y: scroll;
+    color: $medium-gray;
+
+    &.closed {
+        display: none;
+    }
+
+    > * {
+        margin-bottom: $x-large;
+    }
+
+    .TitleBar {
+        color: $off-white;
+        border-bottom: 1px solid $medium-gray;
+        // padding-left: $small;
+        padding-bottom: $small;
+        margin-top: $xxx-large;
+    }
+
+    .sidebar-group {
+        position: relative;
+        // border-bottom: 1px solid $medium-gray;
+        padding-bottom: $x-large;
+
+        &:not(:last-child) {
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 25%;
+                right: 25%;
+                border-bottom: 1px solid $medium-gray;
+            }
+        }
+
+        > * {
+            &:not(:last-child) {
+                margin-bottom: $x-large;
+            }
+        }
+    }
+
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sidebar-button {
+        position: relative;
+        width: 100%;
+
+        + .sidebar-button {
+            margin-left: 0;
+        }
+
+        &.empty {
+            color: $off-white;
+        }
+
+        &.action {
+            @include hoverable-background($action-color, false);
+            font-weight: bold;
+        }
+
+        &.primary {
+            @include hoverable-background($selected-color, false);
+            border: none;
+            color: $off-white;
+            font-weight: bold;
+        }
+
+        &.danger {
+            @include hoverable-background($danger-color, false);
+        }
+
+        .icon {
+            position: absolute;
+            top: 50%;
+            left: $x-small;
+            height: $large;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &.after {
+                left: unset;
+                right: $xx-small;
+
+                &.DoubleArrow {
+                    right: $small;
+
+                    .arrow {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            &.DoubleArrow {
+                transform: translateY(-50%) scale(0.8);
+            }
+
+            .stroke-gray {
+                stroke: $medium-dark-gray;
+            }
+
+            .stroke-red {
+                stroke: $danger-color;
+            }
+
+            .stroke-green {
+                stroke: $icon-green;
+            }
+
+            .fill-gray {
+                fill: $medium-dark-gray;
+            }
+
+            .fill-dark-gray {
+                fill: $dark-medium-gray;
+            }
+
+            .fill-red {
+                fill: $danger-color;
+            }
+
+            .fill-green {
+                fill: $icon-green;
+            }
+        }
+
+        &:hover {
+            color: $dark-gray;
+
+            .icon {
+                .stroke {
+                    stroke: $dark-gray;
+                }
+
+                .fill {
+                    fill: $dark-gray;
+                }
+
+                &.DoubleArrow {
+                    .arrow {
+                        border-right-color: $dark-gray;
+                    }
+                }
+            }
+        }
+
+        &.disabled {
+            background: none;
+
+            &:hover {
+                background: none;
+                color: $off-white;
+                font-weight: normal;
+                cursor: default;
+            }
+        }
+    }
+
+    .bottom-buttons {
+        .sidebar-button {
+            width: calc((100% - #{$small * 2}) / 3) !important;
+            max-width: calc((100% - #{$small * 2}) / 3) !important;
+            min-width: calc((100% - #{$small * 2}) / 3) !important;
+        }
+    }
+
+    .GroupingBox {
+        width: fill;
+        padding-top: $base-size;
+        padding-bottom: $x-large;
+
+        > * {
+            &:not(:first-child) {
+                margin-top: $base-size;
+            }
+        }
+
+        .title {
+            background: $dark-blue;
+            box-shadow: 0 0 0 $x-small $dark-blue;
+            color: $medium-gray;
+            font-weight: normal;
+
+            .Toggle {
+                transform: translateY(-$xx-small);
+
+                button {
+                    height: $x-large;
+                    max-height: $x-large;
+                    width: unset;
+                    min-width: unset;
+                    padding-left: $x-small;
+                    padding-right: $x-small;
+
+                    &:not(.selected) {
+                        color: $medium-gray;
+                    }
+                    &:first-child {
+                        padding-left: $small;
+                    }
+                    &:last-child {
+                        padding-right: $small;
+                    }
+                }
+            }
+        }
+
+        .toggle-background,
+        .add-button-background {
+            background: $dark-blue;
+            .CircleButton {
+                .circle-button {
+                    height: $x-large;
+                    width: $x-large;
+                }
+            }
+        }
+
+        .toggle-background {
+        }
+
+        .add-button-background {
+            top: -$x-large / 2;
+        }
+
+        .input-group {
+            justify-content: space-between;
+
+            > * {
+                + * {
+                    margin-left: $small;
+                }
+            }
+
+            .Input,
+            .Select {
+                width: $pill-width * 0.715;
+
+                input,
+                .select-input-wrapper,
+                .select-options,
+                .select-option,
+                .React-Select {
+                    width: $pill-width * 0.715;
+                }
+            }
+        }
+
+        .CircleButton {
+            &.primary {
+                @include circle-button($selected-color, $dark-blue, true);
+            }
+
+            &.action {
+                @include circle-button($action-color, $dark-blue, true);
+            }
+
+            &.danger {
+                @include circle-button($danger-color, $dark-blue, true);
+            }
+        }
+    }
+}

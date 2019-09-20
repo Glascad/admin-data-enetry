@@ -1,7 +1,7 @@
 import applyActionToElevation from "./apply-action";
 import MERGE_CONTAINERS from "../merge-containers";
-import sample1 from "../../../../__test__/sample-elevations/sample1.json";
-import sample2 from "../../../../__test__/sample-elevations/sample2.json";
+import sample1 from "../../../../utils/sample-elevations/sample1.json";
+import sample2 from "../../../../utils/sample-elevations/sample2.json";
 import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
 import chainTests from './chain-tests';
 import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";

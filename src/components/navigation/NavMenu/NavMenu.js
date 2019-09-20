@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import {
     NavLink,
     withRouter,
@@ -11,6 +11,12 @@ import './NavMenu.scss';
 
 import { extractNavigationOptions } from '../../../utils';
 
+import Navigator from '../Navigator';
+
+NavMenu.propTypes = {
+    ...Navigator.propTypes,
+    closed: PropTypes.bool,
+};
 
 function NavMenu({
     location: {
@@ -41,8 +47,8 @@ function NavMenu({
                 }, i) => subroutes ? (
                     <Dropdown
                         key={i}
-                        title={name}
-                        open={closed === true ? false : pathname.includes(path) || undefined}
+                        label={name}
+                        open={(closed === true) ? false : !!pathname.includes(path)}
                         className={
                             pathname.includes(path) ?
                                 'matched'

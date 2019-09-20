@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 
 import {
@@ -40,13 +40,17 @@ const normalizeResponse = ({ data }) => removeNullValues(
 
 export default class ApolloWrapper extends PureComponent {
 
-    // static propTypes = {
-    //     query: PropTypes.shape({
-    //         query: PropTypes.object.isRequired,
-    //         variables: PropTypes.object,
-    //     }),
-    //     mutations: PropTypes.objectOf(PropTypes.object),
-    // };
+    static propTypes = {
+        query: PropTypes.shape({
+            ...Query.propTypes,
+            children: undefined,
+        }),
+        mutations: PropTypes.objectOf(PropTypes.shape({
+            ...Mutation.propTypes,
+            children: undefined,
+        })),
+        children: PropTypes.func.isRequired,
+    };
 
     static defaultProps = {
         mutations: {},
@@ -82,7 +86,7 @@ export default class ApolloWrapper extends PureComponent {
                             {/* THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN */}
                             {accumulatedProps => children({
                                 ...accumulatedProps,
-                                queryStatus: normalizeResponse(rawQueryStatus),
+                                queryResult: normalizeResponse(rawQueryStatus),
                                 rawQueryStatus,
                             })}
                         </ApolloWrapper>

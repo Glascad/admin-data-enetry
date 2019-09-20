@@ -1,4 +1,5 @@
 import { defaultElevationInput } from "./elevation-input";
+import _ from 'lodash';
 
 export default function generateElevation({
     verticalRoughOpening = defaultElevationInput.verticalRoughOpening,
@@ -19,8 +20,7 @@ export default function generateElevation({
         .map(({ distance }) => distance)
         .concat(lastContainerHeight);
 
-    // find Number[Symbol.iterator] in public/index.html
-    const _elevationContainers = [...startingBayQuantity]
+    const _elevationContainers = _.range(startingBayQuantity)
         .reduce((bays, i) => bays
             .concat(containerHeights
                 .map((height, j) => ({

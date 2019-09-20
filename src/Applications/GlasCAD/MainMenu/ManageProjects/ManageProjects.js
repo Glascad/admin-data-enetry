@@ -1,5 +1,5 @@
 import React from 'react';
-import F from '../../../../schema';
+import F from '../../../../schemas';
 
 import {
     Link,
@@ -22,16 +22,17 @@ export default function ManageProjects({
         path,
     },
 }) {
-    console.log(arguments[0]);
-    const allProjectsQuery = { query: gql`{ ...AllProjects } ${F.PR_DATA.ALL_PROJECTS}` };
+    // console.log(arguments[0]);
+    const allProjectsQuery = { query: gql`{ ...AllProjects } ${F.PRJ.ALL_PROJECTS}` };
     const [fetchQuery, { allProjects = [] }, loading] = useQuery(allProjectsQuery);
     const [deleteProject, deleteResult, deleting] = useMutation(deleteProjectMutation, fetchQuery);
     const [createProject, createResult, creating] = useMutation(createProjectMutation, fetchQuery);
 
-
     return (
-        <div className="card">
-            {/* {console.log({ allProjects })} */}
+        <div
+            className="card"
+            id="ManageProjects"
+        >
             <TitleBar
                 title="Manage Projects"
             />
@@ -53,7 +54,7 @@ export default function ManageProjects({
                                         `project/project-details?projectId=${id}`)}
                                 >
                                     Edit project
-                                            </Link>
+                                </Link>
                             ),
                         },
                     ],
@@ -68,11 +69,10 @@ export default function ManageProjects({
                     name: "Project",
                     finishing: deleting,
                 }}
-                // onDelete={() => console.log("Cannot delete!")}
                 circleButton={{
                     type: "tile",
                 }}
             />
         </div>
-    )
+    );
 }

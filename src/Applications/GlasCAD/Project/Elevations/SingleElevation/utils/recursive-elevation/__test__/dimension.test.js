@@ -1,10 +1,8 @@
 
 import RecursiveElevation from "../elevation";
 
-import '../../../../../../../../../public';
-
-import sample6 from '../../../__test__/sample-elevations/sample6.json';
-import sample3 from '../../../__test__/sample-elevations/sample3.json';
+import sample6 from '../../../utils/sample-elevations/sample6.json';
+import sample3 from '../../../utils/sample-elevations/sample3.json';
 
 describe('', () => test('', () => { }));
 

@@ -22,7 +22,7 @@ export default function InfillSizes() {
             mutations={mutations}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allInfillSizes = [],
                 },
                 mutations: {

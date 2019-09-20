@@ -24,7 +24,7 @@ export default function ElevationSearch({
     match: {
         path,
     },
-    queryStatus: {
+    queryResult: {
         _project: {
             name = "",
             _elevations = [],
@@ -48,11 +48,11 @@ export default function ElevationSearch({
         }
     }, []);
 
-    console.log({
-        copying,
-        // selectedElevation,
-        runningCopy,
-    });
+    // console.log({
+    //     copying,
+    //     // selectedElevation,
+    //     runningCopy,
+    // });
 
     return (
         <div
@@ -98,7 +98,7 @@ export default function ElevationSearch({
                                     //     .update({ elevationId: newId })}`);
 
                                 } catch (err) {
-                                    console.log({ err });
+                                    // console.log({ err });
                                 } finally {
                                     setCopying(false);
                                     setCopiedElevationId();

@@ -1,13 +1,39 @@
-import React, { PureComponent, useEffect, memo } from 'react';
+import React, { useRef, useEffect, useLayoutEffect, memo } from 'react';
 import ReactDOM from 'react-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './Modal.scss';
 
 import TitleBar from '../TitleBar/TitleBar';
 
 import AsyncButton from '../AsyncButton/AsyncButton';
+import customPropTypes from '../../utils/custom-prop-types';
 
-const Modal = memo(function ({
+Modal.propTypes = {
+    className: PropTypes.string,
+    titleBar: PropTypes.shape(TitleBar.propTypes),
+    children: customPropTypes.renderable,
+    display: PropTypes.bool,
+    finishing: PropTypes.bool,
+    danger: PropTypes.bool,
+    reset: PropTypes.shape({
+        children: customPropTypes.renderable,
+        text: PropTypes.string,
+    }),
+    cancel: PropTypes.shape({
+        children: customPropTypes.renderable,
+        text: PropTypes.string,
+    }),
+    finish: PropTypes.shape(AsyncButton.propTypes),
+    cancelButtonText: PropTypes.string,
+    finishButtonText: PropTypes.string,
+    finishingText: PropTypes.string,
+    onReset: PropTypes.func,
+    onUpdate: PropTypes.func,
+    onCancel: PropTypes.func,
+    onFinish: PropTypes.func,
+};
+
+function Modal({
     className,
     titleBar,
     children,
@@ -67,6 +93,7 @@ const Modal = memo(function ({
         <div
             className={`modal-background ${display ? '' : 'hidden'}`}
             onClick={onCancel}
+            data-cy='modal'
         >
             <div
                 className={`Modal ${className}`}
@@ -92,6 +119,7 @@ const Modal = memo(function ({
                         {onCancel ? (
                             <button
                                 className="empty"
+                                data-cy="modal-cancel-button"
                                 {...cancel}
                                 children={cancelButtonText || cancel.children || cancel.text || "Cancel"}
                                 onClick={handleCancelClick}
@@ -100,6 +128,7 @@ const Modal = memo(function ({
                         {onFinish ? (
                             <AsyncButton
                                 className={danger ? "danger" : "action"}
+                                data-cy="modal-finish-button"
                                 {...finish}
                                 children={finishButtonText || finish.children || finish.text || "Finish"}
                                 loading={finishing}
@@ -112,7 +141,7 @@ const Modal = memo(function ({
             </div>
         </div>
     );
-});
+}
 
 
 /**
@@ -125,28 +154,60 @@ const getModalId = (() => {
     return () => id++;
 })();
 
-export default class AbstractModal extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.element = document.createElement("div");
-        this.element.setAttribute("id", `Modal-${getModalId()}`);
-        document.body.appendChild(this.element);
-    }
-    componentWillUnmount = () => {
-        document.body.removeChild(this.element);
-    }
-    componentDidUpdate = oldProps => {
-        if (oldProps !== this.props) {
-            const oldEntries = Object.entries(oldProps);
-            const newEntries = Object.entries(this.props);
-            if (
-                (oldEntries.length !== newEntries.length)
-                ||
-                newEntries.some(([key, value]) => oldProps[key] !== value)
-            ) {
-                ReactDOM.render(<Modal {...this.props} />, this.element);
-            }
+export default memo(function AbstractModal(props) {
+    const element = useRef();
+
+    useLayoutEffect(() => {
+        element.current = document.createElement("div");
+        element.current.setAttribute("id", `Modal-${getModalId()}`);
+        document.body.appendChild(element.current);
+        return () => {
+            document.body.removeChild(element.current);
         }
-    }
-    render = () => null;
+    }, []);
+
+    useLayoutEffect(() => {
+        ReactDOM.render(<Modal {...props} />, element.current)
+    });
+
+    return null;
+});
+
+export function confirmWithModal(onFinish, {
+    className,
+    titleBar,
+    children,
+    display,
+    onReset,
+    onUpdate,
+    reset,
+    onCancel,
+    cancel,
+    cancelButtonText,
+    finish,
+    finishing,
+    finishButtonText,
+    finishingText,
+    danger,
+}) {
+    if (typeof onFinish !== 'function') throw new Error(`\`onFinish()\` must be a function, received type: ${typeof onFinish}`);
+    const element = document.createElement("div");
+    element.setAttribute("id", `Modal-${getModalId()}`);
+    document.body.appendChild(element);
+    const removeModal = () => document.body.removeChild(element);
+    const modal = (
+        <Modal
+            {...arguments[1]}
+            display={true}
+            onFinish={props => {
+                onFinish(props);
+                removeModal();
+            }}
+            onCancel={() => {
+                if (onCancel) onCancel(arguments[1]);
+                removeModal();
+            }}
+        />
+    );
+    ReactDOM.render(modal, element);
 }

@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo, useState, useEffect } from 'react';
 
 import gql from 'graphql-tag';
 
-import F from '../../../../../../schema';
+import F from '../../../../../../schemas';
 
 import _ from 'lodash';
 
@@ -13,7 +13,7 @@ import {
     Input,
     GroupingBox,
     CircleButton,
-    useUndoRedo,
+    useRedoableState,
     useQuery,
     AsyncButton,
     useMutation,
@@ -30,8 +30,6 @@ import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import generateElevation from './generate-elevation';
 
 import { parseSearch, ImperialValue } from '../../../../../../utils';
-
-import './CreateElevation.scss';
 
 import {
     measureFromOptions,
@@ -52,7 +50,7 @@ const areEqual = (json, input) => {
         });
 }
 
-const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS_DATA.ALL_SYSTEMS}` };
+const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS.ALL_SYSTEMS}` };
 
 const saveDefaultMutation = {
     mutation: gql`
@@ -70,7 +68,7 @@ const saveDefaultMutation = {
                 }
             }
         }
-        ${F.PR_DATA.ENTIRE_PROJECT}
+        ${F.PRJ.ENTIRE_PROJECT}
     `,
 };
 
@@ -103,11 +101,11 @@ export default memo(function CreateElevation({
     const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
     const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(initialElevationInput.finishedFloorHeight);
 
-    console.log(
-        initialElevationInput.horizontalRoughOpening,
-        initialElevationInput.verticalRoughOpening,
-        initialElevationInput.finishedFloorHeight,
-    );
+    // console.log(
+    //     initialElevationInput.horizontalRoughOpening,
+    //     initialElevationInput.verticalRoughOpening,
+    //     initialElevationInput.finishedFloorHeight,
+    // );
 
     const {
         currentState,
@@ -131,7 +129,7 @@ export default memo(function CreateElevation({
             },
         },
         pushState,
-    } = useUndoRedo(initalState, [defaultElevation]);;
+    } = useRedoableState(initalState, [defaultElevation]);;
 
     const updateElevation = update => pushState(({ elevation }) => ({
         elevation: {
@@ -149,13 +147,18 @@ export default memo(function CreateElevation({
     const { projectId } = parseSearch(search);
 
     const saveDefault = async () => {
-        const result = await runSaveDefault({
-            id: +parseSearch(search).projectId,
-            defaultElevation: JSON.stringify({
-                ...elevationInput,
-                name: undefined,
-            }),
-        });
+        try {
+            const result = await runSaveDefault({
+                id: +parseSearch(search).projectId,
+                defaultElevation: JSON.stringify({
+                    ...elevationInput,
+                    name: undefined,
+                }),
+            });
+        } catch (err) {
+            console.error(`Error saving default elevation`);
+            console.error(err);
+        }
     }
 
     const save = useCallback(async () => {
@@ -203,7 +206,7 @@ export default memo(function CreateElevation({
                 },
             } = await updateEntireElevation({ elevation });
 
-            console.log({ elevationId });
+            // console.log({ elevationId });
 
             history.push(`${
                 path.replace(/create/, 'build')
@@ -211,11 +214,12 @@ export default memo(function CreateElevation({
                 parseSearch(search).update({ elevationId })
                 }`);
         } catch (err) {
+            console.error(`Error saving elevation`);
             console.error(err);
         }
     }, [mergedElevation]);
 
-    console.log("this is the CREATE elevation page");
+    // console.log("this is the CREATE elevation page");
 
     const cancelModalProps = {
         titleBar: {

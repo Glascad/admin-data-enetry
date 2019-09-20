@@ -1,7 +1,7 @@
 import RecursiveElevation from '../../elevation';
-import sample1 from '../../../../__test__/sample-elevations/sample1.json';
-import sample2 from '../../../../__test__/sample-elevations/sample2.json';
-import sample3ERROR from '../../../../__test__/sample-elevations/sample3-error.json';
+import sample1 from '../../../../utils/sample-elevations/sample1.json';
+import sample2 from '../../../../utils/sample-elevations/sample2.json';
+import sample3ERROR from '../../../../utils/sample-elevations/sample3-error.json';
 
 export default function testElevation({ description, elevation }) {
     const sampleResult = new RecursiveElevation(elevation);
@@ -47,7 +47,7 @@ export default function testElevation({ description, elevation }) {
                 allFrames: expect.any(Array),
             });
         });
-        test("All \'existing\' details are assigned to a single frame", () => {
+        test("All existing and non-existing details are assigned to a single frame", () => {
             sampleResult.allFrames.forEach(
                 _frame => sampleResult.allFrames.slice().forEach(
                     otherFrame => {
@@ -66,7 +66,7 @@ export default function testElevation({ description, elevation }) {
         });
         test("All non \'existing\' details are not assigned a frame", () => {
             sampleResult.allDetails.forEach(detail => {
-                expect(!!detail._frame).toBe(!!detail.exists);
+                expect(!!detail._frame).toBe(true);
             });
         });
     });

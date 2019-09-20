@@ -1,24 +1,27 @@
-
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .GroupingBox {
     position: relative;
     border: 1px solid $medium-gray;
     border-radius: $x-small;
-    padding-bottom: $xx-large !important;
+    padding-top: $x-small;
+    padding-bottom: $xxxx-large;
     width: fit-content;
     min-width: $pill-width;
-    
+
     // button {
     //     &:not(.danger) {
     //         background: $off-white;
     //     }
     // }
-    
+
     .title {
         position: absolute;
         top: -$text-size / 2;
         left: $large;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0;
         background: white;
         font-weight: bold;
@@ -26,35 +29,36 @@
         // font-weight: bold;
     }
 
-    .toggle-background, .add-button-background {
+    .toggle-background,
+    .add-button-background {
         position: absolute;
         right: $large - $x-small;
         margin: 0 !important;
         background: white;
         padding: 0 $xx-small;
-        
+
         .CircleButton {
             .circle-button {
                 height: $xxx-large;
                 width: $xxx-large;
             }
         }
-        
+
         .Toggle {
             height: $x-large;
             max-height: $x-large;
 
             > button {
                 height: $x-large;
-                font-size: $x-large * .6;
+                font-size: $x-large * 0.6;
             }
         }
     }
-    
+
     .toggle-background {
         top: -$x-large / 2;
     }
-    
+
     .add-button-background {
         top: -$xxx-large / 2;
     }
@@ -73,6 +77,13 @@
             right: $small;
         }
     }
+
+    .CircleButton {
+        .circle-button {
+            height: $xxx-large;
+            width: $xxx-large;
+        }
+    }
 }
 
 .card {
@@ -82,9 +93,9 @@
             background: $off-white;
             box-shadow: 0 0 0 $x-small $off-white;
         }
-        .toggle-background, .add-button-background {
+        .toggle-background,
+        .add-button-background {
             background: $off-white;
         }
     }
 }
-        

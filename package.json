@@ -11,6 +11,7 @@
         "apollo-link-error": "^1.1.10",
         "apollo-link-http": "^1.5.14",
         "apollo-link-state": "^0.4.2",
+        "chalk": "^2.4.2",
         "cors": "^2.8.5",
         "dotenv": "^6.2.0",
         "express": "^4.16.4",
@@ -18,13 +19,13 @@
         "graphql-tag": "^2.10.1",
         "node-sass": "^4.12.0",
         "postgraphile": "^4.2.0",
-        "prop-types": "^15.6.2",
         "react": "^16.7.0-alpha.2",
         "react-apollo": "^2.3.1",
         "react-dom": "^16.7.0-alpha.0",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "^2.1.3",
-        "react-select": "^2.1.1"
+        "react-scripts": "^3.1.1",
+        "react-select": "^2.1.1",
+        "string-similarity": "^3.0.0"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -32,8 +33,11 @@
         "test": "react-scripts test",
         "cy": "cypress open",
         "eject": "react-scripts eject",
-        "normalize-icons": "node ./dev-utils/normalize-icons",
-        "compile-sql": "node ./dev-utils/compile-database-seed"
+        "normalize-icons": "node ./scripts/normalize-icons",
+        "compile-seed": "node ./scripts/db-seed/write-seed",
+        "seed-db": "node ./scripts/db-seed",
+        "map-schemas": "node ./scripts/map-schemas",
+        "map-src": "node ./scripts/map-src-files"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -45,19 +49,31 @@
         "not op_mini all"
     ],
     "devDependencies": {
-        "cypress": "^3.3.2"
+        "cypress": "^3.4.1",
+        "prop-types": "^15.7.2"
     },
     "nodemonConfig": {
         "verbose": true,
+        "env": {
+            "NODE_ENV": "development"
+        },
+        "ext": "js json sql",
         "ignore": [
-            "src/*",
+            "src/",
+            "compiled/",
+            "build/",
+            "cypress/",
+            ".test.js",
+            ".spec.js",
+            "fixtures/"
+        ],
+        "watch": [
+            "db/",
+            "server/",
             "db/*",
-            "build/*",
-            "cypress/*",
-            "dev-utils/*",
-            "*.test.js",
-            "*.spec.js",
-            "fixtures/*"
+            "server/*",
+            ".env",
+            "index.js"
         ]
     }
 }

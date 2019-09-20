@@ -12,8 +12,10 @@ $pill-width: 200px;
 $hot-key-height: 35px;
 
 // Colors
+$warning-color: rgb(255, 180, 0);
 $danger-color: #d0021b;
 $selected-color: #4a90e2;
+$logo-blue: #13899b;
 $action-color: #5cb85c;
 $icon-green: #0cfc04;
 
@@ -63,4 +65,12 @@ $checkbox-height: $item-height / 2;
             }
         }
     }
+}
+
+@mixin triangle($size: 9px, $color: $medium-gray, $rotation: 0deg) {
+    width: 0;
+    border-left: $size solid $color;
+    border-bottom: $size * 7 / 9 solid rgba(0, 0, 0, 0);
+    border-top: $size * 7 / 9 solid rgba(0, 0, 0, 0);
+    transform: rotate($rotation);
 }

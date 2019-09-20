@@ -88,10 +88,11 @@ export default function Header({
                                 }${
                                 search
                                 }`, {
-                                    previousPath: path,
-                                    previousSearch: search,
-                                })}
+                                previousPath: path,
+                                previousSearch: search,
+                            })}
                             doNotConfirmWhen={doNotConfirm}
+                            data-cy="elevation-info"
                         >
                             Elevation Info
                         </ConfirmButton>
@@ -113,6 +114,7 @@ export default function Header({
                                         :
                                         () => selectItem(VISIBILITY_SETTINGS)
                                     }
+                                    data-cy="settings-icon"
                                 />
                             )}
                     </SelectionContext.Consumer>
@@ -128,6 +130,7 @@ export default function Header({
                             parseSearch(search).remove('sampleElevation', 'elevationId', 'bugId')
                             }`)}
                         doNotConfirmWhen={doNotConfirm}
+                        data-cy="close"
                     >
                         Close
                     </ConfirmButton>
@@ -135,10 +138,12 @@ export default function Header({
                         modalProps={cancelModalProps}
                         onClick={cancel}
                         doNotConfirmWhen={doNotConfirm}
+                        data-cy="discard-changes"
                     >
                         Discard Changes
                     </ConfirmButton>
                     <AsyncButton
+                        className="action"
                         onClick={async () => {
                             setSavingAndExiting(true);
                             const result = await save();
@@ -151,6 +156,7 @@ export default function Header({
                         }}
                         loading={savingAndExiting && updating}
                         loadingText="Saving"
+                        data-cy="save-and-close"
                     >
                         Save and Close
                     </AsyncButton>
@@ -163,11 +169,12 @@ export default function Header({
                         }}
                         loading={saving && updating}
                         loadingText="Saving"
+                        data-cy="save"
                     >
                         Save
                     </AsyncButton>
                 </>
             )}
         />
-    )
+    );
 }

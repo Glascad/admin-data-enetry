@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import _ from 'lodash';
-import { pixelsPerInch, withTransformContext } from '../../contexts/TransformContext';
+import { pixelsPerInch, withTransformContext } from '../../contexts/ElevationTransformContext';
 import { transformProps } from '../../../../../../../../components';
 import { withSelectionContext } from '../../contexts/SelectionContext';
 

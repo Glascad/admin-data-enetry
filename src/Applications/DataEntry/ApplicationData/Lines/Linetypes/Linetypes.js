@@ -21,7 +21,7 @@ export default function Linetypes() {
             mutations={mutations}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allLinetypes = [],
                     allLineWeights = [],
                 },

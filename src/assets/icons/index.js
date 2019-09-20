@@ -1,4 +1,4 @@
-// This file was automatically generated in /home/tommydreamer57/Development/acd/glascad/dev-utils/dev-utils/normalize-icons.js
+// This file was automatically generated in /home/tommydreamer57/Development/acd/glascad/server/server/normalize-icons.js
 
 import { ReactComponent as StepHead } from './step-head.svg';
 import { ReactComponent as SegmentedPlan } from './segmented-plan.svg';

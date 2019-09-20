@@ -13,7 +13,7 @@ export default function Manufacturers() {
             {...apolloProps}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     allManufacturers = [],
                 },
                 mutations: {
@@ -23,6 +23,7 @@ export default function Manufacturers() {
                 },
             }) => (
                     <div className="card">
+                        {/* {console.log(allManufacturers)} */}
                         <ListWrapper
                             title="Manufacturers"
                             items={allManufacturers}

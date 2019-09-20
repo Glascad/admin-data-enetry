@@ -11,7 +11,7 @@ import {
 import query from './project-graphql/query';
 
 // import ProjectDetails from './ProjectDetails/ProjectDetails';
-// import ProjectSets from './ProjectSets/ProjectSets';
+import ProjectSets from './ProjectSets/ProjectSets';
 // import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
 // import ElevationDebugger from './ElevationDebugger/ElevationDebugger';
@@ -23,7 +23,7 @@ import { parseSearch } from '../../../utils';
 
 const subroutes = {
     // ProjectDetails,
-    // ProjectSets,
+    ProjectSets,
     // Keyplans,
     Elevations,
     // ElevationDebugger,
@@ -47,7 +47,7 @@ Project.navigationOptions = ({
             }}
         >
             {({
-                queryStatus: {
+                queryResult: {
                     _project: {
                         name = '',
                     } = {},

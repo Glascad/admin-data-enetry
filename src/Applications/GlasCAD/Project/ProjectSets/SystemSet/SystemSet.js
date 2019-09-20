@@ -1,119 +1,170 @@
-import React from 'react';
-
-import { Link } from 'react-router-dom';
-
-import {
-    TabNavigator,
-    TitleBar,
-    ApolloWrapper,
-} from '../../../../../components';
-
-import SystemSetInfo from './views/SystemSetInfo';
-import SystemSetOptions from './views/SystemSetOptions';
-import SystemSetConfigurationTypes from './views/SystemSetConfigurationTypes';
-
-import query from './system-set-graphql/query';
-import updateEntireSystemSet from './system-set-graphql/mutation';
-
+import React, { } from 'react';
+import { TitleBar, useQuery, Select, Input, CollapsibleTitle, GroupingBox, Toggle } from '../../../../../components';
+import gql from 'graphql-tag';
+import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
+import { getParentTrail, getParent, getChildren } from '../../../../../application-logic/system-utils';
 
-import useSystemSetReducer from './ducks/hooks';
+const query = gql`query SystemSet($systemSetId: Int!) {
+    systemSetById(id: $systemSetId) {
+        ...EntireSystemSet
+    }
+} ${F.PRJ.ENTIRE_SYSTEM_SET}`;
 
-function SystemSet({
+export default function SystemSets({
     location: {
         search,
     },
-    match: {
-        path,
-    },
-    queryStatus,
 }) {
+    const { systemSetId } = parseSearch(search);
+
+    console.log(arguments[0]);
+
+    const [fetchQuery, queryResult] = useQuery({ query, variables: { systemSetId: +systemSetId } });
+
+    console.log({ queryResult, fetchQuery });
 
     const {
-        state: {
-            filters,
-            systemSetInput,
-        },
-        systemSet,
-        dispatch,
-    } = useSystemSetReducer(queryStatus);
+        _systemSet: {
+            name,
+            systemOptionValueId,
+            _system = {},
+            _system: {
+                name: systemName,
+                _systemOptionValues = [],
+            } = {},
+            allSystems = [],
+        } = {},
+    } = queryResult;
+
+    const systemOptionValue = _systemOptionValues.find(({ id }) => id === systemOptionValueId);
+
+    console.log({ systemOptionValue });
+
+    const parentTrail = getParentTrail(systemOptionValue, _system);
+
+    console.log({ parentTrail });
+
+    const details = getChildren(systemOptionValue, _system);
 
     return (
         <>
             <TitleBar
                 title="System Set"
-                right={(
-                    <>
-                        <Link
-                            to={`${path.replace(/\/system-set/, '')}${search}`}
-                        >
-                            <button>
-                                Cancel
-                            </button>
-                        </Link>
-                        <button>
-                            Reset
-                        </button>
-                        <button
-                            className="action"
-                        >
-                            Save
-                        </button>
-                    </>
-                )}
+                selections={[name]}
             />
-            <TabNavigator
-                routes={{
-                    SystemSetInfo,
-                    SystemSetOptions,
-                    SystemSetConfigurationTypes,
-                }}
-                routeProps={{
-                    queryStatus,
-                    filters,
-                    systemSetInput,
-                    systemSet,
-                    dispatch,
-                }}
-            />
-        </>
-    );
-}
-
-export default function SystemSetWrapper(props) {
-    const {
-        location: {
-            search,
-        },
-        queryStatus: queryStatusOne,
-    } = props;
-
-    const { projectId, systemSetId } = parseSearch(search);
-
-    return (
-        <ApolloWrapper
-            query={{
-                query,
-                variables: {
-                    projectId: +projectId || 0,
-                    systemSetId: +systemSetId || 0,
-                },
-            }}
-            mutations={{ updateEntireSystemSet }}
-        >
-            {({
-                queryStatus: queryStatusTwo,
-                mutations,
-            }) => (
-                    <SystemSet
-                        {...props}
-                        queryStatus={{
-                            ...queryStatusOne,
-                            ...queryStatusTwo,
-                        }}
-                        mutations={mutations}
+            <div className="card">
+                <CollapsibleTitle
+                    title="System Info"
+                >
+                    <Select
+                        data-cy="system-name"
+                        label="System Name"
+                        value={systemName}
+                        options={allSystems.map(({ name }) => name)}
+                        onChange={() => { }}
                     />
-                )}
-        </ApolloWrapper>
+                    <Input
+                        data-cy="system-set-name"
+                        label="Set Name"
+                        value={name}
+                        onChange={() => { }}
+                    />
+                </CollapsibleTitle>
+                <CollapsibleTitle
+                    title="Options"
+                >
+                    {parentTrail.map((sov, i) => {
+                        const parent = getParent(sov, _system);
+                        const siblings = getChildren(parent, _system);
+                        return (
+                            <Select
+                                key={sov.name}
+                                data-cy={`system-option-${i + 1}`}
+                                label={parent.name}
+                                value={sov.name}
+                                options={siblings.map(({ name }) => name)}
+                            />
+                        );
+                    })}
+                </CollapsibleTitle>
+                <CollapsibleTitle
+                    title="Details"
+                >
+                    {/* <div className="input-group"> */}
+                    {details.map(({ detailType }) => (
+                        <GroupingBox
+                            title={detailType}
+                        >
+                            <Input
+                                type="switch"
+                                checked={true}
+                                onChange={() => { }}
+                                label="Compensating Receptor"
+                            />
+                            <ul className="nested">
+                                <Select
+                                    label="Durability"
+                                    value="Standard"
+                                    options={["Standard", "High Performance"]}
+                                />
+                                <Select
+                                    label="Option"
+                                    value="Value"
+                                    options={["Value 1", "Value 2"]}
+                                />
+                                <Select
+                                    label="Other Option"
+                                    value="Value"
+                                    options={["Value 1", "Value 2"]}
+                                />
+                            </ul>
+                            <Input
+                                type="switch"
+                                checked={false}
+                                onChange={() => { }}
+                                label="Compensating Receptor"
+                            />
+                            <Input
+                                type="switch"
+                                checked={true}
+                                onChange={() => { }}
+                                label="Compensating Receptor"
+                            />
+                            <ul className="nested">
+                                <Select
+                                    label="Durability"
+                                    value="Standard"
+                                    options={["Standard", "High Performance"]}
+                                />
+                                <Select
+                                    label="Option"
+                                    value="Value"
+                                    options={["Value 1", "Value 2"]}
+                                />
+                                <div className="input-group">
+                                    <Toggle
+                                        label="Other Option"
+                                        buttons={[
+                                            {
+                                                text: "Value 1",
+                                                selected: true,
+                                                onClick: () => { },
+                                            },
+                                            {
+                                                text: "Value 2",
+                                                selected: false,
+                                                onClick: () => { },
+                                            },
+                                        ]}
+                                    />
+                                </div>
+                            </ul>
+                        </GroupingBox>
+                    ))}
+                    {/* </div> */}
+                </CollapsibleTitle>
+            </div>
+        </>
     );
 }

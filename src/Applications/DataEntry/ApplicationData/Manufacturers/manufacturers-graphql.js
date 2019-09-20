@@ -1,29 +1,29 @@
 import gql from 'graphql-tag';
-import F from '../../../../schema';
+import F from '../../../../schemas';
 
 export const query = {
     query: gql`{
-        allManufacturers{
-            nodes{
+        allManufacturers {
+            nodes {
                 ...ManufacturerFields
             }
         }
-    } ${F.APP_DATA.MANUFACTURER_FIELDS}`,
+    } ${F.APP.MANUFACTURER_FIELDS}`,
 };
 
 export const mutations = {
     createManufacturer: {
-        mutation: gql`mutation CreateManufacturer($name:String!){
-            createManufacturer(input:{
-                manufacturer:{
-                    name:$name
+        mutation: gql`mutation CreateManufacturer($name: String!) {
+            createManufacturer(input: {
+                manufacturer: {
+                    name: $name
                 }
-            }){
-                manufacturer{
+            }) {
+                manufacturer {
                     ...ManufacturerFields
                 }
             }
-        } ${F.APP_DATA.MANUFACTURER_FIELDS}`,
+        } ${F.APP.MANUFACTURER_FIELDS}`,
         update(cache, {
             data: {
                 createManufacturer: {
@@ -45,16 +45,16 @@ export const mutations = {
     },
     updateManufacturer: {
         mutation: gql`mutation UpdateManufacturer(
-            $nodeId:ID!,
-            $name:String!
-        ){
-            updateManufacturer(input:{
-                nodeId:$nodeId
-                manufacturerPatch:{
-                    name:$name
+            $nodeId: ID!,
+            $name: String!
+        ) {
+            updateManufacturer(input: {
+                nodeId: $nodeId
+                manufacturerPatch: {
+                    name: $name
                 }
-            }){
-                manufacturer{
+            }) {
+                manufacturer {
                     nodeId
                     id
                     name
@@ -63,11 +63,11 @@ export const mutations = {
         }`,
     },
     deleteManufacturer: {
-        mutation: gql`mutation DeleteManufacturer($nodeId:ID!){
-            deleteManufacturer(input:{
-                nodeId:$nodeId
-            }){
-                manufacturer{
+        mutation: gql`mutation DeleteManufacturer($nodeId: ID!) {
+            deleteManufacturer(input: {
+                nodeId: $nodeId
+            }) {
+                manufacturer {
                     nodeId
                     id
                     name

@@ -1,3 +1,4 @@
+import { replace } from "../../../../../../../../../utils";
 
 export default function mergeDLO({
     elevationInput,
@@ -55,7 +56,7 @@ export default function mergeDLO({
         elevationInput: {
             ...elevationInput,
             containers: previouslyUpdatedContainer ?
-                containers.replace(
+                replace(containers,
                     containers.indexOf(previouslyUpdatedContainer),
                     updatedContainer,
                 )

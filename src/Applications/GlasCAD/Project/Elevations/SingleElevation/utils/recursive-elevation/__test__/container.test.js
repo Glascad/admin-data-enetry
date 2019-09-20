@@ -1,5 +1,5 @@
 import RecursiveElevation from "../elevation";
-import sample3 from '../../../__test__/sample-elevations/sample3';
+import sample3 from '../../../utils/sample-elevations/sample3';
 
 function testContainer({ elevation, sampleContainers }) {
     describe(`Testing container methods for ${elevation.name}`, () => {

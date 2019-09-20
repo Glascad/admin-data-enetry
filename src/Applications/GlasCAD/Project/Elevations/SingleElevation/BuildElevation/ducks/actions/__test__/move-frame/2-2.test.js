@@ -1,5 +1,5 @@
 import testMoveFrame from './test-move-frame';
-import sample2 from "../../../../../__test__/sample-elevations/sample2.json";
+import sample2 from "../../../../../utils/sample-elevations/sample2.json";
 
 //Sample2 Test2
 testMoveFrame({

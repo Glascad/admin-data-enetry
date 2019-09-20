@@ -1,5 +1,5 @@
 import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
-import { unique, Loggable, lastItem } from "../../../../../../../utils";
+import { unique, Loggable, lastItem, replace } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -14,7 +14,7 @@ export default class RecursiveFrame extends Loggable {
 
         super();
 
-        const [{ vertical }] = details;
+        const [{ vertical, exists }] = details;
 
         Object.assign(
             this,
@@ -25,6 +25,7 @@ export default class RecursiveFrame extends Loggable {
                 details,
                 initialDetail,
                 vertical,
+                exists,
                 [containersKey]: {
                     true: undefined,
                     false: undefined,
@@ -77,7 +78,7 @@ export default class RecursiveFrame extends Loggable {
         return this.__allFrameDetails || (
             this.__allFrameDetails = this.details.reduce((groupedDetails, detail, i, { length }) => (
                 detail.detailId === (lastItem(lastItem(groupedDetails) || []) || {}).detailId ?
-                    groupedDetails.replace(
+                    replace(groupedDetails,
                         groupedDetails.length - 1,
                         lastItem(groupedDetails).concat(detail)
                     )
@@ -86,7 +87,7 @@ export default class RecursiveFrame extends Loggable {
             ), [])
         );
     }
-    
+
     get placedFrameDetails() {
         return this.frameDetails.map((placedDetails, i, { length }) => {
             // calculate placement of frame details
@@ -160,6 +161,8 @@ export default class RecursiveFrame extends Loggable {
             :
             0];
     }
+
+    getFirstOrLastDetail = last => this.details[last ? this.details.length - 1 : 0];
 
     getPerpendicularFrameByDirection = first => {
         const container = this.getFirstOrLastContainerByDirection(true, !first);
@@ -285,12 +288,8 @@ export default class RecursiveFrame extends Loggable {
     getNeedsExtensionByDirection = first => {
         return !!(
             this.vertical
-            && (
-                this.elevation.verticalFramesRunThroughHeadAndSill ?
-                    this.getRunsIntoEdgeOfRoughOpening(first)
-                    :
-                    this.getRunsAlongEdgeOfRoughOpening(first)
-            )
+            &&
+            this.getRunsIntoEdgeOfRoughOpening(first)
         );
     }
 

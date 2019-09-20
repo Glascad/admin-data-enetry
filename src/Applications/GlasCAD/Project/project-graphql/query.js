@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import F from '../../../../schema';
+import F from '../../../../schemas';
 
 export default gql`
     query ProjectById($id:Int!) {
@@ -8,5 +8,5 @@ export default gql`
             ...EntireProject
         }
     }
-    ${F.PR_DATA.ENTIRE_PROJECT}
+    ${F.PRJ.ENTIRE_PROJECT}
 `;

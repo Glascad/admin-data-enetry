@@ -1,4 +1,5 @@
 @import "../styles/variables";
+// @import "../components/ui/CircleButton/CircleButton";
 
 .card {
     background: $off-white;
@@ -55,10 +56,8 @@
     }
 
     > * {
-        margin-top: $x-large;
-
-        &:first-child {
-            margin-top: 0;
+        &:not(:first-child) {
+            margin-top: $x-large;
         }
 
         &:last-child {
@@ -74,9 +73,49 @@
     }
 }
 
+.nested {
+    border-left: $small solid $selected-color;
+    padding: $x-small 0;
+
+    .nested {
+        margin-top: $xxxx-large;
+        border-left: none;
+        margin-left: 0;
+        margin-bottom: 0;
+        padding: 0;
+    }
+
+    &.disabled {
+        // opacity: 0.3;
+        opacity: 1;
+        position: relative;
+        &:after {
+            position: absolute;
+            top: -$small;
+            left: -$small;
+            right: 0;
+            bottom: -$x-small;
+            background: $off-white;
+            // background: green;
+            opacity: 0.7;
+            content: "";
+        }
+        .nested {
+            &.disabled {
+                &:after {
+                    background: none;
+                }
+            }
+        }
+    }
+
+    .GroupingBox {
+        // margin-top: $large + $text-size / 2 !important;
+    }
+}
+
 .nested,
 .GroupingBox {
-    padding: $x-small 0;
     margin: $xxxx-large 0 0;
 
     > * {
@@ -92,21 +131,51 @@
     > * {
         margin-right: $x-large;
     }
-}
-
-.nested {
-    border-left: $small solid $selected-color;
 
     .nested {
-        margin-top: $xxxx-large;
-        border-left: none;
-        margin-left: 0;
-        margin-bottom: 0;
-        padding: 0;
-    }
+        margin-top: $small !important;
+        border: none;
 
-    .GroupingBox {
-        // margin-top: $large + $text-size / 2 !important;
+        > * {
+            margin: 0 !important;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            // margin-left: $xx-large;
+            border-left: 1px solid $medium-gray;
+            padding: 0;
+
+            .Toggle {
+                height: $xxx-large;
+                min-width: $pill-width;
+                width: $pill-width;
+                
+                .toggle-button {
+                    height: $xxx-large;
+                    padding: 0 $large;
+                }
+            }
+
+            .label {
+                margin-right: $small;
+                // padding-left: $x-small;
+
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    margin-right: $small;
+                }
+
+                + * {
+                    margin-top: 0;
+                }
+            }
+
+            + * {
+                padding-top: $small;
+            }
+        }
     }
 }
 
@@ -141,6 +210,7 @@
 .input-group {
     display: flex;
     align-items: flex-end;
+    flex-flow: row wrap;
 
     > * {
         + * {
@@ -150,6 +220,10 @@
                 margin-left: $xxxxx-large;
             }
         }
+    }
+
+    .GroupingBox {
+        margin-top: $x-small;
     }
 }
 

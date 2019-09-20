@@ -2,7 +2,7 @@ describe(`Testing end to end for create elevation`, () => {
 
     beforeEach(() => {
         cy.login()
-        cy.visit('http://localhost:3000/glascad/project/elevations/elevation/create-elevation?projectId=61')
+        cy.visit('http://localhost:3000/glascad/project/elevations/elevation/create-elevation?projectId=2')
         cy.wait(2000)
     })
 

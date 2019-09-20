@@ -27,5 +27,5 @@ export default function MainMenu() {
         <Navigator
             routes={subroutes}
         />
-    )
+    );
 }

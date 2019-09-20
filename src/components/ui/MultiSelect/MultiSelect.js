@@ -1,156 +1,105 @@
-import React, { PureComponent } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Modal from '../Modal/Modal';
 import Pill from '../Pill/Pill';
 import ListContainer from '../ListContainer/ListContainer';
 
 import './MultiSelect.scss';
+import TitleBar from '../TitleBar/TitleBar';
 
-const removeDuplicates = (list, identifier = 'nodeId') => list.filter((item, i) => i === list.findIndex(({ [identifier]: id }) => id === item[identifier]));
+MultiSelect.propTypes = {
+    modal: PropTypes.shape(Modal.propTypes),
+    list: PropTypes.shape({
+        titleBar: PropTypes.shape(TitleBar.propTypes)
+    }),
+    identifier: PropTypes.string,
+    previousItems: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+    otherItems: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+};
 
-export default class MultiSelect extends PureComponent {
+export default function MultiSelect({
+    modal,
+    modal: {
+        display,
+    },
+    list: {
+        titleBar
+    },
+    identifier = 'nodeId',
+    previousItems = [],
+    otherItems = [],
+}) {
 
-    static defaultProps = {
-        identifier: 'nodeId',
-        mapPillProps: () => null,
-    };
+    const [addedItems, setAdded] = useState([]);
+    const [deletedItems, setRemoved] = useState([]);
 
-    state = {
-        addedItems: [],
-        deletedItems: [],
-    };
+    useEffect(() => {
+        setAdded([]);
+        setRemoved([]);
+    }, [display]);
 
-    componentDidUpdate = ({ modal: { display } }) => {
-        
-        const {
-            props: {
-                selection: {
-                    selectedNID,
-                    creating,
-                    deleting,
-                } = {},
-                modal: {
-                    display: newDisplay,
-                },
-                identifier,
-                previousItems,
-            },
-        } = this;
-
-        if (display !== newDisplay) {
-            const selectedItem = previousItems.find(({ [identifier]: id }) => id === selectedNID);
-            // console.log({ newDisplay, previousItems, selectedItem, selectedNID });
-            this.setState({
-                addedItems: creating && selectedItem ? [selectedItem] : [],
-                deletedItems: deleting && selectedItem ? [selectedItem] : [],
-            });
-        }
-    }
-
-    handleSelect = ({ arguments: item }) => this.setState(({ addedItems }) => ({
-        addedItems: addedItems.concat(item)
-    }));
-
-    handleDeleteClick = ({ arguments: deletedItem }) => {
-        const {
-            props: {
-                identifier,
-            },
-        } = this;
-        // console.log({ deletedItem, identifier });
-        if (this.props.previousItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
-            if (this.state.deletedItems.some(({ [identifier]: id }) => id === deletedItem[identifier])) {
-                this.setState(({ deletedItems }) => ({
-                    deletedItems: deletedItems
-                        .filter(({ [identifier]: id }) => id !== deletedItem[identifier])
-                }));
-            } else {
-                this.setState(({ deletedItems }) => ({
-                    deletedItems: deletedItems.concat(deletedItem)
-                }));
-            }
+    const onClick = ({ arguments: { item, preSelected, currentlySelected } }) => {
+        if (preSelected) {
+            if (currentlySelected) setRemoved(deletedItems.concat(item));
+            else setRemoved(deletedItems.filter(({ [identifier]: id }) => id !== item[identifier]));
         } else {
-            this.setState(({ addedItems }) => ({
-                addedItems: addedItems
-                    .filter(({ [identifier]: id }) => id !== deletedItem[identifier])
-            }));
+            if (currentlySelected) setAdded(addedItems.filter(({ [identifier]: id }) => id !== item[identifier]));
+            else setAdded(addedItems.concat(item));
         }
     }
 
-    render = () => {
-        const {
-            state,
-            state: {
+    const items = previousItems.map(item => ({
+        currentlySelected: !deletedItems.some(({ [identifier]: id }) => id === item[identifier]),
+        preSelected: true,
+        item,
+    })).concat(otherItems.map(item => ({
+        currentlySelected: addedItems.some(({ [identifier]: id }) => id === item[identifier]),
+        preSelected: false,
+        item,
+    })));
+
+    const [top, bottom] = _.partition(items, ({ preSelected, currentlySelected }) => preSelected || currentlySelected);
+
+    return (
+        <Modal
+            className="MultiSelect"
+            arguments={{
                 addedItems,
-                deletedItems,
-            },
-            props,
-            props: {
-                modal,
-                previousItems,
-                allItems,
-                mapPillProps,
-                list: {
-                    titleBar,
-                },
-                identifier,
-            },
-            handleSelect,
-            handleDeleteClick,
-        } = this;
-
-        const selectedItems = removeDuplicates(previousItems.concat(addedItems), identifier);
-
-        const nonSelectedItems = allItems
-            .filter(item => !selectedItems.some(({ [identifier]: id }) => id === item[identifier]));
-        
-        // console.log({
-        //     identifier,
-        //     previousItems,
-        //     addedItems,
-        //     deletedItems,
-        //     selectedItems,
-        //     nonSelectedItems,
-        // });
-
-        return (
-            <Modal
-                className="MultiSelect"
-                arguments={{
-                    ...state,
-                    previousItems,
-                }}
-                {...modal}
-            >
-                <ListContainer
-                    items={selectedItems}
-                    renderItem={(item, i) => (
-                        <Pill
-                            key={item[identifier]}
-                            tagname="li"
-                            selected={!previousItems.includes(item)}
-                            danger={deletedItems.includes(item)}
-                            arguments={item}
-                            onSelect={handleDeleteClick}
-                            onDelete={handleDeleteClick}
-                            {...mapPillProps(item, true)}
-                        />
-                    )}
-                />
-                <ListContainer
-                    titleBar={titleBar}
-                    items={nonSelectedItems}
-                    renderItem={item => (
-                        <Pill
-                            key={item[identifier]}
-                            tagname="li"
-                            onSelect={handleSelect}
-                            arguments={item}
-                            {...mapPillProps(item, false)}
-                        />
-                    )}
-                />
-            </Modal>
-        );
-    }
+                deletedItems
+            }}
+            {...modal}
+        >
+            <ListContainer
+                items={top}
+                renderItem={({ item, currentlySelected, preSelected }, i) => (
+                    <Pill
+                        key={item[identifier]}
+                        tagname="li"
+                        selected={!preSelected}
+                        danger={!currentlySelected}
+                        arguments={{ item, currentlySelected, preSelected }}
+                        onSelect={onClick}
+                        onDelete={onClick}
+                        {...item}
+                        title={item.title}
+                    />
+                )}
+            />
+            <ListContainer
+                titleBar={titleBar}
+                items={bottom}
+                renderItem={({ item }) => (
+                    <Pill
+                        key={item[identifier]}
+                        tagname="li"
+                        onSelect={onClick}
+                        arguments={{ item }}
+                        {...item}
+                        title={item.title}
+                    />
+                )}
+            />
+        </Modal>
+    );
 }

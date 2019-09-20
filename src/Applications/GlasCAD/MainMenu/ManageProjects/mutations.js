@@ -1,13 +1,15 @@
 import gql from 'graphql-tag';
-import F from '../../../../schema';
+import F from '../../../../schemas';
 import query from "./query";
 
 export const createProjectMutation = {
     mutation: gql`
         mutation CreateProject($name: String!) {
-            createAProject(
+            createOrUpdateProject(
                 input: {
-                    name: $name
+                    projectUpdate: {
+                        name: $name
+                    }
                 }
             ) {
                 project {
@@ -15,7 +17,7 @@ export const createProjectMutation = {
                 }
             }
         }
-        ${F.PR_DATA.PROJECT_FIELDS}
+        ${F.PRJ.PROJECT_FIELDS}
     `,
     awaitRefetchQueries: true,
     refetchQueries: [{ query }],

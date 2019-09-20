@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import query from '../../project-graphql/query';
-import F from '../../../../../schema';
+import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
 
 export default {
@@ -17,7 +17,7 @@ export default {
                 }
             }
         }
-        ${F.EL_DATA.ENTIRE_ELEVATION}
+        ${F.ELVTN.ENTIRE_ELEVATION}
     `,
     awaitRefetchQueries: true,
     refetchQueries: () => [{

@@ -73,7 +73,7 @@ export default function ({
     _system,
 } = {}) {
 
-    console.log("MERGING INPUT");
+    // console.log("MERGING INPUT");
 
     const mergedElevation = mergeElevationInput(rawElevation, elevationInput);
 

@@ -1,5 +1,5 @@
 
-import { sortDetails } from './sort-details';
+import sortDetails from './sort-details';
 import { unique, Loggable } from '../../../../../../../utils';
 import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
 import _ from 'lodash';
@@ -89,7 +89,7 @@ export default class RecursiveContainer extends Loggable {
                     :
                     firstContainerId
                 )))
-            .sort(sortDetails(vertical, first)));
+            .sort(sortDetails));
 
     getFrameByDirection = (vertical, first) => this[framesKey][vertical][first] || (
         this[framesKey][vertical][first] = this.elevation.allFrames

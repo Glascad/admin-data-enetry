@@ -6,18 +6,18 @@ import {
 
 import Manufacturers from './Manufacturers/Manufacturers';
 import Types from './Types/Types';
-import SystemTags from './SystemTags/SystemTags';
-import Parts from './Parts/Parts';
-import Lines from './Lines/Lines';
-import Infills from './Infills/Infills';
+// import SystemTags from './SystemTags/SystemTags';
+// import Parts from './Parts/Parts';
+// import Lines from './Lines/Lines';
+// import Infills from './Infills/Infills';
 
 const subroutes = {
     Manufacturers,
     Types,
-    SystemTags,
-    Parts,
-    Infills,
-    Lines,
+    // SystemTags,
+    // Parts,
+    // Infills,
+    // Lines,
 };
 
 ApplicationData.navigationOptions = {

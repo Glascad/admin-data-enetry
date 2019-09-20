@@ -16,7 +16,7 @@ import updateElevationMutation from './utils/elevation-graphql/mutations';
 
 import { parseSearch } from '../../../../../utils';
 
-import * as SAMPLE_ELEVATIONS from './__test__/sample-elevations';
+import * as SAMPLE_ELEVATIONS from './utils/sample-elevations';
 
 const subroutes = {
     CreateElevation,
@@ -37,8 +37,8 @@ export default function SingleElevation({
     location: {
         search,
     },
-    queryStatus: projectQueryStatus,
-    queryStatus: {
+    queryResult: projectQueryStatus,
+    queryResult: {
         _project: project,
         _project: {
             defaultElevation,
@@ -53,13 +53,13 @@ export default function SingleElevation({
     // console.log({ variables });
 
     // const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
-    const [refetch, queryStatus, fetching] = useQuery({ query, variables }, true);
+    const [refetch, queryResult, fetching] = useQuery({ query, variables }, true);
 
     // const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
 
     // const fetching = fetchingElevation; // || fetchingBugs;
 
-    // const queryStatus = {
+    // const queryResult = {
     //     ...bugStatus,
     //     ...elevationStatus,
     // };
@@ -70,7 +70,7 @@ export default function SingleElevation({
     //     fetchBugs();
     // }
 
-    // console.log({ queryStatus });
+    // console.log({ queryResult });
 
     const [updateEntireElevation, updatedElevation, updating] = useMutation(
         updateElevationMutation,
@@ -83,34 +83,34 @@ export default function SingleElevation({
 
     useEffect(() => {
         if (elevationId) {
-            console.log({ elevationId });
-            console.log({ variables });
+            // console.log({ elevationId });
+            // console.log({ variables });
             refetch(variables);
         }
     }, [elevationId]);
 
     const routeProps = sampleElevation ?
         {
-            queryStatus: {
+            queryResult: {
                 _elevation: SAMPLE_ELEVATIONS[sampleElevation],
-            },
-            updateEntireElevation: () => {
-                throw new Error("Cannot update sample elevation");
             },
             updating: false,
             defaultElevation,
             project,
+            updateEntireElevation: () => {
+                throw new Error("Cannot update sample elevation");
+            },
         } : {
             fetching,
             refetch,
-            queryStatus,
-            updateEntireElevation,
+            queryResult,
             updating,
             defaultElevation,
             project,
+            updateEntireElevation,
         };
 
-    console.log(routeProps);
+    // console.log(routeProps);
 
     return (
         <Navigator

@@ -6,11 +6,16 @@
 .pnp.js
 
 # testing
+cypress.json
 /coverage
 /report.*
 
 # production
 /build
+/compiled
+/db/compiled
+/db/dump
+/db/dump*
 
 # misc
 .DS_Store

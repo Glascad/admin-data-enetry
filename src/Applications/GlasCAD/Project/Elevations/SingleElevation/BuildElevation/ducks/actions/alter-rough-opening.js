@@ -1,6 +1,7 @@
 import DELETE_CONTAINER from "./delete-container";
 import ADD_FRAME from "./add-frame";
 import { DIRECTIONS } from "../../../utils/recursive-elevation/directions";
+import { replace } from "../../../../../../../../utils";
 
 ALTER_ROUGH_OPENING.getSelectedItems = ({
     first,
@@ -36,7 +37,7 @@ export default function ALTER_ROUGH_OPENING({
     first,
 }) {
 
-    console.log(arguments);
+    // console.log(arguments);
 
     const _frame = container.getFrameByDirection(true, first);
 
@@ -81,7 +82,7 @@ export default function ALTER_ROUGH_OPENING({
                 return {
                     elevationInput: {
                         ...elevationWithAddedFrame,
-                        containers: containers.replace(
+                        containers: replace(containers,
                             containers.indexOf(previouslyUpdatedContainer),
                             deletedContainer,
                         ),
@@ -92,7 +93,7 @@ export default function ALTER_ROUGH_OPENING({
                 return {
                     elevationInput: {
                         ...elevationWithAddedFrame,
-                        containers: containers.replace(length - 1, {
+                        containers: replace(containers, length - 1, {
                             ...containers[length - 1],
                             customRoughOpening: true,
                         }),

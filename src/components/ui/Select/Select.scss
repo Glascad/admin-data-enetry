@@ -1,0 +1,97 @@
+@import "../../../styles/variables";
+
+.Select {
+    &.warning {
+        .select-input-wrapper {
+            &::after {
+                border-left-color: $dark-gray;
+            }
+        }
+    }
+    .select-input-wrapper {
+        position: relative;
+        width: $pill-width;
+
+        &::after {
+            @include triangle(6px, $medium-gray);
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: $small;
+            transform: translateY(-50%) rotate(90deg);
+            // transform: rotate(-45deg) translateY(-100%);
+        }
+
+        &:hover {
+            &::after {
+                border-left-color: $dark-gray;
+            }
+        }
+
+        // &:focus-within {
+        //     &::after {
+        //         display: none;
+        //     }
+        // }
+
+        input.select-input {
+            position: relative;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            cursor: default;
+            padding-right: $x-large;
+        }
+
+        + .select-options {
+            display: none;
+        }
+
+        &:focus-within {
+            + .select-options {
+                position: absolute;
+                top: calc(100% + #{$xx-small});
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                z-index: 10;
+                cursor: default;
+
+                .select-option {
+                    // height: $xxx-large;
+                    padding: $x-small;
+                    width: $pill-width;
+                    background: white;
+                    color: $dark-gray;
+                    border: 1px solid $light-gray;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    cursor: default;
+
+                    + .select-option {
+                        border-top: none;
+                    }
+
+                    &:first-child {
+                        border-top-left-radius: $xx-small;
+                        border-top-right-radius: $xx-small;
+                    }
+
+                    &:last-child {
+                        border-bottom-left-radius: $xx-small;
+                        border-bottom-right-radius: $xx-small;
+                    }
+
+                    &:hover {
+                        background: $light-gray;
+                    }
+
+                    &.selected {
+                        background: $selected-color;
+                        color: $off-white;
+                    }
+                }
+            }
+        }
+    }
+}
