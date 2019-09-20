@@ -248,6 +248,8 @@
         }
 
         .input-group {
+            justify-content: space-between;
+
             > * {
                 + * {
                     margin-left: $small;
@@ -264,7 +266,6 @@
                 .select-option,
                 .React-Select {
                     width: $pill-width * 0.715;
-
                 }
             }
         }

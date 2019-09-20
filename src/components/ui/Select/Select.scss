@@ -21,15 +21,18 @@
             }
         }
 
-        &:focus-within {
-            &::after {
-                display: none;
-            }
-        }
+        // &:focus-within {
+        //     &::after {
+        //         display: none;
+        //     }
+        // }
 
-        .select-input {
+        input.select-input {
             position: relative;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             cursor: default;
+            padding-right: $x-large;
         }
 
         + .select-options {
@@ -39,20 +42,24 @@
         &:focus-within {
             + .select-options {
                 position: absolute;
-                top: 100%;
+                top: calc(100% + #{$xx-small});
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
                 z-index: 10;
+                cursor: default;
 
                 .select-option {
-                    height: $xxx-large;
+                    // height: $xxx-large;
+                    padding: $x-small;
                     width: $pill-width;
-                    display: flex;
-                    align-items: center;
-                    padding: 0 $x-small;
                     background: white;
+                    color: $dark-gray;
                     border: 1px solid $light-gray;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    cursor: default;
 
                     + .select-option {
                         border-top: none;

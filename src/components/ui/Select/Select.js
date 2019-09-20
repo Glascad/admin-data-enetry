@@ -24,11 +24,11 @@ export default function Select({
     "data-cy": dataCy,
     className,
 }) {
-console.log({options});
+    console.log({ options });
 
     const [input, setInput] = useInitialState(normalCase(value));
     const filteredOptions = options
-        .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
+        // .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(
             findBestMatch(
                 input,
@@ -42,13 +42,15 @@ console.log({options});
     }, [autoFocus]);
 
     return (
-        <label
+        <div
             className={`Input Select ${className}`}
             data-cy={dataCy}
         >
-            <div className="label">
-                {normalCase(label)}
-            </div>
+            {label ? (
+                <div className="label">
+                    {normalCase(label)}
+                </div>
+            ) : null}
             <div className="select-input-wrapper">
                 <input
                     className="select-input"
@@ -89,6 +91,6 @@ console.log({options});
                     </div>
                 ))}
             </div>
-        </label>
+        </div>
     );
 }
