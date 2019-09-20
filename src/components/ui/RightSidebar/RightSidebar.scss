@@ -259,8 +259,12 @@
                 width: $pill-width * 0.715;
 
                 input,
+                .select-input-wrapper,
+                .select-options,
+                .select-option,
                 .React-Select {
                     width: $pill-width * 0.715;
+
                 }
             }
         }

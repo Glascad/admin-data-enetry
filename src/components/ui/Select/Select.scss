@@ -21,6 +21,12 @@
             }
         }
 
+        &:focus-within {
+            &::after {
+                display: none;
+            }
+        }
+
         .select-input {
             position: relative;
             cursor: default;
