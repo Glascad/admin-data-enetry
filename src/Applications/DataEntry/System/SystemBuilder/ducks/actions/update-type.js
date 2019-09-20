@@ -24,13 +24,6 @@ export default function UPDATE_TYPE(systemInput, {
 
     const updatedIndex = typesArray.indexOf(updatedType);
 
-    console.log({
-        typesKey,
-        typesUpdateKey,
-        typesArray,
-        typesUpdate,
-    });
-
     return {
         ...arguments[0],
         [typesKey]: updatedType ?

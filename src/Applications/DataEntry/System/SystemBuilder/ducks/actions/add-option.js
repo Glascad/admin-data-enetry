@@ -19,20 +19,6 @@ export default function ADD_OPTION(systemInput, {
     const { [optionsKey]: optionsArray } = systemInput;
     const { [updateKey]: optionUpdate } = schemas;
 
-    // console.log({
-    //     __typename,
-    //     optionsKey,
-    //     updateKey,
-    //     parentOptionValueKey,
-    //     parentTypeKey,
-    //     optionsArray,
-    //     optionUpdate,
-    //     parentOptionValueFakeId,
-    //     parentOptionValueId,
-    //     parentTypeId,
-    //     parentTypeFakeId,
-    // });
-
     // return new state (system input)
     return {
         ...systemInput,

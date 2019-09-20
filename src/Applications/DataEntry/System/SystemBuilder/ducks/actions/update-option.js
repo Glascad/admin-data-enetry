@@ -16,7 +16,6 @@ export default function UPDATE_OPTION(
         defaultOptionValueFakeId,
     },
 ) {
-    console.log(arguments[1]);
 
     const optionsKey = __typename.toLowerCase().replace(/Option/i, 'Options');
     const optionUpdateKey = __typename.toLowerCase().replace(/Option/i, 'OptionUpdate');
@@ -58,32 +57,7 @@ export default function UPDATE_OPTION(
 
     const updatedIndex = optionsArray.indexOf(updatedOption);
 
-    console.log({
-        __typename,
-        id,
-        fakeId,
-        name,
-        parentValueId,
-        parentValueFakeId,
-        parentTypeId,
-        parentTypeFakeId,
-        defaultOptionValueId,
-        defaultOptionValueFakeId,
-        optionsKey,
-        optionUpdateKey,
-        defaultOptionValueIdKey,
-        defaultOptionValueIdKeyToRemove,
-        optionsArray,
-        optionUpdate,
-        parentIdKey,
-        parentIdKeyToRemove,
-        updatedOption,
-        updatedIndex,
-    })
-
-    const log = arg => console.log(arg) || arg;
-
-    return log({
+    return {
         ...arguments[0],
         [optionsKey]: updatedOption ?
             replace(optionsArray, updatedIndex, {
@@ -114,5 +88,5 @@ export default function UPDATE_OPTION(
                 [parentIdKeyToRemove]: undefined,
                 [defaultOptionValueIdKeyToRemove]: undefined,
             }),
-    });
+    };
 }
