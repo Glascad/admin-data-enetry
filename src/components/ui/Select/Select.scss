@@ -1,6 +1,13 @@
 @import "../../../styles/variables";
 
 .Select {
+    &.warning {
+        .select-input-wrapper {
+            &::after {
+                border-left-color: $dark-gray;
+            }
+        }
+    }
     .select-input-wrapper {
         position: relative;
         width: $pill-width;
