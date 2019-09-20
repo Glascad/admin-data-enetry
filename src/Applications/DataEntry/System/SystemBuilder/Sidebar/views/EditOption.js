@@ -3,6 +3,8 @@ import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWit
 import { UPDATE_OPTION, ADD_OPTION_VALUE, UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, DELETE_OPTION } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
 import { getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
+import Select from '../../../../../../components/ui/Select/Select';
+import { normalCase } from '../../../../../../utils';
 
 
 function EditOption({
@@ -37,10 +39,7 @@ function EditOption({
 
     const selectValidOptionValues = validOptionValues
         .filter(({ name }) => !optionValues.some(v => v.name === name))
-        .map(({ name }) => ({
-            value: name,
-            label: name,
-        }));
+        .map(({ name }) => name);
 
     return (
         <>
@@ -48,32 +47,19 @@ function EditOption({
                 title='Edit Option'
             />
             {/* <div className='sidebar-group'> */}
-            <Input
-                label='Option Name'
-                data-cy='edit-option-name'
+            <Select
                 className={optionValues.length ? 'warning' : ''}
-                select={{
-                    value: {
-                        value: oName,
-                        label: oName,
-                    },
-                    ...(optionValues.length ? {
-                        options: [],
-                    } : {
-                            options: filterOptionsAbove(option, system, validOptions)
-                                // .filter(({ name }) => name !== oName)
-                                .map(({ name }) => ({
-                                    value: name,
-                                    label: name,
-                                })),
-                            onChange: ({ label }) => dispatch(UPDATE_OPTION, {
-                                id: oId,
-                                fakeId: oFId,
-                                name: label,
-                                __typename,
-                            }),
-                        }),
-                }}
+                data-cy="edit-option-name"
+                label="Option Name"
+                value={oName}
+                options={filterOptionsAbove(option, system, validOptions)
+                    .map(({ name }) => name)}
+                onChange={name => dispatch(UPDATE_OPTION, {
+                    id: oId,
+                    fakeId: oFId,
+                    name,
+                    __typename,
+                })}
             />
             {/* </div> */}
             <GroupingBox
@@ -93,36 +79,31 @@ function EditOption({
                 } : undefined}
             >
                 {optionValues.length ?
-                    optionValues.map(({ name, id, fakeId, __typename: valueTypename, name: vName }, i, { length }) => (
+                    optionValues.map(({ name, id, fakeId, __typename: valueTypename }, i, { length }) => (
                         <div
                             key={name}
                             className="input-group"
                         >
-                            <Input
-                                key={id || fakeId}
-                                select={{
-                                    autoFocus: i === length - 1,
-                                    value: {
-                                        label: name,
-                                        value: id,
-                                    },
-                                    options: selectValidOptionValues,
-                                    onChange: ({ value }) => {
-                                        const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
-                                        const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
-                                            id,
-                                            fakeId,
-                                            name: value,
-                                            __typename: `${__typename}Value`,
-                                        })
-                                        if (valueChildren.length > 0) confirmWithModal(updateOptionValue, {
-                                            titleBar: { title: `Change ${value}` },
-                                            children: 'Are you sure?',
-                                            finishButtonText: 'Change',
-                                        })
-                                        else updateOptionValue();
-                                    }
-
+                            <Select
+                                data-cy='edit-option-values'
+                                value={name}
+                                options={selectValidOptionValues}
+                                autoFocus={i === length - 1}
+                                onChange={name => {
+                                    console.log(selectValidOptionValues);
+                                    const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
+                                    const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
+                                        id,
+                                        fakeId,
+                                        name,
+                                        __typename: `${__typename}Value`,
+                                    })
+                                    if (valueChildren.length > 0) confirmWithModal(updateOptionValue, {
+                                        titleBar: { title: `Change ${name}` },
+                                        children: 'Are you sure?',
+                                        finishButtonText: 'Change',
+                                    })
+                                    else updateOptionValue();
                                 }}
                             />
                             <CircleButton
@@ -155,8 +136,8 @@ function EditOption({
                                         newDefaultFakeId,
                                     });
                                     if (valueChildren.length > 0) confirmWithModal(deleteOptionValue, {
-                                        titleBar: { title: `Delete ${vName}` },
-                                        children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                        titleBar: { title: `Delete ${name}` },
+                                        children: `Deleting ${name.toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                         finishButtonText: 'Delete',
                                         danger: true,
                                     })

@@ -14,7 +14,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.get('.RightSidebar').should('have.class', 'open');
         cy.getDataCy`edit-option-name`.find('input').type('Set{enter}', { force: true });
         // React Select is a pain
-        cy.getDataCy`edit-option-name`.find('div > div > div').contains('Set').should('be.visible');
+        cy.getDataCy`edit-option-name set`.should('have.value', 'Set').should('be.visible');
         // No option values should be selected automatically
         // Clicking "+" will add the first enumerated value to the list. 
         cy.getDataCy`add-option-value`.click();
@@ -40,15 +40,15 @@ describe('Testing sidbar actions in system builder', () => {
         // When all values are added, the "+" should disappear
         cy.getDataCy`add-option-value`.should('not.exist')
         // Maybe add an "Add All" button later?
-        cy.focused().blur();
+        // cy.focused().blur();
         // values should all exist after being entered
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/back/i);
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/center/i);
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/front/i);
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/multi/i);
+        cy.getDataCy`edit-option-values back`.should('have.value', 'Back');
+        cy.getDataCy`edit-option-values center`.should('have.value', 'Center');
+        cy.getDataCy`edit-option-values front`.should('have.value', 'Front');
+        cy.getDataCy`edit-option-values multi_plane`.should('have.value', 'Multi Plane');
         // Clicking the "X" should remove the value
         cy.getDataCy`delete-option-value-CENTER`.click().should('not.exist');
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/center/i).should('not.exist');
+        cy.getDataCy`edit-option-values center`.should('not.exist');
 
         // EDIT VALUE
 
@@ -105,7 +105,7 @@ describe('Testing sidbar actions in system builder', () => {
         // Can add/delete option value
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Down{enter}');
-        cy.getDataCy`delete-option-value-DOWN`.click();
+        cy.getDataCy`delete-option-value-DOWN`.click({ force: true });
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Down{enter}');
         cy.getDataCy`DetailOptionValue-DOWN`;
@@ -113,11 +113,11 @@ describe('Testing sidbar actions in system builder', () => {
         cy.focused().type('Up{enter}');
         cy.getDataCy`DetailOptionValue-UP`;
 
-        cy.focused().blur();
+        // cy.focused().blur();
 
         // All detail option values should exist after adding them
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/down/i);
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/up/i);
+        cy.getDataCy`edit-option-values down`.should('have.value', 'Down');
+        cy.getDataCy`edit-option-values up`.should('have.value', 'Up');
 
         cy.getDataCy`DetailOptionValue-UP`.click();
         // Can toggle to configuration
@@ -125,7 +125,7 @@ describe('Testing sidbar actions in system builder', () => {
         // Can add/delete configurations
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
-        cy.getDataCy`delete-configuration-type-HEAD`.click();
+        cy.getDataCy`delete-configuration-type-HEAD`.click({ force: true });
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
         cy.getDataCy`SystemConfiguration-HEAD`;
@@ -145,9 +145,9 @@ describe('Testing sidbar actions in system builder', () => {
         cy.focused().blur();
 
         // All configurations should exist after adding them
-        cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/head/i);
-        cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/comp/i);
-        cy.getDataCy`edit-children`.find('.Select > div:first-child').contains(/shim/i);
+        cy.getDataCy`edit-Configuration-type-HEAD head`.should('have.value', 'Head');
+        cy.getDataCy`edit-Configuration-type-COMPENSATING_RECEPTOR compensating_receptor`.should('have.value', 'Compensating Receptor');
+        cy.getDataCy`edit-Configuration-type-SHIM_SUPPORT shim_support`.should('have.value', 'Shim Support');
 
         // Can add configuration option
         cy.getDataCy`SystemConfiguration-COMPENSATING_RECEPTOR`.click();
@@ -166,14 +166,12 @@ describe('Testing sidbar actions in system builder', () => {
         cy.focused().type('Heavy{enter}');
         cy.getDataCy`ConfigurationOptionValue-HIGH_PERFORMANCE`;
 
-        cy.focused().blur();
-
         // All configurations option values should exist after adding them
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/standard/i);
-        cy.getDataCy`edit-option-values`.find('.Select > div:first-child').contains(/high/i);
-        
+        cy.getDataCy`edit-option-values standard_duty`.should('have.value', 'Standard Duty');
+        cy.getDataCy`edit-option-values high_performance`.should('have.value', 'High Performance');
+
         // ADD CONFIRMATION TO UPDATE VALUES AND CONFIGURATIONS WITH CHILDREN
-        
+
         //Value has children
         cy.getDataCy`SystemOptionValue-BACK`.click();
         cy.getDataCy`edit-option-value-delete-button`.click();
@@ -185,13 +183,12 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`edit-value-name`.find('input').type('Back{enter}', { force: true });
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
-        
+
         //Type has children
         cy.getDataCy`SystemDetail-MULLION`.click();
-        cy.getDataCy`add-option`.click(); 
+        cy.getDataCy`add-option`.click();
         cy.focused().type('Joinery{enter}');
-        cy.getDataCy`edit-detail-type`.click();
-        cy.getDataCy`edit-detail-type`.find('input').type('Jamb{enter}', { force: true });
+        cy.getDataCy`edit-detail-type mullion`.click().type('Jamb{enter}', { force: true });
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
 
@@ -208,10 +205,10 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`ConfigurationOption-DURABILITY`.should('not.exist');
-        
+
         //Value has children
         cy.getDataCy`DetailOptionValue-UP`.click();
-        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`edit-option-value-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-cancel-button`.click();
         cy.getDataCy`DetailOption-STOPS`.click();
@@ -219,7 +216,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`DetailOptionValue-UP`.should('not.exist');
-        
+
         //Type has children
         cy.getDataCy`SystemDetail-HORIZONTAL`.click();
         cy.getDataCy`edit-type-delete-button`.click();
@@ -228,27 +225,27 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`SystemDetail-HORIZONTAL`.should('exist');
         cy.getDataCy`SystemOptionValue-CENTER`.click();
-        cy.getDataCy`delete-detail-type-HORIZONTAL`.click();
+        cy.getDataCy`delete-detail-type-HORIZONTAL`.click({ force: true });
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-cancel-button`.click();
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`SystemDetail-HORIZONTAL`.should('exist');
-        
+
         //Value doesn't have children
         cy.getDataCy`DetailOptionValue-DOWN`.click();
-        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`edit-option-value-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`DetailOptionValue-DOWN`.should('not.exist');
-        
+
         //Option doesn't have children
         cy.getDataCy`DetailOption-STOPS`.click();
-        cy.getDataCy`edit-option-delete-button`.click();
+        cy.getDataCy`edit-option-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`DetailOptionValue-UP`.should('not.exist');
-        
+
         //Type doesn't have children
         cy.getDataCy`SystemDetail-HORIZONTAL`.click();
-        cy.getDataCy`edit-type-delete-button`.click();
+        cy.getDataCy`edit-type-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`DetailOptionValue-UP`.should('not.exist');
 

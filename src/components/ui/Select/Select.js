@@ -17,12 +17,15 @@ Select.propTypes = {
 
 export default function Select({
     label,
-    value,
-    options,
+    value = '',
+    options = [],
     autoFocus = false,
     onChange,
     "data-cy": dataCy,
+    className,
 }) {
+console.log({options});
+
     const [input, setInput] = useInitialState(normalCase(value));
     const filteredOptions = options
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
@@ -40,7 +43,7 @@ export default function Select({
 
     return (
         <label
-            className="Input Select"
+            className={`Input Select ${className}`}
             data-cy={dataCy}
         >
             <div className="label">
@@ -49,6 +52,7 @@ export default function Select({
             <div className="select-input-wrapper">
                 <input
                     className="select-input"
+                    data-cy={`${dataCy} ${value.toLowerCase()}`}
                     autoFocus={autoFocus}
                     placeholder={normalCase(value)}
                     value={input}

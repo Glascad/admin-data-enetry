@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal } from '../../../../../../components';
 import { getParent, getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
 import { UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, ADD_OPTION, ADD_TYPE, UPDATE_OPTION, DELETE_OPTION, DELETE_TYPE, UPDATE_TYPE } from '../../ducks/actions';
+import Select from '../../../../../../components/ui/Select/Select';
 
 function EditOptionValue({
     selectedItem: optionValue,
@@ -46,10 +47,7 @@ function EditOptionValue({
 
     const selectValidValues = validValues
         .filter(({ name }) => !values.some(v => v.name === name))
-        .map(({ name }) => ({
-            value: name,
-            label: name,
-        }));
+        .map(({ name }) => name);
 
     const {
         0: childOption,
@@ -87,39 +85,30 @@ function EditOptionValue({
         .filter(name => !valueChildren.some(({ detailType = '', configurationType = '' }) => (
             name.toLowerCase() === (detailType || configurationType).toLowerCase()
         )))
-        .map(name => ({
-            value: name,
-            label: name,
-        }));
 
     return (
         <>
             <TitleBar
                 title="Edit Option Value"
             />
-            <Input
+            <Select
+                label="Option Value"
+                value={ovName}
                 data-cy="edit-value-name"
-                // className={hasChildren ? 'warning' : ''}
-                select={{
-                    value: {
-                        label: ovName,
-                        value: ovName,
-                    },
-                    options: selectValidValues,
-                    onChange: ({ value }) => {
-                        const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
-                            id: ovId,
-                            fakeId: ovFId,
-                            __typename,
-                            name: value,
-                        })
-                        if (hasChildren) confirmWithModal(updateOptionValue, {
-                            titleBar: { title: `Change ${ovName}?` },
-                            children: 'Are you Sure?',
-                            finishButtonText: 'Change',
-                        })
-                        else updateOptionValue()
-                    }
+                options={selectValidValues}
+                onChange={name => {
+                    const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
+                        id: ovId,
+                        fakeId: ovFId,
+                        __typename,
+                        name: name,
+                    })
+                    if (hasChildren) confirmWithModal(updateOptionValue, {
+                        titleBar: { title: `Change ${ovName}?` },
+                        children: 'Are you Sure?',
+                        finishButtonText: 'Change',
+                    })
+                    else updateOptionValue()
                 }}
             />
             {isDefault ? null : (
@@ -188,27 +177,19 @@ function EditOptionValue({
                 {optionIsSelected ? (
                     hasChildren ? (
                         <div className="input-group">
-                            <Input
+                            <Select
                                 className={childOptionChildren.length > 0 ? 'warning' : ''}
                                 data-cy="edit-option-name"
-                                select={{
-                                    autoFocus: true,
-                                    value: {
-                                        label: childOptionName,
-                                        value: childOptionName,
-                                    },
-                                    options: filterOptionsAbove(optionValue, system, validOptions)
-                                        .map(({ name }) => ({
-                                            value: name,
-                                            label: name,
-                                        })),
-                                    onChange: ({ value }) => dispatch(UPDATE_OPTION, {
-                                        __typename: __typename.replace(/value/i, ''),
-                                        id: childOptionId,
-                                        fakeId: childOptionFakeId,
-                                        name: value,
-                                    }),
-                                }}
+                                autoFocus={true}
+                                value={childOptionName}
+                                options={filterOptionsAbove(optionValue, system, validOptions)
+                                    .map(({ name }) => name)}
+                                onChange={name => dispatch(UPDATE_OPTION, {
+                                    __typename: __typename.replace(/value/i, ''),
+                                    id: childOptionId,
+                                    fakeId: childOptionFakeId,
+                                    name,
+                                })}
                             />
                             <CircleButton
                                 data-cy="delete-option"
@@ -244,29 +225,25 @@ function EditOptionValue({
                                         className="input-group"
                                         key={(detailType || configurationType)}
                                     >
-                                        <Input
+                                        <Select
+                                            data-cy="edit-value-name"
                                             data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
-                                            select={{
-                                                autoFocus: i === length - 1,
-                                                value: {
-                                                    label: (detailType || configurationType),
-                                                    value: (detailType || configurationType),
-                                                },
-                                                options: selectTypes,
-                                                onChange: ({ value }) => {
-                                                    const updateType = () => dispatch(UPDATE_TYPE, {
-                                                        __typename: childTypeTypename,
-                                                        id,
-                                                        fakeId,
-                                                        type: value,
-                                                    });
-                                                    if (childOptionChildren.length > 0) confirmWithModal(updateType, {
-                                                        titleBar: { title: `Change ${detailType || configurationType}` },
-                                                        children: 'Are you sure?',
-                                                        finishButtonText: 'Change',
-                                                    });
-                                                    else updateType();
-                                                }
+                                            autoFocus={i === length - 1}
+                                            value={(detailType || configurationType)}
+                                            options={selectTypes}
+                                            onChange={name => {
+                                                const updateType = () => dispatch(UPDATE_TYPE, {
+                                                    __typename: childTypeTypename,
+                                                    id,
+                                                    fakeId,
+                                                    type: name,
+                                                });
+                                                if (childOptionChildren.length > 0) confirmWithModal(updateType, {
+                                                    titleBar: { title: `Change ${detailType || configurationType}` },
+                                                    children: 'Are you sure?',
+                                                    finishButtonText: 'Change',
+                                                });
+                                                else updateType();
                                             }}
                                         />
                                         <CircleButton

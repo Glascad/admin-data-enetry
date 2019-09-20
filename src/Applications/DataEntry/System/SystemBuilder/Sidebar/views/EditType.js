@@ -2,6 +2,7 @@ import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal } from '../../../../../../components';
 import { getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
 import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
+import Select from '../../../../../../components/ui/Select/Select';
 
 function EditType({
     selectedItem: selectedType,
@@ -21,6 +22,8 @@ function EditType({
     } = {},
     dispatch,
 }) {
+    console.log(arguments[0]);
+
     const isDetail = !!__typename.match(/Detail/i);
     const type = __typename.replace(/System/i, '');
     const {
@@ -39,43 +42,34 @@ function EditType({
             <TitleBar
                 title={`Edit ${type}`}
             />
-            <Input
+            <Select
                 data-cy={`edit-${type.toLowerCase()}-type`}
-                // className={childOption ? 'warning' : ''}
                 label={type}
-                select={{
-                    value: {
-                        value: detailType || configurationType,
-                        label: detailType || configurationType,
-                    },
-                    options: (isDetail ?
-                        detailTypes
+                value={detailType || configurationType}
+                options={(isDetail ?
+                    detailTypes
+                    :
+                    configurationTypes
+                )
+                    .filter(type => isDetail ?
+                        type !== detailType
                         :
-                        configurationTypes
+                        type !== configurationType
                     )
-                        .filter(type => isDetail ?
-                            type !== detailType
-                            :
-                            type !== configurationType
-                        )
-                        .map(type => ({
-                            value: type,
-                            label: type,
-                        })),
-                    onChange: ({ value }) => {
-                        const updateType = () => dispatch(UPDATE_TYPE, {
-                            id: tId,
-                            fakeId: tFId,
-                            __typename,
-                            type: value
-                        })
-                        if (childOption) confirmWithModal(updateType, {
-                            titleBar: { title: `Change ${oName}` },
-                            children: 'Are you sure?',
-                            finishButtonText: "Change"
-                        });
-                        else updateType();
-                    }
+                    .map(type => type)}
+                onChange={name => {
+                    const updateType = () => dispatch(UPDATE_TYPE, {
+                        id: tId,
+                        fakeId: tFId,
+                        __typename,
+                        type: name
+                    })
+                    if (childOption) confirmWithModal(updateType, {
+                        titleBar: { title: `Change ${oName}` },
+                        children: 'Are you sure?',
+                        finishButtonText: "Change"
+                    });
+                    else updateType();
                 }}
             />
             <GroupingBox
@@ -94,26 +88,18 @@ function EditType({
             >
                 {childOption ? (
                     <div className="input-group">
-                        <Input
+                        <Select
+                            data-cy={`edit-${type.toLowerCase()}-type`}
                             className={childValues.length > 0 ? 'warning' : ''}
-                            select={{
-                                autoFocus: true,
-                                value: {
-                                    value: oName,
-                                    label: oName,
-                                },
-                                options: filterOptionsAbove(selectedType, system, validOptions)
-                                    .map(({ name }) => ({
-                                        value: name,
-                                        label: name,
-                                    })),
-                                onChange: ({ value }) => dispatch(UPDATE_OPTION, {
-                                    id: oId,
-                                    fakeId: oFId,
-                                    name: value,
-                                    __typename: oTypename,
-                                }),
-                            }}
+                            autoFocus={true}
+                            value={oName}
+                            options={filterOptionsAbove(selectedType, system, validOptions).map(({ name }) => name)}
+                            onChange={name => dispatch(UPDATE_OPTION, {
+                                id: oId,
+                                fakeId: oFId,
+                                name,
+                                __typename: oTypename,
+                            })}
                         />
                         <CircleButton
                             data-cy="delete-option"
