@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compareTwoStrings, findBestMatch } from 'string-similarity';
 import useInitialState from '../../hooks/use-initial-state';
 import customPropTypes from '../../utils/custom-prop-types';
-import { match, normalCase } from '../../../utils';
+import { match, normalCase, unique } from '../../../utils';
 
 import './Select.scss';
 
@@ -24,11 +24,9 @@ export default function Select({
     "data-cy": dataCy,
     className,
 }) {
-    console.log({ options });
-
     const [input, setInput] = useInitialState(normalCase(value));
-    const filteredOptions = options
-        // .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
+    const filteredOptions = unique(options.concat(value).map(normalCase))
+        .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(
             findBestMatch(
                 input,
