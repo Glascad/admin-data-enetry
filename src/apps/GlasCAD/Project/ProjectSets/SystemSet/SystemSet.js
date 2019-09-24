@@ -3,7 +3,7 @@ import { TitleBar, useQuery, Select, Input, CollapsibleTitle, GroupingBox, Toggl
 import gql from 'graphql-tag';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
-import { getParentTrail, getParent, getChildren } from '../../../../../application-logic/system-utils';
+import { getParentTrail, getParent, getChildren } from '../../../../../app-logic/system-utils';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
