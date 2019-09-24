@@ -1,6 +1,6 @@
-import React, { useRef, useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
-import { makeRenderable, getChildren } from '../../../../../application-logic/system-utils';
+import { makeRenderable } from '../../../../../application-logic/system-utils';
 import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
@@ -79,19 +79,6 @@ export default function SystemTree({
                                 </div>
                             );
                         }}
-                    // renderItem={({ name, detailType, configurationType, __typename } = {}, { depth }) => match(__typename)
-                    //     .against({
-                    //         SystemOption: () => <span>{name || detailType || configurationType}</span>,
-                    //         DetailOption: () => <span>{name || detailType || configurationType}</span>,
-                    //         ConfigurationOption: () => <span>{name || detailType || configurationType}</span>,
-                    //         SystemOptionValue: () => <span>{name || detailType || configurationType}</span>,
-                    //         DetailOptionValue: () => <span>{name || detailType || configurationType}</span>,
-                    //         ConfigurationOptionValue: () => <span>{name || detailType || configurationType}</span>,
-                    //         SystemDetail: () => <span>{name || detailType || configurationType}</span>,
-                    //         SystemConfiguration: () => <span>{name || detailType || configurationType}</span>,
-                    //         undefined: () => null,
-                    //     })
-                    //     .otherwise(() => { throw new Error(`Unknown typename: ${__typename}`) })}
                     />
                 )}
         </TransformBox>

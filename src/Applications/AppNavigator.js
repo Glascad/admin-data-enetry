@@ -9,6 +9,7 @@ import Practice from './Practice/Practice';
 
 import Glascad from './GlasCAD/GlasCAD';
 import DataEntry from './DataEntry/DataEntry';
+import { match } from '../utils';
 
 // CONVERT THIS INTO A HOOOK
 // const Glascad = lazy(() => import('./GlasCAD/GlasCAD'));
@@ -27,32 +28,11 @@ const mapProps = ({
         },
     },
 }) => ({
-    allowedApplications:
-    {
-        // Practice,
-        // Login,
-        DataEntry,
-        Glascad,
-    }
-    // role.match(/admin/i) ?
-    //     {
-    //         DataEntry,
-    //         Glascad,
-    //     }
-    //     :
-    //     role.match(/data.entry/i) ?
-    //         {
-    //             DataEntry,
-    //         }
-    //         :
-    //         role.match(/client/i) ?
-    //             {
-    //                 Glascad,
-    //             }
-    //             :
-    //             {
-    //                 Login,
-    //             },
+    allowedApplications: match(role)
+        .regex(/admin/i, { DataEntry, Glascad })
+        .regex(/data.entry/i, { DataEntry })
+        .regex(/client/i, { Glascad })
+        .otherwise({ Login }),
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);

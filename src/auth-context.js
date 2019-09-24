@@ -45,14 +45,18 @@ function AuthProvider({
         try {
             const result = await fetchQuery();
             // console.log({ result });
-            const { currentUser: { projectId } = {} } = result || {};
+            const { currentUser: { projectId, id } = {} } = result || {};
             // console.log({ originalLocation });
-            history.push(
-                originalLocation.match(/\/(glascad|data-entry)/) ?
-                    originalLocation
-                    :
-                    `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
-            );
+            if (id) {
+                history.push(
+                    originalLocation.match(/\/(glascad|data-entry)/) ?
+                        originalLocation
+                        :
+                        `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
+                );
+            } else {
+                console.log('No Current User');
+            }
         } catch (err) {
             console.error(err);
         }
