@@ -24,6 +24,10 @@ export default function Select({
     "data-cy": dataCy,
     className,
 }) {
+
+    console.log(value);
+    console.log(options)
+
     const [input, setInput] = useInitialState(normalCase(value));
     const filteredOptions = unique(options.concat(value).map(normalCase))
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))

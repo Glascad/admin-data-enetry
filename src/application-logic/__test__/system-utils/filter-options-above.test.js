@@ -1,5 +1,5 @@
-import { filterOptionsAbove } from "../../utils";
-import sample1 from "../../../../sample-systems/sample1.json";
+import sample1 from "../sample-systems/sample1.json";
+import { filterOptionsAbove } from "../../system-utils.js";
 
 function testFilterOptionsAbove({
     item,
@@ -30,5 +30,5 @@ testFilterOptionsAbove({
         { name: "OTHER" }
     ],
     system: sample1,
-    result: [{ name: "OTHER" }]
+    result: [{ name: "JOINERY" }, { name: "OTHER" }]
 });

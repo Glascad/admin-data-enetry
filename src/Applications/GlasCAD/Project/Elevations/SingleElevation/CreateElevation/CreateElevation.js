@@ -19,6 +19,7 @@ import {
     useMutation,
     ConfirmButton,
     useInitialState,
+    Select,
 } from '../../../../../../components';
 
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -45,9 +46,9 @@ const areEqual = (json, input) => {
         ...JSON.parse(json),
         name: undefined,
     }, {
-            ...input,
-            name: undefined,
-        });
+        ...input,
+        name: undefined,
+    });
 }
 
 const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS.ALL_SYSTEMS}` };
@@ -290,22 +291,14 @@ export default memo(function CreateElevation({
                         name: value,
                     })}
                 />
-                <Input
+                <Select
                     label="System set"
                     disabled={true}
-                    select={{
-                        value: {
-                            label: systemName,
-                            value: systemId,
-                        },
-                        options: allSystems.map(({ id, name }) => ({
-                            label: name,
-                            value: id,
-                        })),
-                        onChange: ({ value }) => this.setState({
-                            system: allSystems.find(({ id }) => id === value),
-                        }),
-                    }}
+                    value={systemName}
+                    options={allSystems.map(({ name }) => name)}
+                    onChange={value => this.setState({
+                        system: allSystems.find(({ id }) => id === value),
+                    })}
                 />
                 <GroupingBox
                     title="Rough opening"
@@ -357,12 +350,12 @@ export default memo(function CreateElevation({
                                             +
                                             recursiveElevation.sightline
                                         ), (
-                                                recursiveElevation.sightline
-                                                *
-                                                2
-                                                +
-                                                5
-                                            ))
+                                            recursiveElevation.sightline
+                                            *
+                                            2
+                                            +
+                                            5
+                                        ))
                                     // horizontals.length * 5 + (
                                     //     horizontals.length + (
                                     //         1 * recursiveElevation.sightline
