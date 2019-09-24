@@ -12,7 +12,7 @@ import { TransformContext, pixelsPerInch, withTransformContext } from '../contex
 
 // import Container from './components/Container';
 import Container from './Containers/Container';
-import Frame from './Frames/Frame.js';
+import Frame from './Frames/Frame';
 import DimensionButton from './components/DimensionButton/DimensionButton';
 
 import './InteractiveElevation.scss';

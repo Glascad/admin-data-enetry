@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal } from '../../../../../../components';
-import { getChildren, filterOptionsAbove } from '../../../../../../application-logic/system-utils';
+import { getChildren, filterOptionsAbove } from '../../../../../../app-logic/system-utils';
 import { ADD_OPTION, DELETE_OPTION, UPDATE_OPTION, UPDATE_TYPE, DELETE_TYPE } from '../../ducks/actions';
 import Select from '../../../../../../components/ui/Select/Select';
 
@@ -157,4 +157,7 @@ export const SystemDetail = {
     component: EditType,
 };
 
-export const SystemConfiguration = SystemDetail;
+export const SystemConfiguration = {
+    title: "Edit Configuration",
+    component: EditType,
+};
