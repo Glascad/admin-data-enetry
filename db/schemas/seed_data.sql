@@ -6,54 +6,60 @@ INSERT INTO manufacturers (name) VALUES ('Kawneer');
 
 -- INITIAL SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type) VALUES ('Initial System', 1, 'STOREFRONT');
--- INSERT INTO system_options (name, system_id, is_recursive, default_system_option_value_id) VALUES ('SET', 1, FALSE, 1);
--- INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id, is_recursive) VALUES
--- ('FRONT', 'SET', 1, 1, TRUE),
--- ('BACK', 'SET', 1, 1, TRUE),
--- ('CENTER', 'SET', 1, 1, TRUE),
--- ('MULTI-PLANE', 'SET', 1, 1, TRUE);
--- INSERT INTO system_options (name, system_id, parent_system_option_value_id, is_recursive, default_system_option_value_id) VALUES ('JOINERY', 1, 3, TRUE, 5);
--- INSERT INTO system_option_values (name, option_name, parent_system_option_id, system_id) VALUES -- , raised_option_names) VALUES
--- ('SCREW_SPLINE', 'JOINERY', 2, 1), -- '{"STOPS", "GLAZING"}'),
--- ('SHEAR_BLOCK', 'JOINERY', 2, 1), -- '{"STOPS", "GLAZING"}'),
--- ('STICK', 'JOINERY', 2, 1); -- '{"STOPS", "GLAZING"}');
--- INSERT INTO system_details (system_id, parent_system_option_value_id, detail_type) VALUES
--- (1, 5, 'HEAD'),
--- (1, 5, 'HORIZONTAL'),
--- (1, 5, 'SILL'),
--- (1, 5, 'JAMB'),
--- (1, 5, 'MULLION');
--- INSERT INTO detail_options (name, parent_system_detail_id, system_id, is_recursive, default_detail_option_value_id) VALUES ('STOPS', 1, 1, FALSE, 1);
--- INSERT INTO detail_option_values (system_id, parent_detail_option_id, option_name, name, is_recursive) VALUES
--- (1, 1, 'STOPS', 'UP', FALSE),
--- (1, 1, 'STOPS', 'DOWN', TRUE);
--- INSERT INTO detail_options (name, parent_detail_option_value_id, system_id, default_detail_option_value_id) VALUES ('GLAZING', 2, 1, 3);
--- INSERT INTO detail_option_values (system_id, parent_detail_option_id, option_name, name, is_recursive) VALUES
--- (1, 2, 'GLAZING', 'INSIDE', FALSE),
--- (1, 2, 'GLAZING', 'OUTSIDE', FALSE);
--- INSERT INTO system_configurations (system_id, parent_detail_option_value_id, configuration_type, optional, is_recursive) VALUES
--- (1, 1, 'HEAD', FALSE, FALSE),
--- (1, 1, 'COMPENSATING_RECEPTOR', TRUE, FALSE),
--- -- (1, 2, 'HEAD', FALSE, FALSE),
--- -- (1, 2, 'COMPENSATING_RECEPTOR', TRUE, FALSE),
--- (1, 3, 'HEAD', FALSE, FALSE),
--- (1, 3, 'COMPENSATING_RECEPTOR', TRUE, FALSE),
--- (1, 4, 'HEAD', FALSE, FALSE),
--- (1, 4, 'COMPENSATING_RECEPTOR', TRUE, FALSE);
--- INSERT INTO configuration_options (system_id, parent_system_configuration_id, name, default_configuration_option_value_id, is_recursive) VALUES
--- (1, 2, 'DURABILITY', 1, FALSE),
--- (1, 4, 'DURABILITY', 3, FALSE),
--- (1, 6, 'DURABILITY', 5, FALSE); -- ,
--- -- (1, 8, 'DURABILITY');
--- INSERT INTO configuration_option_values (system_id, parent_configuration_option_id, option_name, name) VALUES
--- (1, 1, 'DURABILITY', 'STANDARD_DUTY'),
--- (1, 1, 'DURABILITY', 'HIGH-PERFORMANCE'),
--- (1, 2, 'DURABILITY', 'STANDARD_DUTY'),
--- (1, 2, 'DURABILITY', 'HIGH-PERFORMANCE'),
--- (1, 3, 'DURABILITY', 'STANDARD_DUTY'),
--- (1, 3, 'DURABILITY', 'HIGH-PERFORMANCE'); -- ,
--- -- (1, 4, 'DURABILITY', 'STANDARD_DUTY'),
--- -- (1, 4, 'DURABILITY', 'HIGH-PERFORMANCE');
+
+INSERT INTO system_options (name, system_id) VALUES('SET', 1);
+
+INSERT INTO system_option_values (name, parent_system_option_path, child_type) VALUES
+('CENTER', '1.SET', 'OPTION'),
+('BACK', '1.SET', 'OPTION'),
+('MULTI-PLANE', '1.SET', 'OPTION'),
+('FRONT', '1.SET', 'OPTION');
+
+INSERT INTO system_options (name, parent_system_option_value_path) VALUES('JOINERY', '1.SET.CENTER');
+
+INSERT INTO system_option_values (name, parent_system_option_path, child_type) VALUES
+('SCREW_SPLINE', '1.SET.CENTER.JOINERY', 'DETAIL'),
+('SHEAR_BLOCK', '1.SET.CENTER.JOINERY', 'DETAIL'),
+('STICK', '1.SET.CENTER.JOINERY', 'DETAIL');
+
+INSERT INTO system_details (detail_type, parent_system_option_value_path) VALUES
+('HEAD', '1.SET.CENTER.JOINERY.SCREW_SPLINE'),
+('HORIZONTAL', '1.SET.CENTER.JOINERY.SCREW_SPLINE'),
+('SILL', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
+
+INSERT INTO detail_options (name, parent_system_detail_path) VALUES('STOPS', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD');
+
+INSERT INTO detail_option_values (name, parent_detail_option_path, child_type) VALUES
+('UP', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.', 'CONFIGURATION'),
+('DOWN', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.', 'CONFIGURATION');
+
+
+INSERT INTO detail_options (name, parent_detail_option_value_path) VALUES('GLAZING', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN');
+
+INSERT INTO detail_option_values (name, parent_detail_option_path, child_type) VALUES
+('INSIDE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING', 'CONFIGURATION'),
+('OUTSIDE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING', 'CONFIGURATION');
+
+INSERT INTO system_configurations (configuration_type, parent_detail_option_value_path) VALUES
+('HEAD', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP'),
+('COMPENSATING_RECEPTOR', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP');
+('HEAD', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE'),
+('COMPENSATING_RECEPTOR', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE'),
+('HEAD', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE'),
+('COMPENSATING_RECEPTOR', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');
+
+INSERT INTO configuration_option_values (name, parent_configuration_type_path) VALUES
+('DURABILITY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR'),
+('DURABILITY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR'),
+('DURABILITY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR');
+
+INSERT INTO configuration_option_values (name, parent_configuration_option_path) VALUES
+('STANDARD_DUTY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY'),
+('HIGH_PERFORMANCE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY'),
+('STANDARD_DUTY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY'),
+('HIGH_PERFORMANCE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY'),
+('STANDARD_DUTY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY'),
+('HIGH_PERFORMANCE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY');
 
 -- TEST SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type)

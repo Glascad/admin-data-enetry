@@ -90,7 +90,7 @@ export default function Select({
                 {filteredOptions.map((o, i) => (
                     <div
                         key={o}
-                        data-cy={`select-option-${o}`}
+                        data-cy={`select-option-${o.toLowerCase()}`}
                         className={`select-option ${
                             i === selectedOptionIndex ? 'selected' : ''
                             }`}

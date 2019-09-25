@@ -246,7 +246,7 @@ function EditOptionValue({
                                     >
                                         <Select
                                             data-cy="edit-value-name"
-                                            data-cy={`edit-${childTypeType}-type-${(detailType || configurationType)}`}
+                                            data-cy={`edit-${childTypeType}-type-${(detailType || configurationType).toLowerCase()}`}
                                             autoFocus={i === length - 1}
                                             value={(detailType || configurationType)}
                                             options={selectTypes}
