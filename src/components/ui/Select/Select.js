@@ -43,6 +43,14 @@ export default function Select({
         if (autoFocus) setInput('');
     }, [autoFocus]);
 
+    console.log({
+        value,
+        options,
+        filteredOptions,
+        selectedOptionIndex,
+        filteredOptionCount,
+    })
+
     return (
         <div
             className={`Input Select ${className}`}

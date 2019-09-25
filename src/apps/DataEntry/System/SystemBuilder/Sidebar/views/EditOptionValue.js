@@ -46,7 +46,7 @@ function EditOptionValue({
         ), []);
 
     const selectValidValues = validValues
-        .filter(({ name }) => !values.some(v => v.name.toLowerCase().replace(/_/i, ' ') === name.toLowerCase().replace(/_/i, ' ')))
+        .filter(({ name }) => !values.some(v => v.name === name))
         .map(({ name }) => name);
 
     const {

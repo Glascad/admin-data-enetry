@@ -165,10 +165,10 @@ describe('Testing sidbar actions in system builder', () => {
 
         cy.getDataCy`add-option-value`.click().should('not.exist');
         cy.focused().type('Heavy{enter}');
-        cy.getDataCy`ConfigurationOptionValue-High Performance`;
+        cy.getDataCy`ConfigurationOptionValue-HIGH_PERFORMANCE`;
 
         // All configurations option values should exist after adding them
-        cy.getDataCy`edit-option-values standard_duty`.should('have.value', 'Standard Duty');
+        cy.getDataCy`edit-option-values standard duty`.should('have.value', 'Standard Duty');
         cy.getDataCy`edit-option-values high_performance`.should('have.value', 'High Performance');
 
         // ADD CONFIRMATION TO UPDATE VALUES AND CONFIGURATIONS WITH CHILDREN
@@ -213,7 +213,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-cancel-button`.click();
         cy.getDataCy`DetailOption-Stops`.click();
-        cy.getDataCy`delete-option-value-up`.click();
+        cy.getDataCy`delete-option-value-up`.click({ force: true });
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`DetailOptionValue-Up`.should('not.exist');

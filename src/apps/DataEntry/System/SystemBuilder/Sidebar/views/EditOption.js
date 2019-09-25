@@ -25,7 +25,7 @@ function EditOption({
     dispatch,
 }) {
 
-    // console.log(arguments[0])
+    console.log(arguments[0])
 
     const optionValues = getChildren(option, systemMap);
 
@@ -38,10 +38,10 @@ function EditOption({
         ), []);
 
     const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionValues.some(v => v.name.toLowerCase().replace(/_/i, ' ') === name.toLowerCase().replace(/_/i, ' ')))
+        .filter(({ name }) => !optionValues.some(v => v.name === name))
         .map(({ name }) => name);
 
-    // console.log({optionValues, validOptionValues, selectValidOptionValues});
+    console.log({optionValues, validOptionValues, selectValidOptionValues});
 
     return (
         <>
