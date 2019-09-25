@@ -10,7 +10,7 @@ import {
     Ellipsis,
 } from '../../components';
 
-import { AuthContext } from '../../auth-context';
+import { AuthContext } from '../../AuthContext';
 
 import { StaticContext } from '../Statics/Statics';
 

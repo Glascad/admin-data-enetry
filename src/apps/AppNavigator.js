@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 
-import { AuthContext } from '../auth-context';
+import { AuthContext } from '../AuthContext';
 
 import { withContext, Navigator } from '../components';
 
@@ -29,10 +29,14 @@ const mapProps = ({
     },
 }) => ({
     allowedApplications: match(role)
-        .regex(/admin/i, { DataEntry, Glascad })
-        .regex(/data.entry/i, { DataEntry })
-        .regex(/client/i, { Glascad })
-        .otherwise({ Login }),
+        // .regex(/admin/i, { DataEntry, Glascad })
+        // .regex(/data.entry/i, { DataEntry })
+        // .regex(/client/i, { Glascad })
+        // .otherwise({ Login })
+        .otherwise({
+            DataEntry,
+            Glascad,
+        }),
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);

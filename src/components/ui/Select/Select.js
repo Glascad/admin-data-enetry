@@ -29,7 +29,7 @@ export default function Select({
     console.log(options)
 
     const [input, setInput] = useInitialState(normalCase(value));
-    const filteredOptions = unique(options.concat(value).map(normalCase))
+    const filteredOptions = unique(options.concat(value))
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(
             findBestMatch(
@@ -38,6 +38,8 @@ export default function Select({
         ), []);
     const { length: filteredOptionCount } = filteredOptions;
     const [selectedOptionIndex, setSelectedOptionIndex] = useInitialState(0, [input]);
+
+    const selectOption = i => onChange(filteredOptions[i]);
 
     useEffect(() => {
         if (autoFocus) setInput('');
@@ -74,7 +76,7 @@ export default function Select({
                     onKeyDown={({ key, target }) => match(key).against({
                         Escape: () => target.blur(),
                         Enter: () => {
-                            onChange(filteredOptions[selectedOptionIndex]);
+                            selectOption(selectedOptionIndex);
                             target.blur();
                         },
                         ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
@@ -93,7 +95,7 @@ export default function Select({
                             i === selectedOptionIndex ? 'selected' : ''
                             }`}
                         onMouseDown={() => {
-                            onChange(filteredOptions[i]);
+                            selectOption(i);
                             document.activeElement.blur();
                         }}
                     >
