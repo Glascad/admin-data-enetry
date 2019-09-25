@@ -21,7 +21,7 @@ import {
     withContext,
 } from '../../components';
 
-import { AuthContext } from '../../auth-context';
+import { AuthContext } from '../../AuthContext';
 
 export const StaticContext = createContext();
 
