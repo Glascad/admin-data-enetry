@@ -11,6 +11,7 @@ import {
     AsyncButton,
     ConfirmButton,
     useInitialState,
+    Select,
 } from '../../../../../../components';
 
 import {
@@ -169,14 +170,12 @@ export default function EditElevation({
                         name: value,
                     })}
                 />
-                <Input
+                <Select
                     data-cy="system-set"
                     label="System set"
                     disabled={true}
-                    select={{
-                        options: [{ label: "Trifab451" }],
-                        value: { label: "Trifab451" },
-                    }}
+                    options={[{ label: "Trifab451" }]}
+                    value={"Trifab451"}
                 />
                 <GroupingBox
                     title="Rough opening"

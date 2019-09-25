@@ -91,7 +91,7 @@ function EditType({
                         <Select
                             data-cy={`edit-${type.toLowerCase()}-type`}
                             className={childValues.length > 0 ? 'warning' : ''}
-                            autoFocus={true}
+                            autoFocus={childValues.length === 0}
                             value={oName}
                             options={filterOptionsAbove(selectedType, system, validOptions).map(({ name }) => name)}
                             onChange={name => dispatch(UPDATE_OPTION, {

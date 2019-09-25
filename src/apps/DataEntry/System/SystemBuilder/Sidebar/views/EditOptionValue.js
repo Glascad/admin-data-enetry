@@ -21,7 +21,7 @@ function EditOptionValue({
     } = {},
     dispatch,
 }) {
-    console.log(optionValue);
+    // console.log(arguments[0]);
 
     const option = getParent(optionValue, system);
     const values = getChildren(option, systemMap);
@@ -85,6 +85,25 @@ function EditOptionValue({
         .filter(name => !valueChildren.some(({ detailType = '', configurationType = '' }) => (
             name.toLowerCase() === (detailType || configurationType).toLowerCase()
         )))
+
+    // console.log({
+    //     option,
+    //     values,
+    //     valueChildren,
+    //     defaultOptionValueIdKey,
+    //     optionDefaultOptionValueIdKey,
+    //     isDefault,
+    //     validValues,
+    //     selectValidValues,
+    //     childOption,
+    //     childOptionChildren,
+    //     childTypeTypename,
+    //     childTypeType,
+    //     hasChildren,
+    //     optionIsSelected,
+    //     selectValidTypes,
+    //     selectTypes,
+    // })
 
     return (
         <>
@@ -180,7 +199,7 @@ function EditOptionValue({
                             <Select
                                 className={childOptionChildren.length > 0 ? 'warning' : ''}
                                 data-cy="edit-option-name"
-                                autoFocus={true}
+                                autoFocus={childOptionChildren.length === 0}
                                 value={childOptionName}
                                 options={filterOptionsAbove(optionValue, system, validOptions)
                                     .map(({ name }) => name)}
@@ -223,7 +242,7 @@ function EditOptionValue({
                                 {valueChildren.map(({ detailType, configurationType, id, fakeId }, i, { length }) => (
                                     <div
                                         className="input-group"
-                                        key={(detailType || configurationType)}
+                                        key={i}
                                     >
                                         <Select
                                             data-cy="edit-value-name"

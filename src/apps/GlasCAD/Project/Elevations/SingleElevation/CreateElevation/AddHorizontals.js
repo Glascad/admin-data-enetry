@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { GroupingBox, Input, CircleButton, useInitialState } from "../../../../../../components";
+import { GroupingBox, Input, CircleButton, useInitialState, Select } from "../../../../../../components";
 import { defaultHorizontal } from './elevation-input';
 import { replace } from '../../../../../../utils';
 
@@ -23,41 +23,31 @@ function Horizontal({
 
     return (
         <div className="input-group add-horizontal">
-            <Input
+            <Select
                 label="Measure from"
                 disabled={true}
-                select={{
-                    value: {
-                        value: from,
-                        label: from,
-                    },
-                    options: measureFromOptions,
-                    onChange: ({ value }) => updateElevation({
-                        horizontals: replace(horizontals, i, {
-                            distance,
-                            from: value,
-                            to,
-                        }),
-                    }),
-                }}
+                value={from}
+                options={measureFromOptions}
+                onChange={value => updateElevation({
+                    horizontals: replace(horizontals, i, {
+                        distance,
+                        from: value,
+                        to,
+                    })
+                })}
             />
-            <Input
+            <Select
                 label="Measure to"
                 disabled={true}
-                select={{
-                    value: {
-                        value: to,
-                        label: to,
-                    },
-                    options: measureToOptions,
-                    onChange: ({ value }) => updateElevation({
-                        horizontals: replace(horizontals, i, {
-                            distance,
-                            from,
-                            to: value,
-                        }),
+                value={to}
+                options={measureToOptions}
+                onChange={value => updateElevation({
+                    horizontals: replace(horizontals, i, {
+                        distance,
+                        from,
+                        to: value,
                     }),
-                }}
+                })}
             />
             <Input
                 // autoFocus={i === length - 1}

@@ -112,15 +112,14 @@ export const getFakeId = (() => {
 
 
 export const filterOptionsAbove = (item, system, optionList) => {
-    const isType = !!(item.__typename.match(/^(SystemConfiguration|SystemDetail)/));
     const parentItem = getParent(item, system);
-    const filteredOptions = isType ?
-        optionList
-        :
-        optionList.filter(({ name }) => !(name.toLowerCase() === item.name.toLowerCase()));
-
-    return parentItem ?
-        filterOptionsAbove(parentItem, system, filteredOptions)
-        :
-        filteredOptions;
+    if (parentItem) {
+        const isType = !!(parentItem.__typename.match(/^(SystemConfiguration|SystemDetail)/));
+        const filteredOptions = isType ?
+            optionList
+            :
+            optionList.filter(({ name }) => !(name.toLowerCase() === parentItem.name.toLowerCase()));
+        return filterOptionsAbove(parentItem, system, filteredOptions)
+    }
+    else return optionList;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { TitleBar, Ellipsis, ConfirmButton, AsyncButton, useQuery, useMutation, useInitialState, Input } from '../../../../components';
+import { TitleBar, Ellipsis, ConfirmButton, AsyncButton, useQuery, useMutation, useInitialState, Input, Select } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 
 SystemInfo.navigationOptions = {
@@ -103,35 +103,19 @@ function SystemInfo({
                     value={sName}
                     onChange={({ target: { value } }) => setSName(value)}
                 />
-                <Input
+                <Select
                     data-cy="system-type"
                     label="System Type"
-                    select={{
-                        value: {
-                            value: sType,
-                            label: sType,
-                        },
-                        options: allSystemTypes.map(({ type }) => ({
-                            value: type,
-                            label: type,
-                        })),
-                        onChange: ({ value }) => setSystemType(value),
-                    }}
+                    value={sType}
+                    options={allSystemTypes.map(({ type }) => type)}
+                    onChange={name => setSystemType(name)}
                 />
-                <Input
+                <Select
                     data-cy="manufacturer"
                     label="Manufacturer"
-                    select={{
-                        value: {
-                            value: mId,
-                            label: mName,
-                        },
-                        options: allManufacturers.map(({ name, id }) => ({
-                            value: id,
-                            label: name,
-                        })),
-                        onChange: ({ label, value }) => setMnfg([value, label]),
-                    }}
+                    value={mName}
+                    options={allManufacturers.map(({ name }) => name)}
+                    onChange={name => setMnfg([name, name])}
                 />
             </div>
         </>

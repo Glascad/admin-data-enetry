@@ -41,6 +41,8 @@ function EditOption({
         .filter(({ name }) => !optionValues.some(v => v.name === name))
         .map(({ name }) => name);
 
+    console.log({optionValues, validOptionValues, selectValidOptionValues});
+
     return (
         <>
             <TitleBar
@@ -81,7 +83,7 @@ function EditOption({
                 {optionValues.length ?
                     optionValues.map(({ name, id, fakeId, __typename: valueTypename }, i, { length }) => (
                         <div
-                            key={name}
+                            key={'OptionKey'}
                             className="input-group"
                         >
                             <Select
@@ -90,7 +92,6 @@ function EditOption({
                                 options={selectValidOptionValues}
                                 autoFocus={i === length - 1}
                                 onChange={name => {
-                                    console.log(selectValidOptionValues);
                                     const valueChildren = getChildren({ __typename: valueTypename, fakeId, id }, systemMap);
                                     const updateOptionValue = () => dispatch(UPDATE_OPTION_VALUE, {
                                         id,
@@ -107,7 +108,7 @@ function EditOption({
                                 }}
                             />
                             <CircleButton
-                                data-cy={`delete-option-value-${name}`}
+                                data-cy={`delete-option-value-${name.toLowerCase()}`}
                                 className="danger"
                                 type="small"
                                 actionType="delete"
@@ -125,7 +126,6 @@ function EditOption({
                                         :
                                         undefined;
 
-                                    console.log({ newDefaultId, newDefaultFakeId });
                                     const deleteOptionValue = () => dispatch(DELETE_OPTION_VALUE, {
                                         parentOptionId: oId,
                                         parentOptionFakeId: oFId,

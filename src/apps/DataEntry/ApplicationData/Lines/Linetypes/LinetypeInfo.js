@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import {
     ListContainer,
     Input,
+    Select,
 } from '../../../../../components';
 import TitleBar from '../../../../../components/ui/TitleBar/TitleBar';
 import { replace } from '../../../../../utils';
@@ -125,6 +126,12 @@ export default class LinetypeInfo extends PureComponent {
                     title="Linetype"
                     selections={[name]}
                 />
+                {/* <Select
+                options={selectOptions}
+                    value={selectValue}
+                    onChange={handleSelectChange}
+                    onBlur={handleBlur}
+                /> */}
                 <Input
                     label="Line Weight"
                     select={{

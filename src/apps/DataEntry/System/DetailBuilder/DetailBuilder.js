@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-    Navigator,
+    
 } from '../../../../components';
-
-import DetailView from './DetailView/DetailView';
-import ConfigurationView from './ConfigurationView/ConfigurationView';
-import PartView from './PartView/PartView';
+import Header from './Header/Header';
+import Sidebar from './Sidebar/Sidebar';
+import DetailDisplay from './DetailDisplay/DetailDisplay';
 
 export default function DetailBuilder() {
     return (
-        <Navigator
-            routes={{
-                DetailView,
-                ConfigurationView,
-                PartView,
-            }}
-        />
+        <>
+            <Header/>
+            <Sidebar/>
+            <DetailDisplay/>
+        </>
     );
 }

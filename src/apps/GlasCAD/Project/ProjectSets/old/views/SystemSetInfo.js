@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-    Input,
+    Input, Select,
 } from '../../../../../../components';
 
 import { UPDATE_INFILL_SIZE, UPDATE_FILTER, UPDATE_SYSTEM_SET } from '../ducks/actions';
@@ -79,49 +79,25 @@ export default function SystemSetInfo({
 
     return (
         <>
-            <Input
+            <Select
                 label="Manufacturer"
                 disabled={!creating}
-                select={{
-                    value: {
-                        value: manufacturerId,
-                        label: manufacturerName
-                    },
-                    options: manufacturers.map(({ id, name }) => ({
-                        value: id,
-                        label: name,
-                    })),
-                    onChange: ({ value }) => dispatch(UPDATE_FILTER, { manufacturerId: value }),
-                }}
+                value={manufacturerName}
+                options={manufacturers.map(({ name }) => name)}
+                onChange={name => dispatch(UPDATE_FILTER, { manufacturerId: name })}
             />
-            <Input
+            <Select
                 label="System"
                 disabled={!creating}
-                select={{
-                    value: {
-                        value: systemId,
-                        label: systemName,
-                    },
-                    options: systems.map(({ id, name }) => ({
-                        value: id,
-                        label: name,
-                    })),
-                    onChange: ({ value }) => dispatch(UPDATE_SYSTEM_SET, { systemId: value }),
-                }}
+                value={systemName}
+                options={systems.map(({ name }) => name)}
+                onChange={value => dispatch(UPDATE_SYSTEM_SET, { systemId: value })}
             />
-            <Input
+            <Select
                 label="Infill Size"
-                select={{
-                    value: {
-                        value: infillSize,
-                        label: infillSize,
-                    },
-                    options: infillSizes.map(({ infillSize }) => ({
-                        value: infillSize,
-                        label: infillSize,
-                    })),
-                    onChange: ({ value }) => dispatch(UPDATE_SYSTEM_SET, { infillSize: value }),
-                }}
+                value={infillSize}
+                options={infillSizes.map(({ infillSize }) => infillSize)}
+                onChange={value => dispatch(UPDATE_SYSTEM_SET, { infillSize: value })}
             />
         </>
     );
