@@ -22,7 +22,8 @@ gc_protected.elevation_containers (
     original BOOLEAN DEFAULT FALSE,
     contents VARCHAR(50),
     daylight_opening COORDINATE,
-    custom_rough_opening BOOLEAN DEFAULT FALSE
+    custom_rough_opening BOOLEAN DEFAULT FALSE,
+    UNIQUE (elevation_id, id)
 );
 
 CREATE TABLE

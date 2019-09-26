@@ -34,8 +34,8 @@ ALTER DATABASE defaultdb SET search_path TO public, gc_utils, gc_public, gc_data
 
 SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_controlled, gc_private;
 
--- CRYPTO
-CREATE EXTENSION pgcrypto WITH SCHEMA gc_private;
+-- EXTENSIONS
 
--- GIST
+CREATE EXTENSION pgcrypto WITH SCHEMA gc_private;
 CREATE EXTENSION btree_gist WITH SCHEMA gc_utils;
+CREATE EXTENSION ltree WITH SCHEMA gc_utils;

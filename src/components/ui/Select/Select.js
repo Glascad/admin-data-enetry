@@ -25,9 +25,6 @@ export default function Select({
     className,
 }) {
 
-    console.log(value);
-    console.log(options)
-
     const [input, setInput] = useInitialState(normalCase(value));
     const filteredOptions = unique(options.concat(value))
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
@@ -44,14 +41,6 @@ export default function Select({
     useEffect(() => {
         if (autoFocus) setInput('');
     }, [autoFocus]);
-
-    console.log({
-        value,
-        options,
-        filteredOptions,
-        selectedOptionIndex,
-        filteredOptionCount,
-    })
 
     return (
         <div
@@ -73,17 +62,20 @@ export default function Select({
                     onFocus={() => setInput('')}
                     onBlur={() => setInput(normalCase(value))}
                     onChange={({ target: { value } }) => setInput(value || '')}
-                    onKeyDown={({ key, target }) => match(key).against({
-                        Escape: () => target.blur(),
-                        Enter: () => {
-                            selectOption(selectedOptionIndex);
-                            target.blur();
-                        },
-                        ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
-                        ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
-                        Home: () => setSelectedOptionIndex(0),
-                        End: () => setSelectedOptionIndex(filteredOptionCount - 1),
-                    }).otherwise(() => console.log({ key }))}
+                    onKeyDown={({ key, target }) => (
+                        match(key).against({
+                            Escape: () => target.blur(),
+                            Enter: () => {
+                                selectOption(selectedOptionIndex);
+                                target.blur();
+                            },
+                            ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
+                            ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
+                            Home: () => setSelectedOptionIndex(0),
+                            End: () => setSelectedOptionIndex(filteredOptionCount - 1),
+                        })
+                            // .otherwise(() => console.log({ key }))
+                    )}
                 />
             </div>
             <div className="select-options">

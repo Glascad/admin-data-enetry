@@ -1,0 +1,17 @@
+DROP FUNCTION IF EXISTS sum_bools;
+
+CREATE OR REPLACE FUNCTION gc_utils.sum_bools(VARIADIC bools BOOLEAN[])
+RETURNS INTEGER AS $$
+DECLARE
+    sum INTEGER := 0;
+    b INTEGER;
+BEGIN
+
+    FOREACH b IN ARRAY bools LOOP
+        sum := sum + b::INTEGER;
+    END LOOP;
+
+    RETURN sum;
+
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;

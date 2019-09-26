@@ -24,6 +24,13 @@ ${require('../../db/schemas/gc_public/types')}
 ${require('../../db/schemas/gc_data/types.sql')}
 
 
+----- UTILITY FUNCTIONS -----;
+
+${require('../../db/schemas/gc_utils/functions/either_or.sql')}
+${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
+${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
+
+
 ----- TABLES -----;
 
 ${require('../../db/schemas/gc_controlled/tables.sql')}
@@ -45,7 +52,6 @@ ${require('../../db/schemas/invoker.sql')}
 
 ----- FUNCTIONS -----;
 
-${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
 ${require('../../db/schemas/gc_private/functions/create_a_user.sql')}
 ${require('../../db/schemas/gc_private/functions/update_password.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
