@@ -78,12 +78,15 @@ GRANT SELECT ON ALL TABLES IN SCHEMA
     -- gc_utils
 TO PUBLIC;
 
--- UNAUTHORIZED ACCESS
+-- UNAUTHORIZED
 GRANT EXECUTE ON FUNCTION
     gc_public.authenticate,
     gc_public.get_current_user_id,
     gc_public.get_current_user
 TO unauthorized;
+
+-- 
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_utils TO PUBLIC;
 
 
 -- INVOKER

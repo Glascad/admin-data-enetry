@@ -29,6 +29,7 @@ ${require('../../db/schemas/gc_data/types.sql')}
 ${require('../../db/schemas/gc_utils/functions/either_or.sql')}
 ${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
+${require('../../db/schemas/gc_utils/functions/ltree=ltree.sql')}
 
 
 ----- TABLES -----;
@@ -40,9 +41,13 @@ ${require('../../db/schemas/gc_data/tables/manufacturer_data.sql')}
 ${require('../../db/schemas/gc_private/tables.sql')}
 ${require('../../db/schemas/gc_public/tables.sql')}
 ${require('../../db/schemas/gc_protected/tables/system.sql')}
-${require('../../db/schemas/gc_protected/tables/system_constraints.sql')}
 ${require('../../db/schemas/gc_protected/tables/system_set.sql')}
 ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
+
+
+----- TRIGGERS -----;
+
+${require('../../db/schemas/gc_protected/tables/system_triggers.sql')}
 
 
 ----- INVOKER ROLE -----;

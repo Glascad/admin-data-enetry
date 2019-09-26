@@ -53,7 +53,7 @@
             "__typename": "SystemOptionValue",
             "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsNF0=",
             "id": 4,
-            "name": "MULTI-PLANE",
+            "name": "MULTI_PLANE",
             "parentSystemOptionId": 1
         },
         {
@@ -258,7 +258,7 @@
             "__typename": "ConfigurationOptionValue",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDJd",
             "id": 2,
-            "name": "HIGH-PERFORMANCE",
+            "name": "HIGH_PERFORMANCE",
             "parentConfigurationOptionId": 1
         },
         {
@@ -272,7 +272,7 @@
             "__typename": "ConfigurationOptionValue",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDRd",
             "id": 4,
-            "name": "HIGH-PERFORMANCE",
+            "name": "HIGH_PERFORMANCE",
             "parentConfigurationOptionId": 2
         },
         {
@@ -286,7 +286,7 @@
             "__typename": "ConfigurationOptionValue",
             "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDZd",
             "id": 6,
-            "name": "HIGH-PERFORMANCE",
+            "name": "HIGH_PERFORMANCE",
             "parentConfigurationOptionId": 3
         }
     ],

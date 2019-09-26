@@ -28,7 +28,7 @@ const removeExt = obj => typeof obj === 'object' ?
 const cleanKeys = obj => typeof obj === 'object' ?
     Object.entries(obj).reduce((all, [key, value]) => ({
         ...all,
-        [key.replace(/\W+/, '_').toUpperCase()]: cleanKeys(value)
+        [key.replace(/-/, '_').toUpperCase()]: cleanKeys(value)
     }), {})
     :
     obj;

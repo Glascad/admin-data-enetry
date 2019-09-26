@@ -14,4 +14,4 @@ BEGIN
     RETURN sum;
 
 END;
-$$ LANGUAGE plpgsql IMMUTABLE;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;

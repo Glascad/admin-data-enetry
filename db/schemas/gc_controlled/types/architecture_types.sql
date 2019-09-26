@@ -64,7 +64,7 @@ gc_controlled.option_value_name AS ENUM (
     'FRONT',
     'CENTER',
     'BACK',
-    'MULTI-PLANE',
+    'MULTI_PLANE',
     'SCREW_SPLINE',
     'SHEAR_BLOCK',
     'STICK',
@@ -73,7 +73,7 @@ gc_controlled.option_value_name AS ENUM (
     'INSIDE',
     'OUTSIDE',
     'STANDARD_DUTY',
-    'HIGH-PERFORMANCE'
+    'HIGH_PERFORMANCE'
 );
 
 -- CREATE TYPE

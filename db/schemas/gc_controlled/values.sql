@@ -50,9 +50,9 @@ VALUES
 ('SET', 'FRONT'),
 ('SET', 'BACK'),
 ('SET', 'CENTER'),
-('SET', 'MULTI-PLANE'),
+('SET', 'MULTI_PLANE'),
 ('DURABILITY', 'STANDARD_DUTY'),
-('DURABILITY', 'HIGH-PERFORMANCE');
+('DURABILITY', 'HIGH_PERFORMANCE');
 
 -- INSERT INTO ordered_presentation_levels
 -- (value, level)

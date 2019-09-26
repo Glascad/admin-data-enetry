@@ -1,6 +1,7 @@
 
-CREATE TABLE
-gc_protected.system_sets (
+-- CREATE TABLE
+-- gc_protected.system_sets (
+-- );
     -- id SERIAL PRIMARY KEY,
     -- project_id INTEGER REFERENCES projects NOT NULL,
     -- system_id INTEGER REFERENCES systems NOT NULL,
@@ -15,10 +16,10 @@ gc_protected.system_sets (
     --     system_id,
     --     id
     -- )
-);
 
-CREATE TABLE
-gc_protected.system_set_detail_option_values (
+-- CREATE TABLE
+-- gc_protected.system_set_detail_option_values (
+-- );
     -- id SERIAL PRIMARY KEY,
     -- system_set_id INTEGER REFERENCES system_sets NOT NULL,
     -- system_id INTEGER REFERENCES systems NOT NULL,
@@ -42,7 +43,6 @@ gc_protected.system_set_detail_option_values (
     --     grandparent_system_option_value_id,
     --     id
     -- )
-);
 
 -- CREATE TABLE
 -- gc_protected.system_set_raised_option_values (

@@ -12,27 +12,38 @@ gc_protected.systems (
 
 CREATE TABLE
 gc_protected.system_options (
-    system_id INTEGER REFERENCES systems, -- beginning of path
-    parent_system_option_value_path LTREE, -- references system_option_values
+    -- beginning of path
+    system_id INTEGER REFERENCES systems NOT NULL,
+    -- references system_option_values
+    parent_system_option_value_path LTREE,
     path LTREE PRIMARY KEY,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
     UNIQUE (path, name),
+    -- replaced with gist vvv
+    -- CHECK (
+    --     either_or(
+    --         parent_system_option_value_path IS NULL,
+    --         system_id IS NULL
+    --     )
+    -- ),
     CHECK (
-        either_or(
-            parent_system_option_value_path IS NULL,
-            system_id IS NULL
-        )
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
     ),
     CHECK (
         path = COALESCE(
             parent_system_option_value_path,
             system_id::TEXT::LTREE
         ) || name::TEXT
+    ),
+    EXCLUDE USING gist (
+        system_id WITH =,
+        COALESCE(parent_system_option_value_path::TEXT, '') WITH =
     )
 );
 
 CREATE TABLE
 gc_protected.system_option_values (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_system_option_path LTREE REFERENCES system_options ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     path LTREE PRIMARY KEY,
     option_name OPTION_NAME NOT NULL,
@@ -56,6 +67,9 @@ gc_protected.system_option_values (
         name
     ),
     CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
+    CHECK (
         path = parent_system_option_path || name::TEXT
     )
 );
@@ -70,9 +84,13 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 CREATE TABLE
 gc_protected.system_details (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_system_option_value_path LTREE REFERENCES system_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     path LTREE PRIMARY KEY,
     detail_type DETAIL_TYPE NOT NULL,
+    CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
     CHECK (
         path = parent_system_option_value_path || detail_type::TEXT
     )
@@ -82,6 +100,7 @@ gc_protected.system_details (
 
 CREATE TABLE
 gc_protected.detail_options (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_system_detail_path LTREE REFERENCES system_details ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     parent_detail_option_value_path LTREE,
     path LTREE PRIMARY KEY,
@@ -94,6 +113,9 @@ gc_protected.detail_options (
         )
     ),
     CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
+    CHECK (
         path = COALESCE(
             parent_system_detail_path,
             parent_detail_option_value_path
@@ -103,6 +125,7 @@ gc_protected.detail_options (
 
 CREATE TABLE
 gc_protected.detail_option_values (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_detail_option_path LTREE REFERENCES detail_options ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     path LTREE PRIMARY KEY,
     option_name OPTION_NAME NOT NULL,
@@ -126,6 +149,9 @@ gc_protected.detail_option_values (
         name
     ),
     CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
+    CHECK (
         path = parent_detail_option_path || name::TEXT
     )
 );
@@ -139,11 +165,15 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 CREATE TABLE
 gc_protected.system_configurations (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_detail_option_value_path LTREE REFERENCES detail_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     path LTREE PRIMARY KEY,
     configuration_type CONFIGURATION_TYPE NOT NULL,
     optional BOOLEAN DEFAULT FALSE NOT NULL,
-    transform MATRIX NOT NULL,
+    transform MATRIX,
+    CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
     CHECK (
         path = parent_detail_option_value_path || configuration_type::TEXT
     )
@@ -153,6 +183,7 @@ gc_protected.system_configurations (
 
 CREATE TABLE
 gc_protected.configuration_options (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_system_configuration_path LTREE REFERENCES system_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     parent_configuration_option_value_path LTREE,
     path LTREE PRIMARY KEY,
@@ -165,6 +196,9 @@ gc_protected.configuration_options (
         )
     ),
     CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
+    CHECK (
         path = COALESCE(
             parent_system_configuration_path,
             parent_configuration_option_value_path
@@ -174,6 +208,7 @@ gc_protected.configuration_options (
 
 CREATE TABLE
 gc_protected.configuration_option_values (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_configuration_option_path LTREE REFERENCES configuration_options ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     path LTREE PRIMARY KEY,
     option_name OPTION_NAME NOT NULL,
@@ -197,6 +232,9 @@ gc_protected.configuration_option_values (
         name
     ),
     CHECK (
+        system_id = subltree(path, 0, 1)::TEXT::INTEGER
+    ),
+    CHECK (
         path = parent_configuration_option_path || name::TEXT
     )
 );
@@ -210,8 +248,9 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 CREATE TABLE
 gc_protected.configuration_parts (
+    system_id INTEGER REFERENCES systems NOT NULL,
     parent_configuration_option_value_path LTREE REFERENCES configuration_option_values ON UPDATE CASCADE NOT NULL,
-    transform MATRIX NOT NULL,
+    transform MATRIX,
     part_id INTEGER REFERENCES parts,
     part_orientation ORIENTATION,
     extra_part_path_id INTEGER REFERENCES extra_part_paths,
@@ -231,5 +270,8 @@ gc_protected.configuration_parts (
     REFERENCES extra_part_paths (
         id,
         orientation
+    ),
+    CHECK (
+        system_id = subltree(parent_configuration_option_value_path, 0, 1)::TEXT::INTEGER
     )
 );

@@ -14,7 +14,7 @@ module.exports = async function compileDbFiles() {
 
     const js = JSON.stringify(cleanFiles, null, 4).replace(/"([A-Z_]+)":/g, '$1:');
 
-    return await Promise.all([
+    return Promise.all([
         pfs.writeFile(`${__dirname}/../../compiled/db-seed.json`, json),
         pfs.writeFile(`${__dirname}/../../compiled/db-seed.js`, `module.exports = ${js}`),
         pfs.writeFile(`${__dirname}/../../compiled/db-seed-map.json`, JSON.stringify(getKeys(cleanFiles), null, 4)),
