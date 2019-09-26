@@ -22,6 +22,7 @@ import SystemBuilder from './SystemBuilder/SystemBuilder';
 import DetailBuilder from './DetailBuilder/DetailBuilder';
 
 import { parseSearch } from '../../../utils';
+import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems/old';
 
 const subroutes = {
     SystemInfo,
@@ -80,9 +81,17 @@ export default function System({
     },
 }) {
 
-    const { systemId } = parseSearch(search);
+    const { systemId, sampleSystem } = parseSearch(search);
 
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+
+    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
+
+    console.log({
+        _sampleSystem,
+        SAMPLE_SYSTEMS,
+        sampleSystem,
+    });
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
@@ -90,7 +99,10 @@ export default function System({
         <Navigator
             routes={subroutes}
             routeProps={{
-                queryResult,
+                queryResult: {
+                    ...queryResult,
+                    _system: _sampleSystem || queryResult._system,
+                },
                 fetching,
                 updateEntireSystem,
                 updating,

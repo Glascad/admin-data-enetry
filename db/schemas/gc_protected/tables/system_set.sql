@@ -1,48 +1,35 @@
 
--- CREATE TABLE
--- gc_protected.system_sets (
--- );
-    -- id SERIAL PRIMARY KEY,
-    -- project_id INTEGER REFERENCES projects NOT NULL,
-    -- system_id INTEGER REFERENCES systems NOT NULL,
-    -- system_option_value_id INTEGER REFERENCES system_option_values NOT NULL,
-    -- name VARCHAR(50),
-    -- -- for foreign keys
-    -- UNIQUE (id, system_id, system_option_value_id),
-    -- FOREIGN KEY (
-    --     system_id,
-    --     system_option_value_id
-    -- ) REFERENCES system_option_values (
-    --     system_id,
-    --     id
-    -- )
+CREATE TABLE
+gc_protected.system_sets (
+    id SERIAL PRIMARY KEY,
+    project_id INTEGER REFERENCES projects NOT NULL,
+    system_id INTEGER REFERENCES systems NOT NULL,
+    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
+    name VARCHAR(50),
+    UNIQUE (id, system_option_value_path),
+    CHECK (
+        system_id = subltree(system_option_value_path, 0, 1)::TEXT::INTEGER
+    )
+);
 
--- CREATE TABLE
--- gc_protected.system_set_detail_option_values (
--- );
-    -- id SERIAL PRIMARY KEY,
-    -- system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    -- system_id INTEGER REFERENCES systems NOT NULL,
-    -- grandparent_system_option_value_id INTEGER REFERENCES system_option_values ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
-    -- detail_option_value_id INTEGER REFERENCES detail_option_values NOT NULL,
-    -- FOREIGN KEY (
-    --     system_set_id,
-    --     system_id,
-    --     grandparent_system_option_value_id
-    -- ) REFERENCES system_sets (
-    --     id,
-    --     system_id,
-    --     system_option_value_id
-    -- ),
-    -- FOREIGN KEY (
-    --     system_id,
-    --     grandparent_system_option_value_id,
-    --     detail_option_value_id
-    -- ) REFERENCES detail_option_values (
-    --     system_id,
-    --     grandparent_system_option_value_id,
-    --     id
-    -- )
+CREATE TABLE
+gc_protected.system_set_detail_option_values (
+    id SERIAL PRIMARY KEY,
+    system_set_id INTEGER REFERENCES system_sets,
+    system_option_value_path LTREE NOT NULL,
+    detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
+    FOREIGN KEY (
+        system_set_id,
+        system_option_value_path
+    )
+    REFERENCES system_sets (
+        id,
+        system_option_value_path
+    ),
+    CHECK (
+        system_option_value_path @> detail_option_value_path
+    )
+);
 
 -- CREATE TABLE
 -- gc_protected.system_set_raised_option_values (

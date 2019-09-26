@@ -1,294 +1,138 @@
 {
-    "__typename": "System",
-    "nodeId": "WyJzeXN0ZW1zIiwxXQ==",
     "id": 1,
-    "manufacturerId": 1,
-    "systemType": "STOREFRONT",
-    "name": "Sample 1",
-    "_manufacturer": {
-        "__typename": "Manufacturer",
-        "nodeId": "WyJtYW51ZmFjdHVyZXJzIiwxXQ==",
-        "id": 1,
-        "name": "Kawneer",
-        "__by": "ManufacturerId"
-    },
-    "_systemOptions": [
+    "name": "Initial System",
+    "systemOptionsBySystemId": [
         {
-            "__typename": "SystemOption",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsMV0=",
-            "id": 1,
-            "name": "SET"
+            "path": "1.SET",
+            "defaultSystemOptionValue": "CENTER"
         },
         {
-            "__typename": "SystemOption",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsMl0=",
-            "id": 2,
-            "name": "JOINERY",
-            "parentSystemOptionValueId": 3
+            "path": "1.SET.CENTER.JOINERY",
+            "defaultSystemOptionValue": "SCREW_SPLINE"
         }
     ],
-    "_systemOptionValues": [
+    "systemOptionValuesBySystemId": [
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsMV0=",
-            "id": 1,
-            "name": "FRONT",
-            "parentSystemOptionId": 1
+            "path": "1.SET.BACK"
         },
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsMl0=",
-            "id": 2,
-            "name": "BACK",
-            "parentSystemOptionId": 1
+            "path": "1.SET.CENTER"
         },
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsM10=",
-            "id": 3,
-            "name": "CENTER",
-            "parentSystemOptionId": 1
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE"
         },
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsNF0=",
-            "id": 4,
-            "name": "MULTI_PLANE",
-            "parentSystemOptionId": 1
+            "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK"
         },
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsNV0=",
-            "id": 5,
-            "name": "SCREW_SPLINE",
-            "raisedOptionNames": [
-                "STOPS",
-                "GLAZING"
-            ],
-            "parentSystemOptionId": 2
+            "path": "1.SET.CENTER.JOINERY.STICK"
         },
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsNl0=",
-            "id": 6,
-            "name": "SHEAR_BLOCK",
-            "raisedOptionNames": [
-                "STOPS",
-                "GLAZING"
-            ],
-            "parentSystemOptionId": 2
+            "path": "1.SET.FRONT"
         },
         {
-            "__typename": "SystemOptionValue",
-            "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsN10=",
-            "id": 7,
-            "name": "STICK",
-            "raisedOptionNames": [
-                "STOPS",
-                "GLAZING"
-            ],
-            "parentSystemOptionId": 2
+            "path": "1.SET.MULTI_PLANE"
         }
     ],
-    "_systemDetails": [
+    "systemDetailsBySystemId": [
         {
-            "__typename": "SystemDetail",
-            "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiwxXQ==",
-            "id": 1,
-            "detailType": "HEAD",
-            "parentSystemOptionValueId": 5
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD"
         },
         {
-            "__typename": "SystemDetail",
-            "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiwyXQ==",
-            "id": 2,
-            "detailType": "HORIZONTAL",
-            "parentSystemOptionValueId": 5
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HORIZONTAL"
         },
         {
-            "__typename": "SystemDetail",
-            "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiwzXQ==",
-            "id": 3,
-            "detailType": "SILL",
-            "parentSystemOptionValueId": 5
-        },
-        {
-            "__typename": "SystemDetail",
-            "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiw0XQ==",
-            "id": 4,
-            "detailType": "JAMB",
-            "parentSystemOptionValueId": 5
-        },
-        {
-            "__typename": "SystemDetail",
-            "nodeId": "WyJzeXN0ZW1fZGV0YWlsX3R5cGVzIiw1XQ==",
-            "id": 5,
-            "detailType": "MULLION",
-            "parentSystemOptionValueId": 5
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.SILL"
         }
     ],
-    "_detailOptions": [
+    "detailOptionsBySystemId": [
         {
-            "__typename": "DetailOption",
-            "nodeId": "WyJkZXRhaWxfb3B0aW9ucyIsMV0=",
-            "id": 1,
-            "name": "STOPS",
-            "parentSystemDetailId": 1
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
+            "defaultDetailOptionValue": "UP"
         },
         {
-            "__typename": "DetailOption",
-            "nodeId": "WyJkZXRhaWxfb3B0aW9ucyIsMl0=",
-            "id": 2,
-            "name": "GLAZING",
-            "parentDetailOptionValueId": 2
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING",
+            "defaultDetailOptionValue": "INSIDE"
         }
     ],
-    "_detailOptionValues": [
+    "detailOptionValuesBySystemId": [
         {
-            "__typename": "DetailOptionValue",
-            "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsMV0=",
-            "id": 1,
-            "name": "UP",
-            "parentDetailOptionId": 1
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN"
         },
         {
-            "__typename": "DetailOptionValue",
-            "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsMl0=",
-            "id": 2,
-            "name": "DOWN",
-            "parentDetailOptionId": 1
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE"
         },
         {
-            "__typename": "DetailOptionValue",
-            "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsM10=",
-            "id": 3,
-            "name": "INSIDE",
-            "parentDetailOptionId": 2
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
         },
         {
-            "__typename": "DetailOptionValue",
-            "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsNF0=",
-            "id": 4,
-            "name": "OUTSIDE",
-            "parentDetailOptionId": 2
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP"
         }
     ],
-    "_systemConfigurations": [
+    "systemConfigurationsBySystemId": [
         {
-            "__typename": "SystemConfiguration",
-            "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsMV0=",
-            "id": 1,
-            "configurationType": "HEAD",
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
             "optional": false,
-            "parentDetailOptionValueId": 1
+            "transform": null
         },
         {
-            "__typename": "SystemConfiguration",
-            "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsMl0=",
-            "id": 2,
-            "configurationType": "COMPENSATING_RECEPTOR",
-            "optional": true,
-            "parentDetailOptionValueId": 1
-        },
-        {
-            "__typename": "SystemConfiguration",
-            "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsM10=",
-            "id": 3,
-            "configurationType": "HEAD",
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.HEAD",
             "optional": false,
-            "parentDetailOptionValueId": 3
+            "transform": null
         },
         {
-            "__typename": "SystemConfiguration",
-            "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsNF0=",
-            "id": 4,
-            "configurationType": "COMPENSATING_RECEPTOR",
-            "optional": true,
-            "parentDetailOptionValueId": 3
-        },
-        {
-            "__typename": "SystemConfiguration",
-            "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsNV0=",
-            "id": 5,
-            "configurationType": "HEAD",
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR",
             "optional": false,
-            "parentDetailOptionValueId": 4
+            "transform": null
         },
         {
-            "__typename": "SystemConfiguration",
-            "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsNl0=",
-            "id": 6,
-            "configurationType": "COMPENSATING_RECEPTOR",
-            "optional": true,
-            "parentDetailOptionValueId": 4
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.HEAD",
+            "optional": false,
+            "transform": null
+        },
+        {
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR",
+            "optional": false,
+            "transform": null
+        },
+        {
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.HEAD",
+            "optional": false,
+            "transform": null
         }
     ],
-    "_configurationOptions": [
+    "configurationOptionsBySystemId": [
         {
-            "__typename": "ConfigurationOption",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
-            "id": 1,
-            "name": "DURABILITY",
-            "parentSystemConfigurationId": 2
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+            "defaultConfigurationOptionValue": "STANDARD_DUTY"
         },
         {
-            "__typename": "ConfigurationOption",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDJd",
-            "id": 2,
-            "name": "DURABILITY",
-            "parentSystemConfigurationId": 4
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+            "defaultConfigurationOptionValue": "STANDARD_DUTY"
         },
         {
-            "__typename": "ConfigurationOption",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDNd",
-            "id": 3,
-            "name": "DURABILITY",
-            "parentSystemConfigurationId": 6
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY",
+            "defaultConfigurationOptionValue": "STANDARD_DUTY"
         }
     ],
-    "_configurationOptionValues": [
+    "configurationOptionValuesBySystemId": [
         {
-            "__typename": "ConfigurationOptionValue",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDFd",
-            "id": 1,
-            "name": "STANDARD_DUTY",
-            "parentConfigurationOptionId": 1
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
         },
         {
-            "__typename": "ConfigurationOptionValue",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDJd",
-            "id": 2,
-            "name": "HIGH_PERFORMANCE",
-            "parentConfigurationOptionId": 1
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
         },
         {
-            "__typename": "ConfigurationOptionValue",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDNd",
-            "id": 3,
-            "name": "STANDARD_DUTY",
-            "parentConfigurationOptionId": 2
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
         },
         {
-            "__typename": "ConfigurationOptionValue",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDRd",
-            "id": 4,
-            "name": "HIGH_PERFORMANCE",
-            "parentConfigurationOptionId": 2
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
         },
         {
-            "__typename": "ConfigurationOptionValue",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDVd",
-            "id": 5,
-            "name": "STANDARD_DUTY",
-            "parentConfigurationOptionId": 3
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
         },
         {
-            "__typename": "ConfigurationOptionValue",
-            "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLDZd",
-            "id": 6,
-            "name": "HIGH_PERFORMANCE",
-            "parentConfigurationOptionId": 3
+            "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
         }
-    ],
-    "__by": "Id"
+    ]
 }

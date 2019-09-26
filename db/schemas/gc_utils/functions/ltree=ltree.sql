@@ -7,13 +7,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;
 
-CREATE OPERATOR === (
-    LEFTARG = LTREE,
-    RIGHTARG = LTREE,
-    PROCEDURE = gc_utils.ltree_eq_ltree,
-    COMMUTATOR = ===
-);
-
 CREATE OPERATOR = (
     LEFTARG = LTREE,
     RIGHTARG = LTREE,

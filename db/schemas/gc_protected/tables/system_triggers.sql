@@ -7,6 +7,8 @@ DROP FUNCTION IF EXISTS generate_system_configuration_path;
 DROP FUNCTION IF EXISTS generate_configuration_option_path;
 DROP FUNCTION IF EXISTS generate_configuration_option_value_path;
 
+
+
 CREATE OR REPLACE FUNCTION gc_protected.generate_system_option_path()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -29,6 +31,8 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER generate_system_option_path
 BEFORE INSERT OR UPDATE ON system_options
 FOR EACH ROW EXECUTE FUNCTION generate_system_option_path();
+
+
 
 CREATE OR REPLACE FUNCTION gc_protected.generate_system_option_value_path()
 RETURNS TRIGGER AS $$
@@ -61,6 +65,8 @@ CREATE TRIGGER generate_system_option_value_path
 BEFORE INSERT OR UPDATE ON system_option_values
 FOR EACH ROW EXECUTE FUNCTION generate_system_option_value_path();
 
+
+
 CREATE OR REPLACE FUNCTION gc_protected.generate_system_detail_path()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -81,6 +87,8 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER generate_system_detail_path
 BEFORE INSERT OR UPDATE ON system_details
 FOR EACH ROW EXECUTE FUNCTION generate_system_detail_path();
+
+
 
 CREATE OR REPLACE FUNCTION gc_protected.generate_detail_option_path()
 RETURNS TRIGGER AS $$
@@ -104,6 +112,8 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER generate_detail_option_path
 BEFORE INSERT OR UPDATE ON detail_options
 FOR EACH ROW EXECUTE FUNCTION generate_detail_option_path();
+
+
 
 CREATE OR REPLACE FUNCTION gc_protected.generate_detail_option_value_path()
 RETURNS TRIGGER AS $$
@@ -134,6 +144,8 @@ CREATE TRIGGER generate_detail_option_value_path
 BEFORE INSERT OR UPDATE ON detail_option_values
 FOR EACH ROW EXECUTE FUNCTION generate_detail_option_value_path();
 
+
+
 CREATE OR REPLACE FUNCTION gc_protected.generate_system_configuration_path()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -154,6 +166,8 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER generate_system_configuration_path
 BEFORE INSERT OR UPDATE ON system_configurations
 FOR EACH ROW EXECUTE FUNCTION generate_system_configuration_path();
+
+
 
 CREATE OR REPLACE FUNCTION gc_protected.generate_configuration_option_path()
 RETURNS TRIGGER AS $$
@@ -177,6 +191,8 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER generate_configuration_option_path
 BEFORE INSERT OR UPDATE ON configuration_options
 FOR EACH ROW EXECUTE FUNCTION generate_configuration_option_path();
+
+
 
 CREATE OR REPLACE FUNCTION gc_protected.generate_configuration_option_value_path()
 RETURNS TRIGGER AS $$

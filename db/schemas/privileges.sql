@@ -85,7 +85,7 @@ GRANT EXECUTE ON FUNCTION
     gc_public.get_current_user
 TO unauthorized;
 
--- 
+-- UTILS
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_utils TO PUBLIC;
 
 

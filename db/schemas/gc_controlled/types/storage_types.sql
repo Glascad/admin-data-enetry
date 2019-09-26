@@ -63,11 +63,3 @@ gc_controlled.orientation AS ENUM (
     'LEFT',
     'RIGHT'
 );
-
-CREATE TYPE
-gc_controlled.child_type AS ENUM (
-    'OPTION',
-    'DETAIL',
-    'CONFIGURATION',
-    'PART'
-);

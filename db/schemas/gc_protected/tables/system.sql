@@ -18,6 +18,7 @@ gc_protected.system_options (
     parent_system_option_value_path LTREE,
     path LTREE PRIMARY KEY,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
+    default_system_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
     -- replaced with gist vvv
     -- CHECK (
@@ -48,7 +49,7 @@ gc_protected.system_option_values (
     path LTREE PRIMARY KEY,
     option_name OPTION_NAME NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
-    child_type CHILD_TYPE DEFAULT 'DETAIL' NOT NULL,
+    UNIQUE (parent_system_option_path, name),
     FOREIGN KEY (
         parent_system_option_path,
         option_name
@@ -75,6 +76,17 @@ gc_protected.system_option_values (
 );
 
 ALTER TABLE system_options
+-- default
+ADD FOREIGN KEY (
+    path,
+    default_system_option_value
+) 
+REFERENCES system_option_values (
+    parent_system_option_path,
+    name
+)
+INITIALLY DEFERRED,
+-- parent
 ADD FOREIGN KEY (parent_system_option_value_path)
 REFERENCES system_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
@@ -105,6 +117,7 @@ gc_protected.detail_options (
     parent_detail_option_value_path LTREE,
     path LTREE PRIMARY KEY,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
+    default_detail_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
     CHECK (
         either_or(
@@ -130,7 +143,7 @@ gc_protected.detail_option_values (
     path LTREE PRIMARY KEY,
     option_name OPTION_NAME NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
-    child_type CHILD_TYPE DEFAULT 'CONFIGURATION' NOT NULL,
+    UNIQUE (parent_detail_option_path, name),
     FOREIGN KEY (
         parent_detail_option_path,
         option_name
@@ -157,8 +170,18 @@ gc_protected.detail_option_values (
 );
 
 ALTER TABLE detail_options
-ADD FOREIGN KEY (parent_detail_option_value_path)
-REFERENCES detail_option_values
+-- default
+ADD FOREIGN KEY (
+    path,
+    default_detail_option_value
+)
+REFERENCES detail_option_values (
+    parent_detail_option_path,
+    name
+)
+INITIALLY DEFERRED,
+-- parent
+ADD FOREIGN KEY (parent_detail_option_value_path) REFERENCES detail_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 -- CONFIGURATION TYPES
@@ -188,6 +211,7 @@ gc_protected.configuration_options (
     parent_configuration_option_value_path LTREE,
     path LTREE PRIMARY KEY,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
+    default_configuration_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
     CHECK (
         either_or(
@@ -213,7 +237,7 @@ gc_protected.configuration_option_values (
     path LTREE PRIMARY KEY,
     option_name OPTION_NAME NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
-    child_type CHILD_TYPE DEFAULT 'PART' NOT NULL,
+    UNIQUE (parent_configuration_option_path, name),
     FOREIGN KEY (
         parent_configuration_option_path,
         option_name
@@ -240,8 +264,18 @@ gc_protected.configuration_option_values (
 );
 
 ALTER TABLE configuration_options
-ADD FOREIGN KEY (parent_configuration_option_value_path)
-REFERENCES configuration_option_values
+-- default
+ADD FOREIGN KEY (
+    path,
+    default_configuration_option_value
+)
+REFERENCES configuration_option_values (
+    parent_configuration_option_path,
+    name
+)
+INITIALLY DEFERRED,
+-- parent
+ADD FOREIGN KEY (parent_configuration_option_value_path) REFERENCES configuration_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 -- PARTS
