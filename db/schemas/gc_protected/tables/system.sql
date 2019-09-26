@@ -309,3 +309,33 @@ gc_protected.configuration_parts (
         system_id = subltree(parent_configuration_option_value_path, 0, 1)::TEXT::INTEGER
     )
 );
+
+-- OPTION GROUPS
+
+CREATE TABLE
+gc_protected.option_groups (
+    id SERIAL PRIMARY KEY,
+    name OPTION_NAME REFERENCES valid_options NOT NULL,
+    UNIQUE (id, name)
+);
+
+CREATE TABLE
+gc_protected.option_group_values (
+    option_group_id INTEGER REFERENCES option_groups,
+    option_name OPTION_NAME REFERENCES valid_options NOT NULL,
+    name OPTION_VALUE_NAME NOT NULL,
+    FOREIGN KEY (
+        option_group_id,
+        option_name
+    ) REFERENCES option_groups (
+        id,
+        name
+    ),
+    FOREIGN KEY (
+        option_name,
+        name
+    ) REFERENCES valid_option_values (
+        option_name,
+        name
+    )
+);

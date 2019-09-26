@@ -16,8 +16,9 @@ CREATE TABLE
 gc_protected.system_set_detail_option_values (
     id SERIAL PRIMARY KEY,
     system_set_id INTEGER REFERENCES system_sets,
-    system_option_value_path LTREE NOT NULL,
+    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
     detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
+    UNIQUE (id, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
         system_option_value_path
@@ -31,10 +32,25 @@ gc_protected.system_set_detail_option_values (
     )
 );
 
--- CREATE TABLE
--- gc_protected.system_set_raised_option_values (
---     id SERIAL PRIMARY KEY,
---     system_set_id INTEGER REFERENCES system_sets NOT NULL,
+CREATE TABLE
+gc_protected.system_set_raised_option_values (
+    id SERIAL PRIMARY KEY,
+    system_set_detail_option_value_id INTEGER REFERENCES system_set_detail_option_values NOT NULL,
+    detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
+    configuration_option_value_path LTREE REFERENCES configuration_option_values NOT NULL,
+    FOREIGN KEY (
+        system_set_detail_option_value_id,
+        detail_option_value_path
+    )
+    REFERENCES system_set_detail_option_values (
+        id,
+        detail_option_value_path
+    ),
+    CHECK (
+        detail_option_value_path @> configuration_option_value_path
+    )
+);
+
 --     system_id INTEGER REFERENCES systems NOT NULL,
 --     option_name OPTION_NAME REFERENCES valid_options NOT NULL,
 --     option_value_name OPTION_VALUE_NAME NOT NULL,
@@ -52,7 +68,6 @@ gc_protected.system_set_detail_option_values (
 --         system_id,
 --         option_name
 --     )
--- );
 
 -- CREATE TABLE
 -- gc_protected.system_set_detail_option_values (
