@@ -18,9 +18,6 @@ function testGetFirstItem({
 testGetFirstItem({
     system: sample1,
     firstItem: {
-        __typename: "SystemOption",
-        nodeId: "WyJzeXN0ZW1fb3B0aW9ucyIsMV0=",
-        id: 1,
-        name: "SET",
+        path: "1.SET",
     },
 });

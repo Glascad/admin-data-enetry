@@ -135,7 +135,7 @@ describe('Testing sidbar actions in system builder', () => {
 
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Compensating{enter}');
-        cy.getDataCy`SystemConfiguration-compensating receptor`;
+        cy.getDataCy`SystemConfiguration-compensating_receptor`;
 
         // Need to tie configurations to STDTCT
         cy.getDataCy`add-configuration`.click()

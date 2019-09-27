@@ -31,10 +31,8 @@ export const SYSTEM_OPTION_FIELDS = gql`
     fragment SystemOptionFields on SystemOption {
         __typename
         nodeId
-        id
-        name
-        parentSystemOptionValueId
-        defaultSystemOptionValueId
+        path
+        defaultSystemOptionValue
     }
 `;
 
@@ -42,11 +40,9 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
     fragment SystemOptionValueFields on SystemOptionValue {
         __typename
         nodeId
-        id
-        name
+        path
         # raisedOptionNames
         # raisedConfigurationTypes
-        parentSystemOptionId
     }
 `;
 
@@ -54,9 +50,7 @@ export const SYSTEM_DETAIL_FIELDS = gql`
     fragment SystemDetailFields on SystemDetail {
         __typename
         nodeId
-        id
-        detailType
-        parentSystemOptionValueId
+        path
     }
 `;
 
@@ -64,11 +58,8 @@ export const DETAIL_OPTION_FIELDS = gql`
     fragment DetailOptionFields on DetailOption {
         __typename
         nodeId
-        id
-        name
-        parentSystemDetailId
-        parentDetailOptionValueId
-        defaultDetailOptionValueId
+        path
+        defaultDetailOptionValue
     }
 `;
 
@@ -76,9 +67,7 @@ export const DETAIL_OPTION_VALUE_FIELDS = gql`
     fragment DetailOptionValueFields on DetailOptionValue {
         __typename
         nodeId
-        id
-        name
-        parentDetailOptionId
+        path
     }
 `;
 
@@ -86,10 +75,9 @@ export const SYSTEM_CONFIGURATION_FIELDS = gql`
     fragment SystemConfigurationFields on SystemConfiguration {
         __typename
         nodeId
-        id
-        configurationType
+        path
         optional
-        parentDetailOptionValueId
+        transform { a b c d e f g h i }
     }
 `;
 
@@ -97,11 +85,8 @@ export const CONFIGURATION_OPTION_FIELDS = gql`
     fragment ConfigurationOptionFields on ConfigurationOption {
         __typename
         nodeId
-        id
-        name
-        parentSystemConfigurationId
-        parentConfigurationOptionValueId
-        defaultConfigurationOptionValueId
+        path
+        defaultConfigurationOptionValue
     }
 `;
 
@@ -109,9 +94,7 @@ export const CONFIGURATION_OPTION_VALUE_FIELDS = gql`
     fragment ConfigurationOptionValueFields on ConfigurationOptionValue {
         __typename
         nodeId
-        id
-        name
-        parentConfigurationOptionId
+        path
     }
 `;
 
