@@ -20,17 +20,15 @@ gc_protected.system_options (
     name OPTION_NAME REFERENCES valid_options NOT NULL,
     default_system_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
-    -- replaced with gist vvv
-    -- CHECK (
-    --     either_or(
-    --         parent_system_option_value_path IS NULL,
-    --         system_id IS NULL
-    --     )
-    -- ),
     CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ parent_system_option_value_path)
+        AND
+        -- must be unique (system_id, parent_system_option_value_path)
+        -- with only one null parent_system_option_value_path
         path = COALESCE(
             parent_system_option_value_path,
             system_id::TEXT::LTREE
@@ -68,9 +66,10 @@ gc_protected.system_option_values (
         name
     ),
     CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have correct path
         path = parent_system_option_path || name::TEXT
     )
 );
@@ -101,9 +100,10 @@ gc_protected.system_details (
     path LTREE PRIMARY KEY,
     detail_type DETAIL_TYPE NOT NULL,
     CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have correct path
         path = parent_system_option_value_path || detail_type::TEXT
     )
 );
@@ -120,15 +120,16 @@ gc_protected.detail_options (
     default_detail_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
     CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have exactly one parent
         either_or(
             parent_system_detail_path IS NULL,
             parent_detail_option_value_path IS NULL
         )
-    ),
-    CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        AND
+        -- must have correct path
         path = COALESCE(
             parent_system_detail_path,
             parent_detail_option_value_path
@@ -162,9 +163,10 @@ gc_protected.detail_option_values (
         name
     ),
     CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        -- must have correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have correct path
         path = parent_detail_option_path || name::TEXT
     )
 );
@@ -195,9 +197,10 @@ gc_protected.system_configurations (
     optional BOOLEAN DEFAULT FALSE NOT NULL,
     transform MATRIX,
     CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have correct path
         path = parent_detail_option_value_path || configuration_type::TEXT
     )
 );
@@ -214,15 +217,16 @@ gc_protected.configuration_options (
     default_configuration_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
     CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have exactly one parent
         either_or(
             parent_system_configuration_path IS NULL,
             parent_configuration_option_value_path IS NULL
         )
-    ),
-    CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        AND
+        -- must have correct path
         path = COALESCE(
             parent_system_configuration_path,
             parent_configuration_option_value_path
@@ -256,9 +260,10 @@ gc_protected.configuration_option_values (
         name
     ),
     CHECK (
-        system_id = subltree(path, 0, 1)::TEXT::INTEGER
-    ),
-    CHECK (
+        -- must belong to correct system
+        (system_id || '.*')::LQUERY ~ path
+        AND
+        -- must have correct path
         path = parent_configuration_option_path || name::TEXT
     )
 );
@@ -306,36 +311,6 @@ gc_protected.configuration_parts (
         orientation
     ),
     CHECK (
-        system_id = subltree(parent_configuration_option_value_path, 0, 1)::TEXT::INTEGER
-    )
-);
-
--- OPTION GROUPS
-
-CREATE TABLE
-gc_protected.option_groups (
-    id SERIAL PRIMARY KEY,
-    name OPTION_NAME REFERENCES valid_options NOT NULL,
-    UNIQUE (id, name)
-);
-
-CREATE TABLE
-gc_protected.option_group_values (
-    option_group_id INTEGER REFERENCES option_groups,
-    option_name OPTION_NAME REFERENCES valid_options NOT NULL,
-    name OPTION_VALUE_NAME NOT NULL,
-    FOREIGN KEY (
-        option_group_id,
-        option_name
-    ) REFERENCES option_groups (
-        id,
-        name
-    ),
-    FOREIGN KEY (
-        option_name,
-        name
-    ) REFERENCES valid_option_values (
-        option_name,
-        name
+        (system_id || '.*')::LQUERY ~ parent_configuration_option_value_path
     )
 );

@@ -41,6 +41,7 @@ ${require('../../db/schemas/gc_data/tables/manufacturer_data.sql')}
 ${require('../../db/schemas/gc_private/tables.sql')}
 ${require('../../db/schemas/gc_public/tables.sql')}
 ${require('../../db/schemas/gc_protected/tables/system.sql')}
+${require('../../db/schemas/gc_protected/tables/system_option_groups.sql')}
 ${require('../../db/schemas/gc_protected/tables/system_set.sql')}
 ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 
