@@ -1,8 +1,12 @@
 
 SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_controlled, gc_private;
 
+
+
 -- INITIAL MANUFACTURER
 INSERT INTO manufacturers (name) VALUES ('Kawneer');
+
+
 
 -- INITIAL SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type) VALUES ('Initial System', 1, 'STOREFRONT');
@@ -61,16 +65,41 @@ INSERT INTO configuration_option_values (name, parent_configuration_option_path)
 ('STANDARD_DUTY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY'),
 ('HIGH_PERFORMANCE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY');
 
+INSERT INTO option_groups (system_id, name) VALUES
+(1, 'STOPS'),
+(1, 'GLAZING');
+
+INSERT INTO option_group_values (system_id, option_name, name) VALUES
+(1, 'STOPS', 'UP'),
+(1, 'STOPS', 'DOWN'),
+(1, 'GLAZING', 'INSIDE'),
+(1, 'GLAZING', 'OUTSIDE');
+
+
+
 -- TEST SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type)
 VALUES ('Test System', 1, 'STOREFRONT');
 
+
+
 -- PROJECT FOR USER_ONE
 INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
+
+
 
 -- TEST PROJECT
 INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
 
--- -- TEST SYSTEM SET
--- INSERT INTO system_sets (project_id, system_id, system_option_value_id, name) VALUES
--- (2, 1, 5, 'Initial System Set');
+
+
+-- TEST SYSTEM SET
+INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
+(1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
+
+INSERT INTO system_set_option_group_values (system_id, system_set_id, option_name, name) VALUES
+(1, 1, 'STOPS', 'DOWN'),
+(1, 1, 'GLAZING', 'OUTSIDE');
+
+INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE');

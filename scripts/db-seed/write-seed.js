@@ -6,11 +6,11 @@ const pfs = require('../../server/utils/promise-fs');
 module.exports = async function writeSeed() {
     try {
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Compiling database seed`);
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ./db/schemas`);
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ./db`);
 
         await compileDbFiles();
 
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully read files from ./db/schemas`);
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully read files from ./db`);
 
         const SEED_FILE = generateSeedFile();
 

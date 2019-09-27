@@ -4,7 +4,7 @@ const { removeComments, cleanKeys, removeExt, getKeys } = require('./utils');
 
 module.exports = async function compileDbFiles() {
 
-    const filesWithComments = await filesToJSON(`${__dirname}/../../db/schemas`);
+    const filesWithComments = await filesToJSON(`${__dirname}/../../db`);
 
     const files = removeComments(filesWithComments);
 

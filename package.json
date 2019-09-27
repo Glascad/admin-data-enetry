@@ -37,7 +37,9 @@
         "compile-seed": "node ./scripts/db-seed/write-seed",
         "seed-db": "node ./scripts/db-seed",
         "map-schemas": "node ./scripts/map-schemas",
-        "map-src": "node ./scripts/map-src-files"
+        "map-src": "node ./scripts/map-src-files",
+        "serve": "nodemon",
+        "cloc": "cloc src db scripts --exclude-ext=json"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -70,8 +72,7 @@
         "watch": [
             "db/",
             "server/",
-            "db/*",
-            "server/*",
+            "scripts/",
             ".env",
             "index.js"
         ]

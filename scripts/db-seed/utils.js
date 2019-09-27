@@ -56,7 +56,7 @@ const getDbContents = path => {
     const DB = require('../../compiled/db-seed.js');
 
     const contents = path
-        .replace('../../db/schemas/', '')
+        .replace('../../db/', '')
         .replace(/-/, '_')
         .replace(/\.sql/, '')
         .split(/\//)
@@ -81,7 +81,7 @@ const _require = path => {
     else {
         requiredPaths.push(path);
         return path.match(/\/|\./) ?
-            path.startsWith('../../db/schemas/') ?
+            path.startsWith('../../db/') ?
                 getDbContents(path)
                 :
                 require(`${__dirname}/${path}`)

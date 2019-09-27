@@ -13,8 +13,6 @@ cypress.json
 # production
 /build
 /compiled
-/db/compiled
-/db/dump
 
 # misc
 .DS_Store

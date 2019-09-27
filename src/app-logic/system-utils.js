@@ -26,7 +26,7 @@ export class SystemMap {
                 const [parentKey] = Object.entries(item).find(([key, value]) => key.match(/^parent/) && value) || [];
                 const { [parentKey]: id } = item;
                 return `${parentKey}:${id}`;
-            })
+            }),
         );
     }
 }
@@ -77,7 +77,7 @@ export const getChildTrail = (item, system, trail) => {
 }
 
 
-export const getChildren = ({ path, fakeId, id } = {}, systemMap) => systemMap instanceof SystemMap ? (
+export const getChildren = ({ __typename, path, fakeId, id } = {}, systemMap) => systemMap instanceof SystemMap ? (
     systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]
     ||
     []
@@ -91,7 +91,7 @@ export const makeRenderable = system => {
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
     console.log({ systemMap });
-    return makeNodeRenderable(getFirstItem(system));
+    return makeNodeRenderable(system._systemOptions.find(({ path = '' }) => path.match(/^\d\.\w+$/)));
 }
 
 

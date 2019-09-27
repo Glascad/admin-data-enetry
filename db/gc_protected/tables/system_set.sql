@@ -7,9 +7,39 @@ gc_protected.system_sets (
     system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
     name VARCHAR(50),
     UNIQUE (id, system_option_value_path),
+    UNIQUE (id, system_id),
     CHECK (
         system_id = subltree(system_option_value_path, 0, 1)::TEXT::INTEGER
     )
+);
+
+CREATE TABLE
+gc_protected.system_set_option_group_values (
+    id SERIAL PRIMARY KEY,
+    system_id INTEGER REFERENCES systems NOT NULL,
+    system_set_id INTEGER REFERENCES system_sets NOT NULL,
+    option_name OPTION_NAME NOT NULL,
+    name OPTION_VALUE_NAME NOT NULL,
+    UNIQUE (system_set_id, option_name, name),
+    FOREIGN KEY (
+        system_set_id,
+        system_id
+    )
+    REFERENCES system_sets (
+        id,
+        system_id
+    ),
+    FOREIGN KEY (
+        system_id,
+        option_name,
+        name
+    )
+    REFERENCES option_group_values (
+        system_id,
+        option_name,
+        name
+    )
+    INITIALLY DEFERRED
 );
 
 CREATE TABLE
@@ -18,6 +48,7 @@ gc_protected.system_set_detail_option_values (
     system_set_id INTEGER REFERENCES system_sets,
     system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
     detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
+    UNIQUE (system_set_id, detail_option_value_path),
     UNIQUE (id, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
@@ -33,7 +64,7 @@ gc_protected.system_set_detail_option_values (
 );
 
 CREATE TABLE
-gc_protected.system_set_raised_option_values (
+gc_protected.system_set_configuration_option_values (
     id SERIAL PRIMARY KEY,
     system_set_detail_option_value_id INTEGER REFERENCES system_set_detail_option_values NOT NULL,
     detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
@@ -50,6 +81,8 @@ gc_protected.system_set_raised_option_values (
         detail_option_value_path @> configuration_option_value_path
     )
 );
+
+
 
 --     system_id INTEGER REFERENCES systems NOT NULL,
 --     option_name OPTION_NAME REFERENCES valid_options NOT NULL,

@@ -9,6 +9,8 @@ DROP FUNCTION IF EXISTS generate_configuration_option_value_path;
 
 
 
+-- SYSTEM ITEMS
+
 CREATE OR REPLACE FUNCTION gc_protected.generate_system_option_path()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -223,3 +225,28 @@ CREATE TRIGGER generate_configuration_option_value_path
 BEFORE INSERT OR UPDATE ON configuration_option_values
 FOR EACH ROW EXECUTE FUNCTION generate_configuration_option_value_path();
 
+
+
+-- SYSTEM SET ITEMS
+
+-- need to figure out how to extract the system option value path from the detail option value path
+-- will simply select from the table
+
+CREATE OR REPLACE FUNCTION gc_protected.system_set_detail_option_value_path()
+RETURNS TRIGGER AS $$
+BEGIN
+
+    SELECT system_option_value_path FROM system_sets ss
+    INTO NEW.system_option_value_path
+    WHERE ss.system_option_value_path @> COALESCE(
+        NEW.detail_option_value_path,
+        OLD.detail_option_value_path
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER system_set_detail_option_value_path
+BEFORE INSERT OR UPDATE ON system_set_detail_option_values
+FOR EACH ROW EXECUTE FUNCTION system_set_detail_option_value_path();
