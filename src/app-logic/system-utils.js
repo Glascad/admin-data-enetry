@@ -32,8 +32,8 @@ export class SystemMap {
 }
 
 
-export const getFirstItem = ({ _systemOptions = [] }) => (
-    _systemOptions.find(({ parentSystemOptionValueId }) => !parentSystemOptionValueId)
+export const getFirstItem = ({ _systemOptions = [], id }) => (
+    _systemOptions.find(({ path = '' }) => path.match(/^\d\.\w+$/))
 );
 
 
@@ -77,7 +77,7 @@ export const getChildTrail = (item, system, trail) => {
 }
 
 
-export const getChildren = ({ __typename, fakeId, id } = {}, systemMap) => systemMap instanceof SystemMap ? (
+export const getChildren = ({ path, fakeId, id } = {}, systemMap) => systemMap instanceof SystemMap ? (
     systemMap[`parent${__typename}${fakeId ? 'Fake' : ''}Id:${fakeId || id}`]
     ||
     []
