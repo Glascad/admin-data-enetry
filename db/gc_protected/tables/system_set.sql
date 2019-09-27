@@ -66,15 +66,15 @@ gc_protected.system_set_detail_option_values (
 CREATE TABLE
 gc_protected.system_set_configuration_option_values (
     id SERIAL PRIMARY KEY,
-    system_set_detail_option_value_id INTEGER REFERENCES system_set_detail_option_values NOT NULL,
+    system_set_id INTEGER REFERENCES system_sets,
     detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
     configuration_option_value_path LTREE REFERENCES configuration_option_values NOT NULL,
     FOREIGN KEY (
-        system_set_detail_option_value_id,
+        system_set_id,
         detail_option_value_path
     )
     REFERENCES system_set_detail_option_values (
-        id,
+        system_set_id,
         detail_option_value_path
     ),
     CHECK (

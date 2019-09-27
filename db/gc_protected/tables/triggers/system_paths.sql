@@ -1,11 +1,13 @@
-DROP FUNCTION IF EXISTS generate_system_option_path;
-DROP FUNCTION IF EXISTS generate_system_option_value_path;
-DROP FUNCTION IF EXISTS generate_system_detail_path;
-DROP FUNCTION IF EXISTS generate_detail_option_path;
-DROP FUNCTION IF EXISTS generate_detail_option_value_path;
-DROP FUNCTION IF EXISTS generate_system_configuration_path;
-DROP FUNCTION IF EXISTS generate_configuration_option_path;
-DROP FUNCTION IF EXISTS generate_configuration_option_value_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_system_option_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_system_option_value_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_system_detail_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_detail_option_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_detail_option_value_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_system_configuration_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_configuration_option_path;
+DROP FUNCTION IF EXISTS gc_protected.generate_configuration_option_value_path;
+DROP FUNCTION IF EXISTS gc_protected.system_set_detail_option_value_path;
+DROP FUNCTION IF EXISTS gc_protected.system_set_configuration_option_value_path;
 
 
 
@@ -229,9 +231,6 @@ FOR EACH ROW EXECUTE FUNCTION generate_configuration_option_value_path();
 
 -- SYSTEM SET ITEMS
 
--- need to figure out how to extract the system option value path from the detail option value path
--- will simply select from the table
-
 CREATE OR REPLACE FUNCTION gc_protected.system_set_detail_option_value_path()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -250,3 +249,24 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER system_set_detail_option_value_path
 BEFORE INSERT OR UPDATE ON system_set_detail_option_values
 FOR EACH ROW EXECUTE FUNCTION system_set_detail_option_value_path();
+
+
+
+CREATE OR REPLACE FUNCTION gc_protected.system_set_configuration_option_value_path()
+RETURNS TRIGGER AS $$
+BEGIN
+
+    SELECT detail_option_value_path FROM system_set_detail_option_values ssdov
+    INTO NEW.detail_option_value_path
+    WHERE ssdov.detail_option_value_path @> COALESCE(
+        NEW.configuration_option_value_path,
+        OLD.configuration_option_value_path
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER system_set_configuration_option_value_path
+BEFORE INSERT OR UPDATE ON system_set_configuration_option_values
+FOR EACH ROW EXECUTE FUNCTION system_set_configuration_option_value_path();

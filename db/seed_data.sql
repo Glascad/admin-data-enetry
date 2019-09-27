@@ -102,4 +102,7 @@ INSERT INTO system_set_option_group_values (system_id, system_set_id, option_nam
 (1, 1, 'GLAZING', 'OUTSIDE');
 
 INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
-(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE');
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');
+
+INSERT INTO system_set_configuration_option_values (system_set_id, configuration_option_value_path) VALUES
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY');
