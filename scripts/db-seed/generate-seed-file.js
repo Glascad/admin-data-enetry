@@ -20,7 +20,7 @@ ${require('../../db/gc_controlled/types/auth_types.sql')}
 ${require('../../db/gc_controlled/types/storage_types.sql')}
 ${require('../../db/gc_controlled/types/architecture_types.sql')}
 ${require('../../db/gc_public/types')}
--- output_types
+-- output_types;
 ${require('../../db/gc_data/types.sql')}
 
 
@@ -37,11 +37,11 @@ ${require('../../db/gc_utils/functions/ltree=ltree.sql')}
 ${require('../../db/gc_controlled/tables.sql')}
 ${require('../../db/gc_data/tables/app_data.sql')}
 ${require('../../db/gc_data/tables/manufacturer_data.sql')}
--- configuration_data
+-- configuration_data;
 ${require('../../db/gc_private/tables.sql')}
 ${require('../../db/gc_public/tables.sql')}
 ${require('../../db/gc_protected/tables/system.sql')}
-${require('../../db/gc_protected/tables/system_option_groups.sql')}
+${require('../../db/gc_protected/tables/option_groups.sql')}
 ${require('../../db/gc_protected/tables/system_set.sql')}
 ${require('../../db/gc_protected/tables/elevation.sql')}
 
@@ -49,6 +49,7 @@ ${require('../../db/gc_protected/tables/elevation.sql')}
 ----- TRIGGERS -----;
 
 ${require('../../db/gc_protected/tables/triggers/system_paths.sql')}
+${require('../../db/gc_protected/tables/triggers/system_groups.sql')}
 ${require('../../db/gc_protected/tables/triggers/system_set_groups.sql')}
 
 
@@ -76,14 +77,14 @@ ${require('../../db/gc_protected/functions/system/create_or_update_type/configur
 ${require('../../db/gc_protected/functions/system/set_default_option_value/system.sql')}
 ${require('../../db/gc_protected/functions/system/set_default_option_value/detail.sql')}
 ${require('../../db/gc_protected/functions/system/set_default_option_value/configuration.sql')}
--- delete_entire_configuration_option
--- delete_entire_system_configuration
+-- delete_entire_configuration_option;
+-- delete_entire_system_configuration;
 ${require('../../db/gc_protected/functions/project/create_or_update_raised_option_value.sql')}
 ${require('../../db/gc_protected/functions/project/create_or_update_system_set.sql')}
--- create_or_update_option_value
--- create_or_update_system_option
--- update_entire_system_configuration_override
--- update_entire_system_option
+-- create_or_update_option_value;
+-- create_or_update_system_option;
+-- update_entire_system_configuration_override;
+-- update_entire_system_option;
 ${require('../../db/gc_data/functions/update_entire_system.sql')}
 ${require('../../db/gc_public/functions/mutations/authenticate.sql')}
 ${require('../../db/gc_public/functions/mutations/copy_elevation.sql')}
@@ -96,9 +97,9 @@ ${require('../../db/gc_public/functions/mutations/update_entire_elevation.sql')}
 ${require('../../db/gc_public/functions/mutations/update_entire_system_set.sql')}
 ${require('../../db/gc_public/functions/queries/get_current_user.sql')}
 ${require('../../db/gc_public/functions/queries/get_current_user_id.sql')}
--- select_system
--- select_system_set
--- select_system_type
+-- select_system;
+-- select_system_set;
+-- select_system_type;
 
 
 ----- INSERTIONS -----;

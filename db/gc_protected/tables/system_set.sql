@@ -31,12 +31,10 @@ gc_protected.system_set_option_group_values (
     ),
     FOREIGN KEY (
         system_id,
-        option_name,
-        name
+        option_name
     )
-    REFERENCES option_group_values (
+    REFERENCES option_groups (
         system_id,
-        option_name,
         name
     )
     INITIALLY DEFERRED

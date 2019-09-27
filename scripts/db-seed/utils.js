@@ -69,7 +69,7 @@ const getDbContents = path => {
         contents.match(/^\s*$/)
         ||
         contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))
-    ) console.warn(`${chalk.yellowBright`Warning:`} File commented out: ${chalk.yellow(path)}`);
+    ) console.warn(`${chalk.yellowBright`Warning:`} File commented out: ${chalk.yellow(path.replace('../../', ''))}`);
 
     return insertEnvVars(path, contents);
 }

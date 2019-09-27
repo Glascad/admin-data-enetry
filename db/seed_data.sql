@@ -69,11 +69,11 @@ INSERT INTO option_groups (system_id, name) VALUES
 (1, 'STOPS'),
 (1, 'GLAZING');
 
-INSERT INTO option_group_values (system_id, option_name, name) VALUES
-(1, 'STOPS', 'UP'),
-(1, 'STOPS', 'DOWN'),
-(1, 'GLAZING', 'INSIDE'),
-(1, 'GLAZING', 'OUTSIDE');
+-- INSERT INTO option_group_values (system_id, option_group_id, option_name, name) VALUES
+-- (1, 1, 'STOPS', 'UP'),
+-- (1, 1, 'STOPS', 'DOWN'),
+-- (1, 2, 'GLAZING', 'INSIDE'),
+-- (1, 2, 'GLAZING', 'OUTSIDE');
 
 
 
