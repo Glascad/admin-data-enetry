@@ -46,8 +46,10 @@ gc_protected.option_groups (
 
 -- OPTIONS
 
-ALTER TABLE system_options
-ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
+-- non-applicable to system options
+
+-- ALTER TABLE system_options
+-- ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
 
 ALTER TABLE detail_options
 ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
@@ -55,16 +57,16 @@ ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
 ALTER TABLE configuration_options
 ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
 
-ALTER TABLE system_options
-ADD FOREIGN KEY (
-    option_group_id,
-    name
-)
-REFERENCES option_groups (
-    id,
-    name
-)
-INITIALLY DEFERRED;
+-- ALTER TABLE system_options
+-- ADD FOREIGN KEY (
+--     option_group_id,
+--     name
+-- )
+-- REFERENCES option_groups (
+--     id,
+--     name
+-- )
+-- INITIALLY DEFERRED;
 
 ALTER TABLE detail_options
 ADD FOREIGN KEY (
@@ -91,8 +93,8 @@ INITIALLY DEFERRED;
 
 -- VALUES
 
-ALTER TABLE system_option_values
-ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
+-- ALTER TABLE system_option_values
+-- ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
 
 ALTER TABLE detail_option_values
 ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
@@ -100,16 +102,16 @@ ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
 ALTER TABLE configuration_option_values
 ADD COLUMN option_group_id INTEGER REFERENCES option_groups;
 
-ALTER TABLE system_option_values
-ADD FOREIGN KEY (
-    option_group_id,
-    option_name
-)
-REFERENCES option_groups (
-    id,
-    name
-)
-INITIALLY DEFERRED;
+-- ALTER TABLE system_option_values
+-- ADD FOREIGN KEY (
+--     option_group_id,
+--     option_name
+-- )
+-- REFERENCES option_groups (
+--     id,
+--     name
+-- )
+-- INITIALLY DEFERRED;
 
 ALTER TABLE detail_option_values
 ADD FOREIGN KEY (
