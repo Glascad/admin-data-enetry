@@ -4,7 +4,8 @@ import { makeRenderable } from '../../../../../app-logic/system-utils';
 import { normalCase } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
-import { ADD_OPTION } from '../ducks/actions';
+import { ADD_ITEM } from '../ducks/actions';
+// import { ADD_OPTION } from '../ducks/actions';
 
 export default function SystemTree({
     system,
@@ -19,12 +20,15 @@ export default function SystemTree({
     dispatch,
 }) {
 
+    console.log(arguments[0]);
+
     const { Viewport } = useContext(StaticContext);
 
     useEffect(() => {
-        if (!length && !fetching) dispatch(ADD_OPTION, {
+        if (!length && !fetching) dispatch(ADD_ITEM, {
             __typename: "SystemOption",
             name: "ADD_OPTION",
+            parentPath: `${system.id}`
         }, {
             replaceState: true,
         });

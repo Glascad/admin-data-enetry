@@ -49,7 +49,7 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    const selectedItem = findItemByIdAndTypename(system, originalSelectedItem);
+    const selectedItem = systemMap[originalSelectedItem];
 
     useEffect(() => {
         if (!selectedItem) selectItem();
@@ -62,6 +62,7 @@ export default function SystemBuilder({
     )(systemInput => ({
         ...systemInput,
         ...ACTION(
+            systemMap,
             systemInput,
             payload,
         ),
