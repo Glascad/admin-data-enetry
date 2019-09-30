@@ -1,30 +1,30 @@
-import { getChildren, SystemMap } from "../../system-utils";
+import { getSiblings, SystemMap } from "../../system-utils";
 import { sample1 } from "../sample-systems";
 
-function testGetChildren({
+function testGetSiblings({
     system,
     item,
-    children,
+    siblings,
 }) {
 
     describe(`Testing ${system.name} to get correct first optionValue`, () => {
 
-        const childrenResult = getChildren(item, new SystemMap(system));
+        const siblingsResult = getSiblings(item, new SystemMap(system));
 
         test(`result has correct length`, () => {
-            expect(childrenResult.length).toBe(children.length);
+            expect(siblingsResult.length).toBe(siblings.length);
         });
-        expect(childrenResult).toMatchObject(children);
+        expect(siblingsResult).toMatchObject(siblings);
     });
 };
 
-testGetChildren({
+testGetSiblings({
     system: sample1,
     item: {
-        path: "1.SET",
-        __typename: "SystemOption",
+        path: "1.SET.BACK",
+        __typename: "SystemOptionValue",
     },
-    children: [
+    siblings: [
         {
             __typename: "SystemOptionValue",
             path: "1.SET.BACK"
@@ -44,13 +44,13 @@ testGetChildren({
     ],
 });
 
-testGetChildren({
+testGetSiblings({
     system: sample1,
     item: {
-        __typename: "DetailOptionValue",
-        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN"
+        __typename: "DetailOption",
+        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING"
     },
-    children: [
+    siblings: [
         {
             __typename: "DetailOption",
             path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING",
@@ -58,24 +58,23 @@ testGetChildren({
     ],
 });
 
-testGetChildren({
+testGetSiblings({
     system: sample1,
     item: {
         __typename: "SystemConfiguration",
         path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
-        optional: true
+        optional: false
     },
-    children: [
+    siblings: [
         {
-            __typename: "ConfigurationOption",
-            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
-            defaultConfigurationOptionValue: "STANDARD_DUTY"
+            __typename: "SystemConfiguration",
+            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
+            optional: false
+        },
+        {
+            __typename: "SystemConfiguration",
+            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.HEAD",
+            optional: false
         },
     ],
-});
-
-testGetChildren({
-    system: {},
-    item: {},
-    children: [],
 });
