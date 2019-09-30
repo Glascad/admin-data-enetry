@@ -50,21 +50,16 @@ export default function SystemTree({
                         trunk={trunk}
                         renderItem={(item = {}, { depth, toggleOpen, parent = {} }) => {
                             const {
-                                name = '',
-                                detailType = '',
-                                configurationType = '',
                                 __typename = '',
-                                id,
-                                fakeId,
+                                path = '',
                             } = item;
+                            const name = path ? path.match(/\w+$/)[0] : '';
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
-                                (key.match(/default.*fake/i) && value === fakeId)
-                                ||
-                                (key.match(/default/i) && value === id)
+                                (key.match(/defaultValue/) && value === path)
                             ));
                             return (
                                 <div
-                                    data-cy={`${__typename}-${(name || detailType || configurationType).toLowerCase()}`}
+                                    data-cy={`${__typename}-${name.toLowerCase()}`}
                                     className={`tree-item type-${
                                         __typename.replace(/^.*(option|value|type)$/i, '$1').toLowerCase()
                                         } subtype-${
@@ -79,7 +74,7 @@ export default function SystemTree({
                                         selectItem(item);
                                     }}
                                 >
-                                    <div className="title">{normalCase(name || detailType || configurationType)}</div>
+                                    <div className="title">{normalCase(name)}</div>
                                 </div>
                             );
                         }}

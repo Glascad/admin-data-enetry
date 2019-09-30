@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal } from '../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove } from '../../../../../../app-logic/system-utils';
+import { getParent, getChildren, filterOptionsAbove, getSiblings } from '../../../../../../app-logic/system-utils';
 // import { UPDATE_OPTION_VALUE, DELETE_OPTION_VALUE, ADD_OPTION, ADD_TYPE, UPDATE_OPTION, DELETE_OPTION, DELETE_TYPE, UPDATE_TYPE } from '../../ducks/actions';
 import Select from '../../../../../../components/ui/Select/Select';
 
@@ -10,6 +10,7 @@ function EditOptionValue({
         id: ovId,
         fakeId: ovFId,
         name: ovName,
+        path: vPath,
         __typename,
     },
     system,
@@ -23,8 +24,9 @@ function EditOptionValue({
 }) {
     // console.log(arguments[0]);
 
-    const option = getParent(optionValue, system);
-    const values = getChildren(option, systemMap);
+    const option = getParent(optionValue, systemMap);
+    const { defaultValue } = option
+    const values = getSiblings(optionValue, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
 
     const {
@@ -33,9 +35,7 @@ function EditOptionValue({
         name: oName,
     } = option;
 
-    const defaultOptionValueIdKey = `defaultOptionValue${ovFId ? 'Fake' : ''}Id`;
-    const optionDefaultOptionValueIdKey = `default${__typename}${ovFId ? 'Fake' : ''}Id`;
-    const isDefault = option[optionDefaultOptionValueIdKey] === (ovId || ovFId);
+    const isDefault = defaultValue === vPath;
 
     const validValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -107,7 +107,7 @@ function EditOptionValue({
 
     return (
         <>
-            </>
+        </>
         // <>
         //     <TitleBar
         //         title="Edit Option Value"

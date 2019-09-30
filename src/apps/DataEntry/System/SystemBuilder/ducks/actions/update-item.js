@@ -7,6 +7,7 @@ export default function UPDATE_ITEM(
         path,
         name,
         optional,
+        defaultValue,
     },
 ) {
 
@@ -17,24 +18,23 @@ export default function UPDATE_ITEM(
 
     const updatedIndex = itemsArray.indexOf(updatedItem);
 
+    const update = removeNullValues({
+        __typename,
+        path: path.replace(/\w+$/, name),
+        optional,
+        defaultValue,
+    })
+
     return {
         ...arguments[0],
         [itemsKey]: updatedItem ?
             replace(itemsArray, updatedIndex, {
                 ...updatedItem,
-                ...removeNullValues({
-                    __typename,
-                    path: path.replace(/\w+$/, name),
-                    optional,
-                })
+                ...update,
             })
             :
             itemsArray.concat({
-                ...removeNullValues({
-                    __typename,
-                    path: path.replace(/\w+$/, name),
-                    optional,
-                }),
+                ...update
             }),
     };
 }

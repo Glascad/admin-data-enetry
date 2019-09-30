@@ -11,7 +11,6 @@ function EditOption({
     selectedItem: option,
     selectedItem: {
         path: oPath,
-        name: oName,
         __typename,
     } = {},
     system,
@@ -22,26 +21,24 @@ function EditOption({
     dispatch,
 }) {
 
-    console.log(arguments[0])
-
     const optionValues = getChildren(option, systemMap);
 
     const validOptionValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
-            oName.toLowerCase() === name.toLowerCase() ?
+            oPath.match(/\w+$/)[0] === name ?
                 _validOptionValues
                 :
                 values
         ), []);
 
     const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionValues.some(v => v.name === name))
+        .filter(({ name }) => !optionValues.some(v => v.path.match(/\w+/)[0] === name))
         .map(({ name }) => name);
 
     console.log({ optionValues, validOptionValues, selectValidOptionValues });
 
     return (
-        <>            </>
+        <> </>
         // <>
         //     <TitleBar
         //         title='Edit Option'
