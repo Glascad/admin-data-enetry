@@ -121,14 +121,7 @@ GRANT glascad TO doadmin;
 
 ----- USERS -----;
 
-DO $users$ DECLARE ___ INTEGER; BEGIN
-
--- DEFAULT USERS;
-${DEFAULT_USERS.map(user => `
-SELECT 1 FROM create_a_user('${user.split(/,/g).join(`', '`)}') INTO ___;
-`).join('')}
-
-END $users$;
+${require('../../db/users.sql')}
 
 
 ----- SEED DATA -----;

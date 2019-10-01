@@ -31,7 +31,7 @@ const getKeys = obj => typeof obj === 'object' ?
 
 // Write Utils
 
-const loopStart = /<<\s*LOOP\s*((\w+\s*\(\s*\w+(,\s*\w+)*\s*\)\s*)+)>>/ig;
+const loopStart = /<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>/ig;
 const loopEnd = /<<\s*END\s*LOOP\s*>>/ig;
 
 const loopCountEqualsEndLoopCount = (path, contents) => {
@@ -54,17 +54,17 @@ const loopCountEqualsEndLoopCount = (path, contents) => {
 }
 
 const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCount(path, contents) ? '' : '\n<<END LOOP>>'}`.replace(
-    /\s*<<\s*LOOP\s*((\w+\s*\(\s*\w+(,\s*\w+)*\s*\)\s*)+)>>([\s\S]*?)(<<\s*END\s*LOOP\s*>>)/ig,
+    /\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)(<<\s*END\s*LOOP\s*>>)/ig,
     (match, variables, lastVar, lastVal, contents, ...rest) => {
         const vars = variables.split(/\s*\)\s*/g).filter(Boolean).reduce((vars, varSet, i) => {
-            const [varname, ...values] = varSet.trim().split(/\W+/g);
+            const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
             if (vars.length && vars.length !== values.length) throw new Error(`Variable ${chalk.green(varname)} must have same number of values as previous variables in file ${chalk.cyan(path.replace('../../', ''))}`);
             return values.map((val, i) => ({
                 ...vars[i],
                 [varname]: val,
             }));
         }, []);
-        console.log(`Looping through variable${Object.keys(vars[0]).length > 1 ? 's' : ''} ${Object.keys(vars[0]).map(varname => `${chalk.green(varname)} (${vars.map(v => `${chalk.gray(v[varname])}`).join(', ')})`).join(', ')} in file ${chalk.cyan(path.replace('../../', ''))}`);
+        console.log(`Looping through variable${Object.keys(vars[0]).length > 1 ? 's' : ''} ${Object.keys(vars[0]).map(varname => `${chalk.green(varname)} (${vars.map(v => `${chalk.gray(v[varname])}`).join(', ')})`).join(' ')} in file ${chalk.cyan(path.replace('../../', ''))}`);
         return vars.reduce((generated, varObj) => `${
             generated
             }\n${
@@ -112,9 +112,9 @@ const getDbContents = path => {
 const requiredPaths = [];
 
 const sqlPipe = [
+    removeComments,
     duplicateSQL,
     insertEnvVars,
-    removeComments,
 ];
 
 const _require = path => {

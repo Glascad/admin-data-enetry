@@ -2,7 +2,7 @@
 -- SYSTEM ITEMS
 
 
--- OPTIONS
+-- SYSTEM OPTIONS
 
 DROP FUNCTION IF EXISTS generate_system_option_path;
 
@@ -31,7 +31,39 @@ FOR EACH ROW EXECUTE FUNCTION generate_system_option_path();
 
 
 
-<<LOOP TYPE (detail, configuration)>>
+-- TYPES AND OPTIONS
+
+<<LOOP
+    TYPE (detail, configuration)
+    PARENT (system, detail)
+>>
+
+-- TYPES
+
+DROP FUNCTION IF EXISTS generate_system_<<TYPE>>_path;
+
+CREATE OR REPLACE FUNCTION gc_protected.generate_system_<<TYPE>>_path()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.path := COALESCE(
+        NEW.parent_<<PARENT>>_option_value_path,
+        OLD.parent_<<PARENT>>_option_value_path
+    ) || COALESCE(
+        NEW.<<TYPE>>_type,
+        OLD.<<TYPE>>_type
+    )::TEXT;
+
+    NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER generate_system_<<TYPE>>_path
+BEFORE INSERT OR UPDATE ON system_<<TYPE>>s
+FOR EACH ROW EXECUTE FUNCTION generate_system_<<TYPE>>_path();
+
+-- OPTIONS
 
 DROP FUNCTION IF EXISTS generate_<<TYPE>>_option_path;
 
@@ -101,37 +133,6 @@ FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_value_path();
 
 
 
--- TYPES
-
-<<LOOP
-    TYPE (detail, configuration)
-    PARENT (system, detail)
->>
-
-DROP FUNCTION IF EXISTS generate_system_<<TYPE>>_path;
-
-CREATE OR REPLACE FUNCTION gc_protected.generate_system_<<TYPE>>_path()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.path := COALESCE(
-        NEW.parent_<<PARENT>>_option_value_path,
-        OLD.parent_<<PARENT>>_option_value_path
-    ) || COALESCE(
-        NEW.<<TYPE>>_type,
-        OLD.<<TYPE>>_type
-    )::TEXT;
-
-    NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER generate_system_<<TYPE>>_path
-BEFORE INSERT OR UPDATE ON system_<<TYPE>>s
-FOR EACH ROW EXECUTE FUNCTION generate_system_<<TYPE>>_path();
-
-<<END LOOP>>
 
 
 

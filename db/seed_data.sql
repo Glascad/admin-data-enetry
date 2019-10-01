@@ -2,7 +2,6 @@
 SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_controlled, gc_private;
 
 
-
 -- INITIAL MANUFACTURER
 INSERT INTO manufacturers (name) VALUES ('Kawneer');
 
