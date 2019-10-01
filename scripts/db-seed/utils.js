@@ -35,10 +35,12 @@ const loopStart = /<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>/ig;
 const loopEnd = /<<\s*END\s*LOOP\s*>>/ig;
 
 const loopCountEqualsEndLoopCount = (path, contents) => {
+
     const loopMatches = contents.match(loopStart);
     const endLoopMatches = contents.match(loopEnd);
     const loopCount = (loopMatches || []).length;
     const endLoopCount = (endLoopMatches || []).length;
+
     if (endLoopCount > loopCount) {
         console.log(chalk.blueBright(contents));
         console.error({
@@ -49,28 +51,50 @@ const loopCountEqualsEndLoopCount = (path, contents) => {
         })
         throw new Error(`More '<<END LOOP>>'s than '<<LOOP (...)>>'s in file ${chalk.red(path.replace('../../', ''))}`);
     }
+
     if (loopCount - endLoopCount > 1) throw new Error(`Must END LOOP before starting new LOOP in file ${chalk.red(path.replace('../../', ''))}`);
+
     return loopCount === endLoopCount;
 }
 
 const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCount(path, contents) ? '' : '\n<<END LOOP>>'}`.replace(
     /\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)(<<\s*END\s*LOOP\s*>>)/ig,
     (match, variables, lastVar, lastVal, contents, ...rest) => {
+
         const vars = variables.split(/\s*\)\s*/g).filter(Boolean).reduce((vars, varSet, i) => {
+
             const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
-            if (vars.length && vars.length !== values.length) throw new Error(`Variable ${chalk.green(varname)} must have same number of values as previous variables in file ${chalk.cyan(path.replace('../../', ''))}`);
+
+            if (vars.length && vars.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in file ${chalk.cyan(path.replace('../../', ''))}`);
+
             return values.map((val, i) => ({
                 ...vars[i],
                 [varname]: val,
             }));
+
         }, []);
+        
         console.log(`Looping through variable${Object.keys(vars[0]).length > 1 ? 's' : ''} ${Object.keys(vars[0]).map(varname => `${chalk.green(varname)} (${vars.map(v => `${chalk.gray(v[varname])}`).join(', ')})`).join(' ')} in file ${chalk.cyan(path.replace('../../', ''))}`);
+
         return vars.reduce((generated, varObj) => `${
             generated
             }\n${
             Object.entries(varObj).reduce((generated, [key, value]) => (
                 generated.replace(new RegExp(`<<${key}>>`, 'g'), value)
-            ), contents)
+            ), contents.replace(
+                /<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>/ig,
+                (match, onlyVar, onlyVals, lastOnlyVal, onlyContents, ...args) => {
+
+                    if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, not present in ${Object.values(varObj).map(v => `${chalk.green(v)}`).join(', ')} in file ${chalk.cyan(path.replace('../../', ''))}`);
+
+                    const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
+
+                    return onlyValues.includes(varObj[onlyVar]) ?
+                        onlyContents
+                        :
+                        '';
+                }
+            ))
             }`, '');
     }
 );

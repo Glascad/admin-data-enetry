@@ -133,69 +133,33 @@ FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_value_path();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- SYSTEM SET ITEMS
 
-DROP FUNCTION IF EXISTS system_set_detail_option_value_path;
+<<LOOP
+    TYPE (detail, configuration)
+    PARENT (system, detail)
+    PARENT_TABLE (system_sets, system_set_detail_option_values)
+>>
 
-CREATE OR REPLACE FUNCTION gc_protected.system_set_detail_option_value_path()
+DROP FUNCTION IF EXISTS system_set_<<TYPE>>_option_value_path;
+
+CREATE OR REPLACE FUNCTION gc_protected.system_set_<<TYPE>>_option_value_path()
 RETURNS TRIGGER AS $$
 BEGIN
 
-    SELECT system_option_value_path FROM system_sets ss
-    INTO NEW.system_option_value_path
-    WHERE ss.system_option_value_path @> COALESCE(
-        NEW.detail_option_value_path,
-        OLD.detail_option_value_path
+    SELECT <<PARENT>>_option_value_path FROM <<PARENT_TABLE>> ss
+    INTO NEW.<<PARENT>>_option_value_path
+    WHERE ss.<<PARENT>>_option_value_path @> COALESCE(
+        NEW.<<TYPE>>_option_value_path,
+        OLD.<<TYPE>>_option_value_path
     );
 
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER system_set_detail_option_value_path
-BEFORE INSERT OR UPDATE ON system_set_detail_option_values
-FOR EACH ROW EXECUTE FUNCTION system_set_detail_option_value_path();
+CREATE TRIGGER system_set_<<TYPE>>_option_value_path
+BEFORE INSERT OR UPDATE ON system_set_<<TYPE>>_option_values
+FOR EACH ROW EXECUTE FUNCTION system_set_<<TYPE>>_option_value_path();
 
-
-
-DROP FUNCTION IF EXISTS system_set_configuration_option_value_path;
-
-CREATE OR REPLACE FUNCTION gc_protected.system_set_configuration_option_value_path()
-RETURNS TRIGGER AS $$
-BEGIN
-
-    SELECT detail_option_value_path FROM system_set_detail_option_values ssdov
-    INTO NEW.detail_option_value_path
-    WHERE ssdov.detail_option_value_path @> COALESCE(
-        NEW.configuration_option_value_path,
-        OLD.configuration_option_value_path
-    );
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER system_set_configuration_option_value_path
-BEFORE INSERT OR UPDATE ON system_set_configuration_option_values
-FOR EACH ROW EXECUTE FUNCTION system_set_configuration_option_value_path();
+<<END LOOP>>

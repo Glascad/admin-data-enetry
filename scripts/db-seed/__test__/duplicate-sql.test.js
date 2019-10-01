@@ -47,4 +47,38 @@ INSERT INTO <<type>> (parent) VALUES (<<parent>>);
 INSERT INTO det (parent) VALUES (sys);
 INSERT INTO conf (parent) VALUES (det);
 `,
-})
+});
+
+testDuplicateSQL({
+    sampleFile: `
+<<LOOP 
+    type (system, detail, configuration)
+    parent (NULL, system, detail)
+>>
+
+CREATE TABLE <<type>>s (
+    id SERIAL PRIMARY KEY,
+    path LTREE
+    <<ONLY type (detail, configuration)>>
+    , parent_<<parent>>_path LTREE
+    <<END ONLY>>
+);
+
+<<END LOOP>>
+`, sampleResult: `
+CREATE TABLE systems (
+    id SERIAL PRIMARY KEY,
+    path LTREE
+);
+CREATE TABLE details (
+    id SERIAL PRIMARY KEY,
+    path LTREE
+    , parent_system_path LTREE
+);
+CREATE TABLE configurations (
+    id SERIAL PRIMARY KEY,
+    path LTREE
+    , parent_detail_path LTREE
+);
+`,
+});
