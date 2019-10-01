@@ -65,7 +65,7 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
 
             const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
 
-            if (vars.length && vars.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${chalk.cyan(path.replace('../../', ''))}`);
+            if (vars.length && vars.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${chalk.blue(path.replace('../../', ''))}`);
 
             return values.map((val, i) => ({
                 ...vars[i],
@@ -78,7 +78,7 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
             Object.keys(vars[0]).length > 1 ? 's' : ''
             } ${
             Object.keys(vars[0]).map(varname => `${
-                chalk.green(varname)
+                chalk.white(varname)
                 // } (${
                 // vars.map(v => `${
                 //     chalk.gray(v[varname])
@@ -86,7 +86,7 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
                 // )
                 }`).join(', ')
             } in ${
-            chalk.cyan(path.replace('../../', ''))
+            chalk.blue(path.replace('../../', ''))
             }`));
 
         return vars.reduce((generated, varObj) => `${
@@ -98,7 +98,7 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
                 /<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>/ig,
                 (match, onlyVar, onlyVals, lastOnlyVal, onlyContents, ...args) => {
 
-                    if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.green(v)}`).join(', ')} in ${chalk.cyan(path.replace('../../', ''))}`);
+                    if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${chalk.red(path.replace('../../', ''))}`);
 
                     const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
 
@@ -117,7 +117,7 @@ const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match,
     const value = process.env[ENV_VAR];
     if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
     else {
-        console.log(chalk.gray(` -- Inserting environment variable ${chalk.green(ENV_VAR)} in ${chalk.cyan(path.replace('../../', ''))}`));
+        console.log(chalk.gray(` -- Inserting environment variable ${chalk.white(ENV_VAR)} in ${chalk.blue(path.replace('../../', ''))}`));
         return value;
     }
 });
@@ -136,12 +136,12 @@ const getDbContents = path => {
 
     if (contents === undefined) throw new Error(`Invalid file reference: ${chalk.red(path)}`);
     if (typeof contents === 'object') throw new Error(`Cannot reference directory: ${chalk.red(path)}. Nested files include: ${Object.keys(contents).join(', ')}`)
-    if (typeof contents !== 'string') throw new Error(`File empty: ${chalk.red(path)}`);
+    if (typeof contents !== 'string') throw new Error(`File empty: ${chalk.red(path.replace('../../', ''))}`);
     if (
         contents.match(/^\s*$/)
         ||
         contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))
-    ) console.warn(`${chalk.yellowBright`Warning:`} File commented out: ${chalk.yellow(path.replace('../../', ''))}`);
+    ) setTimeout(() => console.warn(`${chalk.yellowBright`Warning:`} File commented out: ${chalk.yellow(path.replace('../../', ''))}`));
 
     return contents;
 }
