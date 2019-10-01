@@ -1,12 +1,10 @@
 const pfs = require('../../server/utils/promise-fs');
 const filesToJSON = require('../../server/utils/files-to-json');
-const { removeComments, cleanKeys, removeExt, getKeys } = require('./utils');
+const { cleanKeys, removeExt, getKeys } = require('./utils');
 
 module.exports = async function compileDbFiles() {
 
-    const filesWithComments = await filesToJSON(`${__dirname}/../../db`);
-
-    const files = removeComments(filesWithComments);
+    const files = await filesToJSON(`${__dirname}/../../db`);
 
     const json = JSON.stringify(files, null, 4);
 

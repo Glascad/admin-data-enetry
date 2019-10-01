@@ -4,7 +4,7 @@ module.exports = function generateSeedFile() {
 
     const require = _require;
 
-    return removeEmptyLines`
+    return removeEmptyLines(`
 
 DO $seed$ BEGIN
 
@@ -141,5 +141,5 @@ ${require('../../db/seed_data.sql')}
 ${require('../../db/policies.sql')}
 
 END $seed$;
-`;
+`);
 };
