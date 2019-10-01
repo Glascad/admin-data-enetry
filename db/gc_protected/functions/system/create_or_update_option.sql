@@ -1,53 +1,63 @@
-DROP FUNCTION IF EXISTS create_or_update_system_option;
 
-CREATE OR REPLACE FUNCTION gc_protected.create_or_update_system_option(
-    system_option ENTIRE_SYSTEM_OPTION,
+<<LOOP
+    TYPE (system, detail, configuration)
+    PARENT (NULL, system, detail)
+>>
+
+DROP FUNCTION IF EXISTS create_or_update_<<TYPE>>_option;
+
+CREATE OR REPLACE FUNCTION gc_protected.create_or_update_<<TYPE>>_option(
+    <<TYPE>>_option ENTIRE_<<TYPE>>_OPTION,
     system SYSTEMS
-) RETURNS SYSTEM_OPTIONS AS $$
+) RETURNS <<TYPE>>_OPTIONS AS $$
 DECLARE
-    so ALIAS FOR system_option;
+    o ALIAS FOR <<TYPE>>_option;
     s ALIAS FOR system;
-    uso system_options%ROWTYPE;
+    uo <<TYPE>>_options%ROWTYPE;
 BEGIN
 
-    IF EXISTS (SELECT * FROM system_options WHERE path = so.path) THEN
-        -- update
-        UPDATE system_options SET
-            name = CASE WHEN so.name IS NOT NULL
-                THEN so.name
-                ELSE system_options.name END,
-            parent_system_option_value_path = CASE WHEN so.parent_system_option_value_path IS NOT NULL
-                THEN so.parent_system_option_value_path
-                ELSE system_options.parent_system_option_value_path END
-        WHERE path = so.path
-        AND system_id = s.id
-        RETURNING * INTO uso;
-    ELSE
-        -- insert and update id map
-        INSERT INTO system_options (
-            system_id,
-            name,
-            parent_system_option_value_path,
-            is_recursive,
-            default_system_option_value
-        ) VALUES (
-            s.id,
-            so.name,
-            psovid,
-            psovid IS NOT NULL,
-            0
+    INSERT INTO <<TYPE>>_options AS os (
+        system_id,
+        name,
+        parent_<<TYPE>>_option_value_path,
+        default_<<TYPE>>_option_value
+        <<ONLY TYPE (detail, configuration)>>
+            , parent_system_<<TYPE>>_path
+        <<END ONLY>>
+    ) VALUES (
+        s.id,
+        o.name,
+        o.parent_<<TYPE>>_option_value_path,
+        default_<<TYPE>>_option_value
+        <<ONLY TYPE (detail, configuration)>>
+            , parent_system_<<TYPE>>_path
+        <<END ONLY>>
+    )
+    ON CONFLICT (path) DO UPDATE SET
+        name = COALESCE(
+            EXCLUDED.name,
+            os.name
+        ),
+        parent_<<TYPE>>_option_value_path = COALESCE(
+            EXCLUDED.parent_<<TYPE>>_option_value_path,
+            os.parent_<<TYPE>>_option_value_path
+        ),
+        default_<<TYPE>>_option_value = COALESCE(
+            EXCLUDED.default_<<TYPE>>_option_value_path,
+            os.default_<<TYPE>>_option_value_path
         )
-        RETURNING * INTO uso;
+        <<ONLY TYPE (detail, configuration)>>
+            , parent_system_<<PARENT>>_type_path = COALESCE(
+                EXCLUDED.parent_system_<<PARENT>>_type_path,
+                os.parent_system_<<PARENT>>_type_path
+            )
+        <<END ONLY>>
+    WHERE os.path = EXCLUDED.path
+    RETURNING * INTO uo;
 
-        -- add option id to updated id map
-        id_map.system_option_id_pairs := id_map.system_option_id_pairs || ROW(
-            -- link fake id to real id
-            uso.id,
-            so.fake_id
-        )::ID_PAIR;
-    END IF;
-
-    RETURN uso;
+    RETURN uo;
 
 END;
 $$ LANGUAGE plpgsql;
+
+<<END LOOP>>

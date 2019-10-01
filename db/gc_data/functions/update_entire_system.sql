@@ -78,18 +78,7 @@ BEGIN
             END LOOP;
         END IF;
 
-        -- THEN SET DEFAULT -- can do in create_or_update now
-
-        -- <<ONLY TYPE (configuration_option, detail_option, system_option)>>
-        --     IF s.<<TYPE>>s IS NOT NULL THEN
-        --         FOREACH <<ALIAS>> IN ARRAY s.<<TYPE>>s LOOP
-        --             SELECT 1 FROM set_default_<<TYPE>>_value(<<ALIAS>>, us) INTO ___;
-        --         END LOOP;
-        --     END IF;
-        -- <<END ONLY>>
-
     <<END LOOP>>
-
 
     RETURN us;
 

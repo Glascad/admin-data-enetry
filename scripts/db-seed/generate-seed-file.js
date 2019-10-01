@@ -65,6 +65,7 @@ ${require('../../db/gc_private/functions/update_password.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_elevation.sql')}
+${require('../../db/gc_protected/functions/system/create_or_update_option.sql')}
 ${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/system.sql')*/}
 ${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/detail.sql')*/}
 ${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/configuration.sql')*/}

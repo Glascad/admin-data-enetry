@@ -49,10 +49,10 @@ const loopCountEqualsEndLoopCount = (path, contents) => {
             loopCount,
             endLoopCount,
         })
-        throw new Error(`More '<<END LOOP>>'s than '<<LOOP (...)>>'s in file ${chalk.red(path.replace('../../', ''))}`);
+        throw new Error(`More '<<END LOOP>>'s than '<<LOOP (...)>>'s in ${chalk.red(path.replace('../../', ''))}`);
     }
 
-    if (loopCount - endLoopCount > 1) throw new Error(`Must END LOOP before starting new LOOP in file ${chalk.red(path.replace('../../', ''))}`);
+    if (loopCount - endLoopCount > 1) throw new Error(`Must END LOOP before starting new LOOP in ${chalk.red(path.replace('../../', ''))}`);
 
     return loopCount === endLoopCount;
 }
@@ -65,7 +65,7 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
 
             const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
 
-            if (vars.length && vars.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in file ${chalk.cyan(path.replace('../../', ''))}`);
+            if (vars.length && vars.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${chalk.cyan(path.replace('../../', ''))}`);
 
             return values.map((val, i) => ({
                 ...vars[i],
@@ -73,8 +73,21 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
             }));
 
         }, []);
-        
-        console.log(`Looping through variable${Object.keys(vars[0]).length > 1 ? 's' : ''} ${Object.keys(vars[0]).map(varname => `${chalk.green(varname)} (${vars.map(v => `${chalk.gray(v[varname])}`).join(', ')})`).join(' ')} in file ${chalk.cyan(path.replace('../../', ''))}`);
+
+        console.log(chalk.gray(` -- Looping through variable${
+            Object.keys(vars[0]).length > 1 ? 's' : ''
+            } ${
+            Object.keys(vars[0]).map(varname => `${
+                chalk.green(varname)
+                // } (${
+                // vars.map(v => `${
+                //     chalk.gray(v[varname])
+                //     }`).join(', ')
+                // )
+                }`).join(', ')
+            } in ${
+            chalk.cyan(path.replace('../../', ''))
+            }`));
 
         return vars.reduce((generated, varObj) => `${
             generated
@@ -85,7 +98,7 @@ const duplicateSQL = (path, contents) => `${contents}${loopCountEqualsEndLoopCou
                 /<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>/ig,
                 (match, onlyVar, onlyVals, lastOnlyVal, onlyContents, ...args) => {
 
-                    if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, not present in ${Object.values(varObj).map(v => `${chalk.green(v)}`).join(', ')} in file ${chalk.cyan(path.replace('../../', ''))}`);
+                    if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.green(v)}`).join(', ')} in ${chalk.cyan(path.replace('../../', ''))}`);
 
                     const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
 
@@ -104,7 +117,7 @@ const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match,
     const value = process.env[ENV_VAR];
     if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
     else {
-        console.log(`Inserting environment variable ${chalk.green(ENV_VAR)} in file ${chalk.cyan(path.replace('../../', ''))}`);
+        console.log(chalk.gray(` -- Inserting environment variable ${chalk.green(ENV_VAR)} in ${chalk.cyan(path.replace('../../', ''))}`));
         return value;
     }
 });
