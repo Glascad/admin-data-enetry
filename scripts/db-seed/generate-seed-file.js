@@ -48,9 +48,9 @@ ${require('../../db/gc_protected/tables/elevation.sql')}
 
 ----- TRIGGERS -----;
 
-${require('../../db/gc_protected/tables/triggers/system_paths.sql')}
-${require('../../db/gc_protected/tables/triggers/system_groups.sql')}
-${require('../../db/gc_protected/tables/triggers/system_set_groups.sql')}
+${require('../../db/gc_protected/triggers/system_paths.sql')}
+${require('../../db/gc_protected/triggers/system_groups.sql')}
+${require('../../db/gc_protected/triggers/system_set_groups.sql')}
 
 
 ----- INVOKER ROLE -----;

@@ -63,9 +63,9 @@ INSERT INTO configuration_option_values (name, parent_configuration_option_path)
 ('STANDARD_DUTY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY'),
 ('HIGH_PERFORMANCE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY');
 
-INSERT INTO option_groups (system_id, name) VALUES
-(1, 'STOPS'),
-(1, 'GLAZING');
+-- INSERT INTO option_groups (system_id, name) VALUES
+-- (1, 'STOPS'),
+-- (1, 'GLAZING');
 
 -- INSERT INTO option_group_values (system_id, option_group_id, option_name, name) VALUES
 -- (1, 1, 'STOPS', 'UP'),

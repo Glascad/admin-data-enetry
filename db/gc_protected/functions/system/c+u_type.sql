@@ -18,9 +18,6 @@
         ust system_<<TYPE>>s%ROWTYPE;
     BEGIN
 
-        -- RAISE EXCEPTION 'Creating system <<TYPE>>';
-        -- RAISE EXCEPTION 'parent option value path is %', parent_<<PARENT>>_option_value_path;
-
         INSERT INTO system_<<TYPE>>s (
             system_id,
             <<TYPE>>_type,

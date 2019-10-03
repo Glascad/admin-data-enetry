@@ -13,32 +13,32 @@ gc_protected.system_sets (
     )
 );
 
-CREATE TABLE
-gc_protected.system_set_option_group_values (
-    id SERIAL PRIMARY KEY,
-    system_id INTEGER REFERENCES systems NOT NULL,
-    system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    option_name OPTION_NAME NOT NULL,
-    name OPTION_VALUE_NAME NOT NULL,
-    UNIQUE (system_set_id, option_name, name),
-    FOREIGN KEY (
-        system_set_id,
-        system_id
-    )
-    REFERENCES system_sets (
-        id,
-        system_id
-    ),
-    FOREIGN KEY (
-        system_id,
-        option_name
-    )
-    REFERENCES option_groups (
-        system_id,
-        name
-    )
-    INITIALLY DEFERRED
-);
+-- CREATE TABLE
+-- gc_protected.system_set_option_group_values (
+--     id SERIAL PRIMARY KEY,
+--     system_id INTEGER REFERENCES systems NOT NULL,
+--     system_set_id INTEGER REFERENCES system_sets NOT NULL,
+--     option_name OPTION_NAME NOT NULL,
+--     name OPTION_VALUE_NAME NOT NULL,
+--     UNIQUE (system_set_id, option_name, name),
+--     FOREIGN KEY (
+--         system_set_id,
+--         system_id
+--     )
+--     REFERENCES system_sets (
+--         id,
+--         system_id
+--     ),
+--     FOREIGN KEY (
+--         system_id,
+--         option_name
+--     )
+--     REFERENCES option_groups (
+--         system_id,
+--         name
+--     )
+--     INITIALLY DEFERRED
+-- );
 
 CREATE TABLE
 gc_protected.system_set_detail_option_values (

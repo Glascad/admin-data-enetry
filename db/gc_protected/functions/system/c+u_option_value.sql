@@ -15,9 +15,6 @@
         uov <<TYPE>>_option_values%ROWTYPE;
     BEGIN
 
-        -- RAISE EXCEPTION 'Creating <<TYPE>> option value';
-        -- RAISE EXCEPTION 'parent <<TYPE>> option path is %', parent_<<TYPE>>_option_path;
-
         INSERT INTO <<TYPE>>_option_values (
             name,
             parent_<<TYPE>>_option_path

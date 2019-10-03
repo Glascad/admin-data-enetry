@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 require('dotenv').config();
 
+const highlightEndOfPath = path => path.replace(/(^.*\/)([^/]+)(\.sql$)/, `$1${chalk.inverse('$2')}$3`);
 
 const shortenPath = path => path.replace('../../', '');
 
@@ -8,9 +9,9 @@ const linkPath = shortenPath; // path => path.replace('../..', `file://${__dirna
 
 const logPath = path => chalk.blue(shortenPath(path));
 
-const logWarningPath = path => chalk.yellow(linkPath(path));
+const logWarningPath = path => chalk.yellow(linkPath(highlightEndOfPath(path)));
 
-const logErrorPath = path => chalk.red(linkPath(path));
+const logErrorPath = path => chalk.red(linkPath(highlightEndOfPath(path)));
 
 
 // Compile Utils
@@ -53,8 +54,6 @@ const duplicateSQL = (path, contents) => {
     const endLoopCount = (endLoopMatches || []).length;
 
     if (loopCount !== endLoopCount) throw new Error(`Unequal number of '<<LOOP ... >>'s and '<<END LOOP>'s in ${logErrorPath(path)}`);
-
-    // if (path.match(/update_entire_system/ig)) console.log({ loopMatches, endLoopMatches, loopCount, endLoopCount });
 
     return contents.replace(
         /\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)(<<\s*END\s*LOOP\s*>>)/ig,

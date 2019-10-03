@@ -130,9 +130,7 @@ BEGIN
 
         IF s.new_<<TYPE>>s IS NOT NULL THEN
             FOREACH n<<ALIAS>> IN ARRAY s.new_<<TYPE>>s LOOP
-                -- RAISE EXCEPTION 'Creating first item';
                 SELECT 1 FROM create_entire_<<TYPE>>(n<<ALIAS>>, us) INTO ___;
-                -- RAISE EXCEPTION 'Created first item';
             END LOOP;
         END IF;
 

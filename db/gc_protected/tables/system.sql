@@ -128,6 +128,12 @@ gc_protected.detail_options (
             parent_detail_option_value_path IS NULL
         )
         AND
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_system_detail_path,
+            parent_detail_option_value_path
+        ))
+        AND
         -- must have correct path
         path = COALESCE(
             parent_system_detail_path,
@@ -224,6 +230,12 @@ gc_protected.configuration_options (
             parent_system_configuration_path IS NULL,
             parent_configuration_option_value_path IS NULL
         )
+        AND
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_system_configuration_path,
+            parent_configuration_option_value_path
+        ))
         AND
         -- must have correct path
         path = COALESCE(

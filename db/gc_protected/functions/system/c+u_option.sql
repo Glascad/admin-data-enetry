@@ -15,10 +15,6 @@
         uo <<TYPE>>_options%ROWTYPE;
     BEGIN
 
-        -- RAISE EXCEPTION 'creating <<TYPE>> option';
-
-        -- RAISE EXCEPTION 'parent system <<TYPE>> path is %', parent_system_<<TYPE>>_path;
-
         INSERT INTO <<TYPE>>_options (
             system_id,
             name,
