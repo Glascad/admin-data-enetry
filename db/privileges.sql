@@ -55,8 +55,8 @@ GRANT USAGE ON SCHEMA
     gc_controlled,
     gc_protected,
     gc_data,
-    gc_public
-    -- gc_utils
+    gc_public,
+    gc_utils
 TO PUBLIC;
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA
@@ -74,8 +74,8 @@ GRANT SELECT ON ALL TABLES IN SCHEMA
     gc_controlled,
     gc_protected,
     gc_data,
-    gc_public
-    -- gc_utils
+    gc_public,
+    gc_utils
 TO PUBLIC;
 
 -- UNAUTHORIZED

@@ -15,7 +15,6 @@ INSERT INTO system_options (name, system_id, default_system_option_value) VALUES
 INSERT INTO system_option_values (name, parent_system_option_path) VALUES
 ('CENTER', '1.SET'),
 ('BACK', '1.SET'),
-('MULTI_PLANE', '1.SET'),
 ('FRONT', '1.SET');
 
 INSERT INTO system_options (name, parent_system_option_value_path, default_system_option_value) VALUES('JOINERY', '1.SET.CENTER', 'SCREW_SPLINE');
@@ -93,15 +92,15 @@ INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
 
 
 -- TEST SYSTEM SET
-INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
-(1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
+-- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
+-- (1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
 
-INSERT INTO system_set_option_group_values (system_id, system_set_id, option_name, name) VALUES
-(1, 1, 'STOPS', 'DOWN'),
-(1, 1, 'GLAZING', 'OUTSIDE');
+-- INSERT INTO system_set_option_group_values (system_id, system_set_id, option_name, name) VALUES
+-- (1, 1, 'STOPS', 'DOWN'),
+-- (1, 1, 'GLAZING', 'OUTSIDE');
 
-INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
-(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');
+-- INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
+-- (1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');
 
-INSERT INTO system_set_configuration_option_values (system_set_id, configuration_option_value_path) VALUES
-(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY');
+-- INSERT INTO system_set_configuration_option_values (system_set_id, configuration_option_value_path) VALUES
+-- (1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY');

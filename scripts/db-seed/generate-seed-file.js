@@ -65,19 +65,13 @@ ${require('../../db/gc_private/functions/update_password.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_elevation.sql')}
-${require('../../db/gc_protected/functions/system/create_or_update_option.sql')}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/configuration.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option_value/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option_value/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option_value/configuration.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_type/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_type/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_type/configuration.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/set_default_option_value/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/set_default_option_value/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/set_default_option_value/configuration.sql')*/}
+${require('../../db/gc_protected/functions/system/create_or_update_system.sql')}
+${require('../../db/gc_protected/functions/system/c+u_option.sql')}
+${require('../../db/gc_protected/functions/system/c+u_option_value.sql')}
+${require('../../db/gc_protected/functions/system/c+u_type.sql')}
+-- set_default_option_value - system
+-- set_default_option_value - detail
+-- set_default_option_value - configuration
 -- delete_entire_configuration_option;
 -- delete_entire_system_configuration;
 ${require('../../db/gc_protected/functions/project/create_or_update_raised_option_value.sql')}

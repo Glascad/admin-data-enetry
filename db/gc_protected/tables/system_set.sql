@@ -4,7 +4,7 @@ gc_protected.system_sets (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects NOT NULL,
     system_id INTEGER REFERENCES systems NOT NULL,
-    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
+    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED NOT NULL,
     name VARCHAR(50),
     UNIQUE (id, system_option_value_path),
     UNIQUE (id, system_id),
@@ -44,8 +44,8 @@ CREATE TABLE
 gc_protected.system_set_detail_option_values (
     id SERIAL PRIMARY KEY,
     system_set_id INTEGER REFERENCES system_sets,
-    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
-    detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
+    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED NOT NULL,
+    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL,
     UNIQUE (system_set_id, detail_option_value_path),
     UNIQUE (id, detail_option_value_path),
     FOREIGN KEY (
@@ -65,8 +65,8 @@ CREATE TABLE
 gc_protected.system_set_configuration_option_values (
     id SERIAL PRIMARY KEY,
     system_set_id INTEGER REFERENCES system_sets,
-    detail_option_value_path LTREE REFERENCES detail_option_values NOT NULL,
-    configuration_option_value_path LTREE REFERENCES configuration_option_values NOT NULL,
+    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL,
+    configuration_option_value_path LTREE REFERENCES configuration_option_values INITIALLY DEFERRED NOT NULL,
     FOREIGN KEY (
         system_set_id,
         detail_option_value_path

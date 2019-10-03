@@ -12,7 +12,6 @@ gc_protected.systems (
 
 CREATE TABLE
 gc_protected.system_options (
-    -- beginning of path
     system_id INTEGER REFERENCES systems NOT NULL,
     -- references system_option_values
     parent_system_option_value_path LTREE,
