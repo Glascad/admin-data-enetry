@@ -10,7 +10,9 @@ DECLARE
 BEGIN
 
     DELETE FROM option_groups og
-    WHERE (og.system_option_value_path, og.name) IN (SELECT system_option_value_path, name FROM UNNEST (s.option_groups_to_delete))
+    WHERE (og.system_option_value_path, og.name) IN (
+        SELECT system_option_value_path, name FROM UNNEST (s.option_groups_to_delete)
+    )
     AND og.system_id = us.id;
     
 

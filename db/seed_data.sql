@@ -64,15 +64,9 @@ INSERT INTO configuration_option_values (name, parent_configuration_option_path)
 ('STANDARD_DUTY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY'),
 ('HIGH_PERFORMANCE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY');
 
--- INSERT INTO option_groups (system_id, name) VALUES
--- (1, 'STOPS'),
--- (1, 'GLAZING');
-
--- INSERT INTO option_group_values (system_id, option_group_id, option_name, name) VALUES
--- (1, 1, 'STOPS', 'UP'),
--- (1, 1, 'STOPS', 'DOWN'),
--- (1, 2, 'GLAZING', 'INSIDE'),
--- (1, 2, 'GLAZING', 'OUTSIDE');
+INSERT INTO option_groups (system_id, system_option_value_path, name) VALUES
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE', 'STOPS'),
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE', 'GLAZING');
 
 
 
@@ -90,18 +84,35 @@ INSERT INTO projects (name, owner_id) VALUES ('Demo Project', 1);
 -- TEST PROJECT
 INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
 
+-- TEST SYSTEM SET
+INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
+(1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
+
+INSERT INTO system_set_option_group_values (system_set_id, option_group_system_option_value_path, option_name, name) VALUES
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE', 'STOPS', 'DOWN'),
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE', 'GLAZING', 'OUTSIDE');
+
+INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');
+
+INSERT INTO system_set_configuration_option_values (system_set_id, configuration_option_value_path) VALUES
+(1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY');
 
 
--- -- TEST SYSTEM SET
--- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
--- (1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
 
--- -- INSERT INTO system_set_option_group_values (system_id, system_set_id, option_name, name) VALUES
--- -- (1, 1, 'STOPS', 'DOWN'),
--- -- (1, 1, 'GLAZING', 'OUTSIDE');
+-- CHECKS
 
--- INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
--- (1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');
-
--- INSERT INTO system_set_configuration_option_values (system_set_id, configuration_option_value_path) VALUES
--- (1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY');
+DO $check$
+DECLARE
+    s SYSTEMS;
+    sys SYSTEMS;
+    ss SYSTEM_SETS;
+    sst SYSTEM_SETS;
+BEGIN
+    FOR s IN SELECT * FROM systems LOOP
+        sys := check_entire_system(s);
+    END LOOP;
+    FOR ss IN SELECT * FROM system_sets LOOP
+        sst := check_entire_system_set(ss);
+    END LOOP;
+END $check$;

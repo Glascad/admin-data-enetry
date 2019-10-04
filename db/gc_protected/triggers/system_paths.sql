@@ -1,7 +1,4 @@
 
--- SYSTEM ITEMS
-
-
 -- SYSTEM OPTIONS
 
 DROP FUNCTION IF EXISTS generate_system_option_path;
@@ -132,38 +129,5 @@ FOR EACH ROW EXECUTE FUNCTION generate_system_option_path();
     CREATE TRIGGER generate_<<TYPE>>_option_value_path
     BEFORE INSERT OR UPDATE ON <<TYPE>>_option_values
     FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_value_path();
-
-<<END LOOP>>
-
-
-
--- SYSTEM SET ITEMS
-
-<<LOOP
-    TYPE (detail, configuration)
-    PARENT (system, detail)
-    PARENT_TABLE (system_sets, system_set_detail_option_values)
->>
-
-    DROP FUNCTION IF EXISTS system_set_<<TYPE>>_option_value_path;
-
-    CREATE OR REPLACE FUNCTION gc_protected.system_set_<<TYPE>>_option_value_path()
-    RETURNS TRIGGER AS $$
-    BEGIN
-
-        SELECT <<PARENT>>_option_value_path FROM <<PARENT_TABLE>> ss
-        INTO NEW.<<PARENT>>_option_value_path
-        WHERE ss.<<PARENT>>_option_value_path @> COALESCE(
-            NEW.<<TYPE>>_option_value_path,
-            OLD.<<TYPE>>_option_value_path
-        );
-
-        RETURN NEW;
-    END;
-    $$ LANGUAGE plpgsql;
-
-    CREATE TRIGGER system_set_<<TYPE>>_option_value_path
-    BEFORE INSERT OR UPDATE ON system_set_<<TYPE>>_option_values
-    FOR EACH ROW EXECUTE FUNCTION system_set_<<TYPE>>_option_value_path();
 
 <<END LOOP>>
