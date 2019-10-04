@@ -1,5 +1,4 @@
 import ADD_ITEM from "../../actions/add-item";
-import sample1 from '../../../../../../../app-logic/__test__/sample-systems/sample1.json';
 
 function testAddOptionValue({
     systemInput,
@@ -7,7 +6,7 @@ function testAddOptionValue({
     systemOutput,
 }) {
     describe('testing add option value', () => {
-        const result = ADD_ITEM({}, systemInput, payload);
+        const result = ADD_ITEM(systemInput, payload);
         test('result should have correct shape', () => {
             expect(result).toMatchObject(systemOutput)
         });
@@ -17,14 +16,15 @@ function testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentPath: "1.SET",
+        parentSystemOptionPath: "1.SET",
         name: "CENTER",
         __typename: "SystemOptionValue",
     },
     systemOutput: {
-        systemOptionValues: expect.arrayContaining([
+        newSystemOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER",
+                parentSystemOptionPath: "1.SET",
+                name: "CENTER",
                 __typename: "SystemOptionValue",
             }),
         ]),
@@ -33,24 +33,27 @@ testAddOptionValue({
 
 testAddOptionValue({
     systemInput: {
-        systemOptionValues: [{
-            path: "1.SET",
+        newSystemOption: [{
+            name: "SET",
             __typename: "SystemOption",
         }]
     },
     payload: {
-        parentPath: "1.SET",
+        parentSystemOptionPath: "1.SET",
         name: "CENTER",
         __typename: "SystemOptionValue",
     },
     systemOutput: {
-        systemOptionValues: expect.arrayContaining([
+        newSystemOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER",
+                parentSystemOptionPath: "1.SET",
+                name: "CENTER",
                 __typename: "SystemOptionValue",
             }),
+        ]),
+        newSystemOption: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET",
+                name: "SET",
                 __typename: "SystemOption",
             }),
         ]),
@@ -60,15 +63,18 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentPath: "1.SET.CENTER",
+        parentSystemOptionValuePath: "1.SET.CENTER",
         name: "JOINERY",
         __typename: "SystemOption",
+        defaultSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
     },
     systemOutput: {
-        systemOptions: expect.arrayContaining([
+        newSystemOptions: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.JOINERY",
+                parentSystemOptionValuePath: "1.SET.CENTER",
+                name: "JOINERY",
                 __typename: "SystemOption",
+                defaultSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
             }),
         ]),
     },
@@ -77,14 +83,15 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+        parentSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
         name: "HEAD",
         __typename: "SystemDetail",
     },
     systemOutput: {
-        systemDetails: expect.arrayContaining([
+        newSystemDetails: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD",
+                parentSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+                name: "HEAD",
                 __typename: "SystemDetail",
             }),
         ]),
@@ -94,14 +101,15 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
+        parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
         name: "DOWN",
         __typename: "DetailOptionValue",
     },
     systemOutput: {
-        detailOptionValues: expect.arrayContaining([
+        newDetailOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN",
+                parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
+                name: "DOWN",
                 __typename: "DetailOptionValue",
             }),
         ]),
@@ -111,15 +119,16 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+        parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
         name: "HIGH_PERFORMANCE",
         __typename: "ConfigurationOptionValue",
         optional: false,
     },
     systemOutput: {
-        configurationOptionValues: expect.arrayContaining([
+        newConfigurationOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+                parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+                name: "HIGH_PERFORMANCE",
                 __typename: "ConfigurationOptionValue",
                 optional: false,
             }),

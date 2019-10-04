@@ -1,35 +1,38 @@
-export default function DELETE_ITEM(
-    systemInput,
-    payload,
-) {
+export default function DELETE_ITEM(systemInput, payload) {
+    const parentKey = Object.keys(payload).find(i => i.match(/parent/i));
+
+    const { __typename, path, [parentKey]: parentPath } = payload;
+
+    const newItemsKey = `new${__typename}s`;
+    const itemsKey = `${__typename.replace(/^./, f => f.toLowerCase())}s`;
+    const pathsToDeleteKey = 'pathsToDelete';
+
     const {
-        path,
-        __typename,
-    } = payload;
+        [itemsKey]: itemsArray = [],
+        [newItemsKey]: newItemsArray = [],
+        [pathsToDeleteKey]: pathsToDeleteArray = [],
+    } = systemInput;
 
-    const itemsKey = `${__typename.replace(__typename[0], __typename[0].toLowerCase())}s`
-    const itemsToDeleteKey = `${__typename.replace(__typename[0], __typename[0].toLowerCase())}PathsToDelete`
-
-    const { [itemsKey]: itemsArray } = systemInput;
-    const { [itemsToDeleteKey]: itemsToDeleteArray = [] } = systemInput;
-
-    const deletedItem = itemsArray.find(i => i.path === path);
+    const deleteNewItem = newItemsArray.find(i => i[parentKey] === parentPath);
 
     console.log({
-        path,
-        __typename,
+        payload,
+        parentKey,
+        parentPath,
+        newItemsKey,
         itemsKey,
-        itemsToDeleteKey,
+        newItemsArray,
         itemsArray,
-        itemsToDeleteArray,
-        deletedItem
+        pathsToDeleteArray,
+        deleteNewItem
     })
 
-    return deletedItem ? ({
-        ...arguments[0],
-        [itemsKey]: itemsArray.filter(i => !(i.path === path)),
+    return deleteNewItem ? ({
+        ...systemInput,
+        [newItemsKey]: newItemsArray.filter(i => !(i[parentKey] === parentPath)),
     }) : ({
-        ...arguments[0],
-        [itemsToDeleteKey]: itemsToDeleteArray.concat(path)
+        ...systemInput,
+        [itemsKey]: itemsArray.filter(i => !(i.path === path)),
+        [pathsToDeleteKey]: pathsToDeleteArray.concat(path),
     });
 }

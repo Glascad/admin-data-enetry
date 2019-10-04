@@ -1,4 +1,4 @@
-import { detailOptionValueUpdate, systemOptionUpdate, systemUpdate } from "../../schemas";
+import { systemUpdate } from "../../schemas";
 import UPDATE_ITEM from "../../actions/update-item";
 
 function testUpdateItem({
@@ -18,26 +18,36 @@ testUpdateItem({
     systemInput: {
         systemOptions: [
             {
-                ...systemOptionUpdate,
                 path: "1.SET",
                 __typename: "SystemOption",
+                update: {
+                    defaultSystemOptionValue: "FRONT"
+                }
             },
         ],
     },
     payload: {
         path: "1.SET.CENTER.JOINERY",
-        name: "JOINERY",
         __typename: "SystemOption",
+        update: {
+            name: "GLAZING",
+        }
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
             expect.objectContaining({
                 path: "1.SET",
                 __typename: "SystemOption",
+                update: {
+                    defaultSystemOptionValue: "FRONT"
+                }
             }),
             expect.objectContaining({
                 path: "1.SET.CENTER.JOINERY",
                 __typename: "SystemOption",
+                update: {
+                    name: "GLAZING"
+                }
             }),
         ])
     },
@@ -48,13 +58,18 @@ testUpdateItem({
     payload: {
         path: "1.SET.CENTER.HEAD",
         __typename: "SystemDetail",
-        name: "HEAD"
+        update: {
+            name: "SILL"
+        }
     },
     systemOutput: {
         systemDetails: expect.arrayContaining([
             expect.objectContaining({
                 path: "1.SET.CENTER.HEAD",
                 __typename: "SystemDetail",
+                update: {
+                    name: "SILL"
+                }
             }),
         ])
     },
@@ -63,23 +78,26 @@ testUpdateItem({
 
 testUpdateItem({
     systemInput: {
-        detailOptionValues: [
+        newDetailOptionValues: [
             {
-                ...detailOptionValueUpdate,
-                path: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE",
+                parentDetailOptionPath: "1.SET.CENTER.HEAD.GLAZING",
+                name: "OUTSIDE",
                 __typename: "DetailOptionValue",
             },
         ],
     },
     payload: {
         path: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE",
-        name: "INSIDE",
         __typename: "DetailOptionValue",
+        update: {
+            name: "INSIDE",
+        }
     },
     systemOutput: {
-        detailOptionValues: expect.arrayContaining([
+        newDetailOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.HEAD.GLAZING.INSIDE",
+                parentDetailOptionPath: "1.SET.CENTER.HEAD.GLAZING",
+                name: "INSIDE",
                 __typename: "DetailOptionValue",
             }),
         ])
@@ -88,27 +106,63 @@ testUpdateItem({
 
 testUpdateItem({
     systemInput: {
-        configurationOptionValues: [
+        newSystemOptions: [
             {
-                path: "1.SET.CENTER.HEAD.GLAZING.INSIDE.DURABILITY.HIGH_PERFORMANCE",
-                __typename: "ConfigurationOptionValue",
+                name: "SET",
+                __typename: "SystemOption",
+            },
+            {
+                parentSystemOptionValuePath: "1.SET.CENTER",
+                name: "SELECT_OPTION",
+                __typename: "SystemOption",
+            },
+        ],
+    },
+    payload: {
+        path: "1.SET.CENTER.SELECT_OPTION",
+        __typename: "SystemOption",
+        update: {
+            name: "JOINERY",
+        }
+    },
+    systemOutput: {
+        newSystemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                name: "SET",
+                __typename: "SystemOption",
+            }),
+            expect.objectContaining({
+                parentSystemOptionValuePath: "1.SET.CENTER",
+                name: "JOINERY",
+                __typename: "SystemOption",
+            }),
+        ])
+    },
+});
+
+testUpdateItem({
+    systemInput: {
+        newConfigurationOptions: [
+            {
+                parentSystemConfigurationPath: "1.SET.CENTER.HEAD.GLAZING.INSIDE.CONFIGURATION",
+                name: "CONFIGURATION_OPTION",
+                __typename: "ConfigurationOption",
             }
         ]
     },
     payload: {
-        path: "1.SET.CENTER.HEAD.GLAZING.INSIDE.DURABILITY.STANDARD",
-        name: "STANDARD",
-        __typename: "ConfigurationOptionValue",
+        path: "1.SET.CENTER.HEAD.GLAZING.INSIDE.CONFIGURATION.CONFIGURATION_OPTION",
+        __typename: "ConfigurationOption",
+        update: {
+            parentSystemConfigurationOptionValuePath: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE.CONFIGURATION.C_O,C_O_V"
+        }
     },
     systemOutput: {
-        configurationOptionValues: expect.arrayContaining([
+        newConfigurationOptions: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.HEAD.GLAZING.INSIDE.DURABILITY.STANDARD",
-                __typename: "ConfigurationOptionValue",
-            }),
-            expect.objectContaining({
-                path: "1.SET.CENTER.HEAD.GLAZING.INSIDE.DURABILITY.HIGH_PERFORMANCE",
-                __typename: "ConfigurationOptionValue",
+                parentSystemConfigurationOptionValuePath: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE.CONFIGURATION.C_O,C_O_V",
+                name: "CONFIGURATION_OPTION",
+                __typename: "ConfigurationOption",
             }),
         ])
     },

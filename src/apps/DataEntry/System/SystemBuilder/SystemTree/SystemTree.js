@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
 import { makeRenderable } from '../../../../../app-logic/system-utils';
-import { normalCase } from '../../../../../utils';
+import { normalCase, parseSearch } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
 import { ADD_ITEM } from '../ducks/actions';
 // import { ADD_OPTION } from '../ducks/actions';
 
 export default function SystemTree({
+    search,
     system,
     system: {
         _systemOptions: {
@@ -28,7 +29,6 @@ export default function SystemTree({
         if (!length && !fetching) dispatch(ADD_ITEM, {
             __typename: "SystemOption",
             name: "ADD_OPTION",
-            parentPath: `${system.id}`
         }, {
             replaceState: true,
         });
@@ -53,7 +53,7 @@ export default function SystemTree({
                                 __typename = '',
                                 path = '',
                             } = item;
-                            const name = path ? path.match(/\w+$/)[0] : '';
+                            const name = path ? path.replace(/^.*\.(\w+)$/, '$1') : '';
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
                                 (key.match(/defaultValue/) && value === path)
                             ));
@@ -72,6 +72,7 @@ export default function SystemTree({
                                     onClick={e => {
                                         e.stopPropagation();
                                         selectItem(item);
+                                        console.log(item);
                                     }}
                                 >
                                     <div className="title">{normalCase(name)}</div>

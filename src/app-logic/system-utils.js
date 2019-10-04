@@ -70,3 +70,5 @@ export const makeRenderable = system => {
 }
 
 export const filterOptionsAbove = ({ path }, optionList) => optionList.filter(({ name }) => !path.includes(name));
+
+export const getNameFromPath = path => path.replace(/.*\.(\w+)$/, '$1');

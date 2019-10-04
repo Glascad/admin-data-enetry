@@ -49,7 +49,12 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    const selectedItem = systemMap[originalSelectedItem];
+    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];
+    
+    // console.log({
+    //     originalSelectedItem,
+    //     selectedItem,
+    // });
 
     useEffect(() => {
         if (!selectedItem) selectItem();
@@ -62,7 +67,6 @@ export default function SystemBuilder({
     )(systemInput => ({
         ...systemInput,
         ...ACTION(
-            systemMap,
             systemInput,
             payload,
         ),
@@ -95,6 +99,7 @@ export default function SystemBuilder({
             <SystemTree
                 queryResult={queryResult}
                 fetching={fetching}
+                search={search}
                 system={system}
                 systemMap={systemMap}
                 dispatch={dispatch}

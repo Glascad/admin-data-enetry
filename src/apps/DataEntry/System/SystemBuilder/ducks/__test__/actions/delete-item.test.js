@@ -17,7 +17,7 @@ function testDeleteItem({
 
 testDeleteItem({
     systemInput: {
-        systemOptionPathsToDelete: ["1.SET.CENTER"]
+        pathsToDelete: ["1.SET.CENTER"]
     },
     payload: {
         path: "1.SET",
@@ -25,13 +25,13 @@ testDeleteItem({
     },
     systemOutput: {
         systemOptions: [],
-        systemOptionPathsToDelete: ["1.SET.CENTER", "1.SET"]
+        pathsToDelete: ["1.SET.CENTER", "1.SET"]
     },
 });
 
 testDeleteItem({
     systemInput: {
-        systemOptionPathsToDelete: [],
+        pathsToDelete: [],
         systemOptions: [{
             path: "1.SET",
             __typename: "SystemOption",
@@ -43,16 +43,17 @@ testDeleteItem({
     },
     systemOutput: {
         systemOptions: [],
-        systemOptionPathsToDelete: [],
+        pathsToDelete: ["1.SET"],
     },
 });
 
 testDeleteItem({
     systemInput: {
-        systemOptionValuePathsToDelete: [],
-        systemOptionValues: [
+        pathsToDelete: [],
+        newSystemOptionValues: [
             {
-                path: "1.SET.CENTER",
+                parentPath: "1.SET",
+                name: "CENTER",
                 __typename: "SystemOptionValue",
             },
         ],
@@ -63,7 +64,7 @@ testDeleteItem({
     },
     systemOutput: {
         systemOptionValues: [],
-        systemOptionValuePathsToDelete: [],
+        pathsToDelete: [],
     },
 });
 
@@ -87,6 +88,6 @@ testDeleteItem({
                 __typename: "SystemDetail",
             }),
         ]),
-        systemDetailPathsToDelete: ["1.SET.CENTER.SILL"]
+        pathsToDelete: ["1.SET.CENTER.SILL"]
     },
 });
