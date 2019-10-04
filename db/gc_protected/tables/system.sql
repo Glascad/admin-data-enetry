@@ -39,6 +39,9 @@ gc_protected.system_options (
     )
 );
 
+
+-- SYSTEM OPTION VALUES
+
 CREATE TABLE
 gc_protected.system_option_values (
     system_id INTEGER REFERENCES systems NOT NULL,
@@ -75,7 +78,7 @@ gc_protected.system_option_values (
 
 ALTER TABLE system_options
 -- default
-ADD FOREIGN KEY (
+ADD CONSTRAINT default_system_option_value FOREIGN KEY (
     path,
     default_system_option_value
 ) 
@@ -85,9 +88,21 @@ REFERENCES system_option_values (
 )
 INITIALLY DEFERRED,
 -- parent
-ADD FOREIGN KEY (parent_system_option_value_path)
+ADD CONSTRAINT parent_system_option_value_path FOREIGN KEY (parent_system_option_value_path)
 REFERENCES system_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
+
+
+-- OPTION GROUPS
+
+CREATE TABLE
+gc_protected.option_groups (
+    system_id INTEGER REFERENCES systems NOT NULL,
+    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
+    name OPTION_NAME REFERENCES valid_options NOT NULL,
+    UNIQUE(system_id, name),
+    PRIMARY KEY (system_option_value_path, name)
+);
 
 
 -- DETAIL TYPES
@@ -106,6 +121,7 @@ gc_protected.system_details (
         path = parent_system_option_value_path || detail_type::TEXT
     )
 );
+
 
 -- DETAIL OPTIONS
 
@@ -141,6 +157,9 @@ gc_protected.detail_options (
         ) || name::TEXT
     )
 );
+
+
+-- DETAIL OPTION VALUES
 
 CREATE TABLE
 gc_protected.detail_option_values (
@@ -178,7 +197,7 @@ gc_protected.detail_option_values (
 
 ALTER TABLE detail_options
 -- default
-ADD FOREIGN KEY (
+ADD CONSTRAINT default_detail_option_value FOREIGN KEY (
     path,
     default_detail_option_value
 )
@@ -188,8 +207,9 @@ REFERENCES detail_option_values (
 )
 INITIALLY DEFERRED,
 -- parent
-ADD FOREIGN KEY (parent_detail_option_value_path) REFERENCES detail_option_values
+ADD CONSTRAINT parent_detail_option_value_path FOREIGN KEY (parent_detail_option_value_path) REFERENCES detail_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
+
 
 -- CONFIGURATION TYPES
 
@@ -209,6 +229,7 @@ gc_protected.system_configurations (
         path = parent_detail_option_value_path || configuration_type::TEXT
     )
 );
+
 
 -- CONFIGURATION OPTIONS
 
@@ -244,6 +265,9 @@ gc_protected.configuration_options (
         ) || name::TEXT
     )
 );
+
+
+-- CONFIGURATION OPTION VALUES
 
 CREATE TABLE
 gc_protected.configuration_option_values (
@@ -281,7 +305,7 @@ gc_protected.configuration_option_values (
 
 ALTER TABLE configuration_options
 -- default
-ADD FOREIGN KEY (
+ADD CONSTRAINT default_configuration_option_value FOREIGN KEY (
     path,
     default_configuration_option_value
 )
@@ -291,8 +315,9 @@ REFERENCES configuration_option_values (
 )
 INITIALLY DEFERRED,
 -- parent
-ADD FOREIGN KEY (parent_configuration_option_value_path) REFERENCES configuration_option_values
+ADD CONSTRAINT parent_configuration_option_value_path FOREIGN KEY (parent_configuration_option_value_path) REFERENCES configuration_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
+
 
 -- PARTS
 

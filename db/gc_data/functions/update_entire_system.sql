@@ -6,6 +6,11 @@ DECLARE
     s ALIAS FOR system;
     us systems%ROWTYPE;
     real_id INTEGER;
+    p LTREE;
+    dp LTREE;
+    deleted BOOLEAN;
+    deleted_paths LTREE[];
+    all_deleted_paths LTREE[];
     <<LOOP
         TYPE (
             CONFIGURATION_OPTION_VALUE,
@@ -38,6 +43,10 @@ BEGIN
 
     SELECT * FROM create_or_update_system(s) INTO us;
 
+    -- CREATE/DELETE OPTION GROUPS
+
+    SELECT 1 FROM create_and_delete_option_groups(s, us) INTO ___;
+
     -- DELETE FIRST
 
     IF s.paths_to_delete IS NOT NULL THEN
@@ -53,21 +62,41 @@ BEGIN
                 system_option_value,
                 system_option
             )
-            ALIAS (
-                cov,
-                co,
-                sc,
-                dov,
-                _do,
-                sd,
-                sov,
-                so
-            )
         >>
-            DELETE FROM <<TYPE>>s t
-            WHERE t.path IN (SELECT UNNEST(s.paths_to_delete))
-            AND t.system_id = s.id;
+            WITH deleted_items AS (
+                DELETE FROM <<TYPE>>s t
+                WHERE t.path <@ s.paths_to_delete
+                AND t.system_id = s.id
+                RETURNING *
+            )
+            SELECT ARRAY_AGG(path)
+            FROM deleted_items
+            INTO deleted_paths;
+
+            -- ADD DELETED PATHS TO ARRAY
+            all_deleted_paths := all_deleted_paths || deleted_paths;
+
         <<END LOOP>>
+
+        IF all_deleted_paths IS NULL THEN
+            RAISE EXCEPTION 'Could not delete any of paths %', s.paths_to_delete;
+        ELSE
+            -- THEN CHECK THAT ALL PATHS HAVE BEEN DELETED
+            FOREACH p IN ARRAY s.paths_to_delete LOOP
+                deleted := FALSE;
+
+                FOREACH dp IN ARRAY all_deleted_paths LOOP
+                    IF p = dp THEN
+                        deleted := TRUE;
+                    END IF;
+                END LOOP;
+
+                IF NOT deleted THEN
+                    RAISE EXCEPTION 'Could not delete path %', p;
+                END IF;
+            END LOOP;
+        END IF;
+
     END IF;
 
     -- THEN UPDATE
@@ -136,7 +165,7 @@ BEGIN
 
     <<END LOOP>>
 
-    RETURN us;
+    RETURN check_entire_system(us);
 
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

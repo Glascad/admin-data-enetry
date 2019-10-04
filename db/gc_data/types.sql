@@ -43,6 +43,13 @@
 
 <<END LOOP>>
 
+-- OPTION GROUPS
+CREATE TYPE
+gc_data.ENTIRE_OPTION_GROUP AS (
+    system_option_value_path LTREE,
+    name OPTION_NAME
+);
+
 -- TYPES
 
 <<LOOP
@@ -76,18 +83,22 @@ gc_data.ENTIRE_SYSTEM AS (
     name TEXT,
     system_type SYSTEM_TYPE,
     manufacturer_id INTEGER,
-    paths_to_delete LTREE[]
-    <<LOOP TYPE (configuration, detail, system)>>
-        -- options
-        , <<TYPE>>_options ENTIRE_<<TYPE>>_OPTION[]
-        , new_<<TYPE>>_options NEW_<<TYPE>>_OPTION[]
-        -- values
-        , <<TYPE>>_option_values ENTIRE_<<TYPE>>_OPTION_VALUE[]
-        , new_<<TYPE>>_option_values NEW_<<TYPE>>_OPTION_VALUE[]
-        -- types
-        <<ONLY TYPE (configuration, detail)>>
-            , system_<<TYPE>>s ENTIRE_SYSTEM_<<TYPE>>[]
-            , new_system_<<TYPE>>s NEW_SYSTEM_<<TYPE>>[]
-        <<END ONLY>>
+    paths_to_delete LTREE[],
+    option_groups_to_delete ENTIRE_OPTION_GROUP[],
+    new_option_groups ENTIRE_OPTION_GROUP[]
+    <<LOOP
+        TYPE (
+            configuration_option_value,
+            configuration_option,
+            system_configuration,
+            detail_option_value,
+            detail_option,
+            system_detail,
+            system_option_value,
+            system_option
+        )
+    >>
+        , <<TYPE>>s ENTIRE_<<TYPE>>[]
+        , new_<<TYPE>>s NEW_<<TYPE>>[]
     <<END LOOP>>
 );

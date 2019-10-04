@@ -36,7 +36,8 @@ INSERT INTO detail_option_values (name, parent_detail_option_path) VALUES
 ('DOWN', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS');
 
 
-INSERT INTO detail_options (name, parent_detail_option_value_path, default_detail_option_value) VALUES ('GLAZING', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN', 'INSIDE');
+INSERT INTO detail_options (name, parent_detail_option_value_path, default_detail_option_value) VALUES
+('GLAZING', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN', 'INSIDE');
 
 INSERT INTO detail_option_values (name, parent_detail_option_path) VALUES
 ('INSIDE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING'),
@@ -91,13 +92,13 @@ INSERT INTO projects (name, owner_id) VALUES ('Test Project', 2);
 
 
 
--- TEST SYSTEM SET
+-- -- TEST SYSTEM SET
 -- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
 -- (1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
 
--- INSERT INTO system_set_option_group_values (system_id, system_set_id, option_name, name) VALUES
--- (1, 1, 'STOPS', 'DOWN'),
--- (1, 1, 'GLAZING', 'OUTSIDE');
+-- -- INSERT INTO system_set_option_group_values (system_id, system_set_id, option_name, name) VALUES
+-- -- (1, 1, 'STOPS', 'DOWN'),
+-- -- (1, 1, 'GLAZING', 'OUTSIDE');
 
 -- INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
 -- (1, '1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE');

@@ -49,7 +49,7 @@ ${require('../../db/gc_protected/tables/elevation.sql')}
 ----- TRIGGERS -----;
 
 ${require('../../db/gc_protected/triggers/system_paths.sql')}
-${require('../../db/gc_protected/triggers/system_groups.sql')}
+${require('../../db/gc_protected/triggers/option_groups.sql')}
 ${require('../../db/gc_protected/triggers/system_set_groups.sql')}
 
 
@@ -66,6 +66,7 @@ ${require('../../db/gc_protected/functions/elevation/create_or_update_elevation_
 ${require('../../db/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
 ${require('../../db/gc_protected/functions/elevation/create_or_update_elevation.sql')}
 ${require('../../db/gc_protected/functions/system/create_or_update_system.sql')}
+${require('../../db/gc_protected/functions/system/c+d_option_groups.sql')}
 ${require('../../db/gc_protected/functions/system/c+u_option.sql')}
 ${require('../../db/gc_protected/functions/system/c+u_option_value.sql')}
 ${require('../../db/gc_protected/functions/system/c+u_type.sql')}
@@ -81,6 +82,7 @@ ${require('../../db/gc_protected/functions/project/create_or_update_system_set.s
 -- update_entire_system_configuration_override;
 -- update_entire_system_option;
 ${require('../../db/gc_data/functions/update_entire_system.sql')}
+${require('../../db/gc_data/functions/check_entire_system.sql')}
 ${require('../../db/gc_public/functions/mutations/authenticate.sql')}
 ${require('../../db/gc_public/functions/mutations/copy_elevation.sql')}
 ${require('../../db/gc_public/functions/mutations/create_or_update_project.sql')}
