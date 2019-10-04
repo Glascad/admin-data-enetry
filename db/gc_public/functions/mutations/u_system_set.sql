@@ -5,7 +5,6 @@ RETURNS SYSTEM_SETS AS $$
 DECLARE
     ss ALIAS FOR system_set;
     uss system_sets%ROWTYPE;
-    rov ENTIRE_RAISED_OPTION_VALUE;
     ___ INTEGER;
     -- sov SELECTED_OPTION_VALUE;
     -- sdtct SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE;
@@ -15,7 +14,23 @@ BEGIN
 
     SELECT * FROM create_or_update_system_set(ss) INTO uss;
 
+    IF ss.detail_option_values IS NOT NULL THEN
+        INSERT INTO system_set_detail_option_values AS ssdod (
+            system_id,
+            detail_option_value_path
+        )
+        SELECT uss.id, path
+        FROM UNNEST (ss.detail_option_values) path;
+    END IF;
 
+    IF ss.configuration_option_values IS NOT NULL THEN
+        INSERT INTO system_set_configuration_option_values AS ssdoc (
+            system_id,
+            configuration_option_value_path
+        )
+        SELECT uss.id, path
+        FROM UNNEST (ss.configuration_option_values) path;
+    END IF;
 
     RETURN uss;
 

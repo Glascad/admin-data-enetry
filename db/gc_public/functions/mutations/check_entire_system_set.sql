@@ -61,6 +61,10 @@ BEGIN
             <<END LOOP>>
 
         END LOOP;
+
+    -- all required system configurations have an option value selected
+
+    
     
     RETURN system_set;
 
