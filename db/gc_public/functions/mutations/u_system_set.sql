@@ -6,31 +6,26 @@ DECLARE
     ss ALIAS FOR system_set;
     uss system_sets%ROWTYPE;
     ___ INTEGER;
-    -- sov SELECTED_OPTION_VALUE;
-    -- sdtct SELECTED_DETAIL_TYPE_CONFIGURATION_TYPE;
+    sn ENTIRE_SYSTEM_SET_NODE;
 BEGIN
 
     SET search_path = gc_public,gc_data,gc_protected,pg_temp_1,pg_toast,pg_toast_temp_1;
 
     SELECT * FROM create_or_update_system_set(ss) INTO uss;
 
-    IF ss.detail_option_values IS NOT NULL THEN
-        INSERT INTO system_set_detail_option_values AS ssdod (
-            system_id,
-            detail_option_value_path
-        )
-        SELECT uss.id, path
-        FROM UNNEST (ss.detail_option_values) path;
-    END IF;
+    <<LOOP TYPE (detail, configuration)>>
 
-    IF ss.configuration_option_values IS NOT NULL THEN
-        INSERT INTO system_set_configuration_option_values AS ssdoc (
-            system_id,
-            configuration_option_value_path
-        )
-        SELECT uss.id, path
-        FROM UNNEST (ss.configuration_option_values) path;
-    END IF;
+        IF ss.<<TYPE>>_option_values IS NOT NULL THEN
+
+            FOREACH sn IN ARRAY ss.<<TYPE>>_option_values LOOP
+
+                -- SELECT 1 FROM create_or_update_or_delete_system_set_<<TYPE>>_option_value(sn, uss) INTO ___;
+
+            END LOOP;
+
+        END IF;
+
+    <<END LOOP>>
 
     RETURN uss;
 

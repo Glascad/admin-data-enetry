@@ -59,15 +59,22 @@ gc_public.entire_elevation AS (
 --     option_value_name OPTION_VALUE_NAME
 -- );
 
+CREATE TYPE
+gc_public.entire_system_set_node AS (
+    old_path LTREE,
+    new_path LTREE
+);
 
 CREATE TYPE
 gc_public.entire_system_set AS (
     id INTEGER,
+    system_id INTEGER,
     project_id INTEGER,
     name VARCHAR(50),
     option_group_values OPTION_VALUE_NAME[],
-    configuration_option_values LTREE[],
-    configuration_types_to_delete CONFIGURATION_TYPE[]
+    system_option_value_path LTREE,
+    detail_option_values ENTIRE_SYSTEM_SET_NODE[],
+    configuration_option_values ENTIRE_SYSTEM_SET_NODE[]
     -- system_option_value_id INTEGER,
     -- raised_option_values ENTIRE_RAISED_OPTION_VALUE[]
     -- system_type SYSTEM_TYPE,

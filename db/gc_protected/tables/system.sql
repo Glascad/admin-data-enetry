@@ -118,7 +118,7 @@ gc_protected.system_details (
         (system_id || '.*')::LQUERY ~ path
         AND
         -- must have correct path
-        path = parent_system_option_value_path || detail_type::TEXT
+        path = parent_system_option_value_path || '__DT__' || detail_type::TEXT
     )
 );
 
@@ -226,7 +226,7 @@ gc_protected.system_configurations (
         (system_id || '.*')::LQUERY ~ path
         AND
         -- must have correct path
-        path = parent_detail_option_value_path || configuration_type::TEXT
+        path = parent_detail_option_value_path || '__CT__' || configuration_type::TEXT
     )
 );
 

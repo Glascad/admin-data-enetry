@@ -128,6 +128,8 @@ const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match,
 
 const removeComments = (path, contents) => contents.replace(/--.*\n/g, '\n');
 
+const removeEmptyLines = (path, contents) => contents.replace(/(\n\s*\n)/g, '\n');
+
 const getDbContents = path => {
     const DB = require('../../compiled/db-seed.js');
 
@@ -156,6 +158,7 @@ const sqlPipe = [
     removeComments,
     duplicateSQL,
     insertEnvVars,
+    removeEmptyLines,
 ];
 
 const _require = path => {
@@ -172,24 +175,11 @@ const _require = path => {
     }
 }
 
-const removeEmptyLines = str => str.replace(/(\n\s*\n)/g, '\n');
-
-const DEFAULT_USERS = [
-    process.env.USER_ONE,
-    process.env.USER_TWO,
-    process.env.USER_THREE,
-    process.env.USER_FOUR,
-    process.env.USER_FIVE,
-    process.env.USER_SIX,
-].filter(Boolean);
-
 module.exports = {
     removeComments,
     removeExt,
     cleanKeys,
     getKeys,
     _require,
-    removeEmptyLines,
     duplicateSQL,
-    DEFAULT_USERS,
 };

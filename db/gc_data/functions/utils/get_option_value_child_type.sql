@@ -3,10 +3,17 @@
 <<LOOP
     TYPE (
         system,
-        detail
+        detail,
+        configuration
     )
     CHILD (
         detail,
+        configuration,
+        part
+    )
+    CHILD_PREFIX (
+        system,
+        system,
         configuration
     )
 >>
@@ -25,17 +32,17 @@
         );
         
         is_type := EXISTS (
-            SELECT * FROM system_<<CHILD>>s st
+            SELECT * FROM <<CHILD_PREFIX>>_<<CHILD>>s st
             WHERE st.parent_<<TYPE>>_option_value_path = ov_path
         );
         
         IF is_option AND is_type THEN
 
-            RAISE EXCEPTION 'Option value % cannot contain both recursive <<TYPE>> option and system <<CHILD>>', ov_path;
+            RAISE EXCEPTION 'Option value % cannot contain both recursive <<TYPE>> option and <<CHILD_PREFIX>> <<CHILD>>', ov_path;
 
         ELSIF is_option THEN RETURN '<<TYPE>>_option';
 
-        ELSIF is_type THEN RETURN 'system_<<CHILD>>';
+        ELSIF is_type THEN RETURN '<<CHILD_PREFIX>>_<<CHILD>>';
 
         ELSE RETURN NULL;
 

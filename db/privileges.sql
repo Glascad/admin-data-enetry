@@ -123,3 +123,7 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_controlled, gc_private TO GC_ADMIN;
 -- DEVELOPER
 -- role doadmin already has ownership of all schemas
 GRANT unauthorized, GC_ADMIN, GC_DATA_ENTRY, GC_CLIENT TO doadmin;
+
+-- USERS
+GRANT gc_invoker TO glascad;
+GRANT glascad TO doadmin;
