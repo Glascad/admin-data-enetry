@@ -4,6 +4,7 @@ RETURNS SYSTEM_SETS AS $$
 DECLARE
     ss ALIAS FOR system_set;
     comp RECORD;
+    other_comp RECORD;
 BEGIN
 
     -- selected system subtree must be a terminal system option value
@@ -44,7 +45,7 @@ BEGIN
         ) LOOP
 
             IF comp.selected_value IS NULL THEN
-                RAISE EXCEPTION 'Option group %.% must is missing a selected value', comp.option_path, comp.option_name;
+                RAISE EXCEPTION 'Missing a selected value for option group %.% ', comp.option_path, comp.option_name;
             END IF;
 
         END LOOP;
@@ -57,14 +58,14 @@ BEGIN
         ) LOOP
 
             <<LOOP TYPE (detail, configuration)>>
-                IF EXISTS (
+                FOR other_comp IN (
                     SELECT * FROM system_set_<<TYPE>>_option_values ssov
                     WHERE ssov.system_set_id = ss.id
                     AND ssov.<<TYPE>>_option_value_path ~ ('*.' || comp.option_name || '.*')::LQUERY
                     AND NOT (ssov.<<TYPE>>_option_value_path ~ ('*.' || comp.option_name || '.' || comp.name || '.*')::LQUERY)
-                ) THEN
-                    RAISE EXCEPTION 'System set <<TYPE>> option value has wrong value selected for option group %.%', comp.option_name, comp.name;
-                END IF;
+                ) LOOP
+                    RAISE EXCEPTION 'System set <<TYPE>> option value % has wrong value selected for option group %.%', other_comp.<<TYPE>>_option_value_path, comp.option_name, comp.name;
+                END LOOP;
             <<END LOOP>>
 
         END LOOP;
@@ -119,7 +120,7 @@ BEGIN
 
         END LOOP;
     
-    RETURN system_set;
+    RETURN ss;
 
 END;
 $$ LANGUAGE plpgsql STABLE;

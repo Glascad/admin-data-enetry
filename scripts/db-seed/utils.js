@@ -72,20 +72,20 @@ const duplicateSQL = (path, contents) => {
 
             }, []);
 
-            console.log(chalk.gray(` -- Looping through variable${
-                Object.keys(vars[0]).length > 1 ? 's' : ''
-                } ${
-                Object.keys(vars[0]).map(varname => `${
-                    chalk.white(varname)
-                    // } (${
-                    // vars.map(v => `${
-                    //     chalk.gray(v[varname])
-                    //     }`).join(', ')
-                    // )
-                    }`).join(', ')
-                } in ${
-                logPath(path)
-                }`));
+            // console.log(chalk.gray(` -- Looping through variable${
+            //     Object.keys(vars[0]).length > 1 ? 's' : ''
+            //     } ${
+            //     Object.keys(vars[0]).map(varname => `${
+            //         chalk.white(varname)
+            //         // } (${
+            //         // vars.map(v => `${
+            //         //     chalk.gray(v[varname])
+            //         //     }`).join(', ')
+            //         // )
+            //         }`).join(', ')
+            //     } in ${
+            //     logPath(path)
+            //     }`));
 
             return vars.reduce((generated, varObj) => `${
                 generated
@@ -121,7 +121,7 @@ const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match,
     const value = process.env[ENV_VAR];
     if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
     else {
-        console.log(chalk.gray(` -- Inserting environment variable ${chalk.white(ENV_VAR)} in ${logPath(path)}`));
+        // console.log(chalk.gray(` -- Inserting environment variable ${chalk.white(ENV_VAR)} in ${logPath(path)}`));
         return value;
     }
 });

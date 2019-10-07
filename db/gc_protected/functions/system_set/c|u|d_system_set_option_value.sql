@@ -14,12 +14,12 @@
     BEGIN
 
         -- update
-        IF sn.new_path AND sn.old_path IS NOT NULL THEN
+        IF sn.new_path IS NOT NULL AND sn.old_path IS NOT NULL THEN
 
             UPDATE system_set_<<TYPE>>_option_values ssovs SET
-                <<TYPE>>_option_value_path = new_path
+                <<TYPE>>_option_value_path = sn.new_path
             WHERE ssovs.system_set_id = ss.id
-            AND ssovs.<<TYPE>>_option_value_path = old_path
+            AND ssovs.<<TYPE>>_option_value_path = sn.old_path
             RETURNING * INTO ov;
 
         -- create
@@ -41,7 +41,7 @@
             WHERE ssov.<<TYPE>>_option_value_path = sn.old_path
             RETURNING * INTO ov;
 
-        -- mistake
+        -- otherwise
         ELSE
 
             RAISE EXCEPTION 'Must provide either `old_path` or `new_path` or both to create_or_update_or_delete_system_set_<<TYPE>>_option_value';

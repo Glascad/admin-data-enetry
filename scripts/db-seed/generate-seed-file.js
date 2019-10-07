@@ -75,21 +75,23 @@ ${require('../../db/gc_protected/functions/system/c+d_option_groups.sql')}
 ${require('../../db/gc_protected/functions/system/c,u_option.sql')}
 ${require('../../db/gc_protected/functions/system/c,u_option_value.sql')}
 ${require('../../db/gc_protected/functions/system/c,u_type.sql')}
-${require('../../db/gc_protected/functions/project/c|u_system_set.sql')}
+${require('../../db/gc_protected/functions/system_set/c|u_system_set.sql')}
+${require('../../db/gc_protected/functions/system_set/c|u|d_system_set_option_value.sql')}
+${require('../../db/gc_protected/functions/system_set/c|u_system_set_option_group_value.sql')}
 ${require('../../db/gc_data/functions/u_system.sql')}
 ${require('../../db/gc_data/functions/ch_system.sql')}
-${require('../../db/gc_public/functions/mutations/authenticate.sql')}
-${require('../../db/gc_public/functions/mutations/copy_elevation.sql')}
-${require('../../db/gc_public/functions/mutations/c|u_project.sql')}
-${require('../../db/gc_public/functions/mutations/d_elevation.sql')}
-${require('../../db/gc_public/functions/mutations/d_project.sql')}
-${require('../../db/gc_public/functions/mutations/get_all_projects.sql')}
+${require('../../db/gc_public/functions/mutations/elevation/u_elevation.sql')}
+${require('../../db/gc_public/functions/mutations/elevation/copy_elevation.sql')}
+${require('../../db/gc_public/functions/mutations/elevation/d_elevation.sql')}
+${require('../../db/gc_public/functions/mutations/project/c|u_project.sql')}
+${require('../../db/gc_public/functions/mutations/project/d_project.sql')}
+${require('../../db/gc_public/functions/mutations/project/get_all_projects.sql')}
+${require('../../db/gc_public/functions/mutations/system_set/u_system_set.sql')}
+${require('../../db/gc_public/functions/mutations/system_set/ch_system_set.sql')}
 ${require('../../db/gc_public/functions/mutations/report_bug.sql')}
-${require('../../db/gc_public/functions/mutations/u_elevation.sql')}
-${require('../../db/gc_public/functions/mutations/u_system_set.sql')}
-${require('../../db/gc_public/functions/mutations/ch_system_set.sql')}
-${require('../../db/gc_public/functions/queries/get_current_user.sql')}
 ${require('../../db/gc_public/functions/queries/get_current_user_id.sql')}
+${require('../../db/gc_public/functions/queries/get_current_user.sql')}
+${require('../../db/gc_public/functions/mutations/authenticate.sql')}
 
 
 ----- INSERTIONS -----

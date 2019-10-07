@@ -15,12 +15,12 @@ gc_protected.system_sets (
 
 CREATE TABLE
 gc_protected.system_set_option_group_values (
-    id SERIAL PRIMARY KEY,
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
     system_set_system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
     option_group_system_option_value_path LTREE NOT NULL,
     option_name OPTION_NAME NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
+    PRIMARY KEY (system_set_id, option_group_system_option_value_path, option_name),
     FOREIGN KEY (
         system_set_id,
         system_set_system_option_value_path
@@ -55,12 +55,10 @@ gc_protected.system_set_option_group_values (
 
 CREATE TABLE
 gc_protected.system_set_detail_option_values (
-    id SERIAL PRIMARY KEY,
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
     system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED NOT NULL,
     detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL,
-    UNIQUE (system_set_id, detail_option_value_path),
-    UNIQUE (id, detail_option_value_path),
+    PRIMARY KEY (system_set_id, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
         system_option_value_path
@@ -82,10 +80,10 @@ gc_protected.system_set_detail_option_values (
 
 CREATE TABLE
 gc_protected.system_set_configuration_option_values (
-    id SERIAL PRIMARY KEY,
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
     detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL,
     configuration_option_value_path LTREE REFERENCES configuration_option_values INITIALLY DEFERRED NOT NULL,
+    PRIMARY KEY (system_set_id, configuration_option_value_path),
     FOREIGN KEY (
         system_set_id,
         detail_option_value_path
