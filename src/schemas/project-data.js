@@ -12,9 +12,9 @@ export const PROJECT_FIELDS = gql`
         id
         name
         defaultElevation
-        # elevationsByProjectId {
-        #     totalCount
-        # }
+        elevationsByProjectId {
+            totalCount
+        }
     }
 `;
 
@@ -102,58 +102,15 @@ export const ENTIRE_SYSTEM_SET = gql`
     ${SD.ENTIRE_SYSTEM}
 `;
 
-// export const ENTIRE_SYSTEM_SET_OPTION_VALUE = gql`
-//     fragment EntireSystemSetOptionValue on SystemSetOptionValue {
-//          __typename
-//         nodeId
-//         systemOptionBySystemIdAndOptionName {
-//             ...EntireSystemOption
-//         }
-//         optionValueBySystemIdAndOptionNameAndName {
-//             ...OptionValueFields
-//         }
-//     }
-// `;
-
-// export const ENTIRE_SYSTEM_SET = gql`
-//     fragment EntireSystemSet on SystemSet {
-//         __typename
-//         nodeId
-//         id
-//         systemBySystemId {
-//             ...EntireSystem
-//         }
-//         systemSetOptionValuesBySystemSetIdAndSystemId {
-//             nodes {
-//             #    ...EntireSystemSetOptionValue
-//                 ...SystemSetOptionValueFields
-//             }
-//         }
-//         systemSetDetailTypeConfigurationTypesBySystemSetIdAndSystemIdAndSystemType {
-//             nodes {
-//                 ...SystemSetDetailTypeConfigurationTypeFields
-//             }
-//         }
-//         elevationsBySystemSetId {
-//             totalCount
-//         }
-//     }
-//     ${SD.ENTIRE_SYSTEM}
-//     ${SD.ENTIRE_SYSTEM_OPTION}
-//     ${SD.OPTION_VALUE_FIELDS}
-//     ${SYSTEM_SET_SYSTEM_OPTION_VALUE_FIELDS}
-//     ${SYSTEM_SET_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
-// `;
-
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
         ...ProjectFields
-        elevationsByProjectId(orderBy: NAME_ASC) {
-            nodes {
-                ...ElevationFields
-                # ...EntireElevation
-            }
-        }
+        # elevationsByProjectId(orderBy: NAME_ASC) {
+        #     nodes {
+        #         ...ElevationFields
+        #         # ...EntireElevation
+        #     }
+        # }
         systemSetsByProjectId {
             nodes {
                 ...SystemSetFields
@@ -170,7 +127,7 @@ export const ENTIRE_PROJECT = gql`
         }
     }
     ${PROJECT_FIELDS}
-    ${ED.ELEVATION_FIELDS}
     ${SYSTEM_SET_FIELDS}
 `;
 
+// ${ED.ELEVATION_FIELDS}
