@@ -72,7 +72,7 @@ export default function Project({
         <Redirect
             to={path.replace(/project.*/, 'main-menu')}
         />
-    )
+    );
     // console.log(arguments[0]);
     return (
         <ApolloWrapper

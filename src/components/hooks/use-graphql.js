@@ -2,21 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 
 import client from '../../apollo-config';
 
-import {
-    removeNullValues,
-    flattenNodeArrays,
-    replaceByKeys,
-} from '../../utils';
+import { normalizeQueryResponse } from '../../utils';
 
 import useMountTracker from './use-mount-tracker';
-
-const normalizeResponse = ({ data }) => removeNullValues(
-    flattenNodeArrays(
-        replaceByKeys(
-            data,
-        ),
-    ),
-) || {};
 
 export function useMutation(mutation, fetchQuery = () => { }) {
 
@@ -36,7 +24,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
                 ...mutation,
             });
 
-            const normalResponse = normalizeResponse(response);
+            const normalResponse = normalizeQueryResponse(response);
 
             // tracker.ifStillMounted(() => {
             setLoading(false);
@@ -83,7 +71,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
             //     query,
             // });
 
-            const normalResponse = normalizeResponse(response);
+            const normalResponse = normalizeQueryResponse(response);
 
             // console.log({ normalResponse });
 

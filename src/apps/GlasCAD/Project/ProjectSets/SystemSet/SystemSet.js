@@ -1,41 +1,85 @@
+import React from 'react';
+import gql from 'graphql-tag';
+import F from '../../../../../schemas';
+import {
+    useQuery,
+    TitleBar,
+    requireQueryParams,
+} from '../../../../../components';
+
+const query = gql`query SystemSet($systemSetId: Int!) {
+    systemSetById(id: $systemSetId) {
+        ...EntireSystemSet
+    }
+    ...ValidOptions
+}
+${F.PRJ.ENTIRE_SYSTEM_SET}
+${F.CTRLD.VALID_OPTIONS}
+`;
+
+export default requireQueryParams({
+    systemSetId: Number,
+    projectId: Number,
+}, ({ __failed__, path, parsed }) => `${
+    path.replace(/system-set.*$/, 'all')
+    }${
+    parsed.remove(Object.keys(__failed__))
+    }`
+)(function SystemSet({
+        queryParams: {
+            systemSetId,
+            projectId,
+        },
+    }) {
+        console.log(arguments[0]);
+
+        const [fetchQuery, queryResult] = useQuery({ query, variables: { systemSetId } });
+
+        console.log({ queryResult, fetchQuery });
+
+        const {
+            _systemSet,
+            _systemSet: {
+                name,
+                _system = {},
+                _system: {
+                    name: systemName,
+                    _systemOptionValues = [],
+                    _detailOptionValues = [],
+                    _configurationOptionValues = [],
+                } = {},
+                allSystems = [],
+            } = {},
+        } = queryResult;
+
+        return (
+            <>
+                <TitleBar
+                    title="System Set"
+                    selections={name ? [name] : undefined}
+                />
+                <div className="card">
+
+                </div>
+            </>
+        );
+    }
+    );
+
+
+
+
 // import React, { } from 'react';
 // import { TitleBar, useQuery, Select, Input, CollapsibleTitle, GroupingBox, Toggle } from '../../../../../components';
 // import gql from 'graphql-tag';
-// import F from '../../../../../schemas';
 // import { parseSearch } from '../../../../../utils';
 // import { getParentTrail, getParent, getChildren } from '../../../../../app-logic/system-utils';
-
-// const query = gql`query SystemSet($systemSetId: Int!) {
-//     systemSetById(id: $systemSetId) {
-//         ...EntireSystemSet
-//     }
-// } ${F.PRJ.ENTIRE_SYSTEM_SET}`;
 
 // export default function SystemSets({
 //     location: {
 //         search,
 //     },
 // }) {
-//     const { systemSetId } = parseSearch(search);
-
-//     console.log(arguments[0]);
-
-//     const [fetchQuery, queryResult] = useQuery({ query, variables: { systemSetId: +systemSetId } });
-
-//     console.log({ queryResult, fetchQuery });
-
-//     const {
-//         _systemSet: {
-//             name,
-//             systemOptionValueId,
-//             _system = {},
-//             _system: {
-//                 name: systemName,
-//                 _systemOptionValues = [],
-//             } = {},
-//             allSystems = [],
-//         } = {},
-//     } = queryResult;
 
 //     const systemOptionValue = _systemOptionValues.find(({ id }) => id === systemOptionValueId);
 

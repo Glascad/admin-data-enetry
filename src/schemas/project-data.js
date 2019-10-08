@@ -26,37 +26,35 @@ export const SYSTEM_SET_FIELDS = gql`
         name
         systemId
         projectId
-        systemOptionValueId
+        systemOptionValuePath
     }
 `;
 
-export const SYSTEM_SET_RAISED_OPTION_VALUE_FIELDS = gql`
-    fragment SystemSetRaisedOptionValueFields on SystemSetRaisedOptionValue {
+export const SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS = gql`
+    fragment SystemSetOptionGroupValueFields on SystemSetOptionGroupValue {
         __typename
         nodeId
-        id
         optionName
-        optionValueName
+        name
     }
 `;
 
-// export const SYSTEM_SET_OPTION_VALUE_FIELDS = gql`
-//     fragment SystemSetOptionValueFields on SystemSetOptionValue {
-//         __typename
-//         nodeId
-//         optionName
-//         name
-//     }
-// `;
+export const SYSTEM_SET_DETAIL_OPTION_VALUE_FIELDS = gql`
+    fragment SystemSetDetailOptionValueFields on SystemSetDetailOptionValue {
+        __typename
+        nodeId
+        detailOptionValuePath
+    }
+`;
 
-// export const SYSTEM_SET_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS = gql`
-//     fragment SystemSetDetailTypeConfigurationTypeFields on SystemSetDetailTypeConfigurationType {
-//         __typename
-//         nodeId
-//         detailType
-//         configurationType
-//     }
-// `;
+export const SYSTEM_SET_CONFIGURATION_OPTION_VALUE_FIELDS = gql`
+    fragment SystemSetConfigurationOptionValueFields on SystemSetConfigurationOptionValue {
+        __typename
+        nodeId
+        configurationOptionValuePath
+    }
+`;
+
 
 // ALL OF TYPE
 
@@ -78,9 +76,19 @@ export const ALL_PROJECTS = gql`
 export const ENTIRE_SYSTEM_SET = gql`
     fragment EntireSystemSet on SystemSet {
         ...SystemSetFields
-        systemSetRaisedOptionValuesBySystemSetId {
+        systemSetOptionGroupValuesBySystemSetId(orderBy:OPTION_NAME_DESC) {
             nodes {
-                ...SystemSetRaisedOptionValueFields
+                ...SystemSetOptionGroupValueFields
+            }
+        }
+        systemSetDetailOptionValuesBySystemSetId {
+            nodes {
+                ...SystemSetDetailOptionValueFields
+            }
+        }
+        systemSetConfigurationOptionValuesBySystemSetId {
+            nodes {
+                ...SystemSetConfigurationOptionValueFields
             }
         }
         systemBySystemId {
@@ -88,8 +96,10 @@ export const ENTIRE_SYSTEM_SET = gql`
         }
     }
     ${SYSTEM_SET_FIELDS}
+    ${SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS}
+    ${SYSTEM_SET_DETAIL_OPTION_VALUE_FIELDS}
+    ${SYSTEM_SET_CONFIGURATION_OPTION_VALUE_FIELDS}
     ${SD.ENTIRE_SYSTEM}
-    ${SYSTEM_SET_RAISED_OPTION_VALUE_FIELDS}
 `;
 
 // export const ENTIRE_SYSTEM_SET_OPTION_VALUE = gql`
@@ -131,7 +141,7 @@ export const ENTIRE_SYSTEM_SET = gql`
 //     ${SD.ENTIRE_SYSTEM}
 //     ${SD.ENTIRE_SYSTEM_OPTION}
 //     ${SD.OPTION_VALUE_FIELDS}
-//     ${SYSTEM_SET_OPTION_VALUE_FIELDS}
+//     ${SYSTEM_SET_SYSTEM_OPTION_VALUE_FIELDS}
 //     ${SYSTEM_SET_DETAIL_TYPE_CONFIGURATION_TYPE_FIELDS}
 // `;
 
@@ -144,23 +154,23 @@ export const ENTIRE_PROJECT = gql`
                 # ...EntireElevation
             }
         }
-        # systemSetsByProjectId {
-        #     nodes {
-        #         ...SystemSetFields
-        #         systemBySystemId {
-        #             name
-        #             manufacturerByManufacturerId {
-        #                 name
-        #             }
-        #         }
-        #         elevationsBySystemSetId {
-        #             totalCount
-        #         }
-        #     }
-        # }
+        systemSetsByProjectId {
+            nodes {
+                ...SystemSetFields
+                systemBySystemId {
+                    name
+                    manufacturerByManufacturerId {
+                        name
+                    }
+                }
+                elevationsBySystemSetId {
+                    totalCount
+                }
+            }
+        }
     }
     ${PROJECT_FIELDS}
     ${ED.ELEVATION_FIELDS}
+    ${SYSTEM_SET_FIELDS}
 `;
 
-// ${SYSTEM_SET_FIELDS}
