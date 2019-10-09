@@ -115,3 +115,5 @@ export const getDefaultPath = (item, systemMap) => {
         :
         path;
 };
+
+export const getOptionGroupValuesFromOptionName = (name, systemMap) => [];

@@ -92,15 +92,20 @@ export const ENTIRE_SYSTEM_SET = gql`
             }
         }
         systemBySystemId {
-            ...EntireSystem
+            name
+            systemType
+            manufacturerByManufacturerId {
+                name
+            }
         }
     }
     ${SYSTEM_SET_FIELDS}
     ${SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS}
     ${SYSTEM_SET_DETAIL_OPTION_VALUE_FIELDS}
     ${SYSTEM_SET_CONFIGURATION_OPTION_VALUE_FIELDS}
-    ${SD.ENTIRE_SYSTEM}
 `;
+
+// ${SD.ENTIRE_SYSTEM}
 
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
@@ -116,6 +121,7 @@ export const ENTIRE_PROJECT = gql`
                 ...SystemSetFields
                 systemBySystemId {
                     name
+                    systemType
                     manufacturerByManufacturerId {
                         name
                     }

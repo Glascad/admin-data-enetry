@@ -7,18 +7,12 @@ import {
     withQueryParams,
     CollapsibleTitle,
     Select,
-    GroupingBox,
     Input,
+    GroupingBox,
+    useRedoableState,
 } from '../../../../../components';
-import {
-    getOptionListFromPath,
-    getChildren,
-    SystemMap,
-    getLastItemFromPath,
-    getDetailTypeFromPath,
-    getConfigurationTypeFromPath,
-} from '../../../../../app-logic/system-utils';
 import { defaultSystemSetUpdate } from './ducks/schemas';
+import merge from './ducks/merge';
 import {
     GENERATE,
     SELECT_MANUFACTURER,
@@ -26,6 +20,7 @@ import {
     SELECT_SYSTEM,
     UPDATE_SYSTEM_SET_NAME,
 } from './ducks/actions';
+import SystemSetOptions from './SystemSetOptions';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -74,20 +69,24 @@ export default withQueryParams({
                 _manufacturer: {
                     name: manufacturerName = '',
                 } = {},
-                _systemOptions = [],
-                _detailOptions = [],
-                _configurationOptions = [],
-                _systemConfigurations = [],
             } = {},
         } = {},
         allSystems = [],
     } = queryResult;
 
-    const systemMap = new SystemMap(_system);
+    const {
+        currentState: systemSetUpdate,
+        currentIndex,
+        cancel,
+        replaceState,
+        pushState,
+    } = useRedoableState(defaultSystemSetUpdate);
 
-    const [systemSetUpdate, setSystemSetUpdate] = useState(defaultSystemSetUpdate);
-
-    const dispatch = (ACTION, payload) => setSystemSetUpdate(systemSetUpdate => ACTION(queryResult, systemSetUpdate, payload));
+    const dispatch = (ACTION, payload, shouldReplaceState = false) => (shouldReplaceState ?
+        replaceState
+        :
+        pushState
+    )(systemSetUpdate => ACTION(queryResult, systemSetUpdate, payload));
 
     useEffect(() => {
         if (!fetching) dispatch(GENERATE);
@@ -102,6 +101,8 @@ export default withQueryParams({
         _systemSetConfigurationOptionValues,
     });
 
+    const systemSet = merge(systemSetUpdate, queryResult);
+
     return (
         <>
             <TitleBar
@@ -111,23 +112,26 @@ export default withQueryParams({
             <div className="card">
                 {/* SYSTEM INFO */}
                 <CollapsibleTitle
-                    title="System Info"
+                    title="System Set"
                 >
-                    <Select
-                        data-cy="manufacturer-name"
-                        label="Manufacturer"
-                        value={manufacturerName}
-                        options={allSystems.map(({ _manufacturer: { name } }) => name)}
-                        onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
-                    />
-                    <Select
-                        data-cy="system-type"
-                        label="System Type"
-                        value={systemType}
-                        options={allSystems.map(({ systemType }) => systemType)}
-                        onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
-                    />
-                    {/* <div className="input-group"> */}
+                    {/* <GroupingBox
+                        title="System Info"
+                    >
+                        <div className="input-group">
+                            <Select
+                                data-cy="manufacturer-name"
+                                label="Manufacturer"
+                                value={manufacturerName}
+                                options={allSystems.map(({ _manufacturer: { name } }) => name)}
+                                onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
+                            />
+                            <Select
+                                data-cy="system-type"
+                                label="System Type"
+                                value={systemType}
+                                options={allSystems.map(({ systemType }) => systemType)}
+                                onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
+                            /> */}
                     <Select
                         data-cy="system-name"
                         label="System"
@@ -135,95 +139,19 @@ export default withQueryParams({
                         options={allSystems.map(({ name }) => name)}
                         onChange={systemName => SELECT_SYSTEM({ systemName })}
                     />
+                    {/* </div>
+                    </GroupingBox> */}
                     <Input
                         data-cy="system-set-name"
                         label="System Set Name"
                         value={name}
                         onChange={name => UPDATE_SYSTEM_SET_NAME({ name })}
                     />
-                    {/* </div> */}
                 </CollapsibleTitle>
-                {systemName ? (
-                    <>
-                        {/* SYSTEM OPTIONS */}
-                        <CollapsibleTitle
-                            title="Options"
-                        >
-                            {getOptionListFromPath(systemOptionValuePath)
-                                .map(({ name, value }) => (
-                                    <Select
-                                        label={name}
-                                        value={value}
-                                        options={getChildren({
-                                            path: systemOptionValuePath
-                                                .replace(new RegExp(`${name}\\.${value}.*$`), name)
-                                        }, systemMap
-                                        ).map(({ path }) => getLastItemFromPath(path))}
-                                    />
-                                ))}
-                        </CollapsibleTitle>
-                        {/* SYSTEM DETAILS */}
-                        <CollapsibleTitle
-                            title="Details"
-                        >
-                            {_systemSetDetailOptionValues.map(({ detailOptionValuePath }) => (
-                                <GroupingBox
-                                    title={getDetailTypeFromPath(detailOptionValuePath)}
-                                >
-                                    {/* DETAIL OPTIONS */}
-                                    {getOptionListFromPath(detailOptionValuePath)
-                                        .map(({ name, value }) => (
-                                            <Select
-                                                label={name}
-                                                value={value}
-                                                options={getChildren({
-                                                    path: detailOptionValuePath
-                                                        .replace(new RegExp(`${name}\\.${value}.*$`), name)
-                                                }, systemMap
-                                                ).map(({ path }) => getLastItemFromPath(path))}
-                                            />
-                                        ))}
-                                    {/* SYSTEM CONFIGURATIONS */}
-                                    {_systemConfigurations
-                                        .filter(({ path }) => path.startsWith(detailOptionValuePath))
-                                        .map(({ path }) => _systemSetConfigurationOptionValues
-                                            .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(path))
-                                            ||
-                                            { path }
-                                        )
-                                        .map(({ configurationOptionValuePath, path }) => (
-                                            <>
-                                                <Input
-                                                    type="switch"
-                                                    {...console.log({ configurationOptionValuePath, path })}
-                                                    label={getConfigurationTypeFromPath(configurationOptionValuePath || path)}
-                                                    checked={!!configurationOptionValuePath}
-                                                />
-                                                {/* CONFIGURATION OPTIONS */}
-                                                {configurationOptionValuePath ? (
-                                                    <div className="nested">
-                                                        {getOptionListFromPath(configurationOptionValuePath)
-                                                            .map(({ name, value }) => (
-                                                                <Select
-                                                                    label={name}
-                                                                    value={value}
-                                                                    options={getChildren({
-                                                                        path: configurationOptionValuePath
-                                                                            .replace(new RegExp(`${name}\\.${value}.*$`), name),
-                                                                    }, systemMap
-                                                                    ).map(({ path }) => getLastItemFromPath(path))}
-                                                                />
-                                                            ))}
-                                                    </div>
-                                                ) : null}
-                                            </>
-                                        ))}
-                                </GroupingBox>
-                            ))}
-
-                        </CollapsibleTitle>
-                    </>
-                ) : null}
+                <SystemSetOptions
+                    systemSet={systemSet}
+                    dispatch={dispatch}
+                />
             </div>
         </>
     );

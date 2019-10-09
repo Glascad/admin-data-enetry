@@ -9,5 +9,5 @@ export default function SELECT_MANUFACTURER({
 }, {
     manufacturerName,
 }) {
-    
+    return arguments[0];
 }

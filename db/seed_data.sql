@@ -2,8 +2,8 @@
 SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_controlled, gc_private;
 
 
--- INITIAL MANUFACTURER
-INSERT INTO manufacturers (name) VALUES ('Kawneer');
+-- INITIAL MANUFACTURERS
+INSERT INTO manufacturers (name) VALUES ('Kawneer'), ('Mnfg');
 
 
 
@@ -71,8 +71,10 @@ INSERT INTO option_groups (system_id, system_option_value_path, name) VALUES
 
 
 -- TEST SYSTEM
-INSERT INTO systems (name, manufacturer_id, system_type)
-VALUES ('Test System', 1, 'STOREFRONT');
+INSERT INTO systems (name, manufacturer_id, system_type) VALUES
+('Test System', 1, 'STOREFRONT'),
+('Sys', 2, 'STOREFRONT'),
+('Sys3', 2, 'ALL_GLASS');
 
 
 

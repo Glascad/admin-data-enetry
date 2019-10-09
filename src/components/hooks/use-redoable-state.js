@@ -130,7 +130,6 @@ export default function useRedoableState(firstState, dependencies = []) {
         currentState,
         currentIndex,
         clearHistory,
-        cancel,
         states,
         cancel,
         undo,

@@ -12,7 +12,6 @@ export const defaultSystemSetNode = {
 export const defaultSystemSetUpdate = {
     id: 0,
     systemId: 0,
-    projectId: 0,
     name: "",
     systemOptionValuePath: "",
     optionGroupValues: [],
