@@ -68,8 +68,6 @@ export const makeRenderable = system => {
     return makeNodeRenderable(firstItem);
 }
 
-export const filterOptionsAbove = ({ path }, optionList) => optionList.filter(({ name }) => !path.includes(name));
-
 export const getOptionListFromPath = path => path
     .replace(/^\d+\.(.*__(D|C)T__\.\w+\.?)?/, '')
     .replace(/(\w+)\.(\w+)(\.)?/ig, ' $1:$2 ')
@@ -115,3 +113,5 @@ export const getDefaultPath = (item, systemMap) => {
         :
         path;
 };
+
+export const filterOptionsAbove = ({ path }, optionList) => optionList.filter(({ name }) => !path.includes(name));

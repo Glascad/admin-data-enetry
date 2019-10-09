@@ -26,8 +26,7 @@ export default function Select({
 }) {
 
     const [input, setInput] = useInitialState(normalCase(value));
-
-    const filteredOptions = unique(options.concat(value))
+    const filteredOptions = unique([value, ...options])
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(
             findBestMatch(
