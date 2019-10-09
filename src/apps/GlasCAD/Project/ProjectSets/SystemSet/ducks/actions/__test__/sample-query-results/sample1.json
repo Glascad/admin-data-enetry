@@ -1,0 +1,278 @@
+{
+    "_systemSet": {
+        "__typename": "SystemSet",
+        "nodeId": "WyJzeXN0ZW1fc2V0cyIsMV0=",
+        "id": 1,
+        "name": "Sample 1",
+        "systemId": 1,
+        "projectId": 1,
+        "systemOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+        "_systemSetOptionGroupValues": [
+            {
+                "__typename": "SystemSetOptionGroupValue",
+                "nodeId": "WyJzeXN0ZW1fc2V0X29wdGlvbl9ncm91cF92YWx1ZXMiLDEsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORSIsIkdMQVpJTkciXQ==",
+                "optionName": "GLAZING",
+                "name": "OUTSIDE"
+            },
+            {
+                "__typename": "SystemSetOptionGroupValue",
+                "nodeId": "WyJzeXN0ZW1fc2V0X29wdGlvbl9ncm91cF92YWx1ZXMiLDEsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORSIsIlNUT1BTIl0=",
+                "optionName": "STOPS",
+                "name": "DOWN"
+            }
+        ],
+        "_systemSetDetailOptionValues": [
+            {
+                "__typename": "SystemSetDetailOptionValue",
+                "nodeId": "WyJzeXN0ZW1fc2V0X2RldGFpbF9vcHRpb25fdmFsdWVzIiwxLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLk9VVFNJREUiXQ==",
+                "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
+            }
+        ],
+        "_systemSetConfigurationOptionValues": [
+            {
+                "__typename": "SystemSetConfigurationOptionValue",
+                "nodeId": "WyJzeXN0ZW1fc2V0X2NvbmZpZ3VyYXRpb25fb3B0aW9uX3ZhbHVlcyIsMSwiMS5TRVQuQ0VOVEVSLkpPSU5FUlkuU0NSRVdfU1BMSU5FLl9fRFRfXy5IRUFELlNUT1BTLkRPV04uR0xBWklORy5PVVRTSURFLl9fQ1RfXy5DT01QRU5TQVRJTkdfUkVDRVBUT1IuRFVSQUJJTElUWS5TVEFOREFSRF9EVVRZIl0=",
+                "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+            }
+        ],
+        "_system": {
+            "__typename": "System",
+            "nodeId": "WyJzeXN0ZW1zIiwxXQ==",
+            "id": 1,
+            "manufacturerId": 1,
+            "systemType": "STOREFRONT",
+            "name": "Initial System",
+            "_manufacturer": {
+                "__typename": "Manufacturer",
+                "nodeId": "WyJtYW51ZmFjdHVyZXJzIiwxXQ==",
+                "id": 1,
+                "name": "Kawneer",
+                "__by": "ManufacturerId"
+            },
+            "_systemOptions": [
+                {
+                    "__typename": "SystemOption",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsIjEuU0VUIl0=",
+                    "path": "1.SET",
+                    "defaultSystemOptionValue": "CENTER"
+                },
+                {
+                    "__typename": "SystemOption",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9ucyIsIjEuU0VULkNFTlRFUi5KT0lORVJZIl0=",
+                    "path": "1.SET.CENTER.JOINERY",
+                    "defaultSystemOptionValue": "SCREW_SPLINE"
+                }
+            ],
+            "_systemOptionValues": [
+                {
+                    "__typename": "SystemOptionValue",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkJBQ0siXQ==",
+                    "path": "1.SET.BACK"
+                },
+                {
+                    "__typename": "SystemOptionValue",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUiJd",
+                    "path": "1.SET.CENTER"
+                },
+                {
+                    "__typename": "SystemOptionValue",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORSJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE"
+                },
+                {
+                    "__typename": "SystemOptionValue",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNIRUFSX0JMT0NLIl0=",
+                    "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK"
+                },
+                {
+                    "__typename": "SystemOptionValue",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNUSUNLIl0=",
+                    "path": "1.SET.CENTER.JOINERY.STICK"
+                },
+                {
+                    "__typename": "SystemOptionValue",
+                    "nodeId": "WyJzeXN0ZW1fb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkZST05UIl0=",
+                    "path": "1.SET.FRONT"
+                }
+            ],
+            "_systemDetails": [
+                {
+                    "__typename": "SystemDetail",
+                    "nodeId": "WyJzeXN0ZW1fZGV0YWlscyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRCJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD"
+                },
+                {
+                    "__typename": "SystemDetail",
+                    "nodeId": "WyJzeXN0ZW1fZGV0YWlscyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSE9SSVpPTlRBTCJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL"
+                },
+                {
+                    "__typename": "SystemDetail",
+                    "nodeId": "WyJzeXN0ZW1fZGV0YWlscyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uU0lMTCJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL"
+                }
+            ],
+            "_detailOptions": [
+                {
+                    "__typename": "DetailOption",
+                    "nodeId": "WyJkZXRhaWxfb3B0aW9ucyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRC5TVE9QUyJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
+                    "defaultDetailOptionValue": "UP"
+                },
+                {
+                    "__typename": "DetailOption",
+                    "nodeId": "WyJkZXRhaWxfb3B0aW9ucyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRC5TVE9QUy5ET1dOLkdMQVpJTkciXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
+                    "defaultDetailOptionValue": "INSIDE"
+                }
+            ],
+            "_detailOptionValues": [
+                {
+                    "__typename": "DetailOptionValue",
+                    "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRC5TVE9QUy5ET1dOIl0=",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN"
+                },
+                {
+                    "__typename": "DetailOptionValue",
+                    "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRC5TVE9QUy5ET1dOLkdMQVpJTkcuSU5TSURFIl0=",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE"
+                },
+                {
+                    "__typename": "DetailOptionValue",
+                    "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRC5TVE9QUy5ET1dOLkdMQVpJTkcuT1VUU0lERSJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
+                },
+                {
+                    "__typename": "DetailOptionValue",
+                    "nodeId": "WyJkZXRhaWxfb3B0aW9uX3ZhbHVlcyIsIjEuU0VULkNFTlRFUi5KT0lORVJZLlNDUkVXX1NQTElORS5fX0RUX18uSEVBRC5TVE9QUy5VUCJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP"
+                }
+            ],
+            "_systemConfigurations": [
+                {
+                    "__typename": "SystemConfiguration",
+                    "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLklOU0lERS5fX0NUX18uQ09NUEVOU0FUSU5HX1JFQ0VQVE9SIl0=",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
+                    "optional": false
+                },
+                {
+                    "__typename": "SystemConfiguration",
+                    "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLklOU0lERS5fX0NUX18uSEVBRCJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+                    "optional": false
+                },
+                {
+                    "__typename": "SystemConfiguration",
+                    "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLk9VVFNJREUuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUiJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
+                    "optional": false
+                },
+                {
+                    "__typename": "SystemConfiguration",
+                    "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLk9VVFNJREUuX19DVF9fLkhFQUQiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
+                    "optional": false
+                },
+                {
+                    "__typename": "SystemConfiguration",
+                    "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuVVAuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUiJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
+                    "optional": false
+                },
+                {
+                    "__typename": "SystemConfiguration",
+                    "nodeId": "WyJzeXN0ZW1fY29uZmlndXJhdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuVVAuX19DVF9fLkhFQUQiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
+                    "optional": false
+                }
+            ],
+            "_configurationOptions": [
+                {
+                    "__typename": "ConfigurationOption",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLklOU0lERS5fX0NUX18uQ09NUEVOU0FUSU5HX1JFQ0VQVE9SLkRVUkFCSUxJVFkiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+                    "defaultConfigurationOptionValue": "STANDARD_DUTY"
+                },
+                {
+                    "__typename": "ConfigurationOption",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLk9VVFNJREUuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUi5EVVJBQklMSVRZIl0=",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+                    "defaultConfigurationOptionValue": "STANDARD_DUTY"
+                },
+                {
+                    "__typename": "ConfigurationOption",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuVVAuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUi5EVVJBQklMSVRZIl0=",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+                    "defaultConfigurationOptionValue": "STANDARD_DUTY"
+                }
+            ],
+            "_configurationOptionValues": [
+                {
+                    "__typename": "ConfigurationOptionValue",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLklOU0lERS5fX0NUX18uQ09NUEVOU0FUSU5HX1JFQ0VQVE9SLkRVUkFCSUxJVFkuSElHSF9QRVJGT1JNQU5DRSJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
+                },
+                {
+                    "__typename": "ConfigurationOptionValue",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLklOU0lERS5fX0NUX18uQ09NUEVOU0FUSU5HX1JFQ0VQVE9SLkRVUkFCSUxJVFkuU1RBTkRBUkRfRFVUWSJd",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+                },
+                {
+                    "__typename": "ConfigurationOptionValue",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLk9VVFNJREUuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUi5EVVJBQklMSVRZLkhJR0hfUEVSRk9STUFOQ0UiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
+                },
+                {
+                    "__typename": "ConfigurationOptionValue",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuRE9XTi5HTEFaSU5HLk9VVFNJREUuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUi5EVVJBQklMSVRZLlNUQU5EQVJEX0RVVFkiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+                },
+                {
+                    "__typename": "ConfigurationOptionValue",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuVVAuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUi5EVVJBQklMSVRZLkhJR0hfUEVSRk9STUFOQ0UiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
+                },
+                {
+                    "__typename": "ConfigurationOptionValue",
+                    "nodeId": "WyJjb25maWd1cmF0aW9uX29wdGlvbl92YWx1ZXMiLCIxLlNFVC5DRU5URVIuSk9JTkVSWS5TQ1JFV19TUExJTkUuX19EVF9fLkhFQUQuU1RPUFMuVVAuX19DVF9fLkNPTVBFTlNBVElOR19SRUNFUFRPUi5EVVJBQklMSVRZLlNUQU5EQVJEX0RVVFkiXQ==",
+                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+                }
+            ],
+            "__by": "SystemId"
+        },
+        "__by": "Id"
+    },
+    "__typename": "Query",
+    "allSystems": [
+        {
+            "__typename": "System",
+            "nodeId": "WyJzeXN0ZW1zIiwxXQ==",
+            "id": 1,
+            "manufacturerId": 1,
+            "systemType": "STOREFRONT",
+            "name": "Initial System",
+            "_manufacturer": {
+                "__typename": "Manufacturer",
+                "nodeId": "WyJtYW51ZmFjdHVyZXJzIiwxXQ==",
+                "id": 1,
+                "name": "Kawneer",
+                "__by": "ManufacturerId"
+            }
+        },
+        {
+            "__typename": "System",
+            "nodeId": "WyJzeXN0ZW1zIiwyXQ==",
+            "id": 2,
+            "manufacturerId": 1,
+            "systemType": "STOREFRONT",
+            "name": "Test System",
+            "_manufacturer": {
+                "__typename": "Manufacturer",
+                "nodeId": "WyJtYW51ZmFjdHVyZXJzIiwxXQ==",
+                "id": 1,
+                "name": "Kawneer",
+                "__by": "ManufacturerId"
+            }
+        }
+    ]
+}

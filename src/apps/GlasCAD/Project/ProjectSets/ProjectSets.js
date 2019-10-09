@@ -93,6 +93,7 @@ function ProjectSets({
                     onDelete={() => { }}
                     circleButton={{
                         type: 'tile',
+                        "data-cy": "new-system-set",
                         onClick: () => history.push(`${path}/system-set${parseSearch(search).remove('systemSetId')}`),
                     }}
                 />

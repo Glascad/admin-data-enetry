@@ -1,4 +1,4 @@
-import { getJwt, setJwt, getProjectId, setProjectId, getElevationId } from "./localstorage";
+import { getJwt, setJwt, getProjectId, setProjectId, getElevationId } from "./local-storage";
 
 // ***********************************************
 // This example commands.js shows you how to

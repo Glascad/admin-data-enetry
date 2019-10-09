@@ -21,11 +21,13 @@ module.exports = (on, config) => {
         USER_CYPRESS,
     } = process.env;
 
-    const [USERNAME, PASSWORD] = USER_CYPRESS.split(/[',]/g);
-    
+    const [USERNAME, PASSWORD] = USER_CYPRESS.replace(/'/g, '').split(/,\s*/g);
+
+
     config.env = {
         USERNAME,
         PASSWORD,
+        USER_CYPRESS,
     };
 
     return config;

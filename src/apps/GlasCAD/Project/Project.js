@@ -34,6 +34,18 @@ const subroutes = {
     // Notes,
 };
 
+
+const Project = withQueryParams({
+    required: {
+        projectId: Number,
+    },
+}, ({ path }) => `${
+    path
+    }`
+)(ProjectComponent);
+
+
+
 Project.navigationOptions = ({
     location: {
         search,
@@ -62,7 +74,9 @@ Project.navigationOptions = ({
     path: "/project",
 });
 
-function Project({
+export default Project;
+
+function ProjectComponent({
     match: {
         path,
     },
@@ -76,7 +90,7 @@ function Project({
             id: +parseSearch(search).projectId,
         },
     });
-    
+
     if (!parseSearch(search).projectId) return (
         <Redirect
             to={path.replace(/project.*/, 'main-menu')}
@@ -90,13 +104,4 @@ function Project({
             routes={subroutes}
         />
     );
-}
-
-export default withQueryParams({
-    required: {
-        projectId: Number,
-    },
-}, ({ path }) => `${
-    path
-    }`
-)(Project);
+};

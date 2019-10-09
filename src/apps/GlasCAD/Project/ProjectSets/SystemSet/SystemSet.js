@@ -19,7 +19,13 @@ import {
     getConfigurationTypeFromPath,
 } from '../../../../../app-logic/system-utils';
 import { defaultSystemSetUpdate } from './ducks/schemas';
-import { GENERATE } from './ducks/actions';
+import {
+    GENERATE,
+    SELECT_MANUFACTURER,
+    SELECT_SYSTEM_TYPE,
+    SELECT_SYSTEM,
+    UPDATE_SYSTEM_SET_NAME,
+} from './ducks/actions';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -108,23 +114,34 @@ export default withQueryParams({
                     title="System Info"
                 >
                     <Select
+                        data-cy="manufacturer-name"
                         label="Manufacturer"
                         value={manufacturerName}
                         options={allSystems.map(({ _manufacturer: { name } }) => name)}
-                        onChange={() => { }}
+                        onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
                     />
                     <Select
+                        data-cy="system-type"
                         label="System Type"
                         value={systemType}
                         options={allSystems.map(({ systemType }) => systemType)}
-                        onChange={() => { }}
+                        onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
                     />
+                    {/* <div className="input-group"> */}
                     <Select
+                        data-cy="system-name"
                         label="System"
                         value={systemName}
                         options={allSystems.map(({ name }) => name)}
-                        onChange={() => { }}
+                        onChange={systemName => SELECT_SYSTEM({ systemName })}
                     />
+                    <Input
+                        data-cy="system-set-name"
+                        label="System Set Name"
+                        value={name}
+                        onChange={name => UPDATE_SYSTEM_SET_NAME({ name })}
+                    />
+                    {/* </div> */}
                 </CollapsibleTitle>
                 {systemName ? (
                     <>
