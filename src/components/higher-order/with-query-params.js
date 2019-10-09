@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 import { parseSearch } from '../../utils';
 
-const requireQueryParams = (requiredParams, getFallbackPath) => Component => withRouter(memo(props => {
+const withQueryParams = ({ required = {}, optional = {} }, getFallbackPath) => Component => withRouter(memo(props => {
 
     const {
         match: {
@@ -26,34 +26,40 @@ const requireQueryParams = (requiredParams, getFallbackPath) => Component => wit
 
     const parsed = parseSearch(search);
 
-    const requiredEntries = Object.entries(requiredParams);
+    const requiredEntries = Object.entries(required);
+    const optionalEntries = Object.entries(optional);
 
     const {
         __failed__,
-        ...queryParams
-    } = requiredEntries.reduce((params, [key, map = val => val]) => {
-        const provided = parsed[key]
-        const mapped = map(provided);
-        const { __failed__ } = params;
-        return {
-            ...params,
-            ...(mapped ? {
-                [key]: mapped,
-            } : {
-                    __failed__: {
-                        ...__failed__,
-                        [key]: provided,
-                    },
-                }),
-        };
-    }, {});
+        ...params
+    } = requiredEntries
+        .reduce((params, [key, map = val => val]) => {
+            const provided = parsed[key]
+            const mapped = map(provided);
+            const { __failed__ } = params;
+            return {
+                ...params,
+                ...(mapped ? {
+                    [key]: mapped,
+                } : {
+                        __failed__: {
+                            ...__failed__,
+                            [key]: provided,
+                        },
+                    }),
+            };
+        }, optionalEntries
+            .reduce((params, [key, map = val => val]) => ({
+                ...params,
+                [key]: map(parsed[key]),
+            }), {}));
 
     return __failed__ ? (
         <Redirect
             {...console.error({ __failed__ })}
             to={getFallbackPath({
                 __failed__,
-                queryParams,
+                params,
                 parsed,
                 path,
                 search,
@@ -62,14 +68,14 @@ const requireQueryParams = (requiredParams, getFallbackPath) => Component => wit
     ) : (
             <Component
                 {...props}
-                queryParams={queryParams}
+                params={params}
             />
         );
 }));
 
-export default requireQueryParams;
+export default withQueryParams;
 
-// requireQueryParams.hook = (requiredParams, getFallbackPath) => {
+// withQueryParams.hook = (requiredParams, getFallbackPath) => {
 //     const parsed = parseSearch(search);
 
 //     const requiredEntries = Object.entries(requiredParams);

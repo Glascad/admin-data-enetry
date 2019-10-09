@@ -6,7 +6,7 @@ import {
     ApolloWrapper,
     Navigator,
     Ellipsis,
-    requireQueryParams,
+    withQueryParams,
     useQuery,
 } from '../../../components';
 
@@ -92,8 +92,10 @@ function Project({
     );
 }
 
-export default requireQueryParams({
-    projectId: Number,
+export default withQueryParams({
+    required: {
+        projectId: Number,
+    },
 }, ({ path }) => `${
     path
     }`

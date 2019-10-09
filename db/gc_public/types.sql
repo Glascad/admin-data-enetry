@@ -58,8 +58,8 @@ gc_public.entire_system_set AS (
     system_id INTEGER,
     project_id INTEGER,
     name VARCHAR(50),
-    option_group_values OPTION_VALUE_PAIR[],
     system_option_value_path LTREE,
+    option_group_values OPTION_VALUE_PAIR[],
     detail_option_values ENTIRE_SYSTEM_SET_NODE[],
     configuration_option_values ENTIRE_SYSTEM_SET_NODE[]
 );
