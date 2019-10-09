@@ -46,7 +46,7 @@ export default function SystemBuilder({
     } = useRedoableState(systemUpdate);
 
     const system = merge(systemInput, queryResult);
-
+    
     const systemMap = new SystemMap(system);
 
     const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];

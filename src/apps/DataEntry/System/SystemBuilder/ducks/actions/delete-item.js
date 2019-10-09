@@ -1,3 +1,5 @@
+import { getNameFromPath } from "../../../../../../app-logic/system-utils";
+
 export default function DELETE_ITEM(systemInput, payload) {
     const parentKey = Object.keys(payload).find(i => i.match(/parent/i));
 
@@ -13,7 +15,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         [pathsToDeleteKey]: pathsToDeleteArray = [],
     } = systemInput;
 
-    const deleteNewItem = newItemsArray.find(i => i[parentKey] === parentPath);
+    const deleteNewItem = newItemsArray.find(i => (i[parentKey] === parentPath) && (getNameFromPath(path) === i.name));
 
     console.log({
         payload,
@@ -29,7 +31,7 @@ export default function DELETE_ITEM(systemInput, payload) {
 
     return deleteNewItem ? ({
         ...systemInput,
-        [newItemsKey]: newItemsArray.filter(i => !(i[parentKey] === parentPath)),
+        [newItemsKey]: newItemsArray.filter(i => !(i === deleteNewItem)),
     }) : ({
         ...systemInput,
         [itemsKey]: itemsArray.filter(i => !(i.path === path)),

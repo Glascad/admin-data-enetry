@@ -44,7 +44,7 @@ export const systemOptionUpdate = {
 
 export const systemUpdate = {
     __typename: "System",
-    path: undefined,
+    // path: undefined,
     manufacturerId: undefined,
     systemType: undefined,
     pathsToDelete: [],

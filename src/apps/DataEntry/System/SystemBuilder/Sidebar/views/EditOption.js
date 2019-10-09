@@ -20,12 +20,13 @@ function EditOption({
 
     const {
         path: oPath,
+        newPath: oNewPath,
         __typename,
         [defaultKey]: defaultValue,
     } = option;
-    
+
     const defaultKey = Object.keys(option).find(k => k.match(/default/i));
-    const optionName = oPath.replace(/^.*\.(\w+)$/, '$1');
+    const optionName = (oNewPath || oPath).replace(/^.*\.(\w+)$/, '$1');
 
     const optionValues = getChildren(option, systemMap);
 
@@ -57,6 +58,7 @@ function EditOption({
                     .map(({ name }) => name)}
                 onChange={name => dispatch(UPDATE_ITEM, {
                     path: oPath,
+                    newPath: oNewPath,
                     __typename,
                     update: {
                         name,
@@ -71,15 +73,15 @@ function EditOption({
                     actionType: "add",
                     className: "action",
                     onClick: () => dispatch(ADD_ITEM, {
-                        [`parent${__typename}Path`]: oPath,
-                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === getNameFromPath(ov.path))).name) || 'New Value',
+                        [`parent${__typename}Path`]: oNewPath || oPath,
+                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === getNameFromPath(ov.newPath || ov.path))).name) || 'New Value',
                         __typename: `${__typename}Value`,
                     }),
                 } : undefined}
             >
                 {optionValues.length ?
-                    optionValues.map(({ path: vPath, __typename: valueTypename }, i, { length }) => {
-                        const vName = vPath.replace(/^.*\.(\w+)$/, '$1');
+                    optionValues.map(({ path: ovPath, newPath: ovNewPath, __typename: valueTypename }, i, { length }) => {
+                        const vName = (ovNewPath || ovPath).replace(/^.*\.(\w+)$/, '$1');
                         return (<div
                             className="input-group"
                         >
@@ -90,9 +92,10 @@ function EditOption({
                                 options={selectValidOptionValues}
                                 autoFocus={i === length - 1}
                                 onChange={name => {
-                                    const valueChildren = getChildren({ __typename: valueTypename, path: vPath }, systemMap);
+                                    const valueChildren = getChildren({ __typename: valueTypename, path: ovPath, newPath: ovNewPath }, systemMap);
                                     const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                                        path: vPath,
+                                        path: ovPath,
+                                        newPath: ovNewPath,
                                         __typename: valueTypename,
                                         update: {
                                             name,
@@ -112,15 +115,15 @@ function EditOption({
                                 type="small"
                                 actionType="delete"
                                 onClick={() => {
-                                    const valueChildren = getChildren({ __typename: valueTypename, path: vPath }, systemMap);
-                                    const isDefault = vPath === defaultValue;
+                                    const valueChildren = getChildren({ __typename: valueTypename, path: ovPath }, systemMap);
+                                    const isDefault = (ovNewPath ? ovNewPath : ovPath) === defaultValue;
                                     const newDefaultPath = (optionValues.length > 1) && isDefault ?
-                                        optionValues.find(v => !(v.path === vPath)).path
+                                        optionValues.find(v => !(v.path === ovPath)).path
                                         :
                                         undefined;
 
                                     const deleteOptionValue = () => dispatch(DELETE_ITEM, {
-                                        path: vPath,
+                                        path: ovNewPath || ovPath,
                                         __typename: valueTypename,
                                     });
                                     if (valueChildren.length > 0) confirmWithModal(deleteOptionValue, {
@@ -148,7 +151,7 @@ function EditOption({
                         data-cy="edit-option-delete-button"
                         onClick={() => {
                             const deleteOption = () => dispatch(DELETE_ITEM, {
-                                path: oPath,
+                                path: oNewPath || oPath,
                                 __typename,
                             })
                             if (optionValues.length > 0) confirmWithModal(deleteOption, {
