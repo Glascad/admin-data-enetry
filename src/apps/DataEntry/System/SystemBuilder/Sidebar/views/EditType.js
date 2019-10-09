@@ -9,6 +9,7 @@ function EditType({
     selectedItem: {
         __typename,
         path: tPath,
+        newPath: tNewPath,
     } = {},
     system,
     systemMap,
@@ -28,11 +29,12 @@ function EditType({
         0: childOption,
         0: {
             path: oPath = '',
+            path: oNewPath = '',
             __typename: oTypename,
         } = {},
     } = getChildren(selectedType, systemMap);
 
-    const tName = getLastItemFromPath(tPath);
+    const tName = getLastItemFromPath(tNewPath || tPath);
     const oName = getLastItemFromPath(oPath);
 
     const childValues = getChildren(childOption, systemMap); //Types' Child's children
@@ -55,6 +57,7 @@ function EditType({
                 onChange={name => {
                     const updateType = () => dispatch(UPDATE_ITEM, {
                         path: tPath,
+                        newPath: tNewPath,
                         __typename,
                         update: {
                             name,
@@ -76,7 +79,7 @@ function EditType({
                     className: "action",
                     onClick: () => dispatch(ADD_ITEM, {
                         __typename: `${type}Option`,
-                        [`parent${__typename}Path`]: tPath,
+                        [`parent${__typename}Path`]: tNewPath || tPath,
                         name: "SELECT_OPTION",
                     }),
                 }}
@@ -91,6 +94,7 @@ function EditType({
                             options={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
                             onChange={name => dispatch(UPDATE_ITEM, {
                                 path: oPath,
+                                newPAth: oNewPath,
                                 __typename: oTypename,
                                 update: {
                                     name,

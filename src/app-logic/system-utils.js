@@ -9,7 +9,7 @@ export class SystemMap {
         _configurationOptionValues = [],
         _systemDetails = [],
         _systemConfigurations = [],
-    }) {
+    } = {}) {
         Object.assign(this, [
             ..._systemOptions,
             ..._detailOptions,
@@ -43,19 +43,19 @@ export class SystemMap {
     }
 }
 
-export const getParentPath = ({ path }) => path.replace(/\.\w+$/, '');
+export const getParentPath = ({ path, newPath }) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
 
-export const getParent = ({ path } = {}, systemMap) => systemMap[getParentPath({ path })];
+export const getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
 
-export const getChildren = ({ path } = {}, systemMap) => systemMap instanceof SystemMap ?
+export const getChildren = ({ path, newPath } = {}, systemMap) => systemMap instanceof SystemMap ?
     systemMap.parents ?
-        systemMap.parents[path] || []
+        systemMap.parents[(newPath || path)] || []
         :
         []
     :
-    getChildren({ path }, new SystemMap(systemMap));
+    getChildren({ path, newPath }, new SystemMap(systemMap));
 
-export const getSiblings = ({ path } = {}, systemMap) => systemMap.parents[getParentPath({ path })];
+export const getSiblings = ({ path, newPath } = {}, systemMap) => systemMap.parents[getParentPath({ newPath, path })];
 
 export const makeRenderable = system => {
     const systemMap = new SystemMap(system);
@@ -64,7 +64,7 @@ export const makeRenderable = system => {
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
     const { _systemOptions } = system;
-    const firstItem = _systemOptions.find(({ path = '' }) => path.match(/^\d\.\w+$/));
+    const firstItem = _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/))
     return makeNodeRenderable(firstItem);
 }
 
@@ -79,6 +79,8 @@ export const getOptionListFromPath = path => path
     .map(([name, value]) => ({ name, value }));
 
 export const getLastItemFromPath = path => path.replace(/.*\.(\w+)$/, '$1');
+
+export const filterOptionsAbove = ({ path, newPath }, optionList) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
 
 export const getNextItemFromPath = (path, previousItem) => {
     if (previousItem.match(/[^a-z0-9_]/ig)) throw new Error(`Cannot search for ${previousItem}, contains invalid characters`);
@@ -113,5 +115,3 @@ export const getDefaultPath = (item, systemMap) => {
         :
         path;
 };
-
-export const filterOptionsAbove = ({ path }, optionList) => optionList.filter(({ name }) => !path.includes(name));

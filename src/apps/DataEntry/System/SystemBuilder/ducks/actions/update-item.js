@@ -1,14 +1,15 @@
-import { replace } from "../../../../../../utils";
+import { replace, removeNullValues } from "../../../../../../utils";
 import { getLastItemFromPath } from "../../../../../../app-logic/system-utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
     const {
         __typename,
         path,
+        newPath,
         update,
     } = payload;
-    const isFirstItem = !!path.match(/^\d\.\w+$/);
-    const pathName = getLastItemFromPath(path);
+    const isFirstItem = !!(newPath || path).match(/^\d\.\w+$/);
+    const pathName = getLastItemFromPath(newPath|| path);
 
     const itemsKey = `${__typename.replace(/^./, f => f.toLowerCase())}s`;
     const newItemsKey = `new${__typename}s`;
@@ -18,11 +19,14 @@ export default function UPDATE_ITEM(systemInput, payload) {
         [newItemsKey]: newItemsArray = [],
     } = systemInput;
 
-    const updatedItem = itemsArray.find(i => i.path === path);
+    const updatedItem = itemsArray.find(i => i.update ?
+        (newPath ? newPath : path) === (`${i.update.newParentPath || i.path.replace(/\.\w+$/, '')}.${i.update.name || getLastItemFromPath(newPath || path)}`)
+        :
+        undefined);
     const newUpdatedItem = isFirstItem ?
         newItemsArray.find(({ name }) => name === pathName)
         :
-        newItemsArray.find(i => i.name === pathName && i[Object.keys(i).find(key => key.match(/parent/i))] === path.replace(/\.\w+$/, ''));
+        newItemsArray.find(i => i.name === pathName && i[Object.keys(i).find(key => key.match(/parent/i))] === (newPath || path).replace(/\.\w+$/, ''));
 
     const updatedIndex = itemsArray.indexOf(updatedItem);
     const newUpdatedIndex = newItemsArray.indexOf(newUpdatedItem);
@@ -39,6 +43,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
         newUpdatedIndex,
     })
 
+    const inputPayload = removeNullValues({ ...payload, newPath: undefined } || {});
+
     return {
         ...systemInput,
         [newItemsKey]: newUpdatedItem ?
@@ -52,12 +58,12 @@ export default function UPDATE_ITEM(systemInput, payload) {
         [itemsKey]: updatedItem ?
             replace(itemsArray, updatedIndex, {
                 ...updatedItem,
-                ...payload
+                ...inputPayload
             })
             :
             newUpdatedItem ?
                 itemsArray
                 :
-                itemsArray.concat(payload),
+                itemsArray.concat(inputPayload),
     };
 }

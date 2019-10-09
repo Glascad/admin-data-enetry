@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
-import { makeRenderable } from '../../../../../app-logic/system-utils';
+import { makeRenderable, getLastItemFromPath } from '../../../../../app-logic/system-utils';
 import { normalCase, parseSearch } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
@@ -52,10 +52,11 @@ export default function SystemTree({
                             const {
                                 __typename = '',
                                 path = '',
+                                newPath = '',
                             } = item;
-                            const name = path ? path.replace(/^.*\.(\w+)$/, '$1') : '';
+                            const name = path ? getLastItemFromPath(newPath || path) : '';
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
-                                (key.match(/defaultValue/) && value === path)
+                                key.match(/default.+Value/) && value === name
                             ));
                             return (
                                 <div
