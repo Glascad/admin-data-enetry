@@ -19,14 +19,14 @@ export default function UPDATE_ITEM(systemInput, payload) {
         [newItemsKey]: newItemsArray = [],
     } = systemInput;
 
-    const updatedItem = itemsArray.find(i => i.update ?
-        (newPath ? newPath : path) === (`${i.update.newParentPath || i.path.replace(/\.\w+$/, '')}.${i.update.name || getNameFromPath(newPath || path)}`)
+    const updatedItem = itemsArray.find(item => item.update ?
+        (newPath ? newPath : path) === (`${item.update.newParentPath || item.path.replace(/\.\w+$/, '')}.${item.update.name || getNameFromPath(newPath || path)}`)
         :
         undefined);
     const newUpdatedItem = isFirstItem ?
         newItemsArray.find(({ name }) => name === pathName)
         :
-        newItemsArray.find(i => i.name === pathName && i[Object.keys(i).find(key => key.match(/parent/i))] === (newPath || path).replace(/\.\w+$/, ''));
+        newItemsArray.find(item => item.name === pathName && item[Object.keys(item).find(key => key.match(/parent/i))] === (newPath || path).replace(/\.\w+$/, ''));
 
     const updatedIndex = itemsArray.indexOf(updatedItem);
     const newUpdatedIndex = newItemsArray.indexOf(newUpdatedItem);

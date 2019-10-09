@@ -56,7 +56,7 @@ export default function merge({
             const newParentPath = updatedItem && updatedItem.update ?
                 updatedItem.update[newParentKey] || getParentPath({ path: updatedItem.path })
                 :
-                getParentPath(path);
+                getParentPath(oldItem);
 
             const newItemName = updatedItem ?
                 (updatedItem.update.name
@@ -79,37 +79,31 @@ export default function merge({
                 :
                 true;
 
-            // const newItem = defaultValueExists ?
-            //     {}
-            //     :
-            //     console.log("GOING THROUGH")
-            //     ||
-            //     {
-            //         [defaultValueKey]: getNameFromPath(optionValues.length > 0 ? optionValues[0].path : '')
-            //     };
+            const newUpdatedItem = {
+                ...(updatedItem ? updatedItem.update : {}),
+                newPath: updatedItem ? newPath : undefined,
+                name: undefined,
+                [newParentKey]: undefined,
+                [defaultValueKey]: defaultValueExists ? defaultValue : getNameFromPath(optionValues && optionValues.length > 0 ?
+                    optionValues[0].path
+                    :
+                    '')
+            }
 
-            const newUpdatedItem = updatedItem ?
-                {
-                    ...updatedItem.update,
-                    newPath,
-                    name: undefined,
-                    [newParentKey]: undefined,
-                }
-                :
-                {};
-            // console.log({
-            //     oldItems,
-            //     updatedItems,
-            //     newItems,
-            //     path,
-            //     defaultValueKey,
-            //     defaultValue,
-            //     defaultValueExists,
-            //     optionValueDefaultPath,
-            //     newUpdatedItem,
-            //     newItem,
-            //     optionValues,
-            // })
+            console.log({
+                // oldItems,
+                // updatedItems,
+                // newItems,
+                path,
+                newPath,
+                // defaultValueKey,
+                // defaultValue,
+                // defaultValueExists,
+                // optionValueDefaultPath,
+                // newUpdatedItem,
+                // newItem,
+                // optionValues,
+            })
 
             // console.log({
             //     oldItems,
@@ -134,14 +128,16 @@ export default function merge({
                 ...removeNullValues(newUpdatedItem),
             };
         }).concat(newItems.map(item => {
-            const { __typename, name } = item;
+            const { name } = item;
             const parentKey = Object.keys(item).find(key => key.match(/parent/i));
             const path = `${item[parentKey] || systemId}.${name}`;
 
-            return {
+            return removeNullValues({
+                ...item,
                 path,
-                __typename,
-            }
+                [parentKey]: undefined,
+                name: undefined
+            })
         }));
 
     console.log(arguments);
