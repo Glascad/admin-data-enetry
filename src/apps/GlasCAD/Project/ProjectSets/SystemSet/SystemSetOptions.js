@@ -20,6 +20,7 @@ import {
 import F from '../../../../../schemas';
 import gql from 'graphql-tag';
 import { SELECT_SYSTEM_SET_OPTION_VALUE } from './ducks/actions';
+import { normalCase } from '../../../../../utils';
 
 const query = gql`query SystemById($systemId: Int!) {
     systemById(id: $systemId) {
@@ -96,6 +97,10 @@ export default function SystemSetOptions({
                                     .replace(new RegExp(`${name}\\.${value}.*$`), name)
                             }, systemMap
                             ).map(({ path }) => getLastItemFromPath(path))}
+                            onChange={newValue => dispatch(SELECT_SYSTEM_SET_OPTION_VALUE, {
+                                systemOptionValuePath: systemOptionValuePath.replace(new RegExp(`(${name}\\.).*$`), `$1${newValue}`),
+                                systemMap,
+                            })}
                         />
                     ))}
                 {_optionGroupValues.map(({ optionName, name }) => (
@@ -146,15 +151,21 @@ export default function SystemSetOptions({
                             ) : null}
                             {/* SYSTEM CONFIGURATIONS */}
                             {configurations.length ?
-                                configurations.map(({ configurationOptionValuePath, path }) => (
+                                configurations.map(({ configurationOptionValuePath, path, optional }) => (
                                     <Fragment
                                         key={configurationOptionValuePath || path}
                                     >
-                                        <Input
-                                            type="switch"
-                                            label={getConfigurationTypeFromPath(configurationOptionValuePath || path)}
-                                            checked={!!configurationOptionValuePath}
-                                        />
+                                        {optional ? (
+                                            <Input
+                                                type="switch"
+                                                label={getConfigurationTypeFromPath(configurationOptionValuePath || path)}
+                                                checked={!!configurationOptionValuePath}
+                                            />
+                                        ) : (
+                                                <div>
+                                                    {normalCase(getConfigurationTypeFromPath(configurationOptionValuePath || path))}
+                                                </div>
+                                            )}
                                         {/* CONFIGURATION OPTIONS */}
                                         {configurationOptionValuePath ? (
                                             <div className="nested">

@@ -122,10 +122,8 @@ export const getDefaultPath = (item, systemMap) => {
             firstChild
             :
             undefined;
-    return defaultChild ?
-        getDefaultPath(defaultChild, systemMap)
-        :
-        path;
+    if (defaultChild) return getDefaultPath(defaultChild, systemMap);
+    else return path;
 };
 
 export const getOptionGroupValuesByOptionName = (name, systemMap) => [];
