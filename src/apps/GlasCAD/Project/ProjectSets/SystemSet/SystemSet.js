@@ -56,21 +56,6 @@ export default withQueryParams({
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId } });
 
     const {
-        _systemSet,
-        _systemSet: {
-            name,
-            _system = {},
-            systemOptionValuePath = '',
-            _systemSetDetailOptionValues = [],
-            _systemSetConfigurationOptionValues = [],
-            _system: {
-                name: systemName = '',
-                systemType = '',
-                _manufacturer: {
-                    name: manufacturerName = '',
-                } = {},
-            } = {},
-        } = {},
         allSystems = [],
     } = queryResult;
 
@@ -88,9 +73,21 @@ export default withQueryParams({
         pushState
     )(systemSetUpdate => ACTION(queryResult, systemSetUpdate, payload));
 
-    useEffect(() => {
-        if (!fetching) dispatch(GENERATE);
-    }, [fetching, systemName]);
+    const systemSet = merge(queryResult, systemSetUpdate);
+
+    const {
+        name,
+        systemOptionValuePath = '',
+        _systemSetDetailOptionValues = [],
+        _systemSetConfigurationOptionValues = [],
+        _system: {
+            name: systemName = '',
+            systemType = '',
+            _manufacturer: {
+                name: manufacturerName = '',
+            } = {},
+        } = {},
+    } = systemSet;
 
     console.log({
         props: arguments[0],
@@ -99,9 +96,8 @@ export default withQueryParams({
         systemOptionValuePath,
         _systemSetDetailOptionValues,
         _systemSetConfigurationOptionValues,
+        systemSet,
     });
-
-    const systemSet = merge(systemSetUpdate, queryResult);
 
     return (
         <>
@@ -137,7 +133,7 @@ export default withQueryParams({
                         label="System"
                         value={systemName}
                         options={allSystems.map(({ name }) => name)}
-                        onChange={systemName => SELECT_SYSTEM({ systemName })}
+                        onChange={systemName => dispatch(SELECT_SYSTEM, { systemName })}
                     />
                     {/* </div>
                     </GroupingBox> */}
@@ -145,7 +141,7 @@ export default withQueryParams({
                         data-cy="system-set-name"
                         label="System Set Name"
                         value={name}
-                        onChange={name => UPDATE_SYSTEM_SET_NAME({ name })}
+                        onChange={({ target: { value } }) => dispatch(UPDATE_SYSTEM_SET_NAME, { name: value })}
                     />
                 </CollapsibleTitle>
                 <SystemSetOptions

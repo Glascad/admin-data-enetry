@@ -1,10 +1,10 @@
 
-export default function UPDATE_SYSTEM_SET_NAME({
-
-}, {
-
-}, {
-
+export default function UPDATE_SYSTEM_SET_NAME(queryResult, systemSetUpdate, {
+    name,
 }) {
-    return arguments[0];
+    console.log(arguments);
+    return {
+        ...systemSetUpdate,
+        name,
+    };
 }

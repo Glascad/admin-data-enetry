@@ -41,18 +41,20 @@ export default function SystemSetOptions({
 
     const [fetchQuery, queryResult, fetching] = useQuery({ query }, true);
 
-    useEffect(async () => {
+    useEffect(() => {
         if (systemId) {
-            const {
-                _system,
-                _system: {
-                    id: newSystemId,
-                } = {},
-            } = await fetchQuery({ systemId });
-            console.log(_system);
-            if (newSystemId) {
-                // dispatch();
-            }
+            fetchQuery({ systemId })
+                .then(({
+                    _system,
+                    _system: {
+                        id: newSystemId,
+                    } = {},
+                }) => {
+                    console.log(_system);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         }
     }, [systemId])
 

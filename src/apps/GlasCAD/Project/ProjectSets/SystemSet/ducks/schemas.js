@@ -1,20 +1,20 @@
 
-export const defaultOptionValuePair = {
-    optionName: "",
-    name: "",
+export const defaultOptionGroupValuePair = {
+    optionName: undefined,
+    name: undefined,
 };
 
 export const defaultSystemSetNode = {
-    oldPath: "",
-    newPath: "",
+    oldPath: undefined,
+    newPath: undefined,
 };
 
 export const defaultSystemSetUpdate = {
-    id: 0,
-    systemId: 0,
-    name: "",
-    systemOptionValuePath: "",
-    optionGroupValues: [],
-    detailOptionValues: [],
-    configurationOptionValues: [],
+    id: undefined,
+    name: undefined,
+    systemId: undefined,
+    systemOptionValuePath: undefined,
+    optionGroupValues: undefined,
+    detailOptionValues: undefined,
+    configurationOptionValues: undefined,
 };
