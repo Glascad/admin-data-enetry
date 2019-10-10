@@ -1,10 +1,12 @@
 
 export default function validateSystemSetUpdate({
     systemId,
-    systemOptionValuePath = "",
+    systemOptionValuePath,
     detailOptionValues = [],
     configurationOptionValues = [],
 }) {
+
+    console.log(arguments);
 
     if (systemId && systemOptionValuePath) {
 
@@ -15,20 +17,23 @@ export default function validateSystemSetUpdate({
                 systemId
                 }`);
 
-        const { detailOptionValuePath: invalidDetailOptionValuePath } = detailOptionValues.find(({ detailOptionValuePath }) => !detailOptionValuePath.startsWith(systemOptionValuePath)) || {};
+        const { newPath: invalidDetailOptionValuePath } = detailOptionValues
+            .find(({ newPath }) => !newPath.startsWith(systemOptionValuePath)) || {};
 
-        if (invalidDetailOptionValuePath) throw new Error(`Invalid detailOptionValuePath: ${
+        if (invalidDetailOptionValuePath) throw new Error(`Invalid detail option value newPath: ${
             invalidDetailOptionValuePath
             }, must start with ${
             systemOptionValuePath
             }`);
 
-        const { configurationOptionValuePath: invalidConfigurationOptionValuePath } = configurationOptionValues.find(({ configurationOptionValuePath }) => !detailOptionValues.some(({ detailOptionValuePath }) => configurationOptionValuePath.startsWith(detailOptionValuePath)));
+        const { newPath: invalidConfigurationOptionValuePath } = configurationOptionValues
+            .find(({ newPath }) => !detailOptionValues
+                .some(({ newPath }) => newPath.startsWith(newPath))) || {};
 
-        if (invalidConfigurationOptionValuePath) throw new Error(`Invalid configurationOptionValuePath: ${
+        if (invalidConfigurationOptionValuePath) throw new Error(`Invalid configuration option value newPath: ${
             invalidConfigurationOptionValuePath
             }, must start with one of ${
-            detailOptionValues.map(({ detailOptionValuePath }) => detailOptionValuePath).join(', ')
+            detailOptionValues.map(({ newPath }) => newPath).join(', ')
             }`);
 
     }

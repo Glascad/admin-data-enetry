@@ -29,11 +29,11 @@ export default function useRedoableState(firstState, dependencies = []) {
                 ...oldState,
                 ...intermediateState,
             };
-            // console.log({
-            //     oldState,
-            //     intermediateState,
-            //     newState,
-            // });
+            console.log({
+                oldState,
+                intermediateState,
+                newState,
+            });
             return newState;
         });
         setAfterSetState({ afterSetState });

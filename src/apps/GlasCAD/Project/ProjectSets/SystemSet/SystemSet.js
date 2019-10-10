@@ -67,7 +67,12 @@ export default withQueryParams({
         pushState,
     } = useRedoableState(defaultSystemSetUpdate);
 
-    const dispatch = (ACTION, payload, shouldReplaceState = false) => (shouldReplaceState ?
+    const dispatch = (ACTION, payload, shouldReplaceState = false) => console.log({
+        ACTION,
+        ACTION_NAME: ACTION.name,
+        payload,
+        shouldReplaceState,
+    }) || (shouldReplaceState ?
         replaceState
         :
         pushState

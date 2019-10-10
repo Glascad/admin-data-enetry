@@ -1,10 +1,4 @@
 
-export default function SELECT_SYSTEM_TYPE({
-
-}, {
-
-}, {
-
-}) {
-    return arguments[0];
+export default function SELECT_SYSTEM_TYPE(queryResult, systemSetUpdate, {systemType}) {
+    return systemSetUpdate;
 }

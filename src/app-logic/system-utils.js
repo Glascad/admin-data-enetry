@@ -10,7 +10,16 @@ export class SystemMap {
         _systemDetails = [],
         _systemConfigurations = [],
     } = {}) {
-        Object.assign(this, [
+        Object.assign(this, {
+            _systemOptions,
+            _detailOptions,
+            _configurationOptions,
+            _systemOptionValues,
+            _detailOptionValues,
+            _configurationOptionValues,
+            _systemDetails,
+            _systemConfigurations,
+        }, [
             ..._systemOptions,
             ..._detailOptions,
             ..._configurationOptions,
@@ -43,7 +52,9 @@ export class SystemMap {
     }
 }
 
-export const getParentPath = ({ path, newPath }) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
+export const getFirstItem = ({ _systemOptions } = []) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
+
+export const getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
 
 export const getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
 
@@ -64,8 +75,7 @@ export const makeRenderable = system => {
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
     const { _systemOptions } = system;
-    const firstItem = _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/))
-    return makeNodeRenderable(firstItem);
+    return makeNodeRenderable(getFirstItem(systemMap));
 }
 
 export const getOptionListFromPath = path => path
@@ -95,6 +105,8 @@ export const getDetailTypeFromPath = path => getNextItemFromPath(path, '__DT__')
 export const getConfigurationTypeFromPath = path => getNextItemFromPath(path, '__CT__');
 
 export const getDefaultPath = (item, systemMap) => {
+    if (item === undefined) return '';
+    if (systemMap === undefined) return getDefaultPath(getFirstItem(item), item);
     const { path, __typename } = item;
     const children = getChildren(item, systemMap);
     const defaultKey = Object.keys(item).find(key => key.match(/^default.*OptionValue/i));
@@ -116,4 +128,4 @@ export const getDefaultPath = (item, systemMap) => {
         path;
 };
 
-export const getOptionGroupValuesFromOptionName = (name, systemMap) => [];
+export const getOptionGroupValuesByOptionName = (name, systemMap) => [];
