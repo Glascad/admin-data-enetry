@@ -3,10 +3,12 @@ import {
     match,
 } from "../../../../../../utils";
 import _ from 'lodash';
+import validateSystemSetUpdate from "./validate-system-set-update";
 
 export default function merge({
     _systemSet,
     _systemSet: {
+        systemId: oldSystemId,
         systemOptionValuePath: oldSystemOptionValuePath = "",
         _systemSetOptionGroupValues: oldSystemSetOptionGroupValues = [],
         _systemSetDetailOptionValues: oldSystemSetDetailOptionValues = [],
@@ -14,7 +16,7 @@ export default function merge({
     } = {},
 }, {
     name,
-    systemId,
+    systemId: newSystemId,
     systemOptionValuePath: newSystemOptionValuePath = "",
     optionGroupValues = [],
     detailOptionValues = [],
@@ -23,7 +25,16 @@ export default function merge({
 
     console.log(arguments);
 
-    const systemOptionValuePath = newSystemOptionValuePath || oldSystemOptionValuePath;
+    validateSystemSetUpdate(arguments[1]);
+
+    const systemId = newSystemId || oldSystemId;
+
+    const systemOptionValuePath = newSystemOptionValuePath || (
+        oldSystemOptionValuePath.startsWith(systemId) ?
+            oldSystemOptionValuePath
+            :
+            undefined
+    );
 
     const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName, name }) => oldSystemSetOptionGroupValues.some(ssogv => ssogv.optionName === optionName));
 

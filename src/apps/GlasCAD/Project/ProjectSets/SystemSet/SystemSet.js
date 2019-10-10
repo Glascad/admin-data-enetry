@@ -77,17 +77,19 @@ export default withQueryParams({
 
     const {
         name,
+        systemId,
         systemOptionValuePath = '',
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
-        _system: {
-            name: systemName = '',
-            systemType = '',
-            _manufacturer: {
-                name: manufacturerName = '',
-            } = {},
-        } = {},
     } = systemSet;
+
+    const {
+        name: systemName = '',
+        systemType = '',
+        _manufacturer: {
+            name: manufacturerName = '',
+        } = {},
+    } = allSystems.find(({ id }) => id === systemId) || {};
 
     console.log({
         props: arguments[0],

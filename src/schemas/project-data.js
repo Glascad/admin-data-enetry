@@ -91,13 +91,13 @@ export const ENTIRE_SYSTEM_SET = gql`
                 ...SystemSetConfigurationOptionValueFields
             }
         }
-        systemBySystemId {
-            name
-            systemType
-            manufacturerByManufacturerId {
-                name
-            }
-        }
+        # systemBySystemId {
+        #     name
+        #     systemType
+        #     manufacturerByManufacturerId {
+        #         name
+        #     }
+        # }
     }
     ${SYSTEM_SET_FIELDS}
     ${SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS}
