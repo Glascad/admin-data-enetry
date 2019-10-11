@@ -13,7 +13,7 @@ export {
     
 export const pixelsPerInch = 4;
 
-const defaultScale = 1; //Same as Transform Context
+const defaultScale = 1; // Same as Transform Context
 
 const ElevationTransformProvider = ({
     elevation: {

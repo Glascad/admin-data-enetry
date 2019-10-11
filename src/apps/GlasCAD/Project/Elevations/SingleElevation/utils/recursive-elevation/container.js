@@ -293,7 +293,7 @@ export default class RecursiveContainer extends Loggable {
     // DELETE
     get canDelete() { return !this.customRoughOpening; }
 
-    //ADD INTERMEDIATE
+    // ADD INTERMEDIATE
     canAddIntermediateByVerticalAndDistance = (vertical, distance) => !!(
         distance >= this.minByVertical(vertical)
         &&
@@ -323,7 +323,7 @@ export default class RecursiveContainer extends Loggable {
     get canAddVertical() { return this.canAddIntermediateByVerticalAndDistance(true, this.elevation.minimumDaylightOpening); }
     get canAddHorizontal() { return this.canAddIntermediateByVerticalAndDistance(false, this.elevation.minimumDaylightOpening); }
 
-    //ADD_BAY
+    // ADD_BAY
     canAddBayByDirectionAndDistance = (first, distance) => !!(
         distance >= this.elevation.minimumDaylightOpening
         &&

@@ -37,7 +37,7 @@ function EditType({
     const tName = getLastItemFromPath(tNewPath || tPath);
     const oName = getLastItemFromPath(oPath);
 
-    const childValues = getChildren(childOption, systemMap); //Types' Child's children
+    const childValues = getChildren(childOption, systemMap); // Types' Child's children
     return (
         <>
             <TitleBar

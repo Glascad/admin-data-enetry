@@ -55,7 +55,7 @@ function EditOptionValue({
     } = valueChildren;
     const childOptionName = childOption ? getLastItemFromPath(childOptionNewPath || childOptionPath) : '';
 
-    const childOptionChildren = getChildren(childOption, systemMap); //Option Value's Child's Child
+    const childOptionChildren = getChildren(childOption, systemMap); // Option Value's Child's Child
 
     const childTypeTypename = `System${__typename
         .replace(/OptionValue/i, '')
@@ -226,7 +226,7 @@ function EditOptionValue({
                         hasChildren ? (
                             <>
                                 {valueChildren.map(({ path: childTypePath, newPath: childTypeNewPath }, i, { length }) => {
-                                    const childTypeName = (childTypeNewPath || childTypePath).replace(/^.*\.(\w+)$/, '$1'); //Not __typename but type's Name
+                                    const childTypeName = (childTypeNewPath || childTypePath).replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
                                     return (<div
                                         className="input-group"
                                     // key={i}

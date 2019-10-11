@@ -1,15 +1,18 @@
 import { replace, removeNullValues } from "../../../../../../utils";
 import { getLastItemFromPath } from "../../../../../../app-logic/system-utils";
 
-export default function UPDATE_ITEM(systemInput, payload) {
-    const {
-        __typename,
-        path,
-        newPath,
-        update,
-    } = payload;
+export default function UPDATE_ITEM(systemInput, {
+    __typename,
+    path,
+    newPath,
+    update,
+    update: {
+        parentPath,
+        name,
+    },
+}) {
     const isFirstItem = !!(newPath || path).match(/^\d\.\w+$/);
-    const pathName = getLastItemFromPath(newPath|| path);
+    const pathName = getLastItemFromPath(newPath || path);
 
     const itemsKey = `${__typename.replace(/^./, f => f.toLowerCase())}s`;
     const newItemsKey = `new${__typename}s`;
@@ -19,10 +22,20 @@ export default function UPDATE_ITEM(systemInput, payload) {
         [newItemsKey]: newItemsArray = [],
     } = systemInput;
 
-    const updatedItem = itemsArray.find(item => item.update ?
-        (newPath ? newPath : path) === (`${item.update.newParentPath || item.path.replace(/\.\w+$/, '')}.${item.update.name || getLastItemFromPath(newPath || path)}`)
-        :
-        undefined);
+    const updatedItem = itemsArray.find(item => item.update
+        &&
+        (newPath || path) === (
+            `${
+            item.update.parentPath
+            ||
+            item.path.replace(/\.\w+$/, '')
+            }.${
+            item.update.name
+            ||
+            getLastItemFromPath(newPath || path)}`
+        )
+    );
+
     const newUpdatedItem = isFirstItem ?
         newItemsArray.find(({ name }) => name === pathName)
         :
@@ -31,8 +44,13 @@ export default function UPDATE_ITEM(systemInput, payload) {
     const updatedIndex = itemsArray.indexOf(updatedItem);
     const newUpdatedIndex = newItemsArray.indexOf(newUpdatedItem);
 
+    const finalUpdate = removeNullValues({
+        __typename,
+        path,
+        newPath: undefined,
+    } || {});
+
     console.log({
-        payload,
         itemsKey,
         newItemsKey,
         itemsArray,
@@ -41,9 +59,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
         newUpdatedItem,
         updatedIndex,
         newUpdatedIndex,
-    })
-
-    const inputPayload = removeNullValues({ ...payload, newPath: undefined } || {});
+    });
 
     return {
         ...systemInput,
@@ -54,16 +70,15 @@ export default function UPDATE_ITEM(systemInput, payload) {
             })
             :
             newItemsArray,
-
         [itemsKey]: updatedItem ?
             replace(itemsArray, updatedIndex, {
                 ...updatedItem,
-                ...inputPayload
+                ...finalUpdate
             })
             :
             newUpdatedItem ?
                 itemsArray
                 :
-                itemsArray.concat(inputPayload),
+                itemsArray.concat(finalUpdate),
     };
 }
