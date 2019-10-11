@@ -90,20 +90,18 @@ export default function SystemBuilder({
                     const optionValuesKey = `_${__typename.toLowerCase().replace(/option/i, 'OptionValues')}`;
                     const { [optionValuesKey]: optionValues } = system;
                     const valuePathRegex = new RegExp(`^${newPath || path}\.\\w+$`, 'i');
-                    const needsDefault = defaultValue ?
+                    if (defaultValue ?
                         !optionValues.find(value => (value.newPath || value.path) === `${newPath || path}.${defaultValue}`)
                         &&
                         optionValues.find(value => (value.newPath || value.path).match(valuePathRegex))
                         :
-                        optionValues.find(value => (value.newPath || value.path).match(valuePathRegex));
-
-                    if (needsDefault) dispatch(UPDATE_ITEM,
-                        {
-                            ...option,
-                            update: {
-                                [defaultValueKey]: getLastItemFromPath(optionValues.find(value => (value.newPath || value.path).match(valuePathRegex)).path)
-                            }
-                        });
+                        optionValues.find(value => (value.newPath || value.path).match(valuePathRegex))
+                    ) dispatch(UPDATE_ITEM, {
+                        ...option,
+                        update: {
+                            [defaultValueKey]: getLastItemFromPath(optionValues.find(value => (value.newPath || value.path).match(valuePathRegex)).path)
+                        }
+                    });
                 })
             })
     }, [systemInput])
