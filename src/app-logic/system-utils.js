@@ -29,10 +29,10 @@ export class SystemMap {
             ..._systemDetails,
             ..._systemConfigurations,
         ].reduce((map, item, i, allItems) => {
-            const { path } = item;
-            const parentPath = getParentPath({ path });
+            const { path ,newPath } = item;
+            const parentPath = getParentPath(item);
             const {
-                [path]: previousItem,
+                [newPath || path]: previousItem,
                 parents,
                 parents: {
                     [parentPath]: siblings = [],
@@ -41,7 +41,7 @@ export class SystemMap {
             if (previousItem) throw new Error(`Duplicate item in SystemMap: ${path}`);
             return {
                 ...map,
-                [path]: item,
+                [newPath || path]: item,
                 parents: {
                     ...parents,
                     [parentPath]: siblings.concat(item),

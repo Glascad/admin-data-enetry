@@ -43,20 +43,20 @@ export default function merge({
     const systemMap = new SystemMap(_system);
     console.log({ _system, systemMap });
 
-    const mergeItem = (oldItems, updatedItems, newItems, optionValues) => oldItems
+    const mergeItem = (oldItems, updatedItems, newItems) => oldItems
         .filter(({ path }) => !pathsToDelete.some(deletedPath => path.includes(deletedPath)))
         .map(oldItem => {
-            const { path, __typename } = oldItem;
-            const updatedItem = updatedItems.find(item => item.path === path);
+            const { path } = oldItem;
+            const updatedItem = updatedItems.find(item => path === item.path);
             const newParentKey = updatedItem ?
                 Object.keys(updatedItem.update).find(key => key.match(/newParent/))
                 :
                 '';
 
             const newParentPath = updatedItem && updatedItem.update ?
-                updatedItem.update[newParentKey] || getParentPath({ path: updatedItem.path })
+                updatedItem.update[newParentKey] || getParentPath(updatedItem)
                 :
-                getParentPath(path);
+                getParentPath(oldItem);
 
             const newItemName = updatedItem ?
                 (updatedItem.update.name
@@ -67,27 +67,6 @@ export default function merge({
 
             const newPath = `${newParentPath}.${newItemName}`
 
-            const defaultValueKey = optionValues ?
-                `default${__typename}Value`
-                :
-                '';
-
-            const defaultValue = oldItem[defaultValueKey];
-            const optionValueDefaultPath = `${path}.${defaultValue}`;
-            const defaultValueExists = optionValues ?
-                !!optionValues.some(value => value.path === optionValueDefaultPath)
-                :
-                true;
-
-            // const newItem = defaultValueExists ?
-            //     {}
-            //     :
-            //     console.log("GOING THROUGH")
-            //     ||
-            //     {
-            //         [defaultValueKey]: getLastItemFromPath(optionValues.length > 0 ? optionValues[0].path : '')
-            //     };
-
             const newUpdatedItem = updatedItem ?
                 {
                     ...updatedItem.update,
@@ -96,68 +75,34 @@ export default function merge({
                     [newParentKey]: undefined,
                 }
                 :
-                {};
-            // console.log({
-            //     oldItems,
-            //     updatedItems,
-            //     newItems,
-            //     path,
-            //     defaultValueKey,
-            //     defaultValue,
-            //     defaultValueExists,
-            //     optionValueDefaultPath,
-            //     newUpdatedItem,
-            //     newItem,
-            //     optionValues,
-            // })
-
-            // console.log({
-            //     oldItems,
-            //     updatedItems,
-            //     newItems,
-            //     optionValues,
-            //     path,
-            //     newParentPath,
-            //     newPath,
-            //     newItemName,
-            //     updatedItem,
-            //     newParentKey,
-            //     defaultValueKey,
-            //     defaultValue,
-            //     optionValuesKey,
-            //     updateDefaultValue,
-            //     newUpdatedItem,
-            // })
+                {}
 
             return {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),
             };
         }).concat(newItems.map(item => {
-            const { __typename, name } = item;
+            const { name } = item;
             const parentKey = Object.keys(item).find(key => key.match(/parent/i));
             const path = `${item[parentKey] || systemId}.${name}`;
 
-            return {
+            return removeNullValues({
+                ...item,
                 path,
-                __typename,
-            }
-        }));
+                [parentKey]: undefined,
+                name: undefined
+            })
+        }))
 
     console.log(arguments);
     // console.log({systemMap});
 
+    const updatedSystemOptions = mergeItem(_systemOptions, systemOptions, newSystemOptions);
     const updatedSystemOptionValues = mergeItem(_systemOptionValues, systemOptionValues, newSystemOptionValues);
+    const updatedDetailOptions = mergeItem(_detailOptions, detailOptions, newDetailOptions);
     const updatedDetailOptionValues = mergeItem(_detailOptionValues, detailOptionValues, newDetailOptionValues);
     const updatedConfigurationOptionValues = mergeItem(_configurationOptionValues, configurationOptionValues, newConfigurationOptionValues);
-    console.log({
-        updatedSystemOptionValues,
-        updatedDetailOptionValues,
-        updatedConfigurationOptionValues,
-    })
-    const updatedSystemOptions = mergeItem(_systemOptions, systemOptions, newSystemOptions, updatedSystemOptionValues);
-    const updatedDetailOptions = mergeItem(_detailOptions, detailOptions, newDetailOptions, updatedDetailOptionValues);
-    const updatedConfigurationOptions = mergeItem(_configurationOptions, configurationOptions, newConfigurationOptions, updatedConfigurationOptionValues);
+    const updatedConfigurationOptions = mergeItem(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeItem(_systemDetails, systemDetails, newSystemDetails);
     const updatedSystemConfigurations = mergeItem(_systemConfigurations, systemConfigurations, newSystemConfigurations);
 

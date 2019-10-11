@@ -26,7 +26,7 @@ function EditOption({
     } = option;
 
     const defaultKey = Object.keys(option).find(k => k.match(/default/i));
-    const optionName = (oNewPath || oPath).replace(/^.*\.(\w+)$/, '$1');
+    const optionName = getLastItemFromPath(oNewPath || oPath);
 
     const optionValues = getChildren(option, systemMap);
 
@@ -39,7 +39,7 @@ function EditOption({
         ), []);
 
     const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionValues.some(v => v.path.replace(/^.*\.(\w+)$/, '$1') === name))
+        .filter(({ name }) => !optionValues.some(v => getLastItemFromPath(v.newPath || v.path) === name))
         .map(({ name }) => name);
 
     console.log({ optionValues, validOptionValues, selectValidOptionValues });
@@ -92,21 +92,25 @@ function EditOption({
                                 options={selectValidOptionValues}
                                 autoFocus={i === length - 1}
                                 onChange={name => {
-                                    const valueChildren = getChildren({ __typename: valueTypename, path: ovPath, newPath: ovNewPath }, systemMap);
-                                    const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                                        path: ovPath,
-                                        newPath: ovNewPath,
-                                        __typename: valueTypename,
-                                        update: {
-                                            name,
-                                        }
-                                    })
-                                    if (valueChildren.length > 0) confirmWithModal(updateOptionValue, {
-                                        titleBar: { title: `Change ${vName}` },
-                                        children: 'Are you sure?',
-                                        finishButtonText: 'Change',
-                                    })
-                                    else updateOptionValue();
+                                    if (name !== vName) {
+                                        const valueChildren = getChildren({ __typename: valueTypename, path: ovPath, newPath: ovNewPath }, systemMap);
+                                        const updateOptionValue = () => dispatch(UPDATE_ITEM, {
+                                            path: ovPath,
+                                            newPath: ovNewPath,
+                                            __typename: valueTypename,
+                                            update: {
+                                                name,
+                                            }
+                                        })
+                                        valueChildren.length > 0 ?
+                                            confirmWithModal(updateOptionValue, {
+                                                titleBar: { title: `Change ${vName}` },
+                                                children: 'Are you sure?',
+                                                finishButtonText: 'Change',
+                                            })
+                                            :
+                                            updateOptionValue();
+                                    }
                                 }}
                             />
                             <CircleButton
@@ -116,11 +120,6 @@ function EditOption({
                                 actionType="delete"
                                 onClick={() => {
                                     const valueChildren = getChildren({ __typename: valueTypename, path: ovPath }, systemMap);
-                                    const isDefault = (ovNewPath ? ovNewPath : ovPath) === defaultValue;
-                                    const newDefaultPath = (optionValues.length > 1) && isDefault ?
-                                        optionValues.find(v => !(v.path === ovPath)).path
-                                        :
-                                        undefined;
 
                                     const deleteOptionValue = () => dispatch(DELETE_ITEM, {
                                         path: ovNewPath || ovPath,

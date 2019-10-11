@@ -55,20 +55,24 @@ function EditType({
                     .filter(type => type !== tName)
                     .map(type => type)}
                 onChange={name => {
-                    const updateType = () => dispatch(UPDATE_ITEM, {
-                        path: tPath,
-                        newPath: tNewPath,
-                        __typename,
-                        update: {
-                            name,
-                        }
-                    })
-                    if (childOption) confirmWithModal(updateType, {
-                        titleBar: { title: `Change ${oName}` },
-                        children: 'Are you sure?',
-                        finishButtonText: "Change"
-                    });
-                    else updateType();
+                    if (name !== tName) {
+                        const updateType = () => dispatch(UPDATE_ITEM, {
+                            path: tPath,
+                            newPath: tNewPath,
+                            __typename,
+                            update: {
+                                name,
+                            }
+                        })
+                        childOption ?
+                            confirmWithModal(updateType, {
+                                titleBar: { title: `Change ${oName}` },
+                                children: 'Are you sure?',
+                                finishButtonText: "Change"
+                            })
+                            :
+                            updateType();
+                    }
                 }}
             />
             <GroupingBox
@@ -80,7 +84,7 @@ function EditType({
                     onClick: () => dispatch(ADD_ITEM, {
                         __typename: `${type}Option`,
                         [`parent${__typename}Path`]: tNewPath || tPath,
-                        name: "SELECT_OPTION",
+                        name: filterOptionsAbove(selectedType, validOptions)[0].name,
                     }),
                 }}
             >
