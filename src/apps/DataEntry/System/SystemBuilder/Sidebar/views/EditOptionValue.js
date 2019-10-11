@@ -31,7 +31,7 @@ function EditOptionValue({
     const oName = (oNewPath || oPath).replace(/^.*\.(\w+)$/, '$1');
     const ovName = (ovNewPath || ovPath).replace(/^.*\.(\w+)$/, '$1');
 
-    const isDefault = option[Object.keys(option).find(k => k.match(/default/i))] === ovPath;
+    const isDefault = option[Object.keys(option).find(k => k.match(/default/i))] === ovName;
 
     const validValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -79,7 +79,7 @@ function EditOptionValue({
 
     const selectTypes = selectValidTypes
         .filter(name => !valueChildren.some(({ path: childTypePath, newPath: childTypeNewPath }) => (
-            name.toLowerCase() === (getNameFromPath(childTypeNewPath || childTypePath)))))
+            name.toLowerCase() === (getNameFromPath(childTypeNewPath || childTypePath).toLowerCase()))))
 
     return (
         <>
@@ -92,20 +92,24 @@ function EditOptionValue({
                 data-cy="edit-value-name"
                 options={selectValidValues}
                 onChange={name => {
-                    const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                        path: ovPath,
-                        newPath: ovNewPath,
-                        __typename,
-                        update: {
-                            name,
-                        }
-                    })
-                    if (hasChildren) confirmWithModal(updateOptionValue, {
-                        titleBar: { title: `Change ${ovName}?` },
-                        children: 'Are you Sure?',
-                        finishButtonText: 'Change',
-                    })
-                    else updateOptionValue()
+                    if (name !== ovName) {
+                        const updateOptionValue = () => dispatch(UPDATE_ITEM, {
+                            path: ovPath,
+                            newPath: ovNewPath,
+                            __typename,
+                            update: {
+                                name,
+                            }
+                        })
+                        hasChildren ?
+                            confirmWithModal(updateOptionValue, {
+                                titleBar: { title: `Change ${ovName}?` },
+                                children: 'Are you Sure?',
+                                finishButtonText: 'Change',
+                            })
+                            :
+                            updateOptionValue()
+                    }
                 }}
             />
             {isDefault ? null : (
@@ -139,7 +143,7 @@ function EditOptionValue({
                                 text: `${childTypeType.slice(0, 6)}s`,
                                 "data-cy": `toggle-child-${childTypeType.toLowerCase()}`,
                                 selected: !optionIsSelected,
-                                className: (hasChildren && optionIsSelected) ? 'warning' : '',
+                                className: ((hasChildren && optionIsSelected) || ovPath.includes('__CT__')) ? 'warning' : '',
                                 onClick: () => !hasChildren && setOptionIsSelected(false),
                             },
                         ]}
@@ -156,7 +160,7 @@ function EditOptionValue({
                             onClick: () => dispatch(ADD_ITEM, {
                                 __typename: __typename.replace(/value/i, ''),
                                 [`parent${__typename}Path`]: ovNewPath || ovPath,
-                                name: "SELECT_OPTION",
+                                name: filterOptionsAbove(optionValue, validOptions)[0].name,
                             }),
                         }
                     :
@@ -167,7 +171,7 @@ function EditOptionValue({
                         onClick: () => dispatch(ADD_ITEM, {
                             __typename: childTypeTypename,
                             [`parent${__typename}Path`]: ovNewPath || ovPath,
-                            name: `SELECT_${childTypeType.toUpperCase()}_TYPE`,
+                            name: selectTypes[0],
                         }),
                     }
                         :
@@ -234,20 +238,24 @@ function EditOptionValue({
                                             value={childTypeName}
                                             options={selectTypes}
                                             onChange={name => {
-                                                const updateType = () => dispatch(UPDATE_ITEM, {
-                                                    __typename: childTypeTypename,
-                                                    path: childTypePath,
-                                                    newPath: childTypeNewPath,
-                                                    update: {
-                                                        name,
-                                                    }
-                                                });
-                                                if (childOptionChildren.length > 0) confirmWithModal(updateType, {
-                                                    titleBar: { title: `Change ${childTypeName}` },
-                                                    children: 'Are you sure?',
-                                                    finishButtonText: 'Change',
-                                                });
-                                                else updateType();
+                                                if (childTypeName !== name) {
+                                                    const updateType = () => dispatch(UPDATE_ITEM, {
+                                                        __typename: childTypeTypename,
+                                                        path: childTypePath,
+                                                        newPath: childTypeNewPath,
+                                                        update: {
+                                                            name,
+                                                        }
+                                                    });
+                                                    childOptionChildren.length > 0 ?
+                                                        confirmWithModal(updateType, {
+                                                            titleBar: { title: `Change ${childTypeName}` },
+                                                            children: 'Are you sure?',
+                                                            finishButtonText: 'Change',
+                                                        })
+                                                        :
+                                                        updateType();
+                                                }
                                             }}
                                         />
                                         <CircleButton

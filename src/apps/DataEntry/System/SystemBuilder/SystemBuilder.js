@@ -6,7 +6,8 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename, SystemMap } from '../../../../app-logic/system-utils';
+import { findItemByIdAndTypename, SystemMap, getNameFromPath } from '../../../../app-logic/system-utils';
+import { UPDATE_ITEM } from './ducks/actions';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
@@ -46,11 +47,11 @@ export default function SystemBuilder({
     } = useRedoableState(systemUpdate);
 
     const system = merge(systemInput, queryResult);
-    
+
     const systemMap = new SystemMap(system);
 
     const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];
-    
+
     // console.log({
     //     originalSelectedItem,
     //     selectedItem,
@@ -72,7 +73,39 @@ export default function SystemBuilder({
         ),
     }));
 
-    // console.log(system);
+    //adding default value to all options without one
+    useEffect(() => {
+        Object.entries(system)
+            .filter(([key]) => key.match(/options$/i))
+            .forEach(([key, options]) => {
+                options.map(option => {
+                    const defaultValueKey = `default${option.__typename}Value`;
+                    const {
+                        [defaultValueKey]: defaultValue,
+                        path,
+                        __typename,
+                    } = option
+
+                    const optionValuesKey = `_${__typename.toLowerCase().replace(/option/i, 'OptionValues')}`;
+                    const { [optionValuesKey]: optionValues } = system;
+                    const valuePathRegex = new RegExp(`^${path}\.\\w+$`, 'i');
+                    const needsDefault = defaultValue ?
+                        !optionValues.find(value => value.path === `${path}.${defaultValue}`)
+                        &&
+                        optionValues.find(value => value.path.match(valuePathRegex))
+                        :
+                        optionValues.find(value => value.path.match(valuePathRegex));
+
+                    if (needsDefault) dispatch(UPDATE_ITEM,
+                        {
+                            ...option,
+                            update: {
+                                [defaultValueKey]: getNameFromPath(optionValues.find(value => value.path.match(valuePathRegex)).path)
+                            }
+                        });
+                })
+            })
+    }, [systemInput])
 
     const save = async () => {
         console.log(systemInput);
