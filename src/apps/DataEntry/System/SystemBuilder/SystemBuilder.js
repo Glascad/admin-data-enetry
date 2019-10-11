@@ -50,7 +50,7 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];
+    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.newPath || originalSelectedItem.path : undefined];
 
     // console.log({
     //     originalSelectedItem,
@@ -83,24 +83,25 @@ export default function SystemBuilder({
                     const {
                         [defaultValueKey]: defaultValue,
                         path,
+                        newPath,
                         __typename,
                     } = option
 
                     const optionValuesKey = `_${__typename.toLowerCase().replace(/option/i, 'OptionValues')}`;
                     const { [optionValuesKey]: optionValues } = system;
-                    const valuePathRegex = new RegExp(`^${path}\.\\w+$`, 'i');
+                    const valuePathRegex = new RegExp(`^${newPath || path}\.\\w+$`, 'i');
                     const needsDefault = defaultValue ?
-                        !optionValues.find(value => value.path === `${path}.${defaultValue}`)
+                        !optionValues.find(value => (value.newPath || value.path) === `${newPath || path}.${defaultValue}`)
                         &&
-                        optionValues.find(value => value.path.match(valuePathRegex))
+                        optionValues.find(value => (value.newPath || value.path).match(valuePathRegex))
                         :
-                        optionValues.find(value => value.path.match(valuePathRegex));
+                        optionValues.find(value => (value.newPath || value.path).match(valuePathRegex));
 
                     if (needsDefault) dispatch(UPDATE_ITEM,
                         {
                             ...option,
                             update: {
-                                [defaultValueKey]: getNameFromPath(optionValues.find(value => value.path.match(valuePathRegex)).path)
+                                [defaultValueKey]: getNameFromPath(optionValues.find(value => (value.newPath || value.path).match(valuePathRegex)).path)
                             }
                         });
                 })

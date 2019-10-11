@@ -39,7 +39,7 @@ function EditOption({
         ), []);
 
     const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionValues.some(v => getNameFromPath(v.path) === name))
+        .filter(({ name }) => !optionValues.some(v => getNameFromPath(v.newPath || v.path) === name))
         .map(({ name }) => name);
 
     console.log({ optionValues, validOptionValues, selectValidOptionValues });
