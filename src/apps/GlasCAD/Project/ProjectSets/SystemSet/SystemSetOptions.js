@@ -16,6 +16,7 @@ import {
     getConfigurationTypeFromPath,
     getOptionGroupValuesByOptionName,
     getDefaultPath,
+    replaceOptionValue,
 } from '../../../../../app-logic/system-utils';
 import F from '../../../../../schemas';
 import gql from 'graphql-tag';
@@ -59,17 +60,19 @@ export default function SystemSetOptions({
     const systemMap = new SystemMap(_system);
 
     useEffect(() => {
-        if (systemId === newSystemId) {
-            if (!systemOptionValuePath) {
-                const newSystemOptionValuePath = getDefaultPath(systemMap);
-                if (newSystemOptionValuePath) {
-                    console.log({ systemOptionValuePath, newSystemOptionValuePath });
-                    dispatch(SELECT_SYSTEM_SET_OPTION_VALUE, {
-                        systemOptionValuePath: newSystemOptionValuePath,
-                        systemMap,
-                    });
-                }
-            }
+        const newSystemOptionValuePath = getDefaultPath(systemMap);
+        if (
+            (systemId === newSystemId)
+            &&
+            !systemOptionValuePath
+            &&
+            newSystemOptionValuePath
+        ) {
+            console.log({ systemOptionValuePath, newSystemOptionValuePath });
+            dispatch(SELECT_SYSTEM_SET_OPTION_VALUE, {
+                systemOptionValuePath: newSystemOptionValuePath,
+                systemMap,
+            });
         }
     });
 
@@ -98,7 +101,7 @@ export default function SystemSetOptions({
                             }, systemMap
                             ).map(({ path }) => getLastItemFromPath(path))}
                             onChange={newValue => dispatch(SELECT_SYSTEM_SET_OPTION_VALUE, {
-                                systemOptionValuePath: systemOptionValuePath.replace(new RegExp(`(${name}\\.).*$`), `$1${newValue}`),
+                                systemOptionValuePath: replaceOptionValue(systemOptionValuePath, name, newValue),
                                 systemMap,
                             })}
                         />

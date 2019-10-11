@@ -126,4 +126,6 @@ export const getDefaultPath = (item, systemMap) => {
     else return path;
 };
 
+export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
+
 export const getOptionGroupValuesByOptionName = (name, systemMap) => [];
