@@ -1,8 +1,10 @@
 import merge from "../merge";
 import { sample1 } from "../../../../../../app-logic/__test__/sample-systems";
 
+// Must delete items and children
+// Must update items and children
+// Must create new items
 
-//THIS TEST IS CURRENTLY NOT WORKING PROPERLY
 function testMerge({
     systemInput,
     systemInput: {
@@ -10,13 +12,21 @@ function testMerge({
     },
     _system,
     result: {
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemOptionPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailOptionPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemOptionValuePathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailOptionValuePathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionValuePathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemDetailPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemConfigurationPathsToInclude,
     },
 }) {
@@ -36,10 +46,12 @@ function testMerge({
 
     describe(`Merging System on System Options.`, () => {
         test(`Testing merged System Options have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemOptionPathsToInclude.forEach(path => {
                 expect(_systemOptions).toContainEqual(expect.objectContaining({ path }));
             });
             // _systemOptions.forEach(({ path }) => {
+                // must be a definitive list of items to include, so that we know all deletions were cascaded
             //     expect(systemOptionPathsToInclude).toContain(path);
             // });
             pathsToDelete.forEach(path => {
@@ -48,6 +60,7 @@ function testMerge({
         });
 
         test(`Testing merged System Options Values have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemOptionValuePathsToInclude.forEach(path => {
                 expect(_systemOptionValues).toContainEqual(expect.objectContaining({ path }));
             });
@@ -59,6 +72,7 @@ function testMerge({
 
     describe(`Merging System on Detail Options.`, () => {
         test(`Testing merged System Detail Types to have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemDetailPathsToInclude.forEach(path => {
                 expect(_systemDetails).toContainEqual(expect.objectContaining({ path }));
             });
@@ -68,6 +82,7 @@ function testMerge({
         });
 
         test(`Testing merged Detail Options have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             detailOptionPathsToInclude.forEach(path => {
                 expect(_detailOptions).toContainEqual(expect.objectContaining({ path }));
             });
@@ -77,6 +92,7 @@ function testMerge({
         });
 
         test(`Testing merged Detail Option Values have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             detailOptionValuePathsToInclude.forEach(path => {
                 expect(_detailOptionValues).toContainEqual(expect.objectContaining({ path }));
             });
@@ -88,6 +104,7 @@ function testMerge({
 
     describe(`Merging System on Configuration Options.`, () => {
         test(`Testing merged System Configuration Types to have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemConfigurationPathsToInclude.forEach(path => {
                 expect(_systemConfigurations).toContainEqual(expect.objectContaining({ path }));
             });
@@ -97,6 +114,7 @@ function testMerge({
         });
 
         test(`Testing merged Configuration Options have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             configurationOptionPathsToInclude.forEach(path => {
                 expect(_configurationOptions).toContainEqual(expect.objectContaining({ path }));
             });
@@ -106,6 +124,7 @@ function testMerge({
         });
 
         test(`Testing merged Configuration Option Values have the correct Id's`, () => {
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             configurationOptionValuePathsToInclude.forEach(path => {
                 expect(_configurationOptionValues).toContainEqual(expect.objectContaining({ path }));
             });
@@ -139,56 +158,61 @@ testMerge({
         pathsToDelete: [
             "1.SET.BACK",
             "1.SET.CENTER.JOINERY.STICK",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.SILL",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY",
-        ]
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
+        ],
     },
     _system: sample1,
     result: {
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemOptionPathsToInclude: [
             "1.SET.CENTER.JOINERY",
             "1.SET"
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemOptionValuePathsToInclude: [
             "1.SET.CENTER",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE",
             "1.SET.CENTER.JOINERY.SHEAR_BLOCK",
             "1.SET.FRONT",
-            "1.SET.MULTI_PLANE"
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemDetailPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HORIZONTAL",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL",
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailOptionPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailOptionValuePathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP",
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemConfigurationPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionValuePathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
         ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.UP.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
         ],
     },
 });

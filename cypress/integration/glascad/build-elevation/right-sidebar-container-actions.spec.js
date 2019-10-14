@@ -5,10 +5,10 @@ describe(`Tests container actions to make sure they are well integrated with the
         cy.get('[data-cy="container-805"]').click();
     });
     it(`merges container right and left`, () => {
-        //Gets the container
+        // Gets the container
         cy.get('body').type('{esc}');
         cy.get('[data-cy="container-807"]').click();
-        //Confirms that all the buttons that should be there are present and the ones that shouldn't are gone
+        // Confirms that all the buttons that should be there are present and the ones that shouldn't are gone
         cy.get('[data-cy="merge-up"]').should('not.exist');
         cy.get('[data-cy="merge-down"]').should('exist');
         cy.get('[data-cy="merge-left"]').should('exist');
@@ -26,7 +26,7 @@ describe(`Tests container actions to make sure they are well integrated with the
         cy.get('[data-cy="merge-down"]').should('exist').click();
         cy.get('[data-cy="raise-curb"]').should('exist');
 
-        //Raise Curb && Step Head
+        // Raise Curb && Step Head
         cy.get('[data-cy="step-head"]').click();
         cy.get('[data-cy="distance"]').clear().type(`31' 4"`)
         cy.get('[data-cy="step-head"]').should('not.exist');
@@ -56,52 +56,52 @@ describe(`Tests container actions to make sure they are well integrated with the
 
 
     // it(`Tests the extend frame action`, () => {
-        //     //Gets the frame to extend right and left
+        //     // Gets the frame to extend right and left
     //     cy.get('[data-cy="2039"]').click();
     //     cy.get('[data-cy="extend-down-left"]').click();
     //     cy.get('body').type('{esc}');
     //     cy.get('[data-cy="2039"]').click();
     //     cy.get('[data-cy="extend-up-right"]').click();
-    //     //Checking another elevation to check the extend up function
+    //     // Checking another elevation to check the extend up function
     //     cy.visit('http://localhost:3000/glascad/project/elevations/elevation/build-elevation?projectId=1&sampleElevation=sample5');
     //     cy.get('[data-cy="2204"]').click();
     //     cy.get('[data-cy="extend-up-right"]').click();
     // })
     // it(`tests the Step Head and Raise Curb function`, () => {
-    //     //Gets the frame
+    //     // Gets the frame
     //     cy.get('[data-cy="2037"]').click();
-    //     //Confirms that all the buttons that should be there are present and the ones that shouldn't are gone
+    //     // Confirms that all the buttons that should be there are present and the ones that shouldn't are gone
     //     cy.get('[data-cy="extend-down-left"]').should('not.exist');
     //     cy.get('[data-cy="extend-up-right"]').should('not.exist');
     //     cy.get('[data-cy="raise-curb"]').should('not.exist');
     //     cy.get('[data-cy="move-frame"]').should('not.exist');
-    //     //makes sure the "Step Head" button works correctly
+    //     // makes sure the "Step Head" button works correctly
     //     cy.get('[data-cy="step-head"]').should('exist').click();
-    //     //types in 56" into the input
+    //     // types in 56" into the input
     //     cy.get('[data-cy="distance"]').clear().type("76");
-    //     //Checks to see the validity of the input"
+    //     // Checks to see the validity of the input"
     //     cy.get('[data-cy="step-head"]').should('not.exist');
-    //     //types in a valid option
+    //     // types in a valid option
     //     cy.get('[data-cy="distance"]').clear().type("75");
-    //     //makes sure the action works properly
+    //     // makes sure the action works properly
     //     cy.get('[data-cy="step-head"]').should('exist').click();
-    //     //clears the selection
+    //     // clears the selection
     //     cy.get('body').type('{esc}');
-    //     //Gets the frame
+    //     // Gets the frame
     //     cy.get('[data-cy="2040"]').click();
-    //     //Confirms that all the buttons that should be there are present and the ones that shouldn't are gone
+    //     // Confirms that all the buttons that should be there are present and the ones that shouldn't are gone
     //     cy.get('[data-cy="extend-down-left"]').should('not.exist');
     //     cy.get('[data-cy="extend-up-right"]').should('not.exist');
     //     cy.get('[data-cy="step-head"]').should('not.exist');
     //     cy.get('[data-cy="move-frame"]').should('not.exist');
-    //     //makes sure the "Step Head" button works correctly
+    //     // makes sure the "Step Head" button works correctly
     //     cy.get('[data-cy="raise-curb"]').should('exist').click();
-    //     //types in 26" into the input
+    //     // types in 26" into the input
     //     cy.get('[data-cy="distance"]').clear().type("26");
-    //     //Checks to see the validity of the input"
+    //     // Checks to see the validity of the input"
     //     cy.get('[data-cy="step-head"]').should('not.exist');
-    //     //types in a valid option
+    //     // types in a valid option
     //     cy.get('[data-cy="distance"]').clear().type("25");
-    //     //makes sure the action works properly
+    //     // makes sure the action works properly
     //     cy.get('[data-cy="raise-curb"]').should('exist').click();
     // })

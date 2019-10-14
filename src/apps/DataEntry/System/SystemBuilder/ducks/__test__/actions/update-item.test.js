@@ -8,7 +8,7 @@ function testUpdateItem({
 }) {
     describe(`Testing update options`, () => {
         const result = UPDATE_ITEM({ ...systemUpdate, ...systemInput }, payload);
-        test(`Result should be correct for ${payload.name}`, () => {
+        test(`Result should be correct for ${payload.path}`, () => {
             expect(result).toMatchObject(systemOutput);
         });
     });
@@ -67,7 +67,7 @@ testUpdateItem({
                 path: "1.SET.CENTER.JOINERY",
                 __typename: "SystemOption",
                 update: {
-                    newParentSystemOptionValuePath: "1.SET.FRONT",
+                    parentSystemOptionValuePath: "1.SET.FRONT",
                     name: "GLAZING",
                 }
             }
@@ -109,7 +109,7 @@ testUpdateItem({
                 path: "1.SET.CENTER.JOINERY",
                 __typename: "SystemOption",
                 update: {
-                    newParentSystemOptionValuePath: "1.SET.BACK",
+                    parentSystemOptionValuePath: "1.SET.BACK",
                     name: "GLAZING",
                 }
             }),

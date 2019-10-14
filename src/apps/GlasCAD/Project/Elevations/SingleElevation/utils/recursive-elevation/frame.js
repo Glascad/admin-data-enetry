@@ -529,7 +529,7 @@ export default class RecursiveFrame extends Loggable {
         );
     }
 
-    //EXTEND
+    // EXTEND
     findExtendedContainer = (bottom, first) => {
         const container = this.getFirstOrLastContainerByDirection(bottom, !first);
         if (!container) return container;
@@ -570,6 +570,6 @@ export default class RecursiveFrame extends Loggable {
     get canExtendFirst() { return this.canExtendFirstOrLast(true); }
     get canExtendLast() { return this.canExtendFirstOrLast(false); }
 
-    //ADD-BAY    
+    // ADD-BAY    
     get canAddBay() { return this.placement.height === this.elevation.roughOpening.y; }
 }

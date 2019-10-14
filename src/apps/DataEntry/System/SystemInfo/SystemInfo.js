@@ -115,7 +115,10 @@ function SystemInfo({
                     label="Manufacturer"
                     value={mName}
                     options={allManufacturers.map(({ name }) => name)}
-                    onChange={name => setMnfg([name, name])}
+                    onChange={newName => setMnfg([
+                        allManufacturers.reduce((found, { id, name }) => found || (name === newName && id), 0),
+                        newName,
+                    ])}
                 />
             </div>
         </>

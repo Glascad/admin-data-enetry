@@ -18,7 +18,7 @@ testMoveFrame({
         },
     ],
     deletedDetails: [
-        //This one will fail (Not on purpose)
+        // This one will fail (Not on purpose)
         {
             firstContainerId: 805,
             secondContainerId: 810,

@@ -173,7 +173,7 @@ describe('Testing sidbar actions in system builder', () => {
 
         // ADD CONFIRMATION TO UPDATE VALUES AND CONFIGURATIONS WITH CHILDREN
 
-        //Value has children
+        // Value has children
         cy.getDataCy`SystemOptionValue-back`.click();
         cy.getDataCy`edit-option-value-delete-button`.click();
         cy.getDataCy`SystemOptionValue-front`.click();
@@ -185,7 +185,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
 
-        //Type has children
+        // Type has children
         cy.getDataCy`SystemDetail-mullion`.click();
         cy.getDataCy`add-option`.click();
         cy.focused().type('Joinery{enter}');
@@ -195,7 +195,7 @@ describe('Testing sidbar actions in system builder', () => {
 
         // ADD CONFIRMATION TO DELETE ACTIONS WHENEVER AN ITEM HAS CHILDREN
 
-        //Option Has children
+        // Option Has children
         cy.getDataCy`ConfigurationOption-Durability`.click();
         cy.getDataCy`edit-option-delete-button`.click();
         cy.getDataCy`modal`.should('exist');
@@ -207,7 +207,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`ConfigurationOption-Durability`.should('not.exist');
 
-        //Value has children
+        // Value has children
         cy.getDataCy`DetailOptionValue-up`.click();
         cy.getDataCy`edit-option-value-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('exist');
@@ -218,7 +218,7 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`DetailOptionValue-up`.should('not.exist');
 
-        //Type has children
+        // Type has children
         cy.getDataCy`SystemDetail-horizontal`.click();
         cy.getDataCy`edit-type-delete-button`.click();
         cy.getDataCy`modal`.should('exist');
@@ -232,19 +232,19 @@ describe('Testing sidbar actions in system builder', () => {
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`SystemDetail-horizontal`.should('exist');
 
-        //Value doesn't have children
+        // Value doesn't have children
         cy.getDataCy`DetailOptionValue-down`.click();
         cy.getDataCy`edit-option-value-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`DetailOptionValue-down`.should('not.exist');
 
-        //Option doesn't have children
+        // Option doesn't have children
         cy.getDataCy`DetailOption-stops`.click();
         cy.getDataCy`edit-option-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('not.exist');
         cy.getDataCy`DetailOptionValue-up`.should('not.exist');
 
-        //Type doesn't have children
+        // Type doesn't have children
         cy.getDataCy`SystemDetail-horizontal`.click();
         cy.getDataCy`edit-type-delete-button`.click({ force: true });
         cy.getDataCy`modal`.should('not.exist');
