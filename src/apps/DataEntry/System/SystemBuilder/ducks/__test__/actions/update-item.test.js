@@ -1,6 +1,9 @@
 import { systemUpdate } from "../../schemas";
 import UPDATE_ITEM from "../../actions/update-item";
 
+// Must update the item in state if already there (in either update or create array), otherwise add item update to state
+// Must also update children that already existed under a different parent but were moved to be under the moved item (in the update array, with a new parentPath that matches the updated item's path)
+// Must also update all created children (in create array) in state
 function testUpdateItem({
     systemInput,
     payload,

@@ -1,6 +1,11 @@
 import { DELETE_ITEM } from "../../actions";
 import { systemUpdate } from "../../schemas";
 
+// Must remove all items from update and create and delete arrays that contain the path to be deleted
+// delete because we don't need to redundantly delete the items children
+// update because we need to remove any updates referencing something that should be deleted
+// create because we don't want it to be created anymore
+// ONLY add item to delete array if it is not already in the create array
 function testDeleteItem({
     systemInput,
     payload,

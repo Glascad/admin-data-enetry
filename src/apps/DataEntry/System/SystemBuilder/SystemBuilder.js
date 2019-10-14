@@ -6,7 +6,7 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename, SystemMap, getLastItemFromPath, getChildren } from '../../../../app-logic/system-utils';
+import { SystemMap, getLastItemFromPath, getChildren } from '../../../../app-logic/system-utils';
 import { UPDATE_ITEM } from './ducks/actions';
 
 SystemBuilder.navigationOptions = {
@@ -120,6 +120,15 @@ export default function SystemBuilder({
 
     const save = async () => {
         console.log(systemInput);
+        console.log({
+            arguments: arguments,
+            systemInput,
+            currentIndex,
+            system,
+            systemMap,
+            originalSelectedItem,
+            selectedItem,
+        });
     }
 
     return (

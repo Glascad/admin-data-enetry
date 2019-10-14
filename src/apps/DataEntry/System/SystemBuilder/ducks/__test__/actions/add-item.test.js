@@ -66,7 +66,6 @@ testAddOptionValue({
         parentSystemOptionValuePath: "1.SET.CENTER",
         name: "JOINERY",
         __typename: "SystemOption",
-        defaultSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
     },
     systemOutput: {
         newSystemOptions: expect.arrayContaining([
@@ -74,7 +73,6 @@ testAddOptionValue({
                 parentSystemOptionValuePath: "1.SET.CENTER",
                 name: "JOINERY",
                 __typename: "SystemOption",
-                defaultSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
             }),
         ]),
     },
@@ -101,14 +99,14 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
+        parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
         name: "DOWN",
         __typename: "DetailOptionValue",
     },
     systemOutput: {
         newDetailOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS",
+                parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
                 name: "DOWN",
                 __typename: "DetailOptionValue",
             }),
@@ -119,7 +117,7 @@ testAddOptionValue({
 testAddOptionValue({
     systemInput: {},
     payload: {
-        parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+        parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
         name: "HIGH_PERFORMANCE",
         __typename: "ConfigurationOptionValue",
         optional: false,
@@ -127,7 +125,7 @@ testAddOptionValue({
     systemOutput: {
         newConfigurationOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+                parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
                 name: "HIGH_PERFORMANCE",
                 __typename: "ConfigurationOptionValue",
                 optional: false,

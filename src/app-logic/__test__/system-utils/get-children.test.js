@@ -48,12 +48,12 @@ testGetChildren({
     system: sample1,
     item: {
         __typename: "DetailOptionValue",
-        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN"
+        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN"
     },
     children: [
         {
             __typename: "DetailOption",
-            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING",
+            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
         },
     ],
 });
@@ -62,13 +62,13 @@ testGetChildren({
     system: sample1,
     item: {
         __typename: "SystemConfiguration",
-        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
+        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
         optional: true
     },
     children: [
         {
             __typename: "ConfigurationOption",
-            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR.DURABILITY",
+            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
             defaultConfigurationOptionValue: "STANDARD_DUTY"
         },
     ],
