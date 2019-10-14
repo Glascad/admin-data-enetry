@@ -12,7 +12,6 @@ gc_protected.systems (
 
 CREATE TABLE
 gc_protected.system_options (
-    -- beginning of path
     system_id INTEGER REFERENCES systems NOT NULL,
     -- references system_option_values
     parent_system_option_value_path LTREE,
@@ -39,6 +38,9 @@ gc_protected.system_options (
         COALESCE(parent_system_option_value_path::TEXT, '') WITH =
     )
 );
+
+
+-- SYSTEM OPTION VALUES
 
 CREATE TABLE
 gc_protected.system_option_values (
@@ -76,7 +78,7 @@ gc_protected.system_option_values (
 
 ALTER TABLE system_options
 -- default
-ADD FOREIGN KEY (
+ADD CONSTRAINT default_system_option_value FOREIGN KEY (
     path,
     default_system_option_value
 ) 
@@ -86,9 +88,21 @@ REFERENCES system_option_values (
 )
 INITIALLY DEFERRED,
 -- parent
-ADD FOREIGN KEY (parent_system_option_value_path)
+ADD CONSTRAINT parent_system_option_value_path FOREIGN KEY (parent_system_option_value_path)
 REFERENCES system_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
+
+
+-- OPTION GROUPS
+
+CREATE TABLE
+gc_protected.option_groups (
+    system_id INTEGER REFERENCES systems NOT NULL,
+    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
+    name OPTION_NAME REFERENCES valid_options NOT NULL,
+    UNIQUE(system_id, name),
+    PRIMARY KEY (system_option_value_path, name)
+);
 
 
 -- DETAIL TYPES
@@ -104,9 +118,10 @@ gc_protected.system_details (
         (system_id || '.*')::LQUERY ~ path
         AND
         -- must have correct path
-        path = parent_system_option_value_path || detail_type::TEXT
+        path = parent_system_option_value_path || '__DT__' || detail_type::TEXT
     )
 );
+
 
 -- DETAIL OPTIONS
 
@@ -129,6 +144,12 @@ gc_protected.detail_options (
             parent_detail_option_value_path IS NULL
         )
         AND
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_system_detail_path,
+            parent_detail_option_value_path
+        ))
+        AND
         -- must have correct path
         path = COALESCE(
             parent_system_detail_path,
@@ -136,6 +157,9 @@ gc_protected.detail_options (
         ) || name::TEXT
     )
 );
+
+
+-- DETAIL OPTION VALUES
 
 CREATE TABLE
 gc_protected.detail_option_values (
@@ -173,7 +197,7 @@ gc_protected.detail_option_values (
 
 ALTER TABLE detail_options
 -- default
-ADD FOREIGN KEY (
+ADD CONSTRAINT default_detail_option_value FOREIGN KEY (
     path,
     default_detail_option_value
 )
@@ -183,8 +207,9 @@ REFERENCES detail_option_values (
 )
 INITIALLY DEFERRED,
 -- parent
-ADD FOREIGN KEY (parent_detail_option_value_path) REFERENCES detail_option_values
+ADD CONSTRAINT parent_detail_option_value_path FOREIGN KEY (parent_detail_option_value_path) REFERENCES detail_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
+
 
 -- CONFIGURATION TYPES
 
@@ -201,9 +226,10 @@ gc_protected.system_configurations (
         (system_id || '.*')::LQUERY ~ path
         AND
         -- must have correct path
-        path = parent_detail_option_value_path || configuration_type::TEXT
+        path = parent_detail_option_value_path || '__CT__' || configuration_type::TEXT
     )
 );
+
 
 -- CONFIGURATION OPTIONS
 
@@ -226,6 +252,12 @@ gc_protected.configuration_options (
             parent_configuration_option_value_path IS NULL
         )
         AND
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_system_configuration_path,
+            parent_configuration_option_value_path
+        ))
+        AND
         -- must have correct path
         path = COALESCE(
             parent_system_configuration_path,
@@ -233,6 +265,9 @@ gc_protected.configuration_options (
         ) || name::TEXT
     )
 );
+
+
+-- CONFIGURATION OPTION VALUES
 
 CREATE TABLE
 gc_protected.configuration_option_values (
@@ -270,7 +305,7 @@ gc_protected.configuration_option_values (
 
 ALTER TABLE configuration_options
 -- default
-ADD FOREIGN KEY (
+ADD CONSTRAINT default_configuration_option_value FOREIGN KEY (
     path,
     default_configuration_option_value
 )
@@ -280,8 +315,9 @@ REFERENCES configuration_option_values (
 )
 INITIALLY DEFERRED,
 -- parent
-ADD FOREIGN KEY (parent_configuration_option_value_path) REFERENCES configuration_option_values
+ADD CONSTRAINT parent_configuration_option_value_path FOREIGN KEY (parent_configuration_option_value_path) REFERENCES configuration_option_values
 ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
+
 
 -- PARTS
 

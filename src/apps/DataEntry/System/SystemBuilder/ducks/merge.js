@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { removeNullValues } from '../../../../../utils';
-import { getParent, getSiblings, SystemMap, getNameFromPath, getParentPath, getChildren } from "../../../../../app-logic/system-utils";
+import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren } from "../../../../../app-logic/system-utils";
 
 export default function merge({
     // name: newName,
@@ -61,9 +61,9 @@ export default function merge({
             const newItemName = updatedItem ?
                 (updatedItem.update.name
                     ||
-                    getNameFromPath(updatedItem.path))
+                    getLastItemFromPath(updatedItem.path))
                 :
-                getNameFromPath(path);
+                getLastItemFromPath(path);
 
             const newPath = `${newParentPath}.${newItemName}`
 

@@ -46,6 +46,14 @@ export const SYSTEM_OPTION_VALUE_FIELDS = gql`
     }
 `;
 
+export const OPTION_GROUP_FIELDS = gql`
+    fragment OptionGroupFields on OptionGroup {
+        __typename
+        nodeId
+        name
+    }
+`;
+
 export const SYSTEM_DETAIL_FIELDS = gql`
     fragment SystemDetailFields on SystemDetail {
         __typename
@@ -219,6 +227,11 @@ export const ENTIRE_SYSTEM = gql`
                 ...SystemOptionValueFields
             }
         }
+        optionGroupsBySystemId(orderBy: NAME_DESC) {
+            nodes {
+                ...OptionGroupFields
+            }
+        }
         systemDetailsBySystemId {
             nodes {
                 ...SystemDetailFields
@@ -254,6 +267,7 @@ export const ENTIRE_SYSTEM = gql`
     ${AD.MANUFACTURER_FIELDS}
     ${SYSTEM_OPTION_FIELDS}
     ${SYSTEM_OPTION_VALUE_FIELDS}
+    ${OPTION_GROUP_FIELDS}
     ${SYSTEM_DETAIL_FIELDS}
     ${DETAIL_OPTION_FIELDS}
     ${DETAIL_OPTION_VALUE_FIELDS}

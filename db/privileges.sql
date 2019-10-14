@@ -55,8 +55,8 @@ GRANT USAGE ON SCHEMA
     gc_controlled,
     gc_protected,
     gc_data,
-    gc_public
-    -- gc_utils
+    gc_public,
+    gc_utils
 TO PUBLIC;
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA
@@ -74,8 +74,8 @@ GRANT SELECT ON ALL TABLES IN SCHEMA
     gc_controlled,
     gc_protected,
     gc_data,
-    gc_public
-    -- gc_utils
+    gc_public,
+    gc_utils
 TO PUBLIC;
 
 -- UNAUTHORIZED
@@ -123,3 +123,7 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA gc_controlled, gc_private TO GC_ADMIN;
 -- DEVELOPER
 -- role doadmin already has ownership of all schemas
 GRANT unauthorized, GC_ADMIN, GC_DATA_ENTRY, GC_CLIENT TO doadmin;
+
+-- USERS
+GRANT gc_invoker TO glascad;
+GRANT glascad TO doadmin;

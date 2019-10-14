@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal } from "../../../../../../components";
 import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM } from '../../ducks/actions';
 import { systemOptionUpdate } from '../../ducks/schemas';
-import { getChildren, filterOptionsAbove, getNameFromPath } from '../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
 import Select from '../../../../../../components/ui/Select/Select';
 import { normalCase } from '../../../../../../utils';
 
@@ -26,7 +26,7 @@ function EditOption({
     } = option;
 
     const defaultKey = Object.keys(option).find(k => k.match(/default/i));
-    const optionName = getNameFromPath(oNewPath || oPath);
+    const optionName = getLastItemFromPath(oNewPath || oPath);
 
     const optionValues = getChildren(option, systemMap);
 
@@ -39,7 +39,7 @@ function EditOption({
         ), []);
 
     const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionValues.some(v => getNameFromPath(v.newPath || v.path) === name))
+        .filter(({ name }) => !optionValues.some(v => getLastItemFromPath(v.newPath || v.path) === name))
         .map(({ name }) => name);
 
     console.log({ optionValues, validOptionValues, selectValidOptionValues });
@@ -74,7 +74,7 @@ function EditOption({
                     className: "action",
                     onClick: () => dispatch(ADD_ITEM, {
                         [`parent${__typename}Path`]: oNewPath || oPath,
-                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === getNameFromPath(ov.newPath || ov.path))).name) || 'New Value',
+                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === getLastItemFromPath(ov.newPath || ov.path))).name) || 'New Value',
                         __typename: `${__typename}Value`,
                     }),
                 } : undefined}

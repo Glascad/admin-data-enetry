@@ -3,6 +3,7 @@
 DO $users$ DECLARE ___ INTEGER; BEGIN
 
 <<LOOP USER (
+    -- from .env
     <<USER_ADMIN>>,
     <<USER_CYPRESS>>,
     <<USER_ANDREW>>,

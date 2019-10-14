@@ -26,14 +26,16 @@ export default function Select({
 }) {
 
     const [input, setInput] = useInitialState(normalCase(value));
-    const filteredOptions = unique([value].concat(options))
+    const filteredOptions = unique([value, ...options])
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(
             findBestMatch(
                 input,
                 arr.filter(item => !sorted.includes(item))).bestMatch.target
         ), []);
+
     const { length: filteredOptionCount } = filteredOptions;
+
     const [selectedOptionIndex, setSelectedOptionIndex] = useInitialState(0, [input]);
 
     const selectOption = i => onChange(filteredOptions[i]);
@@ -74,12 +76,12 @@ export default function Select({
                             Home: () => setSelectedOptionIndex(0),
                             End: () => setSelectedOptionIndex(filteredOptionCount - 1),
                         })
-                            // .otherwise(() => console.log({ key }))
+                        // .otherwise(() => console.log({ key }))
                     )}
                 />
             </div>
             <div className="select-options">
-                {filteredOptions.map((o, i) => (
+                {filteredOptions.map((o, i) => o ? (
                     <div
                         key={o}
                         data-cy={`select-option-${o.toLowerCase()}`}
@@ -93,7 +95,7 @@ export default function Select({
                     >
                         {normalCase(o)}
                     </div>
-                ))}
+                ) : null)}
             </div>
         </div>
     );

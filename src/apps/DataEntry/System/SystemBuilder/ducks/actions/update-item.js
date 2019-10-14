@@ -1,5 +1,5 @@
 import { replace, removeNullValues } from "../../../../../../utils";
-import { getNameFromPath } from "../../../../../../app-logic/system-utils";
+import { getLastItemFromPath } from "../../../../../../app-logic/system-utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
     const {
@@ -9,7 +9,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
         update,
     } = payload;
     const isFirstItem = !!(newPath || path).match(/^\d\.\w+$/);
-    const pathName = getNameFromPath(newPath || path);
+    const pathName = getLastItemFromPath(newPath|| path);
 
     const itemsKey = `${__typename.replace(/^./, f => f.toLowerCase())}s`;
     const newItemsKey = `new${__typename}s`;
@@ -20,7 +20,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
     } = systemInput;
 
     const updatedItem = itemsArray.find(item => item.update ?
-        (newPath ? newPath : path) === (`${item.update.newParentPath || item.path.replace(/\.\w+$/, '')}.${item.update.name || getNameFromPath(newPath || path)}`)
+        (newPath ? newPath : path) === (`${item.update.newParentPath || item.path.replace(/\.\w+$/, '')}.${item.update.name || getLastItemFromPath(newPath || path)}`)
         :
         undefined);
     const newUpdatedItem = isFirstItem ?

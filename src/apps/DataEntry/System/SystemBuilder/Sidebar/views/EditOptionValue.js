@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal } from '../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove, getSiblings, getNameFromPath } from '../../../../../../app-logic/system-utils';
+import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
 import Select from '../../../../../../components/ui/Select/Select';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
@@ -42,7 +42,7 @@ function EditOptionValue({
         ), []);
 
     const selectValidValues = validValues
-        .filter(({ name }) => !values.some(v => getNameFromPath(v.newPath || v.path) === name))
+        .filter(({ name }) => !values.some(v => getLastItemFromPath(v.newPath || v.path) === name))
         .map(({ name }) => name);
 
     const {
@@ -53,7 +53,7 @@ function EditOptionValue({
             __typename: childTypename = ''
         } = {},
     } = valueChildren;
-    const childOptionName = childOption ? getNameFromPath(childOptionNewPath || childOptionPath) : '';
+    const childOptionName = childOption ? getLastItemFromPath(childOptionNewPath || childOptionPath) : '';
 
     const childOptionChildren = getChildren(childOption, systemMap); //Option Value's Child's Child
 
@@ -79,7 +79,7 @@ function EditOptionValue({
 
     const selectTypes = selectValidTypes
         .filter(name => !valueChildren.some(({ path: childTypePath, newPath: childTypeNewPath }) => (
-            name.toLowerCase() === (getNameFromPath(childTypeNewPath || childTypePath).toLowerCase()))))
+            name.toLowerCase() === (getLastItemFromPath(childTypeNewPath || childTypePath).toLowerCase()))))
 
     return (
         <>

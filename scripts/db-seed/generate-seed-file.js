@@ -1,139 +1,130 @@
-const { _require, removeEmptyLines, DEFAULT_USERS, } = require('./utils');
+const { _require } = require('./utils');
 
 module.exports = function generateSeedFile() {
 
     const require = _require;
 
-    return removeEmptyLines(`
+    return `
 
 DO $seed$ BEGIN
 
------ SCHEMAS -----;
+----- SCHEMAS -----
 
 ${require('../../db/schemas.sql')}
 
 
------ TYPES -----;
+----- TYPES -----
 
 ${require('../../db/gc_controlled/types/util_types.sql')}
 ${require('../../db/gc_controlled/types/auth_types.sql')}
 ${require('../../db/gc_controlled/types/storage_types.sql')}
 ${require('../../db/gc_controlled/types/architecture_types.sql')}
 ${require('../../db/gc_public/types')}
--- output_types;
 ${require('../../db/gc_data/types.sql')}
 
 
------ UTILITY FUNCTIONS -----;
+----- OPERATOR FUNCTIONS -----
+
+${require('../../db/gc_utils/operators/ltree=ltree.sql')}
+
+
+----- UTILITY FUNCTIONS -----
 
 ${require('../../db/gc_utils/functions/either_or.sql')}
 ${require('../../db/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/gc_utils/functions/get_real_id.sql')}
-${require('../../db/gc_utils/functions/ltree=ltree.sql')}
+${require('../../db/gc_data/functions/utils/get_option_value_child_type.sql')}
+${require('../../db/gc_data/functions/utils/get_dt|ct_from_path.sql')}
+${require('../../db/gc_data/functions/utils/get_sov|dov_subpath.sql')}
 
 
------ TABLES -----;
+----- TABLES -----
 
 ${require('../../db/gc_controlled/tables.sql')}
 ${require('../../db/gc_data/tables/app_data.sql')}
 ${require('../../db/gc_data/tables/manufacturer_data.sql')}
--- configuration_data;
+-- configuration_data
 ${require('../../db/gc_private/tables.sql')}
 ${require('../../db/gc_public/tables.sql')}
 ${require('../../db/gc_protected/tables/system.sql')}
-${require('../../db/gc_protected/tables/option_groups.sql')}
 ${require('../../db/gc_protected/tables/system_set.sql')}
 ${require('../../db/gc_protected/tables/elevation.sql')}
 
 
------ TRIGGERS -----;
+----- TRIGGERS -----
 
-${require('../../db/gc_protected/tables/triggers/system_paths.sql')}
-${require('../../db/gc_protected/tables/triggers/system_groups.sql')}
-${require('../../db/gc_protected/tables/triggers/system_set_groups.sql')}
+${require('../../db/gc_protected/triggers/system_paths.sql')}
+${require('../../db/gc_protected/triggers/option_groups.sql')}
+${require('../../db/gc_protected/triggers/system_set_paths.sql')}
 
 
------ INVOKER ROLE -----;
+----- INVOKER ROLE -----
 
 ${require('../../db/invoker.sql')}
 
 
------ FUNCTIONS -----;
+----- FUNCTIONS -----
 
-${require('../../db/gc_private/functions/create_a_user.sql')}
-${require('../../db/gc_private/functions/update_password.sql')}
-${require('../../db/gc_protected/functions/elevation/create_or_update_elevation_container.sql')}
-${require('../../db/gc_protected/functions/elevation/create_or_update_container_detail.sql')}
-${require('../../db/gc_protected/functions/elevation/create_or_update_elevation.sql')}
-${require('../../db/gc_protected/functions/system/create_or_update_option.sql')}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option/configuration.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option_value/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option_value/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_option_value/configuration.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_type/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_type/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/create_or_update_type/configuration.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/set_default_option_value/system.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/set_default_option_value/detail.sql')*/}
-${'' /* require('../../db/gc_protected/functions/system/set_default_option_value/configuration.sql')*/}
--- delete_entire_configuration_option;
--- delete_entire_system_configuration;
-${require('../../db/gc_protected/functions/project/create_or_update_raised_option_value.sql')}
-${require('../../db/gc_protected/functions/project/create_or_update_system_set.sql')}
--- create_or_update_option_value;
--- create_or_update_system_option;
--- update_entire_system_configuration_override;
--- update_entire_system_option;
-${require('../../db/gc_data/functions/update_entire_system.sql')}
-${require('../../db/gc_public/functions/mutations/authenticate.sql')}
-${require('../../db/gc_public/functions/mutations/copy_elevation.sql')}
-${require('../../db/gc_public/functions/mutations/create_or_update_project.sql')}
-${require('../../db/gc_public/functions/mutations/delete_entire_elevation.sql')}
-${require('../../db/gc_public/functions/mutations/delete_entire_project.sql')}
-${require('../../db/gc_public/functions/mutations/get_all_projects.sql')}
+${require('../../db/gc_private/functions/c_a_user.sql')}
+${require('../../db/gc_private/functions/u_password.sql')}
+${require('../../db/gc_protected/functions/elevation/c|u_elevation_container.sql')}
+${require('../../db/gc_protected/functions/elevation/c|u_container_detail.sql')}
+${require('../../db/gc_protected/functions/elevation/c|u_elevation.sql')}
+${require('../../db/gc_protected/functions/system/c|u_system.sql')}
+${require('../../db/gc_protected/functions/system/c+d_option_groups.sql')}
+${require('../../db/gc_protected/functions/system/c,u_option.sql')}
+${require('../../db/gc_protected/functions/system/c,u_option_value.sql')}
+${require('../../db/gc_protected/functions/system/c,u_type.sql')}
+${require('../../db/gc_protected/functions/system_set/c|u_system_set.sql')}
+${require('../../db/gc_protected/functions/system_set/c|u|d_system_set_option_value.sql')}
+${require('../../db/gc_protected/functions/system_set/c|u_system_set_option_group_value.sql')}
+${require('../../db/gc_data/functions/u_system.sql')}
+${require('../../db/gc_data/functions/ch_system.sql')}
+${require('../../db/gc_public/functions/mutations/elevation/u_elevation.sql')}
+${require('../../db/gc_public/functions/mutations/elevation/copy_elevation.sql')}
+${require('../../db/gc_public/functions/mutations/elevation/d_elevation.sql')}
+${require('../../db/gc_public/functions/mutations/project/c|u_project.sql')}
+${require('../../db/gc_public/functions/mutations/project/d_project.sql')}
+${require('../../db/gc_public/functions/mutations/project/get_all_projects.sql')}
+${require('../../db/gc_public/functions/mutations/system_set/u_system_set.sql')}
+${require('../../db/gc_public/functions/mutations/system_set/ch_system_set.sql')}
 ${require('../../db/gc_public/functions/mutations/report_bug.sql')}
-${require('../../db/gc_public/functions/mutations/update_entire_elevation.sql')}
-${require('../../db/gc_public/functions/mutations/update_entire_system_set.sql')}
-${require('../../db/gc_public/functions/queries/get_current_user.sql')}
 ${require('../../db/gc_public/functions/queries/get_current_user_id.sql')}
--- select_system;
--- select_system_set;
--- select_system_type;
+${require('../../db/gc_public/functions/queries/get_current_user.sql')}
+${require('../../db/gc_public/functions/mutations/authenticate.sql')}
 
 
------ INSERTIONS -----;
+----- INSERTIONS -----
 
 ${require('../../db/gc_controlled/values.sql')}
 
 
------ ROLES -----;
+----- ROLES -----
 
 ${require('../../db/roles.sql')}
 
 
------ PRIVILEGES -----;
+----- PRIVILEGES -----
 
 ${require('../../db/privileges.sql')}
-GRANT gc_invoker TO glascad;
-GRANT glascad TO doadmin;
 
 
------ USERS -----;
+----- USERS -----
 
 ${require('../../db/users.sql')}
 
 
------ SEED DATA -----;
+----- SEED DATA -----
 
 ${require('../../db/seed_data.sql')}
 
 
------ POLICIES -----;
+----- POLICIES -----
 
 ${require('../../db/policies.sql')}
 
-END $seed$;
-`);
-};
+END $seed$
+
+`;
+
+}

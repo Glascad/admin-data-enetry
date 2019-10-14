@@ -47,7 +47,7 @@
 .card .nested,
 .GroupingBox,
 .card .GroupingBox {
-    .TitleBar {
+    .grouping-box-title {
         margin-top: $xxxxx-large;
 
         &:first-child {
@@ -134,6 +134,7 @@
 
     .nested {
         margin-top: $small !important;
+        padding-bottom: 0;
         border: none;
 
         > * {
@@ -150,7 +151,7 @@
                 height: $xxx-large;
                 min-width: $pill-width;
                 width: $pill-width;
-                
+
                 .toggle-button {
                     height: $xxx-large;
                     padding: 0 $large;

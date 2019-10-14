@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal } from '../../../../../../components';
-import { getChildren, filterOptionsAbove, getNameFromPath } from '../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
 import Select from '../../../../../../components/ui/Select/Select';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
@@ -34,8 +34,8 @@ function EditType({
         } = {},
     } = getChildren(selectedType, systemMap);
 
-    const tName = getNameFromPath(tNewPath || tPath);
-    const oName = getNameFromPath(oPath);
+    const tName = getLastItemFromPath(tNewPath || tPath);
+    const oName = getLastItemFromPath(oPath);
 
     const childValues = getChildren(childOption, systemMap); //Types' Child's children
     return (

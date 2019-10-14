@@ -6,7 +6,7 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename, SystemMap, getNameFromPath } from '../../../../app-logic/system-utils';
+import { findItemByIdAndTypename, SystemMap, getLastItemFromPath } from '../../../../app-logic/system-utils';
 import { UPDATE_ITEM } from './ducks/actions';
 
 SystemBuilder.navigationOptions = {
@@ -101,7 +101,7 @@ export default function SystemBuilder({
                         {
                             ...option,
                             update: {
-                                [defaultValueKey]: getNameFromPath(optionValues.find(value => (value.newPath || value.path).match(valuePathRegex)).path)
+                                [defaultValueKey]: getLastItemFromPath(optionValues.find(value => (value.newPath || value.path).match(valuePathRegex)).path)
                             }
                         });
                 })
