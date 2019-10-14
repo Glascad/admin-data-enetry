@@ -54,7 +54,95 @@ testUpdateItem({
 });
 
 testUpdateItem({
-    systemInput: {},
+    systemInput: {
+        systemOptions: [
+            {
+                path: "1.SET",
+                __typename: "SystemOption",
+                update: {
+                    defaultSystemOptionValue: "FRONT"
+                }
+            },
+            {
+                path: "1.SET.CENTER.JOINERY",
+                __typename: "SystemOption",
+                update: {
+                    newParentSystemOptionValuePath: "1.SET.FRONT",
+                    name: "GLAZING",
+                }
+            }
+        ],
+        systemOptionValues: [
+            {
+                path: "1.SET.CENTER",
+                __typename: "SystemOptionValue",
+                update: {
+                    name: "FRONT"
+                }
+            }
+        ],
+        newSystemOptionValues: [
+            {
+                parentSystemOptionValuePath: "1.SET.FRONT.GLAZING",
+                name: "INSIDE",
+                __typename: "SystemOptionValue",
+            }
+        ]
+    },
+    payload: {
+        path: "1.SET.CENTER",
+        __typename: "SystemOptionValue",
+        update: {
+            name: "BACK",
+        }
+    },
+    systemOutput: {
+        systemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                path: "1.SET",
+                __typename: "SystemOption",
+                update: {
+                    defaultSystemOptionValue: "FRONT"
+                }
+            }),
+            expect.objectContaining({
+                path: "1.SET.CENTER.JOINERY",
+                __typename: "SystemOption",
+                update: {
+                    newParentSystemOptionValuePath: "1.SET.BACK",
+                    name: "GLAZING",
+                }
+            }),
+        ]),
+        systemOptionValues: expect.arrayContaining([
+            expect.objectContaining({
+                path: "1.SET.CENTER",
+                __typename: "SystemOptionValue",
+                update: {
+                    name: "BACK"
+                }
+            }),
+        ]),
+        newSystemOptionValues: expect.arrayContaining([
+            expect.objectContaining({
+                parentSystemOptionValuePath: "1.SET.BACK.GLAZING",
+                name: "INSIDE",
+                __typename: "SystemOptionValue",
+            }),
+        ])
+    },
+});
+
+testUpdateItem({
+    systemInput: {
+        systemDetails: [{
+            path: "1.SET.CENTER.HEAD",
+            __typename: "SystemDetail",
+            update: {
+                name: "HORIZONTAL"
+            }
+        }]
+    },
     payload: {
         path: "1.SET.CENTER.HEAD",
         __typename: "SystemDetail",

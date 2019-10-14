@@ -6,13 +6,10 @@ export default function DELETE_ITEM(systemInput, payload) {
     const { __typename, path, newPath, [parentKey]: parentPath } = payload;
 
     const newItemsKey = `new${__typename}s`;
-    const itemsKey = `${__typename.replace(/^./, f => f.toLowerCase())}s`;
-    const pathsToDeleteKey = 'pathsToDelete';
 
     const {
-        [itemsKey]: itemsArray = [],
         [newItemsKey]: newItemsArray = [],
-        [pathsToDeleteKey]: pathsToDeleteArray = [],
+        pathsToDelete: pathsToDeleteArray = [],
     } = systemInput;
 
     const deleteNewItem = newItemsArray.find(item => (item[parentKey] === parentPath) && (getLastItemFromPath(path) === item.name));
@@ -27,7 +24,7 @@ export default function DELETE_ITEM(systemInput, payload) {
 
     const updatedItems = Object.entries(systemInput)
         .filter(([key]) => key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i))
-        .reduce((updatedSystemInput, [key, value]) => console.log({ key, value }) || ({
+        .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.filter(item => !(item.newPath || item.path).includes(newPath || path))
         }), {});
@@ -36,12 +33,10 @@ export default function DELETE_ITEM(systemInput, payload) {
         ...systemInput,
         ...updatedItems,
         ...updatedNewItems,
-        [newItemsKey]: newItemsArray.filter(item => !(item === deleteNewItem)),
     }) : ({
         ...systemInput,
         ...updatedItems,
         ...updatedNewItems,
-        [itemsKey]: itemsArray.filter(item => !(item.path === path)),
-        [pathsToDeleteKey]: pathsToDeleteArray.concat(path),
+        pathsToDelete: pathsToDeleteArray.filter(deletedItem => !deletedItem.includes(path)).concat(path),
     });
 }

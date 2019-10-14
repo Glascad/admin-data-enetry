@@ -5,11 +5,10 @@ export default function UPDATE_ITEM(systemInput, payload) {
     const {
         __typename,
         path,
-        newPath,
         update,
     } = payload;
-    const isFirstItem = !!(newPath || path).match(/^\d\.\w+$/);
-    const pathName = getLastItemFromPath(newPath|| path);
+    const isFirstItem = !!path.match(/^\d\.\w+$/);
+    const pathName = getLastItemFromPath(path);
 
     const itemsKey = `${__typename.replace(/^./, f => f.toLowerCase())}s`;
     const newItemsKey = `new${__typename}s`;
@@ -20,13 +19,13 @@ export default function UPDATE_ITEM(systemInput, payload) {
     } = systemInput;
 
     const updatedItem = itemsArray.find(item => item.update ?
-        (newPath ? newPath : path) === (`${item.update.newParentPath || item.path.replace(/\.\w+$/, '')}.${item.update.name || getLastItemFromPath(newPath || path)}`)
+        path === (`${item.update.newParentPath || item.path.replace(/\.\w+$/, '')}.${item.update.name || getLastItemFromPath(path)}`)
         :
         undefined);
     const newUpdatedItem = isFirstItem ?
         newItemsArray.find(({ name }) => name === pathName)
         :
-        newItemsArray.find(item => item.name === pathName && item[Object.keys(item).find(key => key.match(/parent/i))] === (newPath || path).replace(/\.\w+$/, ''));
+        newItemsArray.find(item => item.name === pathName && item[Object.keys(item).find(key => key.match(/parent/i))] === (path).replace(/\.\w+$/, ''));
 
     const updatedIndex = itemsArray.indexOf(updatedItem);
     const newUpdatedIndex = newItemsArray.indexOf(newUpdatedItem);
@@ -43,7 +42,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
         newUpdatedIndex,
     })
 
-    const inputPayload = removeNullValues({ ...payload, newPath: undefined } || {});
+    const inputPayload = removeNullValues({ ...payload} || {});
 
     return {
         ...systemInput,
