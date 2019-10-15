@@ -1,30 +1,33 @@
 import merge from "../merge";
-import { sample1 } from "../../../../../../application-logic/__test__/sample-systems";
+import { sample1 } from "../../../../../../app-logic/__test__/sample-systems";
 
+// Must delete items and children
+// Must update items and children
+// Must create new items
 
-//THIS TEST IS CURRENTLY NOT WORKING PROPERLY
 function testMerge({
     systemInput,
     systemInput: {
-        systemOptionIdsToDelete,
-        detailOptionIdsToDelete,
-        configurationOptionIdsToDelete,
-        systemOptionValueIdsToDelete,
-        detailOptionValueIdsToDelete,
-        configurationOptionValueIdsToDelete,
-        systemDetailIdsToDelete,
-        systemConfigurationIdsToDelete,
+        pathsToDelete
     },
     _system,
     result: {
-        systemOptionIdsToInclude,
-        detailOptionIdsToInclude,
-        configurationOptionIdsToInclude,
-        systemOptionValueIdsToInclude,
-        detailOptionValueIdsToInclude,
-        configurationOptionValueIdsToInclude,
-        systemDetailIdsToInclude,
-        systemConfigurationIdsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemOptionPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        detailOptionPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        configurationOptionPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemOptionValuePathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        detailOptionValuePathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        configurationOptionValuePathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemDetailPathsToInclude,
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemConfigurationPathsToInclude,
     },
 }) {
 
@@ -43,81 +46,90 @@ function testMerge({
 
     describe(`Merging System on System Options.`, () => {
         test(`Testing merged System Options have the correct Id's`, () => {
-            systemOptionIdsToInclude.forEach(id => {
-                expect(_systemOptions).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            systemOptionPathsToInclude.forEach(path => {
+                expect(_systemOptions).toContainEqual(expect.objectContaining({ path }));
             });
-            // _systemOptions.forEach(({ id }) => {
-            //     expect(systemOptionIdsToInclude).toContain(id);
+            // _systemOptions.forEach(({ path }) => {
+                // must be a definitive list of items to include, so that we know all deletions were cascaded
+            //     expect(systemOptionPathsToInclude).toContain(path);
             // });
-            systemOptionIdsToDelete.forEach(id => {
-                expect(_systemOptions).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_systemOptions).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
 
         test(`Testing merged System Options Values have the correct Id's`, () => {
-            systemOptionValueIdsToInclude.forEach(id => {
-                expect(_systemOptionValues).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            systemOptionValuePathsToInclude.forEach(path => {
+                expect(_systemOptionValues).toContainEqual(expect.objectContaining({ path }));
             });
-            systemOptionValueIdsToDelete.forEach(id => {
-                expect(_systemOptionValues).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_systemOptionValues).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
     });
 
     describe(`Merging System on Detail Options.`, () => {
         test(`Testing merged System Detail Types to have the correct Id's`, () => {
-            systemDetailIdsToInclude.forEach(id => {
-                expect(_systemDetails).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            systemDetailPathsToInclude.forEach(path => {
+                expect(_systemDetails).toContainEqual(expect.objectContaining({ path }));
             });
-            systemDetailIdsToDelete.forEach(id => {
-                expect(_systemDetails).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_systemDetails).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
 
         test(`Testing merged Detail Options have the correct Id's`, () => {
-            detailOptionIdsToInclude.forEach(id => {
-                expect(_detailOptions).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            detailOptionPathsToInclude.forEach(path => {
+                expect(_detailOptions).toContainEqual(expect.objectContaining({ path }));
             });
-            detailOptionIdsToDelete.forEach(id => {
-                expect(_detailOptions).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_detailOptions).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
 
         test(`Testing merged Detail Option Values have the correct Id's`, () => {
-            detailOptionValueIdsToInclude.forEach(id => {
-                expect(_detailOptionValues).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            detailOptionValuePathsToInclude.forEach(path => {
+                expect(_detailOptionValues).toContainEqual(expect.objectContaining({ path }));
             });
-            detailOptionValueIdsToDelete.forEach(id => {
-                expect(_detailOptionValues).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_detailOptionValues).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
     });
 
     describe(`Merging System on Configuration Options.`, () => {
         test(`Testing merged System Configuration Types to have the correct Id's`, () => {
-            systemConfigurationIdsToInclude.forEach(id => {
-                expect(_systemConfigurations).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            systemConfigurationPathsToInclude.forEach(path => {
+                expect(_systemConfigurations).toContainEqual(expect.objectContaining({ path }));
             });
-            systemConfigurationIdsToDelete.forEach(id => {
-                expect(_systemConfigurations).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_systemConfigurations).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
 
         test(`Testing merged Configuration Options have the correct Id's`, () => {
-            configurationOptionIdsToInclude.forEach(id => {
-                expect(_configurationOptions).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            configurationOptionPathsToInclude.forEach(path => {
+                expect(_configurationOptions).toContainEqual(expect.objectContaining({ path }));
             });
-            configurationOptionIdsToDelete.forEach(id => {
-                expect(_configurationOptions).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_configurationOptions).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
 
         test(`Testing merged Configuration Option Values have the correct Id's`, () => {
-            configurationOptionValueIdsToInclude.forEach(id => {
-                expect(_configurationOptionValues).toContainEqual(expect.objectContaining({ id }));
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
+            configurationOptionValuePathsToInclude.forEach(path => {
+                expect(_configurationOptionValues).toContainEqual(expect.objectContaining({ path }));
             });
-            configurationOptionValueIdsToDelete.forEach(id => {
-                expect(_configurationOptionValues).not.toContainEqual(expect.objectContaining({ id }));
+            pathsToDelete.forEach(path => {
+                expect(_configurationOptionValues).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
     });
@@ -127,39 +139,80 @@ function testMerge({
 
 testMerge({
     systemInput: {
-        systemOptions: [
-            {
-                __typename: "SystemOption",
-                fakeId: 2000,
-                name: "HOPPERY",
-                parentSystemOptionValueId: 3,
-            },
-            {
-                __typename: "SystemOption",
-                fakeId: 3000,
-                name: "HOPPERY",
-            },
+        // systemOptions: [
+        //     {
+        //         __typename: "SystemOption",
+        //         path: "1.SET",
+        //         update: {
+        //             name: "SET",
+        //         },
+        //     },
+        //     {
+        //         __typename: "SystemOption",
+        //         path: "1.SET.CENTER.JOINERY",
+        //         update: {
+        //             name: "JOINERY",
+        //         }
+        //     },
+        // ],
+        pathsToDelete: [
+            "1.SET.BACK",
+            "1.SET.CENTER.JOINERY.STICK",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
         ],
-        systemOptionIdsToDelete: [1], // Set
-        systemOptionValueIdsToDelete: [7], // STICK
-        systemDetailIdsToDelete: [2], // HORIZONTAL
-        detailOptions: [],
-        detailOptionIdsToDelete: [2], // Glazing
-        detailOptionValueIdsToDelete: [1], // UP
-        configurationOptions: [],
-        configurationOptionIdsToDelete: [1], // DURABILITY
-        configurationOptionValueIdsToDelete: [3], // STANDARD_DUTY
-        systemConfigurationIdsToDelete: [3], // HEAD
     },
     _system: sample1,
     result: {
-        systemOptionIdsToInclude: [2],
-        systemOptionValueIdsToInclude: [5, 6],
-        systemDetailIdsToInclude: [1, 3, 4, 5],
-        detailOptionIdsToInclude: [1],
-        detailOptionValueIdsToInclude: [2],
-        systemConfigurationIdsToInclude: [],
-        configurationOptionValueIdsToInclude: [],
-        configurationOptionIdsToInclude: [],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemOptionPathsToInclude: [
+            "1.SET.CENTER.JOINERY",
+            "1.SET"
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemOptionValuePathsToInclude: [
+            "1.SET.CENTER",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+            "1.SET.CENTER.JOINERY.SHEAR_BLOCK",
+            "1.SET.FRONT",
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemDetailPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL",
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        detailOptionPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        detailOptionValuePathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP",
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemConfigurationPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        configurationOptionValuePathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+        ],
+        // must be a definitive list of items to include, so that we know all deletions were cascaded
+        configurationOptionPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+        ],
     },
 });

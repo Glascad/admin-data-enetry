@@ -6,6 +6,8 @@ import Loggable from './classes/loggable';
 import removeNullValues from './functions/remove-null-values';
 import replaceByKeys from './functions/replace-by-keys';
 import flattenNodeArrays from './functions/flatten-node-arrays';
+import extractArrayCount from './functions/extract-array-count';
+import normalizeQueryResponse from './functions/normalize-query-response';
 import recursiveQuery from './functions/recursive-query';
 import extractNavigationOptions from './functions/extract-navigation-options';
 import arraysContainEqualValues from './functions/arrays-contain-equal-values';
@@ -28,6 +30,8 @@ export {
     removeNullValues,
     replaceByKeys,
     flattenNodeArrays,
+    extractArrayCount,
+    normalizeQueryResponse,
     recursiveQuery,
     extractNavigationOptions,
     arraysContainEqualValues,

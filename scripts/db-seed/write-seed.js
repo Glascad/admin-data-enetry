@@ -6,17 +6,17 @@ const pfs = require('../../server/utils/promise-fs');
 module.exports = async function writeSeed() {
     try {
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Compiling database seed`);
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ./db/schemas`);
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ${chalk.blue('db/')}`);
 
         await compileDbFiles();
 
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully read files from ./db/schemas`);
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully read files from ${chalk.blue('db/')}`);
 
         const SEED_FILE = generateSeedFile();
 
         await pfs.writeFile(`${__dirname}/../../compiled/db-seed.sql`, SEED_FILE);
 
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully wrote database seed to ./compiled/db-seed.sql`);
+        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully wrote database seed to ${chalk.blue('compiled/db-seed.sql')}`);
 
         return SEED_FILE;
 

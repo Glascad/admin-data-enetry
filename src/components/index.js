@@ -32,6 +32,7 @@ import asyncComponent from './higher-order/async-component';
 import { useQuery, useMutation } from './hooks/use-graphql';
 import withContext from './higher-order/with-context';
 import transformProps from './higher-order/transform-props';
+import withQueryParams from './higher-order/with-query-params';
 
 // HOOKS
 import useRedoableState, { withRedoableState } from './hooks/use-redoable-state';
@@ -85,6 +86,7 @@ export {
     withContext,
     transformProps,
     withRedoableState,
+    withQueryParams,
     // HOOKS
     useQuery,
     useMutation,

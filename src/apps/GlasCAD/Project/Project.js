@@ -6,6 +6,8 @@ import {
     ApolloWrapper,
     Navigator,
     Ellipsis,
+    withQueryParams,
+    useQuery,
 } from '../../../components';
 
 import query from './project-graphql/query';
@@ -31,6 +33,18 @@ const subroutes = {
     // Schedules,
     // Notes,
 };
+
+
+const Project = withQueryParams({
+    required: {
+        projectId: Number,
+    },
+}, ({ path }) => `${
+    path
+    }`
+)(ProjectComponent);
+
+
 
 Project.navigationOptions = ({
     location: {
@@ -60,7 +74,9 @@ Project.navigationOptions = ({
     path: "/project",
 });
 
-export default function Project({
+export default Project;
+
+function ProjectComponent({
     match: {
         path,
     },
@@ -68,27 +84,24 @@ export default function Project({
         search,
     },
 }) {
+    const [fetchQuery, queryResult] = useQuery({
+        query,
+        variables: {
+            id: +parseSearch(search).projectId,
+        },
+    });
+
     if (!parseSearch(search).projectId) return (
         <Redirect
             to={path.replace(/project.*/, 'main-menu')}
         />
-    )
-    // console.log(arguments[0]);
-    return (
-        <ApolloWrapper
-            query={{
-                query,
-                variables: {
-                    id: +parseSearch(search).projectId,
-                },
-            }}
-        >
-            {apollo => (
-                <Navigator
-                    routeProps={apollo}
-                    routes={subroutes}
-                />
-            )}
-        </ApolloWrapper>
     );
-}
+    // console.log(arguments[0]);
+
+    return (
+        <Navigator
+            routeProps={{ queryResult }}
+            routes={subroutes}
+        />
+    );
+};

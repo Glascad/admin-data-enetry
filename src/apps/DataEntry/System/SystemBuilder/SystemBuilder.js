@@ -6,7 +6,8 @@ import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import { parseSearch } from '../../../../utils';
-import { findItemByIdAndTypename, SystemMap } from '../../../../app-logic/system-utils';
+import { SystemMap, getLastItemFromPath, getChildren } from '../../../../app-logic/system-utils';
+import { UPDATE_ITEM } from './ducks/actions';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
@@ -41,6 +42,8 @@ export default function SystemBuilder({
 
     const {
         currentState: systemInput,
+        states,
+        currentIndex,
         pushState,
         replaceState,
     } = useRedoableState(systemUpdate);
@@ -49,7 +52,15 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    const selectedItem = findItemByIdAndTypename(system, originalSelectedItem);
+    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.newPath || originalSelectedItem.path : undefined];
+
+    console.log({
+        originalSelectedItem,
+        selectedItem,
+        systemInput,
+        states,
+        currentIndex,
+    });
 
     useEffect(() => {
         if (!selectedItem) selectItem();
@@ -67,17 +78,58 @@ export default function SystemBuilder({
         ),
     }));
 
-    // console.log(system);
+    // adding default value to all options without one
+    useEffect(() => {
+        Object.entries(system)
+            .filter(([key]) => key.match(/Options$/i))
+            .forEach(([key, options]) => {
+                options.forEach(option => {
+                    const { __typename } = option;
+
+                    const defaultValueKey = `default${__typename}Value`;
+
+                    const { [defaultValueKey]: defaultValue } = option;
+
+                    const children = getChildren(option, systemMap);
+
+                    const noDefault = !defaultValue || !children.some(({ newPath, path }) => (newPath || path).endsWith(`.${defaultValue}`));
+
+                    if (noDefault) {
+
+                        const {
+                            newPath = '',
+                            path = '',
+                        } = (
+                            defaultValue
+                            &&
+                            children.find(({ newPath, path }) => (newPath || path).endsWith(defaultValue))
+                        ) || children[0] || {};
+
+                        const newDefault = getLastItemFromPath(newPath || path);
+
+                        if (newDefault) dispatch(UPDATE_ITEM, {
+                            ...option,
+                            update: {
+                                [defaultValueKey]: newDefault,
+                            },
+                        }, true);
+                    }
+                });
+            });
+    }, [systemInput]);
 
     const save = async () => {
         console.log(systemInput);
+        console.log({
+            arguments: arguments,
+            systemInput,
+            currentIndex,
+            system,
+            systemMap,
+            originalSelectedItem,
+            selectedItem,
+        });
     }
-
-    console.log({
-        props: arguments[0],
-        state: systemInput,
-        system,
-    });
 
     return (
         <TransformProvider>
@@ -94,6 +146,7 @@ export default function SystemBuilder({
             <SystemTree
                 queryResult={queryResult}
                 fetching={fetching}
+                search={search}
                 system={system}
                 systemMap={systemMap}
                 dispatch={dispatch}

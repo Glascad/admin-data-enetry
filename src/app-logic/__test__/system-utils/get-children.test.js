@@ -14,26 +14,33 @@ function testGetChildren({
         test(`result has correct length`, () => {
             expect(childrenResult.length).toBe(children.length);
         });
-        test(`testing name, id, typename and nodeId match`, () => {
-            expect(childrenResult).toMatchObject(children);
-        });
+        expect(childrenResult).toMatchObject(children);
     });
 };
 
 testGetChildren({
     system: sample1,
     item: {
-        id: 3,
-        __typename: "SystemOptionValue",
+        path: "1.SET",
+        __typename: "SystemOption",
     },
     children: [
         {
-            __typename: "SystemOption",
-            nodeId: "WyJzeXN0ZW1fb3B0aW9ucyIsMl0=",
-            id: 2,
-            name: "JOINERY",
-            parentSystemOptionValueId: 3,
+            __typename: "SystemOptionValue",
+            path: "1.SET.BACK"
         },
+        {
+            __typename: "SystemOptionValue",
+            path: "1.SET.CENTER"
+        },
+        {
+            __typename: "SystemOptionValue",
+            path: "1.SET.FRONT"
+        },
+        {
+            __typename: "SystemOptionValue",
+            path: "1.SET.MULTI_PLANE"
+        }
     ],
 });
 
@@ -41,16 +48,12 @@ testGetChildren({
     system: sample1,
     item: {
         __typename: "DetailOptionValue",
-        id: 2,
-        name: "DOWN",
+        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN"
     },
     children: [
         {
             __typename: "DetailOption",
-            nodeId: "WyJkZXRhaWxfb3B0aW9ucyIsMl0=",
-            id: 2,
-            name: "GLAZING",
-            parentDetailOptionValueId: 2,
+            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
         },
     ],
 });
@@ -59,18 +62,20 @@ testGetChildren({
     system: sample1,
     item: {
         __typename: "SystemConfiguration",
-        nodeId: "WyJzeXN0ZW1fY29uZmlndXJhdGlvbl90eXBlcyIsMl0=",
-        id: 2,
-        configurationType: "COMPENSATING_RECEPTOR",
+        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
         optional: true
     },
     children: [
         {
             __typename: "ConfigurationOption",
-            nodeId: "WyJjb25maWd1cmF0aW9uX29wdGlvbnMiLDFd",
-            id: 1,
-            name: "DURABILITY",
-            parentSystemConfigurationId: 2,
+            path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            defaultConfigurationOptionValue: "STANDARD_DUTY"
         },
     ],
+});
+
+testGetChildren({
+    system: {},
+    item: {},
+    children: [],
 });

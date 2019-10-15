@@ -1,20 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
-
-import {
-    removeNullValues,
-    flattenNodeArrays,
-    replaceByKeys,
-} from '../../utils';
-
-const normalizeResponse = ({ data }) => removeNullValues(
-    flattenNodeArrays(
-        replaceByKeys(
-            data,
-        ),
-    ),
-) || {};
+import { normalizeQueryResponse } from '../../utils';
 
 /**
  * PURPOSE
@@ -86,7 +73,7 @@ export default class ApolloWrapper extends PureComponent {
                             {/* THIS IS THE FINAL CALLBACK THAT RENDERS THE ORIGINAL CHILDREN */}
                             {accumulatedProps => children({
                                 ...accumulatedProps,
-                                queryResult: normalizeResponse(rawQueryStatus),
+                                queryResult: normalizeQueryResponse(rawQueryStatus),
                                 rawQueryStatus,
                             })}
                         </ApolloWrapper>
