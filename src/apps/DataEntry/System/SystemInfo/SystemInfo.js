@@ -77,7 +77,7 @@ function SystemInfo({
                             doNotConfirmWhen={true}
                             onClick={() => {
                                 history.push(`${
-                                    path.replace(/system\/info/, 'main-menu/system-search')
+                                    path.replace(/system\/info/, 'main-menu/manage-systems')
                                     }${
                                     search
                                     }`);

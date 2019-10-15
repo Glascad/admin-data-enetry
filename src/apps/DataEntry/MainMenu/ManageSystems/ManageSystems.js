@@ -13,7 +13,7 @@ import {
 import query from './-graphql/query';
 import mutations from './-graphql/mutations';
 
-export default function SystemSearch({
+export default function ManageSystems({
     match: {
         path,
     },
@@ -188,7 +188,7 @@ export default function SystemSearch({
                                                         {
                                                             children: (
                                                                 <Link
-                                                                    to={path.replace(/main-menu\/system-search.*/,
+                                                                    to={path.replace(/main-menu\/manage-systems.*/,
                                                                         `system/build?systemId=${id}`)}
                                                                 >
                                                                     Load
@@ -198,7 +198,7 @@ export default function SystemSearch({
                                                         {
                                                             children: (
                                                                 <Link
-                                                                    to={path.replace(/main-menu\/system-search.*/,
+                                                                    to={path.replace(/main-menu\/manage-systems.*/,
                                                                         `system/info?systemId=${id}`)}
                                                                 >
                                                                     Info

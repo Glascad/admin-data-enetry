@@ -253,6 +253,7 @@ export default class Input extends PureComponent {
                 onClick,
                 onMouseDown,
                 onMouseUp,
+                onDrop,
                 "data-cy": dataCy,
                 ...props
             },
@@ -317,6 +318,7 @@ export default class Input extends PureComponent {
                 onClick={onClick}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
+                onDrop={onDrop}
                 {...(isBoolean || select ? { "data-cy": dataCy } : null)}
             >
                 {!isBoolean ? (

@@ -6,14 +6,13 @@ import MainMenu from './MainMenu/MainMenu';
 import Project from './Project/Project';
 // import Export from './Export/Export';
 
-export default function GlasCAD() {
-    return (
-        <Statics
-            routes={{
-                MainMenu,
-                Project,
-                // Export,
-            }}
-        />
-    );
-}
+export default props => (
+    <Statics
+        {...props}
+        routes={{
+            MainMenu,
+            Project,
+            // Export,
+        }}
+    />
+);

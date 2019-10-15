@@ -17,7 +17,10 @@ import { match } from '../utils';
 
 const AppNavigator = ({ allowedApplications }) => (
     <Suspense fallback={<Login />}>
-        <Navigator routes={allowedApplications} />
+        <Navigator
+            routeProps={{ allowedApplications }}
+            routes={allowedApplications}
+        />
     </Suspense>
 );
 

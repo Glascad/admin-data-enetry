@@ -19,7 +19,7 @@ import { updateEntireSystem as updateEntireSystemMutation } from './system-graph
 
 import SystemInfo from './SystemInfo/SystemInfo';
 import SystemBuilder from './SystemBuilder/SystemBuilder';
-import DetailBuilder from './DetailBuilder/DetailBuilder';
+// import DetailBuilder from './DetailBuilder/DetailBuilder';
 
 import { parseSearch } from '../../../utils';
 import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems/old';
@@ -27,7 +27,7 @@ import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems/old'
 const subroutes = {
     SystemInfo,
     SystemBuilder,
-    DetailBuilder,
+    // DetailBuilder,
 };
 
 // this is for rendering the correct name in the sidebar

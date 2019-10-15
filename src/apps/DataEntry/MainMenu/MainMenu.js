@@ -4,10 +4,10 @@ import {
     Navigator,
 } from '../../../components';
 
-import SystemSearch from './SystemSearch/SystemSearch';
+import ManageSystems from './ManageSystems/ManageSystems';
 
 const subroutes = {
-    SystemSearch,
+    ManageSystems,
 };
 
 MainMenu.navigationOptions = {

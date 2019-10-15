@@ -110,12 +110,12 @@ export const ENTIRE_SYSTEM_SET = gql`
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
         ...ProjectFields
-        # elevationsByProjectId(orderBy: NAME_ASC) {
-        #     nodes {
-        #         ...ElevationFields
-        #         # ...EntireElevation
-        #     }
-        # }
+        _elevations: elevationsByProjectId(orderBy: NAME_ASC) {
+            nodes {
+                ...ElevationFields
+                # ...EntireElevation
+            }
+        }
         systemSetsByProjectId {
             nodes {
                 ...SystemSetFields
@@ -133,7 +133,6 @@ export const ENTIRE_PROJECT = gql`
         }
     }
     ${PROJECT_FIELDS}
+    ${ED.ELEVATION_FIELDS}
     ${SYSTEM_SET_FIELDS}
 `;
-
-// ${ED.ELEVATION_FIELDS}
