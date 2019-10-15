@@ -7,18 +7,17 @@ import MainMenu from './MainMenu/MainMenu';
 
 import System from './System/System';
 // import ApplicationData from './ApplicationData/ApplicationData';
-// import PartData from './PartData/PartData';
+import PartData from './PartData/PartData';
 
-export default function DataEntry() {
-    return (
-        <Statics
-            routes={{
-                // Activity,
-                MainMenu,
-                System,
-                // ApplicationData,
-                // PartData,
-            }}
-        />
-    );
-}
+export default props => (
+    <Statics
+        {...props}
+        routes={{
+            // Activity,
+            MainMenu,
+            System,
+            // ApplicationData,
+            PartData,
+        }}
+    />
+);

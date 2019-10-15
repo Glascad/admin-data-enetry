@@ -78,6 +78,18 @@ button {
     }
 }
 
+pre {
+    background: $dark-gray;
+    color: $off-white;
+    padding: $x-small;
+    overflow: hidden;
+    white-space: pre-wrap;
+
+    code {
+        font-family: Monospace;
+    }
+}
+
 textarea {
     resize: none;
 }

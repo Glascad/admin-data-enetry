@@ -7,6 +7,7 @@ import React, {
 import './Statics.scss';
 
 import {
+    NavLink,
     Link,
     withRouter,
 } from 'react-router-dom';
@@ -22,6 +23,7 @@ import {
 } from '../../components';
 
 import { AuthContext } from '../../AuthContext';
+import { extractNavigationOptions, normalCase } from '../../utils';
 
 export const StaticContext = createContext();
 
@@ -56,6 +58,7 @@ class Statics extends PureComponent {
                 },
                 initialRoute,
                 routes,
+                allowedApplications,
             },
             toggle,
             getPathTo,
@@ -96,31 +99,33 @@ class Statics extends PureComponent {
                     <DoubleArrow
                         onClick={toggle}
                     />
-                    {/* <div id="application-links">
-                        <Link to="/data-entry">
-                            <button className="light">
-                                DATA ENTRY
-                            </button>
-                        </Link>
-                        <Link to="/glascad">
-                            <button className="light">
-                                GLASCAD
-                            </button>
-                        </Link>
-                    </div> */}
-                    {username ? (
+                    <div className="bottom-buttons">
+                        {Object.entries(allowedApplications)
+                            .map(([name, route]) => extractNavigationOptions(name, route))
+                            .map(({ name, path }) => (
+                                <NavLink
+                                    to={path}
+                                    activeClassName="disabled"
+                                >
+                                    <button className="light">
+                                        {normalCase(name)}
+                                    </button>
+                                </NavLink>
+                            ))}
                         <div id="current-user">
                             <div>
-                                {username}
+                                {normalCase(username)}
                             </div>
-                            <button
-                                className="empty light"
-                                onClick={logout}
-                            >
-                                Logout
+                            {username ? (
+                                <button
+                                    className="empty light"
+                                    onClick={logout}
+                                >
+                                    Logout
                             </button>
+                            ) : null}
                         </div>
-                    ) : null}
+                    </div>
                 </div>
                 <div
                     id="viewport"

@@ -29,8 +29,8 @@ describe('system-builder tests', () => {
         cy.url().should('include', '/main-menu');
     });
 
-    it('can navigate from main-menu/system-search to system info|builder', () => {
-        cy.visit('http://localhost:3000/data-entry/main-menu/system-search');
+    it('can navigate from main-menu/manage-systems to system info|builder', () => {
+        cy.visit('http://localhost:3000/data-entry/main-menu/manage-systems');
         cy.get('[data-cy="new-system-link"]').click();
         cy.url().should('include', '/system/info');
     });

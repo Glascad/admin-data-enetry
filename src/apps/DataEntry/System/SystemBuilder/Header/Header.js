@@ -82,7 +82,7 @@ function Header({
                         doNotConfirmWhen={true}
                         onClick={() => {
                             history.push(`${
-                                path.replace(/system\/build/, 'main-menu/system-search')
+                                path.replace(/system\/build/, 'main-menu/manage-systems')
                                 }${
                                 search
                                 }`);
@@ -98,7 +98,7 @@ function Header({
                             await save();
                             setSavingAndExiting(false);
                             history.push(`${
-                                path.replace(/system\/build/, 'main-menu/system-search')
+                                path.replace(/system\/build/, 'main-menu/manage-systems')
                                 }${
                                 search
                                 }`);
