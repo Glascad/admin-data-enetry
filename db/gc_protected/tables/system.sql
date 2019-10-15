@@ -98,6 +98,10 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 CREATE TABLE
 gc_protected.option_groups (
     system_id INTEGER REFERENCES systems NOT NULL,
+<<<<<<< HEAD
+=======
+    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
+>>>>>>> 32d0478377b21ccd59016083e4f5c1c564937f36
     name OPTION_NAME REFERENCES valid_options NOT NULL,
     UNIQUE(system_id, name),
     PRIMARY KEY (system_option_value_path, name)

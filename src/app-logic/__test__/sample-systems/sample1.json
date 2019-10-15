@@ -1,49 +1,39 @@
 {
-    "__typename": "System",
     "id": 1,
     "manufacturerId": 1,
     "systemType": "STOREFRONT",
     "name": "Sample 1",
     "_manufacturer": {
-        "__typename": "Manufacturer",
         "id": 1,
         "name": "Kawneer"
     },
     "_systemOptions": [
         {
-            "__typename": "SystemOption",
             "path": "1.SET",
             "defaultSystemOptionValue": "CENTER"
         },
         {
-            "__typename": "SystemOption",
             "path": "1.SET.CENTER.JOINERY",
             "defaultSystemOptionValue": "SCREW_SPLINE"
         }
     ],
     "_systemOptionValues": [
         {
-            "__typename": "SystemOptionValue",
             "path": "1.SET.BACK"
         },
         {
-            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER"
         },
         {
-            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE"
         },
         {
-            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK"
         },
         {
-            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER.JOINERY.STICK"
         },
         {
-            "__typename": "SystemOptionValue",
             "path": "1.SET.FRONT"
         }
     ],

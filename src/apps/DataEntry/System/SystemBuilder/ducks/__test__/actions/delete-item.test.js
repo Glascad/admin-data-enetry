@@ -30,7 +30,7 @@ testDeleteItem({
     },
     systemOutput: {
         systemOptions: [],
-        pathsToDelete: ["1.SET.CENTER", "1.SET"]
+        pathsToDelete: [ "1.SET"] //Should delete paths with the same beginning
     },
 });
 

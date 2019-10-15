@@ -62,11 +62,10 @@ export default function merge({
                 :
                 getParentPath(oldItem);
 
-            const newItemName = updatedItem ? (
-                updatedItem.update.name
-                ||
-                getLastItemFromPath(updatedItem.path)
-            )
+            const newItemName = updatedItem ?
+                (updatedItem.update.name
+                    ||
+                    getLastItemFromPath(updatedItem.path))
                 :
                 getLastItemFromPath(path);
 

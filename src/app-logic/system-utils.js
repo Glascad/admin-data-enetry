@@ -29,7 +29,7 @@ export class SystemMap {
             ..._systemDetails,
             ..._systemConfigurations,
         ].reduce((map, item, i, allItems) => {
-            const { path ,newPath } = item;
+            const { path, newPath } = item;
             const parentPath = getParentPath(item);
             const {
                 [newPath || path]: previousItem,
@@ -55,6 +55,30 @@ export class SystemMap {
 export const getFirstItem = ({ _systemOptions } = []) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
 export const getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
+
+export const getParentTypename = ({ path } = {}) => path.includes('__CT__') ?
+    (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
+        path.match(/^.*__CT__\.\w+$/) ?
+            'SystemConfiguration'
+            :
+            'ConfigurationOptionValue'
+        :
+        'ConfigurationOption'
+    :
+    path.includes('__DT__') ?
+        (path.replace(/^.*__DT__./, '').match(/\./g) || []).length % 2 === 0 ?
+            path.match(/^.*__DT__\.\w+$/) ?
+                'SystemDetail'
+                :
+                'DetailOptionValue'
+            :
+            'DetailOption'
+        :
+        (path.match(/\./g) || []).length % 2 === 0 ?
+            "SystemOptionValue"
+            :
+            "SystemOption"
+
 
 export const getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
 
