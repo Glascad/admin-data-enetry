@@ -10,7 +10,7 @@ describe('Testing creation of new system set', () => {
 
         // can navigate to new system set page
         cy.getDataCy`new-system-set`.click();
-        cy.url().should('match', /project.sets.system-set/);
+        cy.url().should('match', /project.sets.system.set/i);
         cy.wait(2000);
 
         // can select manufacturer and system type
@@ -42,8 +42,6 @@ describe('Testing creation of new system set', () => {
         // can select configuration option value
 
         // selecting new option value resets everything downstream
-
-        
 
         // cy.getDataCy`save`.click();
         // cy.url().should("match", /\?.*systemSetId=\d+/);
