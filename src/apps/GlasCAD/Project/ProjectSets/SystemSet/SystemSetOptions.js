@@ -21,7 +21,7 @@ import {
 import F from '../../../../../schemas';
 import gql from 'graphql-tag';
 import { SELECT_SYSTEM_SET_OPTION_VALUE } from './ducks/actions';
-import { normalCase } from '../../../../../utils';
+import { normalCase, match } from '../../../../../utils';
 
 const query = gql`query SystemById($systemId: Int!) {
     systemById(id: $systemId) {
@@ -36,7 +36,7 @@ export default function SystemSetOptions({
     systemSet: {
         systemId,
         systemOptionValuePath = '',
-        _optionGroupValues = [],
+        _systemSetOptionGroupValues = [],
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
     } = {},
@@ -54,6 +54,7 @@ export default function SystemSetOptions({
         _system: {
             id: newSystemId,
             _systemConfigurations = [],
+            _optionGroups = [],
         } = {},
     } = queryResult;
 
@@ -90,23 +91,22 @@ export default function SystemSetOptions({
                 title="Options"
             >
                 {getOptionListFromPath(systemOptionValuePath)
+                    .filter(({ name }) => name !== 'VOID')
                     .map(({ name, value }) => (
                         <Select
                             key={name}
                             label={name}
                             value={value}
                             options={getChildren({
-                                path: systemOptionValuePath
-                                    .replace(new RegExp(`${name}\\.${value}.*$`), name)
-                            }, systemMap
-                            ).map(({ path }) => getLastItemFromPath(path))}
+                                path: systemOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
+                            }, systemMap).map(({ path }) => getLastItemFromPath(path))}
                             onChange={newValue => dispatch(SELECT_SYSTEM_SET_OPTION_VALUE, {
                                 systemOptionValuePath: replaceOptionValue(systemOptionValuePath, name, newValue),
                                 systemMap,
                             })}
                         />
                     ))}
-                {_optionGroupValues.map(({ optionName, name }) => (
+                {_systemSetOptionGroupValues.map(({ optionName, name }) => (
                     <Select
                         key={optionName}
                         label={optionName}
@@ -120,14 +120,27 @@ export default function SystemSetOptions({
                 title="Details"
             >
                 {_systemSetDetailOptionValues.map(({ detailOptionValuePath }) => {
-                    const detailOptions = getOptionListFromPath(detailOptionValuePath);
+                    const detailOptions = getOptionListFromPath(detailOptionValuePath)
+                        .filter(({ name }) => (
+                            name !== 'VOID'
+                            &&
+                            !_optionGroups.some(og => og.name === name)
+                        ));
+
                     const configurations = _systemConfigurations
                         .filter(({ path }) => path.startsWith(detailOptionValuePath))
-                        .map(({ path }) => _systemSetConfigurationOptionValues
-                            .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(path))
+                        .map(sc => _systemSetConfigurationOptionValues
+                            .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(sc.path))
                             ||
-                            { path }
+                            sc
+                        )
+                        .sort(({ optional: a }, { optional: b }) => match()
+                            .case(a && b, 0)
+                            .case(a && !b, 1)
+                            .case(!a && b, -1)
+                            .otherwise(-1)
                         );
+                    console.log({ configurations });
                     return (
                         <GroupingBox
                             key={detailOptionValuePath}
@@ -140,40 +153,44 @@ export default function SystemSetOptions({
                                     label={name}
                                     value={value}
                                     options={getChildren({
-                                        path: detailOptionValuePath
-                                            .replace(new RegExp(`${name}\\.${value}.*$`), name)
-                                    }, systemMap
-                                    ).map(({ path }) => getLastItemFromPath(path))}
+                                        path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
+                                    }, systemMap).map(({ path }) => getLastItemFromPath(path))}
                                 />
                             ))}
                             {/* DIVIDER */}
-                            {detailOptions.length && configurations.length ? (
+                            {/* {detailOptions.length && configurations.length ? (
                                 <TitleBar
                                     title="Configurations"
                                 />
-                            ) : null}
+                            ) : null} */}
                             {/* SYSTEM CONFIGURATIONS */}
                             {configurations.length ?
-                                configurations.map(({ configurationOptionValuePath, path, optional }) => (
-                                    <Fragment
-                                        key={configurationOptionValuePath || path}
-                                    >
-                                        {optional ? (
-                                            <Input
-                                                type="switch"
-                                                label={getConfigurationTypeFromPath(configurationOptionValuePath || path)}
-                                                checked={!!configurationOptionValuePath}
-                                            />
-                                        ) : (
+                                configurations.map(({ configurationOptionValuePath, path, optional }) => {
+                                    const options = getOptionListFromPath(configurationOptionValuePath)
+                                        .filter(({ name }) => (
+                                            name !== 'VOID'
+                                            &&
+                                            !_optionGroups.some(og => og.name === name)
+                                        ));
+                                    return (
+                                        <Fragment
+                                            key={configurationOptionValuePath || path}
+                                        >
+                                            {optional ? (
+                                                <Input
+                                                    type="switch"
+                                                    label={getConfigurationTypeFromPath(configurationOptionValuePath || path)}
+                                                    checked={!!configurationOptionValuePath}
+                                                />
+                                            ) : options.length ? (
                                                 <div>
                                                     {normalCase(getConfigurationTypeFromPath(configurationOptionValuePath || path))}
                                                 </div>
-                                            )}
-                                        {/* CONFIGURATION OPTIONS */}
-                                        {configurationOptionValuePath ? (
-                                            <div className="nested">
-                                                {getOptionListFromPath(configurationOptionValuePath)
-                                                    .map(({ name, value }) => (
+                                            ) : null}
+                                            {/* CONFIGURATION OPTIONS */}
+                                            {configurationOptionValuePath && options.length ? (
+                                                <div className="nested">
+                                                    {options.map(({ name, value }) => (
                                                         <Select
                                                             key={name}
                                                             label={name}
@@ -185,10 +202,11 @@ export default function SystemSetOptions({
                                                             ).map(({ path }) => getLastItemFromPath(path))}
                                                         />
                                                     ))}
-                                            </div>
-                                        ) : null}
-                                    </Fragment>
-                                ))
+                                                </div>
+                                            ) : null}
+                                        </Fragment>
+                                    );
+                                })
                                 :
                                 null}
                         </GroupingBox>

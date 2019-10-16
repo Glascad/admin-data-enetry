@@ -107,7 +107,7 @@ export const makeRenderable = system => {
     return makeNodeRenderable(getFirstItem(systemMap));
 }
 
-export const getOptionListFromPath = path => path
+export const getOptionListFromPath = (path = '') => path
     .replace(/^\d+\.(.*__(D|C)T__\.\w+\.?)?/, '')
     .replace(/(\w+)\.(\w+)(\.)?/ig, ' $1:$2 ')
     .trim()
