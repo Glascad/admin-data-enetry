@@ -1,9 +1,10 @@
 import { systemUpdate } from "../../schemas";
 import UPDATE_ITEM from "../../actions/update-item";
 
-// Must update the item in state if already there (in either update or create array), otherwise add item update to state
-// Must also update children that already existed under a different parent but were moved to be under the moved item (in the update array, with a new parentPath that matches the updated item's path)
-// Must also update all created children (in create array) in state
+/** Must update the item in state if already there (in either update or create array), otherwise add item update to state
+* Must also update children that already existed under a different parent but were moved to be under the moved item (in the update array, with a new parentPath that matches the updated item's path)
+* Must also update all created children (in create array) in state
+ need to account for things moved under the item, moved out from under the item, and created under.*/
 function testUpdateItem({
     systemInput,
     payload,
@@ -56,16 +57,15 @@ testUpdateItem({
     },
 });
 
+
+// 1.SET.CENTER was changed to 1.SET.FRONT
+// 1.SET.CENTER.JOINERY had 2 changes:
+//      name changed to GLAZING
+//      location changed to 1.SET.FRONT (cascaded from CENTER to FRONT)
+// 1.SET.FRONT.GLAZING.INSIDE was added
 testUpdateItem({
     systemInput: {
         systemOptions: [
-            {
-                path: "1.SET",
-                __typename: "SystemOption",
-                update: {
-                    defaultSystemOptionValue: "FRONT"
-                }
-            },
             {
                 path: "1.SET.CENTER.JOINERY",
                 __typename: "SystemOption",
@@ -101,13 +101,6 @@ testUpdateItem({
     },
     systemOutput: {
         systemOptions: expect.arrayContaining([
-            expect.objectContaining({
-                path: "1.SET",
-                __typename: "SystemOption",
-                update: {
-                    defaultSystemOptionValue: "FRONT"
-                }
-            }),
             expect.objectContaining({
                 path: "1.SET.CENTER.JOINERY",
                 __typename: "SystemOption",

@@ -20,17 +20,40 @@ function testDeleteItem({
     });
 }
 
+// should delete all items created or moved under deleted item
 testDeleteItem({
     systemInput: {
-        pathsToDelete: ["1.SET.CENTER"]
+        systemConfigurations: [{
+            path: "1.SET.FRONT.CONFIG",
+            update: {
+                parentDetailOptionValuePath: "1.SET.CENTER.DETAIL"
+            }
+        }],
+        systemOptionValues: [{
+            path: "1.SET.CENTER.JOINERY.B",
+            update: {
+                parentSystemOptionPath: "1.SET.BACK.JOINERY"
+            }
+        }],
+        newDetailOptionValues: [{
+            parentDetailOptionPath: "1.SET.CENTER.BLAH.BLAH"
+        }],
+        pathsToDelete: ["1.SET.CENTER.JOINERY.SOMETHING"]
     },
     payload: {
-        path: "1.SET",
-        __typename: "SystemOption",
+        path: "1.SET.CENTER",
+        __typename: "SystemOptionValue",
     },
     systemOutput: {
+        systemOptionValues: [{
+            path: "1.SET.CENTER.JOINERY.B",
+            update: {
+                parentSystemOptionPath: "1.SET.BACK.JOINERY"
+            }
+        }],
+        newDetailOptionValues: [],
         systemOptions: [],
-        pathsToDelete: [ "1.SET"] //Should delete paths with the same beginning
+        pathsToDelete: ["1.SET.CENTER", "1.SET.FRONT.CONFIG"] //Should delete paths with the same beginning
     },
 });
 
@@ -39,6 +62,9 @@ testDeleteItem({
         pathsToDelete: [],
         systemOptions: [{
             path: "1.SET",
+            update: {
+                defaultSystemOptionValue: "CENTER",
+            },
             __typename: "SystemOption",
         }]
     },
@@ -52,12 +78,56 @@ testDeleteItem({
     },
 });
 
+// Deleting an item whose location has been updated.
+testDeleteItem({
+    systemInput: {
+        pathsToDelete: ["1.SET.CENTER"],
+        systemOptions: [{
+            path: "1.SET",
+            update: {
+                name: "JOINERY",
+            },
+            __typename: "SystemOption",
+        }]
+    },
+    payload: {
+        path: "1.JOINERY",
+        __typename: "SystemOption",
+    },
+    systemOutput: {
+        systemOptions: [],
+        pathsToDelete: ["1.SET"],
+    },
+});
+
+// Deleting an item whose parent location has been updated.
+testDeleteItem({
+    systemInput: {
+        pathsToDelete: [],
+        systemOptions: [{
+            path: "1.SET.CENTER.JOINERY",
+            update: {
+                parentSystemOptionValuePath: "1.SET.FRONT",
+            },
+            __typename: "SystemOption",
+        }]
+    },
+    payload: {
+        path: "1.SET.FRONT.JOINERY",
+        __typename: "SystemOption",
+    },
+    systemOutput: {
+        systemOptions: [],
+        pathsToDelete: ["1.SET.CENTER.JOINERY"],
+    },
+});
+
 testDeleteItem({
     systemInput: {
         pathsToDelete: [],
         newSystemOptionValues: [
             {
-                parentPath: "1.SET",
+                parentSystemOptionPath: "1.SET",
                 name: "CENTER",
                 __typename: "SystemOptionValue",
             },
@@ -68,7 +138,7 @@ testDeleteItem({
         __typename: "SystemOptionValue",
     },
     systemOutput: {
-        systemOptionValues: [],
+        newSystemOptionValues: [],
         pathsToDelete: [],
     },
 });

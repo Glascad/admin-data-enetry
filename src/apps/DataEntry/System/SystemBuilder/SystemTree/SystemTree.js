@@ -60,7 +60,7 @@ export default function SystemTree({
                             ));
                             return (
                                 <div
-                                    data-cy={`${__typename}-${name.toLowerCase()}`}
+                                    data-cy={`${path}`}
                                     className={`tree-item type-${
                                         __typename.replace(/^.*(option|value|type)$/i, '$1').toLowerCase()
                                         } subtype-${

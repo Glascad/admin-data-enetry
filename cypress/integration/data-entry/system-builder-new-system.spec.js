@@ -1,5 +1,5 @@
 
-describe('Testing sidbar actions in system builder', () => {
+describe('Testing sidebar actions in system builder', () => {
     beforeEach(() => {
         cy.login();
         cy.visit(`http://localhost:3000/data-entry/system/build?systemId=2`);

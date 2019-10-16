@@ -9,31 +9,39 @@
     },
     "_systemOptions": [
         {
+            "__typename": "SystemOption",
             "path": "1.SET",
             "defaultSystemOptionValue": "CENTER"
         },
         {
+            "__typename": "SystemOption",
             "path": "1.SET.CENTER.JOINERY",
             "defaultSystemOptionValue": "SCREW_SPLINE"
         }
     ],
     "_systemOptionValues": [
         {
+            "__typename": "SystemOptionValue",
             "path": "1.SET.BACK"
         },
         {
+            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER"
         },
         {
+            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE"
         },
         {
+            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK"
         },
         {
+            "__typename": "SystemOptionValue",
             "path": "1.SET.CENTER.JOINERY.STICK"
         },
         {
+            "__typename": "SystemOptionValue",
             "path": "1.SET.FRONT"
         }
     ],

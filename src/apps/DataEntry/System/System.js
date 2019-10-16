@@ -22,7 +22,7 @@ import SystemBuilder from './SystemBuilder/SystemBuilder';
 // import DetailBuilder from './DetailBuilder/DetailBuilder';
 
 import { parseSearch } from '../../../utils';
-import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems/old';
+import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems';
 
 const subroutes = {
     SystemInfo,
@@ -86,6 +86,12 @@ export default function System({
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
+
+    console.log({
+        SAMPLE_SYSTEMS,
+        sampleSystem,
+        _sampleSystem,
+    });
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 

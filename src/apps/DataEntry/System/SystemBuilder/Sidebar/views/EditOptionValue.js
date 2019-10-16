@@ -114,6 +114,7 @@ function EditOptionValue({
             />
             {isDefault ? null : (
                 <button
+                    data-cy="edit-option-value-default-button"
                     className="sidebar-button light"
                     onClick={() => dispatch(UPDATE_ITEM, {
                         path: oPath,

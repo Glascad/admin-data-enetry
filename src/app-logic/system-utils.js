@@ -10,6 +10,7 @@ export class SystemMap {
         _systemDetails = [],
         _systemConfigurations = [],
     } = {}) {
+        console.log(arguments);
         Object.assign(this, {
             _systemOptions,
             _detailOptions,
@@ -38,6 +39,10 @@ export class SystemMap {
                     [parentPath]: siblings = [],
                 } = {},
             } = map;
+            console.log({
+                previousItem,
+                item,
+            });
             if (previousItem) throw new Error(`Duplicate item in SystemMap: ${path}`);
             return {
                 ...map,
