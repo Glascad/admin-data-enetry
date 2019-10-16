@@ -112,6 +112,42 @@ INSERT INTO option_groups (system_id, name) VALUES
 (1, 'STOPS'),
 (1, 'GLAZING');
 
+INSERT INTO system_details (detail_type, parent_system_option_value_path) VALUES
+('HEAD', '1.SET.FRONT'),
+('HEAD', '1.SET.BACK'),
+('HEAD', '1.SET.CENTER.JOINERY.SHEAR_BLOCK'),
+('HEAD', '1.SET.CENTER.JOINERY.STICK');
+
+INSERT INTO detail_options (name, parent_system_detail_path, default_detail_option_value) VALUES
+('VOID', '1.SET.FRONT.__DT__.HEAD', 'VOID'),
+('VOID', '1.SET.BACK.__DT__.HEAD', 'VOID'),
+('VOID', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD', 'VOID'),
+('VOID', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD', 'VOID');
+
+INSERT INTO detail_option_values (name, parent_detail_option_path) VALUES
+('VOID', '1.SET.FRONT.__DT__.HEAD.VOID'),
+('VOID', '1.SET.BACK.__DT__.HEAD.VOID'),
+('VOID', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID'),
+('VOID', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID');
+
+INSERT INTO system_configurations (configuration_type, parent_detail_option_value_path) VALUES
+('HEAD', '1.SET.FRONT.__DT__.HEAD.VOID.VOID'),
+('HEAD', '1.SET.BACK.__DT__.HEAD.VOID.VOID'),
+('HEAD', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID'),
+('HEAD', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID');
+
+INSERT INTO configuration_options (name, parent_system_configuration_path, default_configuration_option_value) VALUES
+('VOID', '1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID'),
+('VOID', '1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID'),
+('VOID', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID'),
+('VOID', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID');
+
+INSERT INTO configuration_option_values (name, parent_configuration_option_path) VALUES
+('VOID', '1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID'),
+('VOID', '1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID'),
+('VOID', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID'),
+('VOID', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID');
+
 
 
 -- TEST SYSTEM
