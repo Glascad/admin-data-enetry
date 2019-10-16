@@ -98,13 +98,8 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 CREATE TABLE
 gc_protected.option_groups (
     system_id INTEGER REFERENCES systems NOT NULL,
-<<<<<<< HEAD
-=======
-    system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
->>>>>>> 32d0478377b21ccd59016083e4f5c1c564937f36
     name OPTION_NAME REFERENCES valid_options NOT NULL,
-    UNIQUE(system_id, name),
-    PRIMARY KEY (system_option_value_path, name)
+    PRIMARY KEY (system_id, name)
 );
 
 
@@ -147,11 +142,15 @@ gc_protected.detail_options (
             parent_detail_option_value_path IS NULL
         )
         AND
-        -- must not have duplicate options in the same path
-        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-            parent_system_detail_path,
-            parent_detail_option_value_path
-        ))
+        (
+            name = 'VOID'
+            OR
+            -- must not have duplicate options in the same path
+            NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+                parent_system_detail_path,
+                parent_detail_option_value_path
+            ))
+        )
         AND
         -- must have correct path
         path = COALESCE(
@@ -246,6 +245,8 @@ gc_protected.configuration_options (
     default_configuration_option_value OPTION_VALUE_NAME NOT NULL,
     UNIQUE (path, name),
     CHECK (
+        TRUE
+        AND
         -- must belong to correct system
         (system_id || '.*')::LQUERY ~ path
         AND
@@ -256,10 +257,14 @@ gc_protected.configuration_options (
         )
         AND
         -- must not have duplicate options in the same path
-        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-            parent_system_configuration_path,
-            parent_configuration_option_value_path
-        ))
+        (
+            name = 'VOID'
+            OR
+            NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+                parent_system_configuration_path,
+                parent_configuration_option_value_path
+            ))
+        )
         AND
         -- must have correct path
         path = COALESCE(

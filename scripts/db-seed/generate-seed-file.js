@@ -54,7 +54,6 @@ ${require('../../db/gc_protected/tables/elevation.sql')}
 ----- TRIGGERS -----
 
 ${require('../../db/gc_protected/triggers/system_paths.sql')}
-${require('../../db/gc_protected/triggers/option_groups.sql')}
 ${require('../../db/gc_protected/triggers/system_set_paths.sql')}
 
 

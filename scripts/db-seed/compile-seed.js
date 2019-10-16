@@ -3,7 +3,7 @@ const compileDbFiles = require('./compile-db-files');
 const generateSeedFile = require('./generate-seed-file');
 const pfs = require('../../server/utils/promise-fs');
 
-module.exports = async function writeSeed() {
+module.exports = async function compileSeed() {
     try {
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Compiling database seed`);
         console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ${chalk.blue('db/')}`);
@@ -23,6 +23,5 @@ module.exports = async function writeSeed() {
     } catch (err) {
         console.error(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} ${chalk.redBright(`Error seeding db`)}`);
         console.error(err);
-        throw err;
     }
 }

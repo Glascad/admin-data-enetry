@@ -1,13 +1,13 @@
 
 -- OPTION GROUP VALUES
 
-CREATE OR REPLACE FUNCTION generate_system_set_option_group_value_path()
+CREATE OR REPLACE FUNCTION generate_system_set_option_group_value_system_id()
 RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 
-    SELECT system_option_value_path FROM system_sets ss
-    INTO NEW.system_set_system_option_value_path
+    SELECT system_id FROM system_sets ss
+    INTO NEW.system_id
     WHERE ss.id = COALESCE(NEW.system_set_id, OLD.system_set_id);
 
     RETURN NEW;
@@ -15,9 +15,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER generate_system_set_option_group_value_path
+CREATE TRIGGER generate_system_set_option_group_value_system_id
 BEFORE INSERT OR UPDATE ON system_set_option_group_values
-FOR EACH ROW EXECUTE FUNCTION generate_system_set_option_group_value_path();
+FOR EACH ROW EXECUTE FUNCTION generate_system_set_option_group_value_system_id();
 
 
 

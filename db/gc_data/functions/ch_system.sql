@@ -35,11 +35,7 @@ BEGIN
             TYPE (detail, configuration)
             ALIAS (d, c)
         >>
-<<<<<<< HEAD
-            FOR p IN SELECT path FROM <<TYPE>>_options o WHERE o.name = og.name AND o.path <<>> LOOP
-=======
-            FOR p IN SELECT path FROM <<TYPE>>_options o WHERE o.name = og.name AND o.path <@ og.system_option_value_path LOOP
->>>>>>> 32d0478377b21ccd59016083e4f5c1c564937f36
+            FOR p IN SELECT path FROM <<TYPE>>_options o WHERE o.name = og.name AND o.system_id = og.system_id LOOP
 
                 SELECT ARRAY_AGG(tov.name)
                 FROM <<TYPE>>_option_values tov

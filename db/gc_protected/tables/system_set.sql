@@ -8,6 +8,7 @@ gc_protected.system_sets (
     name VARCHAR(50),
     UNIQUE (id, system_option_value_path),
     UNIQUE (id, system_id),
+    UNIQUE (id, system_id, system_option_value_path),
     CHECK (
         system_id = subltree(system_option_value_path, 0, 1)::TEXT::INTEGER
     )
@@ -16,26 +17,25 @@ gc_protected.system_sets (
 CREATE TABLE
 gc_protected.system_set_option_group_values (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    system_set_system_option_value_path LTREE REFERENCES system_option_values NOT NULL,
-    option_group_system_option_value_path LTREE NOT NULL,
+    system_id INTEGER REFERENCES systems NOT NULL,
     option_name OPTION_NAME NOT NULL,
     name OPTION_VALUE_NAME NOT NULL,
-    PRIMARY KEY (system_set_id, option_group_system_option_value_path, option_name),
+    PRIMARY KEY (system_set_id, option_name),
     FOREIGN KEY (
         system_set_id,
-        system_set_system_option_value_path
+        system_id
     )
     REFERENCES system_sets (
         id,
-        system_option_value_path
+        system_id
     )
     ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     FOREIGN KEY (
-        option_group_system_option_value_path,
+        system_id,
         option_name
     )
     REFERENCES option_groups (
-        system_option_value_path,
+        system_id,
         name
     ),
     FOREIGN KEY (
@@ -45,11 +45,6 @@ gc_protected.system_set_option_group_values (
     REFERENCES valid_option_values (
         option_name,
         name
-    ),
-    CHECK (
-        system_set_system_option_value_path @> option_group_system_option_value_path
-        OR
-        option_group_system_option_value_path @> system_set_system_option_value_path
     )
 );
 
