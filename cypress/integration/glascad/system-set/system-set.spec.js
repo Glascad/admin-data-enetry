@@ -7,9 +7,9 @@ describe('System Set Tests', () => {
 
     it('Can update a system set', () => {
         // should have all correct values selected based on system set data
-        cy.getDataCy`1.SET`.find('input').invoke('val').should('match', /CENTER/i);
-        cy.getDataCy`1.SET.CENTER.JOINERY`.find('input').invoke('val').should('match', /SCREW.SPLINE/i);
-        cy.getDataCy`1.SET.CENTER.JOINERY.__DT__.HEAD`;
+        cy.getDataCy`SET`.find('input').invoke('val').should('match', /CENTER/i);
+        cy.getDataCy`JOINERY`.find('input').invoke('val').should('match', /SCREW.SPLINE/i);
+        cy.getDataCy`HEAD`;
         // can select different configuration option values
         // can toggle configuration on or off
         // configuration options disappear when toggled off

@@ -91,9 +91,9 @@ export default function SystemSetOptions({
                 title="Options"
             >
                 {getOptionListFromPath(systemOptionValuePath)
-                    .filter(({ name }) => name !== 'VOID')
-                    .map(({ name, value }) => (
+                    .map(({ name, value }) => name !== 'VOID' ? (
                         <Select
+                            data-cy={name}
                             key={name}
                             label={name}
                             value={value}
@@ -105,9 +105,10 @@ export default function SystemSetOptions({
                                 systemMap,
                             })}
                         />
-                    ))}
+                    ) : null)}
                 {_systemSetOptionGroupValues.map(({ optionName, name }) => (
                     <Select
+                        data-cy={optionName}
                         key={optionName}
                         label={optionName}
                         value={name}
@@ -120,12 +121,7 @@ export default function SystemSetOptions({
                 title="Details"
             >
                 {_systemSetDetailOptionValues.map(({ detailOptionValuePath }) => {
-                    const detailOptions = getOptionListFromPath(detailOptionValuePath)
-                        .filter(({ name }) => (
-                            name !== 'VOID'
-                            &&
-                            !_optionGroups.some(og => og.name === name)
-                        ));
+                    const detailType = getDetailTypeFromPath(detailOptionValuePath);
 
                     const configurations = _systemConfigurations
                         .filter(({ path }) => path.startsWith(detailOptionValuePath))
@@ -143,29 +139,32 @@ export default function SystemSetOptions({
                     console.log({ configurations });
                     return (
                         <GroupingBox
+                            data-cy={detailType}
                             key={detailOptionValuePath}
-                            title={getDetailTypeFromPath(detailOptionValuePath)}
+                            title={detailType}
                         >
                             {/* DETAIL OPTIONS */}
-                            {detailOptions.map(({ name, value }) => (
-                                <Select
-                                    key={name}
-                                    label={name}
-                                    value={value}
-                                    options={getChildren({
-                                        path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
-                                    }, systemMap).map(({ path }) => getLastItemFromPath(path))}
-                                />
-                            ))}
-                            {/* DIVIDER */}
-                            {/* {detailOptions.length && configurations.length ? (
-                                <TitleBar
-                                    title="Configurations"
-                                />
-                            ) : null} */}
+                            {getOptionListFromPath(detailOptionValuePath)
+                                .map(({ name, value }) => (
+                                    name !== 'VOID'
+                                    &&
+                                    !_optionGroups.some(og => og.name === name)
+                                ) ? (
+                                        <Select
+                                            data-cy={`${detailType}.${name}`}
+                                            key={name}
+                                            label={name}
+                                            value={value}
+                                            options={getChildren({
+                                                path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
+                                            }, systemMap).map(({ path }) => getLastItemFromPath(path))}
+                                        />
+                                    ) : null)}
                             {/* SYSTEM CONFIGURATIONS */}
                             {configurations.length ?
                                 configurations.map(({ configurationOptionValuePath, path, optional }) => {
+                                    const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath || path);
+
                                     const options = getOptionListFromPath(configurationOptionValuePath)
                                         .filter(({ name }) => (
                                             name !== 'VOID'
@@ -178,13 +177,16 @@ export default function SystemSetOptions({
                                         >
                                             {optional ? (
                                                 <Input
+                                                    data-cy={`${detailType}.${configurationType}`}
                                                     type="switch"
-                                                    label={getConfigurationTypeFromPath(configurationOptionValuePath || path)}
+                                                    label={configurationType}
                                                     checked={!!configurationOptionValuePath}
                                                 />
                                             ) : options.length ? (
-                                                <div>
-                                                    {normalCase(getConfigurationTypeFromPath(configurationOptionValuePath || path))}
+                                                <div
+                                                    data-cy={`${detailType}.${configurationType}`}
+                                                >
+                                                    {normalCase(configurationType)}
                                                 </div>
                                             ) : null}
                                             {/* CONFIGURATION OPTIONS */}
@@ -192,23 +194,20 @@ export default function SystemSetOptions({
                                                 <div className="nested">
                                                     {options.map(({ name, value }) => (
                                                         <Select
+                                                            data-cy={`${detailType}.${configurationType}.${name}`}
                                                             key={name}
                                                             label={name}
                                                             value={value}
                                                             options={getChildren({
-                                                                path: configurationOptionValuePath
-                                                                    .replace(new RegExp(`${name}\\.${value}.*$`), name),
-                                                            }, systemMap
-                                                            ).map(({ path }) => getLastItemFromPath(path))}
+                                                                path: configurationOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name),
+                                                            }, systemMap).map(({ path }) => getLastItemFromPath(path))}
                                                         />
                                                     ))}
                                                 </div>
                                             ) : null}
                                         </Fragment>
                                     );
-                                })
-                                :
-                                null}
+                                }) : null}
                         </GroupingBox>
                     );
                 })}
