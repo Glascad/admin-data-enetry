@@ -106,9 +106,10 @@ export default function SystemSetOptions({
                             })}
                         />
                     ) : null)}
+                {/* GROUPED OPTIONS */}
                 {_systemSetOptionGroupValues.map(({ optionName, name }) => (
                     <Select
-                        data-cy={optionName}
+                        data-cy={`GROUP.${optionName}`}
                         key={optionName}
                         label={optionName}
                         value={name}
@@ -142,6 +143,7 @@ export default function SystemSetOptions({
                             data-cy={detailType}
                             key={detailOptionValuePath}
                             title={detailType}
+                            className="full-width"
                         >
                             {/* DETAIL OPTIONS */}
                             {getOptionListFromPath(detailOptionValuePath)
@@ -208,6 +210,50 @@ export default function SystemSetOptions({
                                         </Fragment>
                                     );
                                 }) : null}
+                            {/* DETAIL DISPLAY */}
+                            <div className="system-set-detail">
+                                <div
+                                    data-cy={`DETAIL.${
+                                        detailType
+                                        }${
+                                        detailOptionValuePath
+                                            .replace(/.*__DT__\.\w+\./, '.')
+                                            .replace(/\.?VOID\.?/g, '')
+                                        }`}
+                                >
+                                    DETAIL.{
+                                        detailType
+                                    }{
+                                        detailOptionValuePath
+                                            .replace(/.*__DT__\.\w+\./, '.')
+                                            .replace(/\.?VOID\.?/g, '')
+                                    }
+                                </div>
+                                {configurations.map(({ configurationOptionValuePath, path, optional }) => !optional || configurationOptionValuePath ? (
+                                    <div
+                                        key={configurationOptionValuePath || path}
+                                        data-cy={`CONFIGURATION.${
+                                            detailType
+                                            }.${
+                                            getConfigurationTypeFromPath(configurationOptionValuePath || path)
+                                            }${
+                                            (configurationOptionValuePath || path)
+                                                .replace(/.*__CT__\.\w+\.?/, '.')
+                                                .replace(/\.?VOID\.?/g, '')
+                                            }`}
+                                    >
+                                        CONFIGURATION.{
+                                            detailType
+                                        }.{
+                                            getConfigurationTypeFromPath(configurationOptionValuePath || path)
+                                        }{
+                                            (configurationOptionValuePath || path)
+                                                .replace(/.*__CT__\.\w+\.?/, '.')
+                                                .replace(/\.?VOID\.?/g, '')
+                                        }
+                                    </div>
+                                ) : null)}
+                            </div>
                         </GroupingBox>
                     );
                 })}

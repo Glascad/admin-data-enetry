@@ -21,6 +21,7 @@ import {
     UPDATE_SYSTEM_SET_NAME,
 } from './ducks/actions';
 import SystemSetOptions from './SystemSetOptions';
+import './SystemSet.scss';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {

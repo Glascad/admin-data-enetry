@@ -1,0 +1,12 @@
+@import "../../../../../styles/variables";
+
+.system-set-detail {
+    // float: right;
+    // width: 50%;
+    // max-width: 50%;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+    }
+}

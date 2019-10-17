@@ -7,7 +7,7 @@ DECLARE
     other_comp RECORD;
 BEGIN
 
-    -- selected system subtree must be a terminal system option value
+    -- selected option values must be a terminal
 
         -- check that child type of system option value is system_detail
         IF get_system_option_value_child_type(ss.system_option_value_path) <> 'system_detail' THEN
