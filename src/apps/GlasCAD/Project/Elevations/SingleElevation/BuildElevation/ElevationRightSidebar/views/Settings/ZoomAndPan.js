@@ -5,7 +5,7 @@ import {
     TitleBar,
 } from '../../../../../../../../../components';
 
-import { TransformContext } from '../../../contexts/ElevationTransformContext';
+import { TransformContext } from '../../../contexts/ElevationTransformProvider';
 
 export default {
     title: "Zoom and Pan",

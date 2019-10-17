@@ -23,6 +23,7 @@ function TransformBox({
     className = '',
     ...props
 }) {
+
     const outerContainer = useRef(outerTransformRef);
     const innerContainer = useRef(innerTransformRef);
 
@@ -110,6 +111,9 @@ function TransformBox({
             >
                 {children}
             </div>
+            {["top", "bottom", "left", "right"].map(direction => (
+                <div key={direction} className={`fade ${direction}-fade`} />
+            ))}
         </div>
     );
 }

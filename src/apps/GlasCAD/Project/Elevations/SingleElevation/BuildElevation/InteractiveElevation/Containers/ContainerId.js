@@ -1,5 +1,5 @@
 import React from 'react';
-import { withTransformContext } from "../../contexts/ElevationTransformContext";
+import { withTransformContext } from "../../contexts/ElevationTransformProvider";
 
 const ContainerId = ({ id, transform: { scale: { x, y } } }) => (
     <div className="text">

@@ -4,7 +4,7 @@ import { SelectionContext } from '../../../contexts/SelectionContext';
 import { withContext, Input } from '../../../../../../../../../components';
 import { unique, ImperialValue } from '../../../../../../../../../utils';
 import { withActionContext } from '../../../contexts/ActionContext';
-import { pixelsPerInch, withTransformContext } from '../../../contexts/ElevationTransformContext';
+import { pixelsPerInch, withTransformContext } from '../../../contexts/ElevationTransformProvider';
 
 class DimensionButton extends PureComponent {
 

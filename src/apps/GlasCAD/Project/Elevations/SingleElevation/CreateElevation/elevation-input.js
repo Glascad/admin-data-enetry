@@ -4,18 +4,12 @@ export const measureFromOptions = [
     // "Rough Opening (Bottom)",
     "Previous Horizontal (Top)",
     // "Previous Horizontal (Bottom)",
-].map(label => ({
-    label,
-    value: label,
-}));
+];
 
 export const measureToOptions = [
     // "Horizontal (Top)",
     "Horizontal (Bottom)",
-].map(label => ({
-    label,
-    value: label,
-}));
+];
 
 export const defaultHorizontal = {
     distance: 32,

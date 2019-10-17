@@ -6,7 +6,7 @@ import mergeElevationInput from './ducks/merge-input';
 
 import ActionProvider from './contexts/ActionContext';
 import SelectionProvider from './contexts/SelectionContext';
-import ElevationTransformProvider from './contexts/ElevationTransformContext';
+import ElevationTransformProvider from './contexts/ElevationTransformProvider';
 
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';

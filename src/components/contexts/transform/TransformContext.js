@@ -11,7 +11,7 @@ export const withTransformContext = withContext(TransformContext, ({ context }) 
 const defaultScale = 1;
 const minScale = 0.1;
 
-const TransformProvider = ({
+function TransformProvider({
     initialState: {
         baseScale: initialBaseScale = defaultScale,
         scrollMultiplier: initialScrollMultiplier = 0.0007,
@@ -28,7 +28,7 @@ const TransformProvider = ({
         } = {},
     } = {},
     children,
-}) => {
+}) {
 
     const dependencies = [
         initialBaseScale,
@@ -45,8 +45,8 @@ const TransformProvider = ({
     const [baseScale, setBaseScale] = useInitialState(initialBaseScale, dependencies);
     const [scrollMultiplier, setScrollMultiplier] = useInitialState(initialScrollMultiplier, dependencies);
     const [grabbing, setGrabbing] = useInitialState(initialGrabbing, dependencies);
-    const [scaleX, setScaleX] = useInitialState(initialScaleX, dependencies);
-    const [scaleY, setScaleY] = useInitialState(initialScaleY, dependencies);
+    const [scaleX, setScaleX] = useInitialState(Math.max(initialScaleX, minScale), dependencies);
+    const [scaleY, setScaleY] = useInitialState(Math.max(initialScaleY, minScale), dependencies);
     const [scaleNudge, setScaleNudge] = useInitialState(initialScaleNudge, dependencies);
     const [translateX, setTranslateX] = useInitialState(initialTranslateX, dependencies);
     const [translateY, setTranslateY] = useInitialState(initialTranslateY, dependencies);
@@ -200,8 +200,6 @@ const TransformProvider = ({
         spaceKeyRef,
         grabbing,
     };
-
-    // console.log(value);
 
     return (
         <TransformContext.Provider
