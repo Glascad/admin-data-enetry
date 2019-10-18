@@ -43,11 +43,14 @@ describe('System Set Tests', () => {
         // can select detail options
         // can select option group value --- these are unaffected by any other selections
         cy.getDataCy`GROUP.STOPS`.find('input').type('up{enter}').invoke('val').should('match', /UP/i);
+        // selecting new option group value updates everything applicable, maintaining as many other selections as possible
+        cy.getDataCy`CONFIGURATION.HEAD.HEAD.STOPS.UP`.should('exist');
+        cy.getDataCy`DETAIL.SILL.STOPS.UP.GLAZING.INSIDE`.should('exist');
         // configuration options reset when detail option is selected (maintaining on/off toggle of each configuration type where possible)
         cy.getDataCy`SILL.SILL_FLASHING`.should('not.exist');
         // can select system options
+        cy.getDataCy`SET`.find('input').type('');
         // everything downstream resets with new system option
-        // selecting new option group value updates everything applicable, maintaining as many other selections as possible
     });
 
     // it('Can select option values and raised option values', () => {

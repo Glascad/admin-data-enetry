@@ -18,6 +18,7 @@ import normalCase from './functions/normal-case';
 import logInputOutput from './functions/log-input-output';
 import match, { final } from './functions/match';
 import replace from './functions/replace';
+import { extractPathData } from './functions/parse-svg';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
@@ -45,4 +46,6 @@ export {
     // when,
     final,
     replace,
+    extractPathData,
 };
+    
