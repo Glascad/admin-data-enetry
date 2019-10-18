@@ -4,10 +4,10 @@ import {
     Navigator,
 } from '../../../components';
 
-import ManageSystems from './ManageSystems/ManageSystems';
+import Manufacturers from './Manufacturers/Manufacturers';
 
 const subroutes = {
-    ManageSystems,
+    Manufacturers,
 };
 
 MainMenu.navigationOptions = {

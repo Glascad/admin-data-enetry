@@ -156,8 +156,8 @@ INSERT INTO configuration_option_values (name, parent_configuration_option_path)
 -- TEST SYSTEM
 INSERT INTO systems (name, manufacturer_id, system_type) VALUES
 ('Test System', 1, 'STOREFRONT'),
-('Sys', 2, 'STOREFRONT'),
-('Sys3', 2, 'ALL_GLASS');
+('Test 2', 2, 'STOREFRONT'),
+('Test 3', 2, 'ALL_GLASS');
 
 
 

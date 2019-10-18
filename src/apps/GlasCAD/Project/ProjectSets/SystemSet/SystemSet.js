@@ -31,7 +31,7 @@ const query = gql`query SystemSet($systemSetId: Int!) {
     ...AllSystems
 }
 ${F.PRJ.ENTIRE_SYSTEM_SET}
-${F.SYS.ALL_SYSTEMS}
+${F.MNFG.ALL_SYSTEMS}
 `;
 // # ${F.CTRLD.VALID_OPTIONS}
 

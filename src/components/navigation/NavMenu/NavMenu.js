@@ -63,7 +63,7 @@ function NavMenu({
                                 <NavLink
                                     key={j}
                                     isActive={(_, { pathname }) => exact ?
-                                        pathname === `${matchedPath}${path}${childPath}`
+                                        pathname.startsWith(`${matchedPath}${path}${childPath}`)
                                         :
                                         pathname.includes(`${path}${childPath}`)
                                     }
@@ -86,7 +86,7 @@ function NavMenu({
                             <NavLink
                                 key={i}
                                 isActive={(_, { pathname }) => exact ?
-                                    pathname === `${matchedPath}${path}`
+                                    pathname.startsWith(`${matchedPath}${path}`)
                                     :
                                     pathname.includes(path)
                                 }

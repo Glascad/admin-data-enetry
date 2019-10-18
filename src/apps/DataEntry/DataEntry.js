@@ -4,8 +4,7 @@ import Statics from '../Statics/Statics';
 
 // import Activity from './Activity/Activity';
 import MainMenu from './MainMenu/MainMenu';
-
-import System from './System/System';
+import Manufacturer from './Manufacturer/Manufacturer';
 // import ApplicationData from './ApplicationData/ApplicationData';
 import PartData from './PartData/PartData';
 
@@ -15,9 +14,9 @@ export default props => (
         routes={{
             // Activity,
             MainMenu,
-            System,
+            Manufacturer,
             // ApplicationData,
-            PartData,
+            // PartData,
         }}
     />
 );

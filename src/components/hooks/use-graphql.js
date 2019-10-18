@@ -37,6 +37,18 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         } catch (err) {
             console.log("ERROR in mutation");
             console.log({ err });
+            
+            const {
+                networkError: {
+                    result: {
+                        errors = [],
+                    } = {},
+                } = {},
+                graphQLErrors = []
+            } = removeNullValues(err);
+
+            errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
+
             setLoading(false);
             throw err;
         }

@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import F from '../../../../../schemas';
 
 export const query = {
-    query: gql`{ ...AllInfillPocketTypes } ${F.APP.ALL_INFILL_POCKET_TYPES}`,
+    query: gql`{ ...AllInfillPocketTypes } ${F.MNFG.ALL_INFILL_POCKET_TYPES}`,
 };
 
 export const mutations = {
@@ -19,7 +19,7 @@ export const mutations = {
                     }
                 }
             }
-            ${F.APP.INFILL_POCKET_TYPE_FIELDS}
+            ${F.MNFG.INFILL_POCKET_TYPE_FIELDS}
         `,
         update(cache, {
             data: {
@@ -61,7 +61,7 @@ export const mutations = {
                     }
                 }
             }
-            ${F.APP.INFILL_POCKET_TYPE_FIELDS}
+            ${F.MNFG.INFILL_POCKET_TYPE_FIELDS}
         `,
     },
     deleteInfillPocketType: {
@@ -75,7 +75,7 @@ export const mutations = {
                     }
                 }
             }
-            ${F.APP.INFILL_POCKET_TYPE_FIELDS}
+            ${F.MNFG.INFILL_POCKET_TYPE_FIELDS}
         `,
         update(cache, {
             data: {

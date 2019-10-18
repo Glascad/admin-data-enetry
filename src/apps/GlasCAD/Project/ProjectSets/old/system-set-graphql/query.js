@@ -11,7 +11,7 @@ export default gql`query SystemSet($id: Int!) {
         }
     }
 } 
-${F.SYS.ENTIRE_SYSTEM}
+${F.MNFG.ENTIRE_SYSTEM}
 ${F.PRJ.ENTIRE_SYSTEM_SET}
 `;
 

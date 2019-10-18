@@ -28,7 +28,7 @@ const query = gql`query SystemById($systemId: Int!) {
         ...EntireSystem
     }
 }
-${F.SYS.ENTIRE_SYSTEM}
+${F.MNFG.ENTIRE_SYSTEM}
 `;
 
 export default function SystemSetOptions({

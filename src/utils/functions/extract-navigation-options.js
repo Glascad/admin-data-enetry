@@ -19,29 +19,32 @@ export default (functionName, component, props, log = false) => {
         navigationOptions = {},
     } = component;
 
-    const {
-        name = functionName
-            .replace(/_|\W/g, '')
-            .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`),
-        path = `/${name.replace(/ +/g, '-').toLowerCase()}`,
-        subroutes,
-        ...options
-    } = typeof navigationOptions === 'function' ?
-            navigationOptions(props)
-            :
-            navigationOptions;
+    const options = typeof navigationOptions === 'function' ?
+        navigationOptions(props)
+        :
+        navigationOptions;
 
-    if (log) {
-        // console.log({
-        //     name,
-        //     path,
-        //     functionName,
-        //     navigationOptions,
-        //     options,
-        //     props,
-        //     subroutes,
-        // });
-    }
+    const name = options.name || functionName
+        .replace(/_|\W/g, '')
+        .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`);
+
+    if (typeof name !== 'string' && !options.path) throw new Error(`Must provide path with non-string name. Received path: ${options.path} and name: ${options.name || name}, for component: ${functionName}`);
+
+    const path = options.path || `/${name.replace(/ +/g, '-').toLowerCase()}`;
+
+    const subroutes = options.subroutes;
+
+    // if (log) {
+    //     console.log({
+    //         name,
+    //         path,
+    //         functionName,
+    //         navigationOptions,
+    //         options,
+    //         props,
+    //         subroutes,
+    //     });
+    // }
 
     return {
         ...options,
