@@ -29,6 +29,8 @@ export default function merge({
 
     const systemId = newSystemId || oldSystemId;
 
+    // console.log({ systemId });
+
     const systemOptionValuePath = newSystemOptionValuePath || (
         oldSystemOptionValuePath.startsWith(systemId) ?
             oldSystemOptionValuePath
@@ -36,22 +38,28 @@ export default function merge({
             undefined
     );
 
-    const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName, name }) => oldSystemSetOptionGroupValues.some(ssogv => ssogv.optionName === optionName));
+    // console.log({ systemOptionValuePath });
+
+    const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName, name }) => (
+        oldSystemSetOptionGroupValues.some(ssogv => ssogv.optionName === optionName))
+    );
 
     const _systemSetOptionGroupValues = oldSystemSetOptionGroupValues
         .map(({ optionName, name }) => ({
             optionName,
             name: optionGroupValuesToUpdate
-                .reduce((value, update) => (
+                .reduce((name, update) => (
                     update.optionName === optionName ?
                         update.name
                         :
-                        value
+                        name
                 ), name),
         }))
         .concat(optionGroupValuesToAdd);
 
-    const updateOptionValues = (pathKey, oldArray, newArray) => {
+    // console.log({ _systemSetOptionGroupValues, optionGroupValues });
+
+    const updateOptionValues = (pathKey, oldArray, newArray, parentArray) => {
         const {
             update = [],
             _delete = [],
@@ -62,16 +70,16 @@ export default function merge({
                 .equals(true, false, '_delete')
                 .equals(false, true, 'create')
                 .otherwise(() => {
-                    throw new Error(`Invalid item has no \`oldPath\` and no \`newPath\``)
+                    throw new Error(`Invalid item has no \`oldPath\` and no \`newPath\`, in ${pathKey}: ${newArray}`);
                 })
         ));
 
         return oldArray
             .filter(({ [pathKey]: path }) => (
-                path.startsWith(systemOptionValuePath)
+                parentArray.some(parentPath => path.startsWith(parentPath))
                 &&
-                !_delete.some(({ oldPath }) => path.startsWith(oldPath)))
-            )
+                !_delete.some(item => path.startsWith(item.oldPath))
+            ))
             .map(item => ({
                 ...item,
                 [pathKey]: update.reduce(
@@ -89,13 +97,19 @@ export default function merge({
         "detailOptionValuePath",
         oldSystemSetDetailOptionValues,
         detailOptionValues,
+        [systemOptionValuePath],
     );
+
+    // console.log({ _systemSetDetailOptionValues, detailOptionValues });
 
     const _systemSetConfigurationOptionValues = updateOptionValues(
         "configurationOptionValuePath",
         oldSystemSetConfigurationOptionValues,
         configurationOptionValues,
+        _systemSetDetailOptionValues.map(({ detailOptionValuePath }) => detailOptionValuePath),
     );
+
+    // console.log({ _systemSetConfigurationOptionValues, configurationOptionValues });
 
     return {
         ..._systemSet,

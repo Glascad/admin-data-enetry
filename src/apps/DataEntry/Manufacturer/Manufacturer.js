@@ -42,7 +42,6 @@ Manufacturer.navigationOptions = ({
                 queryResult: {
                     _manufacturer: {
                         name = '',
-                        id = '',
                     } = {},
                 },
                 rawQueryStatus: {
@@ -52,7 +51,7 @@ Manufacturer.navigationOptions = ({
                     loading ?
                         <Ellipsis />
                         :
-                        `${name} (${id})`
+                        name
                 )}
         </ApolloWrapper >
     ),
