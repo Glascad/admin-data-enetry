@@ -27,8 +27,6 @@ export default function Select({
 
     const [input, setInput] = useInitialState(normalCase(value));
 
-    console.log({ label, value, input, options });
-
     const filteredOptions = unique([value, ...options])
         .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(

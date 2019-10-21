@@ -45,14 +45,14 @@ function AuthProvider({
         try {
             const result = await fetchQuery();
             // console.log({ result });
-            const { currentUser: { projectId, id } = {} } = result || {};
+            const { currentUser: { id } = {} } = result || {};
             // console.log({ originalLocation });
             if (id) {
                 history.push(
                     originalLocation.match(/\/(glascad|data-entry)/) ?
                         originalLocation
                         :
-                        `/glascad/project/elevations/elevation-search${parseSearch(search).update({ projectId })}`
+                        `/glascad`
                 );
             } else {
                 console.log('No Current User');

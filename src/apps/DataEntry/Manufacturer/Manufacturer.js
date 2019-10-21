@@ -20,6 +20,7 @@ Manufacturer.navigationOptions = ({
 }) => ({
     subroutes,
     path: '/manufacturer',
+    shouldRender: !!parseSearch(search).manufacturerId,
     name: (
         <ApolloWrapper
             query={{
@@ -41,6 +42,7 @@ Manufacturer.navigationOptions = ({
                 queryResult: {
                     _manufacturer: {
                         name = '',
+                        id = '',
                     } = {},
                 },
                 rawQueryStatus: {
@@ -50,7 +52,7 @@ Manufacturer.navigationOptions = ({
                     loading ?
                         <Ellipsis />
                         :
-                        name
+                        `${name} (${id})`
                 )}
         </ApolloWrapper >
     ),

@@ -23,7 +23,7 @@ export default function merge({
     configurationOptionValues = [],
 }) {
 
-    console.log(arguments);
+    // console.log(arguments);
 
     validateSystemSetUpdate(arguments[1]);
 
@@ -97,7 +97,7 @@ export default function merge({
         configurationOptionValues,
     );
 
-    const result = {
+    return {
         ..._systemSet,
         ...removeNullValues({
             name,
@@ -108,6 +108,4 @@ export default function merge({
             _systemSetConfigurationOptionValues,
         }),
     };
-    console.log(result);
-    return result;
 }

@@ -69,7 +69,7 @@ export default function SystemSetOptions({
             &&
             newSystemOptionValuePath
         ) {
-            console.log({ systemOptionValuePath, newSystemOptionValuePath });
+            // console.log({ systemOptionValuePath, newSystemOptionValuePath });
             dispatch(SELECT_SYSTEM_SET_OPTION_VALUE, {
                 systemOptionValuePath: newSystemOptionValuePath,
                 systemMap,
@@ -137,7 +137,7 @@ export default function SystemSetOptions({
                             .case(!a && b, -1)
                             .otherwise(-1)
                         );
-                    console.log({ configurations });
+                    // console.log({ configurations });
                     return (
                         <GroupingBox
                             data-cy={detailType}

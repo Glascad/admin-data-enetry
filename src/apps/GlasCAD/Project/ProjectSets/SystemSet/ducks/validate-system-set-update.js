@@ -6,8 +6,6 @@ export default function validateSystemSetUpdate({
     configurationOptionValues = [],
 }) {
 
-    console.log(arguments);
-
     if (systemId && systemOptionValuePath) {
 
         if (!systemOptionValuePath.startsWith(`${
@@ -27,15 +25,13 @@ export default function validateSystemSetUpdate({
             }`);
 
         const { newPath: invalidConfigurationOptionValuePath } = configurationOptionValues
-            .find(({ newPath }) => !detailOptionValues
-                .some(({ newPath }) => newPath.startsWith(newPath))) || {};
+            .find(({ newPath: covPath }) => !detailOptionValues
+                .some(({ newPath: dovPath }) => covPath.startsWith(dovPath))) || {};
 
         if (invalidConfigurationOptionValuePath) throw new Error(`Invalid configuration option value newPath: ${
             invalidConfigurationOptionValuePath
             }, must start with one of ${
             detailOptionValues.map(({ newPath }) => newPath).join(', ')
             }`);
-
     }
-
 }

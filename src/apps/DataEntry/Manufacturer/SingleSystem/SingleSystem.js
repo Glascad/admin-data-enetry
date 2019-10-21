@@ -21,9 +21,9 @@ import { parseSearch } from '../../../../utils';
 import * as SAMPLE_SYSTEMS from '../../../../app-logic/__test__/sample-systems';
 
 const subroutes = {
-    SystemInfo,
     SystemBuilder,
     // DetailBuilder,
+    SystemInfo,
 };
 
 // this is for rendering the correct name in the sidebar
