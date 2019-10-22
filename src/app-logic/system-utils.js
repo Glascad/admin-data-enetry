@@ -98,7 +98,6 @@ export const makeRenderable = system => {
         item: node,
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
-    const { _systemOptions } = system;
     return makeNodeRenderable(getFirstItem(systemMap));
 }
 
@@ -128,18 +127,22 @@ export const getDetailTypeFromPath = path => getNextItemFromPath(path, '__DT__')
 
 export const getConfigurationTypeFromPath = path => getNextItemFromPath(path, '__CT__');
 
-export const getDefaultPath = (item, systemMap) => {
+export const getDefaultPath = (item, systemMap, optionGroupValues = []) => {
     if (item === undefined) return '';
     if (systemMap === undefined) return getDefaultPath(getFirstItem(item), item);
     const { path, __typename } = item;
     const children = getChildren(item, systemMap);
     const defaultKey = Object.keys(item).find(key => key.match(/^default.*OptionValue/i));
-    const defaultValue = item[defaultKey];
+    const defaultOptionValue = item[defaultKey];
     const {
         0: firstChild,
         length: childCount,
     } = children;
-    const defaultChild = __typename.match(/Option$/) ?
+    const isOption = __typename.match(/Option$/);
+    const optionName = getLastItemFromPath(path);
+    const optionGroup = optionGroupValues.find(ovg => ovg.optionName === optionName);
+    const defaultValue = (optionGroup || {}).name || defaultOptionValue;
+    const defaultChild = isOption ?
         children.find(({ path }) => path.endsWith(defaultValue))
         :
         __typename.match(/OptionValue$/) && childCount === 1 ?
@@ -152,4 +155,4 @@ export const getDefaultPath = (item, systemMap) => {
 
 export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
 
-export const getOptionGroupValuesByOptionName = (name, systemMap) => [];
+export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];

@@ -12,6 +12,8 @@ function testMerge({
         _systemSetOptionGroupValues = [],
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
+        detailOptionValueCount,
+        configurationOptionValueCount,
     },
 }) {
     describe(`Testing merge function in system set: ${description}`, () => {
@@ -32,6 +34,11 @@ function testMerge({
                 )
             );
         });
+        if (detailOptionValueCount !== undefined) {
+            test('detail option values should have correct length', () => {
+                expect(result._systemSetDetailOptionValues).toHaveProperty('length', detailOptionValueCount);
+            });
+        }
         test('result should have correct systemSetDetailOptionValues', () => {
             expect(result._systemSetDetailOptionValues).toEqual(
                 expect.arrayContaining(
@@ -43,6 +50,11 @@ function testMerge({
                 )
             );
         });
+        if (configurationOptionValueCount !== undefined) {
+            test('configuration option values should have correct length', () => {
+                expect(result._systemSetConfigurationOptionValues).toHaveProperty('length', configurationOptionValueCount);
+            });
+        }
         test('result should have correct systemSetConfigurationOptionValues', () => {
             expect(result._systemSetConfigurationOptionValues).toEqual(
                 expect.arrayContaining(
@@ -145,5 +157,7 @@ testMerge({
     systemSetUpdate: { systemId: 2 },
     merged: {
         systemId: 2,
+        detailOptionValueCount: 0,
+        configurationOptionValueCount: 0,
     },
 });

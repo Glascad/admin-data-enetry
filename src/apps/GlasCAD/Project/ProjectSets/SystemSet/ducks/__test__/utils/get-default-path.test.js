@@ -1,5 +1,5 @@
-import { sample1 } from '../sample-systems';
-import { getDefaultPath, SystemMap } from '../../system-utils';
+import { sample1 } from '../sample-query-results';
+import { getDefaultPath, SystemMap } from '../../../../../../../../app-logic/system-utils';
 
 function testGetDefaultPath({
     path,
@@ -17,5 +17,5 @@ function testGetDefaultPath({
 testGetDefaultPath({
     path: "1.SET",
     defaultPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
-    system: sample1
+    system: sample1._system,
 });
