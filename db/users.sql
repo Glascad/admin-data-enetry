@@ -10,7 +10,7 @@ DO $users$ DECLARE ___ INTEGER; BEGIN
     <<USER_RAY>>
 )>>
 
-SELECT 1 FROM create_a_user(<<USER>>) INTO ___;
+    SELECT 1 FROM create_a_user(<<USER>>) INTO ___;
 
 <<END LOOP>>
 

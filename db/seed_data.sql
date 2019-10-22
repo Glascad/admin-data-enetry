@@ -176,7 +176,7 @@ INSERT INTO projects (name, owner_id) VALUES
 >>
     -- TEST SYSTEM SET
     INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
-    (1, 1, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
+    (1, <<ID>>, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
 
     INSERT INTO system_set_option_group_values (system_set_id, option_name, name) VALUES
     (<<ID>>, 'STOPS', 'DOWN'),

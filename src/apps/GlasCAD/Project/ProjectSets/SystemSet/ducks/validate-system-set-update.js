@@ -1,3 +1,4 @@
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system-utils";
 
 export default function validateSystemSetUpdate({
     systemId,
@@ -15,6 +16,16 @@ export default function validateSystemSetUpdate({
                 systemId
                 }`);
 
+        const { newPath: invalidDOVUpdate, oldPath: previousDOVPath } = detailOptionValues.find(({ oldPath, newPath }) => (
+            oldPath
+            &&
+            newPath
+            &&
+            getDetailTypeFromPath(oldPath) !== getDetailTypeFromPath(newPath)
+        ));
+
+        if (invalidDOVUpdate) throw new Error(`Invalid detail option value newPath: ${invalidDOVUpdate}, must have same detail type as ${previousDOVPath}`);
+
         const { newPath: invalidDetailOptionValuePath } = detailOptionValues
             .find(({ newPath }) => !newPath.startsWith(systemOptionValuePath)) || {};
 
@@ -23,6 +34,16 @@ export default function validateSystemSetUpdate({
             }, must start with ${
             systemOptionValuePath
             }`);
+
+        const { newPath: invalidCOVUpdate, oldPath: previousCOVPath } = configurationOptionValues.find(({ oldPath, newPath }) => (
+            oldPath
+            &&
+            newPath
+            &&
+            getConfigurationTypeFromPath(oldPath) !== getConfigurationTypeFromPath(newPath)
+        ));
+
+        if (invalidCOVUpdate) throw new Error(`Invalid configuration option value newPath: ${invalidCOVUpdate}, must have same configuration type as ${previousCOVPath}`);
 
         const { newPath: invalidConfigurationOptionValuePath } = configurationOptionValues
             .find(({ newPath: covPath }) => !detailOptionValues

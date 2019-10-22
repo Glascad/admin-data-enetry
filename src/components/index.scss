@@ -6,6 +6,7 @@
     border-top: $x-small solid $light-blue;
     padding: $x-large;
     padding-bottom: $xxxxx-large;
+    box-shadow: 2px 2px 4px $medium-gray;
 
     &.floating {
         position: absolute;
@@ -35,7 +36,6 @@
     .card {
         &.floating {
             width: fit-content;
-            box-shadow: 0px 2px $x-small 1px rgba(74, 74, 74, 0.8);
             // width: 30vw;
             // max-width: 30vw;
             // min-width: 30vw;

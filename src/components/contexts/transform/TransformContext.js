@@ -86,51 +86,86 @@ function TransformProvider({
 
     const watchMouseDown = e => {
         if (spaceKeyRef.current || e.which === 2) {
-            startPanning(e);
+            startPanning(e, false);
         }
     };
 
-    const startPanning = e => {
+    const startPanning = (e, passive = true) => {
+        console.log({ e, passive });
 
-        e.preventDefault();
+        if (!passive) e.preventDefault();
         e.stopPropagation();
 
-        const { clientX, clientY } = e;
+        const {
+            touches: {
+                length: touchCount,
+                0: touch,
+            } = {},
+        } = e;
 
-        const mouseStart = {
-            x: +clientX - +translateX,
-            y: +clientY - +translateY,
-        };
+        if (!touchCount || touchCount <= 1) {
 
-        const pan = e => {
+            const { clientX, clientY } = touch || e;
 
-            const { clientX, clientY } = e;
-            const {
-                x: mouseStartX,
-                y: mouseStartY
-            } = mouseStart;
 
-            e.preventDefault();
-            setTranslateX(+clientX - +mouseStartX)
-            setTranslateY(+clientY - +mouseStartY)
-        };
+            const mouseStart = {
+                x: +clientX - +translateX,
+                y: +clientY - +translateY,
+            };
 
-        const stopPanning = () => {
+            console.log({ clientX, clientY, translateX, translateY });
 
-            window.removeEventListener('mousemove', pan, true);
-            window.removeEventListener('touchmove', pan, { capture: true, passive: true });
+            const pan = passive => e => {
 
-            setGrabbing(false);
+                const {
+                    touches: {
+                        length: touchCount,
+                        0: touch,
+                    } = {},
+                } = e;
+
+                if (!touchCount || touchCount <= 1) {
+
+                    const { clientX, clientY } = touch || e;
+
+                    const {
+                        x: mouseStartX,
+                        y: mouseStartY
+                    } = mouseStart;
+
+                    console.log({ mouseStartX, mouseStartY, clientX, clientY });
+
+                    if (!passive) e.preventDefault();
+
+                    setTranslateX(+clientX - +mouseStartX);
+                    setTranslateY(+clientY - +mouseStartY);
+                } else {
+                    console.log(`Too many touches: ${touchCount}`);
+                }
+            }
+
+            const passivePan = pan(true);
+            const nonPassivePan = pan(false);
+
+            const stopPanning = () => {
+
+                window.removeEventListener('mousemove', nonPassivePan, { capture: true });
+                window.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
+
+                setGrabbing(false);
+            }
+
+            setGrabbing(true);
+
+            setTimeout(() => {
+                window.addEventListener('mousemove', nonPassivePan, { capture: true });
+                window.addEventListener('touchmove', passivePan, { capture: true, passive: true });
+                window.addEventListener('mouseup', stopPanning, { capture: true });
+                window.addEventListener('touchend', stopPanning, { capture: true, passive: true });
+            });
+        } else {
+            console.log(`Too many touches: ${touchCount}`);
         }
-
-        setGrabbing(true);
-
-        setTimeout(() => {
-            window.addEventListener('mousemove', pan, true);
-            window.addEventListener('touchmove', pan, { capture: true, passive: true });
-            window.addEventListener('mouseup', stopPanning, true);
-            window.addEventListener('touchend', stopPanning, { capture: true, passive: true });
-        });
     };
 
     const updateScale = (value = minScale) => {
@@ -164,14 +199,14 @@ function TransformProvider({
         window.addEventListener('keydown', watchArrowKeys);
         window.addEventListener('keydown', watchSpaceKeyDown);
         window.addEventListener('keyup', watchSpaceKeyUp);
-        window.addEventListener('mousedown', watchMouseDown, true);
+        window.addEventListener('mousedown', watchMouseDown, { capture: true });
         window.addEventListener('touchstart', startPanning, { passive: true });
         window.addEventListener('wheel', watchScroll, { passive: false });
         return () => {
             window.removeEventListener('keydown', watchArrowKeys);
             window.removeEventListener('keydown', watchSpaceKeyDown);
             window.removeEventListener('keyup', watchSpaceKeyUp);
-            window.removeEventListener('mousedown', watchMouseDown, true);
+            window.removeEventListener('mousedown', watchMouseDown, { capture: true });
             window.removeEventListener('touchstart', startPanning, { passive: true });
             window.removeEventListener('wheel', watchScroll, { passive: false });
         }

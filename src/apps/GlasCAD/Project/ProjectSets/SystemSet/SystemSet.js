@@ -118,33 +118,37 @@ export default withQueryParams({
                 <CollapsibleTitle
                     title="System Set"
                 >
-                    {/* <GroupingBox
+                    <GroupingBox
                         title="System Info"
                     >
                         <div className="input-group">
                             <Select
                                 data-cy="manufacturer-name"
                                 label="Manufacturer"
+                                className="warning"
                                 value={manufacturerName}
                                 options={allSystems.map(({ _manufacturer: { name } }) => name)}
-                                onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
+                                onChange={() => { }}
+                            // onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
                             />
                             <Select
                                 data-cy="system-type"
                                 label="System Type"
+                                className="warning"
                                 value={systemType}
                                 options={allSystems.map(({ systemType }) => systemType)}
-                                onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
-                            /> */}
-                    <Select
-                        data-cy="system-name"
-                        label="System"
-                        value={systemName}
-                        options={allSystems.map(({ name }) => name)}
-                        onChange={systemName => dispatch(SELECT_SYSTEM, { systemName })}
-                    />
-                    {/* </div>
-                    </GroupingBox> */}
+                                onChange={() => { }}
+                            // onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
+                            />
+                            <Select
+                                data-cy="system-name"
+                                label="System"
+                                value={systemName}
+                                options={allSystems.map(({ name }) => name)}
+                                onChange={systemName => dispatch(SELECT_SYSTEM, { systemName })}
+                            />
+                        </div>
+                    </GroupingBox>
                     <Input
                         data-cy="system-set-name"
                         label="System Set Name"

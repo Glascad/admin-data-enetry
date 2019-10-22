@@ -2,10 +2,6 @@ import merge from "../merge";
 import { defaultSystemSetUpdate } from "../schemas";
 import { sample1 } from "./sample-query-results";
 
-/**
- * 
- */
-
 function testMerge({
     description = '',
     queryResult,
@@ -16,7 +12,7 @@ function testMerge({
         _systemSetOptionGroupValues = [],
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
-    } = {},
+    },
 }) {
     describe(`Testing merge function in system set: ${description}`, () => {
         const result = merge(queryResult, { ...defaultSystemSetUpdate, ...systemSetUpdate });
