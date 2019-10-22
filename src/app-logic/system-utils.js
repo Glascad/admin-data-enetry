@@ -10,7 +10,7 @@ export class SystemMap {
         _systemDetails = [],
         _systemConfigurations = [],
     } = {}) {
-        console.log(arguments);
+        // console.log(arguments);
         Object.assign(this, {
             _systemOptions,
             _detailOptions,
@@ -39,10 +39,10 @@ export class SystemMap {
                     [parentPath]: siblings = [],
                 } = {},
             } = map;
-            console.log({
-                previousItem,
-                item,
-            });
+            // console.log({
+            //     previousItem,
+            //     item,
+            // });
             if (previousItem) throw new Error(`Duplicate item in SystemMap: ${path}`);
             return {
                 ...map,
@@ -158,3 +158,5 @@ export const getDefaultPath = (item, systemMap) => {
 export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
 
 export const getOptionGroupValuesByOptionName = (name, systemMap) => [];
+
+export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => !(descendant === path) && descendant.startsWith(path)));

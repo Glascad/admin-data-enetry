@@ -38,7 +38,7 @@ testDeleteItem({
         newDetailOptionValues: [{
             parentDetailOptionPath: "1.SET.CENTER.BLAH.BLAH"
         }],
-        pathsToDelete: ["1.SET.CENTER.JOINERY.SOMETHING"]
+        pathsToDelete: ["1.SET.CENTER.JOINERY.SOMETHING", "1.SET.FRONT.CONFIG.OTHER.OTHER"]
     },
     payload: {
         path: "1.SET.CENTER",
@@ -51,9 +51,7 @@ testDeleteItem({
                 parentSystemOptionPath: "1.SET.BACK.JOINERY"
             }
         }],
-        newDetailOptionValues: [],
-        systemOptions: [],
-        pathsToDelete: ["1.SET.CENTER", "1.SET.FRONT.CONFIG"] //Should delete paths with the same beginning
+        pathsToDelete: ["1.SET.FRONT.CONFIG", "1.SET.CENTER"] //Should delete paths with the same beginning
     },
 });
 
@@ -66,14 +64,13 @@ testDeleteItem({
                 defaultSystemOptionValue: "CENTER",
             },
             __typename: "SystemOption",
-        }]
+        }],
     },
     payload: {
         path: "1.SET",
         __typename: "SystemOption",
     },
     systemOutput: {
-        systemOptions: [],
         pathsToDelete: ["1.SET"],
     },
 });
@@ -88,14 +85,13 @@ testDeleteItem({
                 name: "JOINERY",
             },
             __typename: "SystemOption",
-        }]
+        }],
     },
     payload: {
         path: "1.JOINERY",
         __typename: "SystemOption",
     },
     systemOutput: {
-        systemOptions: [],
         pathsToDelete: ["1.SET"],
     },
 });
@@ -110,15 +106,15 @@ testDeleteItem({
                 parentSystemOptionValuePath: "1.SET.FRONT",
             },
             __typename: "SystemOption",
-        }]
+        }],
     },
     payload: {
         path: "1.SET.FRONT.JOINERY",
         __typename: "SystemOption",
     },
     systemOutput: {
-        systemOptions: [],
-        pathsToDelete: ["1.SET.CENTER.JOINERY"],
+        pathsToDelete: ["1.SET.CENTER.JOINERY", "1.SET.FRONT.JOINERY"],
+        systemOptions: []
     },
 });
 
@@ -138,7 +134,6 @@ testDeleteItem({
         __typename: "SystemOptionValue",
     },
     systemOutput: {
-        newSystemOptionValues: [],
         pathsToDelete: [],
     },
 });
@@ -149,8 +144,11 @@ testDeleteItem({
             {
                 path: "1.SET.CENTER.HEAD",
                 __typename: "SystemDetail",
+                update: {
+                }
             },
         ],
+        pathsToDelete: [],
     },
     payload: {
         path: "1.SET.CENTER.SILL",
@@ -161,6 +159,8 @@ testDeleteItem({
             expect.objectContaining({
                 path: "1.SET.CENTER.HEAD",
                 __typename: "SystemDetail",
+                update: {
+                }
             }),
         ]),
         pathsToDelete: ["1.SET.CENTER.SILL"]
