@@ -10,6 +10,7 @@ export default function Dropdown({
     className,
     triangle = true,
     open = false,
+    removeDropdown = false,
     ...props
 }) {
     return (
@@ -17,6 +18,15 @@ export default function Dropdown({
             <CollapsibleTitle
                 label={(
                     <>
+                        {removeDropdown ? (
+                            <div
+                                className="remove-dropdown"
+                                onClick={() => removeDropdown(arguments[0])}
+                            >
+                                <div className="block-one" />
+                                <div className="block-two" />
+                            </div>
+                        ) : null}
                         {triangle ? (
                             <div className="triangle-wrapper">
                                 <div className="triangle" />

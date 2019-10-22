@@ -183,6 +183,7 @@ export default function SystemSetOptions({
                                                     type="switch"
                                                     label={configurationType}
                                                     checked={!!configurationOptionValuePath}
+                                                    onChange={() => { }}
                                                 />
                                             ) : options.length ? (
                                                 <div

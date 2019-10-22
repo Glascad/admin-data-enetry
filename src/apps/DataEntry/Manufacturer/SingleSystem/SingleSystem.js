@@ -33,6 +33,9 @@ SingleSystem.navigationOptions = ({
         pathname,
     },
 }) => ({
+    requiredURLParams: ['systemId'],
+    path: "/single-system",
+    subroutes,
     name: (
         <ApolloWrapper
             query={{
@@ -74,9 +77,6 @@ SingleSystem.navigationOptions = ({
                 )}
         </ApolloWrapper>
     ),
-    shouldRender: !!parseSearch(search).systemId,
-    path: "/single-system",
-    subroutes,
 });
 
 export default function SingleSystem({

@@ -138,3 +138,12 @@ testMerge({
         ],
     },
 });
+
+testMerge({
+    description: "Updating system id",
+    queryResult: sample1,
+    systemSetUpdate: { systemId: 2 },
+    merged: {
+        systemId: 2,
+    },
+});

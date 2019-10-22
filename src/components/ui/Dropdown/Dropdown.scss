@@ -21,7 +21,56 @@
 
                 .triangle {
                     // opacity: 0;
-                   @include triangle(9px, $medium-gray);
+                    @include triangle(9px, $medium-gray);
+                }
+            }
+
+            .remove-dropdown {
+                position: absolute;
+                // background: yellow;
+                height: $menu-height;
+                width: $menu-height;
+                top: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .block-one,
+                .block-two {
+                    height: $base-size;
+                    width: 2px;
+                    background: $medium-gray;
+                    // border-radius: 2px;
+                }
+
+                .block-one {
+                    margin-right: -1px;
+                    transform: rotate(45deg);
+                }
+                .block-two {
+                    margin-left: -1px;
+                    transform: rotate(-45deg);
+                }
+            }
+
+            &:hover {
+                .triangle {
+                    border-left-color: $off-white;
+                }
+            }
+            .remove-dropdown {
+                &:hover {
+                    .block-one,
+                    .block-two {
+                        background: $off-white;
+                    }
+
+                    + .triangle-wrapper {
+                        .triangle {
+                            border-left-color: $medium-gray;
+                        }
+                    }
                 }
             }
         }

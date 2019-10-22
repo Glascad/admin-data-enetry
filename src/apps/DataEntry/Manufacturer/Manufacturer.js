@@ -20,7 +20,7 @@ Manufacturer.navigationOptions = ({
 }) => ({
     subroutes,
     path: '/manufacturer',
-    shouldRender: !!parseSearch(search).manufacturerId,
+    requiredURLParams: ['manufacturerId'],
     name: (
         <ApolloWrapper
             query={{

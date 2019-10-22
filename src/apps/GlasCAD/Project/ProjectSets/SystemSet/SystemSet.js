@@ -4,7 +4,6 @@ import F from '../../../../../schemas';
 import {
     useQuery,
     TitleBar,
-    withQueryParams,
     CollapsibleTitle,
     Select,
     Input,
@@ -22,6 +21,7 @@ import {
 } from './ducks/actions';
 import SystemSetOptions from './SystemSetOptions';
 import './SystemSet.scss';
+import { parseSearch } from '../../../../../utils';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -35,26 +35,15 @@ ${F.MNFG.ALL_SYSTEMS}
 `;
 // # ${F.CTRLD.VALID_OPTIONS}
 
-export default withQueryParams({
-    required: {
-        projectId: Number,
-    },
-    optional: {
-        systemSetId: id => +id || 0,
-    },
-}, ({ __failed__, path, parsed }) => `${
-    path.replace(/system-set.*$/, 'all')
-    }${
-    parsed.remove(Object.keys(__failed__))
-    }`
-)(function SystemSet({
-    params: {
-        systemSetId,
-        projectId,
+export default function SystemSet({
+    location: {
+        search,
     },
 }) {
 
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId } });
+    const { systemSetId, projectId } = parseSearch(search);
+
+    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId: +systemSetId } });
 
     const {
         allSystems = [],
@@ -68,12 +57,7 @@ export default withQueryParams({
         pushState,
     } = useRedoableState(defaultSystemSetUpdate);
 
-    const dispatch = (ACTION, payload, shouldReplaceState = false) => console.log({
-        ACTION,
-        ACTION_NAME: ACTION.name,
-        payload,
-        shouldReplaceState,
-    }) || (shouldReplaceState ?
+    const dispatch = (ACTION, payload, shouldReplaceState = false) => (shouldReplaceState ?
         replaceState
         :
         pushState
@@ -163,4 +147,4 @@ export default withQueryParams({
             </div>
         </>
     );
-});
+};

@@ -43,12 +43,14 @@ function NavMenu({
                     exact,
                     name,
                     path,
-                    subroutes
+                    subroutes,
+                    removeDropdown,
                 }, i) => subroutes ? (
                     <Dropdown
                         key={i}
                         label={name}
                         open={(closed === true) ? false : !!pathname.includes(path)}
+                        removeDropdown={removeDropdown}
                         className={
                             pathname.includes(path) ?
                                 'matched'

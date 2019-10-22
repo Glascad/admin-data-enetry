@@ -78,6 +78,11 @@ function TransformProvider({
         if (key === ' ') spaceKeyRef.current = false;
     };
 
+    const clearKeys = () => {
+        console.log("Clearing keys");
+        spaceKeyRef.current = false;
+    };
+
     const watchScroll = e => {
         e.preventDefault();
         setScaleX(scaleX => Math.max(+scaleX - scrollMultiplier * e.deltaY, minScale) || minScale);
@@ -91,7 +96,6 @@ function TransformProvider({
     };
 
     const startPanning = (e, passive = true) => {
-        console.log({ e, passive });
 
         if (!passive) e.preventDefault();
         e.stopPropagation();
@@ -107,13 +111,10 @@ function TransformProvider({
 
             const { clientX, clientY } = touch || e;
 
-
             const mouseStart = {
                 x: +clientX - +translateX,
                 y: +clientY - +translateY,
             };
-
-            console.log({ clientX, clientY, translateX, translateY });
 
             const pan = passive => e => {
 
@@ -133,8 +134,6 @@ function TransformProvider({
                         y: mouseStartY
                     } = mouseStart;
 
-                    console.log({ mouseStartX, mouseStartY, clientX, clientY });
-
                     if (!passive) e.preventDefault();
 
                     setTranslateX(+clientX - +mouseStartX);
@@ -142,7 +141,7 @@ function TransformProvider({
                 } else {
                     console.log(`Too many touches: ${touchCount}`);
                 }
-            }
+            };
 
             const passivePan = pan(true);
             const nonPassivePan = pan(false);
@@ -153,7 +152,7 @@ function TransformProvider({
                 window.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
 
                 setGrabbing(false);
-            }
+            };
 
             setGrabbing(true);
 
@@ -161,7 +160,9 @@ function TransformProvider({
                 window.addEventListener('mousemove', nonPassivePan, { capture: true });
                 window.addEventListener('touchmove', passivePan, { capture: true, passive: true });
                 window.addEventListener('mouseup', stopPanning, { capture: true });
-                window.addEventListener('touchend', stopPanning, { capture: true, passive: true });
+                window.addEventListener('touchend', stopPanning, { capture: true });
+                window.addEventListener('blur', stopPanning);
+                document.addEventListener('visibilitychange', stopPanning);
             });
         } else {
             console.log(`Too many touches: ${touchCount}`);
@@ -202,6 +203,7 @@ function TransformProvider({
         window.addEventListener('mousedown', watchMouseDown, { capture: true });
         window.addEventListener('touchstart', startPanning, { passive: true });
         window.addEventListener('wheel', watchScroll, { passive: false });
+        document.addEventListener('visibilitychange', clearKeys);
         return () => {
             window.removeEventListener('keydown', watchArrowKeys);
             window.removeEventListener('keydown', watchSpaceKeyDown);
@@ -209,6 +211,8 @@ function TransformProvider({
             window.removeEventListener('mousedown', watchMouseDown, { capture: true });
             window.removeEventListener('touchstart', startPanning, { passive: true });
             window.removeEventListener('wheel', watchScroll, { passive: false });
+            window.removeEventListener('blur', clearKeys);
+            document.removeEventListener('visibilitychange', clearKeys);
         }
     }, [translateX, translateY]);
 

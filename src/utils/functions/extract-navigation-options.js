@@ -1,3 +1,5 @@
+import { parseSearch } from "..";
+import removeNullValues from "./remove-null-values";
 
 /**
  * This function is used by the Navigator and NavMenu components to take the static navigationOptions off of any component, and to generate a name to be displayed in the NavMenu or in a Toggle-/Tab-Navigator, as well as a path that should be used by react-router-dom.
@@ -14,7 +16,9 @@
  * }
  */
 
-export default (functionName, component, props, log = false) => {
+export default function extractNavigationOptions(functionName, component, props = {}, log = false) {
+    // console.log(arguments);
+
     const {
         navigationOptions = {},
     } = component;
@@ -30,24 +34,39 @@ export default (functionName, component, props, log = false) => {
 
     if (typeof name !== 'string' && !options.path) throw new Error(`Must provide path with non-string name. Received path: ${options.path} and name: ${options.name || name}, for component: ${functionName}`);
 
-    const path = options.path || `/${name.replace(/ +/g, '-').toLowerCase()}`;
+    const {
+        path = `/${name.replace(/ +/g, '-').toLowerCase()}`,
+        subroutes,
+        shouldRender: optionsShouldRender,
+        requiredURLParams,
+    } = options;
 
-    const subroutes = options.subroutes;
+    const {
+        location: {
+            search = '',
+            pathname = '',
+        } = {},
+        history,
+    } = props;
 
-    // if (log) {
-    //     console.log({
-    //         name,
-    //         path,
-    //         functionName,
-    //         navigationOptions,
-    //         options,
-    //         props,
-    //         subroutes,
-    //     });
-    // }
+    const parsedSearch = parseSearch(search);
+
+    const searchKeys = Object.keys(removeNullValues(parsedSearch));
+
+    const shouldRender = options.hasOwnProperty('shouldRender') ?
+        optionsShouldRender
+        :
+        (requiredURLParams || []).every(param => searchKeys.includes(param));
+
+    const removeDropdown = requiredURLParams ?
+        () => history.push(`${pathname}${parsedSearch.remove(requiredURLParams)}`)
+        :
+        undefined;
 
     return {
         ...options,
+        shouldRender,
+        removeDropdown,
         component,
         name,
         path,
