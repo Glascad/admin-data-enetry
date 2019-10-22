@@ -23,13 +23,9 @@ export default function merge({
     configurationOptionValues = [],
 }) {
 
-    // console.log(arguments);
-
     validateSystemSetUpdate(arguments[1]);
 
     const systemId = newSystemId || oldSystemId;
-
-    // console.log({ systemId });
 
     const systemOptionValuePath = newSystemOptionValuePath || (
         oldSystemOptionValuePath.startsWith(systemId) ?
@@ -37,8 +33,6 @@ export default function merge({
             :
             undefined
     );
-
-    // console.log({ systemOptionValuePath });
 
     const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName, name }) => (
         oldSystemSetOptionGroupValues.some(ssogv => ssogv.optionName === optionName))
@@ -57,8 +51,6 @@ export default function merge({
         }))
         .concat(optionGroupValuesToAdd);
 
-    // console.log({ _systemSetOptionGroupValues, optionGroupValues });
-
     const updateOptionValues = (pathKey, oldArray, newArray, parentArray) => {
         const {
             update = [],
@@ -76,7 +68,11 @@ export default function merge({
 
         return oldArray
             .filter(({ [pathKey]: path }) => (
-                parentArray.some(parentPath => path.startsWith(parentPath))
+                (
+                    parentArray.some(parentPath => path.startsWith(parentPath))
+                    ||
+                    update.some(item => path === item.oldPath)
+                )
                 &&
                 !_delete.some(item => path.startsWith(item.oldPath))
             ))
@@ -84,7 +80,7 @@ export default function merge({
                 ...item,
                 [pathKey]: update.reduce(
                     (path, { oldPath, newPath }) => (
-                        oldPath === item.path ?
+                        oldPath === item[pathKey] ?
                             newPath
                             :
                             path
@@ -100,16 +96,12 @@ export default function merge({
         [systemOptionValuePath],
     );
 
-    // console.log({ _systemSetDetailOptionValues, detailOptionValues });
-
     const _systemSetConfigurationOptionValues = updateOptionValues(
         "configurationOptionValuePath",
         oldSystemSetConfigurationOptionValues,
         configurationOptionValues,
         _systemSetDetailOptionValues.map(({ detailOptionValuePath }) => detailOptionValuePath),
     );
-
-    // console.log({ _systemSetConfigurationOptionValues, configurationOptionValues });
 
     return {
         ..._systemSet,
