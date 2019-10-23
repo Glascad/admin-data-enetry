@@ -20,7 +20,7 @@ import {
 } from '../../../../../app-logic/system-utils';
 import F from '../../../../../schemas';
 import gql from 'graphql-tag';
-import { SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
+import { SELECT_SYSTEM_OPTION_VALUE, UNSELECT_CONFIGURATION, SELECT_CONFIGURATION_OPTION_VALUE } from './ducks/actions';
 import { normalCase, match } from '../../../../../utils';
 
 const query = gql`query SystemById($systemId: Int!) {
@@ -126,18 +126,18 @@ export default function SystemSetOptions({
 
                     const configurations = _systemConfigurations
                         .filter(({ path }) => path.startsWith(detailOptionValuePath))
-                        .map(sc => _systemSetConfigurationOptionValues
-                            .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(sc.path))
-                            ||
-                            sc
-                        )
-                        .sort(({ optional: a }, { optional: b }) => match()
+                        .map(systemConfiguration => ({
+                            systemConfiguration,
+                            selection: _systemSetConfigurationOptionValues
+                                .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(systemConfiguration.path)),
+                        }))
+                        .sort(({ systemConfiguration: { optional: a } }, { systemConfiguration: { optional: b } }) => match()
                             .case(a && b, 0)
                             .case(a && !b, 1)
                             .case(!a && b, -1)
                             .otherwise(-1)
                         );
-                    // console.log({ configurations });
+                    console.log({ configurations });
                     return (
                         <GroupingBox
                             data-cy={detailType}
@@ -163,54 +163,71 @@ export default function SystemSetOptions({
                                         />
                                     ) : null)}
                             {/* SYSTEM CONFIGURATIONS */}
-                            {configurations.length ?
-                                configurations.map(({ configurationOptionValuePath, path, optional }) => {
-                                    const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath || path);
+                            {configurations.map(({
+                                systemConfiguration: {
+                                    path,
+                                    optional,
+                                },
+                                selection: {
+                                    configurationOptionValuePath,
+                                } = {},
+                            }) => {
+                                const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath || path);
 
-                                    const options = getOptionListFromPath(configurationOptionValuePath)
-                                        .filter(({ name }) => (
-                                            name !== 'VOID'
-                                            &&
-                                            !_optionGroups.some(og => og.name === name)
-                                        ));
-                                    return (
-                                        <Fragment
-                                            key={configurationOptionValuePath || path}
-                                        >
-                                            {optional ? (
-                                                <Input
-                                                    data-cy={`${detailType}.${configurationType}`}
-                                                    type="switch"
-                                                    label={configurationType}
-                                                    checked={!!configurationOptionValuePath}
-                                                    onChange={() => { }}
-                                                />
-                                            ) : options.length ? (
-                                                <div
-                                                    data-cy={`${detailType}.${configurationType}`}
-                                                >
-                                                    {normalCase(configurationType)}
-                                                </div>
-                                            ) : null}
-                                            {/* CONFIGURATION OPTIONS */}
-                                            {configurationOptionValuePath && options.length ? (
-                                                <div className="nested">
-                                                    {options.map(({ name, value }) => (
-                                                        <Select
-                                                            data-cy={`${detailType}.${configurationType}.${name}`}
-                                                            key={name}
-                                                            label={name}
-                                                            value={value}
-                                                            options={getChildren({
-                                                                path: configurationOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name),
-                                                            }, systemMap).map(({ path }) => getLastItemFromPath(path))}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            ) : null}
-                                        </Fragment>
-                                    );
-                                }) : null}
+                                const options = getOptionListFromPath(configurationOptionValuePath)
+                                    .filter(({ name }) => (
+                                        name !== 'VOID'
+                                        &&
+                                        !_optionGroups.some(og => og.name === name)
+                                    ));
+                                return (
+                                    <Fragment
+                                        key={configurationOptionValuePath || path}
+                                    >
+                                        {optional ? (
+                                            <Input
+                                                data-cy={`${detailType}.${configurationType}`}
+                                                type="switch"
+                                                label={configurationType}
+                                                checked={!!configurationOptionValuePath}
+                                                onChange={() => !!configurationOptionValuePath ?
+                                                    dispatch(UNSELECT_CONFIGURATION, configurationOptionValuePath)
+                                                    :
+                                                    dispatch(SELECT_CONFIGURATION_OPTION_VALUE, [
+                                                        path.replace(/(__CT__\.\w+)\..*/g, '$1'),
+                                                        systemMap,
+                                                    ])}
+                                            />
+                                        ) : options.length ? (
+                                            <div
+                                                data-cy={`${detailType}.${configurationType}`}
+                                            >
+                                                {normalCase(configurationType)}
+                                            </div>
+                                        ) : null}
+                                        {/* CONFIGURATION OPTIONS */}
+                                        {configurationOptionValuePath && options.length ? (
+                                            <div className="nested">
+                                                {options.map(({ name, value }) => (
+                                                    <Select
+                                                        data-cy={`${detailType}.${configurationType}.${name}`}
+                                                        key={name}
+                                                        label={name}
+                                                        value={value}
+                                                        options={getChildren({
+                                                            path: configurationOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name),
+                                                        }, systemMap).map(({ path }) => getLastItemFromPath(path))}
+                                                        onChange={newValue => dispatch(SELECT_CONFIGURATION_OPTION_VALUE, [
+                                                            configurationOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), `${name}.${newValue}`),
+                                                            systemMap,
+                                                        ])}
+                                                    />
+                                                ))}
+                                            </div>
+                                        ) : null}
+                                    </Fragment>
+                                );
+                            })}
                             {/* DETAIL DISPLAY */}
                             <div className="system-set-detail">
                                 <div
@@ -230,7 +247,15 @@ export default function SystemSetOptions({
                                             .replace(/\.?VOID\.?/g, '')
                                     }
                                 </div>
-                                {configurations.map(({ configurationOptionValuePath, path, optional }) => !optional || configurationOptionValuePath ? (
+                                {configurations.map(({
+                                    systemConfiguration: {
+                                        path,
+                                        optional,
+                                    },
+                                    selection: {
+                                        configurationOptionValuePath,
+                                    } = {},
+                                }) => !optional || configurationOptionValuePath ? (
                                     <div
                                         key={configurationOptionValuePath || path}
                                         data-cy={`CONFIGURATION.${

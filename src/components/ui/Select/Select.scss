@@ -1,6 +1,8 @@
 @import "../../../styles/variables";
 
 .Select {
+    width: fit-content;
+    
     &.warning {
         .select-input-wrapper {
             &::after {
@@ -50,6 +52,7 @@
             + .select-options {
                 position: absolute;
                 top: calc(100% + #{$xx-small});
+                right: 0;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
