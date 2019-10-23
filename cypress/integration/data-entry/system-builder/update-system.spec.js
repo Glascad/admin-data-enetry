@@ -2,7 +2,7 @@ describe('Testing  actions in system builder', () => {
     beforeEach(() => {
         cy.login();
 
-        cy.visit(`http://localhost:3000/data-entry/system/build?sampleSystem=sample1`);
+        cy.visit(`http://localhost:3000/data-entry/manufacturer/single-system/build?sampleSystem=sample1&manufacturerId=1&systemId=2`);
     });
 
     // add first item

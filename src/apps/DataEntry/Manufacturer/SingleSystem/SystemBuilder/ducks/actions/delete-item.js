@@ -43,13 +43,13 @@ export default function DELETE_ITEM(systemInput, payload) {
     // delete all new items that include the deleted path
     const updatedNewItems = Object.entries(systemInput)
         .filter(([key]) => key.match(/^new/i))
-        .reduce((updatedSystemInput, [key, value]) => ({
+        .reduce((updatedSystemInput, [key, value]) => console.log(value) || ({
             ...updatedSystemInput,
             [key]: value.filter(item => {
                 const { name } = item;
                 const [parentPathKey, parentPath] = Object.entries(item)
-                    .find(([itemKey, itemValue]) => itemKey.match(/parent/i));
-                return !(`${parentPath}.${name}`.includes(path));
+                    .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
+                return !(`${parentPath}.${name}`.startsWith(path));
             })
         }), {});
 

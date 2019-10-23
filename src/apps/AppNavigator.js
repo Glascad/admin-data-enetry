@@ -5,7 +5,7 @@ import { AuthContext } from '../AuthContext';
 import { withContext, Navigator } from '../components';
 
 import Login from './Login/Login';
-import Practice from './Practice/Practice';
+import Practice from './Practice/practice';
 
 import Glascad from './GlasCAD/GlasCAD';
 import DataEntry from './DataEntry/DataEntry';

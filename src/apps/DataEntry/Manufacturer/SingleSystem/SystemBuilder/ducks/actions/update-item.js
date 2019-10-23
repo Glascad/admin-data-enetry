@@ -20,7 +20,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
     } = systemInput;
 
     // if the path and initial path are the same, the item is the same
-    const updatedItem = itemsArray.find(item => item.path === getOldPath(path));
+    const oldPath = getOldPath(path);
+    const updatedItem = itemsArray.find(item => item.path === oldPath);
     // if it is a new item, the parent needs to be the same as the path from parent, and the name needs to be the same as the last item on the path
     const updatedNewItem = newItemsArray.find(item => Object.entries(item).find(([key, value]) =>
         key.match(/parent/)
@@ -29,9 +30,9 @@ export default function UPDATE_ITEM(systemInput, payload) {
     ));
 
     // getting the new Path to update Items
-    const newParentPath = (Object.entries(update).find(([key]) => key.match(/parent/i)) || [])[1]
+    const [newParentPathKey, newParentPath] = (Object.entries(update).find(([key]) => key.match(/parent/i)))
         ||
-        parentPath;
+        ['', parentPath];
     const newName = update.name || getLastItemFromPath(path);
     const newPath = `${newParentPath}.${newName}`;
 
@@ -43,21 +44,34 @@ export default function UPDATE_ITEM(systemInput, payload) {
             [key]: value.map(item => {
                 const [parentPathKey, itemParentPath] = Object.entries(item)
                     .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
-                return itemParentPath && itemParentPath.startsWith(parentPath) ?
-                    (itemParentPath === parentPath) && (item.name === name) ?
-                        {
-                            ...item,
-                            ...update
-                        }
-                        :
-                        {
-                            ...item,
-                            ...update,
-                            [parentPathKey]: itemParentPath.replace(path, newPath),
-                            name: item.name
-                        }
+                console.log({
+                    itemParentPath,
+                    path,
+                    doesItMatch: !!path.match(/^\d+\.\w+$/),
+                    notParent: !itemParentPath,
+                    item,
+                    update,
+                });
+                return !itemParentPath && !!path.match(/^\d+\.\w+$/) ?
+                    {
+                        ...item,
+                        ...update
+                    }
                     :
-                    item;
+                    itemParentPath && itemParentPath.startsWith(parentPath) ?
+                        (itemParentPath === parentPath) && (item.name === name) ?
+                            {
+                                ...item,
+                                ...update
+                            }
+                            :
+                            {
+                                ...item,
+                                [parentPathKey]: itemParentPath.replace(path, newPath),
+                                name: item.name
+                            }
+                        :
+                        item;
             })
         }), {});
 
@@ -93,7 +107,11 @@ export default function UPDATE_ITEM(systemInput, payload) {
                             ...item,
                             update: {
                                 ...itemUpdate,
-                                [updatedParentPathKey || `newParent${getParentTypename({ path: updatedPath })}`]: updatedParentPath.replace(path, newPath),
+                                [updatedParentPathKey || `newParent${getParentTypename({ path: updatedPath })}`]: (updatedParentPath ?
+                                    updatedParentPath
+                                    :
+                                    getParentPath({ path: updatedPath }))
+                                    .replace(path, newPath),
                             }
                         }
                     :

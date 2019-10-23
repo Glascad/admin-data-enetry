@@ -73,7 +73,7 @@ export default function merge({
 
             const newUpdatedItem = updatedItem ? {
                 ...updatedItem.update,
-                newPath,
+                path: newPath,
                 name: undefined,
                 [newParentKey]: undefined,
             } : {};
@@ -84,9 +84,9 @@ export default function merge({
             };
         })
         .concat(newItems.map(item => {
-            const { name } = item;
+            const { name, __typename } = item;
             const parentKey = Object.keys(item).find(key => key.match(/parent/i));
-            const path = `${item[parentKey] || systemId}.${name}`;
+            const path = `${item[parentKey] || systemId}.${__typename.match(/detail$/i) ? '__DT__.' : ''}${__typename.match(/configuration$/i) ? '__CT__.' : ''}${name}`;
 
             return removeNullValues({
                 ...item,
@@ -107,6 +107,17 @@ export default function merge({
     const updatedConfigurationOptions = mergeArray(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeArray(_systemDetails, systemDetails, newSystemDetails);
     const updatedSystemConfigurations = mergeArray(_systemConfigurations, systemConfigurations, newSystemConfigurations);
+
+    console.log({
+        updatedSystemOptions,
+        updatedSystemOptionValues,
+        updatedDetailOptions,
+        updatedDetailOptionValues,
+        updatedConfigurationOptionValues,
+        updatedConfigurationOptions,
+        updatedSystemDetails,
+        updatedSystemConfigurations,
+    });
 
     return {
         // name: newName || name,

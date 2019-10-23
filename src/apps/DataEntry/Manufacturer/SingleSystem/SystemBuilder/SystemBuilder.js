@@ -52,7 +52,7 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.newPath || originalSelectedItem.path : undefined];
+    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];
 
     console.log({
         originalSelectedItem,
@@ -92,20 +92,19 @@ export default function SystemBuilder({
 
                     const children = getChildren(option, systemMap);
 
-                    const noDefault = !defaultValue || !children.some(({ newPath, path }) => (newPath || path).endsWith(`.${defaultValue}`));
+                    const noDefault = !defaultValue || !children.some(({ path }) => (path).endsWith(`.${defaultValue}`));
 
                     if (noDefault) {
 
                         const {
-                            newPath = '',
                             path = '',
                         } = (
                             defaultValue
                             &&
-                            children.find(({ newPath, path }) => (newPath || path).endsWith(defaultValue))
+                            children.find(({ path }) => path.endsWith(defaultValue))
                         ) || children[0] || {};
 
-                        const newDefault = getLastItemFromPath(newPath || path);
+                        const newDefault = getLastItemFromPath(path);
 
                         if (newDefault) dispatch(UPDATE_ITEM, {
                             ...option,

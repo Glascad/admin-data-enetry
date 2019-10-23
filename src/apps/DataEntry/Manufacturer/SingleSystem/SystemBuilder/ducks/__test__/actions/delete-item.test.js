@@ -1,5 +1,5 @@
-import { DELETE_ITEM } from "../../../actions";
-import { systemUpdate } from "../../../schemas";
+import { DELETE_ITEM } from "../../actions";
+import { systemUpdate } from "../../schemas";
 
 // Must remove all items from update and create and delete arrays that contain the path to be deleted
 // delete because we don't need to redundantly delete the items children

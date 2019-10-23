@@ -1,5 +1,5 @@
-import { systemUpdate } from "../../../schemas";
-import UPDATE_ITEM from "../../../actions/update-item";
+import { systemUpdate } from "../../schemas";
+import UPDATE_ITEM from "../../actions/update-item";
 
 /** Must update the item in state if already there (in either update or create array), otherwise add item update to state
 * Must also update children that already existed under a different parent but were moved to be under the moved item (in the update array, with a new parentPath that matches the updated item's path)
@@ -247,6 +247,31 @@ testUpdateItem({
                 parentSystemConfigurationOptionValuePath: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE.CONFIGURATION.C_O,C_O_V",
                 name: "CONFIGURATION_OPTION",
                 __typename: "ConfigurationOption",
+            }),
+        ])
+    },
+});
+testUpdateItem({
+    systemInput: {
+        newSystemOptions: [
+            {
+                name: "ADD_OPTION",
+                __typename: "SystemOption",
+            }
+        ]
+    },
+    payload: {
+        path: "2.ADD_OPTION",
+        __typename: "SystemOption",
+        update: {
+            name: "SET"
+        }
+    },
+    systemOutput: {
+        newSystemOptions: expect.arrayContaining([
+            expect.objectContaining({
+                name: "SET",
+                __typename: "SystemOption",
             }),
         ])
     },
