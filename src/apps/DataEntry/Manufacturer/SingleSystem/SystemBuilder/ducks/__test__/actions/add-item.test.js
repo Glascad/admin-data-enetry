@@ -1,4 +1,4 @@
-import ADD_ITEM from "../../../actions/add-item";
+import ADD_ITEM from "../../actions/add-item";
 
 function testAddOptionValue({
     systemInput,

@@ -6,7 +6,6 @@ import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 function EditOptionValue({
     selectedItem: optionValue,
     selectedItem: {
-        newPath: ovNewPath,
         path: ovPath,
         __typename,
     },
@@ -25,10 +24,10 @@ function EditOptionValue({
     const values = getSiblings(optionValue, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
 
-    const { path: oPath, newPath: oNewPath, __typename: oTypename } = option;
+    const { path: oPath, __typename: oTypename } = option;
 
-    const oName = (oNewPath || oPath).replace(/^.*\.(\w+)$/, '$1');
-    const ovName = (ovNewPath || ovPath).replace(/^.*\.(\w+)$/, '$1');
+    const oName = oPath.replace(/^.*\.(\w+)$/, '$1');
+    const ovName = ovPath.replace(/^.*\.(\w+)$/, '$1');
 
     const isDefault = option[Object.keys(option).find(k => k.match(/default/i))] === ovName;
 
@@ -41,18 +40,17 @@ function EditOptionValue({
         ), []);
 
     const selectValidValues = validValues
-        .filter(({ name }) => !values.some(v => getLastItemFromPath(v.newPath || v.path) === name))
+        .filter(({ name }) => !values.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
     const {
         0: childOption,
         0: {
             path: childOptionPath = '',
-            newPath: childOptionNewPath = '',
             __typename: childTypename = ''
         } = {},
     } = valueChildren;
-    const childOptionName = childOption ? getLastItemFromPath(childOptionNewPath || childOptionPath) : '';
+    const childOptionName = childOption ? getLastItemFromPath(childOptionPath) : '';
 
     const childOptionChildren = getChildren(childOption, systemMap); // Option Value's Child's Child
 
@@ -77,8 +75,8 @@ function EditOptionValue({
         configurationTypes;
 
     const selectTypes = selectValidTypes
-        .filter(name => !valueChildren.some(({ path: childTypePath, newPath: childTypeNewPath }) => (
-            name.toLowerCase() === (getLastItemFromPath(childTypeNewPath || childTypePath).toLowerCase()))))
+        .filter(name => !valueChildren.some(({ path: childTypePath }) => (
+            name.toLowerCase() === (getLastItemFromPath(childTypePath).toLowerCase()))))
 
     return (
         <>
@@ -94,7 +92,6 @@ function EditOptionValue({
                     if (name !== ovName) {
                         const updateOptionValue = () => dispatch(UPDATE_ITEM, {
                             path: ovPath,
-                            newPath: ovNewPath,
                             __typename,
                             update: {
                                 name,
@@ -117,7 +114,6 @@ function EditOptionValue({
                     className="sidebar-button light"
                     onClick={() => dispatch(UPDATE_ITEM, {
                         path: oPath,
-                        newPath: oNewPath,
                         __typename: oTypename,
                         update: {
                             [`default${__typename}`]: ovName,
@@ -143,7 +139,7 @@ function EditOptionValue({
                                 text: `${childTypeType.slice(0, 6)}s`,
                                 "data-cy": `toggle-child-${childTypeType.toLowerCase()}`,
                                 selected: !optionIsSelected,
-                                className: ((hasChildren && optionIsSelected) || ovPath.includes('__CT__')) ? 'warning' : '',
+                                className: hasChildren && optionIsSelected ? 'warning' : '',
                                 onClick: () => !hasChildren && setOptionIsSelected(false),
                             },
                         ]}
@@ -159,7 +155,7 @@ function EditOptionValue({
                             className: "action",
                             onClick: () => dispatch(ADD_ITEM, {
                                 __typename: __typename.replace(/value/i, ''),
-                                [`parent${__typename}Path`]: ovNewPath || ovPath,
+                                [`parent${__typename}Path`]: ovPath,
                                 name: filterOptionsAbove(optionValue, validOptions)[0].name,
                             }),
                         }
@@ -170,7 +166,7 @@ function EditOptionValue({
                         className: "action",
                         onClick: () => dispatch(ADD_ITEM, {
                             __typename: childTypeTypename,
-                            [`parent${__typename}Path`]: ovNewPath || ovPath,
+                            [`parent${__typename}Path`]: ovPath,
                             name: selectTypes[0],
                         }),
                     }
@@ -190,7 +186,6 @@ function EditOptionValue({
                                 onChange={name => dispatch(UPDATE_ITEM, {
                                     __typename: childTypename,
                                     path: childOptionPath,
-                                    newPath: childOptionNewPath,
                                     update: {
                                         name,
                                     }
@@ -205,7 +200,6 @@ function EditOptionValue({
                                     const deleteOption = () => dispatch(DELETE_ITEM, {
                                         __typename: childTypename,
                                         path: childOptionPath,
-                                        newPath: childOptionNewPath,
                                     });
                                     if (childOptionChildren.length > 0) confirmWithModal(deleteOption, {
                                         titleBar: { title: `Delete ${childOptionName}` },
@@ -225,8 +219,9 @@ function EditOptionValue({
                 ) : (
                         hasChildren ? (
                             <>
-                                {valueChildren.map(({ path: childTypePath, newPath: childTypeNewPath }, i, { length }) => {
-                                    const childTypeName = (childTypeNewPath || childTypePath).replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
+                                {valueChildren.map(({ path: childTypePath }, i, { length }) => {
+                                    const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
+                                    const childTypeName = childTypePath.replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
                                     return (<div
                                         className="input-group"
                                     // key={i}
@@ -242,12 +237,11 @@ function EditOptionValue({
                                                     const updateType = () => dispatch(UPDATE_ITEM, {
                                                         __typename: childTypeTypename,
                                                         path: childTypePath,
-                                                        newPath: childTypeNewPath,
                                                         update: {
                                                             name,
                                                         }
                                                     });
-                                                    childOptionChildren.length > 0 ?
+                                                    childTypeChildren.length > 0 ?
                                                         confirmWithModal(updateType, {
                                                             titleBar: { title: `Change ${childTypeName}` },
                                                             children: 'Are you sure?',
@@ -267,9 +261,8 @@ function EditOptionValue({
                                                 const deleteType = () => dispatch(DELETE_ITEM, {
                                                     __typename: childTypename,
                                                     path: childTypePath,
-                                                    newPath: childTypeNewPath,
                                                 });
-                                                if (childOptionChildren.length > 0) confirmWithModal(deleteType, {
+                                                if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
                                                     titleBar: { title: `Delete ${childTypeName}` },
                                                     children: `Deleting ${(childTypeName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                                     danger: true,
@@ -296,7 +289,6 @@ function EditOptionValue({
                     console.log(ovPath);
                     const deleteOptionValue = () => dispatch(DELETE_ITEM, {
                         path: ovPath,
-                        newPath: ovNewPath,
                         __typename,
                     });
 

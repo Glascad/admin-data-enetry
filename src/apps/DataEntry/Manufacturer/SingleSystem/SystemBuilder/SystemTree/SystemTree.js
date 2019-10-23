@@ -52,9 +52,8 @@ export default function SystemTree({
                             const {
                                 __typename = '',
                                 path = '',
-                                newPath = '',
                             } = item;
-                            const name = path ? getLastItemFromPath(newPath || path) : '';
+                            const name = path ? getLastItemFromPath(path) : '';
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
                                 key.match(/default.+Value/) && value === name
                             ));
