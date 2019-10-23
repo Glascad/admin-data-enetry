@@ -1,3 +1,4 @@
+import { match } from '../utils';
 
 export class SystemMap {
     constructor({
@@ -55,6 +56,21 @@ export class SystemMap {
 export const getFirstItem = ({ _systemOptions } = []) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
 export const getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
+
+export const getTypenameFromPath = path => {
+    const Type = match(path)
+        .regex(/__CT__/, 'Configuration')
+        .regex(/__DT__/, 'Detail')
+        .otherwise('System');
+    const count = (path.replace(/.*__(C|D)T__\./, '').match(/\./g) || []).length;
+    return count === 0 ?
+        `System${Type}`
+        :
+        count % 2 ?
+            `${Type}Option`
+            :
+            `${Type}OptionValue`;
+}
 
 export const getParentTypename = ({ path } = {}) => path.includes('__CT__') ?
     (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
@@ -127,10 +143,19 @@ export const getDetailTypeFromPath = path => getNextItemFromPath(path, '__DT__')
 
 export const getConfigurationTypeFromPath = path => getNextItemFromPath(path, '__CT__');
 
-export const getDefaultPath = (item, systemMap, optionGroupValues = []) => {
-    if (item === undefined) return '';
-    if (systemMap === undefined) return getDefaultPath(getFirstItem(item), item);
-    const { path, __typename } = item;
+export const getDefaultPath = (one, two, three) => {
+    // argument/parameter mappings
+    if (one === undefined) return '';
+    // when passed systemmap as first item instead of item (item = systemMap, systemMap = optionGroupValues)
+    if (two === undefined || Array.isArray(two)) return getDefaultPath(getFirstItem(one), one, two);
+    const systemMap = two;
+    const providedPath = typeof one === 'string' ? one : one.path;
+    const item = systemMap[providedPath];
+    if (!item) return providedPath;
+    const optionGroupValues = three || [];
+    // end mappings
+    const { path } = item;
+    const { __typename = getTypenameFromPath(path) } = item;
     const children = getChildren(item, systemMap);
     const defaultKey = Object.keys(item).find(key => key.match(/^default.*OptionValue/i));
     const defaultOptionValue = item[defaultKey];
@@ -145,16 +170,18 @@ export const getDefaultPath = (item, systemMap, optionGroupValues = []) => {
     const defaultChild = isOption ?
         children.find(({ path }) => path.endsWith(defaultValue))
         :
-        __typename.match(/OptionValue$/) && childCount === 1 ?
+        childCount === 1 ?
             firstChild
             :
             undefined;
-    if (defaultChild) return getDefaultPath(defaultChild, systemMap);
-    else return path;
+    return defaultChild ?
+        getDefaultPath(defaultChild, systemMap, optionGroupValues)
+        :
+        path;
 };
 
 export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
 
 export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];
 
-export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => !(descendant === path) && descendant.startsWith(path)));
+export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));

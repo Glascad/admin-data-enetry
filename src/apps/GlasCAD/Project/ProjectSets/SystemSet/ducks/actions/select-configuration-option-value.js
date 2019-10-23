@@ -1,16 +1,30 @@
-import { getConfigurationTypeFromPath, getDetailTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath, SystemMap } from "../../../../../../../app-logic/system-utils";
 import { replace } from "../../../../../../../utils";
 import { defaultSystemSetNode } from "../schemas";
 
 export default function SELECT_CONFIGURATION_OPTION_VALUE({
     _systemSet: {
         _systemSetConfigurationOptionValues = [],
+        _systemSetOptionGroupValues = [],
     },
 }, {
     configurationOptionValues = [],
-},
-    configurationOptionValuePath
-) {
+    optionGroupValues = [],
+}, [
+    payloadPath,
+    systemMap,
+]) {
+    const groupedOptionValues = _systemSetOptionGroupValues.map(({ optionName, name }) => ({
+        optionName,
+        name: optionGroupValues
+            .reduce((name, update) => (
+                update.optionName === optionName ?
+                    update.name
+                    :
+                    name
+            ), name),
+    }));
+    const configurationOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
     const systemId = configurationOptionValuePath[0];
     const detailType = getDetailTypeFromPath(configurationOptionValuePath);
     const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath);
