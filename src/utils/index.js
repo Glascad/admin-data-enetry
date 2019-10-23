@@ -6,6 +6,8 @@ import Loggable from './classes/loggable';
 import removeNullValues from './functions/remove-null-values';
 import replaceByKeys from './functions/replace-by-keys';
 import flattenNodeArrays from './functions/flatten-node-arrays';
+import extractArrayCount from './functions/extract-array-count';
+import normalizeQueryResponse from './functions/normalize-query-response';
 import recursiveQuery from './functions/recursive-query';
 import extractNavigationOptions from './functions/extract-navigation-options';
 import arraysContainEqualValues from './functions/arrays-contain-equal-values';
@@ -14,8 +16,9 @@ import unique from './functions/unique-array';
 import lastItem from './functions/last-item';
 import normalCase from './functions/normal-case';
 import logInputOutput from './functions/log-input-output';
-import match, { final, when } from './functions/match';
+import match, { final } from './functions/match';
 import replace from './functions/replace';
+import { extractPathData } from './functions/parse-svg';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
@@ -28,6 +31,8 @@ export {
     removeNullValues,
     replaceByKeys,
     flattenNodeArrays,
+    extractArrayCount,
+    normalizeQueryResponse,
     recursiveQuery,
     extractNavigationOptions,
     arraysContainEqualValues,
@@ -38,7 +43,9 @@ export {
     normalCase,
     logInputOutput,
     match,
-    when,
+    // when,
     final,
     replace,
+    extractPathData,
 };
+    

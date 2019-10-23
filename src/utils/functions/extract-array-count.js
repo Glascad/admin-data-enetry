@@ -10,16 +10,17 @@ const extractArrayCount = obj => (
 ) ?
     obj
     :
-    Object.entries(obj)
-        .reduce((reducedObj, [key, value]) => ({
-            ...reducedObj,
-            [key]: extractArrayCount(value),
-            ...(value && typeof value.totalCount === 'number' ?
-                {
-                    [`_${key.replace(/s?By.*$/, '')}Count`]: value.totalCount,
-                }
-                :
-                null),
-        }), {});
+    Array.isArray(obj) ?
+        obj.map(extractArrayCount)
+        :
+        Object.entries(obj)
+            .reduce((reducedObj, [key, value]) => ({
+                ...reducedObj,
+                [key]: extractArrayCount(value),
+                ...(value && typeof value.totalCount === 'number' ?
+                    {
+                        [`_${key.replace(/s?By.*$/, '')}Count`]: value.totalCount,
+                    } : null),
+            }), {});
 
 export default extractArrayCount;

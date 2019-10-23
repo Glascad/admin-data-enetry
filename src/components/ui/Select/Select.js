@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compareTwoStrings, findBestMatch } from 'string-similarity';
 import useInitialState from '../../hooks/use-initial-state';
 import customPropTypes from '../../utils/custom-prop-types';
-import { match, normalCase } from '../../../utils';
+import { match, normalCase, unique } from '../../../utils';
 
 import './Select.scss';
 
@@ -24,18 +24,22 @@ export default function Select({
     "data-cy": dataCy,
     className,
 }) {
-    console.log({ options });
 
     const [input, setInput] = useInitialState(normalCase(value));
-    const filteredOptions = options
-        // .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
+
+    const filteredOptions = unique([value, ...options])
+        .filter(o => [...input].every(letter => o.toLowerCase().includes(letter.toLowerCase())))
         .reduce((sorted, next, i, arr) => sorted.concat(
             findBestMatch(
                 input,
                 arr.filter(item => !sorted.includes(item))).bestMatch.target
         ), []);
+
     const { length: filteredOptionCount } = filteredOptions;
+
     const [selectedOptionIndex, setSelectedOptionIndex] = useInitialState(0, [input]);
+
+    const selectOption = i => onChange(filteredOptions[i]);
 
     useEffect(() => {
         if (autoFocus) setInput('');
@@ -61,35 +65,38 @@ export default function Select({
                     onFocus={() => setInput('')}
                     onBlur={() => setInput(normalCase(value))}
                     onChange={({ target: { value } }) => setInput(value || '')}
-                    onKeyDown={({ key, target }) => match(key).against({
-                        Escape: () => target.blur(),
-                        Enter: () => {
-                            onChange(filteredOptions[selectedOptionIndex]);
-                            target.blur();
-                        },
-                        ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
-                        ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
-                        Home: () => setSelectedOptionIndex(0),
-                        End: () => setSelectedOptionIndex(filteredOptionCount - 1),
-                    }).otherwise(() => console.log({ key }))}
+                    onKeyDown={({ key, target }) => (
+                        match(key).against({
+                            Escape: () => target.blur(),
+                            Enter: () => {
+                                selectOption(selectedOptionIndex);
+                                target.blur();
+                            },
+                            ArrowUp: () => setSelectedOptionIndex(i => (filteredOptionCount + i - 1) % filteredOptionCount),
+                            ArrowDown: () => setSelectedOptionIndex(i => (i + 1) % filteredOptionCount),
+                            Home: () => setSelectedOptionIndex(0),
+                            End: () => setSelectedOptionIndex(filteredOptionCount - 1),
+                        })
+                        // .otherwise(() => console.log({ key }))
+                    )}
                 />
             </div>
             <div className="select-options">
-                {filteredOptions.map((o, i) => (
+                {filteredOptions.map((o, i) => o ? (
                     <div
                         key={o}
-                        data-cy={`select-option-${o}`}
+                        data-cy={`select-option-${o.toLowerCase()}`}
                         className={`select-option ${
                             i === selectedOptionIndex ? 'selected' : ''
                             }`}
                         onMouseDown={() => {
-                            onChange(filteredOptions[i]);
+                            selectOption(i);
                             document.activeElement.blur();
                         }}
                     >
                         {normalCase(o)}
                     </div>
-                ))}
+                ) : null)}
             </div>
         </div>
     );

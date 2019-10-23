@@ -28,22 +28,22 @@ describe('testing selection', () => {
         cy.get('[data-cy="container-1517"]').should('have.class', 'selected').and('have.class', 'last-selected');
     });
     it('can hover/select/deselect a frame', () => {
-        //checks the hover state
+        // checks the hover state
         // cy.get('[data-cy="3859-3939"]').trigger('mouseover').should('have.class', 'hover');
-        //can click a frame
+        // can click a frame
         cy.get('[data-cy="3859-3939"]').click().should('have.class', 'selected');
-        //clicking adds additional frames
+        // clicking adds additional frames
         cy.get('[data-cy="3862-3941"]').click().should('have.class', 'selected');
         cy.get('[data-cy="3859-3939"]').should('have.class', 'selected');
-        //clicking unselects the frame
+        // clicking unselects the frame
         cy.get('[data-cy="3862-3941"]').click({force: true}).should('not.have.class', 'selected');
         cy.get('[data-cy="3859-3939"]').click({force: true}).should('not.have.class', 'selected');
-        //testing arrow keys on extending frames
+        // testing arrow keys on extending frames
         cy.get('[data-cy="3942"]').click().should('have.class', 'selected');
         cy.get('body').type('{rightarrow}');
         cy.get('[data-cy="3944"]').should('have.class', 'selected');
         cy.get('[data-cy="3942"]').should('not.have.class', 'selected');
-        //Testing shift + arrow key
+        // Testing shift + arrow key
         cy.get('body').type('{shift}{rightarrow}');
         cy.get('[data-cy="3942"]').should('not.have.class', 'selected');
         cy.get('[data-cy="3944"]').should('have.class', 'selected');
@@ -52,7 +52,7 @@ describe('testing selection', () => {
         cy.get('[data-cy="3942"]').should('have.class', 'selected');
         cy.get('[data-cy="3944"]').should('have.class', 'selected');
         cy.get('[data-cy="3946"]').should('have.class', 'selected');
-        //testing arrow key cancels frame select
+        // testing arrow key cancels frame select
         cy.get('body').type('{rightarrow}');
         cy.get('[data-cy="3942"]').should('not.have.class', 'selected');
         cy.get('[data-cy="3944"]').should('have.class', 'selected');

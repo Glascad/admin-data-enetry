@@ -18,14 +18,16 @@ module.exports = (on, config) => {
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
     const {
-        USER_TWO,
+        USER_CYPRESS,
     } = process.env;
 
-    const [USERNAME, PASSWORD] = USER_TWO.split(/,/g);
-    
+    const [USERNAME, PASSWORD] = USER_CYPRESS.replace(/'/g, '').split(/,\s*/g);
+
+
     config.env = {
         USERNAME,
         PASSWORD,
+        USER_CYPRESS,
     };
 
     return config;

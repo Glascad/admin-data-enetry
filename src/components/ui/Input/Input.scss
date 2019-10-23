@@ -38,19 +38,19 @@
 
         input,
         .React-Select > div:first-of-type {
-            background: mix($warning-color, white, 25) !important;
-            border-color: mix($warning-color, white, 75) !important;
+            background: mix($warning-color, white, 10) !important;
+            border-color: mix($warning-color, white, 65) !important;
         }
 
-        > input,
+        input,
         .React-Select > div > div > div,
         .React-Select svg {
-            color: $medium-gray !important;
+            color: $medium-dark-gray !important;
         }
 
         > input,
         .React-Select > div {
-            border-color: mix($warning-color, white, 75) !important;
+            border-color: mix($warning-color, white, 65) !important;
         }
 
     }

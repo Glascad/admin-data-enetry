@@ -1,6 +1,6 @@
 const { Client } = require('pg');
 const chalk = require('chalk');
-const compileSeed = require('./write-seed');
+const compileSeed = require('./compile-seed');
 
     const {
         env: {

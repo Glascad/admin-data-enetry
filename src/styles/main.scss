@@ -73,8 +73,20 @@ button {
 
     &.warning {
         pointer-events: none;
-        background: mix($warning-color, white, 25) !important;
-        border-color: mix($warning-color, white, 75) !important;
+        background: mix($warning-color, white, 20) !important;
+        border-color: mix($warning-color, white, 65) !important;
+    }
+}
+
+pre {
+    background: $dark-gray;
+    color: $off-white;
+    padding: $x-small;
+    overflow: hidden;
+    white-space: pre-wrap;
+
+    code {
+        font-family: Monospace;
     }
 }
 

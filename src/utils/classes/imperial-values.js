@@ -26,7 +26,7 @@ const separateValueIntoGroups = inputValue => {
             isNegative,
         }
         :
-        //Do something here to let the user know
+        // Do something here to let the user know
         {}
 }
 

@@ -1,7 +1,7 @@
 (async () => {
     const fs = require(`${__dirname}/promise-fs`);
     const fsToJSON = require(`${__dirname}/files-to-json`);
-    const db = await fsToJSON(`${__dirname}/../db/schemas`);
+    const db = await fsToJSON(`${__dirname}/../db`);
 
     console.log('database seed');
     console.log(db);

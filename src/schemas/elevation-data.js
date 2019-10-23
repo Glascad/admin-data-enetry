@@ -49,12 +49,6 @@ export const CONTAINER_DETAIL_FIELDS = gql`
 export const ENTIRE_CONTAINER_DETAIL = gql`
     fragment EntireContainerDetail on ContainerDetail {
         ...ContainerDetailFields
-        # detailOptionValuesByContainerDetailId {
-        #     nodes {
-        #         nodeId
-        #         optionValueId
-        #     }
-        # }
     }
     ${CONTAINER_DETAIL_FIELDS}
 `;
