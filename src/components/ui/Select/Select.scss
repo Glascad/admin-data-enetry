@@ -4,7 +4,7 @@
     &.warning {
         .select-input-wrapper {
             &::after {
-                border-left-color: $dark-gray;
+                border-left-color: $light-gray;
             }
         }
     }

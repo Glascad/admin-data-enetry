@@ -42,10 +42,10 @@
             border-color: mix($warning-color, white, 65) !important;
         }
 
-        > input,
+        input,
         .React-Select > div > div > div,
         .React-Select svg {
-            color: $medium-gray !important;
+            color: $medium-dark-gray !important;
         }
 
         > input,
