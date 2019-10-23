@@ -12,17 +12,6 @@ export const getOldPath = (systemInput, currentPath) => Object.entries(systemInp
             `${itemParentPath || getParentPath({ path })}.${update.name || getLastItemFromPath(path)}`
             :
             '';
-        
-        // console.log({
-        //     currentPath,
-        //     resultPaths,
-        //     items,
-        //     path,
-        //     update,
-        //     itemParentPathKey,
-        //     itemParentPath,
-        //     updatedPath,
-        // })
 
         return updatedPath
             &&
