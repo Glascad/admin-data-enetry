@@ -179,7 +179,7 @@ function EditOptionValue({
                             <Select
                                 className={childOptionChildren.length > 0 ? 'warning' : ''}
                                 data-cy="edit-option-name"
-                                autoFocus={childOptionChildren.length === 0}
+                                // autoFocus={childOptionChildren.length === 0}
                                 value={childOptionName}
                                 options={filterOptionsAbove(optionValue, validOptions)
                                     .map(({ name }) => name)}
@@ -229,7 +229,7 @@ function EditOptionValue({
                                         <Select
                                             data-cy="edit-value-name"
                                             data-cy={`edit-${childTypeType}-type-${(childTypeName).toLowerCase()}`}
-                                            autoFocus={i === length - 1}
+                                            // autoFocus={i === length - 1}
                                             value={childTypeName}
                                             options={selectTypes}
                                             onChange={name => {

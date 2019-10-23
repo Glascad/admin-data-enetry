@@ -84,7 +84,7 @@ function EditOption({
                                 key={'Option Name'}
                                 value={vName}
                                 options={selectValidOptionValues}
-                                autoFocus={i === length - 1}
+                                // autoFocus={i === length - 1}
                                 onChange={name => {
                                     if (name !== vName) {
                                         const valueChildren = getChildren({ __typename: valueTypename, path: ovPath }, systemMap);
