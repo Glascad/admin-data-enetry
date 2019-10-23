@@ -93,7 +93,7 @@ testUpdateItem({
         ]
     },
     payload: {
-        path: "1.SET.CENTER",
+        path: "1.SET.FRONT",
         __typename: "SystemOptionValue",
         update: {
             name: "BACK",
@@ -140,7 +140,7 @@ testUpdateItem({
         }]
     },
     payload: {
-        path: "1.SET.CENTER.HEAD",
+        path: "1.SET.CENTER.HORIZONTAL",
         __typename: "SystemDetail",
         update: {
             name: "SILL"

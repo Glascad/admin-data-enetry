@@ -156,3 +156,5 @@ export const getDefaultPath = (item, systemMap, optionGroupValues = []) => {
 export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
 
 export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];
+
+export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => !(descendant === path) && descendant.startsWith(path)));
