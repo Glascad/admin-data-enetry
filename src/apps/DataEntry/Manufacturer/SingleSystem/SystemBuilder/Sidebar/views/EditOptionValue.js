@@ -221,19 +221,19 @@ function EditOptionValue({
                             <>
                                 {valueChildren.map(({ path: childTypePath }, i, { length }) => {
                                     const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
-                                    const childTypeName = childTypePath.replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
+                                    const childName = childTypePath.replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
                                     return (<div
                                         className="input-group"
                                     // key={i}
                                     >
                                         <Select
                                             data-cy="edit-value-name"
-                                            data-cy={`edit-${childTypeType}-type-${(childTypeName).toLowerCase()}`}
+                                            data-cy={`edit-${childTypeType}-type-${(childName).toLowerCase()}`}
                                             autoFocus={i === length - 1}
-                                            value={childTypeName}
+                                            value={childName}
                                             options={selectTypes}
                                             onChange={name => {
-                                                if (childTypeName !== name) {
+                                                if (childName !== name) {
                                                     const updateType = () => dispatch(UPDATE_ITEM, {
                                                         __typename: childTypeTypename,
                                                         path: childTypePath,
@@ -243,7 +243,7 @@ function EditOptionValue({
                                                     });
                                                     childTypeChildren.length > 0 ?
                                                         confirmWithModal(updateType, {
-                                                            titleBar: { title: `Change ${childTypeName}` },
+                                                            titleBar: { title: `Change ${childName}` },
                                                             children: 'Are you sure?',
                                                             finishButtonText: 'Change',
                                                         })
@@ -253,7 +253,7 @@ function EditOptionValue({
                                             }}
                                         />
                                         <CircleButton
-                                            data-cy={`delete-${childTypeType.toLowerCase()}-type-${childTypeName}`}
+                                            data-cy={`delete-${childTypeType.toLowerCase()}-type-${childName}`}
                                             type="small"
                                             className="danger"
                                             actionType="delete"
@@ -263,8 +263,8 @@ function EditOptionValue({
                                                     path: childTypePath,
                                                 });
                                                 if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
-                                                    titleBar: { title: `Delete ${childTypeName}` },
-                                                    children: `Deleting ${(childTypeName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                                    titleBar: { title: `Delete ${childName}` },
+                                                    children: `Deleting ${(childName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
                                                     danger: true,
                                                     finishButtonText: 'Delete',
                                                 });
