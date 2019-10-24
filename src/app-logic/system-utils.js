@@ -156,11 +156,15 @@ export const getDefaultPath = (one, two, three) => {
     // end mappings
     const { path } = item;
     const { __typename = getTypenameFromPath(path) } = item;
+    // console.log({ path, __typename });
     const children = getChildren(item, systemMap);
     const defaultKey = Object.keys(item).find(key => key.match(/^default.*OptionValue/i));
     const defaultOptionValue = item[defaultKey];
     const {
         0: firstChild,
+        0: {
+            __typename: childTypename = '',
+        } = {},
         length: childCount,
     } = children;
     const isOption = __typename.match(/Option$/);
@@ -170,7 +174,7 @@ export const getDefaultPath = (one, two, three) => {
     const defaultChild = isOption ?
         children.find(({ path }) => path.endsWith(defaultValue))
         :
-        childCount === 1 ?
+        childTypename.match(/option/i) ?
             firstChild
             :
             undefined;

@@ -1,6 +1,7 @@
 import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath, SystemMap } from "../../../../../../../app-logic/system-utils";
 import { replace } from "../../../../../../../utils";
 import { defaultSystemSetNode } from "../schemas";
+import { mergeOptionGroupValues } from "../merge";
 
 export default function SELECT_CONFIGURATION_OPTION_VALUE({
     _systemSet: {
@@ -14,32 +15,20 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
     payloadPath,
     systemMap,
 ]) {
-    const groupedOptionValues = _systemSetOptionGroupValues.map(({ optionName, name }) => ({
-        optionName,
-        name: optionGroupValues
-            .reduce((name, update) => (
-                update.optionName === optionName ?
-                    update.name
-                    :
-                    name
-            ), name),
-    }));
+    const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
     const configurationOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
-    const systemId = configurationOptionValuePath[0];
     const detailType = getDetailTypeFromPath(configurationOptionValuePath);
     const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath);
 
+    // find COV original path in query result
     const { configurationOptionValuePath: oldPath } = _systemSetConfigurationOptionValues.find(cov => (
-        cov.configurationOptionValuePath[0] === systemId
-        &&
-        getDetailTypeFromPath(cov.configurationOptionValuePath) === detailType
-        &&
-        getConfigurationTypeFromPath(cov.configurationOptionValuePath) === configurationType
+        cov.configurationOptionValuePath.replace(/(__CT__\.\w+)\..*$/, '$1')
+        ===
+        configurationOptionValuePath.replace(/(__CT__\.\w+)\..*$/, '$1')
     )) || {};
 
+    // find COV in state
     const updatedCOV = configurationOptionValues.find(({ oldPath, newPath }) => (
-        (oldPath || newPath)[0] === systemId
-        &&
         getDetailTypeFromPath(oldPath || newPath) === detailType
         &&
         getConfigurationTypeFromPath(oldPath || newPath) === configurationType
@@ -47,23 +36,28 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
 
     const index = configurationOptionValues.indexOf(updatedCOV);
 
-    const newCOV = updatedCOV ? {
+    const newCOV = {
+        ...defaultSystemSetNode,
         ...updatedCOV,
+        oldPath,
         newPath: configurationOptionValuePath,
-    } : {
-            ...defaultSystemSetNode,
-            oldPath,
-            newPath: configurationOptionValuePath,
-        };
+    };
 
     return {
         ...arguments[1],
         configurationOptionValues: updatedCOV ?
             updatedCOV.oldPath === configurationOptionValuePath ?
+                // remove from state if updating back to original path
                 configurationOptionValues.filter((_, i) => i !== index)
                 :
+                // replace in state if updating previously updated item
                 replace(configurationOptionValues, index, newCOV)
             :
-            configurationOptionValues.concat(newCOV),
+            oldPath === configurationOptionValuePath ?
+                // leave state if option value is already selected
+                configurationOptionValues
+                :
+                // add to state if updating non-previously updated item
+                configurationOptionValues.concat(newCOV),
     };
 }

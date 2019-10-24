@@ -141,12 +141,15 @@ testSelectConfigurationOptionValue({
 });
 
 testSelectConfigurationOptionValue({
-    description: "Select with only partial COV path should use default or grouped option values",
+    description: "Select with only partial COV path should use default or grouped option values -- should do nothing if the calculated COV is already selected",
     systemSetUpdate: {},
     payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
-    configurationOptionValues: [
+    nonExistingConfigurationOptionValues: [
         {
             newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
+        },
+        {
+            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
         },
     ],
 });

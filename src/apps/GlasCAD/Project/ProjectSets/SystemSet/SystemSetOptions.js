@@ -20,7 +20,7 @@ import {
 } from '../../../../../app-logic/system-utils';
 import F from '../../../../../schemas';
 import gql from 'graphql-tag';
-import { SELECT_SYSTEM_OPTION_VALUE, UNSELECT_CONFIGURATION, SELECT_CONFIGURATION_OPTION_VALUE } from './ducks/actions';
+import { SELECT_SYSTEM_OPTION_VALUE, UNSELECT_CONFIGURATION, SELECT_CONFIGURATION_OPTION_VALUE, SELECT_DETAIL_OPTION_VALUE } from './ducks/actions';
 import { normalCase, match } from '../../../../../utils';
 
 const query = gql`query SystemById($systemId: Int!) {
@@ -160,6 +160,10 @@ export default function SystemSetOptions({
                                             options={getChildren({
                                                 path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
                                             }, systemMap).map(({ path }) => getLastItemFromPath(path))}
+                                            onChange={newValue => dispatch(SELECT_DETAIL_OPTION_VALUE, [
+                                                newValue,
+                                                systemMap,
+                                            ])}
                                         />
                                     ) : null)}
                             {/* SYSTEM CONFIGURATIONS */}

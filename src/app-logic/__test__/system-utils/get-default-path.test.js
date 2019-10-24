@@ -28,6 +28,12 @@ testGetDefaultPath({
 });
 
 testGetDefaultPath({
+    description: "Works for SOV with only single SD child",
+    path: "1.SET.FRONT",
+    defaultPath: "1.SET.FRONT",
+});
+
+testGetDefaultPath({
     description: "Works for SOV with no input",
     defaultPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
     system: sample1,

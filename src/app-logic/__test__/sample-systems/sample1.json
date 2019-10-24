@@ -67,6 +67,10 @@
         {
             "__typename": "SystemDetail",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL"
+        },
+        {
+            "__typename": "SystemDetail",
+            "path": "1.SET.FRONT.__DT__.HEAD"
         }
     ],
     "_detailOptions": [
