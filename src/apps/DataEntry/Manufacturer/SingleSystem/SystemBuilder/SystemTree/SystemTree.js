@@ -21,8 +21,6 @@ export default function SystemTree({
     dispatch,
 }) {
 
-    console.log(arguments[0]);
-
     const { Viewport } = useContext(StaticContext);
 
     useEffect(() => {
