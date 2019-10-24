@@ -70,10 +70,10 @@ export default function SystemSetOptions({
             newSystemOptionValuePath
         ) {
             // console.log({ systemOptionValuePath, newSystemOptionValuePath });
-            dispatch(SELECT_SYSTEM_OPTION_VALUE, {
-                systemOptionValuePath: newSystemOptionValuePath,
+            dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                newSystemOptionValuePath,
                 systemMap,
-            });
+            ]);
         }
     });
 
@@ -100,10 +100,10 @@ export default function SystemSetOptions({
                             options={getChildren({
                                 path: systemOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
                             }, systemMap).map(({ path }) => getLastItemFromPath(path))}
-                            onChange={newValue => dispatch(SELECT_SYSTEM_OPTION_VALUE, {
-                                systemOptionValuePath: replaceOptionValue(systemOptionValuePath, name, newValue),
+                            onChange={newValue => dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                                replaceOptionValue(systemOptionValuePath, name, newValue),
                                 systemMap,
-                            })}
+                            ])}
                         />
                     ) : null)}
                 {/* GROUPED OPTIONS */}
@@ -121,23 +121,30 @@ export default function SystemSetOptions({
             <CollapsibleTitle
                 title="Details"
             >
-                {_systemSetDetailOptionValues.map(({ detailOptionValuePath }) => {
+                {_systemSetDetailOptionValues.map(({ detailOptionValuePath }, i) => {
                     const detailType = getDetailTypeFromPath(detailOptionValuePath);
-
                     const configurations = _systemConfigurations
                         .filter(({ path }) => path.startsWith(detailOptionValuePath))
                         .map(systemConfiguration => ({
                             systemConfiguration,
                             selection: _systemSetConfigurationOptionValues
-                                .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(systemConfiguration.path)),
+                                // need the '.' to prevent confusion between configs like SILL and SILL_FLASHING
+                                .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(`${systemConfiguration.path}.`)),
                         }))
-                        .sort(({ systemConfiguration: { optional: a } }, { systemConfiguration: { optional: b } }) => match()
+                        .sort(({
+                            systemConfiguration: {
+                                optional: a,
+                            },
+                        }, {
+                            systemConfiguration: {
+                                optional: b,
+                            },
+                        }) => match()
                             .case(a && b, 0)
                             .case(a && !b, 1)
                             .case(!a && b, -1)
                             .otherwise(-1)
                         );
-                    console.log({ configurations });
                     return (
                         <GroupingBox
                             data-cy={detailType}
@@ -147,7 +154,7 @@ export default function SystemSetOptions({
                         >
                             {/* DETAIL OPTIONS */}
                             {getOptionListFromPath(detailOptionValuePath)
-                                .map(({ name, value }) => (
+                                .map(({ name, value }, i) => (
                                     name !== 'VOID'
                                     &&
                                     !_optionGroups.some(og => og.name === name)
@@ -175,9 +182,8 @@ export default function SystemSetOptions({
                                 selection: {
                                     configurationOptionValuePath,
                                 } = {},
-                            }) => {
+                            }, i) => {
                                 const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath || path);
-
                                 const options = getOptionListFromPath(configurationOptionValuePath)
                                     .filter(({ name }) => (
                                         name !== 'VOID'
@@ -260,7 +266,7 @@ export default function SystemSetOptions({
                                     selection: {
                                         configurationOptionValuePath,
                                     } = {},
-                                }) => !optional || configurationOptionValuePath ? (
+                                }, i) => !optional || configurationOptionValuePath ? (
                                     <div
                                         key={configurationOptionValuePath || path}
                                         data-cy={`CONFIGURATION.${

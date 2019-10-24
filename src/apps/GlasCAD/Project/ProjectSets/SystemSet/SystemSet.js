@@ -9,6 +9,8 @@ import {
     Input,
     GroupingBox,
     useRedoableState,
+    ConfirmButton,
+    AsyncButton,
 } from '../../../../../components';
 import { defaultSystemSetUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
@@ -39,11 +41,15 @@ export default function SystemSet({
     location: {
         search,
     },
+    match: {
+        path,
+    },
+    history,
 }) {
 
     const { systemSetId, projectId } = parseSearch(search);
 
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId: +systemSetId } });
+    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
 
     const {
         allSystems = [],
@@ -81,6 +87,10 @@ export default function SystemSet({
         } = {},
     } = allSystems.find(({ id }) => id === systemId) || {};
 
+    const save = async () => {
+
+    }
+
     console.log({
         props: arguments[0],
         queryResult,
@@ -94,8 +104,24 @@ export default function SystemSet({
     return (
         <>
             <TitleBar
-                title="System Set"
-                selections={name ? [name] : undefined}
+                title={`${systemSetId ? '' : 'New '}System Set`}
+                selections={[name]}
+                right={(
+                    <>
+                        <ConfirmButton
+                            doNotConfirmWhen={true}
+                            onClick={() => history.push(`${path.replace(/system.set/, 'all')}${search}`)}
+                        >
+                            Close
+                        </ConfirmButton>
+                        <AsyncButton
+                            onClick={save}
+                            className="action"
+                        >
+                            Save
+                        </AsyncButton>
+                    </>
+                )}
             />
             <div className="card">
                 {/* SYSTEM INFO */}
@@ -144,6 +170,20 @@ export default function SystemSet({
                     systemSet={systemSet}
                     dispatch={dispatch}
                 />
+                <div className="bottom-buttons">
+                    <ConfirmButton
+                        doNotConfirmWhen={true}
+                        onClick={() => history.push(`${path.replace(/system.set/, 'all')}${search}`)}
+                    >
+                        Close
+                    </ConfirmButton>
+                    <AsyncButton
+                        onClick={save}
+                        className="action"
+                    >
+                        Save
+                    </AsyncButton>
+                </div>
             </div>
         </>
     );

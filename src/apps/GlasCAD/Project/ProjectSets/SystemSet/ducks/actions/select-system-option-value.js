@@ -1,4 +1,4 @@
-import { getChildren, getDefaultPath } from "../../../../../../../app-logic/system-utils";
+import { getChildren, getDefaultPath, getDetailTypeFromPath } from "../../../../../../../app-logic/system-utils";
 import { mergeOptionGroupValues } from "../merge";
 import { SELECT_DETAIL_OPTION_VALUE } from ".";
 
@@ -9,6 +9,7 @@ export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     },
 }, {
     detailOptionValues = [],
+    configurationOptionValues = [],
     optionGroupValues = [],
 }, [
     payloadPath,
@@ -32,7 +33,10 @@ export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     ), {
         ...arguments[1],
         systemOptionValuePath,
-        detailOptionValues: [],
-        configurationOptionValues: [],
+        detailOptionValues: detailOptionValues.filter(({ newPath, oldPath }) => systemDetails.some(({ path }) => (
+            getDetailTypeFromPath(newPath || oldPath)
+            ===
+            getDetailTypeFromPath(path)
+        ))),
     });
 }

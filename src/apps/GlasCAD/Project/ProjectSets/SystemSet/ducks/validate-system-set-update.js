@@ -9,12 +9,11 @@ export default function validateSystemSetUpdate({
 
     if (systemId && systemOptionValuePath) {
 
-        if (!systemOptionValuePath.startsWith(`${
-            systemId}`)) throw new Error(`Invalid systemOptionValuePath: ${
-                systemOptionValuePath
-                }, must start with systemId: ${
-                systemId
-                }`);
+        if (!systemOptionValuePath.startsWith(systemId)) throw new Error(`Invalid systemOptionValuePath: ${
+            systemOptionValuePath
+            }, must start with systemId: ${
+            systemId
+            }`);
 
         const { newPath: invalidDOVUpdate, oldPath: previousDOVPath } = detailOptionValues.find(({ oldPath, newPath }) => (
             oldPath
@@ -22,7 +21,7 @@ export default function validateSystemSetUpdate({
             newPath
             &&
             getDetailTypeFromPath(oldPath) !== getDetailTypeFromPath(newPath)
-        ));
+        )) || {};
 
         if (invalidDOVUpdate) throw new Error(`Invalid detail option value newPath: ${invalidDOVUpdate}, must have same detail type as ${previousDOVPath}`);
 
@@ -41,7 +40,7 @@ export default function validateSystemSetUpdate({
             newPath
             &&
             getConfigurationTypeFromPath(oldPath) !== getConfigurationTypeFromPath(newPath)
-        ));
+        )) || {};
 
         if (invalidCOVUpdate) throw new Error(`Invalid configuration option value newPath: ${invalidCOVUpdate}, must have same configuration type as ${previousCOVPath}`);
 
