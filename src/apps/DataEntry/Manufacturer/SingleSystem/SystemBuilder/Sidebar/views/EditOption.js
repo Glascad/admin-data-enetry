@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../../components";
 import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../ducks/actions';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
 
 function EditOption({
     selectedItem: option = {},
@@ -41,12 +41,12 @@ function EditOption({
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
 
-    console.log({
-        optionIsGrouped,
-        _optionGroups,
-        optionName,
-        canItemBeGrouped: canItemBeGrouped(option, systemMap),
-    })
+    // console.log({
+    //     optionIsGrouped,
+    //     _optionGroups,
+    //     optionName,
+    //     canItemBeGrouped: canItemBeGrouped(option, systemMap),
+    // })
 
     return (
         <>
@@ -86,12 +86,36 @@ function EditOption({
                     "data-cy": "add-option-value",
                     actionType: "add",
                     className: "action",
-                    onClick: () => dispatch(ADD_ITEM, {
-                        [`parent${__typename}Path`]: oPath,
-                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value',
-                        __typename: `${__typename}Value`,
-                    }),
-                } : undefined}
+                    onClick: () => {
+                        const addValueToEachOption = () => {
+                            const valueName = (validOptionValues.find(({ name }) => !optionValues
+                                .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value';
+                            getAllInstancesOfItem(option, systemMap)
+                                .forEach(instance => {
+                                    const item = systemMap[instance];
+                                    dispatch(ADD_ITEM, {
+                                        [`parent${item.__typename}Path`]: item.path,
+                                        name: valueName,
+                                        __typename: `${item.__typename}Value`,
+                                    })
+                                })
+                        };
+                        optionIsGrouped ?
+                            confirmWithModal(addValueToEachOption, {
+                                titleBar: { title: `Add Grouped Option Value` },
+                                children: `${optionName} Adding a value to a grouped option will add the value to all existing items with the name of ${optionName}`,
+                                finishButtonText: 'Add Value',
+                            })
+                            :
+                            dispatch(ADD_ITEM, {
+                                [`parent${__typename}Path`]: oPath,
+                                name: (validOptionValues.find(({ name }) => !optionValues
+                                    .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value',
+                                __typename: `${__typename}Value`,
+                            });
+                    }
+                } : undefined
+                }
             >
                 {optionValues.length ?
                     optionValues.map(({ path: ovPath, __typename: valueTypename }, i, { length }) => {
