@@ -40,11 +40,12 @@ function EditOption({
         .map(({ name }) => name);
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
-    
+
     console.log({
         optionIsGrouped,
         _optionGroups,
-        optionName
+        optionName,
+        canItemBeGrouped: canItemBeGrouped(option, systemMap),
     })
 
     return (
@@ -67,13 +68,13 @@ function EditOption({
                     }
                 })}
             />
-            {canItemBeGrouped(systemMap, option) ? (
+            {canItemBeGrouped(option, systemMap) ? (
                 <button
                     data-cy="edit-option-value-group-option-button"
                     className="sidebar-button light"
                     onClick={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, option)}
                 >
-                    {optionIsGrouped ? 'Ungroup Option': 'Group Option'}
+                    {optionIsGrouped ? 'Ungroup Option' : 'Group Option'}
                 </button>
             ) : null
 
