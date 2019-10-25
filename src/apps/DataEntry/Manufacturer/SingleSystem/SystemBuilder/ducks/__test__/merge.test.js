@@ -1,4 +1,4 @@
-import merge from "../../merge";
+import merge from "../merge";
 import { sample1 } from "../../../../../../../app-logic/__test__/sample-systems";
 
 // Must delete items and children
@@ -161,9 +161,21 @@ testMerge({
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
         ],
+        newOptionGroups: ['JOINERY'],
+        optionGroupsToDelete: ['GLAZING'],
     },
     _system: sample1,
     result: {
+        optionGroups: [
+            {
+                __typename: "OptionGroup",
+                name: 'STOPS'
+            },
+            {
+                __typename: "OptionGroup",
+                name: 'JOINERY'
+            },
+        ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemOptionPathsToInclude: [
             "1.SET.CENTER.JOINERY",
@@ -204,8 +216,6 @@ testMerge({
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionValuePathsToInclude: [
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
         ],
