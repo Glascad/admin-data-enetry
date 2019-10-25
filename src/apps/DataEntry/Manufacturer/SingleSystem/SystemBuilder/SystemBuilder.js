@@ -111,7 +111,9 @@ export default function SystemBuilder({
                             update: {
                                 [defaultValueKey]: newDefault,
                             },
-                        }, true);
+                        }, {
+                            replaceState: true,
+                        });
                     }
                 });
             });

@@ -239,13 +239,14 @@ export default function SystemSetOptions({
                                             .replace(/\.?VOID\.?/g, '')
                                         }`}
                                 >
-                                    DETAIL.{
+                                    {detailOptionValuePath}
+                                    {/* DETAIL.{
                                         detailType
                                     }{
                                         detailOptionValuePath
                                             .replace(/.*__DT__\.\w+\./, '.')
                                             .replace(/\.?VOID\.?/g, '')
-                                    }
+                                    } */}
                                 </div>
                                 {configurations.map(({
                                     systemConfiguration: {
@@ -268,7 +269,8 @@ export default function SystemSetOptions({
                                                 .replace(/\.?VOID\.?/g, '')
                                             }`}
                                     >
-                                        CONFIGURATION.{
+                                        {configurationOptionValuePath}
+                                        {/* CONFIGURATION.{
                                             detailType
                                         }.{
                                             getConfigurationTypeFromPath(configurationOptionValuePath || path)
@@ -276,7 +278,7 @@ export default function SystemSetOptions({
                                             (configurationOptionValuePath || path)
                                                 .replace(/.*__CT__\.\w+\.?/, '.')
                                                 .replace(/\.?VOID\.?/g, '')
-                                        }
+                                        } */}
                                     </div>
                                 ) : null)}
                             </div>
