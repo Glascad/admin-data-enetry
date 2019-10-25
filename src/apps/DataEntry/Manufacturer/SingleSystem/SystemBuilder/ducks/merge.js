@@ -8,6 +8,7 @@ export default function merge({
     // systemType: newSystemType,
     // delete
     pathsToDelete = [],
+    optionGroupsToDelete = [],
     // update
     systemOptions = [],
     detailOptions = [],
@@ -18,6 +19,7 @@ export default function merge({
     systemDetails = [],
     systemConfigurations = [],
     // create
+    newOptionGroups = [],
     newSystemOptions = [],
     newDetailOptions = [],
     newConfigurationOptions = [],
@@ -33,6 +35,7 @@ export default function merge({
         // name,
         // manufacturerId,
         // systemType,
+        _optionGroups = [],
         _systemOptions = [],
         _detailOptions = [],
         _configurationOptions = [],
@@ -132,5 +135,6 @@ export default function merge({
         _systemConfigurations: updatedSystemConfigurations,
         _configurationOptions: updatedConfigurationOptions,
         _configurationOptionValues: updatedConfigurationOptionValues,
+        _optionGroups: _optionGroups.filter(({name}) => !optionGroupsToDelete.includes(name)).concat(newOptionGroups.map(name => ({__typename: "OptionGroup", name})))
     };
 }

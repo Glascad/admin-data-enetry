@@ -1,8 +1,6 @@
 @import "../../../styles/variables";
 
 .Select {
-    width: fit-content;
-    
     &.warning {
         .select-input-wrapper {
             &::after {

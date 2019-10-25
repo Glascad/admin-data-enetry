@@ -1,19 +1,20 @@
-import { SELECT_DETAIL_OPTION_VALUE } from "../../actions";
+import { SELECT_SYSTEM_OPTION_VALUE } from "../../actions";
 import { sample1 } from "../sample-query-results";
-import { defaultSystemSetUpdate } from "../../schemas";
 import { SystemMap } from "../../../../../../../../app-logic/system-utils";
+import { defaultSystemSetUpdate } from "../../schemas";
 
-function testSelectDetailOptionValue({
+function testSelectSystemOptionValue({
     description = '',
-    systemSetUpdate = {},
+    systemSetUpdate,
     payloadPath,
+    systemOptionValuePath,
     detailOptionValues = [],
     configurationOptionValues = [],
     nonExistingDetailOptionValues = [],
     nonExistingConfigurationOptionValues = [],
 }) {
-    describe(`Testing select detail option value: ${description}`, () => {
-        const result = SELECT_DETAIL_OPTION_VALUE(
+    describe(`Testing select system option value: ${description}`, () => {
+        const result = SELECT_SYSTEM_OPTION_VALUE(
             sample1,
             {
                 ...defaultSystemSetUpdate,
@@ -24,8 +25,9 @@ function testSelectDetailOptionValue({
                 new SystemMap(sample1._system),
             ],
         );
-        if (!detailOptionValues.length && !nonExistingDetailOptionValues.length)
-            throw new Error(`Must provide either detailOptionValues or nonExistingDetailOptionValues to testSeslectDetailOptionValues()`);
+        test('must contain correct system option value', () => {
+            expect(result.systemOptionValuePath).toBe(systemOptionValuePath);
+        });
         if (detailOptionValues.length)
             test('must contain correct detail option values', () => {
                 expect(result.detailOptionValues).toEqual(
@@ -69,51 +71,48 @@ function testSelectDetailOptionValue({
     });
 }
 
-testSelectDetailOptionValue({
-    description: "Select DOV with empty state -- should select default values for downstream configurations (those that are required and that are selected)",
-    payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP",
+testSelectSystemOptionValue({
+    description: "Can update to new SOV",
+    payloadPath: "1.SET.FRONT",
+    systemOptionValuePath: "1.SET.FRONT",
     detailOptionValues: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
+            newPath: "1.SET.FRONT.__DT__.HEAD.VOID.VOID",
         },
     ],
     configurationOptionValues: [
         {
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID.VOID",
+            newPath: "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
         },
     ],
 });
 
-testSelectDetailOptionValue({
-    description: "Select DOV that has already been updated",
-    payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
+testSelectSystemOptionValue({
+    description: "Can revert to previous SOV",
     systemSetUpdate: {
-        detailOptionValues: [
-            {
-                oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
-                newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
-            },
-        ],
+        systemOptionValuePath: "1.SET.FRONT",
     },
+    payloadPath: "1.SET.CENTER",
+    systemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
     nonExistingDetailOptionValues: [
-        {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
-        },
+        expect.any(Object),
     ],
     nonExistingConfigurationOptionValues: [
-        {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID",
-        },
+        expect.any(Object),
     ],
 });
 
-/**
- * Also, we (may) need to make sure that when we update an item, it's old path and new path live within the same parent so that we don't get cascading delete errors
- */
-
-// // not sure if this is possible with the test system
-// testSelectDetailOptionValue({
-//     description: "Select DOV with partial path uses default and grouped values",
-//     payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
-// });
+testSelectSystemOptionValue({
+    description: "Can select new SOV",
+    systemSetUpdate: {
+        systemOptionValuePath: "1.SET.FRONT",
+    },
+    payloadPath: "1.SET.CENTER.JOINERY.STICK",
+    systemOptionValuePath: "1.SET.CENTER.JOINERY.STICK",
+    nonExistingDetailOptionValues: [
+        expect.any(Object),
+    ],
+    nonExistingConfigurationOptionValues: [
+        expect.any(Object),
+    ],
+});

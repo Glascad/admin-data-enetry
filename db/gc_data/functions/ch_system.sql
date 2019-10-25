@@ -28,7 +28,10 @@ BEGIN
 
     -- all grouped options must have same values
 
-    FOR og IN SELECT * FROM option_groups LOOP
+    FOR og IN (
+        SELECT * FROM option_groups
+        WHERE option_groups.system_id = s.id
+    ) LOOP
         previous_path := NULL;
         previous_ovs := NULL;
         previous_default := NULL;
@@ -38,7 +41,13 @@ BEGIN
             TYPE (detail, configuration)
             ALIAS (d, c)
         >>
-            FOR p, d IN SELECT path, default_<<TYPE>>_option_value FROM <<TYPE>>_options o WHERE o.name = og.name AND o.system_id = og.system_id LOOP
+            FOR p, d IN (
+                SELECT path, default_<<TYPE>>_option_value
+                FROM <<TYPE>>_options o
+                WHERE o.name = og.name
+                AND o.system_id = og.system_id
+                ORDER BY path, default_<<TYPE>>_option_value
+            ) LOOP
 
                 -- get all values
                 SELECT ARRAY_AGG(tov.name)
