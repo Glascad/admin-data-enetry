@@ -1,6 +1,7 @@
 import { replace, unique } from "../../../../../../../utils";
 import _ from 'lodash';
 import { SELECT_DETAIL_OPTION_VALUE, SELECT_CONFIGURATION_OPTION_VALUE } from ".";
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system-utils";
 
 export default function SELECT_OPTION_GROUP_VALUE({
     _systemSet: {
@@ -30,28 +31,29 @@ export default function SELECT_OPTION_GROUP_VALUE({
     // get details that need to be updated
     const [newDOVs, DOVsToUpdate] = _.partition(
         detailOptionValues,
-        ({ oldPath, newPath }) => !(oldPath || newPath).includes(`.${optionName}.`),
+        ({ newPath, oldPath }) => !(newPath || oldPath).includes(`.${optionName}.`),
     );
     const DTPaths = unique(DOVsToUpdate
-        .map(({ oldPath, newPath }) => (oldPath || newPath))
-        .concat(_systemSetDetailOptionValues.map(({ detailOptionValuePath }) => detailOptionValuePath))
+        .map(({ newPath, oldPath }) => (newPath || oldPath))
+        .concat(_systemSetDetailOptionValues
+            .map(({ detailOptionValuePath }) => detailOptionValuePath)
+            .filter(path => path.includes(`.${optionName}`))
+        )
         .map(path => path.replace(/(\.__DT__\.\w+)\..*$/, '$1'))
     );
+    const detailTypes = DTPaths.map(getDetailTypeFromPath);
     // within details that don't need to be updated, get configurations that need to be updated
     const [newCOVs, COVsToUpdate] = _.partition(
         configurationOptionValues,
-        ({ oldPath, newPath }) => !newDOVs.some(dov => (oldPath || newPath).startsWith(dov.oldPath || dov.newPath)),
+        ({ newPath, oldPath }) => !newDOVs.some(dov => (newPath || oldPath).startsWith(dov.newPath || dov.oldPath)),
     );
     const CTPaths = unique(COVsToUpdate
-        .map(({ oldPath, newPath }) => (oldPath || newPath))
+        .map(({ newPath, oldPath }) => (newPath || oldPath))
         .concat(_systemSetConfigurationOptionValues.map(({ configurationOptionValuePath }) => configurationOptionValuePath))
         .map(path => path.replace(/(\.__CT__\.\w+)\..*$/, '$1'))
-        //need some filtering here...
+        .filter(path => !detailTypes.includes(getDetailTypeFromPath(path)))
     );
-    console.log({
-        CTPaths,
-        DTPaths,
-    });
+    const configurationTypes = CTPaths.map(getConfigurationTypeFromPath);
     // update configurations
     return CTPaths.reduce((systemSetUpdate, path) => (
         SELECT_CONFIGURATION_OPTION_VALUE(

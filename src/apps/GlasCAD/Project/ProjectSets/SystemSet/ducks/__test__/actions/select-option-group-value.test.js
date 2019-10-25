@@ -95,7 +95,7 @@ function testSelectOptionGroupValue({
 }
 
 testSelectOptionGroupValue({
-    description: "Can update option group value with empty state, and select defaults for details",
+    description: "Can update option group value with empty state, and select defaults for configurations",
     payload: {
         optionName: "GLAZING",
         name: "OUTSIDE",
@@ -106,7 +106,7 @@ testSelectOptionGroupValue({
             name: "OUTSIDE",
         },
     ],
-    detailOptionValues: [
+    configurationOptionValues: [
         {
             oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
             newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
@@ -119,7 +119,7 @@ testSelectOptionGroupValue({
 });
 
 testSelectOptionGroupValue({
-    description: "Can update option group value with empty state, and select defaults for details",
+    description: "Can update option group value with empty state, and select defaults for details (again)",
     payload: {
         optionName: "STOPS",
         name: "UP",
@@ -130,14 +130,14 @@ testSelectOptionGroupValue({
             name: "UP",
         },
     ],
-    detailOptionValues: [
+    configurationOptionValues: [
         {
             oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
+            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.UP",
         },
         {
             oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE",
+            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.UP.GLAZING.INSIDE",
         },
     ],
 });

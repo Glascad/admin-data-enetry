@@ -186,6 +186,9 @@ export const getDefaultPath = (one, two, three) => {
 
 export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
 
-export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];
+export const getOptionGroupValuesByOptionName = (optionName, systemMap) => Object.keys(systemMap)
+    .reduce((values, key) => values.concat((
+        key.match(new RegExp(`^.*\\.${optionName}\\.(\\w+)\\..*$`)) || []
+    )[1] || []), []);
 
 export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));
