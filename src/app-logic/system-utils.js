@@ -185,3 +185,32 @@ export const replaceOptionValue = (path, optionName, newValueName) => path.repla
 export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];
 
 export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));
+
+export const getAllInstancesOfItem = (systemMap, itemName) => {
+    const nameRegex = new RegExp(`${itemName}$`);
+    return Object.keys(systemMap).filter(key => key.match(nameRegex));
+};
+
+export const canItemBeGrouped = (systemMap, {path}) => {
+    const itemName = getLastItemFromPath(path);
+    const allInstances = getAllInstancesOfItem(systemMap, itemName);
+    const values = getChildren({ path }, systemMap).map(value => getLastItemFromPath(value.path));
+    const [defaultValueKey, defaultValue] = Object.entries(systemMap[path]).find(([key]) => key.match(/default/i)) || [];
+
+
+    return allInstances.every(optionPath => {
+        const childrenValues = getChildren({ path: optionPath }, systemMap);
+        const [optionDefaultKey, optionDefaultValue] = Object.entries(systemMap[optionPath]).find(([key]) => key.match(/default/i)) || [];
+        return defaultValue ?
+            (
+                defaultValue === optionDefaultValue
+            ) : (
+                !optionDefaultValue
+            )
+            &&
+            childrenValues.length === values.length
+            &&
+            childrenValues.every(value => values.includes(getLastItemFromPath(value.path)));
+    });
+
+}

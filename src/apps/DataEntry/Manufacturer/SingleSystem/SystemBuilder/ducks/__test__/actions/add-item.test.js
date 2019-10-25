@@ -1,6 +1,6 @@
 import ADD_ITEM from "../../actions/add-item";
 
-function testAddOptionValue({
+function testAddItem({
     systemInput,
     payload,
     systemOutput,
@@ -13,7 +13,7 @@ function testAddOptionValue({
     });
 }
 
-testAddOptionValue({
+testAddItem({
     systemInput: {},
     payload: {
         parentSystemOptionPath: "1.SET",
@@ -31,7 +31,7 @@ testAddOptionValue({
     },
 });
 
-testAddOptionValue({
+testAddItem({
     systemInput: {
         newSystemOption: [{
             name: "SET",
@@ -60,7 +60,7 @@ testAddOptionValue({
     },
 });
 
-testAddOptionValue({
+testAddItem({
     systemInput: {},
     payload: {
         parentSystemOptionValuePath: "1.SET.CENTER",
@@ -78,7 +78,7 @@ testAddOptionValue({
     },
 });
 
-testAddOptionValue({
+testAddItem({
     systemInput: {},
     payload: {
         parentSystemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
@@ -96,7 +96,7 @@ testAddOptionValue({
     },
 });
 
-testAddOptionValue({
+testAddItem({
     systemInput: {},
     payload: {
         parentDetailOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
@@ -114,7 +114,7 @@ testAddOptionValue({
     },
 });
 
-testAddOptionValue({
+testAddItem({
     systemInput: {},
     payload: {
         parentConfigurationOptionPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",

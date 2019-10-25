@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../../components";
-import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM } from '../../ducks/actions';
-import { getChildren, filterOptionsAbove, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
+import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../ducks/actions';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped } from '../../../../../../../app-logic/system-utils';
 
 function EditOption({
     selectedItem: option = {},
@@ -13,6 +13,8 @@ function EditOption({
     dispatch,
 }) {
     console.log(arguments[0])
+
+    const { _optionGroups } = system;
 
     const {
         path: oPath,
@@ -37,7 +39,13 @@ function EditOption({
         .filter(({ name }) => !optionValues.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
-    console.log({ optionValues, validOptionValues, selectValidOptionValues });
+    const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
+    
+    console.log({
+        optionIsGrouped,
+        _optionGroups,
+        optionName
+    })
 
     return (
         <>
@@ -59,6 +67,17 @@ function EditOption({
                     }
                 })}
             />
+            {canItemBeGrouped(systemMap, option) ? (
+                <button
+                    data-cy="edit-option-value-group-option-button"
+                    className="sidebar-button light"
+                    onClick={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, option)}
+                >
+                    {optionIsGrouped ? 'Ungroup Option': 'Group Option'}
+                </button>
+            ) : null
+
+            }
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"
