@@ -2,6 +2,8 @@ import { match } from '../utils';
 
 export class SystemMap {
     constructor({
+        id,
+        _optionGroups = [],
         _systemOptions = [],
         _detailOptions = [],
         _configurationOptions = [],
@@ -12,6 +14,8 @@ export class SystemMap {
         _systemConfigurations = [],
     } = {}) {
         Object.assign(this, {
+            id,
+            _optionGroups,
             _systemOptions,
             _detailOptions,
             _configurationOptions,
@@ -190,5 +194,17 @@ export const getOptionGroupValuesByOptionName = (optionName, systemMap) => Objec
     .reduce((values, key) => values.concat((
         key.match(new RegExp(`^.*\\.${optionName}\\.(\\w+)\\..*$`)) || []
     )[1] || []), []);
+
+export const getDefaultOptionGroupValue = (optionName, { _configurationOptions, _detailOptions, _systemOptions }) => Object.entries([
+    ..._configurationOptions,
+    ..._detailOptions,
+    ..._systemOptions,
+].find(({ name }) => name === optionName) || {})
+    .reduce((defaultValue, [key, value]) => defaultValue || (
+        key.match(/^default/i) ?
+            value
+            :
+            defaultValue
+    ), '');
 
 export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));

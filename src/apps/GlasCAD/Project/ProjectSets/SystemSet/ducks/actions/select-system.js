@@ -5,13 +5,12 @@ export default function SELECT_SYSTEM({ allSystems }, systemSetUpdate, { systemN
 
     if (!systemId) throw new Error(`Cannot find system with name: ${systemName}`);
 
-    const result = {
+    return {
         ...systemSetUpdate,
         systemId,
+        optionGroupValues: undefined,
         systemOptionValuePath: undefined,
         detailOptionValues: undefined,
         configurationOptionValues: undefined,
     };
-    console.log(result);
-    return result;
 }

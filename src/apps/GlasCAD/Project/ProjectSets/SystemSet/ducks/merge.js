@@ -32,6 +32,9 @@ export default function merge({
     optionGroupValues = [],
     detailOptionValues = [],
     configurationOptionValues = [],
+}, {
+    id: actualSystemId,
+    _optionGroups = [],
 }) {
 
     validateSystemSetUpdate(arguments[1]);
@@ -45,11 +48,16 @@ export default function merge({
             undefined
     );
 
-    const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName, name }) => (
+    const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName }) => (
         oldSystemSetOptionGroupValues.some(ssogv => ssogv.optionName === optionName))
     );
 
-    const _systemSetOptionGroupValues = mergeOptionGroupValues(oldSystemSetOptionGroupValues, optionGroupValuesToUpdate).concat(optionGroupValuesToAdd);
+    const _systemSetOptionGroupValues = actualSystemId === systemId ?
+        mergeOptionGroupValues(oldSystemSetOptionGroupValues, optionGroupValuesToUpdate)
+            .concat(optionGroupValuesToAdd)
+            .filter(({ optionName }) => _optionGroups.some(({ name }) => name === optionName))
+        :
+        [];
 
     const updateOptionValues = (pathKey, oldArray, newArray, parentArray) => {
         const {
@@ -105,10 +113,10 @@ export default function merge({
 
     return {
         ..._systemSet,
+        systemOptionValuePath,
         ...removeNullValues({
             name,
             systemId,
-            systemOptionValuePath,
             _systemSetOptionGroupValues,
             _systemSetDetailOptionValues,
             _systemSetConfigurationOptionValues,

@@ -11,31 +11,44 @@ import {
     useRedoableState,
     ConfirmButton,
     AsyncButton,
+    useMutation,
 } from '../../../../../components';
 import { defaultSystemSetUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import {
-    GENERATE,
     SELECT_MANUFACTURER,
     SELECT_SYSTEM_TYPE,
     SELECT_SYSTEM,
     UPDATE_SYSTEM_SET_NAME,
+    SELECT_OPTION_GROUP_VALUE,
+    SELECT_SYSTEM_OPTION_VALUE,
 } from './ducks/actions';
 import SystemSetOptions from './SystemSetOptions';
 import './SystemSet.scss';
 import { parseSearch } from '../../../../../utils';
+import { SystemMap, getDefaultPath, getDefaultOptionGroupValue } from '../../../../../app-logic/system-utils';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
         ...EntireSystemSet
     }
-    # ...ValidOptions
     ...AllSystems
 }
 ${F.PRJ.ENTIRE_SYSTEM_SET}
 ${F.MNFG.ALL_SYSTEMS}
 `;
-// # ${F.CTRLD.VALID_OPTIONS}
+
+const mutation = gql`mutation UpdateEntireSystemSet($systemSet: EntireSystemSetInput!) {
+    updateEntireSystemSet(
+        input: {
+            systemSet: $systemSet
+        }
+    ) {
+        ...EntireSystemSet
+    }
+}
+${F.PRJ.ENTIRE_SYSTEM_SET}
+`;
 
 export default function SystemSet({
     location: {
@@ -47,18 +60,17 @@ export default function SystemSet({
     history,
 }) {
 
-    const { systemSetId, projectId } = parseSearch(search);
+    const { systemSetId } = parseSearch(search);
 
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
+    const [fetchSystemSet, systemSetQueryResult, fetchingSystemSet] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
+    const [updateSystemSet, updateResult, updating] = useMutation({ mutation }, fetchSystemSet);
 
     const {
         allSystems = [],
-    } = queryResult;
+    } = systemSetQueryResult;
 
     const {
         currentState: systemSetUpdate,
-        currentIndex,
-        cancel,
         replaceState,
         pushState,
     } = useRedoableState(defaultSystemSetUpdate);
@@ -67,9 +79,54 @@ export default function SystemSet({
         replaceState
         :
         pushState
-    )(systemSetUpdate => ACTION(queryResult, systemSetUpdate, payload));
+    )(systemSetUpdate => ACTION(systemSetQueryResult, systemSetUpdate, payload));
 
-    const systemSet = merge(queryResult, systemSetUpdate);
+    const [fetchSystem, systemQueryResult, fetchingSystem] = useQuery({
+        query: gql`
+            query SystemById($systemId: Int!) {
+                systemById(id: $systemId) {
+                    ...EntireSystem
+                }
+            }
+            ${F.MNFG.ENTIRE_SYSTEM}
+        `,
+    }, true);
+
+    const {
+        _system = {},
+        _system: {
+            id: newSystemId,
+            _systemConfigurations = [],
+            _optionGroups = [],
+        } = {},
+    } = systemQueryResult;
+
+    const systemMap = new SystemMap(_system);
+
+    useEffect(() => {
+        const newSystemOptionValuePath = getDefaultPath(systemMap);
+        if (
+            (systemId === newSystemId)
+            &&
+            !systemOptionValuePath
+            &&
+            newSystemOptionValuePath
+        ) {
+            console.log("UPDATING AFTER RESELECTION OF SYSTEM");
+            console.log({ systemMap });
+            _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
+                name,
+                getDefaultOptionGroupValue(name, systemMap),
+                systemMap,
+            ]));
+            dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                newSystemOptionValuePath,
+                systemMap,
+            ]);
+        }
+    });
+
+    const systemSet = merge(systemSetQueryResult, systemSetUpdate, systemMap);
 
     const {
         name,
@@ -78,6 +135,10 @@ export default function SystemSet({
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
     } = systemSet;
+
+    useEffect(() => {
+        if (systemId) fetchSystem({ systemId });
+    }, [systemId]);
 
     const {
         name: systemName = '',
@@ -88,18 +149,10 @@ export default function SystemSet({
     } = allSystems.find(({ id }) => id === systemId) || {};
 
     const save = async () => {
-
+        console.log({
+            systemSet,
+        });
     }
-
-    console.log({
-        props: arguments[0],
-        queryResult,
-        systemSetUpdate,
-        systemOptionValuePath,
-        _systemSetDetailOptionValues,
-        _systemSetConfigurationOptionValues,
-        systemSet,
-    });
 
     return (
         <>
@@ -167,8 +220,9 @@ export default function SystemSet({
                     />
                 </CollapsibleTitle>
                 <SystemSetOptions
-                    systemSet={systemSet}
                     dispatch={dispatch}
+                    systemSet={systemSet}
+                    systemMap={systemMap}
                 />
                 <div className="bottom-buttons">
                     <ConfirmButton

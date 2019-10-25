@@ -17,22 +17,20 @@ import {
     getOptionGroupValuesByOptionName,
     getDefaultPath,
     replaceOptionValue,
+    getDefaultOptionGroupValue,
 } from '../../../../../app-logic/system-utils';
 import F from '../../../../../schemas';
 import gql from 'graphql-tag';
-import { SELECT_SYSTEM_OPTION_VALUE, UNSELECT_CONFIGURATION, SELECT_CONFIGURATION_OPTION_VALUE, SELECT_DETAIL_OPTION_VALUE, SELECT_OPTION_GROUP_VALUE } from './ducks/actions';
+import {
+    SELECT_SYSTEM_OPTION_VALUE,
+    UNSELECT_CONFIGURATION,
+    SELECT_CONFIGURATION_OPTION_VALUE,
+    SELECT_DETAIL_OPTION_VALUE,
+    SELECT_OPTION_GROUP_VALUE,
+} from './ducks/actions';
 import { normalCase, match } from '../../../../../utils';
 
-const query = gql`query SystemById($systemId: Int!) {
-    systemById(id: $systemId) {
-        ...EntireSystem
-    }
-}
-${F.MNFG.ENTIRE_SYSTEM}
-`;
-
 export default function SystemSetOptions({
-    systemSet,
     systemSet: {
         systemId,
         systemOptionValuePath = '',
@@ -40,49 +38,15 @@ export default function SystemSetOptions({
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
     } = {},
+    systemMap,
+    systemMap: {
+        _systemConfigurations = [],
+        _optionGroups = [],
+    },
     dispatch,
 }) {
 
-    const [fetchQuery, queryResult, fetching] = useQuery({ query }, true);
-
-    useEffect(() => {
-        if (systemId) fetchQuery({ systemId });
-    }, [systemId]);
-
-    const {
-        _system = {},
-        _system: {
-            id: newSystemId,
-            _systemConfigurations = [],
-            _optionGroups = [],
-        } = {},
-    } = queryResult;
-
-    const systemMap = new SystemMap(_system);
-
-    useEffect(() => {
-        const newSystemOptionValuePath = getDefaultPath(systemMap);
-        if (
-            (systemId === newSystemId)
-            &&
-            !systemOptionValuePath
-            &&
-            newSystemOptionValuePath
-        ) {
-            // console.log({ systemOptionValuePath, newSystemOptionValuePath });
-            dispatch(SELECT_SYSTEM_OPTION_VALUE, [
-                newSystemOptionValuePath,
-                systemMap,
-            ]);
-        }
-    });
-
-    console.log({
-        queryResult,
-        systemSet,
-        fetching,
-        systemMap,
-    });
+    console.log(arguments[0]);
 
     return (
         <>
