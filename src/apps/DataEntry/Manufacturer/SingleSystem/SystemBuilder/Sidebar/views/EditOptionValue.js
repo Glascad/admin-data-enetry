@@ -138,13 +138,39 @@ function EditOptionValue({
                 <button
                     data-cy="edit-option-value-default-button"
                     className="sidebar-button light"
-                    onClick={() => dispatch(UPDATE_ITEM, {
-                        path: oPath,
-                        __typename: oTypename,
-                        update: {
-                            [`default${__typename}`]: oVName,
-                        }
-                    })}
+                    onClick={() => {
+                        const updateDefault = () => dispatch(UPDATE_ITEM, {
+                            path: oPath,
+                            __typename: oTypename,
+                            update: {
+                                [`default${__typename}`]: oVName,
+                            }
+                        })
+                        const updateDefaultForAllInstances = () => {
+                            updateDefault();
+                            getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
+                                .forEach(instance => {
+                                    const item = systemMap[instance];
+                                    dispatch(UPDATE_ITEM, {
+                                        path: item.path,
+                                        __typename: item.__typename,
+                                        update: {
+                                            [`default${item.__typename}Value`]: oVName,
+                                        }
+                                    }, {
+                                        replaceState: true
+                                    });
+                                });
+                        };
+                        optionIsGrouped ?
+                            confirmWithModal(updateDefaultForAllInstances, {
+                                titleBar: { title: `Change Default Value For Grouped Option` },
+                                children: 'Are you Sure?',
+                                finishButtonText: 'Change',
+                            })
+                            :
+                            updateDefault();
+                    }}
                 >
                     Make Default
                 </button>
@@ -341,6 +367,7 @@ function EditOptionValue({
                     });
 
                     const deleteValueFromEachOption = () => {
+                        deleteOptionValue(); //Check with Tommy if this is necessary
                         getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
                             .forEach(instance => {
                                 const item = systemMap[instance];

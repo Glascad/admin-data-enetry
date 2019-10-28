@@ -11,6 +11,7 @@ export default function SystemTree({
     search,
     system,
     system: {
+        _optionGroups,
         _systemOptions: {
             length,
         } = [],
@@ -55,6 +56,9 @@ export default function SystemTree({
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
                                 key.match(/default.+Value/) && value === name
                             ));
+                            const isGrouped = __typename.match(/option$/i)
+                                &&
+                                _optionGroups.some(og => og.name === name);
                             return (
                                 <div
                                     data-cy={`${path}`}
@@ -66,6 +70,8 @@ export default function SystemTree({
                                         item === selectedItem ? 'selected' : ''
                                         } ${
                                         isDefault ? 'default' : ''
+                                        } ${
+                                        isGrouped ? 'grouped' : ''
                                         }`}
                                     onClick={e => {
                                         e.stopPropagation();

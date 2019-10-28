@@ -184,10 +184,7 @@ function EditOption({
                                         getAllInstancesOfItem({ path: ovPath, __typename: valueTypename }, systemMap)
                                             .forEach(instance => {
                                                 const item = systemMap[instance];
-                                                dispatch(DELETE_ITEM, {
-                                                    path: item.path,
-                                                    __typename: item.__typename,
-                                                }, {
+                                                dispatch(DELETE_ITEM, item, {
                                                     replaceState: true,
                                                 })
                                             })

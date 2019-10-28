@@ -8,6 +8,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
         update,
     } = payload;
 
+    console.log(payload);
+
     const parentPath = getParentPath(payload);
     const name = getLastItemFromPath(path)
 
