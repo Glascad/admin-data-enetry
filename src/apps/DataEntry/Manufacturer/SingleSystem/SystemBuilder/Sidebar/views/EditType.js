@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
 function EditType({
@@ -106,13 +106,6 @@ function EditType({
                                     Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
                                     :
                                     [];
-                                if (_optionGroups.some(og => og.name === name)) {
-                                    instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                                        [`parent${oTypename}Path`]: oPath,
-                                        name: getLastItemFromPath(value.path),
-                                        __typename: `${oTypename}Value`,
-                                    }))
-                                }
                                 dispatch(UPDATE_ITEM, {
                                     path: oPath,
                                     __typename: oTypename,
@@ -122,6 +115,15 @@ function EditType({
 
                                     }
                                 })
+                                if (_optionGroups.some(og => og.name === name)) {
+                                    instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                                        [`parent${oTypename}Path`]: `${getParentPath({ path: oPath })}.${name}`,
+                                        name: getLastItemFromPath(value.path),
+                                        __typename: `${oTypename}Value`,
+                                    }, {
+                                        replaceState: true
+                                    }))
+                                }
                             }}
                         />
                         <CircleButton

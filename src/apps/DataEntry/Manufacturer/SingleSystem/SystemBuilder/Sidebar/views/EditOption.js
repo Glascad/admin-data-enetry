@@ -41,13 +41,6 @@ function EditOption({
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
 
-    // console.log({
-    //     optionIsGrouped,
-    //     _optionGroups,
-    //     optionName,
-    //     canItemBeGrouped: canItemBeGrouped(option, systemMap),
-    // })
-
     return (
         <>
             <TitleBar
@@ -61,29 +54,32 @@ function EditOption({
                 options={filterOptionsAbove(option, validOptions)
                     .map(({ name }) => name)}
                 onChange={name => {
+                    const allInstances = getAllInstancesOfItem({
+                        path: `${getParentPath(option)}.${name}`,
+                        __typename,
+                    }, systemMap);
+                    const firstInstance = systemMap[allInstances[0]];
+                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
+                    const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
+                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
+                        :
+                        [];
                     dispatch(UPDATE_ITEM, {
                         path: oPath,
                         __typename,
                         update: {
                             name,
+                            [`default${__typename}Value`]: instanceDefaultValue,
+
                         }
                     })
                     if (_optionGroups.some(og => og.name === name)) {
-                        const allInstances = getAllInstancesOfItem({
-                            path: `${getParentPath(option)}.${name}`,
-                            __typename,
-                        }, systemMap);
-                        const firstInstance = allInstances[0];
-                        const instanceValues = firstInstance ? getChildren(firstInstance) : [];
-                        console.log({
-                            allInstances,
-                            firstInstance,
-                            instanceValues,
-                        })
                         instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                            [`parent${__typename}Path`]: oPath,
+                            [`parent${__typename}Path`]: `${getParentPath(option)}.${name}`,
                             name: getLastItemFromPath(value.path),
                             __typename: `${__typename}Value`,
+                        }, {
+                            replaceState: true,
                         }))
                     }
                 }}

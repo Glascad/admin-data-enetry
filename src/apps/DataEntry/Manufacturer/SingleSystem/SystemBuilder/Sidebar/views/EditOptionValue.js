@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
+import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
 function EditOptionValue({
@@ -220,13 +220,6 @@ function EditOptionValue({
                                         Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
                                         :
                                         [];
-                                    if (_optionGroups.some(og => og.name === name)) {
-                                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                                            [`parent${childTypename}Path`]: childOptionPath,
-                                            name: getLastItemFromPath(value.path),
-                                            __typename: `${childTypename}Value`,
-                                        }))
-                                    }
                                     dispatch(UPDATE_ITEM, {
                                         path: childOptionPath,
                                         __typename: childTypename,
@@ -236,6 +229,15 @@ function EditOptionValue({
 
                                         }
                                     })
+                                    if (_optionGroups.some(og => og.name === name)) {
+                                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                                            [`parent${childTypename}Path`]: `${getParentPath({ path: childOptionPath })}.${name}`,
+                                            name: getLastItemFromPath(value.path),
+                                            __typename: `${childTypename}Value`,
+                                        }, {
+                                            replaceState: true
+                                        }))
+                                    }
                                 }}
                             />
                             <CircleButton
