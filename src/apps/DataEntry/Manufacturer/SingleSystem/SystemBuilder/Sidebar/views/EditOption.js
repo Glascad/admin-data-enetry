@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../../components";
 import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../ducks/actions';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 
 function EditOption({
     selectedItem: option = {},
-    system,
+    system: {
+        _optionGroups,
+    },
     systemMap,
     queryResult: {
         validOptions = [],
@@ -13,8 +15,6 @@ function EditOption({
     dispatch,
 }) {
     console.log(arguments[0])
-
-    const { _optionGroups } = system;
 
     const {
         path: oPath,
@@ -60,13 +60,33 @@ function EditOption({
                 value={optionName}
                 options={filterOptionsAbove(option, validOptions)
                     .map(({ name }) => name)}
-                onChange={name => dispatch(UPDATE_ITEM, {
-                    path: oPath,
-                    __typename,
-                    update: {
-                        name,
+                onChange={name => {
+                    dispatch(UPDATE_ITEM, {
+                        path: oPath,
+                        __typename,
+                        update: {
+                            name,
+                        }
+                    })
+                    if (_optionGroups.some(og => og.name === name)) {
+                        const allInstances = getAllInstancesOfItem({
+                            path: `${getParentPath(option)}.${name}`,
+                            __typename,
+                        }, systemMap);
+                        const firstInstance = allInstances[0];
+                        const instanceValues = firstInstance ? getChildren(firstInstance) : [];
+                        console.log({
+                            allInstances,
+                            firstInstance,
+                            instanceValues,
+                        })
+                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                            [`parent${__typename}Path`]: oPath,
+                            name: getLastItemFromPath(value.path),
+                            __typename: `${__typename}Value`,
+                        }))
                     }
-                })}
+                }}
             />
             {canItemBeGrouped(option, systemMap) ? (
                 <button
@@ -97,13 +117,15 @@ function EditOption({
                                         [`parent${item.__typename}Path`]: item.path,
                                         name: valueName,
                                         __typename: `${item.__typename}Value`,
+                                    }, {
+                                        replaceState: true,
                                     })
                                 })
                         };
                         optionIsGrouped ?
                             confirmWithModal(addValueToEachOption, {
                                 titleBar: { title: `Add Grouped Option Value` },
-                                children: `${optionName} Adding a value to a grouped option will add the value to all existing items with the name of ${optionName}`,
+                                children: `${optionName} Adding a value to a grouped option will add the value to all existing items with the name of ${optionName.toLowerCase()}`,
                                 finishButtonText: 'Add Value',
                             })
                             :
@@ -162,13 +184,37 @@ function EditOption({
                                         path: ovPath,
                                         __typename: valueTypename,
                                     });
-                                    if (valueChildren.length > 0) confirmWithModal(deleteOptionValue, {
-                                        titleBar: { title: `Delete ${vName}` },
-                                        children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                        finishButtonText: 'Delete',
-                                        danger: true,
-                                    })
-                                    else deleteOptionValue();
+                                    const deleteValueFromEachOption = () => {
+                                        getAllInstancesOfItem({ path: ovPath, __typename: valueTypename }, systemMap)
+                                            .forEach(instance => {
+                                                const item = systemMap[instance];
+                                                dispatch(DELETE_ITEM, {
+                                                    path: item.path,
+                                                    __typename: item.__typename,
+                                                }, {
+                                                    replaceState: true,
+                                                })
+                                            })
+                                    };
+                                    optionIsGrouped ?
+                                        confirmWithModal(deleteValueFromEachOption, {
+                                            titleBar: { title: `Delete Grouped Option Value` },
+                                            children: `Deleting a value attached to a grouped option will delete the value to all existing items with the name of ${optionName.toLowerCase()}`,
+                                            finishButtonText: 'Delete',
+                                            danger: true,
+                                        })
+                                        :
+                                        valueChildren.length > 0 ?
+                                            confirmWithModal(deleteOptionValue, {
+                                                titleBar: { title: `Delete ${vName}` },
+                                                children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                                finishButtonText: 'Delete',
+                                                danger: true,
+                                            })
+                                            :
+                                            deleteOptionValue();
+
+
                                 }}
                             />
                         </div>

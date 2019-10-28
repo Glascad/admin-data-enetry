@@ -96,13 +96,9 @@ export default function SystemBuilder({
 
                     if (noDefault) {
 
-                        const {
+                        const [{
                             path = '',
-                        } = (
-                            defaultValue
-                            &&
-                            children.find(({ path }) => path.endsWith(defaultValue))
-                        ) || children[0] || {};
+                        } = {}] = children;
 
                         const newDefault = getLastItemFromPath(path);
 

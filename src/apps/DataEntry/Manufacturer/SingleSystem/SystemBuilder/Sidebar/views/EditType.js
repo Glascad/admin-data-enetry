@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getChildren, filterOptionsAbove, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
 function EditType({
@@ -10,6 +10,9 @@ function EditType({
         path: tPath,
     } = {},
     system,
+    system: {
+        _optionGroups
+    },
     systemMap,
     queryResult: {
         validOptions = [],
@@ -80,7 +83,7 @@ function EditType({
                     onClick: () => dispatch(ADD_ITEM, {
                         __typename: `${type}Option`,
                         [`parent${__typename}Path`]: tPath,
-                        name: filterOptionsAbove(selectedType, validOptions)[0].name,
+                        name: 'ADD_OPTION',
                     }),
                 }}
             >
@@ -92,13 +95,34 @@ function EditType({
                             // autoFocus={childValues.length === 0}
                             value={oName}
                             options={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
-                            onChange={name => dispatch(UPDATE_ITEM, {
-                                path: oPath,
-                                __typename: oTypename,
-                                update: {
-                                    name,
+                            onChange={name => {
+                                const allInstances = getAllInstancesOfItem({
+                                    path: `${tPath}.${name}`,
+                                    __typename: oTypename,
+                                }, systemMap);
+                                const firstInstance = systemMap[allInstances[0]];
+                                const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
+                                const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
+                                    Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
+                                    :
+                                    [];
+                                if (_optionGroups.some(og => og.name === name)) {
+                                    instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                                        [`parent${oTypename}Path`]: oPath,
+                                        name: getLastItemFromPath(value.path),
+                                        __typename: `${oTypename}Value`,
+                                    }))
                                 }
-                            })}
+                                dispatch(UPDATE_ITEM, {
+                                    path: oPath,
+                                    __typename: oTypename,
+                                    update: {
+                                        name,
+                                        [`default${oTypename}Value`]: instanceDefaultValue,
+
+                                    }
+                                })
+                            }}
                         />
                         <CircleButton
                             data-cy="delete-option"

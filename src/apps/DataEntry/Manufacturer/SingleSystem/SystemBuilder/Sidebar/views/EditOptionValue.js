@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
+import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
 function EditOptionValue({
@@ -9,7 +9,9 @@ function EditOptionValue({
         path: ovPath,
         __typename,
     },
-    system,
+    system: {
+        _optionGroups
+    },
     systemMap,
     queryResult: {
         validOptions = [],
@@ -27,9 +29,11 @@ function EditOptionValue({
     const { path: oPath, __typename: oTypename } = option;
 
     const oName = oPath.replace(/^.*\.(\w+)$/, '$1');
-    const ovName = ovPath.replace(/^.*\.(\w+)$/, '$1');
+    const oVName = ovPath.replace(/^.*\.(\w+)$/, '$1');
 
-    const isDefault = option[Object.keys(option).find(k => k.match(/default/i))] === ovName;
+    const optionIsGrouped = _optionGroups.some(({ name }) => name === oName);
+
+    const isDefault = option[Object.keys(option).find(k => k.match(/default/i))] === oVName;
 
     const validValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -85,11 +89,11 @@ function EditOptionValue({
             />
             <Select
                 label="Option Value"
-                value={ovName}
+                value={oVName}
                 data-cy="edit-value-name"
                 options={selectValidValues}
                 onChange={name => {
-                    if (name !== ovName) {
+                    if (name !== oVName) {
                         const updateOptionValue = () => dispatch(UPDATE_ITEM, {
                             path: ovPath,
                             __typename,
@@ -97,14 +101,36 @@ function EditOptionValue({
                                 name,
                             }
                         })
-                        hasChildren ?
-                            confirmWithModal(updateOptionValue, {
-                                titleBar: { title: `Change ${ovName}?` },
+                        const deleteValueFromEachOption = () => {
+                            getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
+                                .forEach(instance => {
+                                    const item = systemMap[instance];
+                                    dispatch(UPDATE_ITEM, {
+                                        path: item.path,
+                                        __typename: item.__typename,
+                                        update: {
+                                            name,
+                                        }
+                                    }, {
+                                        replaceState: true
+                                    });
+                                });
+                        };
+                        optionIsGrouped ?
+                            confirmWithModal(deleteValueFromEachOption, {
+                                titleBar: { title: `Delete Grouped Option Value` },
                                 children: 'Are you Sure?',
                                 finishButtonText: 'Change',
                             })
                             :
-                            updateOptionValue()
+                            hasChildren ?
+                                confirmWithModal(updateOptionValue, {
+                                    titleBar: { title: `Change ${oVName}?` },
+                                    children: 'Are you Sure?',
+                                    finishButtonText: 'Change',
+                                })
+                                :
+                                updateOptionValue()
                     }
                 }}
             />
@@ -116,7 +142,7 @@ function EditOptionValue({
                         path: oPath,
                         __typename: oTypename,
                         update: {
-                            [`default${__typename}`]: ovName,
+                            [`default${__typename}`]: oVName,
                         }
                     })}
                 >
@@ -156,7 +182,7 @@ function EditOptionValue({
                             onClick: () => dispatch(ADD_ITEM, {
                                 __typename: __typename.replace(/value/i, ''),
                                 [`parent${__typename}Path`]: ovPath,
-                                name: filterOptionsAbove(optionValue, validOptions)[0].name,
+                                name: "ADD_OPTION",
                             }),
                         }
                     :
@@ -183,13 +209,34 @@ function EditOptionValue({
                                 value={childOptionName}
                                 options={filterOptionsAbove(optionValue, validOptions)
                                     .map(({ name }) => name)}
-                                onChange={name => dispatch(UPDATE_ITEM, {
-                                    __typename: childTypename,
-                                    path: childOptionPath,
-                                    update: {
-                                        name,
+                                onChange={name => {
+                                    const allInstances = getAllInstancesOfItem({
+                                        path: `${ovPath}.${name}`,
+                                        __typename: childTypename,
+                                    }, systemMap);
+                                    const firstInstance = systemMap[allInstances[0]];
+                                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
+                                    const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
+                                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
+                                        :
+                                        [];
+                                    if (_optionGroups.some(og => og.name === name)) {
+                                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                                            [`parent${childTypename}Path`]: childOptionPath,
+                                            name: getLastItemFromPath(value.path),
+                                            __typename: `${childTypename}Value`,
+                                        }))
                                     }
-                                })}
+                                    dispatch(UPDATE_ITEM, {
+                                        path: childOptionPath,
+                                        __typename: childTypename,
+                                        update: {
+                                            name,
+                                            [`default${childTypename}Value`]: instanceDefaultValue,
+
+                                        }
+                                    })
+                                }}
                             />
                             <CircleButton
                                 data-cy="delete-option"
@@ -286,19 +333,40 @@ function EditOptionValue({
                 className="sidebar-button danger"
                 data-cy="edit-option-value-delete-button"
                 onClick={() => {
-                    console.log(ovPath);
                     const deleteOptionValue = () => dispatch(DELETE_ITEM, {
                         path: ovPath,
                         __typename,
                     });
 
-                    if (hasChildren) confirmWithModal(deleteOptionValue, {
-                        titleBar: { title: `Delete ${ovName}?` },
-                        children: `Deleting ${ovName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                        danger: true,
-                        finishButtonText: 'Delete',
-                    });
-                    else deleteOptionValue();
+                    const deleteValueFromEachOption = () => {
+                        getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
+                            .forEach(instance => {
+                                const item = systemMap[instance];
+                                dispatch(DELETE_ITEM, {
+                                    path: item.path,
+                                    __typename: item.__typename,
+                                }, {
+                                    replaceState: true,
+                                })
+                            })
+                    };
+                    optionIsGrouped ?
+                        confirmWithModal(deleteValueFromEachOption, {
+                            titleBar: { title: `Delete Grouped Option Value` },
+                            children: `Deleting a value attached to a grouped option will impact other values`,
+                            finishButtonText: 'Delete',
+                            danger: true,
+                        })
+                        :
+                        hasChildren ?
+                            confirmWithModal(deleteOptionValue, {
+                                titleBar: { title: `Delete ${oVName}` },
+                                children: `Deleting ${oVName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                finishButtonText: 'Delete',
+                                danger: true,
+                            })
+                            :
+                            deleteOptionValue();
                 }}
             >
                 Delete Option Value
