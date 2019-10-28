@@ -147,9 +147,8 @@ function EditOptionValue({
                             }
                         })
                         const updateDefaultForAllInstances = () => {
-                            updateDefault();
                             getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
-                                .forEach(instance => {
+                                .forEach((instance, i) => {
                                     const item = systemMap[instance];
                                     dispatch(UPDATE_ITEM, {
                                         path: item.path,
@@ -158,7 +157,7 @@ function EditOptionValue({
                                             [`default${item.__typename}Value`]: oVName,
                                         }
                                     }, {
-                                        replaceState: true
+                                        replaceState: i !== 0,
                                     });
                                 });
                         };
@@ -367,15 +366,14 @@ function EditOptionValue({
                     });
 
                     const deleteValueFromEachOption = () => {
-                        deleteOptionValue(); //Check with Tommy if this is necessary
                         getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
-                            .forEach(instance => {
+                            .forEach((instance, i) => {
                                 const item = systemMap[instance];
                                 dispatch(DELETE_ITEM, {
                                     path: item.path,
                                     __typename: item.__typename,
                                 }, {
-                                    replaceState: true,
+                                    replaceState: i !== 0,
                                 })
                             })
                     };
