@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { match } from '../../../utils';
+import { match, replace } from '../../../utils';
 
 const multiplier = 250;
 
@@ -64,15 +64,24 @@ export default function SVG({
     className = '',
 }) {
     console.log(arguments[0]);
-    const pathArray = _.chunk(path.filter(hasCommand).map(multiplyArguments).map(joinArguments), 2);
+    const pathArray = path.filter(hasCommand).map(multiplyArguments).map(joinArguments);
+    const groupedPath = pathArray.reduce((ds, item) => {
+        const { command } = item;
+        if (command === 'M') return [...ds, [item]];
+        const lastIndex = ds.length - 1;
+        const lastItem = ds[lastIndex] || [];
+        return replace(ds, lastIndex, lastItem.concat(item));
+    }, []);
     console.log({ pathArray });
     const [selectedPath, selectPath] = useState(0);
     const handleKeyDown = e => {
         const { key = '' } = e;
         if (key.match(/Arrow(Up|Down|Left|Right)/)) {
             e.preventDefault();
-            if (key.match(/Up|Left/)) selectPath(i => i - 1 % pathArray.length);
-            else selectPath(i => i + 1 % pathArray.length);
+            if (key.match(/Up|Left/))
+                selectPath(i => i - 1 % pathArray.length);
+            else
+                selectPath(i => i + 1 % pathArray.length);
         }
     }
     useEffect(() => {
@@ -87,14 +96,14 @@ export default function SVG({
             viewBox={getViewBox(path, multiplier)}
             transform="scale(1, -1)"
         >
-            {pathArray.map(([{ d: da, ...a }, { d: db, ...b }], i) => (
+            {groupedPath.map((items, i) => (
                 <path
                     className={i === selectedPath ? 'selected' : ''}
                     key={i}
-                    d={da + db}
+                    d={items.map(({ d }) => d).join('')}
                     onClick={() => {
                         selectPath(i);
-                        console.log({ a, b });
+                        console.log({ items });
                     }}
                 />
             ))}

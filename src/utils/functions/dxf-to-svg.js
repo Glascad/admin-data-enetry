@@ -28,24 +28,42 @@ export default dxf => {
                 .reduce((subClasses, [subClass, value]) => ({
                     ...subClasses,
                     [subClass]: _.chunk(value.split(/\n+/g), 2)
-                        .reduce((obj, [code, value]) => ({
-                            ...obj,
-                            [code.trim()]: match((value || '').trim())
-                                .regex(/^\d+(\.\d*)?$/, +value)
-                                .otherwise(value),
-                        }), {}),
+                        .reduce((obj, [code, value]) => {
+                            const trimmedCode = code.trim();
+                            const convertedValue = match((value || '').trim())
+                                .regex(/^-?\d+(\.\d*)?$/, +value)
+                                .otherwise(value);
+                            const existingValue = obj[trimmedCode];
+                            return {
+                                ...obj,
+                                [trimmedCode]: existingValue ?
+                                    Array.isArray(existingValue) ?
+                                        existingValue.concat(convertedValue)
+                                        :
+                                        [existingValue, convertedValue]
+                                    :
+                                    convertedValue,
+                            };
+                        }, {
+                            subClass,
+                            value,
+                        }),
                 }), {});
 
             return {
                 ENTITY,
                 attributes,
                 subClasses,
+                value,
+                subs,
+                contents,
             };
         })
         // convert to SVG data
         .reduce((path, {
             ENTITY,
             subClasses,
+            contents,
         }) => path.concat(
             match(subClasses)
                 .case(ENTITY === 'LINE', ({
@@ -64,6 +82,7 @@ export default dxf => {
                 }, {
                     command: "L",
                     subClasses,
+                    contents,
                     arguments: [
                         xEnd,
                         yEnd,
@@ -89,6 +108,7 @@ export default dxf => {
                 }, {
                     command: "A",
                     subClasses,
+                    contents,
                     arguments: [
                         radius,
                         radius,
@@ -128,42 +148,54 @@ export default dxf => {
                 }) => [])
                 .case(ENTITY === 'LWPOLYLINE', ({
                     AcDbPolyline: {
-                        10: xVertices,
-                        20: yVertices,
+                        10: xVertices = [],
+                        20: yVertices = [],
                         38: elevation,
                         39: thickness,
-                        42: bulge,
+                        42: bulges = [],
                         43: constantWidth,
                         70: polylineFlag,
                         90: vertexCount,
                         91: vertexIdentifier,
                         ...unknownCodes
                     },
-                }) => [{
-                    command: "",
-                    arguments: [],
-                    AcDbPolyline: {
-                        xVertices,
-                        yVertices,
-                        elevation,
-                        thickness,
-                        bulge,
-                        constantWidth,
-                        polylineFlag,
-                        vertexCount,
-                        vertexIdentifier,
-                        unknownCodes,
-                    },
-                }])
+                }) => xVertices
+                    .map((x, i) => ({
+                        x,
+                        y: yVertices[i],
+                        bulge: bulges[i],
+                    }))
+                        .map(({ x, y, bulge }, i) => ({
+                            command: i === 0 ?
+                                "M"
+                                :
+                                "L",
+                            arguments: [
+                                x,
+                                y,
+                            ],
+                        }))
+                )
                 .case(ENTITY === 'SPLINE', ({
                     AcDbSpline: {
                         50: startAngle,
                         51: endAngle,
+                        ...unknownCodes
                     },
-                }) => [])
+                }) => [{
+                    command: "",
+                    arguments: [],
+                    subClasses,
+                    contents,
+                    AcDbSpline: {
+                        startAngle,
+                        endAngle,
+                        unknownCodes,
+                    },
+                }])
                 .otherwise(() => {
                     console.error(`Unknown Entity: ${ENTITY}`);
-                    console.error({ ENTITY, subClasses });
+                    console.error({ ENTITY, subClasses, contents });
                     return [];
                 })
         ), []);
