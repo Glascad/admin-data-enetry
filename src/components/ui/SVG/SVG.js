@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { match } from '../../../utils';
-import { Input } from '../..';
 
-const multiplyArguments = multiplier => ({ command, arguments: args, ...rest }) => ({
+const multiplier = 250;
+
+const hasCommand = ({ command }) => command;
+
+const multiplyArguments = ({ command, arguments: args, ...rest }) => ({
     ...rest,
     command,
     arguments: match(command)
@@ -60,36 +63,41 @@ export default function SVG({
     path = [],
     className = '',
 }) {
-
-    const [multiplier, setMultiplier] = useState(18);
-
     console.log(arguments[0]);
-
-    const paths = _.chunk(path.map(multiplyArguments(multiplier)).map(joinArguments), 2);
-
-    console.log({ paths });
-
+    const pathArray = _.chunk(path.filter(hasCommand).map(multiplyArguments).map(joinArguments), 2);
+    console.log({ pathArray });
+    const [selectedPath, selectPath] = useState(0);
+    const handleKeyDown = e => {
+        const { key = '' } = e;
+        if (key.match(/Arrow(Up|Down|Left|Right)/)) {
+            e.preventDefault();
+            if (key.match(/Up|Left/)) selectPath(i => i - 1 % pathArray.length);
+            else selectPath(i => i + 1 % pathArray.length);
+        }
+    }
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
     return (
-        <>
-            <Input
-                label="Multiplier"
-                type="number"
-                value={multiplier}
-                onChange={({ target: { value } }) => setMultiplier(value)}
-            />
-            <svg
-                className={className}
-                viewBox={getViewBox(path, multiplier)}
-                transform="scale(1, -1)"
-            >
-                {paths.map(([{ d: da, ...a }, { d: db, ...b }], i) => (
-                    <path
-                        key={i}
-                        d={da + db}
-                        onClick={() => console.log({ a, b })}
-                    />
-                ))}
-            </svg>
-        </>
+        <svg
+            className={className}
+            viewBox={getViewBox(path, multiplier)}
+            transform="scale(1, -1)"
+        >
+            {pathArray.map(([{ d: da, ...a }, { d: db, ...b }], i) => (
+                <path
+                    className={i === selectedPath ? 'selected' : ''}
+                    key={i}
+                    d={da + db}
+                    onClick={() => {
+                        selectPath(i);
+                        console.log({ a, b });
+                    }}
+                />
+            ))}
+        </svg>
     );
 }

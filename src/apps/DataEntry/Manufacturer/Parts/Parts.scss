@@ -1,13 +1,15 @@
+@import "../../../../styles/variables";
 
 .part-preview {
+    background: black;
     fill: none;
 
     path {
-        stroke: black;
+        stroke: $light-gray;
         stroke-width: 1px;
-    }
 
-    circle {
-        stroke: blue;
+        &.selected {
+            stroke: $danger-color;
+        }
     }
 }
