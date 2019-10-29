@@ -39,6 +39,10 @@ const match = (...inputs) => ({
             matched(invokeIfCallback(args[args.length - 1], ...inputs))
             :
             match(...inputs),
+    in: (array, cb) => inputs.every(input => array.includes(input)) ?
+        matched(invokeIfCallback(cb, ...inputs))
+        :
+        match(...inputs),
     regex: (...args) => inputs.length === 1 ?
         inputs[0].match(args[0]) ?
             matched(invokeIfCallback(args[1], ...inputs))

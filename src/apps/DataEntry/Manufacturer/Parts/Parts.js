@@ -3,69 +3,78 @@ import {
     Navigator,
     TitleBar,
     Input,
+    SVG,
 } from '../../../../components';
 import {
     extractPathData,
+    getDroppedFileContents,
+    DXFToSVG,
 } from '../../../../utils';
+import './Parts.scss';
 
-export default function Parts() {
+export default function Parts({
+    _manufacturer: {
+        name,
+    } = {},
+}) {
+    console.log(arguments[0]);
     const [files, setFiles] = useState([]);
     const addFile = file => setFiles(files => files.concat(file));
     return (
         <div className="card">
+            <TitleBar
+                title="Manufacturer"
+                selections={[name]}
+            />
             <Input
                 label="Drop"
-                onDrop={e => {
-                    const {
-                        dataTransfer,
-                        dataTransfer: {
-                            items,
-                            files,
-                        }
-                    } = e;
-
+                onDrop={async e => {
                     e.preventDefault();
-
-                    // console.log({ dataTransfer, items, files });
-
-                    [...files].forEach(file => {
-                        console.log(files);
-                        const { name } = file;
-                        const reader = new FileReader();
-                        reader.onload = ({ target: { result: contents } }) => {
-                            try {
-                                addFile({
-                                    name,
-                                    contents,
-                                    pathData: extractPathData(contents),
-                                });
-                            } catch (err) {
-                                addFile({
-                                    name,
-                                    contents,
-                                    error: err.message,
-                                });
-                            }
-                        }
-                        reader.readAsText(file);
+                    const {
+                        dataTransfer: {
+                            files,
+                        },
+                    } = e;
+                    const results = await getDroppedFileContents(...files);
+                    results.forEach(({
+                        file: {
+                            name
+                        },
+                        contents
+                    }) => {
+                        const data = DXFToSVG(contents);
+                        const json = JSON.stringify(data, null, 4);
+                        console.log({ name, contents, data, json });
+                        addFile({
+                            name,
+                            contents,
+                            data,
+                            json,
+                        });
                     });
                 }}
             />
-            {files.map(({ name, contents, pathData }) => (
+            {files.map(({ name, contents, data, json }) => (
                 <>
                     <TitleBar
                         title={name}
+                        selections={["Extracted Data"]}
+                    />
+                    <SVG
+                        className="part-preview"
+                        path={data}
                     />
                     <pre>
                         <code>
-                            {contents}
+                            {/* {contents.replace(/\n/g, '\\n').replace(/\r/, '\\r')} */}
+                            {/* {json} */}
                         </code>
                     </pre>
-                    <pre>
+                    {/* <pre>
                         <code>
                             {JSON.stringify(pathData, null, 4)}
                         </code>
-                    </pre>
+                    </pre> */}
                 </>
             ))}
         </div>
