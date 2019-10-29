@@ -51,7 +51,7 @@ export default function merge({
     console.log({ _system, systemMap });
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
-        .filter(({ path }) => !pathsToDelete.some(deletedPath => path.includes(deletedPath)))
+        .filter(({ path }) => !pathsToDelete.some(deletedPath => path.startsWith(deletedPath) && !path.startsWith(`${deletedPath}_`)))
         .map(oldItem => {
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);

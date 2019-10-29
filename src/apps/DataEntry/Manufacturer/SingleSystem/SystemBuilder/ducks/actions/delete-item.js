@@ -34,11 +34,15 @@ export default function DELETE_ITEM(systemInput, payload) {
             .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
         const updatedPath = `${parentPath || getParentPath({ path: itemPath })}.${itemUpdate.name || getLastItemFromPath(itemPath)}`;
 
-        return updatedPath.includes(path) ?
+        return updatedPath.startsWith(path) && !updatedPath.startsWith(`${path}_`) ?
             [updated, deleted.concat(getOldPath(systemInput, updatedPath))]
             :
             [updated.concat(item), deleted]
     }, [[], []]);
+
+    console.log({
+        partitionDeletedItems
+    })
 
     // delete all new items that include the deleted path
     const updatedNewItems = Object.entries(systemInput)
@@ -49,7 +53,8 @@ export default function DELETE_ITEM(systemInput, payload) {
                 const { name } = item;
                 const [parentPathKey, parentPath] = Object.entries(item)
                     .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
-                return !(`${parentPath}.${key.match(/details$/i) ? '__DT__.' : ''}${key.match(/configurations$/i) ? '__CT__.' : ''}${name}`.startsWith(path));
+                const updatedNewPath = `${parentPath}.${key.match(/details$/i) ? '__DT__.' : ''}${key.match(/configurations$/i) ? '__CT__.' : ''}${name}`;
+                return !updatedNewPath.startsWith(path) || updatedNewPath.startsWith(`${path}_`);
             })
         }), {});
 

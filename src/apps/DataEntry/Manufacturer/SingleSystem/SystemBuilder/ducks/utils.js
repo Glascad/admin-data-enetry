@@ -25,3 +25,8 @@ export const getOldPath = (systemInput, currentPath) => Object.entries(systemInp
             :
             resultPaths
     }, {}).path || currentPath;
+
+export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
+    name
+    :
+    getSelectTypeName(valueChildrenArr, `${name}_`);

@@ -166,3 +166,24 @@ testDeleteItem({
         pathsToDelete: ["1.SET.CENTER.SILL"]
     },
 });
+
+testDeleteItem({
+    systemInput: {
+        systemDetails: [
+            {
+                path: "1.SET.CENTER.SILL_FLASHING",
+                __typename: "SystemDetail",
+                update: {
+                }
+            },
+        ],
+        pathsToDelete: ['1.SET.CENTER.SILL'],
+    },
+    payload: {
+        path: "1.SET.CENTER.SILL_FLASHING",
+        __typename: "SystemDetail",
+    },
+    systemOutput: {
+        pathsToDelete: expect.arrayContaining(["1.SET.CENTER.SILL", "1.SET.CENTER.SILL_FLASHING"])
+    },
+});

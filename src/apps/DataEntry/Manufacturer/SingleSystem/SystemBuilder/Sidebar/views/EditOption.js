@@ -107,14 +107,14 @@ function EditOption({
                             const valueName = (validOptionValues.find(({ name }) => !optionValues
                                 .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value';
                             getAllInstancesOfItem(option, systemMap)
-                                .forEach(instance => {
+                                .forEach((instance, i) => {
                                     const item = systemMap[instance];
                                     dispatch(ADD_ITEM, {
                                         [`parent${item.__typename}Path`]: item.path,
                                         name: valueName,
                                         __typename: `${item.__typename}Value`,
                                     }, {
-                                        replaceState: true,
+                                        replaceState: i !== 0,
                                     })
                                 })
                         };

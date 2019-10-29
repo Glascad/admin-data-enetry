@@ -184,7 +184,7 @@ export const replaceOptionValue = (path, optionName, newValueName) => path.repla
 
 export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];
 
-export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));
+export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path) && !descendant.startsWith(`${path}_`)));
 
 export const getAllInstancesOfItem = (item, systemMap) => {
     const { path, __typename } = item;

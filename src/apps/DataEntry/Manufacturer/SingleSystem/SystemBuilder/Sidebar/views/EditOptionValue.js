@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
 import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
+import { getSelectTypeName } from '../../ducks/utils';
 
 function EditOptionValue({
     selectedItem: optionValue,
@@ -79,8 +80,9 @@ function EditOptionValue({
         configurationTypes;
 
     const selectTypes = selectValidTypes
-        .filter(name => !valueChildren.some(({ path: childTypePath }) => (
-            name.toLowerCase() === (getLastItemFromPath(childTypePath).toLowerCase()))))
+        .filter(name => !valueChildren.some(({ path: childTypePath }) =>
+            name.toLowerCase() === getLastItemFromPath(childTypePath).toLowerCase()
+        ));
 
     return (
         <>
@@ -215,11 +217,13 @@ function EditOptionValue({
                         "data-cy": `add-${childTypeType.toLowerCase()}`,
                         actionType: "add",
                         className: "action",
-                        onClick: () => dispatch(ADD_ITEM, {
-                            __typename: childTypeTypename,
-                            [`parent${__typename}Path`]: ovPath,
-                            name: selectTypes[0],
-                        }),
+                        onClick: () => {
+                            dispatch(ADD_ITEM, {
+                                __typename: childTypeTypename,
+                                [`parent${__typename}Path`]: ovPath,
+                                name: getSelectTypeName(valueChildren, `ADD_${childTypeTypename.match(/detail/i) ? 'DETAIL' : 'CONFIGURATION'}`),
+                            })
+                        },
                     }
                         :
                         undefined}

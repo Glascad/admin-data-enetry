@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath, getSiblings } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
 function EditType({
@@ -38,6 +38,17 @@ function EditType({
     const oName = getLastItemFromPath(oPath);
 
     const childValues = getChildren(childOption, systemMap); // Types' Child's children
+    const siblingTypes = getSiblings(selectedType, systemMap);
+
+    const selectValidTypes = __typename.match(/detail/i) ?
+        detailTypes
+        :
+        configurationTypes;
+
+    const selectTypes = selectValidTypes
+        .filter(name => !siblingTypes.some(({ path: typePath }) =>
+            name.toLowerCase() === getLastItemFromPath(typePath).toLowerCase()
+        ));
     return (
         <>
             <TitleBar
@@ -47,13 +58,7 @@ function EditType({
                 data-cy={`edit-${type.toLowerCase()}-type`}
                 label={type}
                 value={tName}
-                options={(isDetail ?
-                    detailTypes
-                    :
-                    configurationTypes
-                )
-                    .filter(type => type !== tName)
-                    .map(type => type)}
+                options={selectTypes}
                 onChange={name => {
                     if (name !== tName) {
                         const updateType = () => dispatch(UPDATE_ITEM, {
