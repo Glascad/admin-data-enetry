@@ -8,7 +8,7 @@ import React, {
 import { withRouter } from 'react-router-dom';
 
 import { StaticContext } from '../../../../../../Statics/Statics';
-import { TransformContext, pixelsPerInch, withTransformContext } from '../contexts/ElevationTransformContext';
+import { TransformContext, pixelsPerInch, withTransformContext } from '../contexts/ElevationTransformProvider';
 
 // import Container from './components/Container';
 import Container from './Containers/Container';

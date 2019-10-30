@@ -7,7 +7,7 @@ DECLARE
     other_comp RECORD;
 BEGIN
 
-    -- selected system subtree must be a terminal system option value
+    -- selected option values must be a terminal
 
         -- check that child type of system option value is system_detail
         IF get_system_option_value_child_type(ss.system_option_value_path) <> 'system_detail' THEN
@@ -35,13 +35,11 @@ BEGIN
     -- all option groups from the selected system subtree must have a corresponding option group value
 
         FOR comp IN (
-            SELECT ssogvs.name AS selected_value, ogs.system_option_value_path AS option_path, ogs.name AS option_name
+            SELECT ssogvs.name AS selected_value, ogs.name AS option_name
             FROM option_groups ogs
             FULL OUTER JOIN system_set_option_group_values ssogvs
-            ON ssogvs.option_group_system_option_value_path = ogs.system_option_value_path
-            AND ssogvs.option_name = ogs.name
-            WHERE ogs.system_option_value_path = ss.system_option_value_path
-            OR ogs.system_option_value_path @> ss.system_option_value_path
+            ON ssogvs.system_id = ogs.system_id
+            WHERE ogs.system_id = ss.id
         ) LOOP
 
             IF comp.selected_value IS NULL THEN

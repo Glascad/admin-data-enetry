@@ -6,7 +6,6 @@ import {
     ApolloWrapper,
     Navigator,
     Ellipsis,
-    withQueryParams,
     useQuery,
 } from '../../../components';
 
@@ -34,23 +33,14 @@ const subroutes = {
     // Notes,
 };
 
-
-const Project = withQueryParams({
-    required: {
-        projectId: Number,
-    },
-}, ({ path }) => `${
-    path
-    }`
-)(ProjectComponent);
-
-
-
 Project.navigationOptions = ({
     location: {
         search,
     },
 }) => ({
+    requiredURLParams: ['projectId'],
+    subroutes,
+    path: "/project",
     name: (
         <ApolloWrapper
             query={{
@@ -69,14 +59,9 @@ Project.navigationOptions = ({
             }) => name || <Ellipsis />}
         </ApolloWrapper>
     ),
-    shouldRender: !!parseSearch(search).projectId,
-    subroutes,
-    path: "/project",
 });
 
-export default Project;
-
-function ProjectComponent({
+export default function Project({
     match: {
         path,
     },

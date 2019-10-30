@@ -11,9 +11,10 @@ export const final = result => ({
 const matched = result => ({
     on: () => matched(result),
     case: () => matched(result),
-    against: () => matched(result),
     equals: () => matched(result),
+    in: () => matched(result),
     regex: () => matched(result),
+    against: () => matched(result),
     otherwise: () => result,
     finally: () => {
         throw new Error(`Must use \`otherwise()\` before using finally()`);
@@ -39,6 +40,10 @@ const match = (...inputs) => ({
             matched(invokeIfCallback(args[args.length - 1], ...inputs))
             :
             match(...inputs),
+    in: (array, cb) => inputs.every(input => array.includes(input)) ?
+        matched(invokeIfCallback(cb, ...inputs))
+        :
+        match(...inputs),
     regex: (...args) => inputs.length === 1 ?
         inputs[0].match(args[0]) ?
             matched(invokeIfCallback(args[1], ...inputs))
@@ -49,16 +54,11 @@ const match = (...inputs) => ({
             matched(invokeIfCallback(args[args.length - 1], ...inputs))
             :
             match(...inputs),
-    against: inputs.length === 1 ?
-        obj => Object.entries(obj)
-            .reduce(
-                (acc, [key, cb]) => acc.equals(key, cb),
-                match(`${inputs[0]}`)
-            )
-        :
-        () => {
-            throw new Error(`Cannot use match().against() on more than one input. Received ${inputs.length} inputs: ${inputs.join(', ')}`)
-        },
+    against: obj => Object.entries(obj)
+        .reduce(
+            (acc, [key, cb]) => acc.equals(key, cb),
+            match(`${inputs[0]}`, ...inputs.slice(1))
+        ),
     otherwise: cb => invokeIfCallback(cb, ...inputs),
     finally: () => {
         throw new Error(`Must use \`otherwise()\` before using finally()`);

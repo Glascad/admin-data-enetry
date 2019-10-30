@@ -11,7 +11,7 @@ export default gql`
         }
     }
     ${F.ELVTN.ENTIRE_ELEVATION}
-    ${F.SYS.ENTIRE_SYSTEM}
+    ${F.MNFG.ENTIRE_SYSTEM}
 `;
 
 export const bugReportQuery = gql`

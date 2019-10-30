@@ -4,81 +4,129 @@ import F from '../../../../../schemas';
 import {
     useQuery,
     TitleBar,
-    withQueryParams,
     CollapsibleTitle,
     Select,
     Input,
     GroupingBox,
     useRedoableState,
+    ConfirmButton,
+    AsyncButton,
+    useMutation,
 } from '../../../../../components';
 import { defaultSystemSetUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
 import {
-    GENERATE,
     SELECT_MANUFACTURER,
     SELECT_SYSTEM_TYPE,
     SELECT_SYSTEM,
     UPDATE_SYSTEM_SET_NAME,
+    SELECT_OPTION_GROUP_VALUE,
+    SELECT_SYSTEM_OPTION_VALUE,
 } from './ducks/actions';
 import SystemSetOptions from './SystemSetOptions';
+import './SystemSet.scss';
+import { parseSearch } from '../../../../../utils';
+import { SystemMap, getDefaultPath, getDefaultOptionGroupValue } from '../../../../../app-logic/system-utils';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
         ...EntireSystemSet
     }
-    # ...ValidOptions
     ...AllSystems
 }
 ${F.PRJ.ENTIRE_SYSTEM_SET}
-${F.SYS.ALL_SYSTEMS}
+${F.MNFG.ALL_SYSTEMS}
 `;
-// # ${F.CTRLD.VALID_OPTIONS}
 
-export default withQueryParams({
-    required: {
-        projectId: Number,
+const mutation = gql`mutation UpdateEntireSystemSet($systemSet: EntireSystemSetInput!) {
+    updateEntireSystemSet(
+        input: {
+            systemSet: $systemSet
+        }
+    ) {
+        ...EntireSystemSet
+    }
+}
+${F.PRJ.ENTIRE_SYSTEM_SET}
+`;
+
+export default function SystemSet({
+    location: {
+        search,
     },
-    optional: {
-        systemSetId: id => +id || 0,
+    match: {
+        path,
     },
-}, ({ __failed__, path, parsed }) => `${
-    path.replace(/system-set.*$/, 'all')
-    }${
-    parsed.remove(Object.keys(__failed__))
-    }`
-)(function SystemSet({
-    params: {
-        systemSetId,
-        projectId,
-    },
+    history,
 }) {
 
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { systemSetId } });
+    const { systemSetId } = parseSearch(search);
+
+    const [fetchSystemSet, systemSetQueryResult, fetchingSystemSet] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
+    const [updateSystemSet, updateResult, updating] = useMutation({ mutation }, fetchSystemSet);
 
     const {
         allSystems = [],
-    } = queryResult;
+    } = systemSetQueryResult;
 
     const {
         currentState: systemSetUpdate,
-        currentIndex,
-        cancel,
         replaceState,
         pushState,
     } = useRedoableState(defaultSystemSetUpdate);
 
-    const dispatch = (ACTION, payload, shouldReplaceState = false) => console.log({
-        ACTION,
-        ACTION_NAME: ACTION.name,
-        payload,
-        shouldReplaceState,
-    }) || (shouldReplaceState ?
+    const dispatch = (ACTION, payload, shouldReplaceState = false) => (shouldReplaceState ?
         replaceState
         :
         pushState
-    )(systemSetUpdate => ACTION(queryResult, systemSetUpdate, payload));
+    )(systemSetUpdate => ACTION(systemSetQueryResult, systemSetUpdate, payload));
 
-    const systemSet = merge(queryResult, systemSetUpdate);
+    const [fetchSystem, systemQueryResult, fetchingSystem] = useQuery({
+        query: gql`
+            query SystemById($systemId: Int!) {
+                systemById(id: $systemId) {
+                    ...EntireSystem
+                }
+            }
+            ${F.MNFG.ENTIRE_SYSTEM}
+        `,
+    }, true);
+
+    const {
+        _system = {},
+        _system: {
+            id: newSystemId,
+            _systemConfigurations = [],
+            _optionGroups = [],
+        } = {},
+    } = systemQueryResult;
+
+    const systemMap = new SystemMap(_system);
+
+    useEffect(() => {
+        const newSystemOptionValuePath = getDefaultPath(systemMap);
+        if (
+            (systemId === newSystemId)
+            &&
+            !systemOptionValuePath
+            &&
+            newSystemOptionValuePath
+        ) {
+            console.log("UPDATING AFTER RESELECTION OF SYSTEM");
+            console.log({ systemMap });
+            _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
+                name,
+                getDefaultOptionGroupValue(name, systemMap),
+                systemMap,
+            ]));
+            dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                newSystemOptionValuePath,
+                systemMap,
+            ]);
+        }
+    });
+
+    const systemSet = merge(systemSetQueryResult, systemSetUpdate, systemMap);
 
     const {
         name,
@@ -88,6 +136,10 @@ export default withQueryParams({
         _systemSetConfigurationOptionValues = [],
     } = systemSet;
 
+    useEffect(() => {
+        if (systemId) fetchSystem({ systemId });
+    }, [systemId]);
+
     const {
         name: systemName = '',
         systemType = '',
@@ -96,54 +148,70 @@ export default withQueryParams({
         } = {},
     } = allSystems.find(({ id }) => id === systemId) || {};
 
-    console.log({
-        props: arguments[0],
-        queryResult,
-        systemSetUpdate,
-        systemOptionValuePath,
-        _systemSetDetailOptionValues,
-        _systemSetConfigurationOptionValues,
-        systemSet,
-    });
+    const save = async () => {
+        console.log({
+            systemSet,
+        });
+    }
 
     return (
         <>
             <TitleBar
-                title="System Set"
-                selections={name ? [name] : undefined}
+                title={`${systemSetId ? '' : 'New '}System Set`}
+                selections={[name]}
+                right={(
+                    <>
+                        <ConfirmButton
+                            doNotConfirmWhen={true}
+                            onClick={() => history.push(`${path.replace(/system.set/, 'all')}${search}`)}
+                        >
+                            Close
+                        </ConfirmButton>
+                        <AsyncButton
+                            onClick={save}
+                            className="action"
+                        >
+                            Save
+                        </AsyncButton>
+                    </>
+                )}
             />
             <div className="card">
                 {/* SYSTEM INFO */}
                 <CollapsibleTitle
                     title="System Set"
                 >
-                    {/* <GroupingBox
+                    <GroupingBox
                         title="System Info"
                     >
                         <div className="input-group">
                             <Select
                                 data-cy="manufacturer-name"
                                 label="Manufacturer"
+                                className="warning"
                                 value={manufacturerName}
                                 options={allSystems.map(({ _manufacturer: { name } }) => name)}
-                                onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
+                                onChange={() => { }}
+                            // onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
                             />
                             <Select
                                 data-cy="system-type"
                                 label="System Type"
+                                className="warning"
                                 value={systemType}
                                 options={allSystems.map(({ systemType }) => systemType)}
-                                onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
-                            /> */}
-                    <Select
-                        data-cy="system-name"
-                        label="System"
-                        value={systemName}
-                        options={allSystems.map(({ name }) => name)}
-                        onChange={systemName => dispatch(SELECT_SYSTEM, { systemName })}
-                    />
-                    {/* </div>
-                    </GroupingBox> */}
+                                onChange={() => { }}
+                            // onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
+                            />
+                            <Select
+                                data-cy="system-name"
+                                label="System"
+                                value={systemName}
+                                options={allSystems.map(({ name }) => name)}
+                                onChange={systemName => dispatch(SELECT_SYSTEM, { systemName })}
+                            />
+                        </div>
+                    </GroupingBox>
                     <Input
                         data-cy="system-set-name"
                         label="System Set Name"
@@ -152,10 +220,25 @@ export default withQueryParams({
                     />
                 </CollapsibleTitle>
                 <SystemSetOptions
-                    systemSet={systemSet}
                     dispatch={dispatch}
+                    systemSet={systemSet}
+                    systemMap={systemMap}
                 />
+                <div className="bottom-buttons">
+                    <ConfirmButton
+                        doNotConfirmWhen={true}
+                        onClick={() => history.push(`${path.replace(/system.set/, 'all')}${search}`)}
+                    >
+                        Close
+                    </ConfirmButton>
+                    <AsyncButton
+                        onClick={save}
+                        className="action"
+                    >
+                        Save
+                    </AsyncButton>
+                </div>
             </div>
         </>
     );
-});
+};

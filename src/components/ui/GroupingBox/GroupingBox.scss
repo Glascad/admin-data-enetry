@@ -9,6 +9,10 @@
     width: fit-content;
     min-width: $pill-width;
 
+    &.full-width {
+        width: fill;
+    }
+
     // button {
     //     &:not(.danger) {
     //         background: $off-white;

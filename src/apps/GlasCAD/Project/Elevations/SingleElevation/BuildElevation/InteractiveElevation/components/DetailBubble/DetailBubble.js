@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withTransformContext } from '../../../contexts/ElevationTransformContext';
+import { withTransformContext } from '../../../contexts/ElevationTransformProvider';
 
 class DetailBubble extends PureComponent {
 

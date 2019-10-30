@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     height: fill;
+    min-height: fit-content;
     overflow: hidden;
 
     &.spacebar-pressed {
@@ -13,6 +14,35 @@
 
         #elevation-display {
             pointer-events: none;
+        }
+    }
+
+    .fade {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        // background: green;
+        &.top-fade {
+            bottom: unset;
+            height: $xx-small;
+            background-image: linear-gradient(0deg, transparent, white);
+        }
+        &.bottom-fade {
+            top: unset;
+            height: $xx-small;
+            background-image: linear-gradient(0deg, white, transparent);
+        }
+        &.left-fade {
+            right: unset;
+            width: $xx-small;
+            background-image: linear-gradient(90deg, white, transparent);
+        }
+        &.right-fade {
+            left: unset;
+            width: $xx-small;
+            background-image: linear-gradient(90deg, transparent, white);
         }
     }
 }

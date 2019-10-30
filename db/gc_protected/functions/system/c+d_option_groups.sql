@@ -10,19 +10,17 @@ DECLARE
 BEGIN
 
     DELETE FROM option_groups og
-    WHERE (og.system_option_value_path, og.name) IN (
-        SELECT system_option_value_path, name FROM UNNEST (s.option_groups_to_delete)
+    WHERE og.name IN (
+        SELECT * FROM UNNEST (s.option_groups_to_delete) AS name
     )
     AND og.system_id = us.id;
     
 
     INSERT INTO option_groups (
         system_id,
-        system_option_value_path,
         name
     ) SELECT
         us.id,
-        nog.system_option_value_path,
         nog.name
     FROM UNNEST (s.new_option_groups) nog;
 

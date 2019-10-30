@@ -1,11 +1,9 @@
 {
-    "__typename": "System",
     "id": 1,
     "manufacturerId": 1,
     "systemType": "STOREFRONT",
     "name": "Sample 1",
     "_manufacturer": {
-        "__typename": "Manufacturer",
         "id": 1,
         "name": "Kawneer"
     },
@@ -69,6 +67,10 @@
         {
             "__typename": "SystemDetail",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL"
+        },
+        {
+            "__typename": "SystemDetail",
+            "path": "1.SET.FRONT.__DT__.HEAD"
         }
     ],
     "_detailOptions": [

@@ -38,7 +38,6 @@ export default function ManageProjects({
             />
             <ListWrapper
                 identifier="id"
-                label="Active Projects"
                 items={allProjects}
                 defaultPillProps={{
                     type: "tile",

@@ -1,186 +1,567 @@
 {
     "_systemSet": {
+        "__typename": "SystemSet",
         "id": 1,
-        "name": "Sample 1",
+        "name": "Test System Set",
         "systemId": 1,
         "projectId": 1,
         "systemOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE",
         "_systemSetOptionGroupValues": [
             {
+                "__typename": "SystemSetOptionGroupValue",
                 "optionName": "GLAZING",
-                "name": "OUTSIDE"
+                "name": "INSIDE"
             },
             {
+                "__typename": "SystemSetOptionGroupValue",
                 "optionName": "STOPS",
                 "name": "DOWN"
             }
         ],
         "_systemSetDetailOptionValues": [
             {
-                "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
+                "__typename": "SystemSetDetailOptionValue",
+                "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "SystemSetDetailOptionValue",
+                "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID"
+            },
+            {
+                "__typename": "SystemSetDetailOptionValue",
+                "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN"
             }
         ],
         "_systemSetConfigurationOptionValues": [
             {
-                "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+                "__typename": "SystemSetConfigurationOptionValue",
+                "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+            },
+            {
+                "__typename": "SystemSetConfigurationOptionValue",
+                "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE"
+            },
+            {
+                "__typename": "SystemSetConfigurationOptionValue",
+                "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE"
+            },
+            {
+                "__typename": "SystemSetConfigurationOptionValue",
+                "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID"
             }
         ],
-        "_system": {
-            "id": 1,
-            "manufacturerId": 1,
-            "systemType": "STOREFRONT",
-            "name": "Initial System",
-            "_manufacturer": {
-                "id": 1,
-                "name": "Kawneer"
-            },
-            "_systemOptions": [
-                {
-                    "path": "1.SET",
-                    "defaultSystemOptionValue": "CENTER"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY",
-                    "defaultSystemOptionValue": "SCREW_SPLINE"
-                }
-            ],
-            "_systemOptionValues": [
-                {
-                    "path": "1.SET.BACK"
-                },
-                {
-                    "path": "1.SET.CENTER"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.STICK"
-                },
-                {
-                    "path": "1.SET.FRONT"
-                }
-            ],
-            "_systemDetails": [
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL"
-                }
-            ],
-            "_detailOptions": [
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
-                    "defaultDetailOptionValue": "UP"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
-                    "defaultDetailOptionValue": "INSIDE"
-                }
-            ],
-            "_detailOptionValues": [
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP"
-                }
-            ],
-            "_systemConfigurations": [
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
-                    "optional": false
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
-                    "optional": false
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
-                    "optional": false
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
-                    "optional": false
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
-                    "optional": false
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
-                    "optional": false
-                }
-            ],
-            "_configurationOptions": [
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
-                    "defaultConfigurationOptionValue": "STANDARD_DUTY"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
-                    "defaultConfigurationOptionValue": "STANDARD_DUTY"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
-                    "defaultConfigurationOptionValue": "STANDARD_DUTY"
-                }
-            ],
-            "_configurationOptionValues": [
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
-                },
-                {
-                    "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
-                }
-            ]
-        }
+        "__by": "Id"
     },
+    "__typename": "Query",
     "allSystems": [
         {
+            "__typename": "System",
             "id": 1,
             "manufacturerId": 1,
             "systemType": "STOREFRONT",
             "name": "Initial System",
             "_manufacturer": {
+                "__typename": "Manufacturer",
                 "id": 1,
-                "name": "Kawneer"
+                "name": "Kawneer",
+                "__by": "ManufacturerId"
             }
         },
         {
+            "__typename": "System",
             "id": 2,
             "manufacturerId": 1,
             "systemType": "STOREFRONT",
             "name": "Test System",
             "_manufacturer": {
+                "__typename": "Manufacturer",
                 "id": 1,
-                "name": "Kawneer"
+                "name": "Kawneer",
+                "__by": "ManufacturerId"
+            }
+        },
+        {
+            "__typename": "System",
+            "id": 3,
+            "manufacturerId": 2,
+            "systemType": "STOREFRONT",
+            "name": "Test 2",
+            "_manufacturer": {
+                "__typename": "Manufacturer",
+                "id": 2,
+                "name": "Mnfg",
+                "__by": "ManufacturerId"
+            }
+        },
+        {
+            "__typename": "System",
+            "id": 4,
+            "manufacturerId": 2,
+            "systemType": "ALL_GLASS",
+            "name": "Test 3",
+            "_manufacturer": {
+                "__typename": "Manufacturer",
+                "id": 2,
+                "name": "Mnfg",
+                "__by": "ManufacturerId"
             }
         }
-    ]
+    ],
+    "_system": {
+        "__typename": "System",
+        "id": 1,
+        "manufacturerId": 1,
+        "systemType": "STOREFRONT",
+        "name": "Initial System",
+        "_manufacturer": {
+            "__typename": "Manufacturer",
+            "id": 1,
+            "name": "Kawneer",
+            "__by": "ManufacturerId"
+        },
+        "_systemOptions": [
+            {
+                "__typename": "SystemOption",
+                "path": "1.SET",
+                "defaultSystemOptionValue": "CENTER"
+            },
+            {
+                "__typename": "SystemOption",
+                "path": "1.SET.CENTER.JOINERY",
+                "defaultSystemOptionValue": "SCREW_SPLINE"
+            }
+        ],
+        "_systemOptionValues": [
+            {
+                "__typename": "SystemOptionValue",
+                "path": "1.SET.BACK"
+            },
+            {
+                "__typename": "SystemOptionValue",
+                "path": "1.SET.CENTER"
+            },
+            {
+                "__typename": "SystemOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE"
+            },
+            {
+                "__typename": "SystemOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK"
+            },
+            {
+                "__typename": "SystemOptionValue",
+                "path": "1.SET.CENTER.JOINERY.STICK"
+            },
+            {
+                "__typename": "SystemOptionValue",
+                "path": "1.SET.FRONT"
+            }
+        ],
+        "_optionGroups": [
+            {
+                "__typename": "OptionGroup",
+                "name": "GLAZING"
+            },
+            {
+                "__typename": "OptionGroup",
+                "name": "STOPS"
+            }
+        ],
+        "_systemDetails": [
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.BACK.__DT__.HEAD"
+            },
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD"
+            },
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL"
+            },
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL"
+            },
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD"
+            },
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD"
+            },
+            {
+                "__typename": "SystemDetail",
+                "path": "1.SET.FRONT.__DT__.HEAD"
+            }
+        ],
+        "_detailOptions": [
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.BACK.__DT__.HEAD.VOID",
+                "defaultDetailOptionValue": "VOID"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID",
+                "defaultDetailOptionValue": "VOID"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID",
+                "defaultDetailOptionValue": "VOID"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS",
+                "defaultDetailOptionValue": "UP"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING",
+                "defaultDetailOptionValue": "OUTSIDE"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID",
+                "defaultDetailOptionValue": "VOID"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID",
+                "defaultDetailOptionValue": "VOID"
+            },
+            {
+                "__typename": "DetailOption",
+                "path": "1.SET.FRONT.__DT__.HEAD.VOID",
+                "defaultDetailOptionValue": "VOID"
+            }
+        ],
+        "_detailOptionValues": [
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.BACK.__DT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "DetailOptionValue",
+                "path": "1.SET.FRONT.__DT__.HEAD.VOID.VOID"
+            }
+        ],
+        "_systemConfigurations": [
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.SHIM_SUPPORT",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SHIM_SUPPORT",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL_FLASHING",
+                "optional": true
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
+                "optional": false
+            },
+            {
+                "__typename": "SystemConfiguration",
+                "path": "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
+                "optional": false
+            }
+        ],
+        "_configurationOptions": [
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+                "defaultConfigurationOptionValue": "STANDARD_DUTY"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS",
+                "defaultConfigurationOptionValue": "UP"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING",
+                "defaultConfigurationOptionValue": "OUTSIDE"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.SHIM_SUPPORT.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS",
+                "defaultConfigurationOptionValue": "UP"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING",
+                "defaultConfigurationOptionValue": "OUTSIDE"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.UP.GLAZING",
+                "defaultConfigurationOptionValue": "OUTSIDE"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SHIM_SUPPORT.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL_FLASHING.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            },
+            {
+                "__typename": "ConfigurationOption",
+                "path": "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+                "defaultConfigurationOptionValue": "VOID"
+            }
+        ],
+        "_configurationOptionValues": [
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.UP"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.SHIM_SUPPORT.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.UP"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.UP.GLAZING.INSIDE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.UP.GLAZING.OUTSIDE"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SHIM_SUPPORT.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL_FLASHING.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID"
+            },
+            {
+                "__typename": "ConfigurationOptionValue",
+                "path": "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID"
+            }
+        ],
+        "__by": "Id"
+    }
 }

@@ -6,6 +6,7 @@
     border-top: $x-small solid $light-blue;
     padding: $x-large;
     padding-bottom: $xxxxx-large;
+    box-shadow: 3px 3px 4px $medium-gray;
 
     &.floating {
         position: absolute;
@@ -35,7 +36,6 @@
     .card {
         &.floating {
             width: fit-content;
-            box-shadow: 0px 2px $x-small 1px rgba(74, 74, 74, 0.8);
             // width: 30vw;
             // max-width: 30vw;
             // min-width: 30vw;
@@ -140,7 +140,7 @@
         > * {
             margin: 0 !important;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             margin: 0;
             // margin-left: $xx-large;

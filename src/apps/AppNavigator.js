@@ -5,7 +5,7 @@ import { AuthContext } from '../AuthContext';
 import { withContext, Navigator } from '../components';
 
 import Login from './Login/Login';
-import Practice from './Practice/Practice';
+import Practice from './Practice/practice';
 
 import Glascad from './GlasCAD/GlasCAD';
 import DataEntry from './DataEntry/DataEntry';
@@ -17,7 +17,10 @@ import { match } from '../utils';
 
 const AppNavigator = ({ allowedApplications }) => (
     <Suspense fallback={<Login />}>
-        <Navigator routes={allowedApplications} />
+        <Navigator
+            routeProps={{ allowedApplications }}
+            routes={allowedApplications}
+        />
     </Suspense>
 );
 
@@ -29,10 +32,10 @@ const mapProps = ({
     },
 }) => ({
     allowedApplications: match(role)
-        // .regex(/admin/i, { DataEntry, Glascad })
-        // .regex(/data.entry/i, { DataEntry })
-        // .regex(/client/i, { Glascad })
-        // .otherwise({ Login })
+        //     .regex(/admin/i, { DataEntry, Glascad })
+        //     .regex(/data.entry/i, { DataEntry })
+        //     .regex(/client/i, { Glascad })
+        //     .otherwise({ Login }),
         .otherwise({
             DataEntry,
             Glascad,

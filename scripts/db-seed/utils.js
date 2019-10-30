@@ -1,7 +1,6 @@
 const chalk = require('chalk');
-require('dotenv').config();
 
-const highlightEndOfPath = path => path.replace(/(^.*\/)([^/]+)(\.sql$)/, `$1${chalk.inverse('$2')}$3`);
+const highlightEndOfPath = path => path.replace(/(^.*\/)?([^/]+)(\.sql$)?/, `$1${chalk.inverse('$2')}$3`);
 
 const shortenPath = path => path.replace('../../', '');
 
@@ -119,7 +118,7 @@ const duplicateSQL = (path, contents) => {
 
 const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
     const value = process.env[ENV_VAR];
-    if (!value) throw new Error(`Variable ${ENV_VAR} not found in \`.env\``);
+    if (!value) throw new Error(`Variable ${chalk.gray(ENV_VAR)} in ${logErrorPath(path)} not found in ${logErrorPath('.env')}`);
     else {
         // console.log(chalk.gray(` -- Inserting environment variable ${chalk.white(ENV_VAR)} in ${logPath(path)}`));
         return value;

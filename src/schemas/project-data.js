@@ -1,7 +1,5 @@
 import gql from 'graphql-tag';
-
-import * as ED from './elevation-data';
-import * as SD from './system-data';
+import { ELEVATION_FIELDS } from './elevation-data';
 
 // FIELDS
 
@@ -91,13 +89,6 @@ export const ENTIRE_SYSTEM_SET = gql`
                 ...SystemSetConfigurationOptionValueFields
             }
         }
-        # systemBySystemId {
-        #     name
-        #     systemType
-        #     manufacturerByManufacturerId {
-        #         name
-        #     }
-        # }
     }
     ${SYSTEM_SET_FIELDS}
     ${SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS}
@@ -110,12 +101,11 @@ export const ENTIRE_SYSTEM_SET = gql`
 export const ENTIRE_PROJECT = gql`
     fragment EntireProject on Project {
         ...ProjectFields
-        # elevationsByProjectId(orderBy: NAME_ASC) {
-        #     nodes {
-        #         ...ElevationFields
-        #         # ...EntireElevation
-        #     }
-        # }
+        _elevations: elevationsByProjectId(orderBy: NAME_ASC) {
+            nodes {
+                ...ElevationFields
+            }
+        }
         systemSetsByProjectId {
             nodes {
                 ...SystemSetFields
@@ -133,7 +123,6 @@ export const ENTIRE_PROJECT = gql`
         }
     }
     ${PROJECT_FIELDS}
+    ${ELEVATION_FIELDS}
     ${SYSTEM_SET_FIELDS}
 `;
-
-// ${ED.ELEVATION_FIELDS}

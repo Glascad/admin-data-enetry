@@ -41,17 +41,13 @@ import {
 
 import AddHorizontals from './AddHorizontals';
 
-const areEqual = (json, input) => {
-    return _.isEqual({
-        ...JSON.parse(json),
-        name: undefined,
-    }, {
-        ...input,
-        name: undefined,
-    });
-}
-
-const allSystemsQuery = { query: gql`{ ...AllSystems } ${F.SYS.ALL_SYSTEMS}` };
+const areEqual = (json, input) => _.isEqual({
+    ...JSON.parse(json),
+    name: undefined,
+}, {
+    ...input,
+    name: undefined,
+});
 
 const saveDefaultMutation = {
     mutation: gql`
@@ -83,20 +79,17 @@ export default memo(function CreateElevation({
     },
     updateEntireElevation,
     updating: creating,
+    project: {
+        _systemSets = [],
+    } = {},
     defaultElevation = null,
 }) {
+
+    console.log(arguments[0]);
 
     const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
 
     const initialElevationInput = JSON.parse(defaultElevation) || defaultElevationInput;
-
-    const initalState = {
-        elevation: initialElevationInput,
-        system: {
-            id: -1,
-            name: "",
-        },
-    };
 
     const [initialHorizontalRoughOpening, setInitialHorizontalRoughOpening] = useInitialState(initialElevationInput.horizontalRoughOpening);
     const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
@@ -109,41 +102,31 @@ export default memo(function CreateElevation({
     // );
 
     const {
-        currentState,
+        currentState: elevationInput,
         currentState: {
-            elevation: elevationInput,
-            elevation: {
-                name,
-                verticalLock,
-                horizontalLock,
-                verticalRoughOpening,
-                horizontalRoughOpening,
-                verticalMasonryOpening,
-                horizontalMasonryOpening,
-                startingBayQuantity,
-                finishedFloorHeight,
-                horizontals,
-            },
-            system: {
-                id: systemId,
-                name: systemName,
-            },
+            systemSetId,
+            name,
+            verticalLock,
+            horizontalLock,
+            verticalRoughOpening,
+            horizontalRoughOpening,
+            verticalMasonryOpening,
+            horizontalMasonryOpening,
+            startingBayQuantity,
+            finishedFloorHeight,
+            horizontals,
         },
         pushState,
-    } = useRedoableState(initalState, [defaultElevation]);;
+    } = useRedoableState(initialElevationInput, [defaultElevation]);;
 
     const updateElevation = update => pushState(({ elevation }) => ({
-        elevation: {
-            ...elevation,
-            ...update,
-        },
+        ...elevation,
+        ...update,
     }));
 
     const mergedElevation = useMemo(() => generateElevation(elevationInput), [elevationInput]);
 
     const recursiveElevation = useMemo(() => new RecursiveElevation(mergedElevation), [mergedElevation]);
-
-    const [fetchAllSystems, { allSystems = [] }] = useQuery(allSystemsQuery);
 
     const { projectId } = parseSearch(search);
 
@@ -156,6 +139,7 @@ export default memo(function CreateElevation({
                     name: undefined,
                 }),
             });
+            console.log({ result });
         } catch (err) {
             console.error(`Error saving default elevation`);
             console.error(err);
@@ -172,6 +156,7 @@ export default memo(function CreateElevation({
 
         const elevation = {
             projectId: +projectId,
+            systemSetId,
             name,
             containers: _elevationContainers.map(({
                 bay,
@@ -292,12 +277,13 @@ export default memo(function CreateElevation({
                     })}
                 />
                 <Select
+                    data-cy="system-set"
                     label="System set"
                     disabled={true}
-                    value={systemName}
-                    options={allSystems.map(({ name }) => name)}
-                    onChange={value => this.setState({
-                        system: allSystems.find(({ id }) => id === value),
+                    value={(_systemSets.find(({ id }) => id === systemSetId) || {}).name}
+                    options={_systemSets.map(({ name }) => name)}
+                    onChange={value => updateElevation({
+                        systemSetId: (_systemSets.find(({ name }) => name === value) || {}).id,
                     })}
                 />
                 <GroupingBox

@@ -17,6 +17,7 @@ function Horizontal({
     i,
     length,
 }) {
+    console.log(arguments[0]);
     const [focused, setFocused] = useState(false);
     // update initial state of input only when input is not focused
     const [initialDistance] = useInitialState(distance, [focused ? null : distance]);
@@ -78,13 +79,14 @@ function Horizontal({
     );
 }
 
-export default function AddHorizontal({
+export default function AddHorizontals({
     horizontals,
     updateElevation,
     measureFromOptions,
     measureToOptions,
     recursiveElevation,
 }) {
+    console.log(arguments[0]);
     return (
         <GroupingBox
             title="Horizontals"

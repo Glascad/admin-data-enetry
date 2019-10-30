@@ -43,13 +43,6 @@
 
 <<END LOOP>>
 
--- OPTION GROUPS
-CREATE TYPE
-gc_data.ENTIRE_OPTION_GROUP AS (
-    system_option_value_path LTREE,
-    name OPTION_NAME
-);
-
 -- TYPES
 
 <<LOOP
@@ -84,8 +77,8 @@ gc_data.ENTIRE_SYSTEM AS (
     system_type SYSTEM_TYPE,
     manufacturer_id INTEGER,
     paths_to_delete LTREE[],
-    option_groups_to_delete ENTIRE_OPTION_GROUP[],
-    new_option_groups ENTIRE_OPTION_GROUP[]
+    option_groups_to_delete OPTION_NAME[],
+    new_option_groups OPTION_NAME[]
     <<LOOP
         TYPE (
             configuration_option_value,

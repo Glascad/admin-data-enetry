@@ -25,6 +25,7 @@ CREATE TYPE
 gc_public.entire_elevation AS (
     id INTEGER,
     project_id INTEGER,
+    system_set_id INTEGER,
     name TEXT,
     rough_opening COORDINATE,
     finished_floor_height FLOAT,

@@ -18,6 +18,7 @@ import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 import Tree from './ui/Tree/Tree';
 import RightSidebar from './ui/RightSidebar/RightSidebar';
+import SVG from './ui/SVG/SVG';
 
 // CONTEXTS
 import TransformProvider from './contexts/transform/TransformContext';
@@ -32,7 +33,6 @@ import asyncComponent from './higher-order/async-component';
 import { useQuery, useMutation } from './hooks/use-graphql';
 import withContext from './higher-order/with-context';
 import transformProps from './higher-order/transform-props';
-import withQueryParams from './higher-order/with-query-params';
 
 // HOOKS
 import useRedoableState, { withRedoableState } from './hooks/use-redoable-state';
@@ -75,6 +75,7 @@ export {
     ConfirmButton,
     Tree,
     RightSidebar,
+    SVG,
     // CONTEXT,
     TransformProvider,
     TransformBox,
@@ -86,7 +87,6 @@ export {
     withContext,
     transformProps,
     withRedoableState,
-    withQueryParams,
     // HOOKS
     useQuery,
     useMutation,
@@ -106,4 +106,4 @@ export {
     // SPECIAL FUNCTIONS
     confirmWithModal,
 };
-    
+ 
