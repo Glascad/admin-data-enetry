@@ -47,3 +47,22 @@ export const asin = window.asin = ratio => degrees(Math.asin(ratio));
 
 export const cos = window.cos = degrees => Math.cos(radians(degrees));
 export const acos = window.acos = ratio => degrees(Math.acos(ratio));
+
+// OTHER FUNCTIONS
+
+export const rotatePoint = window.rotatePoint = ({ x, y }, A) => {
+    const r = Math.sqrt(x * x + y * y);
+    const startAngleY = asin(y / r);
+    const endAngleY = startAngleY - A;
+    const startAngleX = acos(x / r);
+    const endAngleX = startAngleX - A;
+    return {
+        x: r * cos(endAngleX),
+        y: r * sin(endAngleY),
+    };
+}
+
+export const transformPoint = window.transformPoint = (p, t) => ({
+    x: p.x + t.x,
+    y: p.y + t.y,
+});

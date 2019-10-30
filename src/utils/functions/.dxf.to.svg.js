@@ -9,8 +9,6 @@ import {
     atan,
     radians,
     degrees,
-    rotatePoint,
-    transformPoint,
 } from './trig';
 
 export default dxf => {
@@ -195,46 +193,31 @@ export default dxf => {
                     const rotationAngle = 90 - acos(axisXEnd / yRadius);
                     const angle = degrees(end - start);
 
-                    const calculatePoint = pointOnEllipse => console.log(pointOnEllipse) || transformPoint(
-                        (p => console.log(p) || p)(rotatePoint(pointOnEllipse, rotationAngle)),
-                        { x: xCenter, y: yCenter },
-                    );
-
-                    const startingPoint = calculatePoint({
-                        x: xRadius * Math.cos(start),
-                        y: yRadius * Math.sin(start),
-                    });
-
-                    const halfwayPoint = calculatePoint({
-                        x: xRadius * Math.cos((end - start) / 2),
-                        y: yRadius * Math.sin((end - start) / 2),
-                    });
-
-                    const endPoint = calculatePoint({
-                        x: xRadius * Math.cos(end),
-                        y: yRadius * Math.sin(end),
-                    });
+                    const xStart = xRadius * Math.cos(start) + xCenter;
+                    const yStart = yRadius * Math.sin(start) + yCenter;
+                    const xHalf = xRadius * Math.cos((end - start) / 2) + xCenter;
+                    const yHalf = yRadius * Math.sin((end - start) / 2) + yCenter;
+                    const xEnd = xRadius * Math.cos(end) + xCenter;
+                    const yEnd = yRadius * Math.sin(end) + yCenter;
 
                     console.log({
-                        startingPoint,
-                        halfwayPoint,
-                        endPoint,
-                        radii: {
-                            xRadius,
-                            yRadius,
-                        },
-                        axis: {
-                            axisXEnd,
-                            axisYEnd,
-                            xCenter,
-                            yCenter,
-                            axisRatio,
-                        },
-                        angles: {
-                            rotationAngle,
-                            start,
-                            end,
-                        },
+                        xRadius,
+                        yRadius,
+                        rotationAngle,
+                        angle,
+                        axisXEnd,
+                        axisYEnd,
+                        xStart,
+                        yStart,
+                        xEnd,
+                        yEnd,
+                        xHalf,
+                        yHalf,
+                        xCenter,
+                        yCenter,
+                        axisRatio,
+                        start,
+                        end,
                     });
 
                     return (arg => console.log(arg) || arg)([{
@@ -255,8 +238,8 @@ export default dxf => {
                     }, {
                         command: "M",
                         arguments: [
-                            startingPoint.x,
-                            startingPoint.y,
+                            xStart,
+                            yStart,
                         ],
                         style: {
                             stroke: "blue",
@@ -274,14 +257,14 @@ export default dxf => {
                             +(Math.abs(angle / 2) >= 180),
                             // sweep-flag (clockwise | counterclockwise)
                             +(angle / 2 > 0),
-                            halfwayPoint.x,
-                            halfwayPoint.y,
+                            xHalf,
+                            yHalf,
                         ],
                     }, {
                         command: "M",
                         arguments: [
-                            halfwayPoint.x,
-                            halfwayPoint.y,
+                            xHalf,
+                            yHalf,
                         ],
                         style: {
                             stroke: "cyan",
@@ -294,8 +277,8 @@ export default dxf => {
                             rotationAngle,
                             +(Math.abs(angle / 2) >= 180),
                             +(angle / 2 > 0),
-                            endPoint.x,
-                            endPoint.y,
+                            xEnd,
+                            yEnd,
                         ]
                     }]);
                 })

@@ -116,6 +116,10 @@ export default function SVG({
                         selectPath(i);
                         console.log({ items });
                     }}
+                    style={items.reduce((s, { style }) => ({
+                        ...s,
+                        ...style,
+                    }), {})}
                 />
             ))}
         </svg>
