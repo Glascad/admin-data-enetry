@@ -2,6 +2,12 @@ import _ from 'lodash';
 import match from './match';
 import { trig } from '..';
 
+/**
+ * bulge = B
+ * 
+ * 
+ */
+
 export default dxf => {
 
     // find index of ENTITY section
@@ -66,6 +72,7 @@ export default dxf => {
             contents,
         }) => path.concat(
             match(subClasses)
+                // STRAIGHT LINES
                 .case(ENTITY === 'LINE', ({
                     AcDbLine: {
                         10: xStart,
@@ -88,6 +95,7 @@ export default dxf => {
                         yEnd,
                     ],
                 }]))
+                // CIRCULAR ARCS
                 .case(ENTITY === 'ARC', ({
                     AcDbCircle: {
                         10: xCenter,
@@ -136,6 +144,7 @@ export default dxf => {
                         radius * trig.sin(endAngle) + yCenter,
                     ],
                 }])
+                // ELLIPTICAL ARCS
                 .case(ENTITY === 'ELLIPSE', ({
                     AcDbEllipse: {
                         40: axisRatio,
@@ -146,12 +155,15 @@ export default dxf => {
                         230: zExtrusionDirection,
                     },
                 }) => [])
+                // POLYLINES with CIRCULAR ARCS
                 .case(ENTITY === 'LWPOLYLINE', ({
                     AcDbPolyline: {
                         10: xVertices = [],
                         20: yVertices = [],
                         38: elevation,
                         39: thickness,
+                        40: startWidth,
+                        41: endWidth,
                         42: bulges = [],
                         43: constantWidth,
                         70: polylineFlag,
@@ -165,17 +177,34 @@ export default dxf => {
                         y: yVertices[i],
                         bulge: bulges[i],
                     }))
-                        .map(({ x, y, bulge }, i) => ({
-                            command: i === 0 ?
-                                "M"
-                                :
-                                "L",
-                            arguments: [
-                                x,
-                                y,
-                            ],
-                        }))
+                    .map(({ x, y, bulge }, i) => ({
+                        command: i === 0 ?
+                            "M"
+                            :
+                            "L",
+                        arguments: [
+                            x,
+                            y,
+                        ],
+                        ...(i === 0 ? {
+                            AcDbPolyline: {
+                                xVertices,
+                                yVertices,
+                                elevation,
+                                thickness,
+                                startWidth,
+                                endWidth,
+                                bulges,
+                                constantWidth,
+                                polylineFlag,
+                                vertexCount,
+                                vertexIdentifier,
+                                unknownCodes,
+                            },
+                        } : null)
+                    }))
                 )
+                // SPLINES
                 .case(ENTITY === 'SPLINE', ({
                     AcDbSpline: {
                         50: startAngle,
@@ -193,6 +222,7 @@ export default dxf => {
                         unknownCodes,
                     },
                 }])
+                // ALL OTHERS
                 .otherwise(() => {
                     console.error(`Unknown Entity: ${ENTITY}`);
                     console.error({ ENTITY, subClasses, contents });
