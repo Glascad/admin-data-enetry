@@ -78,6 +78,10 @@ export default function SystemBuilder({
         ),
     }));
 
+    const [partialAction, setPartialAction] = useState();
+
+    const dispatchPartial = (ACTION, payload) => setPartialAction({ ACTION, payload });
+
     // adding default value to all options without one
     useEffect(() => {
         Object.entries(system)
@@ -149,6 +153,7 @@ export default function SystemBuilder({
                 dispatch={dispatch}
                 selectItem={selectItem}
                 selectedItem={selectedItem}
+                partialAction={partialAction}
             />
             <Sidebar
                 queryResult={queryResult}
@@ -157,6 +162,7 @@ export default function SystemBuilder({
                 dispatch={dispatch}
                 selectItem={selectItem}
                 selectedItem={selectedItem}
+                dispatchPartial={dispatchPartial}
             />
         </TransformProvider>
     );

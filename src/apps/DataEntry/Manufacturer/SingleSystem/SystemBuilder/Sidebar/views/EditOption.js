@@ -93,8 +93,19 @@ function EditOption({
                     {optionIsGrouped ? 'Ungroup Option' : 'Group Option'}
                 </button>
             ) : null
-
-            }
+        }
+            <button
+                data-cy="edit-option-move-button"
+                className="sidebar-button light"
+                // onClick={newOptionParent => dispatch(UPDATE_ITEM, {
+                //     ...option,
+                //     update: {
+                //         [`parent${newOptionParent.__typename}Path`]: newOptionParent.path                         
+                //     }
+                // })}
+            >
+                Move Option
+        </button>
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"

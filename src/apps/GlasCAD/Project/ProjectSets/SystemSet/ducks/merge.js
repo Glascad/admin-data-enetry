@@ -5,6 +5,17 @@ import {
 import _ from 'lodash';
 import validateSystemSetUpdate from "./validate-system-set-update";
 
+export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues.map(({ optionName, name }) => ({
+    optionName,
+    name: optionGroupValues
+        .reduce((name, update) => (
+            update.optionName === optionName ?
+                update.name
+                :
+                name
+        ), name),
+}));
+
 export default function merge({
     _systemSet,
     _systemSet: {
@@ -21,6 +32,9 @@ export default function merge({
     optionGroupValues = [],
     detailOptionValues = [],
     configurationOptionValues = [],
+}, {
+    id: actualSystemId,
+    _optionGroups = [],
 }) {
 
     validateSystemSetUpdate(arguments[1]);
@@ -34,22 +48,16 @@ export default function merge({
             undefined
     );
 
-    const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName, name }) => (
+    const [optionGroupValuesToUpdate, optionGroupValuesToAdd] = _.partition(optionGroupValues, ({ optionName }) => (
         oldSystemSetOptionGroupValues.some(ssogv => ssogv.optionName === optionName))
     );
 
-    const _systemSetOptionGroupValues = oldSystemSetOptionGroupValues
-        .map(({ optionName, name }) => ({
-            optionName,
-            name: optionGroupValuesToUpdate
-                .reduce((name, update) => (
-                    update.optionName === optionName ?
-                        update.name
-                        :
-                        name
-                ), name),
-        }))
-        .concat(optionGroupValuesToAdd);
+    const _systemSetOptionGroupValues = actualSystemId === systemId ?
+        mergeOptionGroupValues(oldSystemSetOptionGroupValues, optionGroupValuesToUpdate)
+            .concat(optionGroupValuesToAdd)
+            .filter(({ optionName }) => _optionGroups.some(({ name }) => name === optionName))
+        :
+        [];
 
     const updateOptionValues = (pathKey, oldArray, newArray, parentArray) => {
         const {
@@ -105,10 +113,10 @@ export default function merge({
 
     return {
         ..._systemSet,
+        systemOptionValuePath,
         ...removeNullValues({
             name,
             systemId,
-            systemOptionValuePath,
             _systemSetOptionGroupValues,
             _systemSetDetailOptionValues,
             _systemSetConfigurationOptionValues,

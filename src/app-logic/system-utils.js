@@ -2,6 +2,8 @@ import { match } from '../utils';
 
 export class SystemMap {
     constructor({
+        id,
+        _optionGroups = [],
         _systemOptions = [],
         _detailOptions = [],
         _configurationOptions = [],
@@ -12,6 +14,8 @@ export class SystemMap {
         _systemConfigurations = [],
     } = {}) {
         Object.assign(this, {
+            id,
+            _optionGroups,
             _systemOptions,
             _detailOptions,
             _configurationOptions,
@@ -53,11 +57,11 @@ export class SystemMap {
     }
 }
 
-export const getFirstItem = ({ _systemOptions } = []) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
+export const getFirstItem = window.getFirstItem = ({ _systemOptions } = []) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
-export const getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
+export const getParentPath = window.getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
 
-export const getTypenameFromPath = path => {
+export const getTypenameFromPath = window.getTypenameFromPath = path => {
     const Type = match(path)
         .regex(/__CT__/, 'Configuration')
         .regex(/__DT__/, 'Detail')
@@ -72,7 +76,7 @@ export const getTypenameFromPath = path => {
             `${Type}OptionValue`;
 }
 
-export const getParentTypename = ({ path } = {}) => path.includes('__CT__') ?
+export const getParentTypename = window.getParentTypename = ({ path } = {}) => path.includes('__CT__') ?
     (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
         path.match(/^.*__CT__\.\w+$/) ?
             'SystemConfiguration'
@@ -96,9 +100,9 @@ export const getParentTypename = ({ path } = {}) => path.includes('__CT__') ?
             "SystemOption"
 
 
-export const getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
+export const getParent = window.getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
 
-export const getChildren = ({ path, newPath } = {}, systemMap) => systemMap instanceof SystemMap ?
+export const getChildren = window.getChildren = ({ path, newPath } = {}, systemMap) => systemMap instanceof SystemMap ?
     systemMap.parents ?
         systemMap.parents[(newPath || path)] || []
         :
@@ -106,9 +110,9 @@ export const getChildren = ({ path, newPath } = {}, systemMap) => systemMap inst
     :
     getChildren({ path, newPath }, new SystemMap(systemMap));
 
-export const getSiblings = ({ path, newPath } = {}, systemMap) => systemMap.parents[getParentPath({ newPath, path })];
+export const getSiblings = window.getSiblings = ({ path, newPath } = {}, systemMap) => systemMap.parents[getParentPath({ newPath, path })];
 
-export const makeRenderable = system => {
+export const makeRenderable = window.makeRenderable = system => {
     const systemMap = new SystemMap(system);
     const makeNodeRenderable = node => ({
         item: node,
@@ -117,7 +121,7 @@ export const makeRenderable = system => {
     return makeNodeRenderable(getFirstItem(systemMap));
 }
 
-export const getOptionListFromPath = (path = '') => path
+export const getOptionListFromPath = window.getOptionListFromPath = (path = '') => path
     .replace(/^\d+\.(.*__(D|C)T__\.\w+\.?)?/, '')
     .replace(/(\w+)\.(\w+)(\.)?/ig, ' $1:$2 ')
     .trim()
@@ -127,11 +131,11 @@ export const getOptionListFromPath = (path = '') => path
     .map(str => str.split(/:/g))
     .map(([name, value]) => ({ name, value }));
 
-export const getLastItemFromPath = path => path.replace(/.*\.(\w+)$/, '$1');
+export const getLastItemFromPath = window.getLastItemFromPath = path => path.replace(/.*\.(\w+)$/, '$1');
 
-export const filterOptionsAbove = ({ path, newPath }, optionList) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
+export const filterOptionsAbove = window.filterOptionsAbove = ({ path, newPath }, optionList) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
 
-export const getNextItemFromPath = (path, previousItem) => {
+export const getNextItemFromPath = window.getNextItemFromPath = (path, previousItem) => {
     if (previousItem.match(/[^a-z0-9_]/ig)) throw new Error(`Cannot search for ${previousItem}, contains invalid characters`);
     return path.includes(previousItem) ?
         path.replace(new RegExp(`^.*\\.?${previousItem}\\.([^.]+)(\..+)*\\.?.*$`, 'ig'), '$1')
@@ -139,11 +143,11 @@ export const getNextItemFromPath = (path, previousItem) => {
         undefined;
 }
 
-export const getDetailTypeFromPath = path => getNextItemFromPath(path, '__DT__');
+export const getDetailTypeFromPath = window.getDetailTypeFromPath = path => getNextItemFromPath(path, '__DT__');
 
-export const getConfigurationTypeFromPath = path => getNextItemFromPath(path, '__CT__');
+export const getConfigurationTypeFromPath = window.getConfigurationTypeFromPath = path => getNextItemFromPath(path, '__CT__');
 
-export const getDefaultPath = (one, two, three) => {
+export const getDefaultPath = window.getDefaultPath = (one, two, three) => {
     // argument/parameter mappings
     if (one === undefined) return '';
     // when passed systemmap as first item instead of item (item = systemMap, systemMap = optionGroupValues)
@@ -156,11 +160,15 @@ export const getDefaultPath = (one, two, three) => {
     // end mappings
     const { path } = item;
     const { __typename = getTypenameFromPath(path) } = item;
+    // console.log({ path, __typename });
     const children = getChildren(item, systemMap);
     const defaultKey = Object.keys(item).find(key => key.match(/^default.*OptionValue/i));
     const defaultOptionValue = item[defaultKey];
     const {
         0: firstChild,
+        0: {
+            __typename: childTypename = '',
+        } = {},
         length: childCount,
     } = children;
     const isOption = __typename.match(/Option$/);
@@ -170,7 +178,7 @@ export const getDefaultPath = (one, two, three) => {
     const defaultChild = isOption ?
         children.find(({ path }) => path.endsWith(defaultValue))
         :
-        childCount === 1 ?
+        childTypename.match(/option/i) ?
             firstChild
             :
             undefined;
@@ -180,11 +188,26 @@ export const getDefaultPath = (one, two, three) => {
         path;
 };
 
-export const replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
+export const replaceOptionValue = window.replaceOptionValue = (path, optionName, newValueName) => path.replace(new RegExp(`(${optionName}\\.).*$`), `$1${newValueName}`);
 
-export const getOptionGroupValuesByOptionName = (optionName, systemMap) => [];
+export const getOptionGroupValuesByOptionName = window.getOptionGroupValuesByOptionName = (optionName, systemMap) => Object.keys(systemMap)
+    .reduce((values, key) => values.concat((
+        key.match(new RegExp(`^.*\\.${optionName}\\.(\\w+)\\..*$`)) || []
+    )[1] || []), []);
 
-export const removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path) && !descendant.startsWith(`${path}_`)));
+export const getDefaultOptionGroupValue = window.getDefaultOptionGroupValue = (optionName, { _configurationOptions, _detailOptions, _systemOptions }) => Object.entries([
+    ..._configurationOptions,
+    ..._detailOptions,
+    ..._systemOptions,
+].find(({ name }) => name === optionName) || {})
+    .reduce((defaultValue, [key, value]) => defaultValue || (
+        key.match(/^default/i) ?
+            value
+            :
+            defaultValue
+    ), '');
+
+export const removeDescendantPaths = window.removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));
 
 export const getAllInstancesOfItem = (item, systemMap) => {
     const { path, __typename } = item;
@@ -197,8 +220,7 @@ export const getAllInstancesOfItem = (item, systemMap) => {
     ).map(([key]) => key);
 };
 
-export const canItemBeGrouped = (item, systemMap, ) => {
-    const { path } = item;
+export const canItemBeGrouped = ({path}, systemMap, ) => {
     const itemName = getLastItemFromPath(path);
     const allInstances = getAllInstancesOfItem(item, systemMap);
     const values = getChildren({ path }, systemMap).map(value => getLastItemFromPath(value.path));

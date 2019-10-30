@@ -19,6 +19,9 @@ import logInputOutput from './functions/log-input-output';
 import match, { final } from './functions/match';
 import replace from './functions/replace';
 import { extractPathData } from './functions/parse-svg';
+import getDroppedFileContents from './functions/get-dropped-file-contents';
+import DXFToSVG from './functions/dxf-to-svg';
+import * as trig from './functions/trig';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
@@ -47,5 +50,7 @@ export {
     final,
     replace,
     extractPathData,
+    DXFToSVG,
+    getDroppedFileContents,
+    trig,
 };
-    

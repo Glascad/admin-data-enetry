@@ -1,0 +1,15 @@
+@import "../../../../styles/variables";
+
+.part-preview {
+    background: black;
+    fill: none;
+
+    path {
+        stroke: $light-gray;
+        stroke-width: 1px;
+
+        &.selected {
+            stroke: $danger-color;
+        }
+    }
+}

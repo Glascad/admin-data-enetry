@@ -39,3 +39,16 @@
 //     };
 // });
 
+
+
+// MOVING AN ITEM
+// not selectable becomes disabled
+// cahnge the onclick to do whatever needs to be done
+
+// Options = type, values -> end node and not already in path.
+//     Values = Option -> options with the same name, not already included.
+//     Types - > Values
+//         Detail -> terminal system Option value -> details or none and not current detail
+//         Configuration -> same thing, but detail Values.
+
+// Voids will make a difference
