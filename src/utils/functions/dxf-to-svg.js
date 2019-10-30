@@ -1,12 +1,7 @@
 import _ from 'lodash';
 import match from './match';
 import { trig } from '..';
-
-/**
- * bulge = B
- * 
- * 
- */
+import replace from './replace';
 
 export default dxf => {
 
@@ -39,17 +34,36 @@ export default dxf => {
                             const convertedValue = match((value || '').trim())
                                 .regex(/^-?\d+(\.\d*)?$/, +value)
                                 .otherwise(value);
-                            const existingValue = obj[trimmedCode];
-                            return {
-                                ...obj,
-                                [trimmedCode]: existingValue ?
-                                    Array.isArray(existingValue) ?
-                                        existingValue.concat(convertedValue)
+                            if (ENTITY === "LWPOLYLINE") {
+                                if (Array.isArray(obj)) {
+                                    const lastIndex = obj.length - 1;
+                                    const lastItem = obj[lastIndex];
+                                    return lastItem.hasOwnProperty(trimmedCode) ?
+                                        obj.concat({ [trimmedCode]: convertedValue })
                                         :
-                                        [existingValue, convertedValue]
-                                    :
-                                    convertedValue,
-                            };
+                                        replace(obj, lastIndex, { ...lastItem, [trimmedCode]: convertedValue });
+                                } else {
+                                    return obj.hasOwnProperty(trimmedCode) ?
+                                        [obj, { [trimmedCode]: convertedValue }]
+                                        :
+                                        {
+                                            ...obj,
+                                            [trimmedCode]: convertedValue,
+                                        };
+                                }
+                            } else {
+                                const existingValue = obj[trimmedCode];
+                                return {
+                                    ...obj,
+                                    [trimmedCode]: obj.hasOwnProperty(trimmedCode) ?
+                                        Array.isArray(existingValue) ?
+                                            existingValue.concat(convertedValue)
+                                            :
+                                            [existingValue, convertedValue]
+                                        :
+                                        convertedValue,
+                                };
+                            }
                         }, {
                             subClass,
                             value,
@@ -123,7 +137,7 @@ export default dxf => {
                         // rotational angle
                         0,
                         // large-arc-flag (large-arc | small-arc)
-                        (
+                        +((
                             (
                                 endAngle <= startAngle ?
                                     360
@@ -134,10 +148,7 @@ export default dxf => {
                             endAngle
                             -
                             startAngle
-                        ) >= 180 ?
-                            1
-                            :
-                            0,
+                        ) >= 180),
                         // sweep-flag (clockwise | counterclockwise)
                         1,
                         radius * trig.cos(endAngle) + xCenter,
@@ -156,53 +167,77 @@ export default dxf => {
                     },
                 }) => [])
                 // POLYLINES with CIRCULAR ARCS
-                .case(ENTITY === 'LWPOLYLINE', ({
-                    AcDbPolyline: {
-                        10: xVertices = [],
-                        20: yVertices = [],
-                        38: elevation,
-                        39: thickness,
-                        40: startWidth,
-                        41: endWidth,
-                        42: bulges = [],
-                        43: constantWidth,
-                        70: polylineFlag,
-                        90: vertexCount,
-                        91: vertexIdentifier,
-                        ...unknownCodes
-                    },
-                }) => xVertices
-                    .map((x, i) => ({
-                        x,
-                        y: yVertices[i],
-                        bulge: bulges[i],
-                    }))
-                    .map(({ x, y, bulge }, i) => ({
-                        command: i === 0 ?
-                            "M"
-                            :
-                            "L",
-                        arguments: [
-                            x,
-                            y,
-                        ],
-                        ...(i === 0 ? {
-                            AcDbPolyline: {
-                                xVertices,
-                                yVertices,
-                                elevation,
-                                thickness,
-                                startWidth,
-                                endWidth,
-                                bulges,
-                                constantWidth,
-                                polylineFlag,
-                                vertexCount,
-                                vertexIdentifier,
-                                unknownCodes,
-                            },
-                        } : null)
-                    }))
+                .case(ENTITY === 'LWPOLYLINE', ({ AcDbPolyline }) => AcDbPolyline
+                    .map(({
+                        10: x,
+                        20: y,
+                        // 38: elevation,
+                        // 39: thickness,
+                        // 40: startWidth,
+                        // 41: endWidth,
+                        // 42: bulge,
+                        // 43: constantWidth,
+                        // 70: polylineFlag,
+                        // 90: vertexCount,
+                        // 91: vertexIdentifier,
+                        // ...unknownCodes
+                    }, i) => (
+                            // check previous item
+                            match(AcDbPolyline[i - 1])
+                                // starting point
+                                .equals(undefined, () => ({
+                                    command: "M",
+                                    arguments: [
+                                        x,
+                                        y,
+                                    ],
+                                    AcDbPolyline,
+                                }))
+                                // arc
+                                .on(prev => prev.hasOwnProperty(42), ({
+                                    10: prevX,
+                                    20: prevY,
+                                    42: bulge,
+                                }) => {
+
+                                    const distance = Math.sqrt(
+                                        Math.pow(prevX - x, 2)
+                                        +
+                                        Math.pow(prevY - y, 2)
+                                    );
+                                    const angle = 4 * trig.atan(bulge);
+                                    const radius = distance / (2 * trig.sin(angle / 2));
+
+                                    return {
+                                        command: "A",
+                                        arguments: [
+                                            radius,
+                                            radius,
+                                            // rotational angle
+                                            0,
+                                            // large-arc-flag (large-arc | small-arc)
+                                            +(Math.abs(angle) >= 180),
+                                            // sweep-flag (clockwise | counterclockwise)
+                                            +(angle > 0),
+                                            x,
+                                            y,
+                                        ],
+                                    };
+                                })
+                                // line
+                                .otherwise(() => ({
+                                    command: "L",
+                                    arguments: [
+                                        x,
+                                        y,
+                                    ],
+                                }))
+                        )
+                    )
+                    // close
+                    .concat({
+                        command: "Z",
+                    })
                 )
                 // SPLINES
                 .case(ENTITY === 'SPLINE', ({

@@ -6,7 +6,7 @@ const multiplier = 250;
 
 const hasCommand = ({ command }) => command;
 
-const multiplyArguments = ({ command, arguments: args, ...rest }) => ({
+const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
     command,
     arguments: match(command)
@@ -33,9 +33,20 @@ const joinArguments = ({ command, arguments: args, ...rest }) => ({
 });
 
 const getViewBox = (path, multiplier) => {
-    const moveToCommands = path.filter(({ command }) => command === 'M');
-    const xValues = moveToCommands.map(({ arguments: [x] }) => x * multiplier);
-    const yValues = moveToCommands.map(({ arguments: [x, y] }) => y * multiplier);
+
+    const coordinates = path
+        .reduce((vals, { command, arguments: [one, two, three, four, five, six, seven] = [] }) => vals.concat(
+            match(command)
+                .against({
+                    M: { x: one, y: two },
+                    L: { x: one, y: two },
+                    A: { x: six, y: seven },
+                })
+                .otherwise([])
+        ), []);
+    const xValues = coordinates.map(({ x }) => x * multiplier || 0);
+    const yValues = coordinates.map(({ y }) => y * multiplier || 0);
+    console.log({ coordinates, xValues, yValues });
     return {
         x: {
             min: (Math.min(...xValues) || 0) - (multiplier / 2),
@@ -72,7 +83,7 @@ export default function SVG({
         const lastItem = ds[lastIndex] || [];
         return replace(ds, lastIndex, lastItem.concat(item));
     }, []);
-    console.log({ pathArray });
+    console.log({ pathArray, groupedPath });
     const [selectedPath, selectPath] = useState(0);
     const handleKeyDown = e => {
         const { key = '' } = e;
