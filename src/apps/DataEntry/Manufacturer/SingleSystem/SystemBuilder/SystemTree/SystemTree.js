@@ -19,6 +19,10 @@ export default function SystemTree({
     selectItem,
     fetching,
     dispatch,
+    partialAction: {
+        ACTION: PARTIAL_ACTION,
+        payload: partialPayload,
+    } = {},
 }) {
 
     const { Viewport } = useContext(StaticContext);
@@ -66,11 +70,19 @@ export default function SystemTree({
                                         item === selectedItem ? 'selected' : ''
                                         } ${
                                         isDefault ? 'default' : ''
+                                        // add logic for partial action and for conditional classnames
                                         }`}
                                     onClick={e => {
                                         e.stopPropagation();
-                                        selectItem(item);
                                         console.log(item);
+                                        if (PARTIAL_ACTION) {
+                                            dispatch(PARTIAL_ACTION, {
+                                                ...partialPayload,
+                                                // add item to payload
+                                            })
+                                        } else {
+                                            selectItem(item);
+                                        }
                                     }}
                                 >
                                     <div className="title">{normalCase(name)}</div>
