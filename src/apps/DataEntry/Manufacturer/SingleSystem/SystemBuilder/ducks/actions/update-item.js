@@ -22,7 +22,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
     } = systemInput;
 
     // if the path and initial path are the same, the item is the same
-    const oldPath = getOldPath(path);
+    const oldPath = getOldPath(path, systemInput);
     const updatedItem = itemsArray.find(item => item.path === oldPath);
     // if it is a new item, the parent needs to be the same as the path from parent, and the name needs to be the same as the last item on the path
     const updatedNewItem = newItemsArray.find(item => Object.entries(item).find(([key, value]) =>
@@ -118,7 +118,12 @@ export default function UPDATE_ITEM(systemInput, payload) {
                         }
                     :
                     item
-            }).concat((key === itemsKey && !updatedItem && !updatedNewItem) ? payload : [])
+            }).concat((key === itemsKey && !updatedItem && !updatedNewItem) ?
+                {
+                    ...payload,
+                    path: oldPath,
+                }
+                : [])
         }), {});
 
     return {

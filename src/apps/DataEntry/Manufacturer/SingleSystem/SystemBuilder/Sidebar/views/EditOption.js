@@ -13,6 +13,9 @@ function EditOption({
         validOptions = [],
     } = {},
     dispatch,
+    dispatchPartial,
+    partialAction,
+    cancelPartial,
 }) {
     console.log(arguments[0])
 
@@ -92,20 +95,7 @@ function EditOption({
                 >
                     {optionIsGrouped ? 'Ungroup Option' : 'Group Option'}
                 </button>
-            ) : null
-        }
-            <button
-                data-cy="edit-option-move-button"
-                className="sidebar-button light"
-                // onClick={newOptionParent => dispatch(UPDATE_ITEM, {
-                //     ...option,
-                //     update: {
-                //         [`parent${newOptionParent.__typename}Path`]: newOptionParent.path                         
-                //     }
-                // })}
-            >
-                Move Option
-        </button>
+            ) : null}
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"
@@ -229,6 +219,16 @@ function EditOption({
                         </div>
                     )}
             </GroupingBox>
+            <button
+                data-cy="edit-option-move-button"
+                className="sidebar-button light"
+                onClick={() => partialAction ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('MOVE', option)}
+            >
+                {partialAction ? 'Cancel Move' : 'Move Option'}
+            </button>
             {(
                 __typename !== 'SystemOption'
             ) ? (

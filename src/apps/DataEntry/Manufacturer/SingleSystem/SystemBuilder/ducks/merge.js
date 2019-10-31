@@ -48,6 +48,17 @@ export default function merge({
 }) {
     const systemMap = new SystemMap(_system);
 
+    const allUpdatedItems = [
+        ...systemOptions,
+        ...detailOptions,
+        ...configurationOptions,
+        ...systemOptionValues,
+        ...detailOptionValues,
+        ...configurationOptionValues,
+        ...systemDetails,
+        ...systemConfigurations,
+    ];
+
     console.log({ _system, systemMap });
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
@@ -56,14 +67,46 @@ export default function merge({
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);
             const newParentKey = updatedItem ?
-                Object.keys(updatedItem.update).find(key => key.match(/newParent/))
+                Object.keys(updatedItem.update).find(key => key.match(/^parent/))
+                :
+                '';
+            const updatedParent = allUpdatedItems.reduce((parentItem, item) => path.startsWith(item.path) ?
+                parentItem && parentItem.path.length > item.path.length ?
+                    parentItem
+                    :
+                    (
+                        item.update.name
+                        ||
+                        Object.entries(item.update).some(([key]) => key.match(/parent/i))
+                    ) ?
+                        item
+                        :
+                        parentItem
+                :
+                parentItem, undefined)
+
+            const newUpdatedParentKey = updatedParent ?
+                Object.keys(updatedParent.update).find(key => key.match(/^parent/))
                 :
                 '';
 
-            const newParentPath = updatedItem && updatedItem.update ?
+            // TODO: REPLACE THE CURRENT PARENT PATH WITH THE NEW PARENT PATH
+            const newParentPath = updatedItem ?
                 updatedItem.update[newParentKey] || getParentPath(updatedItem)
                 :
-                getParentPath(oldItem);
+                updatedParent ?
+                    getParentPath({
+                        path: path.replace(updatedParent.path,
+                            `${updatedParent.update[newUpdatedParentKey]
+                            ||
+                            getParentPath(updatedParent)}.${
+                            updatedParent.update.name
+                            ||
+                            getLastItemFromPath(updatedParent.path)
+                            }`)
+                    })
+                    :
+                    getParentPath(oldItem);
 
             const newItemName = updatedItem ?
                 (updatedItem.update.name
@@ -74,12 +117,13 @@ export default function merge({
 
             const newPath = `${newParentPath}.${newItemName}`
 
-            const newUpdatedItem = updatedItem ? {
-                ...updatedItem.update,
+            const newUpdatedItem = updatedItem || updatedParent ? {
+                ...updatedItem ? updatedItem.update : {},
                 path: newPath,
                 name: undefined,
                 [newParentKey]: undefined,
             } : {};
+
 
             return {
                 ...oldItem,
@@ -99,7 +143,6 @@ export default function merge({
             });
         }));
 
-    console.log(arguments);
     // console.log({systemMap});
 
     const updatedSystemOptions = mergeArray(_systemOptions, systemOptions, newSystemOptions);
@@ -110,17 +153,6 @@ export default function merge({
     const updatedConfigurationOptions = mergeArray(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeArray(_systemDetails, systemDetails, newSystemDetails);
     const updatedSystemConfigurations = mergeArray(_systemConfigurations, systemConfigurations, newSystemConfigurations);
-
-    console.log({
-        updatedSystemOptions,
-        updatedSystemOptionValues,
-        updatedDetailOptions,
-        updatedDetailOptionValues,
-        updatedConfigurationOptionValues,
-        updatedConfigurationOptions,
-        updatedSystemDetails,
-        updatedSystemConfigurations,
-    });
 
     return {
         // name: newName || name,
@@ -135,6 +167,6 @@ export default function merge({
         _systemConfigurations: updatedSystemConfigurations,
         _configurationOptions: updatedConfigurationOptions,
         _configurationOptionValues: updatedConfigurationOptionValues,
-        _optionGroups: _optionGroups.filter(({name}) => !optionGroupsToDelete.includes(name)).concat(newOptionGroups.map(name => ({__typename: "OptionGroup", name})))
+        _optionGroups: _optionGroups.filter(({ name }) => !optionGroupsToDelete.includes(name)).concat(newOptionGroups.map(name => ({ __typename: "OptionGroup", name })))
     };
 }

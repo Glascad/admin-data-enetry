@@ -20,6 +20,9 @@ function EditOptionValue({
         configurationTypes = [],
     } = {},
     dispatch,
+    dispatchPartial,
+    partialAction,
+    cancelPartial,
 }) {
     console.log(arguments[0]);
 
@@ -360,6 +363,16 @@ function EditOptionValue({
                             )
                     )}
             </GroupingBox>
+            <button
+                data-cy="edit-option-value-move-button"
+                className="sidebar-button light"
+                onClick={() => partialAction ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('MOVE', optionValue)}
+            >
+                {partialAction ? 'Cancel Move' : 'Move Value'}
+            </button>
             <button
                 className="sidebar-button danger"
                 data-cy="edit-option-value-delete-button"

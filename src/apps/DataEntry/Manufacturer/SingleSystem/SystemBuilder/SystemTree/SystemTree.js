@@ -1,15 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../../components';
-import { makeRenderable, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
+import { makeRenderable, getLastItemFromPath, getChildren } from '../../../../../../app-logic/system-utils';
 import { normalCase, parseSearch } from '../../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../../Statics/Statics';
-import { ADD_ITEM } from '../ducks/actions';
+import { ADD_ITEM, UPDATE_ITEM } from '../ducks/actions';
+import { getIsAvailableForAction } from '../ducks/utils';
 // import { ADD_OPTION } from '../../ducks/actions';
 
 export default function SystemTree({
     search,
     system,
+    systemMap,
     system: {
         _optionGroups,
         _systemOptions: {
@@ -24,7 +26,13 @@ export default function SystemTree({
         ACTION: PARTIAL_ACTION,
         payload: partialPayload,
     } = {},
+    cancelPartial,
 }) {
+
+    console.log({
+        PARTIAL_ACTION,
+        partialPayload,
+    })
 
     const { Viewport } = useContext(StaticContext);
 
@@ -60,6 +68,11 @@ export default function SystemTree({
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
                                 key.match(/default.+Value/) && value === name
                             ));
+                            const isAvailableForSelection = PARTIAL_ACTION ?
+                                getIsAvailableForAction({ partialPayload, item }, systemMap)
+                                :
+                                false;
+
                             const isGrouped = __typename.match(/option$/i)
                                 &&
                                 _optionGroups.some(og => og.name === name);
@@ -76,17 +89,30 @@ export default function SystemTree({
                                         isDefault ? 'default' : ''
                                         } ${
                                         isGrouped ? 'grouped' : ''
+                                        } ${
+                                        PARTIAL_ACTION ?
+                                            isAvailableForSelection ?
+                                                'available'
+                                                :
+                                                'disabled'
+                                            :
+                                            ''
                                         }`}
                                     onClick={e => {
                                         e.stopPropagation();
                                         console.log(item);
                                         if (PARTIAL_ACTION) {
-                                            dispatch(PARTIAL_ACTION, {
-                                                ...partialPayload,
-                                                // add item to payload
-                                            })
+                                            if (PARTIAL_ACTION === 'MOVE') {
+                                                dispatch(UPDATE_ITEM, {
+                                                    ...partialPayload,
+                                                    update: {
+                                                        [`parent${__typename}Path`]: path
+                                                    }
+                                                })
+                                            }
+                                            cancelPartial();
                                         } else {
-                                            selectItem(item);
+                                        selectItem(item);
                                         }
                                     }}
                                 >

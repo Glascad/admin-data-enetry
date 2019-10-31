@@ -20,6 +20,9 @@ function EditType({
         configurationTypes = [],
     } = {},
     dispatch,
+    dispatchPartial,
+    partialAction,
+    cancelPartial,
 }) {
     console.log(arguments[0]);
 
@@ -157,6 +160,16 @@ function EditType({
                         </div>
                     )}
             </GroupingBox>
+            <button
+                data-cy="edit-option-value-move-button"
+                className="sidebar-button light"
+                onClick={() => partialAction ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('MOVE', selectedType)}
+            >
+                {partialAction ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
+            </button>
             <button
                 className="sidebar-button danger"
                 data-cy="edit-type-delete-button"

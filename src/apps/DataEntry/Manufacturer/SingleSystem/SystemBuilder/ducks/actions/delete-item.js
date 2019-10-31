@@ -35,7 +35,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         const updatedPath = `${parentPath || getParentPath({ path: itemPath })}.${itemUpdate.name || getLastItemFromPath(itemPath)}`;
 
         return updatedPath.startsWith(path) && !updatedPath.startsWith(`${path}_`) ?
-            [updated, deleted.concat(getOldPath(systemInput, updatedPath))]
+            [updated, deleted.concat(getOldPath(updatedPath, systemInput))]
             :
             [updated.concat(item), deleted]
     }, [[], []]);
