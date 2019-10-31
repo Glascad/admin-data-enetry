@@ -184,7 +184,7 @@ export default dxf => {
                     },
                     ...otherClasses,
                 }) => {
-                    console.log({ AcDbEllipse });
+                    // console.log({ AcDbEllipse });
 
                     const yRadius = Math.sqrt(
                         axisXEnd * axisXEnd
@@ -215,29 +215,29 @@ export default dxf => {
                         y: yRadius * Math.sin(end),
                     });
 
-                    console.log({
-                        startingPoint,
-                        halfwayPoint,
-                        endPoint,
-                        radii: {
-                            xRadius,
-                            yRadius,
-                        },
-                        axis: {
-                            axisXEnd,
-                            axisYEnd,
-                            xCenter,
-                            yCenter,
-                            axisRatio,
-                        },
-                        angles: {
-                            rotationAngle,
-                            start,
-                            end,
-                        },
-                    });
+                    // console.log({
+                    //     startingPoint,
+                    //     halfwayPoint,
+                    //     endPoint,
+                    //     radii: {
+                    //         xRadius,
+                    //         yRadius,
+                    //     },
+                    //     axis: {
+                    //         axisXEnd,
+                    //         axisYEnd,
+                    //         xCenter,
+                    //         yCenter,
+                    //         axisRatio,
+                    //     },
+                    //     angles: {
+                    //         rotationAngle,
+                    //         start,
+                    //         end,
+                    //     },
+                    // });
 
-                    return (arg => console.log(arg) || arg)([{
+                    return [{
                         // POSITIVE SECTION OF MAJOR AXIS
                         command: "M",
                         arguments: [
@@ -349,7 +349,7 @@ export default dxf => {
                             endPoint.x,
                             endPoint.y,
                         ],
-                    }]);
+                    }];
                 })
                 // POLYLINES with CIRCULAR ARCS
                 .case(ENTITY === 'LWPOLYLINE', ({ AcDbPolyline }) => AcDbPolyline

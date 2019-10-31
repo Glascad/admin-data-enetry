@@ -1,15 +1,50 @@
 @import "../../../../styles/variables";
 
-.part-preview {
-    background: black;
-    fill: none;
+.part-box {
+    display: flex;
+    flex-flow: row wrap;
 
-    path {
-        stroke: $light-gray;
-        stroke-width: 10px;
+    .part-tile {
+        max-width: 100%;
+        margin-right: $large;
+        margin-bottom: $x-large;
+        
+        .TitleBar {
+            margin-bottom: 0;
+            margin: 0;
+        }
+        
+        .TransformBox {
+            height: $pill-width * 3;
+            width: $pill-width * 3;
+            max-width: 100%;
+            background: black;
 
-        &.selected {
-            stroke: $danger-color;
+            .fade {
+                display: none;
+            }
+
+            .part-preview {
+                fill: none;
+                width: fill;
+                height: fill;
+
+                path {
+                    stroke: $off-white;
+                    stroke-width: 1px;
+                    // fill: $medium-dark-gray;
+
+                    @for $i from 1 through 5 {
+                        &:nth-of-type(5n + #{$i}) {
+                            fill: mix($selected-color, $action-color, $i * 20);
+                        }
+                    }
+
+                    &.selected {
+                        fill: $danger-color;
+                    }
+                }
+            }
         }
     }
 }

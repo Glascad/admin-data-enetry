@@ -46,7 +46,7 @@ const getViewBox = (path, multiplier) => {
         ), []);
     const xValues = coordinates.map(({ x }) => x * multiplier || 0);
     const yValues = coordinates.map(({ y }) => y * multiplier || 0);
-    console.log({ coordinates, xValues, yValues });
+    // console.log({ coordinates, xValues, yValues });
     return {
         x: {
             min: (Math.min(...xValues) || 0) - (multiplier / 2),
@@ -74,7 +74,7 @@ export default function SVG({
     path = [],
     className = '',
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     const pathArray = path.filter(hasCommand).map(multiplyArguments).map(joinArguments);
     const groupedPath = pathArray.reduce((ds, item) => {
         const { command } = item;
@@ -83,24 +83,24 @@ export default function SVG({
         const lastItem = ds[lastIndex] || [];
         return replace(ds, lastIndex, lastItem.concat(item));
     }, []);
-    console.log({ pathArray, groupedPath });
-    const [selectedPath, selectPath] = useState(0);
-    const handleKeyDown = e => {
-        const { key = '' } = e;
-        if (key.match(/Arrow(Up|Down|Left|Right)/)) {
-            e.preventDefault();
-            if (key.match(/Up|Left/))
-                selectPath(i => i - 1 % pathArray.length);
-            else
-                selectPath(i => i + 1 % pathArray.length);
-        }
-    }
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        }
-    }, []);
+    // console.log({ pathArray, groupedPath });
+    const [selectedPathIndex, selectPath] = useState();
+    // const handleKeyDown = e => {
+    //     const { key = '' } = e;
+    //     if (key.match(/Arrow(Up|Down|Left|Right)/)) {
+    //         e.preventDefault();
+    //         if (key.match(/Up|Left/))
+    //             selectPath(i => i - 1 % pathArray.length);
+    //         else
+    //             selectPath(i => i + 1 % pathArray.length);
+    //     }
+    // }
+    // useEffect(() => {
+    //     window.addEventListener('keydown', handleKeyDown);
+    //     return () => {
+    //         window.removeEventListener('keydown', handleKeyDown);
+    //     }
+    // }, []);
     return (
         <svg
             className={className}
@@ -109,7 +109,7 @@ export default function SVG({
         >
             {groupedPath.map((items, i) => (
                 <path
-                    className={i === selectedPath ? 'selected' : ''}
+                    className={i === selectedPathIndex ? 'selected' : ''}
                     key={i}
                     d={items.map(({ d }) => d).join('')}
                     onClick={() => {

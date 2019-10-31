@@ -178,6 +178,10 @@
         height: 100%;
         border-radius: 100%;
 
+        .text {
+            padding: $large;
+        }
+
         button {
             margin-top: $large;
         }

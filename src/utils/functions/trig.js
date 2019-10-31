@@ -56,9 +56,19 @@ export const rotatePoint = window.rotatePoint = ({ x, y }, A) => {
     const endAngleY = startAngleY - A;
     const startAngleX = acos(x / r);
     const endAngleX = startAngleX - A;
+    const newX = r * cos(endAngleX);
+    const newY = r * sin(endAngleY);
+    // console.log({
+    //     x,
+    //     y,
+    //     A,
+    //     r,
+    //     newX,
+    //     newY,
+    // });
     return {
-        x: r * cos(endAngleX),
-        y: r * sin(endAngleY),
+        x: newX,
+        y: newY,
     };
 }
 
