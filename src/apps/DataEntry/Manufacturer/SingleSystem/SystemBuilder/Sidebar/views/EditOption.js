@@ -230,7 +230,7 @@ function EditOption({
                 {partialAction ? 'Cancel Move' : 'Move Option'}
             </button>
             {(
-                __typename !== 'SystemOption'
+                !oPath.match(/^\d+\.\w+$/)
             ) ? (
                     <button
                         className="sidebar-button danger"

@@ -247,9 +247,11 @@ function EditOptionValue({
                                         __typename: childTypename,
                                     }, systemMap);
                                     const firstInstance = systemMap[allInstances[0]];
-                                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
+                                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) || []
+                                        :
+                                        [];
                                     const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
-                                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
+                                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i)) || []
                                         :
                                         [];
                                     dispatch(UPDATE_ITEM, {
