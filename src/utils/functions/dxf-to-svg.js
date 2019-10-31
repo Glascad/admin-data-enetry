@@ -195,8 +195,8 @@ export default dxf => {
                     const rotationAngle = 90 - acos(axisXEnd / yRadius);
                     const angle = degrees(end - start);
 
-                    const calculatePoint = pointOnEllipse => console.log(pointOnEllipse) || transformPoint(
-                        (p => console.log(p) || p)(rotatePoint(pointOnEllipse, rotationAngle)),
+                    const calculatePoint = pointOnEllipse => transformPoint(
+                        rotatePoint(pointOnEllipse, rotationAngle),
                         { x: xCenter, y: yCenter },
                     );
 
@@ -238,6 +238,7 @@ export default dxf => {
                     });
 
                     return (arg => console.log(arg) || arg)([{
+                        // POSITIVE SECTION OF MAJOR AXIS
                         command: "M",
                         arguments: [
                             xCenter,
@@ -253,6 +254,56 @@ export default dxf => {
                             axisYEnd + yCenter,
                         ],
                     }, {
+                        // NEGATIVE OF MAJOR AXIS
+                        command: "M",
+                        arguments: [
+                            xCenter,
+                            yCenter,
+                        ],
+                        style: {
+                            stroke: "orange",
+                        },
+                    }, {
+                        command: "L",
+                        arguments: [
+                            -axisXEnd + xCenter,
+                            -axisYEnd + yCenter,
+                        ],
+                    }, {
+                        //     // MINOR AXIS
+                        //     command: "M",
+                        //     arguments: [
+                        //         startingPoint.x,
+                        //         startingPoint.y,
+                        //     ],
+                        //     style: {
+                        //         stroke: "red",
+                        //     },
+                        // }, {
+                        //     command: "L",
+                        //     arguments: [
+                        //         halfwayPoint.x,
+                        //         halfwayPoint.y,
+                        //     ],
+                        // }, {
+                        //     // FULL ARC
+                        //     command: "M",
+                        //     arguments: [
+                        //         startingPoint.x,
+                        //         startingPoint.y,
+                        //     ],
+                        // }, {
+                        //     command: "A",
+                        //     arguments: [
+                        //         xRadius,
+                        //         yRadius,
+                        //         -rotationAngle,
+                        //         +(Math.abs(angle) >= 180),
+                        //         +(angle > 0),
+                        //         endPoint.x,
+                        //         endPoint.y,
+                        //     ],
+                        // FIRST HALF OF ARC
                         command: "M",
                         arguments: [
                             startingPoint.x,
@@ -269,7 +320,7 @@ export default dxf => {
                             xRadius,
                             yRadius,
                             // rotational angle
-                            rotationAngle,
+                            -rotationAngle,
                             // large-arc-flag (large-arc | small-arc)
                             +(Math.abs(angle / 2) >= 180),
                             // sweep-flag (clockwise | counterclockwise)
@@ -278,6 +329,7 @@ export default dxf => {
                             halfwayPoint.y,
                         ],
                     }, {
+                        // SECOND HALF OF ARC
                         command: "M",
                         arguments: [
                             halfwayPoint.x,
@@ -291,12 +343,12 @@ export default dxf => {
                         arguments: [
                             xRadius,
                             yRadius,
-                            rotationAngle,
+                            -rotationAngle,
                             +(Math.abs(angle / 2) >= 180),
                             +(angle / 2 > 0),
                             endPoint.x,
                             endPoint.y,
-                        ]
+                        ],
                     }]);
                 })
                 // POLYLINES with CIRCULAR ARCS
