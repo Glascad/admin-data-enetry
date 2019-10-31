@@ -5,6 +5,10 @@
         border-color: $button-color;
     }
 
+    .button-text {
+        color: $button-color;
+    }
+
     @if ($invert) {
         .circle-button {
             background: $bg-color;
@@ -25,10 +29,6 @@
                 background: $bg-color;
             }
         }
-
-        .button-text {
-            color: $bg-color;
-        }
     } @else {
         .circle-button {
             background: $button-color;
@@ -48,10 +48,6 @@
             .block-two {
                 background: $button-color;
             }
-        }
-
-        .button-text {
-            color: $bg-color;
         }
     }
 }

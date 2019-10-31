@@ -1,169 +1,94 @@
-import React, { Fragment, useState } from 'react';
-import {
-    Navigator,
-    TitleBar,
-    Input,
-    SVG,
-    GroupingBox,
-    CircleButton,
-    AsyncButton,
-    TransformBox,
-    TransformProvider,
-} from '../../../../components';
-import {
-    Hamburger,
-} from '../../../../assets/icons';
-import {
-    extractPathData,
-    getDroppedFileContents,
-    DXFToSVG,
-    replace,
-} from '../../../../utils';
+import React from 'react';
+import { Navigator, TitleBar, useQuery, Pill, SVG, CircleButton, ListWrapper } from '../../../../components';
+import ImportParts from './ImportParts';
 import './Parts.scss';
+import F from '../../../../schemas';
+import gql from 'graphql-tag';
+import { parseSearch } from '../../../../utils';
 
-export default function Parts({
+export default function Parts({ _manufacturer }) {
+    return (
+        <Navigator
+            routeProps={{ _manufacturer }}
+            routes={{
+                AllParts,
+                ImportParts,
+            }}
+        />
+    );
+}
+
+const query = gql`query partsByManufacturer($id: Int!) {
+    allParts(condition: {
+        manufacturerId: $id
+    }) {
+        nodes {
+            ...PartFields
+        }
+    }
+}
+${F.MNFG.PART_FIELDS}
+`;
+
+AllParts.navigationOptions = {
+    path: '/all',
+};
+
+function AllParts({
+    match: {
+        path,
+    },
+    location: {
+        search,
+    },
+    history,
     _manufacturer: {
+        id,
         name,
     } = {},
 }) {
-    // console.log(arguments[0]);
-    const [files, setFiles] = useState([]);
-    const addFile = file => setFiles(files => files.concat(file));
-    const toggleFileSelected = i => setFiles(files => replace(files, i, {
-        ...files[i],
-        selected: !files[i].selected,
-    }));
-    const selectionCount = files.reduce((count, { selected }) => count + +selected, 0);
-    const fileCount = files.length;
-
-
-    const CHECK_BUTTON = fileCount ?
-        selectionCount === fileCount ? (
-            <button
-                onClick={() => files.forEach(({ selected }, i) => selected && toggleFileSelected(i))}
-            >
-                Uncheck All
-                            </button>
-        ) : (
-                <button
-                    onClick={() => files.forEach(({ selected }, i) => !selected && toggleFileSelected(i))}
-                >
-                    Check All
-                                </button>
-            ) : null;
-
-    const ACTION_BUTTONS = fileCount ? (
-        <>
-            <AsyncButton
-                className={`danger ${selectionCount ? '' : 'disabled'}`}
-            >
-                Reject {selectionCount ?
-                    selectionCount === fileCount ?
-                        'All'
-                        :
-                        `${selectionCount}/${fileCount}`
-                    :
-                    ''}
-            </AsyncButton>
-            <AsyncButton
-                className={`action ${selectionCount ? '' : 'disabled'}`}
-            >
-                Accept {selectionCount ?
-                    selectionCount === fileCount ?
-                        'All'
-                        :
-                        `${selectionCount}/${fileCount}`
-                    :
-                    ''}
-            </AsyncButton>
-        </>
-    ) : null;
-
+    console.log(arguments[0]);
+    const { manufacturerId } = parseSearch(search);
+    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +manufacturerId } });
+    console.log({ queryResult });
+    const { allParts = [] } = queryResult;
     return (
         <>
-            <TitleBar
-                title="Import Parts"
-                selections={[name]}
-                right={(
-                    <>
-                        {CHECK_BUTTON}
-                        {ACTION_BUTTONS}
-                    </>
-                )}
-            />
             <div
+                id="Parts"
                 className="card"
                 onDragOver={e => e.preventDefault()}
-                onDrop={async e => {
+                onDrop={e => {
                     e.preventDefault();
                     const {
                         dataTransfer: {
                             files,
                         },
                     } = e;
-                    const results = await getDroppedFileContents(...files);
-                    results.forEach(({
-                        file: {
-                            name
-                        },
-                        contents
-                    }) => {
-                        const data = DXFToSVG(contents);
-                        const json = JSON.stringify(data, null, 4);
-                        console.log({ name, contents, data, json });
-                        addFile({
-                            name,
-                            contents,
-                            data,
-                            json,
-                            selected: true,
-                        });
-                    });
+                    const args = [`${path.replace(/all/, 'import')}${search}`, { dataTransfer: { files } }];
+                    console.log({ args });
+                    history.push(...args);
                 }}
             >
-                {files.length ? (
-                    <div className="part-box">
-                        {files.map(({ name, contents, data, json, selected }, i) => (
-                            <div
-                                className="part-tile"
-                            // onClick={e => {
-                            //     e.preventDefault();
-                            //     toggleFileSelected(i)
-                            // }}
-                            >
-                                <TitleBar
-                                    title={name}
-                                    right={(
-                                        <Input
-                                            Icon={Hamburger}
-                                            checked={selected}
-                                            onChange={() => toggleFileSelected(i)}
-                                        />
-                                    )}
-                                />
-                                <TransformProvider>
-                                    <TransformBox
-                                        overtakeViewport={false}
-                                    >
-                                        <SVG
-                                            className="part-preview"
-                                            path={data}
-                                        />
-                                    </TransformBox>
-                                </TransformProvider>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                        <CircleButton
-                            onDragOver={e => e.preventDefault()}
-                            type="tile"
-                            renderTextInsteadOfButton="Drag and drop .dxf files anywhere on the card"
-                        />
-                    )}
-                <div className="bottom-buttons">
-                    {ACTION_BUTTONS}
-                </div>
+                <TitleBar
+                    title={"Parts"}
+                    selections={[name]}
+                />
+                <ListWrapper
+                    items={allParts.map(({ partNumber, paths }) => ({
+                        title: partNumber,
+                        type: "tile",
+                        align: "left",
+                        children: (
+                            <SVG paths={paths} />
+                        ),
+                    }))}
+                    circleButton={{
+                        type: "tile",
+                        className: "primary",
+                        renderTextInsteadOfButton: "Drag and drop .dxf files here",
+                    }}
+                />
             </div>
         </>
     );

@@ -32,9 +32,11 @@ const joinArguments = ({ command, arguments: args, ...rest }) => ({
         }`,
 });
 
-const getViewBox = (path, multiplier) => {
+const getViewBox = (paths, multiplier) => {
 
-    const coordinates = path
+    const commands = paths.reduce((allCommands, { commands }) => allCommands.concat(commands), []);
+
+    const coordinates = commands
         .reduce((vals, { command, arguments: [one, two, three, four, five, six, seven] = [] }) => vals.concat(
             match(command)
                 .against({
@@ -71,18 +73,18 @@ const getViewBox = (path, multiplier) => {
 }
 
 export default function SVG({
-    path = [],
+    paths = [],
     className = '',
 }) {
-    // console.log(arguments[0]);
-    const pathArray = path.filter(hasCommand).map(multiplyArguments).map(joinArguments);
-    const groupedPath = pathArray.reduce((ds, item) => {
-        const { command } = item;
-        if (command === 'M') return [...ds, [item]];
-        const lastIndex = ds.length - 1;
-        const lastItem = ds[lastIndex] || [];
-        return replace(ds, lastIndex, lastItem.concat(item));
-    }, []);
+    console.log(arguments[0]);
+    // const pathArray = path.filter(hasCommand).map(multiplyArguments).map(joinArguments);
+    // const groupedPath = pathArray.reduce((ds, item) => {
+    //     const { command } = item;
+    //     if (command === 'M') return [...ds, [item]];
+    //     const lastIndex = ds.length - 1;
+    //     const lastItem = ds[lastIndex] || [];
+    //     return replace(ds, lastIndex, lastItem.concat(item));
+    // }, []);
     // console.log({ pathArray, groupedPath });
     const [selectedPathIndex, selectPath] = useState();
     // const handleKeyDown = e => {
@@ -104,19 +106,24 @@ export default function SVG({
     return (
         <svg
             className={className}
-            viewBox={getViewBox(path, multiplier)}
+            viewBox={getViewBox(paths, multiplier)}
             transform="scale(1, -1)"
         >
-            {groupedPath.map((items, i) => (
+            {paths.map(({ commands }, i) => (
                 <path
                     className={i === selectedPathIndex ? 'selected' : ''}
                     key={i}
-                    d={items.map(({ d }) => d).join('')}
+                    d={commands
+                        .map(multiplyArguments)
+                        .map(joinArguments)
+                        .map(({ d }) => d)
+                        .join('')
+                    }
                     onClick={() => {
                         selectPath(i);
-                        console.log({ items });
+                        console.log({ paths });
                     }}
-                    style={items.reduce((s, { style }) => ({
+                    style={commands.reduce((s, { style }) => ({
                         ...s,
                         ...style,
                     }), {})}

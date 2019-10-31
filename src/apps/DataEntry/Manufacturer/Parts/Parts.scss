@@ -1,5 +1,22 @@
 @import "../../../../styles/variables";
 
+#Parts {
+    .Pill {
+        svg {
+            stroke: $dark-gray;
+            fill: $dark-gray;
+            stroke-width: 5px;
+        }
+
+        &:hover {
+            svg {
+                stroke: $off-white;
+                fill: $off-white;
+            }
+        }
+    }
+}
+
 .part-box {
     display: flex;
     flex-flow: row wrap;

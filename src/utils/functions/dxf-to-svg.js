@@ -104,21 +104,23 @@ export default dxf => {
                         20: yStart,
                         21: yEnd,
                     },
-                }) => ([{
-                    command: "M",
-                    arguments: [
-                        xStart,
-                        yStart,
-                    ],
-                }, {
-                    command: "L",
-                    subClasses,
-                    contents,
-                    arguments: [
-                        xEnd,
-                        yEnd,
-                    ],
-                }]))
+                }) => ({
+                    commands: [{
+                        command: "M",
+                        arguments: [
+                            xStart,
+                            yStart,
+                        ],
+                    }, {
+                        command: "L",
+                        subClasses,
+                        contents,
+                        arguments: [
+                            xEnd,
+                            yEnd,
+                        ],
+                    }],
+                }))
                 // CIRCULAR ARCS
                 .case(ENTITY === 'ARC', ({
                     AcDbCircle: {
@@ -130,41 +132,43 @@ export default dxf => {
                         50: startAngle,
                         51: endAngle,
                     },
-                }) => [{
-                    // starting point
-                    command: "M",
-                    arguments: [
-                        radius * cos(startAngle) + xCenter,
-                        radius * sin(startAngle) + yCenter,
-                    ],
-                }, {
-                    command: "A",
-                    subClasses,
-                    contents,
-                    arguments: [
-                        radius,
-                        radius,
-                        // rotational angle
-                        0,
-                        // large-arc-flag (large-arc | small-arc)
-                        +((
-                            (
-                                endAngle <= startAngle ?
-                                    360
-                                    :
-                                    0
-                            )
-                            +
-                            endAngle
-                            -
-                            startAngle
-                        ) >= 180),
-                        // sweep-flag (clockwise | counterclockwise)
-                        1,
-                        radius * cos(endAngle) + xCenter,
-                        radius * sin(endAngle) + yCenter,
-                    ],
-                }])
+                }) => ({
+                    commands: [{
+                        // starting point
+                        command: "M",
+                        arguments: [
+                            radius * cos(startAngle) + xCenter,
+                            radius * sin(startAngle) + yCenter,
+                        ],
+                    }, {
+                        command: "A",
+                        subClasses,
+                        contents,
+                        arguments: [
+                            radius,
+                            radius,
+                            // rotational angle
+                            0,
+                            // large-arc-flag (large-arc | small-arc)
+                            +((
+                                (
+                                    endAngle <= startAngle ?
+                                        360
+                                        :
+                                        0
+                                )
+                                +
+                                endAngle
+                                -
+                                startAngle
+                            ) >= 180),
+                            // sweep-flag (clockwise | counterclockwise)
+                            1,
+                            radius * cos(endAngle) + xCenter,
+                            radius * sin(endAngle) + yCenter,
+                        ],
+                    }],
+                }))
                 // ELLIPTICAL ARCS
                 .case(ENTITY === 'ELLIPSE', ({
                     AcDbEllipse,
@@ -237,208 +241,213 @@ export default dxf => {
                     //     },
                     // });
 
-                    return [{
-                        // POSITIVE SECTION OF MAJOR AXIS
-                        command: "M",
-                        arguments: [
-                            xCenter,
-                            yCenter,
-                        ],
-                        style: {
-                            stroke: "yellow",
-                        },
-                    }, {
-                        command: "L",
-                        arguments: [
-                            axisXEnd + xCenter,
-                            axisYEnd + yCenter,
-                        ],
-                    }, {
-                        // NEGATIVE OF MAJOR AXIS
-                        command: "M",
-                        arguments: [
-                            xCenter,
-                            yCenter,
-                        ],
-                        style: {
-                            stroke: "orange",
-                        },
-                    }, {
-                        command: "L",
-                        arguments: [
-                            -axisXEnd + xCenter,
-                            -axisYEnd + yCenter,
-                        ],
-                    }, {
-                        //     // MINOR AXIS
-                        //     command: "M",
-                        //     arguments: [
-                        //         startingPoint.x,
-                        //         startingPoint.y,
-                        //     ],
-                        //     style: {
-                        //         stroke: "red",
-                        //     },
-                        // }, {
-                        //     command: "L",
-                        //     arguments: [
-                        //         halfwayPoint.x,
-                        //         halfwayPoint.y,
-                        //     ],
-                        // }, {
-                        //     // FULL ARC
-                        //     command: "M",
-                        //     arguments: [
-                        //         startingPoint.x,
-                        //         startingPoint.y,
-                        //     ],
-                        // }, {
-                        //     command: "A",
-                        //     arguments: [
-                        //         xRadius,
-                        //         yRadius,
-                        //         -rotationAngle,
-                        //         +(Math.abs(angle) >= 180),
-                        //         +(angle > 0),
-                        //         endPoint.x,
-                        //         endPoint.y,
-                        //     ],
-                        // FIRST HALF OF ARC
-                        command: "M",
-                        arguments: [
-                            startingPoint.x,
-                            startingPoint.y,
-                        ],
-                        style: {
-                            stroke: "blue",
-                        },
-                        AcDbEllipse,
-                        otherClasses,
-                    }, {
-                        command: "A",
-                        arguments: [
-                            xRadius,
-                            yRadius,
-                            // rotational angle
-                            -rotationAngle,
-                            // large-arc-flag (large-arc | small-arc)
-                            +(Math.abs(angle / 2) >= 180),
-                            // sweep-flag (clockwise | counterclockwise)
-                            +(angle / 2 > 0),
-                            halfwayPoint.x,
-                            halfwayPoint.y,
-                        ],
-                    }, {
-                        // SECOND HALF OF ARC
-                        command: "M",
-                        arguments: [
-                            halfwayPoint.x,
-                            halfwayPoint.y,
-                        ],
-                        style: {
-                            stroke: "cyan",
-                        },
-                    }, {
-                        command: "A",
-                        arguments: [
-                            xRadius,
-                            yRadius,
-                            -rotationAngle,
-                            +(Math.abs(angle / 2) >= 180),
-                            +(angle / 2 > 0),
-                            endPoint.x,
-                            endPoint.y,
-                        ],
-                    }];
+                    return {
+                        commands: [{
+                            // POSITIVE SECTION OF MAJOR AXIS
+                            command: "M",
+                            arguments: [
+                                xCenter,
+                                yCenter,
+                            ],
+                            style: {
+                                stroke: "yellow",
+                            },
+                        }, {
+                            command: "L",
+                            arguments: [
+                                axisXEnd + xCenter,
+                                axisYEnd + yCenter,
+                            ],
+                        }, {
+                            // NEGATIVE OF MAJOR AXIS
+                            command: "M",
+                            arguments: [
+                                xCenter,
+                                yCenter,
+                            ],
+                            style: {
+                                stroke: "orange",
+                            },
+                        }, {
+                            command: "L",
+                            arguments: [
+                                -axisXEnd + xCenter,
+                                -axisYEnd + yCenter,
+                            ],
+                        }, {
+                            //     // MINOR AXIS
+                            //     command: "M",
+                            //     arguments: [
+                            //         startingPoint.x,
+                            //         startingPoint.y,
+                            //     ],
+                            //     style: {
+                            //         stroke: "red",
+                            //     },
+                            // }, {
+                            //     command: "L",
+                            //     arguments: [
+                            //         halfwayPoint.x,
+                            //         halfwayPoint.y,
+                            //     ],
+                            // }, {
+                            //     // FULL ARC
+                            //     command: "M",
+                            //     arguments: [
+                            //         startingPoint.x,
+                            //         startingPoint.y,
+                            //     ],
+                            // }, {
+                            //     command: "A",
+                            //     arguments: [
+                            //         xRadius,
+                            //         yRadius,
+                            //         -rotationAngle,
+                            //         +(Math.abs(angle) >= 180),
+                            //         +(angle > 0),
+                            //         endPoint.x,
+                            //         endPoint.y,
+                            //     ],
+                            // FIRST HALF OF ARC
+                            command: "M",
+                            arguments: [
+                                startingPoint.x,
+                                startingPoint.y,
+                            ],
+                            style: {
+                                stroke: "blue",
+                            },
+                            AcDbEllipse,
+                            otherClasses,
+                        }, {
+                            command: "A",
+                            arguments: [
+                                xRadius,
+                                yRadius,
+                                // rotational angle
+                                -rotationAngle,
+                                // large-arc-flag (large-arc | small-arc)
+                                +(Math.abs(angle / 2) >= 180),
+                                // sweep-flag (clockwise | counterclockwise)
+                                +(angle / 2 > 0),
+                                halfwayPoint.x,
+                                halfwayPoint.y,
+                            ],
+                        }, {
+                            // SECOND HALF OF ARC
+                            command: "M",
+                            arguments: [
+                                halfwayPoint.x,
+                                halfwayPoint.y,
+                            ],
+                            style: {
+                                stroke: "cyan",
+                            },
+                        }, {
+                            command: "A",
+                            arguments: [
+                                xRadius,
+                                yRadius,
+                                -rotationAngle,
+                                +(Math.abs(angle / 2) >= 180),
+                                +(angle / 2 > 0),
+                                endPoint.x,
+                                endPoint.y,
+                            ],
+                        }],
+                    };
                 })
                 // POLYLINES with CIRCULAR ARCS
-                .case(ENTITY === 'LWPOLYLINE', ({ AcDbPolyline }) => AcDbPolyline
-                    .map(({
-                        10: x,
-                        20: y,
-                        // 38: elevation,
-                        // 39: thickness,
-                        // 40: startWidth,
-                        // 41: endWidth,
-                        // 42: bulge,
-                        // 43: constantWidth,
-                        // 70: polylineFlag,
-                        // 90: vertexCount,
-                        // 91: vertexIdentifier,
-                        // ...unknownCodes
-                    }, i) => (
-                            // check previous item
-                            match(AcDbPolyline[i - 1])
-                                // starting point
-                                .equals(undefined, () => ({
-                                    command: "M",
-                                    arguments: [
-                                        x,
-                                        y,
-                                    ],
-                                    AcDbPolyline,
-                                }))
-                                // arc
-                                .on(prev => prev.hasOwnProperty(42), ({
-                                    10: prevX,
-                                    20: prevY,
-                                    42: bulge,
-                                }) => {
-
-                                    const distance = Math.sqrt(
-                                        Math.pow(prevX - x, 2)
-                                        +
-                                        Math.pow(prevY - y, 2)
-                                    );
-                                    const angle = 4 * atan(bulge);
-                                    const radius = distance / (2 * sin(angle / 2));
-
-                                    return {
-                                        command: "A",
+                .case(ENTITY === 'LWPOLYLINE', ({ AcDbPolyline }) => ({
+                    commands: AcDbPolyline
+                        .map(({
+                            10: x,
+                            20: y,
+                            // 38: elevation,
+                            // 39: thickness,
+                            // 40: startWidth,
+                            // 41: endWidth,
+                            // 42: bulge,
+                            // 43: constantWidth,
+                            // 70: polylineFlag,
+                            // 90: vertexCount,
+                            // 91: vertexIdentifier,
+                            // ...unknownCodes
+                        }, i) => (
+                                // check previous item
+                                match(AcDbPolyline[i - 1])
+                                    // starting point
+                                    .equals(undefined, () => ({
+                                        command: "M",
                                         arguments: [
-                                            radius,
-                                            radius,
-                                            // rotational angle
-                                            0,
-                                            // large-arc-flag (large-arc | small-arc)
-                                            +(Math.abs(angle) >= 180),
-                                            // sweep-flag (clockwise | counterclockwise)
-                                            +(angle > 0),
                                             x,
                                             y,
                                         ],
-                                    };
-                                })
-                                // line
-                                .otherwise(() => ({
-                                    command: "L",
-                                    arguments: [
-                                        x,
-                                        y,
-                                    ],
-                                }))
+                                        AcDbPolyline,
+                                    }))
+                                    // arc
+                                    .on(prev => prev.hasOwnProperty(42), ({
+                                        10: prevX,
+                                        20: prevY,
+                                        42: bulge,
+                                    }) => {
+
+                                        const distance = Math.sqrt(
+                                            Math.pow(prevX - x, 2)
+                                            +
+                                            Math.pow(prevY - y, 2)
+                                        );
+                                        const angle = 4 * atan(bulge);
+                                        const radius = distance / (2 * sin(angle / 2));
+
+                                        return {
+                                            command: "A",
+                                            arguments: [
+                                                radius,
+                                                radius,
+                                                // rotational angle
+                                                0,
+                                                // large-arc-flag (large-arc | small-arc)
+                                                +(Math.abs(angle) >= 180),
+                                                // sweep-flag (clockwise | counterclockwise)
+                                                +(angle > 0),
+                                                x,
+                                                y,
+                                            ],
+                                        };
+                                    })
+                                    // line
+                                    .otherwise(() => ({
+                                        command: "L",
+                                        arguments: [
+                                            x,
+                                            y,
+                                        ],
+                                    }))
+                            )
                         )
-                    )
-                    // close
-                    .concat({
-                        command: "Z",
-                    })
-                )
+                        // close
+                        .concat({
+                            command: "Z",
+                        })
+                }))
                 // SPLINES
-                .case(ENTITY === 'SPLINE', ({ AcDbSpline }) => AcDbSpline
-                    .reduce((items, {
-                        10: x,
-                        20: y,
-                    }) => items.concat(x && y ?
-                        {
-                            command: items.length === 0 ?
-                                "M"
-                                :
-                                "L",
-                            arguments: [x, y],
-                        }
-                        :
-                        []), []))
+                .case(ENTITY === 'SPLINE', ({ AcDbSpline }) => ({
+                    commands: AcDbSpline
+                        .reduce((items, {
+                            10: x,
+                            20: y,
+                        }) => items.concat(x && y ?
+                            {
+                                command: items.length === 0 ?
+                                    "M"
+                                    :
+                                    "L",
+                                arguments: [x, y],
+                            }
+                            :
+                            []), [])
+                }))
                 // ALL OTHERS
                 .otherwise(() => {
                     console.error(`Unknown Entity: ${ENTITY}`);

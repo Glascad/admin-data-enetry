@@ -29,6 +29,7 @@ import { ReactComponent as EditLite } from './edit-lite.svg';
 import { ReactComponent as DuplicateHorizontalRight } from './duplicate-horizontal-right.svg';
 import { ReactComponent as DuplicateHorizontalLeft } from './duplicate-horizontal-left.svg';
 import { ReactComponent as DeleteLite } from './delete-lite.svg';
+import { ReactComponent as Check } from './check.svg';
 import { ReactComponent as CopyHorizontal } from './copy-horizontal.svg';
 import { ReactComponent as ArchTop } from './arch-top.svg';
 import { ReactComponent as AddVertical } from './add-vertical.svg';
@@ -62,6 +63,7 @@ export {
     AddVent,
     AddVertical,
     ArchTop,
+    Check,
     CopyHorizontal,
     DeleteLite,
     DuplicateHorizontalLeft,
