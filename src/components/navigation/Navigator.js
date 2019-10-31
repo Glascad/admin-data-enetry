@@ -12,6 +12,8 @@ import {
 import {
     validatePath,
     extractNavigationOptions,
+    parseSearch,
+    removeNullValues,
 } from '../../utils';
 import customPropTypes from '../utils/custom-prop-types';
 
@@ -40,6 +42,8 @@ class NavigatorChild extends PureComponent {
     componentDidMount = () => {
         // console.log('child updating route' + this.props.index);
         this.props.updateCurrentRoute(this.props.index);
+        console.log(this.props);
+
     }
 
     render = () => this.props.children;
@@ -114,6 +118,9 @@ class Navigator extends PureComponent {
                 ...routeProps,
             }, false));
 
+        const parsedSearch = parseSearch(search);
+        const searchKeys = Object.keys(removeNullValues(parsedSearch));
+
         const previousIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;
 
@@ -126,24 +133,36 @@ class Navigator extends PureComponent {
         return (
             <Switch>
                 {mappedRoutes
-                    .map(({ exact, component: RouteChild, disabled, ...route }, i) => !disabled && (
-                        <Route
-                            key={route.path}
-                            // {...console.log(Object.keys(route))}
-                            // {...route}
-                            exact={exact}
-                            path={validatePath(`${
-                                path
-                                }${
-                                route.path
-                                }`)}
-                            render={reactRouterProps => children({
-                                ...reactRouterProps,
-                                previousLink,
-                                nextLink,
-                                mappedRoutes,
-                                route,
-                            }, (
+                    .filter(({
+                        disabled,
+                        requiredURLParams = [],
+                    }) => (
+                            !disabled
+                            &&
+                            requiredURLParams.every(param => searchKeys.includes(param))
+                        ))
+                    .map(({
+                        exact,
+                        component: RouteChild,
+                        ...route
+                    }, i) => (
+                            <Route
+                                key={route.path}
+                                // {...console.log(Object.keys(route))}
+                                // {...route}
+                                exact={exact}
+                                path={validatePath(`${
+                                    path
+                                    }${
+                                    route.path
+                                    }`)}
+                                render={reactRouterProps => children({
+                                    ...reactRouterProps,
+                                    previousLink,
+                                    nextLink,
+                                    mappedRoutes,
+                                    route,
+                                }, (
                                     <NavigatorChild
                                         index={i}
                                         updateCurrentRoute={updateCurrentRoute}
@@ -155,16 +174,16 @@ class Navigator extends PureComponent {
                                         }
                                     </NavigatorChild>
                                 )
-                            )}
-                        />
-                    ))}
+                                )}
+                            />
+                        ))}
                 <Route
                     render={() => (
                         <Redirect
                             to={validatePath(`${
                                 url
                                 }${
-                                mappedRoutes[0].path
+                                (mappedRoutes[0] || {}).path || ''
                                 }${
                                 search
                                 }`)}

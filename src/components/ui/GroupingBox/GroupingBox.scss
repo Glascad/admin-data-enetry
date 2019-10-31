@@ -9,13 +9,17 @@
     width: fit-content;
     min-width: $pill-width;
 
+    &.full-width {
+        width: fill;
+    }
+
     // button {
     //     &:not(.danger) {
     //         background: $off-white;
     //     }
     // }
 
-    .title {
+    .grouping-box-title {
         position: absolute;
         top: -$text-size / 2;
         left: $large;
@@ -84,11 +88,40 @@
             width: $xxx-large;
         }
     }
+
+    .TitleBar {
+        border: none;
+        font-size: $base-size;
+        
+        .title-bar-left {
+            background: $off-white;
+            padding: 0 $x-small;
+            height: auto;
+            transform: translateX(#{-$small});
+            
+            .title {
+                font-weight: normal;
+            }
+
+            z-index: 1;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            // width: calc(100% - #{$x-large * 2});
+            width: 100%;
+            height: 1px;
+            background: $medium-dark-gray;
+            z-index: 0;
+        }
+    }
 }
 
 .card {
     .GroupingBox {
-        .title {
+        .grouping-box-title {
             font-weight: normal;
             background: $off-white;
             box-shadow: 0 0 0 $x-small $off-white;

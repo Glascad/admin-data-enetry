@@ -253,6 +253,7 @@ export default class Input extends PureComponent {
                 onClick,
                 onMouseDown,
                 onMouseUp,
+                onDrop,
                 "data-cy": dataCy,
                 ...props
             },
@@ -317,6 +318,7 @@ export default class Input extends PureComponent {
                 onClick={onClick}
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
+                onDrop={onDrop}
                 {...(isBoolean || select ? { "data-cy": dataCy } : null)}
             >
                 {!isBoolean ? (
@@ -363,7 +365,7 @@ export default class Input extends PureComponent {
                             onChange={isInches ? handleInchChange : onChange}
                             onBlur={isInches ? handleInchblur : onBlur}
                             onKeyDown={onEnter ? handleKeyDown : onKeyDown}
-                            {...(isBoolean ? null : { "data-cy": dataCy })}
+                            data-cy={isBoolean ? undefined : dataCy}
                         // VVV is this spread necessary?
                         // {...props}
                         />

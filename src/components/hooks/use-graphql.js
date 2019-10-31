@@ -2,25 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 
 import client from '../../apollo-config';
 
-import {
-    removeNullValues,
-    flattenNodeArrays,
-    replaceByKeys,
-} from '../../utils';
+import { normalizeQueryResponse, removeNullValues } from '../../utils';
 
 import useMountTracker from './use-mount-tracker';
 
-const normalizeResponse = ({ data }) => removeNullValues(
-    flattenNodeArrays(
-        replaceByKeys(
-            data,
-        ),
-    ),
-) || {};
-
 export function useMutation(mutation, fetchQuery = () => { }) {
-
-    const tracker = useMountTracker();
 
     const [mutationResult, setMutationResult] = useState({});
     const [loading, setLoading] = useState(false);
@@ -36,7 +22,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
                 ...mutation,
             });
 
-            const normalResponse = normalizeResponse(response);
+            const normalResponse = normalizeQueryResponse(response);
 
             // tracker.ifStillMounted(() => {
             setLoading(false);
@@ -51,6 +37,18 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         } catch (err) {
             console.log("ERROR in mutation");
             console.log({ err });
+            
+            const {
+                networkError: {
+                    result: {
+                        errors = [],
+                    } = {},
+                } = {},
+                graphQLErrors = []
+            } = removeNullValues(err);
+
+            errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
+
             setLoading(false);
             throw err;
         }
@@ -60,8 +58,6 @@ export function useMutation(mutation, fetchQuery = () => { }) {
 }
 
 export function useQuery(query, doNotFetchOnMount = false) {
-
-    const tracker = useMountTracker();
 
     const [queryResult, setQueryResult] = useState({});
     const [loading, setLoading] = useState(false);
@@ -83,7 +79,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
             //     query,
             // });
 
-            const normalResponse = normalizeResponse(response);
+            const normalResponse = normalizeQueryResponse(response);
 
             // console.log({ normalResponse });
 
@@ -110,9 +106,10 @@ export function useQuery(query, doNotFetchOnMount = false) {
                         errors = [],
                     } = {},
                 } = {},
-            } = err;
+                graphQLErrors = []
+            } = removeNullValues(err);
 
-            errors.forEach(({ message }) => console.error(message));
+            errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
 
             setLoading(false);
             throw err;

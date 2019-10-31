@@ -1,15 +1,13 @@
+import * as CTRLD from './controlled';
 import * as AUTH from './authentication';
-import * as APP from './application-data';
-import * as SYS from './system-data';
+import * as MNFG from './manufacturer-data';
 import * as PRJ from './project-data';
 import * as ELVTN from './elevation-data';
-import * as CTRLD from './controlled';
 
 export default {
+    CTRLD,
     AUTH,
-    APP,
-    SYS,
+    MNFG,
     PRJ,
     ELVTN,
-    CTRLD,
 };

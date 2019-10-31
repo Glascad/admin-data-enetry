@@ -33,7 +33,7 @@ export default function GroupingBox({
             className={`GroupingBox ${className}`}
             data-cy={dataCy}
         >
-            <div className="title">
+            <div className="title grouping-box-title">
                 {normalCase(title)}
             </div>
             {toggle ? (

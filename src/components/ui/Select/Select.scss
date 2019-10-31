@@ -4,7 +4,7 @@
     &.warning {
         .select-input-wrapper {
             &::after {
-                border-left-color: $dark-gray;
+                border-left-color: $light-gray;
             }
         }
     }
@@ -50,6 +50,7 @@
             + .select-options {
                 position: absolute;
                 top: calc(100% + #{$xx-small});
+                right: 0;
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;

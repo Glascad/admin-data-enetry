@@ -29,11 +29,11 @@ export default function useRedoableState(firstState, dependencies = []) {
                 ...oldState,
                 ...intermediateState,
             };
-            // console.log({
-            //     oldState,
-            //     intermediateState,
-            //     newState,
-            // });
+            console.log({
+                oldState,
+                intermediateState,
+                newState,
+            });
             return newState;
         });
         setAfterSetState({ afterSetState });
@@ -130,7 +130,6 @@ export default function useRedoableState(firstState, dependencies = []) {
         currentState,
         currentIndex,
         clearHistory,
-        cancel,
         states,
         cancel,
         undo,

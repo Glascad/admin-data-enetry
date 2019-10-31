@@ -31,13 +31,16 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "test-scripts": "jest ./scripts",
         "cy": "cypress open",
         "eject": "react-scripts eject",
         "normalize-icons": "node ./scripts/normalize-icons",
         "compile-seed": "node ./scripts/db-seed/write-seed",
         "seed-db": "node ./scripts/db-seed",
         "map-schemas": "node ./scripts/map-schemas",
-        "map-src": "node ./scripts/map-src-files"
+        "map-src": "node ./scripts/map-src-files",
+        "serve": "nodemon",
+        "cloc": "cloc src db scripts --exclude-ext=json"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -70,8 +73,7 @@
         "watch": [
             "db/",
             "server/",
-            "db/*",
-            "server/*",
+            "scripts/",
             ".env",
             "index.js"
         ]
