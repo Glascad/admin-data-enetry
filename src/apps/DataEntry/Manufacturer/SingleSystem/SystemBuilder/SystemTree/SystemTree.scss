@@ -18,43 +18,27 @@
                 cursor: default;
 
                 &.type-option {
-                    background: $dark-gray;
-                    color: $off-white;
+                    background: $light-gray;
                 }
 
                 &.type-value {
                     background: none;
-                    border: 1px solid $dark-gray;
-                    // box-shadow: inset -1px -1px 3px $dark-gray;
-                    
-                    &.default {
-                        // font-weight: bold;
-                        text-transform: uppercase;
-                        // box-shadow: inset 1px 1px 3px $dark-gray;
-                        // text-decoration: underline;
-                        // border-width: 2px;
-                        // &::before {
-                        //     content: "<";
-                        //     display: inline-block;
-                        //     margin-right: $xx-small;
-                        // }
+                    border: 1px solid $medium-gray;
 
-                        // &::after {
-                        //     content: ">";
-                        //     display: inline-block;
-                        //     margin-left: $xx-small;
-                        // }
+                    &.default {
+                        text-transform: uppercase;
                     }
                 }
 
-                &.type-systemconfiguration {
-                    background: $light-gray;
+                &.subtype-systemdetail {
+                    background: $dark-gray;
+                    color: $off-white;
+                    border-radius: $large;
                 }
 
-                &.subtype-systemdetail {
-                    background: $light-blue;
-                    color: $dark-gray;
-                    // font-weight: bold;
+                &.type-systemconfiguration {
+                    background: $medium-dark-gray;
+                    color: white;
                 }
 
                 &.selected {
@@ -62,17 +46,6 @@
                     border: none;
                     color: $off-white;
                 }
-
-                // > * {
-                //     display: flex;
-                //     width: fill;
-                //     border-left: 1px solid $dark-gray;
-                //     border-right: 1px solid $dark-gray;
-                //     // margin: 5px;
-                //     margin: -0.5px;
-                //     padding: 10px;
-                //     // border-radius: 5px;
-                // }
             }
         }
     }
