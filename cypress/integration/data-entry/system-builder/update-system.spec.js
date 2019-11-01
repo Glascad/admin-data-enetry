@@ -14,7 +14,7 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD`.click({ force: true });
         cy.get('.RightSidebar').should('have.class', 'open');
         cy.getDataCy`add-option`.click();
-        cy.focused().type('Void{enter}');
+        cy.getDataCy`edit-configuration-type add_option`.type('Void{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD.VOID`.should('exist');
 
         // Delete DURABILITY
@@ -59,7 +59,7 @@ describe('Testing  actions in system builder', () => {
         // Add COMPENSATING_RECEPTOR
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.click({ force: true });
         cy.getDataCy`add-configuration`.click();
-        cy.focused().type('Compensating{enter}');
+        cy.getDataCy`edit-Configuration-type-add_configuration add_configuration`.type('Compensating{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR`.should('exist');
 
         // Update STOP UP -> DOWN
@@ -73,6 +73,7 @@ describe('Testing  actions in system builder', () => {
         // Add STOP UP
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.click({ force: true });
         cy.getDataCy`add-option-value`.click()
+        cy.getDataCy`modal-finish-button`.click()
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.should('exist');
 
         // Delete SCREW_SPLINE

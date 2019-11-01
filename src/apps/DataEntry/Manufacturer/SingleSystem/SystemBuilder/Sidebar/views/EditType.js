@@ -1,6 +1,6 @@
 import React from 'react';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getChildren, filterOptionsAbove, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath, getSiblings } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 
 function EditType({
@@ -8,8 +8,12 @@ function EditType({
     selectedItem: {
         __typename,
         path: tPath,
+        optional,
     } = {},
     system,
+    system: {
+        _optionGroups
+    },
     systemMap,
     queryResult: {
         validOptions = [],
@@ -17,6 +21,9 @@ function EditType({
         configurationTypes = [],
     } = {},
     dispatch,
+    dispatchPartial,
+    partialAction,
+    cancelPartial,
 }) {
     console.log(arguments[0]);
 
@@ -35,6 +42,17 @@ function EditType({
     const oName = getLastItemFromPath(oPath);
 
     const childValues = getChildren(childOption, systemMap); // Types' Child's children
+    const siblingTypes = getSiblings(selectedType, systemMap);
+
+    const selectValidTypes = __typename.match(/detail/i) ?
+        detailTypes
+        :
+        configurationTypes;
+
+    const selectTypes = selectValidTypes
+        .filter(name => !siblingTypes.some(({ path: typePath }) =>
+            name.toLowerCase() === getLastItemFromPath(typePath).toLowerCase()
+        ));
     return (
         <>
             <TitleBar
@@ -44,13 +62,7 @@ function EditType({
                 data-cy={`edit-${type.toLowerCase()}-type`}
                 label={type}
                 value={tName}
-                options={(isDetail ?
-                    detailTypes
-                    :
-                    configurationTypes
-                )
-                    .filter(type => type !== tName)
-                    .map(type => type)}
+                options={selectTypes}
                 onChange={name => {
                     if (name !== tName) {
                         const updateType = () => dispatch(UPDATE_ITEM, {
@@ -71,6 +83,23 @@ function EditType({
                     }
                 }}
             />
+            {
+                type === 'Configuration' ?
+                    <button
+                        data-cy="edit-type-optional-button"
+                        className="sidebar-button light"
+                        onClick={() => console.log({ selectedType }) || dispatch(UPDATE_ITEM, {
+                            ...selectedType,
+                            update: {
+                                optional: !optional
+                            }
+                        })}
+                    >
+                        {optional ? 'Required' : 'Optional'}
+                    </button>
+                    :
+                    null
+            }
             <GroupingBox
                 title="Option"
                 circleButton={childOption ? undefined : {
@@ -80,7 +109,7 @@ function EditType({
                     onClick: () => dispatch(ADD_ITEM, {
                         __typename: `${type}Option`,
                         [`parent${__typename}Path`]: tPath,
-                        name: filterOptionsAbove(selectedType, validOptions)[0].name,
+                        name: 'ADD_OPTION',
                     }),
                 }}
             >
@@ -92,13 +121,36 @@ function EditType({
                             // autoFocus={childValues.length === 0}
                             value={oName}
                             options={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
-                            onChange={name => dispatch(UPDATE_ITEM, {
-                                path: oPath,
-                                __typename: oTypename,
-                                update: {
-                                    name,
+                            onChange={name => {
+                                const allInstances = getAllInstancesOfItem({
+                                    path: `${tPath}.${name}`,
+                                    __typename: oTypename,
+                                }, systemMap);
+                                const firstInstance = systemMap[allInstances[0]];
+                                const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
+                                const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
+                                    Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
+                                    :
+                                    [];
+                                dispatch(UPDATE_ITEM, {
+                                    path: oPath,
+                                    __typename: oTypename,
+                                    update: {
+                                        name,
+                                        [`default${oTypename}Value`]: instanceDefaultValue,
+
+                                    }
+                                })
+                                if (_optionGroups.some(og => og.name === name)) {
+                                    instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                                        [`parent${oTypename}Path`]: `${getParentPath({ path: oPath })}.${name}`,
+                                        name: getLastItemFromPath(value.path),
+                                        __typename: `${oTypename}Value`,
+                                    }, {
+                                        replaceState: true
+                                    }))
                                 }
-                            })}
+                            }}
                         />
                         <CircleButton
                             data-cy="delete-option"
@@ -126,6 +178,16 @@ function EditType({
                         </div>
                     )}
             </GroupingBox>
+            <button
+                data-cy="edit-option-value-move-button"
+                className="sidebar-button light"
+                onClick={() => partialAction ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('MOVE', selectedType)}
+            >
+                {partialAction ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
+            </button>
             <button
                 className="sidebar-button danger"
                 data-cy="edit-type-delete-button"

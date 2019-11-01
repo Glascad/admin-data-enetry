@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../../components";
 import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../ducks/actions';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped } from '../../../../../../../app-logic/system-utils';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 
 function EditOption({
     selectedItem: option = {},
-    system,
+    system: {
+        _optionGroups,
+    },
     systemMap,
     queryResult: {
         validOptions = [],
     } = {},
     dispatch,
+    dispatchPartial,
+    partialAction,
+    cancelPartial,
 }) {
     console.log(arguments[0])
-
-    const { _optionGroups } = system;
 
     const {
         path: oPath,
@@ -40,12 +43,6 @@ function EditOption({
         .map(({ name }) => name);
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
-    
-    console.log({
-        optionIsGrouped,
-        _optionGroups,
-        optionName
-    })
 
     return (
         <>
@@ -59,25 +56,46 @@ function EditOption({
                 value={optionName}
                 options={filterOptionsAbove(option, validOptions)
                     .map(({ name }) => name)}
-                onChange={name => dispatch(UPDATE_ITEM, {
-                    path: oPath,
-                    __typename,
-                    update: {
-                        name,
+                onChange={name => {
+                    const allInstances = getAllInstancesOfItem({
+                        path: `${getParentPath(option)}.${name}`,
+                        __typename,
+                    }, systemMap);
+                    const firstInstance = systemMap[allInstances[0]];
+                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
+                    const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
+                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
+                        :
+                        [];
+                    dispatch(UPDATE_ITEM, {
+                        path: oPath,
+                        __typename,
+                        update: {
+                            name,
+                            [`default${__typename}Value`]: instanceDefaultValue,
+
+                        }
+                    })
+                    if (_optionGroups.some(og => og.name === name)) {
+                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
+                            [`parent${__typename}Path`]: `${getParentPath(option)}.${name}`,
+                            name: getLastItemFromPath(value.path),
+                            __typename: `${__typename}Value`,
+                        }, {
+                            replaceState: true,
+                        }))
                     }
-                })}
+                }}
             />
-            {canItemBeGrouped(systemMap, option) ? (
+            {canItemBeGrouped(option, systemMap) ? (
                 <button
                     data-cy="edit-option-value-group-option-button"
                     className="sidebar-button light"
                     onClick={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, option)}
                 >
-                    {optionIsGrouped ? 'Ungroup Option': 'Group Option'}
+                    {optionIsGrouped ? 'Ungroup Option' : 'Group Option'}
                 </button>
-            ) : null
-
-            }
+            ) : null}
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"
@@ -85,12 +103,38 @@ function EditOption({
                     "data-cy": "add-option-value",
                     actionType: "add",
                     className: "action",
-                    onClick: () => dispatch(ADD_ITEM, {
-                        [`parent${__typename}Path`]: oPath,
-                        name: (validOptionValues.find(({ name }) => !optionValues.some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value',
-                        __typename: `${__typename}Value`,
-                    }),
-                } : undefined}
+                    onClick: () => {
+                        const addValueToEachOption = () => {
+                            const valueName = (validOptionValues.find(({ name }) => !optionValues
+                                .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value';
+                            getAllInstancesOfItem(option, systemMap)
+                                .forEach((instance, i) => {
+                                    const item = systemMap[instance];
+                                    dispatch(ADD_ITEM, {
+                                        [`parent${item.__typename}Path`]: item.path,
+                                        name: valueName,
+                                        __typename: `${item.__typename}Value`,
+                                    }, {
+                                        replaceState: i !== 0,
+                                    })
+                                })
+                        };
+                        optionIsGrouped ?
+                            confirmWithModal(addValueToEachOption, {
+                                titleBar: { title: `Add Grouped Option Value` },
+                                children: `${optionName} Adding a value to a grouped option will add the value to all existing items with the name of ${optionName.toLowerCase()}`,
+                                finishButtonText: 'Add Value',
+                            })
+                            :
+                            dispatch(ADD_ITEM, {
+                                [`parent${__typename}Path`]: oPath,
+                                name: (validOptionValues.find(({ name }) => !optionValues
+                                    .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value',
+                                __typename: `${__typename}Value`,
+                            });
+                    }
+                } : undefined
+                }
             >
                 {optionValues.length ?
                     optionValues.map(({ path: ovPath, __typename: valueTypename }, i, { length }) => {
@@ -137,13 +181,34 @@ function EditOption({
                                         path: ovPath,
                                         __typename: valueTypename,
                                     });
-                                    if (valueChildren.length > 0) confirmWithModal(deleteOptionValue, {
-                                        titleBar: { title: `Delete ${vName}` },
-                                        children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                        finishButtonText: 'Delete',
-                                        danger: true,
-                                    })
-                                    else deleteOptionValue();
+                                    const deleteValueFromEachOption = () => {
+                                        getAllInstancesOfItem({ path: ovPath, __typename: valueTypename }, systemMap)
+                                            .forEach(instance => {
+                                                const item = systemMap[instance];
+                                                dispatch(DELETE_ITEM, item, {
+                                                    replaceState: true,
+                                                })
+                                            })
+                                    };
+                                    optionIsGrouped ?
+                                        confirmWithModal(deleteValueFromEachOption, {
+                                            titleBar: { title: `Delete Grouped Option Value` },
+                                            children: `Deleting a value attached to a grouped option will delete the value to all existing items with the name of ${optionName.toLowerCase()}`,
+                                            finishButtonText: 'Delete',
+                                            danger: true,
+                                        })
+                                        :
+                                        valueChildren.length > 0 ?
+                                            confirmWithModal(deleteOptionValue, {
+                                                titleBar: { title: `Delete ${vName}` },
+                                                children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                                finishButtonText: 'Delete',
+                                                danger: true,
+                                            })
+                                            :
+                                            deleteOptionValue();
+
+
                                 }}
                             />
                         </div>
@@ -154,8 +219,18 @@ function EditOption({
                         </div>
                     )}
             </GroupingBox>
+            <button
+                data-cy="edit-option-move-button"
+                className="sidebar-button light"
+                onClick={() => partialAction ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('MOVE', option)}
+            >
+                {partialAction ? 'Cancel Move' : 'Move Option'}
+            </button>
             {(
-                __typename !== 'SystemOption'
+                !oPath.match(/^\d+\.\w+$/)
             ) ? (
                     <button
                         className="sidebar-button danger"

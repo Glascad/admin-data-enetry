@@ -3,7 +3,7 @@ import { systemUpdate } from "../../schemas";
 
 function testGetOldPath({ systemInput, path, resultPath }) {
     describe(`getting the old path from a path`, () => {
-        const oldPath = getOldPath(systemInput, path);
+        const oldPath = getOldPath(path, systemInput);
         test(`testing ${oldPath} to be ${resultPath}`, () => {
             expect(oldPath).toBe(resultPath);
         });

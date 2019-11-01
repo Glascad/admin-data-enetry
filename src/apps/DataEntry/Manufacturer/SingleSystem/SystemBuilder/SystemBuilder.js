@@ -81,6 +81,7 @@ export default function SystemBuilder({
     const [partialAction, setPartialAction] = useState();
 
     const dispatchPartial = (ACTION, payload) => setPartialAction({ ACTION, payload });
+    const cancelPartial = () => setPartialAction(undefined);
 
     // adding default value to all options without one
     useEffect(() => {
@@ -100,13 +101,9 @@ export default function SystemBuilder({
 
                     if (noDefault) {
 
-                        const {
+                        const [{
                             path = '',
-                        } = (
-                            defaultValue
-                            &&
-                            children.find(({ path }) => path.endsWith(defaultValue))
-                        ) || children[0] || {};
+                        } = {}] = children;
 
                         const newDefault = getLastItemFromPath(path);
 
@@ -158,6 +155,7 @@ export default function SystemBuilder({
                 selectItem={selectItem}
                 selectedItem={selectedItem}
                 partialAction={partialAction}
+                cancelPartial={cancelPartial}
             />
             <Sidebar
                 queryResult={queryResult}
@@ -167,6 +165,8 @@ export default function SystemBuilder({
                 selectItem={selectItem}
                 selectedItem={selectedItem}
                 dispatchPartial={dispatchPartial}
+                partialAction={partialAction}
+                cancelPartial={cancelPartial}
             />
         </TransformProvider>
     );
