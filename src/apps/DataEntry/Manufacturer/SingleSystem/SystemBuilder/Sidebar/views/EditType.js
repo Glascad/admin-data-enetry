@@ -8,6 +8,7 @@ function EditType({
     selectedItem: {
         __typename,
         path: tPath,
+        optional,
     } = {},
     system,
     system: {
@@ -82,6 +83,23 @@ function EditType({
                     }
                 }}
             />
+            {
+                type === 'Configuration' ?
+                    <button
+                        data-cy="edit-type-optional-button"
+                        className="sidebar-button light"
+                        onClick={() => console.log({ selectedType }) || dispatch(UPDATE_ITEM, {
+                            ...selectedType,
+                            update: {
+                                optional: !optional
+                            }
+                        })}
+                    >
+                        {optional ? 'Required' : 'Optional'}
+                    </button>
+                    :
+                    null
+            }
             <GroupingBox
                 title="Option"
                 circleButton={childOption ? undefined : {

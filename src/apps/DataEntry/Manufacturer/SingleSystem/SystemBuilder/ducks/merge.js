@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { removeNullValues } from '../../../../../../utils';
-import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren } from "../../../../../../app-logic/system-utils";
+import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../../../app-logic/system-utils";
 
 export default function merge({
     // name: newName,
@@ -70,27 +70,44 @@ export default function merge({
                 Object.keys(updatedItem.update).find(key => key.match(/^parent/))
                 :
                 '';
-            const updatedParent = allUpdatedItems.reduce((parentItem, item) => path.startsWith(item.path) ?
-                parentItem && parentItem.path.length > item.path.length ?
+            const updatedParent = allUpdatedItems.reduce((parentItem, item) => path.startsWith(item.path) && path !== item.path ?
+                (
+                    parentItem
+                    &&
+                    parentItem.path.length > item.path.length
+                ) || !(
+                    item.update.name
+                    ||
+                    Object.entries(item.update).some(([key]) => key.match(/parent/i))
+                ) ?
                     parentItem
                     :
-                    (
-                        item.update.name
-                        ||
-                        Object.entries(item.update).some(([key]) => key.match(/parent/i))
-                    ) ?
-                        item
-                        :
-                        parentItem
+                    item
                 :
                 parentItem, undefined)
 
+
+            // Adding __DT__ or __CT__ in the path
+            const updatedItemPathAddition = updatedItem ?
+                getItemPathAddition(updatedItem)
+                :
+                '';
+
+            const updatedParentPathAddition = updatedParent ?
+                getItemPathAddition(updatedParent)
+                :
+                '';
+
+            console.log({
+                A: updatedItemPathAddition,
+                B: updatedParentPathAddition,
+                C: path,
+            })
             const newUpdatedParentKey = updatedParent ?
                 Object.keys(updatedParent.update).find(key => key.match(/^parent/))
                 :
                 '';
 
-            // TODO: REPLACE THE CURRENT PARENT PATH WITH THE NEW PARENT PATH
             const newParentPath = updatedItem ?
                 updatedItem.update[newParentKey] || getParentPath(updatedItem)
                 :
@@ -99,7 +116,7 @@ export default function merge({
                         path: path.replace(updatedParent.path,
                             `${updatedParent.update[newUpdatedParentKey]
                             ||
-                            getParentPath(updatedParent)}.${
+                            getParentPath(updatedParent)}.${updatedParentPathAddition}${
                             updatedParent.update.name
                             ||
                             getLastItemFromPath(updatedParent.path)
@@ -115,7 +132,7 @@ export default function merge({
                 :
                 getLastItemFromPath(path);
 
-            const newPath = `${newParentPath}.${newItemName}`
+            const newPath = `${newParentPath}.${updatedItemPathAddition}${newItemName}`
 
             const newUpdatedItem = updatedItem || updatedParent ? {
                 ...updatedItem ? updatedItem.update : {},
@@ -123,7 +140,6 @@ export default function merge({
                 name: undefined,
                 [newParentKey]: undefined,
             } : {};
-
 
             return {
                 ...oldItem,

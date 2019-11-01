@@ -1,4 +1,4 @@
-import { getLastItemFromPath, getParentPath, getParentTypename } from "../../../../../../../app-logic/system-utils";
+import { getLastItemFromPath, getParentPath, getParentTypename, getItemPathAddition } from "../../../../../../../app-logic/system-utils";
 import { getOldPath } from "../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
@@ -46,14 +46,6 @@ export default function UPDATE_ITEM(systemInput, payload) {
             [key]: value.map(item => {
                 const [parentPathKey, itemParentPath] = Object.entries(item)
                     .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
-                console.log({
-                    itemParentPath,
-                    path,
-                    doesItMatch: !!path.match(/^\d+\.\w+$/),
-                    notParent: !itemParentPath,
-                    item,
-                    update,
-                });
                 return !itemParentPath && !!path.match(/^\d+\.\w+$/) ?
                     {
                         ...item,
@@ -83,20 +75,20 @@ export default function UPDATE_ITEM(systemInput, payload) {
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.map(item => {
-                const { update: itemUpdate, path: itemPath } = item;
+                const { update: itemUpdate, path: itemPath, __typename } = item;
                 const [updatedParentPathKey, updatedParentPath] = Object.entries(itemUpdate).find(([itemKey]) => itemKey.match(/parent/i)) || [];
-                const updatedPath = `${updatedParentPath || getParentPath(item)}.${itemUpdate.name || getLastItemFromPath(itemPath)}`;
+                const itemPathAddition = getItemPathAddition(item);
+                const updatedPath = `${updatedParentPath || getParentPath(item)}.${itemPathAddition}${itemUpdate.name || getLastItemFromPath(itemPath)}`;
 
-                // console.log({
-                //     item,
-                //     itemPath,
-                //     updatedParentPathKey,
-                //     updatedParentPath,
-                //     updatedPath
-                // });
 
                 return (updatedParentPath || getParentPath({ path: updatedPath })).startsWith(parentPath) ?
                     updatedPath === path ?
+                        console.log({
+                            updatedPath,
+                            path,
+                            CODE: 'ONE'
+                        })
+                        ||
                         {
                             ...item,
                             update: {
@@ -105,6 +97,12 @@ export default function UPDATE_ITEM(systemInput, payload) {
                             }
                         }
                         :
+                        console.log({
+                            updatedPath,
+                            path,
+                            CODE: 'TWO'
+                        })
+                        ||
                         {
                             ...item,
                             update: {
@@ -117,6 +115,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
                             }
                         }
                     :
+                    console.log("Three")
+                    ||
                     item
             }).concat((key === itemsKey && !updatedItem && !updatedNewItem) ?
                 {

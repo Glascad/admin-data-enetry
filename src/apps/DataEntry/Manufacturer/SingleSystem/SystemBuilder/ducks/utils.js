@@ -74,7 +74,4 @@ export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => 
                 !itemChildren.some(c => getLastItemFromPath(c.path) === partialName)
                 :
                 getParentTypename(partialPayload) === __typename
-
-
-
 }

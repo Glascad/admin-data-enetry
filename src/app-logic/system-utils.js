@@ -99,6 +99,14 @@ export const getParentTypename = window.getParentTypename = ({ path } = {}) => p
             :
             "SystemOption"
 
+export const getItemPathAddition = ({ __typename }) => __typename.match(/(detail|configuration)$/i) ?
+    __typename.match(/detail$/i) ?
+        `__DT__.`
+        :
+        `__CT__.`
+    :
+    '';
+
 
 export const getParent = window.getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
 
@@ -209,7 +217,7 @@ export const getDefaultOptionGroupValue = window.getDefaultOptionGroupValue = (o
 
 export const removeDescendantPaths = window.removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));
 
-export const getAllInstancesOfItem = ({path, __typename}, systemMap) => {
+export const getAllInstancesOfItem = ({ path, __typename }, systemMap) => {
     const itemType = __typename.replace(/^.*(detail|configuration)$/i, 'Type').replace(/^.*((option)|(value))$/i, '$1');
     const itemName = getLastItemFromPath(path);
     const nameRegex = new RegExp(`^.*${itemName}$`);
@@ -219,9 +227,9 @@ export const getAllInstancesOfItem = ({path, __typename}, systemMap) => {
     ).map(([key]) => key);
 };
 
-export const canItemBeGrouped = ({path, __typename}, systemMap, ) => {
+export const canItemBeGrouped = ({ path, __typename }, systemMap, ) => {
     const itemName = getLastItemFromPath(path);
-    const allInstances = getAllInstancesOfItem({path, __typename}, systemMap);
+    const allInstances = getAllInstancesOfItem({ path, __typename }, systemMap);
     const values = getChildren({ path }, systemMap).map(value => getLastItemFromPath(value.path));
     const [defaultValueKey, defaultValue] = Object.entries(systemMap[path]).find(([key]) => key.match(/default/i)) || [];
 

@@ -30,8 +30,7 @@ export default function SystemTree({
 }) {
 
     console.log({
-        PARTIAL_ACTION,
-        partialPayload,
+        system,
     })
 
     const { Viewport } = useContext(StaticContext);
@@ -63,6 +62,7 @@ export default function SystemTree({
                             const {
                                 __typename = '',
                                 path = '',
+                                optional = '',
                             } = item;
                             const name = path ? getLastItemFromPath(path) : '';
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
@@ -89,6 +89,8 @@ export default function SystemTree({
                                         isDefault ? 'default' : ''
                                         } ${
                                         isGrouped ? 'grouped' : ''
+                                        } ${
+                                        optional ? 'optional' : ''
                                         } ${
                                         PARTIAL_ACTION ?
                                             isAvailableForSelection ?

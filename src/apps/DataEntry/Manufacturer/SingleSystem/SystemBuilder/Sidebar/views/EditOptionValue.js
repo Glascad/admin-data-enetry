@@ -67,7 +67,13 @@ function EditOptionValue({
         .replace(/Detail/i, 'Configuration')
         .replace(/System/i, 'Detail')}`;
 
-    const childTypeType = __typename.match(/SystemOption/i) ? 'Detail' : 'Configuration';
+    const childTypeType = __typename.match(/SystemOption/i) ?
+        'Detail'
+        :
+        __typename.match(/DetailOption/i) ?
+            'Configuration'
+            :
+            'Part'
 
     const [optionSelected, setOptionIsSelected] = useState(true);
 
@@ -224,7 +230,7 @@ function EditOptionValue({
                             dispatch(ADD_ITEM, {
                                 __typename: childTypeTypename,
                                 [`parent${__typename}Path`]: ovPath,
-                                name: getSelectTypeName(valueChildren, `ADD_${childTypeTypename.match(/detail/i) ? 'DETAIL' : 'CONFIGURATION'}`),
+                                name: getSelectTypeName(valueChildren, `ADD_${childTypeType.toUpperCase()}`),
                             })
                         },
                     }
