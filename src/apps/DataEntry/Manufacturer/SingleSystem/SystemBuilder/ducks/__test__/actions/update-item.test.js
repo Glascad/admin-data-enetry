@@ -132,7 +132,7 @@ testUpdateItem({
 testUpdateItem({
     systemInput: {
         systemDetails: [{
-            path: "1.SET.CENTER.HEAD",
+            path: "1.SET.CENTER.__DT__.HEAD",
             __typename: "SystemDetail",
             update: {
                 name: "HORIZONTAL"
@@ -140,7 +140,7 @@ testUpdateItem({
         }]
     },
     payload: {
-        path: "1.SET.CENTER.HORIZONTAL",
+        path: "1.SET.CENTER.__DT__.HORIZONTAL",
         __typename: "SystemDetail",
         update: {
             name: "SILL"
@@ -149,7 +149,7 @@ testUpdateItem({
     systemOutput: {
         systemDetails: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.HEAD",
+                path: "1.SET.CENTER.__DT__.HEAD",
                 __typename: "SystemDetail",
                 update: {
                     name: "SILL"
@@ -164,14 +164,14 @@ testUpdateItem({
     systemInput: {
         newDetailOptionValues: [
             {
-                parentDetailOptionPath: "1.SET.CENTER.HEAD.GLAZING",
+                parentDetailOptionPath: "1.SET.CENTER.__DT__.HEAD.GLAZING",
                 name: "OUTSIDE",
                 __typename: "DetailOptionValue",
             },
         ],
     },
     payload: {
-        path: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE",
+        path: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE",
         __typename: "DetailOptionValue",
         update: {
             name: "INSIDE",
@@ -180,7 +180,7 @@ testUpdateItem({
     systemOutput: {
         newDetailOptionValues: expect.arrayContaining([
             expect.objectContaining({
-                parentDetailOptionPath: "1.SET.CENTER.HEAD.GLAZING",
+                parentDetailOptionPath: "1.SET.CENTER.__DT__.HEAD.GLAZING",
                 name: "INSIDE",
                 __typename: "DetailOptionValue",
             }),
@@ -228,23 +228,23 @@ testUpdateItem({
     systemInput: {
         newConfigurationOptions: [
             {
-                parentSystemConfigurationPath: "1.SET.CENTER.HEAD.GLAZING.INSIDE.CONFIGURATION",
+                parentSystemConfigurationPath: "1.SET.CENTER.__DT__.HEAD.GLAZING.INSIDE.__CT__.CONFIGURATION",
                 name: "CONFIGURATION_OPTION",
                 __typename: "ConfigurationOption",
             }
         ]
     },
     payload: {
-        path: "1.SET.CENTER.HEAD.GLAZING.INSIDE.CONFIGURATION.CONFIGURATION_OPTION",
+        path: "1.SET.CENTER.__DT__.HEAD.GLAZING.INSIDE.__CT__.CONFIGURATION.CONFIGURATION_OPTION",
         __typename: "ConfigurationOption",
         update: {
-            parentSystemConfigurationOptionValuePath: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE.CONFIGURATION.C_O,C_O_V"
+            parentSystemConfigurationOptionValuePath: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE.__CT__.CONFIGURATION.C_O,C_O_V"
         }
     },
     systemOutput: {
         newConfigurationOptions: expect.arrayContaining([
             expect.objectContaining({
-                parentSystemConfigurationOptionValuePath: "1.SET.CENTER.HEAD.GLAZING.OUTSIDE.CONFIGURATION.C_O,C_O_V",
+                parentSystemConfigurationOptionValuePath: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE.__CT__.CONFIGURATION.C_O,C_O_V",
                 name: "CONFIGURATION_OPTION",
                 __typename: "ConfigurationOption",
             }),

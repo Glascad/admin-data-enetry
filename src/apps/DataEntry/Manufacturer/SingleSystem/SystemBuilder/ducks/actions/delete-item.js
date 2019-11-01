@@ -1,6 +1,6 @@
 import { getLastItemFromPath, getParentPath, removeDescendantPaths } from "../../../../../../../app-logic/system-utils";
 import _ from 'lodash'
-import { getOldPath } from "../utils";
+import { getOldPath, getUpdatedPath } from "../utils";
 
 export default function DELETE_ITEM(systemInput, payload) {
     const { path, __typename } = payload;
@@ -17,22 +17,13 @@ export default function DELETE_ITEM(systemInput, payload) {
         configurationOptionValues: initialConfigurationOptionValues,
     } = systemInput;
 
-    const isNewItem = newItemArray.some(newItem => {
-        const [parentKey, parentPath] = Object.entries(newItem).find(([key]) => key.match(/parent/i));
-        return path === `${parentPath}.${newItem.name}`
-    });
+    const isNewItem = newItemArray.some(newItem => path === getUpdatedPath(newItem));
 
-    const isUpdatedItem = systemInput[`${__typename.replace(/^./, letter => letter.toLowerCase())}s`].some(updatedItem => {
-        const { path: itemPath, update } = updatedItem;
-        const [parentKey, parentPath] = Object.entries(update).find(([key]) => key.match(/newParent/i)) || [];
-        return path === `${parentPath || getParentPath({ path: itemPath })}.${update.name || getLastItemFromPath(itemPath)}`
-    });
+    const isUpdatedItem = systemInput[`${__typename.replace(/^./, letter => letter.toLowerCase())}s`]
+        .some(updatedItem => path === getUpdatedPath(updatedItem));
 
     const partitionDeletedItems = itemArray => itemArray.reduce(([updated, deleted], item) => {
-        const { path: itemPath, update: itemUpdate } = item;
-        const [parentPathKey, parentPath] = Object.entries(itemUpdate)
-            .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
-        const updatedPath = `${parentPath || getParentPath({ path: itemPath })}.${itemUpdate.name || getLastItemFromPath(itemPath)}`;
+        const updatedPath = getUpdatedPath(item);
 
         return updatedPath.startsWith(path) && !updatedPath.startsWith(`${path}_`) ?
             [updated, deleted.concat(getOldPath(updatedPath, systemInput))]
@@ -40,20 +31,13 @@ export default function DELETE_ITEM(systemInput, payload) {
             [updated.concat(item), deleted]
     }, [[], []]);
 
-    console.log({
-        partitionDeletedItems
-    })
-
     // delete all new items that include the deleted path
     const updatedNewItems = Object.entries(systemInput)
         .filter(([key]) => key.match(/^new/i) && !key.match(/groups/))
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.filter(item => {
-                const { name } = item;
-                const [parentPathKey, parentPath] = Object.entries(item)
-                    .find(([itemKey, itemValue]) => itemKey.match(/parent/i)) || [];
-                const updatedNewPath = `${parentPath}.${key.match(/details$/i) ? '__DT__.' : ''}${key.match(/configurations$/i) ? '__CT__.' : ''}${name}`;
+                const updatedNewPath = getUpdatedPath(item);
                 return !updatedNewPath.startsWith(path) || updatedNewPath.startsWith(`${path}_`);
             })
         }), {});
@@ -79,7 +63,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         ...configurationOptionsToDelete,
         ...configurationOptionValuesToDelete,
     ];
-    
+
     return {
         ...systemInput,
         ...updatedNewItems,

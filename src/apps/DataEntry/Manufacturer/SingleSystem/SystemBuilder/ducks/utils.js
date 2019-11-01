@@ -1,15 +1,16 @@
-import { getParentPath, getLastItemFromPath, getChildren, getParentTypename } from "../../../../../../app-logic/system-utils";
+import { getParentPath, getLastItemFromPath, getChildren, getParentTypename, getItemPathAddition } from "../../../../../../app-logic/system-utils";
 
 export const getOldPath = (currentPath, systemInput) => Object.entries(systemInput)
     .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i)) ?
         allUpdatedItemsArr.concat(value)
         :
         allUpdatedItemsArr, [])
-    .reduce((resultPaths, items) => {
-        const { path, update } = items;
-        const [itemParentPathKey, itemParentPath] = Object.entries(update).find(([itemKey, itemVal]) => itemKey.match(/parent/i)) || [];
+    .reduce((resultPaths, item) => {
+        const { path, update } = item;
+        const [itemParentPathKey, itemParentPath] = Object.entries(update).find(([itemKey]) => itemKey.match(/parent/i)) || [];
+        const updatedPathAddition = getItemPathAddition(item);
         const updatedPath = (itemParentPath || update.name) ?
-            `${itemParentPath || getParentPath({ path })}.${update.name || getLastItemFromPath(path)}`
+            `${itemParentPath || getParentPath(item)}.${updatedPathAddition}${update.name || getLastItemFromPath(path)}`
             :
             '';
 
@@ -17,7 +18,7 @@ export const getOldPath = (currentPath, systemInput) => Object.entries(systemInp
             &&
             currentPath.startsWith(updatedPath)
             &&
-            (!resultPaths.longestPath || updatedPath.length > resultPaths.longestPath.length) ?
+            (!resultPaths.longestPath || (resultPaths.longestPath && updatedPath.length > resultPaths.longestPath.length)) ?
             {
                 longestPath: updatedPath,
                 path: `${path}${currentPath.replace(updatedPath, '')}`,
@@ -25,6 +26,22 @@ export const getOldPath = (currentPath, systemInput) => Object.entries(systemInp
             :
             resultPaths
     }, {}).path || currentPath;
+
+export const getUpdatedPath = item => {
+    const { path, update } = item;
+    const isUpdatedItem = !!update;
+    const [parentPathKey, parentPath] = Object.entries(isUpdatedItem ? update : item).find(([key]) => key.match(/parent/i)) || [];
+    const name = isUpdatedItem ?
+        update.name
+        ||
+        getLastItemFromPath(path)
+        :
+        item.name;
+
+    // adds the __DT__ or __CT__ to the path
+    const pathAddition = getItemPathAddition(item);
+    return `${parentPath || getParentPath(item)}.${pathAddition}${name}`;
+}
 
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
     name

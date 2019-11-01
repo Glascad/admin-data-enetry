@@ -14,7 +14,7 @@ function testDeleteItem({
     describe(`Testing update options`, () => {
         const result = DELETE_ITEM({ ...systemUpdate, ...systemInput }, payload);
 
-        test(`Result should be correct for ${payload.name}`, () => {
+        test(`Result should be correct for ${payload.path}`, () => {
             expect(result).toMatchObject(systemOutput);
         });
     });
@@ -24,9 +24,9 @@ function testDeleteItem({
 testDeleteItem({
     systemInput: {
         systemConfigurations: [{
-            path: "1.SET.FRONT.CONFIG",
+            path: "1.SET.FRONT.__DT__.DETAIL",
             update: {
-                parentDetailOptionValuePath: "1.SET.CENTER.DETAIL"
+                parentDetailOptionValuePath: "1.SET.CENTER.__DT__.DETAIL"
             }
         }],
         systemOptionValues: [{
@@ -38,7 +38,7 @@ testDeleteItem({
         newDetailOptionValues: [{
             parentDetailOptionPath: "1.SET.CENTER.BLAH.BLAH"
         }],
-        pathsToDelete: ["1.SET.CENTER.JOINERY.SOMETHING", "1.SET.FRONT.CONFIG.OTHER.OTHER"]
+        pathsToDelete: ["1.SET.CENTER.JOINERY.SOMETHING", "1.SET.FRONT.__DT__.DETAIL.OTHER.OTHER"]
     },
     payload: {
         path: "1.SET.CENTER",
@@ -51,7 +51,7 @@ testDeleteItem({
                 parentSystemOptionPath: "1.SET.BACK.JOINERY"
             }
         }],
-        pathsToDelete: ["1.SET.FRONT.CONFIG", "1.SET.CENTER"] //Should delete paths with the same beginning
+        pathsToDelete: ["1.SET.FRONT.__DT__.DETAIL", "1.SET.CENTER"] //Should delete paths with the same beginning
     },
 });
 
@@ -113,7 +113,7 @@ testDeleteItem({
         __typename: "SystemOption",
     },
     systemOutput: {
-        pathsToDelete: ["1.SET.CENTER.JOINERY", "1.SET.FRONT.JOINERY"],
+        pathsToDelete: ["1.SET.CENTER.JOINERY"],
         systemOptions: []
     },
 });
@@ -142,7 +142,7 @@ testDeleteItem({
     systemInput: {
         systemDetails: [
             {
-                path: "1.SET.CENTER.HEAD",
+                path: "1.SET.CENTER.__DT__.HEAD",
                 __typename: "SystemDetail",
                 update: {
                 }
@@ -151,19 +151,19 @@ testDeleteItem({
         pathsToDelete: [],
     },
     payload: {
-        path: "1.SET.CENTER.SILL",
+        path: "1.SET.CENTER.__DT__.SILL",
         __typename: "SystemDetail",
     },
     systemOutput: {
         systemDetails: expect.arrayContaining([
             expect.objectContaining({
-                path: "1.SET.CENTER.HEAD",
+                path: "1.SET.CENTER.__DT__.HEAD",
                 __typename: "SystemDetail",
                 update: {
                 }
             }),
         ]),
-        pathsToDelete: ["1.SET.CENTER.SILL"]
+        pathsToDelete: ["1.SET.CENTER.__DT__.SILL"]
     },
 });
 
@@ -171,19 +171,19 @@ testDeleteItem({
     systemInput: {
         systemDetails: [
             {
-                path: "1.SET.CENTER.SILL_FLASHING",
+                path: "1.SET.CENTER.__DT__.SILL_FLASHING",
                 __typename: "SystemDetail",
                 update: {
                 }
             },
         ],
-        pathsToDelete: ['1.SET.CENTER.SILL'],
+        pathsToDelete: ['1.SET.CENTER.__DT__.SILL'],
     },
     payload: {
-        path: "1.SET.CENTER.SILL_FLASHING",
+        path: "1.SET.CENTER.__DT__.SILL_FLASHING",
         __typename: "SystemDetail",
     },
     systemOutput: {
-        pathsToDelete: expect.arrayContaining(["1.SET.CENTER.SILL", "1.SET.CENTER.SILL_FLASHING"])
+        pathsToDelete: expect.arrayContaining(["1.SET.CENTER.__DT__.SILL", "1.SET.CENTER.__DT__.SILL_FLASHING"]),
     },
 });

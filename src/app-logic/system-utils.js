@@ -99,7 +99,7 @@ export const getParentTypename = window.getParentTypename = ({ path } = {}) => p
             :
             "SystemOption"
 
-export const getItemPathAddition = ({ __typename }) => __typename.match(/(detail|configuration)$/i) ?
+export const getItemPathAddition = ({ __typename = '' }) => __typename.match(/(detail|configuration)$/i) ?
     __typename.match(/detail$/i) ?
         `__DT__.`
         :
@@ -215,7 +215,8 @@ export const getDefaultOptionGroupValue = window.getDefaultOptionGroupValue = (o
             defaultValue
     ), '');
 
-export const removeDescendantPaths = window.removeDescendantPaths = paths => paths.filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path)));
+export const removeDescendantPaths = window.removeDescendantPaths = paths => paths
+    .filter(descendant => !paths.some(path => descendant !== path && descendant.startsWith(path) && !descendant.startsWith(`${path}_`)));
 
 export const getAllInstancesOfItem = ({ path, __typename }, systemMap) => {
     const itemType = __typename.replace(/^.*(detail|configuration)$/i, 'Type').replace(/^.*((option)|(value))$/i, '$1');
