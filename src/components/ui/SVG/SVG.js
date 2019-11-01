@@ -82,7 +82,7 @@ export default function SVG({
             viewBox={getViewBox(paths, multiplier)}
             transform="scale(1, -1)"
         >
-            {paths.map(({ commands }, i) => (
+            {paths.map(({ commands, color }, i) => (
                 <path
                     className={i === selectedPathIndex ? 'selected' : ''}
                     key={i}
@@ -99,7 +99,7 @@ export default function SVG({
                     style={commands.reduce((s, { style }) => ({
                         ...s,
                         ...style,
-                    }), {})}
+                    }), { fill: color })}
                 />
             ))}
         </svg>
