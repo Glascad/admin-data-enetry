@@ -34,26 +34,13 @@
         }
     }
 
-    &.warning {
+    &.read-only {
         pointer-events: none;
 
-        input,
-        .React-Select > div:first-of-type {
-            background: mix($warning-color, white, 10) !important;
-            border-color: mix($warning-color, white, 85) !important;
+        input {
+            background: none;
+            color: $dark-gray;
         }
-
-        input,
-        .React-Select > div > div > div,
-        .React-Select svg {
-            color: $medium-dark-gray !important;
-        }
-
-        > input,
-        .React-Select > div {
-            border-color: mix($warning-color, white, 85) !important;
-        }
-
     }
 
     &.direction-row {

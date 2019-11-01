@@ -23,6 +23,8 @@ export default function Select({
     onChange,
     "data-cy": dataCy,
     className,
+    readOnly,
+    disabled,
 }) {
 
     const [input, setInput] = useInitialState(normalCase(value));
@@ -47,7 +49,13 @@ export default function Select({
 
     return (
         <div
-            className={`Input Select ${className}`}
+            className={`Input Select ${
+                className
+                } ${
+                disabled ? 'disabled' : ''
+                } ${
+                readOnly ? 'read-only' : ''
+                }`}
             data-cy={dataCy}
         >
             {label ? (
@@ -60,6 +68,7 @@ export default function Select({
                     className="select-input"
                     data-cy={`${dataCy} ${value.toLowerCase()}`}
                     autoFocus={autoFocus}
+                    readOnly={readOnly}
                     placeholder={normalCase(value)}
                     value={input}
                     onFocus={() => setInput('')}

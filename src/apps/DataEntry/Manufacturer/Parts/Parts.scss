@@ -1,64 +1,102 @@
 @import "../../../../styles/variables";
 
-#Parts {
+#AllParts {
     .Pill {
-        svg {
+        .part-preview {
             stroke: $dark-gray;
             fill: $dark-gray;
             stroke-width: 5px;
         }
 
         &:hover {
-            svg {
-                stroke: $off-white;
-                fill: $off-white;
+            .part-preview {
+                opacity: 0;
+                // stroke: $off-white;
+                // fill: $off-white;
             }
         }
     }
 }
 
-.part-box {
-    display: flex;
-    flex-flow: row wrap;
+#PartInfo {
+    position: relative;
 
-    .part-tile {
-        max-width: 100%;
-        margin-right: $large;
-        margin-bottom: $x-large;
-        
-        .TitleBar {
-            margin-bottom: 0;
-            margin: 0;
+    .part-preview {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: calc(100% - #{$large * 2});
+        margin-top: 0;
+        padding: $large;
+
+        path {
+            stroke: $dark-gray;
+            fill: $light-gray;
         }
-        
-        .TransformBox {
-            height: $pill-width * 3;
-            width: $pill-width * 3;
-            max-width: 100%;
-            background: black;
+        // background: white;
+        // width: 50%;
+        // border: 1px solid $dark-gray;
+    }
+}
 
-            .fade {
-                display: none;
+#ImportParts {
+    .part-box {
+        display: flex;
+        flex-flow: row wrap;
+
+        .part-tile {
+            max-width: 100%;
+            margin-right: $large;
+            margin-bottom: $x-large;
+
+            .TitleBar {
+                margin-bottom: 0;
+                // margin: 0;
+                background: transparentize($light-gray, 0.5);
+                border-bottom: none;
+
+                .title-bar-left {
+                    width: 100%;
+                    background: none;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+                .title-bar-right{
+                    margin: 0 $xx-small;
+                }
             }
 
-            .part-preview {
-                fill: none;
-                width: fill;
-                height: fill;
+            .TransformBox {
+                height: $pill-width * 3;
+                width: $pill-width * 3;
+                max-width: 100%;
+                background: black;
 
-                path {
-                    stroke: $off-white;
-                    stroke-width: 1px;
-                    // fill: $medium-dark-gray;
+                .fade {
+                    display: none;
+                }
 
-                    @for $i from 1 through 5 {
-                        &:nth-of-type(5n + #{$i}) {
-                            fill: mix($selected-color, $action-color, $i * 20);
+                .part-preview {
+                    fill: none;
+                    width: fill;
+                    height: fill;
+
+                    path {
+                        stroke: $off-white;
+                        stroke-width: 1px;
+                        // fill: $medium-dark-gray;
+
+                        @for $i from 1 through 5 {
+                            &:nth-of-type(5n + #{$i}) {
+                                fill: mix($selected-color, $action-color, $i * 20);
+                            }
                         }
-                    }
 
-                    &.selected {
-                        fill: $danger-color;
+                        &.selected {
+                            fill: $danger-color;
+                        }
                     }
                 }
             }

@@ -1,10 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-    Navigator,
     TitleBar,
     Input,
     SVG,
-    GroupingBox,
     CircleButton,
     AsyncButton,
     TransformBox,
@@ -16,7 +14,6 @@ import {
     Check,
 } from '../../../../assets/icons';
 import {
-    extractPathData,
     getDroppedFileContents,
     DXFToSVG,
     replace,
@@ -65,10 +62,10 @@ export default function ImportParts({
         selected: !files[i].selected,
     }));
 
-    const updatePartNumber = (i, partNumber) => setFiles(files => replace(files, i, {
-        ...files[i],
-        partNumber,
-    }));
+    // const updatePartNumber = (i, partNumber) => setFiles(files => replace(files, i, {
+    //     ...files[i],
+    //     partNumber,
+    // }));
 
     const handleFileDrop = async e => {
         if (e.preventDefault) e.preventDefault();
@@ -131,7 +128,7 @@ export default function ImportParts({
                     })),
                 },
             })));
-            history.push(`${path.replace(/import/, 'all')}${search}`);
+            history.push(`${path.replace(/import/, 'all')}${search}`, { refetch: true });
         } catch (err) {
             console.error(err);
         }
@@ -212,6 +209,7 @@ export default function ImportParts({
                 )}
             />
             <div
+                id="ImportParts"
                 className="card"
                 onDragOver={e => e.preventDefault()}
                 onDrop={handleFileDrop}
@@ -222,7 +220,7 @@ export default function ImportParts({
                             <div className="part-tile">
                                 <TitleBar
                                     title={partNumber}
-                                    onEdit={({ target: { value } }) => updatePartNumber(i, value)}
+                                    // onEdit={({ target: { value } }) => updatePartNumber(i, value)}
                                     right={(
                                         <Input
                                             Icon={Check}

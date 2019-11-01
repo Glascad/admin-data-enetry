@@ -22,9 +22,9 @@ describe('Testing sidebar actions in system builder', () => {
         // Typing into the select should allow us to select other values
         cy.focused().type('Center{enter}');
         cy.getDataCy`SystemOptionValue-center`;
-        // When values are added the option should not be changable. The select background should turn to color $warning
+        // When values are added the option should not be changable. The select background should turn to color $disabled
         // Make default
-        cy.getDataCy`edit-option-name`.should('have.class', 'warning');
+        cy.getDataCy`edit-option-name`.should('have.class', 'disabled');
 
         cy.getDataCy`add-option-value`.click();
         cy.focused().type('Back{enter}');

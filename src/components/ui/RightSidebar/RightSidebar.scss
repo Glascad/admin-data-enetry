@@ -64,6 +64,37 @@
         align-items: center;
     }
 
+    .Input {
+        width: fill;
+
+        input {
+            width: fill;
+        }
+
+        .select-input-wrapper {
+            width: fill;
+        }
+
+        .select-options {
+            width: fill;
+
+            .select-option {
+                width: fill;
+            }
+        }
+
+        &.read-only {
+            input {
+                color: $light-gray;
+            }
+            .select-input-wrapper {
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+
     .sidebar-button {
         position: relative;
         width: 100%;

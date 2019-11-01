@@ -4,8 +4,6 @@ import { match, replace } from '../../../utils';
 
 const multiplier = 250;
 
-const hasCommand = ({ command }) => command;
-
 const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
     command,
@@ -51,12 +49,12 @@ const getViewBox = (paths, multiplier) => {
     // console.log({ coordinates, xValues, yValues });
     return {
         x: {
-            min: (Math.min(...xValues) || 0) - (multiplier / 2),
-            max: (Math.max(...xValues) || 0) + (multiplier / 2),
+            min: (Math.min(...xValues) || 0),
+            max: (Math.max(...xValues) || 0),
         },
         y: {
-            min: (Math.min(...yValues) || 0) - (multiplier / 2),
-            max: (Math.max(...yValues) || 0) + (multiplier / 2),
+            min: (Math.min(...yValues) || 0),
+            max: (Math.max(...yValues) || 0),
         },
         toString() {
             return `${
@@ -77,32 +75,7 @@ export default function SVG({
     className = '',
 }) {
     console.log(arguments[0]);
-    // const pathArray = path.filter(hasCommand).map(multiplyArguments).map(joinArguments);
-    // const groupedPath = pathArray.reduce((ds, item) => {
-    //     const { command } = item;
-    //     if (command === 'M') return [...ds, [item]];
-    //     const lastIndex = ds.length - 1;
-    //     const lastItem = ds[lastIndex] || [];
-    //     return replace(ds, lastIndex, lastItem.concat(item));
-    // }, []);
-    // console.log({ pathArray, groupedPath });
     const [selectedPathIndex, selectPath] = useState();
-    // const handleKeyDown = e => {
-    //     const { key = '' } = e;
-    //     if (key.match(/Arrow(Up|Down|Left|Right)/)) {
-    //         e.preventDefault();
-    //         if (key.match(/Up|Left/))
-    //             selectPath(i => i - 1 % pathArray.length);
-    //         else
-    //             selectPath(i => i + 1 % pathArray.length);
-    //     }
-    // }
-    // useEffect(() => {
-    //     window.addEventListener('keydown', handleKeyDown);
-    //     return () => {
-    //         window.removeEventListener('keydown', handleKeyDown);
-    //     }
-    // }, []);
     return (
         <svg
             className={className}

@@ -88,7 +88,7 @@ function EditType({
                     <div className="input-group">
                         <Select
                             data-cy={`edit-${type.toLowerCase()}-type`}
-                            className={childValues.length > 0 ? 'warning' : ''}
+                            disabled={childValues.length > 0}
                             // autoFocus={childValues.length === 0}
                             value={oName}
                             options={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
