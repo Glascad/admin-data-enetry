@@ -3,26 +3,22 @@ import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import {
     ApolloWrapper,
-    ToggleNavigator,
     Ellipsis,
     useMutation,
     useQuery,
-    TitleBar,
     Navigator,
-    useInitialState,
 } from '../../../../components';
 import query from './system-graphql/query';
-// import mutations from './system-graphql/mutations';
 import { updateEntireSystem as updateEntireSystemMutation } from './system-graphql/mutations';
 import SystemInfo from './SystemInfo/SystemInfo';
 import SystemBuilder from './SystemBuilder/SystemBuilder';
-// import DetailBuilder from './DetailBuilder/DetailBuilder';
+import DetailBuilder from './DetailBuilder/DetailBuilder';
 import { parseSearch } from '../../../../utils';
 import * as SAMPLE_SYSTEMS from '../../../../app-logic/__test__/sample-systems';
 
 const subroutes = {
     SystemBuilder,
-    // DetailBuilder,
+    DetailBuilder,
     SystemInfo,
 };
 
