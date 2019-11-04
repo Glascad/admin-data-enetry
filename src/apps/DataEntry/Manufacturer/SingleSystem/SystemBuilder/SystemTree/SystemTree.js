@@ -51,10 +51,6 @@ export default function SystemTree({
             id="SystemTree"
             viewportRef={Viewport}
             className={PARTIAL_ACTION ? 'with-partial-action' : ''}
-            onClick={e => {
-                e.stopPropagation();
-                cancelPartial();
-            }}
         >
             {fetching ? (
                 <Ellipsis

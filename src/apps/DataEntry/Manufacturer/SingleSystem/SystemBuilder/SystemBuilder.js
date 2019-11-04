@@ -71,13 +71,12 @@ export default function SystemBuilder({
     const dispatchPartial = (ACTION, payload) => setPartialAction({ ACTION, payload });
     const cancelPartial = () => setPartialAction();
 
-    const cancelOnEscape = ({ key }) => key === "Escape" && (
-        partialAction ?
-            console.log("CANCELING PARTIAL") || cancelPartial()
-            :
-            console.log("CANCELING SELECTION") || selectItem()
-    );
-    const cancelOnClick = () => !partialAction && selectItem();
+    const cancelOnClick = () => partialAction ?
+        cancelPartial()
+        :
+        selectItem();
+    
+    const cancelOnEscape = ({ key }) => key === "Escape" && cancelOnClick();
 
     useEffect(() => {
         window.addEventListener('keydown', cancelOnEscape, true);

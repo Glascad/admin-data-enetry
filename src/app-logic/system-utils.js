@@ -107,7 +107,6 @@ export const getItemPathAddition = ({ __typename = '' }) => __typename.match(/(d
     :
     '';
 
-
 export const getParent = window.getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
 
 export const getChildren = window.getChildren = ({ path, newPath } = {}, systemMap) => systemMap instanceof SystemMap ?
