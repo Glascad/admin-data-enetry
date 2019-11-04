@@ -81,6 +81,13 @@ export default function SystemTree({
                             const isGrouped = __typename.match(/option$/i)
                                 &&
                                 _optionGroups.some(og => og.name === name);
+
+                            const groupedWithSelectedItem = isGrouped
+                                &&
+                                selectedItem
+                                &&
+                                getLastItemFromPath(selectedItem.path) === getLastItemFromPath(item.path);
+
                             return (
                                 <div
                                     data-cy={`${path}`}
@@ -94,6 +101,8 @@ export default function SystemTree({
                                         isDefault ? 'default' : ''
                                         } ${
                                         isGrouped ? 'grouped' : ''
+                                        } ${
+                                        groupedWithSelectedItem ? 'grouped-with-selected' : ''
                                         } ${
                                         optional ? 'optional' : ''
                                         } ${

@@ -42,6 +42,10 @@
                     color: white;
                 }
 
+                &.grouped-with-selected {
+                    border: $xx-small solid $selected-color;
+                }
+
                 &.selected {
                     background: $selected-color;
                     border: none;
