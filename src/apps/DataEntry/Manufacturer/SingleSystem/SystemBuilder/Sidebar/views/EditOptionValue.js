@@ -194,14 +194,14 @@ function EditOptionValue({
                                 text: "Option",
                                 "data-cy": "toggle-child-option",
                                 selected: optionIsSelected,
-                                className: (hasChildren && !optionIsSelected) ? 'warning' : '',
+                                className: (hasChildren && !optionIsSelected) ? 'disabled' : '',
                                 onClick: () => !hasChildren && setOptionIsSelected(true),
                             },
                             {
                                 text: `${childTypeType.slice(0, 6)}s`,
                                 "data-cy": `toggle-child-${childTypeType.toLowerCase()}`,
                                 selected: !optionIsSelected,
-                                className: hasChildren && optionIsSelected ? 'warning' : '',
+                                className: hasChildren && optionIsSelected ? 'disabled' : '',
                                 onClick: () => !hasChildren && setOptionIsSelected(false),
                             },
                         ]}
@@ -241,7 +241,7 @@ function EditOptionValue({
                     hasChildren ? (
                         <div className="input-group">
                             <Select
-                                className={childOptionChildren.length > 0 ? 'warning' : ''}
+                                disabled={childOptionChildren.length > 0}
                                 data-cy="edit-option-name"
                                 // autoFocus={childOptionChildren.length === 0}
                                 value={childOptionName}

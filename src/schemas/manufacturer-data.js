@@ -11,6 +11,22 @@ export const MANUFACTURER_FIELDS = gql`
 
 // FIELDS
 
+export const PART_FIELDS = gql`
+    fragment PartFields on Part {
+        __typename
+        nodeId
+        id
+        partNumber
+        orientation
+        paths {
+            commands {
+                command
+                arguments
+            }
+        }
+    }
+`;
+
 export const SYSTEM_FIELDS = gql`
     fragment SystemFields on System {
         __typename

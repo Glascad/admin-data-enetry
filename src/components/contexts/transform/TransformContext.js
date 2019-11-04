@@ -30,6 +30,11 @@ function TransformProvider({
     children,
 }) {
 
+    const outerContainerRef = useRef();
+    const innerContainerRef = useRef();
+
+    const element = outerContainerRef.current;
+
     const dependencies = [
         initialBaseScale,
         initialScrollMultiplier,
@@ -96,76 +101,78 @@ function TransformProvider({
     };
 
     const startPanning = (e, passive = true) => {
+        if (element) {
 
-        if (!passive) e.preventDefault();
-        e.stopPropagation();
+            if (!passive) e.preventDefault();
+            e.stopPropagation();
 
-        const {
-            touches: {
-                length: touchCount,
-                0: touch,
-            } = {},
-        } = e;
+            const {
+                touches: {
+                    length: touchCount,
+                    0: touch,
+                } = {},
+            } = e;
 
-        if (!touchCount || touchCount <= 1) {
+            if (!touchCount || touchCount <= 1) {
 
-            const { clientX, clientY } = touch || e;
+                const { clientX, clientY } = touch || e;
 
-            const mouseStart = {
-                x: +clientX - +translateX,
-                y: +clientY - +translateY,
-            };
+                const mouseStart = {
+                    x: +clientX - +translateX,
+                    y: +clientY - +translateY,
+                };
 
-            const pan = passive => e => {
-
-                const {
-                    touches: {
-                        length: touchCount,
-                        0: touch,
-                    } = {},
-                } = e;
-
-                if (!touchCount || touchCount <= 1) {
-
-                    const { clientX, clientY } = touch || e;
+                const pan = passive => e => {
 
                     const {
-                        x: mouseStartX,
-                        y: mouseStartY
-                    } = mouseStart;
+                        touches: {
+                            length: touchCount,
+                            0: touch,
+                        } = {},
+                    } = e;
 
-                    if (!passive) e.preventDefault();
+                    if (!touchCount || touchCount <= 1) {
 
-                    setTranslateX(+clientX - +mouseStartX);
-                    setTranslateY(+clientY - +mouseStartY);
-                } else {
-                    console.log(`Too many touches: ${touchCount}`);
-                }
-            };
+                        const { clientX, clientY } = touch || e;
 
-            const passivePan = pan(true);
-            const nonPassivePan = pan(false);
+                        const {
+                            x: mouseStartX,
+                            y: mouseStartY
+                        } = mouseStart;
 
-            const stopPanning = () => {
+                        if (!passive) e.preventDefault();
 
-                window.removeEventListener('mousemove', nonPassivePan, { capture: true });
-                window.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
+                        setTranslateX(+clientX - +mouseStartX);
+                        setTranslateY(+clientY - +mouseStartY);
+                    } else {
+                        console.log(`Too many touches: ${touchCount}`);
+                    }
+                };
 
-                setGrabbing(false);
-            };
+                const passivePan = pan(true);
+                const nonPassivePan = pan(false);
 
-            setGrabbing(true);
+                const stopPanning = () => {
 
-            setTimeout(() => {
-                window.addEventListener('mousemove', nonPassivePan, { capture: true });
-                window.addEventListener('touchmove', passivePan, { capture: true, passive: true });
-                window.addEventListener('mouseup', stopPanning, { capture: true });
-                window.addEventListener('touchend', stopPanning, { capture: true });
-                window.addEventListener('blur', stopPanning);
-                document.addEventListener('visibilitychange', stopPanning);
-            });
-        } else {
-            console.log(`Too many touches: ${touchCount}`);
+                    element.removeEventListener('mousemove', nonPassivePan, { capture: true });
+                    element.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
+
+                    setGrabbing(false);
+                };
+
+                setGrabbing(true);
+
+                setTimeout(() => {
+                    element.addEventListener('mousemove', nonPassivePan, { capture: true });
+                    element.addEventListener('touchmove', passivePan, { capture: true, passive: true });
+                    element.addEventListener('mouseup', stopPanning, { capture: true });
+                    element.addEventListener('touchend', stopPanning, { capture: true });
+                    element.addEventListener('blur', stopPanning);
+                    document.addEventListener('visibilitychange', stopPanning);
+                });
+            } else {
+                console.log(`Too many touches: ${touchCount}`);
+            }
         }
     };
 
@@ -197,24 +204,26 @@ function TransformProvider({
     };
 
     useEffect(() => {
-        window.addEventListener('keydown', watchArrowKeys);
-        window.addEventListener('keydown', watchSpaceKeyDown);
-        window.addEventListener('keyup', watchSpaceKeyUp);
-        window.addEventListener('mousedown', watchMouseDown, { capture: true });
-        window.addEventListener('touchstart', startPanning, { passive: true });
-        window.addEventListener('wheel', watchScroll, { passive: false });
-        document.addEventListener('visibilitychange', clearKeys);
-        return () => {
-            window.removeEventListener('keydown', watchArrowKeys);
-            window.removeEventListener('keydown', watchSpaceKeyDown);
-            window.removeEventListener('keyup', watchSpaceKeyUp);
-            window.removeEventListener('mousedown', watchMouseDown, { capture: true });
-            window.removeEventListener('touchstart', startPanning, { passive: true });
-            window.removeEventListener('wheel', watchScroll, { passive: false });
-            window.removeEventListener('blur', clearKeys);
-            document.removeEventListener('visibilitychange', clearKeys);
+        if (element) {
+            element.addEventListener('keydown', watchArrowKeys);
+            element.addEventListener('keydown', watchSpaceKeyDown);
+            element.addEventListener('keyup', watchSpaceKeyUp);
+            element.addEventListener('mousedown', watchMouseDown, { capture: true });
+            element.addEventListener('touchstart', startPanning, { passive: true });
+            element.addEventListener('wheel', watchScroll, { passive: false });
+            document.addEventListener('visibilitychange', clearKeys);
+            return () => {
+                element.removeEventListener('keydown', watchArrowKeys);
+                element.removeEventListener('keydown', watchSpaceKeyDown);
+                element.removeEventListener('keyup', watchSpaceKeyUp);
+                element.removeEventListener('mousedown', watchMouseDown, { capture: true });
+                element.removeEventListener('touchstart', startPanning, { passive: true });
+                element.removeEventListener('wheel', watchScroll, { passive: false });
+                element.removeEventListener('blur', clearKeys);
+                document.removeEventListener('visibilitychange', clearKeys);
+            }
         }
-    }, [translateX, translateY]);
+    }, [translateX, translateY, element]);
 
     const value = {
         scale: {
@@ -238,6 +247,8 @@ function TransformProvider({
         watchMouseDown,
         spaceKeyRef,
         grabbing,
+        outerContainerRef,
+        innerContainerRef,
     };
 
     return (

@@ -61,7 +61,7 @@ function NavMenu({
                         {Object.entries(subroutes)
                             .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
                             .filter(({ shouldRender }) => shouldRender !== false)
-                            .map(({ name: childName, path: childPath }, j) => (
+                            .map(({ name: childName, path: childPath, removeDropdown }, j) => (
                                 <NavLink
                                     key={j}
                                     isActive={(_, { pathname }) => exact ?
@@ -81,6 +81,19 @@ function NavMenu({
                                     activeClassName="matched"
                                 >
                                     {childName}
+                                    {removeDropdown ? (
+                                        <div
+                                            className="remove-navlink"
+                                            onClick={e => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                removeDropdown();
+                                            }}
+                                        >
+                                            <div className="block-one" />
+                                            <div className="block-two" />
+                                        </div>
+                                    ) : null}
                                 </NavLink>
                             ))}
                     </Dropdown>

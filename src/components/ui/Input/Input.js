@@ -247,6 +247,7 @@ export default class Input extends PureComponent {
                 handleChange,
                 Icon,
                 disabled,
+                readOnly,
                 onBlur,
                 onEnter,
                 onKeyDown,
@@ -307,6 +308,8 @@ export default class Input extends PureComponent {
                             :
                             type
                     } ${
+                    readOnly ? 'read-only' : ''
+                    } ${
                     disabled ? 'disabled' : ''
                     } ${
                     checked ? 'checked' : ''
@@ -337,10 +340,12 @@ export default class Input extends PureComponent {
                             ...o,
                             label: normalCase(o.label),
                         }))}
+                        readOnly={readOnly}
                     />
                 ) : (
                         <inputTag.name
                             ref={ref}
+                            readOnly={readOnly}
                             type={isBoolean ?
                                 'checkbox'
                                 :
@@ -348,7 +353,7 @@ export default class Input extends PureComponent {
                                     "text"
                                     :
                                     type}
-                            value={onChange ? (
+                            value={onChange || readOnly ? (
                                 (value === undefined || Number.isNaN(value))
                                 &&
                                 ["text", "number", "password"].includes(type)

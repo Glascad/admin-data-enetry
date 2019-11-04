@@ -71,11 +71,11 @@ button {
         }
     }
 
-    &.warning {
-        pointer-events: none;
-        background: mix($warning-color, white, 20) !important;
-        border-color: mix($warning-color, white, 85) !important;
-    }
+    // &.warning {
+    //     pointer-events: none;
+    //     background: mix($warning-color, white, 20) !important;
+    //     border-color: mix($warning-color, white, 85) !important;
+    // }
 }
 
 pre {

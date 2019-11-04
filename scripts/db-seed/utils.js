@@ -116,7 +116,7 @@ const duplicateSQL = (path, contents) => {
     );
 }
 
-const insertEnvVars = (path, contents) => contents.replace(/<<(.*?)>>/g, (match, ENV_VAR) => {
+const insertEnvVars = (path, contents) => contents.replace(/<<\s*(\w*)\s*>>/g, (match, ENV_VAR) => {
     const value = process.env[ENV_VAR];
     if (!value) throw new Error(`Variable ${chalk.gray(ENV_VAR)} in ${logErrorPath(path)} not found in ${logErrorPath('.env')}`);
     else {

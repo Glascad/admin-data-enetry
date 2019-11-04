@@ -50,7 +50,7 @@ function EditOption({
                 title='Edit Option'
             />
             <Select
-                className={optionValues.length ? 'warning' : ''}
+                disabled={!!optionValues.length}
                 data-cy="edit-option-name"
                 label="Option Name"
                 value={optionName}

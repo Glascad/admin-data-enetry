@@ -4,9 +4,7 @@ import { match, replace } from '../../../utils';
 
 const multiplier = 250;
 
-const hasCommand = ({ command }) => command;
-
-const multiplyArguments = ({ command, arguments: args, ...rest }) => ({
+const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
     command,
     arguments: match(command)
@@ -32,18 +30,31 @@ const joinArguments = ({ command, arguments: args, ...rest }) => ({
         }`,
 });
 
-const getViewBox = (path, multiplier) => {
-    const moveToCommands = path.filter(({ command }) => command === 'M');
-    const xValues = moveToCommands.map(({ arguments: [x] }) => x * multiplier);
-    const yValues = moveToCommands.map(({ arguments: [x, y] }) => y * multiplier);
+const getViewBox = (paths, multiplier) => {
+
+    const commands = paths.reduce((allCommands, { commands }) => allCommands.concat(commands), []);
+
+    const coordinates = commands
+        .reduce((vals, { command, arguments: [one, two, three, four, five, six, seven] = [] }) => vals.concat(
+            match(command)
+                .against({
+                    M: { x: one, y: two },
+                    L: { x: one, y: two },
+                    A: { x: six, y: seven },
+                })
+                .otherwise([])
+        ), []);
+    const xValues = coordinates.map(({ x }) => x * multiplier || 0);
+    const yValues = coordinates.map(({ y }) => y * multiplier || 0);
+    // console.log({ coordinates, xValues, yValues });
     return {
         x: {
-            min: (Math.min(...xValues) || 0) - (multiplier / 2),
-            max: (Math.max(...xValues) || 0) + (multiplier / 2),
+            min: (Math.min(...xValues) || 0),
+            max: (Math.max(...xValues) || 0),
         },
         y: {
-            min: (Math.min(...yValues) || 0) - (multiplier / 2),
-            max: (Math.max(...yValues) || 0) + (multiplier / 2),
+            min: (Math.min(...yValues) || 0),
+            max: (Math.max(...yValues) || 0),
         },
         toString() {
             return `${
@@ -60,51 +71,35 @@ const getViewBox = (path, multiplier) => {
 }
 
 export default function SVG({
-    path = [],
+    paths = [],
     className = '',
 }) {
     console.log(arguments[0]);
-    const pathArray = path.filter(hasCommand).map(multiplyArguments).map(joinArguments);
-    const groupedPath = pathArray.reduce((ds, item) => {
-        const { command } = item;
-        if (command === 'M') return [...ds, [item]];
-        const lastIndex = ds.length - 1;
-        const lastItem = ds[lastIndex] || [];
-        return replace(ds, lastIndex, lastItem.concat(item));
-    }, []);
-    console.log({ pathArray });
-    const [selectedPath, selectPath] = useState(0);
-    const handleKeyDown = e => {
-        const { key = '' } = e;
-        if (key.match(/Arrow(Up|Down|Left|Right)/)) {
-            e.preventDefault();
-            if (key.match(/Up|Left/))
-                selectPath(i => i - 1 % pathArray.length);
-            else
-                selectPath(i => i + 1 % pathArray.length);
-        }
-    }
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        }
-    }, []);
+    const [selectedPathIndex, selectPath] = useState();
     return (
         <svg
             className={className}
-            viewBox={getViewBox(path, multiplier)}
+            viewBox={getViewBox(paths, multiplier)}
             transform="scale(1, -1)"
         >
-            {groupedPath.map((items, i) => (
+            {paths.map(({ commands, color }, i) => (
                 <path
-                    className={i === selectedPath ? 'selected' : ''}
+                    className={i === selectedPathIndex ? 'selected' : ''}
                     key={i}
-                    d={items.map(({ d }) => d).join('')}
+                    d={commands
+                        .map(multiplyArguments)
+                        .map(joinArguments)
+                        .map(({ d }) => d)
+                        .join('')
+                    }
                     onClick={() => {
                         selectPath(i);
-                        console.log({ items });
+                        console.log({ paths });
                     }}
+                    style={commands.reduce((s, { style }) => ({
+                        ...s,
+                        ...style,
+                    }), { fill: color })}
                 />
             ))}
         </svg>

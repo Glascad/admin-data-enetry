@@ -73,13 +73,15 @@ function SystemInfo({
         <>
             <TitleBar
                 title={systemId ?
-                    fetching ?
-                        <Ellipsis text="Loading" />
-                        :
-                        mName
+                    "System Info"
                     :
                     "New System"}
-                selections={systemId && !fetching ? [sName] : []}
+                selections={fetching ? [
+                    <Ellipsis text="Loading" />
+                ] : systemId ? [
+                    mName,
+                    sName,
+                ] : []}
                 right={(
                     <>
                         <ConfirmButton
@@ -116,13 +118,15 @@ function SystemInfo({
                 <Select
                     data-cy="system-type"
                     label="System Type"
+                    readOnly={!!systemId}
                     value={sType}
                     options={systemTypes}
                     onChange={name => setSystemType(name)}
-                />
+                    />
                 <Select
                     data-cy="manufacturer"
                     label="Manufacturer"
+                    readOnly={!!systemId}
                     value={mName}
                     options={allManufacturers.map(({ name }) => name)}
                     onChange={newName => setMnfg([
