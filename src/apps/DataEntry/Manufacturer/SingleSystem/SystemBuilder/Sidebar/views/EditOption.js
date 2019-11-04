@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../../components";
 import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../ducks/actions';
 import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
+import { parseSearch } from '../../../../../../../utils';
 
 function EditOption({
+    location: {
+        search,
+    },
+    match: {
+        path,
+    },
     selectedItem: option = {},
     system: {
         _optionGroups,
@@ -133,85 +141,85 @@ function EditOption({
                                 __typename: `${__typename}Value`,
                             });
                     }
-                } : undefined
-                }
+                } : undefined}
             >
                 {optionValues.length ?
                     optionValues.map(({ path: ovPath, __typename: valueTypename }, i, { length }) => {
                         const vName = ovPath.replace(/^.*\.(\w+)$/, '$1');
-                        return (<div
-                            className="input-group"
-                        >
-                            <Select
-                                data-cy='edit-option-values'
-                                key={'Option Name'}
-                                value={vName}
-                                options={selectValidOptionValues}
-                                // autoFocus={i === length - 1}
-                                onChange={name => {
-                                    if (name !== vName) {
+                        return (
+                            <div
+                                className="input-group"
+                            >
+                                <Select
+                                    data-cy='edit-option-values'
+                                    key={'Option Name'}
+                                    value={vName}
+                                    options={selectValidOptionValues}
+                                    // autoFocus={i === length - 1}
+                                    onChange={name => {
+                                        if (name !== vName) {
+                                            const valueChildren = getChildren({ __typename: valueTypename, path: ovPath }, systemMap);
+                                            const updateOptionValue = () => dispatch(UPDATE_ITEM, {
+                                                path: ovPath,
+                                                __typename: valueTypename,
+                                                update: {
+                                                    name,
+                                                }
+                                            })
+                                            valueChildren.length > 0 ?
+                                                confirmWithModal(updateOptionValue, {
+                                                    titleBar: { title: `Change ${vName}` },
+                                                    children: 'Are you sure?',
+                                                    finishButtonText: 'Change',
+                                                })
+                                                :
+                                                updateOptionValue();
+                                        }
+                                    }}
+                                />
+                                <CircleButton
+                                    data-cy={`delete-option-value-${vName.toLowerCase()}`}
+                                    className="danger"
+                                    type="small"
+                                    actionType="delete"
+                                    onClick={() => {
                                         const valueChildren = getChildren({ __typename: valueTypename, path: ovPath }, systemMap);
-                                        const updateOptionValue = () => dispatch(UPDATE_ITEM, {
+
+                                        const deleteOptionValue = () => dispatch(DELETE_ITEM, {
                                             path: ovPath,
                                             __typename: valueTypename,
-                                            update: {
-                                                name,
-                                            }
-                                        })
-                                        valueChildren.length > 0 ?
-                                            confirmWithModal(updateOptionValue, {
-                                                titleBar: { title: `Change ${vName}` },
-                                                children: 'Are you sure?',
-                                                finishButtonText: 'Change',
-                                            })
-                                            :
-                                            updateOptionValue();
-                                    }
-                                }}
-                            />
-                            <CircleButton
-                                data-cy={`delete-option-value-${vName.toLowerCase()}`}
-                                className="danger"
-                                type="small"
-                                actionType="delete"
-                                onClick={() => {
-                                    const valueChildren = getChildren({ __typename: valueTypename, path: ovPath }, systemMap);
-
-                                    const deleteOptionValue = () => dispatch(DELETE_ITEM, {
-                                        path: ovPath,
-                                        __typename: valueTypename,
-                                    });
-                                    const deleteValueFromEachOption = () => {
-                                        getAllInstancesOfItem({ path: ovPath, __typename: valueTypename }, systemMap)
-                                            .forEach(instance => {
-                                                const item = systemMap[instance];
-                                                dispatch(DELETE_ITEM, item, {
-                                                    replaceState: true,
+                                        });
+                                        const deleteValueFromEachOption = () => {
+                                            getAllInstancesOfItem({ path: ovPath, __typename: valueTypename }, systemMap)
+                                                .forEach(instance => {
+                                                    const item = systemMap[instance];
+                                                    dispatch(DELETE_ITEM, item, {
+                                                        replaceState: true,
+                                                    })
                                                 })
-                                            })
-                                    };
-                                    optionIsGrouped ?
-                                        confirmWithModal(deleteValueFromEachOption, {
-                                            titleBar: { title: `Delete Grouped Option Value` },
-                                            children: `Deleting a value attached to a grouped option will delete the value to all existing items with the name of ${optionName.toLowerCase()}`,
-                                            finishButtonText: 'Delete',
-                                            danger: true,
-                                        })
-                                        :
-                                        valueChildren.length > 0 ?
-                                            confirmWithModal(deleteOptionValue, {
-                                                titleBar: { title: `Delete ${vName}` },
-                                                children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                        };
+                                        optionIsGrouped ?
+                                            confirmWithModal(deleteValueFromEachOption, {
+                                                titleBar: { title: `Delete Grouped Option Value` },
+                                                children: `Deleting a value attached to a grouped option will delete the value to all existing items with the name of ${optionName.toLowerCase()}`,
                                                 finishButtonText: 'Delete',
                                                 danger: true,
                                             })
                                             :
-                                            deleteOptionValue();
+                                            valueChildren.length > 0 ?
+                                                confirmWithModal(deleteOptionValue, {
+                                                    titleBar: { title: `Delete ${vName}` },
+                                                    children: `Deleting ${vName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                                    finishButtonText: 'Delete',
+                                                    danger: true,
+                                                })
+                                                :
+                                                deleteOptionValue();
 
 
-                                }}
-                            />
-                        </div>
+                                    }}
+                                />
+                            </div>
                         )
                     }) : (
                         <div>
@@ -229,36 +237,44 @@ function EditOption({
             >
                 {partialAction ? 'Cancel Move' : 'Move Option'}
             </button>
-            {(
-                !oPath.match(/^\d+\.\w+$/)
-            ) ? (
-                    <button
-                        className="sidebar-button danger"
-                        data-cy="edit-option-delete-button"
-                        onClick={() => {
-                            const deleteOption = () => dispatch(DELETE_ITEM, {
-                                path: oPath,
-                                __typename,
-                            })
-                            if (optionValues.length > 0) confirmWithModal(deleteOption, {
-                                titleBar: { title: `Delete ${optionName}?` },
-                                children: `Deleting ${optionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                finishButtonText: 'Delete',
-                                danger: true,
-                            })
-                            else deleteOption();
-                        }}
-                    >
-                        Delete Option
+            {oPath.match(/__DT__/) ? (
+                <Link
+                    to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: oPath })}`}
+                    className="sidebar-button empty"
+                >
+                    <button>
+                        Edit {oPath.match(/__CT__/) ? "Configuration" : "Detail"}
                     </button>
-                ) : null}
+                </Link>
+            ) : null}
+            {!oPath.match(/^\d+\.\w+$/) ? (
+                <button
+                    className="sidebar-button danger"
+                    data-cy="edit-option-delete-button"
+                    onClick={() => {
+                        const deleteOption = () => dispatch(DELETE_ITEM, {
+                            path: oPath,
+                            __typename,
+                        })
+                        if (optionValues.length > 0) confirmWithModal(deleteOption, {
+                            titleBar: { title: `Delete ${optionName}?` },
+                            children: `Deleting ${optionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                            finishButtonText: 'Delete',
+                            danger: true,
+                        })
+                        else deleteOption();
+                    }}
+                >
+                    Delete Option
+                </button>
+            ) : null}
         </>
     );
 }
 
 export const SystemOption = {
     title: "Edit Option",
-    component: EditOption,
+    component: withRouter(EditOption),
 };
 
 export const DetailOption = SystemOption;

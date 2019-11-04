@@ -87,11 +87,11 @@ export default function SingleSystem({
 
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
-    console.log({
-        SAMPLE_SYSTEMS,
-        sampleSystem,
-        _sampleSystem,
-    });
+    // console.log({
+    //     SAMPLE_SYSTEMS,
+    //     sampleSystem,
+    //     _sampleSystem,
+    // });
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 

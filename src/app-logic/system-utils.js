@@ -1,30 +1,19 @@
 import { match } from '../utils';
 
 export class SystemMap {
-    constructor({
-        id,
-        _optionGroups = [],
-        _systemOptions = [],
-        _detailOptions = [],
-        _configurationOptions = [],
-        _systemOptionValues = [],
-        _detailOptionValues = [],
-        _configurationOptionValues = [],
-        _systemDetails = [],
-        _systemConfigurations = [],
-    } = {}) {
-        Object.assign(this, {
-            id,
-            _optionGroups,
-            _systemOptions,
-            _detailOptions,
-            _configurationOptions,
-            _systemOptionValues,
-            _detailOptionValues,
-            _configurationOptionValues,
-            _systemDetails,
-            _systemConfigurations,
-        }, [
+    constructor(system) {
+        const {
+            _optionGroups = [],
+            _systemOptions = [],
+            _detailOptions = [],
+            _configurationOptions = [],
+            _systemOptionValues = [],
+            _detailOptionValues = [],
+            _configurationOptionValues = [],
+            _systemDetails = [],
+            _systemConfigurations = [],
+        } = system || {};
+        Object.assign(this, system, [
             ..._systemOptions,
             ..._detailOptions,
             ..._configurationOptions,

@@ -1,0 +1,71 @@
+@import "../../../../../../styles/variables";
+
+.Tray {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $off-white;
+    height: $pill-width;
+    // width: 90%;
+
+    .handle {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translatex(-50%);
+        height: $item-height;
+        width: $pill-width;
+        background: $off-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: $item-height solid white;
+        }
+        &::before {
+            left: 0;
+            border-right: $item-height solid rgba(0, 0, 0, 0);
+        }
+        &::after {
+            right: 0;
+            border-left: $item-height solid rgba(0, 0, 0, 0);
+        }
+
+        .block-one,
+        .block-two {
+            background: $dark-gray;
+            width: $xx-small;
+            height: $base-size;
+        }
+        .block-one {
+            margin-right: $xx-small / 2;
+            transform: rotate(-45deg);
+        }
+        .block-two {
+            margin-left: $xx-small / 2;
+            transform: rotate(45deg);
+        }
+    }
+
+    &.closed {
+        height: 0;
+
+        .handle {
+            .block-one {
+                transform: rotate(45deg);
+            }
+            .block-two {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

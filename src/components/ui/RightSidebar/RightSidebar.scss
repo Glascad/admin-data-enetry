@@ -103,6 +103,11 @@
             margin-left: 0;
         }
 
+        button {
+            width: 100%;
+            color: inherit;
+        }
+
         &.empty {
             color: $off-white;
         }

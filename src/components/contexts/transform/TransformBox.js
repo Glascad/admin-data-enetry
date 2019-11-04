@@ -28,25 +28,6 @@ function TransformBox({
 
     useEffect(() => {
         if (overtakeViewport) {
-            const resizeViewport = () => {
-                setTimeout(() => {
-                    try {
-                        viewportRef.current.style.paddingBottom = "0";
-                        viewportRef.current.style.marginBottom = "0";
-                        viewportRef.current.style.overflowY = "hidden";
-                        viewportRef.current.style.overflowX = "hidden";
-                        outerContainerRef.current.style.height = `${
-                            window.innerHeight
-                            -
-                            outerContainerRef.current.offsetTop
-                            -
-                            48}px`;
-                    } catch (err) {
-                        console.error(err);
-                    }
-                });
-            }
-
             var previousViewportStyles;
 
             setTimeout(() => {
@@ -62,29 +43,44 @@ function TransformBox({
                 }
             });
 
+            const resizeViewport = () => setTimeout(() => {
+                try {
+                    viewportRef.current.style.paddingBottom = "0";
+                    viewportRef.current.style.marginBottom = "0";
+                    viewportRef.current.style.overflowY = "hidden";
+                    viewportRef.current.style.overflowX = "hidden";
+                    outerContainerRef.current.style.height = `${
+                        window.innerHeight
+                        -
+                        outerContainerRef.current.offsetTop
+                        -
+                        48}px`;
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+
             resizeViewport();
 
             window.addEventListener('resize', resizeViewport);
 
-            return () => {
-                setTimeout(() => {
-                    try {
-                        const {
-                            paddingBottom,
-                            marginBottom,
-                            overflowY,
-                        } = previousViewportStyles;
+            return () => setTimeout(() => {
+                try {
+                    const {
+                        paddingBottom,
+                        marginBottom,
+                        overflowY,
+                    } = previousViewportStyles;
 
-                        viewportRef.current.style.paddingBottom = paddingBottom;
-                        viewportRef.current.style.marginBottom = marginBottom;
-                        viewportRef.current.style.overflowY = overflowY;
-                    } catch (err) {
-                        console.error(err);
-                    }
-                    window.removeEventListener('resize', resizeViewport);
-                });
-            };
-        }
+                    viewportRef.current.style.paddingBottom = paddingBottom;
+                    viewportRef.current.style.marginBottom = marginBottom;
+                    viewportRef.current.style.overflowY = overflowY;
+                } catch (err) {
+                    console.error(err);
+                }
+                window.removeEventListener('resize', resizeViewport);
+            });
+        };
     }, []);
 
     return (

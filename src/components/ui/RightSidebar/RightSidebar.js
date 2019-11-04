@@ -32,6 +32,7 @@ export default function RightSidebar({
     open,
     handleCloseClick,
     childProps,
+    sidebarRef,
 }) {
 
     const title = stackedView ?
@@ -46,27 +47,30 @@ export default function RightSidebar({
 
     return (
         <div
-        className={`RightSidebar ${open ? "open" : "closed"}`}
-        onKeyDown={e => e.stopPropagation()}
-        onMouseDown={e => e.stopPropagation()}
-        onClick={e => e.stopPropagation()}
-        onWheel={e => e.stopPropagation()}
+            ref={sidebarRef}
+            className={`RightSidebar ${open ? "open" : "closed"}`}
+            onKeyDown={e => e.stopPropagation()}
+            onMouseDown={e => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
+            onWheel={e => e.stopPropagation()}
         >
-            <button
-                data-cy="right-sidebar-close-button"
-                className="sidebar-button primary"
-                onClick={handleCloseClick}
-            >
-                {stackedView ? (
-                    <DoubleArrow
-                        className="icon"
-                        tagname="div"
-                    />
-                ) : null}
-                <span>
-                    Close {title}
-                </span>
-            </button>
+            {stackedView || handleCloseClick ? (
+                <button
+                    data-cy="right-sidebar-close-button"
+                    className="sidebar-button primary"
+                    onClick={handleCloseClick}
+                >
+                    {stackedView ? (
+                        <DoubleArrow
+                            className="icon"
+                            tagname="div"
+                        />
+                    ) : null}
+                    <span>
+                        Close {title}
+                    </span>
+                </button>
+            ) : null}
             <Child
                 {...childProps}
             />
