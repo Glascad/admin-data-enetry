@@ -13,30 +13,6 @@ const subroutes = {
     SingleSystem,
 };
 
-const limitRefetches = (limit = 2, waitTimeout = 500, resetTimeout = 60000) => {
-    let refetchCount = 0;
-    let awaitingRefetch = false;
-    return refetch => {
-        if (refetchCount++ <= limit) {
-            if (!awaitingRefetch) {
-                awaitingRefetch = true;
-                setTimeout(async () => {
-                    try {
-                        await refetch();
-                    } catch (e) {
-                        console.error(e);
-                    }
-                    awaitingRefetch = false;
-                }, waitTimeout);
-            }
-        } else {
-            if (resetTimeout) setTimeout(() => refetchCount = 0, resetTimeout);
-        }
-    }
-}
-
-const refetchName = limitRefetches();
-
 Manufacturer.navigationOptions = ({
     location: {
         search,
@@ -52,6 +28,7 @@ Manufacturer.navigationOptions = ({
                     query ManufacturerById($id: Int!) {
                         manufacturerById(id: $id) {
                             __typename
+                            nodeId
                             id
                             name
                         }
@@ -70,16 +47,12 @@ Manufacturer.navigationOptions = ({
                 },
                 rawQueryStatus: {
                     loading,
-                    error,
-                    refetch,
                 },
-            }) => {
-                if (loading) return <Ellipsis />;
-                else if (error) {
-                    refetchName(refetch);
-                    return null;
-                } else return name;
-            }}
+            }) => loading ?
+                    <Ellipsis />
+                    :
+                    name
+            }
         </ApolloWrapper >
     ),
 });
