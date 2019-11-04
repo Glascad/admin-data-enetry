@@ -1,4 +1,4 @@
-import { getParentPath, getLastItemFromPath, getChildren, getParentTypename, getItemPathAddition } from "../../../../../../app-logic/system-utils";
+import { getParentPath, getLastItemFromPath, getChildren, getPathsTypename, getItemPathAddition } from "../../../../../../app-logic/system-utils";
 
 export const getOldPath = (currentPath, systemInput) => Object.entries(systemInput)
     .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i)) ?
@@ -90,5 +90,5 @@ export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => 
                 &&
                 !itemChildren.some(c => getLastItemFromPath(c.path) === partialName)
                 :
-                getParentTypename(partialPayload) === __typename;
+                getPathsTypename({ path: partialParentPath }) === __typename;
 }

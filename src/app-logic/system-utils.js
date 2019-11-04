@@ -49,7 +49,7 @@ export class SystemMap {
                 [newPath || path]: item,
                 parents: {
                     ...parents,
-                    [parentPath]: siblings.concat(item),
+                    [parentPath]: siblings.concat(item).sort(({ path: sib1Path }, { path: sib2Path }) => sib1Path < sib2Path ? -1 : 1),
                 },
                 allItems,
             };
@@ -76,7 +76,7 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
             `${Type}OptionValue`;
 }
 
-export const getParentTypename = window.getParentTypename = ({ path } = {}) => path.includes('__CT__') ?
+export const getPathsTypename = window.getPathsTypename = ({ path } = {}) => path.includes('__CT__') ?
     (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
         path.match(/^.*__CT__\.\w+$/) ?
             'SystemConfiguration'
