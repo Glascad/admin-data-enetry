@@ -16,6 +16,7 @@
                 margin: 0 $x-small $small;
                 padding: 0 $small;
                 cursor: default;
+                transition: all 0.1s;
 
                 &.type-option {
                     background: $light-gray;
