@@ -1,4 +1,4 @@
-import { getLastItemFromPath, getParentPath, getParentTypename, getItemPathAddition } from "../../../../../../../app-logic/system-utils";
+import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition } from "../../../../../../../app-logic/system-utils";
 import { getOldPath, getUpdatedPath } from "../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
@@ -87,7 +87,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
                             ...item,
                             update: {
                                 ...itemUpdate,
-                                [updatedParentPathKey || `newParent${getParentTypename({ path: updatedPath })}`]: (updatedParentPath ?
+                                [updatedParentPathKey || `parent${getPathsTypename({ path: getParentPath(updatedPath) })}Path`]: (updatedParentPath ?
                                     updatedParentPath
                                     :
                                     getParentPath({ path: updatedPath })).replace(path, newPath),
