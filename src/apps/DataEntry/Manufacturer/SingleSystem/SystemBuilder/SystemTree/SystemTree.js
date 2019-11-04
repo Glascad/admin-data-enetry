@@ -51,6 +51,10 @@ export default function SystemTree({
             id="SystemTree"
             viewportRef={Viewport}
             className={PARTIAL_ACTION ? 'with-partial-action' : ''}
+            onClick={e => {
+                e.stopPropagation();
+                cancelPartial();
+            }}
         >
             {fetching ? (
                 <Ellipsis
@@ -59,7 +63,7 @@ export default function SystemTree({
             ) : (
                     <Tree
                         trunk={trunk}
-                        renderItem={(item = {}, { depth, toggleOpen, parent = {} }) => {
+                        renderItem={(item = {}, { parent = {} }) => {
                             const {
                                 __typename = '',
                                 path = '',
