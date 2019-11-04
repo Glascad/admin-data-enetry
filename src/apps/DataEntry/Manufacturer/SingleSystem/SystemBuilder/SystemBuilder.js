@@ -28,18 +28,6 @@ export default function SystemBuilder({
 
     const selectItem = item => setSelection(selectedItem => item === selectedItem ? undefined : item);
 
-    const cancelSelectionOnEscape = ({ key }) => key === "Escape" && selectItem();
-    const cancelSelectionOnClick = () => selectItem();
-
-    useEffect(() => {
-        window.addEventListener('keydown', cancelSelectionOnEscape, true);
-        window.addEventListener('click', cancelSelectionOnClick);
-        return () => {
-            window.removeEventListener('keydown', cancelSelectionOnEscape, true);
-            window.removeEventListener('click', cancelSelectionOnClick);
-        }
-    }, []);
-
     const {
         currentState: systemInput,
         states,
@@ -81,7 +69,24 @@ export default function SystemBuilder({
     const [partialAction, setPartialAction] = useState();
 
     const dispatchPartial = (ACTION, payload) => setPartialAction({ ACTION, payload });
-    const cancelPartial = () => setPartialAction(undefined);
+    const cancelPartial = () => setPartialAction();
+
+    const cancelOnEscape = ({ key }) => key === "Escape" && (
+        partialAction ?
+            console.log("CANCELING PARTIAL") || cancelPartial()
+            :
+            console.log("CANCELING SELECTION") || selectItem()
+    );
+    const cancelOnClick = () => !partialAction && selectItem();
+
+    useEffect(() => {
+        window.addEventListener('keydown', cancelOnEscape, true);
+        window.addEventListener('click', cancelOnClick);
+        return () => {
+            window.removeEventListener('keydown', cancelOnEscape, true);
+            window.removeEventListener('click', cancelOnClick);
+        }
+    }, [partialAction]);
 
     // adding default value to all options without one
     useEffect(() => {

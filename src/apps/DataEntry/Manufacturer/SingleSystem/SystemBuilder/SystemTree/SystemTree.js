@@ -50,6 +50,7 @@ export default function SystemTree({
         <TransformBox
             id="SystemTree"
             viewportRef={Viewport}
+            className={PARTIAL_ACTION ? 'with-partial-action' : ''}
         >
             {fetching ? (
                 <Ellipsis
@@ -68,7 +69,7 @@ export default function SystemTree({
                             const isDefault = Object.entries(parent).some(([key, value]) => value && (
                                 key.match(/default.+Value/) && value === name
                             ));
-                            const isAvailableForSelection = PARTIAL_ACTION ?
+                            const isAvailableToCompleteAction = PARTIAL_ACTION ?
                                 getIsAvailableForAction({ partialPayload, item }, systemMap)
                                 :
                                 false;
@@ -92,18 +93,16 @@ export default function SystemTree({
                                         } ${
                                         optional ? 'optional' : ''
                                         } ${
-                                        PARTIAL_ACTION ?
-                                            isAvailableForSelection ?
-                                                'available'
-                                                :
-                                                'disabled'
+                                        PARTIAL_ACTION && !isAvailableToCompleteAction && (item !== selectedItem) ?
+                                            'disabled'
                                             :
-                                            ''
+                                            'available'
                                         }`}
                                     onClick={e => {
                                         e.stopPropagation();
                                         console.log(item);
-                                        if (PARTIAL_ACTION) {
+                                        if (!PARTIAL_ACTION) selectItem(item);
+                                        else if (isAvailableToCompleteAction) {
                                             if (PARTIAL_ACTION === 'MOVE') {
                                                 dispatch(UPDATE_ITEM, {
                                                     ...partialPayload,
@@ -113,8 +112,6 @@ export default function SystemTree({
                                                 })
                                             }
                                             cancelPartial();
-                                        } else {
-                                        selectItem(item);
                                         }
                                     }}
                                 >
