@@ -35,14 +35,14 @@ export default function SystemTree({
 
     const { Viewport } = useContext(StaticContext);
 
-    useEffect(() => {
-        if (!length && !fetching) dispatch(ADD_ITEM, {
-            __typename: "SystemOption",
-            name: "ADD_OPTION",
-        }, {
-            replaceState: true,
-        });
-    }, [fetching]);
+    // useEffect(() => {
+    //     if (!length && !fetching) dispatch(ADD_ITEM, {
+    //         __typename: "SystemOption",
+    //         name: "ADD_OPTION",
+    //     }, {
+    //         replaceState: true,
+    //     });
+    // }, [fetching]);
 
     const trunk = makeRenderable(system);
 

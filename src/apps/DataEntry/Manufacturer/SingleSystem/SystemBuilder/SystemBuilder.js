@@ -23,6 +23,7 @@ export default function SystemBuilder({
     },
     history,
     queryResult,
+    updateEntireSystem,
     fetching,
 }) {
 
@@ -145,6 +146,65 @@ export default function SystemBuilder({
             systemMap,
             selectedItem,
         });
+
+        const {
+            id,
+            manufacturerId,
+            name,
+            systemType,
+        } = system;
+
+        const {
+            pathsToDelete,
+            optionGroupsToDelete,
+            systemOptions,
+            detailOptions,
+            configurationOptions,
+            systemOptionValues,
+            detailOptionValues,
+            configurationOptionValues,
+            systemDetails,
+            systemConfigurations,
+            newOptionGroups,
+            newSystemOptions,
+            newDetailOptions,
+            newConfigurationOptions,
+            newSystemOptionValues,
+            newDetailOptionValues,
+            newConfigurationOptionValues,
+            newSystemDetails,
+            newSystemConfigurations,
+        } = systemInput;
+
+        const result = await (updateEntireSystem({
+            system: {
+                id,
+                manufacturerId,
+                name,
+                systemType,
+                pathsToDelete,
+                optionGroupsToDelete: optionGroupsToDelete.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                systemOptions: systemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                detailOptions: detailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                configurationOptions: configurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                systemOptionValues: systemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                detailOptionValues: detailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                configurationOptionValues: configurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                systemDetails: systemDetails.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                systemConfigurations: systemConfigurations.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newOptionGroups: newOptionGroups.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newSystemOptions: newSystemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newDetailOptions: newDetailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newConfigurationOptions: newConfigurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newSystemOptionValues: newSystemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newDetailOptionValues: newDetailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newConfigurationOptionValues: newConfigurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newSystemDetails: newSystemDetails.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+                newSystemConfigurations: newSystemConfigurations.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+
+            },
+        }))
+        return result;
     }
 
     return (
