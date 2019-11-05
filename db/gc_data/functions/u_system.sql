@@ -11,8 +11,11 @@ DECLARE
     deleted BOOLEAN;
     deleted_paths LTREE[];
     all_deleted_paths LTREE[];
+    did INTEGER;
+    deleted_ids INTEGER[];
     <<LOOP
         TYPE (
+            CONFIGURATION_PART,
             CONFIGURATION_OPTION_VALUE,
             CONFIGURATION_OPTION,
             DETAIL_CONFIGURATION,
@@ -23,6 +26,7 @@ DECLARE
             SYSTEM_OPTION
         )
         ALIAS (
+            cp,
             cov,
             co,
             sc,
@@ -97,6 +101,33 @@ BEGIN
             END LOOP;
         END IF;
 
+    END IF;
+
+    IF s.configuration_part_ids_to_delete IS NOT NULL THEN
+
+        WITH deleted_configuration_part_ids AS (
+            DELETE FROM configuration_parts cps
+            WHERE cps.id IN (
+                SELECT * FROM UNNEST (s.configuration_part_ids_to_delete)
+            )
+            AND cps.system_id = s.id
+            RETURNING id
+        )
+        SELECT ARRAY_AGG(id)
+        FROM deleted_configuration_part_ids
+        INTO deleted_ids;
+
+        IF deleted_ids IS NULL THEN
+            RAISE EXCEPTION 'Could not delete any configurations with ids %', s.configuration_part_ids_to_delete;
+        ELSE
+            FOREACH did IN ARRAY deleted_ids LOOP
+                IF did NOT IN (
+                    SELECT * FROM UNNEST(s.configuration_part_ids_to_delete)
+                ) THEN
+                    RAISE EXCEPTION 'Could not delete configuration part with id %', did;
+                END IF;
+            END LOOP;
+        END IF;
     END IF;
 
     -- THEN UPDATE

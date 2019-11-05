@@ -49,13 +49,22 @@
 -- TYPES
 
 <<LOOP
-    TYPE (configuration, detail)
-    PARENT (detail, system)
+    TYPE (part, configuration, detail)
+    PARENT (configuration, detail, system)
 >>
 
     CREATE TYPE
     gc_data.NEW_<<PARENT>>_<<TYPE>> AS (
-        <<TYPE>>_type <<TYPE>>_TYPE,
+        <<ONLY TYPE (configuration, detail)>>
+            <<TYPE>>_type <<TYPE>>_TYPE,
+        <<END ONLY>>
+        <<ONLY TYPE (part)>>
+            transform MATRIX,
+            part_id INTEGER,
+            part_orientation ORIENTATION,
+            extra_part_path_id INTEGER,
+            extra_part_path_orientation ORIENTATION,
+        <<END ONLY>>
         parent_<<PARENT>>_option_value_path LTREE
         <<ONLY TYPE (configuration)>>
             , optional BOOLEAN
@@ -81,9 +90,11 @@ gc_data.ENTIRE_SYSTEM AS (
     manufacturer_id INTEGER,
     paths_to_delete LTREE[],
     option_groups_to_delete OPTION_NAME[],
-    new_option_groups OPTION_NAME[]
+    new_option_groups OPTION_NAME[],
+    configuration_part_ids_to_delete INTEGER[]
     <<LOOP
         TYPE (
+            configuration_part,
             configuration_option_value,
             configuration_option,
             detail_configuration,

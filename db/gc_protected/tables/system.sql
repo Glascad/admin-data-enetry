@@ -331,6 +331,7 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 CREATE TABLE
 gc_protected.configuration_parts (
+    id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems NOT NULL,
     parent_configuration_option_value_path LTREE REFERENCES configuration_option_values ON UPDATE CASCADE NOT NULL,
     transform MATRIX,
