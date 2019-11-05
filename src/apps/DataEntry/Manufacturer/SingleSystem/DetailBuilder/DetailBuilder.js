@@ -9,6 +9,7 @@ import Sidebar from './Sidebar/Sidebar';
 import query from '../system-graphql/query';
 import { SystemMap } from '../../../../../app-logic/system-utils';
 import { parseSearch } from '../../../../../utils';
+import { useCollapseSidebar } from '../../../../Statics/Statics';
 
 DetailBuilder.navigationOptions = {
     requiredURLParams: ["path"],
@@ -22,6 +23,7 @@ export default function DetailBuilder({
 }) {
     const { systemId } = parseSearch(search);
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+    useCollapseSidebar();
     const { _system } = queryResult;
     const system = new SystemMap(_system);
     // console.log(arguments[0]);

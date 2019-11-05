@@ -8,6 +8,7 @@ import merge from './ducks/merge';
 import { parseSearch } from '../../../../../utils';
 import { SystemMap, getLastItemFromPath, getChildren } from '../../../../../app-logic/system-utils';
 import { UPDATE_ITEM } from './ducks/actions';
+import { useCollapseSidebar } from '../../../../Statics/Statics';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
@@ -22,6 +23,8 @@ export default function SystemBuilder({
 }) {
 
     const { systemId } = parseSearch(search);
+
+    useCollapseSidebar();
 
     // const [systemInput, setState] = useState(systemUpdate);
     const [originalSelectedItem, setSelection] = useState();

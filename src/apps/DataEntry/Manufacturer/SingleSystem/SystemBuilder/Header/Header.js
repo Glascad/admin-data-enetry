@@ -45,7 +45,7 @@ function Header({
         <TitleBar
             className="blue-border"
             title={mnfgName || <Ellipsis text="Loading" />}
-            selections={systemName ? [systemName] : []}
+            snailTrail={systemName ? [systemName] : []}
             left={(
                 <>
                     <ConfirmButton

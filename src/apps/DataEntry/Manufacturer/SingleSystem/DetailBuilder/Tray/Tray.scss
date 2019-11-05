@@ -54,6 +54,13 @@
             margin-left: $xx-small / 2;
             transform: rotate(45deg);
         }
+
+        &:hover {
+            .block-one,
+            .block-two {
+                background: $medium-gray;
+            }
+        }
     }
 
     &.closed {

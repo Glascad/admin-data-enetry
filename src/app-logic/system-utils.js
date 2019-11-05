@@ -46,7 +46,7 @@ export class SystemMap {
     }
 }
 
-export const getFirstItem = window.getFirstItem = ({ _systemOptions } = []) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
+export const getFirstItem = window.getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
 export const getParentPath = window.getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
 

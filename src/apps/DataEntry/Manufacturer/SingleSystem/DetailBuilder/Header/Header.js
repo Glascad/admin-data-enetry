@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { TitleBar, ConfirmButton, AsyncButton, Ellipsis } from '../../../../../../components';
+import { TitleBar, ConfirmButton, AsyncButton, Ellipsis, SnailTrail } from '../../../../../../components';
 import { parseSearch } from '../../../../../../utils';
-import { getDetailTypeFromPath, getConfigurationTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { getDetailTypeFromPath, getConfigurationTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
 
 export default withRouter(function Header({
     location: {
@@ -23,9 +23,9 @@ export default withRouter(function Header({
     const detailType = getDetailTypeFromPath(path);
     const configurationType = getConfigurationTypeFromPath(path);
     return (
+        <>
         <TitleBar
-            title={mName}
-            selections={[sName, detailType, configurationType]}
+            title={`${detailType} Detail`}
             className="blue-border"
             left={(
                 <ConfirmButton
@@ -52,6 +52,21 @@ export default withRouter(function Header({
                     </AsyncButton>
                 </>
             )}
-        />
+            />
+            <SnailTrail
+                trail={[
+                    mName,
+                    sName,
+                    ...getOptionListFromPath(path.replace(/\.__DT__.*/, '')).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), []),
+                    detailType,
+                    ...getOptionListFromPath(path.replace(/\.__CT__.*/, '')).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), []),
+                    configurationType,
+                    ...(configurationType ?
+                        getOptionListFromPath(path).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), [])
+                        :
+                        []),
+                ]}
+            />
+        </>
     );
 })

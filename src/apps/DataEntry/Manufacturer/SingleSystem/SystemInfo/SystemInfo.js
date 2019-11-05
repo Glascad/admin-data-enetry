@@ -76,7 +76,7 @@ function SystemInfo({
                     "System Info"
                     :
                     "New System"}
-                selections={fetching ? [
+                snailTrail={fetching ? [
                     <Ellipsis text="Loading" />
                 ] : systemId ? [
                     mName,

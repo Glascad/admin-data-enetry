@@ -54,7 +54,7 @@ export default function PartInfo({
         <>
             <TitleBar
                 title="Part Info"
-                selections={[mName, partNumber]}
+                snailTrail={[mName, partNumber]}
                 right={CLOSE_BUTTON}
             />
             <div

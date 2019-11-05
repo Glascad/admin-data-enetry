@@ -49,7 +49,7 @@ export default function ElevationViewer({
         <>
             <TitleBar
                 title="Elevation Bug"
-                selections={[
+                snailTrail={[
                     username,
                     timestamp ? (
                         `${

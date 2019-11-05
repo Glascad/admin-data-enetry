@@ -1,9 +1,18 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
 import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath, getSiblings } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
+import { parseSearch } from '../../../../../../../utils';
 
 function EditType({
+    location: {
+        search,
+    },
+    match: {
+        path,
+    },
+    selectItem,
     selectedItem: selectedType,
     selectedItem: {
         __typename,
@@ -153,6 +162,12 @@ function EditType({
                             }}
                         />
                         <CircleButton
+                            data-cy={`select-option-${oName.toLowerCase()}`}
+                            className="primary"
+                            actionType="arrow"
+                            onClick={() => selectItem(childOption)}
+                        />
+                        <CircleButton
                             data-cy="delete-option"
                             type="small"
                             actionType="delete"
@@ -188,6 +203,16 @@ function EditType({
             >
                 {partialAction ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
             </button>
+            {tPath.match(/__DT__/) ? (
+                <Link
+                    to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: tPath })}`}
+                    className="sidebar-button empty"
+                >
+                    <button>
+                        Edit {tPath.match(/__CT__/) ? "Configuration" : "Detail"}
+                    </button>
+                </Link>
+            ) : null}
             <button
                 className="sidebar-button danger"
                 data-cy="edit-type-delete-button"
@@ -213,10 +238,10 @@ function EditType({
 
 export const SystemDetail = {
     title: "Edit Detail",
-    component: EditType,
+    component: withRouter(EditType),
 };
 
 export const SystemConfiguration = {
     title: "Edit Configuration",
-    component: EditType,
+    component: withRouter(EditType),
 };

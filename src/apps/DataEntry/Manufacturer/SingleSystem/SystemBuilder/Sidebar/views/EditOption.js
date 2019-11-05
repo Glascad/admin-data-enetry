@@ -12,6 +12,7 @@ function EditOption({
     match: {
         path,
     },
+    selectItem,
     selectedItem: option = {},
     system: {
         _optionGroups,
@@ -144,7 +145,8 @@ function EditOption({
                 } : undefined}
             >
                 {optionValues.length ?
-                    optionValues.map(({ path: ovPath, __typename: valueTypename }, i, { length }) => {
+                    optionValues.map((item, i, { length }) => {
+                        const { path: ovPath, __typename: valueTypename } = item;
                         const vName = ovPath.replace(/^.*\.(\w+)$/, '$1');
                         return (
                             <div
@@ -176,6 +178,12 @@ function EditOption({
                                                 updateOptionValue();
                                         }
                                     }}
+                                />
+                                <CircleButton
+                                    data-cy={`select-option-value-${vName.toLowerCase()}`}
+                                    className="primary"
+                                    actionType="arrow"
+                                    onClick={() => selectItem(item)}
                                 />
                                 <CircleButton
                                     data-cy={`delete-option-value-${vName.toLowerCase()}`}

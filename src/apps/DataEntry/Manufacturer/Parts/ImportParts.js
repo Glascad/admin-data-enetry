@@ -199,7 +199,7 @@ export default function ImportParts({
         <>
             <TitleBar
                 title="Import Parts"
-                selections={[name]}
+                snailTrail={[name]}
                 left={CANCEL_BUTTON}
                 right={(
                     <>

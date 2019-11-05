@@ -237,7 +237,7 @@ export default memo(function CreateElevation({
             <TitleBar
                 // data-cy="new-elevation"
                 title="New Elevation"
-                selections={[name]}
+                snailTrail={[name]}
                 right={(
                     <>
                         <ConfirmButton

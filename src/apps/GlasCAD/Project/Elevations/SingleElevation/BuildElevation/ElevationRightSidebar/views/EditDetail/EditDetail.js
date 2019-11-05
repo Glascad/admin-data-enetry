@@ -23,7 +23,7 @@ function EditDetail() {
                     <>
                         <TitleBar
                             title="Edit Detail"
-                            selections={[detailId]}
+                            snailTrail={[detailId]}
                         />
                         {configurationTypes
                             .slice()

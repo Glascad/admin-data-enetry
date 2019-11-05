@@ -55,7 +55,7 @@ export default function LineWeights() {
                                 <>
                                     <TitleBar
                                         title="Line Weight"
-                                        selections={[name]}
+                                        snailTrail={[name]}
                                     />
                                     <Input
                                         label="Weight (mm)"

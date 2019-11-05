@@ -40,17 +40,15 @@ export default function DetailBuilderSidebar({
 
         window.addEventListener('resize', resizeViewport);
 
-        return () => {
-            setTimeout(() => {
-                try {
-                    Viewport.current.style.width = previousWidth;
-                    ref.current.style.boxShadow = previousBoxShadow;
-                } catch (err) {
-                    console.error(err);
-                }
-                window.removeEventListener('resize', resizeViewport);
-            });
-        };
+        return () => setTimeout(() => {
+            try {
+                Viewport.current.style.width = previousWidth;
+                ref.current.style.boxShadow = previousBoxShadow;
+            } catch (err) {
+                console.error(err);
+            }
+            window.removeEventListener('resize', resizeViewport);
+        });
     }, [Viewport, open]);
 
     return (

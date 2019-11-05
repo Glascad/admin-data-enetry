@@ -33,6 +33,17 @@
         border-bottom: $x-small solid $light-blue;
         margin-bottom: $xxxxx-large;
     }
+
+    .SnailTrail {
+        .snail-trail-divider,
+        .snail-trail-item {
+            color: $dark-gray;
+        }
+    }
+
+    + .SnailTrail {
+        margin-top: -$xx-large;
+    }
 }
 
 .card,

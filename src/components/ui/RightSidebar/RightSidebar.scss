@@ -185,7 +185,7 @@
         }
 
         &:hover {
-            color: $dark-gray;
+            color: $dark-blue;
 
             .icon {
                 .stroke {
@@ -212,6 +212,20 @@
                 color: $off-white;
                 font-weight: normal;
                 cursor: default;
+            }
+        }
+    }
+
+    a.sidebar-button {
+        button {
+            color: $light-blue;
+            border-color: $light-blue;
+        }
+        &:hover {
+            button {
+                background: $light-blue;
+                color: $dark-blue;
+                border: none;
             }
         }
     }
@@ -252,8 +266,14 @@
                     padding-left: $x-small;
                     padding-right: $x-small;
 
+                    .selected {
+                        @include hoverable-background($selected-color, false);
+                    }
                     &:not(.selected) {
-                        color: $medium-gray;
+                        color: $light-gray;
+                        &:hover {
+                            color: $dark-blue;
+                        }
                     }
                     &:first-child {
                         padding-left: $small;

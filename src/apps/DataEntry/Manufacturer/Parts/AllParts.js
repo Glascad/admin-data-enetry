@@ -69,7 +69,7 @@ export default function AllParts({
             >
                 <TitleBar
                     title="Parts"
-                    selections={[
+                    snailTrail={[
                         fetching ?
                             <Ellipsis />
                             :

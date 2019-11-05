@@ -1,0 +1,10 @@
+@import '../../../styles/variables';
+
+.SnailTrail {
+    .snail-trail-item {
+        color: $medium-dark-gray;
+    }
+    .snail-trail-divider {
+        color: $light-gray;
+    }
+}

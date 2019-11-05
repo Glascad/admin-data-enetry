@@ -15,7 +15,8 @@
         }
 
         .block-one,
-        .block-two {
+        .block-two,
+        .block-three {
             background: $button-color;
         }
 
@@ -25,7 +26,8 @@
             }
 
             .block-one,
-            .block-two {
+            .block-two,
+            .block-three {
                 background: $bg-color;
             }
         }
@@ -35,7 +37,8 @@
         }
 
         .block-one,
-        .block-two {
+        .block-two,
+        .block-three {
             background: $bg-color;
         }
 
@@ -45,7 +48,8 @@
             }
 
             .block-one,
-            .block-two {
+            .block-two,
+            .block-three {
                 background: $button-color;
             }
         }
@@ -72,7 +76,8 @@
         padding: 0;
 
         .block-one,
-        .block-two {
+        .block-two,
+        .block-three {
             position: absolute;
             // background: $off-white;
         }
@@ -123,15 +128,39 @@
                 left: 50%;
                 transform: translate(-50%, -50%) rotate(45deg);
             }
-
+            
             .block-one {
                 height: 60%;
                 width: 12%;
             }
-
+            
             .block-two {
                 height: 12%;
                 width: 60%;
+            }
+        }
+    }
+    
+    &.action-type-arrow {
+        .circle-button {
+            .block-one {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                height: 12%;
+                width: 60%;
+            }
+            .block-two {
+                top: 25%;
+                left: 25%;
+                height: 12%;
+                width: 45%;
+            }
+            .block-three {
+                top: 25%;
+                left: 25%;
+                width: 12%;
+                height: 45%;
             }
         }
     }

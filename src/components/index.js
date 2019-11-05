@@ -2,6 +2,7 @@
 import Dropdown from './ui/Dropdown/Dropdown';
 import CollapsibleTitle from './ui/CollapsibleTitle/CollapsibleTitle';
 import TitleBar from './ui/TitleBar/TitleBar';
+import SnailTrail from './ui/SnailTrail/SnailTrail';
 import GroupingBox from './ui/GroupingBox/GroupingBox';
 import ListContainer from './ui/ListContainer/ListContainer';
 import Pill from './ui/Pill/Pill';
@@ -59,6 +60,7 @@ export {
     Dropdown,
     CollapsibleTitle,
     TitleBar,
+    SnailTrail,
     GroupingBox,
     ListContainer,
     Pill,
@@ -106,4 +108,3 @@ export {
     // SPECIAL FUNCTIONS
     confirmWithModal,
 };
- 

@@ -158,7 +158,7 @@ export default function SystemSet({
         <>
             <TitleBar
                 title={`${systemSetId ? '' : 'New '}System Set`}
-                selections={[name]}
+                snailTrail={[name]}
                 right={(
                     <>
                         <ConfirmButton

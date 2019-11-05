@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
 import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 import { getSelectTypeName } from '../../ducks/utils';
+import { parseSearch } from '../../../../../../../utils';
 
 function EditOptionValue({
+    location: {
+        search,
+    },
+    match: {
+        path,
+    },
+    selectItem,
     selectedItem: optionValue,
     selectedItem: {
         path: ovPath,
@@ -58,6 +67,7 @@ function EditOptionValue({
             __typename: childTypename = ''
         } = {},
     } = valueChildren;
+
     const childOptionName = childOption ? getLastItemFromPath(childOptionPath) : '';
 
     const childOptionChildren = getChildren(childOption, systemMap); // Option Value's Child's Child
@@ -281,6 +291,12 @@ function EditOptionValue({
                                 }}
                             />
                             <CircleButton
+                                data-cy={`select-option-${childOptionName.toLowerCase()}`}
+                                className="primary"
+                                actionType="action"
+                                onClick={() => selectItem(childOption)}
+                            />
+                            <CircleButton
                                 data-cy="delete-option"
                                 type="small"
                                 className="danger"
@@ -305,71 +321,76 @@ function EditOptionValue({
                                 No Option
                             </div>
                         )
-                ) : (
-                        hasChildren ? (
-                            <>
-                                {valueChildren.map(({ path: childTypePath }, i, { length }) => {
-                                    const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
-                                    const childName = childTypePath.replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
-                                    return (<div
-                                        className="input-group"
-                                    // key={i}
-                                    >
-                                        <Select
-                                            data-cy="edit-value-name"
-                                            data-cy={`edit-${childTypeType}-type-${(childName).toLowerCase()}`}
-                                            // autoFocus={i === length - 1}
-                                            value={childName}
-                                            options={selectTypes}
-                                            onChange={name => {
-                                                if (childName !== name) {
-                                                    const updateType = () => dispatch(UPDATE_ITEM, {
-                                                        __typename: childTypeTypename,
-                                                        path: childTypePath,
-                                                        update: {
-                                                            name,
-                                                        }
-                                                    });
-                                                    childTypeChildren.length > 0 ?
-                                                        confirmWithModal(updateType, {
-                                                            titleBar: { title: `Change ${childName}` },
-                                                            children: 'Are you sure?',
-                                                            finishButtonText: 'Change',
-                                                        })
-                                                        :
-                                                        updateType();
+                ) : hasChildren ? (
+                    <>
+                        {valueChildren.map((item, i, { length }) => {
+                            const { path: childTypePath } = item;
+                            const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
+                            const childName = childTypePath.replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
+                            return (<div
+                                className="input-group"
+                            // key={i}
+                            >
+                                <Select
+                                    data-cy="edit-value-name"
+                                    data-cy={`edit-${childTypeType}-type-${(childName).toLowerCase()}`}
+                                    // autoFocus={i === length - 1}
+                                    value={childName}
+                                    options={selectTypes}
+                                    onChange={name => {
+                                        if (childName !== name) {
+                                            const updateType = () => dispatch(UPDATE_ITEM, {
+                                                __typename: childTypeTypename,
+                                                path: childTypePath,
+                                                update: {
+                                                    name,
                                                 }
-                                            }}
-                                        />
-                                        <CircleButton
-                                            data-cy={`delete-${childTypeType.toLowerCase()}-type-${childName}`}
-                                            type="small"
-                                            className="danger"
-                                            actionType="delete"
-                                            onClick={() => {
-                                                const deleteType = () => dispatch(DELETE_ITEM, {
-                                                    __typename: childTypename,
-                                                    path: childTypePath,
-                                                });
-                                                if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
-                                                    titleBar: { title: `Delete ${childName}` },
-                                                    children: `Deleting ${(childName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                                    danger: true,
-                                                    finishButtonText: 'Delete',
-                                                });
-                                                else deleteType();
-                                            }}
-                                        />
-                                    </div>
-                                    )
-                                })}
-                            </>
-                        ) : (
-                                <div>
-                                    No {childTypeType}
-                                </div>
+                                            });
+                                            childTypeChildren.length > 0 ?
+                                                confirmWithModal(updateType, {
+                                                    titleBar: { title: `Change ${childName}` },
+                                                    children: 'Are you sure?',
+                                                    finishButtonText: 'Change',
+                                                })
+                                                :
+                                                updateType();
+                                        }
+                                    }}
+                                />
+                                <CircleButton
+                                    data-cy={`select-${childTypeType}-${childName.toLowerCase()}`}
+                                    className="primary"
+                                    actionType="arrow"
+                                    onClick={() => selectItem(item)}
+                                />
+                                <CircleButton
+                                    data-cy={`delete-${childTypeType.toLowerCase()}-type-${childName}`}
+                                    type="small"
+                                    className="danger"
+                                    actionType="delete"
+                                    onClick={() => {
+                                        const deleteType = () => dispatch(DELETE_ITEM, {
+                                            __typename: childTypename,
+                                            path: childTypePath,
+                                        });
+                                        if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
+                                            titleBar: { title: `Delete ${childName}` },
+                                            children: `Deleting ${(childName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                            danger: true,
+                                            finishButtonText: 'Delete',
+                                        });
+                                        else deleteType();
+                                    }}
+                                />
+                            </div>
                             )
-                    )}
+                        })}
+                    </>
+                ) : (
+                            <div>
+                                No {childTypeType}
+                            </div>
+                        )}
             </GroupingBox>
             <button
                 data-cy="edit-option-value-move-button"
@@ -381,6 +402,16 @@ function EditOptionValue({
             >
                 {partialAction ? 'Cancel Move' : 'Move Value'}
             </button>
+            {ovPath.match(/__DT__/) ? (
+                <Link
+                    to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: ovPath })}`}
+                    className="sidebar-button empty"
+                >
+                    <button>
+                        Edit {ovPath.match(/__CT__/) ? "Configuration" : "Detail"}
+                    </button>
+                </Link>
+            ) : null}
             <button
                 className="sidebar-button danger"
                 data-cy="edit-option-value-delete-button"
@@ -429,7 +460,7 @@ function EditOptionValue({
 
 export const SystemOptionValue = {
     title: "Edit Option Value",
-    component: EditOptionValue,
+    component: withRouter(EditOptionValue),
 };
 
 export const DetailOptionValue = SystemOptionValue;

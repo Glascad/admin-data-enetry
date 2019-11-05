@@ -64,7 +64,7 @@ export default function ElevationSearch({
                 identifier="id"
                 titleBar={{
                     title: copying ? "Copy Elevation" : "Elevations",
-                    selections: [name || <Ellipsis />]
+                    snailTrail: [name || <Ellipsis />]
                 }}
                 items={_elevations}
                 defaultPillProps={{

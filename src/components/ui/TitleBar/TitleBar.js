@@ -4,20 +4,21 @@ import { normalCase } from '../../../utils';
 import customPropTypes from '../../utils/custom-prop-types';
 
 import './TitleBar.scss';
+import SnailTrail from '../SnailTrail/SnailTrail';
 
 TitleBar.propTypes = {
     className: PropTypes.string,
     title: customPropTypes.renderable.isRequired,
     left: customPropTypes.renderable,
     right: customPropTypes.renderable,
-    selections: PropTypes.arrayOf(customPropTypes.renderable),
+    snailTrail: PropTypes.arrayOf(customPropTypes.renderable),
     onClick: PropTypes.func,
 };
 
 TitleBar.defaultProps = {
     className: "",
     title: "",
-    selections: [],
+    snailTrail: [],
 };
 
 export default function TitleBar({
@@ -25,7 +26,7 @@ export default function TitleBar({
     title,
     left,
     right,
-    selections,
+    snailTrail,
     onClick,
     onEdit,
 }) {
@@ -54,20 +55,14 @@ export default function TitleBar({
                             {normalCase(title)}
                         </span>
                     )}
-                {selections.map((item, i) => item ? (
-                    <span
-                        key={i}
-                    >
-                        {i === 0 ?
-                            <span>&nbsp;-&nbsp;</span>
-                            :
-                            <span>&nbsp;>&nbsp;</span>
-                        }
-                        <span className="title-bar-item">
-                            {normalCase(item)}
-                        </span>
-                    </span>
-                ) : null)}
+                {snailTrail.length ? (
+                    <>
+                        <span>&nbsp;-&nbsp;</span>
+                        <SnailTrail
+                            trail={snailTrail}
+                        />
+                    </>
+                ) : null}
                 <span className="left">
                     {left}
                 </span>
