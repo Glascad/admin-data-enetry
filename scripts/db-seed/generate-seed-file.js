@@ -122,6 +122,8 @@ ${require('../../db/seed_data.sql')}
 
 ${require('../../db/policies.sql')}
 
+RAISE EXCEPTION 'SUCCESS!';
+
 END $seed$
 
 `;

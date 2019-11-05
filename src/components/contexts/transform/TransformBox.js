@@ -25,7 +25,6 @@ function TransformBox({
     ...props
 }) {
 
-
     useEffect(() => {
         if (overtakeViewport) {
             var previousViewportStyles;

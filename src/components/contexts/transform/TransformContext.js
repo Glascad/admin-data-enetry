@@ -76,7 +76,7 @@ function TransformProvider({
     };
 
     const watchSpaceKeyDown = ({ key }) => {
-        if (key === ' ' && !spaceKeyRef.current) spaceKeyRef.current = true;
+        if (key === ' ') spaceKeyRef.current = true;
     };
 
     const watchSpaceKeyUp = ({ key }) => {
@@ -154,20 +154,22 @@ function TransformProvider({
 
                 const stopPanning = () => {
 
-                    element.removeEventListener('mousemove', nonPassivePan, { capture: true });
-                    element.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
+                    window.removeEventListener('mousemove', nonPassivePan, { capture: true });
+                    window.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
 
                     setGrabbing(false);
+                    document.body.style.cursor = 'default';
                 };
 
                 setGrabbing(true);
+                document.body.style.cursor = 'grabbing !important';
 
                 setTimeout(() => {
-                    element.addEventListener('mousemove', nonPassivePan, { capture: true });
-                    element.addEventListener('touchmove', passivePan, { capture: true, passive: true });
-                    element.addEventListener('mouseup', stopPanning, { capture: true });
-                    element.addEventListener('touchend', stopPanning, { capture: true });
-                    element.addEventListener('blur', stopPanning);
+                    window.addEventListener('mousemove', nonPassivePan, { capture: true });
+                    window.addEventListener('touchmove', passivePan, { capture: true, passive: true });
+                    window.addEventListener('mouseup', stopPanning, { capture: true });
+                    window.addEventListener('touchend', stopPanning, { capture: true });
+                    window.addEventListener('blur', stopPanning);
                     document.addEventListener('visibilitychange', stopPanning);
                 });
             } else {
@@ -205,21 +207,21 @@ function TransformProvider({
 
     useEffect(() => {
         if (element) {
-            element.addEventListener('keydown', watchArrowKeys);
-            element.addEventListener('keydown', watchSpaceKeyDown);
-            element.addEventListener('keyup', watchSpaceKeyUp);
             element.addEventListener('mousedown', watchMouseDown, { capture: true });
             element.addEventListener('touchstart', startPanning, { passive: true });
             element.addEventListener('wheel', watchScroll, { passive: false });
+            window.addEventListener('keydown', watchArrowKeys);
+            window.addEventListener('keydown', watchSpaceKeyDown);
+            window.addEventListener('keyup', watchSpaceKeyUp);
             document.addEventListener('visibilitychange', clearKeys);
             return () => {
-                element.removeEventListener('keydown', watchArrowKeys);
-                element.removeEventListener('keydown', watchSpaceKeyDown);
-                element.removeEventListener('keyup', watchSpaceKeyUp);
                 element.removeEventListener('mousedown', watchMouseDown, { capture: true });
                 element.removeEventListener('touchstart', startPanning, { passive: true });
                 element.removeEventListener('wheel', watchScroll, { passive: false });
                 element.removeEventListener('blur', clearKeys);
+                window.removeEventListener('keydown', watchArrowKeys);
+                window.removeEventListener('keydown', watchSpaceKeyDown);
+                window.removeEventListener('keyup', watchSpaceKeyUp);
                 document.removeEventListener('visibilitychange', clearKeys);
             }
         }
@@ -256,7 +258,7 @@ function TransformProvider({
             value={value}
         >
             {children}
-            {grabbing ? (
+            {/* {grabbing ? (
                 <div
                     id="cursor-grabbing-"
                     style={{
@@ -271,7 +273,7 @@ function TransformProvider({
                         zIndex: 99999,
                     }}
                 />
-            ) : null}
+            ) : null} */}
         </TransformContext.Provider>
     );
 }

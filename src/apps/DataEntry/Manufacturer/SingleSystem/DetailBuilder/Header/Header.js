@@ -13,6 +13,7 @@ export default withRouter(function Header({
     },
     history,
     system: {
+        id,
         name: sName,
         _manufacturer: {
             name: mName,
@@ -61,14 +62,18 @@ export default withRouter(function Header({
             />
             <SnailTrail
                 trail={[
-                    mName,
-                    sName,
+                    mName || <Ellipsis />,
+                    sName || <Ellipsis />,
                     ...getOptionListFromPath(path.replace(/\.__DT__.*/, '')).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), []),
                     detailType,
                     ...getOptionListFromPath(path.replace(/\.__CT__.*/, '')).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), []),
                     configurationType,
                     ...(configurationType ?
-                        getOptionListFromPath(path).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), [])
+                        getOptionListFromPath(path).reduce((list, { name, value }) => list.concat(value ?
+                            `${name}: ${value}`
+                            :
+                            name
+                        ), [])
                         :
                         []),
                 ]}
