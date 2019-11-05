@@ -10,6 +10,10 @@ SystemInfo.navigationOptions = {
 function SystemInfo({
     location: {
         search,
+        state: {
+            previousPath = '/data-entry/manufacturer/system-search',
+            previousSearch = arguments[0].location.search,
+        } = {},
     },
     match: {
         path,
@@ -87,13 +91,7 @@ function SystemInfo({
                         <ConfirmButton
                             data-cy="cancel"
                             doNotConfirmWhen={true}
-                            onClick={() => {
-                                history.push(`${
-                                    path.replace(/single-system.*/, 'system-search')
-                                    }${
-                                    search
-                                    }`);
-                            }}
+                            onClick={() => history.push(`${previousPath}${previousSearch}`)}
                         >
                             Cancel
                         </ConfirmButton>
@@ -122,7 +120,7 @@ function SystemInfo({
                     value={sType}
                     options={systemTypes}
                     onChange={name => setSystemType(name)}
-                    />
+                />
                 <Select
                     data-cy="manufacturer"
                     label="Manufacturer"

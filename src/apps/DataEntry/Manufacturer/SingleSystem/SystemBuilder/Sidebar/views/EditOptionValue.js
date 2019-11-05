@@ -293,7 +293,7 @@ function EditOptionValue({
                             <CircleButton
                                 data-cy={`select-option-${childOptionName.toLowerCase()}`}
                                 className="primary"
-                                actionType="action"
+                                actionType="arrow"
                                 onClick={() => selectItem(childOption)}
                             />
                             <CircleButton

@@ -18,18 +18,17 @@ export default function SystemBuilder({
     location: {
         search,
     },
+    match: {
+        path: matchPath,
+    },
+    history,
     queryResult,
     fetching,
 }) {
 
-    const { systemId } = parseSearch(search);
-
     useCollapseSidebar();
 
     // const [systemInput, setState] = useState(systemUpdate);
-    const [originalSelectedItem, setSelection] = useState();
-
-    const selectItem = item => setSelection(selectedItem => item === selectedItem ? undefined : item);
 
     const {
         currentState: systemInput,
@@ -43,19 +42,26 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];
+    const { path } = parseSearch(search);
+
+    const selectItem = ({ path: newPath } = {}) => console.log(`SELECTING ITEM: ${newPath}`) || (!newPath && console.trace(newPath)) || history.push(!newPath || (newPath === path) ? `${
+        matchPath
+        }${
+        parseSearch(search).remove('path')
+        }` : `${
+        matchPath
+        }${
+        parseSearch(search).update({ path: newPath })
+        }`);
+
+    const selectedItem = systemMap[path];
 
     console.log({
-        originalSelectedItem,
         selectedItem,
         systemInput,
         states,
         currentIndex,
     });
-
-    useEffect(() => {
-        if (!selectedItem) selectItem();
-    }, [selectedItem]);
 
     const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
         replaceState
@@ -78,12 +84,14 @@ export default function SystemBuilder({
         cancelPartial()
         :
         selectItem();
-    
+
     const cancelOnEscape = ({ key }) => key === "Escape" && cancelOnClick();
 
     useEffect(() => {
-        window.addEventListener('keydown', cancelOnEscape, true);
-        window.addEventListener('click', cancelOnClick);
+        setTimeout(() => {
+            window.addEventListener('keydown', cancelOnEscape, true);
+            window.addEventListener('click', cancelOnClick);
+        });
         return () => {
             window.removeEventListener('keydown', cancelOnEscape, true);
             window.removeEventListener('click', cancelOnClick);
@@ -135,7 +143,6 @@ export default function SystemBuilder({
             currentIndex,
             system,
             systemMap,
-            originalSelectedItem,
             selectedItem,
         });
     }

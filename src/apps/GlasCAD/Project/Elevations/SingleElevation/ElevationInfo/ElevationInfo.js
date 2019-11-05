@@ -25,7 +25,7 @@ import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
-export default function EditElevation({
+export default function ElevationInfo({
     history,
     match: {
         path,

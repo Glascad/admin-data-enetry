@@ -52,13 +52,10 @@ function Header({
                         data-cy="system-info-link"
                         modalProps={{}}
                         doNotConfirmWhen={true}
-                        onClick={() => {
-                            history.push(`${
-                                path.replace(/build/, 'info')
-                                }${
-                                search
-                                }`);
-                        }}
+                        onClick={() => history.push(`${path.replace(/build/, 'info')}${search}`, {
+                            previousPath: path,
+                            previousSearch: search,
+                        })}
                     >
                         System Info
                     </ConfirmButton>

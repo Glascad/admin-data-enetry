@@ -55,7 +55,7 @@ export default function TitleBar({
                             {normalCase(title)}
                         </span>
                     )}
-                {snailTrail.length ? (
+                {snailTrail.some(Boolean) ? (
                     <>
                         <span>&nbsp;-&nbsp;</span>
                         <SnailTrail

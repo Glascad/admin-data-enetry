@@ -90,6 +90,7 @@ class Statics extends PureComponent {
                 <div
                     id="Sidebar"
                     className={open ? "" : "closed"}
+                    onClick={e => e.stopPropagation()}
                     onKeyDown={e => e.stopPropagation()}
                     onMouseDown={e => e.stopPropagation()}
                     onWheel={e => e.stopPropagation()}

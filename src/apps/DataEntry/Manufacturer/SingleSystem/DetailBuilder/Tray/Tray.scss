@@ -42,23 +42,23 @@
 
         .block-one,
         .block-two {
-            background: $dark-gray;
+            background: $medium-gray;
             width: $xx-small;
             height: $base-size;
         }
         .block-one {
-            margin-right: $xx-small / 2;
+            margin-right: $xx-small * 0.6;
             transform: rotate(-45deg);
         }
         .block-two {
-            margin-left: $xx-small / 2;
+            margin-left: $xx-small * 0.6;
             transform: rotate(45deg);
         }
 
         &:hover {
             .block-one,
             .block-two {
-                background: $medium-gray;
+                background: $dark-gray;
             }
         }
     }

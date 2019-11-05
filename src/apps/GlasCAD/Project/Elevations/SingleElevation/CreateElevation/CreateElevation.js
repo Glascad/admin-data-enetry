@@ -279,7 +279,6 @@ export default memo(function CreateElevation({
                 <Select
                     data-cy="system-set"
                     label="System set"
-                    disabled={true}
                     value={(_systemSets.find(({ id }) => id === systemSetId) || {}).name}
                     options={_systemSets.map(({ name }) => name)}
                     onChange={value => updateElevation({

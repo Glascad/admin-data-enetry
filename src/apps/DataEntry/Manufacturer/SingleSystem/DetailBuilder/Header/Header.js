@@ -24,34 +24,40 @@ export default withRouter(function Header({
     const configurationType = getConfigurationTypeFromPath(path);
     return (
         <>
-        <TitleBar
-            title={`${detailType} Detail`}
-            className="blue-border"
-            left={(
-                <ConfirmButton
-                    onClick={() => history.push(`${matchPath.replace(/detail/, 'build')}${search}`)}
-                    doNotConfirmWhen={true}
-                >
-                    System
-                </ConfirmButton>
-            )}
-            right={(
-                <>
-                    <ConfirmButton>
-                        Cancel
+            <TitleBar
+                title={`${detailType} Detail`}
+                className="blue-border"
+                left={(
+                    <ConfirmButton
+                        onClick={() => history.push(`${matchPath.replace(/detail/, 'info')}${search}`, {
+                            previousPath: matchPath,
+                            previousSearch: search,
+                        })}
+                        doNotConfirmWhen={true}
+                    >
+                        System Info
                     </ConfirmButton>
-                    <AsyncButton
-                        className="action"
-                    >
-                        Save And Exit
-                    </AsyncButton>
-                    <AsyncButton
-                        className="action"
-                    >
-                        Save
-                    </AsyncButton>
-                </>
-            )}
+                )}
+                right={(
+                    <>
+                        <ConfirmButton
+                            onClick={() => history.push(`${matchPath.replace(/detail/, 'build')}${search}`)}
+                            doNotConfirmWhen={true}
+                        >
+                            Close
+                        </ConfirmButton>
+                        <AsyncButton
+                            className="action"
+                        >
+                            Save And Exit
+                        </AsyncButton>
+                        <AsyncButton
+                            className="action"
+                        >
+                            Save
+                        </AsyncButton>
+                    </>
+                )}
             />
             <SnailTrail
                 trail={[
