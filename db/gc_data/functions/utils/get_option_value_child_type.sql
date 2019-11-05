@@ -13,7 +13,7 @@
     )
     CHILD_PREFIX (
         system,
-        system,
+        detail,
         configuration
     )
 >>

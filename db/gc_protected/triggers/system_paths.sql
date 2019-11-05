@@ -18,14 +18,14 @@
                 NEW.system_id::TEXT::LTREE,
             <<END ONLY>>
             <<ONLY TYPE (detail, configuration)>>
-                NEW.parent_system_<<TYPE>>_path,
+                NEW.parent_<<PARENT>>_<<TYPE>>_path,
             <<END ONLY>>
             OLD.parent_<<TYPE>>_option_value_path,
             <<ONLY TYPE (system)>>
                 OLD.system_id::TEXT::LTREE
             <<END ONLY>>
             <<ONLY TYPE (detail, configuration)>>
-                OLD.parent_system_<<TYPE>>_path
+                OLD.parent_<<PARENT>>_<<TYPE>>_path
             <<END ONLY>>
         ) || COALESCE(
             NEW.name,
@@ -79,9 +79,9 @@
 
     <<ONLY TYPE (detail, configuration)>>
 
-        DROP FUNCTION IF EXISTS generate_system_<<TYPE>>_path;
+        DROP FUNCTION IF EXISTS generate_<<PARENT>>_<<TYPE>>_path;
 
-        CREATE OR REPLACE FUNCTION gc_protected.generate_system_<<TYPE>>_path()
+        CREATE OR REPLACE FUNCTION gc_protected.generate_<<PARENT>>_<<TYPE>>_path()
         RETURNS TRIGGER AS $$
         BEGIN
             NEW.path := COALESCE(
@@ -98,9 +98,9 @@
         END;
         $$ LANGUAGE plpgsql;
 
-        CREATE TRIGGER generate_system_<<TYPE>>_path
-        BEFORE INSERT OR UPDATE ON system_<<TYPE>>s
-        FOR EACH ROW EXECUTE FUNCTION generate_system_<<TYPE>>_path();
+        CREATE TRIGGER generate_<<PARENT>>_<<TYPE>>_path
+        BEFORE INSERT OR UPDATE ON <<PARENT>>_<<TYPE>>s
+        FOR EACH ROW EXECUTE FUNCTION generate_<<PARENT>>_<<TYPE>>_path();
     
     <<END ONLY>>
 

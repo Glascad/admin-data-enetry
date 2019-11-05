@@ -32,8 +32,8 @@
 --     ct RECORD;
 --     cto CONFIGURATION_TYPE_OUTPUT;
 --     ctos CONFIGURATION_TYPE_OUTPUT[];
---     scto system_configuration_OUTPUT;
---     sctos system_configuration_OUTPUT[];
+--     scto detail_configuration_OUTPUT;
+--     sctos detail_configuration_OUTPUT[];
 --     invalid BOOLEAN;
 --     sco RECORD;
 -- BEGIN
@@ -166,17 +166,17 @@
 --                 FOREACH cto IN ARRAY dto.configuration_types
 --                 LOOP
 --                     invalid := EXISTS (
---                         SELECT * FROM invalid_system_configurations
---                         WHERE invalid_system_configurations.system_id = sid
---                         AND invalid_system_configurations.invalid_configuration_type_id = cto.id
+--                         SELECT * FROM invalid_detail_configurations
+--                         WHERE invalid_detail_configurations.system_id = sid
+--                         AND invalid_detail_configurations.invalid_configuration_type_id = cto.id
 --                     );
 
---                     SELECT * FROM system_configuration_overrides
+--                     SELECT * FROM detail_configuration_overrides
 --                     INTO sco
---                     WHERE system_configuration_overrides.system_id = sid
---                     AND system_configuration_overrides.system_type_id = s.system_type_id
---                     AND system_configuration_overrides.detail_type_id = dtp.id
---                     AND system_configuration_overrides.configuration_type_id = cto.id;
+--                     WHERE detail_configuration_overrides.system_id = sid
+--                     AND detail_configuration_overrides.system_type_id = s.system_type_id
+--                     AND detail_configuration_overrides.detail_type_id = dtp.id
+--                     AND detail_configuration_overrides.configuration_type_id = cto.id;
 
 --                     sctos := sctos || ROW(
 --                         invalid,
@@ -198,7 +198,7 @@
 --                                 ELSE cto.override_level END
 --                         )::CONFIGURATION_TYPE_OUTPUT,
 --                         cto
---                     )::system_configuration_OUTPUT;
+--                     )::detail_configuration_OUTPUT;
 --                 END LOOP;
 --             END IF;
 

@@ -86,32 +86,34 @@ const duplicateSQL = (path, contents) => {
             //     logPath(path)
             //     }`));
 
-            return vars.reduce((generated, varObj) => `${
-                generated
-                }\n${
-                Object.entries(varObj).reduce((generated, [key, value]) => (
-                    generated.replace(new RegExp(`<<${key}>>`, 'g'), value)
-                ), contents.replace(
-                    /<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>/ig,
-                    (match, onlyVar, onlyVals, lastOnlyVal, onlyContents, ...args) => {
+            return `${
+                vars.reduce((generated, varObj) => `${
+                    generated
+                    }\n${
+                    Object.entries(varObj).reduce((generated, [key, value]) => (
+                        generated.replace(new RegExp(`<<${key}>>`, 'g'), value)
+                    ), contents.replace(
+                        /<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>/ig,
+                        (match, onlyVar, onlyVals, lastOnlyVal, onlyContents, ...args) => {
 
-                        if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+                            if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
 
-                        const validValues = vars.map(v => v[onlyVar]);
+                            const validValues = vars.map(v => v[onlyVar]);
 
-                        const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
+                            const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
 
-                        onlyValues.forEach(v => {
-                            if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
-                        });
+                            onlyValues.forEach(v => {
+                                if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+                            });
 
-                        return onlyValues.includes(varObj[onlyVar]) ?
-                            onlyContents
-                            :
-                            '';
-                    }
-                ))
-                }`, '');
+                            return onlyValues.includes(varObj[onlyVar]) ?
+                                onlyContents
+                                :
+                                '';
+                        }
+                    ))
+                    }`, `\n-- LOOP in file ${shortenPath(path)}`)
+                }\n-- END LOOP in file ${shortenPath(path)}`;
         }
     );
 }

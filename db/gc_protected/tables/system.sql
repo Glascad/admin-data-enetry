@@ -216,7 +216,7 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 -- CONFIGURATION TYPES
 
 CREATE TABLE
-gc_protected.system_configurations (
+gc_protected.detail_configurations (
     system_id INTEGER REFERENCES systems NOT NULL,
     parent_detail_option_value_path LTREE REFERENCES detail_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
     path LTREE PRIMARY KEY,
@@ -238,7 +238,7 @@ gc_protected.system_configurations (
 CREATE TABLE
 gc_protected.configuration_options (
     system_id INTEGER REFERENCES systems NOT NULL,
-    parent_system_configuration_path LTREE REFERENCES system_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
+    parent_detail_configuration_path LTREE REFERENCES detail_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     parent_configuration_option_value_path LTREE,
     path LTREE PRIMARY KEY,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
@@ -252,7 +252,7 @@ gc_protected.configuration_options (
         AND
         -- must have exactly one parent
         either_or(
-            parent_system_configuration_path IS NULL,
+            parent_detail_configuration_path IS NULL,
             parent_configuration_option_value_path IS NULL
         )
         AND
@@ -261,14 +261,14 @@ gc_protected.configuration_options (
             name = 'VOID'
             OR
             NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-                parent_system_configuration_path,
+                parent_detail_configuration_path,
                 parent_configuration_option_value_path
             ))
         )
         AND
         -- must have correct path
         path = COALESCE(
-            parent_system_configuration_path,
+            parent_detail_configuration_path,
             parent_configuration_option_value_path
         ) || name::TEXT
     )

@@ -15,7 +15,7 @@ DECLARE
         TYPE (
             CONFIGURATION_OPTION_VALUE,
             CONFIGURATION_OPTION,
-            SYSTEM_CONFIGURATION,
+            DETAIL_CONFIGURATION,
             DETAIL_OPTION_VALUE,
             DETAIL_OPTION,
             SYSTEM_DETAIL,
@@ -55,7 +55,7 @@ BEGIN
             TYPE (
                 configuration_option_value,
                 configuration_option,
-                system_configuration,
+                detail_configuration,
                 detail_option_value,
                 detail_option,
                 system_detail,
@@ -109,7 +109,7 @@ BEGIN
             detail_option,
             system_detail,
             system_option_value,
-            system_configuration,
+            detail_configuration,
             system_option
         )
         ALIAS (
@@ -138,7 +138,7 @@ BEGIN
         TYPE (
             configuration_option_value,
             configuration_option,
-            system_configuration,
+            detail_configuration,
             detail_option_value,
             detail_option,
             system_detail,

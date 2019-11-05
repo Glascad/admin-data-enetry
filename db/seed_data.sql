@@ -51,7 +51,7 @@ INSERT INTO detail_option_values (name, parent_detail_option_path) VALUES
 ('OUTSIDE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING'),
 ('INSIDE', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING');
 
-INSERT INTO system_configurations (configuration_type, parent_detail_option_value_path, optional) VALUES
+INSERT INTO detail_configurations (configuration_type, parent_detail_option_value_path, optional) VALUES
 ('HEAD', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID', FALSE),
 ('COMPENSATING_RECEPTOR', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID', TRUE),
 ('SHIM_SUPPORT', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID', TRUE),
@@ -67,7 +67,7 @@ INSERT INTO system_configurations (configuration_type, parent_detail_option_valu
 ('SHIM_SUPPORT', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE', TRUE),
 ('SHIM_SUPPORT', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE', TRUE);
 
-INSERT INTO configuration_options (name, parent_system_configuration_path, default_configuration_option_value) VALUES
+INSERT INTO configuration_options (name, parent_detail_configuration_path, default_configuration_option_value) VALUES
 ('STOPS', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'UP'),
 ('STOPS', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL', 'UP'),
 ('DURABILITY', '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR', 'STANDARD_DUTY'),
@@ -133,13 +133,13 @@ INSERT INTO detail_option_values (name, parent_detail_option_path) VALUES
 ('VOID', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID'),
 ('VOID', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID');
 
-INSERT INTO system_configurations (configuration_type, parent_detail_option_value_path) VALUES
+INSERT INTO detail_configurations (configuration_type, parent_detail_option_value_path) VALUES
 ('HEAD', '1.SET.FRONT.__DT__.HEAD.VOID.VOID'),
 ('HEAD', '1.SET.BACK.__DT__.HEAD.VOID.VOID'),
 ('HEAD', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID'),
 ('HEAD', '1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID');
 
-INSERT INTO configuration_options (name, parent_system_configuration_path, default_configuration_option_value) VALUES
+INSERT INTO configuration_options (name, parent_detail_configuration_path, default_configuration_option_value) VALUES
 ('VOID', '1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID'),
 ('VOID', '1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID'),
 ('VOID', '1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD', 'VOID'),

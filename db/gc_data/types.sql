@@ -21,7 +21,10 @@
 
 -- OPTIONS
 
-<<LOOP TYPE (configuration, detail, system)>>
+<<LOOP 
+    TYPE (configuration, detail, system)
+    PARENT (detail, system, NULL)
+>>
 
     CREATE TYPE
     gc_data.NEW_<<TYPE>>_OPTION AS (
@@ -29,7 +32,7 @@
         default_<<TYPE>>_option_value OPTION_VALUE_NAME,
         parent_<<TYPE>>_option_value_path LTREE
         <<ONLY TYPE (configuration, detail)>>
-            , parent_system_<<TYPE>>_path LTREE
+            , parent_<<PARENT>>_<<TYPE>>_path LTREE
         <<END ONLY>>
     );
 
@@ -51,7 +54,7 @@
 >>
 
     CREATE TYPE
-    gc_data.NEW_SYSTEM_<<TYPE>> AS (
+    gc_data.NEW_<<PARENT>>_<<TYPE>> AS (
         <<TYPE>>_type <<TYPE>>_TYPE,
         parent_<<PARENT>>_option_value_path LTREE
         <<ONLY TYPE (configuration)>>
@@ -60,11 +63,11 @@
     );
 
     CREATE TYPE
-    gc_data.ENTIRE_SYSTEM_<<TYPE>> AS (
+    gc_data.ENTIRE_<<PARENT>>_<<TYPE>> AS (
         -- identification
         path LTREE,
         -- update
-        update NEW_SYSTEM_<<TYPE>>
+        update NEW_<<PARENT>>_<<TYPE>>
     );
 
 <<END LOOP>>
@@ -83,7 +86,7 @@ gc_data.ENTIRE_SYSTEM AS (
         TYPE (
             configuration_option_value,
             configuration_option,
-            system_configuration,
+            detail_configuration,
             detail_option_value,
             detail_option,
             system_detail,
