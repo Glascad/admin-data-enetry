@@ -52,6 +52,7 @@ export default class RecursiveElevation extends Loggable {
         super();
 
         const {
+            _systemSet = {},
             finishedFloorHeight = 0,
             roughOpening = {},
             _elevationContainers = [],
@@ -91,6 +92,7 @@ export default class RecursiveElevation extends Loggable {
                 class: RecursiveElevation,
                 instanceCount: ++RecursiveElevation.instanceCount,
                 rawElevation,
+                systemSet: _systemSet,
                 finishedFloorHeight,
                 roughOpening,
                 sightline,

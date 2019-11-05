@@ -41,11 +41,16 @@ export default function ElevationInfo({
         _elevation,
         _elevation: {
             finishedFloorHeight: initialFFH,
-        } = {}
+        } = {},
     },
+    project: {
+        _systemSets = [],
+    } = {},
     updateEntireElevation,
     updating,
 }) {
+
+    console.log(arguments[0]);
 
     const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(new ImperialValue(initialFFH), [initialFFH]);
 
@@ -55,6 +60,8 @@ export default function ElevationInfo({
 
     const recursiveElevation = new RecursiveElevation({ ..._elevation, ...elevationInput });
 
+    console.log({ elevationInput, recursiveElevation, _elevation });
+
     const {
         rawElevation: {
             name,
@@ -63,6 +70,9 @@ export default function ElevationInfo({
                 y: roy,
             } = {},
             finishedFloorHeight,
+            _systemSet: {
+                name: systemSetName,
+            } = {},
         } = {},
     } = recursiveElevation;
 
@@ -173,9 +183,12 @@ export default function ElevationInfo({
                 <Select
                     data-cy="system-set"
                     label="System set"
-                    disabled={true}
-                    options={[{ label: "Trifab451" }]}
-                    value={"Trifab451"}
+                    options={_systemSets.map(({ name }) => name)}
+                    value={systemSetName}
+                    onChange={name => updateElevation({
+                        systemSetId: (_systemSets.find(ss => ss.name === name) || {}).id,
+                        _systemSet: _systemSets.find(ss => ss.name === name),
+                    })}
                 />
                 <GroupingBox
                     title="Rough opening"
