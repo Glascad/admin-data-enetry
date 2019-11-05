@@ -445,7 +445,7 @@ function EditOptionValue({
                 onClick={() => partialAction && partialAction.ACTION === "COPY" ?
                     cancelPartial()
                     :
-                    dispatchPartial('COPY', option)}
+                    dispatchPartial('COPY', optionValue)}
             >
                 {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : 'Copy Value'}
             </button>
