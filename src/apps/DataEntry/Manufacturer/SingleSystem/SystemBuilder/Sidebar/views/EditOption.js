@@ -96,15 +96,22 @@ function EditOption({
                     }
                 }}
             />
-            {canItemBeGrouped(option, systemMap) ? (
-                <button
-                    data-cy="edit-option-value-group-option-button"
-                    className="sidebar-button light"
-                    onClick={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, option)}
-                >
-                    {optionIsGrouped ? 'Ungroup Option' : 'Group Option'}
-                </button>
+            {oPath.match(/__DT__/) && canItemBeGrouped(option, systemMap) ? (
+                <Input
+                    data-cy="group-option"
+                    type="switch"
+                    label="Grouped"
+                    checked={optionIsGrouped}
+                    onChange={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, option)}
+                />
             ) : null}
+            {/* <button
+                data-cy="edit-option-value-group-option-button"
+                className="sidebar-button light"
+                onClick={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, option)}
+                >
+                {optionIsGrouped ? 'Ungroup Option' : 'Group Option'}
+            </button> */}
             <GroupingBox
                 data-cy="edit-option-values"
                 title="Option Values"

@@ -155,46 +155,83 @@ function EditOptionValue({
                     }
                 }}
             />
-            {isDefault ? null : (
-                <button
-                    data-cy="edit-option-value-default-button"
-                    className="sidebar-button light"
-                    onClick={() => {
-                        const updateDefault = () => dispatch(UPDATE_ITEM, {
-                            path: oPath,
-                            __typename: oTypename,
-                            update: {
-                                [`default${__typename}`]: oVName,
-                            }
-                        })
-                        const updateDefaultForAllInstances = () => {
-                            getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
-                                .forEach((instance, i) => {
-                                    const item = systemMap[instance];
-                                    dispatch(UPDATE_ITEM, {
-                                        path: item.path,
-                                        __typename: item.__typename,
-                                        update: {
-                                            [`default${item.__typename}Value`]: oVName,
-                                        }
-                                    }, {
-                                        replaceState: i !== 0,
-                                    });
+            <Input
+                data-cy="default-option-value"
+                type="switch"
+                label="Default"
+                readOnly={isDefault}
+                checked={isDefault}
+                onChange={() => {
+                    const updateDefault = () => dispatch(UPDATE_ITEM, {
+                        path: oPath,
+                        __typename: oTypename,
+                        update: {
+                            [`default${__typename}`]: oVName,
+                        },
+                    });
+                    const updateDefaultForAllInstances = () => {
+                        getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
+                            .forEach((instance, i) => {
+                                const item = systemMap[instance];
+                                dispatch(UPDATE_ITEM, {
+                                    path: item.path,
+                                    __typename: item.__typename,
+                                    update: {
+                                        [`default${item.__typename}Value`]: oVName,
+                                    }
+                                }, {
+                                    replaceState: i !== 0,
                                 });
-                        };
-                        optionIsGrouped ?
-                            confirmWithModal(updateDefaultForAllInstances, {
-                                titleBar: { title: `Change Default Value For Grouped Option` },
-                                children: 'Are you Sure?',
-                                finishButtonText: 'Change',
-                            })
-                            :
-                            updateDefault();
-                    }}
-                >
-                    Make Default
-                </button>
-            )}
+                            });
+                    };
+                    optionIsGrouped ?
+                        confirmWithModal(updateDefaultForAllInstances, {
+                            titleBar: { title: `Change Default Value For Grouped Option` },
+                            children: 'Are you Sure?',
+                            finishButtonText: 'Change',
+                        })
+                        :
+                        updateDefault();
+                }}
+            />
+            {/* <button
+                data-cy="edit-option-value-default-button"
+                className="sidebar-button light"
+                onClick={() => {
+                    const updateDefault = () => dispatch(UPDATE_ITEM, {
+                        path: oPath,
+                        __typename: oTypename,
+                        update: {
+                            [`default${__typename}`]: oVName,
+                        },
+                    });
+                    const updateDefaultForAllInstances = () => {
+                        getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
+                            .forEach((instance, i) => {
+                                const item = systemMap[instance];
+                                dispatch(UPDATE_ITEM, {
+                                    path: item.path,
+                                    __typename: item.__typename,
+                                    update: {
+                                        [`default${item.__typename}Value`]: oVName,
+                                    }
+                                }, {
+                                    replaceState: i !== 0,
+                                });
+                            });
+                    };
+                    optionIsGrouped ?
+                        confirmWithModal(updateDefaultForAllInstances, {
+                            titleBar: { title: `Change Default Value For Grouped Option` },
+                            children: 'Are you Sure?',
+                            finishButtonText: 'Change',
+                        })
+                        :
+                        updateDefault();
+                }}
+            >
+                Make Default
+            </button> */}
             <GroupingBox
                 data-cy="edit-children"
                 title={(

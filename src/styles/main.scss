@@ -8,15 +8,15 @@ body {
 
 button,
 input {
-    outline: none;
-    border-radius: $xx-small;
     height: $xxx-large;
+    border-radius: $xx-small;
+    border: 1px solid $light-gray;
+    outline: none;
 }
 
 button {
     // @include two-colors($selected-color, $off-white);
     // border-color: $selected-color;
-    border: 1px solid $light-gray;
     background: none;
     display: flex;
     justify-content: center;
@@ -96,7 +96,6 @@ textarea {
 
 input {
     border: none;
-    border: 1px solid $light-gray;
     // height: $item-height;
     width: $pill-width;
     padding: 0 $x-small;

@@ -92,23 +92,32 @@ function EditType({
                     }
                 }}
             />
-            {
-                type === 'Configuration' ?
-                    <button
-                        data-cy="edit-type-optional-button"
-                        className="sidebar-button light"
-                        onClick={() => console.log({ selectedType }) || dispatch(UPDATE_ITEM, {
-                            ...selectedType,
-                            update: {
-                                optional: !optional
-                            }
-                        })}
-                    >
-                        {optional ? 'Required' : 'Optional'}
-                    </button>
-                    :
-                    null
-            }
+            {type === 'Configuration' ? (
+                <Input
+                    data-cy="required-optional"
+                    type="switch"
+                    label="Required"
+                    checked={!optional}
+                    onChange={() => dispatch(UPDATE_ITEM), {
+                        ...selectedType,
+                        update: {
+                            optional: !optional,
+                        },
+                    }}
+                />
+                // <button
+                //     data-cy="edit-type-optional-button"
+                //     className="sidebar-button light"
+                //     onClick={() => dispatch(UPDATE_ITEM, {
+                //         ...selectedType,
+                //         update: {
+                //             optional: !optional,
+                //         },
+                //     })}
+                // >
+                //     {optional ? 'Required' : 'Optional'}
+                // </button>
+            ) : null}
             <GroupingBox
                 title="Option"
                 circleButton={childOption ? undefined : {
