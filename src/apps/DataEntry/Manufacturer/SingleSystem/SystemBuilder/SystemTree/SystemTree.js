@@ -4,7 +4,7 @@ import { makeRenderable, getLastItemFromPath, getChildren } from '../../../../..
 import { normalCase, parseSearch } from '../../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../../Statics/Statics';
-import { ADD_ITEM, UPDATE_ITEM } from '../ducks/actions';
+import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../ducks/actions';
 import { getIsAvailableForAction } from '../ducks/utils';
 // import { ADD_OPTION } from '../../ducks/actions';
 
@@ -118,6 +118,12 @@ export default function SystemTree({
                                                     update: {
                                                         [`parent${__typename}Path`]: path
                                                     }
+                                                })
+                                            } else if (PARTIAL_ACTION === 'COPY') {
+                                                dispatch(COPY_ITEM, {
+                                                    partialPayload,
+                                                    targetItem: item,
+                                                    systemMap
                                                 })
                                             }
                                             cancelPartial();

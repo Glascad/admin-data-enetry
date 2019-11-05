@@ -245,12 +245,22 @@ function EditOption({
             <button
                 data-cy="edit-option-move-button"
                 className="sidebar-button light"
-                onClick={() => partialAction ?
+                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
                     cancelPartial()
                     :
                     dispatchPartial('MOVE', option)}
             >
-                {partialAction ? 'Cancel Move' : 'Move Option'}
+                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : 'Move Option'}
+            </button>
+            <button
+                data-cy="edit-option-copy-button"
+                className="sidebar-button light"
+                onClick={() => partialAction && partialAction.ACTION === "COPY" ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('COPY', option)}
+            >
+                {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : 'Copy Option'}
             </button>
             {oPath.match(/__DT__/) ? (
                 <Link
