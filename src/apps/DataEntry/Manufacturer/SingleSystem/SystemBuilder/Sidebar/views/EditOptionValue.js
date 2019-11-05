@@ -432,12 +432,22 @@ function EditOptionValue({
             <button
                 data-cy="edit-option-value-move-button"
                 className="sidebar-button light"
-                onClick={() => partialAction ?
+                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
                     cancelPartial()
                     :
                     dispatchPartial('MOVE', optionValue)}
             >
-                {partialAction ? 'Cancel Move' : 'Move Value'}
+                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : 'Move Value'}
+            </button>
+            <button
+                data-cy="edit-option-value-copy-button"
+                className="sidebar-button light"
+                onClick={() => partialAction && partialAction.ACTION === "COPY" ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('COPY', optionValue)}
+            >
+                {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : 'Copy Value'}
             </button>
             {ovPath.match(/__DT__/) ? (
                 <Link

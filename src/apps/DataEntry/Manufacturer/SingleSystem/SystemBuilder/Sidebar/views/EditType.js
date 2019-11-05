@@ -205,13 +205,24 @@ function EditType({
             <button
                 data-cy="edit-option-value-move-button"
                 className="sidebar-button light"
-                onClick={() => partialAction ?
+                onClick={() => partialAction && partialAction.ACTION === "MOVE"?
                     cancelPartial()
                     :
                     dispatchPartial('MOVE', selectedType)}
             >
-                {partialAction ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
+                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
             </button>
+            <button
+                data-cy="edit-option-value-copy-button"
+                className="sidebar-button light"
+                onClick={() => partialAction ?
+                    cancelPartial()
+                    :
+                    dispatchPartial('COPY', selectedType)}
+            >
+                {partialAction ? 'Cancel Copy' : `Copy ${isDetail ? 'Detail' : 'Configuration'}`}
+            </button>
+            
             {tPath.match(/__DT__/) ? (
                 <Link
                     to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: tPath })}`}

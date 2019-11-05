@@ -33,14 +33,12 @@ export const getUpdatedPath = item => {
     const [parentPathKey, parentPath] = Object.entries(isUpdatedItem ? update : item).find(([key]) => key.match(/parent/i)) || [];
     const name = isUpdatedItem ?
         update.name
-        ||
-        getLastItemFromPath(path)
         :
-        item.name;
+        item.name
 
     // adds the __DT__ or __CT__ to the path
     const pathAddition = getItemPathAddition(item);
-    return `${parentPath || getParentPath(item)}.${pathAddition}${name}`;
+    return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
 }
 
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
@@ -63,12 +61,16 @@ export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => 
     const itemName = getLastItemFromPath(path);
 
 
-    if (__typename === partialTypename || __typename !== partialParentTypename) return false;
+    if (__typename === partialTypename) return false;
 
     return partialTypename.match(/option$/i) ?
         // Option has to be under value or type, be the terminal node, and not already have the option in the path
         (
-            __typename.match(/(value|detail|configuration)$/i)
+            (
+                __typename === `${partialTypename}Value`
+                ||
+                __typename.replace(/^.*(configuration|detail)$/i, '$1') === partialTypename.replace(/^(detail|configuration).*/i, '$1')
+            )
             &&
             itemChildren.length === 0
             &&
@@ -77,7 +79,7 @@ export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => 
         :
         partialTypename.match(/value$/i) ?
             // value needs to be under an option with the same parent name, and not already have the value in it.
-            __typename.match(/option$/i)
+            __typename === partialTypename.replace(/value/i, '')
             &&
             partialParentName === itemName
             &&

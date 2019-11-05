@@ -27,26 +27,26 @@ export default function merge(systemInput, {
         // systemType: newSystemType,
         // delete
         pathsToDelete = [],
-            optionGroupsToDelete = [],
-            // update
-            systemOptions = [],
-            detailOptions = [],
-            configurationOptions = [],
-            systemOptionValues = [],
-            detailOptionValues = [],
-            configurationOptionValues = [],
-            systemDetails = [],
-            systemConfigurations = [],
-            // create
-            newOptionGroups = [],
-            newSystemOptions = [],
-            newDetailOptions = [],
-            newConfigurationOptions = [],
-            newSystemOptionValues = [],
-            newDetailOptionValues = [],
-            newConfigurationOptionValues = [],
-            newSystemDetails = [],
-            newSystemConfigurations = [],
+        optionGroupsToDelete = [],
+        // update
+        systemOptions = [],
+        detailOptions = [],
+        configurationOptions = [],
+        systemOptionValues = [],
+        detailOptionValues = [],
+        configurationOptionValues = [],
+        systemDetails = [],
+        systemConfigurations = [],
+        // create
+        newOptionGroups = [],
+        newSystemOptions = [],
+        newDetailOptions = [],
+        newConfigurationOptions = [],
+        newSystemOptionValues = [],
+        newDetailOptionValues = [],
+        newConfigurationOptionValues = [],
+        newSystemDetails = [],
+        newSystemConfigurations = [],
     } = systemInput;
 
     const systemMap = new SystemMap(_system);
@@ -64,7 +64,7 @@ export default function merge(systemInput, {
 
     console.log({ _system, systemMap });
 
-    const mergeArray = (oldItems, updatedItems, newItems) => console.log(updatedItems) || oldItems
+    const mergeArray = (oldItems, updatedItems, newItems) => oldItems
         .filter(({ path }) => !pathsToDelete.some(deletedPath => path.startsWith(deletedPath) && !path.startsWith(`${deletedPath}_`)))
         .map(oldItem => {
             const { path } = oldItem;
@@ -95,9 +95,9 @@ export default function merge(systemInput, {
             const updatedParentPathAddition = updatedParent ? getItemPathAddition(updatedParent) : '';
 
             const [updatedParentParentKey, updatedParentParentPath] = updatedParent ?
-                Object.entries(updatedParent.update).find(([key]) => key.match(/^parent/))
+                Object.entries(updatedParent.update).find(([key]) => key.match(/^parent/)) || []
                 :
-                '';
+                [];
 
             const newParentPath = updatedItem ?
                 newUpdatedItemParentPath || getParentPath(updatedItem)
@@ -154,8 +154,8 @@ export default function merge(systemInput, {
         })
         .concat(newItems.map(item => {
             const { name, __typename } = item;
-            const parentKey = Object.keys(item).find(key => key.match(/parent/i));
-            const path = `${item[parentKey] || systemId}.${__typename.match(/detail$/i) ? '__DT__.' : ''}${__typename.match(/configuration$/i) ? '__CT__.' : ''}${name}`;
+            const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
+            const path = `${parentPath || systemId}.${__typename.match(/detail$/i) ? '__DT__.' : ''}${__typename.match(/configuration$/i) ? '__CT__.' : ''}${name}`;
 
             return removeNullValues({
                 ...item,

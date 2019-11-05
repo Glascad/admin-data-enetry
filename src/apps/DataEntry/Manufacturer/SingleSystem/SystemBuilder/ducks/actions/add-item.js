@@ -6,13 +6,6 @@ export default function ADD_ITEM(systemInput, payload) {
     const newItemsKey = `new${__typename}s`
     const { [newItemsKey]: newItemsArray = [] } = systemInput;
 
-    console.log({
-        payload,
-        parentPath,
-        newItemsKey,
-        newItemsArray,
-    })
-
     return {
         ...systemInput,
         [newItemsKey]: newItemsArray.concat(
