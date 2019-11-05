@@ -33,7 +33,7 @@ export default function ElevationInfo({
     location: {
         search,
         state: {
-            previousPath = '/glascad/project/elevation/elevations/elevation-search',
+            previousPath = '/glascad/project/elevations/elevation-search',
             previousSearch = arguments[0].location.search,
         } = {},
     },
@@ -59,8 +59,6 @@ export default function ElevationInfo({
     const updateElevation = update => setState({ ...elevationInput, ...update });
 
     const recursiveElevation = new RecursiveElevation({ ..._elevation, ...elevationInput });
-
-    console.log({ elevationInput, recursiveElevation, _elevation });
 
     const {
         rawElevation: {
@@ -192,12 +190,13 @@ export default function ElevationInfo({
                 />
                 <GroupingBox
                     title="Rough opening"
-                    className="disabled"
+                    // className="disabled"
                 >
                     <Input
                         data-cy="ro-lock"
                         label="Locked"
                         type="switch"
+                        readOnly={true}
                         checked={true}
                     />
                     <div className="input-group">
@@ -205,13 +204,14 @@ export default function ElevationInfo({
                             data-cy="ro-width"
                             label="Width"
                             type="inches"
-                            initialValue={new ImperialValue(rox)}
-                            onChange={() => { }}
+                            readOnly={true}
+                            value={new ImperialValue(rox)}
                         />
                         <Input
                             data-cy="mo-horizontal"
                             label="Masonry opening"
                             type="switch"
+                            readOnly={true}
                             checked={true}
                         />
                     </div>
@@ -220,13 +220,14 @@ export default function ElevationInfo({
                             data-cy="ro-height"
                             label="Height"
                             type="inches"
-                            initialValue={new ImperialValue(roy)}
-                            onChange={() => { }}
+                            readOnly={true}
+                            value={new ImperialValue(roy)}
                         />
                         <Input
                             data-cy="mo-vertical"
                             label="Masonry opening"
                             type="switch"
+                            readOnly={true}
                             checked={true}
                         />
                     </div>

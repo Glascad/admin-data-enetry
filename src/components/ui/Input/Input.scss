@@ -148,6 +148,12 @@
             }
         }
 
+        &.read-only {
+            .track {
+                background: none;
+            }
+        }
+
         input {
             &:checked {
                 + .track {
