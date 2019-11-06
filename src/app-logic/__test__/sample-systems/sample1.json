@@ -103,34 +103,34 @@
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP"
         }
     ],
-    "_systemConfigurations": [
+    "_detailConfigurations": [
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
             "optional": false
         }
