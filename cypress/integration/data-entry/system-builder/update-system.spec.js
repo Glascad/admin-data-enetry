@@ -45,7 +45,7 @@ describe('Testing  actions in system builder', () => {
 
         // Change default to HGIH_PERFORMANCE
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE`.click({ force: true });
-        cy.getDataCy`edit-option-value-default-button`.click()
+        cy.getDataCy`default-option-value`.click()
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE`.should('have.class', 'default');
 
         // Update COMPENSATING_RECEPTOR
@@ -63,7 +63,7 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR`.should('exist');
 
         // Update STOP UP -> DOWN
-        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.click({ force: true });
+        // cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.click({ force: true });
         cy.getDataCy`edit-value-name up`.click();
         cy.focused().type('Down{enter}');
         cy.getDataCy`modal-finish-button`.click();
