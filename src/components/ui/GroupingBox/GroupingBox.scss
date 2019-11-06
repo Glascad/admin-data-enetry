@@ -31,6 +31,12 @@
         font-weight: bold;
         box-shadow: 0 0 0 $x-small white;
         // font-weight: bold;
+
+        .Toggle {
+            button {
+                font-size: ($base-size + $small) / 2;
+            }
+        }
     }
 
     .toggle-background,
