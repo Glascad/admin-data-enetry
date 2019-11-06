@@ -150,7 +150,7 @@ export default function SystemBuilder({
         const {
             id,
             manufacturerId,
-            name,
+            name: systemName,
             systemType,
         } = system;
 
@@ -175,34 +175,42 @@ export default function SystemBuilder({
             newSystemDetails,
             newSystemConfigurations,
         } = systemInput;
+        console.log(systemInput);
+
+        const updatedSystem = {
+            id,
+            manufacturerId,
+            name: systemName,
+            systemType,
+            pathsToDelete,
+            optionGroupsToDelete,
+            newOptionGroups,
+            systemOptions: systemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            detailOptions: detailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            configurationOptions: configurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            systemOptionValues: systemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            detailOptionValues: detailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            configurationOptionValues: configurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            systemDetails: systemDetails.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: {...update, systemDetails: update.name, name: undefined} })),
+            systemConfigurations: systemConfigurations.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: {...update, systemConfigurations: update.name, name: undefined} })),
+            newSystemOptions: newSystemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            newDetailOptions: newDetailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            newConfigurationOptions: newConfigurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            newSystemOptionValues: newSystemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            newDetailOptionValues: newDetailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            newConfigurationOptionValues: newConfigurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
+            newSystemDetails: newSystemDetails.map(({ __typename, nodeId, name, ...rest }) => ({ detailType: name, ...rest })),
+            newSystemConfigurations: newSystemConfigurations.map(({ __typename, nodeId, name, ...rest }) => ({ configurationType: name, ...rest })),
+        };
+
+        console.log({
+            system,
+            systemInput,
+            updatedSystem
+        })
 
         const result = await (updateEntireSystem({
-            system: {
-                id,
-                manufacturerId,
-                name,
-                systemType,
-                pathsToDelete,
-                optionGroupsToDelete: optionGroupsToDelete.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                systemOptions: systemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                detailOptions: detailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                configurationOptions: configurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                systemOptionValues: systemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                detailOptionValues: detailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                configurationOptionValues: configurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                systemDetails: systemDetails.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                systemConfigurations: systemConfigurations.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newOptionGroups: newOptionGroups.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newSystemOptions: newSystemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newDetailOptions: newDetailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newConfigurationOptions: newConfigurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newSystemOptionValues: newSystemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newDetailOptionValues: newDetailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newConfigurationOptionValues: newConfigurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newSystemDetails: newSystemDetails.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-                newSystemConfigurations: newSystemConfigurations.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-
-            },
+            system: updatedSystem
         }))
         return result;
     }
