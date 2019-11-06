@@ -132,20 +132,20 @@ export default function merge(systemInput, {
                 [newUpdatedItemParentKey]: undefined,
             } : {};
 
-            if (updatedItem) console.log({
-                oldItem,
-                path,
-                updatedItem,
-                newUpdatedItemParentPath,
-                updatedParent,
-                itemPathAddition,
-                updatedParentPathAddition,
-                updatedParentParentPath,
-                newParentPath,
-                newItemName,
-                newPath,
-                newUpdatedItem,
-            })
+            // if (updatedItem) console.log({
+            //     oldItem,
+            //     path,
+            //     updatedItem,
+            //     newUpdatedItemParentPath,
+            //     updatedParent,
+            //     itemPathAddition,
+            //     updatedParentPathAddition,
+            //     updatedParentParentPath,
+            //     newParentPath,
+            //     newItemName,
+            //     newPath,
+            //     newUpdatedItem,
+            // })
 
             return {
                 ...oldItem,
