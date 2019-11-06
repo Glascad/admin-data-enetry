@@ -5,7 +5,7 @@ import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
 import { systemUpdate } from './ducks/schemas';
 import merge from './ducks/merge';
-import { parseSearch } from '../../../../../utils';
+import { parseSearch, removeNullValues } from '../../../../../utils';
 import { SystemMap, getLastItemFromPath, getChildren } from '../../../../../app-logic/system-utils';
 import { UPDATE_ITEM } from './ducks/actions';
 import { useCollapseSidebar } from '../../../../Statics/Statics';
@@ -191,8 +191,8 @@ export default function SystemBuilder({
             systemOptionValues: systemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             detailOptionValues: detailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             configurationOptionValues: configurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            systemDetails: systemDetails.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: {...update, systemDetails: update.name, name: undefined} })),
-            systemConfigurations: systemConfigurations.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: {...update, systemConfigurations: update.name, name: undefined} })),
+            systemDetails: systemDetails.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, systemDetails: update.name, name: undefined}) })),
+            systemConfigurations: systemConfigurations.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, systemConfigurations: update.name, name: undefined}) })),
             newSystemOptions: newSystemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             newDetailOptions: newDetailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             newConfigurationOptions: newConfigurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
