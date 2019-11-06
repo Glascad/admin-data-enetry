@@ -27,7 +27,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
     const updatedNewItem = newItemsArray.find(item => Object.entries(item).find(([key, value]) =>
         key.match(/parent/)
         &&
-        path === `${value}.${getItemPathAddition(__typename)}${item.name}`
+        path === `${value}.${getItemPathAddition(payload)}${item.name}`
     ));
 
     const newPath = getUpdatedPath(payload);
