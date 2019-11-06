@@ -93,7 +93,7 @@ function EditOptionValue({
         :
         optionSelected;
 
-    const selectValidTypes = childTypename.match(/detail/i) ?
+    const selectValidTypes = childTypename.match(/system/i) ?
         detailTypes
         :
         configurationTypes;
