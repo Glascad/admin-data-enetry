@@ -142,7 +142,7 @@ export default function SystemSetOptions({
                                             ])}
                                         />
                                     ) : null)}
-                            {/* SYSTEM CONFIGURATIONS */}
+                            {/* Detail CONFIGURATIONS */}
                             {configurations.map(({
                                 detailConfiguration: {
                                     path,

@@ -242,26 +242,33 @@ function EditOption({
                         </div>
                     )}
             </GroupingBox>
-            <button
-                data-cy="edit-option-move-button"
-                className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
-                    cancelPartial()
-                    :
-                    dispatchPartial('MOVE', option)}
-            >
-                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : 'Move Option'}
-            </button>
-            <button
-                data-cy="edit-option-copy-button"
-                className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "COPY" ?
-                    cancelPartial()
-                    :
-                    dispatchPartial('COPY', option)}
-            >
-                {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : 'Copy Option'}
-            </button>
+            {!oPath.match(/^\d+\.\w+$/) ? (
+                <>
+                    <button
+                        data-cy="edit-option-move-button"
+                        className="sidebar-button light"
+                        onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
+                            cancelPartial()
+                            :
+                            dispatchPartial('MOVE', option)}
+                    >
+                        {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : 'Move Option'}
+                    </button>
+                    <button
+                        data-cy="edit-option-copy-button"
+                        className="sidebar-button light"
+                        onClick={() => partialAction && partialAction.ACTION === "COPY" ?
+                            cancelPartial()
+                            :
+                            dispatchPartial('COPY', option)}
+                    >
+                        {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : 'Copy Option'}
+                    </button>
+                </>
+            )
+                :
+                null
+            }
             {oPath.match(/__DT__/) ? (
                 <Link
                     to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: oPath })}`}
