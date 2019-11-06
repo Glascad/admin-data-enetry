@@ -40,7 +40,7 @@ export default function SystemSetOptions({
     } = {},
     systemMap,
     systemMap: {
-        _systemConfigurations = [],
+        _detailConfigurations = [],
         _optionGroups = [],
     },
     dispatch,
@@ -92,20 +92,20 @@ export default function SystemSetOptions({
             >
                 {_systemSetDetailOptionValues.map(({ detailOptionValuePath }, i) => {
                     const detailType = getDetailTypeFromPath(detailOptionValuePath);
-                    const configurations = _systemConfigurations
+                    const configurations = _detailConfigurations
                         .filter(({ path }) => path.startsWith(detailOptionValuePath))
-                        .map(systemConfiguration => ({
-                            systemConfiguration,
+                        .map(detailConfiguration => ({
+                            detailConfiguration,
                             selection: _systemSetConfigurationOptionValues
                                 // need the '.' to prevent confusion between configs like SILL and SILL_FLASHING
-                                .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(`${systemConfiguration.path}.`)),
+                                .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(`${detailConfiguration.path}.`)),
                         }))
                         .sort(({
-                            systemConfiguration: {
+                            detailConfiguration: {
                                 optional: a,
                             },
                         }, {
-                            systemConfiguration: {
+                            detailConfiguration: {
                                 optional: b,
                             },
                         }) => match()
@@ -144,7 +144,7 @@ export default function SystemSetOptions({
                                     ) : null)}
                             {/* SYSTEM CONFIGURATIONS */}
                             {configurations.map(({
-                                systemConfiguration: {
+                                detailConfiguration: {
                                     path,
                                     optional,
                                 },
@@ -228,7 +228,7 @@ export default function SystemSetOptions({
                                     } */}
                                 </div>
                                 {configurations.map(({
-                                    systemConfiguration: {
+                                    detailConfiguration: {
                                         path,
                                         optional,
                                     },

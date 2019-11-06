@@ -93,7 +93,7 @@ describe('Update entire system tests', () => {
                                             nodes {
                                             id
                                             name
-                                            systemConfigurationsByDetailOptionValueId(orderBy: ID_ASC) {
+                                            detailConfigurationsByDetailOptionValueId(orderBy: ID_ASC) {
                                                 nodes {
                                                     id
                                                     configurationType
@@ -106,7 +106,7 @@ describe('Update entire system tests', () => {
                                 }
                                 configurationOptionsBySystemId(orderBy: PARENT_CONFIGURATION_OPTION_VALUE_ID_ASC) {
                                     nodes {
-                                        systemConfigurationId
+                                        detailConfigurationId
                                         parentConfigurationOptionValueId
                                         id
                                         name

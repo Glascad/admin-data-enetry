@@ -39,7 +39,7 @@ testGetParentTypename({
 
 testGetParentTypename({
     path: '1.SET.CENTER.__DT__.HEAD.GLAZING.DTVAL.__CT__.Config',
-    expectedTypename: 'SystemConfiguration',
+    expectedTypename: 'DetailConfiguration',
 })
 testGetParentTypename({
     path: '1.SET.CENTER.__DT__.HEAD.GLAZING.DTVAL.__CT__.Config.OPTION',

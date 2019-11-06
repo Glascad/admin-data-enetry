@@ -228,7 +228,7 @@ testUpdateItem({
     systemInput: {
         newConfigurationOptions: [
             {
-                parentSystemConfigurationPath: "1.SET.CENTER.__DT__.HEAD.GLAZING.INSIDE.__CT__.CONFIGURATION",
+                parentDetailConfigurationPath: "1.SET.CENTER.__DT__.HEAD.GLAZING.INSIDE.__CT__.CONFIGURATION",
                 name: "CONFIGURATION_OPTION",
                 __typename: "ConfigurationOption",
             }
@@ -238,13 +238,13 @@ testUpdateItem({
         path: "1.SET.CENTER.__DT__.HEAD.GLAZING.INSIDE.__CT__.CONFIGURATION.CONFIGURATION_OPTION",
         __typename: "ConfigurationOption",
         update: {
-            parentSystemConfigurationOptionValuePath: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE.__CT__.CONFIGURATION.C_O,C_O_V"
+            parentDetailConfigurationOptionValuePath: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE.__CT__.CONFIGURATION.C_O,C_O_V"
         }
     },
     systemOutput: {
         newConfigurationOptions: expect.arrayContaining([
             expect.objectContaining({
-                parentSystemConfigurationOptionValuePath: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE.__CT__.CONFIGURATION.C_O,C_O_V",
+                parentDetailConfigurationOptionValuePath: "1.SET.CENTER.__DT__.HEAD.GLAZING.OUTSIDE.__CT__.CONFIGURATION.C_O,C_O_V",
                 name: "CONFIGURATION_OPTION",
                 __typename: "ConfigurationOption",
             }),

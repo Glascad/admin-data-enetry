@@ -27,7 +27,7 @@ function testMerge({
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         systemDetailPathsToInclude,
         // must be a definitive list of items to include, so that we know all deletions were cascaded
-        systemConfigurationPathsToInclude,
+        detailConfigurationPathsToInclude,
     },
 }) {
 
@@ -39,7 +39,7 @@ function testMerge({
         _systemDetails = [],
         _detailOptions = [],
         _detailOptionValues = [],
-        _systemConfigurations = [],
+        _detailConfigurations = [],
         _configurationOptions = [],
         _configurationOptionValues = [],
     } = mergedSystem;
@@ -105,11 +105,11 @@ function testMerge({
     describe(`Merging System on Configuration Options.`, () => {
         test(`Testing merged System Configuration Types to have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
-            systemConfigurationPathsToInclude.forEach(path => {
-                expect(_systemConfigurations).toContainEqual(expect.objectContaining({ path }));
+            detailConfigurationPathsToInclude.forEach(path => {
+                expect(_detailConfigurations).toContainEqual(expect.objectContaining({ path }));
             });
             pathsToDelete.forEach(path => {
-                expect(_systemConfigurations).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_detailConfigurations).not.toContainEqual(expect.objectContaining({ path }));
             });
         });
 
@@ -206,7 +206,7 @@ testMerge({
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP",
         ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
-        systemConfigurationPathsToInclude: [
+        detailConfigurationPathsToInclude: [
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",

@@ -12,7 +12,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         systemDetails: initialSystemDetailTypes,
         detailOptions: initialDetailOptions,
         detailOptionValues: initialDetailOptionValues,
-        systemConfigurations: initialSystemConfigurations,
+        detailConfigurations: initialDetailConfigurations,
         configurationOptions: initialConfigurationOptions,
         configurationOptionValues: initialConfigurationOptionValues,
     } = systemInput;
@@ -49,7 +49,7 @@ export default function DELETE_ITEM(systemInput, payload) {
     const [systemDetailTypes, systemDetailTypesToDelete] = partitionDeletedItems(initialSystemDetailTypes);
     const [detailOptions, detailOptionsToDelete] = partitionDeletedItems(initialDetailOptions);
     const [detailOptionValues, detailOptionValuesToDelete] = partitionDeletedItems(initialDetailOptionValues);
-    const [systemConfigurations, systemConfigurationsToDelete] = partitionDeletedItems(initialSystemConfigurations);
+    const [detailConfigurations, detailConfigurationsToDelete] = partitionDeletedItems(initialDetailConfigurations);
     const [configurationOptions, configurationOptionsToDelete] = partitionDeletedItems(initialConfigurationOptions);
     const [configurationOptionValues, configurationOptionValuesToDelete] = partitionDeletedItems(initialConfigurationOptionValues);
     const pathsToDelete = [
@@ -59,7 +59,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         ...systemDetailTypesToDelete,
         ...detailOptionsToDelete,
         ...detailOptionValuesToDelete,
-        ...systemConfigurationsToDelete,
+        ...detailConfigurationsToDelete,
         ...configurationOptionsToDelete,
         ...configurationOptionValuesToDelete,
     ];
@@ -72,7 +72,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         systemDetailTypes,
         detailOptions,
         detailOptionValues,
-        systemConfigurations,
+        detailConfigurations,
         configurationOptions,
         configurationOptionValues,
         pathsToDelete: removeDescendantPaths(pathsToDelete.concat(isNewItem || isUpdatedItem || pathsToDelete.includes(path) ? [] : path)),

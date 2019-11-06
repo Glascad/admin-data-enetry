@@ -96,7 +96,7 @@ export default function SystemSet({
         _system = {},
         _system: {
             id: newSystemId,
-            _systemConfigurations = [],
+            _detailConfigurations = [],
             _optionGroups = [],
         } = {},
     } = systemQueryResult;

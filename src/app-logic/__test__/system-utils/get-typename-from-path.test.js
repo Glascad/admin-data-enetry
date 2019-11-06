@@ -61,7 +61,7 @@ testGetTypenameFromPath(
 // configurations
 testGetTypenameFromPath(
     "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
-    "SystemConfiguration",
+    "DetailConfiguration",
 );
 
 testGetTypenameFromPath(

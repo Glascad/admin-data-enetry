@@ -12,7 +12,7 @@ import {
 
 import {
     SystemDetail,
-    SystemConfiguration,
+    DetailConfiguration,
 } from './EditType';
 
 import Settings from './Settings';
@@ -23,7 +23,7 @@ export {
     SystemDetail,
     DetailOption,
     DetailOptionValue,
-    SystemConfiguration,
+    DetailConfiguration,
     ConfigurationOption,
     ConfigurationOptionValue,
     Settings,

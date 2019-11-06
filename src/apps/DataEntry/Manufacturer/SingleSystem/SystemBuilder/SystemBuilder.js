@@ -164,7 +164,7 @@ export default function SystemBuilder({
             detailOptionValues,
             configurationOptionValues,
             systemDetails,
-            systemConfigurations,
+            detailConfigurations,
             newOptionGroups,
             newSystemOptions,
             newDetailOptions,
@@ -173,7 +173,7 @@ export default function SystemBuilder({
             newDetailOptionValues,
             newConfigurationOptionValues,
             newSystemDetails,
-            newSystemConfigurations,
+            newDetailConfigurations,
         } = systemInput;
         console.log(systemInput);
 
@@ -192,7 +192,7 @@ export default function SystemBuilder({
             detailOptionValues: detailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             configurationOptionValues: configurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             systemDetails: systemDetails.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, systemDetails: update.name, name: undefined}) })),
-            systemConfigurations: systemConfigurations.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, systemConfigurations: update.name, name: undefined}) })),
+            detailConfigurations: detailConfigurations.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, detailConfigurations: update.name, name: undefined}) })),
             newSystemOptions: newSystemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             newDetailOptions: newDetailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             newConfigurationOptions: newConfigurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
@@ -200,7 +200,7 @@ export default function SystemBuilder({
             newDetailOptionValues: newDetailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             newConfigurationOptionValues: newConfigurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
             newSystemDetails: newSystemDetails.map(({ __typename, nodeId, name, ...rest }) => ({ detailType: name, ...rest })),
-            newSystemConfigurations: newSystemConfigurations.map(({ __typename, nodeId, name, ...rest }) => ({ configurationType: name, ...rest })),
+            newDetailConfigurations: newDetailConfigurations.map(({ __typename, nodeId, name, ...rest }) => ({ configurationType: name, ...rest })),
         };
 
         console.log({

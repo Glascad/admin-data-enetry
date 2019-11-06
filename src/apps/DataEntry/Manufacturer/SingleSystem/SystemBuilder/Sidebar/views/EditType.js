@@ -261,7 +261,7 @@ export const SystemDetail = {
     component: withRouter(EditType),
 };
 
-export const SystemConfiguration = {
+export const DetailConfiguration = {
     title: "Edit Configuration",
     component: withRouter(EditType),
 };

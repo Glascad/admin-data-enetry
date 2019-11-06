@@ -61,18 +61,18 @@ testGetSiblings({
 testGetSiblings({
     system: sample1,
     item: {
-        __typename: "SystemConfiguration",
+        __typename: "DetailConfiguration",
         path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
         optional: false
     },
     siblings: [
         {
-            __typename: "SystemConfiguration",
+            __typename: "DetailConfiguration",
             path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.COMPENSATING_RECEPTOR",
             optional: false
         },
         {
-            __typename: "SystemConfiguration",
+            __typename: "DetailConfiguration",
             path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.HEAD.STOPS.DOWN.GLAZING.INSIDE.HEAD",
             optional: false
         },
