@@ -23,7 +23,7 @@ function testDeleteItem({
 // should delete all items created or moved under deleted item
 testDeleteItem({
     systemInput: {
-        systemConfigurations: [{
+        detailConfigurations: [{
             path: "1.SET.FRONT.__DT__.DETAIL",
             update: {
                 parentDetailOptionValuePath: "1.SET.CENTER.__DT__.DETAIL"

@@ -61,7 +61,7 @@ testGetChildren({
 testGetChildren({
     system: sample1,
     item: {
-        __typename: "SystemConfiguration",
+        __typename: "DetailConfiguration",
         path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
         optional: true
     },

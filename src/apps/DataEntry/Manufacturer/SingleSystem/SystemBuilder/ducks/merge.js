@@ -18,7 +18,7 @@ export default function merge(systemInput, {
         _detailOptionValues = [],
         _configurationOptionValues = [],
         _systemDetails = [],
-        _systemConfigurations = [],
+        _detailConfigurations = [],
     } = {},
 }) {
     const {
@@ -36,7 +36,7 @@ export default function merge(systemInput, {
         detailOptionValues = [],
         configurationOptionValues = [],
         systemDetails = [],
-        systemConfigurations = [],
+        detailConfigurations = [],
         // create
         newOptionGroups = [],
         newSystemOptions = [],
@@ -46,7 +46,7 @@ export default function merge(systemInput, {
         newDetailOptionValues = [],
         newConfigurationOptionValues = [],
         newSystemDetails = [],
-        newSystemConfigurations = [],
+        newDetailConfigurations = [],
     } = systemInput;
 
     const systemMap = new SystemMap(_system);
@@ -59,7 +59,7 @@ export default function merge(systemInput, {
         ...detailOptionValues,
         ...configurationOptionValues,
         ...systemDetails,
-        ...systemConfigurations,
+        ...detailConfigurations,
     ];
 
     console.log({ _system, systemMap });
@@ -174,7 +174,7 @@ export default function merge(systemInput, {
     const updatedConfigurationOptionValues = mergeArray(_configurationOptionValues, configurationOptionValues, newConfigurationOptionValues);
     const updatedConfigurationOptions = mergeArray(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeArray(_systemDetails, systemDetails, newSystemDetails);
-    const updatedSystemConfigurations = mergeArray(_systemConfigurations, systemConfigurations, newSystemConfigurations);
+    const updatedDetailConfigurations = mergeArray(_detailConfigurations, detailConfigurations, newDetailConfigurations);
 
     return {
         // name: newName || name,
@@ -186,7 +186,7 @@ export default function merge(systemInput, {
         _systemDetails: updatedSystemDetails,
         _detailOptions: updatedDetailOptions,
         _detailOptionValues: updatedDetailOptionValues,
-        _systemConfigurations: updatedSystemConfigurations,
+        _detailConfigurations: updatedDetailConfigurations,
         _configurationOptions: updatedConfigurationOptions,
         _configurationOptionValues: updatedConfigurationOptionValues,
         _optionGroups: _optionGroups.filter(({ name }) => !optionGroupsToDelete.includes(name)).concat(newOptionGroups.map(name => ({ __typename: "OptionGroup", name })))

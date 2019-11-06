@@ -129,19 +129,19 @@ describe('Testing sidebar actions in system builder', () => {
         cy.getDataCy`delete-configuration-type-HEAD`.click({ force: true });
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Head{enter}');
-        cy.getDataCy`SystemConfiguration-head`;
+        cy.getDataCy`DetailConfiguration-head`;
         // cannot toggle to option when option exists
         cy.getDataCy`toggle-child-option`.click({ force: true }).should('not.have.class', 'selected');
 
         cy.getDataCy`add-configuration`.click();
         cy.focused().type('Compensating{enter}');
-        cy.getDataCy`SystemConfiguration-compensating_receptor`;
+        cy.getDataCy`DetailConfiguration-compensating_receptor`;
 
         // Need to tie configurations to STDTCT
         cy.getDataCy`add-configuration`.click()
         // .should('not.exist');
         cy.focused().type('Shim{enter}');
-        cy.getDataCy`SystemConfiguration-shim support`;
+        cy.getDataCy`DetailConfiguration-shim support`;
 
         // cy.focused().blur();
 
@@ -151,7 +151,7 @@ describe('Testing sidebar actions in system builder', () => {
         cy.getDataCy`edit-Configuration-type-Shim Support shim support`.should('have.value', 'Shim Support');
 
         // Can add configuration option
-        cy.getDataCy`SystemConfiguration-compensating receptor`.click();
+        cy.getDataCy`DetailConfiguration-compensating receptor`.click();
         cy.getDataCy`add-option`.click().should('not.exist');
         cy.focused().type('Durability{enter}');
         cy.getDataCy`ConfigurationOption-Durability`.click();
@@ -201,7 +201,7 @@ describe('Testing sidebar actions in system builder', () => {
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-cancel-button`.click();
         cy.getDataCy`ConfigurationOption-Durability`.should('exist');
-        cy.getDataCy`SystemConfiguration-compensating receptor`.click();
+        cy.getDataCy`DetailConfiguration-compensating receptor`.click();
         cy.getDataCy`delete-option`.click();
         cy.getDataCy`modal`.should('exist');
         cy.getDataCy`modal-finish-button`.click();
@@ -335,7 +335,7 @@ describe('Testing sidebar actions in system builder', () => {
     // SystemDetail
     // DetailOption
     // DetailOptionValue
-    // systemconfiguration
+    // DetailConfiguration
     // ConfigurationOption
     // ConfigurationOptionValue
 

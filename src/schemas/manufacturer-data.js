@@ -89,7 +89,7 @@ export const DETAIL_OPTION_VALUE_FIELDS = gql`
 `;
 
 export const DETAIL_CONFIGURATION_FIELDS = gql`
-    fragment SystemConfigurationFields on SystemConfiguration {
+    fragment DetailConfigurationFields on DetailConfiguration {
         __typename
         nodeId
         path
@@ -202,9 +202,9 @@ export const ENTIRE_SYSTEM = gql`
                 ...DetailOptionValueFields
             }
         }
-        systemConfigurationsBySystemId {
+        detailConfigurationsBySystemId {
             nodes {
-                ...SystemConfigurationFields
+                ...DetailConfigurationFields
             }
         }
         configurationOptionsBySystemId {

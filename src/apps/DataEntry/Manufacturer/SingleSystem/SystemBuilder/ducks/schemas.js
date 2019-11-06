@@ -9,8 +9,8 @@ export const configurationOptionUpdate = {
     path: undefined,
 };
 
-export const systemConfigurationUpdate = {
-    __typename: "SystemConfiguration",
+export const detailConfigurationUpdate = {
+    __typename: "DetailConfiguration",
     path: undefined,
     optional: false,
 };
@@ -56,7 +56,7 @@ export const systemUpdate = {
     detailOptionValues: [],
     configurationOptionValues: [],
     systemDetails: [],
-    systemConfigurations: [],
+    detailConfigurations: [],
     newOptionGroups: [],
     newSystemOptions: [],
     newDetailOptions: [],
@@ -65,5 +65,5 @@ export const systemUpdate = {
     newDetailOptionValues: [],
     newConfigurationOptionValues: [],
     newSystemDetails: [],
-    newSystemConfigurations: [],
+    newDetailConfigurations: [],
 };

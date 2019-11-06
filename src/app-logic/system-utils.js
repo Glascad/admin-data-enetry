@@ -11,7 +11,7 @@ export class SystemMap {
             _detailOptionValues = [],
             _configurationOptionValues = [],
             _systemDetails = [],
-            _systemConfigurations = [],
+            _detailConfigurations = [],
         } = system || {};
         Object.assign(this, system, [
             ..._systemOptions,
@@ -21,7 +21,7 @@ export class SystemMap {
             ..._detailOptionValues,
             ..._configurationOptionValues,
             ..._systemDetails,
-            ..._systemConfigurations,
+            ..._detailConfigurations,
         ].reduce((map, item, i, allItems) => {
             const { path, newPath } = item;
             const parentPath = getParentPath(item);
@@ -68,7 +68,7 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
 export const getPathsTypename = window.getPathsTypename = ({ path } = {}) => path.includes('__CT__') ?
     (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
         path.match(/^.*__CT__\.\w+$/) ?
-            'SystemConfiguration'
+            'DetailConfiguration'
             :
             'ConfigurationOptionValue'
         :

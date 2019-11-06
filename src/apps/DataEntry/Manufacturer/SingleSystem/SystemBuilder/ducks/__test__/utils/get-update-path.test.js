@@ -33,7 +33,7 @@ testGetUpdatePath({
         update: {
             parentDetailOptionPath: '1.SET.FRONT.__DT__.HORIZONTAL.GLAZING.INSIDE',
         },
-        __typename: 'SystemConfiguration'
+        __typename: 'DetailConfiguration'
     },
     result: '1.SET.FRONT.__DT__.HORIZONTAL.GLAZING.INSIDE.__CT__.HEAD'
 });
