@@ -1,24 +1,25 @@
 
 <<LOOP
+    FULL (<<PARENT>>_<<TYPE>>, <<PARENT>>_<<TYPE>>, <<PARENT>>_<<TYPE>>)
     TYPE (detail, configuration, part)
     PARENT (system, detail, configuration)
 >>
 
     -- CREATE
 
-    DROP FUNCTION IF EXISTS create_entire_<<PARENT>>_<<TYPE>>;
+    DROP FUNCTION IF EXISTS create_entire_<<FULL>>;
 
-    CREATE OR REPLACE FUNCTION gc_protected.create_entire_<<PARENT>>_<<TYPE>>(
-        <<PARENT>>_<<TYPE>> NEW_<<PARENT>>_<<TYPE>>,
+    CREATE OR REPLACE FUNCTION gc_protected.create_entire_<<FULL>>(
+        <<FULL>> NEW_<<FULL>>,
         system SYSTEMS
-    ) RETURNS <<PARENT>>_<<TYPE>>S AS $$
+    ) RETURNS <<FULL>>S AS $$
     DECLARE
-        t ALIAS FOR <<PARENT>>_<<TYPE>>;
+        t ALIAS FOR <<FULL>>;
         s ALIAS FOR system;
-        ust <<PARENT>>_<<TYPE>>s%ROWTYPE;
+        ust <<FULL>>s%ROWTYPE;
     BEGIN
 
-        INSERT INTO <<PARENT>>_<<TYPE>>s (
+        INSERT INTO <<FULL>>s (
             system_id,
             <<ONLY TYPE (detail, configuration)>>
                 <<TYPE>>_type,
@@ -56,17 +57,17 @@
 
     -- UPDATE
 
-    DROP FUNCTION IF EXISTS update_entire_<<PARENT>>_<<TYPE>>;
+    DROP FUNCTION IF EXISTS update_entire_<<FULL>>;
 
-    CREATE OR REPLACE FUNCTION gc_protected.update_entire_<<PARENT>>_<<TYPE>>(
-        <<PARENT>>_<<TYPE>> ENTIRE_<<PARENT>>_<<TYPE>>,
+    CREATE OR REPLACE FUNCTION gc_protected.update_entire_<<FULL>>(
+        <<FULL>> ENTIRE_<<FULL>>,
         system SYSTEMS
-    ) RETURNS <<PARENT>>_<<TYPE>>S AS $$
+    ) RETURNS <<FULL>>S AS $$
     DECLARE
-        t ALIAS FOR <<PARENT>>_<<TYPE>>;
+        t ALIAS FOR <<FULL>>;
         s ALIAS FOR system;
-        u NEW_<<PARENT>>_<<TYPE>>;
-        ust <<PARENT>>_<<TYPE>>s%ROWTYPE;
+        u NEW_<<FULL>>;
+        ust <<FULL>>s%ROWTYPE;
     BEGIN
 
         u := t.update;
@@ -78,7 +79,7 @@
             );
         END IF;
 
-        UPDATE <<PARENT>>_<<TYPE>>s ts SET
+        UPDATE <<FULL>>s ts SET
             <<TYPE>>_type = COALESCE(
                 u.<<TYPE>>_type,
                 ts.<<TYPE>>_type

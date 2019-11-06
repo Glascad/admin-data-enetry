@@ -122,7 +122,9 @@ ${require('../../db/seed_data.sql')}
 
 ${require('../../db/policies.sql')}
 
-RAISE EXCEPTION 'SUCCESS!';
+
+-- for preventing updates until they are ready
+-- RAISE EXCEPTION 'SUCCESS!';
 
 END $seed$
 

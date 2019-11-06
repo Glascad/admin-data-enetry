@@ -58,18 +58,20 @@ const duplicateSQL = (path, contents) => {
         /\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)(<<\s*END\s*LOOP\s*>>)/ig,
         (match, variables, lastVar, lastVal, contents, ...rest) => {
 
-            const vars = variables.split(/\s*\)\s*/g).filter(Boolean).reduce((vars, varSet, i) => {
+            const vars = variables.split(/\s*\)\s*/g)
+                .filter(Boolean)
+                .reduce((varls, varSet, i) => {
 
-                const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
+                    const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
 
-                if (vars.length && vars.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${logPath(path)}`);
+                    if (varls.length && varls.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${logPath(path)}`);
 
-                return values.map((val, i) => ({
-                    ...vars[i],
-                    [varname]: val,
-                }));
+                    return values.map((val, i) => ({
+                        ...varls[i],
+                        [varname]: val,
+                    }));
 
-            }, []);
+                }, []);
 
             // console.log(chalk.gray(` -- Looping through variable${
             //     Object.keys(vars[0]).length > 1 ? 's' : ''
