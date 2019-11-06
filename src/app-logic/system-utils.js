@@ -38,7 +38,13 @@ export class SystemMap {
                 [newPath || path]: item,
                 parents: {
                     ...parents,
-                    [parentPath]: siblings.concat(item).sort(({ path: sib1Path }, { path: sib2Path }) => sib1Path < sib2Path ? -1 : 1),
+                    [parentPath]: siblings.concat(item).sort(({ __typename, path: sib1Path }, { path: sib2Path }) => __typename.match(/value$/i) ?
+                        sib1Path < sib2Path ?
+                            -1
+                            :
+                            1
+                        :
+                        0),
                 },
                 allItems,
             };
