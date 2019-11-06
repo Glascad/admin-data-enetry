@@ -88,7 +88,7 @@ export const DETAIL_OPTION_VALUE_FIELDS = gql`
     }
 `;
 
-export const SYSTEM_CONFIGURATION_FIELDS = gql`
+export const DETAIL_CONFIGURATION_FIELDS = gql`
     fragment DetailConfigurationFields on DetailConfiguration {
         __typename
         nodeId
@@ -226,7 +226,7 @@ export const ENTIRE_SYSTEM = gql`
     ${SYSTEM_DETAIL_FIELDS}
     ${DETAIL_OPTION_FIELDS}
     ${DETAIL_OPTION_VALUE_FIELDS}
-    ${SYSTEM_CONFIGURATION_FIELDS}
+    ${DETAIL_CONFIGURATION_FIELDS}
     ${CONFIGURATION_OPTION_FIELDS}
     ${CONFIGURATION_OPTION_VALUE_FIELDS}
 `;

@@ -103,7 +103,7 @@ function testMerge({
     });
 
     describe(`Merging System on Configuration Options.`, () => {
-        test(`Testing merged System Configuration Types to have the correct Id's`, () => {
+        test(`Testing merged Detail Configuration Types to have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             detailConfigurationPathsToInclude.forEach(path => {
                 expect(_detailConfigurations).toContainEqual(expect.objectContaining({ path }));
