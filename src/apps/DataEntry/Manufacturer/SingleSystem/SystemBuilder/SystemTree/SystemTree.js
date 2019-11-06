@@ -21,6 +21,7 @@ export default function SystemTree({
     selectedItem,
     selectItem,
     fetching,
+    updating,
     dispatch,
     partialAction: {
         ACTION: PARTIAL_ACTION,
@@ -56,86 +57,90 @@ export default function SystemTree({
                 <Ellipsis
                     text="Loading"
                 />
+            ) : updating ? (
+                <Ellipsis
+                    text="Saving"
+                />
             ) : (
-                    <Tree
-                        trunk={trunk}
-                        renderItem={(item = {}, { parent = {} }) => {
-                            const {
-                                __typename = '',
-                                path = '',
-                                optional = '',
-                            } = item;
-                            const name = path ? getLastItemFromPath(path) : '';
-                            const isDefault = Object.entries(parent).some(([key, value]) => value && (
-                                key.match(/default.+Value/) && value === name
-                            ));
-                            const isAvailableToCompleteAction = PARTIAL_ACTION ?
-                                getIsAvailableForAction({ partialPayload, item }, systemMap)
-                                :
-                                false;
+                        <Tree
+                            trunk={trunk}
+                            renderItem={(item = {}, { parent = {} }) => {
+                                const {
+                                    __typename = '',
+                                    path = '',
+                                    optional = '',
+                                } = item;
+                                const name = path ? getLastItemFromPath(path) : '';
+                                const isDefault = Object.entries(parent).some(([key, value]) => value && (
+                                    key.match(/default.+Value/) && value === name
+                                ));
+                                const isAvailableToCompleteAction = PARTIAL_ACTION ?
+                                    getIsAvailableForAction({ partialPayload, item }, systemMap)
+                                    :
+                                    false;
 
-                            const isGrouped = __typename.match(/option$/i)
-                                &&
-                                _optionGroups.some(og => og.name === name);
+                                const isGrouped = __typename.match(/option$/i)
+                                    &&
+                                    _optionGroups.some(og => og.name === name);
 
-                            const groupedWithSelectedItem = isGrouped
-                                &&
-                                selectedItem
-                                &&
-                                getLastItemFromPath(selectedItem.path) === getLastItemFromPath(item.path);
+                                const groupedWithSelectedItem = isGrouped
+                                    &&
+                                    selectedItem
+                                    &&
+                                    getLastItemFromPath(selectedItem.path) === getLastItemFromPath(item.path);
 
-                            return (
-                                <div
-                                    data-cy={`${path}`}
-                                    className={`tree-item type-${
-                                        __typename.replace(/^.*(option|value|type)$/i, '$1').toLowerCase()
-                                        } subtype-${
-                                        __typename.toLowerCase()
-                                        } ${
-                                        item === selectedItem ? 'selected' : ''
-                                        } ${
-                                        isDefault ? 'default' : ''
-                                        } ${
-                                        isGrouped ? 'grouped' : ''
-                                        } ${
-                                        groupedWithSelectedItem ? 'grouped-with-selected' : ''
-                                        } ${
-                                        optional ? 'optional' : ''
-                                        } ${
-                                        PARTIAL_ACTION && !isAvailableToCompleteAction && (item !== selectedItem) ?
-                                            'disabled'
-                                            :
-                                            'available'
-                                        }`}
-                                    onClick={e => {
-                                        e.stopPropagation();
-                                        console.log(item);
-                                        if (!PARTIAL_ACTION) selectItem(item);
-                                        else if (isAvailableToCompleteAction) {
-                                            if (PARTIAL_ACTION === 'MOVE') {
-                                                dispatch(UPDATE_ITEM, {
-                                                    ...partialPayload,
-                                                    update: {
-                                                        [`parent${__typename}Path`]: path
-                                                    }
-                                                })
-                                            } else if (PARTIAL_ACTION === 'COPY') {
-                                                dispatch(COPY_ITEM, {
-                                                    partialPayload,
-                                                    targetItem: item,
-                                                    systemMap
-                                                })
+                                return (
+                                    <div
+                                        data-cy={`${path}`}
+                                        className={`tree-item type-${
+                                            __typename.replace(/^.*(option|value|type)$/i, '$1').toLowerCase()
+                                            } subtype-${
+                                            __typename.toLowerCase()
+                                            } ${
+                                            item === selectedItem ? 'selected' : ''
+                                            } ${
+                                            isDefault ? 'default' : ''
+                                            } ${
+                                            isGrouped ? 'grouped' : ''
+                                            } ${
+                                            groupedWithSelectedItem ? 'grouped-with-selected' : ''
+                                            } ${
+                                            optional ? 'optional' : ''
+                                            } ${
+                                            PARTIAL_ACTION && !isAvailableToCompleteAction && (item !== selectedItem) ?
+                                                'disabled'
+                                                :
+                                                'available'
+                                            }`}
+                                        onClick={e => {
+                                            e.stopPropagation();
+                                            console.log(item);
+                                            if (!PARTIAL_ACTION) selectItem(item);
+                                            else if (isAvailableToCompleteAction) {
+                                                if (PARTIAL_ACTION === 'MOVE') {
+                                                    dispatch(UPDATE_ITEM, {
+                                                        ...partialPayload,
+                                                        update: {
+                                                            [`parent${__typename}Path`]: path
+                                                        }
+                                                    })
+                                                } else if (PARTIAL_ACTION === 'COPY') {
+                                                    dispatch(COPY_ITEM, {
+                                                        partialPayload,
+                                                        targetItem: item,
+                                                        systemMap
+                                                    })
+                                                }
+                                                cancelPartial();
                                             }
-                                            cancelPartial();
-                                        }
-                                    }}
-                                >
-                                    <div className="title">{normalCase(name)}</div>
-                                </div>
-                            );
-                        }}
-                    />
-                )}
+                                        }}
+                                    >
+                                        <div className="title">{normalCase(name)}</div>
+                                    </div>
+                                );
+                            }}
+                        />
+                    )}
         </TransformBox>
     );
 }
