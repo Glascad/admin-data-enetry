@@ -70,7 +70,7 @@ BEGIN
             WITH deleted_items AS (
                 DELETE FROM <<TYPE>>s t
                 WHERE t.path <@ s.paths_to_delete
-                AND t.system_id = s.id
+                AND t.system_id = us.id
                 RETURNING *
             )
             SELECT ARRAY_AGG(path)
@@ -82,7 +82,7 @@ BEGIN
 
         <<END LOOP>>
 
-        IF all_deleted_paths IS NULL THEN
+        IF ARRAY_LENGTH(s.paths_to_delete::TEXT[], 1) <> 0 AND all_deleted_paths IS NULL THEN
             RAISE EXCEPTION 'Could not delete any of paths %', s.paths_to_delete;
         ELSE
             -- THEN CHECK THAT ALL PATHS HAVE BEEN DELETED

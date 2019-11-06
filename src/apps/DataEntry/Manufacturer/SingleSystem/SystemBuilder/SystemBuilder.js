@@ -25,11 +25,10 @@ export default function SystemBuilder({
     queryResult,
     updateEntireSystem,
     fetching,
+    updating,
 }) {
 
     useCollapseSidebar();
-
-    // const [systemInput, setState] = useState(systemUpdate);
 
     const {
         currentState: systemInput,
@@ -45,24 +44,12 @@ export default function SystemBuilder({
 
     const { path } = parseSearch(search);
 
-    const selectItem = ({ path: newPath } = {}) => console.log(`SELECTING ITEM: ${newPath}`) || (!newPath && console.trace(newPath)) || history.push(!newPath || (newPath === path) ? `${
-        matchPath
-        }${
-        parseSearch(search).remove('path')
-        }` : `${
-        matchPath
-        }${
-        parseSearch(search).update({ path: newPath })
-        }`);
+    const selectItem = ({ path: newPath } = {}) => history.push(!newPath || (newPath === path) ?
+        `${matchPath}${parseSearch(search).remove('path')}`
+        :
+        `${matchPath}${parseSearch(search).update({ path: newPath })}`);
 
     const selectedItem = systemMap[path];
-
-    console.log({
-        selectedItem,
-        systemInput,
-        states,
-        currentIndex,
-    });
 
     const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
         replaceState
@@ -106,23 +93,13 @@ export default function SystemBuilder({
             .forEach(([key, options]) => {
                 options.forEach(option => {
                     const { __typename } = option;
-
                     const defaultValueKey = `default${__typename}Value`;
-
                     const { [defaultValueKey]: defaultValue } = option;
-
                     const children = getChildren(option, systemMap);
-
                     const noDefault = !defaultValue || !children.some(({ path }) => (path).endsWith(`.${defaultValue}`));
-
                     if (noDefault) {
-
-                        const [{
-                            path = '',
-                        } = {}] = children;
-
+                        const [{ path = '' } = {}] = children;
                         const newDefault = getLastItemFromPath(path);
-
                         if (newDefault) dispatch(UPDATE_ITEM, {
                             ...option,
                             update: {
@@ -137,82 +114,98 @@ export default function SystemBuilder({
     }, [systemInput]);
 
     const save = async () => {
-        console.log(systemInput);
-        console.log({
-            arguments: arguments,
-            systemInput,
-            currentIndex,
-            system,
-            systemMap,
-            selectedItem,
-        });
+        dispatch(() => systemUpdate);
+        try {
+            const {
+                id,
+                manufacturerId,
+                name: systemName,
+                systemType,
+            } = system;
 
-        const {
-            id,
-            manufacturerId,
-            name: systemName,
-            systemType,
-        } = system;
+            const {
+                pathsToDelete,
+                optionGroupsToDelete,
+                systemOptions,
+                detailOptions,
+                configurationOptions,
+                systemOptionValues,
+                detailOptionValues,
+                configurationOptionValues,
+                systemDetails,
+                detailConfigurations,
+                newOptionGroups,
+                newSystemOptions,
+                newDetailOptions,
+                newConfigurationOptions,
+                newSystemOptionValues,
+                newDetailOptionValues,
+                newConfigurationOptionValues,
+                newSystemDetails,
+                newDetailConfigurations,
+            } = systemInput;
 
-        const {
-            pathsToDelete,
-            optionGroupsToDelete,
-            systemOptions,
-            detailOptions,
-            configurationOptions,
-            systemOptionValues,
-            detailOptionValues,
-            configurationOptionValues,
-            systemDetails,
-            detailConfigurations,
-            newOptionGroups,
-            newSystemOptions,
-            newDetailOptions,
-            newConfigurationOptions,
-            newSystemOptionValues,
-            newDetailOptionValues,
-            newConfigurationOptionValues,
-            newSystemDetails,
-            newDetailConfigurations,
-        } = systemInput;
-        console.log(systemInput);
+            console.log({ systemInput });
 
-        const updatedSystem = {
-            id,
-            manufacturerId,
-            name: systemName,
-            systemType,
-            pathsToDelete,
-            optionGroupsToDelete,
-            newOptionGroups,
-            systemOptions: systemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            detailOptions: detailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            configurationOptions: configurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            systemOptionValues: systemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            detailOptionValues: detailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            configurationOptionValues: configurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            systemDetails: systemDetails.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, systemDetails: update.name, name: undefined}) })),
-            detailConfigurations: detailConfigurations.map(({ __typename, nodeId, update, ...rest }) => ({ ...rest, update: removeNullValues({...update, detailConfigurations: update.name, name: undefined}) })),
-            newSystemOptions: newSystemOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            newDetailOptions: newDetailOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            newConfigurationOptions: newConfigurationOptions.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            newSystemOptionValues: newSystemOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            newDetailOptionValues: newDetailOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            newConfigurationOptionValues: newConfigurationOptionValues.map(({ __typename, nodeId, ...rest }) => ({ ...rest })),
-            newSystemDetails: newSystemDetails.map(({ __typename, nodeId, name, ...rest }) => ({ detailType: name, ...rest })),
-            newDetailConfigurations: newDetailConfigurations.map(({ __typename, nodeId, name, ...rest }) => ({ configurationType: name, ...rest })),
-        };
+            const removeTypenameAndNodeId = ({ __typename, nodeId, ...rest }) => rest;
 
-        console.log({
-            system,
-            systemInput,
-            updatedSystem
-        })
+            const mapTypes = type => ({
+                __typename, nodeId,
+                update: {
+                    name,
+                    ...update
+                },
+                ...rest
+            }) => ({
+                ...rest,
+                update: removeNullValues({
+                    ...update,
+                    [type]: name,
+                }),
+            });
 
-        const result = await (updateEntireSystem({
-            system: updatedSystem
-        }))
-        return result;
+            const mapNewTypes = type => ({
+                __typename, nodeId,
+                name,
+                ...rest
+            }) => ({
+                ...rest,
+                [type]: name,
+            });
+
+            const systemPayload = {
+                id,
+                manufacturerId,
+                name: systemName,
+                systemType,
+                pathsToDelete,
+                optionGroupsToDelete,
+                newOptionGroups,
+                systemOptions: systemOptions.map(removeTypenameAndNodeId),
+                detailOptions: detailOptions.map(removeTypenameAndNodeId),
+                configurationOptions: configurationOptions.map(removeTypenameAndNodeId),
+                systemOptionValues: systemOptionValues.map(removeTypenameAndNodeId),
+                detailOptionValues: detailOptionValues.map(removeTypenameAndNodeId),
+                configurationOptionValues: configurationOptionValues.map(removeTypenameAndNodeId),
+                systemDetails: systemDetails.map(mapTypes('detailType')),
+                detailConfigurations: detailConfigurations.map(mapTypes('configurationType')),
+                newSystemOptions: newSystemOptions.map(removeTypenameAndNodeId),
+                newDetailOptions: newDetailOptions.map(removeTypenameAndNodeId),
+                newConfigurationOptions: newConfigurationOptions.map(removeTypenameAndNodeId),
+                newSystemOptionValues: newSystemOptionValues.map(removeTypenameAndNodeId),
+                newDetailOptionValues: newDetailOptionValues.map(removeTypenameAndNodeId),
+                newConfigurationOptionValues: newConfigurationOptionValues.map(removeTypenameAndNodeId),
+                newSystemDetails: newSystemDetails.map(mapNewTypes('detailType')),
+                newDetailConfigurations: newDetailConfigurations.map(mapNewTypes('configurationType')),
+            };
+
+            const result = await updateEntireSystem({ system: systemPayload });
+
+            return result;
+        } catch (err) {
+            console.error(err);
+            dispatch(() => systemInput);
+        }
     }
 
     return (
@@ -229,6 +222,7 @@ export default function SystemBuilder({
             />
             <SystemTree
                 queryResult={queryResult}
+                updating={updating}
                 fetching={fetching}
                 search={search}
                 system={system}

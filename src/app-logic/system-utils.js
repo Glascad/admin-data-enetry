@@ -58,9 +58,15 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
         .regex(/__CT__/, 'Configuration')
         .regex(/__DT__/, 'Detail')
         .otherwise('System');
+    const Parent = match(Type)
+        .against({
+            Configuration: 'Detail',
+            Detail: 'System',
+        })
+        .otherwise('');
     const count = (path.replace(/.*__(C|D)T__\./, '').match(/\./g) || []).length;
     return count === 0 ?
-        `System${Type}`
+        `${Parent}${Type}`
         :
         count % 2 ?
             `${Type}Option`

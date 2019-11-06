@@ -4,7 +4,7 @@ import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, S
 import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
 import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
 import { getSelectTypeName } from '../../ducks/utils';
-import { parseSearch } from '../../../../../../../utils';
+import { parseSearch, match } from '../../../../../../../utils';
 
 function EditOptionValue({
     location: {
@@ -72,10 +72,10 @@ function EditOptionValue({
 
     const childOptionChildren = getChildren(childOption, systemMap); // Option Value's Child's Child
 
-    const childTypeTypename = `System${__typename
-        .replace(/OptionValue/i, '')
-        .replace(/Detail/i, 'Configuration')
-        .replace(/System/i, 'Detail')}`;
+    const childTypeTypename = match(__typename)
+        .regex(/^System/, 'SystemDetail')
+        .regex(/^Detail/, 'DetailConfiguration')
+        .otherwise('ConfigurationPart');
 
     const childTypeType = __typename.match(/SystemOption/i) ?
         'Detail'

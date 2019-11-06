@@ -37,7 +37,7 @@ function EditType({
     console.log(arguments[0]);
 
     const isDetail = !!__typename.match(/Detail/i);
-    const type = __typename.replace(/System/i, '');
+    const type = __typename.replace(/^System|^Detail/i, '');
 
     const {
         0: childOption,
