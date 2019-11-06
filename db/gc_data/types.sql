@@ -21,7 +21,10 @@
 
 -- OPTIONS
 
-<<LOOP TYPE (configuration, detail, system)>>
+<<LOOP 
+    TYPE (configuration, detail, system)
+    PARENT (detail, system, NULL)
+>>
 
     CREATE TYPE
     gc_data.NEW_<<TYPE>>_OPTION AS (
@@ -29,7 +32,7 @@
         default_<<TYPE>>_option_value OPTION_VALUE_NAME,
         parent_<<TYPE>>_option_value_path LTREE
         <<ONLY TYPE (configuration, detail)>>
-            , parent_system_<<TYPE>>_path LTREE
+            , parent_<<PARENT>>_<<TYPE>>_path LTREE
         <<END ONLY>>
     );
 
@@ -46,13 +49,22 @@
 -- TYPES
 
 <<LOOP
-    TYPE (configuration, detail)
-    PARENT (detail, system)
+    TYPE (part, configuration, detail)
+    PARENT (configuration, detail, system)
 >>
 
     CREATE TYPE
-    gc_data.NEW_SYSTEM_<<TYPE>> AS (
-        <<TYPE>>_type <<TYPE>>_TYPE,
+    gc_data.NEW_<<PARENT>>_<<TYPE>> AS (
+        <<ONLY TYPE (configuration, detail)>>
+            <<TYPE>>_type <<TYPE>>_TYPE,
+        <<END ONLY>>
+        <<ONLY TYPE (part)>>
+            transform MATRIX,
+            part_id INTEGER,
+            part_orientation ORIENTATION,
+            extra_part_path_id INTEGER,
+            extra_part_path_orientation ORIENTATION,
+        <<END ONLY>>
         parent_<<PARENT>>_option_value_path LTREE
         <<ONLY TYPE (configuration)>>
             , optional BOOLEAN
@@ -60,11 +72,11 @@
     );
 
     CREATE TYPE
-    gc_data.ENTIRE_SYSTEM_<<TYPE>> AS (
+    gc_data.ENTIRE_<<PARENT>>_<<TYPE>> AS (
         -- identification
         path LTREE,
         -- update
-        update NEW_SYSTEM_<<TYPE>>
+        update NEW_<<PARENT>>_<<TYPE>>
     );
 
 <<END LOOP>>
@@ -78,12 +90,14 @@ gc_data.ENTIRE_SYSTEM AS (
     manufacturer_id INTEGER,
     paths_to_delete LTREE[],
     option_groups_to_delete OPTION_NAME[],
-    new_option_groups OPTION_NAME[]
+    new_option_groups OPTION_NAME[],
+    configuration_part_ids_to_delete INTEGER[]
     <<LOOP
         TYPE (
+            configuration_part,
             configuration_option_value,
             configuration_option,
-            system_configuration,
+            detail_configuration,
             detail_option_value,
             detail_option,
             system_detail,

@@ -1,5 +1,8 @@
 
-<<LOOP TYPE (system, detail, configuration)>>
+<<LOOP
+    TYPE (system, detail, configuration)
+    PARENT (NULL, system, detail)
+>>
 
     -- CREATE
 
@@ -21,7 +24,7 @@
             default_<<TYPE>>_option_value,
             parent_<<TYPE>>_option_value_path
             <<ONLY TYPE (detail, configuration)>>
-                , parent_system_<<TYPE>>_path
+                , parent_<<PARENT>>_<<TYPE>>_path
             <<END ONLY>>
         ) VALUES (
             s.id,
@@ -29,7 +32,7 @@
             o.default_<<TYPE>>_option_value,
             o.parent_<<TYPE>>_option_value_path
             <<ONLY TYPE (detail, configuration)>>
-                , o.parent_system_<<TYPE>>_path
+                , o.parent_<<PARENT>>_<<TYPE>>_path
             <<END ONLY>>
         )
         RETURNING * INTO uo;
@@ -79,9 +82,9 @@
                 os.default_<<TYPE>>_option_value
             )
             <<ONLY TYPE (detail, configuration)>>
-                , parent_system_<<TYPE>>_path = COALESCE(
-                    u.parent_system_<<TYPE>>_path,
-                    os.parent_system_<<TYPE>>_path
+                , parent_<<PARENT>>_<<TYPE>>_path = COALESCE(
+                    u.parent_<<PARENT>>_<<TYPE>>_path,
+                    os.parent_<<PARENT>>_<<TYPE>>_path
                 )
             <<END ONLY>>
         WHERE os.path = o.path
