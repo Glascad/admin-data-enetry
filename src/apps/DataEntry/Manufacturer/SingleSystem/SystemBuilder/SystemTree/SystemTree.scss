@@ -42,6 +42,12 @@
                     color: white;
                 }
 
+                &.type-configurationpart {
+                    // border: 1px solid $warning-color;
+                    // color: $warning-color;
+                    background: mix($warning-color, white, 33%);
+                }
+
                 &.grouped-with-selected {
                     border: 2px solid $selected-color;
                 }

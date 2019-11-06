@@ -361,65 +361,69 @@ function EditOptionValue({
                 ) : hasChildren ? (
                     <>
                         {valueChildren.map((item, i, { length }) => {
-                            const { path: childTypePath } = item;
+                            const { path: childTypePath = '', partNumber='' } = item;
                             const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
-                            const childName = childTypePath.replace(/^.*\.(\w+)$/, '$1'); // Not __typename but type's Name
-                            return (<div
-                                className="input-group"
-                            // key={i}
-                            >
-                                <Select
-                                    data-cy="edit-value-name"
-                                    data-cy={`edit-${childTypeType}-type-${(childName).toLowerCase()}`}
-                                    // autoFocus={i === length - 1}
-                                    value={childName}
-                                    options={selectTypes}
-                                    onChange={name => {
-                                        if (childName !== name) {
-                                            const updateType = () => dispatch(UPDATE_ITEM, {
-                                                __typename: childTypeTypename,
+                            const childName = childTypePath ?
+                                childTypePath.replace(/^.*\.(\w+)$/, '$1')
+                                :
+                                partNumber;
+                            return (
+                                <div
+                                    className="input-group"
+                                // key={i}
+                                >
+                                    <Select
+                                        data-cy="edit-value-name"
+                                        data-cy={`edit-${childTypeType}-type-${(childName).toLowerCase()}`}
+                                        // autoFocus={i === length - 1}
+                                        value={childName}
+                                        options={selectTypes}
+                                        onChange={name => {
+                                            if (childName !== name) {
+                                                const updateType = () => dispatch(UPDATE_ITEM, {
+                                                    __typename: childTypeTypename,
+                                                    path: childTypePath,
+                                                    update: {
+                                                        name,
+                                                    }
+                                                });
+                                                childTypeChildren.length > 0 ?
+                                                    confirmWithModal(updateType, {
+                                                        titleBar: { title: `Change ${childName}` },
+                                                        children: 'Are you sure?',
+                                                        finishButtonText: 'Change',
+                                                    })
+                                                    :
+                                                    updateType();
+                                            }
+                                        }}
+                                    />
+                                    <CircleButton
+                                        data-cy={`select-${childTypeType}-${childName.toLowerCase()}`}
+                                        className="primary"
+                                        actionType="arrow"
+                                        onClick={() => selectItem(item)}
+                                    />
+                                    <CircleButton
+                                        data-cy={`delete-${childTypeType.toLowerCase()}-type-${childName}`}
+                                        type="small"
+                                        className="danger"
+                                        actionType="delete"
+                                        onClick={() => {
+                                            const deleteType = () => dispatch(DELETE_ITEM, {
+                                                __typename: childTypename,
                                                 path: childTypePath,
-                                                update: {
-                                                    name,
-                                                }
                                             });
-                                            childTypeChildren.length > 0 ?
-                                                confirmWithModal(updateType, {
-                                                    titleBar: { title: `Change ${childName}` },
-                                                    children: 'Are you sure?',
-                                                    finishButtonText: 'Change',
-                                                })
-                                                :
-                                                updateType();
-                                        }
-                                    }}
-                                />
-                                <CircleButton
-                                    data-cy={`select-${childTypeType}-${childName.toLowerCase()}`}
-                                    className="primary"
-                                    actionType="arrow"
-                                    onClick={() => selectItem(item)}
-                                />
-                                <CircleButton
-                                    data-cy={`delete-${childTypeType.toLowerCase()}-type-${childName}`}
-                                    type="small"
-                                    className="danger"
-                                    actionType="delete"
-                                    onClick={() => {
-                                        const deleteType = () => dispatch(DELETE_ITEM, {
-                                            __typename: childTypename,
-                                            path: childTypePath,
-                                        });
-                                        if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
-                                            titleBar: { title: `Delete ${childName}` },
-                                            children: `Deleting ${(childName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                            danger: true,
-                                            finishButtonText: 'Delete',
-                                        });
-                                        else deleteType();
-                                    }}
-                                />
-                            </div>
+                                            if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
+                                                titleBar: { title: `Delete ${childName}` },
+                                                children: `Deleting ${(childName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
+                                                danger: true,
+                                                finishButtonText: 'Delete',
+                                            });
+                                            else deleteType();
+                                        }}
+                                    />
+                                </div>
                             )
                         })}
                     </>

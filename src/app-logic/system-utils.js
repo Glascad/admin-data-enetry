@@ -3,7 +3,6 @@ import { match } from '../utils';
 export class SystemMap {
     constructor(system) {
         const {
-            _optionGroups = [],
             _systemOptions = [],
             _detailOptions = [],
             _configurationOptions = [],
@@ -12,6 +11,7 @@ export class SystemMap {
             _configurationOptionValues = [],
             _systemDetails = [],
             _detailConfigurations = [],
+            _configurationParts = [],
         } = system || {};
         Object.assign(this, system, [
             ..._systemOptions,
@@ -22,26 +22,42 @@ export class SystemMap {
             ..._configurationOptionValues,
             ..._systemDetails,
             ..._detailConfigurations,
+            ..._configurationParts,
         ].reduce((map, item, i, allItems) => {
-            const { path, newPath } = item;
+            // configuration parts are the only items that dont have path and that do have id
+            const { path, id } = item;
             const parentPath = getParentPath(item);
             const {
-                [newPath || path]: previousItem,
+                [path]: previousItem,
+                parts,
+                parts: {
+                    [id]: previousPart
+                } = {},
                 parents,
                 parents: {
                     [parentPath]: siblings = [],
                 } = {},
             } = map;
-            if (previousItem) throw new Error(`Duplicate item in SystemMap: ${path}`);
+            if (previousItem || previousPart) throw new Error(`Duplicate item in SystemMap: ${path || id}`);
             return {
                 ...map,
-                [newPath || path]: item,
+                ...(path ?
+                    {
+                        [path]: item,
+                    } : {
+                        parts: {
+                            ...parts,
+                            [id]: item,
+                        },
+                    }),
                 parents: {
                     ...parents,
-                    [parentPath]: siblings.concat(item).sort(({ __typename, path: sib1Path }, { path: sib2Path }) => __typename.match(/value$/i) ?
-                        sib1Path < sib2Path ? -1 : 1
-                        :
-                        0),
+                    [parentPath]: siblings
+                        .concat(item)
+                        .sort(({ __typename, path: sib1Path }, { path: sib2Path }) => __typename.match(/value$/i) ?
+                            sib1Path < sib2Path ? -1 : 1
+                            :
+                            0),
                 },
                 allItems,
             };
@@ -51,7 +67,10 @@ export class SystemMap {
 
 export const getFirstItem = window.getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
-export const getParentPath = window.getParentPath = ({ path, newPath } = {}) => (newPath || path || '').replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '');
+export const getParentPath = window.getParentPath = item => item.path ?
+    item.path.replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '')
+    :
+    Object.entries(item).reduce((parentPath, [key, value]) => key.match(/^parent/) ? value : parentPath, '');
 
 export const getTypenameFromPath = window.getTypenameFromPath = path => {
     const Type = match(path)
@@ -105,15 +124,15 @@ export const getItemPathAddition = ({ __typename = '' }) => __typename.match(/(d
     :
     '';
 
-export const getParent = window.getParent = ({ path, newPath } = {}, systemMap) => systemMap[getParentPath({ newPath, path })];
+export const getParent = window.getParent = ({ path } = {}, systemMap) => systemMap[getParentPath({ path })];
 
-export const getChildren = window.getChildren = ({ path, newPath } = {}, systemMap) => systemMap instanceof SystemMap ?
+export const getChildren = window.getChildren = ({ path } = {}, systemMap) => systemMap instanceof SystemMap ?
     systemMap.parents ?
-        systemMap.parents[(newPath || path)] || []
+        systemMap.parents[path] || []
         :
         []
     :
-    getChildren({ path, newPath }, new SystemMap(systemMap));
+    getChildren({ path }, new SystemMap(systemMap));
 
 export const getSiblings = window.getSiblings = ({ path, newPath } = {}, systemMap) => systemMap.parents[getParentPath({ newPath, path })];
 
@@ -136,7 +155,7 @@ export const getOptionListFromPath = window.getOptionListFromPath = (path = '') 
     .map(str => str.split(/:/g))
     .map(([name, value]) => ({ name, value }));
 
-export const getLastItemFromPath = window.getLastItemFromPath = path => path.replace(/.*\.(\w+)$/, '$1');
+export const getLastItemFromPath = window.getLastItemFromPath = (path = '') => path.replace(/.*\.(\w+)$/, '$1');
 
 export const filterOptionsAbove = window.filterOptionsAbove = ({ path, newPath }, optionList) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
 

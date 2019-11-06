@@ -134,6 +134,7 @@ BEGIN
 
     <<LOOP
         TYPE (
+            configuration_part,
             configuration_option_value,
             configuration_option,
             detail_option_value,
@@ -144,6 +145,7 @@ BEGIN
             system_option
         )
         ALIAS (
+            cp,
             cov,
             co,
             dov,
@@ -167,6 +169,7 @@ BEGIN
 
     <<LOOP
         TYPE (
+            configuration_part,
             configuration_option_value,
             configuration_option,
             detail_configuration,
@@ -177,6 +180,7 @@ BEGIN
             system_option
         )
         ALIAS (
+            cp,
             cov,
             co,
             sc,

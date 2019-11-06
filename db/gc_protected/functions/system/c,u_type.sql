@@ -72,23 +72,56 @@
 
         u := t.update;
 
-        IF t.path IS NULL OR u IS NULL THEN 
-            RAISE EXCEPTION 'Must specify both `path` and `update` on <<PARENT>> <<TYPE>>, received path: % and update: %', t.path, (
-                CASE WHEN u IS NULL THEN NULL
-                ELSE '[update]' END
-            );
-        END IF;
+        <<ONLY TYPE (detail, configuration)>>
+            IF t.path IS NULL OR u IS NULL THEN 
+                RAISE EXCEPTION 'Must specify both `path` and `update` on <<PARENT>> <<TYPE>>, received path: % and update: %', t.path, (
+                    CASE WHEN u IS NULL THEN NULL
+                    ELSE '[update]' END
+                );
+            END IF;
+        <<END ONLY>>
 
         UPDATE <<FULL>>s ts SET
-            <<TYPE>>_type = COALESCE(
-                u.<<TYPE>>_type,
-                ts.<<TYPE>>_type
-            ),
             parent_<<PARENT>>_option_value_path = COALESCE(
                 u.parent_<<PARENT>>_option_value_path,
                 ts.parent_<<PARENT>>_option_value_path
-            )
-        WHERE ts.path = t.path
+            ),
+            <<ONLY TYPE (detail, configuration)>>
+                <<TYPE>>_type = COALESCE(
+                    u.<<TYPE>>_type,
+                    ts.<<TYPE>>_type
+                )
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                transform = COALESCE(
+                    u.transform,
+                    ts.transform
+                ),
+                part_id = COALESCE(
+                    u.part_id,
+                    ts.part_id
+                ),
+                part_orientation = COALESCE(
+                    u.part_orientation,
+                    ts.part_orientation
+                ),
+                extra_part_path_id = COALESCE(
+                    u.extra_part_path_id,
+                    ts.extra_part_path_id
+                ),
+                extra_part_path_orientation = COALESCE(
+                    u.extra_part_path_orientation,
+                    ts.extra_part_path_orientation
+                )
+            <<END ONLY>>
+        WHERE
+            <<ONLY TYPE (detail, configuration)>>
+                ts.path = t.path
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                ts.id = t.id
+            <<END ONLY>>
+            AND ts.system_id = s.id
         RETURNING * INTO ust;
 
         IF ust IS NULL THEN

@@ -74,7 +74,12 @@
     CREATE TYPE
     gc_data.ENTIRE_<<PARENT>>_<<TYPE>> AS (
         -- identification
-        path LTREE,
+        <<ONLY TYPE (configuration, detail)>>
+            path LTREE,
+        <<END ONLY>>
+        <<ONLY TYPE (part)>>
+            id INTEGER,
+        <<END ONLY>>
         -- update
         update NEW_<<PARENT>>_<<TYPE>>
     );

@@ -47,6 +47,8 @@ export default function SystemTree({
 
     const trunk = makeRenderable(system);
 
+    console.log({ trunk });
+
     return (
         <TransformBox
             id="SystemTree"
@@ -69,11 +71,17 @@ export default function SystemTree({
                                     __typename = '',
                                     path = '',
                                     optional = '',
+                                    _part: {
+                                        partNumber = '',
+                                    } = {},
                                 } = item;
-                                const name = path ? getLastItemFromPath(path) : '';
-                                const isDefault = Object.entries(parent).some(([key, value]) => value && (
-                                    key.match(/default.+Value/) && value === name
-                                ));
+                                const name = path ? getLastItemFromPath(path) : partNumber;
+                                const isDefault = Object.entries(parent).some(([key, value]) => value
+                                    &&
+                                    key.match(/default.+Value/)
+                                    &&
+                                    value === name
+                                );
                                 const isAvailableToCompleteAction = PARTIAL_ACTION ?
                                     getIsAvailableForAction({ partialPayload, item }, systemMap)
                                     :
