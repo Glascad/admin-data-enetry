@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { removeNullValues, match } from '../../../../../../utils';
 import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../../../app-logic/system-utils";
-import { getOldPath } from "./utils";
+import { getOldPath, getUpdatedPath } from "./utils";
 
 export default function merge(systemInput, {
     _system,
@@ -63,7 +63,11 @@ export default function merge(systemInput, {
     ];
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
-        .filter(({ path }) => !pathsToDelete.some(deletedPath => path.startsWith(deletedPath) && !path.startsWith(`${deletedPath}_`)))
+        .filter(item => {
+            const updatedPath = getUpdatedPath(item);
+            // console.log(updatedPath);
+            return !pathsToDelete.some(deletedPath => updatedPath.startsWith(deletedPath) && !updatedPath.startsWith(`${deletedPath}_`))
+        })
         .map(oldItem => {
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);

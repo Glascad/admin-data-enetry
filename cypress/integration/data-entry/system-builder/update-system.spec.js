@@ -76,11 +76,81 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`modal-finish-button`.click()
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.should('exist');
 
+        // move HEAD
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.click({ force: true });
+        cy.getDataCy`edit-type-move-button`.click();
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.should('have.class', 'available');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK`.should('have.class', 'available');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK`.click({force: true});
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.should('not.exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('not.exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.STOPS`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.STOPS.DOWN`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('exist');
+        
+        // copy HEAD to where it was
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD`.click({ force: true });
+        cy.getDataCy`edit-type-copy-button`.click();
+        cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD`.should('have.class', 'available');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.should('have.class', 'available');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.click({force: true});
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('exist');
+        
+        // move STOPS
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.click({ force: true });
+        cy.getDataCy`edit-option-move-button`.click();
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.should('have.class', 'available');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD`.should('have.class', 'available');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD`.click({force: true});
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.should('not.exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('not.exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD`.should('exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS`.should('exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS.DOWN`.should('exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB`.should('exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY`.should('exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('exist');
+        
+        // copy STOPS
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS`.click({ force: true });
+        cy.getDataCy`edit-option-copy-button`.click();
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS`.should('have.class', 'available');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.should('have.class', 'available');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.click({force: true});
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS`.should('exist');
+        cy.getDataCy`1.SET.FRONT.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.__CT__.JAMB.DURABILITY.HIGH_PERFORMANCE`.should('exist');
+        
+        // delete DOWN
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN`.click({ force: true });
+        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`modal-finish-button`.click();
+
+        // move DOWN
+
+        // copy DOWN
+
         // Delete SCREW_SPLINE
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.click({ force: true });
         cy.getDataCy`edit-option-value-delete-button`.click({ force: true });
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.should('not.exist');
 
+        // group items,
+        // move items,
+        // copy items,
     });
 });

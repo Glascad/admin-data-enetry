@@ -9,13 +9,15 @@ export default function DELETE_ITEM(systemInput, payload) {
         pathsToDelete: initialPathsToDelete,
         systemOptions: initialSystemOptions,
         systemOptionValues: initialSystemOptionValues,
-        systemDetails: initialSystemDetailTypes,
+        systemDetails: initialSystemDetails,
         detailOptions: initialDetailOptions,
         detailOptionValues: initialDetailOptionValues,
         detailConfigurations: initialDetailConfigurations,
         configurationOptions: initialConfigurationOptions,
         configurationOptionValues: initialConfigurationOptionValues,
     } = systemInput;
+
+    const oldPath = getOldPath(path, systemInput);
 
     const isNewItem = newItemArray.some(newItem => path === getUpdatedPath(newItem));
 
@@ -24,6 +26,8 @@ export default function DELETE_ITEM(systemInput, payload) {
 
     const partitionDeletedItems = itemArray => itemArray.reduce(([updated, deleted], item) => {
         const updatedPath = getUpdatedPath(item);
+
+        console.log({ updatedPath, path, item })
 
         return updatedPath.startsWith(path) && !updatedPath.startsWith(`${path}_`) ?
             [updated, deleted.concat(getOldPath(updatedPath, systemInput))]
@@ -46,7 +50,7 @@ export default function DELETE_ITEM(systemInput, payload) {
     // filters out the items that need to be deleted from the updated state.
     const [systemOptions, systemOptionsToDelete] = partitionDeletedItems(initialSystemOptions);
     const [systemOptionValues, systemOptionValuesToDelete] = partitionDeletedItems(initialSystemOptionValues);
-    const [systemDetailTypes, systemDetailTypesToDelete] = partitionDeletedItems(initialSystemDetailTypes);
+    const [systemDetails, systemDetailsToDelete] = partitionDeletedItems(initialSystemDetails);
     const [detailOptions, detailOptionsToDelete] = partitionDeletedItems(initialDetailOptions);
     const [detailOptionValues, detailOptionValuesToDelete] = partitionDeletedItems(initialDetailOptionValues);
     const [detailConfigurations, detailConfigurationsToDelete] = partitionDeletedItems(initialDetailConfigurations);
@@ -56,7 +60,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         ...initialPathsToDelete,
         ...systemOptionsToDelete,
         ...systemOptionValuesToDelete,
-        ...systemDetailTypesToDelete,
+        ...systemDetailsToDelete,
         ...detailOptionsToDelete,
         ...detailOptionValuesToDelete,
         ...detailConfigurationsToDelete,
@@ -69,12 +73,12 @@ export default function DELETE_ITEM(systemInput, payload) {
         ...updatedNewItems,
         systemOptions,
         systemOptionValues,
-        systemDetailTypes,
+        systemDetails,
         detailOptions,
         detailOptionValues,
         detailConfigurations,
         configurationOptions,
         configurationOptionValues,
-        pathsToDelete: removeDescendantPaths(pathsToDelete.concat(isNewItem || isUpdatedItem || pathsToDelete.includes(path) ? [] : path)),
+        pathsToDelete: removeDescendantPaths(pathsToDelete.concat(isNewItem || isUpdatedItem || pathsToDelete.includes(oldPath) ? [] : oldPath)),
     }
 }

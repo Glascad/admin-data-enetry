@@ -205,7 +205,7 @@ function EditType({
                     )}
             </GroupingBox>
             <button
-                data-cy="edit-option-value-move-button"
+                data-cy="edit-type-move-button"
                 className="sidebar-button light"
                 onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
                     cancelPartial()
@@ -215,7 +215,7 @@ function EditType({
                 {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
             </button>
             <button
-                data-cy="edit-option-value-copy-button"
+                data-cy="edit-type-copy-button"
                 className="sidebar-button light"
                 onClick={() => partialAction ?
                     cancelPartial()
