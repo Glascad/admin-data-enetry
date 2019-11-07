@@ -142,15 +142,11 @@ gc_protected.detail_options (
             parent_detail_option_value_path IS NULL
         )
         AND
-        (
-            name = 'VOID'
-            OR
-            -- must not have duplicate options in the same path
-            NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-                parent_system_detail_path,
-                parent_detail_option_value_path
-            ))
-        )
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_system_detail_path,
+            parent_detail_option_value_path
+        ))
         AND
         -- must have correct path
         path = COALESCE(
@@ -228,14 +224,14 @@ gc_protected.detail_configurations (
         -- must belong to correct system
         (system_id || '.*')::LQUERY ~ path
         AND
-        -- must have correct path
-        path = COALESCE(parent_detail_option_value_path, parent_system_detail_path) || '__CT__' || configuration_type::TEXT
-        AND
         -- must have exactly one parent
         either_or(
             parent_detail_option_value_path IS NULL,
             parent_system_detail_path IS NULL
         )
+        AND
+        -- must have correct path
+        path = COALESCE(parent_detail_option_value_path, parent_system_detail_path) || '__CT__' || configuration_type::TEXT
     )
 );
 
@@ -264,14 +260,10 @@ gc_protected.configuration_options (
         )
         AND
         -- must not have duplicate options in the same path
-        (
-            name = 'VOID'
-            OR
-            NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-                parent_detail_configuration_path,
-                parent_configuration_option_value_path
-            ))
-        )
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_detail_configuration_path,
+            parent_configuration_option_value_path
+        ))
         AND
         -- must have correct path
         path = COALESCE(

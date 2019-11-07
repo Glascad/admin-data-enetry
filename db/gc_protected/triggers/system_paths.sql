@@ -1,89 +1,83 @@
 
 <<LOOP
-    TYPE (system, detail, configuration, part)
-    TYPE_SUFFIX (NULL, type, type, id)
-    PARENT (NULL, system, detail, configuration)
-    GRANDPARENT (NULL, NULL, system, detail)
-    PREFIX (NULL, '__DT__', '__CT__', '__PT')
+    TYPE (system, detail, configuration)
+    PARENT (NULL, system, detail)
+    PREFIX (NULL, '__DT__', '__CT__')
 >>
 
-    <<ONLY TYPE (system, detail, configuration)>>
+    -- OPTIONS
 
-        -- OPTIONS
+    DROP FUNCTION IF EXISTS generate_<<TYPE>>_option_path;
 
-        DROP FUNCTION IF EXISTS generate_<<TYPE>>_option_path;
+    CREATE OR REPLACE FUNCTION gc_protected.generate_<<TYPE>>_option_path()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        NEW.path := COALESCE(
+            NEW.parent_<<TYPE>>_option_value_path,
+            <<ONLY TYPE (system)>>
+                NEW.system_id::TEXT::LTREE,
+            <<END ONLY>>
+            <<ONLY TYPE (detail, configuration)>>
+                NEW.parent_<<PARENT>>_<<TYPE>>_path,
+            <<END ONLY>>
+            OLD.parent_<<TYPE>>_option_value_path,
+            <<ONLY TYPE (system)>>
+                OLD.system_id::TEXT::LTREE
+            <<END ONLY>>
+            <<ONLY TYPE (detail, configuration)>>
+                OLD.parent_<<PARENT>>_<<TYPE>>_path
+            <<END ONLY>>
+        ) || COALESCE(
+            NEW.name,
+            OLD.name
+        )::TEXT;
 
-        CREATE OR REPLACE FUNCTION gc_protected.generate_<<TYPE>>_option_path()
-        RETURNS TRIGGER AS $$
-        BEGIN
-            NEW.path := COALESCE(
-                NEW.parent_<<TYPE>>_option_value_path,
-                <<ONLY TYPE (system)>>
-                    NEW.system_id::TEXT::LTREE,
-                <<END ONLY>>
-                <<ONLY TYPE (detail, configuration)>>
-                    NEW.parent_<<PARENT>>_<<TYPE>>_path,
-                <<END ONLY>>
-                OLD.parent_<<TYPE>>_option_value_path,
-                <<ONLY TYPE (system)>>
-                    OLD.system_id::TEXT::LTREE
-                <<END ONLY>>
-                <<ONLY TYPE (detail, configuration)>>
-                    OLD.parent_<<PARENT>>_<<TYPE>>_path
-                <<END ONLY>>
-            ) || COALESCE(
-                NEW.name,
-                OLD.name
-            )::TEXT;
+        NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
 
-            NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
 
-            RETURN NEW;
-        END;
-        $$ LANGUAGE plpgsql;
+    CREATE TRIGGER generate_<<TYPE>>_option_path
+    BEFORE INSERT OR UPDATE ON <<TYPE>>_options
+    FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_path();
 
-        CREATE TRIGGER generate_<<TYPE>>_option_path
-        BEFORE INSERT OR UPDATE ON <<TYPE>>_options
-        FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_path();
+    -- VALUES
 
-        -- VALUES
+    DROP FUNCTION IF EXISTS generate_<<TYPE>>_option_value_path;
 
-        DROP FUNCTION IF EXISTS generate_<<TYPE>>_option_value_path;
-
-        CREATE OR REPLACE FUNCTION gc_protected.generate_<<TYPE>>_option_value_path()
-        RETURNS TRIGGER AS $$
-        BEGIN
-            NEW.option_name := subpath(
-                COALESCE(
-                    NEW.parent_<<TYPE>>_option_path,
-                    OLD.parent_<<TYPE>>_option_path
-                ),
-                -1
-            )::TEXT::OPTION_NAME;
-
-            NEW.path := COALESCE(
+    CREATE OR REPLACE FUNCTION gc_protected.generate_<<TYPE>>_option_value_path()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        NEW.option_name := subpath(
+            COALESCE(
                 NEW.parent_<<TYPE>>_option_path,
                 OLD.parent_<<TYPE>>_option_path
-            ) || COALESCE(
-                NEW.name,
-                OLD.name
-            )::TEXT;
+            ),
+            -1
+        )::TEXT::OPTION_NAME;
 
-            NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+        NEW.path := COALESCE(
+            NEW.parent_<<TYPE>>_option_path,
+            OLD.parent_<<TYPE>>_option_path
+        ) || COALESCE(
+            NEW.name,
+            OLD.name
+        )::TEXT;
 
-            RETURN NEW;
-        END;
-        $$ LANGUAGE plpgsql;
+        NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
 
-        CREATE TRIGGER generate_<<TYPE>>_option_value_path
-        BEFORE INSERT OR UPDATE ON <<TYPE>>_option_values
-        FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_value_path();
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
 
-    <<END ONLY>>
+    CREATE TRIGGER generate_<<TYPE>>_option_value_path
+    BEFORE INSERT OR UPDATE ON <<TYPE>>_option_values
+    FOR EACH ROW EXECUTE FUNCTION generate_<<TYPE>>_option_value_path();
 
     -- TYPES
 
-    <<ONLY TYPE (detail, configuration, part)>>
+    <<ONLY TYPE (detail, configuration)>>
 
         DROP FUNCTION IF EXISTS generate_<<PARENT>>_<<TYPE>>_path;
 
@@ -92,20 +86,17 @@
         BEGIN
             NEW.path := COALESCE(
                 NEW.parent_<<PARENT>>_option_value_path,
-                <<ONLY TYPE (configuration, part)>>
-                    NEW.parent_<<GRANDPARENT>>_<<PARENT>>_path,
-                    OLD.parent_<<GRANDPARENT>>_<<PARENT>>_path,
+                OLD.parent_<<PARENT>>_option_value_path,
+                <<ONLY TYPE (detail)>>
+                    NEW.system_id::TEXT::LTREE,
+                    OLD.system_id::TEXT::LTREE
                 <<END ONLY>>
-                OLD.parent_<<PARENT>>_option_value_path
-            ) || (
-            <<PREFIX>>
-            <<ONLY TYPE (part)>>
-                || COALESCE(NEW.id, OLD.id) || '__'
-            <<END ONLY>>
-            ) ||
-            COALESCE(
-                NEW.<<TYPE>>_<<TYPE_SUFFIX>>,
-                OLD.<<TYPE>>_<<TYPE_SUFFIX>>
+                <<ONLY TYPE (configuration)>>
+                    NEW.parent_system_detail_path
+                <<END ONLY>>
+            ) || <<PREFIX>> || COALESCE(
+                NEW.<<TYPE>>_type,
+                OLD.<<TYPE>>_type
             )::TEXT;
 
             NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;

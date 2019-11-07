@@ -46,37 +46,33 @@ const entireOnly = /([\s\S]*)<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]
 
 const ONLY = (path, contents, vars, varObj, PROTECTION = 10) => {
     if (PROTECTION <= 0) throw new Error(`<<ONLY>> depth exceeded maximum limit of 10 in ${logErrorPath(path)}`);
-    else if (!contents.match(entireOnly)) {
-        return contents;
-    } else {
-        return contents.replace(
-            entireOnly,
-            (match, before, onlyVar, onlyVals, lastOnlyVal, onlyContents, after, offset, entireString) => {
+    else return contents.replace(
+        entireOnly,
+        (match, before, onlyVar, onlyVals, lastOnlyVal, onlyContents, after, offset, entireString) => {
 
-                if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+            if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
 
-                const validValues = vars.map(v => v[onlyVar]);
+            const validValues = vars.map(v => v[onlyVar]);
 
-                const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
+            const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
 
-                onlyValues.forEach(v => {
-                    if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
-                });
+            onlyValues.forEach(v => {
+                if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+            });
 
-                // working from the inside out
-                return ONLY(path, `${
-                    before
-                    }${
-                    onlyVals.includes(varObj[onlyVar]) ?
-                        onlyContents
-                        :
-                        ''
-                    }${
-                    after
-                    }`, vars, varObj, PROTECTION - 1);
-            }
-        );
-    }
+            // working from the inside out
+            return ONLY(path, `${
+                before
+                }${
+                onlyVals.includes(varObj[onlyVar]) ?
+                    onlyContents
+                    :
+                    ''
+                }${
+                after
+                }`, vars, varObj, PROTECTION - 1);
+        }
+    );
 }
 
 const loopStart = /<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>/ig;
@@ -85,74 +81,70 @@ const entireLoop = /([\s\S]*)\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+
 
 const LOOP = (path, contents, PROTECTION = 10) => {
     if (PROTECTION <= 0) throw new Error(`<<LOOP>> depth exceeded maximum limit of 10 in ${logErrorPath(path)}`);
-    else if (!contents.match(entireLoop)) {
-        return contents;
-    } else {
-        return contents.replace(
-            entireLoop,
-            (match, before, variables, lastVar, lastVal, contents, after, offset, entireString) => {
+    else return contents.replace(
+        entireLoop,
+        (match, before, variables, lastVar, lastVal, contents, after, offset, entireString) => {
 
-                const vars = variables.split(/\s*\)\s*/g)
-                    .filter(Boolean)
-                    .reduce((varls, varSet, i) => {
+            const vars = variables.split(/\s*\)\s*/g)
+                .filter(Boolean)
+                .reduce((varls, varSet, i) => {
 
-                        const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
+                    const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
 
-                        if (varls.length && varls.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${logPath(path)}`);
+                    if (varls.length && varls.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${logPath(path)}`);
 
-                        return values.map((val, i) => ({
-                            ...varls[i],
-                            [varname]: val,
-                        }));
+                    return values.map((val, i) => ({
+                        ...varls[i],
+                        [varname]: val,
+                    }));
 
-                    }, []);
+                }, []);
 
-                // console.log(chalk.gray(` -- Looping through variable${
-                //     Object.keys(vars[0]).length > 1 ? 's' : ''
-                //     } ${
-                //     Object.keys(vars[0]).map(varname => `${
-                //         chalk.white(varname)
-                //         // } (${
-                //         // vars.map(v => `${
-                //         //     chalk.gray(v[varname])
-                //         //     }`).join(', ')
-                //         // )
-                //         }`).join(', ')
-                //     } in ${
-                //     logPath(path)
-                //     }`));
+            // console.log(chalk.gray(` -- Looping through variable${
+            //     Object.keys(vars[0]).length > 1 ? 's' : ''
+            //     } ${
+            //     Object.keys(vars[0]).map(varname => `${
+            //         chalk.white(varname)
+            //         // } (${
+            //         // vars.map(v => `${
+            //         //     chalk.gray(v[varname])
+            //         //     }`).join(', ')
+            //         // )
+            //         }`).join(', ')
+            //     } in ${
+            //     logPath(path)
+            //     }`));
 
-                // working from the inside out
-                return LOOP(path, `${
-                    before
-                    }${
-                    vars.reduce(
-                        // loop through each set of variables
-                        (generated, varObj) => `${
-                            // accumulate generated sql
-                            generated
-                            }\n${
-                            // for each key value pair of each variable set
-                            Object.entries(varObj)
-                                .reduce(
-                                    // replace the variable with its value
-                                    (generated, [key, value]) => generated.replace(new RegExp(`<<\s*${key}\s*>>`, 'g'), value),
-                                    // after removing all non-applicable items
-                                    ONLY(path, contents, vars, varObj)
-                                )
-                            }`,
-                        `\n-- LOOP in file ${
-                        shortenPath(path)
+            // working from the inside out
+            return LOOP(path, `${
+                before
+                }${
+                vars.reduce(
+                    // loop through each set of variables
+                    (generated, varObj) => `${
+                        // accumulate generated sql
+                        generated
+                        }\n${
+                        // for each key value pair of each variable set
+                        Object.entries(varObj)
+                            .reduce(
+                                // replace the variable with its value
+                                (generated, [key, value]) => generated.replace(new RegExp(`<<\s*${key}\s*>>`, 'g'), value),
+                                // after removing all non-applicable items
+                                ONLY(path, contents, vars, varObj)
+                            )
                         }`,
-                    )
-                    }${
-                    after
-                    }\n-- END LOOP in file ${
+                    `\n-- LOOP in file ${
                     shortenPath(path)
-                    }`, PROTECTION - 1);
-            }
-        );
-    }
+                    }`,
+                )
+                }${
+                after
+                }\n-- END LOOP in file ${
+                shortenPath(path)
+                }`, PROTECTION - 1);
+        }
+    );
 }
 
 const duplicateSQL = (path, contents) => {

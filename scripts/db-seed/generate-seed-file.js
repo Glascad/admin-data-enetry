@@ -129,7 +129,7 @@ ${require('../../db/policies.sql')}
 
 
 -- for preventing updates until they are ready
-RAISE EXCEPTION 'SUCCESS!';
+-- RAISE EXCEPTION 'SUCCESS!';
 
 END $seed$
 
