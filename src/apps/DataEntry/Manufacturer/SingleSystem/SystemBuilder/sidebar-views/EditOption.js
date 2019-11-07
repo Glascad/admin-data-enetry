@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../../components";
-import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../ducks/actions';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
-import { parseSearch } from '../../../../../../../utils';
+import { TitleBar, Input, GroupingBox, CircleButton, useInitialState, confirmWithModal, Select } from "../../../../../../components";
+import { UPDATE_ITEM, DELETE_ITEM, ADD_ITEM, ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../ducks/actions';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, canItemBeGrouped, getAllInstancesOfItem, getParentPath } from '../../../../../../app-logic/system-utils';
+import { parseSearch } from '../../../../../../utils';
+import { OptionNameSelect } from './modules/item-name-select';
 
 function EditOption({
     location: {
@@ -58,42 +59,17 @@ function EditOption({
             <TitleBar
                 title='Edit Option'
             />
-            <Select
-                disabled={!!optionValues.length}
-                data-cy="edit-option-name"
-                label="Option Name"
-                value={optionName}
-                options={filterOptionsAbove(option, validOptions)
-                    .map(({ name }) => name)}
-                onChange={name => {
-                    const allInstances = getAllInstancesOfItem({
-                        path: `${getParentPath(option)}.${name}`,
-                        __typename,
-                    }, systemMap);
-                    const firstInstance = systemMap[allInstances[0]];
-                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
-                    const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
-                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
-                        :
-                        [];
-                    dispatch(UPDATE_ITEM, {
-                        path: oPath,
-                        __typename,
-                        update: {
-                            name,
-                            [`default${__typename}Value`]: instanceDefaultValue,
-
-                        }
-                    })
-                    if (_optionGroups.some(og => og.name === name)) {
-                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                            [`parent${__typename}Path`]: `${getParentPath(option)}.${name}`,
-                            name: getLastItemFromPath(value.path),
-                            __typename: `${__typename}Value`,
-                        }, {
-                            replaceState: true,
-                        }))
-                    }
+            <OptionNameSelect
+                {...{
+                    optionValues,
+                    oPath,
+                    option,
+                    optionName,
+                    validOptions,
+                    __typename,
+                    systemMap,
+                    dispatch,
+                    _optionGroups,
                 }}
             />
             {oPath.match(/__DT__/) && canItemBeGrouped(option, systemMap) ? (

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath, getSiblings } from '../../../../../../../app-logic/system-utils';
-import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
-import { parseSearch } from '../../../../../../../utils';
+import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../components';
+import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath, getSiblings } from '../../../../../../app-logic/system-utils';
+import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../ducks/actions';
+import { parseSearch } from '../../../../../../utils';
+import { TypeNameSelect } from './modules/item-name-select';
 
 function EditType({
     location: {
@@ -38,7 +39,7 @@ function EditType({
     console.log(arguments[0]);
 
     const isDetail = !!__typename.match(/Detail/i);
-    const type = __typename.replace(/^(System|Detail)\w+/i, '$1');
+    const type = __typename.replace(/^(System|Detail|Configuration)(\w+)/i, '$2');
 
     const {
         0: childOption,
@@ -68,30 +69,13 @@ function EditType({
             <TitleBar
                 title={`Edit ${type}`}
             />
-            <Select
-                data-cy={`edit-${type.toLowerCase()}-type`}
-                readOnly={type === 'System'}
-                label={type}
-                value={tName}
-                options={selectTypes}
-                onChange={name => {
-                    if (name !== tName) {
-                        const updateType = () => dispatch(UPDATE_ITEM, {
-                            path: tPath,
-                            __typename,
-                            update: {
-                                name,
-                            }
-                        })
-                        childOption ?
-                            confirmWithModal(updateType, {
-                                titleBar: { title: `Change ${oName}` },
-                                children: 'Are you sure?',
-                                finishButtonText: "Change"
-                            })
-                            :
-                            updateType();
-                    }
+            <TypeNameSelect
+                {...{
+                    type,
+                    tName,
+                    oName,
+                    selectTypes,
+                    dispatch,
                 }}
             />
             {type === 'Configuration' ? (

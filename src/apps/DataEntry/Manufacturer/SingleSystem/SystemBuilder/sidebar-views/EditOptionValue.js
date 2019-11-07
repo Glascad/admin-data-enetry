@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../../app-logic/system-utils';
-import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../../ducks/actions';
-import { getSelectTypeName } from '../../ducks/utils';
-import { parseSearch, match } from '../../../../../../../utils';
+import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../components';
+import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../app-logic/system-utils';
+import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../ducks/actions';
+import { getSelectTypeName } from '../ducks/utils';
+import { parseSearch, match } from '../../../../../../utils';
+import { ValueNameSelect } from './modules/item-name-select';
 
 function EditOptionValue({
     location: {
@@ -108,51 +109,16 @@ function EditOptionValue({
             <TitleBar
                 title="Edit Option Value"
             />
-            <Select
-                label="Option Value"
-                value={oVName}
-                data-cy="edit-value-name"
-                options={selectValidValues}
-                onChange={name => {
-                    if (name !== oVName) {
-                        const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                            path: ovPath,
-                            __typename,
-                            update: {
-                                name,
-                            }
-                        })
-                        const deleteValueFromEachOption = () => {
-                            getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
-                                .forEach(instance => {
-                                    const item = systemMap[instance];
-                                    dispatch(UPDATE_ITEM, {
-                                        path: item.path,
-                                        __typename: item.__typename,
-                                        update: {
-                                            name,
-                                        }
-                                    }, {
-                                        replaceState: true
-                                    });
-                                });
-                        };
-                        optionIsGrouped ?
-                            confirmWithModal(deleteValueFromEachOption, {
-                                titleBar: { title: `Delete Grouped Option Value` },
-                                children: 'Are you Sure?',
-                                finishButtonText: 'Change',
-                            })
-                            :
-                            hasChildren ?
-                                confirmWithModal(updateOptionValue, {
-                                    titleBar: { title: `Change ${oVName}?` },
-                                    children: 'Are you Sure?',
-                                    finishButtonText: 'Change',
-                                })
-                                :
-                                updateOptionValue()
-                    }
+            <ValueNameSelect
+                {...{
+                    selectValidValues,
+                    dispatch,
+                    ovPath,
+                    __typename,
+                    systemMap,
+                    optionIsGrouped,
+                    oVName,
+                    hasChildren,
                 }}
             />
             <Input
@@ -194,44 +160,6 @@ function EditOptionValue({
                         updateDefault();
                 }}
             />
-            {/* <button
-                data-cy="edit-option-value-default-button"
-                className="sidebar-button light"
-                onClick={() => {
-                    const updateDefault = () => dispatch(UPDATE_ITEM, {
-                        path: oPath,
-                        __typename: oTypename,
-                        update: {
-                            [`default${__typename}`]: oVName,
-                        },
-                    });
-                    const updateDefaultForAllInstances = () => {
-                        getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
-                            .forEach((instance, i) => {
-                                const item = systemMap[instance];
-                                dispatch(UPDATE_ITEM, {
-                                    path: item.path,
-                                    __typename: item.__typename,
-                                    update: {
-                                        [`default${item.__typename}Value`]: oVName,
-                                    }
-                                }, {
-                                    replaceState: i !== 0,
-                                });
-                            });
-                    };
-                    optionIsGrouped ?
-                        confirmWithModal(updateDefaultForAllInstances, {
-                            titleBar: { title: `Change Default Value For Grouped Option` },
-                            children: 'Are you Sure?',
-                            finishButtonText: 'Change',
-                        })
-                        :
-                        updateDefault();
-                }}
-            >
-                Make Default
-            </button> */}
             <GroupingBox
                 data-cy="edit-children"
                 title={(
@@ -361,7 +289,7 @@ function EditOptionValue({
                 ) : hasChildren ? (
                     <>
                         {valueChildren.map((item, i, { length }) => {
-                            const { path: childTypePath = '', partNumber='' } = item;
+                            const { path: childTypePath = '', partNumber = '' } = item;
                             const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
                             const childName = childTypePath ?
                                 childTypePath.replace(/^.*\.(\w+)$/, '$1')
