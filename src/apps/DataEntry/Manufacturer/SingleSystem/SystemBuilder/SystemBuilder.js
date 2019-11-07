@@ -30,6 +30,8 @@ export default function SystemBuilder({
 
     useCollapseSidebar();
 
+    const { systemId } = parseSearch(search);
+
     const {
         currentState: systemInput,
         states,
@@ -44,12 +46,22 @@ export default function SystemBuilder({
 
     const { path } = parseSearch(search);
 
-    const selectItem = ({ path: newPath } = {}) => history.push(!newPath || (newPath === path) ?
-        `${matchPath}${parseSearch(search).remove('path')}`
-        :
-        `${matchPath}${parseSearch(search).update({ path: newPath })}`);
+    const selectItem = (item = {}) => {
+        const newPath = item instanceof SystemMap ?
+            `${item.id}`
+            :
+            item.path;
 
-    const selectedItem = systemMap[path];
+        history.push(!newPath || (newPath === path) ?
+            `${matchPath}${parseSearch(search).remove('path')}`
+            :
+            `${matchPath}${parseSearch(search).update({ path: newPath })}`);
+    }
+
+    const selectedItem = path === systemId ?
+        systemMap
+        :
+        systemMap[path];
 
     const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
         replaceState
@@ -145,8 +157,6 @@ export default function SystemBuilder({
                 newDetailConfigurations,
             } = systemInput;
 
-            console.log({ systemInput });
-
             const removeTypenameAndNodeId = ({ __typename, nodeId, ...rest }) => rest;
 
             const mapTypes = type => ({
@@ -207,6 +217,12 @@ export default function SystemBuilder({
             dispatch(() => systemInput);
         }
     }
+
+    console.log({
+        systemInput,
+        systemMap,
+        selectedItem,
+    });
 
     return (
         <TransformProvider>

@@ -68,22 +68,24 @@ export class SystemMap {
 export const getFirstItem = window.getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
 export const getParentPath = window.getParentPath = item => item.path ?
-    item.path.replace(/((\.__DT__)|(\.__CT__))?\.\w+$/, '')
+    item.path.replace(/(\.__(D|C|P)T\d*__)?\.\w+$/, '')
     :
     Object.entries(item).reduce((parentPath, [key, value]) => key.match(/^parent/) ? value : parentPath, '');
 
 export const getTypenameFromPath = window.getTypenameFromPath = path => {
     const Type = match(path)
+        .regex(/__PT\d+__/, 'Part')
         .regex(/__CT__/, 'Configuration')
         .regex(/__DT__/, 'Detail')
         .otherwise('System');
     const Parent = match(Type)
         .against({
+            Part: 'Configuration',
             Configuration: 'Detail',
             Detail: 'System',
         })
         .otherwise('');
-    const count = (path.replace(/.*__(C|D)T__\./, '').match(/\./g) || []).length;
+    const count = (path.replace(/.*__(D|C|P)T\d*__\./, '').match(/\./g) || []).length;
     return count === 0 ?
         `${Parent}${Type}`
         :
@@ -134,7 +136,7 @@ export const getChildren = window.getChildren = ({ path } = {}, systemMap) => sy
     :
     getChildren({ path }, new SystemMap(systemMap));
 
-export const getSiblings = window.getSiblings = ({ path, newPath } = {}, systemMap) => systemMap.parents[getParentPath({ newPath, path })];
+export const getSiblings = window.getSiblings = ({ path, newPath } = {}, systemMap) => systemMap.parents[getParentPath({ newPath, path })] || [];
 
 export const makeRenderable = window.makeRenderable = system => {
     const systemMap = new SystemMap(system);
@@ -142,7 +144,10 @@ export const makeRenderable = window.makeRenderable = system => {
         item: node,
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
-    return makeNodeRenderable(getFirstItem(systemMap));
+    return {
+        item: systemMap,
+        branches: [makeNodeRenderable(getFirstItem(systemMap))],
+    };
 }
 
 export const getOptionListFromPath = window.getOptionListFromPath = (path = '') => path

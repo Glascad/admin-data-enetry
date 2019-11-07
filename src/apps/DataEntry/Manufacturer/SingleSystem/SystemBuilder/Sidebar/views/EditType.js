@@ -16,7 +16,8 @@ function EditType({
     selectedItem: selectedType,
     selectedItem: {
         __typename,
-        path: tPath,
+        name: sName,
+        path: tPath = '',
         optional,
     } = {},
     system,
@@ -37,7 +38,7 @@ function EditType({
     console.log(arguments[0]);
 
     const isDetail = !!__typename.match(/Detail/i);
-    const type = __typename.replace(/^System|^Detail/i, '');
+    const type = __typename.replace(/^(System|Detail)\w+/i, '$1');
 
     const {
         0: childOption,
@@ -47,7 +48,7 @@ function EditType({
         } = {},
     } = getChildren(selectedType, systemMap);
 
-    const tName = getLastItemFromPath(tPath);
+    const tName = getLastItemFromPath(tPath) || sName;
     const oName = getLastItemFromPath(oPath);
 
     const childValues = getChildren(childOption, systemMap); // Types' Child's children
@@ -69,6 +70,7 @@ function EditType({
             />
             <Select
                 data-cy={`edit-${type.toLowerCase()}-type`}
+                readOnly={type === 'System'}
                 label={type}
                 value={tName}
                 options={selectTypes}
@@ -205,7 +207,7 @@ function EditType({
             <button
                 data-cy="edit-option-value-move-button"
                 className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "MOVE"?
+                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
                     cancelPartial()
                     :
                     dispatchPartial('MOVE', selectedType)}
@@ -222,7 +224,7 @@ function EditType({
             >
                 {partialAction ? 'Cancel Copy' : `Copy ${isDetail ? 'Detail' : 'Configuration'}`}
             </button>
-            
+
             {tPath.match(/__DT__/) ? (
                 <Link
                     to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: tPath })}`}
@@ -256,12 +258,19 @@ function EditType({
     );
 }
 
+const EditWithRouter = withRouter(EditType);
+
+export const System = {
+    title: 'Edit System',
+    component: EditWithRouter,
+}
+
 export const SystemDetail = {
     title: "Edit Detail",
-    component: withRouter(EditType),
+    component: EditWithRouter,
 };
 
 export const DetailConfiguration = {
     title: "Edit Configuration",
-    component: withRouter(EditType),
+    component: EditWithRouter,
 };

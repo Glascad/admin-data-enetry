@@ -18,6 +18,11 @@
                 cursor: default;
                 transition: all 0.1s;
 
+                &.type-system {
+                    background: $dark-gray;
+                    color: $off-white;
+                }
+
                 &.type-option {
                     background: $light-gray;
                 }

@@ -93,6 +93,11 @@ ${require('../../db/gc_public/functions/queries/get_current_user.sql')}
 ${require('../../db/gc_public/functions/mutations/authenticate.sql')}
 
 
+----- COMPUTED COLUMNS -----
+
+${require('../../db/gc_protected/computed_columns/configuration_parts_path.sql')}
+
+
 ----- INSERTIONS -----
 
 ${require('../../db/gc_controlled/values.sql')}
@@ -124,7 +129,7 @@ ${require('../../db/policies.sql')}
 
 
 -- for preventing updates until they are ready
--- RAISE EXCEPTION 'SUCCESS!';
+RAISE EXCEPTION 'SUCCESS!';
 
 END $seed$
 

@@ -10,6 +10,7 @@ export default function Sidebar({
     } = {},
     selectItem,
 }) {
+    if (!__typename) return null;
     return (
         <RightSidebar
             open={!!selectedItem}

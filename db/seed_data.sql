@@ -159,6 +159,12 @@ INSERT INTO systems (name, manufacturer_id, system_type) VALUES
 ('Test 2', 2, 'STOREFRONT'),
 ('Test 3', 2, 'ALL_GLASS');
 
+INSERT INTO system_options (system_id, name, default_system_option_value) VALUES
+(2, 'SET', 'CENTER');
+
+INSERT INTO system_option_values (system_id, name, parent_system_option_path) VALUES
+(2, 'CENTER', '2.SET');
+
 
 
 -- PROJECT FOR USER_ONE

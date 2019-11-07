@@ -13,11 +13,13 @@ import {
 import {
     SystemDetail,
     DetailConfiguration,
+    System,
 } from './EditType';
 
 import Settings from './Settings';
 
 export {
+    System,
     SystemOption,
     SystemOptionValue,
     SystemDetail,

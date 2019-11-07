@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { removeNullValues } from '../../../../../../utils';
+import { removeNullValues, match } from '../../../../../../utils';
 import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../../../app-logic/system-utils";
 import { getOldPath } from "./utils";
 
@@ -61,8 +61,6 @@ export default function merge(systemInput, {
         ...systemDetails,
         ...detailConfigurations,
     ];
-
-    console.log({ _system, systemMap });
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
         .filter(({ path }) => !pathsToDelete.some(deletedPath => path.startsWith(deletedPath) && !path.startsWith(`${deletedPath}_`)))
@@ -132,30 +130,25 @@ export default function merge(systemInput, {
                 [newUpdatedItemParentKey]: undefined,
             } : {};
 
-            // if (updatedItem) console.log({
-            //     oldItem,
-            //     path,
-            //     updatedItem,
-            //     newUpdatedItemParentPath,
-            //     updatedParent,
-            //     itemPathAddition,
-            //     updatedParentPathAddition,
-            //     updatedParentParentPath,
-            //     newParentPath,
-            //     newItemName,
-            //     newPath,
-            //     newUpdatedItem,
-            // })
-
             return {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),
             };
         })
         .concat(newItems.map(item => {
-            const { name, __typename } = item;
+            const { name, __typename, id } = item;
             const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
-            const path = `${parentPath || systemId}.${__typename.match(/detail$/i) ? '__DT__.' : ''}${__typename.match(/configuration$/i) ? '__CT__.' : ''}${name}`;
+            const path = `${
+                parentPath || systemId
+                }.${
+                match(__typename)
+                    .regex(/detail$/i, '__DT__.')
+                    .regex(/configuration$/i, '__CT__.')
+                    .regex(/part$/i, `__PT${id}__.`)
+                    .otherwise('')
+                }${
+                name
+                }`;
 
             return removeNullValues({
                 ...item,
@@ -164,8 +157,6 @@ export default function merge(systemInput, {
                 name: undefined
             });
         }));
-
-    // console.log({systemMap});
 
     const updatedSystemOptions = mergeArray(_systemOptions, systemOptions, newSystemOptions);
     const updatedSystemOptionValues = mergeArray(_systemOptionValues, systemOptionValues, newSystemOptionValues);
@@ -189,6 +180,8 @@ export default function merge(systemInput, {
         _detailConfigurations: updatedDetailConfigurations,
         _configurationOptions: updatedConfigurationOptions,
         _configurationOptionValues: updatedConfigurationOptionValues,
-        _optionGroups: _optionGroups.filter(({ name }) => !optionGroupsToDelete.includes(name)).concat(newOptionGroups.map(name => ({ __typename: "OptionGroup", name })))
+        _optionGroups: _optionGroups
+            .filter(({ name }) => !optionGroupsToDelete.includes(name))
+            .concat(newOptionGroups.map(name => ({ __typename: "OptionGroup", name })))
     };
 }
