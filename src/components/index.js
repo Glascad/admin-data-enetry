@@ -4,6 +4,7 @@ import CollapsibleTitle from './ui/CollapsibleTitle/CollapsibleTitle';
 import TitleBar from './ui/TitleBar/TitleBar';
 import SnailTrail from './ui/SnailTrail/SnailTrail';
 import GroupingBox from './ui/GroupingBox/GroupingBox';
+import ToggleBox from './ui/ToggleBox/ToggleBox';
 import ListContainer from './ui/ListContainer/ListContainer';
 import Pill from './ui/Pill/Pill';
 import CircleButton from './ui/CircleButton/CircleButton';
@@ -62,6 +63,7 @@ export {
     TitleBar,
     SnailTrail,
     GroupingBox,
+    ToggleBox,
     ListContainer,
     Pill,
     CircleButton,
@@ -108,3 +110,4 @@ export {
     // SPECIAL FUNCTIONS
     confirmWithModal,
 };
+    
