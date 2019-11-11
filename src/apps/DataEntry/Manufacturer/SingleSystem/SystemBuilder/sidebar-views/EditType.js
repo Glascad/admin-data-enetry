@@ -1,18 +1,17 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { TitleBar, GroupingBox, Input, CircleButton, confirmWithModal, Select } from '../../../../../../components';
-import { getChildren, filterOptionsAbove, getLastItemFromPath, getAllInstancesOfItem, getParentPath, getSiblings } from '../../../../../../app-logic/system-utils';
-import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../ducks/actions';
-import { parseSearch } from '../../../../../../utils';
+import { withRouter } from 'react-router-dom';
+import { getChildren, getLastItemFromPath, getSiblings } from '../../../../../../app-logic/system-utils';
+import { TitleBar } from '../../../../../../components';
+import { TypeAdditionGrouping } from './modules/add-item-grouping';
+import { ItemDelete } from './modules/item-delete';
+import { ItemLink } from './modules/item-link';
+import { ItemMovement } from './modules/item-movement';
 import { TypeNameSelect } from './modules/item-name-select';
+import { TypeToggles } from './modules/item-toggles';
 
 function EditType({
-    location: {
-        search,
-    },
-    match: {
-        path,
-    },
+    location,
+    match,
     selectItem,
     selectedItem: selectedType,
     selectedItem: {
@@ -78,166 +77,57 @@ function EditType({
                     dispatch,
                 }}
             />
-            {type === 'Configuration' ? (
-                <Input
-                    data-cy="required-optional"
-                    type="switch"
-                    label="Required"
-                    checked={!optional}
-                    onChange={() => dispatch(UPDATE_ITEM), {
-                        ...selectedType,
-                        update: {
-                            optional: !optional,
-                        },
-                    }}
-                />
-                // <button
-                //     data-cy="edit-type-optional-button"
-                //     className="sidebar-button light"
-                //     onClick={() => dispatch(UPDATE_ITEM, {
-                //         ...selectedType,
-                //         update: {
-                //             optional: !optional,
-                //         },
-                //     })}
-                // >
-                //     {optional ? 'Required' : 'Optional'}
-                // </button>
-            ) : null}
-            <GroupingBox
-                title="Option"
-                circleButton={childOption ? undefined : {
-                    "data-cy": "add-option",
-                    actionType: "add",
-                    className: "action",
-                    onClick: () => dispatch(ADD_ITEM, {
-                        __typename: `${type}Option`,
-                        [`parent${__typename}Path`]: tPath,
-                        name: 'ADD_OPTION',
-                    }),
+            <TypeToggles
+                {...{
+                    selectedType,
+                    type,
+                    optional,
+                    dispatch,
                 }}
-            >
-                {childOption ? (
-                    <div className="input-group">
-                        <Select
-                            data-cy={`edit-${type.toLowerCase()}-type`}
-                            disabled={childValues.length > 0}
-                            // autoFocus={childValues.length === 0}
-                            value={oName}
-                            options={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
-                            onChange={name => {
-                                const allInstances = getAllInstancesOfItem({
-                                    path: `${tPath}.${name}`,
-                                    __typename: oTypename,
-                                }, systemMap);
-                                const firstInstance = systemMap[allInstances[0]];
-                                const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) : [];
-                                const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
-                                    Object.entries(firstInstance).find(([key, value]) => key.match(/default/i))
-                                    :
-                                    [];
-                                dispatch(UPDATE_ITEM, {
-                                    path: oPath,
-                                    __typename: oTypename,
-                                    update: {
-                                        name,
-                                        [`default${oTypename}Value`]: instanceDefaultValue,
-
-                                    }
-                                })
-                                if (_optionGroups.some(og => og.name === name)) {
-                                    instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                                        [`parent${oTypename}Path`]: `${getParentPath({ path: oPath })}.${name}`,
-                                        name: getLastItemFromPath(value.path),
-                                        __typename: `${oTypename}Value`,
-                                    }, {
-                                        replaceState: true
-                                    }))
-                                }
-                            }}
-                        />
-                        <CircleButton
-                            data-cy={`select-option-${oName.toLowerCase()}`}
-                            className="primary"
-                            actionType="arrow"
-                            onClick={() => selectItem(childOption)}
-                        />
-                        <CircleButton
-                            data-cy="delete-option"
-                            type="small"
-                            actionType="delete"
-                            className="danger"
-                            onClick={() => {
-                                const deleteOption = () => dispatch(DELETE_ITEM, {
-                                    path: oPath,
-                                    __typename: oTypename,
-                                });
-                                if (childValues.length > 0) confirmWithModal(deleteOption, {
-                                    titleBar: { title: `Delete ${oName}` },
-                                    children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                    finishButtonText: 'Delete',
-                                    danger: true,
-                                });
-                                else deleteOption();
-                            }}
-                        />
-                    </div>
-                ) : (
-                        <div>
-                            No Option
-                        </div>
-                    )}
-            </GroupingBox>
-            <button
-                data-cy="edit-type-move-button"
-                className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
-                    cancelPartial()
-                    :
-                    dispatchPartial('MOVE', selectedType)}
-            >
-                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : `Move ${isDetail ? 'Detail' : 'Configuration'}`}
-            </button>
-            <button
-                data-cy="edit-type-copy-button"
-                className="sidebar-button light"
-                onClick={() => partialAction ?
-                    cancelPartial()
-                    :
-                    dispatchPartial('COPY', selectedType)}
-            >
-                {partialAction ? 'Cancel Copy' : `Copy ${isDetail ? 'Detail' : 'Configuration'}`}
-            </button>
-
-            {tPath.match(/__DT__/) ? (
-                <Link
-                    to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: tPath })}`}
-                    className="sidebar-button empty"
-                >
-                    <button>
-                        Edit {tPath.match(/__CT__/) ? "Configuration" : "Detail"}
-                    </button>
-                </Link>
-            ) : null}
-            <button
-                className="sidebar-button danger"
-                data-cy="edit-type-delete-button"
-                onClick={() => {
-                    const deleteType = () => dispatch(DELETE_ITEM, {
-                        path: tPath,
-                        __typename,
-                    })
-                    if (childOption) confirmWithModal(deleteType, {
-                        titleBar: { title: `Delete ${tName}` },
-                        children: `Deleting ${(tName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                        finishButtonText: 'Delete',
-                        danger: true,
-                    });
-                    else deleteType();
+            />
+            <TypeAdditionGrouping
+                {...{
+                    _optionGroups,
+                    selectedType,
+                    type,
+                    tPath,
+                    __typename,
+                    oName,
+                    oPath,
+                    oTypename,
+                    childOption,
+                    childValues,
+                    validOptions,
+                    selectItem,
+                    dispatch,
+                    systemMap,
                 }}
-            >
-                {`Delete ${isDetail ? 'Detail' : 'Configuration'}`}
-            </button>
+            />
+            <ItemMovement
+                {...{
+                    item: selectedType,
+                    path: tPath,
+                    name: isDetail ? 'Detail' : 'Configuration',
+                    partialAction,
+                    cancelPartial,
+                    dispatchPartial,
+                }}
+            />
+            <ItemLink
+                {...{
+                    path: tPath,
+                    match,
+                    location,
+                }}
+            />
+            <ItemDelete
+                {...{
+                    item: selectedType,
+                    name: isDetail ? 'Detail' : 'Configuration',
+                    dispatch,
+                    systemMap,
+                }}
+            />
         </>
     );
 }
