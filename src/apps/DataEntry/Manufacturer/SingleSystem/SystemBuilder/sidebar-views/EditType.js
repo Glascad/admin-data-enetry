@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath, getSiblings } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from '../../../../../../components';
 import { TypeAdditionGrouping } from './modules/add-item-grouping';
-import { ItemDelete } from './modules/item-delete';
 import { ItemLink } from './modules/item-link';
 import { ItemMovement } from './modules/item-movement';
 import { TypeNameSelect } from './modules/item-name-select';
 import { TypeToggles } from './modules/item-toggles';
+import ItemDelete from './modules/ItemDelete';
 
 function EditType({
     location,
@@ -17,7 +17,7 @@ function EditType({
     selectedItem: {
         __typename,
         name: sName,
-        path: tPath = '',
+        path = '',
         optional,
     } = {},
     system,
@@ -44,11 +44,10 @@ function EditType({
         0: childOption,
         0: {
             path: oPath = '',
-            __typename: oTypename,
         } = {},
     } = getChildren(selectedType, systemMap);
 
-    const tName = getLastItemFromPath(tPath) || sName;
+    const tName = getLastItemFromPath(path) || sName;
     const oName = getLastItemFromPath(oPath);
 
     const childValues = getChildren(childOption, systemMap); // Types' Child's children
@@ -87,17 +86,13 @@ function EditType({
             />
             <TypeAdditionGrouping
                 {...{
+                    validOptions,
                     _optionGroups,
                     selectedType,
                     type,
-                    tPath,
-                    __typename,
                     oName,
-                    oPath,
-                    oTypename,
                     childOption,
                     childValues,
-                    validOptions,
                     selectItem,
                     dispatch,
                     systemMap,
@@ -106,7 +101,7 @@ function EditType({
             <ItemMovement
                 {...{
                     item: selectedType,
-                    path: tPath,
+                    path,
                     name: isDetail ? 'Detail' : 'Configuration',
                     partialAction,
                     cancelPartial,
@@ -115,7 +110,7 @@ function EditType({
             />
             <ItemLink
                 {...{
-                    path: tPath,
+                    path,
                     match,
                     location,
                 }}

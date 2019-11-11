@@ -42,18 +42,20 @@ export const TypeNameSelect = ({
     );
 
 export const OptionNameSelect = ({
-    optionValues,
-    oPath,
-    option,
-    optionName,
     validOptions,
-    __typename,
+    option,
+    option: {
+        path,
+        __typename
+    },
+    optionName,
+    children,
     systemMap,
     dispatch,
     _optionGroups,
 }) => (
         <Select
-            disabled={!!optionValues.length}
+            disabled={!!children.length}
             data-cy="edit-option-name"
             label="Option Name"
             value={optionName}
@@ -70,7 +72,7 @@ export const OptionNameSelect = ({
                     :
                     [];
                 dispatch(UPDATE_ITEM, {
-                    path: oPath,
+                    path,
                     __typename,
                     update: {
                         name,
@@ -93,13 +95,15 @@ export const OptionNameSelect = ({
 
 export const ValueNameSelect = ({
     selectValidValues,
-    dispatch,
-    ovPath,
-    __typename,
-    systemMap,
-    optionIsGrouped,
+    optionValue: {
+        path,
+        __typename
+    },
     oVName,
+    optionIsGrouped,
     hasChildren,
+    dispatch,
+    systemMap,
 }) => (
         <Select
             label="Option Value"
@@ -109,14 +113,14 @@ export const ValueNameSelect = ({
             onChange={name => {
                 if (name !== oVName) {
                     const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                        path: ovPath,
+                        path,
                         __typename,
                         update: {
                             name,
                         },
                     });
                     const deleteValueFromEachOption = () => {
-                        getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
+                        getAllInstancesOfItem({ path, __typename }, systemMap)
                             .forEach(instance => {
                                 const item = systemMap[instance];
                                 dispatch(UPDATE_ITEM, {

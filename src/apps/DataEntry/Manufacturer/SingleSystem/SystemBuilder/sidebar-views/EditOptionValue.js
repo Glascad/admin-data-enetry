@@ -4,11 +4,11 @@ import { getChildren, getLastItemFromPath, getParent, getSiblings } from '../../
 import { TitleBar } from '../../../../../../components';
 import { match } from '../../../../../../utils';
 import { ValueAdditionGrouping } from './modules/add-item-grouping';
-import { ItemDelete } from './modules/item-delete';
 import { ItemLink } from './modules/item-link';
 import { ItemMovement } from './modules/item-movement';
 import { ValueNameSelect } from './modules/item-name-select';
 import { ValueToggles } from './modules/item-toggles';
+import ItemDelete from './modules/ItemDelete';
 
 
 function EditOptionValue({
@@ -17,7 +17,7 @@ function EditOptionValue({
     selectItem,
     selectedItem: optionValue,
     selectedItem: {
-        path: ovPath,
+        path: path,
         __typename,
     },
     system: {
@@ -36,29 +36,32 @@ function EditOptionValue({
 }) {
     console.log(arguments[0]);
 
-    const option = getParent(optionValue, systemMap);
-    const values = getSiblings(optionValue, systemMap);
+    const valueParentOption = getParent(optionValue, systemMap);
+    const valueSiblings = getSiblings(optionValue, systemMap);
     const valueChildren = getChildren(optionValue, systemMap);
 
-    const { path: oPath, __typename: oTypename } = option;
+    const {
+        path: oPath, 
+        __typename: oTypename, 
+    } = valueParentOption;
 
-    const oName = oPath.replace(/^.*\.(\w+)$/, '$1');
-    const oVName = ovPath.replace(/^.*\.(\w+)$/, '$1');
+    const oName = getLastItemFromPath(oPath);
+    const oVName = getLastItemFromPath(path);
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === oName);
 
-    const isDefault = option[Object.keys(option).find(k => k.match(/default/i))] === oVName;
+    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key]) => key.match(/default/i)) === oVName || [];
 
     const validValues = validOptions
-        .reduce((values, { name, _validOptionValues }) => (
+        .reduce((valueSiblings, { name, _validOptionValues }) => (
             oName.toLowerCase() === name.toLowerCase() ?
                 _validOptionValues
                 :
-                values
+                valueSiblings
         ), []);
 
     const selectValidValues = validValues
-        .filter(({ name }) => !values.some(v => getLastItemFromPath(v.path) === name))
+        .filter(({ name }) => !valueSiblings.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
     const {
@@ -112,20 +115,19 @@ function EditOptionValue({
             <ValueNameSelect
                 {...{
                     selectValidValues,
-                    dispatch,
-                    ovPath,
-                    __typename,
-                    systemMap,
-                    optionIsGrouped,
+                    optionValue,
                     oVName,
+                    optionIsGrouped,
                     hasChildren,
+                    dispatch,
+                    systemMap,
                 }}
             />
             <ValueToggles
                 {...{
-                    __typename,
                     oVName,
                     isDefault,
+                    __typename,
                     oPath,
                     oTypename,
                     optionIsGrouped,
@@ -136,8 +138,8 @@ function EditOptionValue({
             <ValueAdditionGrouping
                 {...{
                     _optionGroups,
-                    ovPath,
-                    __typename,
+                    optionValue,
+                    validOptions,
                     optionIsSelected,
                     hasChildren,
                     valueChildren,
@@ -149,8 +151,6 @@ function EditOptionValue({
                     childOptionName,
                     childTypename,
                     selectTypes,
-                    optionValue,
-                    validOptions,
                     selectValidTypes,
                     setOptionIsSelected,
                     selectItem,
@@ -161,7 +161,7 @@ function EditOptionValue({
             <ItemMovement
                 {...{
                     item: optionValue,
-                    path: ovPath,
+                    path,
                     name: 'Value',
                     partialAction,
                     cancelPartial,
@@ -170,7 +170,7 @@ function EditOptionValue({
             />
             <ItemLink
                 {...{
-                    path: ovPath,
+                    path,
                     match: systemMatch,
                     location,
                 }}

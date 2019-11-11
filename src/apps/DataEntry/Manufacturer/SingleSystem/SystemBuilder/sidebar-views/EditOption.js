@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from "../../../../../../components";
 import { OptionAdditionGrouping } from './modules/add-item-grouping';
-import { ItemDelete } from './modules/item-delete';
 import { ItemLink } from './modules/item-link';
 import { ItemMovement } from './modules/item-movement';
 import { OptionNameSelect } from './modules/item-name-select';
 import { OptionToggles } from './modules/item-toggles';
+import ItemDelete from './modules/ItemDelete';
 
 function EditOption({
     location,
@@ -28,16 +28,11 @@ function EditOption({
 }) {
     console.log(arguments[0])
 
-    const {
-        path: oPath,
-        __typename,
-        [defaultKey]: defaultValue,
-    } = option;
+    const { path, } = option;
 
-    const defaultKey = Object.keys(option).find(k => k.match(/default/i));
-    const optionName = getLastItemFromPath(oPath);
+    const optionName = getLastItemFromPath(path);
 
-    const optionValues = getChildren(option, systemMap);
+    const optionChildValues = getChildren(option, systemMap);
 
     const validOptionValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -48,7 +43,7 @@ function EditOption({
         ), []);
 
     const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionValues.some(v => getLastItemFromPath(v.path) === name))
+        .filter(({ name }) => !optionChildValues.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
@@ -60,20 +55,17 @@ function EditOption({
             />
             <OptionNameSelect
                 {...{
-                    optionValues,
-                    oPath,
+                    _optionGroups,
+                    validOptions,
                     option,
                     optionName,
-                    validOptions,
-                    __typename,
-                    systemMap,
+                    children: optionChildValues,
                     dispatch,
-                    _optionGroups,
+                    systemMap,
                 }}
             />
             <OptionToggles
                 {...{
-                    oPath,
                     option,
                     optionIsGrouped,
                     dispatch,
@@ -82,14 +74,12 @@ function EditOption({
             />
             <OptionAdditionGrouping
                 {...{
-                    option,
-                    oPath,
-                    optionName,
-                    __typename,
-                    optionIsGrouped,
-                    optionValues,
-                    selectValidOptionValues,
                     validOptionValues,
+                    option,
+                    optionName,
+                    optionIsGrouped,
+                    children: optionChildValues,
+                    selectValidOptionValues,
                     selectItem,
                     dispatch,
                     systemMap,
@@ -98,7 +88,6 @@ function EditOption({
             <ItemMovement
                 {...{
                     item: option,
-                    path: oPath,
                     name: 'Option',
                     partialAction,
                     cancelPartial,
@@ -107,7 +96,7 @@ function EditOption({
             />
             <ItemLink
                 {...{
-                    path: oPath,
+                    path,
                     match,
                     location,
                 }}
