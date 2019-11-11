@@ -36,9 +36,6 @@ export default function SystemBuilder({
 
     const systemMap = new SystemMap(system);
 
-    // adding default value to all options without one
-    useCheckDefaultValues({ systemMap, system, systemInput });
-
     const {
         selectedItem,
         selectedItem: {
@@ -60,6 +57,9 @@ export default function SystemBuilder({
             payload,
         ),
     }));
+
+    // adding default value to all options without one
+    useCheckDefaultValues({ systemMap, system, dispatch, systemInput });
 
     const save = async () => {
         dispatch(() => systemUpdate);

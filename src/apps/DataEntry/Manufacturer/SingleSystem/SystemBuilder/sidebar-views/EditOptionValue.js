@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { TitleBar, Input, GroupingBox, Toggle, CircleButton, confirmWithModal, Select } from '../../../../../../components';
-import { getParent, getChildren, filterOptionsAbove, getSiblings, getLastItemFromPath, getAllInstancesOfItem, getParentPath } from '../../../../../../app-logic/system-utils';
-import { UPDATE_ITEM, ADD_ITEM, DELETE_ITEM } from '../ducks/actions';
-import { getSelectTypeName } from '../ducks/utils';
-import { parseSearch, match } from '../../../../../../utils';
+import { withRouter } from 'react-router-dom';
+import { getChildren, getLastItemFromPath, getParent, getSiblings } from '../../../../../../app-logic/system-utils';
+import { TitleBar } from '../../../../../../components';
+import { match } from '../../../../../../utils';
+import { ValueAdditionGrouping } from './modules/add-item-grouping';
+import { ItemDelete } from './modules/item-delete';
+import { ItemLink } from './modules/item-link';
+import { ItemMovement } from './modules/item-movement';
 import { ValueNameSelect } from './modules/item-name-select';
+import { ValueToggles } from './modules/item-toggles';
+
 
 function EditOptionValue({
-    location: {
-        search,
-    },
-    match: {
-        path,
-    },
+    location,
+    match: systemMatch,
     selectItem,
     selectedItem: optionValue,
     selectedItem: {
@@ -121,318 +121,69 @@ function EditOptionValue({
                     hasChildren,
                 }}
             />
-            <Input
-                data-cy="default-option-value"
-                type="switch"
-                label="Default"
-                readOnly={isDefault}
-                checked={isDefault}
-                onChange={() => {
-                    const updateDefault = () => dispatch(UPDATE_ITEM, {
-                        path: oPath,
-                        __typename: oTypename,
-                        update: {
-                            [`default${__typename}`]: oVName,
-                        },
-                    });
-                    const updateDefaultForAllInstances = () => {
-                        getAllInstancesOfItem({ path: oPath, __typename: oTypename }, systemMap)
-                            .forEach((instance, i) => {
-                                const item = systemMap[instance];
-                                dispatch(UPDATE_ITEM, {
-                                    path: item.path,
-                                    __typename: item.__typename,
-                                    update: {
-                                        [`default${item.__typename}Value`]: oVName,
-                                    }
-                                }, {
-                                    replaceState: i !== 0,
-                                });
-                            });
-                    };
-                    optionIsGrouped ?
-                        confirmWithModal(updateDefaultForAllInstances, {
-                            titleBar: { title: `Change Default Value For Grouped Option` },
-                            children: 'Are you Sure?',
-                            finishButtonText: 'Change',
-                        })
-                        :
-                        updateDefault();
+            <ValueToggles
+                {...{
+                    __typename,
+                    oVName,
+                    isDefault,
+                    oPath,
+                    oTypename,
+                    optionIsGrouped,
+                    dispatch,
+                    systemMap,
                 }}
             />
-            <GroupingBox
-                data-cy="edit-children"
-                title={(
-                    <Toggle
-                        buttons={[
-                            {
-                                text: "Option",
-                                "data-cy": "toggle-child-option",
-                                selected: optionIsSelected,
-                                className: (hasChildren && !optionIsSelected) ? 'disabled' : '',
-                                onClick: () => !hasChildren && setOptionIsSelected(true),
-                            },
-                            {
-                                text: `${childTypeType.slice(0, 6)}s`,
-                                "data-cy": `toggle-child-${childTypeType.toLowerCase()}`,
-                                selected: !optionIsSelected,
-                                className: hasChildren && optionIsSelected ? 'disabled' : '',
-                                onClick: () => !hasChildren && setOptionIsSelected(false),
-                            },
-                        ]}
-                    />
-                )}
-                circleButton={optionIsSelected ?
-                    hasChildren ?
-                        undefined
-                        :
-                        {
-                            "data-cy": "add-option",
-                            actionType: "add",
-                            className: "action",
-                            onClick: () => dispatch(ADD_ITEM, {
-                                __typename: __typename.replace(/value/i, ''),
-                                [`parent${__typename}Path`]: ovPath,
-                                name: "ADD_OPTION",
-                            }),
-                        }
-                    :
-                    valueChildren.length < selectValidTypes.length ? {
-                        "data-cy": `add-${childTypeType.toLowerCase()}`,
-                        actionType: "add",
-                        className: "action",
-                        onClick: () => {
-                            dispatch(ADD_ITEM, {
-                                __typename: childTypeTypename,
-                                [`parent${__typename}Path`]: ovPath,
-                                name: getSelectTypeName(valueChildren, `ADD_${childTypeType.toUpperCase()}`),
-                            })
-                        },
-                    }
-                        :
-                        undefined}
-            >
-                {optionIsSelected ? (
-                    hasChildren ? (
-                        <div className="input-group">
-                            <Select
-                                disabled={childOptionChildren.length > 0}
-                                data-cy="edit-option-name"
-                                // autoFocus={childOptionChildren.length === 0}
-                                value={childOptionName}
-                                options={filterOptionsAbove(optionValue, validOptions)
-                                    .map(({ name }) => name)}
-                                onChange={name => {
-                                    const allInstances = getAllInstancesOfItem({
-                                        path: `${ovPath}.${name}`,
-                                        __typename: childTypename,
-                                    }, systemMap);
-                                    const firstInstance = systemMap[allInstances[0]];
-                                    const instanceValues = firstInstance ? getChildren(firstInstance, systemMap) || []
-                                        :
-                                        [];
-                                    const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
-                                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i)) || []
-                                        :
-                                        [];
-                                    dispatch(UPDATE_ITEM, {
-                                        path: childOptionPath,
-                                        __typename: childTypename,
-                                        update: {
-                                            name,
-                                            [`default${childTypename}Value`]: instanceDefaultValue,
-
-                                        }
-                                    })
-                                    if (_optionGroups.some(og => og.name === name)) {
-                                        instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                                            [`parent${childTypename}Path`]: `${getParentPath({ path: childOptionPath })}.${name}`,
-                                            name: getLastItemFromPath(value.path),
-                                            __typename: `${childTypename}Value`,
-                                        }, {
-                                            replaceState: true
-                                        }))
-                                    }
-                                }}
-                            />
-                            <CircleButton
-                                data-cy={`select-option-${childOptionName.toLowerCase()}`}
-                                className="primary"
-                                actionType="arrow"
-                                onClick={() => selectItem(childOption)}
-                            />
-                            <CircleButton
-                                data-cy="delete-option"
-                                type="small"
-                                className="danger"
-                                actionType="delete"
-                                onClick={() => {
-                                    const deleteOption = () => dispatch(DELETE_ITEM, {
-                                        __typename: childTypename,
-                                        path: childOptionPath,
-                                    });
-                                    if (childOptionChildren.length > 0) confirmWithModal(deleteOption, {
-                                        titleBar: { title: `Delete ${childOptionName}` },
-                                        children: `Deleting ${childOptionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                        danger: true,
-                                        finishButtonText: 'Delete',
-                                    })
-                                    else deleteOption();
-                                }}
-                            />
-                        </div>
-                    ) : (
-                            <div>
-                                No Option
-                            </div>
-                        )
-                ) : hasChildren ? (
-                    <>
-                        {valueChildren.map((item, i, { length }) => {
-                            const { path: childTypePath = '', partNumber = '' } = item;
-                            const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
-                            const childName = childTypePath ?
-                                childTypePath.replace(/^.*\.(\w+)$/, '$1')
-                                :
-                                partNumber;
-                            return (
-                                <div
-                                    className="input-group"
-                                // key={i}
-                                >
-                                    <Select
-                                        data-cy="edit-value-name"
-                                        data-cy={`edit-${childTypeType}-type-${(childName).toLowerCase()}`}
-                                        // autoFocus={i === length - 1}
-                                        value={childName}
-                                        options={selectTypes}
-                                        onChange={name => {
-                                            if (childName !== name) {
-                                                const updateType = () => dispatch(UPDATE_ITEM, {
-                                                    __typename: childTypeTypename,
-                                                    path: childTypePath,
-                                                    update: {
-                                                        name,
-                                                    }
-                                                });
-                                                childTypeChildren.length > 0 ?
-                                                    confirmWithModal(updateType, {
-                                                        titleBar: { title: `Change ${childName}` },
-                                                        children: 'Are you sure?',
-                                                        finishButtonText: 'Change',
-                                                    })
-                                                    :
-                                                    updateType();
-                                            }
-                                        }}
-                                    />
-                                    <CircleButton
-                                        data-cy={`select-${childTypeType}-${childName.toLowerCase()}`}
-                                        className="primary"
-                                        actionType="arrow"
-                                        onClick={() => selectItem(item)}
-                                    />
-                                    <CircleButton
-                                        data-cy={`delete-${childTypeType.toLowerCase()}-type-${childName}`}
-                                        type="small"
-                                        className="danger"
-                                        actionType="delete"
-                                        onClick={() => {
-                                            const deleteType = () => dispatch(DELETE_ITEM, {
-                                                __typename: childTypename,
-                                                path: childTypePath,
-                                            });
-                                            if (childTypeChildren.length > 0) confirmWithModal(deleteType, {
-                                                titleBar: { title: `Delete ${childName}` },
-                                                children: `Deleting ${(childName).toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                                danger: true,
-                                                finishButtonText: 'Delete',
-                                            });
-                                            else deleteType();
-                                        }}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </>
-                ) : (
-                            <div>
-                                No {childTypeType}
-                            </div>
-                        )}
-            </GroupingBox>
-            <button
-                data-cy="edit-option-value-move-button"
-                className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
-                    cancelPartial()
-                    :
-                    dispatchPartial('MOVE', optionValue)}
-            >
-                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : 'Move Value'}
-            </button>
-            <button
-                data-cy="edit-option-value-copy-button"
-                className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "COPY" ?
-                    cancelPartial()
-                    :
-                    dispatchPartial('COPY', optionValue)}
-            >
-                {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : 'Copy Value'}
-            </button>
-            {ovPath.match(/__DT__/) ? (
-                <Link
-                    to={`${path.replace(/build/, 'detail')}${parseSearch(search).update({ path: ovPath })}`}
-                    className="sidebar-button empty"
-                >
-                    <button>
-                        Edit {ovPath.match(/__CT__/) ? "Configuration" : "Detail"}
-                    </button>
-                </Link>
-            ) : null}
-            <button
-                className="sidebar-button danger"
-                data-cy="edit-option-value-delete-button"
-                onClick={() => {
-                    const deleteOptionValue = () => dispatch(DELETE_ITEM, {
-                        path: ovPath,
-                        __typename,
-                    });
-
-                    const deleteValueFromEachOption = () => {
-                        getAllInstancesOfItem({ path: ovPath, __typename }, systemMap)
-                            .forEach((instance, i) => {
-                                const item = systemMap[instance];
-                                dispatch(DELETE_ITEM, {
-                                    path: item.path,
-                                    __typename: item.__typename,
-                                }, {
-                                    replaceState: i !== 0,
-                                })
-                            })
-                    };
-                    optionIsGrouped ?
-                        confirmWithModal(deleteValueFromEachOption, {
-                            titleBar: { title: `Delete Grouped Option Value` },
-                            children: `Deleting a value attached to a grouped option will impact other values`,
-                            finishButtonText: 'Delete',
-                            danger: true,
-                        })
-                        :
-                        hasChildren ?
-                            confirmWithModal(deleteOptionValue, {
-                                titleBar: { title: `Delete ${oVName}` },
-                                children: `Deleting ${oVName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                finishButtonText: 'Delete',
-                                danger: true,
-                            })
-                            :
-                            deleteOptionValue();
+            <ValueAdditionGrouping
+                {...{
+                    _optionGroups,
+                    ovPath,
+                    __typename,
+                    optionIsSelected,
+                    hasChildren,
+                    valueChildren,
+                    childOption,
+                    childOptionPath,
+                    childTypeType,
+                    childTypeTypename,
+                    childOptionChildren,
+                    childOptionName,
+                    childTypename,
+                    selectTypes,
+                    optionValue,
+                    validOptions,
+                    selectValidTypes,
+                    setOptionIsSelected,
+                    selectItem,
+                    dispatch,
+                    systemMap,
                 }}
-            >
-                Delete Option Value
-            </button>
+            />
+            <ItemMovement
+                {...{
+                    item: optionValue,
+                    path: ovPath,
+                    name: 'Value',
+                    partialAction,
+                    cancelPartial,
+                    dispatchPartial,
+                }}
+            />
+            <ItemLink
+                {...{
+                    path: ovPath,
+                    match: systemMatch,
+                    location,
+                }}
+            />
+            <ItemDelete
+                {...{
+                    item: optionValue,
+                    parentOptionIsGrouped: optionIsGrouped,
+                    name: 'Value',
+                    dispatch,
+                    systemMap,
+                }}
+            />
         </>
     );
 }
