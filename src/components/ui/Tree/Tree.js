@@ -22,6 +22,7 @@ function Branch({
     open: propsOpen = true,
     // toggleOpen,
     renderItem,
+    identifier = 'key',
 }) {
     const [open, setOpen] = useInitialState(propsOpen);
     const toggleOpen = () => setOpen(o => !o);
@@ -37,7 +38,7 @@ function Branch({
                     open ?
                         branches.map((branch, i) => (
                             <Branch
-                                key={i}
+                                key={branch[identifier] || i}
                                 parent={item}
                                 // open={!open}
                                 {...branch}

@@ -142,10 +142,12 @@ export const makeRenderable = window.makeRenderable = system => {
     const systemMap = new SystemMap(system);
     const makeNodeRenderable = node => ({
         item: node,
+        identifier: 'path',
         branches: getChildren(node, systemMap).map(makeNodeRenderable),
     });
     return {
         item: systemMap,
+        identifier: 'path',
         branches: [makeNodeRenderable(getFirstItem(systemMap))],
     };
 }

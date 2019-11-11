@@ -15,17 +15,13 @@ GroupingBox.propTypes = {
     className: PropTypes.string,
 };
 
-GroupingBox.defaultProps = {
-    className: "",
-};
-
 export default function GroupingBox({
     title,
     switch: switchProps,
     toggle,
     circleButton,
     children,
-    className,
+    className="",
     "data-cy": dataCy,
 }) {
     return (
