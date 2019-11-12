@@ -54,14 +54,16 @@ const Row = ({
     );
 
 export const OptionAdditionGrouping = ({
-    option,
-    oPath,
-    optionName,
-    __typename,
-    optionIsGrouped,
-    optionValues,
-    selectValidOptionValues,
     validOptionValues,
+    option,
+    option: {
+        path,
+        __typename,
+    },
+    optionName,
+    optionIsGrouped,
+    children,
+    selectValidOptionValues,
     selectItem,
     dispatch,
     systemMap,
@@ -75,7 +77,7 @@ export const OptionAdditionGrouping = ({
                 className: "action",
                 onClick: () => {
                     const addValueToEachOption = () => {
-                        const valueName = (validOptionValues.find(({ name }) => !optionValues
+                        const valueName = (validOptionValues.find(({ name }) => !children
                             .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value';
                         getAllInstancesOfItem(option, systemMap)
                             .forEach((instance, i) => {
@@ -97,16 +99,16 @@ export const OptionAdditionGrouping = ({
                         })
                         :
                         dispatch(ADD_ITEM, {
-                            [`parent${__typename}Path`]: oPath,
-                            name: (validOptionValues.find(({ name }) => !optionValues
+                            [`parent${__typename}Path`]: path,
+                            name: (validOptionValues.find(({ name }) => !children
                                 .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value',
                             __typename: `${__typename}Value`,
                         });
                 }
             } : undefined}
         >
-            {optionValues.length ?
-                optionValues.map((item, i, { length }) => {
+            {children.length ?
+                children.map((item, i, { length }) => {
                     const { path: ovPath, __typename: valueTypename } = item;
                     const vName = ovPath.replace(/^.*\.(\w+)$/, '$1');
                     return (
@@ -183,7 +185,7 @@ export const OptionAdditionGrouping = ({
                                                 danger: true,
                                             });
                                         } else deleteOptionValue();
-                                    }   
+                                    }
                                 }}
                             />
                         </div>
@@ -197,8 +199,12 @@ export const OptionAdditionGrouping = ({
 
 export const ValueAdditionGrouping = ({
     _optionGroups,
-    ovPath,
-    __typename,
+    optionValue,
+    optionValue: {
+        path,
+        __typename
+    },
+    validOptions,
     optionIsSelected,
     hasChildren,
     valueChildren,
@@ -210,8 +216,6 @@ export const ValueAdditionGrouping = ({
     childOptionName,
     childTypename,
     selectTypes,
-    optionValue,
-    validOptions,
     selectValidTypes,
     setOptionIsSelected,
     selectItem,
@@ -230,16 +234,17 @@ export const ValueAdditionGrouping = ({
                     },
                     render: () => hasChildren ? (
                         <div className="input-group">
-                            <Select
-                                disabled={childOptionChildren.length > 0}
-                                data-cy="edit-option-name"
-                                // autoFocus={childOptionChildren.length === 0}
-                                value={childOptionName}
-                                options={filterOptionsAbove(optionValue, validOptions)
+                            <Row
+                                item={childOption}
+                                selectOptions={filterOptionsAbove(optionValue, validOptions)
                                     .map(({ name }) => name)}
-                                onChange={name => {
+                                grandchildren={childOptionChildren}
+                                dispatch={dispatch}
+                                selectValue={childOptionName}
+                                selectItem={selectItem}
+                                handleSelectChange={name => {
                                     const allInstances = getAllInstancesOfItem({
-                                        path: `${ovPath}.${name}`,
+                                        path: `${path}.${name}`,
                                         __typename: childTypename,
                                     }, systemMap);
                                     const firstInstance = systemMap[allInstances[0]];
@@ -247,7 +252,7 @@ export const ValueAdditionGrouping = ({
                                         :
                                         [];
                                     const [instanceDefaultValueKey, instanceDefaultValue] = firstInstance ?
-                                        Object.entries(firstInstance).find(([key, value]) => key.match(/default/i)) || []
+                                        Object.entries(firstInstance).find(([key]) => key.match(/default/i)) || []
                                         :
                                         [];
                                     dispatch(UPDATE_ITEM, {
@@ -268,31 +273,6 @@ export const ValueAdditionGrouping = ({
                                             replaceState: true
                                         }))
                                     }
-                                }}
-                            />
-                            <CircleButton
-                                data-cy={`select-option-${childOptionName.toLowerCase()}`}
-                                className="primary"
-                                actionType="arrow"
-                                onClick={() => selectItem(childOption)}
-                            />
-                            <CircleButton
-                                data-cy="delete-option"
-                                type="small"
-                                className="danger"
-                                actionType="delete"
-                                onClick={() => {
-                                    const deleteOption = () => dispatch(DELETE_ITEM, {
-                                        __typename: childTypename,
-                                        path: childOptionPath,
-                                    });
-                                    if (childOptionChildren.length > 0) confirmWithModal(deleteOption, {
-                                        titleBar: { title: `Delete ${childOptionName}` },
-                                        children: `Deleting ${childOptionName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                        danger: true,
-                                        finishButtonText: 'Delete',
-                                    })
-                                    else deleteOption();
                                 }}
                             />
                         </div>
@@ -369,7 +349,7 @@ export const ValueAdditionGrouping = ({
                         className: "action",
                         onClick: () => dispatch(ADD_ITEM, {
                             __typename: __typename.replace(/value/i, ''),
-                            [`parent${__typename}Path`]: ovPath,
+                            [`parent${__typename}Path`]: path,
                             name: "ADD_OPTION",
                         }),
                     }
@@ -381,7 +361,7 @@ export const ValueAdditionGrouping = ({
                     onClick: () => {
                         dispatch(ADD_ITEM, {
                             __typename: childTypeTypename,
-                            [`parent${__typename}Path`]: ovPath,
+                            [`parent${__typename}Path`]: path,
                             name: getSelectTypeName(valueChildren, `ADD_${childTypeType.toUpperCase()}`),
                         })
                     },
@@ -393,16 +373,20 @@ export const ValueAdditionGrouping = ({
 
 export const TypeAdditionGrouping = ({
     _optionGroups,
-    selectedType,
-    type,
-    tPath,
-    __typename,
-    oName,
-    oPath,
-    oTypename,
-    childOption,
-    childValues,
     validOptions,
+    selectedType,
+    selectedType: {
+        path,
+        __typename
+    } = {},
+    type,
+    oName,
+    childOption,
+    childOption: {
+        path: oPath,
+        __typename: oTypename,
+    } = {},
+    childValues,
     selectItem,
     dispatch,
     systemMap,
@@ -415,22 +399,23 @@ export const TypeAdditionGrouping = ({
                 className: "action",
                 onClick: () => dispatch(ADD_ITEM, {
                     __typename: `${type}Option`,
-                    [`parent${__typename}Path`]: tPath,
+                    [`parent${__typename}Path`]: path,
                     name: 'ADD_OPTION',
                 }),
             }}
         >
             {childOption ? (
                 <div className="input-group">
-                    <Select
-                        data-cy={`edit-${type.toLowerCase()}-type`}
-                        disabled={childValues.length > 0}
-                        // autoFocus={childValues.length === 0}
-                        value={oName}
-                        options={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
-                        onChange={name => {
+                    <Row
+                        item={selectedType}
+                        selectOptions={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
+                        grandchildren={childValues}
+                        dispatch={dispatch}
+                        selectValue={oName}
+                        selectItem={selectItem}
+                        handleSelectChange={name => {
                             const allInstances = getAllInstancesOfItem({
-                                path: `${tPath}.${name}`,
+                                path: `${path}.${name}`,
                                 __typename: oTypename,
                             }, systemMap);
                             const firstInstance = systemMap[allInstances[0]];
@@ -458,31 +443,7 @@ export const TypeAdditionGrouping = ({
                                 }))
                             }
                         }}
-                    />
-                    <CircleButton
-                        data-cy={`select-option-${oName.toLowerCase()}`}
-                        className="primary"
-                        actionType="arrow"
-                        onClick={() => selectItem(childOption)}
-                    />
-                    <CircleButton
-                        data-cy="delete-option"
-                        type="small"
-                        actionType="delete"
-                        className="danger"
-                        onClick={() => {
-                            const deleteOption = () => dispatch(DELETE_ITEM, {
-                                path: oPath,
-                                __typename: oTypename,
-                            });
-                            if (childValues.length > 0) confirmWithModal(deleteOption, {
-                                titleBar: { title: `Delete ${oName}` },
-                                children: `Deleting ${oName.toLowerCase()} will delete all the items below it. Do you want to continue?`,
-                                finishButtonText: 'Delete',
-                                danger: true,
-                            });
-                            else deleteOption();
-                        }}
+
                     />
                 </div>
             ) : (

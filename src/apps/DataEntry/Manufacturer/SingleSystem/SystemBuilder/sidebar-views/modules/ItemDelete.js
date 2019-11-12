@@ -3,10 +3,10 @@ import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../.
 import { DELETE_ITEM } from '../../ducks/actions';
 import { confirmWithModal } from '../../../../../../../components';
 
-export const ItemDelete = ({
+const ItemDelete = ({
     item,
     item: {
-        path,
+        path = '',
         __typename
     },
     parentOptionIsGrouped = false,
@@ -61,3 +61,5 @@ export const ItemDelete = ({
         </button >
     ) : null;
 }
+
+export default ItemDelete;

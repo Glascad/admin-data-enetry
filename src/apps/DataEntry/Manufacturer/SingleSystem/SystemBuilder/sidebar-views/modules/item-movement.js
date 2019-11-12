@@ -2,7 +2,9 @@ import React from 'react';
 
 export const ItemMovement = ({
     item,
-    path,
+    item: {
+        path = '',
+    },
     name,
     partialAction,
     cancelPartial,

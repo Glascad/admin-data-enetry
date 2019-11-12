@@ -4,12 +4,14 @@ import { Input, confirmWithModal } from '../../../../../../../components';
 import { DELETE_OPTION_GROUP, ADD_OPTION_GROUP, UPDATE_ITEM } from '../../ducks/actions';
 
 export const OptionToggles = ({
-    oPath,
     option,
+    option: {
+        path
+    },
     optionIsGrouped,
     dispatch,
     systemMap,
-}) => oPath.match(/__DT__/) && canItemBeGrouped(option, systemMap) ? (
+}) => path.match(/__DT__/) && canItemBeGrouped(option, systemMap) ? (
     <Input
         data-cy="group-option"
         type="switch"
