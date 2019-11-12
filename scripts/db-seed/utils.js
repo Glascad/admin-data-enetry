@@ -75,6 +75,7 @@ const ONLY = (path, contents, vars, varObj, PROTECTION = 10) => {
     );
 }
 
+const partialLoop = /<<\s*LOOP/ig;
 const loopStart = /<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>/ig;
 const loopEnd = /<<\s*END\s*LOOP\s*>>/ig;
 const entireLoop = /([\s\S]*)\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)<<\s*END\s*LOOP\s*>>([\s\S]*)/ig;
@@ -149,11 +150,14 @@ const LOOP = (path, contents, PROTECTION = 10) => {
 
 const duplicateSQL = (path, contents) => {
 
+    const loopAttempts = contents.match(partialLoop);
     const loopMatches = contents.match(loopStart);
     const endLoopMatches = contents.match(loopEnd);
+    const loopAttemptCount = (loopAttempts || []).length;
     const loopCount = (loopMatches || []).length;
     const endLoopCount = (endLoopMatches || []).length;
 
+    if (loopAttemptCount !== loopCount) throw new Error(`Invalid <<LOOP ... >> attempt in ${logErrorPath(path)}`);
     if (loopCount !== endLoopCount) throw new Error(`Unequal number of '<<LOOP ... >>'s and '<<END LOOP>'s in ${logErrorPath(path)}`);
 
     return LOOP(path, contents)

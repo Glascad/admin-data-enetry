@@ -44,6 +44,7 @@
         s ALIAS FOR system;
         u NEW_<<TYPE>>_OPTION_VALUE;
         uov <<TYPE>>_option_values%ROWTYPE;
+        pop LTREE;
     BEGIN
 
         u := ov.update;
@@ -54,6 +55,11 @@
                 ELSE '[update]' END
             );
         END IF;
+
+        pop := u.parent_<<TYPE>>_option_path;
+
+        pop := s.id::TEXT || CASE WHEN subltree(pop, 0, 1)::TEXT ~ '\d+'
+            THEN subpath(pop, 1) ELSE pop END;
 
         UPDATE <<TYPE>>_option_values ovs SET
             name = COALESCE(
