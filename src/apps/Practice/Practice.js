@@ -1,75 +1,55 @@
 import React, { useState } from 'react';
 import Statics from '../Statics/Statics';
-import { TitleBar, Pill, ListWrapper, Tree, useQuery, RightSidebar, Input, GroupingBox, Toggle } from '../../components';
-
+import { TitleBar, Pill, ListWrapper, Tree, useQuery, RightSidebar, Input, GroupingBox, Toggle, ToggleBox } from '../../components';
+import { match } from '../../utils';
 import './Practice.scss';
 
-function Practice() {
+function Practice({ selectedItem: { __typename = '' } }) {
+    const props = arguments[0];
+    const NameComponent = match(__typename)
+        .regex(/Value$/, ValueName)
+        .regex(/Option$/, OptionName)
+        .equals('System', SystemName)
+        .equals('ConfigurationPart', PartNumber)
+        .otherwise(DetailOrConfigurationType);
+    return <NameComponent {...props} />;
+}
+
+function OtherPractice({ selectedItem: { __typename } }) {
+    const props = arguments[0];
     return (
-        <div id="Practice">
-            <TitleBar
-                title="Test Options"
-            />
-            <RightSidebar
-                open={true}
-                View={{
-                    title: "Sidebar",
-                    component: () => (
-                        <>
-                            <TitleBar
-                                title="Configurations"
-                            />
-                            {["Head", "Shim Support", "Compensating Receptor", "Infills"].map(ct => (
-                                <Input
-                                    label={ct}
-                                    type="switch"
-                                    checked={true}
-                                />
-                            ))}
-                            {/* <GroupingBox
-                                title="Compensating Receptor"
-                            // switch={{}}
-                            > */}
-                            {/* <Toggle
-                                    label="Durability"
-                                    buttons={[
-                                        {
-                                            text: "Standard Duty",
-                                        },
-                                        {
-                                            text: "High-Performance",
-                                            selected: true,
-                                        },
-                                    ]}
-                                    />
-                                <Toggle
-                                    label="Other Option"
-                                    buttons={[
-                                        {
-                                            text: "Value 1",
-                                            selected: true,
-                                        },
-                                        {
-                                            text: "Value 2",
-                                        },
-                                    ]}
-                                /> */}
-                            {/* {["Standard Duty", "High-Performance"].map(ov => (
-                                    <Input
-                                        label={ov}
-                                        type="switch"
-                                    />
-                                ))} */}
-                            {/* </GroupingBox> */}
-                            <TitleBar
-                                title="Infills"
-                            />
-                        </>
-                    )
-                }}
-            />
-        </div>
+        __typename.match(/Option$/) ?
+            <OptionValueChildren {...props} />
+            :
+            <OptionOrOtherChildren {...props} />
     );
+
+}
+
+function OptionValueChildren() {
+    const values = getChildren();
+    const validValues = getPossibleChildren();
+    
+    return (
+        <GroupingBox
+        >
+
+        </GroupingBox>
+    );
+}
+
+function OptionOrOtherChildren() {
+    const otherChildName = match(__typename)
+    // ... get child name based on typename (Details, Configurations, or Parts)
+    const children = getChildren();
+    const possibleChildren = getPossibleChildren();
+    return (
+        <ToggleBox
+            views={[
+                
+            ]}
+        />
+    )
 }
 
 
