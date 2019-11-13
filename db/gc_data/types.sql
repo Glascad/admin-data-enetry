@@ -61,16 +61,16 @@
         <<END ONLY>>
         parent_<<PARENT>>_option_value_path LTREE
         <<ONLY TYPE (part, configuration)>>
-            parent_<<GRANDPARENT>>_<<PARENT>>_path LTREE
+            , parent_<<GRANDPARENT>>_<<PARENT>>_path LTREE
             <<ONLY TYPE (configuration)>>
                 , optional BOOLEAN
             <<END ONLY>>
             <<ONLY TYPE (part)>>
-                transform MATRIX,
-                part_id INTEGER,
-                part_orientation ORIENTATION,
-                extra_part_path_id INTEGER,
-                extra_part_path_orientation ORIENTATION
+                , transform MATRIX
+                , part_id INTEGER
+                , part_orientation ORIENTATION
+                , extra_part_path_id INTEGER
+                , extra_part_path_orientation ORIENTATION
             <<END ONLY>>
         <<END ONLY>>
     );

@@ -20,7 +20,7 @@
             parent_<<TYPE>>_option_path
         ) VALUES (
             ov.name,
-            ov.parent_<<TYPE>>_option_path
+            prepend_system_id(s.id, ov.parent_<<TYPE>>_option_path)
         )
         RETURNING * INTO uov;
 
@@ -55,11 +55,6 @@
                 ELSE '[update]' END
             );
         END IF;
-
-        pop := u.parent_<<TYPE>>_option_path;
-
-        pop := s.id::TEXT || CASE WHEN subltree(pop, 0, 1)::TEXT ~ '\d+'
-            THEN subpath(pop, 1) ELSE pop END;
 
         UPDATE <<TYPE>>_option_values ovs SET
             name = COALESCE(

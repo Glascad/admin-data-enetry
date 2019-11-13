@@ -36,6 +36,7 @@ ${require('../../db/gc_utils/functions/get_real_id.sql')}
 ${require('../../db/gc_data/functions/utils/get_option_value_child_type.sql')}
 ${require('../../db/gc_data/functions/utils/get_dt~ct_from_path.sql')}
 ${require('../../db/gc_data/functions/utils/get_sov~dov_subpath.sql')}
+${require('../../db/gc_data/functions/utils/prepend_system_id.sql')}
 
 
 ----- TABLES -----
@@ -120,7 +121,8 @@ ${require('../../db/users.sql')}
 
 ----- SEED DATA -----
 
-${require('../../db/seed_data.sql')}
+${require('../../db/seed_data/seed_data.sql')}
+${require('../../db/seed_data/system.sql')}
 
 
 ----- POLICIES -----

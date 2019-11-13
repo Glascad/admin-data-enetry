@@ -44,8 +44,8 @@ const getKeys = obj => typeof obj === 'object' ?
 
 const entireOnly = /([\s\S]*)<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>([\s\S]*)/ig;
 
-const ONLY = (path, contents, vars, varObj, PROTECTION = 10) => {
-    if (PROTECTION <= 0) throw new Error(`<<ONLY>> depth exceeded maximum limit of 10 in ${logErrorPath(path)}`);
+const ONLY = (path, contents, vars, varObj, PROTECTION = 15) => {
+    if (PROTECTION <= 0) throw new Error(`<<ONLY>> depth exceeded maximum limit of 15 in ${logErrorPath(path)}`);
     else return contents.replace(
         entireOnly,
         (match, before, onlyVar, onlyVals, lastOnlyVal, onlyContents, after, offset, entireString) => {
@@ -80,8 +80,8 @@ const loopStart = /<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>/ig;
 const loopEnd = /<<\s*END\s*LOOP\s*>>/ig;
 const entireLoop = /([\s\S]*)\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)<<\s*END\s*LOOP\s*>>([\s\S]*)/ig;
 
-const LOOP = (path, contents, PROTECTION = 10) => {
-    if (PROTECTION <= 0) throw new Error(`<<LOOP>> depth exceeded maximum limit of 10 in ${logErrorPath(path)}`);
+const LOOP = (path, contents, PROTECTION = 15) => {
+    if (PROTECTION <= 0) throw new Error(`<<LOOP>> depth exceeded maximum limit of 15 in ${logErrorPath(path)}`);
     else return contents.replace(
         entireLoop,
         (match, before, variables, lastVar, lastVal, contents, after, offset, entireString) => {

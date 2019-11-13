@@ -1,8 +1,10 @@
 
 <<LOOP
     FULL (<<PARENT>>_<<TYPE>>, <<PARENT>>_<<TYPE>>, <<PARENT>>_<<TYPE>>)
+    GRANDFULL (<<GRANDPARENT>>_<<PARENT>>, <<GRANDPARENT>>_<<PARENT>>, <<GRANDPARENT>>_<<PARENT>>)
     TYPE (detail, configuration, part)
     PARENT (system, detail, configuration)
+    GRANDPARENT (NULL, system, detail)
 >>
 
     -- CREATE
@@ -19,6 +21,9 @@
         ust <<FULL>>s%ROWTYPE;
     BEGIN
 
+        IF s.id IS NULL THEN RAISE EXCEPTION 'System id is NULL in <<FULL>>';
+        END IF;
+        
         INSERT INTO <<FULL>>s (
             system_id,
             <<ONLY TYPE (detail, configuration)>>
@@ -32,6 +37,9 @@
                 extra_part_path_orientation,
             <<END ONLY>>
             parent_<<PARENT>>_option_value_path
+            <<ONLY TYPE (configuration, part)>>
+                , parent_<<GRANDFULL>>_path
+            <<END ONLY>>
         ) VALUES (
             s.id,
             <<ONLY TYPE (detail, configuration)>>
@@ -44,7 +52,10 @@
                 t.extra_part_path_id,
                 t.extra_part_path_orientation,
             <<END ONLY>>
-            t.parent_<<PARENT>>_option_value_path
+            prepend_system_id(s.id, t.parent_<<PARENT>>_option_value_path)
+            <<ONLY TYPE (configuration, part)>>
+                , prepend_system_id(s.id, t.parent_<<GRANDFULL>>_path)
+            <<END ONLY>>
         )
         RETURNING * INTO ust;
 
@@ -86,6 +97,12 @@
                 u.parent_<<PARENT>>_option_value_path,
                 ts.parent_<<PARENT>>_option_value_path
             ),
+            <<ONLY TYPE (configuration, part)>>
+                parent_<<GRANDFULL>>_path = COALESCE(
+                    u.parent_<<GRANDFULL>>_path,
+                    ts.parent_<<GRANDFULL>>_path
+                ),
+            <<END ONLY>>
             <<ONLY TYPE (detail, configuration)>>
                 <<TYPE>>_type = COALESCE(
                     u.<<TYPE>>_type,
