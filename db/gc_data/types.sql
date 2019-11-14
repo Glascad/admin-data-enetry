@@ -69,8 +69,6 @@
                 , transform MATRIX
                 , part_id INTEGER
                 , part_orientation ORIENTATION
-                , extra_part_path_id INTEGER
-                , extra_part_path_orientation ORIENTATION
             <<END ONLY>>
         <<END ONLY>>
     );

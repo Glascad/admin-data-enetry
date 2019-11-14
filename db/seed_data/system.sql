@@ -4,6 +4,7 @@ DO $create_systems$ DECLARE ___ INTEGER; BEGIN
     <<LOOP
         NAME (Initial, Practice)
         MNFG_ID (1, 2)
+        PART_ID (3, 6)
     >>
 
         SELECT 1 FROM update_entire_system((
@@ -29,7 +30,11 @@ DO $create_systems$ DECLARE ___ INTEGER; BEGIN
             -- , configuration_parts ENTIRE_CONFIGURATION_PART[]
             NULL,
             -- , new_configuration_parts NEW_CONFIGURATION_PART[]
-            NULL,
+            ARRAY[
+                ('SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.UP', NULL, NULL, <<PART_ID>>, 'FRONT'),
+                ('SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE', NULL, NULL, <<PART_ID>>, 'FRONT'),
+                ('SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE', NULL, NULL, <<PART_ID>>, 'FRONT')
+            ]::NEW_CONFIGURATION_PART[],
             -- , configuration_option_values ENTIRE_CONFIGURATION_OPTION_VALUE[]
             NULL,
             -- , new_configuration_option_values NEW_CONFIGURATION_OPTION_VALUE[]

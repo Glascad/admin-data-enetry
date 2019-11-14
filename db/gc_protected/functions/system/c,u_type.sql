@@ -30,11 +30,10 @@
                 <<TYPE>>_type,
             <<END ONLY>>
             <<ONLY TYPE (part)>>
+                manufacturer_id,
                 transform,
                 part_id,
                 part_orientation,
-                extra_part_path_id,
-                extra_part_path_orientation,
             <<END ONLY>>
             parent_<<PARENT>>_option_value_path
             <<ONLY TYPE (configuration, part)>>
@@ -46,11 +45,10 @@
                 t.<<TYPE>>_type,
             <<END ONLY>>
             <<ONLY TYPE (part)>>
+                s.manufacturer_id,
                 t.transform,
                 t.part_id,
                 t.part_orientation,
-                t.extra_part_path_id,
-                t.extra_part_path_orientation,
             <<END ONLY>>
             prepend_system_id(s.id, t.parent_<<PARENT>>_option_value_path)
             <<ONLY TYPE (configuration, part)>>
@@ -121,14 +119,6 @@
                 part_orientation = COALESCE(
                     u.part_orientation,
                     ts.part_orientation
-                ),
-                extra_part_path_id = COALESCE(
-                    u.extra_part_path_id,
-                    ts.extra_part_path_id
-                ),
-                extra_part_path_orientation = COALESCE(
-                    u.extra_part_path_orientation,
-                    ts.extra_part_path_orientation
                 )
             <<END ONLY>>
         WHERE

@@ -42,8 +42,8 @@ ${require('../../db/gc_data/functions/utils/prepend_system_id.sql')}
 ----- TABLES -----
 
 ${require('../../db/gc_controlled/tables.sql')}
-${require('../../db/gc_data/tables/app_data.sql')}
-${require('../../db/gc_data/tables/manufacturer_data.sql')}
+${require('../../db/gc_data/tables/d,dc_types.sql')}
+${require('../../db/gc_data/tables/manufacturer.sql')}
 -- configuration_data
 ${require('../../db/gc_private/tables.sql')}
 ${require('../../db/gc_public/tables.sql')}
@@ -122,9 +122,9 @@ ${require('../../db/users.sql')}
 ----- SEED DATA -----
 
 ${require('../../db/seed_data/seed_data.sql')}
+${require('./insert-parts')}
 ${require('../../db/seed_data/system.sql')}
 ${require('../../db/seed_data/system_set.sql')}
-${require('./insert-parts')}
 
 
 ----- POLICIES -----
