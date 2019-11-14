@@ -21,7 +21,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
 
     // if the path and initial path are the same, the item is the same
     const oldPath = getOldPath(path, systemInput);
-    console.log({ oldPath })
+    console.log({ oldPath });
     const updatedItem = itemsArray.find(item => item.path === oldPath);
     // if it is a new item, the parent needs to be the same as the path from parent, and the name needs to be the same as the last item on the path
     const updatedNewItem = newItemsArray.find(item => Object.entries(item).find(([key, value]) =>
@@ -65,7 +65,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
 
     // finds all updated items that need to be updated
     const updatedItems = Object.entries(systemInput)
-        .filter(([key]) => key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i))
+        .filter(([key]) => key.match(/(option|value|detail|configuration)s$/i) && !key.match(/new/i))
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.map(item => {
@@ -81,9 +81,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
                                 ...itemUpdate,
                                 ...update,
                             }
-                        }
-                        :
-                        {
+                        } : {
                             ...item,
                             update: {
                                 ...itemUpdate,

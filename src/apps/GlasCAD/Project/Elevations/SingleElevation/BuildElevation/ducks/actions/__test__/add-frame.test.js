@@ -64,8 +64,9 @@ const testAddFrame = ({ elevation, distance, vertical, oldContainer, newContaine
                 )
             ));
         });
-        return sampleResult;
     });
+    
+    return sampleResult;
 };
 
 // describe('', () => test('', () => expect(true).toBe(true)));

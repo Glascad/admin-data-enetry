@@ -133,3 +133,22 @@ testAddItem({
         ]),
     },
 });
+
+testAddItem({
+    systemInput: {},
+    payload: {
+        parentConfigurationOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+        name: "dxf4",
+        __typename: "ConfigurationPart",
+    },
+    systemOutput: {
+        newConfigurationParts: expect.arrayContaining([
+            expect.objectContaining({
+                parentConfigurationOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+                name: "dxf4",
+                __typename: "ConfigurationPart",
+                fakeId: expect.any(Number),
+            }),
+        ]),
+    },
+});

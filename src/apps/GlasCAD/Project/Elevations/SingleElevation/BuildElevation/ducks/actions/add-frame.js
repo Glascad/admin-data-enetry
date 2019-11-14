@@ -12,7 +12,7 @@ ADD_FRAME.getSelectedItems = ({
     containers: {
         [id]: container,
     },
- }) => ([
+}) => ([
     container.getFrameByDirection(!vertical, false),
 ]);
 

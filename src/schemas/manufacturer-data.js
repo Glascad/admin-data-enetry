@@ -120,6 +120,7 @@ export const CONFIGURATION_PART_FIELDS = gql`
         __typename
         nodeId
         id
+        path
         parentConfigurationOptionValuePath
         parentDetailConfigurationPath
         partId
