@@ -79,6 +79,6 @@ export default function DELETE_ITEM(systemInput, payload) {
         detailConfigurations,
         configurationOptions,
         configurationOptionValues,
-        pathsToDelete: removeDescendantPaths(pathsToDelete.concat(isNewItem || isUpdatedItem || pathsToDelete.includes(oldPath) ? [] : oldPath)),
+        pathsToDelete: pathsToDelete.concat(isNewItem || isUpdatedItem || pathsToDelete.includes(oldPath) ? [] : oldPath),
     }
 }

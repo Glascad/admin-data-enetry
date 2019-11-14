@@ -41,6 +41,28 @@ export const getUpdatedPath = item => {
     return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
 }
 
+export const getParentWithUpdatedPath = ({ path }, allUpdatedItems) => allUpdatedItems
+    .reduce((parentItem, item) => path.startsWith(item.path) && path !== item.path ?
+        (
+            parentItem
+            &&
+            parentItem.path.length > item.path.length
+        ) || !(
+            item.update.name
+            ||
+            Object.entries(item.update).some(([key]) => key.match(/parent/i))
+        ) ?
+            parentItem
+            :
+            item
+        :
+        parentItem, undefined);
+
+export const getNewPathFromUpdatedParent = (item, updatedParentItem) => {
+    const updatedParentPath = getUpdatedPath(updatedParentItem);
+
+}
+
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
     name
     :

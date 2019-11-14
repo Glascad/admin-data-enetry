@@ -276,3 +276,40 @@ testUpdateItem({
         ])
     },
 });
+// Updating a non-movement under a moved Item has correct
+
+// testUpdateItem({
+//     systemInput: {
+//         systemOptions: [{
+//             path: "1.SET.CENTER.JOINERY",
+//             defaultSystemOptionValue: "SCREW_SPLINE",
+//             update: {
+//                 parentSystemOptionValuePath: "1.SET.FRONT"
+//             },
+//         }]
+//     },
+//     payload: {
+//         path: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+//         __typename: "SystemOptionValue",
+//         update: {
+//             somethingElse: "COOL"
+//         }
+//     },
+//     systemOutput: {
+//         systemOptions: [{
+//             path: "1.SET.CENTER.JOINERY",
+//             defaultSystemOptionValue: "SCREW_SPLINE",
+//             update: {
+//                 parentSystemOptionValuePath: "FRONT"
+//             }
+//         }],
+//         systemOptionValues: [{
+//             path: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+//             __typename: "SystemOptionValue",
+//             update: {
+//                 somethingElse: "COOL",
+//                 parentSystemOptionPath: "1.SET.FRONT.JOINERY",
+//             }
+//         }],
+//     }
+// });

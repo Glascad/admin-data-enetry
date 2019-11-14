@@ -51,7 +51,7 @@ function testMerge({
                 expect(_systemOptions).toContainEqual(expect.objectContaining({ path }));
             });
             // _systemOptions.forEach(({ path }) => {
-                // must be a definitive list of items to include, so that we know all deletions were cascaded
+            // must be a definitive list of items to include, so that we know all deletions were cascaded
             //     expect(systemOptionPathsToInclude).toContain(path);
             // });
             pathsToDelete.forEach(path => {
@@ -159,7 +159,7 @@ testMerge({
             "1.SET.BACK",
             "1.SET.CENTER.JOINERY.STICK",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
         ],
         newOptionGroups: ['JOINERY'],
         optionGroupsToDelete: ['GLAZING'],
@@ -195,34 +195,107 @@ testMerge({
         ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailOptionPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING",
         ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailOptionValuePathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP",
         ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         detailConfigurationPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.HEAD",
         ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionValuePathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
         ],
         // must be a definitive list of items to include, so that we know all deletions were cascaded
         configurationOptionPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
         ],
     },
+});
+
+
+testMerge({
+    systemInput: {
+        detailOptions: [
+            {
+                path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS",
+                defaultDetailOptionValue: "UP",
+                update: {
+                    parentSystemDetailPath: '"1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL'
+                },
+            },
+        ],
+        pathsToDelete: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD",
+        ],
+    },
+    _system: sample1,
+    result: {
+        systemOptionPathsToInclude: [
+            "1.SET",
+            "1.SET.CENTER.JOINERY",
+        ],
+        systemOptionValuePathsToInclude: [
+            "1.SET.BACK",
+            "1.SET.CENTER",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+            "1.SET.CENTER.JOINERY.SHEAR_BLOCK",
+            "1.SET.CENTER.JOINERY.STICK",
+            "1.SET.FRONT",
+        ],
+        optionGroups: [
+            "GLAZING",
+            "STOPS",
+        ],
+        systemDetailPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
+            "1.SET.FRONT.__DT__.HEAD",
+        ],
+        detailOptionPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING",
+        ],
+        detailOptionValuePathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP",
+        ],
+        detailConfigurationPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.HEAD",
+        ],
+        configurationOptionPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+        ],
+        configurationOptionValuePathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+        ]
+    }
 });
