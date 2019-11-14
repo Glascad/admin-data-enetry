@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { removeNullValues, match } from '../../../../../../utils';
 import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../../../app-logic/system-utils";
-import { getOldPath, getUpdatedPath } from "./utils";
+import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "./utils";
 
 export default function merge(systemInput, {
     _system,
@@ -63,83 +63,65 @@ export default function merge(systemInput, {
     ];
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
-        .filter(item => {
-            const updatedPath = getUpdatedPath(item);
-            // console.log(updatedPath);
-            return !pathsToDelete.some(deletedPath => updatedPath.startsWith(deletedPath) && !updatedPath.startsWith(`${deletedPath}_`))
-        })
-        .map(oldItem => {
+        .filter(({ path }) => {
+            const itemWithUpdatedPath = updatedItems.find(item =>
+                item.path === path
+                &&
+                (
+                    item.update.name
+                    ||
+                    Object.keys(item.update).some(key => key.match(/parent/i))
+                )
+            );
+
+            // If it is an item with updated path, it is in the right spot
+            if (itemWithUpdatedPath) {
+                const updatedPath = getUpdatedPath(itemWithUpdatedPath);
+                return !pathsToDelete.some(deletedPath => updatedPath.match(new RegExp(`${deletedPath}\\b`)));
+            };
+
+            const parentWithUpdatedPath = getParentWithUpdatedPath({ path }, allUpdatedItems);
+
+            // if the parent is updated, we look to see if the move prevents it from being deleted or not
+            if (parentWithUpdatedPath) {
+                return !pathsToDelete.some(deletedPath => {
+                    const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
+                    return foundDeletedItem && path.match(foundDeletedItem);
+                });
+            } else {
+                // else we check to see if the path is in the deleted paths (or child of one that is)
+                return !pathsToDelete.some(deletedPath => path.match(new RegExp(`${deletedPath}\\b`)));
+            };
+
+
+
+
+        }).map(oldItem => {
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);
             const [newUpdatedItemParentKey, newUpdatedItemParentPath] = updatedItem ?
                 Object.entries(updatedItem.update).find(([key]) => key.match(/^parent/)) || []
                 :
                 [];
-            const updatedParent = allUpdatedItems.reduce((parentItem, item) => path.startsWith(item.path) && path !== item.path ?
-                (
-                    parentItem
-                    &&
-                    parentItem.path.length > item.path.length
-                ) || !(
-                    item.update.name
-                    ||
-                    Object.entries(item.update).some(([key]) => key.match(/parent/i))
-                ) ?
-                    parentItem
+            const parentWithUpdatedPath = getParentWithUpdatedPath(oldItem, allUpdatedItems);
+            const updatedPath = updatedItem ?
+                getUpdatedPath(updatedItem)
+                :
+                parentWithUpdatedPath ?
+                    path.replace(parentWithUpdatedPath.path, getUpdatedPath(parentWithUpdatedPath))
                     :
-                    item
-                :
-                parentItem, undefined)
-
-
-            // Adding __DT__ or __CT__ in the path
-            const itemPathAddition = getItemPathAddition(oldItem);
-            const updatedParentPathAddition = updatedParent ? getItemPathAddition(updatedParent) : '';
-
-            const [updatedParentParentKey, updatedParentParentPath] = updatedParent ?
-                Object.entries(updatedParent.update).find(([key]) => key.match(/^parent/)) || []
-                :
-                [];
-
-            const newParentPath = updatedItem ?
-                newUpdatedItemParentPath || getParentPath(updatedItem)
-                :
-                updatedParent ?
-                    getParentPath({
-                        path: path.replace(updatedParent.path,
-                            `${updatedParentParentPath
-                            ||
-                            getParentPath(updatedParent)}.${updatedParentPathAddition}${
-                            updatedParent.update.name
-                            ||
-                            getLastItemFromPath(updatedParent.path)
-                            }`)
-                    })
-                    :
-                    getParentPath(oldItem);
-
-            const newItemName = updatedItem ?
-                (updatedItem.update.name
-                    ||
-                    getLastItemFromPath(updatedItem.path))
-                :
-                getLastItemFromPath(path);
-
-            const newPath = `${newParentPath}.${itemPathAddition}${newItemName}`
-
-            const newUpdatedItem = updatedItem || updatedParent ? {
+                    path;
+            const newUpdatedItem = updatedItem || parentWithUpdatedPath ? {
                 ...updatedItem ? updatedItem.update : {},
-                path: newPath,
+                path: updatedPath,
                 name: undefined,
                 [newUpdatedItemParentKey]: undefined,
             } : {};
-
             return {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),
             };
-        })
-        .concat(newItems.map(item => {
+        }).concat(newItems.map(item => {
             const { name, __typename, id } = item;
             const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
             const path = `${

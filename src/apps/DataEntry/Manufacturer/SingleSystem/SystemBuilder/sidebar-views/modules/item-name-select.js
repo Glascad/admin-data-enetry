@@ -119,7 +119,7 @@ export const ValueNameSelect = ({
                             name,
                         },
                     });
-                    const deleteValueFromEachOption = () => {
+                    const updateValueFromEachOption = () => {
                         getAllInstancesOfItem({ path, __typename }, systemMap)
                             .forEach(instance => {
                                 const item = systemMap[instance];
@@ -135,7 +135,7 @@ export const ValueNameSelect = ({
                             });
                     };
                     optionIsGrouped ?
-                        confirmWithModal(deleteValueFromEachOption, {
+                        confirmWithModal(updateValueFromEachOption, {
                             titleBar: { title: `Delete Grouped Option Value` },
                             children: 'Are you Sure?',
                             finishButtonText: 'Change',
