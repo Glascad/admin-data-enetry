@@ -32,7 +32,11 @@
             OLD.name
         )::TEXT;
 
-        NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+        NEW.system_id := COALESCE(
+            NEW.system_id,
+            OLD.system_id,
+            subltree(NEW.path, 0, 1)::TEXT::INTEGER
+        );
 
         RETURN NEW;
     END;
@@ -65,7 +69,11 @@
             OLD.name
         )::TEXT;
 
-        NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+        NEW.system_id := COALESCE(
+            NEW.system_id,
+            OLD.system_id,
+            subltree(NEW.path, 0, 1)::TEXT::INTEGER
+        );
 
         RETURN NEW;
     END;
@@ -84,22 +92,51 @@
         CREATE OR REPLACE FUNCTION gc_protected.generate_<<PARENT>>_<<TYPE>>_path()
         RETURNS TRIGGER AS $$
         BEGIN
+
+            <<ONLY TYPE (configuration)>>
+                IF COALESCE(
+                    NEW.parent_detail_option_value_path,
+                    OLD.parent_detail_option_value_path,
+                    NEW.parent_system_detail_path,
+                    OLD.parent_system_detail_path
+                ) IS NULL THEN
+                    RAISE EXCEPTION 'No parent path: %, %, %', COALESCE(NEW.system_id, OLD.system_id), COALESCE(NEW.configuration_type, OLD.configuration_type), COALESCE(NEW.optional, OLD.optional);
+                END IF;
+            <<END ONLY>>
+
             NEW.path := COALESCE(
                 NEW.parent_<<PARENT>>_option_value_path,
                 OLD.parent_<<PARENT>>_option_value_path,
                 <<ONLY TYPE (detail)>>
                     NEW.system_id::TEXT::LTREE,
-                    OLD.system_id::TEXT::LTREE
+                    OLD.system_id::TEXT::LTREE,
                 <<END ONLY>>
                 <<ONLY TYPE (configuration)>>
-                    NEW.parent_system_detail_path
+                    NEW.parent_system_detail_path,
+                    OLD.parent_system_detail_path,
                 <<END ONLY>>
+                NEW.system_id::TEXT::LTREE,
+                OLD.system_id::TEXT::LTREE
             ) || <<PREFIX>> || COALESCE(
                 NEW.<<TYPE>>_type,
                 OLD.<<TYPE>>_type
             )::TEXT;
 
-            NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+            NEW.system_id := COALESCE(
+                NEW.system_id,
+                OLD.system_id,
+                subltree(NEW.path, 0, 1)::TEXT::INTEGER
+            );
+
+            IF NEW.path IS NULL THEN
+                RAISE EXCEPTION '<<PARENT>> PATH IS NULL: %', COALESCE(
+                    NEW.parent_<<PARENT>>_option_value_path,
+                    OLD.parent_<<PARENT>>_option_value_path
+                    <<ONLY TYPE (configuration)>>
+                        , NEW.parent_system_detail_path
+                    <<END ONLY>>
+                );
+            END IF;
 
             RETURN NEW;
         END;

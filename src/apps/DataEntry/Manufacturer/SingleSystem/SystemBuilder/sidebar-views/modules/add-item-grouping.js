@@ -453,3 +453,4 @@ export const TypeAdditionGrouping = ({
                 )}
         </GroupingBox>
     );
+    

@@ -1,0 +1,4479 @@
+[
+    {
+        "__typename": "Part",
+        "nodeId": "WyJwYXJ0cyIsMV0=",
+        "id": 1,
+        "partNumber": "gasket",
+        "orientation": "FRONT",
+        "paths": [
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            5.49563396959708,
+                            3.32868887547489
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.49025628184135,
+                            3.32467340384782
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.48357364431682,
+                            3.32529460727842
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47902824252763,
+                            3.33023250769873
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47448284073845,
+                            3.33517040811906
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.4744159832011,
+                            3.34188152338077
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.478862107822,
+                            3.34690899927244
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.5060881026841,
+                            3.39041411142181
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.53331409754621,
+                            3.43391922357122
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56054009240832,
+                            3.47742433572062
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.57758640937688,
+                            3.49702724170707
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.60280213282304,
+                            3.50327369160993
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.62702785477823,
+                            3.49389471293124
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.65125357673337,
+                            3.48451573425252
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.6656894992778,
+                            3.46291816527833
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.6650918900922,
+                            3.43694714857576
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.66509230750536,
+                            3.33673286681974
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.66509272491858,
+                            3.2365185850637
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.6650931423318,
+                            3.13630430330766
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.69042647556422,
+                            3.13630440903366
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.71575980879662,
+                            3.13630451475969
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.74109314202902,
+                            3.13630462048572
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.74109296170557,
+                            3.17951245578879
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.74109278138216,
+                            3.22272029109184
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.74109260105875,
+                            3.26592812639489
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.73476189781483,
+                            3.2438981546831
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.72843119457089,
+                            3.22186818297136
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.72210049132694,
+                            3.19983821125961
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.71982409536109,
+                            3.19477446228138
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.71470261063,
+                            3.19263111759198
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.70949808048694,
+                            3.19456409413036
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.70429355034385,
+                            3.19649707066875
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.70181280496469,
+                            3.20146390413404
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.70339372323521,
+                            3.20678595540496
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.71713733420491,
+                            3.24383335064851
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.73088094517463,
+                            3.28088074589204
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.74462455614436,
+                            3.31792814113557
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.7667431701321,
+                            3.31792823344529
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.78886178411979,
+                            3.31792832575503
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.81098039810747,
+                            3.31792841806476
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.82733765003296,
+                            3.29316497235047
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.84369490195844,
+                            3.26840152663618
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.86005215388393,
+                            3.24363808092188
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.86168416410923,
+                            3.24036178682108
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.86145937282343,
+                            3.23670842818991
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.85943801307299,
+                            3.23365692607296
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.85741665332255,
+                            3.23060542395603
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.85414035044415,
+                            3.22897343135208
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.8504869930221,
+                            3.22919824228729
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.84683363559999,
+                            3.22942305322245
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.84378214435487,
+                            3.23144442938517
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.84215016937234,
+                            3.23472074104108
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.83346429628388,
+                            3.24919282170405
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.82477842319544,
+                            3.26366490236703
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.816092550107,
+                            3.27813698303002
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.82109267420783,
+                            3.2484008226871
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.82609279830866,
+                            3.21866466234415
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.8310929224095,
+                            3.1889285020012
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.83909305039357,
+                            3.15826186872191
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.84709317837765,
+                            3.12759523544268
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.85509330636172,
+                            3.09692860216344
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.87542662360893,
+                            3.10078309598827
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.89575994085611,
+                            3.10463758981309
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.91609325810329,
+                            3.10849208363791
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.91609329015917,
+                            3.10081106145858
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.9160933222151,
+                            3.09313003927922
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.91609335427104,
+                            3.08544901709987
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.91609339815055,
+                            3.07493490737831
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.9091699723097,
+                            3.06702209006303
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.89874895979322,
+                            3.06562602367124
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.83240235374417,
+                            3.05050434598098
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.6891221903838,
+                            3.01784801917287
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56248405710762,
+                            2.94295351375175
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.49448635347799,
+                            2.90273928876781
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47754009749387,
+                            2.91302938211519
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47115157466946,
+                            2.93179766357881
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47830074095681,
+                            2.95028958166137
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.49982351231257,
+                            3.00490216039066
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.5290771064647,
+                            3.0791311798484
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.54423202973301,
+                            3.15724925466041
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.54823700859724,
+                            3.17789345278647
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.54926566392835,
+                            3.18277268676992
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.546963880945,
+                            3.18719613012924
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.54237767157387,
+                            3.1891536131202
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.52391986090886,
+                            3.18692106086413
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.50546205024385,
+                            3.18468850860804
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.48700423957884,
+                            3.18245595635195
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.48207305853872,
+                            3.18191184332891
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.4779103517679,
+                            3.18461082050052
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47639483642088,
+                            3.18933478267919
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47487932107386,
+                            3.19405874485786
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.47669498111516,
+                            3.19867566851405
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.48102237096431,
+                            3.2011018388556
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.50664722609407,
+                            3.22153450876674
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.53227208122384,
+                            3.24196717867785
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.5578969363536,
+                            3.26239984858895
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56026099251334,
+                            3.26524949855537
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56184485313933,
+                            3.26859623606753
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56254964571578,
+                            3.27223114100192
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56255619301443,
+                            3.30519175416651
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56256274031308,
+                            3.33815236733111
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56256928761174,
+                            3.37111298049572
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.5625700000072,
+                            3.37469934381472
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.56080748580528,
+                            3.37782273076662
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.55773714767064,
+                            3.37967611310773
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.55466680953599,
+                            3.38152949544878
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.55108196883118,
+                            3.38163399178571
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.54790888533206,
+                            3.37996260210324
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.53048391342035,
+                            3.36287135989381
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.5130589415087,
+                            3.34578011768436
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            5.49563396959705,
+                            3.32868887547492
+                        ],
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            }
+        ]
+    },
+    {
+        "__typename": "Part",
+        "nodeId": "WyJwYXJ0cyIsMl0=",
+        "id": 2,
+        "partNumber": "Kawneer head_black alum_magenta tb",
+        "orientation": "FRONT",
+        "paths": [
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            2.50417875248437,
+                            1.30999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0150000000000003,
+                            -0.0150000000000003,
+                            0,
+                            0,
+                            0,
+                            2.51917875248437,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.59917875248437,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999983,
+                            -0.0149999999999983,
+                            0,
+                            0,
+                            0,
+                            2.61417875248437,
+                            1.30999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.61417875248437,
+                            1.09499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.014999999999999,
+                            -0.014999999999999,
+                            0,
+                            0,
+                            0,
+                            2.59917875248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.51917465384838,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999972,
+                            -0.0149999999999972,
+                            0,
+                            0,
+                            0,
+                            2.50417666957102,
+                            1.09524561671515
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0155000000000257,
+                            0.0155000000000257,
+                            0,
+                            1,
+                            1,
+                            2.47317875248437,
+                            1.09549971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.47317875248436,
+                            1.00999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.48317875248437,
+                            0.999999715075809
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.31867875248435,
+                            0.999999715075809
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.100000000000001,
+                            -0.100000000000001,
+                            0,
+                            0,
+                            0,
+                            3.41867875248435,
+                            0.899999715075808
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.41867875248435,
+                            0.328499715075814
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000015,
+                            -0.0200000000000015,
+                            0,
+                            0,
+                            0,
+                            3.39867875248435,
+                            0.308499715075811
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.35667875248435,
+                            0.308499715075811
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.35667875248435,
+                            0.330499715075817
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0380049999999985,
+                            0.0380049999999985,
+                            0,
+                            0,
+                            1,
+                            3.31867375248435,
+                            0.292494715075819
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.31867375248435,
+                            0.0904997150758149
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0200000000000011,
+                            0.0200000000000011,
+                            0,
+                            0,
+                            1,
+                            3.33867375248435,
+                            0.0704997150758118
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.36767375248435,
+                            0.0704997150758118
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0200000000000011,
+                            0.0200000000000011,
+                            0,
+                            0,
+                            1,
+                            3.38767375248435,
+                            0.0904997150758149
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.38767375248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.35867375248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.35867375248435,
+                            0.140499715075812
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.38111080046967,
+                            0.242657948892166
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000031,
+                            -0.0200000000000031,
+                            0,
+                            0,
+                            0,
+                            3.40067375248435,
+                            0.258499715075814
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.44262375248435,
+                            0.258499715075814
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.50930142201401,
+                            0.191877384605476
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0249999999999981,
+                            -0.0249999999999981,
+                            0,
+                            0,
+                            0,
+                            3.51662375248435,
+                            0.174199715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.51662375248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.48762375248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.52365405551465,
+                            -2.849241909e-7
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.88117375248435,
+                            -2.849241909e-7
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.88117375248435,
+                            1.99999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.42617375248435,
+                            1.99999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.42617375248435,
+                            1.91999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.31817375248435,
+                            1.91999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0619999999999982,
+                            0.0619999999999982,
+                            0,
+                            0,
+                            1,
+                            4.25617375248435,
+                            1.85799971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.25617375248435,
+                            1.83999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.44617375248435,
+                            1.83999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0600000000000021,
+                            0.0600000000000021,
+                            0,
+                            0,
+                            1,
+                            4.50617375248435,
+                            1.89999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.50617375248435,
+                            1.91999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.74117375248435,
+                            1.91999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0600000000000021,
+                            -0.0600000000000021,
+                            0,
+                            0,
+                            0,
+                            4.80117375248435,
+                            1.85999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.80117375248435,
+                            0.13999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0599999999999961,
+                            -0.0599999999999961,
+                            0,
+                            0,
+                            0,
+                            4.74117375248435,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.01340358994513,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999981,
+                            -0.0199999999999981,
+                            0,
+                            0,
+                            0,
+                            3.99581117508451,
+                            0.109513228589321
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000009,
+                            0.165000000000009,
+                            0,
+                            0,
+                            1,
+                            3.96392126901343,
+                            0.307999715075802
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.91995578478712,
+                            0.307999715075816
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.90293511488529,
+                            0.278519050026986
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000075,
+                            0.0100000000000075,
+                            0,
+                            0,
+                            1,
+                            3.90579331021467,
+                            0.265374351460196
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0950000000000091,
+                            -0.0950000000000091,
+                            0,
+                            1,
+                            0,
+                            3.79555419475405,
+                            0.26537435146021
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000002,
+                            0.0100000000000002,
+                            0,
+                            0,
+                            1,
+                            3.79841239008344,
+                            0.278519050026986
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.78139172018161,
+                            0.307999715075816
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.7374262359553,
+                            0.307999715075802
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000014,
+                            0.165000000000014,
+                            0,
+                            0,
+                            1,
+                            3.70553632988419,
+                            0.109513228589321
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999983,
+                            -0.0199999999999983,
+                            0,
+                            0,
+                            0,
+                            3.68794391502357,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.61662375248433,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000002,
+                            -0.0200000000000002,
+                            0,
+                            0,
+                            0,
+                            3.59662375248433,
+                            0.0999997150758176
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.59662375248435,
+                            0.174199712030386
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.105000000000003,
+                            0.105000000000003,
+                            0,
+                            0,
+                            1,
+                            3.56583913504129,
+                            0.248476740726531
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.50600842330413,
+                            0.308257796029537
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0250000000000011,
+                            -0.0250000000000011,
+                            0,
+                            0,
+                            0,
+                            3.49867875248435,
+                            0.325942802861952
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.49867875248435,
+                            0.909999715075813
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.169999999999997,
+                            0.169999999999997,
+                            0,
+                            0,
+                            1,
+                            3.32867875248435,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.70417875248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999978,
+                            -0.0199999999999978,
+                            0,
+                            0,
+                            0,
+                            2.68417875248437,
+                            1.09999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.68417875248437,
+                            1.30499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0700000000000029,
+                            0.0700000000000029,
+                            0,
+                            0,
+                            1,
+                            2.61417875248437,
+                            1.37499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.47317875248437,
+                            1.37499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.47317875248438,
+                            1.30949971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0154999999999959,
+                            0.0154999999999959,
+                            0,
+                            0,
+                            1,
+                            2.50417875248437,
+                            1.30949971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "Z",
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            },
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            0.836178752484354,
+                            1.91999971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.836178752484354,
+                            1.99999971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.381178752484352,
+                            1.99999971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.381178752484352,
+                            -2.849241838e-7
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.73869844945405,
+                            -2.849241838e-7
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.77472875248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.74572875248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.74572875248435,
+                            0.174199715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0250000000000066,
+                            -0.0250000000000066,
+                            0,
+                            0,
+                            0,
+                            1.75305108295469,
+                            0.191877384605483
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.81972875248435,
+                            0.258499715075814
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.86167875248435,
+                            0.258499715075814
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000004,
+                            -0.0200000000000004,
+                            0,
+                            0,
+                            0,
+                            1.88124170449903,
+                            0.242657948892173
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.90367875248435,
+                            0.140499715075819
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.90367875248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.87467875248435,
+                            0.102499715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.87467875248435,
+                            0.0904997150758149
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0199999999999976,
+                            0.0199999999999976,
+                            0,
+                            0,
+                            1,
+                            1.89467875248435,
+                            0.0704997150758189
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.92367875248435,
+                            0.0704997150758189
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.019999999999998,
+                            0.019999999999998,
+                            0,
+                            0,
+                            1,
+                            1.94367875248435,
+                            0.0904997150758149
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.94367875248435,
+                            0.292494715075819
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0380049999999981,
+                            0.0380049999999981,
+                            0,
+                            0,
+                            1,
+                            1.90567375248435,
+                            0.330499715075817
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.90567375248435,
+                            0.308499715075818
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.86367375248435,
+                            0.308499715075818
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.019999999999998,
+                            -0.019999999999998,
+                            0,
+                            0,
+                            0,
+                            1.84367375248435,
+                            0.328499715075814
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.84367375248435,
+                            0.899999715075815
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0999999999999981,
+                            -0.0999999999999981,
+                            0,
+                            0,
+                            0,
+                            1.94367375248435,
+                            0.999999715075809
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.21317875248437,
+                            0.999999715075809
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.22317875248436,
+                            1.00999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.22317875248436,
+                            1.09549971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0154999999999959,
+                            0.0154999999999959,
+                            0,
+                            0,
+                            1,
+                            2.19217875248437,
+                            1.09549971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.19217875248437,
+                            1.09499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0150000000000006,
+                            -0.0150000000000006,
+                            0,
+                            0,
+                            0,
+                            2.17717875248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09717875248436,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999997,
+                            -0.0149999999999997,
+                            0,
+                            0,
+                            0,
+                            2.08217875248436,
+                            1.09499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.08217875248436,
+                            1.30999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0150000000000001,
+                            -0.0150000000000001,
+                            0,
+                            0,
+                            0,
+                            2.09717875248436,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.17718285112035,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0150000000000023,
+                            -0.0150000000000023,
+                            0,
+                            0,
+                            0,
+                            2.1921808353977,
+                            1.30975381343647
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0155000000000243,
+                            0.0155000000000243,
+                            0,
+                            1,
+                            1,
+                            2.22317875248435,
+                            1.30949971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.22317875248435,
+                            1.37499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.08217375248437,
+                            1.37499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0700000000000051,
+                            0.0700000000000051,
+                            0,
+                            0,
+                            1,
+                            2.01217375248436,
+                            1.30499971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.01217375248437,
+                            1.09499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999988,
+                            -0.0149999999999988,
+                            0,
+                            0,
+                            0,
+                            1.99717375248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.93367375248435,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.169999999999997,
+                            0.169999999999997,
+                            0,
+                            0,
+                            1,
+                            1.76367375248435,
+                            0.909999715075813
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.76367375248435,
+                            0.325942802861952
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0250000000000019,
+                            -0.0250000000000019,
+                            0,
+                            0,
+                            0,
+                            1.75634408166458,
+                            0.308257796029537
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.69651336992742,
+                            0.248476740726531
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.105000000000004,
+                            0.105000000000004,
+                            0,
+                            0,
+                            1,
+                            1.66572875248435,
+                            0.174199712030386
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.66572875248435,
+                            0.0999997150758105
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999979,
+                            -0.0199999999999979,
+                            0,
+                            0,
+                            0,
+                            1.64572875248435,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.57440858994512,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000009,
+                            -0.0200000000000009,
+                            0,
+                            0,
+                            0,
+                            1.55681617508449,
+                            0.109513228589329
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000001,
+                            0.165000000000001,
+                            0,
+                            0,
+                            1,
+                            1.52492626901343,
+                            0.307999715075809
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.48096078478709,
+                            0.307999715075816
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.46394011488526,
+                            0.278519050026986
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000016,
+                            0.0100000000000016,
+                            0,
+                            0,
+                            1,
+                            1.46679831021466,
+                            0.26537435146021
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0950000000000131,
+                            -0.0950000000000131,
+                            0,
+                            1,
+                            0,
+                            1.35655919475403,
+                            0.265374351460196
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000075,
+                            0.0100000000000075,
+                            0,
+                            0,
+                            1,
+                            1.35941739008341,
+                            0.278519050026986
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.34239672018158,
+                            0.307999715075816
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.29843123595527,
+                            0.307999715075809
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000001,
+                            0.165000000000001,
+                            0,
+                            0,
+                            1,
+                            1.26654132988421,
+                            0.109513228589329
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999997,
+                            -0.0199999999999997,
+                            0,
+                            0,
+                            0,
+                            1.24894891502359,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.521173752484355,
+                            0.0799997150758145
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0599999999999987,
+                            -0.0599999999999987,
+                            0,
+                            0,
+                            0,
+                            0.461173752484353,
+                            0.13999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.461173752484356,
+                            1.85999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0599999999999968,
+                            -0.0599999999999968,
+                            0,
+                            0,
+                            0,
+                            0.521173752484355,
+                            1.91999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.756178752484352,
+                            1.91999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.756178752484352,
+                            1.89999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0600000000000021,
+                            0.0600000000000021,
+                            0,
+                            0,
+                            1,
+                            0.816178752484355,
+                            1.83999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.00617875248435,
+                            1.83999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.00617875248436,
+                            1.85799971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0620000000000022,
+                            0.0620000000000022,
+                            0,
+                            0,
+                            1,
+                            0.944178752484355,
+                            1.91999971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "Z",
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            },
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            2.61417875248437,
+                            1.30999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999987,
+                            0.0149999999999987,
+                            0,
+                            0,
+                            1,
+                            2.59917875248437,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.51917875248437,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0150000000000005,
+                            0.0150000000000005,
+                            0,
+                            0,
+                            1,
+                            2.50417667013063,
+                            1.30975377929952
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0154999999999958,
+                            -0.0154999999999958,
+                            0,
+                            1,
+                            0,
+                            2.47317875248438,
+                            1.30949971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.47317875248437,
+                            1.37499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.18125000000004,
+                            -0.18125000000004,
+                            0,
+                            0,
+                            0,
+                            2.22317875248435,
+                            1.37499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.22317875248435,
+                            1.30949971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0155000000000243,
+                            -0.0155000000000243,
+                            0,
+                            1,
+                            0,
+                            2.1921808353977,
+                            1.30975381343647
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0150000000000024,
+                            0.0150000000000024,
+                            0,
+                            0,
+                            1,
+                            2.17718285112035,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09717875248436,
+                            1.32499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.015,
+                            0.015,
+                            0,
+                            0,
+                            1,
+                            2.08217875248436,
+                            1.30999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.08217875248436,
+                            1.09499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999995,
+                            0.0149999999999995,
+                            0,
+                            0,
+                            1,
+                            2.09717875248436,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.17717875248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0150000000000005,
+                            0.0150000000000005,
+                            0,
+                            0,
+                            1,
+                            2.19218083483811,
+                            1.09524565085211
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0154999999999958,
+                            -0.0154999999999958,
+                            0,
+                            1,
+                            0,
+                            2.22317875248436,
+                            1.09549971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.22317875248436,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.47317875248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.47317875248437,
+                            1.09549971507582
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0155000000000257,
+                            -0.0155000000000257,
+                            0,
+                            1,
+                            0,
+                            2.50417666957102,
+                            1.09524561671516
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999977,
+                            0.0149999999999977,
+                            0,
+                            0,
+                            1,
+                            2.51917465384838,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.59917875248437,
+                            1.07999971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999991,
+                            0.0149999999999991,
+                            0,
+                            0,
+                            1,
+                            2.61417875248437,
+                            1.09499971507581
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "Z",
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            }
+        ]
+    },
+    {
+        "__typename": "Part",
+        "nodeId": "WyJwYXJ0cyIsM10=",
+        "id": 3,
+        "partNumber": "dxf4",
+        "orientation": "FRONT",
+        "paths": [
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            0,
+                            0.0625
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0625,
+                            0.0625,
+                            0,
+                            0,
+                            1,
+                            0.0625,
+                            0
+                        ],
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            },
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            0.455000070316625,
+                            2.00000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            7.03166236e-8,
+                            2.00000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            7.03166236e-8,
+                            7.1e-15
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.35751976728632,
+                            7.1e-15
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.39355007031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.36455007031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.36455007031662,
+                            0.174200000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0250000000000066,
+                            -0.0250000000000066,
+                            0,
+                            0,
+                            0,
+                            1.37187240078696,
+                            0.191877669529674
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.43855007031662,
+                            0.258500000000005
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.48050007031662,
+                            0.258500000000005
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000005,
+                            -0.0200000000000005,
+                            0,
+                            0,
+                            0,
+                            1.5000630223313,
+                            0.242658233816364
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.52250007031662,
+                            0.14050000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.52250007031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.49350007031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.49350007031662,
+                            0.0905000000000058
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.019999999999998,
+                            0.019999999999998,
+                            0,
+                            0,
+                            1,
+                            1.51350007031662,
+                            0.0705000000000098
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.54250007031662,
+                            0.0705000000000098
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0199999999999974,
+                            0.0199999999999974,
+                            0,
+                            0,
+                            1,
+                            1.56250007031662,
+                            0.0905000000000058
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.56250007031662,
+                            0.292495000000009
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0380049999999982,
+                            0.0380049999999982,
+                            0,
+                            0,
+                            1,
+                            1.52449507031662,
+                            0.330500000000008
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.52449507031662,
+                            0.308500000000009
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.48249507031662,
+                            0.308500000000009
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999975,
+                            -0.0199999999999975,
+                            0,
+                            0,
+                            0,
+                            1.46249507031662,
+                            0.328500000000005
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.46249507031662,
+                            0.900000000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0999999999999977,
+                            -0.0999999999999977,
+                            0,
+                            0,
+                            0,
+                            1.56249507031662,
+                            1
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.83200007031664,
+                            1
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.84200007031664,
+                            1.01
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.84200007031664,
+                            1.09550000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.015499999999996,
+                            0.015499999999996,
+                            0,
+                            0,
+                            1,
+                            1.81100007031664,
+                            1.09550000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.81100007031664,
+                            1.09500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.015,
+                            -0.015,
+                            0,
+                            0,
+                            0,
+                            1.79600007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.71600007031663,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999992,
+                            -0.0149999999999992,
+                            0,
+                            0,
+                            0,
+                            1.70100007031663,
+                            1.09500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.70100007031663,
+                            1.31
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999999,
+                            -0.0149999999999999,
+                            0,
+                            0,
+                            0,
+                            1.71600007031663,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.79600416895262,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0150000000000023,
+                            -0.0150000000000023,
+                            0,
+                            0,
+                            0,
+                            1.81100215322997,
+                            1.30975409836066
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0155000000000242,
+                            0.0155000000000242,
+                            0,
+                            1,
+                            1,
+                            1.84200007031662,
+                            1.30950000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.84200007031663,
+                            1.375
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.70099507031664,
+                            1.37500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0700000000000048,
+                            0.0700000000000048,
+                            0,
+                            0,
+                            1,
+                            1.63099507031664,
+                            1.30500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.63099507031664,
+                            1.095
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999987,
+                            -0.0149999999999987,
+                            0,
+                            0,
+                            0,
+                            1.61599507031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.55249507031662,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.169999999999997,
+                            0.169999999999997,
+                            0,
+                            0,
+                            1,
+                            1.38249507031662,
+                            0.910000000000004
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.38249507031662,
+                            0.325943087786143
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0250000000000015,
+                            -0.0250000000000015,
+                            0,
+                            0,
+                            0,
+                            1.37516539949685,
+                            0.308258080953728
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.31533468775969,
+                            0.248477025650722
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.105000000000004,
+                            0.105000000000004,
+                            0,
+                            0,
+                            1,
+                            1.28455007031663,
+                            0.174199996954577
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.28455007031662,
+                            0.100000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999984,
+                            -0.0199999999999984,
+                            0,
+                            0,
+                            0,
+                            1.26455007031662,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.19322990777739,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000009,
+                            -0.0200000000000009,
+                            0,
+                            0,
+                            0,
+                            1.17563749291676,
+                            0.109513513513519
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000001,
+                            0.165000000000001,
+                            0,
+                            0,
+                            1,
+                            1.1437475868457,
+                            0.308
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.09978210261936,
+                            0.308000000000007
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.08276143271753,
+                            0.278519334951177
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000017,
+                            0.0100000000000017,
+                            0,
+                            0,
+                            1,
+                            1.08561962804693,
+                            0.265374636384401
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0950000000000126,
+                            -0.0950000000000126,
+                            0,
+                            1,
+                            0,
+                            0.975380512586302,
+                            0.265374636384387
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000075,
+                            0.0100000000000075,
+                            0,
+                            0,
+                            1,
+                            0.978238707915683,
+                            0.278519334951177
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.961218038013854,
+                            0.308000000000007
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.917252553787541,
+                            0.308
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000001,
+                            0.165000000000001,
+                            0,
+                            0,
+                            1,
+                            0.885362647716484,
+                            0.109513513513519
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999998,
+                            -0.0199999999999998,
+                            0,
+                            0,
+                            0,
+                            0.867770232855865,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.139995070316626,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0599999999999987,
+                            -0.0599999999999987,
+                            0,
+                            0,
+                            0,
+                            0.0799950703166239,
+                            0.140000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.0799950703166275,
+                            1.86000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0599999999999968,
+                            -0.0599999999999968,
+                            0,
+                            0,
+                            0,
+                            0.139995070316626,
+                            1.92
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.375000070316624,
+                            1.92
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.375000070316624,
+                            1.90000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0600000000000022,
+                            0.0600000000000022,
+                            0,
+                            0,
+                            1,
+                            0.435000070316626,
+                            1.84
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.625000070316624,
+                            1.84
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.625000070316627,
+                            1.858
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0620000000000024,
+                            0.0620000000000024,
+                            0,
+                            0,
+                            1,
+                            0.563000070316626,
+                            1.92000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            0.455000070316625,
+                            1.92000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "Z",
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            },
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            2.13800007031664,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.21800007031664,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999981,
+                            -0.0149999999999981,
+                            0,
+                            0,
+                            0,
+                            2.23300007031664,
+                            1.31
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.23300007031664,
+                            1.09500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999986,
+                            -0.0149999999999986,
+                            0,
+                            0,
+                            0,
+                            2.21800007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.13799597168065,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0149999999999973,
+                            -0.0149999999999973,
+                            0,
+                            0,
+                            0,
+                            2.12299798740329,
+                            1.09524590163934
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0155000000000259,
+                            0.0155000000000259,
+                            0,
+                            1,
+                            1,
+                            2.09200007031664,
+                            1.09550000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09200007031664,
+                            1.01
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.10200007031664,
+                            1
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.93750007031662,
+                            1
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.100000000000002,
+                            -0.100000000000002,
+                            0,
+                            0,
+                            0,
+                            3.03750007031663,
+                            0.899999999999998
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.03750007031662,
+                            0.328500000000005
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000015,
+                            -0.0200000000000015,
+                            0,
+                            0,
+                            0,
+                            3.01750007031662,
+                            0.308500000000002
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.97550007031662,
+                            0.308500000000002
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.97550007031662,
+                            0.330500000000008
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.038004999999998,
+                            0.038004999999998,
+                            0,
+                            0,
+                            1,
+                            2.93749507031662,
+                            0.292495000000009
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.93749507031662,
+                            0.0905000000000058
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0200000000000007,
+                            0.0200000000000007,
+                            0,
+                            0,
+                            1,
+                            2.95749507031662,
+                            0.0705000000000027
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.98649507031662,
+                            0.0705000000000027
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0200000000000016,
+                            0.0200000000000016,
+                            0,
+                            0,
+                            1,
+                            3.00649507031662,
+                            0.0905000000000058
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.00649507031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.97749507031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.97749507031662,
+                            0.140500000000003
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.99993211830194,
+                            0.242658233816357
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000032,
+                            -0.0200000000000032,
+                            0,
+                            0,
+                            0,
+                            3.01949507031662,
+                            0.258500000000005
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.06144507031662,
+                            0.258500000000005
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.12812273984628,
+                            0.191877669529667
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0249999999999973,
+                            -0.0249999999999973,
+                            0,
+                            0,
+                            0,
+                            3.13544507031662,
+                            0.174200000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.13544507031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.10644507031662,
+                            0.102500000000006
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.14247537334693,
+                            0
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.49999507031662,
+                            0
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.49999507031662,
+                            2
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.04499507031662,
+                            2
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.04499507031662,
+                            1.92
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.93699507031662,
+                            1.92
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0619999999999982,
+                            0.0619999999999982,
+                            0,
+                            0,
+                            1,
+                            3.87499507031662,
+                            1.858
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.87499507031663,
+                            1.84
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.06499507031662,
+                            1.84
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0600000000000017,
+                            0.0600000000000017,
+                            0,
+                            0,
+                            1,
+                            4.12499507031662,
+                            1.90000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.12499507031662,
+                            1.92
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.35999507031662,
+                            1.92
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0600000000000028,
+                            -0.0600000000000028,
+                            0,
+                            0,
+                            0,
+                            4.41999507031662,
+                            1.86
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            4.41999507031662,
+                            0.140000000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0599999999999956,
+                            -0.0599999999999956,
+                            0,
+                            0,
+                            0,
+                            4.35999507031663,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.63222490777741,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999986,
+                            -0.0199999999999986,
+                            0,
+                            0,
+                            0,
+                            3.61463249291678,
+                            0.109513513513512
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000009,
+                            0.165000000000009,
+                            0,
+                            0,
+                            1,
+                            3.5827425868457,
+                            0.307999999999993
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.53877710261939,
+                            0.308000000000007
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.52175643271756,
+                            0.278519334951177
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000073,
+                            0.0100000000000073,
+                            0,
+                            0,
+                            1,
+                            3.52461462804694,
+                            0.265374636384387
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0950000000000091,
+                            -0.0950000000000091,
+                            0,
+                            1,
+                            0,
+                            3.41437551258632,
+                            0.265374636384401
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0100000000000005,
+                            0.0100000000000005,
+                            0,
+                            0,
+                            1,
+                            3.41723370791571,
+                            0.278519334951177
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.40021303801388,
+                            0.308000000000007
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.35624755378757,
+                            0.307999999999993
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.165000000000014,
+                            0.165000000000014,
+                            0,
+                            0,
+                            1,
+                            3.32435764771646,
+                            0.109513513513512
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999982,
+                            -0.0199999999999982,
+                            0,
+                            0,
+                            0,
+                            3.30676523285584,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.2354450703166,
+                            0.0800000000000054
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0200000000000002,
+                            -0.0200000000000002,
+                            0,
+                            0,
+                            0,
+                            3.2154450703166,
+                            0.100000000000008
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.21544507031662,
+                            0.174199996954577
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.105000000000004,
+                            0.105000000000004,
+                            0,
+                            0,
+                            1,
+                            3.18466045287356,
+                            0.248477025650722
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.1248297411364,
+                            0.308258080953728
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0250000000000012,
+                            -0.0250000000000012,
+                            0,
+                            0,
+                            0,
+                            3.11750007031662,
+                            0.325943087786143
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            3.11750007031662,
+                            0.910000000000004
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.169999999999996,
+                            0.169999999999996,
+                            0,
+                            0,
+                            1,
+                            2.94750007031663,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.32300007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0199999999999975,
+                            -0.0199999999999975,
+                            0,
+                            0,
+                            0,
+                            2.30300007031664,
+                            1.1
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.30300007031664,
+                            1.30500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0700000000000033,
+                            0.0700000000000033,
+                            0,
+                            0,
+                            1,
+                            2.23300007031664,
+                            1.37500000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09200007031664,
+                            1.375
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09200007031665,
+                            1.30950000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0154999999999961,
+                            0.0154999999999961,
+                            0,
+                            0,
+                            1,
+                            2.12300007031664,
+                            1.30950000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.12300007031664,
+                            1.31
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "Z",
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            },
+            {
+                "commands": [
+                    {
+                        "command": "M",
+                        "arguments": [
+                            2.23300007031664,
+                            1.31
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999979,
+                            0.0149999999999979,
+                            0,
+                            0,
+                            1,
+                            2.21800007031664,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.13800007031664,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0150000000000008,
+                            0.0150000000000008,
+                            0,
+                            0,
+                            1,
+                            2.1229979879629,
+                            1.30975406422371
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.015499999999996,
+                            -0.015499999999996,
+                            0,
+                            1,
+                            0,
+                            2.09200007031665,
+                            1.30950000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09200007031664,
+                            1.375
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.18125000000004,
+                            -0.18125000000004,
+                            0,
+                            0,
+                            0,
+                            1.84200007031663,
+                            1.375
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.84200007031662,
+                            1.3095
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0155000000000242,
+                            -0.0155000000000242,
+                            0,
+                            1,
+                            0,
+                            1.81100215322997,
+                            1.30975409836066
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0150000000000024,
+                            0.0150000000000024,
+                            0,
+                            0,
+                            1,
+                            1.79600416895262,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.71600007031663,
+                            1.325
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999998,
+                            0.0149999999999998,
+                            0,
+                            0,
+                            1,
+                            1.70100007031663,
+                            1.31
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.70100007031663,
+                            1.095
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999997,
+                            0.0149999999999997,
+                            0,
+                            0,
+                            1,
+                            1.71600007031663,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.79600007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0150000000000005,
+                            0.0150000000000005,
+                            0,
+                            0,
+                            1,
+                            1.81100215267039,
+                            1.0952459357763
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0154999999999959,
+                            -0.0154999999999959,
+                            0,
+                            1,
+                            0,
+                            1.84200007031664,
+                            1.09550000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            1.84200007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09200007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.09200007031664,
+                            1.09550000000001
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            -0.0155000000000259,
+                            -0.0155000000000259,
+                            0,
+                            1,
+                            0,
+                            2.12299798740329,
+                            1.09524590163935
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999976,
+                            0.0149999999999976,
+                            0,
+                            0,
+                            1,
+                            2.13799597168065,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "L",
+                        "arguments": [
+                            2.21800007031664,
+                            1.08
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "A",
+                        "arguments": [
+                            0.0149999999999989,
+                            0.0149999999999989,
+                            0,
+                            0,
+                            1,
+                            2.23300007031664,
+                            1.095
+                        ],
+                        "__typename": "SvgPathCommand"
+                    },
+                    {
+                        "command": "Z",
+                        "__typename": "SvgPathCommand"
+                    }
+                ],
+                "__typename": "SvgPath"
+            }
+        ]
+    }
+]

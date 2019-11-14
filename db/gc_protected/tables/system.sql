@@ -4,7 +4,8 @@ gc_protected.systems (
     manufacturer_id INTEGER REFERENCES manufacturers NOT NULL,
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL
+    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
+    UNIQUE (id, manufacturer_id)
 );
 
 
@@ -332,28 +333,26 @@ CREATE TABLE
 gc_protected.configuration_parts (
     id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems NOT NULL,
-    parent_configuration_option_value_path LTREE REFERENCES configuration_option_values ON UPDATE CASCADE,
-    parent_detail_configuration_path LTREE REFERENCES detail_configurations ON UPDATE CASCADE,
+    parent_configuration_option_value_path LTREE REFERENCES configuration_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
+    parent_detail_configuration_path LTREE REFERENCES detail_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     transform MATRIX,
-    part_id INTEGER REFERENCES parts,
-    part_orientation ORIENTATION,
-    extra_part_path_id INTEGER REFERENCES extra_part_paths,
-    extra_part_path_orientation ORIENTATION,
+    part_id INTEGER REFERENCES parts NOT NULL,
+    manufacturer_id INTEGER REFERENCES manufacturers NOT NULL,
     FOREIGN KEY (
         part_id,
-        part_orientation
+        manufacturer_id
     )
     REFERENCES parts (
         id,
-        orientation
+        manufacturer_id
     ),
     FOREIGN KEY (
-        extra_part_path_id,
-        extra_part_path_orientation
+        system_id,
+        manufacturer_id
     )
-    REFERENCES extra_part_paths (
+    REFERENCES systems (
         id,
-        orientation
+        manufacturer_id
     ),
     CHECK (
         either_or(
