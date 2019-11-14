@@ -14,7 +14,7 @@ gc_data.parts (
     orientation ORIENTATION DEFAULT 'FRONT' NOT NULL,
     UNIQUE (manufacturer_id, part_number),
     -- for foreign keys
-    UNIQUE (id, manufacturer_id, orientation)
+    UNIQUE (id, manufacturer_id)
 );
 
 

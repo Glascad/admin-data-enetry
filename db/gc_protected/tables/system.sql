@@ -338,16 +338,13 @@ gc_protected.configuration_parts (
     transform MATRIX,
     part_id INTEGER REFERENCES parts NOT NULL,
     manufacturer_id INTEGER REFERENCES manufacturers NOT NULL,
-    part_orientation ORIENTATION NOT NULL,
     FOREIGN KEY (
         part_id,
-        manufacturer_id,
-        part_orientation
+        manufacturer_id
     )
     REFERENCES parts (
         id,
-        manufacturer_id,
-        orientation
+        manufacturer_id
     ),
     FOREIGN KEY (
         system_id,

@@ -68,7 +68,6 @@
             <<ONLY TYPE (part)>>
                 , transform MATRIX
                 , part_id INTEGER
-                , part_orientation ORIENTATION
             <<END ONLY>>
         <<END ONLY>>
     );

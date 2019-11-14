@@ -121,8 +121,8 @@ export const CONFIGURATION_PART_FIELDS = gql`
         nodeId
         id
         parentConfigurationOptionValuePath
+        parentDetailConfigurationPath
         partId
-        partOrientation
         transform { a b c d e f g h i }
     }
 `;
