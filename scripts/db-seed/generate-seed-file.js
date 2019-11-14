@@ -123,6 +123,8 @@ ${require('../../db/users.sql')}
 
 ${require('../../db/seed_data/seed_data.sql')}
 ${require('../../db/seed_data/system.sql')}
+${require('../../db/seed_data/system_set.sql')}
+${require('./insert-parts')}
 
 
 ----- POLICIES -----

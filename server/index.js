@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { postgraphile } = require('postgraphile');
+const { makeAddInflectorsPlugin } = require('graphile-utils');
 const chalk = require('chalk');
 
 const {
