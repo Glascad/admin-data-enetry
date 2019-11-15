@@ -3,6 +3,7 @@ import { match } from '../utils';
 export class SystemMap {
     constructor(system) {
         const {
+            id,
             _systemOptions = [],
             _detailOptions = [],
             _configurationOptions = [],
@@ -13,7 +14,7 @@ export class SystemMap {
             _detailConfigurations = [],
             _configurationParts = [],
         } = system || {};
-        Object.assign(this, system, [
+        Object.assign(this, system, { path: `${id}` }, [
             ..._systemOptions,
             ..._detailOptions,
             ..._configurationOptions,
@@ -68,13 +69,13 @@ export class SystemMap {
 export const getFirstItem = window.getFirstItem = ({ _systemOptions = [] }) => _systemOptions.find(({ path = '', newPath }) => (newPath ? newPath : path).match(/^\d\.\w+$/));
 
 export const getParentPath = window.getParentPath = item => item.path ?
-    item.path.replace(/(\.__(D|C|P)T\d*__)?\.\w+$/, '')
+    item.path.replace(/(\.__(D|C|P)T-?\d*__)?\.\w+$/, '')
     :
     Object.entries(item).reduce((parentPath, [key, value]) => key.match(/^parent/) ? value : parentPath, '');
 
 export const getTypenameFromPath = window.getTypenameFromPath = path => {
     const Type = match(path)
-        .regex(/__PT\d+__/, 'Part')
+        .regex(/__PT-?\d+__/, 'Part')
         .regex(/__CT__/, 'Configuration')
         .regex(/__DT__/, 'Detail')
         .otherwise('System');
@@ -85,7 +86,7 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
             Detail: 'System',
         })
         .otherwise('');
-    const count = (path.replace(/.*__(D|C|P)T\d*__\./, '').match(/\./g) || []).length;
+    const count = (path.replace(/.*__(D|C|P)T-?\d*__\./, '').match(/\./g) || []).length;
     return count === 0 ?
         `${Parent}${Type}`
         :
@@ -118,11 +119,14 @@ export const getPathsTypename = window.getPathsTypename = ({ path } = {}) => pat
             :
             "SystemOption"
 
-export const getItemPathAddition = ({ __typename = '' }) => __typename.match(/(detail|configuration)$/i) ?
+export const getItemPathAddition = ({ __typename = '', id, fakeId }) => __typename.match(/(detail|configuration|part)$/i) ?
     __typename.match(/detail$/i) ?
         `__DT__.`
         :
-        `__CT__.`
+        __typename.match(/configuration$/i) ?
+            `__CT__.`
+            :
+            `__PT${id || fakeId}__`
     :
     '';
 

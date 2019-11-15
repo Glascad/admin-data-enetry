@@ -9,7 +9,7 @@ BEGIN
     SELECT part_number
     FROM parts
     INTO pn
-    WHERE parts.id = COALESCE(cp.part_id, cp.extra_part_path_id);
+    WHERE parts.id = cp.part_id;
 
     RETURN cp.parent_configuration_option_value_path || ('__PT' || cp.id || '__') || pn;
 

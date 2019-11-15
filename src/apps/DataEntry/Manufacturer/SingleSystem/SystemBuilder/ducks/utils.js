@@ -65,6 +65,7 @@ export const getParentWithUpdatedPath = ({ path }, allUpdatedItems) => allUpdate
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
     name
     :
+    // check: what is the underscore for?
     getSelectTypeName(valueChildrenArr, `${name}_`);
 
 export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => {

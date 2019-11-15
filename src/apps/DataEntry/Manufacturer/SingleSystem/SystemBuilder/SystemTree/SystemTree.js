@@ -66,10 +66,10 @@ export default function SystemTree({
                                     ||
                                     (item instanceof SystemMap && selectedItem instanceof SystemMap);
 
-                                const name = path ?
-                                    getLastItemFromPath(path)
+                                const name = path.match(/^\d+$/) ?
+                                    systemName
                                     :
-                                    partNumber || systemName;
+                                    getLastItemFromPath(path);
 
                                 const isDefault = Object.entries(parent)
                                     .some(([key, value]) => value

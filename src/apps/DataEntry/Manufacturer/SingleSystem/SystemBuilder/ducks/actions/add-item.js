@@ -1,3 +1,9 @@
+
+const getFakeId = (() => {
+    var fakeId = -1;
+    return () => fakeId--;
+})();
+
 export default function ADD_ITEM(systemInput, payload) {
     const { __typename } = payload;
 
@@ -12,7 +18,7 @@ export default function ADD_ITEM(systemInput, payload) {
             {
                 ...payload,
                 [parentKey]: parentPath,
+                fakeId: getFakeId(),
             }),
-    }
-
+    };
 }

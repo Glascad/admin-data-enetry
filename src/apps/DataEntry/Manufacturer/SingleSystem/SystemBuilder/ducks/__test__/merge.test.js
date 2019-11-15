@@ -6,28 +6,23 @@ import { sample1 } from "../../../../../../../app-logic/__test__/sample-systems"
 // Must create new items
 
 function testMerge({
+    description = '',
     systemInput,
     systemInput: {
-        pathsToDelete
+        pathsToDelete = [],
     },
     _system,
     result: {
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        systemOptionPathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        detailOptionPathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        configurationOptionPathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        systemOptionValuePathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        detailOptionValuePathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        configurationOptionValuePathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        systemDetailPathsToInclude,
-        // must be a definitive list of items to include, so that we know all deletions were cascaded
-        detailConfigurationPathsToInclude,
+        // each must be a definitive list of items to include, so that we know all deletions were cascaded
+        systemOptionPathsToInclude = [],
+        detailOptionPathsToInclude = [],
+        configurationOptionPathsToInclude = [],
+        systemOptionValuePathsToInclude = [],
+        detailOptionValuePathsToInclude = [],
+        configurationOptionValuePathsToInclude = [],
+        systemDetailPathsToInclude = [],
+        detailConfigurationPathsToInclude = [],
+        configurationPartPathsToInclude = [],
     },
 }) {
 
@@ -44,7 +39,7 @@ function testMerge({
         _configurationOptionValues = [],
     } = mergedSystem;
 
-    describe(`Merging System on System Options.`, () => {
+    describe(`Merging System on System Options: ${description}`, () => {
         test(`Testing merged System Options have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemOptionPathsToInclude.forEach(path => {
@@ -283,4 +278,22 @@ testMerge({
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
         ]
     }
+});
+
+testMerge({
+    description:"Add Part",
+    systemInput: {
+        newConfigurationParts: [
+            {
+                parentDetailConfigurationPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+                name: "dxf4",
+            },
+        ],
+    },
+    _system: sample1,
+    result: {
+        configurationPartPathsToInclude: [
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD.__PT-1__.dxf4",
+        ],
+    },
 });
