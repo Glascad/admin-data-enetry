@@ -48,24 +48,24 @@ function testMerge({
         test(`Testing merged System Options have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemOptionPathsToInclude.forEach(path => {
-                expect(_systemOptions).toContainEqual(expect.objectContaining({ path }));
+                expect(_systemOptions).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             // _systemOptions.forEach(({ path }) => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             //     expect(systemOptionPathsToInclude).toContain(path);
             // });
             pathsToDelete.forEach(path => {
-                expect(_systemOptions).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_systemOptions).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
 
         test(`Testing merged System Options Values have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemOptionValuePathsToInclude.forEach(path => {
-                expect(_systemOptionValues).toContainEqual(expect.objectContaining({ path }));
+                expect(_systemOptionValues).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_systemOptionValues).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_systemOptionValues).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
     });
@@ -74,30 +74,30 @@ function testMerge({
         test(`Testing merged System Detail Types to have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             systemDetailPathsToInclude.forEach(path => {
-                expect(_systemDetails).toContainEqual(expect.objectContaining({ path }));
+                expect(_systemDetails).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_systemDetails).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_systemDetails).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
 
         test(`Testing merged Detail Options have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             detailOptionPathsToInclude.forEach(path => {
-                expect(_detailOptions).toContainEqual(expect.objectContaining({ path }));
+                expect(_detailOptions).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_detailOptions).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_detailOptions).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
 
         test(`Testing merged Detail Option Values have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             detailOptionValuePathsToInclude.forEach(path => {
-                expect(_detailOptionValues).toContainEqual(expect.objectContaining({ path }));
+                expect(_detailOptionValues).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_detailOptionValues).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_detailOptionValues).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
     });
@@ -106,30 +106,30 @@ function testMerge({
         test(`Testing merged Detail Configuration Types to have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             detailConfigurationPathsToInclude.forEach(path => {
-                expect(_detailConfigurations).toContainEqual(expect.objectContaining({ path }));
+                expect(_detailConfigurations).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_detailConfigurations).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_detailConfigurations).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
 
         test(`Testing merged Configuration Options have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             configurationOptionPathsToInclude.forEach(path => {
-                expect(_configurationOptions).toContainEqual(expect.objectContaining({ path }));
+                expect(_configurationOptions).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_configurationOptions).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_configurationOptions).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
 
         test(`Testing merged Configuration Option Values have the correct Id's`, () => {
             // must be a definitive list of items to include, so that we know all deletions were cascaded
             configurationOptionValuePathsToInclude.forEach(path => {
-                expect(_configurationOptionValues).toContainEqual(expect.objectContaining({ path }));
+                expect(_configurationOptionValues).toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
             pathsToDelete.forEach(path => {
-                expect(_configurationOptionValues).not.toContainEqual(expect.objectContaining({ path }));
+                expect(_configurationOptionValues).not.toEqual(expect.arrayContaining([expect.objectContaining({ path })]));
             });
         });
     });
@@ -232,10 +232,9 @@ testMerge({
     systemInput: {
         detailOptions: [
             {
-                path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS",
-                defaultDetailOptionValue: "UP",
+                path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS",
                 update: {
-                    parentSystemDetailPath: '"1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL'
+                    parentSystemDetailPath: '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL'
                 },
             },
         ],
@@ -257,7 +256,7 @@ testMerge({
             "1.SET.CENTER.JOINERY.STICK",
             "1.SET.FRONT",
         ],
-        optionGroups: [
+        optionGroupPathsToInclude: [
             "GLAZING",
             "STOPS",
         ],
@@ -267,35 +266,35 @@ testMerge({
             "1.SET.FRONT.__DT__.HEAD",
         ],
         detailOptionPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING",
         ],
         detailOptionValuePathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.INSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.OUTSIDE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP",
         ],
         detailConfigurationPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP.__CT__.HEAD",
         ],
         configurationOptionPathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY",
         ],
         configurationOptionValuePathsToInclude: [
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
-            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+            "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.NEWDETAIL.STOPS.UP.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
         ]
     }
 });

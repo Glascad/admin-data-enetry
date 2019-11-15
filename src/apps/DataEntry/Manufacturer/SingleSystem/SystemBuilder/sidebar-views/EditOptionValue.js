@@ -41,8 +41,8 @@ function EditOptionValue({
     const valueChildren = getChildren(optionValue, systemMap);
 
     const {
-        path: oPath, 
-        __typename: oTypename, 
+        path: oPath,
+        __typename: oTypename,
     } = valueParentOption;
 
     const oName = getLastItemFromPath(oPath);
@@ -50,7 +50,7 @@ function EditOptionValue({
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === oName);
 
-    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key]) => key.match(/default/i)) === oVName || [];
+    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key, value]) => key.match(/default/i) && value === oVName) || [];
 
     const validValues = validOptions
         .reduce((valueSiblings, { name, _validOptionValues }) => (
