@@ -26,6 +26,7 @@ export default function Select({
     readOnly,
     disabled,
     noPlaceholder = false,
+    autoResize = false,
 }) {
 
     const [input, setInput] = useInitialState(normalCase(value));
@@ -47,14 +48,16 @@ export default function Select({
     const ref = useRef();
 
     useEffect(() => {
-        setTimeout(() => {
-            try {
-                ref.current.style.width = 0;
-                ref.current.style.width = `${ref.current.scrollWidth + 1}px`;
-            } catch (err) {
-                console.error(err);
-            }
-        });
+        if (autoResize) {
+            setTimeout(() => {
+                try {
+                    ref.current.style.width = 0;
+                    ref.current.style.width = `${ref.current.scrollWidth + 1}px`;
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+        }
     }, [value]);
 
     useEffect(() => {

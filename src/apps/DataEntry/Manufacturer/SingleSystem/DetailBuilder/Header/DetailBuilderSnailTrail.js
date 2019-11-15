@@ -4,11 +4,11 @@ import { TitleBar, ConfirmButton, AsyncButton, Ellipsis, SnailTrail, Select } fr
 import { parseSearch, normalCase } from '../../../../../../utils';
 import { getDetailTypeFromPath, getConfigurationTypeFromPath, getOptionListFromPath, getLastItemFromPath, getChildren, getDefaultPath } from '../../../../../../app-logic/system-utils';
 
-const renderOptionSelect = ({
+const OptionSelect = ({
+    className = '',
     name,
     value,
     path,
-}, {
     system,
     history,
     location: {
@@ -18,43 +18,65 @@ const renderOptionSelect = ({
         path: matchPath,
     },
 }) => {
+    const { path: searchPath } = parseSearch(search);
     const regex = new RegExp(`(${name})\\.(${value}).*`);
     const optionPath = path.replace(regex, name);
     const values = getChildren({ path: optionPath }, system);
     return (
         <Select
+            className={`${
+                className
+                }${
+                value ? '' : 'empty'
+                }`}
             noPlaceholder={true}
+            autoResize={true}
             label={name}
-            value={value}
+            value={value || 'None'}
             options={values.map(({ path }) => getLastItemFromPath(path))}
             onChange={value => {
                 const defaultPath = getDefaultPath(
-                    path.replace(regex, `$1.${value}`),
+                    path.match(regex) ?
+                        path.replace(regex, `$1.${value}`)
+                        :
+                        `${path}.${name}.${value}`,
                     system,
                     getOptionListFromPath(path, system).map(({ name, value }) => ({
                         optionName: name,
                         name: value,
                     })),
                 );
-                const to = `${
-                    matchPath
-                    }${
-                    parseSearch(search).update({ path: defaultPath })
-                    }`;
-                history.push(to);
+                // must have detail
+                const pathWithDetail = defaultPath.match(/\.__DT__\./) ?
+                    defaultPath
+                    :
+                    `${defaultPath}.__DT__.${getDetailTypeFromPath(searchPath)}`;
+
+                console.log({ defaultPath, path, name, value });
+
+                if (system[pathWithDetail]) {
+                    const to = `${
+                        matchPath
+                        }${
+                        parseSearch(search).update({ path: pathWithDetail })
+                        }`;
+                    history.push(to);
+                }
             }}
         />
     );
 }
 
 const renderOptionList = (path, props) => getOptionListFromPath(path)
-    .reduce((list, { name, value }) => list.concat(value ?
-        renderOptionSelect({
-            name,
-            value,
-            path
-        }, props) :
-        name
+    .reduce((list, { name, value }) => list.concat(
+        <OptionSelect
+            {...{
+                name,
+                value,
+                path,
+                ...props,
+            }}
+        />
     ), []);
 
 export default withRouter(function DetailBuilderSnailTrail({
@@ -73,6 +95,7 @@ export default withRouter(function DetailBuilderSnailTrail({
         } = {},
     },
 }) {
+    const props = arguments[0];
     const { path = '' } = parseSearch(search);
     const detailType = getDetailTypeFromPath(path);
     const configurationType = getConfigurationTypeFromPath(path);
@@ -84,40 +107,30 @@ export default withRouter(function DetailBuilderSnailTrail({
                 // system
                 sName || <Ellipsis />,
                 // system options
-                // ...renderOptionList(path.replace(/\.__DT__.*/, ''), system, history),
-                ...getOptionListFromPath(path.replace(/\.__DT__.*/, '')).
-                    reduce((list, { name, value }) => list.concat(`${
-                        name
-                        }: ${
-                        value
-                        }`),
-                        []),
+                ...renderOptionList(path.replace(/\.__DT__.*/, ''), props),
                 // detail
-                configurationType ? (
-                    <Link
-                        to={`${
-                            matchPath
-                            }${
-                            parseSearch(search).update({ path: path.replace(/\.__CT__.*/, '') })
-                            }`}
-                    >
-                        DT: {normalCase(detailType)}
-                    </Link>
-                ) : (
-                        <span className="bold">
-                            DT: {normalCase(detailType)}
-                        </span>
-                    ),
+                <OptionSelect
+                    {...{
+                        className: configurationType ? '' : 'bold',
+                        name: '__DT__',
+                        value: detailType,
+                        path: path.replace(/\.__DT__.*/, ''),
+                        ...props,
+                    }}
+                />,
                 // detail options
-                ...renderOptionList(path.replace(/\.__CT__.*/, ''), arguments[0]),
-                ...(configurationType ? [
-                    // configuration
-                    <span className="bold">
-                        CT: {normalCase(configurationType)}
-                    </span>,
-                    // configuration options
-                    ...renderOptionList(path, arguments[0]),
-                ] : []),
+                ...renderOptionList(path.replace(/\.__CT__.*/, ''), props),
+                <OptionSelect
+                    {...{
+                        className: configurationType ? 'bold' : '',
+                        name: '__CT__',
+                        value: configurationType,
+                        path: path.replace(/\.__CT__.*/, ''),
+                        ...props,
+                    }}
+                />,
+                // configuration options
+                ...renderOptionList(path, props),
             ]}
         />
     );

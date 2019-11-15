@@ -35,6 +35,11 @@
             }
 
             &.Select {
+                &.empty {
+                    background: none;
+                    border: 1px solid $x-light-gray;
+                }
+
                 .label {
                     color: inherit;
                 }
