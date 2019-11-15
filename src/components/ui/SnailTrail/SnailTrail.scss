@@ -1,8 +1,20 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .SnailTrail {
     .snail-trail-item {
         color: $medium-dark-gray;
+
+        a {
+            color: $light-blue;
+            font-weight: bold;
+        }
+
+        .Input {
+            display: inline;
+            div {
+                display: inline;
+            }
+        }
     }
     .snail-trail-divider {
         color: $light-gray;
