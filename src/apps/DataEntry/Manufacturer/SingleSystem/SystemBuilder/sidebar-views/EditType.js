@@ -70,6 +70,7 @@ function EditType({
             <TypeNameSelect
                 {...{
                     type,
+                    selectedType,
                     tName,
                     oName,
                     selectTypes,

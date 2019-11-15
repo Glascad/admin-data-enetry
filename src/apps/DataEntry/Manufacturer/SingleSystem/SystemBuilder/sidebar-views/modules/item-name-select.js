@@ -6,8 +6,10 @@ import { filterOptionsAbove, getAllInstancesOfItem, getLastItemFromPath, getPare
 export const TypeNameSelect = ({
     type,
     tName,
-    tPath,
-    __typename,
+    selectedType: {
+        path,
+        __typename,
+    },
     oName,
     childOption,
     selectTypes,
@@ -22,7 +24,7 @@ export const TypeNameSelect = ({
             onChange={name => {
                 if (name !== tName) {
                     const updateType = () => dispatch(UPDATE_ITEM, {
-                        path: tPath,
+                        path,
                         __typename,
                         update: {
                             name,

@@ -60,6 +60,14 @@ export default function merge(systemInput, {
         ...configurationOptionValues,
         ...systemDetails,
         ...detailConfigurations,
+        ...newSystemOptions,
+        ...newDetailOptions,
+        ...newConfigurationOptions,
+        ...newSystemOptionValues,
+        ...newDetailOptionValues,
+        ...newConfigurationOptionValues,
+        ...newSystemDetails,
+        ...newDetailConfigurations,
     ];
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
