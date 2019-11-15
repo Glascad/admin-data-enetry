@@ -1,5 +1,6 @@
 import merge from "../merge";
 import { sample1 } from "../../../../../../../app-logic/__test__/sample-systems";
+import { systemUpdate } from "../schemas";
 
 // Must delete items and children
 // Must update items and children
@@ -26,7 +27,7 @@ function testMerge({
     },
 }) {
 
-    const mergedSystem = merge({ ...systemInput }, { _system });
+    const mergedSystem = merge({...systemUpdate, ...systemInput }, { _system });
 
     const {
         _systemOptions = [],

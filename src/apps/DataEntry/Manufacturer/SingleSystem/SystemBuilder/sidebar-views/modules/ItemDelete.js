@@ -20,7 +20,7 @@ const ItemDelete = ({
     return !path.match(/^\d+\.\w+$/) ? (
         <button
             className="sidebar-button danger"
-            data-cy={`edit-${name}-delete-button`}
+            data-cy={`edit-${name.toLowerCase()}-delete-button`}
             onClick={() => {
                 const deleteItem = () => dispatch(DELETE_ITEM, {
                     path: path,

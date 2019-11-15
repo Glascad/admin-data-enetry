@@ -51,59 +51,34 @@ export default function merge(systemInput, {
 
     const systemMap = new SystemMap(_system);
 
-    const allUpdatedItems = [
-        ...systemOptions,
-        ...detailOptions,
-        ...configurationOptions,
-        ...systemOptionValues,
-        ...detailOptionValues,
-        ...configurationOptionValues,
-        ...systemDetails,
-        ...detailConfigurations,
-        ...newSystemOptions,
-        ...newDetailOptions,
-        ...newConfigurationOptions,
-        ...newSystemOptionValues,
-        ...newDetailOptionValues,
-        ...newConfigurationOptionValues,
-        ...newSystemDetails,
-        ...newDetailConfigurations,
-    ];
-
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
         .filter(({ path }) => {
-            const itemWithUpdatedPath = updatedItems.find(item =>
+            const updatedItem = updatedItems.find(item =>
                 item.path === path
-                &&
-                (
-                    item.update.name
-                    ||
-                    Object.keys(item.update).some(key => key.match(/parent/i))
-                )
             );
 
             // If it is an item with updated path, it is in the right spot
-            if (itemWithUpdatedPath) {
-                const updatedPath = getUpdatedPath(itemWithUpdatedPath);
-                return !pathsToDelete.some(deletedPath => updatedPath.match(new RegExp(`${deletedPath}\\b`)));
-            };
+            if (updatedItem) return true;
 
-            const parentWithUpdatedPath = getParentWithUpdatedPath({ path }, allUpdatedItems);
+            const parentWithUpdatedPath = getParentWithUpdatedPath(systemInput, { path });
+
 
             // if the parent is updated, we look to see if the move prevents it from being deleted or not
             if (parentWithUpdatedPath) {
+                console.log("PARENT UPDATED")
+                console.log({
+                    path,
+                    parentWithUpdatedPath,
+                })
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
+                    console.log(foundDeletedItem);
                     return foundDeletedItem && path.match(foundDeletedItem);
                 });
             } else {
                 // else we check to see if the path is in the deleted paths (or child of one that is)
                 return !pathsToDelete.some(deletedPath => path.match(new RegExp(`${deletedPath}\\b`)));
             };
-
-
-
-
         }).map(oldItem => {
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);
@@ -111,7 +86,7 @@ export default function merge(systemInput, {
                 Object.entries(updatedItem.update).find(([key]) => key.match(/^parent/)) || []
                 :
                 [];
-            const parentWithUpdatedPath = getParentWithUpdatedPath(oldItem, allUpdatedItems);
+            const parentWithUpdatedPath = getParentWithUpdatedPath(systemInput, oldItem);
             const updatedPath = updatedItem ?
                 getUpdatedPath(updatedItem)
                 :
@@ -125,6 +100,11 @@ export default function merge(systemInput, {
                 name: undefined,
                 [newUpdatedItemParentKey]: undefined,
             } : {};
+            if (updatedItem) console.log({
+                updatedItem,
+                updatedPath,
+                newUpdatedItem,
+            });
             return {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),

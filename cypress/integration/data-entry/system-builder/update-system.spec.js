@@ -10,14 +10,14 @@ describe('Testing  actions in system builder', () => {
 
         // TESTING DELETE WITH CREATED UPDATED AND DELETED CHILDREN
 
-        // Add VOID to STOP DOWN HEAD GLAZING INSIDE
+        // Add DURABILITY to STOP DOWN HEAD GLAZING INSIDE
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD`.click({ force: true });
         cy.get('.RightSidebar').should('have.class', 'open');
         cy.getDataCy`add-option`.click();
-        cy.getDataCy`edit-configuration-type add_option`.type('Void{enter}');
-        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD.VOID`.should('exist');
+        cy.getDataCy`edit-child-add_option add_option`.type('dur{enter}');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD.DURABILITY`.should('exist');
 
-        // Delete DURABILITY
+        // Delete DURABILITY on COMPENSATING RECEPTOR
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR.DURABILITY`.click({ force: true });
         cy.getDataCy`edit-option-delete-button`.click();
         cy.getDataCy`modal-finish-button`.click();
@@ -27,12 +27,12 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR`.click({ force: true });
         cy.getDataCy`edit-configuration-type compensating_receptor`.click();
         cy.focused().type('Jamb{enter}');
-        // cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR`.should('not.exist');
-        // cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.JAMB`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR`.should('not.exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.JAMB`.should('exist');
 
         // Delete STOP Down
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN`.click({ force: true });
-        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`edit-value-delete-button`.click();
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN`.should('not.exist');
 
@@ -40,7 +40,7 @@ describe('Testing  actions in system builder', () => {
 
         // Delete HEAD
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD`.click({ force: true });
-        cy.getDataCy`edit-type-delete-button`.click();
+        cy.getDataCy`edit-detail-delete-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD`.should('not.exist');
 
         // Change default to HGIH_PERFORMANCE
@@ -53,13 +53,13 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`edit-configuration-type compensating_receptor`.click();
         cy.focused().type('Jamb{enter}');
         cy.getDataCy`modal-finish-button`.click();
-        // cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR`.should('not.exist');
-        // cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.JAMB`.should('exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR`.should('not.exist');
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.JAMB`.should('exist');
 
         // Add COMPENSATING_RECEPTOR
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.click({ force: true });
         cy.getDataCy`add-configuration`.click();
-        cy.getDataCy`edit-Configuration-type-add_configuration add_configuration`.type('Compensating{enter}');
+        cy.getDataCy`edit-child-add_configuration add_configuration`.type('Compensating{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR`.should('exist');
 
         // Update STOP UP -> DOWN
@@ -78,7 +78,7 @@ describe('Testing  actions in system builder', () => {
 
         // move HEAD
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.click({ force: true });
-        cy.getDataCy`edit-type-move-button`.click();
+        cy.getDataCy`edit-detail-move-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD`.should('have.class', 'available');
         cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK`.should('have.class', 'available');
         cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK`.click({force: true});
@@ -93,7 +93,7 @@ describe('Testing  actions in system builder', () => {
         
         // copy HEAD to where it was
         cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD`.click({ force: true });
-        cy.getDataCy`edit-type-copy-button`.click();
+        cy.getDataCy`edit-detail-copy-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD`.should('have.class', 'available');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.should('have.class', 'available');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.click({force: true});
@@ -136,7 +136,7 @@ describe('Testing  actions in system builder', () => {
         
         // delete DOWN
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN`.click({ force: true });
-        cy.getDataCy`edit-option-value-delete-button`.click();
+        cy.getDataCy`edit-value-delete-button`.click();
         cy.getDataCy`modal-finish-button`.click();
 
         // move DOWN
@@ -145,7 +145,7 @@ describe('Testing  actions in system builder', () => {
 
         // Delete SCREW_SPLINE
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.click({ force: true });
-        cy.getDataCy`edit-option-value-delete-button`.click({ force: true });
+        cy.getDataCy`edit-value-delete-button`.click({ force: true });
         cy.getDataCy`modal-finish-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.should('not.exist');
 

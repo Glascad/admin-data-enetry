@@ -5,7 +5,7 @@ import { normalCase, parseSearch } from '../../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../../Statics/Statics';
 import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../ducks/actions';
-import { getIsAvailableForAction } from '../ducks/utils';
+import { getPotentialParent } from '../ducks/utils';
 // import { ADD_OPTION } from '../../ducks/actions';
 
 export default function SystemTree({
@@ -80,7 +80,7 @@ export default function SystemTree({
                                     );
 
                                 const isAvailableToCompleteAction = PARTIAL_ACTION ?
-                                    getIsAvailableForAction({ partialPayload, item }, systemMap)
+                                    getPotentialParent({ partialPayload, item }, systemMap)
                                     :
                                     false;
 

@@ -19,7 +19,6 @@ const Row = ({
 }) => (
         <div className="input-group">
             <Select
-                data-cy="edit-child-name"
                 data-cy={`edit-child-${selectValue.toLowerCase()}`}
                 value={selectValue}
                 options={selectOptions}

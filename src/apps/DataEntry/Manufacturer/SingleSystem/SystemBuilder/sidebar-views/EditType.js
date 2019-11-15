@@ -72,6 +72,7 @@ function EditType({
                     type,
                     selectedType,
                     tName,
+                    childOption,
                     oName,
                     selectTypes,
                     dispatch,
