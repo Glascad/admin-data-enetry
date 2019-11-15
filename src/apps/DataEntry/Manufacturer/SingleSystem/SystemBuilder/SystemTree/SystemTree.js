@@ -53,23 +53,18 @@ export default function SystemTree({
                             trunk={trunk}
                             renderItem={(item = {}, { parent = {} }) => {
                                 const {
-                                    name: systemName,
                                     __typename = '',
                                     path = '',
                                     optional = '',
-                                    _part: {
-                                        partNumber = '',
-                                    } = {},
                                 } = item;
 
-                                const isSelected = (item === selectedItem)
-                                    ||
-                                    (item instanceof SystemMap && selectedItem instanceof SystemMap);
+                                const {
+                                    path: selectedPath = null,
+                                } = selectedItem || {};
 
-                                const name = path.match(/^\d+$/) ?
-                                    systemName
-                                    :
-                                    getLastItemFromPath(path);
+                                const isSelected = path === selectedPath;
+
+                                const name = getLastItemFromPath(path, systemMap);
 
                                 const isDefault = Object.entries(parent)
                                     .some(([key, value]) => value

@@ -4,6 +4,7 @@ export class SystemMap {
     constructor(system) {
         const {
             id,
+            name,
             _systemOptions = [],
             _detailOptions = [],
             _configurationOptions = [],
@@ -14,7 +15,11 @@ export class SystemMap {
             _detailConfigurations = [],
             _configurationParts = [],
         } = system || {};
-        Object.assign(this, system, { path: `${id}` }, [
+        Object.assign(this, system, {
+            path: `${id}`,
+            [name]: this,
+            [id]: this,
+        }, [
             ..._systemOptions,
             ..._detailOptions,
             ..._configurationOptions,
@@ -166,7 +171,10 @@ export const getOptionListFromPath = window.getOptionListFromPath = (path = '') 
     .map(str => str.split(/:/g))
     .map(([name, value]) => ({ name, value }));
 
-export const getLastItemFromPath = window.getLastItemFromPath = (path = '') => path.replace(/.*\.(\w+)$/, '$1');
+export const getLastItemFromPath = window.getLastItemFromPath = (path = '', { name } = {}) => name && path.match(/^\d+$/) ?
+    name
+    :
+    path.replace(/.*\.(\w+)$/, '$1');
 
 export const filterOptionsAbove = window.filterOptionsAbove = ({ path, newPath }, optionList) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
 

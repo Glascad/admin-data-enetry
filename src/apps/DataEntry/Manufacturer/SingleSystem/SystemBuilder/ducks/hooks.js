@@ -48,24 +48,20 @@ export const useSelection = ({
         path: matchPath,
     },
 }) => {
-    const { path, systemId } = parseSearch(search);
+    const { path } = parseSearch(search);
 
-    const selectItem = (item = {}) => {
-        const newPath = item instanceof SystemMap ?
-            `${item.id}`
+    const decodedPath = decodeURI(path);
+
+    const selectedItem = systemMap[decodedPath];
+
+    const selectItem = ({ path: newPath } = {}) => history.push(`${
+        matchPath
+        }${
+        !newPath || (newPath === decodedPath) ?
+            parseSearch(search).remove('path')
             :
-            item.path;
-
-        history.push(!newPath || (newPath === path) ?
-            `${matchPath}${parseSearch(search).remove('path')}`
-            :
-            `${matchPath}${parseSearch(search).update({ path: newPath })}`);
-    }
-
-    const selectedItem = path === systemId ?
-        systemMap
-        :
-        systemMap[path];
+            parseSearch(search).update({ path: newPath })
+        }`);
 
     return {
         selectItem,
