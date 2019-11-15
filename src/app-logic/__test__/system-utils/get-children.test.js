@@ -37,10 +37,6 @@ testGetChildren({
             __typename: "SystemOptionValue",
             path: "1.SET.FRONT"
         },
-        {
-            __typename: "SystemOptionValue",
-            path: "1.SET.MULTI_PLANE"
-        }
     ],
 });
 
