@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useRef } from 'react';
-import { RightSidebar } from '../../../../../../components';
+import { RightSidebar, TitleBar } from '../../../../../../components';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 export default function DetailBuilderSidebar({
@@ -55,7 +55,17 @@ export default function DetailBuilderSidebar({
         <RightSidebar
             sidebarRef={ref}
             open={true}
-            View={{ title: "Sidebar", component: () => "Sidebar" }}
+            View={{
+                title: "Parts",
+                component: () => (
+                    <>
+                        <TitleBar
+                            title="Parts"
+                        />
+
+                    </>
+                ),
+            }}
         />
     );
 }

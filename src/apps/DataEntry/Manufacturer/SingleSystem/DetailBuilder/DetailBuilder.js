@@ -47,7 +47,7 @@ export default function DetailBuilder({
             <Header
                 system={system}
             />
-            < DetailDisplay
+            <DetailDisplay
                 system={system}
             />
             <Tray
@@ -56,7 +56,7 @@ export default function DetailBuilder({
             <Sidebar
                 system={system}
             />
-        </TransformProvider >
+        </TransformProvider>
     ) : (
             <Redirect
                 to={{

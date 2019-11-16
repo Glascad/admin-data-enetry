@@ -1,8 +1,8 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { TitleBar, ConfirmButton, AsyncButton, Ellipsis, SnailTrail } from '../../../../../../components';
-import { parseSearch, normalCase } from '../../../../../../utils';
-import { getDetailTypeFromPath, getConfigurationTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
+import { withRouter } from 'react-router-dom';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { AsyncButton, ConfirmButton, TitleBar } from '../../../../../../components';
+import { parseSearch } from '../../../../../../utils';
 import DetailBuilderSnailTrail from './DetailBuilderSnailTrail';
 
 export default withRouter(function Header({

@@ -1,8 +1,8 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { TitleBar, ConfirmButton, AsyncButton, Ellipsis, SnailTrail, Select } from '../../../../../../components';
-import { parseSearch, normalCase } from '../../../../../../utils';
-import { getDetailTypeFromPath, getConfigurationTypeFromPath, getOptionListFromPath, getLastItemFromPath, getChildren, getDefaultPath } from '../../../../../../app-logic/system-utils';
+import { withRouter } from 'react-router-dom';
+import { getChildren, getConfigurationTypeFromPath, getDefaultPath, getDetailTypeFromPath, getLastItemFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
+import { Ellipsis, Select, SnailTrail } from '../../../../../../components';
+import { parseSearch } from '../../../../../../utils';
 
 const OptionSelect = ({
     className = '',

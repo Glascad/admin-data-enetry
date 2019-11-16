@@ -27,6 +27,14 @@
         margin-bottom: $x-large;
     }
 
+    > * {
+        &:first-child {
+            &:nth-child(1){
+                margin-top: 0;
+            }
+        }
+    }
+
     .TitleBar {
         color: $off-white;
         border-bottom: 1px solid $medium-gray;

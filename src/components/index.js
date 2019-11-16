@@ -20,7 +20,7 @@ import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 import Tree from './ui/Tree/Tree';
 import RightSidebar from './ui/RightSidebar/RightSidebar';
-import SVG from './ui/SVG/SVG';
+import SVG, { SVGPath } from './ui/SVG/SVG';
 
 // CONTEXTS
 import TransformProvider from './contexts/transform/TransformContext';
@@ -79,6 +79,7 @@ export {
     ConfirmButton,
     Tree,
     RightSidebar,
+    SVGPath,
     SVG,
     // CONTEXT,
     TransformProvider,
@@ -110,4 +111,3 @@ export {
     // SPECIAL FUNCTIONS
     confirmWithModal,
 };
-    
