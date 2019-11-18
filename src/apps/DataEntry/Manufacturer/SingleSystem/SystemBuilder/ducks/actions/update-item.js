@@ -57,10 +57,13 @@ export default function UPDATE_ITEM(systemInput, payload) {
                     :
                     itemParentPath && itemParentPath.startsWith(parentPath) ?
                         (itemParentPath === parentPath) && (item.name === name) ?
-                            {
-                                ...item,
-                                ...update
-                            }
+                            removeNullValues(
+                                {
+                                    ...item,
+                                    [parentPathKey]: updateParentKey ? undefined : itemParentPath,
+                                    ...update
+                                }
+                            )
                             :
                             {
                                 ...item,
