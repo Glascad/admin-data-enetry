@@ -6,8 +6,10 @@
     left: 50%;
     transform: translateX(-50%);
     background: $off-white;
-    height: $pill-width;
+    // height: $pill-width;
     // width: 90%;
+    box-shadow: none;
+    border: none;
 
     .handle {
         position: absolute;
@@ -66,6 +68,8 @@
 
     &.closed {
         height: 0;
+        padding: 0;
+        margin: 0;
 
         .handle {
             .block-one {

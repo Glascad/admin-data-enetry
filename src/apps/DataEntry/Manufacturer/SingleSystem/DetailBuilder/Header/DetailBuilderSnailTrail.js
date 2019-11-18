@@ -22,6 +22,7 @@ const OptionSelect = ({
     const regex = new RegExp(`(${name})\\.(${value}).*`);
     const optionPath = path.replace(regex, name);
     const values = getChildren({ path: optionPath }, system);
+    console.log({ searchPath, regex, optionPath, values, name, value });
     return (
         <Select
             className={`${
@@ -120,6 +121,7 @@ export default withRouter(function DetailBuilderSnailTrail({
                 />,
                 // detail options
                 ...renderOptionList(path.replace(/\.__CT__.*/, ''), props),
+                // configuration
                 <OptionSelect
                     {...{
                         className: configurationType ? 'bold' : '',
@@ -130,7 +132,10 @@ export default withRouter(function DetailBuilderSnailTrail({
                     }}
                 />,
                 // configuration options
-                ...renderOptionList(path, props),
+                ...(path.match(/\.__CT__\./) ?
+                    renderOptionList(path, props)
+                    :
+                    []),
             ]}
         />
     );

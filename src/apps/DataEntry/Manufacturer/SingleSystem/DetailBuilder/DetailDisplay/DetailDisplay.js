@@ -19,9 +19,9 @@ export default withRouter(function DetailDisplay({
     const { path } = parseSearch(search);
     const configurationType = getConfigurationTypeFromPath(path);
 
-    const children = getChildren({ path }, system);
+    const children = getChildren({ path }, system) || [];
 
-    const allPaths = children.reduce((allPaths, { _part: { paths = [] } }) => allPaths.concat(paths), []);
+    const allPaths = children.reduce((allPaths, { _part: { paths = [] } = {} }) => allPaths.concat(paths), []);
 
     const viewBox = svg.getViewBox(allPaths, padding);
 
@@ -64,15 +64,17 @@ export default withRouter(function DetailDisplay({
                         </g>
                     );
                 })}
-                <g id="origin">
-                    <path d={`M-${padding * svg.multiplier},0L${padding * svg.multiplier},0Z`} />
-                    <path d={`M0,-${padding * svg.multiplier}L0,${padding * svg.multiplier}Z`} />
-                    <circle
-                        cx={0}
-                        cy={0}
-                        r={padding * svg.multiplier / 4}
-                    />
-                </g>
+                {children.length ? (
+                    <g id="origin">
+                        <path d={`M-${padding * svg.multiplier},0L${padding * svg.multiplier},0Z`} />
+                        <path d={`M0,-${padding * svg.multiplier}L0,${padding * svg.multiplier}Z`} />
+                        <circle
+                            cx={0}
+                            cy={0}
+                            r={padding * svg.multiplier / 4}
+                        />
+                    </g>
+                ) : null}
             </svg>
         </TransformBox>
     ) : null;

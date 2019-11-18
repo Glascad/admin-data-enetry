@@ -9,10 +9,15 @@ export default function Tray({
     const toggleOpen = () => setOpen(open => !open);
     return (
         <div
-            className={`Tray ${
+            className={`Tray card ${
                 open ? '' : 'closed'
                 }`}
         >
+            <div>
+                <span>
+                    Tray
+                </span>
+            </div>
             <div
                 className="handle"
                 onClick={toggleOpen}
