@@ -51,14 +51,6 @@ export const getParentWithUpdatedPath = (systemInput, { path }) => {
         configurationOptionValues,
         systemDetails,
         detailConfigurations,
-        newSystemOptions,
-        newDetailOptions,
-        newConfigurationOptions,
-        newSystemOptionValues,
-        newDetailOptionValues,
-        newConfigurationOptionValues,
-        newSystemDetails,
-        newDetailConfigurations,
     } = systemInput;
 
     const allItemLists = [
@@ -70,28 +62,20 @@ export const getParentWithUpdatedPath = (systemInput, { path }) => {
         ...configurationOptionValues,
         ...systemDetails,
         ...detailConfigurations,
-        ...newSystemOptions,
-        ...newDetailOptions,
-        ...newConfigurationOptions,
-        ...newSystemOptionValues,
-        ...newDetailOptionValues,
-        ...newConfigurationOptionValues,
-        ...newSystemDetails,
-        ...newDetailConfigurations,
     ];
 
     return allItemLists.reduce((parentItem, item) => {
-        const newItemPath = item.path ? '' : getUpdatedPath(item);
+        console.log({ item, parentItem })
 
-        return path.startsWith(item.path || newItemPath) && (path !== (item.path || newItemPath)) ?
+        return path.startsWith(item.path) && (path !== item.path) ?
             (
                 parentItem
-                    &&
-                    parentItem.path.length > item.path ? item.path.length : newItemPath.length
+                &&
+                parentItem.path.length > item.path.length
             ) || !(
-                item.name || item.update.name
+                item.update.name
                 ||
-                Object.entries(item.update || item).some(([key]) => key.match(/parent/i))
+                Object.entries(item.update).some(([key]) => key.match(/parent/i))
             ) ?
                 parentItem
                 :
@@ -124,7 +108,7 @@ export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
 
     if (__typename === partialTypename) return false;
 
-    console.log({item});
+    console.log({ item, partialPayload, systemMap });
 
     return partialTypename.match(/option$/i) ?
         // Option has to be under value or type, be the terminal node, and not already have the option in the path

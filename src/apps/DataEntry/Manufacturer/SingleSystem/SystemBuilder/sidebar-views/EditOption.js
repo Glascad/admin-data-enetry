@@ -4,10 +4,10 @@ import { getChildren, getLastItemFromPath } from '../../../../../../app-logic/sy
 import { TitleBar } from "../../../../../../components";
 import { OptionAdditionGrouping } from './modules/add-item-grouping';
 import { ItemLink } from './modules/item-link';
-import { ItemMovement } from './modules/item-movement';
 import { OptionNameSelect } from './modules/item-name-select';
 import { OptionToggles } from './modules/item-toggles';
 import ItemDelete from './modules/ItemDelete';
+import ItemMovement from './modules/ItemMovement';
 
 function EditOption({
     location,

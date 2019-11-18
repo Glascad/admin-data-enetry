@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ItemMovement = ({
+const ItemMovement = ({
     item,
     item: {
         path = '',
@@ -32,4 +32,6 @@ export const ItemMovement = ({
             {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : `Copy ${name}`}
         </button>
     </>
-) : null;
+    ) : null;
+
+export default ItemMovement;

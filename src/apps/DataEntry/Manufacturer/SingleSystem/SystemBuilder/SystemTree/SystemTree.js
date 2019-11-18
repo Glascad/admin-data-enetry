@@ -74,6 +74,12 @@ export default function SystemTree({
                                         value === name
                                     );
 
+                                // console.log({
+                                //     partialPayload,
+                                //     item,
+                                //     systemMap
+                                // })
+
                                 const isAvailableToCompleteAction = PARTIAL_ACTION ?
                                     getPotentialParent({ partialPayload, item }, systemMap)
                                     :

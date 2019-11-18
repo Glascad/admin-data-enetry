@@ -70,9 +70,10 @@ export default function merge(systemInput, {
                     path,
                     parentWithUpdatedPath,
                 })
+                const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
-                    console.log(foundDeletedItem);
+                    console.log({foundDeletedItem});
                     return foundDeletedItem && path.match(foundDeletedItem);
                 });
             } else {

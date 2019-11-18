@@ -5,10 +5,10 @@ import { TitleBar } from '../../../../../../components';
 import { match } from '../../../../../../utils';
 import { ValueAdditionGrouping } from './modules/add-item-grouping';
 import { ItemLink } from './modules/item-link';
-import { ItemMovement } from './modules/item-movement';
 import { ValueNameSelect } from './modules/item-name-select';
 import { ValueToggles } from './modules/item-toggles';
 import ItemDelete from './modules/ItemDelete';
+import ItemMovement  from './modules/ItemMovement';
 
 
 function EditOptionValue({
@@ -161,7 +161,6 @@ function EditOptionValue({
             <ItemMovement
                 {...{
                     item: optionValue,
-                    path,
                     name: 'Value',
                     partialAction,
                     cancelPartial,
