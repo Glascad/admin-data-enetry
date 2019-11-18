@@ -18,6 +18,7 @@ const Row = ({
     selectItem,
 }) => (
         <div className="input-group">
+            {console.log({ item })}
             <Select
                 data-cy={`edit-child-${selectValue.toLowerCase()}`}
                 value={selectValue}
@@ -406,7 +407,7 @@ export const TypeAdditionGrouping = ({
             {childOption ? (
                 <div className="input-group">
                     <Row
-                        item={selectedType}
+                        item={childOption}
                         selectOptions={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
                         grandchildren={childValues}
                         dispatch={dispatch}
@@ -452,4 +453,3 @@ export const TypeAdditionGrouping = ({
                 )}
         </GroupingBox>
     );
-    

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import {
     useQuery, TransformProvider,
 } from '../../../../../components';
@@ -7,7 +8,7 @@ import DetailDisplay from './DetailDisplay/DetailDisplay';
 import Tray from './Tray/Tray';
 import Sidebar from './Sidebar/Sidebar';
 import query from '../system-graphql/query';
-import { SystemMap } from '../../../../../app-logic/system-utils';
+import { SystemMap, getDefaultPath } from '../../../../../app-logic/system-utils';
 import { parseSearch } from '../../../../../utils';
 import { useCollapseSidebar } from '../../../../Statics/Statics';
 
@@ -20,15 +21,28 @@ export default function DetailBuilder({
     location: {
         search,
     },
+    match: {
+        path: matchPath,
+    },
 }) {
-    const { systemId } = parseSearch(search);
+
+    console.log(arguments[0]);
+
+    const { path, systemId } = parseSearch(search);
+
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+
     useCollapseSidebar();
+
     const { _system } = queryResult;
+
     const system = new SystemMap(_system);
-    // console.log(arguments[0]);
-    // console.log({ queryResult, _system, system });
-    return (
+
+    const fullPath = getDefaultPath(path, system);
+
+    console.log({ fullPath, path, system });
+
+    return path === fullPath ? (
         <TransformProvider>
             <Header
                 system={system}
@@ -43,5 +57,15 @@ export default function DetailBuilder({
                 system={system}
             />
         </TransformProvider>
-    );
+    ) : (
+            <Redirect
+                to={{
+                    pathname: matchPath,
+                    search: `${parseSearch(search).update({ path: fullPath })}`,
+                    state: {
+                        previousPath: path,
+                    },
+                }}
+            />
+        );
 }

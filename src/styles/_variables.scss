@@ -1,4 +1,4 @@
-// SIZES
+// sizes
 
 $header-height: 75px;
 $menu-height: 50px;
@@ -11,7 +11,7 @@ $item-height: 40px;
 $pill-width: 200px;
 $hot-key-height: 35px;
 
-// Colors
+// colors
 $warning-color: rgb(255, 180, 0);
 $danger-color: #d0021b;
 $selected-color: #4a90e2;
@@ -20,6 +20,7 @@ $action-color: #5cb85c;
 $icon-green: #0cfc04;
 
 $off-white: #eceff1;
+$x-light-gray: #d8d8d8;
 $light-gray: #c8c8c8;
 $medium-gray: #979797;
 $medium-dark-gray: #878787;
@@ -48,7 +49,7 @@ $icon-thickness: 0.2rem;
 
 $checkbox-height: $item-height / 2;
 
-// SCSS Mixins
+// scss mixins
 
 @mixin hoverable-background($color, $darken: true) {
     border-color: $color;

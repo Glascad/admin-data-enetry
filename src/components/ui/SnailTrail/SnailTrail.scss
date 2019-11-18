@@ -1,9 +1,95 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .SnailTrail {
+    margin-top: 0;
+    line-height: 175%;
+
     .snail-trail-item {
         color: $medium-dark-gray;
+
+        a {
+            color: $light-blue;
+            font-weight: bold;
+        }
+
+        .bold {
+            color: $dark-gray;
+        }
+
+        .Input {
+            display: inline;
+            background: $off-white;
+            padding: 1px 4px;
+            line-height: 100%;
+
+            &:focus-within {
+                box-shadow: 0 0 1px 1px $light-blue;
+            }
+
+            .label {
+                display: inline;
+
+                &::after {
+                    content: ": ";
+                }
+            }
+
+            &.Select {
+                &.empty {
+                    background: none;
+                    border: 1px solid $x-light-gray;
+                }
+
+                .label {
+                    color: inherit;
+                }
+
+                .select-input-wrapper {
+                    display: inline;
+
+                    input {
+                        height: auto;
+                        border-radius: 0;
+                        border: none;
+                        color: inherit;
+                        padding: 0;
+                        background: none;
+
+                        &:focus {
+                            box-shadow: none;
+                        }
+                        // border: none;
+                        // width: $pill-width / 2;
+                    }
+                    &::after {
+                        display: none;
+                    }
+                }
+
+                .select-options {
+                    width: 100%;
+                    margin: 0;
+                    top: calc(100% + 1px);
+                    border-radius: 0;
+                    box-shadow: 0 0 0 1px $light-blue;
+
+                    .select-option {
+                        width: 100%;
+                        height: auto;
+                        padding: 2px 4px;
+                        border-radius: 0 !important;
+                        border: none;
+
+                        &.selected {
+                            background: $light-blue;
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
     }
+
     .snail-trail-divider {
         color: $light-gray;
     }
