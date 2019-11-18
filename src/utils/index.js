@@ -23,6 +23,7 @@ import getDroppedFileContents from './functions/get-dropped-file-contents';
 import DXFToSVG from './functions/dxf-to-svg';
 import * as trig from './functions/trig';
 import * as svg from './functions/svg-utils';
+import * as matrix from './functions/matrix';
 import limitRefetches from './functions/limit-refetches';
 
 const validatePath = path => path.replace(/\/+/g, '/');
@@ -56,5 +57,6 @@ export {
     getDroppedFileContents,
     trig,
     svg,
+    matrix,
     limitRefetches,
 };

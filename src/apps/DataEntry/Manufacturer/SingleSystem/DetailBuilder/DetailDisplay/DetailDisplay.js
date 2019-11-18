@@ -54,11 +54,11 @@ export default withRouter(function DetailDisplay({
                             className={`part ${selected ? 'selected' : ''}`}
                             onClick={() => selectPart(part)}
                         >
-                            {paths.map(({ commands }, i) => (
+                            {paths.map(({ commands, transform }, i) => (
                                 <SVGPath
                                     key={i}
-                                    paths={paths}
                                     commands={commands}
+                                    // transform={transform}
                                 />
                             ))}
                         </g>
