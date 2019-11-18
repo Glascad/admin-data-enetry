@@ -41,19 +41,41 @@ export const getUpdatedPath = item => {
     return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
 }
 
-export const getParentWithUpdatedPath = ({ path }, allUpdatedItems) => allUpdatedItems
-    .reduce((parentItem, item) => {
-        const newItemPath = item.path ? '' : getUpdatedPath(item);
+export const getParentWithUpdatedPath = (systemInput, { path }) => {
+    const {
+        systemOptions,
+        detailOptions,
+        configurationOptions,
+        systemOptionValues,
+        detailOptionValues,
+        configurationOptionValues,
+        systemDetails,
+        detailConfigurations,
+    } = systemInput;
 
-        return path.startsWith(item.path || newItemPath) && (path !== (item.path || newItemPath)) ?
+    const allItemLists = [
+        ...systemOptions,
+        ...detailOptions,
+        ...configurationOptions,
+        ...systemOptionValues,
+        ...detailOptionValues,
+        ...configurationOptionValues,
+        ...systemDetails,
+        ...detailConfigurations,
+    ];
+
+    return allItemLists.reduce((parentItem, item) => {
+        console.log({ item, parentItem })
+
+        return path.startsWith(item.path) && (path !== item.path) ?
             (
                 parentItem
-                    &&
-                    parentItem.path.length > item.path ? item.path.length : newItemPath.length
+                &&
+                parentItem.path.length > item.path.length
             ) || !(
-                item.name || item.update.name
+                item.update.name
                 ||
-                Object.entries(item.update || item).some(([key]) => key.match(/parent/i))
+                Object.entries(item.update).some(([key]) => key.match(/parent/i))
             ) ?
                 parentItem
                 :
@@ -61,6 +83,7 @@ export const getParentWithUpdatedPath = ({ path }, allUpdatedItems) => allUpdate
             :
             parentItem
     }, undefined);
+}
 
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
     name
@@ -68,7 +91,7 @@ export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.s
     // check: what is the underscore for?
     getSelectTypeName(valueChildrenArr, `${name}_`);
 
-export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => {
+export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
     const { __typename: partialTypename, path: partialPath } = partialPayload;
     const partialName = getLastItemFromPath(partialPath);
     const partialParentPath = getParentPath(partialPayload);
@@ -84,6 +107,8 @@ export const getIsAvailableForAction = ({ partialPayload, item }, systemMap) => 
 
 
     if (__typename === partialTypename) return false;
+
+    console.log({ item, partialPayload, systemMap });
 
     return partialTypename.match(/option$/i) ?
         // Option has to be under value or type, be the terminal node, and not already have the option in the path

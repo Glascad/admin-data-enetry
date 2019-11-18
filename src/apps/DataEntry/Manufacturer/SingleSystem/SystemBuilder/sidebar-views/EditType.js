@@ -4,10 +4,10 @@ import { getChildren, getLastItemFromPath, getSiblings } from '../../../../../..
 import { TitleBar } from '../../../../../../components';
 import { TypeAdditionGrouping } from './modules/add-item-grouping';
 import { ItemLink } from './modules/item-link';
-import { ItemMovement } from './modules/item-movement';
 import { TypeNameSelect } from './modules/item-name-select';
 import { TypeToggles } from './modules/item-toggles';
 import ItemDelete from './modules/ItemDelete';
+import ItemMovement  from './modules/ItemMovement';
 
 function EditType({
     location,
@@ -72,6 +72,7 @@ function EditType({
                     type,
                     selectedType,
                     tName,
+                    childOption,
                     oName,
                     selectTypes,
                     dispatch,
@@ -102,7 +103,6 @@ function EditType({
             <ItemMovement
                 {...{
                     item: selectedType,
-                    path,
                     name: isDetail ? 'Detail' : 'Configuration',
                     partialAction,
                     cancelPartial,

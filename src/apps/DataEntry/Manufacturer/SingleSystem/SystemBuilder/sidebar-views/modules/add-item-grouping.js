@@ -20,7 +20,6 @@ const Row = ({
         <div className="input-group">
             {console.log({ item })}
             <Select
-                data-cy="edit-child-name"
                 data-cy={`edit-child-${selectValue.toLowerCase()}`}
                 value={selectValue}
                 options={selectOptions}

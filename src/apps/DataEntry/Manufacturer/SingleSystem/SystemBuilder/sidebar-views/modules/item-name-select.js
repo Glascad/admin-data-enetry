@@ -6,6 +6,7 @@ import { filterOptionsAbove, getAllInstancesOfItem, getLastItemFromPath, getPare
 export const TypeNameSelect = ({
     type,
     tName,
+    selectedType,
     selectedType: {
         path,
         __typename,

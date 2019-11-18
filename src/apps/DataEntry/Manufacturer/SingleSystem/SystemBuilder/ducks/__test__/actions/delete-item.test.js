@@ -51,7 +51,7 @@ testDeleteItem({
                 parentSystemOptionPath: "1.SET.BACK.JOINERY"
             }
         }],
-        pathsToDelete: ["1.SET.FRONT.__DT__.DETAIL", "1.SET.CENTER"] //Should delete paths with the same beginning
+        pathsToDelete: ["1.SET.CENTER.JOINERY.SOMETHING", "1.SET.FRONT.__DT__.DETAIL.OTHER.OTHER", "1.SET.FRONT.__DT__.DETAIL", "1.SET.CENTER"] //Should delete paths with the same beginning
     },
 });
 
@@ -92,7 +92,7 @@ testDeleteItem({
         __typename: "SystemOption",
     },
     systemOutput: {
-        pathsToDelete: ["1.SET"],
+        pathsToDelete: ["1.SET.CENTER", "1.SET"],
     },
 });
 
