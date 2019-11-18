@@ -150,7 +150,5 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE`.should('not.exist');
 
         // group items,
-        // move items,
-        // copy items,
     });
 });

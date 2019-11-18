@@ -130,14 +130,17 @@ export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
             &&
             partialParentName === itemName
             &&
-            !itemChildren.some(s => getLastItemFromPath(s.path) === partialName)
+            !itemChildren.some(value => getLastItemFromPath(value.path) === partialName)
             :
             // Type needs to be under the lowest systemOptionValue or detailOptionValue
+            // or Type can be under another type
             // doesn't already contain the type underneath it
             itemChildren.length > 0 ?
                 itemChildren[0].__typename === partialTypename
                 &&
                 !itemChildren.some(c => getLastItemFromPath(c.path) === partialName)
                 :
-                getPathsTypename({ path: partialParentPath }) === __typename;
+                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/(system|detail|configuration)$/i, '$1')
+                ||
+                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration)\w+Value/i, '$1');
 }
