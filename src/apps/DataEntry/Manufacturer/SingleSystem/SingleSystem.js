@@ -90,8 +90,6 @@ export default function SingleSystem({
 
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
-    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
-
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
     const {
@@ -99,6 +97,10 @@ export default function SingleSystem({
         pushState,
         replaceState,
     } = useRedoableState(systemUpdate);
+
+    const { _system } = queryResult;
+
+    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
     const system = merge(systemInput, queryResult);
 
@@ -119,7 +121,9 @@ export default function SingleSystem({
     const save = async () => {
         dispatch(() => systemUpdate);
         try {
-            const result = await updateEntireSystem(cleanSystemInput(systemInput, system));
+            const systemPayload = cleanSystemInput(systemInput, system);
+            console.log({ systemPayload });
+            const result = await updateEntireSystem({ system: systemPayload });
             console.log({ result });
         } catch (err) {
             console.error(err);
@@ -139,7 +143,7 @@ export default function SingleSystem({
             routeProps={{
                 queryResult: {
                     ...queryResult,
-                    _system: _sampleSystem || queryResult._system,
+                    _system: _sampleSystem || _system,
                 },
                 fetching,
                 updateEntireSystem,

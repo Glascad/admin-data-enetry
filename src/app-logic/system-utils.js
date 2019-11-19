@@ -66,8 +66,9 @@ export class SystemMap {
                             0),
                 },
                 allItems,
+                undefined: undefined,
             };
-        }, {}))
+        }, {}));
     }
 }
 
@@ -131,9 +132,11 @@ export const getItemPathAddition = ({ path, __typename = '', id, fakeId }) => __
         __typename.match(/configuration$/i) ?
             `__CT__.`
             :
-            `__PT${id || fakeId || path.replace(/^.*\.__PT(\d+)__.*$/g, '$1')}__.`
+            `__PT${id || fakeId || getConfigurationPartIdFromPath(path)}__.`
     :
     '';
+
+export const getConfigurationPartIdFromPath = path => +path.replace(/^.*\.__PT(\d+)__.*$/g, '$1');
 
 export const getParent = window.getParent = ({ path } = {}, systemMap) => systemMap[getParentPath({ path })];
 

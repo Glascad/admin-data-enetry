@@ -25,6 +25,8 @@ export default function DetailBuilder({
     },
     systemMap,
     dispatch,
+    updating,
+    save,
 }) {
 
     useCollapseSidebar();
@@ -65,12 +67,15 @@ export default function DetailBuilder({
         <TransformProvider>
             <Header
                 systemMap={systemMap}
+                save={save}
+                updating={updating}
             />
             <DetailDisplay
                 systemMap={systemMap}
                 children={children}
                 selectPart={selectPart}
                 selectedPart={selectedPart}
+                updating={updating}
             />
             <DetailTray
                 systemMap={systemMap}
