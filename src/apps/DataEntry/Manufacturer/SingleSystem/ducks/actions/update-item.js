@@ -1,5 +1,6 @@
 import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition, getTypenameFromPath } from "../../../../../../app-logic/system-utils";
 import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "../utils";
+import { removeNullValues } from "../../../../../../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
     console.log(arguments);
@@ -64,10 +65,13 @@ export default function UPDATE_ITEM(systemInput, payload) {
                     :
                     itemParentPath && itemParentPath.startsWith(parentPath) ?
                         (itemParentPath === parentPath) && (item.name === name) ?
-                            {
-                                ...item,
-                                ...update,
-                            }
+                            removeNullValues(
+                                {
+                                    ...item,
+                                    [parentPathKey]: updateParentKey ? undefined : itemParentPath,
+                                    ...update,
+                                }
+                            )
                             :
                             {
                                 ...item,
@@ -92,24 +96,27 @@ export default function UPDATE_ITEM(systemInput, payload) {
                 const updatedPath = getUpdatedPath(item);
 
                 return (updatedParentPath || getParentPath({ path: updatedPath })).startsWith(parentPath) ?
-                    updatedPath === path ?
-                        {
-                            ...item,
-                            update: {
-                                ...itemUpdate,
-                                ...update,
+                    removeNullValues(
+                        updatedPath === path ?
+                            {
+                                ...item,
+                                update: {
+                                    ...itemUpdate,
+                                    [updatedParentPathKey]: updateParentKey ? undefined : updatedParentPath,
+                                    ...update,
+                                }
+                            } : {
+                                ...item,
+                                update: {
+                                    ...itemUpdate,
+                                    [
+                                        updatedParentPathKey
+                                        ||
+                                        `parent${getPathsTypename({ path: getParentPath(updatedPath) })}Path`
+                                    ]: getParentPath({ path: updatedPath }).replace(path, newPath),
+                                },
                             }
-                        } : {
-                            ...item,
-                            update: {
-                                ...itemUpdate,
-                                [
-                                    updatedParentPathKey
-                                    ||
-                                    `parent${getPathsTypename({ path: getParentPath(updatedPath) })}Path`
-                                ]: getParentPath({ path: updatedPath }).replace(path, newPath),
-                            },
-                        }
+                    )
                     :
                     item
             }).concat((key === itemsKey && !updatedItem && !updatedNewItem) ?
