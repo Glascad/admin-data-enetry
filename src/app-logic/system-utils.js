@@ -102,29 +102,6 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
             `${Type}OptionValue`;
 }
 
-export const getPathsTypename = window.getPathsTypename = ({ path } = {}) => path.includes('__CT__') ?
-    (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
-        path.match(/^.*__CT__\.\w+$/) ?
-            'DetailConfiguration'
-            :
-            'ConfigurationOptionValue'
-        :
-        'ConfigurationOption'
-    :
-    path.includes('__DT__') ?
-        (path.replace(/^.*__DT__./, '').match(/\./g) || []).length % 2 === 0 ?
-            path.match(/^.*__DT__\.\w+$/) ?
-                'SystemDetail'
-                :
-                'DetailOptionValue'
-            :
-            'DetailOption'
-        :
-        (path.match(/\./g) || []).length % 2 === 0 ?
-            "SystemOptionValue"
-            :
-            "SystemOption"
-
 export const getItemPathAddition = ({ path, __typename = '', id, fakeId }) => __typename.match(/(detail|configuration|part)$/i) ?
     __typename.match(/detail$/i) ?
         `__DT__.`

@@ -112,8 +112,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
                                     [
                                         updatedParentPathKey
                                         ||
-                                        `parent${getPathsTypename({ path: getParentPath(updatedPath) })}Path`
-                                    ]: getParentPath({ path: updatedPath }).replace(path, newPath),
+                                        `parent${getTypenameFromPath(getParentPath(updatedPath))}Path`
+                                    ]: getParentPath(updatedPath).replace(path, newPath),
                                 },
                             }
                     )
