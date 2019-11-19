@@ -139,7 +139,9 @@ export default function SystemTree({
                                             }
                                         }}
                                     >
-                                        <div className="title">{normalCase(name)}</div>
+                                        <div className="title">
+                                            {normalCase(name)}
+                                        </div>
                                     </div>
                                 );
                             }}

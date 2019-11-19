@@ -35,7 +35,16 @@
                     border: 1px solid $medium-gray;
 
                     &.default {
-                        text-transform: uppercase;
+                        // text-transform: uppercase;
+
+                        &::before {
+                            content: "(";
+                            margin-right: $xx-small;
+                        }
+                        &::after {
+                            content: ")";
+                            margin-left: $xx-small;
+                        }
                     }
                 }
 
@@ -51,9 +60,13 @@
                 }
 
                 &.type-configurationpart {
+                    background: none;
+                    border: 2px solid $medium-gray;
+                    font-weight: bold;
+                    text-transform: uppercase;
                     // border: 1px solid $warning-color;
                     // color: $warning-color;
-                    background: mix($warning-color, white, 33%);
+                    // background: mix($warning-color, white, 33%);
                 }
 
                 &.grouped-with-selected {

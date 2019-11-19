@@ -43,26 +43,30 @@ export default function SystemBuilder({
     return (
         <TransformProvider>
             <Header
-                queryResult={queryResult}
-                systemInput={systemInput}
-                system={system}
-                systemMap={systemMap}
-                dispatch={dispatch}
-                selectedItem={selectedItem}
-                selectItem={selectItem}
-                save={save}
+                {...{
+                    queryResult,
+                    systemInput,
+                    system,
+                    systemMap,
+                    dispatch,
+                    selectedItem,
+                    selectItem,
+                    save,
+                }}
             />
             <SystemTree
-                queryResult={queryResult}
-                updating={updating}
-                fetching={fetching}
-                system={system}
-                systemMap={systemMap}
-                dispatch={dispatch}
-                selectItem={selectItem}
-                selectedItem={selectedItem}
-                partialAction={partialAction}
-                cancelPartial={cancelPartial}
+                {...{
+                    queryResult,
+                    updating,
+                    fetching,
+                    system,
+                    systemMap,
+                    dispatch,
+                    selectItem,
+                    selectedItem,
+                    partialAction,
+                    cancelPartial,
+                }}
             />
             <RightSidebar
                 open={!!selectedItem}

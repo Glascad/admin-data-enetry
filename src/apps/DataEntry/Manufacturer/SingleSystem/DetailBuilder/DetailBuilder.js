@@ -24,6 +24,7 @@ export default function DetailBuilder({
         path: matchPath,
     },
     systemMap,
+    dispatch,
 }) {
 
     useCollapseSidebar();
@@ -34,7 +35,9 @@ export default function DetailBuilder({
 
     const children = getChildren({ path }, systemMap) || [];
 
-    const [selectedPart, setSelectedPart] = useState();
+    const [{ path: selectedPath } = {}, setSelectedPart] = useState();
+
+    const selectedPart = systemMap[selectedPath];
 
     const selectPart = newPart => setSelectedPart(part => newPart === part ? undefined : newPart);
 
@@ -72,6 +75,7 @@ export default function DetailBuilder({
             <DetailTray
                 systemMap={systemMap}
                 selectedPart={selectedPart}
+                dispatch={dispatch}
             />
             <Sidebar
                 systemMap={systemMap}

@@ -39,7 +39,16 @@ export const createTransformation = window.createTransformation = ({
         [g, h, i]
     ];
 
-export const z = window.z = undefined;
+export const convertArrayMatrixToObject = window.convertArrayMatrixToObject = ([
+    [a, b, c],
+    [d, e, f],
+    [g, h, i],
+]) => ({
+    a, b, c,
+    d, e, f,
+    g, h, i,
+});
+
 export const origin = window.origin = { x: 0, y: 0 };
 
 

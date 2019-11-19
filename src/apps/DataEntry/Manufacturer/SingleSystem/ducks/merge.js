@@ -19,6 +19,7 @@ export default function merge(systemInput, {
         _configurationOptionValues = [],
         _systemDetails = [],
         _detailConfigurations = [],
+        _configurationParts = [],
     } = {},
 }) {
     const {
@@ -37,6 +38,7 @@ export default function merge(systemInput, {
         configurationOptionValues = [],
         systemDetails = [],
         detailConfigurations = [],
+        configurationParts = [],
         // create
         newOptionGroups = [],
         newSystemOptions = [],
@@ -47,9 +49,8 @@ export default function merge(systemInput, {
         newConfigurationOptionValues = [],
         newSystemDetails = [],
         newDetailConfigurations = [],
+        newConfigurationParts = [],
     } = systemInput;
-
-    const systemMap = new SystemMap(_system);
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
         .filter(({ path }) => {
@@ -62,7 +63,6 @@ export default function merge(systemInput, {
 
             const parentWithUpdatedPath = getParentWithUpdatedPath(systemInput, { path });
 
-
             // if the parent is updated, we look to see if the move prevents it from being deleted or not
             if (parentWithUpdatedPath) {
                 console.log("PARENT UPDATED")
@@ -73,14 +73,15 @@ export default function merge(systemInput, {
                 const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
-                    console.log({foundDeletedItem});
+                    console.log({ foundDeletedItem });
                     return foundDeletedItem && path.match(foundDeletedItem);
                 });
             } else {
                 // else we check to see if the path is in the deleted paths (or child of one that is)
                 return !pathsToDelete.some(deletedPath => path.match(new RegExp(`${deletedPath}\\b`)));
             };
-        }).map(oldItem => {
+        })
+        .map(oldItem => {
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);
             const [newUpdatedItemParentKey, newUpdatedItemParentPath] = updatedItem ?
@@ -102,6 +103,7 @@ export default function merge(systemInput, {
                 [newUpdatedItemParentKey]: undefined,
             } : {};
             if (updatedItem) console.log({
+                oldItem,
                 updatedItem,
                 updatedPath,
                 newUpdatedItem,
@@ -110,7 +112,8 @@ export default function merge(systemInput, {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),
             };
-        }).concat(newItems.map(item => {
+        })
+        .concat(newItems.map(item => {
             const { name, __typename, id } = item;
             const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
             const path = `${
@@ -141,6 +144,7 @@ export default function merge(systemInput, {
     const updatedConfigurationOptions = mergeArray(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeArray(_systemDetails, systemDetails, newSystemDetails);
     const updatedDetailConfigurations = mergeArray(_detailConfigurations, detailConfigurations, newDetailConfigurations);
+    const updatedConfigurationParts = mergeArray(_configurationParts, configurationParts, newConfigurationParts);
 
     return {
         // name: newName || name,
@@ -153,6 +157,7 @@ export default function merge(systemInput, {
         _detailOptions: updatedDetailOptions,
         _detailOptionValues: updatedDetailOptionValues,
         _detailConfigurations: updatedDetailConfigurations,
+        _configurationParts: updatedConfigurationParts,
         _configurationOptions: updatedConfigurationOptions,
         _configurationOptionValues: updatedConfigurationOptionValues,
         _optionGroups: _optionGroups

@@ -26,6 +26,8 @@ export function SVGPath({
     onClick,
     color,
 }) {
+    const transform = `matrix(${a} ${d} ${b} ${e} ${c} ${f})`;
+    console.log({ transform });
     return (
         <path
             className={className}
@@ -40,7 +42,7 @@ export function SVGPath({
                 ...s,
                 ...style,
             }), { fill: color })}
-            transform={`matrix(${a} ${d} ${b} ${e} ${c} ${f})`}
+            transform={transform}
         />
     );
 }

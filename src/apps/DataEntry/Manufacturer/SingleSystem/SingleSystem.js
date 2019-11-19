@@ -127,6 +127,12 @@ export default function SingleSystem({
         }
     };
 
+    console.log({
+        system,
+        systemMap,
+        systemInput,
+    });
+
     return (
         <Navigator
             routes={subroutes}
