@@ -46,8 +46,18 @@ export default function DetailTray({
         angle,
     }));
     const previousTransform = matrix.createTransformation(transform);
-    const createNudge = (vertical, first) => () => {
-        const intermediateTransform = matrix.createTranslation(
+    const dispatchTransform = intermediateTransform => {
+        const resultingTransform = multiply(previousTransform, intermediateTransform);
+        dispatch(UPDATE_ITEM, {
+            __typename,
+            path,
+            update: {
+                transform: matrix.convertArrayMatrixToObject(resultingTransform),
+            },
+        });
+    }
+    const createNudge = (vertical, first) => () => dispatchTransform(
+        matrix.createTranslation(
             vertical ?
                 0
                 :
@@ -62,32 +72,17 @@ export default function DetailTray({
                     +nudge.y
                 :
                 0,
-        );
-        const resultingTransform = multiply(previousTransform, intermediateTransform);
-        dispatch(UPDATE_ITEM, {
-            __typename,
-            path,
-            update: {
-                transform: matrix.convertArrayMatrixToObject(resultingTransform),
-            },
-        });
-    };
-    const createRotate = (clockwise) => () => {
-        const intermediateTransform = matrix.createRotation(
+        ),
+    );
+    const createRotate = clockwise => () => dispatchTransform(
+        matrix.createRotation(
             clockwise ?
                 -angle
                 :
-                +angle
-        );
-        const resultingTransform = multiply(previousTransform, intermediateTransform);
-        dispatch(UPDATE_ITEM, {
-            __typename,
-            path,
-            update: {
-                transform: matrix.convertArrayMatrixToObject(resultingTransform),
-            },
-        });
-    }
+                +angle,
+        ),
+    );
+    const createMirror = angle => () => dispatchTransform(matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
     console.log(arguments[0]);
     return (
         <Tray>
@@ -159,14 +154,25 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => null}
+                        Icon={() => '|'}
+                        onChange={createMirror(0)}
+                        disabled={!selectedPart}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={() => '--'}
+                        onChange={createMirror(90)}
+                        disabled={!selectedPart}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={() => '/'}
+                        onChange={createMirror(45)}
+                        disabled={!selectedPart}
                     />
+                    <Input
+                        Icon={() => '\\'}
+                        onChange={createMirror(-45)}
+                        disabled={!selectedPart}
+                        />
                 </div>
             </div>
             <div className="tray-section">
@@ -175,12 +181,14 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => 'cc'}
+                        Icon={() => '<'}
                         onChange={createRotate(false)}
-                    />
+                        disabled={!selectedPart}
+                        />
                     <Input
-                        Icon={() => 'cw'}
+                        Icon={() => '>'}
                         onChange={createRotate(true)}
+                        disabled={!selectedPart}
                     />
                     <Input
                         labe="Angle"

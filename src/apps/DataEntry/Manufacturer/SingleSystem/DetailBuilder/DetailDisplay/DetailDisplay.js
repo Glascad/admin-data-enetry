@@ -32,7 +32,7 @@ export default withRouter(function DetailDisplay({
         >
             <svg
                 id="detail-display"
-                viewBox={viewBox}
+                viewBox="-250 -250 500 500"
                 transform="scale(1, -1)"
             >
                 {children.map(part => {
