@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import { TransformBox, SVG, SVGPath } from '../../../../../../components';
-import { StaticContext } from '../../../../../Statics/Statics';
+import { getConfigurationTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { SVGPath, TransformBox } from '../../../../../../components';
 import { parseSearch, svg } from '../../../../../../utils';
-import { getConfigurationTypeFromPath, getChildren } from '../../../../../../app-logic/system-utils';
+import { StaticContext } from '../../../../../Statics/Statics';
 import './DetailDisplay.scss';
 
 const padding = 0.5;
@@ -13,27 +13,17 @@ export default withRouter(function DetailDisplay({
         search,
     },
     system,
+    children,
+    selectPart,
+    selectedPart,
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
+
     const { Viewport } = useContext(StaticContext);
     const { path } = parseSearch(search);
     const configurationType = getConfigurationTypeFromPath(path);
-
-    const children = getChildren({ path }, system) || [];
-
     const allPaths = children.reduce((allPaths, { _part: { paths = [] } = {} }) => allPaths.concat(paths), []);
-
     const viewBox = svg.getViewBox(allPaths, padding);
-
-    const [selectedPart, setSelectedPart] = useState();
-    const selectPart = newPart => setSelectedPart(part => newPart === part ? undefined : newPart);
-
-    console.log({
-        children,
-        allPaths,
-        viewBox,
-        selectedPart,
-    });
 
     return configurationType ? (
         <TransformBox
@@ -46,7 +36,7 @@ export default withRouter(function DetailDisplay({
                 transform="scale(1, -1)"
             >
                 {children.map(part => {
-                    const { id, _part: { paths = [] } } = part;
+                    const { id, transform, _part: { paths = [] } } = part;
                     const selected = part === selectedPart;
                     return (
                         <g
@@ -54,11 +44,11 @@ export default withRouter(function DetailDisplay({
                             className={`part ${selected ? 'selected' : ''}`}
                             onClick={() => selectPart(part)}
                         >
-                            {paths.map(({ commands, transform }, i) => (
+                            {paths.map(({ commands }, i) => (
                                 <SVGPath
                                     key={i}
                                     commands={commands}
-                                    // transform={transform}
+                                    transform={transform}
                                 />
                             ))}
                         </g>

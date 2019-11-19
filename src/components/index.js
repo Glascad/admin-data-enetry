@@ -20,6 +20,7 @@ import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 import Tree from './ui/Tree/Tree';
 import RightSidebar from './ui/RightSidebar/RightSidebar';
+import Tray from './ui/Tray/Tray';
 import SVG, { SVGPath } from './ui/SVG/SVG';
 
 // CONTEXTS
@@ -79,6 +80,7 @@ export {
     ConfirmButton,
     Tree,
     RightSidebar,
+    Tray,
     SVGPath,
     SVG,
     // CONTEXT,

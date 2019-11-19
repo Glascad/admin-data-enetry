@@ -88,8 +88,8 @@ export default withRouter(function DetailBuilderSnailTrail({
         path: matchPath,
     },
     history,
-    system,
-    system: {
+    systemMap,
+    systemMap: {
         name: sName,
         _manufacturer: {
             name: mName,

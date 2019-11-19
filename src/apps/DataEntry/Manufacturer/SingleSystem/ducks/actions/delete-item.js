@@ -1,4 +1,3 @@
-import { getLastItemFromPath, getParentPath, removeDescendantPaths } from "../../../../../../../app-logic/system-utils";
 import _ from 'lodash'
 import { getOldPath, getUpdatedPath } from "../utils";
 
@@ -80,5 +79,5 @@ export default function DELETE_ITEM(systemInput, payload) {
         configurationOptions,
         configurationOptionValues,
         pathsToDelete: pathsToDelete.concat(isNewItem || isUpdatedItem || pathsToDelete.includes(oldPath) ? [] : oldPath),
-    }
+    };
 }

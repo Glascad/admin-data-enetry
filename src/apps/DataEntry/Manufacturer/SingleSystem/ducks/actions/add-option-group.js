@@ -1,4 +1,4 @@
-import { getLastItemFromPath } from "../../../../../../../app-logic/system-utils";
+import { getLastItemFromPath } from "../../../../../../app-logic/system-utils";
 
 export default function ADD_OPTION_GROUP(systemInput, payload) {
     const {

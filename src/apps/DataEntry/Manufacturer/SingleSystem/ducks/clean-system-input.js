@@ -1,4 +1,4 @@
-import { removeNullValues } from "../../../../../../utils";
+import { removeNullValues } from "../../../../../utils";
 
 const removeTypenameAndNodeId = ({ __typename, nodeId, ...rest }) => rest;
 

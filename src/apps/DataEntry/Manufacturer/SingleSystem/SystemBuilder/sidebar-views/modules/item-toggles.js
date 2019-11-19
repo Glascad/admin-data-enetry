@@ -1,7 +1,7 @@
 import React from 'react';
 import { canItemBeGrouped, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
 import { Input, confirmWithModal } from '../../../../../../../components';
-import { DELETE_OPTION_GROUP, ADD_OPTION_GROUP, UPDATE_ITEM } from '../../ducks/actions';
+import { DELETE_OPTION_GROUP, ADD_OPTION_GROUP, UPDATE_ITEM } from '../../../ducks/actions';
 
 export const OptionToggles = ({
     option,

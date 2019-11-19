@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
-    useQuery, TransformProvider,
+    TransformProvider,
 } from '../../../../../components';
 import Header from './Header/Header';
 import DetailDisplay from './DetailDisplay/DetailDisplay';
-import Tray from './Tray/Tray';
+import DetailTray from './DetailTray/DetailTray';
 import Sidebar from './Sidebar/Sidebar';
-import query from '../system-graphql/query';
-import { SystemMap, getDefaultPath } from '../../../../../app-logic/system-utils';
+import { getDefaultPath, getChildren } from '../../../../../app-logic/system-utils';
 import { parseSearch } from '../../../../../utils';
 import { useCollapseSidebar } from '../../../../Statics/Statics';
 
@@ -24,48 +23,59 @@ export default function DetailBuilder({
     match: {
         path: matchPath,
     },
+    systemMap,
 }) {
-
-    console.log(arguments[0]);
-
-    const { path, systemId } = parseSearch(search);
-
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
     useCollapseSidebar();
 
-    const { _system } = queryResult;
+    const { path } = parseSearch(search);
 
-    const system = new SystemMap(_system);
+    const fullPath = getDefaultPath(path, systemMap);
 
-    const fullPath = getDefaultPath(path, system);
+    const children = getChildren({ path }, systemMap) || [];
 
-    console.log({ fullPath, path, system });
+    const [selectedPart, setSelectedPart] = useState();
 
-    return path === fullPath ? (
+    const selectPart = newPart => setSelectedPart(part => newPart === part ? undefined : newPart);
+
+    console.log({
+        fullPath,
+        path,
+        systemMap,
+        children,
+        selectedPart,
+    });
+
+    if (path !== fullPath) return (
+        <Redirect
+            to={{
+                pathname: matchPath,
+                search: `${parseSearch(search).update({ path: fullPath })}`,
+                state: {
+                    previousPath: path,
+                },
+            }}
+        />
+    );
+
+    return (
         <TransformProvider>
             <Header
-                system={system}
+                systemMap={systemMap}
             />
             <DetailDisplay
-                system={system}
+                systemMap={systemMap}
+                children={children}
+                selectPart={selectPart}
+                selectedPart={selectedPart}
             />
-            <Tray
-                system={system}
+            <DetailTray
+                systemMap={systemMap}
+                selectedPart={selectedPart}
             />
             <Sidebar
-                system={system}
+                systemMap={systemMap}
             />
         </TransformProvider>
-    ) : (
-            <Redirect
-                to={{
-                    pathname: matchPath,
-                    search: `${parseSearch(search).update({ path: fullPath })}`,
-                    state: {
-                        previousPath: path,
-                    },
-                }}
-            />
-        );
+    );
 }

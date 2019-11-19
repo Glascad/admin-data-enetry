@@ -1,4 +1,4 @@
-import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition, getTypenameFromPath } from "../../../../../../../app-logic/system-utils";
+import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition, getTypenameFromPath } from "../../../../../../app-logic/system-utils";
 import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {

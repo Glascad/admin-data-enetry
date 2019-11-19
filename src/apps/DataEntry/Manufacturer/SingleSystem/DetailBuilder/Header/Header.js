@@ -16,7 +16,7 @@ export default withRouter(function Header({
         path: matchPath,
     },
     history,
-    system,
+    systemMap,
 }) {
     const { path = '' } = parseSearch(search);
     const detailType = getDetailTypeFromPath(path);
@@ -25,7 +25,7 @@ export default withRouter(function Header({
         <>
             <TitleBar
                 title={`${
-                    detailType
+                    configurationType || detailType
                     } ${
                     configurationType ?
                         'Configuration'
@@ -74,7 +74,7 @@ export default withRouter(function Header({
                 )}
             />
             <DetailBuilderSnailTrail
-                system={system}
+                systemMap={systemMap}
             />
         </>
     );

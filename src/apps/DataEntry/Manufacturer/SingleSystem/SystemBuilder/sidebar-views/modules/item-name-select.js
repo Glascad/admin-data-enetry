@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select, confirmWithModal } from '../../../../../../../components';
-import { UPDATE_ITEM, ADD_ITEM } from '../../ducks/actions';
+import { UPDATE_ITEM, ADD_ITEM } from '../../../ducks/actions';
 import { filterOptionsAbove, getAllInstancesOfItem, getLastItemFromPath, getParentPath, getChildren } from '../../../../../../../app-logic/system-utils';
 
 export const TypeNameSelect = ({

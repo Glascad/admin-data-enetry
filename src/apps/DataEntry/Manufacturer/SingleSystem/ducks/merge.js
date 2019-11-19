@@ -1,6 +1,6 @@
 import _ from "lodash";
-import { removeNullValues, match } from '../../../../../../utils';
-import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../../../app-logic/system-utils";
+import { removeNullValues, match } from '../../../../../utils';
+import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../../app-logic/system-utils";
 import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "./utils";
 
 export default function merge(systemInput, {

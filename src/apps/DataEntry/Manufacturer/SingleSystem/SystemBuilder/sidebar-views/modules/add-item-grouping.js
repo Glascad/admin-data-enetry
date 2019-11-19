@@ -1,8 +1,8 @@
 import React from 'react';
 import { GroupingBox, confirmWithModal, Select, CircleButton, Toggle, ToggleBox } from '../../../../../../../components';
 import { getAllInstancesOfItem, getLastItemFromPath, getChildren, filterOptionsAbove, getParentPath } from '../../../../../../../app-logic/system-utils';
-import { ADD_ITEM, UPDATE_ITEM, DELETE_ITEM } from '../../ducks/actions';
-import { getSelectTypeName } from '../../ducks/utils';
+import { ADD_ITEM, UPDATE_ITEM, DELETE_ITEM } from '../../../ducks/actions';
+import { getSelectTypeName } from '../../../ducks/utils';
 
 const Row = ({
     item,

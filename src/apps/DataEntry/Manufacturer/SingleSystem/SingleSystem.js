@@ -7,6 +7,7 @@ import {
     useMutation,
     useQuery,
     Navigator,
+    useRedoableState,
 } from '../../../../components';
 import query from './system-graphql/query';
 import { updateEntireSystem as updateEntireSystemMutation } from './system-graphql/mutations';
@@ -15,6 +16,10 @@ import SystemBuilder from './SystemBuilder/SystemBuilder';
 import DetailBuilder from './DetailBuilder/DetailBuilder';
 import { parseSearch } from '../../../../utils';
 import * as SAMPLE_SYSTEMS from '../../../../app-logic/__test__/sample-systems';
+import { SystemMap } from '../../../../app-logic/system-utils';
+import cleanSystemInput from './ducks/clean-system-input';
+import merge from './ducks/merge';
+import { systemUpdate } from './ducks/schemas';
 
 const subroutes = {
     SystemBuilder,
@@ -87,13 +92,40 @@ export default function SingleSystem({
 
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
-    // console.log({
-    //     SAMPLE_SYSTEMS,
-    //     sampleSystem,
-    //     _sampleSystem,
-    // });
-
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
+
+    const {
+        currentState: systemInput,
+        pushState,
+        replaceState,
+    } = useRedoableState(systemUpdate);
+
+    const system = merge(systemInput, queryResult);
+
+    const systemMap = new SystemMap(system);
+
+    const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
+        replaceState
+        :
+        pushState
+    )(systemInput => ({
+        ...systemInput,
+        ...ACTION(
+            systemInput,
+            payload,
+        ),
+    }));
+
+    const save = async () => {
+        dispatch(() => systemUpdate);
+        try {
+            const result = await updateEntireSystem(cleanSystemInput(systemInput, system));
+            console.log({ result });
+        } catch (err) {
+            console.error(err);
+            dispatch(() => systemInput);
+        }
+    };
 
     return (
         <Navigator
@@ -106,6 +138,11 @@ export default function SingleSystem({
                 fetching,
                 updateEntireSystem,
                 updating,
+                save,
+                dispatch,
+                systemMap,
+                system,
+                systemInput,
             }}
         />
     );
