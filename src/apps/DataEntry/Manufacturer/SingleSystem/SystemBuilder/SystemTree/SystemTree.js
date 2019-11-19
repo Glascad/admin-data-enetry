@@ -4,9 +4,8 @@ import { makeRenderable, getLastItemFromPath, getChildren, SystemMap } from '../
 import { normalCase, parseSearch } from '../../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../../Statics/Statics';
-import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../ducks/actions';
-import { getPotentialParent } from '../ducks/utils';
-// import { ADD_OPTION } from '../../ducks/actions';
+import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../../ducks/actions';
+import { getPotentialParent } from '../../ducks/utils';
 
 export default function SystemTree({
     search,
@@ -140,7 +139,9 @@ export default function SystemTree({
                                             }
                                         }}
                                     >
-                                        <div className="title">{normalCase(name)}</div>
+                                        <div className="title">
+                                            {normalCase(name)}
+                                        </div>
                                     </div>
                                 );
                             }}

@@ -1,8 +1,9 @@
-import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition, getTypenameFromPath } from "../../../../../../../app-logic/system-utils";
+import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition, getTypenameFromPath } from "../../../../../../app-logic/system-utils";
 import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "../utils";
-import { removeNullValues } from "../../../../../../../utils";
+import { removeNullValues } from "../../../../../../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
+    console.log(arguments);
     const {
         __typename,
         path,
@@ -19,19 +20,24 @@ export default function UPDATE_ITEM(systemInput, payload) {
         [itemsKey]: itemsArray = [],
         [newItemsKey]: newItemsArray = [],
     } = systemInput;
+    console.log({ parentPath, name, itemsKey, newItemsKey, __typename, path });
 
     // if the path and initial path are the same, the item is the same
     const oldPath = getOldPath(path, systemInput);
     console.log({ oldPath });
     const updatedItem = itemsArray.find(item => item.path === oldPath);
     // if it is a new item, the parent needs to be the same as the path from parent, and the name needs to be the same as the last item on the path
+    console.log({ updatedItem });
     const updatedNewItem = newItemsArray.find(item => Object.entries(item).find(([key, value]) =>
         key.match(/parent/)
         &&
         path === `${value}.${getItemPathAddition(payload)}${item.name}`
     ));
+    console.log({ updatedNewItem });
 
     const newPath = getUpdatedPath(payload);
+
+    console.log({ newPath });
 
     // If item is not in state && item doesn't have a parent update key, 
     // it needs to see if a parent is in state is has moved to add it to the update.
@@ -41,6 +47,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
         :
         undefined;
 
+    console.log({ parentWithUpdatedPath, updateParentKey });
+
     // finds all new items that need to be updated
     const updatedNewItems = Object.entries(systemInput)
         .filter(([key]) => key.match(/new/i))
@@ -49,10 +57,10 @@ export default function UPDATE_ITEM(systemInput, payload) {
             [key]: value.map(item => {
                 const [parentPathKey, itemParentPath] = Object.entries(item)
                     .find(([itemKey]) => itemKey.match(/parent/i)) || [];
-                return !itemParentPath && !!path.match(/^\d+\.\w+$/) ?
+                return !itemParentPath && path.match(/^\d+\.\w+$/) ?
                     {
                         ...item,
-                        ...update
+                        ...update,
                     }
                     :
                     itemParentPath && itemParentPath.startsWith(parentPath) ?
@@ -61,25 +69,27 @@ export default function UPDATE_ITEM(systemInput, payload) {
                                 {
                                     ...item,
                                     [parentPathKey]: updateParentKey ? undefined : itemParentPath,
-                                    ...update
+                                    ...update,
                                 }
                             )
                             :
                             {
                                 ...item,
                                 [parentPathKey]: itemParentPath.replace(path, newPath),
-                                name: item.name
+                                name: item.name,
                             }
                         :
                         item;
             })
         }), {});
 
+    console.log({ updatedNewItems });
     // finds all updated items that need to be updated
     const updatedItems = Object.entries(systemInput)
-        .filter(([key]) => key.match(/(option|value|detail|configuration)s$/i) && !key.match(/new/i))
+        .filter(([key]) => key.match(/(option|value|detail|configuration|part)s$/i) && !key.match(/new/i))
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
+            n: console.log({ key, value, }),
             [key]: value.map(item => {
                 const { update: itemUpdate } = item;
                 const [updatedParentPathKey, updatedParentPath] = Object.entries(itemUpdate).find(([itemKey]) => itemKey.match(/parent/i)) || [];
@@ -104,7 +114,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
                                         ||
                                         `parent${getPathsTypename({ path: getParentPath(updatedPath) })}Path`
                                     ]: getParentPath({ path: updatedPath }).replace(path, newPath),
-                                }
+                                },
                             }
                     )
                     :
@@ -117,19 +127,25 @@ export default function UPDATE_ITEM(systemInput, payload) {
                         update: {
                             ...update,
                             [`parent${getTypenameFromPath(getParentPath(payload))}Path`]: getParentPath(payload),
-                        }
+                        },
                     }
                     :
                     {
                         ...payload,
                         path: oldPath,
                     }
-                : [])
+                : []),
         }), {});
 
-    return {
+    console.log({ updatedItems });
+
+    const result = {
         ...systemInput,
         ...updatedItems,
         ...updatedNewItems,
     };
+
+    console.log({ result });
+
+    return result;
 }

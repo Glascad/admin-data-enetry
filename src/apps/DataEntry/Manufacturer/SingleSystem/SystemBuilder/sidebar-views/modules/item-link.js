@@ -15,7 +15,9 @@ export const ItemLink = ({
         to={`${matchedPath.replace(/build/, 'detail')}${parseSearch(search).update({ path })}`}
         className="sidebar-button empty"
     >
-        <button>
+        <button
+            data-cy="detail-builder-link"
+        >
             Edit {path.match(/__CT__/) ? "Configuration" : "Detail"}
         </button>
     </Link>

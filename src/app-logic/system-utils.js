@@ -124,14 +124,14 @@ export const getPathsTypename = window.getPathsTypename = ({ path } = {}) => pat
             :
             "SystemOption"
 
-export const getItemPathAddition = ({ __typename = '', id, fakeId }) => __typename.match(/(detail|configuration|part)$/i) ?
+export const getItemPathAddition = ({ path, __typename = '', id, fakeId }) => __typename.match(/(detail|configuration|part)$/i) ?
     __typename.match(/detail$/i) ?
         `__DT__.`
         :
         __typename.match(/configuration$/i) ?
             `__CT__.`
             :
-            `__PT${id || fakeId}__`
+            `__PT${id || fakeId || path.replace(/^.*\.__PT(\d+)__.*$/g, '$1')}__.`
     :
     '';
 

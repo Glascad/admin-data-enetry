@@ -1,13 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { svg } from '../../../utils';
+import { multiply } from 'mathjs';
+import { svg, matrix } from '../../../utils';
+
+const DEFAULT_MATRIX = multiply(
+    matrix.IDENTITY_MATRIX,
+    matrix.IDENTITY_MATRIX,
+    // matrix.createCenteredRotation(45, { x: 250, y: 250 }),
+    // matrix.createTranslation(0, -500),
+    // matrix.createRotation(10),
+    // matrix.createTranslation(-250, -250),
+);
 
 export function SVGPath({
     className = '',
     commands = [],
+    transform: {
+        a = DEFAULT_MATRIX[0][0],
+        b = DEFAULT_MATRIX[0][1],
+        c = DEFAULT_MATRIX[0][2],
+        d = DEFAULT_MATRIX[1][0],
+        e = DEFAULT_MATRIX[1][1],
+        f = DEFAULT_MATRIX[1][2],
+    } = {},
     onClick,
     color,
 }) {
+    const transform = `matrix(${a} ${d} ${b} ${e} ${c} ${f})`;
+    console.log({ transform });
     return (
         <path
             className={className}
@@ -22,6 +42,7 @@ export function SVGPath({
                 ...s,
                 ...style,
             }), { fill: color })}
+            transform={transform}
         />
     );
 }

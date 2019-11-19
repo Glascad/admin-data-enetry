@@ -3,8 +3,8 @@ import {
     SystemMap,
     getChildren,
     getLastItemFromPath,
-} from '../../../../../../app-logic/system-utils';
-import { parseSearch } from '../../../../../../utils';
+} from '../../../../../app-logic/system-utils';
+import { parseSearch } from '../../../../../utils';
 import { UPDATE_ITEM } from "./actions";
 
 export const usePartialAction = ({ selectItem }) => {

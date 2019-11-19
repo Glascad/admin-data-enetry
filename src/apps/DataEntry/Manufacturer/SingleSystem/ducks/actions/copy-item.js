@@ -1,4 +1,4 @@
-import { getChildren, getLastItemFromPath } from "../../../../../../../app-logic/system-utils";
+import { getChildren, getLastItemFromPath } from "../../../../../../app-logic/system-utils";
 import ADD_ITEM from "./add-item";
 import { getUpdatedPath } from "../utils";
 

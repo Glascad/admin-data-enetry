@@ -1,4 +1,4 @@
-import merge from "../merge";
+import merge from "../utils/merge";
 import { sample1 } from "../../../../../../../app-logic/__test__/sample-systems";
 import { systemUpdate } from "../schemas";
 

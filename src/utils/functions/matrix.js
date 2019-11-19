@@ -1,60 +1,12 @@
 import { multiply } from 'mathjs';
-
-
-/**
- * RADIANS
- * 
- * converts degrees to radians
- * 
- * @param {number} degrees - the angle in degrees that should be converted to radians
- */
-
-export const radians = degrees => degrees * Math.PI / 180;
-
-/**
- * DEGREES
- * 
- * converts radians to degrees
- * 
- * @param {number} radians - the angle in radians that should be converted to degrees
- */
-
-export const degrees = radians => radians * 180 / Math.PI;
-
-
-
-// TRIGONOMETRIC FUNCTIONS
-
-/**
- * SINE
- * 
- * returns the sine from degrees (as opposed to radians used in Math.sin())
- * 
- * @param {number} degrees - the angle in degrees
- */
-
-export const sin = degrees => Math.sin(radians(degrees));
-
-/**
- * COSINE
- * 
- * returns the cosine from degrees (as opposed to radians used in Math.cos())
- * 
- * @param {number} degrees - the angle in degrees
- */
-
-export const cos = degrees => Math.cos(radians(degrees));
-
-
-
-// MATRICES
+import { cos, sin } from './trig';
 
 // IDENTITY MATRIX
 
-export const IDENTITY_MATRIX = [
+export const IDENTITY_MATRIX = window.IDENTITY_MATRIX = [
     [1, 0, 0],
     [0, 1, 0],
-    [0, 0, 1]
+    [0, 0, 1],
 ];
 
 /**
@@ -77,18 +29,27 @@ export const IDENTITY_MATRIX = [
  * @param {number} [T.i=1] - Do not use
  */
 
-export const createTransformation = ({
+export const createTransformation = window.createTransformation = ({
     a = 1, b = 0, c = 0,
     d = 0, e = 1, f = 0,
-    g = 0, h = 0, i = 1
+    g = 0, h = 0, i = 1,
 } = {}) => [
         [a, b, c],
         [d, e, f],
         [g, h, i]
     ];
 
-export const z = undefined;
-export const origin = { x: 0, y: 0 };
+export const convertArrayMatrixToObject = window.convertArrayMatrixToObject = ([
+    [a, b, c],
+    [d, e, f],
+    [g, h, i],
+]) => ({
+    a, b, c,
+    d, e, f,
+    g, h, i,
+});
+
+export const origin = window.origin = { x: 0, y: 0 };
 
 
 
@@ -103,7 +64,7 @@ export const origin = { x: 0, y: 0 };
  * @param {number} f - translation factor along the vertical axis (y)
  */
 
-export const createTranslation = (c, f) => createTransformation({ c, f });
+export const createTranslation = window.createTranslation = (c, f) => createTransformation({ c, f });
 
 /**
  * CREATE SCALE
@@ -114,7 +75,7 @@ export const createTranslation = (c, f) => createTransformation({ c, f });
  * @param {number} e - scale factor along the vertical axis (y)
  */
 
-export const createScale = (a, e) => createTransformation({ a, e });
+export const createScale = window.createScale = (a, e) => createTransformation({ a, e });
 
 /**
  * CREATE SHEAR
@@ -125,7 +86,7 @@ export const createScale = (a, e) => createTransformation({ a, e });
  * @param {number} d - vertical shear factor (y in relation to x)
  */
 
-export const createShear = (b, d) => createTransformation({ b, d });
+export const createShear = window.createShear = (b, d) => createTransformation({ b, d });
 
 /**
  * CREATE ROTATION
@@ -135,7 +96,7 @@ export const createShear = (b, d) => createTransformation({ b, d });
  * @param {number} phi - the number of degrees to rotate counter-clockwise (given rightward X and upward Y axes)
  */
 
-export const createRotation = phi => createTransformation({
+export const createRotation = window.createRotation = phi => createTransformation({
     a: cos(phi), b: -sin(phi),
     d: sin(phi), e: cos(phi),
 });
@@ -158,7 +119,7 @@ export const createRotation = phi => createTransformation({
  * @param {number} P.y - y coordinate of the center point
  */
 
-export const createCenteredScale = (S, P) => multiply(
+export const createCenteredScale = window.createCenteredScale = (S, P) => multiply(
     createTranslation(P.x, P.y), // translation 2
     createScale(S.x, S.y), // scale
     createTranslation(-P.x, -P.y), // translation 1
@@ -177,7 +138,7 @@ export const createCenteredScale = (S, P) => multiply(
  * @param {number} P.y - y coordinate of the center point
  */
 
-export const createCenteredRotation = (phi, P) => multiply(
+export const createCenteredRotation = window.createCenteredRotation = (phi, P) => multiply(
     createTranslation(P.x, P.y), //  translation 2
     createRotation(phi), //  rotation
     createTranslation(-P.x, -P.y), //  translation 1
@@ -199,7 +160,7 @@ export const createCenteredRotation = (phi, P) => multiply(
  * @param {number} P.y - y coordinate of the axis center point
  */
 
-export const createScaleWithAxis = (S, phi, P) => multiply(
+export const createScaleWithAxis = window.createScaleWithAxis = (S, phi, P) => multiply(
     createTranslation(P.x, P.y), // translation 2
     createRotation(-phi), // rotation 2
     createScale(S.x, S.y), // scale
@@ -219,4 +180,4 @@ export const createScaleWithAxis = (S, phi, P) => multiply(
  * @param {number} P.y - y coordinate of the axis center point
  */
 
-export const createMirrorAcrossAxis = (phi, P) => createScaleWithAxis({ x: -1, y: 1 }, phi, P);
+export const createMirrorAcrossAxis = window.createMirrorAcrossAxis = (phi, P) => createScaleWithAxis({ x: -1, y: 1 }, phi, P);

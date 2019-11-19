@@ -1,8 +1,8 @@
 const parts = require('./parts.json');
 
-module.exports = `${
+module.exports = `INSERT INTO parts (manufacturer_id, part_number, paths) VALUES ${
     [1, 2].map(manufacturerId => `${
-        parts.map(({ partNumber, paths }) => `INSERT INTO parts (manufacturer_id, part_number, paths) VALUES (${
+        parts.map(({ partNumber, paths }) => `(${
             manufacturerId
             }, '${
             partNumber
@@ -13,12 +13,12 @@ module.exports = `${
                     }', ${
                     args ?
                         `ARRAY[${
-                        args.join(',')
-                        }]`
+                        args.join(',').replace(/(^,+$)|(,,+)/g, '')
+                        }]::FLOAT[]`
                         :
                         'NULL'
                     })`).join(',')
                 }]::SVG_PATH_COMMAND[])`).join(',')
-            }]::SVG_PATH[])`).join(';\n')
-        }`).join(';\n')
+            }]::SVG_PATH[])`).join(',\n')
+        }`).join(',\n')
     };\n`;

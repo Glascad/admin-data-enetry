@@ -57,6 +57,7 @@ export const systemUpdate = {
     configurationOptionValues: [],
     systemDetails: [],
     detailConfigurations: [],
+    configurationParts: [],
     newOptionGroups: [],
     newSystemOptions: [],
     newDetailOptions: [],
@@ -66,4 +67,5 @@ export const systemUpdate = {
     newConfigurationOptionValues: [],
     newSystemDetails: [],
     newDetailConfigurations: [],
+    newConfigurationParts: [],
 };

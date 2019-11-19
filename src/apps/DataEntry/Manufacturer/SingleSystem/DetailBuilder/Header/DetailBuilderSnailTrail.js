@@ -9,7 +9,7 @@ const OptionSelect = ({
     name,
     value,
     path,
-    system,
+    systemMap,
     history,
     location: {
         search,
@@ -21,9 +21,11 @@ const OptionSelect = ({
     const { path: searchPath } = parseSearch(search);
     const regex = new RegExp(`(${name})\\.(${value}).*`);
     const optionPath = path.replace(regex, name);
-    const values = getChildren({ path: optionPath }, system);
+    const values = getChildren({ path: optionPath }, systemMap);
+    // console.log({ searchPath, regex, optionPath, values, name, value });
     return (
         <Select
+            data-cy={`snail-trail-select-${name}`}
             className={`${
                 className
                 }${
@@ -40,8 +42,8 @@ const OptionSelect = ({
                         path.replace(regex, `$1.${value}`)
                         :
                         `${path}.${name}.${value}`,
-                    system,
-                    getOptionListFromPath(path, system).map(({ name, value }) => ({
+                    systemMap,
+                    getOptionListFromPath(path, systemMap).map(({ name, value }) => ({
                         optionName: name,
                         name: value,
                     })),
@@ -52,9 +54,9 @@ const OptionSelect = ({
                     :
                     `${defaultPath}.__DT__.${getDetailTypeFromPath(searchPath)}`;
 
-                console.log({ defaultPath, path, name, value });
+                // console.log({ defaultPath, path, name, value });
 
-                if (system[pathWithDetail]) {
+                if (systemMap[pathWithDetail]) {
                     const to = `${
                         matchPath
                         }${
@@ -87,8 +89,8 @@ export default withRouter(function DetailBuilderSnailTrail({
         path: matchPath,
     },
     history,
-    system,
-    system: {
+    systemMap,
+    systemMap: {
         name: sName,
         _manufacturer: {
             name: mName,
@@ -120,6 +122,7 @@ export default withRouter(function DetailBuilderSnailTrail({
                 />,
                 // detail options
                 ...renderOptionList(path.replace(/\.__CT__.*/, ''), props),
+                // configuration
                 <OptionSelect
                     {...{
                         className: configurationType ? 'bold' : '',
@@ -130,7 +133,10 @@ export default withRouter(function DetailBuilderSnailTrail({
                     }}
                 />,
                 // configuration options
-                ...renderOptionList(path, props),
+                ...(path.match(/\.__CT__\./) ?
+                    renderOptionList(path, props)
+                    :
+                    []),
             ]}
         />
     );
