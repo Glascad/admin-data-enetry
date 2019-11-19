@@ -65,15 +65,15 @@ export default function merge(systemInput, {
 
             // if the parent is updated, we look to see if the move prevents it from being deleted or not
             if (parentWithUpdatedPath) {
-                console.log("PARENT UPDATED")
-                console.log({
-                    path,
-                    parentWithUpdatedPath,
-                })
+                // console.log("PARENT UPDATED")
+                // console.log({
+                //     path,
+                //     parentWithUpdatedPath,
+                // })
                 const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
-                    console.log({foundDeletedItem});
+                    // console.log({foundDeletedItem});
                     return foundDeletedItem && path.match(foundDeletedItem);
                 });
             } else {
@@ -101,11 +101,6 @@ export default function merge(systemInput, {
                 name: undefined,
                 [newUpdatedItemParentKey]: undefined,
             } : {};
-            if (updatedItem) console.log({
-                updatedItem,
-                updatedPath,
-                newUpdatedItem,
-            });
             return {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),

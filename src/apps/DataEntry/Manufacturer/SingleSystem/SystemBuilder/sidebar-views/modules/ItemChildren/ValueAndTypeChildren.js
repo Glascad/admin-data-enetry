@@ -55,19 +55,20 @@ const Row = ({
 
 export const ValueAdditionGrouping = ({
     _optionGroups,
-    optionValue,
-    optionValue: {
+    item,
+    item: {
         path,
         __typename
     },
     validOptions,
-    optionIsSelected,
-    hasChildren,
-    valueChildren,
-    childOption,
-    childOptionPath,
+    optionToggleIsSelected,
+    children,
+    child,
+    child: {
+        path: childPath,
+        __typename: childTypename,
+    },
     childTypeType,
-    childTypeTypename,
     childOptionChildren,
     childOptionName,
     childTypename,
@@ -84,15 +85,15 @@ export const ValueAdditionGrouping = ({
                     toggle: {
                         text: "Option",
                         "data-cy": "toggle-child-option",
-                        selected: optionIsSelected,
-                        className: (hasChildren && !optionIsSelected) ? 'disabled' : '',
+                        selected: optionToggleIsSelected,
+                        className: (hasChildren && !optionToggleIsSelected) ? 'disabled' : '',
                         onClick: () => !hasChildren && setOptionIsSelected(true),
                     },
                     render: () => hasChildren ? (
                         <div className="input-group">
                             <Row
-                                item={childOption}
-                                selectOptions={filterOptionsAbove(optionValue, validOptions)
+                                item={child}
+                                selectOptions={filterOptionsAbove(item, validOptions)
                                     .map(({ name }) => name)}
                                 grandchildren={childOptionChildren}
                                 dispatch={dispatch}
@@ -142,13 +143,13 @@ export const ValueAdditionGrouping = ({
                     toggle: {
                         text: `${childTypeType.slice(0, 6)}s`,
                         "data-cy": `toggle-child-${childTypeType.toLowerCase()}`,
-                        selected: !optionIsSelected,
-                        className: hasChildren && optionIsSelected ? 'disabled' : '',
+                        selected: !optionToggleIsSelected,
+                        className: hasChildren && optionToggleIsSelected ? 'disabled' : '',
                         onClick: () => !hasChildren && setOptionIsSelected(false),
                     },
                     render: () => hasChildren ? (
                         <>
-                            {valueChildren.map((item, i, { length }) => {
+                            {children.map((item, i, { length }) => {
                                 const { path: childTypePath = '', partNumber = '' } = item;
                                 const childTypeChildren = getChildren({ path: childTypePath }, systemMap);
                                 const childName = childTypePath ?
@@ -195,7 +196,7 @@ export const ValueAdditionGrouping = ({
                         )
                 },
             ]}
-            circleButton={optionIsSelected ?
+            circleButton={optionToggleIsSelected ?
                 hasChildren ?
                     undefined
                     :
@@ -210,7 +211,7 @@ export const ValueAdditionGrouping = ({
                         }),
                     }
                 :
-                valueChildren.length < selectValidTypes.length ? {
+                children.length < selectValidTypes.length ? {
                     "data-cy": `add-${childTypeType.toLowerCase()}`,
                     actionType: "add",
                     className: "action",
@@ -218,7 +219,7 @@ export const ValueAdditionGrouping = ({
                         dispatch(ADD_ITEM, {
                             __typename: childTypeTypename,
                             [`parent${__typename}Path`]: path,
-                            name: getSelectTypeName(valueChildren, `ADD_${childTypeType.toUpperCase()}`),
+                            name: getSelectTypeName(children, `ADD_${childTypeType.toUpperCase()}`),
                         })
                     },
                 }
@@ -237,8 +238,8 @@ export const TypeAdditionGrouping = ({
     } = {},
     type,
     oName,
-    childOption,
-    childOption: {
+    child,
+    child: {
         path: oPath,
         __typename: oTypename,
     } = {},
@@ -249,7 +250,7 @@ export const TypeAdditionGrouping = ({
 }) => (
         <GroupingBox
             title="Option"
-            circleButton={childOption ? undefined : {
+            circleButton={child ? undefined : {
                 "data-cy": "add-option",
                 actionType: "add",
                 className: "action",
@@ -260,10 +261,10 @@ export const TypeAdditionGrouping = ({
                 }),
             }}
         >
-            {childOption ? (
+            {child ? (
                 <div className="input-group">
                     <Row
-                        item={childOption}
+                        item={child}
                         selectOptions={filterOptionsAbove(selectedType, validOptions).map(({ name }) => name)}
                         grandchildren={childValues}
                         dispatch={dispatch}
