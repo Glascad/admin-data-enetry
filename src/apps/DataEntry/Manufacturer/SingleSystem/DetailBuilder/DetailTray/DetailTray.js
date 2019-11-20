@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { multiply } from 'mathjs';
-import { Tray, Input } from '../../../../../../components';
+import React, { useState, memo } from 'react';
+import * as Icons from '../../../../../../assets/icons';
+import { Input, Tray } from '../../../../../../components';
 import { Matrix } from '../../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
-import * as Icons from '../../../../../../assets/icons';
 
 const initialState = {
     coordinate: {
@@ -17,7 +16,7 @@ const initialState = {
     angle: 0,
 };
 
-export default function DetailTray({
+export default memo(function DetailTray({
     selectedItem,
     selectedItem: {
         path,
@@ -205,4 +204,4 @@ export default function DetailTray({
             </div>
         </Tray>
     );
-}
+})

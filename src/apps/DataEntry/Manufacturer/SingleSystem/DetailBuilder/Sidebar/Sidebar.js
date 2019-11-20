@@ -1,17 +1,22 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, memo } from 'react';
 import { withRouter } from 'react-router-dom';
-import { RightSidebar, TitleBar, CollapsibleTitle } from '../../../../../../components';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { RightSidebar } from '../../../../../../components';
+import { parseSearch } from '../../../../../../utils';
 import { StaticContext } from '../../../../../Statics/Statics';
-import { parseSearch, normalCase } from '../../../../../../utils';
-import { getConfigurationTypeFromPath, getDetailTypeFromPath, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
+import ChildList from './modules/ChildList';
+import ConfigurationOptions from './modules/ConfigurationOptions';
 
-export default withRouter(function DetailBuilderSidebar({
+export default withRouter(memo(function DetailBuilderSidebar({
     children,
     selectedItem,
     selectItem,
     location: {
         search,
     },
+    systemMap,
+    selectConfigurationPath,
+    selectedConfigurationPaths,
 }) {
     const { path } = parseSearch(search);
     const detailType = getDetailTypeFromPath(path);
@@ -68,35 +73,18 @@ export default withRouter(function DetailBuilderSidebar({
             sidebarRef={ref}
             open={true}
         >
-            <CollapsibleTitle
-                title={configurationType ? "Parts" : "Configurations"}
-            >
-                <div className="sidebar-list">
-                    {children.map(item => {
-                        const { path } = item;
-                        const selected = item === selectedItem;
-                        const name = getLastItemFromPath(path);
-                        const normalName = configurationType ?
-                            name
-                            :
-                            normalCase(name);
-                        console.log({
-                            item,
-                            selected,
-                            name,
-                            normalName,
-                        });
-                        return (
-                            <button
-                                className={`sidebar-list-item ${selected ? 'selected' : ''}`}
-                                onClick={() => selectItem(item)}
-                            >
-                                {normalName}
-                            </button>
-                        );
-                    })}
-                </div>
-            </CollapsibleTitle>
+            <ChildList
+                children={children}
+                configurationType={configurationType}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
+            />
+            <ConfigurationOptions
+                systemMap={systemMap}
+                selectedItem={selectedItem}
+                selectedConfigurationPaths={selectedConfigurationPaths}
+                selectConfigurationPath={selectConfigurationPath}
+            />
         </RightSidebar>
     );
-});
+}));

@@ -14,7 +14,7 @@
             overflow: visible;
 
             #origin {
-                stroke: black;
+                stroke: $medium-gray;
                 fill: none;
             }
 
@@ -37,7 +37,7 @@
 
                 .part-origin {
                     fill: none;
-                    stroke: black;
+                    stroke: $light-gray;
                 }
             }
 

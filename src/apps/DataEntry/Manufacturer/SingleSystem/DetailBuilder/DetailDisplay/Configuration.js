@@ -10,18 +10,19 @@ export default function Configuration({
     systemMap,
     selectItem,
     selectedItem,
+    selectedConfigurationPaths,
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     const configurationType = getConfigurationTypeFromPath(path);
     const selected = configuration === selectedItem;
-    const fullPath = getDefaultPath(configuration, systemMap);
-    const defaultNode = systemMap[fullPath];
-    const parts = getChildren(defaultNode, systemMap);
-    console.log({
-        parts,
-        selected,
-        configurationType,
-    });
+    const selectedPath = selectedConfigurationPaths[configurationType];
+    const selectedNode = systemMap[selectedPath];
+    const parts = getChildren(selectedNode, systemMap);
+    // console.log({
+    //     parts,
+    //     selected,
+    //     configurationType,
+    // });
     return (
         <g
             data-cy={`configuration-${path}`}

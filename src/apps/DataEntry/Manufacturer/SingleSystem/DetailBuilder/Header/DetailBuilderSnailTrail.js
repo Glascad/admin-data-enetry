@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getChildren, getConfigurationTypeFromPath, getDefaultPath, getDetailTypeFromPath, getLastItemFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
 import { Ellipsis, Select, SnailTrail } from '../../../../../../components';
@@ -81,7 +81,7 @@ const renderOptionList = (path, props) => getOptionListFromPath(path)
         />
     ), []);
 
-export default withRouter(function DetailBuilderSnailTrail({
+export default withRouter(memo(function DetailBuilderSnailTrail({
     location: {
         search,
     },
@@ -140,4 +140,4 @@ export default withRouter(function DetailBuilderSnailTrail({
             ]}
         />
     );
-});
+}));

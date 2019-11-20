@@ -20,6 +20,7 @@ export default withRouter(function DetailDisplay({
     selectItem,
     selectedItem,
     systemMap,
+    selectedConfigurationPaths,
 }) {
     // console.log(arguments[0]);
 
@@ -49,15 +50,18 @@ export default withRouter(function DetailDisplay({
                 transform="scale(1, -1)"
                 strokeWidth={0.5 / scaleX}
             >
-                {children.map(child => configurationType ? (
+                {children.map((child, i) => configurationType ? (
                     <Part
+                        key={i}
                         {...childProps}
                         part={child}
                     />
                 ) : (
                         <Configuration
+                            key={i}
                             {...childProps}
                             configuration={child}
+                            selectedConfigurationPaths={selectedConfigurationPaths}
                         />
                     ))}
                 {children.length ? (

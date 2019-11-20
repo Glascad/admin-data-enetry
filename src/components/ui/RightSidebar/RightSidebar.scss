@@ -35,12 +35,20 @@
         }
     }
 
+    > .CollapsibleTitle,
+    > .TitleBar {
+        margin-top: $xxxxx-large;
+
+        &:first-child {
+            margin-top: $large;
+        }
+    }
+
     .TitleBar {
         color: $off-white;
         border-bottom: 1px solid $medium-gray;
         // padding-left: $small;
         padding-bottom: $small;
-        margin-top: $xxx-large;
 
         .title-bar-left {
             width: 100%;
@@ -382,6 +390,15 @@
             padding: $small $x-small;
             color: $medium-gray;
             transition: all 0.15s;
+
+            &:hover {
+                background: $dark-blue;
+                font-weight: normal;
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
 
             &.selected {
                 background: $darker-blue;
