@@ -1,36 +1,51 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { TitleBar, ConfirmButton, AsyncButton, Ellipsis, SnailTrail } from '../../../../../../components';
+import { withRouter } from 'react-router-dom';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { AsyncButton, ConfirmButton, TitleBar } from '../../../../../../components';
 import { parseSearch } from '../../../../../../utils';
-import { getDetailTypeFromPath, getConfigurationTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
+import DetailBuilderSnailTrail from './DetailBuilderSnailTrail';
 
 export default withRouter(function Header({
     location: {
         search,
+        state: {
+            previousPath,
+        } = {},
     },
     match: {
         path: matchPath,
     },
     history,
-    system: {
-        id,
-        name: sName,
-        _manufacturer: {
-            name: mName,
-        } = {},
-    },
+    systemMap,
+    save,
 }) {
     const { path = '' } = parseSearch(search);
     const detailType = getDetailTypeFromPath(path);
     const configurationType = getConfigurationTypeFromPath(path);
+    const close = () => history.push(`${
+        matchPath.replace(/detail/, 'build')
+        }${
+        parseSearch(search).update({ path: previousPath || path })
+        }`);
     return (
         <>
             <TitleBar
-                title={`${detailType} Detail`}
+                title={`${
+                    configurationType || detailType
+                    } ${
+                    configurationType ?
+                        'Configuration'
+                        :
+                        'Detail'
+                    }`}
                 className="blue-border"
                 left={(
                     <ConfirmButton
-                        onClick={() => history.push(`${matchPath.replace(/detail/, 'info')}${search}`, {
+                        onClick={() => history.push(`${
+                            matchPath.replace(/detail/, 'info')
+                            }${
+                            search
+                            }`, {
                             previousPath: matchPath,
                             previousSearch: search,
                         })}
@@ -42,42 +57,32 @@ export default withRouter(function Header({
                 right={(
                     <>
                         <ConfirmButton
-                            onClick={() => history.push(`${matchPath.replace(/detail/, 'build')}${search}`)}
+                            onClick={close}
                             doNotConfirmWhen={true}
                         >
                             Close
                         </ConfirmButton>
                         <AsyncButton
                             className="action"
+                            onClick={async () => {
+                                await save();
+                                close();
+                            }}
                         >
                             Save And Exit
                         </AsyncButton>
                         <AsyncButton
                             className="action"
+                            onClick={save}
                         >
                             Save
                         </AsyncButton>
                     </>
                 )}
             />
-            <SnailTrail
-                trail={[
-                    mName || <Ellipsis />,
-                    sName || <Ellipsis />,
-                    ...getOptionListFromPath(path.replace(/\.__DT__.*/, '')).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), []),
-                    detailType,
-                    ...getOptionListFromPath(path.replace(/\.__CT__.*/, '')).reduce((list, { name, value }) => list.concat(`${name}: ${value}`), []),
-                    configurationType,
-                    ...(configurationType ?
-                        getOptionListFromPath(path).reduce((list, { name, value }) => list.concat(value ?
-                            `${name}: ${value}`
-                            :
-                            name
-                        ), [])
-                        :
-                        []),
-                ]}
+            <DetailBuilderSnailTrail
+                systemMap={systemMap}
             />
         </>
     );
-})
+});

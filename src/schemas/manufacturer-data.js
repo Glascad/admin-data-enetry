@@ -115,6 +115,19 @@ export const CONFIGURATION_OPTION_VALUE_FIELDS = gql`
     }
 `;
 
+export const CONFIGURATION_PART_FIELDS = gql`
+    fragment ConfigurationPartFields on ConfigurationPart {
+        __typename
+        nodeId
+        id
+        path
+        parentConfigurationOptionValuePath
+        parentDetailConfigurationPath
+        partId
+        transform { a b c d e f g h i }
+    }
+`;
+
 // ALL OF TYPE
 
 export const ALL_MANUFACTURERS = gql`
@@ -164,6 +177,17 @@ export const ENTIRE_MANUFACTURER = gql`
     }
     ${MANUFACTURER_FIELDS}
     ${SYSTEM_FIELDS}
+`;
+
+export const ENTIRE_CONFIGURATION_PART = gql`
+    fragment EntireConfigurationPart on ConfigurationPart {
+        ...ConfigurationPartFields
+        partByPartId {
+            ...PartFields
+        }
+    }
+    ${CONFIGURATION_PART_FIELDS}
+    ${PART_FIELDS}
 `;
 
 export const ENTIRE_SYSTEM = gql`
@@ -217,6 +241,11 @@ export const ENTIRE_SYSTEM = gql`
                 ...ConfigurationOptionValueFields
             }
         }
+        configurationPartsBySystemId {
+            nodes {
+                ...EntireConfigurationPart
+            }
+        }
     }
     ${SYSTEM_FIELDS}
     ${MANUFACTURER_FIELDS}
@@ -229,4 +258,5 @@ export const ENTIRE_SYSTEM = gql`
     ${DETAIL_CONFIGURATION_FIELDS}
     ${CONFIGURATION_OPTION_FIELDS}
     ${CONFIGURATION_OPTION_VALUE_FIELDS}
+    ${ENTIRE_CONFIGURATION_PART}
 `;

@@ -52,7 +52,7 @@
             .TitleBar {
                 margin-bottom: 0;
                 // margin: 0;
-                background: transparentize($light-gray, 0.5);
+                background: $x-light-gray;
                 border-bottom: none;
 
                 .title-bar-left {

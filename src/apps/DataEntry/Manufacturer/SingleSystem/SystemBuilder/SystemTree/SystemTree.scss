@@ -17,6 +17,14 @@
                 padding: 0 $small;
                 cursor: default;
                 transition: all 0.1s;
+                // width: fit-content;
+                // margin-left: auto;
+                // margin-right: auto;
+
+                &.type-system {
+                    background: $dark-gray;
+                    color: $off-white;
+                }
 
                 &.type-option {
                     background: $light-gray;
@@ -27,7 +35,16 @@
                     border: 1px solid $medium-gray;
 
                     &.default {
-                        text-transform: uppercase;
+                        // text-transform: uppercase;
+
+                        &::before {
+                            content: "(";
+                            margin-right: $xx-small;
+                        }
+                        &::after {
+                            content: ")";
+                            margin-left: $xx-small;
+                        }
                     }
                 }
 
@@ -40,6 +57,16 @@
                 &.type-detailconfiguration {
                     background: $medium-dark-gray;
                     color: white;
+                }
+
+                &.type-configurationpart {
+                    background: none;
+                    border: 2px solid $medium-gray;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    // border: 1px solid $warning-color;
+                    // color: $warning-color;
+                    // background: mix($warning-color, white, 33%);
                 }
 
                 &.grouped-with-selected {

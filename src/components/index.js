@@ -4,6 +4,7 @@ import CollapsibleTitle from './ui/CollapsibleTitle/CollapsibleTitle';
 import TitleBar from './ui/TitleBar/TitleBar';
 import SnailTrail from './ui/SnailTrail/SnailTrail';
 import GroupingBox from './ui/GroupingBox/GroupingBox';
+import ToggleBox from './ui/ToggleBox/ToggleBox';
 import ListContainer from './ui/ListContainer/ListContainer';
 import Pill from './ui/Pill/Pill';
 import CircleButton from './ui/CircleButton/CircleButton';
@@ -19,7 +20,8 @@ import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
 import Tree from './ui/Tree/Tree';
 import RightSidebar from './ui/RightSidebar/RightSidebar';
-import SVG from './ui/SVG/SVG';
+import Tray from './ui/Tray/Tray';
+import SVG, { SVGPath } from './ui/SVG/SVG';
 
 // CONTEXTS
 import TransformProvider from './contexts/transform/TransformContext';
@@ -62,6 +64,7 @@ export {
     TitleBar,
     SnailTrail,
     GroupingBox,
+    ToggleBox,
     ListContainer,
     Pill,
     CircleButton,
@@ -77,6 +80,8 @@ export {
     ConfirmButton,
     Tree,
     RightSidebar,
+    Tray,
+    SVGPath,
     SVG,
     // CONTEXT,
     TransformProvider,

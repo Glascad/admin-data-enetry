@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../../components';
-import { makeRenderable, getLastItemFromPath, getChildren } from '../../../../../../app-logic/system-utils';
+import { makeRenderable, getLastItemFromPath, getChildren, SystemMap } from '../../../../../../app-logic/system-utils';
 import { normalCase, parseSearch } from '../../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../../Statics/Statics';
-import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../ducks/actions';
-import { getIsAvailableForAction } from '../ducks/utils';
-// import { ADD_OPTION } from '../../ducks/actions';
+import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../../ducks/actions';
+import { getPotentialParent } from '../../ducks/utils';
 
 export default function SystemTree({
     search,
@@ -30,20 +29,7 @@ export default function SystemTree({
     cancelPartial,
 }) {
 
-    console.log({
-        system,
-    })
-
     const { Viewport } = useContext(StaticContext);
-
-    // useEffect(() => {
-    //     if (!length && !fetching) dispatch(ADD_ITEM, {
-    //         __typename: "SystemOption",
-    //         name: "ADD_OPTION",
-    //     }, {
-    //         replaceState: true,
-    //     });
-    // }, [fetching]);
 
     const trunk = makeRenderable(system);
 
@@ -70,12 +56,31 @@ export default function SystemTree({
                                     path = '',
                                     optional = '',
                                 } = item;
-                                const name = path ? getLastItemFromPath(path) : '';
-                                const isDefault = Object.entries(parent).some(([key, value]) => value && (
-                                    key.match(/default.+Value/) && value === name
-                                ));
+
+                                const {
+                                    path: selectedPath = null,
+                                } = selectedItem || {};
+
+                                const isSelected = path === selectedPath;
+
+                                const name = getLastItemFromPath(path, systemMap);
+
+                                const isDefault = Object.entries(parent)
+                                    .some(([key, value]) => value
+                                        &&
+                                        key.match(/default.+Value/)
+                                        &&
+                                        value === name
+                                    );
+
+                                // console.log({
+                                //     partialPayload,
+                                //     item,
+                                //     systemMap
+                                // })
+
                                 const isAvailableToCompleteAction = PARTIAL_ACTION ?
-                                    getIsAvailableForAction({ partialPayload, item }, systemMap)
+                                    getPotentialParent({ partialPayload, item }, systemMap)
                                     :
                                     false;
 
@@ -97,7 +102,7 @@ export default function SystemTree({
                                             } subtype-${
                                             __typename.toLowerCase()
                                             } ${
-                                            item === selectedItem ? 'selected' : ''
+                                            isSelected ? 'selected' : ''
                                             } ${
                                             isDefault ? 'default' : ''
                                             } ${
@@ -107,14 +112,13 @@ export default function SystemTree({
                                             } ${
                                             optional ? 'optional' : ''
                                             } ${
-                                            PARTIAL_ACTION && !isAvailableToCompleteAction && (item !== selectedItem) ?
+                                            PARTIAL_ACTION && !isAvailableToCompleteAction && !isSelected ?
                                                 'disabled'
                                                 :
                                                 'available'
                                             }`}
                                         onClick={e => {
                                             e.stopPropagation();
-                                            console.log(item);
                                             if (!PARTIAL_ACTION) selectItem(item);
                                             else if (isAvailableToCompleteAction) {
                                                 if (PARTIAL_ACTION === 'MOVE') {
@@ -135,7 +139,9 @@ export default function SystemTree({
                                             }
                                         }}
                                     >
-                                        <div className="title">{normalCase(name)}</div>
+                                        <div className="title">
+                                            {normalCase(name)}
+                                        </div>
                                     </div>
                                 );
                             }}

@@ -1,9 +1,11 @@
 import React, { useEffect, useContext, useRef } from 'react';
-import { RightSidebar } from '../../../../../../components';
+import { RightSidebar, TitleBar, CollapsibleTitle } from '../../../../../../components';
 import { StaticContext } from '../../../../../Statics/Statics';
 
 export default function DetailBuilderSidebar({
-
+    children,
+    selectedItem,
+    selectItem,
 }) {
     const { Viewport, sidebar: { open } } = useContext(StaticContext);
 
@@ -55,7 +57,31 @@ export default function DetailBuilderSidebar({
         <RightSidebar
             sidebarRef={ref}
             open={true}
-            View={{ title: "Sidebar", component: () => "Sidebar" }}
+            View={{
+                title: "Parts",
+                component: () => (
+                    <>
+                        <CollapsibleTitle
+                            title="Parts"
+                        >
+                            <div className="sidebar-list">
+                                {children.map(item => {
+                                    const { _part: { partNumber } = {} } = item;
+                                    const selected = item === selectedItem;
+                                    return (
+                                        <button
+                                            className={`sidebar-list-item ${selected ? 'selected' : ''}`}
+                                            onClick={() => selectItem(item)}
+                                        >
+                                            {partNumber}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </CollapsibleTitle>
+                    </>
+                ),
+            }}
         />
     );
 }

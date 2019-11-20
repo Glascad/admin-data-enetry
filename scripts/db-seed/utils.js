@@ -42,21 +42,49 @@ const getKeys = obj => typeof obj === 'object' ?
 
 // Write Utils
 
+const entireOnly = /([\s\S]*)<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>([\s\S]*)/ig;
+
+const ONLY = (path, contents, vars, varObj, PROTECTION = 15) => {
+    if (PROTECTION <= 0) throw new Error(`<<ONLY>> depth exceeded maximum limit of 15 in ${logErrorPath(path)}`);
+    else return contents.replace(
+        entireOnly,
+        (match, before, onlyVar, onlyVals, lastOnlyVal, onlyContents, after, offset, entireString) => {
+
+            if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+
+            const validValues = vars.map(v => v[onlyVar]);
+
+            const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
+
+            onlyValues.forEach(v => {
+                if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+            });
+
+            // working from the inside out
+            return ONLY(path, `${
+                before
+                }${
+                onlyVals.includes(varObj[onlyVar]) ?
+                    onlyContents
+                    :
+                    ''
+                }${
+                after
+                }`, vars, varObj, PROTECTION - 1);
+        }
+    );
+}
+
+const partialLoop = /<<\s*LOOP/ig;
 const loopStart = /<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>/ig;
 const loopEnd = /<<\s*END\s*LOOP\s*>>/ig;
+const entireLoop = /([\s\S]*)\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)<<\s*END\s*LOOP\s*>>([\s\S]*)/ig;
 
-const duplicateSQL = (path, contents) => {
-
-    const loopMatches = contents.match(loopStart);
-    const endLoopMatches = contents.match(loopEnd);
-    const loopCount = (loopMatches || []).length;
-    const endLoopCount = (endLoopMatches || []).length;
-
-    if (loopCount !== endLoopCount) throw new Error(`Unequal number of '<<LOOP ... >>'s and '<<END LOOP>'s in ${logErrorPath(path)}`);
-
-    return contents.replace(
-        /\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)(<<\s*END\s*LOOP\s*>>)/ig,
-        (match, variables, lastVar, lastVal, contents, ...rest) => {
+const LOOP = (path, contents, PROTECTION = 15) => {
+    if (PROTECTION <= 0) throw new Error(`<<LOOP>> depth exceeded maximum limit of 15 in ${logErrorPath(path)}`);
+    else return contents.replace(
+        entireLoop,
+        (match, before, variables, lastVar, lastVal, contents, after, offset, entireString) => {
 
             const vars = variables.split(/\s*\)\s*/g)
                 .filter(Boolean)
@@ -88,36 +116,51 @@ const duplicateSQL = (path, contents) => {
             //     logPath(path)
             //     }`));
 
-            return `${
-                vars.reduce((generated, varObj) => `${
-                    generated
-                    }\n${
-                    Object.entries(varObj).reduce((generated, [key, value]) => (
-                        generated.replace(new RegExp(`<<${key}>>`, 'g'), value)
-                    ), contents.replace(
-                        /<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>/ig,
-                        (match, onlyVar, onlyVals, lastOnlyVal, onlyContents, ...args) => {
-
-                            if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
-
-                            const validValues = vars.map(v => v[onlyVar]);
-
-                            const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
-
-                            onlyValues.forEach(v => {
-                                if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
-                            });
-
-                            return onlyValues.includes(varObj[onlyVar]) ?
-                                onlyContents
-                                :
-                                '';
-                        }
-                    ))
-                    }`, `\n-- LOOP in file ${shortenPath(path)}`)
-                }\n-- END LOOP in file ${shortenPath(path)}`;
+            // working from the inside out
+            return LOOP(path, `${
+                before
+                }${
+                vars.reduce(
+                    // loop through each set of variables
+                    (generated, varObj) => `${
+                        // accumulate generated sql
+                        generated
+                        }\n${
+                        // for each key value pair of each variable set
+                        Object.entries(varObj)
+                            .reduce(
+                                // replace the variable with its value
+                                (generated, [key, value]) => generated.replace(new RegExp(`<<\s*${key}\s*>>`, 'g'), value),
+                                // after removing all non-applicable items
+                                ONLY(path, contents, vars, varObj)
+                            )
+                        }`,
+                    `\n-- LOOP in file ${
+                    shortenPath(path)
+                    }`,
+                )
+                }${
+                after
+                }\n-- END LOOP in file ${
+                shortenPath(path)
+                }`, PROTECTION - 1);
         }
     );
+}
+
+const duplicateSQL = (path, contents) => {
+
+    const loopAttempts = contents.match(partialLoop);
+    const loopMatches = contents.match(loopStart);
+    const endLoopMatches = contents.match(loopEnd);
+    const loopAttemptCount = (loopAttempts || []).length;
+    const loopCount = (loopMatches || []).length;
+    const endLoopCount = (endLoopMatches || []).length;
+
+    if (loopAttemptCount !== loopCount) throw new Error(`Invalid <<LOOP ... >> attempt in ${logErrorPath(path)}`);
+    if (loopCount !== endLoopCount) throw new Error(`Unequal number of '<<LOOP ... >>'s and '<<END LOOP>'s in ${logErrorPath(path)}`);
+
+    return LOOP(path, contents)
 }
 
 const insertEnvVars = (path, contents) => contents.replace(/<<\s*(\w*)\s*>>/g, (match, ENV_VAR) => {

@@ -21,7 +21,7 @@
                 fill: transparentize(mix($light-blue, white), 0.3);
 
                 &.custom-rough-opening {
-                    fill: transparentize($light-gray, 0.5);
+                    fill: $x-light-gray;
                 }
             }
         }

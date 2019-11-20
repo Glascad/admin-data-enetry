@@ -51,6 +51,7 @@
 <<LOOP
     TYPE (part, configuration, detail)
     PARENT (configuration, detail, system)
+    GRANDPARENT (detail, system, NULL)
 >>
 
     CREATE TYPE
@@ -58,23 +59,28 @@
         <<ONLY TYPE (configuration, detail)>>
             <<TYPE>>_type <<TYPE>>_TYPE,
         <<END ONLY>>
-        <<ONLY TYPE (part)>>
-            transform MATRIX,
-            part_id INTEGER,
-            part_orientation ORIENTATION,
-            extra_part_path_id INTEGER,
-            extra_part_path_orientation ORIENTATION,
-        <<END ONLY>>
         parent_<<PARENT>>_option_value_path LTREE
-        <<ONLY TYPE (configuration)>>
-            , optional BOOLEAN
+        <<ONLY TYPE (part, configuration)>>
+            , parent_<<GRANDPARENT>>_<<PARENT>>_path LTREE
+            <<ONLY TYPE (configuration)>>
+                , optional BOOLEAN
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                , transform MATRIX
+                , part_id INTEGER
+            <<END ONLY>>
         <<END ONLY>>
     );
 
     CREATE TYPE
     gc_data.ENTIRE_<<PARENT>>_<<TYPE>> AS (
         -- identification
-        path LTREE,
+        <<ONLY TYPE (configuration, detail)>>
+            path LTREE,
+        <<END ONLY>>
+        <<ONLY TYPE (part)>>
+            id INTEGER,
+        <<END ONLY>>
         -- update
         update NEW_<<PARENT>>_<<TYPE>>
     );

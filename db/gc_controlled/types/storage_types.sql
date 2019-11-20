@@ -7,15 +7,15 @@ gc_controlled.coordinate AS (
 
 CREATE TYPE
 gc_controlled.svg_path_command_letter AS ENUM (
-    'M', 'm',
-    'L', 'l',
-    'H', 'h',
-    'V', 'v',
-    'Z', 'z',
-    'C', 'c',
-    'S', 's',
-    'Q', 'q',
-    'A', 'a'
+    'M', -- 'm',
+    'L', -- 'l',
+    'H', -- 'h',
+    'V', -- 'v',
+    'Z', -- 'z',
+    'C', -- 'c',
+    'S', -- 's',
+    'Q', -- 'q',
+    'A' -- , 'a'
 );
 
 -- CREATE TYPE

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import {
-    useQuery, TransformProvider,
+    TransformProvider,
 } from '../../../../../components';
 import Header from './Header/Header';
 import DetailDisplay from './DetailDisplay/DetailDisplay';
-import Tray from './Tray/Tray';
+import DetailTray from './DetailTray/DetailTray';
 import Sidebar from './Sidebar/Sidebar';
-import query from '../system-graphql/query';
-import { SystemMap } from '../../../../../app-logic/system-utils';
+import { getDefaultPath, getChildren } from '../../../../../app-logic/system-utils';
 import { parseSearch } from '../../../../../utils';
 import { useCollapseSidebar } from '../../../../Statics/Statics';
 
@@ -20,27 +20,83 @@ export default function DetailBuilder({
     location: {
         search,
     },
+    match: {
+        path: matchPath,
+    },
+    systemMap,
+    dispatch,
+    updating,
+    save,
 }) {
-    const { systemId } = parseSearch(search);
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+
     useCollapseSidebar();
-    const { _system } = queryResult;
-    const system = new SystemMap(_system);
-    // console.log(arguments[0]);
-    // console.log({ queryResult, _system, system });
+
+    const { path } = parseSearch(search);
+
+    const fullPath = getDefaultPath(path, systemMap);
+
+    const children = getChildren({ path }, systemMap) || [];
+
+    const [{ path: selectedPath } = {}, setSelectedItem] = useState();
+
+    const selectedItem = systemMap[selectedPath];
+
+    const selectItem = newItem => setSelectedItem(item => newItem === item ? undefined : newItem);
+    const cancelSelection = () => selectItem();
+
+    useEffect(() => {
+        cancelSelection();
+    }, [path]);
+
+    useEffect(() => {
+        window.addEventListener('click', cancelSelection);
+        return () => window.removeEventListener('click', cancelSelection);
+    }, []);
+
+    console.log({
+        fullPath,
+        path,
+        systemMap,
+        children,
+        selectedItem,
+    });
+
+    if (path !== fullPath) return (
+        <Redirect
+            to={{
+                pathname: matchPath,
+                search: `${parseSearch(search).update({ path: fullPath })}`,
+                state: {
+                    previousPath: path,
+                },
+            }}
+        />
+    );
+
     return (
         <TransformProvider>
             <Header
-                system={system}
+                systemMap={systemMap}
+                save={save}
+                updating={updating}
             />
             <DetailDisplay
-                system={system}
-            />
-            <Tray
-                system={system}
+                systemMap={systemMap}
+                children={children}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
+                updating={updating}
+                />
+            <DetailTray
+                systemMap={systemMap}
+                selectedItem={selectedItem}
+                dispatch={dispatch}
             />
             <Sidebar
-                system={system}
+                systemMap={systemMap}
+                children={children}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
             />
         </TransformProvider>
     );

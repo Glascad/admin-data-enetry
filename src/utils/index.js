@@ -22,6 +22,8 @@ import { extractPathData } from './functions/parse-svg';
 import getDroppedFileContents from './functions/get-dropped-file-contents';
 import DXFToSVG from './functions/dxf-to-svg';
 import * as trig from './functions/trig';
+import * as svg from './functions/svg-utils';
+import Matrix from './functions/matrix';
 import limitRefetches from './functions/limit-refetches';
 
 const validatePath = path => path.replace(/\/+/g, '/');
@@ -54,5 +56,7 @@ export {
     DXFToSVG,
     getDroppedFileContents,
     trig,
+    svg,
+    Matrix,
     limitRefetches,
 };

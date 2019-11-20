@@ -20,7 +20,7 @@
             parent_<<TYPE>>_option_path
         ) VALUES (
             ov.name,
-            ov.parent_<<TYPE>>_option_path
+            prepend_system_id(s.id, ov.parent_<<TYPE>>_option_path)
         )
         RETURNING * INTO uov;
 
@@ -44,6 +44,7 @@
         s ALIAS FOR system;
         u NEW_<<TYPE>>_OPTION_VALUE;
         uov <<TYPE>>_option_values%ROWTYPE;
+        pop LTREE;
     BEGIN
 
         u := ov.update;

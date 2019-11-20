@@ -30,9 +30,9 @@
             s.id,
             o.name,
             o.default_<<TYPE>>_option_value,
-            o.parent_<<TYPE>>_option_value_path
+            prepend_system_id(s.id, o.parent_<<TYPE>>_option_value_path)
             <<ONLY TYPE (detail, configuration)>>
-                , o.parent_<<PARENT>>_<<TYPE>>_path
+                , prepend_system_id(s.id, o.parent_<<PARENT>>_<<TYPE>>_path)
             <<END ONLY>>
         )
         RETURNING * INTO uo;
