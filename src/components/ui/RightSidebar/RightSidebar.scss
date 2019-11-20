@@ -29,7 +29,7 @@
 
     > * {
         &:first-child {
-            &:nth-child(1){
+            &:nth-child(1) {
                 margin-top: 0;
             }
         }
@@ -41,6 +41,14 @@
         // padding-left: $small;
         padding-bottom: $small;
         margin-top: $xxx-large;
+
+        .title-bar-left {
+            width: 100%;
+
+            &::after {
+                right: $xx-small;
+            }
+        }
     }
 
     .sidebar-group {
@@ -346,6 +354,32 @@
             &.danger {
                 @include circle-button($danger-color, $dark-blue, true);
             }
+        }
+    }
+
+    .TitleBar,
+    .CollapsibleTitle {
+        + .sidebar-list {
+            margin-top: -$x-large;
+        }
+    }
+
+    .sidebar-list {
+        .sidebar-list-item {
+            margin: 0 !important;
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            border: none;
+            border-radius: 0;
+            border-bottom: 1px solid $medium-gray;
+            width: 100%;
+            height: $menu-height;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 $x-small;
+            color: $medium-gray;
         }
     }
 }

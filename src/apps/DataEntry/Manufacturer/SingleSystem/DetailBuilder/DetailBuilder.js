@@ -88,6 +88,7 @@ export default function DetailBuilder({
             />
             <Sidebar
                 systemMap={systemMap}
+                children={children}
             />
         </TransformProvider>
     );
