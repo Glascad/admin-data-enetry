@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>Step Head</title>
     <desc>Created with Sketch.</desc>
     <g id="Step-Head" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect id="Rectangle-Copy-4" stroke="#878787" x="14.5" y="0.5" width="13" height="17"></rect>
         <rect id="Rectangle-Copy-5" stroke="#878787" x="1.5" y="5.5" width="13" height="12"></rect>
         <g id="Icon_Point" transform="translate(13.000000, 4.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
         <g id="Icon_Point" transform="translate(0.000000, 4.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
     </g>
 </svg>
