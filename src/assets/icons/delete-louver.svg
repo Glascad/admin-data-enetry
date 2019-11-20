@@ -8,7 +8,7 @@
         <polygon class="fill-red"   points="9 7 22 7 19 11 12 11"></polygon>
         <polygon class="fill-red"   points="9 13 22 13 19 17 12 17"></polygon>
         <rect class="stroke-gray"   x="9.5" y="0.5" width="12" height="17"></rect>
-        <g class="fill-#FFFFFF"   transform="translate(0.000000, 8.000000)">
+        <g class="fill-white"   transform="translate(0.000000, 8.000000)">
             <rect class="fill-red"   x="0" y="0" width="6" height="2"></rect>
         </g>
     </g>

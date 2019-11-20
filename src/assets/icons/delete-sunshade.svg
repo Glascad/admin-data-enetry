@@ -4,7 +4,7 @@
     
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g class="fill-#FFFFFF"   transform="translate(0.000000, 8.000000)">
+        <g class="fill-white"   transform="translate(0.000000, 8.000000)">
             <rect class="fill-red"   x="0" y="0" width="6" height="2"></rect>
         </g>
         <polygon class="fill-dark-gray"   points="9 0 15 0 9 18"></polygon>

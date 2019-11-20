@@ -190,14 +190,19 @@
         border: 1px solid $light-gray;
         border-radius: $xx-small;
         align-items: center;
+        justify-content: center;
 
         svg {
-            width: $base-size;
-            height: $base-size;
-            max-width: $base-size;
-            max-height: $base-size;
+            width: $large;
+            height: $large;
+            max-width: $large;
+            max-height: $large;
 
             .fill-dark-gray {
+                fill: $dark-gray;
+            }
+
+            .fill-white {
                 fill: $dark-gray;
             }
         }

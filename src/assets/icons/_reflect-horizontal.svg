@@ -4,6 +4,6 @@
     
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path class="fill-#FFFFFF" d="M16,17 L25,24 L7,24 L16,17 Z M25,8 L16.001,15 L25,15 L25,17 L7,17 L7,15 L15.999,14.999 L7,8 L25,8 Z"  ></path>
+        <path class="fill-white" d="M16,17 L25,24 L7,24 L16,17 Z M25,8 L16.001,15 L25,15 L25,17 L7,17 L7,15 L15.999,14.999 L7,8 L25,8 Z"  ></path>
     </g>
 </svg>

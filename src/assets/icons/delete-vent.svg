@@ -7,7 +7,7 @@
         <polyline class="stroke-red"   transform="translate(15.500000, 13.000000) scale(1, -1) translate(-15.500000, -13.000000) " points="9.5 8.5 15.5 17.5 21.5 8.5"></polyline>
         <rect class="stroke-gray"   x="9.5" y="0.5" width="12" height="17"></rect>
         <rect class="stroke-gray"   x="10.5" y="8.5" width="10" height="1"></rect>
-        <g class="fill-#FFFFFF"   transform="translate(0.000000, 8.000000)">
+        <g class="fill-white"   transform="translate(0.000000, 8.000000)">
             <rect class="fill-red"   x="0" y="0" width="6" height="2"></rect>
         </g>
     </g>

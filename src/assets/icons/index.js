@@ -8,6 +8,7 @@ import { ReactComponent as StepHead } from './step-head.svg';
 import { ReactComponent as SegmentedPlan } from './segmented-plan.svg';
 import { ReactComponent as RemoveVertical } from './remove-vertical.svg';
 import { ReactComponent as RemoveVent } from './remove-vent.svg';
+import { ReactComponent as MergeHorizontally } from './merge-horizontally.svg';
 import { ReactComponent as RemoveSunshade } from './remove-sunshade.svg';
 import { ReactComponent as RemoveLouver } from './remove-louver.svg';
 import { ReactComponent as RemoveHorizontal } from './remove-horizontal.svg';
@@ -20,7 +21,6 @@ import { ReactComponent as MergeVertically } from './merge-vertically.svg';
 import { ReactComponent as MergeUp } from './merge-up.svg';
 import { ReactComponent as MergeRight } from './merge-right.svg';
 import { ReactComponent as MergeLeft } from './merge-left.svg';
-import { ReactComponent as MergeHorizontally } from './merge-horizontally.svg';
 import { ReactComponent as MergeDown } from './merge-down.svg';
 import { ReactComponent as MergeAll } from './merge-all.svg';
 import { ReactComponent as MatchVertical } from './match-vertical.svg';
@@ -58,8 +58,8 @@ import { ReactComponent as DeleteHorizontal } from './delete-horizontal.svg';
 import { ReactComponent as DeleteDoor } from './delete-door.svg';
 import { ReactComponent as DeleteColumn } from './delete-column.svg';
 import { ReactComponent as DefinePattern } from './define-pattern.svg';
-import { ReactComponent as CopyHorizontal } from './copy-horizontal.svg';
 import { ReactComponent as ArchTop } from './arch-top.svg';
+import { ReactComponent as CopyHorizontal } from './copy-horizontal.svg';
 import { ReactComponent as AddVertical } from './add-vertical.svg';
 import { ReactComponent as AddVent } from './add-vent.svg';
 import { ReactComponent as AddSunshade } from './add-sunshade.svg';
@@ -68,23 +68,23 @@ import { ReactComponent as AddLouver } from './add-louver.svg';
 import { ReactComponent as AddLiteBelow } from './add-lite-below.svg';
 import { ReactComponent as AddLiteBefore } from './add-lite-before.svg';
 import { ReactComponent as AddLiteAfter } from './add-lite-after.svg';
-import { ReactComponent as MoveUp } from './_move_up.svg';
 import { ReactComponent as AddLiteAbove } from './add-lite-above.svg';
 import { ReactComponent as AddLite } from './add-lite-.svg';
-import { ReactComponent as ReflectHorizontal } from './_reflect-horizontal.svg';
 import { ReactComponent as AddHorizontal } from './add-horizontal.svg';
 import { ReactComponent as AddDoor } from './add-door.svg';
 import { ReactComponent as AddColumn } from './add-column.svg';
 import { ReactComponent as AddColumnBefore } from './add-column-before.svg';
 import { ReactComponent as AddColumnAfter } from './add-column-after.svg';
 import { ReactComponent as TileMode } from './_tile-mode.svg';
-import { ReactComponent as Tack } from './_tack.svg';
 import { ReactComponent as Snapshot } from './_snapshot.svg';
+import { ReactComponent as Tack } from './_tack.svg';
 import { ReactComponent as Slop } from './_slop.svg';
-import { ReactComponent as ReflectVertical } from './_reflect-vertical.svg';
 import { ReactComponent as RotateCounterClockwise } from './_rotate-counter-clockwise.svg';
 import { ReactComponent as RotateClockwise } from './_rotate-clockwise.svg';
+import { ReactComponent as ReflectVertical } from './_reflect-vertical.svg';
+import { ReactComponent as ReflectHorizontal } from './_reflect-horizontal.svg';
 import { ReactComponent as ReflectAngle } from './_reflect-angle.svg';
+import { ReactComponent as MoveUp } from './_move_up.svg';
 import { ReactComponent as MoveRight } from './_move-right.svg';
 import { ReactComponent as MoveLeft } from './_move-left.svg';
 import { ReactComponent as MoveDown } from './_move-down.svg';
@@ -123,23 +123,23 @@ export {
     MoveDown,
     MoveLeft,
     MoveRight,
+    MoveUp,
     ReflectAngle,
+    ReflectHorizontal,
+    ReflectVertical,
     RotateClockwise,
     RotateCounterClockwise,
-    ReflectVertical,
     Slop,
-    Snapshot,
     Tack,
+    Snapshot,
     TileMode,
     AddColumnAfter,
     AddColumnBefore,
     AddColumn,
     AddDoor,
     AddHorizontal,
-    ReflectHorizontal,
     AddLite,
     AddLiteAbove,
-    MoveUp,
     AddLiteAfter,
     AddLiteBefore,
     AddLiteBelow,
@@ -148,8 +148,8 @@ export {
     AddSunshade,
     AddVent,
     AddVertical,
-    ArchTop,
     CopyHorizontal,
+    ArchTop,
     DefinePattern,
     DeleteColumn,
     DeleteDoor,
@@ -187,7 +187,6 @@ export {
     MatchVertical,
     MergeAll,
     MergeDown,
-    MergeHorizontally,
     MergeLeft,
     MergeRight,
     MergeUp,
@@ -200,6 +199,7 @@ export {
     RemoveHorizontal,
     RemoveLouver,
     RemoveSunshade,
+    MergeHorizontally,
     RemoveVent,
     RemoveVertical,
     SegmentedPlan,

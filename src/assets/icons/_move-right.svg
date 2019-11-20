@@ -4,6 +4,6 @@
     
     
     <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polyline class="fill-#FFFFFF"   transform="translate(16.000000, 16.000000) rotate(-180.000000) translate(-16.000000, -16.000000) " points="10 16.0151771 18.5389423 7 22 10.6424958 16.9086538 16 22 21.3575042 18.5389423 25 10 16.0151771"></polyline>
+        <polyline class="fill-white"   transform="translate(16.000000, 16.000000) rotate(-180.000000) translate(-16.000000, -16.000000) " points="10 16.0151771 18.5389423 7 22 10.6424958 16.9086538 16 22 21.3575042 18.5389423 25 10 16.0151771"></polyline>
     </g>
 </svg>

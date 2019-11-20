@@ -3,6 +3,7 @@ import { multiply } from 'mathjs';
 import { Tray, Input } from '../../../../../../components';
 import { Matrix } from '../../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
+import * as Icons from '../../../../../../assets/icons';
 
 const initialState = {
     coordinate: {
@@ -108,13 +109,13 @@ export default function DetailTray({
                         />
                         <Input
                             data-cy={`nudge-${d === 'x' ? 'left' : 'down'}`}
-                            Icon={() => '-'}
+                            Icon={d === 'x' ? Icons.MoveLeft : Icons.MoveDown}
                             onChange={createNudge(d !== 'x', true)}
                             disabled={!selectedItem}
                         />
                         <Input
                             data-cy={`nudge-${d === 'x' ? 'right' : 'up'}`}
-                            Icon={() => '+'}
+                            Icon={d === 'x' ? Icons.MoveRight : Icons.MoveUp}
                             onChange={createNudge(d !== 'x', false)}
                             disabled={!selectedItem}
                         />
@@ -127,24 +128,30 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignBottom}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignMiddle}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignTop}
+                        disabled={true}
                     />
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignLeft}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignCenter}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignRight}
+                        disabled={true}
                     />
                 </div>
             </div>
@@ -154,25 +161,23 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => '|'}
+                        Icon={Icons.ReflectVertical}
                         onChange={createMirror(0)}
                         disabled={!selectedItem}
                     />
                     <Input
-                        Icon={() => '--'}
+                        Icon={Icons.ReflectHorizontal}
                         onChange={createMirror(90)}
                         disabled={!selectedItem}
                     />
                     <Input
-                        Icon={() => '/'}
+                        Icon={Icons.ReflectAngle}
                         onChange={createMirror(45)}
                         disabled={!selectedItem}
                     />
-                    <Input
-                        Icon={() => '\\'}
-                        onChange={createMirror(-45)}
-                        disabled={!selectedItem}
-                    />
+                    {/* <Input
+                        
+                    /> */}
                 </div>
             </div>
             <div className="tray-section">
@@ -181,12 +186,12 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => '<'}
+                        Icon={Icons.RotateCounterClockwise}
                         onChange={createRotate(false)}
                         disabled={!selectedItem}
                     />
                     <Input
-                        Icon={() => '>'}
+                        Icon={Icons.RotateClockwise}
                         onChange={createRotate(true)}
                         disabled={!selectedItem}
                     />
