@@ -4,6 +4,8 @@ import { StaticContext } from '../../../../../Statics/Statics';
 
 export default function DetailBuilderSidebar({
     children,
+    selectedItem,
+    selectItem,
 }) {
     const { Viewport, sidebar: { open } } = useContext(StaticContext);
 
@@ -63,13 +65,18 @@ export default function DetailBuilderSidebar({
                             title="Parts"
                         >
                             <div className="sidebar-list">
-                                {children.map(({ _part: { partNumber } = {} }) => (
-                                    <button
-                                        className="sidebar-list-item"
-                                    >
-                                        {partNumber}
-                                    </button>
-                                ))}
+                                {children.map(item => {
+                                    const { _part: { partNumber } = {} } = item;
+                                    const selected = item === selectedItem;
+                                    return (
+                                        <button
+                                            className={`sidebar-list-item ${selected ? 'selected' : ''}`}
+                                            onClick={() => selectItem(item)}
+                                        >
+                                            {partNumber}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </CollapsibleTitle>
                     </>

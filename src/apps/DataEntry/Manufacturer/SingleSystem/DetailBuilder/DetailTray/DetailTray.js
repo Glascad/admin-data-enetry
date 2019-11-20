@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { multiply } from 'mathjs';
 import { Tray, Input } from '../../../../../../components';
-import { matrix } from '../../../../../../utils';
+import { Matrix } from '../../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
 
 const initialState = {
@@ -17,8 +17,8 @@ const initialState = {
 };
 
 export default function DetailTray({
-    selectedPart,
-    selectedPart: {
+    selectedItem,
+    selectedItem: {
         path,
         __typename,
         transform,
@@ -45,19 +45,19 @@ export default function DetailTray({
         ...state,
         angle,
     }));
-    const previousTransform = matrix.createTransformation(transform);
     const dispatchTransform = intermediateTransform => {
-        const resultingTransform = multiply(previousTransform, intermediateTransform);
+        const previousTransform = new Matrix(transform);
+        const resultingTransform = previousTransform.multiply(intermediateTransform);
         dispatch(UPDATE_ITEM, {
             __typename,
             path,
             update: {
-                transform: matrix.convertArrayMatrixToObject(resultingTransform),
+                transform: resultingTransform.toObject(),
             },
         });
     }
     const createNudge = (vertical, first) => () => dispatchTransform(
-        matrix.createTranslation(
+        Matrix.createTranslation(
             vertical ?
                 0
                 :
@@ -75,14 +75,14 @@ export default function DetailTray({
         ),
     );
     const createRotate = clockwise => () => dispatchTransform(
-        matrix.createRotation(
+        Matrix.createRotation(
             clockwise ?
                 -angle
                 :
                 +angle,
         ),
     );
-    const createMirror = angle => () => dispatchTransform(matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
+    const createMirror = angle => () => dispatchTransform(Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
     console.log(arguments[0]);
     return (
         <Tray>
@@ -110,13 +110,13 @@ export default function DetailTray({
                             data-cy={`nudge-${d === 'x' ? 'left' : 'down'}`}
                             Icon={() => '-'}
                             onChange={createNudge(d !== 'x', true)}
-                            disabled={!selectedPart}
+                            disabled={!selectedItem}
                         />
                         <Input
                             data-cy={`nudge-${d === 'x' ? 'right' : 'up'}`}
                             Icon={() => '+'}
                             onChange={createNudge(d !== 'x', false)}
-                            disabled={!selectedPart}
+                            disabled={!selectedItem}
                         />
                     </div>
                 ))}
@@ -156,23 +156,23 @@ export default function DetailTray({
                     <Input
                         Icon={() => '|'}
                         onChange={createMirror(0)}
-                        disabled={!selectedPart}
+                        disabled={!selectedItem}
                     />
                     <Input
                         Icon={() => '--'}
                         onChange={createMirror(90)}
-                        disabled={!selectedPart}
+                        disabled={!selectedItem}
                     />
                     <Input
                         Icon={() => '/'}
                         onChange={createMirror(45)}
-                        disabled={!selectedPart}
+                        disabled={!selectedItem}
                     />
                     <Input
                         Icon={() => '\\'}
                         onChange={createMirror(-45)}
-                        disabled={!selectedPart}
-                        />
+                        disabled={!selectedItem}
+                    />
                 </div>
             </div>
             <div className="tray-section">
@@ -183,12 +183,12 @@ export default function DetailTray({
                     <Input
                         Icon={() => '<'}
                         onChange={createRotate(false)}
-                        disabled={!selectedPart}
-                        />
+                        disabled={!selectedItem}
+                    />
                     <Input
                         Icon={() => '>'}
                         onChange={createRotate(true)}
-                        disabled={!selectedPart}
+                        disabled={!selectedItem}
                     />
                     <Input
                         labe="Angle"

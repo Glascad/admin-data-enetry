@@ -37,22 +37,28 @@ export default function DetailBuilder({
 
     const children = getChildren({ path }, systemMap) || [];
 
-    const [{ path: selectedPath } = {}, setSelectedPart] = useState();
+    const [{ path: selectedPath } = {}, setSelectedItem] = useState();
 
-    const selectedPart = systemMap[selectedPath];
+    const selectedItem = systemMap[selectedPath];
 
-    const selectPart = newPart => setSelectedPart(part => newPart === part ? undefined : newPart);
+    const selectItem = newItem => setSelectedItem(item => newItem === item ? undefined : newItem);
+    const cancelSelection = () => selectItem();
 
     useEffect(() => {
-        selectPart();
+        cancelSelection();
     }, [path]);
+
+    useEffect(() => {
+        window.addEventListener('click', cancelSelection);
+        return () => window.removeEventListener('click', cancelSelection);
+    }, []);
 
     console.log({
         fullPath,
         path,
         systemMap,
         children,
-        selectedPart,
+        selectedItem,
     });
 
     if (path !== fullPath) return (
@@ -77,18 +83,20 @@ export default function DetailBuilder({
             <DetailDisplay
                 systemMap={systemMap}
                 children={children}
-                selectPart={selectPart}
-                selectedPart={selectedPart}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
                 updating={updating}
-            />
+                />
             <DetailTray
                 systemMap={systemMap}
-                selectedPart={selectedPart}
+                selectedItem={selectedItem}
                 dispatch={dispatch}
             />
             <Sidebar
                 systemMap={systemMap}
                 children={children}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
             />
         </TransformProvider>
     );

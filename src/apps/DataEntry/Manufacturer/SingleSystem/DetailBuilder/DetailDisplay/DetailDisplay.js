@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getConfigurationTypeFromPath } from '../../../../../../app-logic/system-utils';
 import { SVGPath, TransformBox } from '../../../../../../components';
-import { parseSearch, svg, matrix } from '../../../../../../utils';
+import { parseSearch, svg, Matrix } from '../../../../../../utils';
 import { StaticContext } from '../../../../../Statics/Statics';
 import './DetailDisplay.scss';
 
@@ -14,8 +14,8 @@ export default withRouter(function DetailDisplay({
     },
     system,
     children,
-    selectPart,
-    selectedPart,
+    selectItem,
+    selectedItem,
 }) {
     // console.log(arguments[0]);
 
@@ -23,7 +23,7 @@ export default withRouter(function DetailDisplay({
     const { path } = parseSearch(search);
     const configurationType = getConfigurationTypeFromPath(path);
     const allPaths = children.reduce((allPaths, { _part: { paths = [] } = {} }) => allPaths.concat(paths), []);
-    const viewBox = svg.getViewBox(allPaths, padding);
+    // const viewBox = svg.getViewBox(allPaths, padding);
 
     return configurationType ? (
         <TransformBox
@@ -38,27 +38,23 @@ export default withRouter(function DetailDisplay({
                 {children.map(part => {
                     const {
                         id,
-                        transform: {
-                            a = matrix.IDENTITY_MATRIX[0][0],
-                            b = matrix.IDENTITY_MATRIX[0][1],
-                            c = matrix.IDENTITY_MATRIX[0][2],
-                            d = matrix.IDENTITY_MATRIX[1][0],
-                            e = matrix.IDENTITY_MATRIX[1][1],
-                            f = matrix.IDENTITY_MATRIX[1][2],
-                        } = {},
+                        transform: matrix,
                         _part: {
                             paths = [],
                         },
                     } = part;
-                    const selected = part === selectedPart;
-                    const transformProp = `matrix(${a} ${d} ${b} ${e} ${c} ${f})`;
+                    const selected = part === selectedItem;
+                    const transform = new Matrix(matrix);
                     return (
                         <g
                             data-cy={`part-${id}`}
                             key={id}
                             className={`part ${selected ? 'selected' : ''}`}
-                            onClick={() => selectPart(part)}
-                            transform={transformProp}
+                            onClick={e => {
+                                e.stopPropagation();
+                                selectItem(part);
+                            }}
+                            transform={transform}
                         >
                             {paths.map(({ commands }, i) => (
                                 <SVGPath

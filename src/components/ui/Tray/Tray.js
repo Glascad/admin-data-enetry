@@ -25,6 +25,7 @@ export default function Tray({
             className={`Tray card ${
                 open ? '' : 'closed'
                 }`}
+            onClick={e => e.stopPropagation()}
         >
             {children}
             <div
