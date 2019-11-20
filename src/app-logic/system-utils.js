@@ -19,6 +19,7 @@ export class SystemMap {
             path: `${id}`,
             [name]: this,
             [id]: this,
+            parents: {},
         }, [
             ..._systemOptions,
             ..._detailOptions,

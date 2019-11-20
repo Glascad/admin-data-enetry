@@ -12,7 +12,7 @@ export const TypeNameSelect = ({
         __typename,
     },
     oName,
-    childOption,
+    child,
     selectTypes,
     dispatch,
 }) => (
@@ -31,7 +31,7 @@ export const TypeNameSelect = ({
                             name,
                         },
                     });
-                    childOption ?
+                    child ?
                         confirmWithModal(updateType, {
                             titleBar: { title: `Change ${oName}` },
                             children: 'Are you sure?',

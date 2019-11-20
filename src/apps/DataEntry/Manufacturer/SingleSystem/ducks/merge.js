@@ -108,7 +108,7 @@ export default function merge(systemInput, {
             };
         })
         .concat(newItems.map(item => {
-            const { name, __typename, id } = item;
+            const { name, __typename, id, fakeId } = item;
             const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
             const path = `${
                 parentPath || systemId
@@ -116,7 +116,7 @@ export default function merge(systemInput, {
                 match(__typename)
                     .regex(/detail$/i, '__DT__.')
                     .regex(/configuration$/i, '__CT__.')
-                    .regex(/part$/i, `__PT${id}__.`)
+                    .regex(/part$/i, `__PT${id || fakeId}__.`)
                     .otherwise('')
                 }${
                 name

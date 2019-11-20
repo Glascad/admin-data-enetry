@@ -195,6 +195,11 @@ export const ENTIRE_SYSTEM = gql`
         ...SystemFields
         manufacturerByManufacturerId {
             ...ManufacturerFields
+            partsByManufacturerId {
+                nodes {
+                ...PartFields
+                }
+            }
         }
         systemOptionsBySystemId {
             nodes {
@@ -249,6 +254,7 @@ export const ENTIRE_SYSTEM = gql`
     }
     ${SYSTEM_FIELDS}
     ${MANUFACTURER_FIELDS}
+    ${PART_FIELDS}
     ${SYSTEM_OPTION_FIELDS}
     ${SYSTEM_OPTION_VALUE_FIELDS}
     ${OPTION_GROUP_FIELDS}
