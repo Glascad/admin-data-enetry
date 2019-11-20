@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="22px" height="18px" viewBox="0 0 22 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>Add Vent</title>
     <desc>Created with Sketch.</desc>
     <g id="Add-Vent" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M10.4342585,9 L15.5,16.5986122 L20.5657415,9 L10.4342585,9 Z" id="Path-2" stroke="#0CFC04" transform="translate(15.500000, 13.000000) scale(1, -1) translate(-15.500000, -13.000000) "></path>
+        <polyline id="Path-2" stroke="#0CFC04" transform="translate(15.500000, 13.000000) scale(1, -1) translate(-15.500000, -13.000000) " points="9.5 8.5 15.5 17.5 21.5 8.5"></polyline>
         <rect id="Rectangle-Copy-5" stroke="#878787" x="9.5" y="0.5" width="12" height="17"></rect>
-        <rect id="Rectangle" fill="#8B8A8B" x="10" y="8" width="11" height="1"></rect>
+        <rect id="Rectangle" fill="#878787" x="10" y="8" width="11" height="1"></rect>
         <g id="Plus" transform="translate(0.000000, 6.000000)" fill="#0CFC04">
             <polygon id="Path" points="4 2 6 2 6 4 4 4 4 6 2 6 2 4 8.43769499e-15 4 8.43769499e-15 2 2 2 2 -8.8817842e-16 4 -8.8817842e-16"></polygon>
         </g>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="18px" viewBox="0 0 24 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>Merge Horizontally</title>
     <desc>Created with Sketch.</desc>
     <g id="Merge-Horizontally" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="#8B8A8B" x="1" y="8" width="23" height="1"></rect>
+        <rect id="Rectangle" fill="#878787" x="1" y="8" width="22" height="1"></rect>
         <rect id="Rectangle-Copy-5" stroke="#878787" x="0.5" y="0.5" width="23" height="17"></rect>
         <g id="Icon_Point" transform="translate(5.000000, 3.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
-        <g id="Icon_Point" transform="translate(17.000000, 3.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        <g id="Icon_Point-Copy-3" transform="translate(17.000000, 3.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
         <rect id="Rectangle" fill="#D0021B" x="12" y="1" width="1" height="7"></rect>
-        <rect id="Rectangle-Copy" fill="#8B8A8B" x="12" y="9" width="1" height="8"></rect>
+        <rect id="Rectangle-Copy" fill="#878787" x="12" y="9" width="1" height="8"></rect>
         <rect id="Rectangle" fill="#0CFC04" x="8" y="4" width="9" height="1"></rect>
     </g>
 </svg>
