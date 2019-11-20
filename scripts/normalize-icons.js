@@ -83,9 +83,9 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
             }
         });
 
-    const fileNameToCamelCase = fileName => fileName
+    const fileNameToPascalCase = fileName => fileName
         .replace(/\.svg/, '')
-        .split('-')
+        .split(/[_\W]+/g)
         .map(str => `${
             str.slice(0, 1).toUpperCase()
             }${
@@ -97,7 +97,7 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
 
     const newFileNames = Object.keys(icons).filter(fileName => fileName.match(/\.svg/));
 
-    const newIconNames = newFileNames.map(fileNameToCamelCase);
+    const newIconNames = newFileNames.map(fileNameToPascalCase);
 
     const newImports = newFileNames
         .reduce((otherImports, fileName, i) => {

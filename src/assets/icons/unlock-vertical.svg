@@ -1,0 +1,19 @@
+
+<svg class="icon"  width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    
+    
+    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect class="stroke-gray"   x="0.5" y="7.5" width="24" height="9"></rect>
+        <rect class="fill-gray"   x="12" y="7" width="1" height="10"></rect>
+        <g class="fill-green"  transform="translate(11.000000, 6.000000)" >
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" ></path>
+        </g>
+        <g class="fill-green"  transform="translate(11.000000, 15.000000)" >
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" ></path>
+        </g>
+        <g class="fill-red"  transform="translate(10.000000, 0.000000)" >
+            <path d="M4,0 L4,2 L5,2 L5,5 L0,5 L0,2 L1,2 L1,0 L4,0 Z M3,1 L2,1 L2,2 L3,2 L3,1 Z" ></path>
+        </g>
+    </g>
+</svg>
