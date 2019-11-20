@@ -28,11 +28,12 @@ export default function RightSidebar({
     View: {
         title: initialTitle,
         component: InitialPureComponent,
-    },
+    } = {},
     open,
     handleCloseClick,
     childProps,
     sidebarRef,
+    children,
 }) {
 
     const title = stackedView ?
@@ -44,6 +45,11 @@ export default function RightSidebar({
         StackedChild
         :
         InitialPureComponent;
+
+    const CHILDREN = Child ?
+        <Child {...childProps} />
+        :
+        children;
 
     return (
         <div
@@ -71,9 +77,7 @@ export default function RightSidebar({
                     </span>
                 </button>
             ) : null}
-            <Child
-                {...childProps}
-            />
+            {CHILDREN}
         </div>
     );
 }

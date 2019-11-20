@@ -43,6 +43,7 @@ export default function DetailBuilder({
 
     const selectItem = newItem => setSelectedItem(item => newItem === item ? undefined : newItem);
     const cancelSelection = () => selectItem();
+    const cancelOnEscape = ({ key }) => key === 'Escape' && cancelSelection();
 
     useEffect(() => {
         cancelSelection();
@@ -50,7 +51,11 @@ export default function DetailBuilder({
 
     useEffect(() => {
         window.addEventListener('click', cancelSelection);
-        return () => window.removeEventListener('click', cancelSelection);
+        window.addEventListener('keydown', cancelOnEscape);
+        return () => {
+            window.removeEventListener('click', cancelSelection);
+            window.removeEventListener('keydown', cancelOnEscape);
+        }
     }, []);
 
     console.log({
@@ -86,7 +91,7 @@ export default function DetailBuilder({
                 selectItem={selectItem}
                 selectedItem={selectedItem}
                 updating={updating}
-                />
+            />
             <DetailTray
                 systemMap={systemMap}
                 selectedItem={selectedItem}

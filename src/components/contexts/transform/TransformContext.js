@@ -14,7 +14,7 @@ const minScale = 0.1;
 function TransformProvider({
     initialState: {
         baseScale: initialBaseScale = defaultScale,
-        scrollMultiplier: initialScrollMultiplier = 0.0007,
+        scrollMultiplier: initialScrollMultiplier = 0.001,
         grabbing: initialGrabbing = false,
         scale: {
             x: initialScaleX = defaultScale,
@@ -64,13 +64,15 @@ function TransformProvider({
         if (spaceKeyRef.current) {
             if (key === "ArrowUp") {
                 e.preventDefault();
-                setScaleX(scaleX => Math.max(+scaleX + scaleNudge, minScale) || minScale);
-                setScaleY(scaleY => Math.max(+scaleY + scaleNudge, minScale) || minScale);
+                const getNewScale = scale => Math.max(+scale + scaleNudge, minScale) || minScale;
+                setScaleX(getNewScale);
+                setScaleY(getNewScale);
 
             } else if (key === "ArrowDown") {
                 e.preventDefault();
-                setScaleX(scaleX => Math.max(+scaleX - scaleNudge, minScale) || minScale)
-                setScaleY(scaleY => Math.max(+scaleY - scaleNudge, minScale) || minScale)
+                const getNewScale = scale => Math.max(+scale - scaleNudge, minScale) || minScale;
+                setScaleX(getNewScale);
+                setScaleY(getNewScale);
             }
         }
     };
@@ -90,8 +92,9 @@ function TransformProvider({
 
     const watchScroll = e => {
         e.preventDefault();
-        setScaleX(scaleX => Math.max(+scaleX - scrollMultiplier * e.deltaY, minScale) || minScale);
-        setScaleY(scaleY => Math.max(+scaleY - scrollMultiplier * e.deltaY, minScale) || minScale);
+        const getNewScale = scale => Math.max(+scale - scrollMultiplier * e.deltaY * scale, minScale) || minScale;
+        setScaleX(getNewScale);
+        setScaleY(getNewScale);
     };
 
     const watchMouseDown = e => {
