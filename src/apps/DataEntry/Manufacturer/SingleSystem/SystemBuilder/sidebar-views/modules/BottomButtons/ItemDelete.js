@@ -1,7 +1,7 @@
 import React from 'react';
-import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../app-logic/system-utils';
-import { DELETE_ITEM } from '../../../ducks/actions';
-import { confirmWithModal } from '../../../../../../../components';
+import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../../app-logic/system-utils';
+import { DELETE_ITEM } from '../../../../ducks/actions';
+import { confirmWithModal } from '../../../../../../../../components';
 
 const ItemDelete = ({
     item,

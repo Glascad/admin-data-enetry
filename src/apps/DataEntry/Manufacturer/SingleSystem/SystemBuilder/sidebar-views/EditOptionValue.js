@@ -3,15 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath, getParent, getSiblings } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from '../../../../../../components';
 import { match } from '../../../../../../utils';
-import { ValueAdditionGrouping } from './modules/add-item-grouping';
-import { ItemLink } from './modules/item-link';
-import { ValueNameSelect } from './modules/item-name-select';
-import { ValueToggles } from './modules/item-toggles';
-import ItemDelete from './modules/ItemDelete';
-import ItemMovement from './modules/ItemMovement';
-import ValueAndTypeChildren from './modules/ItemChildren/ValueAndTypeChildren';
 import BottomButtons from './modules/BottomButtons/BottomButtons';
+import { ValueToggles } from './modules/item-toggles';
 import ItemChildren from './modules/ItemChildren/ItemChildren';
+import ItemName from './modules/ItemName/ItemName';
+import ItemToggles from './modules/ItemToggles/ItemToggles';
 
 
 function EditOptionValue({
@@ -100,24 +96,22 @@ function EditOptionValue({
             <TitleBar
                 title="Edit Option Value"
             />
-            <ValueNameSelect
+            <ItemName
                 {...{
-                    selectValidValues,
-                    optionValue,
-                    oVName,
+                    item: optionValue,
+                    itemName: oVName,
+                    selectOptions: selectValidValues,
                     optionIsGrouped,
-                    hasChildren,
+                    children,
                     dispatch,
                     systemMap,
                 }}
             />
-            <ValueToggles
+            <ItemToggles
                 {...{
-                    oVName,
+                    item: optionValue,
+                    itemName: oVName,
                     isDefault,
-                    __typename,
-                    oPath,
-                    oTypename,
                     optionIsGrouped,
                     dispatch,
                     systemMap,

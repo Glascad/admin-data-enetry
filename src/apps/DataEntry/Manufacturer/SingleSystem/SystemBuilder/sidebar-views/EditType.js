@@ -2,15 +2,10 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath, getSiblings } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from '../../../../../../components';
-import { ItemLink } from './modules/item-link';
-import { TypeNameSelect } from './modules/item-name-select';
-import { TypeToggles } from './modules/item-toggles';
-import ValueAndTypeChildren from './modules/ItemChildren/ValueAndTypeChildren';
-import ItemDelete from './modules/ItemDelete';
-import ItemMovement from './modules/ItemMovement';
-import { match } from '../../../../../../utils';
 import BottomButtons from './modules/BottomButtons/BottomButtons';
-import ItemChildren from './modules/ItemChildren/ItemChildren';
+import ValueAndTypeChildren from './modules/ItemChildren/ValueAndTypeChildren';
+import ItemName from './modules/ItemName/ItemName';
+import ItemToggles from './modules/ItemToggles/ItemToggles';
 
 
 function EditType({
@@ -81,23 +76,23 @@ function EditType({
             <TitleBar
                 title={`Edit ${type}`}
             />
-            <TypeNameSelect
+            <ItemName
                 {...{
                     type,
-                    selectedType,
-                    tName,
-                    child,
-                    oName: childName,
-                    selectTypes,
+                    item: selectedType,
+                    itemName: tName,
+                    selectOptions: selectTypes,
+                    children,
                     dispatch,
                 }}
             />
-            <TypeToggles
+            <ItemToggles
                 {...{
-                    selectedType,
+                    item: selectedType,
                     type,
                     optional,
                     dispatch,
+                    // systemMap,
                 }}
             />
             <ValueAndTypeChildren

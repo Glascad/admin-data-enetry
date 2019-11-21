@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { parseSearch } from '../../../../../../../utils';
+import { parseSearch } from '../../../../../../../../utils';
 
-export const ItemLink = ({
+const ItemLink = ({
     item: {
         path = '',
         __typename = '',
@@ -25,3 +25,5 @@ export const ItemLink = ({
         </button>
     </Link>
 ) : null;
+
+export default ItemLink;
