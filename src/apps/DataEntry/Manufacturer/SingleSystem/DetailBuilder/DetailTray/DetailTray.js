@@ -9,10 +9,7 @@ const initialState = {
         x: 0,
         y: 0,
     },
-    nudge: {
-        x: 0,
-        y: 0,
-    },
+    nudge: 0,
     angle: 0,
 };
 
@@ -34,16 +31,13 @@ export default memo(function DetailTray({
             [d]: +value,
         },
     }));
-    const setNudge = (d, value) => setState(state => ({
+    const setNudge = value => setState(state => ({
         ...state,
-        nudge: {
-            ...state.nudge,
-            [d]: +value,
-        },
+        nudge: +value,
     }));
     const setAngle = angle => setState(state => ({
         ...state,
-        angle,
+        angle: +angle,
     }));
     const dispatchTransform = intermediateTransform => {
         const previousTransform = new Matrix(transform);
@@ -62,14 +56,14 @@ export default memo(function DetailTray({
                 0
                 :
                 first ?
-                    -nudge.x
+                    -nudge
                     :
-                    +nudge.x,
+                    +nudge,
             vertical ?
                 first ?
-                    -nudge.y
+                    -nudge
                     :
-                    +nudge.y
+                    +nudge
                 :
                 0,
         ),
@@ -88,24 +82,29 @@ export default memo(function DetailTray({
         <Tray>
             <div className="tray-section">
                 {['x', 'y'].map(d => (
-                    <div
-                        className="input-group"
+                    <Input
                         key={d}
+                        data-cy={`${d}-coord`}
+                        label={`${d} Coord`}
+                        type="number"
+                        value={coordinate[d]}
+                        onChange={({ target: { value } }) => setCoordinate(d, +value)}
+                    />
+                ))}
+            </div>
+            <div className="tray-section">
+                <Input
+                    data-cy="nudge"
+                    label="Nudge"
+                    type="number"
+                    value={nudge}
+                    onChange={({ target: { value } }) => setNudge(+value)}
+                />
+                {['x', 'y'].map(d => (
+                    <div
+                        key={d}
+                        className="input-group"
                     >
-                        <Input
-                            data-cy={`${d}-coord`}
-                            label={`${d} Coord`}
-                            type="number"
-                            value={coordinate[d]}
-                            onChange={({ target: { value } }) => setCoordinate(d, +value)}
-                        />
-                        <Input
-                            data-cy={`${d}-nudge`}
-                            label={`${d} Nudge`}
-                            type="number"
-                            value={nudge[d]}
-                            onChange={({ target: { value } }) => setNudge(d, +value)}
-                        />
                         <Input
                             data-cy={`nudge-${d === 'x' ? 'left' : 'down'}`}
                             Icon={d === 'x' ? Icons.MoveLeft : Icons.MoveDown}
@@ -204,4 +203,4 @@ export default memo(function DetailTray({
             </div>
         </Tray>
     );
-})
+});

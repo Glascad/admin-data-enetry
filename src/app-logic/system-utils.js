@@ -16,7 +16,7 @@ export class SystemMap {
             _configurationParts = [],
         } = system || {};
         Object.assign(this, system, {
-            path: `${id}`,
+            path: `${id || ''}`,
             [name]: this,
             [id]: this,
         }, [

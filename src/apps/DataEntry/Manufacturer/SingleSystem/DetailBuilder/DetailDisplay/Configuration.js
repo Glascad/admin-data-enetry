@@ -1,7 +1,7 @@
 import React from 'react';
 import { getChildren, getLastItemFromPath, getConfigurationTypeFromPath, getDefaultPath } from '../../../../../../app-logic/system-utils';
 import Part from './Part';
-import { Matrix } from '../../../../../../utils';
+import { Matrix, svg } from '../../../../../../utils';
 
 export default function Configuration({
     configuration,
@@ -13,6 +13,7 @@ export default function Configuration({
     selectItem,
     selectedItem,
     selectedConfigurationPaths,
+    padding,
 }) {
     // console.log(arguments[0]);
     const configurationType = getConfigurationTypeFromPath(path);
@@ -39,6 +40,15 @@ export default function Configuration({
                     selectItem={() => selectItem(configuration)}
                 />
             ))}
+            <g className="configuration-origin">
+                <path d={`M-${padding * svg.multiplier / 2},0L${padding * svg.multiplier / 2},0Z`} />
+                <path d={`M0,-${padding * svg.multiplier / 2}L0,${padding * svg.multiplier / 2}Z`} />
+                <circle
+                    cx={0}
+                    cy={0}
+                    r={padding * svg.multiplier / 8}
+                />
+            </g>
         </g>
     );
 }

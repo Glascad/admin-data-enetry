@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import {
@@ -96,6 +96,7 @@ export default function SingleSystem({
         currentState: systemInput,
         pushState,
         replaceState,
+        resetState,
     } = useRedoableState(systemUpdate);
 
     const { _system } = queryResult;
@@ -125,11 +126,24 @@ export default function SingleSystem({
             console.log({ systemPayload });
             const result = await updateEntireSystem({ system: systemPayload });
             console.log({ result });
+            resetState(systemUpdate);
         } catch (err) {
             console.error(err);
             dispatch(() => systemInput);
         }
     };
+
+    useEffect(() => {
+        const saveOnCtrlS = e => {
+            const { key, ctrlKey, metaKey } = e;
+            if (key.match(/s/i) && (ctrlKey || metaKey)) {
+                e.preventDefault();
+                save();
+            }
+        }
+        window.addEventListener('keydown', saveOnCtrlS);
+        return () => window.removeEventListener('keydown', saveOnCtrlS);
+    }, [save]);
 
     console.log({
         system,

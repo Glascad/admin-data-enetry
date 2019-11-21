@@ -34,7 +34,7 @@ export default function DetailBuilder({
 
     const { path } = parseSearch(search);
 
-    const fullPath = getDefaultPath(path, systemMap);
+    const fullPath = getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, '');
 
     const children = getChildren({ path }, systemMap) || [];
 

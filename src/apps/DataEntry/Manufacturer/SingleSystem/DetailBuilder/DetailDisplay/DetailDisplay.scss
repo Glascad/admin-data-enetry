@@ -26,7 +26,7 @@
                 path {
                     transition: fill 0.1s;
                 }
-                
+
                 &:hover {
                     fill: $light-gray;
                 }
@@ -37,15 +37,31 @@
 
                 .part-origin {
                     fill: none;
-                    stroke: $light-gray;
+                    stroke: none;
+                }
+                &.selected {
+                    .part-origin {
+                        stroke: $selected-color;
+                    }
                 }
             }
 
             .Configuration {
-
+                .configuration-origin {
+                    fill: none;
+                    stroke: none;
+                }
+                &:hover {
+                    .Part {
+                        fill: $light-gray;
+                    }
+                }
                 &.selected {
                     .Part {
                         fill: $selected-color;
+                    }
+                    .configuration-origin {
+                        stroke: $selected-color;
                     }
                 }
             }
