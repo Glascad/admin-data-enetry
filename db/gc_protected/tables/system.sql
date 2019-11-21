@@ -5,6 +5,7 @@ gc_protected.systems (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
+    sightline FLOAT NOT NULL,
     UNIQUE (id, manufacturer_id)
 );
 

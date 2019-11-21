@@ -4,8 +4,6 @@ DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
     <<LOOP ID (1, 2)>>
         -- TEST SYSTEM SET
 
-        
-
         -- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
         -- (1, <<ID>>, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
 

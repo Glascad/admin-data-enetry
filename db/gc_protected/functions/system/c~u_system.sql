@@ -10,17 +10,18 @@ BEGIN
         INSERT INTO systems(
             name,
             manufacturer_id,
-            system_type
+            system_type,
+            sightline
             -- depth,
             -- default_sightline,
             -- shim_size,
             -- default_glass_size,
             -- default_glass_bite
-        )
-        VALUES (
+        ) VALUES (
             s.name,
             s.manufacturer_id,
-            s.system_type
+            s.system_type,
+            s.sightline
             -- s.depth,
             -- s.default_sightline,
             -- s.shim_size,
@@ -32,7 +33,8 @@ BEGIN
         UPDATE systems SET
             name = COALESCE(s.name, systems.name),
             manufacturer_id = COALESCE(s.manufacturer_id, systems.manufacturer_id),
-            system_type = COALESCE(s.system_type, systems.system_type)
+            system_type = COALESCE(s.system_type, systems.system_type),
+            sightline = COALESCE(s.sightline, systems.sightline)
         WHERE systems.id = s.id
         RETURNING * INTO us;
     END IF;

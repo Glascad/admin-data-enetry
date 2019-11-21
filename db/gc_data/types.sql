@@ -99,7 +99,7 @@ gc_data.ENTIRE_SYSTEM AS (
     paths_to_delete LTREE[],
     option_groups_to_delete OPTION_NAME[],
     new_option_groups OPTION_NAME[],
-    configuration_part_ids_to_delete INTEGER[]
+    configuration_part_ids_to_delete INTEGER[],
     <<LOOP
         TYPE (
             configuration_part,
@@ -113,7 +113,8 @@ gc_data.ENTIRE_SYSTEM AS (
             system_option
         )
     >>
-        , <<TYPE>>s ENTIRE_<<TYPE>>[]
-        , new_<<TYPE>>s NEW_<<TYPE>>[]
+        <<TYPE>>s ENTIRE_<<TYPE>>[],
+        new_<<TYPE>>s NEW_<<TYPE>>[],
     <<END LOOP>>
+    sightline FLOAT
 );

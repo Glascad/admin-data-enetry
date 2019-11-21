@@ -136,7 +136,8 @@ DO $create_systems$ DECLARE ___ INTEGER; BEGIN
             ARRAY[
                 ('SET', 'CENTER', NULL),
                 ('JOINERY', 'SCREW_SPLINE', 'SET.CENTER')
-            ]::NEW_SYSTEM_OPTION[]
+            ]::NEW_SYSTEM_OPTION[],
+            2
         )::ENTIRE_SYSTEM)
         INTO ___;
 
