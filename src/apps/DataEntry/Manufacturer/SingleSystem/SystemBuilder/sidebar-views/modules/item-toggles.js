@@ -83,11 +83,11 @@ export const TypeToggles = ({
         type="switch"
         label="Required"
         checked={!optional}
-        onChange={() => dispatch(UPDATE_ITEM), {
+        onChange={() => dispatch(UPDATE_ITEM, {
             ...selectedType,
             update: {
                 optional: !optional,
             },
-        }}
+        })}
     />
 ) : null;

@@ -1,7 +1,7 @@
 import React from 'react';
-import ItemMovement from '../ItemMovement';
-import ItemDelete from '../ItemDelete';
-import { ItemLink } from '../item-link';
+import ItemMovement from './ItemMovement';
+import ItemDelete from './ItemDelete';
+import ItemLink from './ItemLink';
 
 const BottomButtons = ({
     item,

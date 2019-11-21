@@ -2,21 +2,18 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from "../../../../../../components";
-import { OptionAdditionGrouping } from './modules/add-item-grouping';
-import { ItemLink } from './modules/item-link';
-import { OptionNameSelect } from './modules/item-name-select';
-import { OptionToggles } from './modules/item-toggles';
-import ItemDelete from './modules/ItemDelete';
-import ItemMovement from './modules/ItemMovement';
-import OptionChildren from './modules/ItemChildren/OptionChildren';
 import BottomButtons from './modules/BottomButtons/BottomButtons';
+import { OptionToggles } from './modules/item-toggles';
 import ItemChildren from './modules/ItemChildren/ItemChildren';
+import ItemName from './modules/ItemName/ItemName';
+import ItemToggles from './modules/ItemToggles/ItemToggles';
 
 function EditOption({
     location,
     match,
     selectItem,
     selectedItem: option = {},
+    system,
     system: {
         _optionGroups,
     },
@@ -45,20 +42,20 @@ function EditOption({
             <TitleBar
                 title='Edit Option'
             />
-            <OptionNameSelect
+            <ItemName
                 {...{
-                    _optionGroups,
-                    validOptions,
-                    option,
-                    optionName,
+                    queryResult,
+                    system,
+                    item: option,
+                    itemName: optionName,
                     children,
                     dispatch,
                     systemMap,
                 }}
             />
-            <OptionToggles
+            <ItemToggles
                 {...{
-                    option,
+                    item: option,
                     optionIsGrouped,
                     dispatch,
                     systemMap,
