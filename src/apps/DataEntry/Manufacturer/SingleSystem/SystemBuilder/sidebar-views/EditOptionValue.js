@@ -8,7 +8,10 @@ import { ItemLink } from './modules/item-link';
 import { ValueNameSelect } from './modules/item-name-select';
 import { ValueToggles } from './modules/item-toggles';
 import ItemDelete from './modules/ItemDelete';
-import ItemMovement  from './modules/ItemMovement';
+import ItemMovement from './modules/ItemMovement';
+import ValueAndTypeChildren from './modules/ItemChildren/ValueAndTypeChildren';
+import BottomButtons from './modules/BottomButtons/BottomButtons';
+import ItemChildren from './modules/ItemChildren/ItemChildren';
 
 
 function EditOptionValue({
@@ -17,17 +20,17 @@ function EditOptionValue({
     selectItem,
     selectedItem: optionValue,
     selectedItem: {
-        path: path,
+        path,
         __typename,
     },
+    system,
     system: {
         _optionGroups
     },
     systemMap,
+    queryResult,
     queryResult: {
         validOptions = [],
-        detailTypes = [],
-        configurationTypes = [],
     } = {},
     dispatch,
     dispatchPartial,
@@ -38,7 +41,7 @@ function EditOptionValue({
 
     const valueParentOption = getParent(optionValue, systemMap);
     const valueSiblings = getSiblings(optionValue, systemMap);
-    const valueChildren = getChildren(optionValue, systemMap);
+    const children = getChildren(optionValue, systemMap);
 
     const {
         path: oPath,
@@ -65,21 +68,14 @@ function EditOptionValue({
         .map(({ name }) => name);
 
     const {
-        0: childOption,
+        0: child,
         0: {
-            path: childOptionPath = '',
+            path: childPath = '',
             __typename: childTypename = ''
         } = {},
-    } = valueChildren;
+    } = children;
 
-    const childOptionName = childOption ? getLastItemFromPath(childOptionPath) : '';
-
-    const childOptionChildren = getChildren(childOption, systemMap); // Option Value's Child's Child
-
-    const childTypeTypename = match(__typename)
-        .regex(/^System/, 'SystemDetail')
-        .regex(/^Detail/, 'DetailConfiguration')
-        .otherwise('ConfigurationPart');
+    const childName = child ? getLastItemFromPath(childPath) : '';
 
     const childTypeType = __typename.match(/SystemOption/i) ?
         'Detail'
@@ -96,16 +92,8 @@ function EditOptionValue({
         !!childTypename.match(/option/i)
         :
         optionSelected;
-
-    const selectValidTypes = childTypename.match(/system/i) ?
-        detailTypes
-        :
-        configurationTypes;
-
-    const selectTypes = selectValidTypes
-        .filter(name => !valueChildren.some(({ path: childTypePath }) =>
-            name.toLowerCase() === getLastItemFromPath(childTypePath).toLowerCase()
-        ));
+    
+    console.log(optionValue);
 
     return (
         <>
@@ -135,50 +123,32 @@ function EditOptionValue({
                     systemMap,
                 }}
             />
-            <ValueAdditionGrouping
+            <ItemChildren
                 {...{
-                    _optionGroups,
-                    optionValue,
-                    validOptions,
-                    optionIsSelected,
-                    hasChildren,
-                    valueChildren,
-                    childOption,
-                    childOptionPath,
+                    system,
+                    queryResult,
+                    item: optionValue,
+                    children,
+                    child,
                     childTypeType,
-                    childTypeTypename,
-                    childOptionChildren,
-                    childOptionName,
-                    childTypename,
-                    selectTypes,
-                    selectValidTypes,
+                    childName,
+                    optionIsSelected,
                     setOptionIsSelected,
                     selectItem,
                     dispatch,
                     systemMap,
                 }}
             />
-            <ItemMovement
-                {...{
-                    item: optionValue,
-                    name: 'Value',
-                    partialAction,
-                    cancelPartial,
-                    dispatchPartial,
-                }}
-            />
-            <ItemLink
-                {...{
-                    path,
-                    match: systemMatch,
-                    location,
-                }}
-            />
-            <ItemDelete
+            <BottomButtons
                 {...{
                     item: optionValue,
                     parentOptionIsGrouped: optionIsGrouped,
                     name: 'Value',
+                    match,
+                    location,
+                    partialAction,
+                    cancelPartial,
+                    dispatchPartial,
                     dispatch,
                     systemMap,
                 }}

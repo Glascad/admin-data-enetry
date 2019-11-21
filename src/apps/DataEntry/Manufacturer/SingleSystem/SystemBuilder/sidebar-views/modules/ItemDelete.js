@@ -17,7 +17,7 @@ const ItemDelete = ({
     const itemName = getLastItemFromPath(path);
     const children = getChildren(item, systemMap);
 
-    return !path.match(/^\d+\.\w+$/) ? (
+    return (
         <button
             className="sidebar-button danger"
             data-cy={`edit-${name.toLowerCase()}-delete-button`}
@@ -59,7 +59,7 @@ const ItemDelete = ({
         >
             {`Delete ${name}`}
         </button >
-    ) : null;
+    );
 }
 
 export default ItemDelete;

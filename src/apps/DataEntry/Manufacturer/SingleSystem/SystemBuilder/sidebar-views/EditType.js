@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath, getSiblings } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from '../../../../../../components';
-import { TypeAdditionGrouping } from './modules/add-item-grouping';
 import { ItemLink } from './modules/item-link';
 import { TypeNameSelect } from './modules/item-name-select';
 import { TypeToggles } from './modules/item-toggles';
+import ValueAndTypeChildren from './modules/ItemChildren/ValueAndTypeChildren';
 import ItemDelete from './modules/ItemDelete';
-import ItemMovement  from './modules/ItemMovement';
+import ItemMovement from './modules/ItemMovement';
+import { match } from '../../../../../../utils';
+import BottomButtons from './modules/BottomButtons/BottomButtons';
+import ItemChildren from './modules/ItemChildren/ItemChildren';
+
 
 function EditType({
     location,
@@ -16,19 +20,16 @@ function EditType({
     selectedItem: selectedType,
     selectedItem: {
         __typename,
-        name: sName,
         path = '',
         optional,
     } = {},
     system,
-    system: {
-        _optionGroups
-    },
     systemMap,
+    queryResult,
     queryResult: {
-        validOptions = [],
         detailTypes = [],
         configurationTypes = [],
+        partTypes = [],
     } = {},
     dispatch,
     dispatchPartial,
@@ -40,28 +41,41 @@ function EditType({
     const isDetail = !!__typename.match(/Detail/i);
     const type = __typename.replace(/^(System|Detail|Configuration)(\w+)/i, '$2');
 
+    const children = getChildren(selectedType, systemMap);
+
     const {
-        0: childOption,
+        0: child,
         0: {
-            path: oPath = '',
+            path: childPath = '',
+            __typename: childTypename,
         } = {},
-    } = getChildren(selectedType, systemMap);
+    } = children;
+
+    const [optionSelected, setOptionIsSelected] = useState(true);
+
+    const optionIsSelected = children.length > 1 ?
+        !!childTypename.match(/option/i)
+        :
+        optionSelected;
 
     const tName = getLastItemFromPath(path, systemMap);
-    const oName = getLastItemFromPath(oPath);
+    const childName = getLastItemFromPath(childPath);
 
-    const childValues = getChildren(childOption, systemMap); // Types' Child's children
-    const siblingTypes = getSiblings(selectedType, systemMap);
+    const siblings = getSiblings(selectedType, systemMap);
 
     const selectValidTypes = __typename.match(/detail/i) ?
         detailTypes
         :
-        configurationTypes;
+        __typename.match(/configuration$/i) ?
+            configurationTypes
+            :
+            partTypes;
 
     const selectTypes = selectValidTypes
-        .filter(name => !siblingTypes.some(({ path: typePath }) =>
+        .filter(name => !siblings.some(({ path: typePath }) =>
             name.toLowerCase() === getLastItemFromPath(typePath).toLowerCase()
         ));
+
     return (
         <>
             <TitleBar
@@ -72,8 +86,8 @@ function EditType({
                     type,
                     selectedType,
                     tName,
-                    childOption,
-                    oName,
+                    child,
+                    oName: childName,
                     selectTypes,
                     dispatch,
                 }}
@@ -86,40 +100,30 @@ function EditType({
                     dispatch,
                 }}
             />
-            <TypeAdditionGrouping
+            <ValueAndTypeChildren
                 {...{
-                    validOptions,
-                    _optionGroups,
-                    selectedType,
-                    type,
-                    oName,
-                    childOption,
-                    childValues,
+                    system,
+                    queryResult,
+                    item: selectedType,
+                    children,
+                    child,
+                    childName,
+                    optionIsSelected,
+                    setOptionIsSelected,
                     selectItem,
                     dispatch,
                     systemMap,
                 }}
             />
-            <ItemMovement
+            <BottomButtons
                 {...{
                     item: selectedType,
                     name: isDetail ? 'Detail' : 'Configuration',
+                    match,
+                    location,
                     partialAction,
                     cancelPartial,
                     dispatchPartial,
-                }}
-            />
-            <ItemLink
-                {...{
-                    path,
-                    match,
-                    location,
-                }}
-            />
-            <ItemDelete
-                {...{
-                    item: selectedType,
-                    name: isDetail ? 'Detail' : 'Configuration',
                     dispatch,
                     systemMap,
                 }}

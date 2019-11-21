@@ -65,15 +65,15 @@ export default function merge(systemInput, {
 
             // if the parent is updated, we look to see if the move prevents it from being deleted or not
             if (parentWithUpdatedPath) {
-                console.log("PARENT UPDATED")
-                console.log({
-                    path,
-                    parentWithUpdatedPath,
-                })
+                // console.log("PARENT UPDATED")
+                // console.log({
+                //     path,
+                //     parentWithUpdatedPath,
+                // })
                 const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
-                    console.log({ foundDeletedItem });
+                    // console.log({foundDeletedItem});
                     return foundDeletedItem && path.match(foundDeletedItem);
                 });
             } else {
@@ -102,19 +102,13 @@ export default function merge(systemInput, {
                 name: undefined,
                 [newUpdatedItemParentKey]: undefined,
             } : {};
-            if (updatedItem) console.log({
-                oldItem,
-                updatedItem,
-                updatedPath,
-                newUpdatedItem,
-            });
             return {
                 ...oldItem,
                 ...removeNullValues(newUpdatedItem),
             };
         })
         .concat(newItems.map(item => {
-            const { name, __typename, id } = item;
+            const { name, __typename, id, fakeId } = item;
             const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
             const path = `${
                 parentPath || systemId
@@ -122,7 +116,7 @@ export default function merge(systemInput, {
                 match(__typename)
                     .regex(/detail$/i, '__DT__.')
                     .regex(/configuration$/i, '__CT__.')
-                    .regex(/part$/i, `__PT${id}__.`)
+                    .regex(/part$/i, `__PT${id || fakeId}__.`)
                     .otherwise('')
                 }${
                 name

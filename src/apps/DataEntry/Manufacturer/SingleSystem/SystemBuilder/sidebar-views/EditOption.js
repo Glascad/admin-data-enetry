@@ -8,6 +8,9 @@ import { OptionNameSelect } from './modules/item-name-select';
 import { OptionToggles } from './modules/item-toggles';
 import ItemDelete from './modules/ItemDelete';
 import ItemMovement from './modules/ItemMovement';
+import OptionChildren from './modules/ItemChildren/OptionChildren';
+import BottomButtons from './modules/BottomButtons/BottomButtons';
+import ItemChildren from './modules/ItemChildren/ItemChildren';
 
 function EditOption({
     location,
@@ -18,6 +21,7 @@ function EditOption({
         _optionGroups,
     },
     systemMap,
+    queryResult,
     queryResult: {
         validOptions = [],
     } = {},
@@ -32,19 +36,7 @@ function EditOption({
 
     const optionName = getLastItemFromPath(path);
 
-    const optionChildValues = getChildren(option, systemMap);
-
-    const validOptionValues = validOptions
-        .reduce((values, { name, _validOptionValues }) => (
-            optionName.toLowerCase() === name.toLowerCase() ?
-                _validOptionValues
-                :
-                values
-        ), []);
-
-    const selectValidOptionValues = validOptionValues
-        .filter(({ name }) => !optionChildValues.some(v => getLastItemFromPath(v.path) === name))
-        .map(({ name }) => name);
+    const children = getChildren(option, systemMap);
 
     const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
 
@@ -59,7 +51,7 @@ function EditOption({
                     validOptions,
                     option,
                     optionName,
-                    children: optionChildValues,
+                    children,
                     dispatch,
                     systemMap,
                 }}
@@ -72,39 +64,27 @@ function EditOption({
                     systemMap,
                 }}
             />
-            <OptionAdditionGrouping
+            <ItemChildren
                 {...{
-                    validOptionValues,
-                    option,
-                    optionName,
+                    queryResult,
+                    item: option,
+                    itemName: optionName,
                     optionIsGrouped,
-                    children: optionChildValues,
-                    selectValidOptionValues,
+                    children,
                     selectItem,
                     dispatch,
                     systemMap,
                 }}
             />
-            <ItemMovement
+            <BottomButtons
                 {...{
                     item: option,
                     name: 'Option',
+                    match,
+                    location,
                     partialAction,
                     cancelPartial,
                     dispatchPartial,
-                }}
-            />
-            <ItemLink
-                {...{
-                    path,
-                    match,
-                    location,
-                }}
-            />
-            <ItemDelete
-                {...{
-                    item: option,
-                    name: 'Option',
                     dispatch,
                     systemMap,
                 }}

@@ -65,7 +65,7 @@ export const getParentWithUpdatedPath = (systemInput, { path }) => {
     ];
 
     return allItemLists.reduce((parentItem, item) => {
-        console.log({ item, parentItem })
+        // console.log({ item, parentItem })
 
         return path.startsWith(item.path) && (path !== item.path) ?
             (
@@ -140,7 +140,7 @@ export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
                 &&
                 !itemChildren.some(c => getLastItemFromPath(c.path) === partialName)
                 :
-                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/(system|detail|configuration)$/i, '$1')
+                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^.*(system|detail|configuration)$/i, '$1')
                 ||
-                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration)\w+Value/i, '$1');
+                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration)\.*Value/i, '$1');
 }

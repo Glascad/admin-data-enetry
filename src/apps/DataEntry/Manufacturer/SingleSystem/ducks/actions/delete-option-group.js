@@ -12,7 +12,7 @@ export default function DELETE_OPTION_GROUP(systemInput, payload) {
     return newOptionGroups.includes(optionName) ?
         {
             ...systemInput,
-            newOptionGroups: newOptionGroups.filter(item => !item === optionName),
+            newOptionGroups: newOptionGroups.filter(item => item !== optionName),
         }
         :
         {

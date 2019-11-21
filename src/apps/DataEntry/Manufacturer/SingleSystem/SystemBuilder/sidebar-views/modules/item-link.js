@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { parseSearch } from '../../../../../../../utils';
 
 export const ItemLink = ({
-    path,
+    item: {
+        path = '',
+        __typename = '',
+    } = {},
     match: {
-        path: matchedPath,
+        path: matchedPath = '',
     },
     location: {
-        search,
+        search = '',
     },
 }) => path.match(/__DT__/) ? (
     <Link
