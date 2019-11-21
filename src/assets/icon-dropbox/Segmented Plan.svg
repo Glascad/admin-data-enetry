@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="27px" height="10px" viewBox="0 0 27 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>Segmented Plan</title>
     <desc>Created with Sketch.</desc>
     <g id="Segmented-Plan" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polyline id="Path-3" stroke="#979797" points="1 1 8.5 8.5 18.5 8.5 26 1"></polyline>
-        <g id="Icon_Point" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        <polyline id="Path-3" stroke="#878787" points="1 5 8.5 12.5 18.5 12.5 26 5"></polyline>
+        <g id="Icon_Point" transform="translate(0.000000, 4.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
-        <g id="Icon_Point" transform="translate(7.000000, 7.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        <g id="Icon_Point" transform="translate(7.000000, 11.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
-        <g id="Icon_Point" transform="translate(17.000000, 7.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        <g id="Icon_Point" transform="translate(17.000000, 11.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
-        <g id="Icon_Point" transform="translate(24.000000, 0.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+        <g id="Icon_Point" transform="translate(24.000000, 4.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
     </g>
 </svg>

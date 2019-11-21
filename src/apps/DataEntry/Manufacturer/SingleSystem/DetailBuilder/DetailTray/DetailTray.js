@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { multiply } from 'mathjs';
-import { Tray, Input } from '../../../../../../components';
-import { matrix } from '../../../../../../utils';
+import React, { useState, memo } from 'react';
+import * as Icons from '../../../../../../assets/icons';
+import { Input, Tray } from '../../../../../../components';
+import { Matrix } from '../../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
 
 const initialState = {
@@ -9,16 +9,13 @@ const initialState = {
         x: 0,
         y: 0,
     },
-    nudge: {
-        x: 0,
-        y: 0,
-    },
+    nudge: 0,
     angle: 0,
 };
 
-export default function DetailTray({
-    selectedPart,
-    selectedPart: {
+export default memo(function DetailTray({
+    selectedItem,
+    selectedItem: {
         path,
         __typename,
         transform,
@@ -34,94 +31,91 @@ export default function DetailTray({
             [d]: +value,
         },
     }));
-    const setNudge = (d, value) => setState(state => ({
+    const setNudge = value => setState(state => ({
         ...state,
-        nudge: {
-            ...state.nudge,
-            [d]: +value,
-        },
+        nudge: +value,
     }));
     const setAngle = angle => setState(state => ({
         ...state,
-        angle,
+        angle: +angle,
     }));
-    const previousTransform = matrix.createTransformation(transform);
-    const createNudge = (vertical, first) => () => {
-        const intermediateTransform = matrix.createTranslation(
+    const dispatchTransform = intermediateTransform => {
+        const previousTransform = new Matrix(transform);
+        const resultingTransform = previousTransform.multiply(intermediateTransform);
+        dispatch(UPDATE_ITEM, {
+            __typename,
+            path,
+            update: {
+                transform: resultingTransform.toObject(),
+            },
+        });
+    }
+    const createNudge = (vertical, first) => () => dispatchTransform(
+        Matrix.createTranslation(
             vertical ?
                 0
                 :
                 first ?
-                    -nudge.x
+                    -nudge
                     :
-                    +nudge.x,
+                    +nudge,
             vertical ?
                 first ?
-                    -nudge.y
+                    -nudge
                     :
-                    +nudge.y
+                    +nudge
                 :
                 0,
-        );
-        const resultingTransform = multiply(previousTransform, intermediateTransform);
-        dispatch(UPDATE_ITEM, {
-            __typename,
-            path,
-            update: {
-                transform: matrix.convertArrayMatrixToObject(resultingTransform),
-            },
-        });
-    };
-    const createRotate = (clockwise) => () => {
-        const intermediateTransform = matrix.createRotation(
+        ),
+    );
+    const createRotate = clockwise => () => dispatchTransform(
+        Matrix.createRotation(
             clockwise ?
                 -angle
                 :
-                +angle
-        );
-        const resultingTransform = multiply(previousTransform, intermediateTransform);
-        dispatch(UPDATE_ITEM, {
-            __typename,
-            path,
-            update: {
-                transform: matrix.convertArrayMatrixToObject(resultingTransform),
-            },
-        });
-    }
+                +angle,
+        ),
+    );
+    const createMirror = angle => () => dispatchTransform(Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
     console.log(arguments[0]);
     return (
         <Tray>
             <div className="tray-section">
                 {['x', 'y'].map(d => (
-                    <div
-                        className="input-group"
+                    <Input
                         key={d}
+                        data-cy={`${d}-coord`}
+                        label={`${d} Coord`}
+                        type="number"
+                        value={coordinate[d]}
+                        onChange={({ target: { value } }) => setCoordinate(d, +value)}
+                    />
+                ))}
+            </div>
+            <div className="tray-section">
+                <Input
+                    data-cy="nudge"
+                    label="Nudge"
+                    type="number"
+                    value={nudge}
+                    onChange={({ target: { value } }) => setNudge(+value)}
+                />
+                {['x', 'y'].map(d => (
+                    <div
+                        key={d}
+                        className="input-group"
                     >
                         <Input
-                            data-cy={`${d}-coord`}
-                            label={`${d} Coord`}
-                            type="number"
-                            value={coordinate[d]}
-                            onChange={({ target: { value } }) => setCoordinate(d, +value)}
-                        />
-                        <Input
-                            data-cy={`${d}-nudge`}
-                            label={`${d} Nudge`}
-                            type="number"
-                            value={nudge[d]}
-                            onChange={({ target: { value } }) => setNudge(d, +value)}
-                        />
-                        <Input
                             data-cy={`nudge-${d === 'x' ? 'left' : 'down'}`}
-                            Icon={() => '-'}
+                            Icon={d === 'x' ? Icons.MoveLeft : Icons.MoveDown}
                             onChange={createNudge(d !== 'x', true)}
-                            disabled={!selectedPart}
+                            disabled={!selectedItem}
                         />
                         <Input
                             data-cy={`nudge-${d === 'x' ? 'right' : 'up'}`}
-                            Icon={() => '+'}
+                            Icon={d === 'x' ? Icons.MoveRight : Icons.MoveUp}
                             onChange={createNudge(d !== 'x', false)}
-                            disabled={!selectedPart}
+                            disabled={!selectedItem}
                         />
                     </div>
                 ))}
@@ -132,24 +126,30 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignBottom}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignMiddle}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignTop}
+                        disabled={true}
                     />
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignLeft}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignCenter}
+                        disabled={true}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.AlignRight}
+                        disabled={true}
                     />
                 </div>
             </div>
@@ -159,14 +159,23 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.ReflectVertical}
+                        onChange={createMirror(0)}
+                        disabled={!selectedItem}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.ReflectHorizontal}
+                        onChange={createMirror(90)}
+                        disabled={!selectedItem}
                     />
                     <Input
-                        Icon={() => null}
+                        Icon={Icons.ReflectAngle}
+                        onChange={createMirror(45)}
+                        disabled={!selectedItem}
                     />
+                    {/* <Input
+                        
+                    /> */}
                 </div>
             </div>
             <div className="tray-section">
@@ -175,12 +184,14 @@ export default function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
-                        Icon={() => 'cc'}
+                        Icon={Icons.RotateCounterClockwise}
                         onChange={createRotate(false)}
+                        disabled={!selectedItem}
                     />
                     <Input
-                        Icon={() => 'cw'}
+                        Icon={Icons.RotateClockwise}
                         onChange={createRotate(true)}
+                        disabled={!selectedItem}
                     />
                     <Input
                         labe="Angle"
@@ -192,4 +203,4 @@ export default function DetailTray({
             </div>
         </Tray>
     );
-}
+});

@@ -1,9 +1,11 @@
 import { removeNullValues } from "../../../../../utils";
+import { getConfigurationPartIdFromPath } from "../../../../../app-logic/system-utils";
 
 const removeTypenameAndNodeId = ({ __typename, nodeId, ...rest }) => rest;
 
 const mapTypes = type => ({
-    __typename, nodeId,
+    __typename,
+    nodeId,
     update: {
         name,
         ...update
@@ -18,12 +20,24 @@ const mapTypes = type => ({
 });
 
 const mapNewTypes = type => ({
-    __typename, nodeId,
+    __typename,
+    nodeId,
     name,
     ...rest
 }) => ({
     ...rest,
     [type]: name,
+});
+
+const mapParts = ({
+    __typename,
+    nodeId,
+    path,
+    name,
+    ...rest
+}) => removeNullValues({
+    ...rest,
+    id: getConfigurationPartIdFromPath(path),
 });
 
 export default (systemInput, system) => {
@@ -46,6 +60,7 @@ export default (systemInput, system) => {
         configurationOptionValues,
         systemDetails,
         detailConfigurations,
+        configurationParts,
         newOptionGroups,
         newSystemOptions,
         newDetailOptions,
@@ -55,6 +70,7 @@ export default (systemInput, system) => {
         newConfigurationOptionValues,
         newSystemDetails,
         newDetailConfigurations,
+        newConfigurationParts
     } = systemInput;
 
     return {
@@ -73,6 +89,7 @@ export default (systemInput, system) => {
         configurationOptionValues: configurationOptionValues.map(removeTypenameAndNodeId),
         systemDetails: systemDetails.map(mapTypes('detailType')),
         detailConfigurations: detailConfigurations.map(mapTypes('configurationType')),
+        configurationParts: configurationParts.map(mapParts),
         newSystemOptions: newSystemOptions.map(removeTypenameAndNodeId),
         newDetailOptions: newDetailOptions.map(removeTypenameAndNodeId),
         newConfigurationOptions: newConfigurationOptions.map(removeTypenameAndNodeId),
@@ -81,5 +98,6 @@ export default (systemInput, system) => {
         newConfigurationOptionValues: newConfigurationOptionValues.map(removeTypenameAndNodeId),
         newSystemDetails: newSystemDetails.map(mapNewTypes('detailType')),
         newDetailConfigurations: newDetailConfigurations.map(mapNewTypes('configurationType')),
+        newConfigurationParts: newConfigurationParts.map(mapNewTypes('configurationPart')),
     };
 }

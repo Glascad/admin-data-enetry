@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="25px" height="18px" viewBox="0 0 25 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
     <title>Merge Up</title>
     <desc>Created with Sketch.</desc>
     <g id="Merge-Up" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="#8B8A8B" x="13" y="9" width="11" height="1"></rect>
+        <rect id="Rectangle" fill="#878787" x="13" y="9" width="11" height="1"></rect>
         <rect id="Rectangle-Copy-5" stroke="#878787" x="0.5" y="0.5" width="24" height="17"></rect>
         <g id="Icon_Point" transform="translate(5.000000, 12.000000)" fill="#0CFC04">
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" id="Combined-Shape"></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
         </g>
         <rect id="Rectangle" fill="#D0021B" x="1" y="9" width="11" height="1"></rect>
         <rect id="Rectangle" fill="#0CFC04" transform="translate(6.500000, 9.000000) scale(1, -1) translate(-6.500000, -9.000000) " x="6" y="6" width="1" height="6"></rect>
-        <g id="Arrow-(hollow)" transform="translate(6.500000, 4.000000) rotate(-90.000000) translate(-6.500000, -4.000000) translate(4.500000, 0.500000)" stroke="#0CFC04">
+        <g id="Arrow-(hollow-red)" transform="translate(6.500000, 4.000000) rotate(-90.000000) translate(-6.500000, -4.000000) translate(4.500000, 0.500000)" stroke="#0CFC04">
             <polygon id="Path-2" points="0.5 0.5 3.5 3.5 0.5 6.5"></polygon>
         </g>
-        <rect id="Rectangle" fill="#8B8A8B" x="12" y="1" width="1" height="16"></rect>
+        <rect id="Rectangle" fill="#878787" x="12" y="1" width="1" height="16"></rect>
     </g>
 </svg>

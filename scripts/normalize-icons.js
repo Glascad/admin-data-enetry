@@ -1,5 +1,6 @@
 const filesToJSON = require('../server/utils/files-to-json');
 const pfs = require('../server/utils/promise-fs');
+const chalk = require('chalk');
 
 const assetsFolder = `src/assets`;
 
@@ -29,7 +30,7 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
                 equals
                 }${
                 fillOrStroke
-            }-${
+                }-${
                 color === "#0CFC04" ?
                     'green'
                     :
@@ -42,7 +43,12 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
                             color === "#585858" || color === "#585758" ?
                                 'dark-gray'
                                 :
-                                color
+                                color === '#FFFFFF' ?
+                                    'white'
+                                    :
+                                    console.warn(`unknown color: ${chalk.inverse(color)}`)
+                                    ||
+                                    color
                 }${
                 quote
                 }${
@@ -83,9 +89,9 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
             }
         });
 
-    const fileNameToCamelCase = fileName => fileName
+    const fileNameToPascalCase = fileName => fileName
         .replace(/\.svg/, '')
-        .split('-')
+        .split(/[_\W]+/g)
         .map(str => `${
             str.slice(0, 1).toUpperCase()
             }${
@@ -97,7 +103,7 @@ const pathToUpdatedIcons = `${pathToAssets}/${updatedIconsFolder}`;
 
     const newFileNames = Object.keys(icons).filter(fileName => fileName.match(/\.svg/));
 
-    const newIconNames = newFileNames.map(fileNameToCamelCase);
+    const newIconNames = newFileNames.map(fileNameToPascalCase);
 
     const newImports = newFileNames
         .reduce((otherImports, fileName, i) => {

@@ -16,7 +16,7 @@ export class SystemMap {
             _configurationParts = [],
         } = system || {};
         Object.assign(this, system, {
-            path: `${id}`,
+            path: `${id || ''}`,
             [name]: this,
             [id]: this,
             parents: {},
@@ -67,8 +67,9 @@ export class SystemMap {
                             0),
                 },
                 allItems,
+                undefined: undefined,
             };
-        }, {}))
+        }, {}));
     }
 }
 
@@ -102,29 +103,6 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
             `${Type}OptionValue`;
 }
 
-export const getPathsTypename = window.getPathsTypename = ({ path } = {}) => path.includes('__CT__') ?
-    (path.replace(/^.*__CT__./, '').match(/\./g) || []).length % 2 === 0 ?
-        path.match(/^.*__CT__\.\w+$/) ?
-            'DetailConfiguration'
-            :
-            'ConfigurationOptionValue'
-        :
-        'ConfigurationOption'
-    :
-    path.includes('__DT__') ?
-        (path.replace(/^.*__DT__./, '').match(/\./g) || []).length % 2 === 0 ?
-            path.match(/^.*__DT__\.\w+$/) ?
-                'SystemDetail'
-                :
-                'DetailOptionValue'
-            :
-            'DetailOption'
-        :
-        (path.match(/\./g) || []).length % 2 === 0 ?
-            "SystemOptionValue"
-            :
-            "SystemOption"
-
 export const getItemPathAddition = ({ path, __typename = '', id, fakeId }) => __typename.match(/(detail|configuration|part)$/i) ?
     __typename.match(/detail$/i) ?
         `__DT__.`
@@ -132,9 +110,11 @@ export const getItemPathAddition = ({ path, __typename = '', id, fakeId }) => __
         __typename.match(/configuration$/i) ?
             `__CT__.`
             :
-            `__PT${id || fakeId || path.replace(/^.*\.__PT(\d+)__.*$/g, '$1')}__.`
+            `__PT${id || fakeId || getConfigurationPartIdFromPath(path)}__.`
     :
     '';
+
+export const getConfigurationPartIdFromPath = path => +path.replace(/^.*\.__PT(\d+)__.*$/g, '$1');
 
 export const getParent = window.getParent = ({ path } = {}, systemMap) => systemMap[getParentPath({ path })];
 

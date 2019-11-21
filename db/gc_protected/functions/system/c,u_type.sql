@@ -98,6 +98,10 @@
                     u.parent_<<GRANDFULL>>_path,
                     ts.parent_<<GRANDFULL>>_path
                 ),
+                transform = COALESCE(
+                    u.transform,
+                    ts.transform
+                ),
             <<END ONLY>>
             <<ONLY TYPE (detail, configuration)>>
                 <<TYPE>>_type = COALESCE(
@@ -106,10 +110,6 @@
                 )
             <<END ONLY>>
             <<ONLY TYPE (part)>>
-                transform = COALESCE(
-                    u.transform,
-                    ts.transform
-                ),
                 part_id = COALESCE(
                     u.part_id,
                     ts.part_id

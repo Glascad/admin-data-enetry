@@ -17,10 +17,16 @@ export default withRouter(function Header({
     },
     history,
     systemMap,
+    save,
 }) {
     const { path = '' } = parseSearch(search);
     const detailType = getDetailTypeFromPath(path);
     const configurationType = getConfigurationTypeFromPath(path);
+    const close = () => history.push(`${
+        matchPath.replace(/detail/, 'build')
+        }${
+        parseSearch(search).update({ path: previousPath || path })
+        }`);
     return (
         <>
             <TitleBar
@@ -51,22 +57,23 @@ export default withRouter(function Header({
                 right={(
                     <>
                         <ConfirmButton
-                            onClick={() => history.push(`${
-                                matchPath.replace(/detail/, 'build')
-                                }${
-                                parseSearch(search).update({ path: previousPath || path })
-                                }`)}
+                            onClick={close}
                             doNotConfirmWhen={true}
                         >
                             Close
                         </ConfirmButton>
                         <AsyncButton
                             className="action"
+                            onClick={async () => {
+                                await save();
+                                close();
+                            }}
                         >
                             Save And Exit
                         </AsyncButton>
                         <AsyncButton
                             className="action"
+                            onClick={save}
                         >
                             Save
                         </AsyncButton>

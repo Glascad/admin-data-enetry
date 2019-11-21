@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
-    TransformProvider,
+    TransformProvider, useInitialState,
 } from '../../../../../components';
 import Header from './Header/Header';
 import DetailDisplay from './DetailDisplay/DetailDisplay';
 import DetailTray from './DetailTray/DetailTray';
 import Sidebar from './Sidebar/Sidebar';
-import { getDefaultPath, getChildren } from '../../../../../app-logic/system-utils';
-import { parseSearch } from '../../../../../utils';
+import { getDefaultPath, getChildren, getLastItemFromPath, getConfigurationTypeFromPath } from '../../../../../app-logic/system-utils';
+import { parseSearch, replace } from '../../../../../utils';
 import { useCollapseSidebar } from '../../../../Statics/Statics';
 
 DetailBuilder.navigationOptions = {
@@ -25,28 +25,60 @@ export default function DetailBuilder({
     },
     systemMap,
     dispatch,
+    fetching,
+    updating,
+    save,
 }) {
 
     useCollapseSidebar();
 
     const { path } = parseSearch(search);
 
-    const fullPath = getDefaultPath(path, systemMap);
+    const fullPath = getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, '');
 
     const children = getChildren({ path }, systemMap) || [];
 
-    const [{ path: selectedPath } = {}, setSelectedPart] = useState();
+    const [selectedConfigurationPaths, setSelectedConfigurationPaths] = useInitialState(
+        children.reduce((paths, { path }) => ({
+            ...paths,
+            [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap),
+        }), {}),
+        [fetching, children.length, fullPath],
+    );
 
-    const selectedPart = systemMap[selectedPath];
+    const selectConfigurationPath = path => setSelectedConfigurationPaths(paths => ({
+        ...paths,
+        [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap),
+    }));
 
-    const selectPart = newPart => setSelectedPart(part => newPart === part ? undefined : newPart);
+    const [{ path: selectedPath } = {}, setSelectedItem] = useState();
+
+    const selectedItem = systemMap[selectedPath];
+
+    const selectItem = newItem => setSelectedItem(item => newItem === item ? undefined : newItem);
+    const cancelSelection = () => selectItem();
+    const cancelOnEscape = ({ key }) => key === 'Escape' && cancelSelection();
+
+    useEffect(() => {
+        cancelSelection();
+    }, [path]);
+
+    useEffect(() => {
+        window.addEventListener('click', cancelSelection);
+        window.addEventListener('keydown', cancelOnEscape);
+        return () => {
+            window.removeEventListener('click', cancelSelection);
+            window.removeEventListener('keydown', cancelOnEscape);
+        }
+    }, []);
 
     console.log({
         fullPath,
         path,
         systemMap,
         children,
-        selectedPart,
+        selectedItem,
+        selectedConfigurationPaths,
     });
 
     if (path !== fullPath) return (
@@ -65,20 +97,29 @@ export default function DetailBuilder({
         <TransformProvider>
             <Header
                 systemMap={systemMap}
+                save={save}
+                updating={updating}
             />
             <DetailDisplay
                 systemMap={systemMap}
                 children={children}
-                selectPart={selectPart}
-                selectedPart={selectedPart}
+                selectedConfigurationPaths={selectedConfigurationPaths}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
+                updating={updating}
             />
             <DetailTray
                 systemMap={systemMap}
-                selectedPart={selectedPart}
+                selectedItem={selectedItem}
                 dispatch={dispatch}
             />
             <Sidebar
                 systemMap={systemMap}
+                children={children}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
+                selectConfigurationPath={selectConfigurationPath}
+                selectedConfigurationPaths={selectedConfigurationPaths}
             />
         </TransformProvider>
     );

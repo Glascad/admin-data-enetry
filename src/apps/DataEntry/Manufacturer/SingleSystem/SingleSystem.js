@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import {
@@ -90,15 +90,18 @@ export default function SingleSystem({
 
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
-    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
-
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
     const {
         currentState: systemInput,
         pushState,
         replaceState,
+        resetState,
     } = useRedoableState(systemUpdate);
+
+    const { _system } = queryResult;
+
+    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
     const system = merge(systemInput, queryResult);
 
@@ -119,13 +122,28 @@ export default function SingleSystem({
     const save = async () => {
         dispatch(() => systemUpdate);
         try {
-            const result = await updateEntireSystem(cleanSystemInput(systemInput, system));
+            const systemPayload = cleanSystemInput(systemInput, system);
+            console.log({ systemPayload });
+            const result = await updateEntireSystem({ system: systemPayload });
             console.log({ result });
+            resetState(systemUpdate);
         } catch (err) {
             console.error(err);
             dispatch(() => systemInput);
         }
     };
+
+    useEffect(() => {
+        const saveOnCtrlS = e => {
+            const { key, ctrlKey, metaKey } = e;
+            if (key.match(/s/i) && (ctrlKey || metaKey)) {
+                e.preventDefault();
+                save();
+            }
+        }
+        window.addEventListener('keydown', saveOnCtrlS);
+        return () => window.removeEventListener('keydown', saveOnCtrlS);
+    }, [save]);
 
     console.log({
         system,
@@ -139,7 +157,7 @@ export default function SingleSystem({
             routeProps={{
                 queryResult: {
                     ...queryResult,
-                    _system: _sampleSystem || queryResult._system,
+                    _system: _sampleSystem || _system,
                 },
                 fetching,
                 updateEntireSystem,

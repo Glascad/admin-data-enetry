@@ -1,10 +1,27 @@
-import React, { useEffect, useContext, useRef } from 'react';
-import { RightSidebar, TitleBar } from '../../../../../../components';
+import React, { useContext, useEffect, useRef, memo } from 'react';
+import { withRouter } from 'react-router-dom';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { RightSidebar } from '../../../../../../components';
+import { parseSearch } from '../../../../../../utils';
 import { StaticContext } from '../../../../../Statics/Statics';
+import ChildList from './modules/ChildList';
+import ConfigurationOptions from './modules/ConfigurationOptions';
 
-export default function DetailBuilderSidebar({
-
+export default withRouter(memo(function DetailBuilderSidebar({
+    children,
+    selectedItem,
+    selectItem,
+    location: {
+        search,
+    },
+    systemMap,
+    selectConfigurationPath,
+    selectedConfigurationPaths,
 }) {
+    const { path } = parseSearch(search);
+    const detailType = getDetailTypeFromPath(path);
+    const configurationType = getConfigurationTypeFromPath(path);
+
     const { Viewport, sidebar: { open } } = useContext(StaticContext);
 
     const ref = useRef();
@@ -30,7 +47,6 @@ export default function DetailBuilderSidebar({
                     Viewport.current.offsetLeft
                     }px`;
                 ref.current.style.boxShadow = 'none';
-                console.log(Viewport.current.style.width);
             } catch (err) {
                 console.error(err);
             }
@@ -55,17 +71,19 @@ export default function DetailBuilderSidebar({
         <RightSidebar
             sidebarRef={ref}
             open={true}
-            View={{
-                title: "Parts",
-                component: () => (
-                    <>
-                        <TitleBar
-                            title="Parts"
-                        />
-
-                    </>
-                ),
-            }}
-        />
+        >
+            <ChildList
+                children={children}
+                configurationType={configurationType}
+                selectItem={selectItem}
+                selectedItem={selectedItem}
+            />
+            <ConfigurationOptions
+                systemMap={systemMap}
+                selectedItem={selectedItem}
+                selectedConfigurationPaths={selectedConfigurationPaths}
+                selectConfigurationPath={selectConfigurationPath}
+            />
+        </RightSidebar>
     );
-}
+}));
