@@ -1,11 +1,13 @@
 import React from 'react';
 import { getChildren, getLastItemFromPath, getConfigurationTypeFromPath, getDefaultPath } from '../../../../../../app-logic/system-utils';
 import Part from './Part';
+import { Matrix } from '../../../../../../utils';
 
 export default function Configuration({
     configuration,
     configuration: {
         path,
+        transform: matrix,
     },
     systemMap,
     selectItem,
@@ -18,6 +20,7 @@ export default function Configuration({
     const selectedPath = selectedConfigurationPaths[configurationType];
     const selectedNode = systemMap[selectedPath];
     const parts = getChildren(selectedNode, systemMap);
+    const transform = new Matrix(matrix);
     // console.log({
     //     parts,
     //     selected,
@@ -27,6 +30,7 @@ export default function Configuration({
         <g
             data-cy={`configuration-${path}`}
             className={`Configuration ${selected ? 'selected' : ''}`}
+            transform={transform}
         >
             {parts.map(part => (
                 <Part

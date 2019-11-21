@@ -47,7 +47,6 @@ export default withRouter(memo(function DetailBuilderSidebar({
                     Viewport.current.offsetLeft
                     }px`;
                 ref.current.style.boxShadow = 'none';
-                console.log(Viewport.current.style.width);
             } catch (err) {
                 console.error(err);
             }

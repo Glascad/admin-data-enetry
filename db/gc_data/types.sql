@@ -65,9 +65,11 @@
             <<ONLY TYPE (configuration)>>
                 , optional BOOLEAN
             <<END ONLY>>
-            <<ONLY TYPE (part)>>
+            <<ONLY TYPE (part, configuration)>>
                 , transform MATRIX
-                , part_id INTEGER
+                <<ONLY TYPE (part)>>
+                    , part_id INTEGER
+                <<END ONLY>>
             <<END ONLY>>
         <<END ONLY>>
     );
