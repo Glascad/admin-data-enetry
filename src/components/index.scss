@@ -46,6 +46,7 @@
 .card,
 .card .nested,
 .GroupingBox,
+.card.Tray .tray-section,
 .card .GroupingBox {
     .grouping-box-title {
         margin-top: $xxxxx-large;
@@ -204,7 +205,7 @@
 }
 
 .disabled {
-    opacity: 0.5;
+    opacity: 0.33;
     pointer-events: none;
 }
 

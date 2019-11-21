@@ -76,7 +76,7 @@ export default function Header({
         <TitleBar
             id="Header"
             title="Elevation"
-            selections={[name || <Ellipsis />]}
+            snailTrail={[name || <Ellipsis />]}
             className="blue-border"
             left={(
                 <>

@@ -6,7 +6,7 @@ import withContext from '../../higher-order/with-context';
 export const TransformContext = createContext();
 
 // this is the higher-order component that we can use to add the value from below onto props
-export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context }), { pure: true });
+export const withTransformContext = withContext(TransformContext, ({ context }) => ({ transform: context, context: undefined }), { pure: true });
 
 const defaultScale = 1;
 const minScale = 0.1;
@@ -14,7 +14,7 @@ const minScale = 0.1;
 function TransformProvider({
     initialState: {
         baseScale: initialBaseScale = defaultScale,
-        scrollMultiplier: initialScrollMultiplier = 0.0007,
+        scrollMultiplier: initialScrollMultiplier = 0.001,
         grabbing: initialGrabbing = false,
         scale: {
             x: initialScaleX = defaultScale,
@@ -29,6 +29,11 @@ function TransformProvider({
     } = {},
     children,
 }) {
+
+    const outerContainerRef = useRef();
+    const innerContainerRef = useRef();
+
+    const element = outerContainerRef.current;
 
     const dependencies = [
         initialBaseScale,
@@ -59,19 +64,21 @@ function TransformProvider({
         if (spaceKeyRef.current) {
             if (key === "ArrowUp") {
                 e.preventDefault();
-                setScaleX(scaleX => Math.max(+scaleX + scaleNudge, minScale) || minScale);
-                setScaleY(scaleY => Math.max(+scaleY + scaleNudge, minScale) || minScale);
+                const getNewScale = scale => Math.max(+scale + scaleNudge, minScale) || minScale;
+                setScaleX(getNewScale);
+                setScaleY(getNewScale);
 
             } else if (key === "ArrowDown") {
                 e.preventDefault();
-                setScaleX(scaleX => Math.max(+scaleX - scaleNudge, minScale) || minScale)
-                setScaleY(scaleY => Math.max(+scaleY - scaleNudge, minScale) || minScale)
+                const getNewScale = scale => Math.max(+scale - scaleNudge, minScale) || minScale;
+                setScaleX(getNewScale);
+                setScaleY(getNewScale);
             }
         }
     };
 
     const watchSpaceKeyDown = ({ key }) => {
-        if (key === ' ' && !spaceKeyRef.current) spaceKeyRef.current = true;
+        if (key === ' ') spaceKeyRef.current = true;
     };
 
     const watchSpaceKeyUp = ({ key }) => {
@@ -85,8 +92,9 @@ function TransformProvider({
 
     const watchScroll = e => {
         e.preventDefault();
-        setScaleX(scaleX => Math.max(+scaleX - scrollMultiplier * e.deltaY, minScale) || minScale);
-        setScaleY(scaleY => Math.max(+scaleY - scrollMultiplier * e.deltaY, minScale) || minScale);
+        const getNewScale = scale => Math.max(+scale - scrollMultiplier * e.deltaY * scale, minScale) || minScale;
+        setScaleX(getNewScale);
+        setScaleY(getNewScale);
     };
 
     const watchMouseDown = e => {
@@ -96,76 +104,80 @@ function TransformProvider({
     };
 
     const startPanning = (e, passive = true) => {
+        if (element) {
 
-        if (!passive) e.preventDefault();
-        e.stopPropagation();
+            if (!passive) e.preventDefault();
+            e.stopPropagation();
 
-        const {
-            touches: {
-                length: touchCount,
-                0: touch,
-            } = {},
-        } = e;
+            const {
+                touches: {
+                    length: touchCount,
+                    0: touch,
+                } = {},
+            } = e;
 
-        if (!touchCount || touchCount <= 1) {
+            if (!touchCount || touchCount <= 1) {
 
-            const { clientX, clientY } = touch || e;
+                const { clientX, clientY } = touch || e;
 
-            const mouseStart = {
-                x: +clientX - +translateX,
-                y: +clientY - +translateY,
-            };
+                const mouseStart = {
+                    x: +clientX - +translateX,
+                    y: +clientY - +translateY,
+                };
 
-            const pan = passive => e => {
-
-                const {
-                    touches: {
-                        length: touchCount,
-                        0: touch,
-                    } = {},
-                } = e;
-
-                if (!touchCount || touchCount <= 1) {
-
-                    const { clientX, clientY } = touch || e;
+                const pan = passive => e => {
 
                     const {
-                        x: mouseStartX,
-                        y: mouseStartY
-                    } = mouseStart;
+                        touches: {
+                            length: touchCount,
+                            0: touch,
+                        } = {},
+                    } = e;
 
-                    if (!passive) e.preventDefault();
+                    if (!touchCount || touchCount <= 1) {
 
-                    setTranslateX(+clientX - +mouseStartX);
-                    setTranslateY(+clientY - +mouseStartY);
-                } else {
-                    console.log(`Too many touches: ${touchCount}`);
-                }
-            };
+                        const { clientX, clientY } = touch || e;
 
-            const passivePan = pan(true);
-            const nonPassivePan = pan(false);
+                        const {
+                            x: mouseStartX,
+                            y: mouseStartY
+                        } = mouseStart;
 
-            const stopPanning = () => {
+                        if (!passive) e.preventDefault();
 
-                window.removeEventListener('mousemove', nonPassivePan, { capture: true });
-                window.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
+                        setTranslateX(+clientX - +mouseStartX);
+                        setTranslateY(+clientY - +mouseStartY);
+                    } else {
+                        console.log(`Too many touches: ${touchCount}`);
+                    }
+                };
 
-                setGrabbing(false);
-            };
+                const passivePan = pan(true);
+                const nonPassivePan = pan(false);
 
-            setGrabbing(true);
+                const stopPanning = () => {
 
-            setTimeout(() => {
-                window.addEventListener('mousemove', nonPassivePan, { capture: true });
-                window.addEventListener('touchmove', passivePan, { capture: true, passive: true });
-                window.addEventListener('mouseup', stopPanning, { capture: true });
-                window.addEventListener('touchend', stopPanning, { capture: true });
-                window.addEventListener('blur', stopPanning);
-                document.addEventListener('visibilitychange', stopPanning);
-            });
-        } else {
-            console.log(`Too many touches: ${touchCount}`);
+                    window.removeEventListener('mousemove', nonPassivePan, { capture: true });
+                    window.removeEventListener('touchmove', passivePan, { capture: true, passive: true });
+
+                    setGrabbing(false);
+                    document.body.style.cursor = 'default';
+                };
+
+                setGrabbing(true);
+                document.body.style.cursor = 'grabbing !important';
+
+                setTimeout(() => {
+                    window.addEventListener('mousemove', nonPassivePan, { capture: true });
+                    window.addEventListener('touchmove', passivePan, { capture: true, passive: true });
+                    window.addEventListener('mouseup', stopPanning, { capture: true });
+                    window.addEventListener('touchend', stopPanning, { capture: true });
+                    window.addEventListener('blur', stopPanning);
+                    document.addEventListener('visibilitychange', stopPanning);
+                });
+            } else {
+                console.log(`Too many touches: ${touchCount}`);
+            }
         }
     };
 
@@ -197,24 +209,26 @@ function TransformProvider({
     };
 
     useEffect(() => {
-        window.addEventListener('keydown', watchArrowKeys);
-        window.addEventListener('keydown', watchSpaceKeyDown);
-        window.addEventListener('keyup', watchSpaceKeyUp);
-        window.addEventListener('mousedown', watchMouseDown, { capture: true });
-        window.addEventListener('touchstart', startPanning, { passive: true });
-        window.addEventListener('wheel', watchScroll, { passive: false });
-        document.addEventListener('visibilitychange', clearKeys);
-        return () => {
-            window.removeEventListener('keydown', watchArrowKeys);
-            window.removeEventListener('keydown', watchSpaceKeyDown);
-            window.removeEventListener('keyup', watchSpaceKeyUp);
-            window.removeEventListener('mousedown', watchMouseDown, { capture: true });
-            window.removeEventListener('touchstart', startPanning, { passive: true });
-            window.removeEventListener('wheel', watchScroll, { passive: false });
-            window.removeEventListener('blur', clearKeys);
-            document.removeEventListener('visibilitychange', clearKeys);
+        if (element) {
+            element.addEventListener('mousedown', watchMouseDown, { capture: true });
+            element.addEventListener('touchstart', startPanning, { passive: true });
+            element.addEventListener('wheel', watchScroll, { passive: false });
+            window.addEventListener('keydown', watchArrowKeys);
+            window.addEventListener('keydown', watchSpaceKeyDown);
+            window.addEventListener('keyup', watchSpaceKeyUp);
+            document.addEventListener('visibilitychange', clearKeys);
+            return () => {
+                element.removeEventListener('mousedown', watchMouseDown, { capture: true });
+                element.removeEventListener('touchstart', startPanning, { passive: true });
+                element.removeEventListener('wheel', watchScroll, { passive: false });
+                element.removeEventListener('blur', clearKeys);
+                window.removeEventListener('keydown', watchArrowKeys);
+                window.removeEventListener('keydown', watchSpaceKeyDown);
+                window.removeEventListener('keyup', watchSpaceKeyUp);
+                document.removeEventListener('visibilitychange', clearKeys);
+            }
         }
-    }, [translateX, translateY]);
+    }, [translateX, translateY, element]);
 
     const value = {
         scale: {
@@ -238,6 +252,8 @@ function TransformProvider({
         watchMouseDown,
         spaceKeyRef,
         grabbing,
+        outerContainerRef,
+        innerContainerRef,
     };
 
     return (
@@ -245,7 +261,7 @@ function TransformProvider({
             value={value}
         >
             {children}
-            {grabbing ? (
+            {/* {grabbing ? (
                 <div
                     id="cursor-grabbing-"
                     style={{
@@ -260,7 +276,7 @@ function TransformProvider({
                         zIndex: 99999,
                     }}
                 />
-            ) : null}
+            ) : null} */}
         </TransformContext.Provider>
     );
 }

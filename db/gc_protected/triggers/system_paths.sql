@@ -18,21 +18,25 @@
                 NEW.system_id::TEXT::LTREE,
             <<END ONLY>>
             <<ONLY TYPE (detail, configuration)>>
-                NEW.parent_system_<<TYPE>>_path,
+                NEW.parent_<<PARENT>>_<<TYPE>>_path,
             <<END ONLY>>
             OLD.parent_<<TYPE>>_option_value_path,
             <<ONLY TYPE (system)>>
                 OLD.system_id::TEXT::LTREE
             <<END ONLY>>
             <<ONLY TYPE (detail, configuration)>>
-                OLD.parent_system_<<TYPE>>_path
+                OLD.parent_<<PARENT>>_<<TYPE>>_path
             <<END ONLY>>
         ) || COALESCE(
             NEW.name,
             OLD.name
         )::TEXT;
 
-        NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+        NEW.system_id := COALESCE(
+            NEW.system_id,
+            OLD.system_id,
+            subltree(NEW.path, 0, 1)::TEXT::INTEGER
+        );
 
         RETURN NEW;
     END;
@@ -65,7 +69,11 @@
             OLD.name
         )::TEXT;
 
-        NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+        NEW.system_id := COALESCE(
+            NEW.system_id,
+            OLD.system_id,
+            subltree(NEW.path, 0, 1)::TEXT::INTEGER
+        );
 
         RETURN NEW;
     END;
@@ -79,28 +87,64 @@
 
     <<ONLY TYPE (detail, configuration)>>
 
-        DROP FUNCTION IF EXISTS generate_system_<<TYPE>>_path;
+        DROP FUNCTION IF EXISTS generate_<<PARENT>>_<<TYPE>>_path;
 
-        CREATE OR REPLACE FUNCTION gc_protected.generate_system_<<TYPE>>_path()
+        CREATE OR REPLACE FUNCTION gc_protected.generate_<<PARENT>>_<<TYPE>>_path()
         RETURNS TRIGGER AS $$
         BEGIN
+
+            <<ONLY TYPE (configuration)>>
+                IF COALESCE(
+                    NEW.parent_detail_option_value_path,
+                    OLD.parent_detail_option_value_path,
+                    NEW.parent_system_detail_path,
+                    OLD.parent_system_detail_path
+                ) IS NULL THEN
+                    RAISE EXCEPTION 'No parent path: %, %, %', COALESCE(NEW.system_id, OLD.system_id), COALESCE(NEW.configuration_type, OLD.configuration_type), COALESCE(NEW.optional, OLD.optional);
+                END IF;
+            <<END ONLY>>
+
             NEW.path := COALESCE(
                 NEW.parent_<<PARENT>>_option_value_path,
-                OLD.parent_<<PARENT>>_option_value_path
+                OLD.parent_<<PARENT>>_option_value_path,
+                <<ONLY TYPE (detail)>>
+                    NEW.system_id::TEXT::LTREE,
+                    OLD.system_id::TEXT::LTREE,
+                <<END ONLY>>
+                <<ONLY TYPE (configuration)>>
+                    NEW.parent_system_detail_path,
+                    OLD.parent_system_detail_path,
+                <<END ONLY>>
+                NEW.system_id::TEXT::LTREE,
+                OLD.system_id::TEXT::LTREE
             ) || <<PREFIX>> || COALESCE(
                 NEW.<<TYPE>>_type,
                 OLD.<<TYPE>>_type
             )::TEXT;
 
-            NEW.system_id := subltree(NEW.path, 0, 1)::TEXT::INTEGER;
+            NEW.system_id := COALESCE(
+                NEW.system_id,
+                OLD.system_id,
+                subltree(NEW.path, 0, 1)::TEXT::INTEGER
+            );
+
+            IF NEW.path IS NULL THEN
+                RAISE EXCEPTION '<<PARENT>> PATH IS NULL: %', COALESCE(
+                    NEW.parent_<<PARENT>>_option_value_path,
+                    OLD.parent_<<PARENT>>_option_value_path
+                    <<ONLY TYPE (configuration)>>
+                        , NEW.parent_system_detail_path
+                    <<END ONLY>>
+                );
+            END IF;
 
             RETURN NEW;
         END;
         $$ LANGUAGE plpgsql;
 
-        CREATE TRIGGER generate_system_<<TYPE>>_path
-        BEFORE INSERT OR UPDATE ON system_<<TYPE>>s
-        FOR EACH ROW EXECUTE FUNCTION generate_system_<<TYPE>>_path();
+        CREATE TRIGGER generate_<<PARENT>>_<<TYPE>>_path
+        BEFORE INSERT OR UPDATE ON <<PARENT>>_<<TYPE>>s
+        FOR EACH ROW EXECUTE FUNCTION generate_<<PARENT>>_<<TYPE>>_path();
     
     <<END ONLY>>
 

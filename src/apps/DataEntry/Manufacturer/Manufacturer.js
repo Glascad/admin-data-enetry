@@ -28,6 +28,7 @@ Manufacturer.navigationOptions = ({
                     query ManufacturerById($id: Int!) {
                         manufacturerById(id: $id) {
                             __typename
+                            nodeId
                             id
                             name
                         }
@@ -47,12 +48,11 @@ Manufacturer.navigationOptions = ({
                 rawQueryStatus: {
                     loading,
                 },
-            }) => (
-                    loading ?
-                        <Ellipsis />
-                        :
-                        name
-                )}
+            }) => loading ?
+                    <Ellipsis />
+                    :
+                    name
+            }
         </ApolloWrapper >
     ),
 });

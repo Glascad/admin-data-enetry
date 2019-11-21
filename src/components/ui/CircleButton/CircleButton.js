@@ -17,6 +17,7 @@ export default class CircleButton extends PureComponent {
         actionType: PropTypes.oneOf([
             'add',
             'delete',
+            'arrow',
         ]),
         otherButtons: PropTypes.shape(ButtonTile.propTypes),
         onBlur: PropTypes.func,
@@ -83,6 +84,7 @@ export default class CircleButton extends PureComponent {
                             >
                                 <div className="block-one" />
                                 <div className="block-two" />
+                                <div className="block-three" />
                             </button>
                             {otherButtons.length ? (
                                 <ButtonTile
@@ -95,7 +97,8 @@ export default class CircleButton extends PureComponent {
                                             .map(button => ({
                                                 className: "no-class-name",
                                                 ...button,
-                                            })))}
+                                            }))
+                                        )}
                                 />
                             ) : null}
                         </>

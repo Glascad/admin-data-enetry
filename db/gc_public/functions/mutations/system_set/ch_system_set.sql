@@ -16,7 +16,7 @@ BEGIN
 
         <<LOOP 
             TYPE (detail, configuration)
-            CHILD_TYPE ('system_configuration', 'configuration_part')
+            CHILD_TYPE ('detail_configuration', 'configuration_part')
         >>
 
             FOR comp IN (
@@ -94,7 +94,7 @@ BEGIN
 
         FOR comp IN (
             -- select all system configurations
-            SELECT * FROM system_configurations sc
+            SELECT * FROM detail_configurations sc
             -- that are non-optional,
             WHERE sc.optional = FALSE
             -- within selected detail option values,
@@ -105,7 +105,7 @@ BEGIN
             -- that do have options to select from,
             AND EXISTS (
                 SELECT * FROM configuration_options co
-                WHERE co.parent_system_configuration_path = sc.path
+                WHERE co.parent_detail_configuration_path = sc.path
             )
             -- but that don't have a corresponding sscov
             AND NOT EXISTS (

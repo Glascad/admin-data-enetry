@@ -40,10 +40,7 @@ class NavigatorChild extends PureComponent {
     };
 
     componentDidMount = () => {
-        // console.log('child updating route' + this.props.index);
         this.props.updateCurrentRoute(this.props.index);
-        console.log(this.props);
-
     }
 
     render = () => this.props.children;

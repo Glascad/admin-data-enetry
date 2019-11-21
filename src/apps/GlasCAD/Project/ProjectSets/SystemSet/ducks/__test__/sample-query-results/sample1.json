@@ -281,84 +281,84 @@
                 "path": "1.SET.FRONT.__DT__.HEAD.VOID.VOID"
             }
         ],
-        "_systemConfigurations": [
+        "_detailConfigurations": [
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.SHIM_SUPPORT",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SHIM_SUPPORT",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL_FLASHING",
                 "optional": true
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
                 "optional": false
             },
             {
-                "__typename": "SystemConfiguration",
+                "__typename": "DetailConfiguration",
                 "path": "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD",
                 "optional": false
             }

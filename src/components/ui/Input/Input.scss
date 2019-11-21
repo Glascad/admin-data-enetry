@@ -34,26 +34,13 @@
         }
     }
 
-    &.warning {
+    &.read-only {
         pointer-events: none;
 
-        input,
-        .React-Select > div:first-of-type {
-            background: mix($warning-color, white, 10) !important;
-            border-color: mix($warning-color, white, 85) !important;
+        input {
+            background: none;
+            color: $dark-gray;
         }
-
-        input,
-        .React-Select > div > div > div,
-        .React-Select svg {
-            color: $medium-dark-gray !important;
-        }
-
-        > input,
-        .React-Select > div {
-            border-color: mix($warning-color, white, 85) !important;
-        }
-
     }
 
     &.direction-row {
@@ -161,7 +148,16 @@
             }
         }
 
+        &.read-only {
+            .track {
+                background: none;
+            }
+        }
+
         input {
+            height: 0 !important;
+            width: 0 !important;
+
             &:checked {
                 + .track {
                     justify-content: flex-end;
@@ -171,7 +167,7 @@
 
                     .switch {
                         background: $selected-color;
-                        box-shadow: -2px 1px $xx-small rgba(74, 74, 74, 0.8);
+                        box-shadow: -2px 1px $xx-small rgba(0, 0, 0, 0.5);
                     }
                 }
             }
@@ -194,14 +190,19 @@
         border: 1px solid $light-gray;
         border-radius: $xx-small;
         align-items: center;
+        justify-content: center;
 
         svg {
-            width: $base-size;
-            height: $base-size;
-            max-width: $base-size;
-            max-height: $base-size;
+            width: $large;
+            height: $large;
+            max-width: $large;
+            max-height: $large;
 
             .fill-dark-gray {
+                fill: $dark-gray;
+            }
+
+            .fill-white {
                 fill: $dark-gray;
             }
         }

@@ -41,7 +41,6 @@
                     height: $base-size;
                     width: 2px;
                     background: $medium-gray;
-                    // border-radius: 2px;
                 }
 
                 .block-one {
@@ -52,14 +51,6 @@
                     margin-left: -1px;
                     transform: rotate(-45deg);
                 }
-            }
-
-            &:hover {
-                .triangle {
-                    border-left-color: $off-white;
-                }
-            }
-            .remove-dropdown {
                 &:hover {
                     .block-one,
                     .block-two {
@@ -71,6 +62,12 @@
                             border-left-color: $medium-gray;
                         }
                     }
+                }
+            }
+
+            &:hover {
+                .triangle {
+                    border-left-color: $off-white;
                 }
             }
         }

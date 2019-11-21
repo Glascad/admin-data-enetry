@@ -124,7 +124,7 @@ export default class LinetypeInfo extends PureComponent {
             <>
                 <TitleBar
                     title="Linetype"
-                    selections={[name]}
+                    snailTrail={[name]}
                 />
                 {/* <Select
                 options={selectOptions}

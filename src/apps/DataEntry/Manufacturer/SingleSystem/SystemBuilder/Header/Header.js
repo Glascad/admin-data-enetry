@@ -21,7 +21,6 @@ function Header({
     history,
     systemInput,
     system: {
-        id,
         name: systemName = '',
         _manufacturer: {
             name: mnfgName = '',
@@ -37,28 +36,23 @@ function Header({
     const [saving, setSaving] = useState(false);
     const [savingAndExiting, setSavingAndExiting] = useState(false);
 
-    const { systemId } = parseSearch(search);
-
-    const inputIsEmpty = _.isEqual();
+    const inputIsEmpty = _.isEqual({}, {});
 
     return (
         <TitleBar
             className="blue-border"
             title={mnfgName || <Ellipsis text="Loading" />}
-            selections={systemName ? [systemName] : []}
+            snailTrail={systemName ? [systemName] : []}
             left={(
                 <>
                     <ConfirmButton
                         data-cy="system-info-link"
                         modalProps={{}}
-                        doNotConfirmWhen={true}
-                        onClick={() => {
-                            history.push(`${
-                                path.replace(/build/, 'info')
-                                }${
-                                search
-                                }`);
-                        }}
+                        doNotConfirmWhen={inputIsEmpty}
+                        onClick={() => history.push(`${path.replace(/build/, 'info')}${search}`, {
+                            previousPath: path,
+                            previousSearch: search,
+                        })}
                     >
                         System Info
                     </ConfirmButton>
@@ -79,7 +73,7 @@ function Header({
                 <>
                     <ConfirmButton
                         data-cy="close"
-                        doNotConfirmWhen={true}
+                        doNotConfirmWhen={inputIsEmpty}
                         onClick={() => {
                             history.push(`${
                                 path.replace(/single-system.*/, 'system-search')

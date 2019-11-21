@@ -4,7 +4,8 @@ gc_protected.systems (
     manufacturer_id INTEGER REFERENCES manufacturers NOT NULL,
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL
+    system_type SYSTEM_TYPE REFERENCES system_types NOT NULL,
+    UNIQUE (id, manufacturer_id)
 );
 
 
@@ -108,7 +109,7 @@ gc_protected.option_groups (
 CREATE TABLE
 gc_protected.system_details (
     system_id INTEGER REFERENCES systems NOT NULL,
-    parent_system_option_value_path LTREE REFERENCES system_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_system_option_value_path LTREE REFERENCES system_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     path LTREE PRIMARY KEY,
     detail_type DETAIL_TYPE NOT NULL,
     CHECK (
@@ -116,7 +117,7 @@ gc_protected.system_details (
         (system_id || '.*')::LQUERY ~ path
         AND
         -- must have correct path
-        path = parent_system_option_value_path || '__DT__' || detail_type::TEXT
+        path = COALESCE(parent_system_option_value_path, system_id::TEXT::LTREE) || '__DT__' || detail_type::TEXT
     )
 );
 
@@ -142,15 +143,11 @@ gc_protected.detail_options (
             parent_detail_option_value_path IS NULL
         )
         AND
-        (
-            name = 'VOID'
-            OR
-            -- must not have duplicate options in the same path
-            NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-                parent_system_detail_path,
-                parent_detail_option_value_path
-            ))
-        )
+        -- must not have duplicate options in the same path
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_system_detail_path,
+            parent_detail_option_value_path
+        ))
         AND
         -- must have correct path
         path = COALESCE(
@@ -216,9 +213,10 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 -- CONFIGURATION TYPES
 
 CREATE TABLE
-gc_protected.system_configurations (
+gc_protected.detail_configurations (
     system_id INTEGER REFERENCES systems NOT NULL,
-    parent_detail_option_value_path LTREE REFERENCES detail_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED NOT NULL,
+    parent_detail_option_value_path LTREE REFERENCES detail_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
+    parent_system_detail_path LTREE REFERENCES system_details ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     path LTREE PRIMARY KEY,
     configuration_type CONFIGURATION_TYPE NOT NULL,
     optional BOOLEAN DEFAULT FALSE NOT NULL,
@@ -227,8 +225,14 @@ gc_protected.system_configurations (
         -- must belong to correct system
         (system_id || '.*')::LQUERY ~ path
         AND
+        -- must have exactly one parent
+        either_or(
+            parent_detail_option_value_path IS NULL,
+            parent_system_detail_path IS NULL
+        )
+        AND
         -- must have correct path
-        path = parent_detail_option_value_path || '__CT__' || configuration_type::TEXT
+        path = COALESCE(parent_detail_option_value_path, parent_system_detail_path) || '__CT__' || configuration_type::TEXT
     )
 );
 
@@ -238,7 +242,7 @@ gc_protected.system_configurations (
 CREATE TABLE
 gc_protected.configuration_options (
     system_id INTEGER REFERENCES systems NOT NULL,
-    parent_system_configuration_path LTREE REFERENCES system_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
+    parent_detail_configuration_path LTREE REFERENCES detail_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     parent_configuration_option_value_path LTREE,
     path LTREE PRIMARY KEY,
     name OPTION_NAME REFERENCES valid_options NOT NULL,
@@ -252,23 +256,19 @@ gc_protected.configuration_options (
         AND
         -- must have exactly one parent
         either_or(
-            parent_system_configuration_path IS NULL,
+            parent_detail_configuration_path IS NULL,
             parent_configuration_option_value_path IS NULL
         )
         AND
         -- must not have duplicate options in the same path
-        (
-            name = 'VOID'
-            OR
-            NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
-                parent_system_configuration_path,
-                parent_configuration_option_value_path
-            ))
-        )
+        NOT (('*.' || name || '.*')::LQUERY ~ COALESCE(
+            parent_detail_configuration_path,
+            parent_configuration_option_value_path
+        ))
         AND
         -- must have correct path
         path = COALESCE(
-            parent_system_configuration_path,
+            parent_detail_configuration_path,
             parent_configuration_option_value_path
         ) || name::TEXT
     )
@@ -331,30 +331,35 @@ ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED;
 
 CREATE TABLE
 gc_protected.configuration_parts (
+    id SERIAL PRIMARY KEY,
     system_id INTEGER REFERENCES systems NOT NULL,
-    parent_configuration_option_value_path LTREE REFERENCES configuration_option_values ON UPDATE CASCADE NOT NULL,
+    parent_configuration_option_value_path LTREE REFERENCES configuration_option_values ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
+    parent_detail_configuration_path LTREE REFERENCES detail_configurations ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     transform MATRIX,
-    part_id INTEGER REFERENCES parts,
-    part_orientation ORIENTATION,
-    extra_part_path_id INTEGER REFERENCES extra_part_paths,
-    extra_part_path_orientation ORIENTATION,
+    part_id INTEGER REFERENCES parts NOT NULL,
+    manufacturer_id INTEGER REFERENCES manufacturers NOT NULL,
     FOREIGN KEY (
         part_id,
-        part_orientation
+        manufacturer_id
     )
     REFERENCES parts (
         id,
-        orientation
+        manufacturer_id
     ),
     FOREIGN KEY (
-        extra_part_path_id,
-        extra_part_path_orientation
+        system_id,
+        manufacturer_id
     )
-    REFERENCES extra_part_paths (
+    REFERENCES systems (
         id,
-        orientation
+        manufacturer_id
     ),
     CHECK (
-        (system_id || '.*')::LQUERY ~ parent_configuration_option_value_path
+        either_or(
+            parent_configuration_option_value_path IS NULL,
+            parent_detail_configuration_path IS NULL
+        )
+        AND
+        (system_id || '.*')::LQUERY ~ COALESCE(parent_configuration_option_value_path, parent_detail_configuration_path)
     )
 );

@@ -1,172 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import { TitleBar, TransformProvider, useSelection, useRedoableState } from "../../../../../components";
+import React from 'react';
+import { TransformProvider, RightSidebar } from "../../../../../components";
 import SystemTree from './SystemTree/SystemTree';
 import Header from './Header/Header';
-import Sidebar from './Sidebar/Sidebar';
-import { systemUpdate } from './ducks/schemas';
-import merge from './ducks/merge';
-import { parseSearch } from '../../../../../utils';
-import { SystemMap, getLastItemFromPath, getChildren } from '../../../../../app-logic/system-utils';
-import { UPDATE_ITEM } from './ducks/actions';
+import { useCollapseSidebar } from '../../../../Statics/Statics';
+import { usePartialAction, useSelection, useCheckDefaultValues } from '../ducks/hooks';
+import * as VIEWS from './sidebar-views';
 
 SystemBuilder.navigationOptions = {
     path: '/build',
 };
 
 export default function SystemBuilder({
-    location: {
-        search,
-    },
+    location,
+    match,
+    history,
     queryResult,
+    updateEntireSystem,
     fetching,
+    updating,
+    systemMap,
+    system,
+    systemInput,
+    dispatch,
+    save,
 }) {
 
-    const { systemId } = parseSearch(search);
-
-    // const [systemInput, setState] = useState(systemUpdate);
-    const [originalSelectedItem, setSelection] = useState();
-
-    const selectItem = item => setSelection(selectedItem => item === selectedItem ? undefined : item);
-
-    const cancelSelectionOnEscape = ({ key }) => key === "Escape" && selectItem();
-    const cancelSelectionOnClick = () => selectItem();
-
-    useEffect(() => {
-        window.addEventListener('keydown', cancelSelectionOnEscape, true);
-        window.addEventListener('click', cancelSelectionOnClick);
-        return () => {
-            window.removeEventListener('keydown', cancelSelectionOnEscape, true);
-            window.removeEventListener('click', cancelSelectionOnClick);
-        }
-    }, []);
+    useCollapseSidebar();
 
     const {
-        currentState: systemInput,
-        states,
-        currentIndex,
-        pushState,
-        replaceState,
-    } = useRedoableState(systemUpdate);
-
-    const system = merge(systemInput, queryResult);
-
-    const systemMap = new SystemMap(system);
-
-    const selectedItem = systemMap[originalSelectedItem ? originalSelectedItem.path : undefined];
-
-    console.log({
-        originalSelectedItem,
         selectedItem,
-        systemInput,
-        states,
-        currentIndex,
-    });
+        selectedItem: {
+            __typename: selectedTypename,
+        } = {},
+        selectItem,
+    } = useSelection({ systemMap, location, match, history });
 
-    useEffect(() => {
-        if (!selectedItem) selectItem();
-    }, [selectedItem]);
-
-    const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
-        replaceState
-        :
-        pushState
-    )(systemInput => ({
-        ...systemInput,
-        ...ACTION(
-            systemInput,
-            payload,
-        ),
-    }));
-
-    const [partialAction, setPartialAction] = useState();
-
-    const dispatchPartial = (ACTION, payload) => setPartialAction({ ACTION, payload });
+    const { partialAction, dispatchPartial, cancelPartial } = usePartialAction({ selectItem });
 
     // adding default value to all options without one
-    useEffect(() => {
-        Object.entries(system)
-            .filter(([key]) => key.match(/Options$/i))
-            .forEach(([key, options]) => {
-                options.forEach(option => {
-                    const { __typename } = option;
-
-                    const defaultValueKey = `default${__typename}Value`;
-
-                    const { [defaultValueKey]: defaultValue } = option;
-
-                    const children = getChildren(option, systemMap);
-
-                    const noDefault = !defaultValue || !children.some(({ path }) => (path).endsWith(`.${defaultValue}`));
-
-                    if (noDefault) {
-
-                        const {
-                            path = '',
-                        } = (
-                            defaultValue
-                            &&
-                            children.find(({ path }) => path.endsWith(defaultValue))
-                        ) || children[0] || {};
-
-                        const newDefault = getLastItemFromPath(path);
-
-                        if (newDefault) dispatch(UPDATE_ITEM, {
-                            ...option,
-                            update: {
-                                [defaultValueKey]: newDefault,
-                            },
-                        }, {
-                            replaceState: true,
-                        });
-                    }
-                });
-            });
-    }, [systemInput]);
-
-    const save = async () => {
-        console.log(systemInput);
-        console.log({
-            arguments: arguments,
-            systemInput,
-            currentIndex,
-            system,
-            systemMap,
-            originalSelectedItem,
-            selectedItem,
-        });
-    }
+    useCheckDefaultValues({ systemMap, system, dispatch, systemInput });
 
     return (
         <TransformProvider>
             <Header
-                queryResult={queryResult}
-                systemInput={systemInput}
-                system={system}
-                systemMap={systemMap}
-                dispatch={dispatch}
-                selectedItem={selectedItem}
-                selectItem={selectItem}
-                save={save}
+                {...{
+                    queryResult,
+                    systemInput,
+                    system,
+                    systemMap,
+                    dispatch,
+                    selectedItem,
+                    selectItem,
+                    save,
+                }}
             />
             <SystemTree
-                queryResult={queryResult}
-                fetching={fetching}
-                search={search}
-                system={system}
-                systemMap={systemMap}
-                dispatch={dispatch}
-                selectItem={selectItem}
-                selectedItem={selectedItem}
-                partialAction={partialAction}
+                {...{
+                    queryResult,
+                    updating,
+                    fetching,
+                    system,
+                    systemMap,
+                    dispatch,
+                    selectItem,
+                    selectedItem,
+                    partialAction,
+                    cancelPartial,
+                }}
             />
-            <Sidebar
-                queryResult={queryResult}
-                system={system}
-                systemMap={systemMap}
-                dispatch={dispatch}
-                selectItem={selectItem}
-                selectedItem={selectedItem}
-                dispatchPartial={dispatchPartial}
+            <RightSidebar
+                open={!!selectedItem}
+                handleCloseClick={() => selectItem()}
+                View={VIEWS[selectedTypename] || { title: '', component: () => null }}
+                childProps={{
+                    queryResult,
+                    system,
+                    systemMap,
+                    dispatch,
+                    selectItem,
+                    selectedItem,
+                    dispatchPartial,
+                    partialAction,
+                    cancelPartial,
+                }}
             />
         </TransformProvider>
     );

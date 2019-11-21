@@ -1,9 +1,9 @@
 import { getAllInstancesOfItem } from "../../system-utils";
 import { sampleSystemMap } from "../sample-systems";
 
-function testGetAllInstancesOfItem({systemMap, itemName, result}) {
+function testGetAllInstancesOfItem({ systemMap, itemName, result }) {
     describe(`getting all instances of ${itemName} in systemMap`, () => {
-        const allInstances = getAllInstancesOfItem(systemMap, itemName);
+        const allInstances = getAllInstancesOfItem(itemName, systemMap);
         test(`Testing that all instances of ${itemName} are found`, () => {
             expect(allInstances).toMatchObject(result);
         });
@@ -13,10 +13,71 @@ function testGetAllInstancesOfItem({systemMap, itemName, result}) {
 
 testGetAllInstancesOfItem({
     systemMap: sampleSystemMap,
-    itemName: 'STOPS',
+    itemName: {
+        path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS",
+        __typename: "DetailOption"
+    },
     result: [
         "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS",
         "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS",
         "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS",
+    ]
+});
+
+testGetAllInstancesOfItem({
+    systemMap: sampleSystemMap,
+    itemName: {
+        path: "1.SET.BACK.__DT__.HEAD.VOID",
+        __typename: "DetailOption"
+    },
+    result: [
+        "1.SET.BACK.__DT__.HEAD.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID",
+        "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID",
+        "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID",
+        "1.SET.FRONT.__DT__.HEAD.VOID",
+        "1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.SHIM_SUPPORT.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SHIM_SUPPORT.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL_FLASHING.VOID",
+        "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+        "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+        "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID",
+    ]
+});
+
+testGetAllInstancesOfItem({
+    systemMap: sampleSystemMap,
+    itemName: {
+        path: "1.SET.BACK.__DT__.HEAD.VOID.VOID",
+        __typename: "DetailOptionValue"
+    },
+    result: [
+        "1.SET.BACK.__DT__.HEAD.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID",
+        "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID",
+        "1.SET.FRONT.__DT__.HEAD.VOID.VOID",
+        "1.SET.BACK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.SHIM_SUPPORT.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SHIM_SUPPORT.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL_FLASHING.VOID.VOID",
+        "1.SET.CENTER.JOINERY.SHEAR_BLOCK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
+        "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
+        "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
     ]
 });

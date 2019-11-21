@@ -96,7 +96,7 @@ export default function SystemSet({
         _system = {},
         _system: {
             id: newSystemId,
-            _systemConfigurations = [],
+            _detailConfigurations = [],
             _optionGroups = [],
         } = {},
     } = systemQueryResult;
@@ -158,7 +158,7 @@ export default function SystemSet({
         <>
             <TitleBar
                 title={`${systemSetId ? '' : 'New '}System Set`}
-                selections={[name]}
+                snailTrail={[name]}
                 right={(
                     <>
                         <ConfirmButton
@@ -188,7 +188,7 @@ export default function SystemSet({
                             <Select
                                 data-cy="manufacturer-name"
                                 label="Manufacturer"
-                                className="warning"
+                                readOnly={true}
                                 value={manufacturerName}
                                 options={allSystems.map(({ _manufacturer: { name } }) => name)}
                                 onChange={() => { }}
@@ -197,7 +197,7 @@ export default function SystemSet({
                             <Select
                                 data-cy="system-type"
                                 label="System Type"
-                                className="warning"
+                                readOnly={true}
                                 value={systemType}
                                 options={allSystems.map(({ systemType }) => systemType)}
                                 onChange={() => { }}

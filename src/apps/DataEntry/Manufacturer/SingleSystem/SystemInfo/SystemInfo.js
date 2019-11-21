@@ -10,6 +10,10 @@ SystemInfo.navigationOptions = {
 function SystemInfo({
     location: {
         search,
+        state: {
+            previousPath = '/data-entry/manufacturer/system-search',
+            previousSearch = arguments[0].location.search,
+        } = {},
     },
     match: {
         path,
@@ -73,25 +77,21 @@ function SystemInfo({
         <>
             <TitleBar
                 title={systemId ?
-                    fetching ?
-                        <Ellipsis text="Loading" />
-                        :
-                        mName
+                    "System Info"
                     :
                     "New System"}
-                selections={systemId && !fetching ? [sName] : []}
+                snailTrail={fetching ? [
+                    <Ellipsis text="Loading" />
+                ] : systemId ? [
+                    mName,
+                    sName,
+                ] : []}
                 right={(
                     <>
                         <ConfirmButton
                             data-cy="cancel"
                             doNotConfirmWhen={true}
-                            onClick={() => {
-                                history.push(`${
-                                    path.replace(/single-system.*/, 'system-search')
-                                    }${
-                                    search
-                                    }`);
-                            }}
+                            onClick={() => history.push(`${previousPath}${previousSearch}`)}
                         >
                             Cancel
                         </ConfirmButton>
@@ -116,6 +116,7 @@ function SystemInfo({
                 <Select
                     data-cy="system-type"
                     label="System Type"
+                    readOnly={!!systemId}
                     value={sType}
                     options={systemTypes}
                     onChange={name => setSystemType(name)}
@@ -123,6 +124,7 @@ function SystemInfo({
                 <Select
                     data-cy="manufacturer"
                     label="Manufacturer"
+                    readOnly={!!systemId}
                     value={mName}
                     options={allManufacturers.map(({ name }) => name)}
                     onChange={newName => setMnfg([

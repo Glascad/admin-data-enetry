@@ -50,7 +50,6 @@ COMMENT ON TYPE gc_controlled.configuration_type IS '@name _configurationType';
 
 CREATE TYPE
 gc_controlled.option_name AS ENUM (
-    'VOID',
     'SET',
     'JOINERY',
     'STOPS',
@@ -60,7 +59,6 @@ gc_controlled.option_name AS ENUM (
 
 CREATE TYPE
 gc_controlled.option_value_name AS ENUM (
-    'VOID',
     'FRONT',
     'CENTER',
     'BACK',

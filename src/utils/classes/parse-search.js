@@ -1,3 +1,4 @@
+import _ from 'lodash';
 
 /**
  * parseSearch converts the search string from the url into an object for easy use
@@ -60,4 +61,4 @@ class Search {
     toString = () => this.search;
 }
 
-export default search => new Search(search);
+export default _.memoize(search => new Search(search));

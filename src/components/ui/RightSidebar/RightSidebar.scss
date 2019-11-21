@@ -27,12 +27,36 @@
         margin-bottom: $x-large;
     }
 
+    > * {
+        &:first-child {
+            &:nth-child(1) {
+                margin-top: 0;
+            }
+        }
+    }
+
+    > .CollapsibleTitle,
+    > .TitleBar {
+        margin-top: $xxxxx-large;
+
+        &:first-child {
+            margin-top: $large;
+        }
+    }
+
     .TitleBar {
         color: $off-white;
         border-bottom: 1px solid $medium-gray;
         // padding-left: $small;
         padding-bottom: $small;
-        margin-top: $xxx-large;
+
+        .title-bar-left {
+            width: 100%;
+
+            &::after {
+                right: $xx-small;
+            }
+        }
     }
 
     .sidebar-group {
@@ -64,12 +88,48 @@
         align-items: center;
     }
 
+    .Input {
+        width: fill;
+
+        input {
+            width: fill;
+        }
+
+        .select-input-wrapper {
+            width: fill;
+        }
+
+        .select-options {
+            width: fill;
+
+            .select-option {
+                width: fill;
+            }
+        }
+
+        &.read-only {
+            input {
+                color: $light-gray;
+            }
+            .select-input-wrapper {
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+
     .sidebar-button {
         position: relative;
         width: 100%;
 
         + .sidebar-button {
             margin-left: 0;
+        }
+
+        button {
+            width: 100%;
+            color: inherit;
         }
 
         &.empty {
@@ -149,7 +209,7 @@
         }
 
         &:hover {
-            color: $dark-gray;
+            color: $dark-blue;
 
             .icon {
                 .stroke {
@@ -176,6 +236,20 @@
                 color: $off-white;
                 font-weight: normal;
                 cursor: default;
+            }
+        }
+    }
+
+    a.sidebar-button {
+        button {
+            color: $light-blue;
+            border-color: $light-blue;
+        }
+        &:hover {
+            button {
+                background: $light-blue;
+                color: $dark-blue;
+                border: none;
             }
         }
     }
@@ -216,8 +290,14 @@
                     padding-left: $x-small;
                     padding-right: $x-small;
 
+                    .selected {
+                        @include hoverable-background($selected-color, false);
+                    }
                     &:not(.selected) {
-                        color: $medium-gray;
+                        color: $light-gray;
+                        &:hover {
+                            color: $dark-blue;
+                        }
                     }
                     &:first-child {
                         padding-left: $small;
@@ -281,6 +361,50 @@
 
             &.danger {
                 @include circle-button($danger-color, $dark-blue, true);
+            }
+        }
+    }
+
+    .TitleBar,
+    .CollapsibleTitle {
+        + .sidebar-list {
+            margin-top: -$x-large;
+        }
+    }
+
+    .sidebar-list {
+        .sidebar-list-item {
+            position: relative;
+            margin: 0 !important;
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            border: none;
+            border-radius: 0;
+            border-bottom: 1px solid $medium-gray;
+            width: 100%;
+            height: unset;
+            display: flex;
+            justify-content: space-between;
+            padding: $small $x-small;
+            color: $medium-gray;
+            transition: all 0.15s;
+
+            &:hover {
+                background: $dark-blue;
+                font-weight: normal;
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
+
+            &.selected {
+                background: $darker-blue;
+                // color: $x-light-gray;
+                // color: $selected-color;
+                background-image: linear-gradient(90deg, $dark-blue, $darker-blue 1.5%, $darker-blue 98.5%, $dark-blue);
             }
         }
     }

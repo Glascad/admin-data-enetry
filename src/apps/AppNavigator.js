@@ -5,7 +5,7 @@ import { AuthContext } from '../AuthContext';
 import { withContext, Navigator } from '../components';
 
 import Login from './Login/Login';
-import Practice from './Practice/practice';
+// import Practice from './Practice/practice';
 
 import Glascad from './GlasCAD/GlasCAD';
 import DataEntry from './DataEntry/DataEntry';
@@ -32,10 +32,11 @@ const mapProps = ({
     },
 }) => ({
     allowedApplications: match(role)
-        //     .regex(/admin/i, { DataEntry, Glascad })
-        //     .regex(/data.entry/i, { DataEntry })
-        //     .regex(/client/i, { Glascad })
-        //     .otherwise({ Login }),
+        .regex(/admin/i, { DataEntry, Glascad })
+        .regex(/data.entry/i, { DataEntry })
+        .regex(/client/i, { Glascad })
+        .otherwise({ Login }),
+    allowedApplications: match(role)
         .otherwise({
             DataEntry,
             Glascad,

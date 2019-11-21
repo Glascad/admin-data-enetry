@@ -59,7 +59,7 @@ export default function ConfigurationTypes() {
                                 <>
                                     <TitleBar
                                         title="Configuration Type Settings"
-                                        selections={[type]}
+                                        snailTrail={[type]}
                                     />
                                     <Input
                                         label="Door"

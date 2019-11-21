@@ -51,7 +51,7 @@ export default function Systems({
         <div className="card">
             <TitleBar
                 title="Systems"
-                selections={[mnfgName]}
+                snailTrail={[mnfgName]}
             />
             <ListWrapper
                 // title="Search Results"

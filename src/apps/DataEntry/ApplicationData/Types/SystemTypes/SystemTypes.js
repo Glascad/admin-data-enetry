@@ -53,7 +53,7 @@ export default function SystemTypes() {
                                         identifier='title'
                                         titleBar={{
                                             title: "Detail Types",
-                                            selections: [systemType],
+                                            snailTrail: [systemType],
                                         }}
                                         items={systemDetails.map(detail => ({
                                             ...detail,
@@ -86,7 +86,7 @@ export default function SystemTypes() {
                                                     identifier='title'
                                                     titleBar={{
                                                         title: "Configuration Types",
-                                                        selections: [
+                                                        snailTrail: [
                                                             systemType,
                                                             detailType,
                                                         ]
@@ -126,7 +126,7 @@ export default function SystemTypes() {
                                                             <>
                                                                 <TitleBar
                                                                     title="Configuration Type Settings"
-                                                                    selections={[
+                                                                    snailTrail={[
                                                                         systemType,
                                                                         detailType,
                                                                         configurationTypeName,
@@ -262,7 +262,7 @@ export default function SystemTypes() {
                                 <ListWrapper
                                     titleBar={{
                                         title: "Detail Types",
-                                        selections: [systemType],
+                                        snailTrail: [systemType],
                                     }}
                                     items={_systemTypeDetailTypeConfigurationTypes
                                         .filter(({
@@ -298,7 +298,7 @@ export default function SystemTypes() {
                                             <ListWrapper
                                                 titleBar={{
                                                     title: "Configuration Types",
-                                                    selections: [
+                                                    snailTrail: [
                                                         systemType,
                                                         detailType,
                                                     ]
@@ -352,7 +352,7 @@ export default function SystemTypes() {
                                                         <>
                                                             <TitleBar
                                                                 title="Configuration Type Settings"
-                                                                selections={[
+                                                                snailTrail={[
                                                                     systemType,
                                                                     detailType,
                                                                     configurationTypeName,

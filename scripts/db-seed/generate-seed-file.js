@@ -36,13 +36,14 @@ ${require('../../db/gc_utils/functions/get_real_id.sql')}
 ${require('../../db/gc_data/functions/utils/get_option_value_child_type.sql')}
 ${require('../../db/gc_data/functions/utils/get_dt~ct_from_path.sql')}
 ${require('../../db/gc_data/functions/utils/get_sov~dov_subpath.sql')}
+${require('../../db/gc_data/functions/utils/prepend_system_id.sql')}
 
 
 ----- TABLES -----
 
 ${require('../../db/gc_controlled/tables.sql')}
-${require('../../db/gc_data/tables/app_data.sql')}
-${require('../../db/gc_data/tables/manufacturer_data.sql')}
+${require('../../db/gc_data/tables/d,dc_types.sql')}
+${require('../../db/gc_data/tables/manufacturer.sql')}
 -- configuration_data
 ${require('../../db/gc_private/tables.sql')}
 ${require('../../db/gc_public/tables.sql')}
@@ -93,6 +94,11 @@ ${require('../../db/gc_public/functions/queries/get_current_user.sql')}
 ${require('../../db/gc_public/functions/mutations/authenticate.sql')}
 
 
+----- COMPUTED COLUMNS -----
+
+${require('../../db/gc_protected/computed_columns/configuration_parts_path.sql')}
+
+
 ----- INSERTIONS -----
 
 ${require('../../db/gc_controlled/values.sql')}
@@ -115,12 +121,19 @@ ${require('../../db/users.sql')}
 
 ----- SEED DATA -----
 
-${require('../../db/seed_data.sql')}
+${require('../../db/seed_data/seed_data.sql')}
+${require('./insert-parts')}
+${require('../../db/seed_data/system.sql')}
+${require('../../db/seed_data/system_set.sql')}
 
 
 ----- POLICIES -----
 
 ${require('../../db/policies.sql')}
+
+
+-- for preventing updates until they are ready
+-- RAISE EXCEPTION 'SUCCESS!';
 
 END $seed$
 

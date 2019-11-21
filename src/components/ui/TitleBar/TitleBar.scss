@@ -33,6 +33,17 @@
         border-bottom: $x-small solid $light-blue;
         margin-bottom: $xxxxx-large;
     }
+
+    .SnailTrail {
+        .snail-trail-divider,
+        .snail-trail-item {
+            color: $dark-gray;
+        }
+    }
+
+    + .SnailTrail {
+        margin-top: -$xxx-large;
+    }
 }
 
 .card,
@@ -43,7 +54,7 @@
         font-size: $large;
         margin-bottom: $large;
         // border-bottom: 1px solid $medium-gray;
-        border-bottom: 1px solid transparentize($light-gray, 0.5);
+        border-bottom: 1px solid $x-light-gray;
         // border-bottom: 1px solid transparentize($darker-blue, 0.90);
         color: $dark-gray;
         // color: $dark-blue;
@@ -54,7 +65,7 @@
             height: $item-height;
             min-width: 30%;
             // background: $medium-gray;
-            background: transparentize($light-gray, 0.5);
+            background: $x-light-gray;
             // background: transparentize($darker-blue, 0.90);
             padding: 0 $small;
             display: flex;
@@ -63,6 +74,16 @@
 
             .title {
                 font-weight: bold;
+            }
+
+            input {
+                font-size: $large;
+                font-weight: bold;
+                background: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+                color: $dark-gray;
             }
         }
     }

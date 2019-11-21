@@ -1,28 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import {
     ApolloWrapper,
-    ToggleNavigator,
     Ellipsis,
     useMutation,
     useQuery,
-    TitleBar,
     Navigator,
-    useInitialState,
+    useRedoableState,
 } from '../../../../components';
 import query from './system-graphql/query';
-// import mutations from './system-graphql/mutations';
 import { updateEntireSystem as updateEntireSystemMutation } from './system-graphql/mutations';
 import SystemInfo from './SystemInfo/SystemInfo';
 import SystemBuilder from './SystemBuilder/SystemBuilder';
-// import DetailBuilder from './DetailBuilder/DetailBuilder';
+import DetailBuilder from './DetailBuilder/DetailBuilder';
 import { parseSearch } from '../../../../utils';
 import * as SAMPLE_SYSTEMS from '../../../../app-logic/__test__/sample-systems';
+import { SystemMap } from '../../../../app-logic/system-utils';
+import cleanSystemInput from './ducks/clean-system-input';
+import merge from './ducks/merge';
+import { systemUpdate } from './ducks/schemas';
 
 const subroutes = {
     SystemBuilder,
-    // DetailBuilder,
+    DetailBuilder,
     SystemInfo,
 };
 
@@ -89,15 +90,66 @@ export default function SingleSystem({
 
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
+    const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
+
+    const {
+        currentState: systemInput,
+        pushState,
+        replaceState,
+        resetState,
+    } = useRedoableState(systemUpdate);
+
+    const { _system } = queryResult;
+
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
-    console.log({
-        SAMPLE_SYSTEMS,
-        sampleSystem,
-        _sampleSystem,
-    });
+    const system = merge(systemInput, queryResult);
 
-    const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
+    const systemMap = new SystemMap(system);
+
+    const dispatch = (ACTION, payload, { replaceState: shouldReplaceState = false } = {}) => (shouldReplaceState ?
+        replaceState
+        :
+        pushState
+    )(systemInput => ({
+        ...systemInput,
+        ...ACTION(
+            systemInput,
+            payload,
+        ),
+    }));
+
+    const save = async () => {
+        dispatch(() => systemUpdate);
+        try {
+            const systemPayload = cleanSystemInput(systemInput, system);
+            console.log({ systemPayload });
+            const result = await updateEntireSystem({ system: systemPayload });
+            console.log({ result });
+            resetState(systemUpdate);
+        } catch (err) {
+            console.error(err);
+            dispatch(() => systemInput);
+        }
+    };
+
+    useEffect(() => {
+        const saveOnCtrlS = e => {
+            const { key, ctrlKey, metaKey } = e;
+            if (key.match(/s/i) && (ctrlKey || metaKey)) {
+                e.preventDefault();
+                save();
+            }
+        }
+        window.addEventListener('keydown', saveOnCtrlS);
+        return () => window.removeEventListener('keydown', saveOnCtrlS);
+    }, [save]);
+
+    console.log({
+        system,
+        systemMap,
+        systemInput,
+    });
 
     return (
         <Navigator
@@ -105,11 +157,16 @@ export default function SingleSystem({
             routeProps={{
                 queryResult: {
                     ...queryResult,
-                    _system: _sampleSystem || queryResult._system,
+                    _system: _sampleSystem || _system,
                 },
                 fetching,
                 updateEntireSystem,
                 updating,
+                save,
+                dispatch,
+                systemMap,
+                system,
+                systemInput,
             }}
         />
     );

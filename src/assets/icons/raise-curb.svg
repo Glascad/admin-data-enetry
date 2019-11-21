@@ -7,10 +7,10 @@
         <rect class="stroke-gray"   x="14.5" y="0.5" width="13" height="17"></rect>
         <rect class="stroke-gray"   x="1.5" y="0.5" width="13" height="12"></rect>
         <g class="fill-green"  transform="translate(13.000000, 11.000000)" >
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" ></path>
         </g>
         <g class="fill-green"  transform="translate(0.000000, 11.000000)" >
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" ></path>
         </g>
     </g>
 </svg>

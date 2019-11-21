@@ -1,10 +1,10 @@
-import { getParentTypename } from "../../system-utils";
+import { getPathsTypename } from "../../system-utils";
 
 function testGetParentTypename({
     path,
     expectedTypename,
 }) {
-    const parentTypename = getParentTypename({ path });
+    const parentTypename = getPathsTypename({ path });
     describe('Testing typename', () => {
         test(`${path} matches parent typename of ${expectedTypename}`, () => {
             expect(parentTypename).toBe(expectedTypename);
@@ -39,7 +39,7 @@ testGetParentTypename({
 
 testGetParentTypename({
     path: '1.SET.CENTER.__DT__.HEAD.GLAZING.DTVAL.__CT__.Config',
-    expectedTypename: 'SystemConfiguration',
+    expectedTypename: 'DetailConfiguration',
 })
 testGetParentTypename({
     path: '1.SET.CENTER.__DT__.HEAD.GLAZING.DTVAL.__CT__.Config.OPTION',

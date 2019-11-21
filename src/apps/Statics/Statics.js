@@ -2,6 +2,8 @@ import React, {
     PureComponent,
     createContext,
     createRef,
+    useEffect,
+    useContext,
 } from 'react';
 
 import './Statics.scss';
@@ -26,6 +28,14 @@ import { AuthContext } from '../../AuthContext';
 import { extractNavigationOptions, normalCase } from '../../utils';
 
 export const StaticContext = createContext();
+
+export const useCollapseSidebar = () => {
+    const { sidebar: { toggle } } = useContext(StaticContext);
+    useEffect(() => {
+        toggle(false);
+        return () => toggle(true);
+    }, []);
+}
 
 class Statics extends PureComponent {
 
@@ -80,6 +90,7 @@ class Statics extends PureComponent {
                 <div
                     id="Sidebar"
                     className={open ? "" : "closed"}
+                    onClick={e => e.stopPropagation()}
                     onKeyDown={e => e.stopPropagation()}
                     onMouseDown={e => e.stopPropagation()}
                     onWheel={e => e.stopPropagation()}

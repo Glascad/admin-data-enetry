@@ -1,31 +1,57 @@
 
 <<LOOP
-    TYPE (detail, configuration)
-    PARENT (system, detail)
+    FULL (<<PARENT>>_<<TYPE>>, <<PARENT>>_<<TYPE>>, <<PARENT>>_<<TYPE>>)
+    GRANDFULL (<<GRANDPARENT>>_<<PARENT>>, <<GRANDPARENT>>_<<PARENT>>, <<GRANDPARENT>>_<<PARENT>>)
+    TYPE (detail, configuration, part)
+    PARENT (system, detail, configuration)
+    GRANDPARENT (NULL, system, detail)
 >>
 
     -- CREATE
 
-    DROP FUNCTION IF EXISTS create_entire_system_<<TYPE>>;
+    DROP FUNCTION IF EXISTS create_entire_<<FULL>>;
 
-    CREATE OR REPLACE FUNCTION gc_protected.create_entire_system_<<TYPE>>(
-        system_<<TYPE>> NEW_SYSTEM_<<TYPE>>,
+    CREATE OR REPLACE FUNCTION gc_protected.create_entire_<<FULL>>(
+        <<FULL>> NEW_<<FULL>>,
         system SYSTEMS
-    ) RETURNS SYSTEM_<<TYPE>>S AS $$
+    ) RETURNS <<FULL>>S AS $$
     DECLARE
-        st ALIAS FOR system_<<TYPE>>;
+        t ALIAS FOR <<FULL>>;
         s ALIAS FOR system;
-        ust system_<<TYPE>>s%ROWTYPE;
+        ust <<FULL>>s%ROWTYPE;
     BEGIN
 
-        INSERT INTO system_<<TYPE>>s (
+        IF s.id IS NULL THEN RAISE EXCEPTION 'System id is NULL in <<FULL>>';
+        END IF;
+        
+        INSERT INTO <<FULL>>s (
             system_id,
-            <<TYPE>>_type,
+            <<ONLY TYPE (detail, configuration)>>
+                <<TYPE>>_type,
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                manufacturer_id,
+                transform,
+                part_id,
+            <<END ONLY>>
             parent_<<PARENT>>_option_value_path
+            <<ONLY TYPE (configuration, part)>>
+                , parent_<<GRANDFULL>>_path
+            <<END ONLY>>
         ) VALUES (
             s.id,
-            st.<<TYPE>>_type,
-            st.parent_<<PARENT>>_option_value_path
+            <<ONLY TYPE (detail, configuration)>>
+                t.<<TYPE>>_type,
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                s.manufacturer_id,
+                t.transform,
+                t.part_id,
+            <<END ONLY>>
+            prepend_system_id(s.id, t.parent_<<PARENT>>_option_value_path)
+            <<ONLY TYPE (configuration, part)>>
+                , prepend_system_id(s.id, t.parent_<<GRANDFULL>>_path)
+            <<END ONLY>>
         )
         RETURNING * INTO ust;
 
@@ -38,42 +64,69 @@
 
     -- UPDATE
 
-    DROP FUNCTION IF EXISTS update_entire_system_<<TYPE>>;
+    DROP FUNCTION IF EXISTS update_entire_<<FULL>>;
 
-    CREATE OR REPLACE FUNCTION gc_protected.update_entire_system_<<TYPE>>(
-        system_<<TYPE>> ENTIRE_system_<<TYPE>>,
+    CREATE OR REPLACE FUNCTION gc_protected.update_entire_<<FULL>>(
+        <<FULL>> ENTIRE_<<FULL>>,
         system SYSTEMS
-    ) RETURNS SYSTEM_<<TYPE>>S AS $$
+    ) RETURNS <<FULL>>S AS $$
     DECLARE
-        st ALIAS FOR system_<<TYPE>>;
+        t ALIAS FOR <<FULL>>;
         s ALIAS FOR system;
-        u NEW_SYSTEM_<<TYPE>>;
-        ust system_<<TYPE>>s%ROWTYPE;
+        u NEW_<<FULL>>;
+        ust <<FULL>>s%ROWTYPE;
     BEGIN
 
-        u := st.update;
+        u := t.update;
 
-        IF st.path IS NULL OR u IS NULL THEN 
-            RAISE EXCEPTION 'Must specify both `path` and `update` on system <<TYPE>>, received path: % and update: %', st.path, (
-                CASE WHEN u IS NULL THEN NULL
-                ELSE '[update]' END
-            );
-        END IF;
+        <<ONLY TYPE (detail, configuration)>>
+            IF t.path IS NULL OR u IS NULL THEN 
+                RAISE EXCEPTION 'Must specify both `path` and `update` on <<PARENT>> <<TYPE>>, received path: % and update: %', t.path, (
+                    CASE WHEN u IS NULL THEN NULL
+                    ELSE '[update]' END
+                );
+            END IF;
+        <<END ONLY>>
 
-        UPDATE system_<<TYPE>>s sts SET
-            <<TYPE>>_type = COALESCE(
-                u.<<TYPE>>_type,
-                sts.<<TYPE>>_type
-            ),
+        UPDATE <<FULL>>s ts SET
             parent_<<PARENT>>_option_value_path = COALESCE(
                 u.parent_<<PARENT>>_option_value_path,
-                sts.parent_<<PARENT>>_option_value_path
-            )
-        WHERE sts.path = st.path
+                ts.parent_<<PARENT>>_option_value_path
+            ),
+            <<ONLY TYPE (configuration, part)>>
+                parent_<<GRANDFULL>>_path = COALESCE(
+                    u.parent_<<GRANDFULL>>_path,
+                    ts.parent_<<GRANDFULL>>_path
+                ),
+                transform = COALESCE(
+                    u.transform,
+                    ts.transform
+                ),
+            <<END ONLY>>
+            <<ONLY TYPE (detail, configuration)>>
+                <<TYPE>>_type = COALESCE(
+                    u.<<TYPE>>_type,
+                    ts.<<TYPE>>_type
+                )
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                part_id = COALESCE(
+                    u.part_id,
+                    ts.part_id
+                )
+            <<END ONLY>>
+        WHERE
+            <<ONLY TYPE (detail, configuration)>>
+                ts.path = t.path
+            <<END ONLY>>
+            <<ONLY TYPE (part)>>
+                ts.id = t.id
+            <<END ONLY>>
+            AND ts.system_id = s.id
         RETURNING * INTO ust;
 
         IF ust IS NULL THEN
-            RAISE EXCEPTION 'Cannot update system <<TYPE>>, cannot find path %', st.path::TEXT;
+            RAISE EXCEPTION 'Cannot update <<PARENT>> <<TYPE>>, cannot find path %', t.path::TEXT;
         END IF;
 
         RETURN ust;

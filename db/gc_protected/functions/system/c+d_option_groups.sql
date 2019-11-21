@@ -14,14 +14,13 @@ BEGIN
         SELECT * FROM UNNEST (s.option_groups_to_delete) AS name
     )
     AND og.system_id = us.id;
-    
 
     INSERT INTO option_groups (
         system_id,
         name
     ) SELECT
         us.id,
-        nog.name
+        nog
     FROM UNNEST (s.new_option_groups) nog;
 
     RETURN us;

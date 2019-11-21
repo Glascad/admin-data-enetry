@@ -14,7 +14,7 @@
 --     ssoos SYSTEM_SET_OPTION_OUTPUT[];
 --     selected BOOLEAN;
 --     cto CONFIGURATION_TYPE_OUTPUT;
---     scto system_configuration_OUTPUT;
+--     scto detail_configuration_OUTPUT;
 --     ssctos SYSTEM_SET_CONFIGURATION_TYPE_OUTPUT[];
 --     dt DETAIL_TYPE;
 --     sdto system_detail_OUTPUT;
