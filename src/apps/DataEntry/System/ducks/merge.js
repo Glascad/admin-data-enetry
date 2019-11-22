@@ -106,7 +106,7 @@ export default function merge(systemInput, {
             };
         })
         .concat(newItems.map(item => {
-            const { name, __typename, id, fakeId } = item;
+            const { name, __typename = '', id, fakeId } = item;
             const [parentKey, parentPath] = getParentKeyAndPathOffObject(item);
             const path = `${
                 parentPath || systemId
