@@ -159,16 +159,19 @@ export default memo(function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
+                        data-cy="reflect-vertical"
                         Icon={Icons.ReflectVertical}
                         onChange={createMirror(0)}
                         disabled={!selectedItem}
                     />
                     <Input
+                        data-cy="reflect-horizontal"
                         Icon={Icons.ReflectHorizontal}
                         onChange={createMirror(90)}
                         disabled={!selectedItem}
                     />
                     <Input
+                        data-cy="reflect-diagonal"
                         Icon={Icons.ReflectAngle}
                         onChange={createMirror(45)}
                         disabled={!selectedItem}
@@ -184,16 +187,19 @@ export default memo(function DetailTray({
                 </div>
                 <div className="input-group">
                     <Input
+                        data-cy="rotate-counter-clockwise"
                         Icon={Icons.RotateCounterClockwise}
                         onChange={createRotate(false)}
                         disabled={!selectedItem}
                     />
                     <Input
+                        data-cy="rotate-clockwise"
                         Icon={Icons.RotateClockwise}
                         onChange={createRotate(true)}
                         disabled={!selectedItem}
                     />
                     <Input
+                        data-cy="rotate"
                         labe="Angle"
                         type="number"
                         value={angle}

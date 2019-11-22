@@ -1,37 +1,38 @@
 
-describe('system-builder tests', () => {
+describe('Testing navigation in system-builder', () => {
     beforeEach(() => {
         cy.login();
-        cy.visit('http://localhost:3000/data-entry/system/info?systemId=1');
+        cy.visit('http://localhost:3000/data-entry/system/info?manufacturerId=2&systemId=2');
         cy.wait(3000);
     });
 
     it('can navigate between info and builder', () => {
-        cy.get('[data-cy="load"]').click();
+        cy.getDataCy`save-load`.click();
         cy.url().should('include', '/build');
-        cy.get('[data-cy="system-info-link"]').click();
+        cy.getDataCy`system-info-link`.click();
         cy.url().should('include', '/info');
-        cy.get('[data-cy="load"]').click();
+        cy.getDataCy`save-load`.click();
         cy.url().should('include', '/build');
-        cy.get('[data-cy="system-info-link"]').click();
+        cy.getDataCy`system-info-link`.click();
         cy.url().should('include', '/info');
     });
 
     it('can go back to system search from system info', () => {
-        cy.get('[data-cy="close"]').click();
-        cy.url().should('include', '/main-menu');
+        cy.getDataCy`cancel`.click();
+        cy.url().should('include', '/manufacturer');
     });
 
     it('can go back to system search from system builder', () => {
-        cy.get('[data-cy="load"]').click();
+        cy.getDataCy`save-load`.click();
         cy.url().should('include', '/build');
-        cy.get('[data-cy="close"]').click();
-        cy.url().should('include', '/main-menu');
+        cy.getDataCy`close`.click();
+        cy.url().should('include', '/manufacturer');
     });
 
-    it('can navigate from main-menu/manage-systems to system info|builder', () => {
-        cy.visit('http://localhost:3000/data-entry/main-menu/manage-systems');
-        cy.get('[data-cy="new-system-link"]').click();
+    it('can navigate from manufacturer/systems to system info|builder', () => {
+        cy.visit('http://localhost:3000/data-entry/manufacturer/systems?manufacturerId=2');
+        cy.wait(2000);
+        cy.getDataCy`new-system`.click();
         cy.url().should('include', '/system/info');
     });
 });
