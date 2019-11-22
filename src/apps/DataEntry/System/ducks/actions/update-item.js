@@ -91,7 +91,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
             n: console.log({ key, value, }),
             [key]: value.map(item => {
                 const { update: itemUpdate } = item;
-                const [updatedParentPathKey, updatedParentPath] = Object.entries(itemUpdate).find(([itemKey]) => itemKey.match(/parent/i)) || [];
+                const [updatedParentPathKey, updatedParentPath] = getParentKeyAndPathOffObject(itemUpdate);
                 const updatedPath = getUpdatedPath(item);
 
                 return (updatedParentPath || getParentPath({ path: updatedPath })).startsWith(parentPath) ?
@@ -111,8 +111,15 @@ export default function UPDATE_ITEM(systemInput, payload) {
                                     [
                                         updatedParentPathKey
                                         ||
-                                        `parent${getTypenameFromPath(getParentPath(updatedPath))}Path`
-                                    ]: getParentPath(updatedPath).replace(path, newPath),
+                                        console.log({
+                                            path,
+                                            updatedPath,
+                                            parentPath: getParentPath(updatedPath),
+                                            type: getTypenameFromPath(getParentPath(updatedPath))
+                                        })
+                                        ||
+                                        `parent${getTypenameFromPath(getParentPath({ path: updatedPath }))}Path`
+                                    ]: getParentPath({ path: updatedPath }).replace(path, newPath),
                                 },
                             }
                     )
@@ -125,7 +132,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
                         path: oldPath,
                         update: {
                             ...update,
-                            [`parent${getTypenameFromPath(getParentPath(payload))}Path`]: getParentPath(payload),
+                            [`parent${getTypenameFromPath(parentPath)}Path`]: getParentPath(parentPath),
                         },
                     }
                     :

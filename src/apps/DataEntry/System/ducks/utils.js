@@ -2,7 +2,7 @@ import { memoize } from 'lodash';
 import { match } from '../../../../utils';
 import { getChildren, getItemPathAddition, getLastItemFromPath, getParentPath } from "../../../../app-logic/system-utils";
 
-export const getOldPath = memoize((currentPath, systemInput) => Object.entries(systemInput)
+export const getOldPath = (currentPath, systemInput) => Object.entries(systemInput)
     .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i)) ?
         allUpdatedItemsArr.concat(value)
         :
@@ -26,9 +26,9 @@ export const getOldPath = memoize((currentPath, systemInput) => Object.entries(s
             }
             :
             resultPaths
-    }, {}).path || currentPath);
+    }, {}).path || currentPath;
 
-export const getUpdatedPath = memoize(item => {
+export const getUpdatedPath = item => {
     const { path, update } = item;
     const isUpdatedItem = !!update;
     const [parentPathKey, parentPath] = getParentKeyAndPathOffObject(isUpdatedItem ? update : item);
@@ -40,7 +40,7 @@ export const getUpdatedPath = memoize(item => {
     // adds the __DT__ or __CT__ to the path
     const pathAddition = getItemPathAddition(item);
     return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
-});
+};
 
 export const getParentWithUpdatedPath = (systemInput, { path }) => {
     const {
@@ -92,7 +92,7 @@ export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.s
     // check: what is the underscore for?
     getSelectTypeName(valueChildrenArr, `${name}_`);
 
-export const getPotentialParent = memoize(({ partialPayload, item }, systemMap) => {
+export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
     const { __typename: partialTypename, path: partialPath } = partialPayload;
     const partialName = getLastItemFromPath(partialPath);
     const partialParentPath = getParentPath(partialPayload);
@@ -139,7 +139,7 @@ export const getPotentialParent = memoize(({ partialPayload, item }, systemMap) 
                 ||
                 partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration).*value/i, '$1')
         )
-});
+};
 
 export const getParentKeyAndPathOffObject = object => Object.entries(object).find(([key]) => key.match(/parent/i)) || [];
 

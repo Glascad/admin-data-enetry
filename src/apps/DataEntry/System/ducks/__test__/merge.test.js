@@ -1,10 +1,11 @@
-import merge from "../utils/merge";
-import { sample1 } from "../../../../../../../app-logic/__test__/sample-systems";
+import merge from "../merge";
+import { sample1 } from "../../../../../app-logic/__test__/sample-systems";
 import { systemUpdate } from "../schemas";
 
 // Must delete items and children
 // Must update items and children
 // Must create new items
+
 
 function testMerge({
     description = '',
@@ -27,7 +28,8 @@ function testMerge({
     },
 }) {
 
-    const mergedSystem = merge({...systemUpdate, ...systemInput }, { _system });
+    const mergedSystem = merge
+    ({...systemUpdate, ...systemInput }, { _system });
 
     const {
         _systemOptions = [],

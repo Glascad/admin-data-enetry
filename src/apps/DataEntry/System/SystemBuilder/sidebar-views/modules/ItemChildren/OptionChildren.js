@@ -7,7 +7,7 @@ import { getOptionIsGrouped } from '../../../../ducks/utils';
 const OptionChildren = ({
     system,
     queryResult: {
-        validOptions,
+        validOptions = [],
     },
     item,
     item: {

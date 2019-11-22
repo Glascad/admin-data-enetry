@@ -1,6 +1,6 @@
 import { COPY_ITEM } from "../../actions"
-import { sampleSystemMap } from "../../../../../../../../app-logic/__test__/sample-systems";
 import { systemUpdate } from "../../schemas";
+import { sampleSystemMap } from "../../../../../../app-logic/__test__/sample-systems";
 
 function testCopyItem({
     systemInput,

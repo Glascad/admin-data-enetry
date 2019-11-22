@@ -157,7 +157,7 @@ export const getLastItemFromPath = window.getLastItemFromPath = (path = '', { na
     :
     path.replace(/.*\.(\w+)$/, '$1');
 
-export const filterOptionsAbove = window.filterOptionsAbove = ({ path, newPath }, optionList) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
+export const filterOptionsAbove = window.filterOptionsAbove = ({ path, newPath }, optionList = []) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
 
 export const getNextItemFromPath = window.getNextItemFromPath = (path, previousItem) => {
     if (previousItem.match(/[^a-z0-9_]/ig)) throw new Error(`Cannot search for ${previousItem}, contains invalid characters`);
