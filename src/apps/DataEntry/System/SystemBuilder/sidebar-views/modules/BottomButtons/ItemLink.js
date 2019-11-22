@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { parseSearch } from '../../../../../../../utils';
+import { parseSearch, match } from '../../../../../../../utils';
 
 const ItemLink = ({
     item: {
@@ -20,7 +20,10 @@ const ItemLink = ({
         <button
             data-cy="detail-builder-link"
         >
-            Edit {path.match(/__CT__/) ? "Configuration" : "Detail"}
+                Edit {match(path)
+                    .regex(/__PT__/, "Part")
+                    .regex(/__CT__/, "Configuration")
+                .otherwise("Detail")}
         </button>
     </Link>
 ) : null;

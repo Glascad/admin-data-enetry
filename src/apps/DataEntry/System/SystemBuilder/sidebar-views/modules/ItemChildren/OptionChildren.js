@@ -39,7 +39,7 @@ const OptionChildren = ({
         data-cy="edit-item-values"
         title="Option Values"
         circleButton={selectOptions.length > 0 ? {
-            "data-cy": "add-item-value",
+            "data-cy": "add-child",
             actionType: "add",
             className: "action",
             onClick: () => {

@@ -2,14 +2,14 @@ describe('Testing  actions in system builder', () => {
     beforeEach(() => {
         cy.login();
 
-        cy.visit(`http://localhost:3000/data-entry/manufacturer/single-system/build?sampleSystem=sample3&manufacturerId=1&systemId=2`);
+        cy.visit(`http://localhost:3000/data-entry/system/build?sampleSystem=sample3&manufacturerId=1&systemId=1`);
     });
 
     // add first item
     it('Can check grouping boxes for correct toggles and information', () => {
 
         // CONFIGURATION OPTION VALUE has correct information and is working correctly
-        cy.getDataCy`2.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE`.click({ force: true });
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE`.click({ force: true });
 
         cy.getDataCy`toggle-child-option`.should('exist').should('have.class', 'selected');
         cy.getDataCy`toggle-child-part`.should('exist').should('have.class', 'empty');
@@ -35,7 +35,7 @@ describe('Testing  actions in system builder', () => {
         // TODO makes sure the select has the correct information
 
         // DETAIL CONFIGURATION
-        cy.getDataCy`2.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL`.click({ force: true });
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL`.click({ force: true });
         cy.getDataCy`delete-child-stops`.click();
         cy.getDataCy`modal-finish-button`.click();
 
@@ -59,7 +59,7 @@ describe('Testing  actions in system builder', () => {
         // cy.getDataCy`toggle-child-part`.should('not.have.class', 'disabled');
 
         // DETAIL OPTION VALUE
-        cy.getDataCy`2.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP`.click({ force: true });
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP`.click({ force: true });
         cy.getDataCy`delete-child-glazing`.click();
         cy.getDataCy`modal-finish-button`.click();
 
@@ -81,7 +81,7 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`toggle-child-configuration`.should('not.have.class', 'disabled');
 
         // SYSTEM DETAIL
-        cy.getDataCy`2.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL`.click({ force: true });
+        cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL`.click({ force: true });
         cy.getDataCy`delete-child-horizontal`.click();
 
         cy.getDataCy`toggle-child-option`.click().should('exist').should('have.class', 'selected');
@@ -102,7 +102,7 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`toggle-child-configuration`.should('not.have.class', 'disabled');
 
         // SYSTEM OPTION VALUE
-        cy.getDataCy`2.SET.BACK`.click({ force: true });
+        cy.getDataCy`1.SET.BACK`.click({ force: true });
         cy.getDataCy`delete-child-head`.click();
 
         cy.getDataCy`toggle-child-option`.click().should('exist').should('have.class', 'selected');
@@ -123,7 +123,7 @@ describe('Testing  actions in system builder', () => {
         cy.getDataCy`toggle-child-detail`.should('not.have.class', 'disabled');
 
         // SYSTEM
-        cy.getDataCy`2`.click({ force: true });
+        cy.getDataCy`1`.click({ force: true });
         cy.getDataCy`delete-child-set`.click();
         cy.getDataCy`modal-finish-button`.click();
 

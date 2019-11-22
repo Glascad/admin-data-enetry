@@ -2,7 +2,7 @@ describe('Testing  actions in system builder', () => {
     beforeEach(() => {
         cy.login();
 
-        cy.visit(`http://localhost:3000/data-entry/manufacturer/single-system/build?sampleSystem=sample1&manufacturerId=1&systemId=2`);
+        cy.visit(`http://localhost:3000/data-entry/system/build?sampleSystem=sample1&manufacturerId=1&systemId=1`);
     });
 
     // add first item
@@ -13,7 +13,7 @@ describe('Testing  actions in system builder', () => {
         // Add DURABILITY to STOP DOWN HEAD GLAZING INSIDE
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD`.click({ force: true });
         cy.get('.RightSidebar').should('have.class', 'open');
-        cy.getDataCy`add-option`.click();
+        cy.getDataCy`add-child`.click();
         cy.getDataCy`edit-child-add_option add_option`.type('dur{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD.DURABILITY`.should('exist');
 
@@ -40,7 +40,7 @@ describe('Testing  actions in system builder', () => {
 
         // Delete HEAD
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD`.click({ force: true });
-        cy.getDataCy`edit-detail-delete-button`.click();
+        cy.getDataCy`edit-configuration-delete-button`.click();
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD`.should('not.exist');
 
         // Change default to HGIH_PERFORMANCE
@@ -58,7 +58,7 @@ describe('Testing  actions in system builder', () => {
 
         // Add COMPENSATING_RECEPTOR
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.click({ force: true });
-        cy.getDataCy`add-configuration`.click();
+        cy.getDataCy`add-child`.click();
         cy.getDataCy`edit-child-add_configuration add_configuration`.type('Compensating{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR`.should('exist');
 
@@ -72,7 +72,7 @@ describe('Testing  actions in system builder', () => {
 
         // Add STOP UP
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS`.click({ force: true });
-        cy.getDataCy`add-option-value`.click()
+        cy.getDataCy`add-child`.click()
         cy.getDataCy`modal-finish-button`.click()
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP`.should('exist');
 
@@ -156,7 +156,7 @@ describe('Testing  actions in system builder', () => {
         
         // adding a grouped item adds the values already existing below it
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL`.click({ force: true });
-        cy.getDataCy`add-option`.click({ force: true });
+        cy.getDataCy`add-child`.click({ force: true });
         cy.getDataCy`edit-child-add_option add_option`.click({ force: true }).type('stops{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS`.should('exist');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP`.should('exist');
@@ -198,7 +198,7 @@ describe('Testing  actions in system builder', () => {
 
         // adding a grouped item adds the values already existing below it
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL`.click({ force: true });
-        cy.getDataCy`add-option`.click({ force: true });
+        cy.getDataCy`add-child`.click({ force: true });
         cy.getDataCy`edit-child-add_option add_option`.click({ force: true }).type('stops{enter}');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS`.should('exist');
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.STOPS.UP`.should('exist');

@@ -87,7 +87,13 @@ export default function System({
 
     const { systemId, sampleSystem } = parseSearch(search);
 
-    const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
+
+    const [fetchQuery, qr, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+    const queryResult = {
+        ...qr,
+        _system: _sampleSystem || _system,
+    };
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
@@ -99,8 +105,6 @@ export default function System({
     } = useRedoableState(systemUpdate);
 
     const { _system } = queryResult;
-
-    const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
     const system = merge(systemInput, queryResult);
 
@@ -154,10 +158,7 @@ export default function System({
         <Navigator
             routes={subroutes}
             routeProps={{
-                queryResult: {
-                    ...queryResult,
-                    _system: _sampleSystem || _system,
-                },
+                queryResult,
                 fetching,
                 updateEntireSystem,
                 updating,

@@ -42,7 +42,7 @@ export const getUpdatedPath = memoize(item => {
     return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
 });
 
-export const getParentWithUpdatedPath = memoize((systemInput, { path }) => {
+export const getParentWithUpdatedPath = (systemInput, { path }) => {
     const {
         systemOptions,
         detailOptions,
@@ -84,7 +84,7 @@ export const getParentWithUpdatedPath = memoize((systemInput, { path }) => {
             :
             parentItem
     }, undefined);
-});
+};
 
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
     name
@@ -101,42 +101,44 @@ export const getPotentialParent = memoize(({ partialPayload, item }, systemMap) 
     const itemChildren = getChildren(item, systemMap);
     const itemName = getLastItemFromPath(path);
 
-
     if (__typename === partialTypename) return false;
 
-    return partialTypename.match(/option$/i) ?
-        // Option has to be under value or type, be the terminal node, and not already have the option in the path
-        (
+    return match(partialTypename)
+        .regex(/option$/i,
+            // Option has to be under value or type, be the terminal node, and not already have the option in the path
             (
-                __typename === `${partialTypename}Value`
-                ||
-                __typename.replace(/^.*(configuration|detail)$/i, '$1') === partialTypename.replace(/^(detail|configuration).*/i, '$1')
+                (
+                    __typename === `${partialTypename}Value`
+                    ||
+                    __typename.replace(/^.*(configuration|detail)$/i, '$1') === partialTypename.replace(/^(detail|configuration).*/i, '$1')
+                )
+                &&
+                itemChildren.length === 0
+                &&
+                !path.includes(partialName)
             )
-            &&
-            itemChildren.length === 0
-            &&
-            !path.includes(partialName)
         )
-        :
-        partialTypename.match(/value$/i) ?
+        .regex(/value$/i,
             // value needs to be under an option with the same parent name, and not already have the value in it.
             __typename === partialTypename.replace(/value/i, '')
             &&
             partialParentName === itemName
             &&
             !itemChildren.some(value => getLastItemFromPath(value.path) === partialName)
-            :
+        )
+        .otherwise(
             // Type needs to be under the lowest systemOptionValue or detailOptionValue
             // or Type can be under another type
             // doesn't already contain the type underneath it
             itemChildren.length > 0 ?
                 itemChildren[0].__typename === partialTypename
                 &&
-                !itemChildren.some(c => getLastItemFromPath(c.path) === partialName)
+                !itemChildren.some(child => getLastItemFromPath(child.path) === partialName)
                 :
                 partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^.*(system|detail|configuration)$/i, '$1')
                 ||
-                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration)\.*Value/i, '$1');
+                partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration).*value/i, '$1')
+        )
 });
 
 export const getParentKeyAndPathOffObject = object => Object.entries(object).find(([key]) => key.match(/parent/i)) || [];
