@@ -4,6 +4,7 @@ import SystemTree from './SystemTree/SystemTree';
 import Header from './Header/Header';
 import { useCollapseSidebar } from '../../../../Statics/Statics';
 import { usePartialAction, useSelection, useCheckDefaultValues } from '../ducks/hooks';
+import Sidebar from './Sidebar/Sidebar';
 import * as VIEWS from './sidebar-views';
 
 SystemBuilder.navigationOptions = {
@@ -68,7 +69,22 @@ export default function SystemBuilder({
                     cancelPartial,
                 }}
             />
-            <RightSidebar
+            <Sidebar
+                {...{
+                    queryResult,
+                    system,
+                    systemMap,
+                    dispatch,
+                    selectItem,
+                    selectedItem,
+                    dispatchPartial,
+                    partialAction,
+                    cancelPartial,
+                    match,
+                    location,
+                }}
+            />
+            {/* <RightSidebar
                 open={!!selectedItem}
                 handleCloseClick={() => selectItem()}
                 View={VIEWS[selectedTypename] || { title: '', component: () => null }}
@@ -83,7 +99,7 @@ export default function SystemBuilder({
                     partialAction,
                     cancelPartial,
                 }}
-            />
+            /> */}
         </TransformProvider>
     );
 }

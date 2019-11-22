@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { filterOptionsAbove, getAllInstancesOfItem, getChildren, getLastItemFromPath, getParentPath } from '../../../../../../../../app-logic/system-utils';
 import { confirmWithModal, ToggleBox } from '../../../../../../../../components';
 import { match } from '../../../../../../../../utils';
@@ -6,7 +6,7 @@ import { ADD_ITEM, UPDATE_ITEM } from '../../../../ducks/actions';
 import { getSelectTypeName } from '../../../../ducks/utils';
 import Row from './Row';
 
-const ValueAndTypeChildren = ({
+export default function ValueAndTypeChildren({
     system,
     system: {
         _optionGroups,
@@ -26,18 +26,17 @@ const ValueAndTypeChildren = ({
         __typename = '',
     } = {},
     children = [],
-    child,
-    child: {
-        path: childPath,
-        __typename: childTypename,
-    } = {},
-    childName,
-    optionIsSelected,
-    setOptionIsSelected,
+    children: {
+        0: child,
+        0: {
+            path: childPath = '',
+            __typename: childTypename = '',
+        } = {},
+    } = [],
     selectItem,
     dispatch,
     systemMap,
-}) => {
+}) {
 
     console.log({
         system,
@@ -51,8 +50,9 @@ const ValueAndTypeChildren = ({
         selectItem,
         dispatch,
         systemMap,
+    });
 
-    })
+    const childName = getLastItemFromPath(childPath);
 
     const childTypeType = __typename.match(/value/i) ?
         __typename.match(/^System/i) ?
@@ -69,7 +69,7 @@ const ValueAndTypeChildren = ({
             __typename.match(/Detail$/i) ?
                 'Configuration'
                 :
-                'Part'
+                'Part';
 
     const selectValidTypes = __typename.match(/value/i) ?
         __typename.match(/^system/i) ?
@@ -94,6 +94,13 @@ const ValueAndTypeChildren = ({
         selectValidTypes.filter(name => !children.some(({ path: childPath }) =>
             name.toLowerCase() === getLastItemFromPath(childPath).toLowerCase()
         ));
+
+    const [optionSelected, setOptionIsSelected] = useState(true);
+
+    const optionIsSelected = children.length > 1 ?
+        !!childTypename.match(/option/i)
+        :
+        optionSelected;
 
     return (
         <ToggleBox
@@ -252,5 +259,3 @@ const ValueAndTypeChildren = ({
         />
     )
 };
-
-export default ValueAndTypeChildren;

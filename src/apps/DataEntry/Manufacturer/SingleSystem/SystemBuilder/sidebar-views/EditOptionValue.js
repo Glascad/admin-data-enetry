@@ -4,7 +4,6 @@ import { getChildren, getLastItemFromPath, getParent, getSiblings } from '../../
 import { TitleBar } from '../../../../../../components';
 import { match } from '../../../../../../utils';
 import BottomButtons from './modules/BottomButtons/BottomButtons';
-import { ValueToggles } from './modules/item-toggles';
 import ItemChildren from './modules/ItemChildren/ItemChildren';
 import ItemName from './modules/ItemName/ItemName';
 import ItemToggles from './modules/ItemToggles/ItemToggles';
@@ -14,7 +13,7 @@ function EditOptionValue({
     location,
     match: systemMatch,
     selectItem,
-    selectedItem: optionValue,
+    selectedItem: item,
     selectedItem: {
         path,
         __typename,
@@ -35,22 +34,22 @@ function EditOptionValue({
 }) {
     console.log(arguments[0]);
 
-    const valueParentOption = getParent(optionValue, systemMap);
-    const valueSiblings = getSiblings(optionValue, systemMap);
-    const children = getChildren(optionValue, systemMap);
-
+    const children = getChildren(item, systemMap);
+    
+    const valueParentOption = getParent(item, systemMap);
     const {
         path: oPath,
         __typename: oTypename,
     } = valueParentOption;
-
+    
     const oName = getLastItemFromPath(oPath);
-    const oVName = getLastItemFromPath(path);
-
+    const itemName = getLastItemFromPath(path);
+    
     const optionIsGrouped = _optionGroups.some(({ name }) => name === oName);
-
-    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key, value]) => key.match(/default/i) && value === oVName) || [];
-
+    
+    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key, value]) => key.match(/default/i) && value === itemName) || [];
+    
+    const valueSiblings = getSiblings(item, systemMap);
     const validValues = validOptions
         .reduce((valueSiblings, { name, _validOptionValues }) => (
             oName.toLowerCase() === name.toLowerCase() ?
@@ -59,7 +58,7 @@ function EditOptionValue({
                 valueSiblings
         ), []);
 
-    const selectValidValues = validValues
+    const selectOptions = validValues
         .filter(({ name }) => !valueSiblings.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
@@ -79,7 +78,7 @@ function EditOptionValue({
         __typename.match(/DetailOption/i) ?
             'Configuration'
             :
-            'Part'
+            'Part';
 
     const [optionSelected, setOptionIsSelected] = useState(true);
 
@@ -88,8 +87,8 @@ function EditOptionValue({
         !!childTypename.match(/option/i)
         :
         optionSelected;
-    
-    console.log(optionValue);
+
+    console.log(item);
 
     return (
         <>
@@ -98,9 +97,9 @@ function EditOptionValue({
             />
             <ItemName
                 {...{
-                    item: optionValue,
-                    itemName: oVName,
-                    selectOptions: selectValidValues,
+                    item,
+                    itemName,
+                    selectOptions,
                     optionIsGrouped,
                     children,
                     dispatch,
@@ -109,8 +108,8 @@ function EditOptionValue({
             />
             <ItemToggles
                 {...{
-                    item: optionValue,
-                    itemName: oVName,
+                    item,
+                    itemName,
                     isDefault,
                     optionIsGrouped,
                     dispatch,
@@ -121,7 +120,7 @@ function EditOptionValue({
                 {...{
                     system,
                     queryResult,
-                    item: optionValue,
+                    item,
                     children,
                     child,
                     childTypeType,
@@ -135,7 +134,7 @@ function EditOptionValue({
             />
             <BottomButtons
                 {...{
-                    item: optionValue,
+                    item,
                     parentOptionIsGrouped: optionIsGrouped,
                     name: 'Value',
                     match,

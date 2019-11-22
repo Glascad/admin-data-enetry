@@ -2,26 +2,27 @@ import React from 'react';
 import { Input } from '../../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
 
-const TypeToggles = ({
-    type,
+export default function TypeToggles({
+    name,
     item,
     item: {
-        optional
+        optional,
     },
     dispatch,
-}) => type === 'Configuration' ? (
-    <Input
-        data-cy="required-optional"
-        type="switch"
-        label="Required"
-        checked={!optional}
-        onChange={() => dispatch(UPDATE_ITEM, {
-            ...item,
-            update: {
-                optional: !optional,
-            },
-        })}
-    />
+}) {
+    
+    return name === 'Configuration' ? (
+        <Input
+            data-cy="required-optional"
+            type="switch"
+            label="Required"
+            checked={!optional}
+            onChange={() => dispatch(UPDATE_ITEM, {
+                ...item,
+                update: {
+                    optional: !optional,
+                },
+            })}
+        />
     ) : null;
-
-export default TypeToggles;
+}

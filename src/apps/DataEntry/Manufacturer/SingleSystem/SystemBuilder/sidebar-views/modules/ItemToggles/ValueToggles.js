@@ -3,23 +3,26 @@ import { getParent, getAllInstancesOfItem } from '../../../../../../../../app-lo
 import { confirmWithModal, Input } from '../../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
 
-const ValueToggles = ({
+export default function ValueToggles({
     item,
     item: {
         __typename,
     },
     itemName,
-    isDefault,
     optionIsGrouped,
     dispatch,
     systemMap,
-}) => {
+}) {
+
+    const valueParentOption = getParent(item, systemMap);
+
     const {
         path: parentPath,
         __typename: parentTypename,
-    } = getParent(item, systemMap);
+    } = valueParentOption;
 
-    
+    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key, value]) => key.match(/default/i) && value === itemName) || [];
+
     return (
         <Input
             data-cy="default-option-value"
@@ -38,7 +41,7 @@ const ValueToggles = ({
                 const updateDefaultForAllInstances = () => {
                     getAllInstancesOfItem({ path: parentPath, __typename: parentTypename }, systemMap)
                         .forEach((instance, i) => {
-                            const {path: instancePath, __typename: instanceTypename} = systemMap[instance];
+                            const { path: instancePath, __typename: instanceTypename } = systemMap[instance];
                             dispatch(UPDATE_ITEM, {
                                 path: instancePath,
                                 __typename: instanceTypename,
@@ -60,6 +63,5 @@ const ValueToggles = ({
                     updateDefault();
             }}
         />
-    )};
-
-export default ValueToggles;
+    );
+};

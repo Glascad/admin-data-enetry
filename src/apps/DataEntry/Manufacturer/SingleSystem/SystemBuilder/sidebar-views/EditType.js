@@ -12,7 +12,7 @@ function EditType({
     location,
     match,
     selectItem,
-    selectedItem: selectedType,
+    selectedItem: item,
     selectedItem: {
         __typename,
         path = '',
@@ -34,9 +34,9 @@ function EditType({
     console.log(arguments[0]);
 
     const isDetail = !!__typename.match(/Detail/i);
-    const type = __typename.replace(/^(System|Detail|Configuration)(\w+)/i, '$2');
+    const name = __typename.replace(/^(System|Detail|Configuration)(\w+)/i, '$2');
 
-    const children = getChildren(selectedType, systemMap);
+    const children = getChildren(item, systemMap);
 
     const {
         0: child,
@@ -45,6 +45,8 @@ function EditType({
             __typename: childTypename,
         } = {},
     } = children;
+    
+    const childName = getLastItemFromPath(childPath);
 
     const [optionSelected, setOptionIsSelected] = useState(true);
 
@@ -53,10 +55,9 @@ function EditType({
         :
         optionSelected;
 
-    const tName = getLastItemFromPath(path, systemMap);
-    const childName = getLastItemFromPath(childPath);
+    const itemName = getLastItemFromPath(path, systemMap);
 
-    const siblings = getSiblings(selectedType, systemMap);
+    const siblings = getSiblings(item, systemMap);
 
     const selectValidTypes = __typename.match(/detail/i) ?
         detailTypes
@@ -66,7 +67,7 @@ function EditType({
             :
             partTypes;
 
-    const selectTypes = selectValidTypes
+    const selectOptions = selectValidTypes
         .filter(name => !siblings.some(({ path: typePath }) =>
             name.toLowerCase() === getLastItemFromPath(typePath).toLowerCase()
         ));
@@ -74,22 +75,22 @@ function EditType({
     return (
         <>
             <TitleBar
-                title={`Edit ${type}`}
+                title={`Edit ${name}`}
             />
             <ItemName
                 {...{
-                    type,
-                    item: selectedType,
-                    itemName: tName,
-                    selectOptions: selectTypes,
+                    name,
+                    item,
+                    itemName,
+                    selectOptions,
                     children,
                     dispatch,
                 }}
             />
             <ItemToggles
                 {...{
-                    item: selectedType,
-                    type,
+                    item,
+                    name,
                     optional,
                     dispatch,
                     // systemMap,
@@ -99,7 +100,7 @@ function EditType({
                 {...{
                     system,
                     queryResult,
-                    item: selectedType,
+                    item,
                     children,
                     child,
                     childName,
@@ -112,8 +113,8 @@ function EditType({
             />
             <BottomButtons
                 {...{
-                    item: selectedType,
-                    name: isDetail ? 'Detail' : 'Configuration',
+                    item,
+                    name,
                     match,
                     location,
                     partialAction,

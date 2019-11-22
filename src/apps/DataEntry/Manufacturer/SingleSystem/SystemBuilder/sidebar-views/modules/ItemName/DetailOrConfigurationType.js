@@ -1,22 +1,45 @@
 import React from 'react';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
 import { confirmWithModal, Select } from '../../../../../../../../components';
+import { getSiblings, getLastItemFromPath } from '../../../../../../../../app-logic/system-utils';
 
-const DetailOrConfigurationType = ({
-    selectOptions,
+export default function DetailOrConfigurationType({
+    item,
     item: {
         path,
-        __typename,
+        __typename = '',
     },
-    type,
+    name,
     itemName,
     children,
     dispatch,
-}) => (
+    systemMap,
+    queryResult: {
+        detailTypes = [],
+        configurationTypes = [],
+    } = {},
+}) {
+
+    const siblings = getSiblings(item, systemMap);
+
+    const selectValidTypes = __typename.match(/detail/i) ?
+        detailTypes
+        :
+        __typename.match(/configuration$/i) ?
+            configurationTypes
+            :
+            [];
+
+    const selectOptions = selectValidTypes
+        .filter(name => !siblings.some(({ path: typePath }) =>
+            name.toLowerCase() === getLastItemFromPath(typePath).toLowerCase()
+        ));
+
+    return (
         <Select
-            data-cy={`edit-${type.toLowerCase()}-type`}
-            readOnly={type === 'System'}
-            label={type}
+            data-cy={`edit-${name.toLowerCase()}-type`}
+            readOnly={name === 'System'}
+            label={name}
             value={itemName}
             options={selectOptions}
             onChange={name => {
@@ -40,5 +63,4 @@ const DetailOrConfigurationType = ({
             }}
         />
     );
-
-export default DetailOrConfigurationType;
+}

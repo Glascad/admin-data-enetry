@@ -1,20 +1,46 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Select, confirmWithModal } from '../../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
-import { getAllInstancesOfItem } from '../../../../../../../../app-logic/system-utils';
+import { getAllInstancesOfItem, getSiblings, getParent, getLastItemFromPath } from '../../../../../../../../app-logic/system-utils';
 
-export const ValueName = ({
-    selectOptions,
+export default memo(function ValueName({
+    item,
     item: {
         path,
-        __typename
+        __typename = '',
     },
     itemName,
     optionIsGrouped,
     children,
     dispatch,
     systemMap,
-}) => (
+    queryResult: {
+        validOptions = [],
+    },
+}) {
+
+    const valueParentOption = getParent(item, systemMap);
+    const {
+        path: oPath,
+        __typename: oTypename,
+    } = valueParentOption;
+
+    const oName = getLastItemFromPath(oPath);
+
+    const valueSiblings = getSiblings(item, systemMap);
+    const validValues = validOptions
+        .reduce((valueSiblings, { name, _validOptionValues }) => (
+            oName.toLowerCase() === name.toLowerCase() ?
+                _validOptionValues
+                :
+                valueSiblings
+        ), []);
+
+    const selectOptions = validValues
+        .filter(({ name }) => !valueSiblings.some(v => getLastItemFromPath(v.path) === name))
+        .map(({ name }) => name);
+
+    return (
         <Select
             label="Option Value"
             value={itemName}
@@ -63,5 +89,4 @@ export const ValueName = ({
             }}
         />
     );
-
-export default ValueName;
+});

@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { getChildren, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
 import { TitleBar } from "../../../../../../components";
 import BottomButtons from './modules/BottomButtons/BottomButtons';
-import { OptionToggles } from './modules/item-toggles';
 import ItemChildren from './modules/ItemChildren/ItemChildren';
 import ItemName from './modules/ItemName/ItemName';
 import ItemToggles from './modules/ItemToggles/ItemToggles';
@@ -12,7 +11,10 @@ function EditOption({
     location,
     match,
     selectItem,
-    selectedItem: option = {},
+    selectedItem: item = {},
+    selectedItem: {
+        path,
+    } = {},
     system,
     system: {
         _optionGroups,
@@ -27,15 +29,13 @@ function EditOption({
     partialAction,
     cancelPartial,
 }) {
-    console.log(arguments[0])
+    console.log(arguments[0]);
 
-    const { path, } = option;
+    const itemName = getLastItemFromPath(path);
 
-    const optionName = getLastItemFromPath(path);
+    const children = getChildren(item, systemMap);
 
-    const children = getChildren(option, systemMap);
-
-    const optionIsGrouped = _optionGroups.some(({ name }) => name === optionName);
+    const optionIsGrouped = _optionGroups.some(({ name }) => name === itemName);
 
     return (
         <>
@@ -46,8 +46,8 @@ function EditOption({
                 {...{
                     queryResult,
                     system,
-                    item: option,
-                    itemName: optionName,
+                    item,
+                    itemName,
                     children,
                     dispatch,
                     systemMap,
@@ -55,7 +55,7 @@ function EditOption({
             />
             <ItemToggles
                 {...{
-                    item: option,
+                    item,
                     optionIsGrouped,
                     dispatch,
                     systemMap,
@@ -64,8 +64,8 @@ function EditOption({
             <ItemChildren
                 {...{
                     queryResult,
-                    item: option,
-                    itemName: optionName,
+                    item,
+                    itemName,
                     optionIsGrouped,
                     children,
                     selectItem,
@@ -75,7 +75,7 @@ function EditOption({
             />
             <BottomButtons
                 {...{
-                    item: option,
+                    item,
                     name: 'Option',
                     match,
                     location,
