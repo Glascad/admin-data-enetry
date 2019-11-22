@@ -1,5 +1,5 @@
 import { getLastItemFromPath, getParentPath, getPathsTypename, getItemPathAddition, getTypenameFromPath } from "../../../../../../app-logic/system-utils";
-import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "../utils";
+import { getOldPath, getUpdatedPath, getParentWithUpdatedPath, getParentKeyAndPathOffObject } from "../utils";
 import { removeNullValues } from "../../../../../../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
@@ -41,7 +41,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
 
     // If item is not in state && item doesn't have a parent update key, 
     // it needs to see if a parent is in state is has moved to add it to the update.
-    const [updateParentKey, updateParentPath] = Object.entries(update).find(([key]) => key.match(/parent/i)) || [];
+    const [updateParentKey, updateParentPath] = getParentKeyAndPathOffObject(update);
     const parentWithUpdatedPath = !updatedItem && !updatedNewItem && !updateParentKey ?
         getParentWithUpdatedPath(systemInput, { path: oldPath })
         :
@@ -55,8 +55,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.map(item => {
-                const [parentPathKey, itemParentPath] = Object.entries(item)
-                    .find(([itemKey]) => itemKey.match(/parent/i)) || [];
+                const [parentPathKey, itemParentPath] = getParentKeyAndPathOffObject(item);
                 return !itemParentPath && path.match(/^\d+\.\w+$/) ?
                     {
                         ...item,

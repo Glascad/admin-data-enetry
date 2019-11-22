@@ -9,9 +9,6 @@ import BottomButtons from '../sidebar-views/modules/BottomButtons/BottomButtons'
 export default function Sidebar({
     queryResult,
     system,
-    system: {
-        _optionGroups = [],
-    },
     systemMap,
     dispatch,
     selectItem,
@@ -26,12 +23,11 @@ export default function Sidebar({
     match,
     location,
 }) {
+    console.log(arguments[0]);
 
     const itemName = getLastItemFromPath(path);
 
     const children = getChildren(item, systemMap);
-
-    const optionIsGrouped = _optionGroups.some(({ name }) => name === itemName);
 
     const name = __typename.replace(/^.*([A-Z]\w+)$/, '$1');
 
@@ -45,34 +41,32 @@ export default function Sidebar({
             />
             <ItemName
                 {...{
-                    optionIsGrouped,
                     queryResult,
                     system,
-                    systemMap,
-                    name,
                     item,
-                    dispatch,
-                    children,
                     itemName,
+                    children,
+                    name,
+                    dispatch,
+                    systemMap,
                 }}
             />
             <ItemToggles
                 {...{
+                    system,
+                    item,
                     itemName,
                     name,
-                    optionIsGrouped,
-                    item,
                     dispatch,
                     systemMap,
                 }}
             />
             <ItemChildren
                 {...{
-                    itemName,
-                    optionIsGrouped,
-                    system,
                     queryResult,
+                    system,
                     item,
+                    itemName,
                     children,
                     selectItem,
                     dispatch,
@@ -81,15 +75,16 @@ export default function Sidebar({
             />
             <BottomButtons
                 {...{
-                    item,
                     match,
                     location,
+                    system,
+                    item,
+                    name,
                     partialAction,
                     cancelPartial,
                     dispatchPartial,
                     dispatch,
                     systemMap,
-                    name,
                 }}
             />
         </RightSidebar>

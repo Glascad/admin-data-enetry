@@ -2,15 +2,16 @@ import React, { memo } from 'react';
 import { Select, confirmWithModal } from '../../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
 import { getAllInstancesOfItem, getSiblings, getParent, getLastItemFromPath } from '../../../../../../../../app-logic/system-utils';
+import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 export default memo(function ValueName({
+    system,
     item,
     item: {
         path,
         __typename = '',
     },
     itemName,
-    optionIsGrouped,
     children,
     dispatch,
     systemMap,
@@ -19,25 +20,26 @@ export default memo(function ValueName({
     },
 }) {
 
-    const valueParentOption = getParent(item, systemMap);
+    const itemParent = getParent(item, systemMap);
     const {
-        path: oPath,
-        __typename: oTypename,
-    } = valueParentOption;
+        path: parentPath,
+    } = itemParent;
+    const parentName = getLastItemFromPath(parentPath);
+    const siblings = getSiblings(item, systemMap);
 
-    const oName = getLastItemFromPath(oPath);
+    const optionIsGrouped = getOptionIsGrouped(system, item);
+    console.log({optionIsGrouped});
 
-    const valueSiblings = getSiblings(item, systemMap);
     const validValues = validOptions
-        .reduce((valueSiblings, { name, _validOptionValues }) => (
-            oName.toLowerCase() === name.toLowerCase() ?
+        .reduce((siblings, { name, _validOptionValues }) => (
+            parentName.toLowerCase() === name.toLowerCase() ?
                 _validOptionValues
                 :
-                valueSiblings
+                siblings
         ), []);
 
     const selectOptions = validValues
-        .filter(({ name }) => !valueSiblings.some(v => getLastItemFromPath(v.path) === name))
+        .filter(({ name }) => !siblings.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
     return (

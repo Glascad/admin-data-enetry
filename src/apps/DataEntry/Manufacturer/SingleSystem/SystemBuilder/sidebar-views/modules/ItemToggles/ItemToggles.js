@@ -10,13 +10,5 @@ export default function ItemToggles({ item: { __typename = '' } }) {
         .regex(/Option$/, () => OptionToggles)
         .regex(/Value$/, () => ValueToggles)
         .otherwise(() => TypeToggles);
-    
-    console.log({
-        props,
-        ItemToggles,
-        ValueToggles,
-        TypeToggles,
-    });
-    
     return <ItemToggles {...props} />;
 };

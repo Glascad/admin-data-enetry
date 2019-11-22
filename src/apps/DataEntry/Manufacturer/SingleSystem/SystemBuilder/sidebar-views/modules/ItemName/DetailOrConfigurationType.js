@@ -25,10 +25,7 @@ export default function DetailOrConfigurationType({
     const selectValidTypes = __typename.match(/detail/i) ?
         detailTypes
         :
-        __typename.match(/configuration$/i) ?
-            configurationTypes
-            :
-            [];
+        configurationTypes
 
     const selectOptions = selectValidTypes
         .filter(name => !siblings.some(({ path: typePath }) =>

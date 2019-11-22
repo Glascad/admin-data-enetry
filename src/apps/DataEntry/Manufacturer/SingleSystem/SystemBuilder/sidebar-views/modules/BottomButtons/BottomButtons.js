@@ -4,11 +4,11 @@ import ItemDelete from './ItemDelete';
 import ItemLink from './ItemLink';
 
 const BottomButtons = ({
+    system,
     item,
     item: {
         __typename = '',
     } = {},
-    parentOptionIsGrouped = false,
     name,
     match,
     location,
@@ -40,8 +40,8 @@ const BottomButtons = ({
                 />
                 <ItemDelete
                     {...{
+                        system,
                         item,
-                        parentOptionIsGrouped,
                         name,
                         dispatch,
                         systemMap,

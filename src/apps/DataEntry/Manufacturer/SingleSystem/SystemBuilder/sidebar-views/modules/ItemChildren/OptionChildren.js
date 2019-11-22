@@ -2,8 +2,10 @@ import React from 'react';
 import { GroupingBox, Select, CircleButton, confirmWithModal } from '../../../../../../../../components';
 import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../../app-logic/system-utils';
 import { ADD_ITEM, UPDATE_ITEM, DELETE_ITEM } from '../../../../ducks/actions';
+import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 const OptionChildren = ({
+    system,
     queryResult: {
         validOptions,
     },
@@ -13,12 +15,13 @@ const OptionChildren = ({
         __typename,
     },
     itemName,
-    optionIsGrouped,
     children,
     selectItem,
     dispatch,
     systemMap,
 }) => {
+
+    const optionIsGrouped = getOptionIsGrouped(system, item);
 
     const validOptionValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -28,14 +31,14 @@ const OptionChildren = ({
                 values
         ), []);
 
-    const selectValidOptionValues = validOptionValues
+    const selectOptions = validOptionValues
         .filter(({ name }) => !children.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
     return (<GroupingBox
         data-cy="edit-item-values"
         title="Option Values"
-        circleButton={selectValidOptionValues.length > 0 ? {
+        circleButton={selectOptions.length > 0 ? {
             "data-cy": "add-item-value",
             actionType: "add",
             className: "action",
@@ -83,7 +86,7 @@ const OptionChildren = ({
                             data-cy='edit-item-values'
                             key={'Option Name'}
                             value={ovName}
-                            options={selectValidOptionValues}
+                            options={selectOptions}
                             // autoFocus={i === length - 1}
                             onChange={name => {
                                 if (name !== ovName) {

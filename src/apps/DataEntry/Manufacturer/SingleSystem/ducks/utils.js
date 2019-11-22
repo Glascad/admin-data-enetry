@@ -1,19 +1,20 @@
-import { getParentPath, getLastItemFromPath, getChildren, getPathsTypename, getItemPathAddition } from "../../../../../app-logic/system-utils";
+import { memoize } from 'lodash';
+import { getParentPath, getLastItemFromPath, getChildren, getPathsTypename, getItemPathAddition, getParent } from "../../../../../app-logic/system-utils";
+import { match } from '../../../../../utils';
 
-export const getOldPath = (currentPath, systemInput) => Object.entries(systemInput)
+export const getOldPath = memoize((currentPath, systemInput) => Object.entries(systemInput)
     .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i)) ?
         allUpdatedItemsArr.concat(value)
         :
         allUpdatedItemsArr, [])
     .reduce((resultPaths, item) => {
         const { path, update } = item;
-        const [itemParentPathKey, itemParentPath] = Object.entries(update).find(([itemKey]) => itemKey.match(/parent/i)) || [];
+        const [itemParentPathKey, itemParentPath] = getParentKeyAndPathOffObject(update);
         const updatedPathAddition = getItemPathAddition(item);
         const updatedPath = (itemParentPath || update.name) ?
             `${itemParentPath || getParentPath(item)}.${updatedPathAddition}${update.name || getLastItemFromPath(path)}`
             :
             '';
-
         return updatedPath
             &&
             currentPath.startsWith(updatedPath)
@@ -25,12 +26,12 @@ export const getOldPath = (currentPath, systemInput) => Object.entries(systemInp
             }
             :
             resultPaths
-    }, {}).path || currentPath;
+    }, {}).path || currentPath);
 
-export const getUpdatedPath = item => {
+export const getUpdatedPath = memoize(item => {
     const { path, update } = item;
     const isUpdatedItem = !!update;
-    const [parentPathKey, parentPath] = Object.entries(isUpdatedItem ? update : item).find(([key]) => key.match(/parent/i)) || [];
+    const [parentPathKey, parentPath] = getParentKeyAndPathOffObject(isUpdatedItem ? update : item);
     const name = isUpdatedItem ?
         update.name
         :
@@ -39,9 +40,9 @@ export const getUpdatedPath = item => {
     // adds the __DT__ or __CT__ to the path
     const pathAddition = getItemPathAddition(item);
     return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
-}
+});
 
-export const getParentWithUpdatedPath = (systemInput, { path }) => {
+export const getParentWithUpdatedPath = memoize((systemInput, { path }) => {
     const {
         systemOptions,
         detailOptions,
@@ -83,7 +84,7 @@ export const getParentWithUpdatedPath = (systemInput, { path }) => {
             :
             parentItem
     }, undefined);
-}
+});
 
 export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.some(value => getLastItemFromPath(value.path) === name) ?
     name
@@ -91,15 +92,10 @@ export const getSelectTypeName = (valueChildrenArr, name) => !valueChildrenArr.s
     // check: what is the underscore for?
     getSelectTypeName(valueChildrenArr, `${name}_`);
 
-export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
+export const getPotentialParent = memoize(({ partialPayload, item }, systemMap) => {
     const { __typename: partialTypename, path: partialPath } = partialPayload;
     const partialName = getLastItemFromPath(partialPath);
     const partialParentPath = getParentPath(partialPayload);
-    const {
-        [partialParentPath]: {
-            __typename: partialParentTypename
-        }
-    } = systemMap;
     const partialParentName = getLastItemFromPath(partialParentPath);
     const { __typename, path } = item;
     const itemChildren = getChildren(item, systemMap);
@@ -107,8 +103,6 @@ export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
 
 
     if (__typename === partialTypename) return false;
-
-    console.log({ item, partialPayload, systemMap });
 
     return partialTypename.match(/option$/i) ?
         // Option has to be under value or type, be the terminal node, and not already have the option in the path
@@ -143,4 +137,14 @@ export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
                 partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^.*(system|detail|configuration)$/i, '$1')
                 ||
                 partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^(system|detail|configuration)\.*Value/i, '$1');
-}
+});
+
+export const getParentKeyAndPathOffObject = object => Object.entries(object).find(([key]) => key.match(/parent/i)) || [];
+
+export const getOptionIsGrouped = ({ _optionGroups }, item) => {
+    const optionPath = match(item.__typename)
+        .regex(/value$/i, getParentPath(item))
+        .regex(/option$/i, item.path)
+        .otherwise('');
+    return _optionGroups.some(({ name }) => name === getLastItemFromPath(optionPath));
+};
