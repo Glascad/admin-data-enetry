@@ -1,17 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    NavLink,
-    withRouter,
-} from 'react-router-dom';
-
+import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
+import { extractNavigationOptions, normalCase } from '../../../utils';
 import Dropdown from '../../ui/Dropdown/Dropdown';
-
-import './NavMenu.scss';
-
-import { extractNavigationOptions } from '../../../utils';
-
 import Navigator from '../Navigator';
+import './NavMenu.scss';
 
 NavMenu.propTypes = {
     ...Navigator.propTypes,
@@ -48,7 +41,7 @@ function NavMenu({
                 }, i) => subroutes ? (
                     <Dropdown
                         key={i}
-                        label={name}
+                        label={normalCase(name)}
                         open={(closed === true) ? false : !!pathname.includes(path)}
                         removeDropdown={removeDropdown}
                         className={
@@ -80,7 +73,7 @@ function NavMenu({
                                         }`}
                                     activeClassName="matched"
                                 >
-                                    {childName}
+                                    {normalCase(childName)}
                                     {removeDropdown ? (
                                         <div
                                             className="remove-navlink"
@@ -114,7 +107,7 @@ function NavMenu({
                                 className="item"
                                 activeClassName="matched"
                             >
-                                {name}
+                                {normalCase(name)}
                             </NavLink>
                         )
                 )}

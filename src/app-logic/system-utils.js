@@ -223,7 +223,7 @@ export const getDefaultOptionGroupValue = window.getDefaultOptionGroupValue = (o
     ..._configurationOptions,
     ..._detailOptions,
     ..._systemOptions,
-].find(({ name }) => name === optionName) || {})
+].find(({ path }) => getLastItemFromPath(path) === optionName) || {})
     .reduce((defaultValue, [key, value]) => defaultValue || (
         key.match(/^default/i) ?
             value

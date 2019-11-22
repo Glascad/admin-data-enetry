@@ -119,7 +119,7 @@ class Statics extends PureComponent {
                                     activeClassName="disabled"
                                 >
                                     <button className="light">
-                                        {name}
+                                        {normalCase(name)}
                                     </button>
                                 </NavLink>
                             ))}

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { SystemMap } from '../../../app-logic/system-utils';
 import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems';
 import { ApolloWrapper, Ellipsis, Navigator, useMutation, useQuery, useRedoableState } from '../../../components';
-import { parseSearch } from '../../../utils';
+import { parseSearch, normalCase } from '../../../utils';
 import DetailBuilder from './DetailBuilder/DetailBuilder';
 import cleanSystemInput from './ducks/clean-system-input';
 import merge from './ducks/merge';
@@ -68,7 +68,7 @@ System.navigationOptions = ({
                             "New System"
                             :
                             `${manufacturerId}` === mnfgId ?
-                                name
+                                normalCase(name)
                                 :
                                 <Redirect
                                     to={`${pathname}${parseSearch(search).update({ manufacturerId })}`}
@@ -90,9 +90,9 @@ export default function System({
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
     const [fetchQuery, qr, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
-    
+
     const { _system } = qr;
-    
+
     const queryResult = {
         ...qr,
         _system: _sampleSystem || _system,
