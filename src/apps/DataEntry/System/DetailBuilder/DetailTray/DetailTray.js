@@ -176,9 +176,6 @@ export default memo(function DetailTray({
                         onChange={createMirror(45)}
                         disabled={!selectedItem}
                     />
-                    {/* <Input
-                        
-                    /> */}
                 </div>
             </div>
             <div className="tray-section">

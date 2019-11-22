@@ -41,6 +41,7 @@ export default withRouter(function Header({
                 className="blue-border"
                 left={(
                     <ConfirmButton
+                        data-cy="system-info"
                         onClick={() => history.push(`${
                             matchPath.replace(/detail/, 'info')
                             }${
@@ -64,15 +65,21 @@ export default withRouter(function Header({
                             Close
                         </ConfirmButton>
                         <AsyncButton
+                            data-cy="save-and-exit"
                             className="action"
                             onClick={async () => {
-                                await save();
-                                close();
+                                try {
+                                    const result = await save();
+                                    if (result) close();
+                                } catch (err) {
+                                    console.error(err);
+                                }
                             }}
                         >
                             Save And Exit
                         </AsyncButton>
                         <AsyncButton
+                            data-cy="save"
                             className="action"
                             onClick={save}
                         >

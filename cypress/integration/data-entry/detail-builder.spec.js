@@ -82,6 +82,9 @@ describe('testing detail builder', () => {
         cy.getDataCy`rotate`.type(15);
         cy.getDataCy`rotate-clockwise`.click();
         cy.getDataCy`rotate-counter-clockwise`.click();
+        cy.getDataCy`save-and-exit`.click();
+        cy.wait(2000);
+        cy.url().should('match', /system\/build/);
         
         // test other actions
     });

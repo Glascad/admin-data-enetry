@@ -90,10 +90,15 @@ export default function System({
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
     const [fetchQuery, qr, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+    
+    const { _system } = qr;
+    
     const queryResult = {
         ...qr,
         _system: _sampleSystem || _system,
     };
+
+    console.log({ queryResult, _sampleSystem, _system });
 
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
@@ -103,8 +108,6 @@ export default function System({
         replaceState,
         resetState,
     } = useRedoableState(systemUpdate);
-
-    const { _system } = queryResult;
 
     const system = merge(systemInput, queryResult);
 
