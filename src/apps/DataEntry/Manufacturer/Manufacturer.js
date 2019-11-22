@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navigator, useQuery, ApolloWrapper, Ellipsis } from '../../../components';
-import SystemSearch from './SystemSearch/SystemSearch';
+import Systems from './Systems/Systems';
 import Parts from './Parts/Parts';
 import gql from 'graphql-tag';
 import F from '../../../schemas';
 import { parseSearch } from '../../../utils';
 
 const subroutes = {
-    SystemSearch,
+    Systems,
     Parts,
 };
 

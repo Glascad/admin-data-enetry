@@ -21,13 +21,21 @@ export const usePartialAction = ({ selectItem }) => {
     const cancelOnEscape = ({ key }) => key === "Escape" && cancelOnClick();
 
     useEffect(() => {
-        setTimeout(() => {
+        const addListeners = () => {
             window.addEventListener('keydown', cancelOnEscape, true);
             window.addEventListener('click', cancelOnClick);
-        });
-        return () => {
+        }
+
+        const removeListeners = () => {
             window.removeEventListener('keydown', cancelOnEscape, true);
             window.removeEventListener('click', cancelOnClick);
+        }
+
+        setTimeout(addListeners);
+        
+        return () => {
+            removeListeners();
+            setTimeout(removeListeners);
         }
     }, [partialAction]);
 

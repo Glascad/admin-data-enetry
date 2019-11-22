@@ -26,11 +26,6 @@ const deleteSystemMutation = gql`mutation DeleteSystem($nodeId:ID!) {
     }
 }`;
 
-Systems.navigationOptions = {
-    name: "Systems",
-    path: "/system-search",
-};
-
 export default function Systems({
     history,
     location: {
@@ -71,6 +66,7 @@ export default function Systems({
                         {
                             children: (
                                 <Link
+                                    data-cy={`load-system-${systemName}`}
                                     to={path.replace(/manufacturer.*/,
                                         `system/build${
                                         parseSearch(search).update({ systemId: id })
@@ -83,6 +79,7 @@ export default function Systems({
                         {
                             children: (
                                 <Link
+                                    data-cy={`system-info-${systemName}`}
                                     to={path.replace(/manufacturer.*/,
                                         `system/info${
                                         parseSearch(search).update({ systemId: id })
@@ -99,6 +96,7 @@ export default function Systems({
                 }}
                 onDelete={({ arguments: { nodeId } }) => deleteSystem({ nodeId })}
                 circleButton={{
+                    "data-cy": 'new-system',
                     type: "tile",
                     onClick: () => history.push(`${
                         path.replace(/manufacturer.*/, "system/info")

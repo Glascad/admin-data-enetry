@@ -85,7 +85,7 @@ export default function System({
     },
 }) {
 
-    const { systemId, sampleSystem } = parseSearch(search);
+    const { manufacturerId, systemId, sampleSystem } = parseSearch(search);
 
     const [fetchQuery, queryResult, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
 
@@ -121,11 +121,15 @@ export default function System({
     const save = async () => {
         dispatch(() => systemUpdate);
         try {
-            const systemPayload = cleanSystemInput(systemInput, system);
+            const systemPayload = {
+                ...cleanSystemInput(systemInput, system),
+                manufacturerId: +manufacturerId,
+            };
             console.log({ systemPayload });
             const result = await updateEntireSystem({ system: systemPayload });
             console.log({ result });
             resetState(systemUpdate);
+            return result;
         } catch (err) {
             console.error(err);
             dispatch(() => systemInput);

@@ -5,9 +5,9 @@ export default function merge(systemInput, {
     _system,
     _system: {
         id: systemId,
-        // name,
-        // manufacturerId,
-        // systemType,
+        name,
+        systemType,
+        sightline,
         _optionGroups = [],
         _systemOptions = [],
         _detailOptions = [],
@@ -21,9 +21,9 @@ export default function merge(systemInput, {
     } = {},
 }) {
     const {
-        // name: newName,
-        // manufacturerId: newMnfgId,
-        // systemType: newSystemType,
+        name: newName,
+        systemType: newSystemType,
+        sightline: newSightline,
         // delete
         pathsToDelete = [],
         optionGroupsToDelete = [],
@@ -139,10 +139,10 @@ export default function merge(systemInput, {
     const updatedConfigurationParts = mergeArray(_configurationParts, configurationParts, newConfigurationParts);
 
     return {
-        // name: newName || name,
-        // manufacturerId: newMnfgId || manufacturerId,
-        // systemType: newSystemType || systemType,
         ..._system,
+        name: newName || name,
+        sightline: newSightline || sightline,
+        systemType: newSystemType || systemType,
         _systemOptions: updatedSystemOptions,
         _systemOptionValues: updatedSystemOptionValues,
         _systemDetails: updatedSystemDetails,
