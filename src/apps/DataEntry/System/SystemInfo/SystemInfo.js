@@ -19,6 +19,11 @@ function SystemInfo({
         path,
     },
     history,
+    queryResult: {
+        allManufacturers = [],
+        systemTypes = [],
+    },
+    systemInput,
     system: {
         name,
         _manufacturer: {
@@ -26,10 +31,6 @@ function SystemInfo({
         } = {},
         systemType,
         sightline,
-    },
-    queryResult: {
-        allManufacturers = [],
-        systemTypes = [],
     },
     fetching,
     updating,
@@ -44,6 +45,14 @@ function SystemInfo({
     const mName = mnfgName || (allManufacturers.find(({ id }) => `${id}` === manufacturerId) || {}).name;
 
     console.log({ sightline });
+
+    const hasChanges = (
+        systemInput.name
+        ||
+        systemInput.sightline
+        ||
+        systemInput.systemType
+    );
 
     return (
         <>
@@ -69,27 +78,28 @@ function SystemInfo({
                         </ConfirmButton>
                         <AsyncButton
                             className="action"
-                            data-cy="save"
+                            data-cy="save-load"
                             onClick={async () => {
                                 const {
                                     updateEntireSystem: {
                                         system: {
-                                            id,
+                                            id = +systemId,
                                         } = {},
                                     } = {},
-                                } = await save() || {};
+                                } = hasChanges ?
+                                        await save()
+                                        :
+                                        {};
 
-                                if (id) {
-                                    history.push(`${
-                                        path.replace(/info/, 'build')
-                                        }${
-                                        parseSearch(search).update({ systemId: id })
-                                        }`);
-                                }
+                                history.push(`${
+                                    path.replace(/info/, 'build')
+                                    }${
+                                    parseSearch(search).update({ systemId: id })
+                                    }`);
                             }}
                             loading={updating}
                         >
-                            {systemId === 'null' ? "Save" : "Load"}
+                            {hasChanges ? "Save" : "Load"}
                         </AsyncButton>
                     </>
                 )}

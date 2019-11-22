@@ -57,6 +57,7 @@ export default withRouter(function Header({
                 right={(
                     <>
                         <ConfirmButton
+                            data-cy="close"
                             onClick={close}
                             doNotConfirmWhen={true}
                         >

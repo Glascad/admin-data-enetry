@@ -20,7 +20,7 @@ export default function Part({
     const transform = new Matrix(matrix);
     return (
         <g
-            data-cy={`part-${id}-${partNumber}`}
+            data-cy={`part-${id}`}
             key={id}
             className={`Part ${selected ? 'selected' : ''}`}
             onClick={e => {

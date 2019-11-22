@@ -1,5 +1,5 @@
 
-describe('', () => {
+describe('Testing System Info page - update old system & create new one', () => {
     beforeEach(() => {
         cy.login();
         cy.visit('http://localhost:3000/data-entry/manufacturer/system-search?manufacturerId=2');
@@ -8,6 +8,7 @@ describe('', () => {
 
     it('Can update an old system (and create a new system)', () => {
         const num = ~~(Math.random() * 100);
+        // DATABASE MUST BE RESEEDED FOR THIS TO WORK
         cy.getDataCy`system-info-Practice System`.click({ force: true });
         cy.url().should('match', /system\/info/);
         cy.getDataCy`system-name`.clear().type(`Test System - ${num}`);
@@ -18,7 +19,9 @@ describe('', () => {
 
         // for some reason whichever test is second cypress says 'No commands were issued in this test'
 
+        cy.wait(2000);
         cy.visit('http://localhost:3000/data-entry/manufacturer/system-search?manufacturerId=2');
+        cy.wait(2000);
 
         // it('Can create a new system', () => {
 
