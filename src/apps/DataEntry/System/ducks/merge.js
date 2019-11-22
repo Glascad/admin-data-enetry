@@ -51,11 +51,11 @@ export default function merge(systemInput, {
     } = systemInput;
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
-        .filter(({ path }) => {
-            const updatedItem = updatedItems.find(item =>
-                item.path === path
+    .filter(({ path }) => {
+        const updatedItem = updatedItems.find(item =>
+            item.path === path
             );
-
+            
             // If it is an item with updated path, it is in the right spot
             if (updatedItem) return true;
 
@@ -63,11 +63,11 @@ export default function merge(systemInput, {
 
             // if the parent is updated, we look to see if the move prevents it from being deleted or not
             if (parentWithUpdatedPath) {
-                // console.log("PARENT UPDATED")
-                // console.log({
-                //     path,
-                //     parentWithUpdatedPath,
-                // })
+            //     console.log("PARENT UPDATED")
+            //     console.log({
+            //         path,
+            //         parentWithUpdatedPath,
+            //     })
                 const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};

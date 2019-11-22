@@ -38,20 +38,6 @@ export default function ValueAndTypeChildren({
     systemMap,
 }) {
 
-    console.log({
-        system,
-        queryResult,
-        item,
-        children,
-        child,
-        childName,
-        optionIsSelected,
-        setOptionIsSelected,
-        selectItem,
-        dispatch,
-        systemMap,
-    });
-
     const childName = getLastItemFromPath(childPath);
 
     const childTypeType = __typename.match(/value/i) ?
@@ -62,7 +48,7 @@ export default function ValueAndTypeChildren({
         :
         match(__typename)
             .regex(/System$/i, 'Detail')
-            .regex(/^Detail$/i, 'Configuration')
+            .regex(/Detail$/i, 'Configuration')
             .otherwise('Part');
             
             const selectValidTypes = __typename.match(/value/i) ?
@@ -73,7 +59,7 @@ export default function ValueAndTypeChildren({
             :
             match(__typename)
                 .regex(/System$/i, detailTypes)
-                .regex(/^Detail$/i, configurationTypes)
+                .regex(/Detail$/i, configurationTypes)
                 .otherwise(_parts);
 
     const selectTypes = childTypeType === 'Part' ?
@@ -85,10 +71,16 @@ export default function ValueAndTypeChildren({
 
     const [optionSelected, setOptionIsSelected] = useState(true);
 
-    const optionIsSelected = children.length > 1 ?
+    const optionIsSelected = child ?
         !!childTypename.match(/option/i)
         :
         optionSelected;
+    
+    console.log({
+        optionSelected,
+        optionIsSelected,
+        childTypename,
+    });
 
     return (
         <ToggleBox

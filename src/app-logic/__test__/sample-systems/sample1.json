@@ -1,5 +1,6 @@
 {
     "id": 1,
+    "__typename": "System",
     "manufacturerId": 1,
     "systemType": "STOREFRONT",
     "name": "Sample 1",
