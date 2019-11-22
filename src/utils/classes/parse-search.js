@@ -20,7 +20,7 @@ const parseSearch = search => search.replace(/^.*?\?/, "")
 
 const joinSearch = searchObject => Object
     .entries(searchObject)
-    .filter(([_, value]) => value)
+    .filter(([_, value]) => value !== undefined)
     .reduce((search, [key, value], i) => `${
         search
         }${

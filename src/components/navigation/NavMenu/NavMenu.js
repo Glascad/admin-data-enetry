@@ -38,7 +38,7 @@ function NavMenu({
                     ...arguments[0],
                     ...routeProps,
                 }))
-                .filter(({ shouldRender }) => shouldRender !== false)
+                .filter(({ shouldRenderInNavMenu }) => shouldRenderInNavMenu !== false)
                 .map(({
                     exact,
                     name,
@@ -60,7 +60,7 @@ function NavMenu({
                     >
                         {Object.entries(subroutes)
                             .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
-                            .filter(({ shouldRender }) => shouldRender !== false)
+                            .filter(({ shouldRenderInNavMenu }) => shouldRenderInNavMenu !== false)
                             .map(({ name: childName, path: childPath, removeDropdown }, j) => (
                                 <NavLink
                                     key={j}

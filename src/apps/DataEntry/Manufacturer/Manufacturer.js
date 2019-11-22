@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigator, useQuery, ApolloWrapper, Ellipsis } from '../../../components';
-import SingleSystem from './SingleSystem/SingleSystem';
 import SystemSearch from './SystemSearch/SystemSearch';
 import Parts from './Parts/Parts';
 import gql from 'graphql-tag';
@@ -10,7 +9,6 @@ import { parseSearch } from '../../../utils';
 const subroutes = {
     SystemSearch,
     Parts,
-    SingleSystem,
 };
 
 Manufacturer.navigationOptions = ({

@@ -1,0 +1,70 @@
+@import "../../../../../styles/variables";
+
+#DetailDisplay {
+    .inner-transform-box {
+        width: 100%;
+        height: 100%;
+
+        #detail-display {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+
+            #origin {
+                stroke: $medium-gray;
+                fill: none;
+            }
+
+            .Part {
+                stroke: $dark-gray;
+                fill: rgba(255, 255, 255, 0.25);
+                transition: fill 0.1s;
+
+                path {
+                    transition: fill 0.1s;
+                }
+
+                &:hover {
+                    fill: $light-gray;
+                }
+
+                &.selected {
+                    fill: $selected-color;
+                }
+
+                .part-origin {
+                    fill: none;
+                    stroke: none;
+                }
+                &.selected {
+                    .part-origin {
+                        stroke: $selected-color;
+                    }
+                }
+            }
+
+            .Configuration {
+                .configuration-origin {
+                    fill: none;
+                    stroke: none;
+                }
+                &:hover {
+                    .Part {
+                        fill: $light-gray;
+                    }
+                }
+                &.selected {
+                    .Part {
+                        fill: $selected-color;
+                    }
+                    .configuration-origin {
+                        stroke: $selected-color;
+                    }
+                }
+            }
+        }
+    }
+}

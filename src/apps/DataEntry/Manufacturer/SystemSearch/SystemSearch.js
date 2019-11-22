@@ -71,25 +71,25 @@ export default function Systems({
                         {
                             children: (
                                 <Link
-                                    to={path.replace(/system-search.*/,
-                                        `single-system/build${
+                                    to={path.replace(/manufacturer.*/,
+                                        `system/build${
                                         parseSearch(search).update({ systemId: id })
                                         }`)}
                                 >
                                     Load
-                                    </Link>
+                                </Link>
                             ),
                         },
                         {
                             children: (
                                 <Link
-                                    to={path.replace(/system-search.*/,
-                                        `single-system/info${
+                                    to={path.replace(/manufacturer.*/,
+                                        `system/info${
                                         parseSearch(search).update({ systemId: id })
                                         }`)}
                                 >
                                     Info
-                                    </Link>
+                                </Link>
                             ),
                         },
                     ],
@@ -103,7 +103,7 @@ export default function Systems({
                     onClick: () => history.push(`${
                         path.replace(/manufacturer.*/, "system/info")
                         }${
-                        search
+                        parseSearch(search).update({ systemId: null })
                         }`),
                 }}
             />
