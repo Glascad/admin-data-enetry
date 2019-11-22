@@ -2,33 +2,35 @@
 describe('', () => {
     beforeEach(() => {
         cy.login();
+        cy.visit('http://localhost:3000/data-entry/manufacturer/system-search?manufacturerId=2');
+        cy.wait(2000);
     });
 
-    it('Can create a new system', () => {
-        cy.visit('http://localhost:3000/data-entry/manufacturer/single-system/info?manufacturerId=2');
-        cy.wait(2000);
-        cy.contains('New System');
-        cy.getDataCy`system-name`.type(`Test System ${~~(Math.random() * 100)}`);
-        cy.getDataCy`system-type`.find('input').type('storefront{enter}');
-        cy.getDataCy`manufacturer`.find('input').type('practice{enter}');
-        cy.getDataCy`sightline`.type(3);
-        cy.url().should('not.match', /systemId/);
-        cy.getDataCy`save`.click();
-        cy.url().should('match', /systemId=\d+/);
-        cy.wait(2000);
-        cy.getDataCy`system-name`.invoke('val').should('contain', 'Test System');
-        cy.getDataCy`system-type`.contains('Storefront');
-        cy.getDataCy`manufacturer`.contains('Practice');
-        cy.getDataCy`sightline`.contains(3);
-    });
-
-    it('Can update an old system', () => {
+    it('Can update an old system (and create a new system)', () => {
         const num = ~~(Math.random() * 100);
-        cy.visit('http://localhost:3000/data-entry/manufacturer/single-system/info?manufacturerId=2&systemId=2');
-        cy.wait(2000);
+        cy.getDataCy`system-info-Practice System`.click({ force: true });
+        cy.url().should('match', /system\/info/);
         cy.getDataCy`system-name`.clear().type(`Test System - ${num}`);
         cy.getDataCy`save`.click();
         cy.getDataCy`system-name`.should('have.value', `Test System - ${num}`);
         cy.url().should('match', /build.*systemId=2/);
+        // });
+
+        // for some reason whichever test is second cypress says 'No commands were issued in this test'
+
+        cy.visit('http://localhost:3000/data-entry/manufacturer/system-search?manufacturerId=2');
+
+        // it('Can create a new system', () => {
+
+        cy.getDataCy`new-system`.click({ force: true });
+        cy.url().should('match', /system\/info/);
+        cy.contains('New System');
+        cy.getDataCy`system-name`.type(`Test System ${~~(Math.random() * 100)}`).invoke('val').should('contain', 'Test System');
+        cy.wait(2000);
+        cy.getDataCy`system-type`.find('input').type('storefront{enter}').invoke('val').should('contain', 'Storefront');
+        cy.getDataCy`sightline`.clear().type(3).blur().invoke('val').should('contain', '3');
+        cy.url().should('match', /systemId=null/);
+        cy.getDataCy`save`.click();
+        cy.url().should('match', /systemId=\d+/);
     });
 });

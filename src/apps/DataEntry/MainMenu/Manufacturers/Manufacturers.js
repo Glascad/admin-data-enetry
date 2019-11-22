@@ -47,7 +47,9 @@ export default function Manufacturers({
                                                 to={`${
                                                     path.replace(/main.menu.*/, `manufacturer/systems`)
                                                     }${
-                                                    parseSearch(search).update({ manufacturerId: id })
+                                                    parseSearch(search)
+                                                        .update({ manufacturerId: id })
+                                                        .remove(["systemId"])
                                                     }`}
                                             >
                                                 Systems
@@ -60,7 +62,9 @@ export default function Manufacturers({
                                                 to={`${
                                                     path.replace(/main.menu.*/, `manufacturer/parts`)
                                                     }${
-                                                    parseSearch(search).update({ manufacturerId: id })
+                                                    parseSearch(search)
+                                                        .update({ manufacturerId: id })
+                                                        .remove(["systemId"])
                                                     }`}
                                             >
                                                 Parts

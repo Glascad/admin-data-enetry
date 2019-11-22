@@ -33,8 +33,9 @@ export const SYSTEM_FIELDS = gql`
         nodeId
         id
         manufacturerId
-        systemType
         name
+        systemType
+        sightline
     }
 `;
 
