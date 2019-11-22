@@ -77,7 +77,7 @@ export default function Systems({
                                         }`)}
                                 >
                                     Load
-                                    </Link>
+                                </Link>
                             ),
                         },
                         {
@@ -89,7 +89,7 @@ export default function Systems({
                                         }`)}
                                 >
                                     Info
-                                    </Link>
+                                </Link>
                             ),
                         },
                     ],
@@ -101,9 +101,9 @@ export default function Systems({
                 circleButton={{
                     type: "tile",
                     onClick: () => history.push(`${
-                        path.replace(/manufacturer.*/, "system/info")
+                        path.replace(/system-search.*/, "single-system/info")
                         }${
-                        search
+                        parseSearch(search).remove("systemId")
                         }`),
                 }}
             />
