@@ -5,11 +5,17 @@ import { useCheckDefaultValues, usePartialAction, useSelection } from '../ducks/
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
 import SystemTree from './SystemTree/SystemTree';
+import { parseSearch } from '../../../../utils';
 
-SystemBuilder.navigationOptions = {
-    requiredURLParams: ["systemId"],
+SystemBuilder.navigationOptions = ({
+    location: {
+        search,
+    },
+}) => ({
     path: '/build',
-};
+    disabled: parseSearch(search).systemId === 'null',
+    shouldRenderInNavMenu: parseSearch(search).systemId !== 'null',
+});
 
 export default function SystemBuilder({
     location,

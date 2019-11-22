@@ -27,9 +27,9 @@ System.navigationOptions = ({
         pathname,
     },
 }) => ({
-    requiredURLParams: ["manufacturerId"],
-    path: "/single-system",
+    requiredURLParams: ["manufacturerId", "systemId"],
     subroutes,
+    path: "/system",
     name: (
         <ApolloWrapper
             query={{
@@ -58,20 +58,23 @@ System.navigationOptions = ({
                 rawQueryStatus: {
                     loading,
                 },
-            }) => (
+            }) => {
+                const { systemId, manufacturerId: mnfgId } = parseSearch(search);
+                return (
                     loading ?
                         <Ellipsis />
                         :
-                        parseSearch(search).systemId ?
-                            `${manufacturerId}` === parseSearch(search).manufacturerId ?
+                        systemId === 'null' ?
+                            "New System"
+                            :
+                            `${manufacturerId}` === mnfgId ?
                                 name
                                 :
                                 <Redirect
-                                    to={`${pathname}${parseSearch(search).remove("systemId")}`}
+                                    to={`${pathname}${parseSearch(search).update({ manufacturerId })}`}
                                 />
-                            :
-                            "New System"
-                )}
+                );
+            }}
         </ApolloWrapper>
     ),
 });

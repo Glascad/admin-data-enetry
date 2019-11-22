@@ -76,7 +76,7 @@ function Header({
                         doNotConfirmWhen={inputIsEmpty}
                         onClick={() => {
                             history.push(`${
-                                path.replace(/single-system.*/, 'system-search')
+                                path.replace(/system.*/, 'manufacturer/system-search')
                                 }${
                                 search
                                 }`);
@@ -92,7 +92,7 @@ function Header({
                             await save();
                             setSavingAndExiting(false);
                             history.push(`${
-                                path.replace(/single-system.*/, 'system-search')
+                                path.replace(/system.*/, 'manufacturer/system-search')
                                 }${
                                 search
                                 }`);

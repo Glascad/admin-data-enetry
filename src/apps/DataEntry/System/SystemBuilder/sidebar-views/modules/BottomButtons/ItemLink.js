@@ -5,7 +5,6 @@ import { parseSearch } from '../../../../../../../utils';
 const ItemLink = ({
     item: {
         path = '',
-        __typename = '',
     } = {},
     match: {
         path: matchedPath = '',

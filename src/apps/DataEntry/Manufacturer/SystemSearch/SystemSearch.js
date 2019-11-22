@@ -71,8 +71,8 @@ export default function Systems({
                         {
                             children: (
                                 <Link
-                                    to={path.replace(/system-search.*/,
-                                        `single-system/build${
+                                    to={path.replace(/manufacturer.*/,
+                                        `system/build${
                                         parseSearch(search).update({ systemId: id })
                                         }`)}
                                 >
@@ -83,8 +83,8 @@ export default function Systems({
                         {
                             children: (
                                 <Link
-                                    to={path.replace(/system-search.*/,
-                                        `single-system/info${
+                                    to={path.replace(/manufacturer.*/,
+                                        `system/info${
                                         parseSearch(search).update({ systemId: id })
                                         }`)}
                                 >
@@ -101,9 +101,9 @@ export default function Systems({
                 circleButton={{
                     type: "tile",
                     onClick: () => history.push(`${
-                        path.replace(/system-search.*/, "single-system/info")
+                        path.replace(/manufacturer.*/, "system/info")
                         }${
-                        parseSearch(search).remove("systemId")
+                        parseSearch(search).update({ systemId: null })
                         }`),
                 }}
             />

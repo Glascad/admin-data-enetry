@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { TitleBar, Ellipsis, ConfirmButton, AsyncButton, useQuery, useMutation, useInitialState, Input, Select } from '../../../../components';
-import { parseSearch } from '../../../../utils';
+import { parseSearch, removeNullValues } from '../../../../utils';
 
 SystemInfo.navigationOptions = {
     path: '/info',
@@ -56,13 +56,13 @@ function SystemInfo({
             ||
             (sightline && sightline !== sl)
         ) {
-            const systemPayload = {
+            const systemPayload = removeNullValues({
                 id: +systemId,
                 name: sName,
                 manufacturerId: mnfgId,
                 systemType: sType,
                 sightline,
-            };
+            });
             console.log({ systemPayload });
             const {
                 updateEntireSystem: {
@@ -82,7 +82,7 @@ function SystemInfo({
     return (
         <>
             <TitleBar
-                title={systemId ?
+                title={systemId === 'null' ?
                     "System Info"
                     :
                     "New System"}
@@ -90,7 +90,7 @@ function SystemInfo({
                     <Ellipsis text="Loading" />
                 ] : [
                         mName,
-                        systemId && sName,
+                        systemId !== 'null' && sName,
                     ]}
                 right={(
                     <>
@@ -107,7 +107,7 @@ function SystemInfo({
                             onClick={save}
                             loading={updating}
                         >
-                            {systemId ? "Load" : "Save"}
+                            {systemId === 'null' ? "Save" : "Load"}
                         </AsyncButton>
                     </>
                 )}
@@ -122,7 +122,7 @@ function SystemInfo({
                 <Select
                     data-cy="system-type"
                     label="System Type"
-                    readOnly={!!systemId}
+                    readOnly={systemId !== 'null'}
                     value={sType}
                     options={systemTypes}
                     onChange={setSystemType}

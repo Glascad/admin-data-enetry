@@ -2,26 +2,26 @@ import React from 'react';
 import { getParent, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
 import { confirmWithModal, Input } from '../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
+import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 export default function ValueToggles({
+    system,
     item,
     item: {
         __typename,
     },
     itemName,
-    optionIsGrouped,
     dispatch,
     systemMap,
 }) {
-
-    const valueParentOption = getParent(item, systemMap);
-
+    const parent = getParent(item, systemMap);
     const {
         path: parentPath,
         __typename: parentTypename,
-    } = valueParentOption;
+    } = parent;
 
-    const [defaultKey, isDefault] = Object.entries(valueParentOption).find(([key, value]) => key.match(/default/i) && value === itemName) || [];
+    const optionIsGrouped = getOptionIsGrouped(system, item);
+    const [defaultKey, isDefault] = Object.entries(parent).find(([key, value]) => key.match(/default/i) && value === itemName) || [];
 
     return (
         <Input

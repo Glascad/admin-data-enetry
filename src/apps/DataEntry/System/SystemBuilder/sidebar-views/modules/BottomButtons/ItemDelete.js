@@ -1,19 +1,21 @@
 import React from 'react';
 import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../app-logic/system-utils';
 import { DELETE_ITEM } from '../../../../ducks/actions';
+import { getOptionIsGrouped } from '../../../../ducks/utils';
 import { confirmWithModal } from '../../../../../../../components';
 
 const ItemDelete = ({
+    system,
     item,
     item: {
         path = '',
-        __typename
+        __typename = '',
     },
-    parentOptionIsGrouped = false,
     name,
     dispatch,
     systemMap,
 }) => {
+    const parentIsGrouped = __typename.match(/value$/i) && getOptionIsGrouped(system, item);
     const itemName = getLastItemFromPath(path);
     const children = getChildren(item, systemMap);
 
@@ -38,7 +40,7 @@ const ItemDelete = ({
                             })
                         })
                 };
-                parentOptionIsGrouped ?
+                parentIsGrouped ?
                     confirmWithModal(deleteValuesFromGroupedOptions, {
                         titleBar: { title: `Delete Grouped Option Value` },
                         children: `Deleting a value attached to a grouped option will impact other values`,

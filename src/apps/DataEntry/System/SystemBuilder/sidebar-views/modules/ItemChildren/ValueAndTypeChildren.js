@@ -55,38 +55,26 @@ export default function ValueAndTypeChildren({
     const childName = getLastItemFromPath(childPath);
 
     const childTypeType = __typename.match(/value/i) ?
-        __typename.match(/^System/i) ?
-            'Detail'
-            :
-            __typename.match(/^Detail/i) ?
-                'Configuration'
-                :
-                'Part'
+        match(__typename)
+            .regex(/^System/i, 'Detail')
+            .regex(/^Detail/i, 'Configuration')
+            .otherwise('Part')
         :
-        __typename.match(/System$/i) ?
-            'Detail'
+        match(__typename)
+            .regex(/System$/i, 'Detail')
+            .regex(/^Detail$/i, 'Configuration')
+            .otherwise('Part');
+            
+            const selectValidTypes = __typename.match(/value/i) ?
+            match(__typename)
+                .regex(/^System/i, detailTypes)
+                .regex(/^Detail/i, configurationTypes)
+                .otherwise(_parts)
             :
-            __typename.match(/Detail$/i) ?
-                'Configuration'
-                :
-                'Part';
-
-    const selectValidTypes = __typename.match(/value/i) ?
-        __typename.match(/^system/i) ?
-            detailTypes
-            :
-            __typename.match(/^detail/i) ?
-                configurationTypes
-                :
-                _parts
-        :
-        __typename.match(/system$/i) ?
-            detailTypes
-            :
-            __typename.match(/detail$/i) ?
-                configurationTypes
-                :
-                _parts;
+            match(__typename)
+                .regex(/System$/i, detailTypes)
+                .regex(/^Detail$/i, configurationTypes)
+                .otherwise(_parts);
 
     const selectTypes = childTypeType === 'Part' ?
         selectValidTypes

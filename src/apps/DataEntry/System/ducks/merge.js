@@ -1,7 +1,5 @@
-import _ from "lodash";
-import { removeNullValues, match } from '../../../../utils';
-import { getParent, getSiblings, SystemMap, getLastItemFromPath, getParentPath, getChildren, getItemPathAddition } from "../../../../app-logic/system-utils";
-import { getOldPath, getUpdatedPath, getParentWithUpdatedPath } from "./utils";
+import { match, removeNullValues } from '../../../../utils';
+import { getParentKeyAndPathOffObject, getParentWithUpdatedPath, getUpdatedPath } from "./utils";
 
 export default function merge(systemInput, {
     _system,
@@ -109,7 +107,7 @@ export default function merge(systemInput, {
         })
         .concat(newItems.map(item => {
             const { name, __typename, id, fakeId } = item;
-            const [parentKey, parentPath] = Object.entries(item).find(([key]) => key.match(/parent/i)) || [];
+            const [parentKey, parentPath] = getParentKeyAndPathOffObject(item);
             const path = `${
                 parentPath || systemId
                 }.${

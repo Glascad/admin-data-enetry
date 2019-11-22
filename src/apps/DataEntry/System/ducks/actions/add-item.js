@@ -1,3 +1,4 @@
+import { getParentKeyAndPathOffObject } from "../utils";
 
 const getFakeId = (() => {
     var fakeId = -1;
@@ -7,7 +8,7 @@ const getFakeId = (() => {
 export default function ADD_ITEM(systemInput, payload) {
     const { __typename } = payload;
 
-    const [parentKey, parentPath] = Object.entries(payload).find(([key]) => key.match(/parent/i) || []);
+    const [parentKey, parentPath] = getParentKeyAndPathOffObject(payload);
 
     const newItemsKey = `new${__typename}s`
     const { [newItemsKey]: newItemsArray = [] } = systemInput;
