@@ -7,7 +7,7 @@ import { parseSearch } from '../../../../../utils';
 import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
 import merge from './ducks/merge';
 import { defaultSystemSetUpdate } from './ducks/schemas';
-import DetailOptions from './modules/DetailOptions';
+import Details from './modules/Details';
 import SystemOptions from './modules/SystemOptions';
 import SystemSetInfo from './modules/SystemSetInfo';
 import './SystemSet.scss';
@@ -182,7 +182,7 @@ export default function SystemSet({
                         _systemSetOptionGroupValues,
                     }}
                 />
-                <DetailOptions
+                <Details
                     {...{
                         _systemSetDetailOptionValues,
                         _systemSetConfigurationOptionValues,

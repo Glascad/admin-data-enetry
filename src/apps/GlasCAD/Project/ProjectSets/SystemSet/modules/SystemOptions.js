@@ -9,12 +9,14 @@ export default function SystemOptions({
     dispatch,
     _systemSetOptionGroupValues,
 }) {
+    
+    const optionList = getOptionListFromPath(systemOptionValuePath);
+
     return (
         <CollapsibleTitle
             title="Options"
         >
-            {getOptionListFromPath(systemOptionValuePath)
-                .map(({ name, value }) => name !== 'VOID' ? (
+            {optionList.map(({ name, value }) => name !== 'VOID' ? (
                     <Select
                         data-cy={name}
                         key={name}
