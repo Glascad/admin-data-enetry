@@ -226,8 +226,8 @@ export default function ValueAndTypeChildren({
                     onClick: () => {
                         dispatch(ADD_ITEM, {
                             __typename: match(__typename)
-                                .regex(/^System/, 'SystemDetail')
-                                .regex(/^Detail/, 'DetailConfiguration')
+                                .regex(/system$/i, 'SystemDetail')
+                                .regex(/detail$/i, 'DetailConfiguration')
                                 .otherwise('ConfigurationPart'),
                             [`parent${__typename}Path`]: path,
                             name: getSelectTypeName(children, `ADD_${childTypeType.toUpperCase()}`),

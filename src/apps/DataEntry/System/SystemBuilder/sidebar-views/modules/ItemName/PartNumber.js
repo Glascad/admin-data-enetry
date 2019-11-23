@@ -1,5 +1,6 @@
 import React from 'react';
 import { Select } from '../../../../../../../components';
+import { UPDATE_ITEM } from '../../../../ducks/actions';
 
 export default function PartNumber({
     system: {
@@ -8,15 +9,15 @@ export default function PartNumber({
         } = {},
     } = {},
     item: {
-        part: {
-            partNumber = '',
-        } = {},
+        path,
+        __typename,
     },
     name,
     itemName,
+    dispatch,
 }) {
 
-    const selectOptions = _parts.map(({ partNumber }) => partNumber).filter(name => name !== partNumber);
+    const selectOptions = _parts.map(({ partNumber }) => partNumber).filter(partNumber => partNumber.replace(/-/g, "_") !== itemName);
 
     return (
         <Select
@@ -25,7 +26,13 @@ export default function PartNumber({
             label={name}
             value={itemName}
             options={selectOptions}
-            onChange={name => console.log(name)}
+            onChange={partNumber => dispatch(UPDATE_ITEM, {
+                path,
+                __typename,
+                update: {
+                    name: partNumber.replace(/-/g, '_'),
+                }
+            })}
         />
     );
 }

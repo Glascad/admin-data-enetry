@@ -52,6 +52,7 @@ export const getParentWithUpdatedPath = (systemInput, { path }) => {
         configurationOptionValues,
         systemDetails,
         detailConfigurations,
+        configurationParts,
     } = systemInput;
 
     const allItemLists = [
@@ -63,6 +64,7 @@ export const getParentWithUpdatedPath = (systemInput, { path }) => {
         ...configurationOptionValues,
         ...systemDetails,
         ...detailConfigurations,
+        ...configurationParts,
     ];
 
     return allItemLists.reduce((parentItem, item) => {
@@ -133,7 +135,11 @@ export const getPotentialParent = ({ partialPayload, item }, systemMap) => {
             itemChildren.length > 0 ?
                 itemChildren[0].__typename === partialTypename
                 &&
-                !itemChildren.some(child => getLastItemFromPath(child.path) === partialName)
+                (
+                    !itemChildren.some(child => getLastItemFromPath(child.path) === partialName)
+                    ||
+                    partialTypename === 'ConfigurationPart'
+                )
                 :
                 partialTypename.replace(/^(system|detail|configuration).*/i, '$1') === __typename.replace(/^.*(system|detail|configuration)$/i, '$1')
                 ||

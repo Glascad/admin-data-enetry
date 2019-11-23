@@ -5,6 +5,8 @@ import { getOldPath, getParentKeyAndPathOffObject, getParentWithUpdatedPath, get
 export default function UPDATE_ITEM(systemInput, payload) {
     // console.log(arguments);
     const {
+        id,
+        fakeId,
         __typename,
         path,
         update,
@@ -56,29 +58,23 @@ export default function UPDATE_ITEM(systemInput, payload) {
             ...updatedSystemInput,
             [key]: value.map(item => {
                 const [parentPathKey, itemParentPath] = getParentKeyAndPathOffObject(item);
-                return !itemParentPath && path.match(/^\d+\.\w+$/) ?
-                    {
-                        ...item,
-                        ...update,
-                    }
-                    :
-                    itemParentPath && itemParentPath.startsWith(parentPath) ?
-                        (itemParentPath === parentPath) && (item.name === name) ?
-                            removeNullValues(
-                                {
-                                    ...item,
-                                    [parentPathKey]: updateParentKey ? undefined : itemParentPath,
-                                    ...update,
-                                }
-                            )
-                            :
+                return itemParentPath && itemParentPath.startsWith(parentPath) && ((id || fakeId) === (item.id || item.fakeId)) ?
+                    (itemParentPath === parentPath) && (item.name === name) ?
+                        removeNullValues(
                             {
                                 ...item,
-                                [parentPathKey]: itemParentPath.replace(path, newPath),
-                                name: item.name,
+                                [parentPathKey]: updateParentKey ? undefined : itemParentPath,
+                                ...update,
                             }
+                        )
                         :
-                        item;
+                        {
+                            ...item,
+                            [parentPathKey]: itemParentPath.replace(path, newPath),
+                            name: item.name,
+                        }
+                    :
+                    item;
             })
         }), {});
 
