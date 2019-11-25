@@ -10,8 +10,8 @@ const OptionName = ({
     system: {
         _optionGroups,
     },
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path,
         __typename
     } = {},
@@ -25,10 +25,10 @@ const OptionName = ({
             data-cy="edit-option-name"
             label="Option Name"
             value={itemName}
-            options={filterOptionsAbove(item, validOptions).map(({ name }) => name)}
+            options={filterOptionsAbove(selectedItem, validOptions).map(({ name }) => name)}
             onChange={name => {
                 const allInstances = getAllInstancesOfItem({
-                    path: `${getParentPath(item)}.${name}`,
+                    path: `${getParentPath(selectedItem)}.${name}`,
                     __typename,
                 }, systemMap);
                 const firstInstance = systemMap[allInstances[0]];
@@ -38,8 +38,7 @@ const OptionName = ({
                     :
                     [];
                 dispatch(UPDATE_ITEM, {
-                    path,
-                    __typename,
+                    ...selectedItem,
                     update: {
                         name,
                         [`default${__typename}Value`]: instanceDefaultValue,
@@ -48,7 +47,7 @@ const OptionName = ({
                 });
                 if (_optionGroups.some(og => og.name === name)) {
                     instanceValues.forEach(value => dispatch(ADD_ITEM, {
-                        [`parent${__typename}Path`]: `${getParentPath(item)}.${name}`,
+                        [`parent${__typename}Path`]: `${getParentPath(selectedItem)}.${name}`,
                         name: getLastItemFromPath(value.path),
                         __typename: `${__typename}Value`,
                     }, {

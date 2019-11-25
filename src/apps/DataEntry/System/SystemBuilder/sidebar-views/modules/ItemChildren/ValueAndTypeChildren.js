@@ -20,8 +20,8 @@ export default function ValueAndTypeChildren({
         detailTypes = [],
         configurationTypes = [],
     } = {},
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path = '',
         __typename = '',
     } = {},
@@ -50,17 +50,17 @@ export default function ValueAndTypeChildren({
             .regex(/System$/i, 'Detail')
             .regex(/Detail$/i, 'Configuration')
             .otherwise('Part');
-            
-            const selectValidTypes = __typename.match(/value/i) ?
-            match(__typename)
-                .regex(/^System/i, detailTypes)
-                .regex(/^Detail/i, configurationTypes)
-                .otherwise(_parts)
-            :
-            match(__typename)
-                .regex(/System$/i, detailTypes)
-                .regex(/Detail$/i, configurationTypes)
-                .otherwise(_parts);
+
+    const selectValidTypes = __typename.match(/value/i) ?
+        match(__typename)
+            .regex(/^System/i, detailTypes)
+            .regex(/^Detail/i, configurationTypes)
+            .otherwise(_parts)
+        :
+        match(__typename)
+            .regex(/System$/i, detailTypes)
+            .regex(/Detail$/i, configurationTypes)
+            .otherwise(_parts);
 
     const selectTypes = childTypeType === 'Part' ?
         selectValidTypes
@@ -75,7 +75,7 @@ export default function ValueAndTypeChildren({
         !!childTypename.match(/option/i)
         :
         optionSelected;
-    
+
     console.log({
         optionSelected,
         optionIsSelected,
@@ -96,8 +96,8 @@ export default function ValueAndTypeChildren({
                     render: () => children.length > 0 ? (
                         <div className="input-group">
                             <Row
-                                item={child}
-                                selectChildOptions={filterOptionsAbove(item, validOptions)
+                                selectedItem={child}
+                                selectChildOptions={filterOptionsAbove(selectedItem, validOptions)
                                     .map(({ name }) => name)}
                                 grandchildren={getChildren(child, systemMap)}
                                 dispatch={dispatch}
@@ -117,8 +117,7 @@ export default function ValueAndTypeChildren({
                                         :
                                         [];
                                     dispatch(UPDATE_ITEM, {
-                                        path: childPath,
-                                        __typename: childTypename,
+                                        ...child,
                                         update: {
                                             name,
                                             [`default${childTypename}Value`]: instanceDefaultValue,
@@ -154,16 +153,14 @@ export default function ValueAndTypeChildren({
                     render: () => children.length > 0 ? (
                         <>
                             {children.map((item, i, { length }) => {
-                                const { path: childPath = '', partNumber = '' } = item;
-                                const childTypeChildren = getChildren({ path: childPath }, systemMap);
-                                const childName = childPath ?
-                                    getLastItemFromPath(childPath)
-                                    :
-                                    partNumber;
+                                const { path: itemPath = '' } = item;
+                                const childTypeChildren = getChildren({ path: itemPath }, systemMap);
+                                const childName = getLastItemFromPath(itemPath);
+                                console.log({ item, childTypeChildren, childName })
                                 return (
                                     <Row
                                         key={i}
-                                        item={item}
+                                        selectedItem={item}
                                         selectChildOptions={childTypeType === 'Part' ? selectTypes.map(({ partNumber }) => partNumber) : selectTypes}
                                         grandchildren={childTypeChildren}
                                         dispatch={dispatch}
@@ -172,8 +169,7 @@ export default function ValueAndTypeChildren({
                                         handleSelectChange={name => {
                                             if (childName !== name) {
                                                 const updateType = () => dispatch(UPDATE_ITEM, {
-                                                    __typename: childTypename,
-                                                    path: childPath,
+                                                    ...item,
                                                     update: {
                                                         name,
                                                     },
@@ -225,10 +221,20 @@ export default function ValueAndTypeChildren({
                     className: "action",
                     onClick: () => {
                         dispatch(ADD_ITEM, {
-                            __typename: match(__typename)
-                                .regex(/system$/i, 'SystemDetail')
-                                .regex(/detail$/i, 'DetailConfiguration')
-                                .otherwise('ConfigurationPart'),
+                            __typename: __typename.match(/value$/i) ?
+                                console.log("IS VALUE")
+                                ||
+                                match(__typename)
+                                .regex(/^system/i, 'SystemDetail')
+                                .regex(/^detail/i, 'DetailConfiguration')
+                                .otherwise('ConfigurationPart')
+                                :
+                                console.log("IS TYPE")
+                                ||
+                                match(__typename)
+                                    .regex(/system$/i, 'SystemDetail')
+                                    .regex(/detail$/i, 'DetailConfiguration')
+                                    .otherwise('ConfigurationPart'),
                             [`parent${__typename}Path`]: path,
                             name: getSelectTypeName(children, `ADD_${childTypeType.toUpperCase()}`),
                         })

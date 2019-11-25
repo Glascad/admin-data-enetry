@@ -9,8 +9,8 @@ const OptionChildren = ({
     queryResult: {
         validOptions = [],
     },
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path,
         __typename,
     },
@@ -21,7 +21,7 @@ const OptionChildren = ({
     systemMap,
 }) => {
 
-    const optionIsGrouped = getOptionIsGrouped(system, item);
+    const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
 
     const validOptionValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -46,7 +46,7 @@ const OptionChildren = ({
                 const addValueToEachOption = () => {
                     const valueName = (validOptionValues.find(({ name }) => !children
                         .some(ov => name === getLastItemFromPath(ov.path))).name) || 'New Value';
-                    getAllInstancesOfItem(item, systemMap)
+                    getAllInstancesOfItem(selectedItem, systemMap)
                         .forEach((instance, i) => {
                             const item = systemMap[instance];
                             dispatch(ADD_ITEM, {
@@ -92,8 +92,7 @@ const OptionChildren = ({
                                 if (name !== ovName) {
                                     const valueChildren = getChildren({ __typename: ovTypename, path: ovPath }, systemMap);
                                     const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                                        path: ovPath,
-                                        __typename: ovTypename,
+                                        ...item,
                                         update: {
                                             name,
                                         }
@@ -129,9 +128,9 @@ const OptionChildren = ({
                                 });
                                 const deleteValueFromEachOption = () => {
                                     getAllInstancesOfItem({ path: ovPath, __typename: ovTypename }, systemMap)
-                                        .forEach(instance => {
-                                            const item = systemMap[instance];
-                                            dispatch(DELETE_ITEM, item, {
+                                        .forEach(instancePath => {
+                                            const instance = systemMap[instancePath];
+                                            dispatch(DELETE_ITEM, instance, {
                                                 replaceState: true,
                                             });
                                         });

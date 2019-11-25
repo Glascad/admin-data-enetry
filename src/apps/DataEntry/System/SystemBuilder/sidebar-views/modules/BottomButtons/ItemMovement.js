@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ItemMovement = ({
-    item,
+    selectedItem,
     name,
     partialAction,
     cancelPartial,
@@ -14,7 +14,7 @@ const ItemMovement = ({
                 onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
                     cancelPartial()
                     :
-                    dispatchPartial('MOVE', item)}
+                    dispatchPartial('MOVE', selectedItem)}
             >
                 {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : `Move ${name}`}
             </button>
@@ -24,7 +24,7 @@ const ItemMovement = ({
                 onClick={() => partialAction && partialAction.ACTION === "COPY" ?
                     cancelPartial()
                     :
-                    dispatchPartial('COPY', item)}
+                    dispatchPartial('COPY', selectedItem)}
             >
                 {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : `Copy ${name}`}
             </button>

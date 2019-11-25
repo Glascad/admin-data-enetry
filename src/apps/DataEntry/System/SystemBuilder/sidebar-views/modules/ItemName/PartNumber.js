@@ -8,10 +8,7 @@ export default function PartNumber({
             _parts = [],
         } = {},
     } = {},
-    item: {
-        path,
-        __typename,
-    },
+    selectedItem,
     name,
     itemName,
     dispatch,
@@ -27,8 +24,7 @@ export default function PartNumber({
             value={itemName}
             options={selectOptions}
             onChange={partNumber => dispatch(UPDATE_ITEM, {
-                path,
-                __typename,
+                ...selectedItem,
                 update: {
                     name: partNumber.replace(/-/g, '_'),
                 }

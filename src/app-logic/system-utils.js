@@ -34,6 +34,7 @@ export class SystemMap {
             // configuration parts are the only items that dont have path and that do have id
             const { path, id } = item;
             const parentPath = getParentPath(item);
+            // console.log({parentPath, item})
             const {
                 [path]: previousItem,
                 parts,
@@ -76,7 +77,7 @@ export class SystemMap {
 export const getFirstItem = window.getFirstItem = system => system;
 
 export const getParentPath = window.getParentPath = item => item.path ?
-    item.path.replace(/(\.__(D|C|P)T-?\d*__)?\.\w+$/, '')
+    item.path.replace(/(\.__(D|C|P)T-?\d*__)?\.[0-9a-zA-Z-_]+$/, '')
     :
     Object.entries(item).reduce((parentPath, [key, value]) => key.match(/^parent/) ? value : parentPath, '');
 
@@ -103,7 +104,7 @@ export const getTypenameFromPath = window.getTypenameFromPath = path => {
             `${Type}OptionValue`;
 }
 
-export const getItemPathAddition = ({ path, __typename = '', id, fakeId }) => match(__typename)
+export const getItemPathAddition = window.getItemPathAddition = ({ path, __typename = '', id, fakeId }) => match(__typename)
     .regex(/detail$/i, '__DT__.')
     .regex(/configuration$/i, `__CT__.`)
     .regex(/part$/i, `__PT${id || fakeId || getConfigurationPartIdFromPath(path)}__.`)
@@ -146,7 +147,7 @@ export const getOptionListFromPath = window.getOptionListFromPath = (path = '') 
 export const getLastItemFromPath = window.getLastItemFromPath = (path = '', { name } = {}) => name && path.match(/^\d+$/) ?
     name
     :
-    path.replace(/.*\.(\w+)$/, '$1');
+    path.replace(/.*\.([0-9a-zA-Z-_]+)$/, '$1');
 
 export const filterOptionsAbove = window.filterOptionsAbove = ({ path, newPath }, optionList = []) => optionList.filter(({ name }) => !(newPath ? newPath : path).includes(name));
 

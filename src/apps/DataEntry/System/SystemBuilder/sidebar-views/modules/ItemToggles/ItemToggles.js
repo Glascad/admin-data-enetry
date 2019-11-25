@@ -4,7 +4,7 @@ import OptionToggles from './OptionToggles';
 import ValueToggles from './ValueToggles';
 import TypeToggles from './TypeToggles';
 
-export default function ItemToggles({ item: { __typename = '' } }) {
+export default function ItemToggles({ selectedItem: { __typename = '' } }) {
     const props = arguments[0];
     const ItemToggles = match(__typename)
         .regex(/Option$/, () => OptionToggles)

@@ -6,8 +6,8 @@ import { confirmWithModal } from '../../../../../../../components';
 
 const ItemDelete = ({
     system,
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path = '',
         __typename = '',
     },
@@ -15,9 +15,9 @@ const ItemDelete = ({
     dispatch,
     systemMap,
 }) => {
-    const parentIsGrouped = __typename.match(/value$/i) && getOptionIsGrouped(system, item);
+    const parentIsGrouped = __typename.match(/value$/i) && getOptionIsGrouped(system, selectedItem);
     const itemName = getLastItemFromPath(path);
-    const children = getChildren(item, systemMap);
+    const children = getChildren(selectedItem, systemMap);
 
     return (
         <button

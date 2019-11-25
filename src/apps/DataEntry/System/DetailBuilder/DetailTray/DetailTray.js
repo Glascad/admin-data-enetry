@@ -16,6 +16,8 @@ const initialState = {
 export default memo(function DetailTray({
     selectedItem,
     selectedItem: {
+        id,
+        fakeId,
         path,
         __typename,
         transform,
@@ -43,6 +45,8 @@ export default memo(function DetailTray({
         const previousTransform = new Matrix(transform);
         const resultingTransform = previousTransform.multiply(intermediateTransform);
         dispatch(UPDATE_ITEM, {
+            id,
+            fakeId,
             __typename,
             path,
             update: {

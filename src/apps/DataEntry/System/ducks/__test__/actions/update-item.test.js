@@ -255,6 +255,8 @@ testUpdateItem({
     systemInput: {
         newSystemOptions: [
             {
+                fakeId: -1,
+                parentSystemPath: "2",
                 name: "ADD_OPTION",
                 __typename: "SystemOption",
             }
@@ -262,6 +264,7 @@ testUpdateItem({
     },
     payload: {
         path: "2.ADD_OPTION",
+        fakeId: -1,
         __typename: "SystemOption",
         update: {
             name: "SET"
@@ -270,6 +273,8 @@ testUpdateItem({
     systemOutput: {
         newSystemOptions: expect.arrayContaining([
             expect.objectContaining({
+                fakeId: -1,
+                parentSystemPath: "2",
                 name: "SET",
                 __typename: "SystemOption",
             }),

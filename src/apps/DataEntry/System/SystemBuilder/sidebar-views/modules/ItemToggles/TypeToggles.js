@@ -4,8 +4,8 @@ import { UPDATE_ITEM } from '../../../../ducks/actions';
 
 export default function TypeToggles({
     name,
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         optional,
     },
     dispatch,
@@ -18,7 +18,7 @@ export default function TypeToggles({
             label="Required"
             checked={!optional}
             onChange={() => dispatch(UPDATE_ITEM, {
-                ...item,
+                ...selectedItem,
                 update: {
                     optional: !optional,
                 },

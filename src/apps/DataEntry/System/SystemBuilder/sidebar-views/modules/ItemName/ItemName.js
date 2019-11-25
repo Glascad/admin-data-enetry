@@ -6,7 +6,7 @@ import SystemName from './SystemName';
 import PartNumber from './PartNumber';
 import DetailOrConfigurationType from './DetailOrConfigurationType';
 
-export default function ItemName({ item: { __typename = '' } }) {
+export default function ItemName({ selectedItem: { __typename = '' } }) {
     const props = arguments[0];
     const NameComponent = match(__typename)
         .regex(/Value$/, () => ValueName)

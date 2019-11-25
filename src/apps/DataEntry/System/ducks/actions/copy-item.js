@@ -1,7 +1,7 @@
-import { getChildren, getLastItemFromPath } from "../../../../../app-logic/system-utils";
-import ADD_ITEM from "./add-item";
-import { getUpdatedPath, getParentKeyAndPathOffObject } from "../utils";
+import { getChildren, getItemPathAddition, getLastItemFromPath } from "../../../../../app-logic/system-utils";
 import { removeNullValues } from "../../../../../utils";
+import { getParentKeyAndPathOffObject } from "../utils";
+import ADD_ITEM from "./add-item";
 
 export default function COPY_ITEM(systemInput, {
     partialPayload,
@@ -20,9 +20,11 @@ export default function COPY_ITEM(systemInput, {
 }) {
 
     const [oldParentKey, oldParentPath] = getParentKeyAndPathOffObject(partialPayload);
-    const itemChildren = getChildren(partialPayload, systemMap);
+    const children = getChildren(partialPayload, systemMap);
     const name = update && update.name ? update.name : getLastItemFromPath(path);
     const parentPathKey = `parent${parentTypename}Path`;
+
+    
 
     const updatedSystemInput = ADD_ITEM(systemInput, removeNullValues({
         ...rest,
@@ -32,10 +34,10 @@ export default function COPY_ITEM(systemInput, {
         __typename,
     }));
 
-    return itemChildren.reduce((newSystemInput, child) => COPY_ITEM(newSystemInput, {
+    return children.reduce((newSystemInput, child) => COPY_ITEM(newSystemInput, {
         partialPayload: child,
         targetItem: {
-            path: `${newParentPath}.${name}`,
+            path: `${newParentPath}.${getItemPathAddition(partialPayload)}${name}`,
             __typename,
         },
         systemMap
