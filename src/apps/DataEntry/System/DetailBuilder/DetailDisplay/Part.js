@@ -10,7 +10,7 @@ export default function Part({
         _part: {
             partNumber,
             paths = [],
-        },
+        } = {},
     },
     selectItem,
     selectedItem,

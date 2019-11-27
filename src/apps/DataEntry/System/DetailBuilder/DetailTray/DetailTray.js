@@ -42,8 +42,11 @@ export default memo(function DetailTray({
         angle: +angle,
     }));
     const dispatchTransform = intermediateTransform => {
+        // translations are independent of scale/skew
         const previousTransform = new Matrix(transform);
-        const resultingTransform = previousTransform.multiply(intermediateTransform);
+        const scaleSkewTransform = intermediateTransform.multiply(previousTransform.multiply([[1, 0, 0], [0, 1, 0], [0, 0, 0]]));
+        const translateTransform = intermediateTransform.multiply(previousTransform.multiply([[0, 0, 0], [0, 0, 0], [0, 0, 1]]));
+        const resultingTransform = scaleSkewTransform.add(translateTransform);
         dispatch(UPDATE_ITEM, {
             id,
             fakeId,
@@ -82,6 +85,9 @@ export default memo(function DetailTray({
     );
     const createMirror = angle => () => dispatchTransform(Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
     console.log(arguments[0]);
+    console.log({
+        state,
+    })
     return (
         <Tray>
             <div className="tray-section">

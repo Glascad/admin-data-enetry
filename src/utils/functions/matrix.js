@@ -1,4 +1,4 @@
-import { multiply } from 'mathjs';
+import { multiply, add } from 'mathjs';
 import { cos, sin } from './trig';
 
 export default window.Matrix = class Matrix {
@@ -57,6 +57,16 @@ export default window.Matrix = class Matrix {
 
     static multiply = (...matrices) => new Matrix(
         multiply(
+            ...matrices.map(m => m instanceof Matrix ?
+                m.array
+                :
+                m,
+            ),
+        ),
+    );
+
+    static add = (...matrices) => new Matrix(
+        add(
             ...matrices.map(m => m instanceof Matrix ?
                 m.array
                 :
@@ -206,6 +216,7 @@ export default window.Matrix = class Matrix {
     }
 
     multiply = (...matrices) => Matrix.multiply(this, ...matrices);
+    add = (...matrices) => Matrix.add(this, ...matrices);
 
     toString = () => {
         const {

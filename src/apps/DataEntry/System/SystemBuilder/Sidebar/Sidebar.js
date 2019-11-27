@@ -5,6 +5,7 @@ import ItemToggles from '../sidebar-views/modules/ItemToggles/ItemToggles';
 import { getLastItemFromPath, getChildren } from '../../../../../app-logic/system-utils';
 import ItemChildren from '../sidebar-views/modules/ItemChildren/ItemChildren';
 import BottomButtons from '../sidebar-views/modules/BottomButtons/BottomButtons';
+import DetailSidebarView from '../sidebar-views/modules/DetailSidebarView/DetailSidebarView';
 
 export default function Sidebar({
     queryResult,
@@ -85,6 +86,14 @@ export default function Sidebar({
                     dispatchPartial,
                     dispatch,
                     systemMap,
+                }}
+            />
+            <DetailSidebarView
+                {...{
+                    systemMap,
+                    selectItem,
+                    selectedItem,
+                    children,
                 }}
             />
         </RightSidebar>
