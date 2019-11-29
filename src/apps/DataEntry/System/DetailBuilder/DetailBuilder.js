@@ -72,14 +72,14 @@ export default function DetailBuilder({
         }
     }, []);
 
-    console.log({
-        fullPath,
-        path,
-        systemMap,
-        children,
-        selectedItem,
-        selectedConfigurationPaths,
-    });
+    // console.log({
+    //     fullPath,
+    //     path,
+    //     systemMap,
+    //     children,
+    //     selectedItem,
+    //     selectedConfigurationPaths,
+    // });
 
     if (path !== fullPath) return (
         <Redirect
@@ -109,6 +109,7 @@ export default function DetailBuilder({
                 updating={updating}
             />
             <DetailTray
+                selectItem={selectItem}
                 systemMap={systemMap}
                 selectedItem={selectedItem}
                 dispatch={dispatch}

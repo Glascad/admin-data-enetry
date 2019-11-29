@@ -155,11 +155,11 @@ export default function System({
         return () => window.removeEventListener('keydown', saveOnCtrlS);
     }, [save]);
 
-    console.log({
-        system,
-        systemMap,
-        systemInput,
-    });
+    // console.log({
+    //     system,
+    //     systemMap,
+    //     systemInput,
+    // });
 
     return (
         <Navigator

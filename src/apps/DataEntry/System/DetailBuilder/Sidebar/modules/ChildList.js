@@ -22,12 +22,12 @@ export default memo(function ChildList({
                         name
                         :
                         normalCase(name);
-                    console.log({
-                        item,
-                        selected,
-                        name,
-                        normalName,
-                    });
+                    // console.log({
+                    //     item,
+                    //     selected,
+                    //     name,
+                    //     normalName,
+                    // });
                     return (
                         <button
                             className={`sidebar-list-item ${selected ? 'selected' : ''}`}
