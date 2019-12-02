@@ -18,6 +18,7 @@ export default function SELECT_OPTION_GROUP_VALUE({
     name,
     systemMap,
 ]) {
+    console.log(arguments);
     // find option group in query result
     const { name: oldValue } = _systemSetOptionGroupValues.find(ovg => ovg.optionName === optionName) || {};
     // then find option group in state

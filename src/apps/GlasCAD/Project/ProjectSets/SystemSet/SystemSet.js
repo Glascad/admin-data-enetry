@@ -1,32 +1,16 @@
-import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
+import React, { useEffect } from 'react';
+import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system-utils';
+import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState } from '../../../../../components';
 import F from '../../../../../schemas';
-import {
-    useQuery,
-    TitleBar,
-    CollapsibleTitle,
-    Select,
-    Input,
-    GroupingBox,
-    useRedoableState,
-    ConfirmButton,
-    AsyncButton,
-    useMutation,
-} from '../../../../../components';
-import { defaultSystemSetUpdate } from './ducks/schemas';
-import merge from './ducks/merge';
-import {
-    SELECT_MANUFACTURER,
-    SELECT_SYSTEM_TYPE,
-    SELECT_SYSTEM,
-    UPDATE_SYSTEM_SET_NAME,
-    SELECT_OPTION_GROUP_VALUE,
-    SELECT_SYSTEM_OPTION_VALUE,
-} from './ducks/actions';
-import SystemSetOptions from './SystemSetOptions';
-import './SystemSet.scss';
 import { parseSearch } from '../../../../../utils';
-import { SystemMap, getDefaultPath, getDefaultOptionGroupValue } from '../../../../../app-logic/system-utils';
+import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
+import merge from './ducks/merge';
+import { defaultSystemSetUpdate } from './ducks/schemas';
+import Details from './modules/Details';
+import SystemOptions from './modules/SystemOptions';
+import SystemSetInfo from './modules/SystemSetInfo';
+import './SystemSet.scss';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -113,7 +97,6 @@ export default function SystemSet({
             newSystemOptionValuePath
         ) {
             console.log("UPDATING AFTER RESELECTION OF SYSTEM");
-            console.log({ systemMap });
             _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
                 name,
                 getDefaultOptionGroupValue(name, systemMap),
@@ -134,6 +117,7 @@ export default function SystemSet({
         systemOptionValuePath = '',
         _systemSetDetailOptionValues = [],
         _systemSetConfigurationOptionValues = [],
+        _systemSetOptionGroupValues = [],
     } = systemSet;
 
     useEffect(() => {
@@ -153,6 +137,8 @@ export default function SystemSet({
             systemSet,
         });
     }
+
+    console.log({ systemSet });
 
     return (
         <>
@@ -178,51 +164,33 @@ export default function SystemSet({
             />
             <div className="card">
                 {/* SYSTEM INFO */}
-                <CollapsibleTitle
-                    title="System Set"
-                >
-                    <GroupingBox
-                        title="System Info"
-                    >
-                        <div className="input-group">
-                            <Select
-                                data-cy="manufacturer-name"
-                                label="Manufacturer"
-                                readOnly={true}
-                                value={manufacturerName}
-                                options={allSystems.map(({ _manufacturer: { name } }) => name)}
-                                onChange={() => { }}
-                            // onChange={manufacturerName => SELECT_MANUFACTURER({ manufacturerName })}
-                            />
-                            <Select
-                                data-cy="system-type"
-                                label="System Type"
-                                readOnly={true}
-                                value={systemType}
-                                options={allSystems.map(({ systemType }) => systemType)}
-                                onChange={() => { }}
-                            // onChange={systemType => SELECT_SYSTEM_TYPE({ systemType })}
-                            />
-                            <Select
-                                data-cy="system-name"
-                                label="System"
-                                value={systemName}
-                                options={allSystems.map(({ name }) => name)}
-                                onChange={systemName => dispatch(SELECT_SYSTEM, { systemName })}
-                            />
-                        </div>
-                    </GroupingBox>
-                    <Input
-                        data-cy="system-set-name"
-                        label="System Set Name"
-                        value={name}
-                        onChange={({ target: { value } }) => dispatch(UPDATE_SYSTEM_SET_NAME, { name: value })}
-                    />
-                </CollapsibleTitle>
-                <SystemSetOptions
-                    dispatch={dispatch}
-                    systemSet={systemSet}
-                    systemMap={systemMap}
+                <SystemSetInfo
+                    {...{
+                        systemName,
+                        allSystems,
+                        dispatch,
+                        manufacturerName,
+                        systemType,
+                        name,
+                    }}
+                />
+                <SystemOptions
+                    {...{
+                        systemOptionValuePath,
+                        systemMap,
+                        dispatch,
+                        _systemSetOptionGroupValues,
+                    }}
+                />
+                <Details
+                    {...{
+                        _systemSetDetailOptionValues,
+                        _systemSetConfigurationOptionValues,
+                        _detailConfigurations,
+                        _optionGroups,
+                        dispatch,
+                        systemMap,
+                    }}
                 />
                 <div className="bottom-buttons">
                     <ConfirmButton
