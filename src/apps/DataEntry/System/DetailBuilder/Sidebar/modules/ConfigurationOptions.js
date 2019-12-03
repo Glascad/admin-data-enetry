@@ -21,7 +21,7 @@ export default withRouter(memo(function ConfigurationOptions({
     selectConfigurationPath,
     selectedConfigurationPaths,
 }) {
-    console.log(arguments[0]);
+    // console.log(arguments[0]);
     const configurationType = getConfigurationTypeFromPath(path, systemMap);
     const fullPath = selectedConfigurationPaths[configurationType];
     const options = getOptionListFromPath(fullPath);

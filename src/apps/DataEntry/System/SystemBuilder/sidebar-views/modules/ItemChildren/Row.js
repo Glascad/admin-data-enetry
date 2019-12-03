@@ -3,8 +3,8 @@ import { Select, CircleButton, confirmWithModal } from "../../../../../../../com
 import { DELETE_ITEM } from "../../../../ducks/actions";
 
 const Row = ({
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         __typename: childTypename = '',
         path: childPath = '',
     },
@@ -26,7 +26,7 @@ const Row = ({
                 data-cy={`select-child-${selectValue.toLowerCase()}`}
                 className="primary"
                 actionType="arrow"
-                onClick={() => selectItem(item)}
+                onClick={() => selectItem(selectedItem)}
             />
             <CircleButton
                 data-cy={`delete-child-${selectValue.toLowerCase()}`}

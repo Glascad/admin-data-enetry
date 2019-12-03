@@ -5,8 +5,53 @@
     "systemType": "STOREFRONT",
     "name": "Sample 1",
     "_manufacturer": {
+        "__typename": "Manufacturer",
         "id": 1,
-        "name": "Kawneer"
+        "name": "Initial Manufacturer",
+        "_parts": [
+            {
+                "__typename": "Part",
+                "id": 1,
+                "partNumber": "451-CG-004",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 2,
+                "partNumber": "450-026",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 3,
+                "partNumber": "451T-026",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 4,
+                "partNumber": "451T-CG-003",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 5,
+                "partNumber": "451T-CG-001",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 6,
+                "partNumber": "451T-VG-570",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 7,
+                "partNumber": "451-VG-572",
+                "orientation": "FRONT"
+            }
+        ]
     },
     "_systemOptions": [
         {

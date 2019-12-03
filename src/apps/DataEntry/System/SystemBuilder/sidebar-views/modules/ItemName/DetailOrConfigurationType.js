@@ -4,8 +4,8 @@ import { confirmWithModal, Select } from '../../../../../../../components';
 import { getSiblings, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
 
 export default function DetailOrConfigurationType({
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path,
         __typename = '',
     },
@@ -20,7 +20,7 @@ export default function DetailOrConfigurationType({
     } = {},
 }) {
 
-    const siblings = getSiblings(item, systemMap);
+    const siblings = getSiblings(selectedItem, systemMap);
 
     const selectValidTypes = __typename.match(/detail/i) ?
         detailTypes
@@ -42,8 +42,7 @@ export default function DetailOrConfigurationType({
             onChange={name => {
                 if (name !== itemName) {
                     const updateType = () => dispatch(UPDATE_ITEM, {
-                        path,
-                        __typename,
+                        ...selectedItem,
                         update: {
                             name,
                         },

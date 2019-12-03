@@ -27,10 +27,7 @@ describe('Testing  actions in system builder', () => {
 
         //Needs to get Parts from the DB
 
-        // cy.getDataCy`add-child`.click();
-        // cy.getDataCy`toggle-child-option`.should('have.class','disabled');
-        // cy.getDataCy`delete-child-add_part`.click();
-        // cy.getDataCy`toggle-child-part`.should('not.have.class', 'disabled');
+        cy.getDataCy`add-child`.should('not.have.class', 'disabled');
 
         // TODO makes sure the select has the correct information
 
@@ -53,10 +50,10 @@ describe('Testing  actions in system builder', () => {
         // checks parts
         cy.getDataCy`toggle-child-part`.click();
         cy.getDataCy`toggle-child-option`.should('have.class', 'empty');
-        // cy.getDataCy`add-child`.click();
-        // cy.getDataCy`toggle-child-option`.should('have.class','disabled');
-        // cy.getDataCy`delete-child-add_part`.click();
-        // cy.getDataCy`toggle-child-part`.should('not.have.class', 'disabled');
+        cy.getDataCy`add-child`.click();
+        cy.getDataCy`toggle-child-option`.should('have.class','disabled');
+        cy.getDataCy`delete-child-add_part`.click();
+        cy.getDataCy`toggle-child-part`.should('not.have.class', 'disabled');
 
         // DETAIL OPTION VALUE
         cy.getDataCy`1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP`.click({ force: true });

@@ -5,8 +5,8 @@ import ItemLink from './ItemLink';
 
 const BottomButtons = ({
     system,
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         __typename = '',
     } = {},
     name,
@@ -24,7 +24,7 @@ const BottomButtons = ({
             <>
                 <ItemMovement
                     {...{
-                        item,
+                        selectedItem,
                         name,
                         partialAction,
                         cancelPartial,
@@ -33,7 +33,7 @@ const BottomButtons = ({
                 />
                 <ItemLink
                     {...{
-                        item,
+                        selectedItem,
                         match,
                         location,
                     }}
@@ -41,7 +41,7 @@ const BottomButtons = ({
                 <ItemDelete
                     {...{
                         system,
-                        item,
+                        selectedItem,
                         name,
                         dispatch,
                         systemMap,

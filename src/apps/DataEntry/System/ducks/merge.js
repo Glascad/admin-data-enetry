@@ -68,7 +68,7 @@ export default function merge(systemInput, {
             //         path,
             //         parentWithUpdatedPath,
             //     })
-                const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
+                // const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
                     // console.log({foundDeletedItem});
@@ -106,7 +106,7 @@ export default function merge(systemInput, {
             };
         })
         .concat(newItems.map(item => {
-            const { name, __typename, id, fakeId } = item;
+            const { name, __typename = '', id, fakeId } = item;
             const [parentKey, parentPath] = getParentKeyAndPathOffObject(item);
             const path = `${
                 parentPath || systemId

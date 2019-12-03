@@ -6,21 +6,21 @@ import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 export default function ValueToggles({
     system,
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         __typename,
     },
     itemName,
     dispatch,
     systemMap,
 }) {
-    const parent = getParent(item, systemMap);
+    const parent = getParent(selectedItem, systemMap);
     const {
         path: parentPath,
         __typename: parentTypename,
     } = parent;
 
-    const optionIsGrouped = getOptionIsGrouped(system, item);
+    const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
     const [defaultKey, isDefault] = Object.entries(parent).find(([key, value]) => key.match(/default/i) && value === itemName) || [];
 
     return (
@@ -32,21 +32,19 @@ export default function ValueToggles({
             checked={isDefault}
             onChange={() => {
                 const updateDefault = () => dispatch(UPDATE_ITEM, {
-                    path: parentPath,
-                    __typename: parentTypename,
+                    ...parent,
                     update: {
                         [`default${__typename}`]: itemName,
                     },
                 });
                 const updateDefaultForAllInstances = () => {
                     getAllInstancesOfItem({ path: parentPath, __typename: parentTypename }, systemMap)
-                        .forEach((instance, i) => {
-                            const { path: instancePath, __typename: instanceTypename } = systemMap[instance];
+                        .forEach((instancePath, i) => {
+                            const instance = systemMap[instancePath];
                             dispatch(UPDATE_ITEM, {
-                                path: instancePath,
-                                __typename: instanceTypename,
+                                ...instance,
                                 update: {
-                                    [`default${instanceTypename}Value`]: itemName,
+                                    [`default${instance.__typename}Value`]: itemName,
                                 }
                             }, {
                                 replaceState: i !== 0,

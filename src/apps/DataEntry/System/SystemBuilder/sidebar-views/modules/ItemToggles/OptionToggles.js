@@ -6,21 +6,21 @@ import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 const OptionToggles = ({
     system,
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path,
     },
     dispatch,
     systemMap,
 }) => {
-    const optionIsGrouped = getOptionIsGrouped(system, item);
-    return path.match(/__DT__/) && canItemBeGrouped(item, systemMap) ? (
+    const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
+    return path.match(/__DT__/) && canItemBeGrouped(selectedItem, systemMap) ? (
         <Input
             data-cy="group-option"
             type="switch"
             label="Grouped"
             checked={optionIsGrouped}
-            onChange={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, item)}
+            onChange={() => dispatch(optionIsGrouped ? DELETE_OPTION_GROUP : ADD_OPTION_GROUP, selectedItem)}
         />
     ) : null;
 }

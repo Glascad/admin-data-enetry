@@ -67,3 +67,59 @@ export const getViewBox = (paths, padding = 0) => {
         },
     };
 }
+
+
+export const getAlignmentCoordinates = (vertical, start, selectedItem = {}, transform = {}) => {
+
+    const {
+        _part: {
+            paths = [],
+        } = {},
+    } = selectedItem;
+
+    const {
+        x: {
+            min: xMin,
+            max: xMax,
+        } = {},
+        y: {
+            min: yMin,
+            max: yMax,
+        } = {},
+    } = getViewBox(paths);
+
+    /** cos0, -sin0, transX  ===> acos0, asin(-1 * 0)
+     *  sin0, cos0,  transY  ===> asin0, acos0
+     */
+
+    const {
+        a, b, c: xOffset = 0,
+        d, e, f: yOffset = 0,
+        g, h, i,
+    } = transform;
+
+
+    const transformOffset = vertical ? yOffset : xOffset;
+    const initialPoint = vertical ?
+        start ? yMin : yMax
+        :
+        start ? xMin : xMax;
+
+    console.log({
+        vertical,
+        start,
+        selectedItem,
+        paths,
+        transform,
+        viewBox: getViewBox(paths),
+        transformOffset,
+        initialPoint,
+    })
+
+    return initialPoint + transformOffset;
+};
+
+export const getAlignTop = (selectedItem, transform) => getAlignmentCoordinates(true, false, selectedItem, transform);
+export const getAlignBottom = (selectedItem, transform) => getAlignmentCoordinates(true, true, selectedItem, transform);
+export const getAlignLeft = (selectedItem, transform) => getAlignmentCoordinates(false, true, selectedItem, transform);
+export const getAlignRight = (selectedItem, transform) => getAlignmentCoordinates(false, false, selectedItem, transform);

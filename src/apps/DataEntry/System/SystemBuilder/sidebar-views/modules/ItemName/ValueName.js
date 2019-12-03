@@ -6,8 +6,8 @@ import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 export default memo(function ValueName({
     system,
-    item,
-    item: {
+    selectedItem,
+    selectedItem: {
         path,
         __typename = '',
     },
@@ -20,14 +20,14 @@ export default memo(function ValueName({
     },
 }) {
 
-    const itemParent = getParent(item, systemMap);
+    const itemParent = getParent(selectedItem, systemMap);
     const {
         path: parentPath,
     } = itemParent;
     const parentName = getLastItemFromPath(parentPath);
-    const siblings = getSiblings(item, systemMap);
+    const siblings = getSiblings(selectedItem, systemMap);
 
-    const optionIsGrouped = getOptionIsGrouped(system, item);
+    const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
     console.log({optionIsGrouped});
 
     const validValues = validOptions
@@ -51,8 +51,7 @@ export default memo(function ValueName({
             onChange={name => {
                 if (name !== itemName) {
                     const updateOptionValue = () => dispatch(UPDATE_ITEM, {
-                        path,
-                        __typename,
+                        ...selectedItem,
                         update: {
                             name,
                         },

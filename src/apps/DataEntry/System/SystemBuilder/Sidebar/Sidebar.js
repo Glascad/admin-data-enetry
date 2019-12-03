@@ -1,10 +1,11 @@
 import React from 'react';
 import ItemName from '../sidebar-views/modules/ItemName/ItemName';
-import { TitleBar, RightSidebar } from '../../../../../components';
+import { TitleBar, RightSidebar, TransformProvider } from '../../../../../components';
 import ItemToggles from '../sidebar-views/modules/ItemToggles/ItemToggles';
 import { getLastItemFromPath, getChildren } from '../../../../../app-logic/system-utils';
 import ItemChildren from '../sidebar-views/modules/ItemChildren/ItemChildren';
 import BottomButtons from '../sidebar-views/modules/BottomButtons/BottomButtons';
+import DetailSidebarView from '../sidebar-views/modules/DetailSidebarView/DetailSidebarView';
 
 export default function Sidebar({
     queryResult,
@@ -12,7 +13,7 @@ export default function Sidebar({
     systemMap,
     dispatch,
     selectItem,
-    selectedItem: item,
+    selectedItem,
     selectedItem: {
         path,
         __typename = '',
@@ -27,13 +28,13 @@ export default function Sidebar({
 
     const itemName = getLastItemFromPath(path);
 
-    const children = getChildren(item, systemMap);
+    const children = getChildren(selectedItem, systemMap);
 
     const name = __typename.replace(/^.*([A-Z]\w+)$/, '$1');
 
-    return item ? (
+    return selectedItem ? (
         <RightSidebar
-            open={!!item}
+            open={!!selectedItem}
             handleCloseClick={() => selectItem()}
         >
             <TitleBar
@@ -43,7 +44,7 @@ export default function Sidebar({
                 {...{
                     queryResult,
                     system,
-                    item,
+                    selectedItem,
                     itemName,
                     children,
                     name,
@@ -54,7 +55,7 @@ export default function Sidebar({
             <ItemToggles
                 {...{
                     system,
-                    item,
+                    selectedItem,
                     itemName,
                     name,
                     dispatch,
@@ -65,7 +66,7 @@ export default function Sidebar({
                 {...{
                     queryResult,
                     system,
-                    item,
+                    selectedItem,
                     itemName,
                     children,
                     selectItem,
@@ -78,13 +79,21 @@ export default function Sidebar({
                     match,
                     location,
                     system,
-                    item,
+                    selectedItem,
                     name,
                     partialAction,
                     cancelPartial,
                     dispatchPartial,
                     dispatch,
                     systemMap,
+                }}
+            />
+            <DetailSidebarView
+                {...{
+                    systemMap,
+                    selectItem,
+                    selectedItem,
+                    children,
                 }}
             />
         </RightSidebar>
