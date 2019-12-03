@@ -29,6 +29,10 @@ export default memo(function DetailTray({
     } = {},
     dispatch,
 }) {
+
+    console.log(arguments[0])
+    console.log({ transform });
+
     const [state, setState] = useState(initialState);
     const { coordinate, nudge, angle } = state;
     const setCoordinate = (d, value) => setState(state => ({

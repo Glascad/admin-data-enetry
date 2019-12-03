@@ -213,6 +213,17 @@ export default window.Matrix = class Matrix {
             this.array = Matrix.toArray(arg);
             this.object = Matrix.complete(arg);
         }
+
+    }
+
+    transformCoordinate = (X, Y) => {
+        const {
+            a, b, c,
+            d, e, f,
+            g, h, i,
+        } = this.object;
+        const [[x], [y]] = multiply(this.array, [[X], [Y], [0]]);
+        return { x: x + c, y: y + f };
     }
 
     multiply = (...matrices) => Matrix.multiply(this, ...matrices);
@@ -238,3 +249,6 @@ export default window.Matrix = class Matrix {
     toArray = () => this.array;
     toObject = () => this.object;
 }
+
+window.Matrix.IDENTITY = new window.Matrix(window.Matrix.IDENTITY_MATRIX);
+window.Matrix.TEMP = new window.Matrix({ a: 0, b: -1, c: 20, d: 1, e: 0 });

@@ -14,7 +14,14 @@ export default function ({
     dispatchTransform,
 }) {
 
-    const { partialAction, dispatchPartial, cancelPartial } = usePartialAction({ selectItem });
+    const {
+        partialAction: {
+            ACTION: PARTIAL_ACTION,
+            payload: partialPayload,
+        } = {},
+        dispatchPartial,
+        cancelPartial,
+    } = usePartialAction({ selectItem });
 
     return (
         <div className="tray-section">
