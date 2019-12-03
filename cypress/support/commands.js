@@ -163,7 +163,7 @@ Cypress.Commands.add("createElevation", () => {
             `,
         }
     }).then(({
-        ...body,
+        ...body
         // body: {
         //     data: {
         //         updateEntireElevation: {

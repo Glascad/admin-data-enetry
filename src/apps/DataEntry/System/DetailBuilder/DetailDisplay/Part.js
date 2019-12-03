@@ -45,5 +45,5 @@ export default function Part({
                 />
             </g>
         </g>
-    )
+    );
 }

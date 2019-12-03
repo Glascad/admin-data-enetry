@@ -1,8 +1,5 @@
-
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, Loggable, unique } from '../../../../../../../utils';
 import sortDetails from './sort-details';
-import { unique, Loggable } from '../../../../../../../utils';
-import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
-import _ from 'lodash';
 
 const detailsKey = 'details<vertical><first>';
 const framesKey = 'frames<vertical><first>';

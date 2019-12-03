@@ -1,27 +1,12 @@
-import React, { PureComponent } from 'react';
-
-import { withSelectionContext } from '../../../contexts/SelectionContext';
-
+import React from 'react';
 import * as Icons from '../../../../../../../../../assets/icons';
-
-import {
-    TitleBar,
-} from '../../../../../../../../../components';
-
+import { TitleBar } from '../../../../../../../../../components';
 import SidebarLink from '../../../../../../../../../components/ui/RightSidebar/SidebarLink';
-
-import { DIRECTIONS } from '../../../../utils/recursive-elevation/directions';
-
+import { DIRECTIONS } from '../../../../../../../../../utils';
 import { withActionContext } from '../../../contexts/ActionContext';
-
-import { AddVertical, AddHorizontal } from '../shared/AddIntermediate';
-
+import { withSelectionContext } from '../../../contexts/SelectionContext';
 import AddBay from "../shared/AddBay";
-import { StepHead, RaiseCurb } from '../shared/AlterRoughOpening';
-
-// import EditInfill from './EditInfill';
-// import AddVertical from '../add/AddVertical';
-// import AddHorizontal from '../add/AddHorizontal';
+import { RaiseCurb, StepHead } from '../shared/AlterRoughOpening';
 
 function EditLite({
     selection: {
@@ -101,7 +86,7 @@ function EditLite({
                         className="sidebar-button empty"
                         data-cy="add-vertical"
                         onClick={() => addIntermediates({ vertical: true })}
-                        >
+                    >
                         <Icons.AddVertical />
                         <span>
                             Add Vertical{length > 1 ? 's' : ''}

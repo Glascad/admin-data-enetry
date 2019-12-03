@@ -1,45 +1,44 @@
-import applyActionToElevation from "./apply-action";
-import MERGE_CONTAINERS from "../merge-containers";
+import { DIRECTIONS } from "../../../../../../../../../utils";
+import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";
 import sample1 from "../../../../utils/sample-elevations/sample1.json";
 import sample2 from "../../../../utils/sample-elevations/sample2.json";
-import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
+import MERGE_CONTAINERS from "../merge-containers";
+import applyActionToElevation from "./apply-action";
 import chainTests from './chain-tests';
-import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";
 
-const testMerge = ({ elevation, direction, containerId, deletedContainerId, daylightOpening }) => {
-    const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
-        containers: {
-            [containerId]: container,
-        },
-    }) => ({
-        container,
-        direction,
-    }));
+const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
+    containers: {
+        [containerId]: container,
+    },
+}) => ({
+    container,
+    direction,
+}));
 
-    testElevation({
-        description: `${elevation.name} - merge containers - containerId: ${containerId}, direction: ${direction.join(' ')}`,
-        elevation: sampleResult.rawElevation,
+testElevation({
+    description: `${elevation.name} - merge containers - containerId: ${containerId}, direction: ${direction.join(' ')}`,
+    elevation: sampleResult.rawElevation,
+});
+
+describe(`${elevation.name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
+    test(`container ${containerId} has correct daylight opening`, () => {
+        expect(sampleResult.containers[containerId].daylightOpening).toMatchObject(daylightOpening);
     });
 
-    describe(`${elevation.name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
-        test(`container ${containerId} has correct daylight opening`, () => {
-            expect(sampleResult.containers[containerId].daylightOpening).toMatchObject(daylightOpening);
-        });
-
-        test(`container ${deletedContainerId} is gone (container)`, () => {
-            expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining([`${deletedContainerId}`]));
-            expect(sampleResult.containers[deletedContainerId]).toBeUndefined();
-        });
-
-        test(`references to container ${deletedContainerId} are gone (details)`, () => {
-            sampleResult.allDetails.map(detail => {
-                expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
-                expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
-            });
-        });
+    test(`container ${deletedContainerId} is gone (container)`, () => {
+        expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining([`${deletedContainerId}`]));
+        expect(sampleResult.containers[deletedContainerId]).toBeUndefined();
     });
 
-    return sampleResult.rawElevation;
+    test(`references to container ${deletedContainerId} are gone (details)`, () => {
+        sampleResult.allDetails.map(detail => {
+            expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
+            expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
+        });
+    });
+});
+
+return sampleResult.rawElevation;
 }
 
 // For sample1

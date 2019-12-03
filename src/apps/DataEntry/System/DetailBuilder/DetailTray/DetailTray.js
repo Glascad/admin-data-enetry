@@ -120,7 +120,7 @@ export default memo(function DetailTray({
                     </div>
                 ))}
             </div>
-            <div className="tray-section">
+            {/* <div className="tray-section">
                 <div className="label">
                     Align
                 </div>
@@ -152,7 +152,7 @@ export default memo(function DetailTray({
                         disabled={true}
                     />
                 </div>
-            </div>
+            </div> */}
             <div className="tray-section">
                 <div className="label">
                     Reflect

@@ -1,3 +1,5 @@
+// OBJECTS
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, getDirectionFromArrowKey } from './objects/directions';
 // CLASSES
 import parseSearch from './classes/parse-search';
 import ImperialValue from './classes/imperial-values';
@@ -29,6 +31,10 @@ import limitRefetches from './functions/limit-refetches';
 const validatePath = path => path.replace(/\/+/g, '/');
 
 export {
+    // OBJECTS
+    DIRECTIONS,
+    GET_RELATIVE_DIRECTIONS,
+    getDirectionFromArrowKey,
     // CLASSES
     parseSearch,
     ImperialValue,

@@ -1,6 +1,5 @@
-import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from "../../../utils/recursive-elevation/directions";
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, replace } from "../../../../../../../../utils";
 import MERGE_CONTAINERS from './merge-containers';
-import { replace } from "../../../../../../../../utils";
 
 DELETE_CONTAINER.getSelectedItems = ({ }) => ({ }) => ([]);
 
