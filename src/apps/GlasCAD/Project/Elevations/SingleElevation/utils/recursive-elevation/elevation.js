@@ -1,14 +1,10 @@
-
+import { DIRECTIONS, Loggable, replace } from '../../../../../../../utils';
 import RecursiveContainer from './container';
 import RecursiveDetail from './detail';
-import RecursiveFrame from './frame';
 import RecursiveDimension from './dimension';
-
 import dimensionsOverlap from './dimensions-overlap';
+import RecursiveFrame from './frame';
 import sortDimensionTracks from './sort-dimension-tracks';
-
-import { DIRECTIONS } from './directions';
-import { Loggable, lastItem, replace } from '../../../../../../../utils';
 
 const {
     UP,

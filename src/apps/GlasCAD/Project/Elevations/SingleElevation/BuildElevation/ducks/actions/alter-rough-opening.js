@@ -1,7 +1,6 @@
-import DELETE_CONTAINER from "./delete-container";
+import { DIRECTIONS, replace } from "../../../../../../../../utils";
 import ADD_FRAME from "./add-frame";
-import { DIRECTIONS } from "../../../utils/recursive-elevation/directions";
-import { replace } from "../../../../../../../../utils";
+import DELETE_CONTAINER from "./delete-container";
 
 ALTER_ROUGH_OPENING.getSelectedItems = ({
     first,

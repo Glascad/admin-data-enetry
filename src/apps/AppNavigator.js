@@ -36,12 +36,11 @@ const mapProps = ({
         .regex(/data.entry/i, { DataEntry })
         .regex(/client/i, { Glascad })
         .otherwise({ Login }),
-    allowedApplications: match(role)
-        .otherwise({
-            DataEntry,
-            Glascad,
-            // Login,
-        }),
+        // .otherwise({
+        //     DataEntry,
+        //     Glascad,
+        //     // Login,
+        // }),
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);

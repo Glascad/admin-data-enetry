@@ -1,6 +1,6 @@
 import React, { PureComponent, createContext } from 'react';
 
-import { unique } from '../../../../../../../utils';
+import { unique, DIRECTIONS } from '../../../../../../../utils';
 
 import { withContext } from '../../../../../../../components';
 
@@ -8,7 +8,6 @@ import { withSelectionContext } from './SelectionContext';
 
 import * as ACTIONS from '../ducks/actions';
 
-import { DIRECTIONS } from '../../utils/recursive-elevation/directions';
 import RecursiveContainer from '../../utils/recursive-elevation/container';
 import RecursiveFrame from '../../utils/recursive-elevation/frame';
 

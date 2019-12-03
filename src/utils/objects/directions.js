@@ -4,6 +4,8 @@ export const DIRECTIONS = {
     DOWN: [true, true],
     LEFT: [false, true],
     RIGHT: [false, false],
+    VCENTER: [true, null],
+    HCENTER: [false, null],
 };
 
 export const GET_RELATIVE_DIRECTIONS = ([vertical, first]) => ({

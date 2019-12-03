@@ -1,10 +1,9 @@
-import React, { useState, memo } from 'react';
-import * as Icons from '../../../../../assets/icons';
+import React, { memo, useState } from 'react';
 import { Input, Tray } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
-import Nudge from './Nudge';
 import Align from './Align';
+import Nudge from './Nudge';
 import Reflect from './Reflect';
 import Rotate from './Rotate';
 
