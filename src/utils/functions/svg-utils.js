@@ -1,4 +1,5 @@
 import match from "./match";
+import { Matrix } from "..";
 
 export const multiplier = 250;
 
@@ -69,57 +70,55 @@ export const getViewBox = (paths, padding = 0) => {
 }
 
 
-export const getAlignmentCoordinates = (vertical, start, selectedItem = {}, transform = {}) => {
+export const getAlignmentCoordinates = window.getAlignmentCoordinates = (vertical, start, selectedItem = {}) => {
 
     const {
         _part: {
             paths = [],
         } = {},
+        transform = {},
     } = selectedItem;
 
-    const {
-        x: {
-            min: xMin,
-            max: xMax,
-        } = {},
-        y: {
-            min: yMin,
-            max: yMax,
-        } = {},
-    } = getViewBox(paths);
+    return paths.reduce((furthestPoint, { commands }) => {
+        const transformKey = vertical ? 'y' : 'x';
 
-    /** cos0, -sin0, transX  ===> acos0, asin(-1 * 0)
-     *  sin0, cos0,  transY  ===> asin0, acos0
-     */
+        const furthestCommand = commands.reduce((furthestCommand, { arguments: commandArguments = [] }) => {
+            if (commandArguments.length < 2) return furthestCommand;
+            const x = commandArguments[commandArguments.length - 2];
+            const y = commandArguments[commandArguments.length - 1];
+            const transformMatrix = new Matrix(transform);
+            const transformedPoint = transformMatrix.transformCoordinate(x, y);
+            if (!furthestCommand) return transformedPoint;
+            const commandDifference = transformedPoint[transformKey] - furthestCommand[transformKey];
 
-    const {
-        a, b, c: xOffset = 0,
-        d, e, f: yOffset = 0,
-        g, h, i,
-    } = transform;
+            return (
+                start ?
+                    commandDifference < 0
+                    :
+                    commandDifference > 0
+            ) ?
+                transformedPoint
+                :
+                furthestCommand;
+        }, undefined);
 
-
-    const transformOffset = vertical ? yOffset : xOffset;
-    const initialPoint = vertical ?
-        start ? yMin : yMax
-        :
-        start ? xMin : xMax;
-
-    console.log({
-        vertical,
-        start,
-        selectedItem,
-        paths,
-        transform,
-        viewBox: getViewBox(paths),
-        transformOffset,
-        initialPoint,
-    })
-
-    return initialPoint + transformOffset;
+        if (!furthestPoint) return furthestCommand;
+        const pointDifference = furthestCommand[transformKey] - furthestPoint[transformKey]
+        return (
+            start ?
+                pointDifference < 0
+                :
+                pointDifference > 0
+        ) ?
+            furthestCommand
+            :
+            furthestPoint
+    }, undefined);
 };
 
-export const getAlignTop = (selectedItem, transform) => getAlignmentCoordinates(true, false, selectedItem, transform);
-export const getAlignBottom = (selectedItem, transform) => getAlignmentCoordinates(true, true, selectedItem, transform);
-export const getAlignLeft = (selectedItem, transform) => getAlignmentCoordinates(false, true, selectedItem, transform);
-export const getAlignRight = (selectedItem, transform) => getAlignmentCoordinates(false, false, selectedItem, transform);
+export const getAlignTop = window.getAlignTop = selectedItem => getAlignmentCoordinates(true, false, selectedItem);
+export const getAlignBottom = window.getAlignBottom = selectedItem => getAlignmentCoordinates(true, true, selectedItem);
+export const getAlignLeft = window.getAlignLeft = selectedItem => getAlignmentCoordinates(false, true, selectedItem);
+export const getAlignRight = window.getAlignRight = selectedItem => getAlignmentCoordinates(false, false, selectedItem);
+export const getAlignVCenter = window.getAlignVCenter = selectedItem => getAlignmentCoordinates(true, null, selectedItem);
+export const getAlignHCenter = window.getAlignHCenter = selectedItem => getAlignmentCoordinates(false, null, selectedItem);
