@@ -3,9 +3,9 @@
 #AllParts {
     .Pill {
         .part-preview {
-            stroke: $dark-gray;
+            stroke: none;
+            // stroke: $dark-gray;
             fill: $dark-gray;
-            stroke-width: 5px;
         }
 
         &:hover {

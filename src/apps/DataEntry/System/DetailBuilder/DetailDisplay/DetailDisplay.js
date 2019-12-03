@@ -46,9 +46,9 @@ export default withRouter(function DetailDisplay({
         >
             <svg
                 id="detail-display"
-                viewBox="-250 -250 500 500"
+                viewBox="-1 -1 2 2"
                 transform="scale(1, -1)"
-                strokeWidth={0.5 / scaleX}
+                strokeWidth={0.002 / scaleX}
             >
                 {children.map((child, i) => configurationType ? (
                     <Part
@@ -66,12 +66,12 @@ export default withRouter(function DetailDisplay({
                     ))}
                 {children.length ? (
                     <g id="origin">
-                        <path d={`M-${padding * svg.multiplier},0L${padding * svg.multiplier},0Z`} />
-                        <path d={`M0,-${padding * svg.multiplier}L0,${padding * svg.multiplier}Z`} />
+                        <path d={`M-${padding },0L${padding },0Z`} />
+                        <path d={`M0,-${padding }L0,${padding }Z`} />
                         <circle
                             cx={0}
                             cy={0}
-                            r={padding * svg.multiplier / 4}
+                            r={padding  / 4}
                         />
                     </g>
                 ) : null}

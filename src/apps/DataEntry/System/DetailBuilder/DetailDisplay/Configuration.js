@@ -41,12 +41,12 @@ export default function Configuration({
                 />
             ))}
             <g className="configuration-origin">
-                <path d={`M-${padding * svg.multiplier / 2},0L${padding * svg.multiplier / 2},0Z`} />
-                <path d={`M0,-${padding * svg.multiplier / 2}L0,${padding * svg.multiplier / 2}Z`} />
+                <path d={`M-${padding / 2},0L${padding / 2},0Z`} />
+                <path d={`M0,-${padding / 2}L0,${padding / 2}Z`} />
                 <circle
                     cx={0}
                     cy={0}
-                    r={padding * svg.multiplier / 8}
+                    r={padding / 8}
                 />
             </g>
         </g>

@@ -1,15 +1,13 @@
 import match from "./match";
 
-export const multiplier = 250;
-
 export const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
     command,
     arguments: match(command)
-        .in(['M', 'L'], args.map(n => n * multiplier))
+        .in(['M', 'L'], args.map(n => n))
         .equals('A', args.map((n, i) => (
             match(i)
-                .in([0, 1, 5, 6], n * multiplier)
+                .in([0, 1, 5, 6], n)
                 .otherwise(n)))
         )
         .otherwise(args)
@@ -42,17 +40,17 @@ export const getViewBox = (paths, padding = 0) => {
                 })
                 .otherwise([])
         ), []);
-    const xValues = coordinates.map(({ x }) => x * multiplier || 0);
-    const yValues = coordinates.map(({ y }) => y * multiplier || 0);
+    const xValues = coordinates.map(({ x }) => x || 0);
+    const yValues = coordinates.map(({ y }) => y || 0);
     // console.log({ coordinates, xValues, yValues });
     return {
         x: {
-            min: (Math.min(...xValues) || 0) - (padding * multiplier),
-            max: (Math.max(...xValues) || 0) + (padding * multiplier),
+            min: (Math.min(...xValues) || 0) - padding,
+            max: (Math.max(...xValues) || 0) + padding,
         },
         y: {
-            min: (Math.min(...yValues) || 0) - (padding * multiplier),
-            max: (Math.max(...yValues) || 0) + (padding * multiplier),
+            min: (Math.min(...yValues) || 0) - padding,
+            max: (Math.max(...yValues) || 0) + padding,
         },
         toString() {
             return `${
