@@ -77,28 +77,34 @@ export default function ({
                 <Input
                     Icon={Icons.AlignBottom}
                     onChange={() => dispatchPartial({ vertical: true, first: true }, selectedItem)}
-                />
+                    checked={partialVertical && partialFirst}
+                    />
                 <Input
                     Icon={Icons.AlignMiddle}
                     onChange={() => dispatchPartial({ vertical: true }, selectedItem)}
-                />
+                    checked={partialVertical && partialFirst === undefined}
+                    />
                 <Input
                     Icon={Icons.AlignTop}
                     onChange={() => dispatchPartial({ vertical: true, first: false }, selectedItem)}
-                />
+                    checked={partialVertical && partialFirst === false}
+                    />
             </div>
             <div className="input-group">
                 <Input
                     Icon={Icons.AlignLeft}
                     onChange={() => dispatchPartial({ vertical: false, first: true }, selectedItem)}
-                />
+                    checked={!partialVertical && partialFirst}
+                    />
                 <Input
                     Icon={Icons.AlignCenter}
                     onChange={() => dispatchPartial({ vertical: false }, selectedItem)}
-                />
+                    checked={partialVertical === false && partialFirst === undefined}
+                    />
                 <Input
                     Icon={Icons.AlignRight}
                     onChange={() => dispatchPartial({ vertical: false, first: false }, selectedItem)}
+                    checked={!partialVertical && partialFirst === false}
                 />
             </div>
         </div>
