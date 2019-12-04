@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { Input, Tray } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
+import { usePartialAction } from '../../ducks/hooks';
 import Align from './Align';
 import Nudge from './Nudge';
 import Reflect from './Reflect';
@@ -30,8 +31,8 @@ export default memo(function DetailTray({
 }) {
 
     console.log(arguments[0])
-    console.log({ transform });
 
+    const { partialAction, dispatchPartial, cancelPartial, } = usePartialAction({ selectItem });
     const [state, setState] = useState(initialState);
     const { coordinate, nudge, angle } = state;
     const setCoordinate = (d, value) => setState(state => ({
@@ -50,21 +51,29 @@ export default memo(function DetailTray({
         angle: +angle,
     }));
     const dispatchTransform = intermediateTransform => {
-        const previousTransform = new Matrix(transform);
+        const previousTransform = new Matrix(partialAction ? partialAction.payload.transform : transform);
         // translations are independent of scale/skew
         const scaleSkewTransform = intermediateTransform.multiply(previousTransform.multiply([[1, 0, 0], [0, 1, 0], [0, 0, 0]]));
         const translateTransform = intermediateTransform.multiply(previousTransform.multiply([[0, 0, 0], [0, 0, 0], [0, 0, 1]]));
         // both transformations are then added together
         const resultingTransform = scaleSkewTransform.add(translateTransform);
-        dispatch(UPDATE_ITEM, {
-            id,
-            fakeId,
-            __typename,
-            path,
-            update: {
-                transform: resultingTransform.toObject(),
-            },
-        });
+        dispatch(UPDATE_ITEM, partialAction ?
+            {
+                ...partialAction.payload,
+                update: {
+                    transform: resultingTransform.toObject(),
+                }
+            }
+            :
+            {
+                id,
+                fakeId,
+                __typename,
+                path,
+                update: {
+                    transform: resultingTransform.toObject(),
+                },
+            });
     };
 
     return (
@@ -91,8 +100,10 @@ export default memo(function DetailTray({
             />
             <Align
                 {...{
+                    partialAction,
+                    dispatchPartial,
+                    cancelPartial,
                     selectedItem,
-                    selectItem,
                     dispatchTransform,
                 }}
             />

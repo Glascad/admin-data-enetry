@@ -79,7 +79,6 @@ export const getAlignmentCoordinates = window.getAlignmentCoordinates = (vertica
 
     return paths.reduce((furthestPoint, { commands }) => {
         const transformKey = vertical ? 'y' : 'x';
-
         const furthestCommand = commands.reduce((furthestCommand, { arguments: commandArguments = [] }) => {
             if (commandArguments.length < 2) return furthestCommand;
             const x = commandArguments[commandArguments.length - 2];
@@ -99,7 +98,6 @@ export const getAlignmentCoordinates = window.getAlignmentCoordinates = (vertica
                 :
                 furthestCommand;
         }, undefined);
-
         if (!furthestPoint) return furthestCommand;
         const pointDifference = furthestCommand[transformKey] - furthestPoint[transformKey]
         return (
@@ -114,9 +112,25 @@ export const getAlignmentCoordinates = window.getAlignmentCoordinates = (vertica
     }, undefined);
 };
 
-export const getAlignTop = window.getAlignTop = selectedItem => getAlignmentCoordinates(true, false, selectedItem);
-export const getAlignBottom = window.getAlignBottom = selectedItem => getAlignmentCoordinates(true, true, selectedItem);
-export const getAlignLeft = window.getAlignLeft = selectedItem => getAlignmentCoordinates(false, true, selectedItem);
-export const getAlignRight = window.getAlignRight = selectedItem => getAlignmentCoordinates(false, false, selectedItem);
-export const getAlignVCenter = window.getAlignVCenter = selectedItem => getAlignmentCoordinates(true, null, selectedItem);
-export const getAlignHCenter = window.getAlignHCenter = selectedItem => getAlignmentCoordinates(false, null, selectedItem);
+export const getAlignCenterCoordinates = window.getAlignCenterCoordinates = (vertical, selectedItem) => {
+    const {
+        x: closeX,
+        y: closeY,
+    } = getAlignmentCoordinates(vertical, true, selectedItem);
+    const {
+        x: farX,
+        y: farY,
+    } = getAlignmentCoordinates(vertical, false, selectedItem);
+
+    return {
+        x: (farX + closeX) / 2,
+        y: (farY + closeY) / 2,
+    };
+}
+
+export const getAlignTopCoordinates = window.getAlignTopCoordinates = selectedItem => getAlignmentCoordinates(true, false, selectedItem);
+export const getAlignBottomCoordinates = window.getAlignBottomCoordinates = selectedItem => getAlignmentCoordinates(true, true, selectedItem);
+export const getAlignLeftCoordinates = window.getAlignLeftCoordinates = selectedItem => getAlignmentCoordinates(false, true, selectedItem);
+export const getAlignRightCoordinates = window.getAlignRightCoordinates = selectedItem => getAlignmentCoordinates(false, false, selectedItem);
+export const getAlignVCenterCoordinates = window.getAlignVCenterCoordinates = selectedItem => getAlignCenterCoordinates(true, selectedItem);
+export const getAlignHCenterCoordinates = window.getAlignHCenterCoordinates = selectedItem => getAlignCenterCoordinates(false, selectedItem);
