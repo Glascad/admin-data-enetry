@@ -103,6 +103,7 @@ export default memo(function DetailTray({
                     partialAction,
                     dispatchPartial,
                     cancelPartial,
+                    selectItem,
                     selectedItem,
                     dispatchTransform,
                 }}

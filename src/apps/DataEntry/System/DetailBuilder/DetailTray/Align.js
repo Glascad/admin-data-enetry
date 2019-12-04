@@ -16,6 +16,7 @@ export default function ({
     } = {},
     dispatchPartial,
     cancelPartial,
+    selectItem,
     selectedItem,
     dispatchTransform,
 }) {
@@ -60,6 +61,7 @@ export default function ({
 
     if (partialPayload && selectedItem && (selectedItem !== partialPayload)) {
         alignItemToItem(partialPayload, selectedItem);
+        selectItem(partialPayload);
         cancelPartial();
     };
     if ((partialVertical !== undefined) && selectedItem && !partialPayload) {
