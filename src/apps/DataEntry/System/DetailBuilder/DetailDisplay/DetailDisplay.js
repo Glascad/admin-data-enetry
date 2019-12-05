@@ -32,9 +32,13 @@ export default withRouter(function DetailDisplay({
     // const allPaths = children.reduce((allPaths, { _part: { paths = [] } = {} }) => allPaths.concat(paths), []);
     // const viewBox = svg.getViewBox(allPaths, padding);
 
+    const handleClick = () => {
+        
+    }
+
     const childProps = {
         padding,
-        selectItem,
+        handleClick,
         selectedItem,
         systemMap,
     };

@@ -18,8 +18,6 @@ export default function DetailSidebarView({
     },
 }) {
 
-    console.log(getViewBox(paths));
-
     return match(path)
         .regex(/__(C|P)T/i, (
             <TransformProvider>
