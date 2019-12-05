@@ -4,8 +4,8 @@ import { getParentKeyAndPathOffObject } from "../utils";
 import ADD_ITEM from "./add-item";
 
 export default function COPY_ITEM(systemInput, {
-    partialPayload,
-    partialPayload: {
+    selectedItem,
+    selectedItem: {
         __typename,
         path,
         update,
@@ -19,8 +19,8 @@ export default function COPY_ITEM(systemInput, {
     systemMap
 }) {
 
-    const [oldParentKey, oldParentPath] = getParentKeyAndPathOffObject(partialPayload);
-    const children = getChildren(partialPayload, systemMap);
+    const [oldParentKey, oldParentPath] = getParentKeyAndPathOffObject(selectedItem);
+    const children = getChildren(selectedItem, systemMap);
     const name = update && update.name ? update.name : getLastItemFromPath(path);
     const parentPathKey = `parent${parentTypename}Path`;
 
@@ -35,9 +35,9 @@ export default function COPY_ITEM(systemInput, {
     }));
 
     return children.reduce((newSystemInput, child) => COPY_ITEM(newSystemInput, {
-        partialPayload: child,
+        selectedItem: child,
         targetItem: {
-            path: `${newParentPath}.${getItemPathAddition(partialPayload)}${name}`,
+            path: `${newParentPath}.${getItemPathAddition(selectedItem)}${name}`,
             __typename,
         },
         systemMap

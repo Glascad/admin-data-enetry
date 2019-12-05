@@ -11,9 +11,7 @@ export const usePartialAction = ({ selectItem, dispatch }) => {
 
     const completePartial = payload2 => {
         const { ACTION, completePayload } = partialAction;
-        const payload = completePayload(payload2);
-        console.log({ ACTION, payload, payload2 });
-        dispatch(ACTION, payload);
+        dispatch(ACTION, completePayload(payload2));
         cancelPartial();
     }
 

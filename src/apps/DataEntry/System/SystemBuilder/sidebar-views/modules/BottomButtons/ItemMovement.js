@@ -24,7 +24,7 @@ export default function ItemMovement({
                         },
                     }))}
             >
-                {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : `Move ${name}`}
+                {partialAction && partialAction.ACTION === UPDATE_ITEM ? 'Cancel Move' : `Move ${name}`}
             </button>
             <button
                 data-cy={`edit-${name.toLowerCase()}-copy-button`}
@@ -33,7 +33,7 @@ export default function ItemMovement({
                     cancelPartial
                     :
                     () => dispatchPartial(COPY_ITEM, selectedItem, item => ({
-                        partialPayload: selectedItem,
+                        selectedItem,
                         targetItem: item,
                         systemMap,
                     }))}

@@ -1,11 +1,10 @@
-import React, { useContext, useEffect } from 'react';
-import { Tree, TransformBox, Ellipsis } from '../../../../../components';
-import { makeRenderable, getLastItemFromPath, getChildren, SystemMap } from '../../../../../app-logic/system-utils';
-import { normalCase, parseSearch, match } from '../../../../../utils';
-import './SystemTree.scss';
+import React, { useContext } from 'react';
+import { getLastItemFromPath, makeRenderable } from '../../../../../app-logic/system-utils';
+import { Ellipsis, TransformBox, Tree } from '../../../../../components';
+import { normalCase } from '../../../../../utils';
 import { StaticContext } from '../../../../Statics/Statics';
-import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../../ducks/actions';
 import { getPotentialParent } from '../../ducks/utils';
+import './SystemTree.scss';
 
 export default function SystemTree({
     search,
