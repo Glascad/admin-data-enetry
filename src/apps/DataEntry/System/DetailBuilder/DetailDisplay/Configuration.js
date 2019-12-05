@@ -1,7 +1,7 @@
 import React from 'react';
-import { getChildren, getLastItemFromPath, getConfigurationTypeFromPath, getDefaultPath } from '../../../../../app-logic/system-utils';
+import { getChildren, getConfigurationTypeFromPath } from '../../../../../app-logic/system-utils';
+import { Matrix } from '../../../../../utils';
 import Part from './Part';
-import { Matrix, svg } from '../../../../../utils';
 
 export default function Configuration({
     configuration,

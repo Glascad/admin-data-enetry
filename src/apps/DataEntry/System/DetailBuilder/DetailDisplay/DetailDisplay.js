@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath } from '../../../../../app-logic/system-utils';
-import { SVGPath, TransformBox } from '../../../../../components';
-import { parseSearch, svg, Matrix } from '../../../../../utils';
-import { StaticContext } from '../../../../Statics/Statics';
-import './DetailDisplay.scss';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system-utils';
+import { TransformBox } from '../../../../../components';
 import { TransformContext } from '../../../../../components/contexts/transform/TransformContext';
-import Part from './Part';
+import { parseSearch } from '../../../../../utils';
+import { StaticContext } from '../../../../Statics/Statics';
 import Configuration from './Configuration';
+import './DetailDisplay.scss';
+import Part from './Part';
 
 const padding = 0.5;
 
@@ -66,12 +66,12 @@ export default withRouter(function DetailDisplay({
                     ))}
                 {children.length ? (
                     <g id="origin">
-                        <path d={`M-${padding },0L${padding },0Z`} />
-                        <path d={`M0,-${padding }L0,${padding }Z`} />
+                        <path d={`M-${padding},0L${padding},0Z`} />
+                        <path d={`M0,-${padding}L0,${padding}Z`} />
                         <circle
                             cx={0}
                             cy={0}
-                            r={padding  / 4}
+                            r={padding / 4}
                         />
                     </g>
                 ) : null}

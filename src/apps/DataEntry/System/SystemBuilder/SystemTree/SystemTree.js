@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Tree, TransformBox, Ellipsis } from '../../../../../components';
 import { makeRenderable, getLastItemFromPath, getChildren, SystemMap } from '../../../../../app-logic/system-utils';
-import { normalCase, parseSearch } from '../../../../../utils';
+import { normalCase, parseSearch, match } from '../../../../../utils';
 import './SystemTree.scss';
 import { StaticContext } from '../../../../Statics/Statics';
 import { ADD_ITEM, UPDATE_ITEM, COPY_ITEM } from '../../ducks/actions';
@@ -121,20 +121,20 @@ export default function SystemTree({
                                             e.stopPropagation();
                                             if (!PARTIAL_ACTION) selectItem(item);
                                             else if (isAvailableToCompleteAction) {
-                                                if (PARTIAL_ACTION === 'MOVE') {
-                                                    dispatch(UPDATE_ITEM, {
-                                                        ...partialPayload,
-                                                        update: {
-                                                            [`parent${__typename}Path`]: path
-                                                        }
-                                                    })
-                                                } else if (PARTIAL_ACTION === 'COPY') {
-                                                    dispatch(COPY_ITEM, {
-                                                        partialPayload,
-                                                        targetItem: item,
-                                                        systemMap
-                                                    })
-                                                }
+                                                match(PARTIAL_ACTION)
+                                                    .against({
+                                                        MOVE: () => dispatch(UPDATE_ITEM, {
+                                                            ...partialPayload,
+                                                            update: {
+                                                                [`parent${__typename}Path`]: path,
+                                                            },
+                                                        }),
+                                                        COPY: () => dispatch(COPY_ITEM, {
+                                                            partialPayload,
+                                                            targetItem: item,
+                                                            systemMap,
+                                                        }),
+                                                    });
                                                 cancelPartial();
                                             }
                                         }}

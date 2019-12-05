@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import {
-    TransformProvider, useInitialState,
-} from '../../../../components';
-import Header from './Header/Header';
+import { getChildren, getConfigurationTypeFromPath, getDefaultPath } from '../../../../app-logic/system-utils';
+import { TransformProvider, useInitialState } from '../../../../components';
+import { parseSearch } from '../../../../utils';
+import { useCollapseSidebar } from '../../../Statics/Statics';
 import DetailDisplay from './DetailDisplay/DetailDisplay';
 import DetailTray from './DetailTray/DetailTray';
+import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
-import { getDefaultPath, getChildren, getLastItemFromPath, getConfigurationTypeFromPath } from '../../../../app-logic/system-utils';
-import { parseSearch, replace } from '../../../../utils';
-import { useCollapseSidebar } from '../../../Statics/Statics';
 
 DetailBuilder.navigationOptions = {
     requiredURLParams: ["path"],

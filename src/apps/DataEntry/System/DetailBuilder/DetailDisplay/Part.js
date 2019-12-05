@@ -1,6 +1,6 @@
 import React from 'react';
-import { Matrix, svg } from '../../../../../utils';
 import { SVGPath } from '../../../../../components';
+import { Matrix } from '../../../../../utils';
 
 export default function Part({
     part,
@@ -36,12 +36,12 @@ export default function Part({
                 />
             ))}
             <g className="part-origin">
-                <path d={`M-${padding  / 2},0L${padding  / 2},0Z`} />
-                <path d={`M0,-${padding  / 2}L0,${padding  / 2}Z`} />
+                <path d={`M-${padding / 2},0L${padding / 2},0Z`} />
+                <path d={`M0,-${padding / 2}L0,${padding / 2}Z`} />
                 <circle
                     cx={0}
                     cy={0}
-                    r={padding  / 8}
+                    r={padding / 8}
                 />
             </g>
         </g>

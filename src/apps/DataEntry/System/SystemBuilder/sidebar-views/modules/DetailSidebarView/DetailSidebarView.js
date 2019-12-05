@@ -1,9 +1,9 @@
 import React from 'react';
-import DetailDisplay from '../../../../DetailBuilder/DetailDisplay/DetailDisplay';
 import { getDefaultPath } from '../../../../../../../app-logic/system-utils';
+import { TransformProvider } from '../../../../../../../components';
 import { match } from '../../../../../../../utils';
 import { getViewBox } from '../../../../../../../utils/functions/svg-utils';
-import { TransformProvider } from '../../../../../../../components';
+import DetailDisplay from '../../../../DetailBuilder/DetailDisplay/DetailDisplay';
 
 export default function DetailSidebarView({
     systemMap,

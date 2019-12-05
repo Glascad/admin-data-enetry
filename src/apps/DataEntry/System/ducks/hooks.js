@@ -1,9 +1,5 @@
-import { useState, useEffect } from 'react';
-import {
-    SystemMap,
-    getChildren,
-    getLastItemFromPath,
-} from '../../../../app-logic/system-utils';
+import { useEffect, useState } from 'react';
+import { getChildren, getLastItemFromPath } from '../../../../app-logic/system-utils';
 import { parseSearch } from '../../../../utils';
 import { UPDATE_ITEM } from "./actions";
 
@@ -32,7 +28,7 @@ export const usePartialAction = ({ selectItem }) => {
         }
 
         setTimeout(addListeners);
-        
+
         return () => {
             removeListeners();
             setTimeout(removeListeners);
