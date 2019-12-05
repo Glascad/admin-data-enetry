@@ -5,6 +5,7 @@ import { UPDATE_ITEM } from "./actions";
 
 export const usePartialAction = ({ selectItem, dispatch }) => {
     const [partialAction, setPartialAction] = useState();
+    console.log({ partialAction });
 
     const dispatchPartial = (ACTION, payload, completePayload) => setPartialAction({ ACTION, payload, completePayload });
     const cancelPartial = () => setPartialAction();

@@ -21,19 +21,21 @@ export default withRouter(function DetailDisplay({
     selectedItem,
     systemMap,
     selectedConfigurationPaths,
+    partialAction,
+    partialAction: {
+        payload: partialPayload,
+    } = {},
+    dispatchPartialPayload,
 }) {
-    // console.log(arguments[0]);
 
     const { Viewport } = useContext(StaticContext);
     const { scale: { x: scaleX, y: scaleY } } = useContext(TransformContext);
     const { path } = parseSearch(search);
-    const detailType = getDetailTypeFromPath(path);
     const configurationType = getConfigurationTypeFromPath(path);
-    // const allPaths = children.reduce((allPaths, { _part: { paths = [] } = {} }) => allPaths.concat(paths), []);
-    // const viewBox = svg.getViewBox(allPaths, padding);
 
-    const handleClick = () => {
-        
+    const handleClick = item => {
+        if (partialAction) dispatchPartialPayload(item);
+        if (!partialPayload) selectItem(item);
     }
 
     const childProps = {

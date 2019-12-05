@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '../../../../../components';
 import * as Icons from '../../../../../assets/icons';
 import { Matrix } from '../../../../../utils';
@@ -8,10 +8,15 @@ export default function ({
     selectedItem,
     nudge,
     setNudge,
-    dispatchTransform,
+    dispatch,
+    TRANSFORM
 }) {
-    const createNudge = (vertical, first) => () => dispatchTransform(
-        Matrix.createTranslation(
+
+    // const []
+
+    const createNudge = (vertical, first) => () => dispatch(TRANSFORM, {
+        targetItem: selectedItem,
+        intermediateTransform: Matrix.createTranslation(
             vertical ?
                 0
                 :
@@ -27,7 +32,8 @@ export default function ({
                 :
                 0,
         ),
-    );
+    });
+
     return (
         < div className="tray-section" >
             <Input

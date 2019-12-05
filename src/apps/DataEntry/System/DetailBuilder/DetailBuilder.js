@@ -58,7 +58,12 @@ export default function DetailBuilder({
     const cancelSelection = () => selectItem();
     const cancelOnEscape = ({ key }) => key === 'Escape' && cancelSelection();
 
-    const { partialAction, dispatchPartial, cancelPartial, } = usePartialAction({ selectItem });
+    const {
+        partialAction,
+        dispatchPartial,
+        cancelPartial,
+        dispatchPartialPayload,
+    } = usePartialAction({ selectItem, dispatch });
 
     useEffect(() => {
         cancelSelection();
@@ -109,8 +114,7 @@ export default function DetailBuilder({
                 selectedItem={selectedItem}
                 updating={updating}
                 partialAction={partialAction}
-                dispatchPartial={dispatchPartial}
-
+                dispatchPartialPayload={dispatchPartialPayload}
             />
             <DetailTray
                 selectItem={selectItem}

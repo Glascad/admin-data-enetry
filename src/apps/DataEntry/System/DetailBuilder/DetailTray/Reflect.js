@@ -5,26 +5,14 @@ import { Matrix } from '../../../../../utils';
 
 export default function ({
     selectedItem,
-    selectedItem: {
-        transform = {},
-    } = {},
-    dispatchTransform,
+    dispatch,
+    TRANSFORM,
 }) {
 
-    const {
-        a, b, c: xOffset = 0,
-        d, e, f: yOffset = 0,
-        g, h, i,
-    } = transform;
-
-    // console.log({
-    //     a: Math.acos(a)/ Math.PI * 180,
-    //     b: -Math.asin(b)/ Math.PI * 180,
-    //     d: Math.asin(d)/ Math.PI * 180,
-    //     e: Math.acos(e)/ Math.PI * 180,
-    // })
-
-    const createMirror = angle => () => dispatchTransform(Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
+    const createMirror = angle => () => dispatch(TRANSFORM, {
+        targetItem: selectedItem,
+        intermediateTransform: Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }),
+    });
 
     return (
         <div className="tray-section">

@@ -1,86 +1,76 @@
-import React, { memo, useState } from 'react';
-import { Input, Tray } from '../../../../../components';
+import React, { memo } from 'react';
+import { Tray } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
 import UPDATE_ITEM from '../../ducks/actions/update-item';
-import { usePartialAction } from '../../ducks/hooks';
 import Align from './Align';
 import Nudge from './Nudge';
 import Reflect from './Reflect';
 import Rotate from './Rotate';
 
-const initialState = {
-    coordinate: {
-        x: 0,
-        y: 0,
-    },
-    nudge: 0,
-    angle: 0,
-};
-
 export default memo(function DetailTray({
-    selectItem,
     selectedItem,
-    selectedItem: {
-        id,
-        fakeId,
-        path,
-        __typename,
-        transform,
-    } = {},
     dispatch,
     partialAction,
+    partialAction: {
+        payload: partialPayload,
+        payload: {
+            transform: partialTransform,
+        } = {}
+    } = {},
     dispatchPartial,
-    cancelPartial,
 }) {
 
     console.log(arguments[0])
 
-    const [state, setState] = useState(initialState);
-    const { coordinate, nudge, angle } = state;
-    const setCoordinate = (d, value) => setState(state => ({
-        ...state,
-        coordinate: {
-            ...state.coordinate,
-            [d]: +value,
+    const TRANSFORM = (systemInput, {
+        intermediateTransform,
+        targetItem: {
+            id,
+            fakeId,
+            __typename,
+            path,
+            transform,
         },
-    }));
-    const setNudge = value => setState(state => ({
-        ...state,
-        nudge: +value,
-    }));
-    const setAngle = angle => setState(state => ({
-        ...state,
-        angle: +angle,
-    }));
-    const dispatchTransform = intermediateTransform => {
-        const previousTransform = new Matrix(partialAction ? partialAction.payload.transform : transform);
+    }) => {
+        const previousTransform = new Matrix(partialAction ?
+            partialTransform
+            :
+            transform
+        );
         // translations are independent of scale/skew
         const scaleSkewTransform = intermediateTransform.multiply(previousTransform.multiply([[1, 0, 0], [0, 1, 0], [0, 0, 0]]));
         const translateTransform = intermediateTransform.multiply(previousTransform.multiply([[0, 0, 0], [0, 0, 0], [0, 0, 1]]));
         // both transformations are then added together
         const resultingTransform = scaleSkewTransform.add(translateTransform);
-        dispatch(UPDATE_ITEM, partialAction ?
-            {
-                ...partialAction.payload,
-                update: {
-                    transform: resultingTransform.toObject(),
-                }
-            }
-            :
-            {
-                id,
-                fakeId,
-                __typename,
-                path,
-                update: {
-                    transform: resultingTransform.toObject(),
+        const update = {
+            transform: resultingTransform.toObject(),
+        };
+        const payload = {
+            ...partialAction ?
+                partialPayload
+                :
+                {
+                    id,
+                    fakeId,
+                    __typename,
+                    path,
+                    update,
                 },
-            });
+            update,
+        };
+        return UPDATE_ITEM(systemInput, payload);
+    }
+
+    const childProps = {
+        selectedItem,
+        dispatch,
+        dispatchPartial,
+        TRANSFORM,
     };
 
     return (
         <Tray>
-            <div className="tray-section">
+            {/* <div className="tray-section">
                 {['x', 'y'].map(d => (
                     <Input
                         key={d}
@@ -91,38 +81,18 @@ export default memo(function DetailTray({
                         onChange={({ target: { value } }) => setCoordinate(d, +value)}
                     />
                 ))}
-            </div>
+            </div> */}
             <Nudge
-                {...{
-                    selectedItem,
-                    nudge,
-                    setNudge,
-                    dispatchTransform,
-                }}
+                {...childProps}
             />
             <Align
-                {...{
-                    partialAction,
-                    dispatchPartial,
-                    cancelPartial,
-                    selectItem,
-                    selectedItem,
-                    dispatchTransform,
-                }}
+                {...childProps}
             />
             <Reflect
-                {...{
-                    selectedItem,
-                    dispatchTransform,
-                }}
+                {...childProps}
             />
             <Rotate
-                {...{
-                    selectedItem,
-                    angle,
-                    setAngle,
-                    dispatchTransform,
-                }}
+                {...childProps}
             />
         </Tray>
     );

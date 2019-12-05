@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { DIRECTIONS, Matrix } from '../../../../../utils';
@@ -14,48 +14,32 @@ const {
 } = DIRECTIONS;
 
 export default function ({
-
-    partialAction: {
-        ACTION: {
-        } = {},
-        payload: {
-            selectedItem: partialPayload,
-            vertical: partialVertical,
-            first: partialFirst
-        },
-    } = {},
     dispatchPartial,
-    cancelPartial,
-    selectItem,
     selectedItem,
-    dispatchTransform,
+    TRANSFORM,
 }) {
     console.log(arguments[0]);
 
-    const alignItems = (item1, item2) => {
-        const coordinate1 = getAlignmentCoordinate(partialVertical, partialFirst, item1);
-        const coordinate2 = getAlignmentCoordinate(partialVertical, partialFirst, item2);
-        const nudge = coordinate2 - coordinate1;
-        dispatchTransform(
-            Matrix.createTranslation(
-                partialVertical ? 0 : nudge,
-                partialVertical ? nudge : 0,
-            ),
-        );
-    };
+    const [[vertical, first], setVerticalAndFirst] = useState([]);
 
-    if (partialPayload && selectedItem && (selectedItem !== partialPayload)) {
-        alignItems(partialPayload, selectedItem);
-        selectItem(partialPayload);
-        cancelPartial();
-    };
-    if ((partialVertical !== undefined) && selectedItem && !partialPayload) {
-        dispatchPartial({ vertical: partialVertical, first: partialFirst }, selectedItem);
-    };
+    const dispatchPartialAlign = (vertical, first) => {
 
-    const dispatchPartialAlign = (vertical, first) => dispatchPartial(() => {
+        setVerticalAndFirst([vertical, first]);
 
-    }, { vertical, first, selectItem });
+        dispatchPartial(TRANSFORM, selectedItem, (item1, item2) => {
+            const coordinate1 = getAlignmentCoordinate(vertical, first, item1);
+            const coordinate2 = getAlignmentCoordinate(vertical, first, item2);
+            const nudge = coordinate2 - coordinate1;
+            setVerticalAndFirst([]);
+            return {
+                targetItem: item1,
+                intermediateTransform: Matrix.createTranslation(
+                    vertical ? 0 : nudge,
+                    vertical ? nudge : 0,
+                ),
+            };
+        });
+    }
 
     return (
         <div className="tray-section">
@@ -66,34 +50,34 @@ export default function ({
                 <Input
                     Icon={Icons.AlignBottom}
                     onChange={() => dispatchPartialAlign(...DOWN)}
-                    checked={partialVertical && partialFirst}
+                    checked={vertical && first}
                 />
                 <Input
                     Icon={Icons.AlignMiddle}
                     onChange={() => dispatchPartialAlign(...VCENTER)}
-                    checked={partialVertical && partialFirst === null}
+                    checked={vertical && first === null}
                 />
                 <Input
                     Icon={Icons.AlignTop}
                     onChange={() => dispatchPartialAlign(...UP)}
-                    checked={partialVertical && partialFirst === false}
+                    checked={vertical && first === false}
                 />
             </div>
             <div className="input-group">
                 <Input
                     Icon={Icons.AlignLeft}
                     onChange={() => dispatchPartialAlign(...LEFT)}
-                    checked={!partialVertical && partialFirst}
+                    checked={!vertical && first}
                 />
                 <Input
                     Icon={Icons.AlignCenter}
                     onChange={() => dispatchPartialAlign(...HCENTER)}
-                    checked={partialVertical === false && partialFirst === null}
+                    checked={vertical === false && first === null}
                 />
                 <Input
                     Icon={Icons.AlignRight}
                     onChange={() => dispatchPartialAlign(...RIGHT)}
-                    checked={!partialVertical && partialFirst === false}
+                    checked={!vertical && first === false}
                 />
             </div>
         </div>

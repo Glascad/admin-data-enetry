@@ -7,17 +7,19 @@ export default function ({
     selectedItem,
     angle,
     setAngle,
-    dispatchTransform,
+    dispatch,
+    TRANSFORM
 }) {
 
-    const createRotate = clockwise => () => dispatchTransform(
-        Matrix.createRotation(
+    const createRotate = clockwise => () => dispatch(TRANSFORM, {
+        targetItem: selectedItem,
+        intermediateTransform: Matrix.createRotation(
             clockwise ?
                 -angle
                 :
                 +angle,
         ),
-    );
+    });
 
     return (
         <div className="tray-section">
