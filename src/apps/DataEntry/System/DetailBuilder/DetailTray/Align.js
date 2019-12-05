@@ -13,7 +13,7 @@ const {
     HCENTER,
 } = DIRECTIONS;
 
-export default function ({
+export default function Align({
     dispatchPartial,
     selectedItem,
     TRANSFORM,

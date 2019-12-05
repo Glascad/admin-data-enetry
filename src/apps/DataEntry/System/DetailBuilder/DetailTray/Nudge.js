@@ -4,15 +4,13 @@ import * as Icons from '../../../../../assets/icons';
 import { Matrix } from '../../../../../utils';
 
 
-export default function ({
+export default function Nudge({
     selectedItem,
-    nudge,
-    setNudge,
     dispatch,
     TRANSFORM
 }) {
 
-    // const []
+    const [nudge, setNudge] = useState(0);
 
     const createNudge = (vertical, first) => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,
