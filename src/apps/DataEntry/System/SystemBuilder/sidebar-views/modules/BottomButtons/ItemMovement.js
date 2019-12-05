@@ -4,7 +4,9 @@ import { UPDATE_ITEM, COPY_ITEM } from '../../../../ducks/actions';
 export default function ItemMovement({
     selectedItem,
     name,
-    partialAction,
+    partialAction: {
+        ACTION,
+    } = {},
     cancelPartial,
     dispatchPartial,
     systemMap,
@@ -14,31 +16,31 @@ export default function ItemMovement({
             <button
                 data-cy={`edit-${name.toLowerCase()}-move-button`}
                 className="sidebar-button light"
-                onClick={partialAction && partialAction.ACTION === UPDATE_ITEM ?
+                onClick={ACTION === UPDATE_ITEM ?
                     cancelPartial
                     :
-                    () => dispatchPartial(UPDATE_ITEM, selectedItem, ({ __typename, path }) => ({
+                    () => dispatchPartial(UPDATE_ITEM, selectedItem, (selectedItem, { __typename, path }) => ({
                         ...selectedItem,
                         update: {
                             [`parent${__typename}Path`]: path,
                         },
                     }))}
             >
-                {partialAction && partialAction.ACTION === UPDATE_ITEM ? 'Cancel Move' : `Move ${name}`}
+                {ACTION === UPDATE_ITEM ? 'Cancel Move' : `Move ${name}`}
             </button>
             <button
                 data-cy={`edit-${name.toLowerCase()}-copy-button`}
                 className="sidebar-button light"
-                onClick={partialAction && partialAction.ACTION === COPY_ITEM ?
+                onClick={ACTION === COPY_ITEM ?
                     cancelPartial
                     :
-                    () => dispatchPartial(COPY_ITEM, selectedItem, item => ({
+                    () => dispatchPartial(COPY_ITEM, selectedItem, (selectedItem, targetItem) => ({
                         selectedItem,
-                        targetItem: item,
+                        targetItem,
                         systemMap,
                     }))}
             >
-                {partialAction && partialAction.ACTION === COPY_ITEM ? 'Cancel Copy' : `Copy ${name}`}
+                {ACTION === COPY_ITEM ? 'Cancel Copy' : `Copy ${name}`}
             </button>
         </>
     );

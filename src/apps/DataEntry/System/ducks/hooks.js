@@ -9,9 +9,17 @@ export const usePartialAction = ({ selectItem, dispatch }) => {
     const dispatchPartial = (ACTION, payload, completePayload) => setPartialAction({ ACTION, payload, completePayload });
     const cancelPartial = () => setPartialAction();
 
+    const dispatchPartialAction = (ACTION, completePayload) => setPartialAction(partial => ({ ...partial, ACTION, completePayload }));
+
+    const dispatchPartialPayload = payload => {
+        const { payload: payload1 } = partialAction;
+        if (payload1) completePartial(payload);
+        else setPartialAction(partial => ({ ...partial, payload }));
+    }
+
     const completePartial = payload2 => {
-        const { ACTION, completePayload } = partialAction;
-        dispatch(ACTION, completePayload(payload2));
+        const { ACTION, payload, completePayload } = partialAction;
+        dispatch(ACTION, completePayload(payload, payload2));
         cancelPartial();
     }
 
@@ -46,6 +54,8 @@ export const usePartialAction = ({ selectItem, dispatch }) => {
     return {
         partialAction,
         dispatchPartial,
+        dispatchPartialAction,
+        dispatchPartialPayload,
         cancelPartial,
         completePartial,
     };
