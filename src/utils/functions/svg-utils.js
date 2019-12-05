@@ -1,5 +1,5 @@
+import { DIRECTIONS, Matrix } from "..";
 import match from "./match";
-import { Matrix, DIRECTIONS } from "..";
 
 const {
     DOWN,
@@ -8,7 +8,7 @@ const {
     RIGHT,
     VCENTER,
     HCENTER,
-} = DIRECTIONS
+} = DIRECTIONS;
 
 export const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
@@ -50,8 +50,12 @@ export const getCommandCoordinates = commands => commands
 export const getPartCoordinates = ({ paths }) => paths.reduce((coordinates, { commands }) => coordinates.concat(getCommandCoordinates(commands)), []);
 
 export const getTransformedPartCoordinates = (part, transform) => {
-    const transformMatrix = new Matrix(transform);
-    return getPartCoordinates(part).map(({ x, y }) => transformMatrix.transformCoordinate(x, y));
+    const coordinates = getPartCoordinates(part);
+    if (!transform) return coordinates;
+    else {
+        const matrix = new Matrix(transform);
+        return coordinates.map(({ x, y }) => matrix.transformCoordinate(x, y));
+    }
 }
 
 export const getPartExtremities = ({ paths }, transform) => {

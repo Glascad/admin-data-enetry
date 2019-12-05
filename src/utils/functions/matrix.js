@@ -217,11 +217,7 @@ export default window.Matrix = class Matrix {
     }
 
     transformCoordinate = (X, Y) => {
-        const {
-            a, b, c,
-            d, e, f,
-            g, h, i,
-        } = this.object;
+        const { c, f } = this.object;
         const [[x], [y]] = multiply(this.array, [[X], [Y], [0]]);
         return { x: x + c, y: y + f };
     }

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
-import { multiply } from 'mathjs';
-import { svg, Matrix } from '../../../utils';
+import React, { useState } from 'react';
+import { Matrix, svg } from '../../../utils';
 
 export function SVGPath({
     className = '',
