@@ -42,7 +42,7 @@ export default function SystemBuilder({
         selectItem,
     } = useSelection({ systemMap, location, match, history });
 
-    const { partialAction, dispatchPartial, cancelPartial } = usePartialAction({ selectItem });
+    const { partialAction, dispatchPartial, cancelPartial, completePartial } = usePartialAction({ selectItem, dispatch });
 
     // adding default value to all options without one
     useCheckDefaultValues({ systemMap, system, dispatch, systemInput });
@@ -73,6 +73,7 @@ export default function SystemBuilder({
                     selectedItem,
                     partialAction,
                     cancelPartial,
+                    completePartial,
                 }}
             />
             <Sidebar

@@ -2,7 +2,6 @@ import React from 'react';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
-import { acos, asin } from '../../../../../utils/functions/trig';
 
 export default function ({
     selectedItem,
@@ -18,12 +17,12 @@ export default function ({
         g, h, i,
     } = transform;
 
-    console.log({
-        a: Math.acos(a)/ Math.PI * 180,
-        b: -Math.asin(b)/ Math.PI * 180,
-        d: Math.asin(d)/ Math.PI * 180,
-        e: Math.acos(e)/ Math.PI * 180,
-    })
+    // console.log({
+    //     a: Math.acos(a)/ Math.PI * 180,
+    //     b: -Math.asin(b)/ Math.PI * 180,
+    //     d: Math.asin(d)/ Math.PI * 180,
+    //     e: Math.acos(e)/ Math.PI * 180,
+    // })
 
     const createMirror = angle => () => dispatchTransform(Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }));
 

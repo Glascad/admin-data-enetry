@@ -1,34 +1,45 @@
 import React from 'react';
+import { UPDATE_ITEM, COPY_ITEM } from '../../../../ducks/actions';
 
-const ItemMovement = ({
+export default function ItemMovement({
     selectedItem,
     name,
     partialAction,
     cancelPartial,
     dispatchPartial,
-}) => (
+    systemMap,
+}) {
+    return (
         <>
             <button
                 data-cy={`edit-${name.toLowerCase()}-move-button`}
                 className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "MOVE" ?
-                    cancelPartial()
+                onClick={partialAction && partialAction.ACTION === UPDATE_ITEM ?
+                    cancelPartial
                     :
-                    dispatchPartial('MOVE', selectedItem)}
+                    () => dispatchPartial(UPDATE_ITEM, selectedItem, ({ __typename, path }) => ({
+                        ...selectedItem,
+                        update: {
+                            [`parent${__typename}Path`]: path,
+                        },
+                    }))}
             >
                 {partialAction && partialAction.ACTION === "MOVE" ? 'Cancel Move' : `Move ${name}`}
             </button>
             <button
                 data-cy={`edit-${name.toLowerCase()}-copy-button`}
                 className="sidebar-button light"
-                onClick={() => partialAction && partialAction.ACTION === "COPY" ?
-                    cancelPartial()
+                onClick={partialAction && partialAction.ACTION === COPY_ITEM ?
+                    cancelPartial
                     :
-                    dispatchPartial('COPY', selectedItem)}
+                    () => dispatchPartial(COPY_ITEM, selectedItem, item => ({
+                        partialPayload: selectedItem,
+                        targetItem: item,
+                        systemMap,
+                    }))}
             >
-                {partialAction && partialAction.ACTION === "COPY" ? 'Cancel Copy' : `Copy ${name}`}
+                {partialAction && partialAction.ACTION === COPY_ITEM ? 'Cancel Copy' : `Copy ${name}`}
             </button>
         </>
     );
-
-export default ItemMovement;
+}

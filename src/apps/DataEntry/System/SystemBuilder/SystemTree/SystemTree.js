@@ -26,7 +26,7 @@ export default function SystemTree({
         ACTION: PARTIAL_ACTION,
         payload: partialPayload,
     } = {},
-    cancelPartial,
+    completePartial,
 }) {
 
     const { Viewport } = useContext(StaticContext);
@@ -120,23 +120,7 @@ export default function SystemTree({
                                         onClick={e => {
                                             e.stopPropagation();
                                             if (!PARTIAL_ACTION) selectItem(item);
-                                            else if (isAvailableToCompleteAction) {
-                                                match(PARTIAL_ACTION)
-                                                    .against({
-                                                        MOVE: () => dispatch(UPDATE_ITEM, {
-                                                            ...partialPayload,
-                                                            update: {
-                                                                [`parent${__typename}Path`]: path,
-                                                            },
-                                                        }),
-                                                        COPY: () => dispatch(COPY_ITEM, {
-                                                            partialPayload,
-                                                            targetItem: item,
-                                                            systemMap,
-                                                        }),
-                                                    });
-                                                cancelPartial();
-                                            }
+                                            else if (isAvailableToCompleteAction) completePartial(item);
                                         }}
                                     >
                                         <div className="title">

@@ -1,4 +1,5 @@
 import match from "./match";
+import { Matrix } from "..";
 
 export const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
@@ -67,57 +68,69 @@ export const getViewBox = (paths, padding = 0) => {
 }
 
 
-export const getAlignmentCoordinates = (vertical, start, selectedItem = {}, transform = {}) => {
+export const getAlignmentCoordinates = window.getAlignmentCoordinates = (vertical, start, selectedItem = {}) => {
 
     const {
         _part: {
             paths = [],
         } = {},
+        transform = {},
     } = selectedItem;
 
-    const {
-        x: {
-            min: xMin,
-            max: xMax,
-        } = {},
-        y: {
-            min: yMin,
-            max: yMax,
-        } = {},
-    } = getViewBox(paths);
+    return paths.reduce((furthestPoint, { commands }) => {
+        const transformKey = vertical ? 'y' : 'x';
+        const furthestCommand = commands.reduce((furthestCommand, { arguments: commandArguments = [] }) => {
+            if (commandArguments.length < 2) return furthestCommand;
+            const x = commandArguments[commandArguments.length - 2];
+            const y = commandArguments[commandArguments.length - 1];
+            const transformMatrix = new Matrix(transform);
+            const transformedPoint = transformMatrix.transformCoordinate(x, y);
+            if (!furthestCommand) return transformedPoint;
+            const commandDifference = transformedPoint[transformKey] - furthestCommand[transformKey];
 
-    /** cos0, -sin0, transX  ===> acos0, asin(-1 * 0)
-     *  sin0, cos0,  transY  ===> asin0, acos0
-     */
-
-    const {
-        a, b, c: xOffset = 0,
-        d, e, f: yOffset = 0,
-        g, h, i,
-    } = transform;
-
-
-    const transformOffset = vertical ? yOffset : xOffset;
-    const initialPoint = vertical ?
-        start ? yMin : yMax
-        :
-        start ? xMin : xMax;
-
-    console.log({
-        vertical,
-        start,
-        selectedItem,
-        paths,
-        transform,
-        viewBox: getViewBox(paths),
-        transformOffset,
-        initialPoint,
-    })
-
-    return initialPoint + transformOffset;
+            return (
+                start ?
+                    commandDifference < 0
+                    :
+                    commandDifference > 0
+            ) ?
+                transformedPoint
+                :
+                furthestCommand;
+        }, undefined);
+        if (!furthestPoint) return furthestCommand;
+        const pointDifference = furthestCommand[transformKey] - furthestPoint[transformKey]
+        return (
+            start ?
+                pointDifference < 0
+                :
+                pointDifference > 0
+        ) ?
+            furthestCommand
+            :
+            furthestPoint
+    }, undefined);
 };
 
-export const getAlignTop = (selectedItem, transform) => getAlignmentCoordinates(true, false, selectedItem, transform);
-export const getAlignBottom = (selectedItem, transform) => getAlignmentCoordinates(true, true, selectedItem, transform);
-export const getAlignLeft = (selectedItem, transform) => getAlignmentCoordinates(false, true, selectedItem, transform);
-export const getAlignRight = (selectedItem, transform) => getAlignmentCoordinates(false, false, selectedItem, transform);
+export const getAlignCenterCoordinates = window.getAlignCenterCoordinates = (vertical, selectedItem) => {
+    const {
+        x: closeX,
+        y: closeY,
+    } = getAlignmentCoordinates(vertical, true, selectedItem);
+    const {
+        x: farX,
+        y: farY,
+    } = getAlignmentCoordinates(vertical, false, selectedItem);
+
+    return {
+        x: (farX + closeX) / 2,
+        y: (farY + closeY) / 2,
+    };
+}
+
+export const getAlignTopCoordinates = window.getAlignTopCoordinates = selectedItem => getAlignmentCoordinates(true, false, selectedItem);
+export const getAlignBottomCoordinates = window.getAlignBottomCoordinates = selectedItem => getAlignmentCoordinates(true, true, selectedItem);
+export const getAlignLeftCoordinates = window.getAlignLeftCoordinates = selectedItem => getAlignmentCoordinates(false, true, selectedItem);
+export const getAlignRightCoordinates = window.getAlignRightCoordinates = selectedItem => getAlignmentCoordinates(false, false, selectedItem);
+export const getAlignVCenterCoordinates = window.getAlignVCenterCoordinates = selectedItem => getAlignCenterCoordinates(true, selectedItem);
+export const getAlignHCenterCoordinates = window.getAlignHCenterCoordinates = selectedItem => getAlignCenterCoordinates(false, selectedItem);

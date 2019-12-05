@@ -3,11 +3,19 @@ import { getChildren, getLastItemFromPath } from '../../../../app-logic/system-u
 import { parseSearch } from '../../../../utils';
 import { UPDATE_ITEM } from "./actions";
 
-export const usePartialAction = ({ selectItem }) => {
+export const usePartialAction = ({ selectItem, dispatch }) => {
     const [partialAction, setPartialAction] = useState();
 
-    const dispatchPartial = (ACTION, payload) => setPartialAction({ ACTION, payload });
+    const dispatchPartial = (ACTION, payload, completePayload) => setPartialAction({ ACTION, payload, completePayload });
     const cancelPartial = () => setPartialAction();
+
+    const completePartial = payload2 => {
+        const { ACTION, completePayload } = partialAction;
+        const payload = completePayload(payload2);
+        console.log({ ACTION, payload, payload2 });
+        dispatch(ACTION, payload);
+        cancelPartial();
+    }
 
     const cancelOnClick = () => partialAction ?
         cancelPartial()
@@ -35,10 +43,13 @@ export const usePartialAction = ({ selectItem }) => {
         }
     }, [partialAction]);
 
+    console.log({ partialAction });
+
     return {
         partialAction,
         dispatchPartial,
         cancelPartial,
+        completePartial,
     };
 }
 
