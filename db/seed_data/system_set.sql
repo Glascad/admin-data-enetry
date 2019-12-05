@@ -2,6 +2,34 @@
 DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
 
     <<LOOP ID (1, 2)>>
+
+        SELECT 1 FROM update_entire_system_set(
+            (
+                -- id INTEGER,
+                NULL,
+                -- system_id INTEGER,
+                <<ID>>,
+                -- project_id INTEGER,
+                <<ID>>,
+                -- name VARCHAR(50),
+                'Test System Set',
+                -- system_option_value_path LTREE,
+                '<<ID>>.SET.CENTER.JOINERY.SCREW_SPLINE',
+                -- option_group_values OPTION_VALUE_PAIR[],
+                ARRAY[
+                    ('STOPS', 'DOWN'),
+                    ('GLAZING', 'INSIDE')
+                ]::OPTION_VALUE_PAIR[],
+                -- detail_option_values ENTIRE_SYSTEM_SET_NODE[],
+                ARRAY[
+                    (NULL, 'SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD'),
+                    (NULL, 'SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL'),
+                    (NULL, 'SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.GLAZING.INSIDE')
+                ]::ENTIRE_SYSTEM_SET_NODE[],
+                -- configuration_option_values ENTIRE_SYSTEM_SET_NODE[]
+                ARRAY[]::ENTIRE_SYSTEM_SET_NODE[]
+            )::ENTIRE_SYSTEM_SET
+        ) INTO ___;
         -- TEST SYSTEM SET
 
         -- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES

@@ -4,7 +4,8 @@ gc_protected.system_sets (
     id SERIAL PRIMARY KEY,
     project_id INTEGER REFERENCES projects NOT NULL,
     system_id INTEGER REFERENCES systems NOT NULL,
-    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED NOT NULL,
+    -- must check this with constraint to require it when there are system option values in the system
+    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED,
     name VARCHAR(50),
     UNIQUE (id, system_option_value_path),
     UNIQUE (id, system_id),
@@ -51,8 +52,13 @@ gc_protected.system_set_option_group_values (
 CREATE TABLE
 gc_protected.system_set_detail_option_values (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED NOT NULL,
-    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL,
+    -- must use trigger to constrain that 
+    -- parent
+    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED,
+    -- self
+    -- 
+    detail_option_value_path LTREE REFERENCES detail_configurations(parent_detail_option_value_path) INITIALLY DEFERRED,
+    system_detail_path LTREE REFERENCES detail_configurations(parent_detail_option_value_path) INITIALLY DEFERRED,
     PRIMARY KEY (system_set_id, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
@@ -64,7 +70,14 @@ gc_protected.system_set_detail_option_values (
     )
     ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     CHECK (
-        system_option_value_path @> detail_option_value_path
+        system_option_value_path @> COALESCE(
+            detail_option_value_path,
+            system_detail_path
+        )
+        AND either_or(
+            detail_option_value_path IS NULL,
+            system_detail_path IS NULL
+        )
     ),
     -- only one dov per detail type per system set
     EXCLUDE USING gist (

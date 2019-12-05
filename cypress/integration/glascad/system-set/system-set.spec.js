@@ -9,6 +9,7 @@ describe('System Set Tests', () => {
         // INITIAL LOAD
         // should have all correct values selected based on system set data
         // system options
+        cy.wait(2000);
         cy.getDataCy`system-name`.find('input').invoke('val').should('match', /initial.system/i);
         cy.getDataCy`system-set-name`.invoke('val').should('match', /test.system.set/i);
         cy.getDataCy`SET`.find('input').invoke('val').should('match', /CENTER/i);

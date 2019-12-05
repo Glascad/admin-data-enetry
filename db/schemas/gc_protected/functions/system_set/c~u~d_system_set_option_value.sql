@@ -29,7 +29,7 @@
                 system_set_id,
                 <<TYPE>>_option_value_path
             ) VALUES (
-                uss.id,
+                ss.id,
                 sn.new_path
             )
             RETURNING * INTO ov;

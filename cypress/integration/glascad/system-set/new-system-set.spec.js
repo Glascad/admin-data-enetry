@@ -20,7 +20,7 @@ describe('Testing creation of new system set', () => {
         // options should be empty before selecting a system
 
         // can select system
-        cy.getDataCy`system-name`.find('input').type('Test{enter}').invoke('val').should('match', /Test/i);
+        cy.getDataCy`system-name`.find('input').type('Initial{enter}').invoke('val').should('match', /Initial/i);
 
         // options should populate with default values when system is selected
 
