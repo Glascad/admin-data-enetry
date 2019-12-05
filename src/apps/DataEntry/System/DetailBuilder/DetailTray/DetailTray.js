@@ -28,11 +28,13 @@ export default memo(function DetailTray({
         transform,
     } = {},
     dispatch,
+    partialAction,
+    dispatchPartial,
+    cancelPartial,
 }) {
 
     console.log(arguments[0])
 
-    const { partialAction, dispatchPartial, cancelPartial, } = usePartialAction({ selectItem });
     const [state, setState] = useState(initialState);
     const { coordinate, nudge, angle } = state;
     const setCoordinate = (d, value) => setState(state => ({

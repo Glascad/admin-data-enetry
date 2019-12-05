@@ -1,4 +1,4 @@
-import { getAlignmentCoordinates } from "../svg-utils";
+import { getAlignmentCoordinate } from "../svg-utils";
 import { samplePart } from "../../../app-logic/__test__/sample-systems";
 
 function testGetAlignCoordinates({
@@ -9,7 +9,7 @@ function testGetAlignCoordinates({
     expected,
 }) {
     describe(`It tests the function getAlignCoordinates to get the correct values`, () => {
-        const result = getAlignmentCoordinates(vertical, start, selectedItem, transform);
+        const result = getAlignmentCoordinate(vertical, start, selectedItem, transform);
         test(`result: ${result} === expected: ${expected}`, () => {
             expect(result).toBe(expected);
         });

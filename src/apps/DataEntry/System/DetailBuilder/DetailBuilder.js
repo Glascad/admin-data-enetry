@@ -4,6 +4,7 @@ import { getChildren, getConfigurationTypeFromPath, getDefaultPath } from '../..
 import { TransformProvider, useInitialState } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 import { useCollapseSidebar } from '../../../Statics/Statics';
+import { usePartialAction } from '../ducks/hooks';
 import DetailDisplay from './DetailDisplay/DetailDisplay';
 import DetailTray from './DetailTray/DetailTray';
 import Header from './Header/Header';
@@ -57,6 +58,8 @@ export default function DetailBuilder({
     const cancelSelection = () => selectItem();
     const cancelOnEscape = ({ key }) => key === 'Escape' && cancelSelection();
 
+    const { partialAction, dispatchPartial, cancelPartial, } = usePartialAction({ selectItem });
+
     useEffect(() => {
         cancelSelection();
     }, [path]);
@@ -105,12 +108,18 @@ export default function DetailBuilder({
                 selectItem={selectItem}
                 selectedItem={selectedItem}
                 updating={updating}
+                partialAction={partialAction}
+                dispatchPartial={dispatchPartial}
+
             />
             <DetailTray
                 selectItem={selectItem}
                 systemMap={systemMap}
                 selectedItem={selectedItem}
                 dispatch={dispatch}
+                partialAction={partialAction}
+                dispatchPartial={dispatchPartial}
+                cancelPartial={cancelPartial}
             />
             <Sidebar
                 systemMap={systemMap}

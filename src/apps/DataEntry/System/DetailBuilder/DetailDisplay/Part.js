@@ -12,7 +12,7 @@ export default function Part({
             paths = [],
         } = {},
     },
-    selectItem,
+    handleClick,
     selectedItem,
     padding,
 }) {
@@ -25,7 +25,7 @@ export default function Part({
             className={`Part ${selected ? 'selected' : ''}`}
             onClick={e => {
                 e.stopPropagation();
-                selectItem(part);
+                handleClick(part);
             }}
             transform={transform}
         >

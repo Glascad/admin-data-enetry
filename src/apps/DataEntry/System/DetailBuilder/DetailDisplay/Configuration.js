@@ -10,7 +10,7 @@ export default function Configuration({
         transform: matrix,
     },
     systemMap,
-    selectItem,
+    handleClick,
     selectedItem,
     selectedConfigurationPaths,
     padding,
@@ -37,7 +37,7 @@ export default function Configuration({
                 <Part
                     {...arguments[0]}
                     part={part}
-                    selectItem={() => selectItem(configuration)}
+                    handleClick={() => handleClick(configuration)}
                 />
             ))}
             <g className="configuration-origin">
