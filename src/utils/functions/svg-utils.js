@@ -87,7 +87,7 @@ export const getViewBox = (paths, padding = 0) => {
         }`;
 };
 
-export const getAlignmentCoordinate = window.getAlignmentCoordinate = (vertical, first, selectedItem = {}) => {
+export const getAlignmentCoordinate = (vertical, first, selectedItem = {}) => {
 
     const {
         _part: {

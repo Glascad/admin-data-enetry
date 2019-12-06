@@ -1,13 +1,11 @@
 {
     "__typename": "ConfigurationPart",
-    "nodeId": "WyJjb25maWd1cmF0aW9uX3BhcnRzIiwyXQ==",
     "id": 2,
     "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__PT2__.451T_CG_003",
     "parentConfigurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
     "partId": 4,
     "_part": {
         "__typename": "Part",
-        "nodeId": "WyJwYXJ0cyIsNF0=",
         "id": 4,
         "partNumber": "451T-CG-003",
         "orientation": "FRONT",
@@ -1607,7 +1605,6 @@
                 ],
                 "__typename": "SvgPath"
             }
-        ],
-        "__by": "PartId"
+        ]
     }
 }
