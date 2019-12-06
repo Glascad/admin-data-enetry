@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
 
-export default function ({
+export default function Rotate({
     selectedItem,
-    angle,
-    setAngle,
     dispatch,
     TRANSFORM
 }) {
+
+    const [angle, setAngle] = useState(0);
+
 
     const createRotate = clockwise => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,

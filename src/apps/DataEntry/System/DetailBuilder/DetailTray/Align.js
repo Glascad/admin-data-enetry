@@ -13,7 +13,7 @@ const {
     HCENTER,
 } = DIRECTIONS;
 
-export default function ({
+export default function Align({
     dispatchPartial,
     selectedItem,
     TRANSFORM,
@@ -48,16 +48,19 @@ export default function ({
                 </div>
             <div className="input-group">
                 <Input
+                    data-cy={'align-bottom'}
                     Icon={Icons.AlignBottom}
                     onChange={() => dispatchPartialAlign(...DOWN)}
                     checked={vertical && first}
                 />
                 <Input
+                    data-cy={'align-vcenter'}
                     Icon={Icons.AlignMiddle}
                     onChange={() => dispatchPartialAlign(...VCENTER)}
                     checked={vertical && first === null}
                 />
                 <Input
+                    data-cy={'align-top'}
                     Icon={Icons.AlignTop}
                     onChange={() => dispatchPartialAlign(...UP)}
                     checked={vertical && first === false}
@@ -65,16 +68,19 @@ export default function ({
             </div>
             <div className="input-group">
                 <Input
+                    data-cy={'align-left'}
                     Icon={Icons.AlignLeft}
                     onChange={() => dispatchPartialAlign(...LEFT)}
                     checked={!vertical && first}
                 />
                 <Input
+                    data-cy={'align-hcenter'}
                     Icon={Icons.AlignCenter}
                     onChange={() => dispatchPartialAlign(...HCENTER)}
                     checked={vertical === false && first === null}
                 />
                 <Input
+                    data-cy={'align-right'}
                     Icon={Icons.AlignRight}
                     onChange={() => dispatchPartialAlign(...RIGHT)}
                     checked={!vertical && first === false}
