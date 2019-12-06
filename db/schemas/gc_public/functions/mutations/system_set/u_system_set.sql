@@ -7,7 +7,8 @@ DECLARE
     uss system_sets%ROWTYPE;
     ___ INTEGER;
     ogv OPTION_VALUE_PAIR;
-    sn ENTIRE_SYSTEM_SET_NODE;
+    ssd ENTIRE_SYSTEM_SET_DETAIL;
+    ssc ENTIRE_SYSTEM_SET_CONFIGURATION;
 BEGIN
 
     SET search_path = gc_public,gc_data,gc_protected,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
@@ -27,13 +28,16 @@ BEGIN
     END IF;
 
     -- detail option values & configuration option values
-    <<LOOP TYPE (detail, configuration)>>
+    <<LOOP 
+        TYPE (detail, configuration)
+        ALIAS (ssd, ssc)
+    >>
 
-        IF ss.<<TYPE>>_option_values IS NOT NULL THEN
+        IF ss.<<TYPE>>s IS NOT NULL THEN
 
-            FOREACH sn IN ARRAY ss.<<TYPE>>_option_values LOOP
+            FOREACH <<ALIAS>> IN ARRAY ss.<<TYPE>>s LOOP
 
-                SELECT 1 FROM create_or_update_or_delete_system_set_<<TYPE>>_option_value(sn, uss) INTO ___;
+                SELECT 1 FROM create_or_update_or_delete_system_set_<<TYPE>>(<<ALIAS>>, uss) INTO ___;
 
             END LOOP;
 

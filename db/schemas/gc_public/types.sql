@@ -47,11 +47,20 @@ gc_public.option_value_pair AS (
     name OPTION_VALUE_NAME
 );
 
-CREATE TYPE
-gc_public.entire_system_set_node AS (
-    old_path LTREE,
-    new_path LTREE
-);
+<<LOOP
+    TYPE (detail, configuration)
+    PARENT (system, detail)
+>>
+
+    CREATE TYPE
+    gc_public.entire_system_set_<<TYPE>> AS (
+        old_<<PARENT>>_<<TYPE>>_path LTREE,
+        new_<<PARENT>>_<<TYPE>>_path LTREE,
+        old_<<TYPE>>_option_value_path LTREE,
+        new_<<TYPE>>_option_value_path LTREE
+    );
+
+<<END LOOP>>
 
 CREATE TYPE
 gc_public.entire_system_set AS (
@@ -61,8 +70,8 @@ gc_public.entire_system_set AS (
     name VARCHAR(50),
     system_option_value_path LTREE,
     option_group_values OPTION_VALUE_PAIR[],
-    detail_option_values ENTIRE_SYSTEM_SET_NODE[],
-    configuration_option_values ENTIRE_SYSTEM_SET_NODE[]
+    details ENTIRE_SYSTEM_SET_DETAIL[],
+    configurations ENTIRE_SYSTEM_SET_CONFIGURATION[]
 );
 
 

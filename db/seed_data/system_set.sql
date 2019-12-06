@@ -27,9 +27,13 @@ DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
                     (NULL, 'SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.GLAZING.INSIDE')
                 ]::ENTIRE_SYSTEM_SET_NODE[],
                 -- configuration_option_values ENTIRE_SYSTEM_SET_NODE[]
-                ARRAY[]::ENTIRE_SYSTEM_SET_NODE[]
+                ARRAY[
+                    -- (NULL, '')
+                ]::ENTIRE_SYSTEM_SET_NODE[]
             )::ENTIRE_SYSTEM_SET
         ) INTO ___;
+
+
         -- TEST SYSTEM SET
 
         -- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES

@@ -33,7 +33,7 @@ ${require('../../db/schemas/gc_utils/operators/ltree=ltree.sql')}
 ${require('../../db/schemas/gc_utils/functions/either_or.sql')}
 ${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
-${require('../../db/schemas/gc_data/functions/utils/get_option_value_child_type.sql')}
+${require('../../db/schemas/gc_data/functions/utils/get_child_type.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_dt~ct_from_path.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_sov~dov_subpath.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/prepend_system_id.sql')}
@@ -76,7 +76,7 @@ ${require('../../db/schemas/gc_protected/functions/system/c,u_option.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/c,u_option_value.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/c,u_type.sql')}
 ${require('../../db/schemas/gc_protected/functions/system_set/c~u_system_set.sql')}
-${require('../../db/schemas/gc_protected/functions/system_set/c~u~d_system_set_option_value.sql')}
+${require('../../db/schemas/gc_protected/functions/system_set/c~u~d_system_set_node.sql')}
 ${require('../../db/schemas/gc_protected/functions/system_set/c~u_system_set_option_group_value.sql')}
 ${require('../../db/schemas/gc_data/functions/u_system.sql')}
 ${require('../../db/schemas/gc_data/functions/ch_system.sql')}

@@ -2,17 +2,17 @@ const { Client } = require('pg');
 const chalk = require('chalk');
 const compileSeed = require('./compile-seed');
 
-    const {
-        env: {
-            NODE_ENV,
-            DO_ADMIN_USERNAME,
-            DO_ADMIN_PASSWORD,
-            DO_ADMIN_HOST,
-            DO_ADMIN_PORT,
-            DO_ADMIN_DB,
-            RESEED,
-        },
-    } = process;
+const {
+    env: {
+        NODE_ENV,
+        DO_ADMIN_USERNAME,
+        DO_ADMIN_PASSWORD,
+        DO_ADMIN_HOST,
+        DO_ADMIN_PORT,
+        DO_ADMIN_DB,
+        RESEED,
+    },
+} = process;
 
 module.exports = async function seedDatabase(done) {
 

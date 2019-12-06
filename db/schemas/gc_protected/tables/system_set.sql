@@ -11,28 +11,33 @@ gc_protected.system_sets (
     UNIQUE (id, system_id),
     UNIQUE (id, system_id, system_option_value_path),
     CHECK (
+        system_option_value_path IS NULL
+        OR
         system_id = subltree(system_option_value_path, 0, 1)::TEXT::INTEGER
     )
 );
 
 COMMENT ON TABLE gc_protected.system_sets IS '
     FUNCTIONS:
-        PUBLIC = gc_public.(
+        gc_public.(
             update_system_set
             check_system_set
         )
-        PROTECTED = gc_protected.(
+        gc_protected.(
             create_or_update_system_set
             create_or_update_or_delete_system_set_option_group_value
             create_or_update_or_delete_system_set_option_value
         )
     TRIGGERS:
-        PROTECTED = gc_protected.(
-            generate_system_set_option_group_value_system_id
+        gc_protected.(
             generate_system_set_detail_option_value_path
             generate_system_set_configuration_option_value_path
-        )
 
+            require_system_set_system_option_value
+            require_system_set_detail_option_value
+            require_system_set_configuration_option_value
+        )
+    TYPES:
 ';
 
 CREATE TABLE
@@ -70,15 +75,11 @@ gc_protected.system_set_option_group_values (
 );
 
 CREATE TABLE
-gc_protected.system_set_detail_option_values (
+gc_protected.system_set_details (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    -- must use trigger to constrain that 
-    -- parent
     system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED,
-    -- self
-    -- 
-    detail_option_value_path LTREE REFERENCES detail_configurations(parent_detail_option_value_path) INITIALLY DEFERRED,
-    system_detail_path LTREE REFERENCES detail_configurations(parent_detail_option_value_path) INITIALLY DEFERRED,
+    system_detail_path LTREE REFERENCES detail_configurations INITIALLY DEFERRED NOT NULL,
+    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED,
     PRIMARY KEY (system_set_id, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
@@ -90,33 +91,41 @@ gc_protected.system_set_detail_option_values (
     )
     ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     CHECK (
-        system_option_value_path @> COALESCE(
-            detail_option_value_path,
-            system_detail_path
+        (
+            system_option_value_path IS NULL
+            OR
+            system_option_value_path @> system_detail_path
         )
-        AND either_or(
-            detail_option_value_path IS NULL,
-            system_detail_path IS NULL
+        AND
+        (
+            detail_option_value_path IS NULL
+            OR
+            system_detail_path @> detail_option_value_path
         )
     ),
     -- only one dov per detail type per system set
     EXCLUDE USING gist (
         system_set_id WITH =,
-        get_detail_type_from_path(detail_option_value_path) WITH =
+        get_detail_type_from_path(
+            COALESCE(
+                detail_option_value_path,
+                system_detail_path
+            )
+        ) WITH =
     )
 );
 
 CREATE TABLE
-gc_protected.system_set_configuration_option_values (
+gc_protected.system_set_configurations (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED NOT NULL,
+    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED,
     configuration_option_value_path LTREE REFERENCES configuration_option_values INITIALLY DEFERRED NOT NULL,
     PRIMARY KEY (system_set_id, configuration_option_value_path),
     FOREIGN KEY (
         system_set_id,
         detail_option_value_path
     )
-    REFERENCES system_set_detail_option_values (
+    REFERENCES system_set_details (
         system_set_id,
         detail_option_value_path
     )

@@ -10,13 +10,20 @@ BEGIN
     -- selected option values must be a terminal
 
         -- check that child type of system option value is system_detail
-        IF get_system_option_value_child_type(ss.system_option_value_path) <> 'system_detail' THEN
-            RAISE EXCEPTION 'System set must reference terminal system option value but option % has more system options beneath it', ss.system_option_value_path;
-        END IF;
+        IF (
+            CASE WHEN ss.system_option_value_path IS NULL THEN
+                get_system_child_type(ss.system_id::TEXT::LTREE) ELSE
+                get_system_option_value_child_type(ss.system_option_value_path) END
+        ) <> 'system_detail' THEN
 
+            RAISE EXCEPTION 'System set must reference terminal system option value but option % has more system options beneath it', ss.system_option_value_path;
+
+        END IF;
+        
         <<LOOP 
             TYPE (detail, configuration)
-            CHILD_TYPE ('detail_configuration', 'configuration_part')
+            CHILD (configuration, part)
+            PARENT (system, detail)
         >>
 
             FOR comp IN (
@@ -24,8 +31,14 @@ BEGIN
                 WHERE ssdov.system_set_id = ss.id
             ) LOOP
 
-                IF get_<<TYPE>>_option_value_child_type(comp.<<TYPE>>_option_value_path) <> <<CHILD_TYPE>> THEN
+                IF (
+                    CASE WHEN comp.<<TYPE>>_option_value_path IS NULL THEN
+                        get_<<PARENT>>_<<TYPE>>_child_type(comp.<<PARENT>>_<<TYPE>>_path) ELSE
+                        get_<<TYPE>>_option_value_child_type(comp.<<TYPE>>_option_value_path) END
+                ) <> '<<TYPE>>_<<CHILD>>' THEN
+
                     RAISE EXCEPTION 'System set <<TYPE>> option value must reference terminal <<TYPE>> option value but option % has more <<TYPE>> options beneath it', comp.<<TYPE>>_option_value_path;
+
                 END IF;
 
             END LOOP;
@@ -43,7 +56,9 @@ BEGIN
         ) LOOP
 
             IF comp.selected_value IS NULL THEN
+
                 RAISE EXCEPTION 'Missing a selected value for option group %.% ', comp.option_path, comp.option_name;
+            
             END IF;
 
         END LOOP;
@@ -62,7 +77,9 @@ BEGIN
                     AND ssov.<<TYPE>>_option_value_path ~ ('*.' || comp.option_name || '.*')::LQUERY
                     AND NOT (ssov.<<TYPE>>_option_value_path ~ ('*.' || comp.option_name || '.' || comp.name || '.*')::LQUERY)
                 ) LOOP
+
                     RAISE EXCEPTION 'System set <<TYPE>> option value % has wrong value selected for option group %.%', other_comp.<<TYPE>>_option_value_path, comp.option_name, comp.name;
+
                 END LOOP;
             <<END LOOP>>
 

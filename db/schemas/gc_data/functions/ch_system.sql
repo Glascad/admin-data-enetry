@@ -17,12 +17,22 @@ BEGIN
 
     -- option values must not have duplicate kinds of children
 
-    <<LOOP TYPE (system, detail)>>
+    SELECT ARRAY_AGG(get_system_child_type(t.id::TEXT::LTREE)) FROM systems t INTO ___ WHERE t.id = s.id;
 
-        SELECT ARRAY_AGG(get_<<TYPE>>_option_value_child_type(tov.path))
-        FROM <<TYPE>>_option_values tov
+    <<LOOP 
+        TYPE (
+            system_option_value,
+            detail_option_value,
+            system_detail,
+            detail_configuration
+        )
+    >>
+
+        -- this function throws an error if there are duplicate child types
+        SELECT ARRAY_AGG(get_<<TYPE>>_child_type(t.path))
+        FROM <<TYPE>>s t
         INTO ___
-        WHERE tov.system_id = s.id;
+        WHERE t.system_id = s.id;
 
     <<END LOOP>>
 

@@ -64,7 +64,7 @@ const ONLY = (path, contents, vars, varObj, PROTECTION = 15) => {
             return ONLY(path, `${
                 before
                 }${
-                onlyVals.includes(varObj[onlyVar]) ?
+                onlyValues.includes(varObj[onlyVar]) ?
                     onlyContents
                     :
                     ''

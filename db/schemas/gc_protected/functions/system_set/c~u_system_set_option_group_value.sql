@@ -11,10 +11,12 @@ DECLARE
 BEGIN
 
     INSERT INTO system_set_option_group_values AS ssogv (
+        system_id,
         system_set_id,
         option_name,
         name
     ) VALUES (
+        ss.system_id,
         ss.id,
         ogv.option_name,
         ogv.name

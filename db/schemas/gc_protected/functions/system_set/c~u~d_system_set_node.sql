@@ -1,14 +1,15 @@
 
 <<LOOP
     TYPE (detail, configuration)
+    ALIAS (ssd, ssc)
 >>
 
-    CREATE OR REPLACE FUNCTION gc_data.create_or_update_or_delete_system_set_<<TYPE>>_option_value(
-        <<TYPE>>_type ENTIRE_SYSTEM_SET_NODE,
+    CREATE OR REPLACE FUNCTION gc_data.create_or_update_or_delete_system_set_<<TYPE>>(
+        system_set_<<TYPE>>_type ENTIRE_SYSTEM_SET_<<TYPE>>,
         system_set SYSTEM_SETS
     ) RETURNS SYSTEM_SET_<<TYPE>>_OPTION_VALUES AS $$
     DECLARE
-        sn ALIAS FOR <<TYPE>>_type;
+        <<ALIAS>> ALIAS FOR system_set_<<TYPE>>_type;
         ss ALIAS FOR system_set;
         ov SYSTEM_SET_<<TYPE>>_OPTION_VALUES;
     BEGIN
