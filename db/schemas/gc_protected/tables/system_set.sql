@@ -15,6 +15,19 @@ gc_protected.system_sets (
     )
 );
 
+COMMENT ON TABLE gc_protected.system_sets IS '
+    CREATE/UPDATE:
+        exposed function = gc_public.(
+            update_system_set
+            check_system_set: 
+        )
+        hidden functions = gc_protected.(
+            create_or_update_system_set
+            create_or_update_or_delete_system_set_option_group_value
+            create_or_update_or_delete_system_set_option_value
+        )
+';
+
 CREATE TABLE
 gc_protected.system_set_option_group_values (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
