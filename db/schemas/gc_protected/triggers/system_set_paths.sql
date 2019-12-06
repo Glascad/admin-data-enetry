@@ -1,7 +1,8 @@
+DROP FUNCTION IF EXISTS generate_system_set_option_group_value_system_id;
 
 -- OPTION GROUP VALUES
 
-CREATE OR REPLACE FUNCTION generate_system_set_option_group_value_system_id()
+CREATE OR REPLACE FUNCTION gc_protected.generate_system_set_option_group_value_system_id()
 RETURNS TRIGGER AS $$
 DECLARE
 BEGIN

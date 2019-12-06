@@ -36,27 +36,30 @@ export const joinArguments = ({ command, arguments: args, ...rest }) => ({
         }`,
 });
 
-export const getCommandCoordinates = commands => commands
-    .reduce((vals, { command, arguments: [one, two, three, four, five, six, seven] = [] }) => vals.concat(
-        match(command)
-            .against({
-                M: { x: one, y: two },
-                L: { x: one, y: two },
-                A: { x: six, y: seven },
-            })
-            .otherwise([])
-    ), []);
+export const getCommandCoordinates = commands => commands.reduce((vals, {
+    command,
+    arguments: [one, two, three, four, five, six, seven] = [],
+}) => vals.concat(
+    match(command)
+        .against({
+            M: { x: one, y: two },
+            L: { x: one, y: two },
+            A: { x: six, y: seven },
+        })
+        .otherwise([])
+), []);
 
-export const getPartCoordinates = ({ paths }) => paths.reduce((coordinates, { commands }) => coordinates.concat(getCommandCoordinates(commands)), []);
-
-export const getTransformedPartCoordinates = (part, transform) => {
-    const coordinates = getPartCoordinates(part);
+export const transformCoordinates = (coordinates, transform) => {
     if (!transform) return coordinates;
     else {
         const matrix = new Matrix(transform);
         return coordinates.map(({ x, y }) => matrix.transformCoordinate(x, y));
     }
 }
+
+export const getPartCoordinates = ({ paths }) => paths.reduce((coordinates, { commands }) => coordinates.concat(getCommandCoordinates(commands)), []);
+
+export const getTransformedPartCoordinates = (part, transform) => transformCoordinates(getPartCoordinates(part), transform);
 
 export const getPartExtremities = ({ paths }, transform) => {
     const coordinates = getTransformedPartCoordinates({ paths }, transform);

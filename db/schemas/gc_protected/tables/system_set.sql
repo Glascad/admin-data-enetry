@@ -16,16 +16,23 @@ gc_protected.system_sets (
 );
 
 COMMENT ON TABLE gc_protected.system_sets IS '
-    CREATE/UPDATE:
-        exposed function = gc_public.(
+    FUNCTIONS:
+        PUBLIC = gc_public.(
             update_system_set
-            check_system_set: 
+            check_system_set
         )
-        hidden functions = gc_protected.(
+        PROTECTED = gc_protected.(
             create_or_update_system_set
             create_or_update_or_delete_system_set_option_group_value
             create_or_update_or_delete_system_set_option_value
         )
+    TRIGGERS:
+        PROTECTED = gc_protected.(
+            generate_system_set_option_group_value_system_id
+            generate_system_set_detail_option_value_path
+            generate_system_set_configuration_option_value_path
+        )
+
 ';
 
 CREATE TABLE
