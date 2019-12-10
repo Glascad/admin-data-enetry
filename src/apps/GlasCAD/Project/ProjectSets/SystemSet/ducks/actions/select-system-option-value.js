@@ -1,22 +1,22 @@
-import { getChildren, getDefaultPath, getDetailTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getChildren, getDefaultPath, getDetailTypeFromPath, getUnknownPathFromObject } from "../../../../../../../app-logic/system-utils";
 import { mergeOptionGroupValues } from "../merge";
 import { SELECT_DETAIL_OPTION_VALUE } from ".";
 
 export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     _systemSet: {
-        _systemSetDetailOptionValues = [],
-        _systemSetOptionGroupValues = [],
+        _systemSetDetails = [],
+        _systemSetOptions = [],
     },
 }, {
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
     optionGroupValues = [],
 }, [
     payloadPath,
     systemMap,
 ]) {
 
-    const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
+    const groupedOptionValues = mergeOptionGroupValues(_systemSetOptions, optionGroupValues);
     const systemOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
     const systemOptionValue = systemMap[systemOptionValuePath];
     const systemDetails = getChildren(systemOptionValue, systemMap);

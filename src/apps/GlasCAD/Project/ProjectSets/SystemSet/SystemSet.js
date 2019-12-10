@@ -11,6 +11,7 @@ import Details from './modules/Details';
 import SystemOptions from './modules/SystemOptions';
 import SystemSetInfo from './modules/SystemSetInfo';
 import './SystemSet.scss';
+import Configurations from './modules/Configurations';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -115,8 +116,8 @@ export default function SystemSet({
         name,
         systemId,
         systemOptionValuePath = '',
-        _systemSetDetailOptionValues = [],
-        _systemSetConfigurationOptionValues = [],
+        _systemSetDetails = [],
+        _systemSetConfigurations = [],
         _systemSetOptionGroupValues = [],
     } = systemSet;
 
@@ -184,8 +185,8 @@ export default function SystemSet({
                 />
                 <Details
                     {...{
-                        _systemSetDetailOptionValues,
-                        _systemSetConfigurationOptionValues,
+                        _systemSetDetails,
+                        _systemSetConfigurations,
                         _detailConfigurations,
                         _optionGroups,
                         dispatch,

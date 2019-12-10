@@ -9,28 +9,28 @@ export default function SystemOptions({
     dispatch,
     _systemSetOptionGroupValues,
 }) {
-    
+
     const optionList = getOptionListFromPath(systemOptionValuePath);
 
     return (
         <CollapsibleTitle
             title="Options"
         >
-            {optionList.map(({ name, value }) => name !== 'VOID' ? (
-                    <Select
-                        data-cy={name}
-                        key={name}
-                        label={name}
-                        value={value}
-                        options={getChildren({
-                            path: systemOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
-                        }, systemMap).map(({ path }) => getLastItemFromPath(path))}
-                        onChange={newValue => dispatch(SELECT_SYSTEM_OPTION_VALUE, [
-                            replaceOptionValue(systemOptionValuePath, name, newValue),
-                            systemMap,
-                        ])}
-                    />
-                ) : null)}
+            {optionList.map(({ name, value }) => (
+                <Select
+                    data-cy={name}
+                    key={name}
+                    label={name}
+                    value={value}
+                    options={getChildren({
+                        path: systemOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
+                    }, systemMap).map(({ path }) => getLastItemFromPath(path))}
+                    onChange={newValue => dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                        replaceOptionValue(systemOptionValuePath, name, newValue),
+                        systemMap,
+                    ])}
+                />
+            ))}
             {/* GROUPED OPTIONS */}
             {_systemSetOptionGroupValues.map(({ optionName, name }) => (
                 <Select

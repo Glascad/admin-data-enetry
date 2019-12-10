@@ -3,7 +3,7 @@ import { getConfigurationTypeFromPath } from '../../../../../../app-logic/system
 
 export default function DetailDisplay({
     detailType,
-    detailOptionValuePath,
+    detailOptionValuePath = '',
     configurations,
 }) {
     return (
@@ -33,21 +33,22 @@ export default function DetailDisplay({
                 },
                 selection: {
                     configurationOptionValuePath,
+                    detailConfigurationPath,
                 } = {},
-            }, i) => !optional || configurationOptionValuePath ? (
+            }, i) => !optional || configurationOptionValuePath || detailConfigurationPath ? (
                 <div
-                    key={configurationOptionValuePath || path}
+                    key={configurationOptionValuePath || detailConfigurationPath || path}
                     data-cy={`CONFIGURATION.${
                         detailType
                         }.${
-                        getConfigurationTypeFromPath(configurationOptionValuePath || path)
+                        getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath || path)
                         }${
-                        (configurationOptionValuePath || path)
+                        (configurationOptionValuePath || detailConfigurationPath || path)
                             .replace(/.*__CT__\.\w+\.?/, '.')
                             .replace(/\.?VOID\.?/g, '')
                         }`}
                 >
-                    {configurationOptionValuePath}
+                    {configurationOptionValuePath || detailConfigurationPath}
                     {/* CONFIGURATION.{
                                             detailType
                                         }.{

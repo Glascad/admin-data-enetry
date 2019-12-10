@@ -1,4 +1,5 @@
 import { match } from '../utils';
+import { getTransformedPartCoordinates } from '../utils/functions/svg-utils';
 
 export class SystemMap {
     constructor(system) {
@@ -134,6 +135,8 @@ export const makeRenderable = window.makeRenderable = system => {
     return makeNodeRenderable(systemMap);
 }
 
+export const getUnknownPathFromObject = object => Object.entries(object).find(([key]) => key.match(/path/i)) || [];
+
 export const getOptionListFromPath = window.getOptionListFromPath = (path = '') => path
     .replace(/^\d+\.(.*__(D|C)T__\.\w+\.?)?/, '')
     .replace(/(\w+)\.(\w+)(\.)?/ig, ' $1:$2 ')
@@ -251,5 +254,29 @@ export const canItemBeGrouped = ({ path, __typename }, systemMap, ) => {
             &&
             childrenValues.every(value => values.includes(getLastItemFromPath(value.path)));
     });
-
+    
 }
+
+// get default node (from default path (from path))
+// get children
+// if detail, then reduce children recursively through this function
+// reduce through children to apply transform
+// return transformed children
+
+// export const makeDetailConfigurationRenderable = (selectedItem, systemMap) => {
+//     const defaultPath = getDefaultPath(selectedItem, systemMap);
+//     const defaultNode = systemMap[defaultPath];
+//     const children = getChildren(defaultNode, systemMap);
+//     const renderedChildren = defaultPath.match(/__CT__/) ?
+//         children
+//         :
+//         children.reduce((completeDetail, configuration) => ({
+//             ...completeDetail,
+//             makeDetailConfigurationRenderable(configuration, systemMap)
+//         }), []);
+    
+//     return renderedChildren.reduce((completeConfiguration, part) => ({
+//         ...completeConfiguration,
+//         getTransformedPartCoordinates(part, transform)
+//     }), [])
+// }

@@ -1,15 +1,15 @@
 import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath, SystemMap } from "../../../../../../../app-logic/system-utils";
 import { replace } from "../../../../../../../utils";
-import { defaultSystemSetNode } from "../schemas";
+import { defaultSystemSetConfiguration } from "../schemas";
 import { mergeOptionGroupValues } from "../merge";
 
 export default function SELECT_CONFIGURATION_OPTION_VALUE({
     _systemSet: {
-        _systemSetConfigurationOptionValues = [],
+        _systemSetConfigurations = [],
         _systemSetOptionGroupValues = [],
     },
 }, {
-    configurationOptionValues = [],
+    configurations = [],
     optionGroupValues = [],
 }, [
     payloadPath,
@@ -21,23 +21,23 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
     const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath);
 
     // find COV original path in query result
-    const { configurationOptionValuePath: oldPath } = _systemSetConfigurationOptionValues.find(cov => (
+    const { configurationOptionValuePath: oldPath } = _systemSetConfigurations.find(cov => (
         cov.configurationOptionValuePath.replace(/(__CT__\.\w+)\..*$/, '$1')
         ===
         configurationOptionValuePath.replace(/(__CT__\.\w+)\..*$/, '$1')
     )) || {};
 
     // find COV in state
-    const updatedCOV = configurationOptionValues.find(({ oldPath, newPath }) => (
+    const updatedCOV = configurations.find(({ oldPath, newPath }) => (
         getDetailTypeFromPath(oldPath || newPath) === detailType
         &&
         getConfigurationTypeFromPath(oldPath || newPath) === configurationType
     ));
 
-    const index = configurationOptionValues.indexOf(updatedCOV);
+    const index = configurations.indexOf(updatedCOV);
 
     const newCOV = {
-        ...defaultSystemSetNode,
+        ...defaultSystemSetConfiguration,
         ...updatedCOV,
         oldPath,
         newPath: configurationOptionValuePath,
@@ -45,19 +45,19 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
 
     return {
         ...arguments[1],
-        configurationOptionValues: updatedCOV ?
+        configurations: updatedCOV ?
             updatedCOV.oldPath === configurationOptionValuePath ?
                 // remove from state if updating back to original path
-                configurationOptionValues.filter((_, i) => i !== index)
+                configurations.filter((_, i) => i !== index)
                 :
                 // replace in state if updating previously updated item
-                replace(configurationOptionValues, index, newCOV)
+                replace(configurations, index, newCOV)
             :
             oldPath === configurationOptionValuePath ?
                 // leave state if option value is already selected
-                configurationOptionValues
+                configurations
                 :
                 // add to state if updating non-previously updated item
-                configurationOptionValues.concat(newCOV),
+                configurations.concat(newCOV),
     };
 }
