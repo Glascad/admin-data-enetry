@@ -10,14 +10,14 @@ function testMerge({
         systemId,
         systemOptionValuePath,
         _systemSetOptionGroupValues = [],
-        _systemSetDetailOptionValues = [],
-        _systemSetConfigurationOptionValues = [],
+        _systemSetDetails = [],
+        _systemSetConfigurations = [],
         detailOptionValueCount,
         configurationOptionValueCount,
     },
 }) {
     describe(`Testing merge function in system set: ${description}`, () => {
-        const result = merge(queryResult, { ...defaultSystemSetUpdate, ...systemSetUpdate });
+        const result = merge(queryResult, { ...defaultSystemSetUpdate, ...systemSetUpdate }, {});
         test('result should have correct systemId and systemOptionValuePath', () => {
             if (systemId) expect(result).toMatchObject({ systemId });
             if (systemOptionValuePath) expect(result).toMatchObject({ systemOptionValuePath });
@@ -36,13 +36,13 @@ function testMerge({
         });
         if (detailOptionValueCount !== undefined) {
             test('detail option values should have correct length', () => {
-                expect(result._systemSetDetailOptionValues).toHaveProperty('length', detailOptionValueCount);
+                expect(result._systemSetDetails).toHaveProperty('length', detailOptionValueCount);
             });
         }
         test('result should have correct systemSetDetailOptionValues', () => {
-            expect(result._systemSetDetailOptionValues).toEqual(
+            expect(result._systemSetDetails).toEqual(
                 expect.arrayContaining(
-                    _systemSetDetailOptionValues.map(detailOptionValuePath => (
+                    _systemSetDetails.map(detailOptionValuePath => (
                         expect.objectContaining({
                             detailOptionValuePath
                         })
@@ -52,13 +52,13 @@ function testMerge({
         });
         if (configurationOptionValueCount !== undefined) {
             test('configuration option values should have correct length', () => {
-                expect(result._systemSetConfigurationOptionValues).toHaveProperty('length', configurationOptionValueCount);
+                expect(result._systemSetConfigurations).toHaveProperty('length', configurationOptionValueCount);
             });
         }
         test('result should have correct systemSetConfigurationOptionValues', () => {
-            expect(result._systemSetConfigurationOptionValues).toEqual(
+            expect(result._systemSetConfigurations).toEqual(
                 expect.arrayContaining(
-                    _systemSetConfigurationOptionValues.map(configurationOptionValuePath => (
+                    _systemSetConfigurations.map(configurationOptionValuePath => (
                         expect.objectContaining({
                             configurationOptionValuePath
                         })
@@ -74,7 +74,7 @@ testMerge({
     description: "Updating COV",
     queryResult: sample1,
     systemSetUpdate: {
-        configurationOptionValues: [
+        configurations: [
             {
                 oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
                 newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
@@ -82,7 +82,7 @@ testMerge({
         ],
     },
     merged: {
-        _systemSetConfigurationOptionValues: [
+        _systemSetConfigurations: [
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
         ],
     },
@@ -94,13 +94,13 @@ testMerge({
     description: "Updating DOV and COVs",
     queryResult: sample1,
     systemSetUpdate: {
-        detailOptionValues: [
+        details: [
             {
                 oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
                 newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP",
             },
         ],
-        configurationOptionValues: [
+        configurations: [
             {
                 oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID",
                 newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID.VOID",
@@ -112,10 +112,10 @@ testMerge({
     },
     merged: {
         systemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
-        _systemSetDetailOptionValues: [
+        _systemSetDetails: [
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP",
         ],
-        _systemSetConfigurationOptionValues: [
+        _systemSetConfigurations: [
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID.VOID",
             "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT.VOID.VOID",
         ],
@@ -128,12 +128,12 @@ testMerge({
     queryResult: sample1,
     systemSetUpdate: {
         systemOptionValuePath: "1.SET.CENTER.JOINERY.STICK",
-        detailOptionValues: [
+        details: [
             {
                 newPath: "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID",
             },
         ],
-        configurationOptionValues: [
+        configurations: [
             {
                 newPath: "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
             },
@@ -141,11 +141,11 @@ testMerge({
     },
     merged: {
         systemOptionValuePath: "1.SET.CENTER.JOINERY.STICK",
-        _systemSetDetailOptionValues: [
+        _systemSetDetails: [
             "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID",
 
         ],
-        _systemSetConfigurationOptionValues: [
+        _systemSetConfigurations: [
             "1.SET.CENTER.JOINERY.STICK.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
         ],
     },

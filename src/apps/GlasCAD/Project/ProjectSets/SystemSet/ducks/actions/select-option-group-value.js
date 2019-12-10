@@ -5,13 +5,13 @@ import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../..
 
 export default function SELECT_OPTION_GROUP_VALUE({
     _systemSet: {
-        _systemSetDetailOptionValues = [],
-        _systemSetConfigurationOptionValues = [],
+        _systemSetDetails = [],
+        _systemSetConfigurations = [],
         _systemSetOptionGroupValues = [],
     },
 }, {
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
     optionGroupValues = [],
 }, [
     optionName,
@@ -31,12 +31,12 @@ export default function SELECT_OPTION_GROUP_VALUE({
     };
     // get details that need to be updated
     const [newDOVs, DOVsToUpdate] = _.partition(
-        detailOptionValues,
-        ({ newPath, oldPath }) => !(newPath || oldPath).includes(`.${optionName}.`),
+        details,
+        ({ systemDetailPath, detailOptionValuePath }) => !(systemDetailPath || detailOptionValuePath || '').includes(`.${optionName}.`),
     );
     const DTPaths = unique(DOVsToUpdate
-        .map(({ newPath, oldPath }) => (newPath || oldPath))
-        .concat(_systemSetDetailOptionValues
+        .map(({ systemDetailPath, detailOptionValuePath }) => (systemDetailPath || detailOptionValuePath))
+        .concat(_systemSetDetails
             .map(({ detailOptionValuePath }) => detailOptionValuePath)
             .filter(path => path.includes(`.${optionName}`))
         )
@@ -45,12 +45,12 @@ export default function SELECT_OPTION_GROUP_VALUE({
     const detailTypes = DTPaths.map(getDetailTypeFromPath);
     // within details that don't need to be updated, get configurations that need to be updated
     const [newCOVs, COVsToUpdate] = _.partition(
-        configurationOptionValues,
-        ({ newPath, oldPath }) => !newDOVs.some(dov => (newPath || oldPath).startsWith(dov.newPath || dov.oldPath)),
+        configurations,
+        ({ systemDetailPath, detailOptionValuePath }) => !newDOVs.some(dov => (systemDetailPath || detailOptionValuePath).startsWith(dov.systemDetailPath || dov.detailOptionValuePath)),
     );
     const CTPaths = unique(COVsToUpdate
-        .map(({ newPath, oldPath }) => (newPath || oldPath))
-        .concat(_systemSetConfigurationOptionValues.map(({ configurationOptionValuePath }) => configurationOptionValuePath))
+        .map(({ systemDetailPath, detailOptionValuePath }) => (systemDetailPath || detailOptionValuePath))
+        .concat(_systemSetConfigurations.map(({ configurationOptionValuePath }) => configurationOptionValuePath))
         .map(path => path.replace(/(\.__CT__\.\w+)\..*$/, '$1'))
         .filter(path => !detailTypes.includes(getDetailTypeFromPath(path)))
     );
@@ -87,7 +87,7 @@ export default function SELECT_OPTION_GROUP_VALUE({
                 :
                 // otherwise add to state
                 optionGroupValues.concat(newOGV),
-        detailOptionValues: newDOVs,
-        configurationOptionValues: newCOVs,
+        details: newDOVs,
+        configurations: newCOVs,
     }))
 }

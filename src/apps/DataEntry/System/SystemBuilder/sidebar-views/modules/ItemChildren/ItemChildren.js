@@ -2,7 +2,7 @@ import React from 'react';
 import OptionChildren from "./OptionChildren";
 import ValueAndTypeChildren from "./ValueAndTypeChildren";
 
-export default function ({ selectedItem: { __typename = '' } }) {
+export default function ItemChildren({ selectedItem: { __typename = '' } }) {
     if (__typename.match(/part/i)) return null;
     const props = arguments[0];
     const ChildrenComponent = __typename.match(/option$/i) ?

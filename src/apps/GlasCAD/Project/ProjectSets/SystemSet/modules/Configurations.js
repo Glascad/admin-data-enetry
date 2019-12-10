@@ -18,10 +18,11 @@ export default function Configurations({
         },
         selection: {
             configurationOptionValuePath,
+            detailConfigurationPath
         } = {},
     }, i) => {
-        const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath || path);
-        const options = getOptionListFromPath(configurationOptionValuePath)
+        const configurationType = getConfigurationTypeFromPath((configurationOptionValuePath || detailConfigurationPath) || path);
+        const options = getOptionListFromPath((configurationOptionValuePath || detailConfigurationPath))
             .filter(({ name }) => (
                 name !== 'VOID'
                 &&
@@ -29,16 +30,16 @@ export default function Configurations({
             ));
         return (
             <Fragment
-                key={configurationOptionValuePath || path}
+                key={(configurationOptionValuePath || detailConfigurationPath) || path}
             >
                 {optional ? (
                     <Input
                         data-cy={`${detailType}.${configurationType}`}
                         type="switch"
                         label={configurationType}
-                        checked={!!configurationOptionValuePath}
-                        onChange={() => !!configurationOptionValuePath ?
-                            dispatch(UNSELECT_CONFIGURATION, configurationOptionValuePath)
+                        checked={!!(configurationOptionValuePath || detailConfigurationPath)}
+                        onChange={() => !!(configurationOptionValuePath || detailConfigurationPath) ?
+                            dispatch(UNSELECT_CONFIGURATION, (configurationOptionValuePath || detailConfigurationPath))
                             :
                             dispatch(SELECT_CONFIGURATION_OPTION_VALUE, [
                                 path.replace(/(__CT__\.\w+)\..*/g, '$1'),
@@ -53,7 +54,7 @@ export default function Configurations({
                     </div>
                 ) : null}
                 {/* CONFIGURATION OPTIONS */}
-                {configurationOptionValuePath && options.length ? (
+                {(configurationOptionValuePath || detailConfigurationPath) && options.length ? (
                     <div className="nested">
                         {options.map(({ name, value }) => (
                             <Select
@@ -62,10 +63,10 @@ export default function Configurations({
                                 label={name}
                                 value={value}
                                 options={getChildren({
-                                    path: configurationOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name),
+                                    path: (configurationOptionValuePath || detailConfigurationPath).replace(new RegExp(`${name}\\.${value}.*$`), name),
                                 }, systemMap).map(({ path }) => getLastItemFromPath(path))}
                                 onChange={newValue => dispatch(SELECT_CONFIGURATION_OPTION_VALUE, [
-                                    configurationOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), `${name}.${newValue}`),
+                                    (configurationOptionValuePath || detailConfigurationPath).replace(new RegExp(`${name}\\.${value}.*$`), `${name}.${newValue}`),
                                     systemMap,
                                 ])}
                             />

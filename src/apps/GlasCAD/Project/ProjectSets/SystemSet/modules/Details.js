@@ -7,24 +7,25 @@ import DetailOptions from './DetailOptions';
 import DetailDisplay from './DetailDisplay';
 
 export default function Details({
-    _systemSetDetailOptionValues,
-    _systemSetConfigurationOptionValues,
+    _systemSetDetails = [],
+    _systemSetConfigurations = [],
     _detailConfigurations,
     _optionGroups,
     dispatch,
     systemMap,
 }) {
+    console.log(arguments);
     return (
         <CollapsibleTitle
             title="Details"
         >
-            {_systemSetDetailOptionValues.map(({ detailOptionValuePath }, i) => {
-                const detailType = getDetailTypeFromPath(detailOptionValuePath);
+            {_systemSetDetails.map(({ detailOptionValuePath, systemDetailPath }, i) => {
+                const detailType = getDetailTypeFromPath(detailOptionValuePath || systemDetailPath || '');
                 const configurations = _detailConfigurations
-                    .filter(({ path }) => path.startsWith(detailOptionValuePath))
+                    .filter(({ path }) => path.startsWith(detailOptionValuePath || systemDetailPath || ''))
                     .map(detailConfiguration => ({
                         detailConfiguration,
-                        selection: _systemSetConfigurationOptionValues
+                        selection: _systemSetConfigurations = []
                             // need the '.' to prevent confusion between configs like SILL and SILL_FLASHING
                             .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(`${detailConfiguration.path}.`)),
                     }))
@@ -42,11 +43,11 @@ export default function Details({
                         .case(!a && b, -1)
                         .otherwise(-1)
                     );
-                const optionList = getOptionListFromPath(detailOptionValuePath);
+                const optionList = getOptionListFromPath(detailOptionValuePath || systemDetailPath);
                 return (
                     <GroupingBox
                         data-cy={detailType}
-                        key={detailOptionValuePath}
+                        key={detailOptionValuePath || systemDetailPath}
                         title={detailType}
                         className="full-width"
                     >
@@ -56,7 +57,7 @@ export default function Details({
                                 optionList,
                                 _optionGroups,
                                 detailType,
-                                detailOptionValuePath,
+                                detailOptionValuePath: detailOptionValuePath || systemDetailPath,
                                 systemMap,
                                 dispatch,
                             }}
@@ -75,7 +76,7 @@ export default function Details({
                         <DetailDisplay
                             {...{
                                 detailType,
-                                detailOptionValuePath,
+                                detailOptionValuePath: detailOptionValuePath || systemDetailPath,
                                 configurations,
                             }}
                         />

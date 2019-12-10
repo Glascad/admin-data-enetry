@@ -18,7 +18,7 @@
                 "name": "DOWN"
             }
         ],
-        "_systemSetDetailOptionValues": [
+        "_systemSetDetails": [
             {
                 "__typename": "SystemSetDetailOptionValue",
                 "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID"
@@ -32,7 +32,7 @@
                 "detailOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN"
             }
         ],
-        "_systemSetConfigurationOptionValues": [
+        "_systemSetConfigurations": [
             {
                 "__typename": "SystemSetConfigurationOptionValue",
                 "configurationOptionValuePath": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"

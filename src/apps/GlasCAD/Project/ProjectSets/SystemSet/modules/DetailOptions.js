@@ -11,25 +11,21 @@ export default function DetailOptions({
     systemMap,
     dispatch,
 }) {
-    return optionList.map(({ name, value }) => (
-        name !== 'VOID'
-        &&
-        !_optionGroups.some(og => og.name === name)
-    ) ? (
-            <Select
-                data-cy={`${detailType}.${name}`}
-                key={name}
-                label={name}
-                value={value}
-                options={getChildren({
-                    path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
-                }, systemMap).map(({ path }) => getLastItemFromPath(path))}
-                onChange={newValue => dispatch(SELECT_DETAIL_OPTION_VALUE, [
-                    newValue,
-                    systemMap,
-                ])}
-            />
-        )
+    return optionList.map(({ name, value }) => !_optionGroups.some(og => og.name === name) ? (
+        <Select
+            data-cy={`${detailType}.${name}`}
+            key={name}
+            label={name}
+            value={value}
+            options={getChildren({
+                path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
+            }, systemMap).map(({ path }) => getLastItemFromPath(path))}
+            onChange={newValue => dispatch(SELECT_DETAIL_OPTION_VALUE, [
+                newValue,
+                systemMap,
+            ])}
+        />
+    )
         :
         null
     );
