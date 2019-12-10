@@ -1,3 +1,4 @@
+import { print } from 'graphql/language/printer';
 import * as CTRLD from './controlled';
 import * as AUTH from './authentication';
 import * as MNFG from './manufacturer-data';
@@ -10,4 +11,5 @@ export default {
     MNFG,
     PRJ,
     ELVTN,
+    print,
 };

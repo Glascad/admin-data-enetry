@@ -10,35 +10,22 @@ gc_protected.system_sets (
     UNIQUE (id, system_option_value_path),
     UNIQUE (id, system_id),
     UNIQUE (id, system_id, system_option_value_path),
-    CHECK (
+    CONSTRAINT ss_maybe_sov CHECK (
         system_option_value_path IS NULL
         OR
         system_id = subltree(system_option_value_path, 0, 1)::TEXT::INTEGER
+    -- ANTI PATTERN vvv
+    -- ),
+    -- CONSTRAINT ss_terminal_sov CHECK (
+    --     (
+    --         CASE WHEN system_option_value_path IS NULL THEN
+    --             get_system_child_type(system_id::TEXT::LTREE)
+    --         ELSE
+    --             get_system_option_value_child_type(system_option_value_path)
+    --         END
+    --     ) = 'system_detail'
     )
 );
-
-COMMENT ON TABLE gc_protected.system_sets IS '
-    FUNCTIONS:
-        gc_public.(
-            update_system_set
-            check_system_set
-        )
-        gc_protected.(
-            create_or_update_system_set
-            create_or_update_or_delete_system_set_option_group_value
-            create_or_update_or_delete_system_set_option_value
-        )
-    TRIGGERS:
-        gc_protected.(
-            generate_system_set_detail_option_value_path
-            generate_system_set_configuration_option_value_path
-
-            require_system_set_system_option_value
-            require_system_set_detail_option_value
-            require_system_set_configuration_option_value
-        )
-    TYPES:
-';
 
 CREATE TABLE
 gc_protected.system_set_option_group_values (
@@ -77,66 +64,132 @@ gc_protected.system_set_option_group_values (
 CREATE TABLE
 gc_protected.system_set_details (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED,
-    system_detail_path LTREE REFERENCES detail_configurations INITIALLY DEFERRED NOT NULL,
-    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED,
-    PRIMARY KEY (system_set_id, detail_option_value_path),
+    -- parent
+    parent_system_option_value_path LTREE REFERENCES system_option_values,
+    -- self
+    detail_type DETAIL_TYPE NOT NULL,
+    system_detail_path LTREE REFERENCES system_details,
+    detail_option_value_path LTREE REFERENCES detail_option_values,
+    -- keys/constraints
+    PRIMARY KEY (system_set_id, detail_type),
+    UNIQUE (system_set_id, detail_type, system_detail_path, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
-        system_option_value_path
+        parent_system_option_value_path
     )
     REFERENCES system_sets (
         id,
         system_option_value_path
     )
     ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
-    CHECK (
-        (
-            system_option_value_path IS NULL
-            OR
-            system_option_value_path @> system_detail_path
-        )
-        AND
-        (
-            detail_option_value_path IS NULL
-            OR
-            system_detail_path @> detail_option_value_path
+    CONSTRAINT ssd_either_sd_or_dov CHECK (
+        either_or(
+            detail_option_value_path IS NULL,
+            system_detail_path IS NULL
         )
     ),
-    -- only one dov per detail type per system set
-    EXCLUDE USING gist (
-        system_set_id WITH =,
-        get_detail_type_from_path(
+    CONSTRAINT ssd_parent_matches CHECK (
+        parent_system_option_value_path IS NULL
+        OR
+        parent_system_option_value_path @> COALESCE(
+            detail_option_value_path,
+            system_detail_path
+        )
+    ),
+    CONSTRAINT ssd_correct_dt CHECK (
+        detail_type = get_detail_type_from_path(
             COALESCE(
                 detail_option_value_path,
                 system_detail_path
             )
-        ) WITH =
+        )
+    -- ANTI PATTERN
+    -- ),
+    -- CONSTRAINT ssd_terminal_sd_or_dov CHECK (
+    --     (
+    --         CASE WHEN detail_option_value_path IS NULL THEN
+    --             get_system_detail_child_type(system_detail_path)
+    --         ELSE
+    --             get_detail_option_value_child_type(detail_option_value_path)
+    --         END
+    --     ) = 'detail_configuration'
+    -- -- ),
+    -- -- CONSTRAINT ssd_option_group_values CHECK (
+        
     )
 );
 
 CREATE TABLE
 gc_protected.system_set_configurations (
     system_set_id INTEGER REFERENCES system_sets NOT NULL,
-    detail_option_value_path LTREE REFERENCES detail_option_values INITIALLY DEFERRED,
-    configuration_option_value_path LTREE REFERENCES configuration_option_values INITIALLY DEFERRED NOT NULL,
-    PRIMARY KEY (system_set_id, configuration_option_value_path),
+    -- parent
+    detail_type DETAIL_TYPE NOT NULL,
+    parent_system_detail_path LTREE REFERENCES system_details,
+    parent_detail_option_value_path LTREE REFERENCES detail_option_values,
+    -- self
+    configuration_type CONFIGURATION_TYPE NOT NULL,
+    detail_configuration_path LTREE REFERENCES detail_configurations,
+    configuration_option_value_path LTREE REFERENCES configuration_option_values,
+    -- keys/constraints
+    PRIMARY KEY (system_set_id, detail_type, configuration_type),
     FOREIGN KEY (
         system_set_id,
-        detail_option_value_path
+        detail_type,
+        parent_system_detail_path,
+        parent_detail_option_value_path
     )
     REFERENCES system_set_details (
         system_set_id,
+        detail_type,
+        system_detail_path,
         detail_option_value_path
     )
     ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
-    CHECK (
-        detail_option_value_path @> configuration_option_value_path
+    CONSTRAINT ssc_parent_sd_or_dov CHECK (
+        either_or(
+            parent_system_detail_path IS NULL,
+            parent_detail_option_value_path IS NULL
+        )
     ),
-    -- only one cov per configuration type per detail type per system set
-    EXCLUDE USING gist (
-        system_set_id WITH =,
-        get_detail_type_from_path(detail_option_value_path) WITH =,
-        get_configuration_type_from_path(configuration_option_value_path) WITH =
+    CONSTRAINT ssc_either_dc_or_cov CHECK (
+        either_or(
+            detail_configuration_path IS NULL,
+            configuration_option_value_path IS NULL
+        )
+    ),
+    CONSTRAINT ssc_parent_matches CHECK (
+        COALESCE(
+            parent_system_detail_path,
+            parent_detail_option_value_path
+        ) @> COALESCE(
+            detail_configuration_path,
+            configuration_option_value_path
+        )
+    ),
+    CONSTRAINT ssc_correct_dt CHECK (
+        detail_type = get_detail_type_from_path(
+            COALESCE(
+                detail_configuration_path,
+                configuration_option_value_path
+            )
+        )
+    ),
+    CONSTRAINT ssc_correct_ct CHECK (
+        configuration_type = get_configuration_type_from_path(
+            COALESCE(
+                detail_configuration_path,
+                configuration_option_value_path
+            )
+        )
+    -- ANTI PATTERN
+    -- ),
+    -- CONSTRAINT ssc_terminal_dc_or_cov CHECK (
+    --     (
+    --         CASE WHEN configuration_option_value_path IS NULL THEN
+    --             get_detail_configuration_child_type(detail_configuration_path)
+    --         ELSE
+    --             get_configuration_option_value_child_type(configuration_option_value_path)
+    --         END
+    --     ) = 'configuration_part'
     )
 );

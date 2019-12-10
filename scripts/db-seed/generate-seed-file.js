@@ -35,7 +35,7 @@ ${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_child_type.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_dt~ct_from_path.sql')}
-${require('../../db/schemas/gc_data/functions/utils/get_sov~dov_subpath.sql')}
+${require('../../db/schemas/gc_data/functions/utils/get_subpath.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/prepend_system_id.sql')}
 
 
@@ -55,7 +55,8 @@ ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 ----- TRIGGERS -----
 
 ${require('../../db/schemas/gc_protected/triggers/system_paths.sql')}
-${require('../../db/schemas/gc_protected/triggers/system_set_paths.sql')}
+${require('../../db/schemas/gc_protected/triggers/system_set_types.sql')}
+${require('../../db/schemas/gc_protected/triggers/system_set_parent_paths.sql')}
 
 
 ----- INVOKER ROLE -----
@@ -88,6 +89,7 @@ ${require('../../db/schemas/gc_public/functions/mutations/project/d_project.sql'
 ${require('../../db/schemas/gc_public/functions/mutations/project/get_all_projects.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/system_set/u_system_set.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/system_set/ch_system_set.sql')}
+${require('../../db/schemas/gc_public/functions/mutations/system_set/ch_system_set_path_grouped_option_values.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/report_bug.sql')}
 ${require('../../db/schemas/gc_public/functions/queries/get_current_user_id.sql')}
 ${require('../../db/schemas/gc_public/functions/queries/get_current_user.sql')}

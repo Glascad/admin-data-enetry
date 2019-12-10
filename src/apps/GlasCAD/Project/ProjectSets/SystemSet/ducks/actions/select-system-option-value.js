@@ -33,10 +33,11 @@ export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     ), {
         ...arguments[1],
         systemOptionValuePath,
-        detailOptionValues: detailOptionValues.filter(({ newPath, oldPath }) => systemDetails.some(({ path }) => (
-            getDetailTypeFromPath(newPath || oldPath)
-            ===
-            getDetailTypeFromPath(path)
-        ))),
+        detailOptionValues: [],
+        // detailOptionValues: detailOptionValues.filter(({ newPath, oldPath }) => systemDetails.some(({ path }) => (
+        //     getDetailTypeFromPath(newPath || oldPath)
+        //     ===
+        //     getDetailTypeFromPath(path)
+        // ))),
     });
 }

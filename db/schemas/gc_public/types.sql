@@ -47,6 +47,12 @@ gc_public.option_value_pair AS (
     name OPTION_VALUE_NAME
 );
 
+CREATE TYPE
+gc_public.detail_type_configuration_type_pair AS (
+    detail_type DETAIL_TYPE,
+    configuration_type CONFIGURATION_TYPE
+);
+
 <<LOOP
     TYPE (detail, configuration)
     PARENT (system, detail)
