@@ -4,15 +4,16 @@
 -- SSC - DC/COV
 
 <<LOOP
-    CHILD (detail, configuration, part)
     TYPE (system, detail, configuration)
-    PARENT (NULL, system, detail)
-    GRANDPARENT (NULL, NULL, system)
+    PARENT_TYPE (NULL, system_detail, detail_configuration)
+    OPTION_VALUE (system_option_value_path, detail_option_value_path, configuration_option_value_path)
+    COLUMN_NAME (system_id, system_detail_path, detail_configuration_path)
+    TABLE_NAME (system_sets, system_set_details, system_set_configurations)
 >>
 
     DROP FUNCTION IF EXISTS check_system_set_terminal_<<TYPE>>;
 
-    CREATE OR REPLACE FUNCTION check_system_set_terminal_<<TYPE>>()
+    CREATE OR REPLACE FUNCTION gc_protected.check_system_set_terminal_<<TYPE>>()
     RETURNS TRIGGER AS $$
     DECLARE
         <<ONLY TYPE (system)>>
@@ -23,13 +24,13 @@
         <<END ONLY>>
         <<ONLY TYPE (detail, configuration)>>
             t LTREE := COALESCE(
-                NEW.<<PARENT>>_<<TYPE>>_path,
-                OLD.<<PARENT>>_<<TYPE>>_path
+                NEW.<<PARENT_TYPE>>_path,
+                OLD.<<PARENT_TYPE>>_path
             );
         <<END ONLY>>
         ovp LTREE := COALESCE(
-            NEW.<<TYPE>>_option_value_path,
-            OLD.<<TYPE>>_option_value_path
+            NEW.<<OPTION_VALUE>>,
+            OLD.<<OPTION_VALUE>>
         );
         extra_option LTREE;
     BEGIN
@@ -40,12 +41,12 @@
             WHERE o.system_id = sid
         <<END ONLY>>
         <<ONLY TYPE (detail, configuration)>>
-            WHERE o.parent_<<PARENT>>_<<TYPE>>_path = t
+            WHERE o.parent_<<PARENT_TYPE>>_path = t
         <<END ONLY>>
         AND CASE WHEN ovp IS NULL THEN
-            o.parent_<<TYPE>>_option_value_path IS NULL
+            o.parent_<<OPTION_VALUE>> IS NULL
         ELSE
-            o.parent_<<TYPE>>_option_value_path = ovp
+            o.parent_<<OPTION_VALUE>> = ovp
         END;
 
         IF extra_option IS NOT NULL THEN
@@ -66,15 +67,8 @@
     END;
     $$ LANGUAGE plpgsql;
 
-    CREATE TRIGGER check_system_set_terminal_<<TYPE>>
-    BEFORE INSERT OR UPDATE OF
-        <<ONLY TYPE (system)>>
-            system_id,
-        <<END ONLY>>
-        <<ONLY TYPE (detail, configuration)>>
-            <<PARENT>>_<<TYPE>>_path,
-        <<END ONLY>>
-        <<TYPE>>_option_value_path ON system_set<<ONLY TYPE (detail, configuration)>>_<<TYPE>><<END ONLY>>s
+    CREATE CONSTRAINT TRIGGER check_system_set_terminal_<<TYPE>>
+    AFTER INSERT OR UPDATE OF <<COLUMN_NAME>>, <<OPTION_VALUE>> ON <<TABLE_NAME>>
     FOR EACH ROW EXECUTE FUNCTION check_system_set_terminal_<<TYPE>>();
 
 <<END LOOP>>
