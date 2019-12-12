@@ -1,10 +1,7 @@
-import {
-    removeNullValues,
-    match,
-} from "../../../../../../utils";
 import _ from 'lodash';
-import validateSystemSetUpdate from "./validate-system-set-update";
 import { getLastItemFromPath, getUnknownPathFromObject } from "../../../../../../app-logic/system-utils";
+import { removeNullValues } from "../../../../../../utils";
+import validateSystemSetUpdate from "./validate-system-set-update";
 
 export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues.map(({ optionName, name }) => ({
     optionName,
@@ -131,7 +128,7 @@ export default function merge({
             _systemSetDetails: oldSystemSetDetails.concat(details),
             _systemSetConfigurations: oldSystemSetConfigurations.filter(item => {
                 const [pathKey, path] = getUnknownPathFromObject(item);
-                return !optionalConfigurationTypesToUnselect.some(getLastItemFromPath(path))
+                return !optionalConfigurationTypesToUnselect.includes(getLastItemFromPath(path))
             }).concat(configurations),
         }),
     };

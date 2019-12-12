@@ -72,6 +72,7 @@ gc_protected.system_set_details (
     detail_option_value_path LTREE REFERENCES detail_option_values,
     -- keys/constraints
     PRIMARY KEY (system_set_id, detail_type),
+    UNIQUE (system_set_id, detail_type),
     UNIQUE (system_set_id, detail_type, system_detail_path, detail_option_value_path),
     FOREIGN KEY (
         system_set_id,
@@ -132,6 +133,15 @@ gc_protected.system_set_configurations (
     configuration_option_value_path LTREE REFERENCES configuration_option_values,
     -- keys/constraints
     PRIMARY KEY (system_set_id, detail_type, configuration_type),
+    FOREIGN KEY (
+        system_set_id,
+        detail_type
+    )
+    REFERENCES system_set_details (
+        system_set_id,
+        detail_type
+    )
+    ON UPDATE CASCADE ON DELETE CASCADE INITIALLY DEFERRED,
     FOREIGN KEY (
         system_set_id,
         detail_type,

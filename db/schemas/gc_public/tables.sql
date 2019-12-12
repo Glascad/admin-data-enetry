@@ -11,6 +11,3 @@ gc_public.projects (
     -- last_updated_by INTEGER REFERENCES users NOT NULL,
     UNIQUE (id, name)
 );
-
--- CREATE TRIGGER last_updated ON TABLE projects
--- AFTER INSERT OR UPDATE 

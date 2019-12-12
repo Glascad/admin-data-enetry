@@ -9,31 +9,6 @@ gc_protected.systems (
     UNIQUE (id, manufacturer_id)
 );
 
-COMMENT ON TABLE gc_protected.systems IS '
-    FUNCTIONS:
-        gc_public.(
-            update_entire_system
-            check_entire_system
-            get_system_child_type
-            get_system_option_value_child_type
-            get_system_detail_child_type
-            get_detail_option_value_child_type
-            get_detail_configuration_child_type
-            get_configuration_option_value_child_type
-            ...
-        )
-        gc_protected.(
-            ...
-        )
-    TRIGGERS:
-        gc_protected.(
-            generate_system_option_path
-            generate_detail_option_path
-            generate_configuration_option_path
-        )
-';
-
-
 -- SYSTEM OPTIONS
 
 CREATE TABLE

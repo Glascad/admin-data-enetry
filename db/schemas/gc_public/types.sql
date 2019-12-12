@@ -48,7 +48,7 @@ gc_public.option_value_pair AS (
 );
 
 CREATE TYPE
-gc_public.detail_type_configuration_type_pair AS (
+gc_public.detail_configuration_pair AS (
     detail_type DETAIL_TYPE,
     configuration_type CONFIGURATION_TYPE
 );
@@ -60,10 +60,8 @@ gc_public.detail_type_configuration_type_pair AS (
 
     CREATE TYPE
     gc_public.entire_system_set_<<TYPE>> AS (
-        old_<<PARENT>>_<<TYPE>>_path LTREE,
-        new_<<PARENT>>_<<TYPE>>_path LTREE,
-        old_<<TYPE>>_option_value_path LTREE,
-        new_<<TYPE>>_option_value_path LTREE
+        <<PARENT>>_<<TYPE>>_path LTREE,
+        <<TYPE>>_option_value_path LTREE
     );
 
 <<END LOOP>>
@@ -77,7 +75,8 @@ gc_public.entire_system_set AS (
     system_option_value_path LTREE,
     option_group_values OPTION_VALUE_PAIR[],
     details ENTIRE_SYSTEM_SET_DETAIL[],
-    configurations ENTIRE_SYSTEM_SET_CONFIGURATION[]
+    configurations ENTIRE_SYSTEM_SET_CONFIGURATION[],
+    optional_configurations_to_unselect DETAIL_CONFIGURATION_PAIR[]
 );
 
 

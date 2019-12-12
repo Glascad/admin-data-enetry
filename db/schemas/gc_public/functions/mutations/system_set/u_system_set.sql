@@ -9,6 +9,7 @@ DECLARE
     ogv OPTION_VALUE_PAIR;
     ssd ENTIRE_SYSTEM_SET_DETAIL;
     ssc ENTIRE_SYSTEM_SET_CONFIGURATION;
+    odc DETAIL_CONFIGURATION_PAIR;
 BEGIN
 
     SET search_path = gc_public,gc_data,gc_protected,gc_utils,gc_controlled,pg_temp_1,pg_toast,pg_toast_temp_1;
@@ -44,6 +45,14 @@ BEGIN
         END IF;
 
     <<END LOOP>>
+
+    IF ss.optional_configurations_to_unselect IS NOT NULL THEN
+        FOREACH odc IN ARRAY ss.optional_configurations_to_unselect LOOP
+
+            SELECT 1 FROM delete_system_set_optional_configuration(odc, uss) INTO ___;
+
+        END LOOP;
+    END IF;
 
     RETURN check_entire_system_set(uss);
 

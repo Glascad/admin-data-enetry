@@ -107,6 +107,8 @@ function AuthProvider({
 
     const { currentUser = {} } = queryResult;
 
+    console.log({ currentUser });
+
     return (
         <AuthContext.Provider
             value={{

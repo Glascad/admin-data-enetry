@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { SystemMap } from '../../../app-logic/system-utils';
 import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems';
 import { ApolloWrapper, Ellipsis, Navigator, useMutation, useQuery, useRedoableState } from '../../../components';
-import { parseSearch, normalCase } from '../../../utils';
+import { normalCase, parseSearch } from '../../../utils';
 import DetailBuilder from './DetailBuilder/DetailBuilder';
 import cleanSystemInput from './ducks/clean-system-input';
 import merge from './ducks/merge';

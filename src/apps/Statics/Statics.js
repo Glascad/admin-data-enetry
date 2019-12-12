@@ -115,6 +115,7 @@ class Statics extends PureComponent {
                             .map(([name, route]) => extractNavigationOptions(name, route))
                             .map(({ name, path }) => (
                                 <NavLink
+                                    key={path}
                                     to={path}
                                     activeClassName="disabled"
                                 >

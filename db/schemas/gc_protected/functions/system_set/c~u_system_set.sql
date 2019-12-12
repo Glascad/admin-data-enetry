@@ -22,10 +22,6 @@ BEGIN
         RETURNING * INTO uss;
     ELSE
         UPDATE system_sets SET
-            project_id = COALESCE(
-                ss.project_id,
-                system_sets.project_id
-            ),
             system_id = COALESCE(
                 ss.system_id,
                 system_sets.system_id

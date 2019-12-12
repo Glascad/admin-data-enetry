@@ -12,7 +12,7 @@ DECLARE
     cpaths LTREE[];
     child_type TEXT;
     dts DETAIL_TYPE[];
-    dtcts DETAIL_TYPE_CONFIGURATION_TYPE_PAIR[];
+    dtcts DETAIL_CONFIGURATION_PAIR[];
     option_groups OPTION_VALUE_PAIR[];
     ___ INTEGER;
 BEGIN
@@ -62,7 +62,7 @@ BEGIN
         SELECT ARRAY_AGG((
             get_detail_type_from_path(path),
             get_configuration_type_from_path(path)
-        )::DETAIL_TYPE_CONFIGURATION_TYPE_PAIR)
+        )::DETAIL_CONFIGURATION_PAIR)
         FROM detail_configurations
         INTO dtcts
         WHERE path <@ dpaths
@@ -72,7 +72,7 @@ BEGIN
         SELECT ARRAY_AGG((
             get_detail_type_from_path(path),
             get_configuration_type_from_path(path)
-        )::DETAIL_TYPE_CONFIGURATION_TYPE_PAIR)
+        )::DETAIL_CONFIGURATION_PAIR)
         FROM detail_configurations
         INTO dtcts
         WHERE path <@ dpaths
