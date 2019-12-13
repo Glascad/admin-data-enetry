@@ -29,6 +29,9 @@
             <<ONLY TYPE (detail, configuration)>>
                 <<TYPE>>_type,
             <<END ONLY>>
+            <<ONLY TYPE (configuration)>>
+                optional,
+            <<END ONLY>>
             <<ONLY TYPE (part)>>
                 manufacturer_id,
                 transform,
@@ -42,6 +45,9 @@
             s.id,
             <<ONLY TYPE (detail, configuration)>>
                 t.<<TYPE>>_type,
+            <<END ONLY>>
+            <<ONLY TYPE (configuration)>>
+                t.optional,
             <<END ONLY>>
             <<ONLY TYPE (part)>>
                 s.manufacturer_id,
@@ -93,6 +99,12 @@
                 u.parent_<<PARENT>>_option_value_path,
                 ts.parent_<<PARENT>>_option_value_path
             ),
+            <<ONLY TYPE (configuration)>>
+                optional = COALESCE(
+                    u.optional,
+                    ts.optional
+                ),
+            <<END ONLY>>
             <<ONLY TYPE (configuration, part)>>
                 parent_<<GRANDFULL>>_path = COALESCE(
                     u.parent_<<GRANDFULL>>_path,

@@ -59,7 +59,7 @@ ${require('../../db/schemas/gc_protected/triggers/g_system_set_types.sql')}
 ${require('../../db/schemas/gc_protected/triggers/g_system_set_parent_paths.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_grouped_values.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_missing_items.sql')}
-${require('../../db/schemas/gc_protected/triggers/ch_system_set_terminal_nodes.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_unselected_options.sql')}
 
 
 ----- INVOKER ROLE -----

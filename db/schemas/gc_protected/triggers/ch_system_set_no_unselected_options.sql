@@ -11,9 +11,9 @@
     TABLE_NAME (system_sets, system_set_details, system_set_configurations)
 >>
 
-    DROP FUNCTION IF EXISTS check_system_set_terminal_<<TYPE>>;
+    DROP FUNCTION IF EXISTS check_system_set_no_unselected_<<TYPE>>_options;
 
-    CREATE OR REPLACE FUNCTION gc_protected.check_system_set_terminal_<<TYPE>>()
+    CREATE OR REPLACE FUNCTION gc_protected.check_system_set_no_unselected_<<TYPE>>_options()
     RETURNS TRIGGER AS $$
     DECLARE
         <<ONLY TYPE (system)>>
@@ -67,8 +67,8 @@
     END;
     $$ LANGUAGE plpgsql;
 
-    CREATE CONSTRAINT TRIGGER check_system_set_terminal_<<TYPE>>
+    CREATE CONSTRAINT TRIGGER check_system_set_no_unselected_<<TYPE>>_options
     AFTER INSERT OR UPDATE OF <<COLUMN_NAME>>, <<OPTION_VALUE>> ON <<TABLE_NAME>>
-    FOR EACH ROW EXECUTE FUNCTION check_system_set_terminal_<<TYPE>>();
+    FOR EACH ROW EXECUTE FUNCTION check_system_set_no_unselected_<<TYPE>>_options();
 
 <<END LOOP>>
