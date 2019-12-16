@@ -14,6 +14,7 @@ const {
 } = DIRECTIONS;
 
 export default function Align({
+    cancelPartial,
     dispatchPartial,
     selectedItem,
     TRANSFORM,
@@ -22,30 +23,40 @@ export default function Align({
 
     const [[vertical, first], setVerticalAndFirst] = useState([]);
 
-    const dispatchPartialAlign = (vertical, first) => {
+    const dispatchPartialAlign = (v, f) => {
 
-        setVerticalAndFirst([vertical, first]);
+        if (v === vertical && f === first) {
 
-        dispatchPartial(TRANSFORM, selectedItem, (item1, item2) => {
-            const coordinate1 = getAlignmentCoordinate(vertical, first, item1);
-            const coordinate2 = getAlignmentCoordinate(vertical, first, item2);
-            const nudge = coordinate2 - coordinate1;
+            cancelPartial();
             setVerticalAndFirst([]);
-            return {
-                targetItem: item1,
-                intermediateTransform: Matrix.createTranslation(
-                    vertical ? 0 : nudge,
-                    vertical ? nudge : 0,
-                ),
-            };
-        });
+
+        } else {
+
+            setVerticalAndFirst([v, f]);
+
+            dispatchPartial(TRANSFORM, selectedItem, (item1, item2) => {
+                const coordinate1 = getAlignmentCoordinate(v, f, item1);
+                const coordinate2 = getAlignmentCoordinate(v, f, item2);
+                const nudge = coordinate2 - coordinate1;
+                setVerticalAndFirst([]);
+                return {
+                    targetItem: item1,
+                    intermediateTransform: Matrix.createTranslation(
+                        v ? 0 : nudge,
+                        v ? nudge : 0,
+                    ),
+                };
+            });
+        }
     }
+
+    console.log({ vertical, first });
 
     return (
         <div className="tray-section">
             <div className="label">
                 Align
-                </div>
+            </div>
             <div className="input-group">
                 <Input
                     data-cy={'align-bottom'}

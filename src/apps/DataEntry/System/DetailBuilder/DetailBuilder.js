@@ -35,12 +35,14 @@ export default function DetailBuilder({
 
     const fullPath = getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, '');
 
-    const children = getChildren({ path }, systemMap) || [];
+    const item = systemMap[fullPath];
+
+    const children = getChildren(item, systemMap) || [];
 
     const [selectedConfigurationPaths, setSelectedConfigurationPaths] = useInitialState(
         children.reduce((paths, { path }) => ({
             ...paths,
-            [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap),
+            [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, ''),
         }), {}),
         [fetching, children.length, fullPath],
     );
@@ -78,15 +80,6 @@ export default function DetailBuilder({
         }
     }, []);
 
-    // console.log({
-    //     fullPath,
-    //     path,
-    //     systemMap,
-    //     children,
-    //     selectedItem,
-    //     selectedConfigurationPaths,
-    // });
-
     if (path !== fullPath) return (
         <Redirect
             to={{
@@ -108,8 +101,9 @@ export default function DetailBuilder({
             />
             <DetailDisplay
                 systemMap={systemMap}
-                children={children}
                 selectedConfigurationPaths={selectedConfigurationPaths}
+                item={item}
+                children={children}
                 selectItem={selectItem}
                 selectedItem={selectedItem}
                 updating={updating}

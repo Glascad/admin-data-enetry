@@ -18,6 +18,7 @@ export default memo(function DetailTray({
         } = {}
     } = {},
     dispatchPartial,
+    cancelPartial,
 }) {
 
     console.log(arguments[0])
@@ -65,35 +66,16 @@ export default memo(function DetailTray({
         selectedItem,
         dispatch,
         dispatchPartial,
+        cancelPartial,
         TRANSFORM,
     };
 
     return (
         <Tray>
-            {/* <div className="tray-section">
-                {['x', 'y'].map(d => (
-                    <Input
-                        key={d}
-                        data-cy={`${d}-coord`}
-                        label={`${d} Coord`}
-                        type="number"
-                        value={coordinate[d]}
-                        onChange={({ target: { value } }) => setCoordinate(d, +value)}
-                    />
-                ))}
-            </div> */}
-            <Nudge
-                {...childProps}
-            />
-            <Align
-                {...childProps}
-            />
-            <Reflect
-                {...childProps}
-            />
-            <Rotate
-                {...childProps}
-            />
+            <Nudge {...childProps} />
+            <Align {...childProps} />
+            <Reflect {...childProps} />
+            <Rotate {...childProps} />
         </Tray>
     );
 });
