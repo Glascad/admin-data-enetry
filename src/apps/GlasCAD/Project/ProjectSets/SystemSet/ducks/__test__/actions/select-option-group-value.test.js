@@ -1,25 +1,45 @@
 import { SELECT_OPTION_GROUP_VALUE } from "../../actions";
-import { sample1 } from "../sample-query-results";
 import { SystemMap } from "../../../../../../../../app-logic/system";
+import SAMPLE_SYSTEM_SETS from "../sample-query-results";
 import { defaultSystemSetUpdate } from "../../schemas";
+
+const {
+    sample1: {
+        systemSet: sample1SystemSet,
+        system: sample1System,
+    }
+} = SAMPLE_SYSTEM_SETS;
 
 function testSelectOptionGroupValue({
     description = '',
     systemSetUpdate,
+    _systemSet = {
+        __typename: "SystemSet",
+        id: 0,
+        name: "Test System Set",
+        systemId: 0,
+        projectId: 1,
+        systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
+        _systemSetOptionGroupValues: [],
+        _systemSetDetails: [],
+        _systemSetConfigurations: [],
+    },
     payload: {
         optionName,
         name,
     },
     optionGroupValues = [],
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
     nonExistingOptionGroupValues = [],
-    nonExistingDetailOptionValues = [],
-    nonExistingConfigurationOptionValues = [],
+    nonExistingDetails = [],
+    nonExistingConfigurations = [],
 }) {
     describe(`Testing select option group value: ${description}`, () => {
         const result = SELECT_OPTION_GROUP_VALUE(
-            sample1,
+            {
+                _systemSet,
+            },
             {
                 ...defaultSystemSetUpdate,
                 ...systemSetUpdate,
@@ -27,7 +47,7 @@ function testSelectOptionGroupValue({
             [
                 optionName,
                 name,
-                new SystemMap(sample1._system),
+                new SystemMap(sample1System),
             ],
         );
         if (!optionGroupValues.length && !nonExistingOptionGroupValues.length) throw new Error(`Must provide either optionGroupValues or nonExistingOptionGroupValues to testSelectOptionGroupValue()`);
@@ -41,21 +61,21 @@ function testSelectOptionGroupValue({
                     )
                 );
             });
-        if (detailOptionValues.length)
+        if (details.length)
             test('must contain correct detail option values', () => {
-                expect(result.detailOptionValues).toEqual(
+                expect(result.details).toEqual(
                     expect.arrayContaining(
-                        detailOptionValues.map(dov => (
+                        details.map(dov => (
                             expect.objectContaining(dov)
                         ))
                     )
                 );
             });
-        if (configurationOptionValues.length)
+        if (configurations.length)
             test('must contain correct configuration option values', () => {
-                expect(result.configurationOptionValues).toEqual(
+                expect(result.configurations).toEqual(
                     expect.arrayContaining(
-                        configurationOptionValues.map(cov => (
+                        configurations.map(cov => (
                             expect.objectContaining(cov)
                         ))
                     )
@@ -71,21 +91,21 @@ function testSelectOptionGroupValue({
                     )
                 );
             });
-        if (nonExistingDetailOptionValues.length)
+        if (nonExistingDetails.length)
             test('most not contain incorrect detail option values', () => {
-                expect(result.detailOptionValues).toEqual(
+                expect(result.details).toEqual(
                     expect.not.arrayContaining(
-                        nonExistingDetailOptionValues.map(dov => (
+                        nonExistingDetails.map(dov => (
                             expect.objectContaining(dov)
                         ))
                     )
                 );
             });
-        if (nonExistingConfigurationOptionValues.length)
+        if (nonExistingConfigurations.length)
             test('most not contain incorrect configuration option values', () => {
-                expect(result.configurationOptionValues).toEqual(
+                expect(result.configurations).toEqual(
                     expect.not.arrayContaining(
-                        nonExistingConfigurationOptionValues.map(cov => (
+                        nonExistingConfigurations.map(cov => (
                             expect.objectContaining(cov)
                         ))
                     )
@@ -95,7 +115,8 @@ function testSelectOptionGroupValue({
 }
 
 testSelectOptionGroupValue({
-    description: "Can update option group value with empty state, and select defaults for configurations",
+    description: "Can update option group value with empty state and new systemSet, and select defaults for configurations",
+    _systemSet: sample1SystemSet,
     payload: {
         optionName: "GLAZING",
         name: "OUTSIDE",
@@ -106,44 +127,106 @@ testSelectOptionGroupValue({
             name: "OUTSIDE",
         },
     ],
-    configurationOptionValues: [
+    details: [],
+    configurations: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
         },
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE",
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE"
+        }
+    ],
+});
+
+testSelectOptionGroupValue({
+    description: "Can update option group value with no State, and no pre-set systemSet",
+    payload: {
+        optionName: "GLAZING",
+        name: "INSIDE",
+    },
+    optionGroupValues: [
+        {
+            optionName: "GLAZING",
+            name: "INSIDE",
         },
     ],
 });
 
 testSelectOptionGroupValue({
-    description: "Can update option group value with empty state, and select defaults for details (again)",
+    description: "Can update option group value with some State, and no pre-set systemSet",
     payload: {
-        optionName: "STOPS",
-        name: "UP",
+        optionName: "GLAZING",
+        name: "OUTSIDE",
+    },
+    systemSetUpdate: {
+        details: [
+            {
+                systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD",
+            },
+            {
+                detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN"
+            },
+            {
+                systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL",
+            }
+        ],
+        configurations: [
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE"
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+            },
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+            },
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT",
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE"
+            }
+        ]
     },
     optionGroupValues: [
         {
-            optionName: "STOPS",
-            name: "UP",
+            optionName: "GLAZING",
+            name: "OUTSIDE",
         },
     ],
-    configurationOptionValues: [
+    details: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.UP",
+            systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD",
         },
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.UP.GLAZING.INSIDE",
+            detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN"
         },
+        {
+            systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL",
+        }
     ],
+    configurations: [
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
+        },
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+        },
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+        },
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT",
+        },
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE"
+        }
+    ]
 });
 
 testSelectOptionGroupValue({
     description: "Can update option group value back to original",
+    _systemSet: sample1SystemSet,
     systemSetUpdate: {
         optionGroupValues: [
             {
@@ -161,18 +244,96 @@ testSelectOptionGroupValue({
             optionName: "GLAZING",
         },
     ],
-    nonExistingDetailOptionValues: [
+    nonExistingConfigurations: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE",
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
         },
         {
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE",
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE"
+        }
+    ],
+});
+
+testSelectOptionGroupValue({
+    description: "Can update option group value back to original",
+    _systemSet: sample1SystemSet,
+    systemSetUpdate: {
+        optionGroupValues: [
+            {
+                optionName: "GLAZING",
+                name: "OUTSIDE",
+            },
+        ],
+    },
+    payload: {
+        optionName: "GLAZING",
+        name: "INSIDE",
+    },
+    nonExistingOptionGroupValues: [
+        {
+            optionName: "GLAZING",
+        },
+    ],
+    configurations: [],
+    nonExistingConfigurations: [
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE"
         },
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE",
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE"
+        }
+    ],
+});
+
+// updating details keeps selected configurations
+testSelectOptionGroupValue({
+    description: "Selecting the same Item in state",
+    // _systemSet: sample1SystemSet,
+    payload: {
+        optionName: "GLAZING",
+        name: "OUTSIDE"
+    },
+    systemSetUpdate: {
+        systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
+        optionGroupValues: [{
+            optionName: "GLAZING",
+            name: "OUTSIDE"
+        }],
+        details: [
+            {
+                systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD"
+            },
+            {
+                systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL"
+            },
+            {
+                detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE"
+            }
+        ],
+        configurations: [
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL"
+            }
+        ],
+    },
+    optionGroupValues: [{
+        optionName: "GLAZING",
+        name: "OUTSIDE"
+    }],
+    details: [
+        {
+            systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD"
         },
         {
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.OUTSIDE",
+            systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL"
         },
+        {
+            detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE"
+        }
+    ],
+    configurations: [
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL"
+        }
     ],
 });

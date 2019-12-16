@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { getChildren, getConfigurationTypeFromPath, getDefaultPath } from '../../../../app-logic/system';
+import { getChildren, getConfigurationTypeFromPath, getDefaultPath, getDefaultConfigurationPaths } from '../../../../app-logic/system';
 import { TransformProvider, useInitialState } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 import { useCollapseSidebar } from '../../../Statics/Statics';
@@ -40,10 +40,7 @@ export default function DetailBuilder({
     const children = getChildren(item, systemMap) || [];
 
     const [selectedConfigurationPaths, setSelectedConfigurationPaths] = useInitialState(
-        children.reduce((paths, { path }) => ({
-            ...paths,
-            [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, ''),
-        }), {}),
+        getDefaultConfigurationPaths(item, systemMap),
         [fetching, children.length, fullPath],
     );
 

@@ -1,2 +1,2 @@
 
-export default window.getUnknownPathFromObject = object => Object.entries(object).find(([key]) => key.match(/path/i)) || [];
+export default window.getUnknownPathFromObject = object => Object.entries(object).find(([key, value]) => value && key.match(/path/i)) || [];

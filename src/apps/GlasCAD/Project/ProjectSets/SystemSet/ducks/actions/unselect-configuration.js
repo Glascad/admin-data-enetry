@@ -7,9 +7,11 @@ export default function UNSELECT_CONFIGURATION({
     },
 }, {
     configurations = [],
+    optionalConfigurationsToUnselect = [],
 },
     configurationPath
 ) {
+    console.log(arguments);
     const detailType = getDetailTypeFromPath(configurationPath);
     const configurationType = getConfigurationTypeFromPath(configurationPath);
 
@@ -23,26 +25,32 @@ export default function UNSELECT_CONFIGURATION({
     const index = configurations.indexOf(COVInState);
 
     // or find in query
-    const { configurationOptionValuePath } = !COVInState && _systemSetConfigurations.find(({ configurationOptionValuePath }) => (
-        getDetailTypeFromPath(configurationOptionValuePath) === detailType
+    const { configurationOptionValuePath: queryCOVP, detailConfigurationPath: queryDCP } = !COVInState && _systemSetConfigurations.find(({ configurationOptionValuePath, detailConfigurationPath }) => (
+        getDetailTypeFromPath(configurationOptionValuePath || detailConfigurationPath) === detailType
         &&
-        getConfigurationTypeFromPath(configurationOptionValuePath) === configurationType
+        getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath) === configurationType
     )) || {};
+
+
+    const filteredConfigurations = COVInState ?
+        {
+            configurations: configurations.filter((_, i) => i !== index),
+            optionalConfigurationsToUnselect,
+        } : (queryCOVP || queryDCP) ?
+            {
+                configurations,
+                optionalConfigurationsToUnselect: optionalConfigurationsToUnselect.concat({
+                    detailType: getDetailTypeFromPath(queryCOVP || queryDCP),
+                    configurationType: getConfigurationTypeFromPath(queryCOVP || queryDCP),
+                })
+            } :
+            {
+                configurations,
+                optionalConfigurationsToUnselect,
+            }
 
     return {
         ...arguments[1],
-        configurations:
-            // isCreated ?
-            configurations.filter((_, i) => i !== index)
-            // :
-            // isUpdated ?
-            //     replace(configurations, index, { oldPath })
-            //     :
-            //     configurationOptionValuePath ?
-            //         configurations.concat({
-            //             oldPath: configurationOptionValuePath
-            //         })
-            //         :
-            //         configurations,
+        ...filteredConfigurations,
     };
 }

@@ -19,31 +19,39 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     payloadPath,
     systemMap,
 ]) {
+    // console.log(arguments);
+
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
-    const detailOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
-    const { __typename } = systemMap[detailOptionValuePath] || {};
+    const defaultPath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
+    const { __typename } = systemMap[defaultPath] || {};
     const detailPathKey = `${__typename}Path`.replace(/^./, letter => letter.toLowerCase());
-    const detailType = getDetailTypeFromPath(detailOptionValuePath);
+    const detailType = getDetailTypeFromPath(defaultPath);
+
+    console.log({
+        _systemSetOptionGroupValues,
+        optionGroupValues,
+        groupedOptionValues,
+        defaultPath,
+    })
 
     // find DOV in query result
-    const { detailOptionValuePath: oldPath } = _systemSetDetails.find(dov => (
-        dov.detailOptionValuePath.replace(/(__DT__\.\w+)\..*$/, '$1')
-        ===
-        detailOptionValuePath.replace(/(__DT__\.\w+)\..*$/, '$1')
-    )) || {};
+    const { detailOptionValuePath: previousDetailOptionValuePath, systemDetailPath: previousSystemDetailPath } = _systemSetDetails
+        .find(dov => (
+            (dov.detailOptionValuePath || dov.systemDetailPath).replace(/(__DT__\.\w+)\..*$/, '$1')
+            ===
+            defaultPath.replace(/(__DT__\.\w+)\..*$/, '$1')
+        )) || {};
 
     // find DOV in state
-    // const updatedDOV = details.find(detail => {
-    //     const [pathKey, path] = getUnknownPathFromObject(detail);
-    //     return getDetailTypeFromPath(path) === detailType
-    // })
+    const updatedDOV = details.find(({ systemDetailPath, detailOptionValuePath }) => getDetailTypeFromPath(
+        systemDetailPath || detailOptionValuePath) === detailType)
 
-    // const index = details.indexOf(updatedDOV);
+    const index = details.indexOf(updatedDOV);
 
     const newDOV = {
         ...defaultSystemSetDetail,
         // ...updatedDOV,
-        [detailPathKey]: detailOptionValuePath,
+        [detailPathKey]: defaultPath,
     };
 
     // find all child configuration types in state
@@ -54,10 +62,17 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     );
 
     const configurationTypePaths = unique(configurationsToUpdate
+        // old items in state
         .map(({ detailConfigurationPath, configurationOptionValuePath }) => detailConfigurationPath || configurationOptionValuePath)
+        // items from query result
         .concat(_systemSetConfigurations.map(({ configurationOptionValuePath, detailConfigurationPath }) => configurationOptionValuePath || detailConfigurationPath))
+        // children configurations that are required
+        .concat(getChildren(systemMap[defaultPath], systemMap)
+            .filter(({ optional }) => !optional)
+            .map(({ path }) => path)
+        )
         .map(path => `${
-            detailOptionValuePath
+            defaultPath
             }.__CT__.${
             getConfigurationTypeFromPath(path)
             }`)
@@ -76,20 +91,20 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     ), {
         ...arguments[1],
         details:
-            //     updatedDOV ?
-            // updatedDOV.oldPath === detailOptionValuePath ?
-            //     // remove if updating back to original path
-            //     details.filter((_, i) => i !== index)
-            //     :
-            //     // replace if updating updated
-            //     replace(details, index, newDOV)
-            // :
-            oldPath === detailOptionValuePath ?
-                // leave state if option value is already selected
-                details
+            updatedDOV ?
+                (updatedDOV.systemDetailPath || updatedDOV.detailOptionValuePath) === (previousDetailOptionValuePath || previousSystemDetailPath) ?
+                    // remove if updating back to original path
+                    details.filter((_, i) => i !== index)
+                    :
+                    // replace if updating updated
+                    replace(details, index, newDOV)
                 :
-                // add if updating non-updated
-                details.concat(newDOV),
+                (previousSystemDetailPath || previousDetailOptionValuePath) === defaultPath ?
+                    // leave state if option value is already selected
+                    details
+                    :
+                    // add if updating non-updated
+                    details.concat(newDOV),
         configurations: newConfigurations,
     });
 }

@@ -1,48 +1,55 @@
-import { SELECT_SYSTEM_OPTION_VALUE } from "../../actions";
-import { sample1 } from "../sample-query-results";
 import { SystemMap } from "../../../../../../../../app-logic/system";
+import { SELECT_SYSTEM_OPTION_VALUE } from "../../actions";
 import { defaultSystemSetUpdate } from "../../schemas";
+import SAMPLE_SYSTEM_SETS from "../sample-query-results";
+
+const {
+    sample1: {
+        systemSet: sample1SystemSet,
+        system: sample1System,
+    }
+} = SAMPLE_SYSTEM_SETS;
 
 function testSelectSystemOptionValue({
     description = '',
     systemSetUpdate,
     payloadPath,
     systemOptionValuePath,
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
     nonExistingDetailOptionValues = [],
     nonExistingConfigurationOptionValues = [],
 }) {
     describe(`Testing select system option value: ${description}`, () => {
         const result = SELECT_SYSTEM_OPTION_VALUE(
-            sample1,
+            { _systemSet: sample1SystemSet },
             {
                 ...defaultSystemSetUpdate,
                 ...systemSetUpdate,
             },
             [
                 payloadPath,
-                new SystemMap(sample1._system),
+                new SystemMap(sample1System),
             ],
         );
         test('must contain correct system option value', () => {
             expect(result.systemOptionValuePath).toBe(systemOptionValuePath);
         });
-        if (detailOptionValues.length)
+        if (details.length)
             test('must contain correct detail option values', () => {
-                expect(result.detailOptionValues).toEqual(
+                expect(result.details).toEqual(
                     expect.arrayContaining(
-                        detailOptionValues.map(dov => (
+                        details.map(dov => (
                             expect.objectContaining(dov)
                         ))
                     )
                 );
             });
-        if (configurationOptionValues.length)
+        if (configurations.length)
             test('must contain correct configuration option values', () => {
-                expect(result.configurationOptionValues).toEqual(
+                expect(result.configurations).toEqual(
                     expect.arrayContaining(
-                        configurationOptionValues.map(cov => (
+                        configurations.map(cov => (
                             expect.objectContaining(cov)
                         ))
                     )
@@ -50,7 +57,7 @@ function testSelectSystemOptionValue({
             });
         if (nonExistingDetailOptionValues.length)
             test('most not contain incorrect detail option values', () => {
-                expect(result.detailOptionValues).toEqual(
+                expect(result.details).toEqual(
                     expect.not.arrayContaining(
                         nonExistingDetailOptionValues.map(dov => (
                             expect.objectContaining(dov)
@@ -60,7 +67,7 @@ function testSelectSystemOptionValue({
             });
         if (nonExistingConfigurationOptionValues.length)
             test('most not contain incorrect configuration option values', () => {
-                expect(result.configurationOptionValues).toEqual(
+                expect(result.configurations).toEqual(
                     expect.not.arrayContaining(
                         nonExistingConfigurationOptionValues.map(cov => (
                             expect.objectContaining(cov)
@@ -73,27 +80,23 @@ function testSelectSystemOptionValue({
 
 testSelectSystemOptionValue({
     description: "Can update to new SOV",
-    payloadPath: "1.SET.FRONT",
-    systemOptionValuePath: "1.SET.FRONT",
-    detailOptionValues: [
+    payloadPath: "0.SET.FRONT",
+    systemOptionValuePath: "0.SET.FRONT",
+    details: [
         {
-            newPath: "1.SET.FRONT.__DT__.HEAD.VOID.VOID",
+            systemDetailPath: "0.SET.FRONT.__DT__.HEAD",
         },
     ],
-    configurationOptionValues: [
-        {
-            newPath: "1.SET.FRONT.__DT__.HEAD.VOID.VOID.__CT__.HEAD.VOID.VOID",
-        },
-    ],
+    configurations: [],
 });
 
 testSelectSystemOptionValue({
     description: "Can revert to previous SOV",
     systemSetUpdate: {
-        systemOptionValuePath: "1.SET.FRONT",
+        systemOptionValuePath: "0.SET.FRONT",
     },
-    payloadPath: "1.SET.CENTER",
-    systemOptionValuePath: "1.SET.CENTER.JOINERY.SCREW_SPLINE",
+    payloadPath: "0.SET.CENTER",
+    systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
     nonExistingDetailOptionValues: [
         expect.any(Object),
     ],
@@ -105,10 +108,10 @@ testSelectSystemOptionValue({
 testSelectSystemOptionValue({
     description: "Can select new SOV",
     systemSetUpdate: {
-        systemOptionValuePath: "1.SET.FRONT",
+        systemOptionValuePath: "0.SET.FRONT",
     },
-    payloadPath: "1.SET.CENTER.JOINERY.STICK",
-    systemOptionValuePath: "1.SET.CENTER.JOINERY.STICK",
+    payloadPath: "0.SET.CENTER.JOINERY.STICK",
+    systemOptionValuePath: "0.SET.CENTER.JOINERY.STICK",
     nonExistingDetailOptionValues: [
         expect.any(Object),
     ],

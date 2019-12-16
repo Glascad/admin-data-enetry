@@ -1,7 +1,7 @@
-import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath, SystemMap } from "../../../../../../../app-logic/system";
+import { getConfigurationTypeFromPath, getDefaultPath, getDetailTypeFromPath } from "../../../../../../../app-logic/system";
 import { replace } from "../../../../../../../utils";
-import { defaultSystemSetConfiguration } from "../schemas";
 import { mergeOptionGroupValues } from "../merge";
+import { defaultSystemSetConfiguration } from "../schemas";
 
 export default function SELECT_CONFIGURATION_OPTION_VALUE({
     _systemSet: {
@@ -9,55 +9,77 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
         _systemSetOptionGroupValues = [],
     },
 }, {
-    configurations = [],
     optionGroupValues = [],
+    configurations = [],
+    optionalConfigurationsToUnselect = [],
 }, [
     payloadPath,
     systemMap,
 ]) {
+    // console.log(arguments);
+
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
-    const configurationOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
-    const detailType = getDetailTypeFromPath(configurationOptionValuePath);
-    const configurationType = getConfigurationTypeFromPath(configurationOptionValuePath);
+    const defaultPath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
+    const { __typename } = systemMap[defaultPath] || {};
+    const configurationPathKey = `${__typename}Path`.replace(/^./, letter => letter.toLowerCase());
+    const detailType = getDetailTypeFromPath(defaultPath);
+    const configurationType = getConfigurationTypeFromPath(defaultPath);
 
     // find COV original path in query result
-    const { configurationOptionValuePath: oldPath } = _systemSetConfigurations.find(cov => (
-        cov.configurationOptionValuePath.replace(/(__CT__\.\w+)\..*$/, '$1')
+    const {
+        configurationOptionValuePath: previousConfigurationOptionPath,
+        detailConfigurationPath: previousDetailConfigurationPath,
+    } = _systemSetConfigurations.find(cov => (
+        (cov.configurationOptionValuePath || cov.detailConfigurationPath).replace(/(__CT__\.\w+)\..*$/, '$1')
         ===
-        configurationOptionValuePath.replace(/(__CT__\.\w+)\..*$/, '$1')
+        (defaultPath).replace(/(__CT__\.\w+)\..*$/, '$1')
     )) || {};
 
     // find COV in state
-    const updatedCOV = configurations.find(({ oldPath, newPath }) => (
-        getDetailTypeFromPath(oldPath || newPath) === detailType
+    const updatedCOV = configurations.find(({ detailConfigurationPath, configurationOptionValuePath }) => (
+        getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === detailType
         &&
-        getConfigurationTypeFromPath(oldPath || newPath) === configurationType
+        getConfigurationTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === configurationType
     ));
 
     const index = configurations.indexOf(updatedCOV);
 
     const newCOV = {
         ...defaultSystemSetConfiguration,
-        ...updatedCOV,
-        oldPath,
-        newPath: configurationOptionValuePath,
+        // ...updatedCOV,
+        [configurationPathKey]: defaultPath,
     };
 
     return {
         ...arguments[1],
-        configurations: updatedCOV ?
-            updatedCOV.oldPath === configurationOptionValuePath ?
-                // remove from state if updating back to original path
-                configurations.filter((_, i) => i !== index)
+        configurations:
+            updatedCOV ?
+                (updatedCOV.configurationOptionValuePath || updatedCOV.detailConfigurationPath) === (previousConfigurationOptionPath || previousDetailConfigurationPath) ?
+                    // remove from state if updating back to original path
+                    configurations.filter((_, i) => i !== index)
+                    :
+                    // replace in state if updating previously updated item
+                    replace(configurations, index, newCOV)
                 :
-                // replace in state if updating previously updated item
-                replace(configurations, index, newCOV)
-            :
-            oldPath === configurationOptionValuePath ?
-                // leave state if option value is already selected
-                configurations
-                :
-                // add to state if updating non-previously updated item
-                configurations.concat(newCOV),
+                (
+                    ((previousConfigurationOptionPath || previousDetailConfigurationPath) === defaultPath)
+                    ||
+                    optionalConfigurationsToUnselect.some(({ detailType, configurationType }) => {
+                        const defaultDetailType = getDetailTypeFromPath(defaultPath);
+                        const defaultConfigurationType = getConfigurationTypeFromPath(defaultPath);
+                        return defaultDetailType === detailType && defaultConfigurationType === configurationType
+                    })
+                ) ?
+                    // leave state if option value is already selected or if item is in OptionConfigurationsToUnselect
+                    configurations
+                    :
+                    // add to state if updating non-previously updated item
+                    configurations.concat(newCOV),
+        optionalConfigurationsToUnselect: optionalConfigurationsToUnselect
+            .filter(({ detailType, configurationType }) => {
+                const defaultDetailType = getDetailTypeFromPath(defaultPath);
+                const defaultConfigurationType = getConfigurationTypeFromPath(defaultPath);
+                return !(defaultDetailType === detailType && defaultConfigurationType === configurationType)
+            }),
     };
 }

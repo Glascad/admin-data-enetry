@@ -6,39 +6,47 @@ import MERGE_CONTAINERS from "../merge-containers";
 import applyActionToElevation from "./apply-action";
 import chainTests from './chain-tests';
 
-const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
-    containers: {
-        [containerId]: container,
-    },
-}) => ({
-    container,
+function testMerge({
+    elevation,
     direction,
-}));
+    containerId,
+    deletedContainerId,
+    daylightOpening,
+}) {
 
-testElevation({
-    description: `${elevation.name} - merge containers - containerId: ${containerId}, direction: ${direction.join(' ')}`,
-    elevation: sampleResult.rawElevation,
-});
+    const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
+        containers: {
+            [containerId]: container,
+        },
+    }) => ({
+        container,
+        direction,
+    }));
 
-describe(`${elevation.name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
-    test(`container ${containerId} has correct daylight opening`, () => {
-        expect(sampleResult.containers[containerId].daylightOpening).toMatchObject(daylightOpening);
+    testElevation({
+        description: `${elevation.name} - merge containers - containerId: ${containerId}, direction: ${direction.join(' ')}`,
+        elevation: sampleResult.rawElevation,
     });
 
-    test(`container ${deletedContainerId} is gone (container)`, () => {
-        expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining([`${deletedContainerId}`]));
-        expect(sampleResult.containers[deletedContainerId]).toBeUndefined();
-    });
+    describe(`${elevation.name} merging ${containerId} to ${deletedContainerId} ${direction}`, () => {
+        test(`container ${containerId} has correct daylight opening`, () => {
+            expect(sampleResult.containers[containerId].daylightOpening).toMatchObject(daylightOpening);
+        });
 
-    test(`references to container ${deletedContainerId} are gone (details)`, () => {
-        sampleResult.allDetails.map(detail => {
-            expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
-            expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
+        test(`container ${deletedContainerId} is gone (container)`, () => {
+            expect(sampleResult.containerIds).toEqual(expect.not.arrayContaining([`${deletedContainerId}`]));
+            expect(sampleResult.containers[deletedContainerId]).toBeUndefined();
+        });
+
+        test(`references to container ${deletedContainerId} are gone (details)`, () => {
+            sampleResult.allDetails.map(detail => {
+                expect(detail).not.toHaveProperty("firstContainerId", deletedContainerId);
+                expect(detail).not.toHaveProperty("secondContainerId", deletedContainerId);
+            });
         });
     });
-});
 
-return sampleResult.rawElevation;
+    return sampleResult.rawElevation;
 }
 
 // For sample1

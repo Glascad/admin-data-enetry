@@ -63,7 +63,7 @@ export default withRouter(function DetailDisplay({
                     ) : (
                             <Detail
                                 systemMap={systemMap}
-                                configurations={children}
+                                detail={item}
                                 configurationPaths={selectedConfigurationPaths}
                                 onClick={handleClick}
                                 getConfigurationProps={configuration => ({

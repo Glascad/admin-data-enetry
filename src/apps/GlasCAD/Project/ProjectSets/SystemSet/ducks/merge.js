@@ -1,18 +1,11 @@
 import _ from 'lodash';
-import { getLastItemFromPath, getUnknownPathFromObject } from "../../../../../../app-logic/system";
+import { getLastItemFromPath, getUnknownPathFromObject, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
 import { removeNullValues } from "../../../../../../utils";
 import validateSystemSetUpdate from "./validate-system-set-update";
 
-export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues.map(({ optionName, name }) => ({
-    optionName,
-    name: optionGroupValues
-        .reduce((name, update) => (
-            update.optionName === optionName ?
-                update.name
-                :
-                name
-        ), name),
-}));
+export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues
+    .filter(({ optionName }) => !optionGroupValues.find(group => group.optionName === optionName))
+    .concat(optionGroupValues);
 
 export default function merge({
     _systemSet,
@@ -30,13 +23,13 @@ export default function merge({
     optionGroupValues = [],
     details = [],
     configurations = [],
-    optionalConfigurationTypesToUnselect = [],
+    optionalConfigurationToUnselect = [],
 }, {
     id: actualSystemId,
     _optionGroups = [],
 }) {
 
-    console.log(arguments);
+    // console.log(arguments);
 
     validateSystemSetUpdate(arguments[1]);
 
@@ -60,63 +53,40 @@ export default function merge({
         :
         [];
 
-    // const updateOptionValues = (pathKey, oldArray, newArray, parentArray) => {
-    //     const {
-    //         update = [],
-    //         _delete = [],
-    //         create = [],
-    //     } = _.groupBy(newArray, item => (
-    //         match(!!Object.keys(item).some(key => key.match(/old/i)), !!Object.keys(key => key.match(/new/i)))
-    //             .equals(true, true, 'update')
-    //             .equals(true, false, '_delete')
-    //             .equals(false, true, 'create')
-    //             .otherwise(() => {
-    //                 throw new Error(`Invalid item has no \`oldPath\` and no \`newPath\`, in ${pathKey}: ${newArray}`);
-    //             })
-    //     ));
+    // details have the same optionValuePath as systemSet
 
-    //     return oldArray
-    //         .filter(({ [pathKey]: path }) => (
-    //             (
-    //                 parentArray.some(parentPath => path.startsWith(parentPath))
-    //                 ||
-    //                 update.some(item => Object.entries(item).some(([key, value]) => key.match(/old/i) && path === value))
-    //             )
-    //             &&
-    //             !_delete.some(item => Object.entries(item).some(([key, value]) => key.match(/old/i) && path.startsWith(value)))
-    //         ))
-    //         .map(item => ({
-    //             ...item,
-    //             [pathKey]: update.reduce((path, updatedItem) => {
-    //                 const [oldPathKey, oldPath] = Object.entries(updatedItem).find(([key, value]) => key.match(/old/i)) || [];
-    //                 const [newPathKey, newPath] = Object.entries(updatedItem).find(([key, value]) => key.match(/new/i)) || [];
-    //                 return (
-    //                     oldPath === item[pathKey] ?
-    //                         newPath
-    //                         :
-    //                         path
-    //                 )
-    //             }, item[pathKey]),
-    //         }))
-    //         .concat(create.map(item => {
-    //             const [newPathKey, newPath] = Object.entries(item).find(([key, value]) => key.match(/new/i)) || [];
-    //             return { [pathKey]: newPath }
-    //         }));
-    // }
+    const _systemSetDetails = oldSystemSetDetails
+        .filter(detail => {
+            const [pathKey, path] = getUnknownPathFromObject(detail);
+            const detailType = getDetailTypeFromPath(path);
+            return path.startsWith(systemOptionValuePath)
+                &&
+                !details.some(d => {
+                    const [dPathKey, dPath] = getUnknownPathFromObject(d);
+                    const dDetailType = getDetailTypeFromPath(dPath);
+                    return detailType === dDetailType;
+                });
+        })
+        .concat(details);
 
-    // const _systemSetDetails = updateOptionValues(
-    //     "detailOptionValuePath",
-    //     oldSystemSetDetails,
-    //     details,
-    //     [systemOptionValuePath],
-    // );
-
-    // const _systemSetConfigurations = updateOptionValues(
-    //     "configurationOptionValuePath",
-    //     oldSystemSetConfigurations,
-    //     configurations,
-    //     _systemSetDetails.map(({ detailOptionValuePath }) => detailOptionValuePath),
-    // );
+    const _systemSetConfigurations = oldSystemSetConfigurations
+        .filter(configuration => !optionalConfigurationToUnselect.includes(configuration))
+        .filter(configuration => {
+            const [pathKey, path] = getUnknownPathFromObject(configuration);
+            const detailType = getDetailTypeFromPath(path);
+            const configurationType = getConfigurationTypeFromPath(path);
+            return path.startsWith(systemOptionValuePath)
+                &&
+                !configurations.some(c => {
+                    const [cPathKey, cPath] = getUnknownPathFromObject(c);
+                    const cDetailType = getDetailTypeFromPath(cPath);
+                    const cConfigurationType = getConfigurationTypeFromPath(cPath)
+                    return detailType === cDetailType
+                        &&
+                        configurationType === cConfigurationType;
+                });
+        })
+        .concat(configurations);
 
     return {
         ..._systemSet,
@@ -125,11 +95,8 @@ export default function merge({
             name,
             systemId,
             _systemSetOptionGroupValues,
-            _systemSetDetails: oldSystemSetDetails.concat(details),
-            _systemSetConfigurations: oldSystemSetConfigurations.filter(item => {
-                const [pathKey, path] = getUnknownPathFromObject(item);
-                return !optionalConfigurationTypesToUnselect.includes(getLastItemFromPath(path))
-            }).concat(configurations),
+            _systemSetDetails,
+            _systemSetConfigurations,
         }),
     };
 }

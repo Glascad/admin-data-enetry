@@ -1,5 +1,5 @@
 import sample1 from "../sample-systems/sample1.json";
-import { filterOptionsAbove } from "../../system.js";
+import { filterOptionsAbove } from "../../system";
 
 function testFilterOptionsAbove({
     item,

@@ -1,66 +1,85 @@
 import { SELECT_DETAIL_OPTION_VALUE } from "../../actions";
-import { sample1 } from "../sample-query-results";
+import SAMPLE_SYSTEM_SETS from "../sample-query-results";
 import { defaultSystemSetUpdate } from "../../schemas";
 import { SystemMap } from "../../../../../../../../app-logic/system";
 
+const {
+    sample1: {
+        systemSet: sample1SystemSet,
+        system: sample1System,
+    }
+} = SAMPLE_SYSTEM_SETS;
+
 function testSelectDetailOptionValue({
+    _systemSet = {
+        __typename: "SystemSet",
+        id: 0,
+        name: "Test System Set",
+        systemId: 0,
+        projectId: 1,
+        systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
+        _systemSetOptionGroupValues: [],
+        _systemSetDetails: [],
+        _systemSetConfigurations: [],
+    },
+    system = {},
     description = '',
     systemSetUpdate = {},
     payloadPath,
-    detailOptionValues = [],
-    configurationOptionValues = [],
-    nonExistingDetailOptionValues = [],
-    nonExistingConfigurationOptionValues = [],
+    details = [],
+    configurations = [],
+    nonExistingDetails = [],
+    nonExistingConfigurations = [],
 }) {
     describe(`Testing select detail option value: ${description}`, () => {
         const result = SELECT_DETAIL_OPTION_VALUE(
-            sample1,
+            { _systemSet },
             {
                 ...defaultSystemSetUpdate,
                 ...systemSetUpdate,
             },
             [
                 payloadPath,
-                new SystemMap(sample1._system),
+                new SystemMap(system),
             ],
         );
-        if (!detailOptionValues.length && !nonExistingDetailOptionValues.length)
-            throw new Error(`Must provide either detailOptionValues or nonExistingDetailOptionValues to testSeslectDetailOptionValues()`);
-        if (detailOptionValues.length)
+        if (!details.length && !nonExistingDetails.length)
+            throw new Error(`Must provide either details or nonExistingDetails to testSeslectDetailOptionValues()`);
+        if (details.length)
             test('must contain correct detail option values', () => {
-                expect(result.detailOptionValues).toEqual(
+                expect(result.details).toEqual(
                     expect.arrayContaining(
-                        detailOptionValues.map(dov => (
+                        details.map(dov => (
                             expect.objectContaining(dov)
                         ))
                     )
                 );
             });
-        if (configurationOptionValues.length)
+        if (configurations.length)
             test('must contain correct configuration option values', () => {
-                expect(result.configurationOptionValues).toEqual(
+                expect(result.configurations).toEqual(
                     expect.arrayContaining(
-                        configurationOptionValues.map(cov => (
+                        configurations.map(cov => (
                             expect.objectContaining(cov)
                         ))
                     )
                 );
             });
-        if (nonExistingDetailOptionValues.length)
+        if (nonExistingDetails.length)
             test('most not contain incorrect detail option values', () => {
-                expect(result.detailOptionValues).toEqual(
+                expect(result.details).toEqual(
                     expect.not.arrayContaining(
-                        nonExistingDetailOptionValues.map(dov => (
+                        nonExistingDetails.map(dov => (
                             expect.objectContaining(dov)
                         ))
                     )
                 );
             });
-        if (nonExistingConfigurationOptionValues.length)
+        if (nonExistingConfigurations.length)
             test('most not contain incorrect configuration option values', () => {
-                expect(result.configurationOptionValues).toEqual(
+                expect(result.configurations).toEqual(
                     expect.not.arrayContaining(
-                        nonExistingConfigurationOptionValues.map(cov => (
+                        nonExistingConfigurations.map(cov => (
                             expect.objectContaining(cov)
                         ))
                     )
@@ -71,49 +90,92 @@ function testSelectDetailOptionValue({
 
 testSelectDetailOptionValue({
     description: "Select DOV with empty state -- should select default values for downstream configurations (those that are required and that are selected)",
-    payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP",
-    detailOptionValues: [
+    _systemSet: {
+        __typename: "SystemSet",
+        id: 0,
+        name: "Test System Set",
+        systemId: 0,
+        projectId: 1,
+        systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
+        _systemSetOptionGroupValues: [],
+        _systemSetDetails: [],
+        _systemSetConfigurations: [],
+    },
+    system: sample1System,
+    payloadPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP",
+    details: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
+            detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE",
         },
     ],
-    configurationOptionValues: [
+    configurations: [
         {
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL.VOID.VOID",
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL",
         },
     ],
 });
 
 testSelectDetailOptionValue({
-    description: "Select DOV that has already been updated",
-    payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
+    description: "Select DOV back to what it was in state",
+    _systemSet: sample1SystemSet,
+    system: sample1System,
+    payloadPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
     systemSetUpdate: {
-        detailOptionValues: [
+        details: [
             {
-                oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
-                newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
+                detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
             },
         ],
     },
-    nonExistingDetailOptionValues: [
+    nonExistingDetails: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN",
+            detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
         },
     ],
-    nonExistingConfigurationOptionValues: [
+    nonExistingConfigurations: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID",
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
         },
     ],
 });
 
-/**
- * Also, we (may) need to make sure that when we update an item, it's old path and new path live within the same parent so that we don't get cascading delete errors
- */
+testSelectDetailOptionValue({
+    description: "Select DOV with the same DOV",
+    _systemSet: sample1SystemSet,
+    system: sample1System,
+    payloadPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP",
+    details: [
+        {
+            detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE",
+        },
+    ],
+    configurations: [
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL",
+        },
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SHIM_SUPPORT",
+        },
+    ],
+    nonExistingDetails: [{
+        detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.GLAZING.INSIDE",
+
+    }],
+    nonExistingConfigurations: [
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.GLAZING.INSIDE.__CT__.SILL",
+        },
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.GLAZING.INSIDE.__CT__.SHIM_SUPPORT",
+        },
+
+    ]
+});
+
+
 
 // // not sure if this is possible with the test system
 // testSelectDetailOptionValue({
 //     description: "Select DOV with partial path uses default and grouped values",
-//     payloadPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
+//     payloadPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL",
 // });

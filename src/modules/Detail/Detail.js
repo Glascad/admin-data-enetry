@@ -1,15 +1,17 @@
 import React from 'react';
-import { getConfigurationTypeFromPath } from '../../app-logic/system';
+import { getConfigurationTypeFromPath, getDefaultConfigurationPaths, getChildren } from '../../app-logic/system';
 import Configuration from './Configuration';
 
 export default function Detail({
     systemMap,
-    configurations,
+    detail,
     configurationPaths,
     onClick = () => { },
     getConfigurationProps = () => { },
     getPartProps = () => { },
 }) {
+    const configurations = getChildren(detail, systemMap);
+    const childPaths = configurationPaths || getDefaultConfigurationPaths(detail, systemMap);
     return (
         <g>
             {configurations.map((configuration, i) => (
@@ -19,7 +21,7 @@ export default function Detail({
                     getPartProps={getPartProps}
                     systemMap={systemMap}
                     detailConfiguration={configuration}
-                    configurationOptionValue={systemMap[configurationPaths[getConfigurationTypeFromPath(configuration.path)]]}
+                    configurationOptionValue={systemMap[childPaths[getConfigurationTypeFromPath(configuration.path)]]}
                     onClick={() => onClick(configuration)}
                 />
             ))}

@@ -14,20 +14,20 @@ export default function Details({
     dispatch,
     systemMap,
 }) {
-    console.log(arguments);
     return (
         <CollapsibleTitle
             title="Details"
         >
             {_systemSetDetails.map(({ detailOptionValuePath, systemDetailPath }, i) => {
-                const detailType = getDetailTypeFromPath(detailOptionValuePath || systemDetailPath || '');
+                const detailType = getDetailTypeFromPath(detailOptionValuePath || systemDetailPath);
                 const configurations = _detailConfigurations
-                    .filter(({ path }) => path.startsWith(detailOptionValuePath || systemDetailPath || ''))
+                    .filter(({ path }) => path.startsWith(detailOptionValuePath || systemDetailPath))
                     .map(detailConfiguration => ({
                         detailConfiguration,
-                        selection: _systemSetConfigurations = []
-                            // need the '.' to prevent confusion between configs like SILL and SILL_FLASHING
-                            .find(({ configurationOptionValuePath }) => configurationOptionValuePath.startsWith(`${detailConfiguration.path}.`)),
+                        selection: _systemSetConfigurations
+                            .find(({ configurationOptionValuePath, detailConfigurationPath, }) => (
+                                detailConfigurationPath || configurationOptionValuePath || '').match(new RegExp(`^${detailConfiguration.path}\\b`))
+                            ),
                     }))
                     .sort(({
                         detailConfiguration: {
@@ -65,6 +65,7 @@ export default function Details({
                         {/* Detail CONFIGURATIONS */}
                         <Configurations
                             {...{
+                                _systemSetConfigurations,
                                 _optionGroups,
                                 configurations,
                                 detailType,

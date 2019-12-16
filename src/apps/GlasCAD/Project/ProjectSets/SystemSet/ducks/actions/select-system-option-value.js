@@ -15,6 +15,7 @@ export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     payloadPath,
     systemMap,
 ]) {
+    console.log(arguments);
 
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptions, optionGroupValues);
     const systemOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
@@ -33,11 +34,6 @@ export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     ), {
         ...arguments[1],
         systemOptionValuePath,
-        detailOptionValues: [],
-        // detailOptionValues: detailOptionValues.filter(({ newPath, oldPath }) => systemDetails.some(({ path }) => (
-        //     getDetailTypeFromPath(newPath || oldPath)
-        //     ===
-        //     getDetailTypeFromPath(path)
-        // ))),
+            details: [],
     });
 }

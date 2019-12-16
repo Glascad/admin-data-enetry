@@ -21,6 +21,7 @@ import getPathPrefix from './get-path-prefix';
 import getAllInstancesOfItem from './get-all-instances-of-item';
 import getDetailTypeFromPath from './get-detail-type-from-path';
 import getConfigurationTypeFromPath from './get-configuration-type-from-path';
+import getDefaultConfigurationPaths from './get-default-configuration-paths';
 
 export {
     SystemMap,
@@ -46,4 +47,5 @@ export {
     getAllInstancesOfItem,
     getDetailTypeFromPath,
     getConfigurationTypeFromPath,
+    getDefaultConfigurationPaths,
 };
