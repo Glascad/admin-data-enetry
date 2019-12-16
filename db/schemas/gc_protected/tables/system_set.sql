@@ -14,16 +14,6 @@ gc_protected.system_sets (
         system_option_value_path IS NULL
         OR
         system_id = subltree(system_option_value_path, 0, 1)::TEXT::INTEGER
-    -- ANTI PATTERN vvv
-    -- ),
-    -- CONSTRAINT ss_terminal_sov CHECK (
-    --     (
-    --         CASE WHEN system_option_value_path IS NULL THEN
-    --             get_system_child_type(system_id::TEXT::LTREE)
-    --         ELSE
-    --             get_system_option_value_child_type(system_option_value_path)
-    --         END
-    --     ) = 'system_detail'
     )
 );
 
@@ -50,7 +40,8 @@ gc_protected.system_set_option_group_values (
     REFERENCES option_groups (
         system_id,
         name
-    ),
+    )
+    ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (
         option_name,
         name
@@ -104,19 +95,6 @@ gc_protected.system_set_details (
                 system_detail_path
             )
         )
-    -- ANTI PATTERN
-    -- ),
-    -- CONSTRAINT ssd_terminal_sd_or_dov CHECK (
-    --     (
-    --         CASE WHEN detail_option_value_path IS NULL THEN
-    --             get_system_detail_child_type(system_detail_path)
-    --         ELSE
-    --             get_detail_option_value_child_type(detail_option_value_path)
-    --         END
-    --     ) = 'detail_configuration'
-    -- -- ),
-    -- -- CONSTRAINT ssd_option_group_values CHECK (
-        
     )
 );
 
@@ -191,15 +169,5 @@ gc_protected.system_set_configurations (
                 configuration_option_value_path
             )
         )
-    -- ANTI PATTERN
-    -- ),
-    -- CONSTRAINT ssc_terminal_dc_or_cov CHECK (
-    --     (
-    --         CASE WHEN configuration_option_value_path IS NULL THEN
-    --             get_detail_configuration_child_type(detail_configuration_path)
-    --         ELSE
-    --             get_configuration_option_value_child_type(configuration_option_value_path)
-    --         END
-    --     ) = 'configuration_part'
     )
 );

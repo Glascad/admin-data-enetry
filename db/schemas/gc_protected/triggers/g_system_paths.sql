@@ -12,6 +12,11 @@
     CREATE OR REPLACE FUNCTION gc_protected.generate_<<TYPE>>_option_path()
     RETURNS TRIGGER AS $$
     BEGIN
+
+        IF NEW.path IS NOT NULL THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.path. Received %', NEW.path;
+        END IF;
+
         NEW.path := COALESCE(
             NEW.parent_<<TYPE>>_option_value_path,
             <<ONLY TYPE (system)>>
@@ -53,6 +58,15 @@
     CREATE OR REPLACE FUNCTION gc_protected.generate_<<TYPE>>_option_value_path()
     RETURNS TRIGGER AS $$
     BEGIN
+
+        IF NEW.option_name IS NOT NULL THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.option_name. Received %', NEW.option_name;
+        END IF;
+
+        IF NEW.path IS NOT NULL THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.path. Received %', NEW.path;
+        END IF;
+
         NEW.option_name := subpath(
             COALESCE(
                 NEW.parent_<<TYPE>>_option_path,
@@ -103,6 +117,10 @@
                     RAISE EXCEPTION 'No parent path: %, %, %', COALESCE(NEW.system_id, OLD.system_id), COALESCE(NEW.configuration_type, OLD.configuration_type), COALESCE(NEW.optional, OLD.optional);
                 END IF;
             <<END ONLY>>
+
+            IF NEW.path IS NOT NULL THEN
+                RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.path. Received %', NEW.path;
+            END IF;
 
             NEW.path := COALESCE(
                 NEW.parent_<<PARENT>>_option_value_path,

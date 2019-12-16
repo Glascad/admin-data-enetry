@@ -16,6 +16,10 @@
         <<END ONLY>>
     BEGIN
 
+        IF NEW.parent_<<PARENT>>_option_value_path IS NOT NULL THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.parent_<<PARENT>>_option_value_path. Received %', NEW.parent_<<PARENT>>_option_value_path;
+        END IF;
+
         parent_ov := get_<<PARENT>>_option_value_subpath(
             COALESCE(
                 NEW.<<PARENT>>_<<TYPE>>_path,
@@ -32,6 +36,10 @@
         <<END ONLY>>
 
         <<ONLY TYPE (configuration)>>
+
+            IF NEW.parent_<<GRANDPARENT>>_<<PARENT>>_path IS NOT NULL THEN
+                RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.parent_<<GRANDPARENT>>_<<PARENT>>_path. Received %', NEW.parent_<<GRANDPARENT>>_<<PARENT>>_path;
+            END IF;
 
             parent_type := get_<<GRANDPARENT>>_<<PARENT>>_subpath(
                 COALESCE(

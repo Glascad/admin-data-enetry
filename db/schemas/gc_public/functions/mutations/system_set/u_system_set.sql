@@ -54,7 +54,9 @@ BEGIN
         END LOOP;
     END IF;
 
-    RETURN check_entire_system_set(uss);
+    -- RETURN check_entire_system_set(uss);
+
+    RETURN uss;
 
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

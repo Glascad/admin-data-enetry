@@ -57,7 +57,9 @@ module.exports = async function seedDatabase(done) {
 
                 try {
                     console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Disconnecting from db`);
+
                     await DB.end();
+                    
                     console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully disconnected from db`);
                 } catch (err) {
                     console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error disconnecting from db:')}`);

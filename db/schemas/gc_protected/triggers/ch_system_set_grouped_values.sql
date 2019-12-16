@@ -1,4 +1,0 @@
-
--- SSD DOVs
-
--- SSC COVs

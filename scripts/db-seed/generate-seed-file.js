@@ -57,9 +57,10 @@ ${require('../../db/schemas/gc_protected/tables/elevation.sql')}
 ${require('../../db/schemas/gc_protected/triggers/g_system_paths.sql')}
 ${require('../../db/schemas/gc_protected/triggers/g_system_set_types.sql')}
 ${require('../../db/schemas/gc_protected/triggers/g_system_set_parent_paths.sql')}
-${require('../../db/schemas/gc_protected/triggers/ch_system_set_grouped_values.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_missing_items.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_unselected_options.sql')}
+${require('../../db/schemas/gc_protected/triggers/utils/path_contains_option_group_value.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_system_set_option_group_values.sql')}
 
 
 ----- INVOKER ROLE -----
@@ -92,8 +93,6 @@ ${require('../../db/schemas/gc_public/functions/mutations/project/c~u_project.sq
 ${require('../../db/schemas/gc_public/functions/mutations/project/d_project.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/project/get_all_projects.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/system_set/u_system_set.sql')}
-${require('../../db/schemas/gc_public/functions/mutations/system_set/ch_system_set.sql')}
-${require('../../db/schemas/gc_public/functions/mutations/system_set/ch_system_set_path_grouped_option_values.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/report_bug.sql')}
 ${require('../../db/schemas/gc_public/functions/queries/get_current_user_id.sql')}
 ${require('../../db/schemas/gc_public/functions/queries/get_current_user.sql')}

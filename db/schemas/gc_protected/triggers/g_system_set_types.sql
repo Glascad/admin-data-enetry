@@ -10,6 +10,10 @@
     RETURNS TRIGGER AS $$
     BEGIN
 
+        IF NEW.<<TYPE>>_type IS NOT NULL THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: system_set_<<TYPE>>.<<TYPE>>_type. Received %', NEW.<<TYPE>>.type;
+        END IF;
+
         NEW.<<TYPE>>_type := get_<<TYPE>>_type_from_path(
             COALESCE(
                 NEW.<<PARENT>>_<<TYPE>>_path,
@@ -20,6 +24,10 @@
         );
 
         <<ONLY TYPE (configuration)>>
+
+            IF NEW.<<PARENT>>_type IS NOT NULL THEN
+                RAISE EXCEPTION 'Cannot directly update generated column: system_set_<<PARENT>>.<<PARENT>>_type. Received %', NEW.<<PARENT>>.type;
+            END IF;
 
             NEW.<<PARENT>>_type := get_<<PARENT>>_type_from_path(
                 COALESCE(
