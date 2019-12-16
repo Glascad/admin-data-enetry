@@ -1,5 +1,5 @@
 import React from 'react';
-import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../app-logic/system-utils';
+import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../app-logic/system';
 import { DELETE_ITEM } from '../../../../ducks/actions';
 import { getOptionIsGrouped } from '../../../../ducks/utils';
 import { confirmWithModal } from '../../../../../../../components';

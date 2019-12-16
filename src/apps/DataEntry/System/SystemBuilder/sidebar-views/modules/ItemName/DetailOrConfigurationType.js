@@ -1,7 +1,7 @@
 import React from 'react';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
 import { confirmWithModal, Select } from '../../../../../../../components';
-import { getSiblings, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
+import { getSiblings, getLastItemFromPath } from '../../../../../../../app-logic/system';
 
 export default function DetailOrConfigurationType({
     selectedItem,

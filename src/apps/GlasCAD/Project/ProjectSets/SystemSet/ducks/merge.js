@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getLastItemFromPath, getUnknownPathFromObject } from "../../../../../../app-logic/system-utils";
+import { getLastItemFromPath, getUnknownPathFromObject } from "../../../../../../app-logic/system";
 import { removeNullValues } from "../../../../../../utils";
 import validateSystemSetUpdate from "./validate-system-set-update";
 

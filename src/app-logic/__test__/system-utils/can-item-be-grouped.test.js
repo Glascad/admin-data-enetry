@@ -1,4 +1,4 @@
-import { canItemBeGrouped } from "../../system-utils";
+import { canItemBeGrouped } from "../../system";
 import { sampleSystemMap } from "../sample-systems";
 
 function testCanItemBeGrouped({ systemMap, option, result }) {

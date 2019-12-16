@@ -1,5 +1,5 @@
 import React from 'react';
-import { getConfigurationTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { getConfigurationTypeFromPath } from '../../../../../../app-logic/system';
 
 export default function DetailDisplay({
     detailType,

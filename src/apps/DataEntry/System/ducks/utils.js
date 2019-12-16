@@ -1,6 +1,6 @@
 import { memoize } from 'lodash';
 import { match } from '../../../../utils';
-import { getChildren, getItemPathAddition, getLastItemFromPath, getParentPath } from "../../../../app-logic/system-utils";
+import { getChildren, getPathPrefix, getLastItemFromPath, getParentPath } from "../../../../app-logic/system";
 
 export const getOldPath = (currentPath, systemInput) => Object.entries(systemInput)
     .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i)) ?
@@ -10,7 +10,7 @@ export const getOldPath = (currentPath, systemInput) => Object.entries(systemInp
     .reduce((resultPaths, item) => {
         const { path, update } = item;
         const [itemParentPathKey, itemParentPath] = getParentKeyAndPathOffObject(update);
-        const updatedPathAddition = getItemPathAddition(item);
+        const updatedPathAddition = getPathPrefix(item);
         const updatedPath = (itemParentPath || update.name) ?
             `${itemParentPath || getParentPath(item)}.${updatedPathAddition}${update.name || getLastItemFromPath(path)}`
             :
@@ -38,7 +38,7 @@ export const getUpdatedPath = item => {
         item.name
 
     // adds the __DT__ or __CT__ to the path
-    const pathAddition = getItemPathAddition(item);
+    const pathAddition = getPathPrefix(item);
     return `${parentPath || getParentPath(item)}.${pathAddition}${name || getLastItemFromPath(path)}` || path;
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { filterOptionsAbove, getAllInstancesOfItem, getChildren, getLastItemFromPath, getParentPath } from '../../../../../../../app-logic/system-utils';
+import { filterOptionsAbove, getAllInstancesOfItem, getChildren, getLastItemFromPath, getParentPath } from '../../../../../../../app-logic/system';
 import { confirmWithModal, ToggleBox } from '../../../../../../../components';
 import { match } from '../../../../../../../utils';
 import { ADD_ITEM, UPDATE_ITEM } from '../../../../ducks/actions';

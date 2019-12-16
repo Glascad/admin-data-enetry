@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Select, confirmWithModal } from '../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
-import { getAllInstancesOfItem, getSiblings, getParent, getLastItemFromPath } from '../../../../../../../app-logic/system-utils';
+import { getAllInstancesOfItem, getSiblings, getParent, getLastItemFromPath } from '../../../../../../../app-logic/system';
 import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 export default memo(function ValueName({

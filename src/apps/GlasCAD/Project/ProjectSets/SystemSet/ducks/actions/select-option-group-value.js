@@ -1,7 +1,7 @@
 import { replace, unique } from "../../../../../../../utils";
 import _ from 'lodash';
 import { SELECT_DETAIL_OPTION_VALUE, SELECT_CONFIGURATION_OPTION_VALUE } from ".";
-import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system";
 
 export default function SELECT_OPTION_GROUP_VALUE({
     _systemSet: {

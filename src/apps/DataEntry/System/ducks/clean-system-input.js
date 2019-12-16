@@ -1,5 +1,5 @@
 import { removeNullValues } from "../../../../utils";
-import { getConfigurationPartIdFromPath } from "../../../../app-logic/system-utils";
+import { getConfigurationPartIdFromPath } from "../../../../app-logic/system";
 
 const removeTypenameAndNodeId = ({ __typename, nodeId, ...rest }) => rest;
 

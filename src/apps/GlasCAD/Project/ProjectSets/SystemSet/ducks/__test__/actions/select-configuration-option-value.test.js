@@ -1,7 +1,7 @@
 import { SELECT_CONFIGURATION_OPTION_VALUE } from "../../actions";
 import { sample1 } from "../sample-query-results";
 import { defaultSystemSetUpdate } from "../../schemas";
-import { SystemMap } from "../../../../../../../../app-logic/system-utils";
+import { SystemMap } from "../../../../../../../../app-logic/system";
 
 function testSelectConfigurationOptionValue({
     description = '',

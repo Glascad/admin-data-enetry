@@ -1,5 +1,5 @@
 import { sample1 } from '../sample-systems';
-import { getDefaultPath, SystemMap, getOptionGroupValuesByOptionName } from '../../system-utils';
+import { getDefaultPath, SystemMap, getOptionGroupValuesByOptionName } from '../../system';
 
 function testGetDefaultPath({
     description = '',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system-utils';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system';
 import { AsyncButton, ConfirmButton, TitleBar } from '../../../../../components';
 import { parseSearch } from '../../../../../utils';
 import DetailBuilderSnailTrail from './DetailBuilderSnailTrail';

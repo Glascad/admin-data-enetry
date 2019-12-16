@@ -1,4 +1,4 @@
-import { getSiblings, SystemMap } from "../../system-utils";
+import { getSiblings, SystemMap } from "../../system";
 import { sample1 } from "../sample-systems";
 
 function testGetSiblings({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { getChildren, getConfigurationTypeFromPath, getDefaultPath } from '../../../../app-logic/system-utils';
+import { getChildren, getConfigurationTypeFromPath, getDefaultPath } from '../../../../app-logic/system';
 import { TransformProvider, useInitialState } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 import { useCollapseSidebar } from '../../../Statics/Statics';

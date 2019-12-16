@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getChildren, getLastItemFromPath } from '../../../../app-logic/system-utils';
+import { getChildren, getLastItemFromPath } from '../../../../app-logic/system';
 import { parseSearch } from '../../../../utils';
 import { UPDATE_ITEM } from "./actions";
 

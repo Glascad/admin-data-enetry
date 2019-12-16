@@ -1,4 +1,4 @@
-import { getLastItemFromPath } from "../../../../../app-logic/system-utils";
+import { getLastItemFromPath } from "../../../../../app-logic/system";
 
 export default function DELETE_OPTION_GROUP(systemInput, payload) {
     const {

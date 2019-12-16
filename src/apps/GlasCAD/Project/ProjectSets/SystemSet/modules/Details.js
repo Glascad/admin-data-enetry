@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDetailTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
+import { getDetailTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system';
 import { CollapsibleTitle, GroupingBox } from '../../../../../../components';
 import { match } from '../../../../../../utils';
 import Configurations from './Configurations';

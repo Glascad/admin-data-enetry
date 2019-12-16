@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, memo } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system-utils';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system';
 import { RightSidebar } from '../../../../../components';
 import { parseSearch } from '../../../../../utils';
 import { StaticContext } from '../../../../Statics/Statics';

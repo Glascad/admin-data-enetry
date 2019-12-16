@@ -1,5 +1,5 @@
 import React from 'react';
-import { getChildren, getConfigurationTypeFromPath } from '../../../../../app-logic/system-utils';
+import { getChildren, getConfigurationTypeFromPath } from '../../../../../app-logic/system';
 import { Matrix } from '../../../../../utils';
 import Part from './Part';
 

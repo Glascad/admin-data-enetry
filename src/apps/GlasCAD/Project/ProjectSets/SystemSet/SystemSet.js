@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
-import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system-utils';
+import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system';
 import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState } from '../../../../../components';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';

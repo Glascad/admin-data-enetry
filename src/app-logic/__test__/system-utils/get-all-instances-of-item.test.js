@@ -1,4 +1,4 @@
-import { getAllInstancesOfItem } from "../../system-utils";
+import { getAllInstancesOfItem } from "../../system";
 import { sampleSystemMap } from "../sample-systems";
 
 function testGetAllInstancesOfItem({ systemMap, itemName, result }) {

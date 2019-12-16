@@ -2,7 +2,7 @@ import React from 'react';
 import ItemName from '../sidebar-views/modules/ItemName/ItemName';
 import { TitleBar, RightSidebar, TransformProvider } from '../../../../../components';
 import ItemToggles from '../sidebar-views/modules/ItemToggles/ItemToggles';
-import { getLastItemFromPath, getChildren } from '../../../../../app-logic/system-utils';
+import { getLastItemFromPath, getChildren } from '../../../../../app-logic/system';
 import ItemChildren from '../sidebar-views/modules/ItemChildren/ItemChildren';
 import BottomButtons from '../sidebar-views/modules/BottomButtons/BottomButtons';
 import DetailSidebarView from '../sidebar-views/modules/DetailSidebarView/DetailSidebarView';

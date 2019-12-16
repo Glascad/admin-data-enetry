@@ -1,4 +1,4 @@
-import { getTypenameFromPath } from "../../system-utils";
+import { getTypenameFromPath } from "../../system";
 
 function testGetTypenameFromPath(
     path,

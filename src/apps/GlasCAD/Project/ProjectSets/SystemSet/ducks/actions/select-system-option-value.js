@@ -1,4 +1,4 @@
-import { getChildren, getDefaultPath, getDetailTypeFromPath, getUnknownPathFromObject } from "../../../../../../../app-logic/system-utils";
+import { getChildren, getDefaultPath, getDetailTypeFromPath, getUnknownPathFromObject } from "../../../../../../../app-logic/system";
 import { mergeOptionGroupValues } from "../merge";
 import { SELECT_DETAIL_OPTION_VALUE } from ".";
 

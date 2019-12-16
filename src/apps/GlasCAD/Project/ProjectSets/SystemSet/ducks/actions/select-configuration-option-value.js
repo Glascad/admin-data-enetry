@@ -1,4 +1,4 @@
-import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath, SystemMap } from "../../../../../../../app-logic/system-utils";
+import { getConfigurationTypeFromPath, getDetailTypeFromPath, getDefaultPath, SystemMap } from "../../../../../../../app-logic/system";
 import { replace } from "../../../../../../../utils";
 import { defaultSystemSetConfiguration } from "../schemas";
 import { mergeOptionGroupValues } from "../merge";

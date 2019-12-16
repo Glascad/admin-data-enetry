@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select } from "../../../../../../../components";
-import { filterOptionsAbove, getAllInstancesOfItem, getParentPath, getChildren, getLastItemFromPath } from "../../../../../../../app-logic/system-utils";
+import { filterOptionsAbove, getAllInstancesOfItem, getParentPath, getChildren, getLastItemFromPath } from "../../../../../../../app-logic/system";
 import { ADD_ITEM, UPDATE_ITEM } from '../../../../ducks/actions';
 
 const OptionName = ({

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getChildren, getConfigurationTypeFromPath, getDefaultPath, getDetailTypeFromPath, getLastItemFromPath, getOptionListFromPath } from '../../../../../app-logic/system-utils';
+import { getChildren, getConfigurationTypeFromPath, getDefaultPath, getDetailTypeFromPath, getLastItemFromPath, getOptionListFromPath } from '../../../../../app-logic/system';
 import { Ellipsis, Select, SnailTrail } from '../../../../../components';
 import { parseSearch } from '../../../../../utils';
 

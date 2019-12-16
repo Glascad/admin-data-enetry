@@ -1,4 +1,4 @@
-import { getItemPathAddition, getLastItemFromPath, getParentPath, getTypenameFromPath } from "../../../../../app-logic/system-utils";
+import { getPathPrefix, getLastItemFromPath, getParentPath, getTypenameFromPath } from "../../../../../app-logic/system";
 import { removeNullValues } from "../../../../../utils";
 import { getOldPath, getParentKeyAndPathOffObject, getParentWithUpdatedPath, getUpdatedPath } from "../utils";
 
@@ -44,12 +44,12 @@ export default function UPDATE_ITEM(systemInput, payload) {
         (
             console.log({
                 path,
-                value: `${value}.${getItemPathAddition(payload)}${item.name}`,
+                value: `${value}.${getPathPrefix(payload)}${item.name}`,
                 item,
                 fakeId,
             })
             ||
-            path === `${value}.${getItemPathAddition(payload)}${item.name}`
+            path === `${value}.${getPathPrefix(payload)}${item.name}`
                 
         )
         &&

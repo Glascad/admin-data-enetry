@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { CollapsibleTitle, Select } from '../../../../../../components';
-import { getConfigurationTypeFromPath, getDefaultPath, getOptionListFromPath, getLastItemFromPath, getChildren } from '../../../../../../app-logic/system-utils';
+import { getConfigurationTypeFromPath, getDefaultPath, getOptionListFromPath, getLastItemFromPath, getChildren } from '../../../../../../app-logic/system';
 import { parseSearch } from '../../../../../../utils';
 
 export default withRouter(memo(function ConfigurationOptions({

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { getChildren, getConfigurationTypeFromPath, getLastItemFromPath, getOptionListFromPath } from '../../../../../../app-logic/system-utils';
+import { getChildren, getConfigurationTypeFromPath, getLastItemFromPath, getOptionListFromPath } from '../../../../../../app-logic/system';
 import { Input, Select } from '../../../../../../components';
 import { normalCase } from '../../../../../../utils';
 import { SELECT_CONFIGURATION_OPTION_VALUE, UNSELECT_CONFIGURATION } from '../ducks/actions';

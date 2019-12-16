@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system-utils';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath } from '../../../../../app-logic/system';
 import { TransformBox } from '../../../../../components';
 import { TransformContext } from '../../../../../components/contexts/transform/TransformContext';
 import { parseSearch } from '../../../../../utils';

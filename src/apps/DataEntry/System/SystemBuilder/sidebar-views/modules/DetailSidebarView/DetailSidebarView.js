@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDefaultPath } from '../../../../../../../app-logic/system-utils';
+import { getDefaultPath } from '../../../../../../../app-logic/system';
 import { TransformProvider } from '../../../../../../../components';
 import { match } from '../../../../../../../utils';
 import { getViewBox } from '../../../../../../../utils/functions/svg-utils';

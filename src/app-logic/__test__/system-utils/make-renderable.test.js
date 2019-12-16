@@ -1,4 +1,4 @@
-import { makeRenderable } from '../../system-utils';
+import { makeRenderable } from '../../system';
 import { sample1 } from '../sample-systems';
 import { match, final } from '../../../utils';
 

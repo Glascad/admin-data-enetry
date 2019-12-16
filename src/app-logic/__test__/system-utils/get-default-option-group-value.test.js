@@ -1,4 +1,4 @@
-import { getDefaultOptionGroupValue, SystemMap } from "../../system-utils";
+import { getDefaultOptionGroupValue, SystemMap } from "../../system";
 import { sample1 } from "../sample-systems";
 
 function testGetDefaultOptionGroupValue({

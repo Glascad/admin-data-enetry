@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupingBox, Select, CircleButton, confirmWithModal } from '../../../../../../../components';
-import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../app-logic/system-utils';
+import { getLastItemFromPath, getAllInstancesOfItem, getChildren } from '../../../../../../../app-logic/system';
 import { ADD_ITEM, UPDATE_ITEM, DELETE_ITEM } from '../../../../ducks/actions';
 import { getOptionIsGrouped } from '../../../../ducks/utils';
 

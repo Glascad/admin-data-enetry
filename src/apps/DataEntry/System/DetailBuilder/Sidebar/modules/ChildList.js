@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { getLastItemFromPath } from '../../../../../../app-logic/system-utils';
+import { getLastItemFromPath } from '../../../../../../app-logic/system';
 import { CollapsibleTitle } from '../../../../../../components';
 import { normalCase } from '../../../../../../utils';
 

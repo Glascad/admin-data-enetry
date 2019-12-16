@@ -1,5 +1,5 @@
 import React from 'react';
-import { getParent, getAllInstancesOfItem } from '../../../../../../../app-logic/system-utils';
+import { getParent, getAllInstancesOfItem } from '../../../../../../../app-logic/system';
 import { confirmWithModal, Input } from '../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
 import { getOptionIsGrouped } from '../../../../ducks/utils';

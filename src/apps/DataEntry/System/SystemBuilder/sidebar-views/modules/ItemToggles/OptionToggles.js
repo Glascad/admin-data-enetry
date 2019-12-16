@@ -1,6 +1,6 @@
 import React from 'react';
 import { ADD_OPTION_GROUP, DELETE_OPTION_GROUP } from '../../../../ducks/actions';
-import { canItemBeGrouped } from '../../../../../../../app-logic/system-utils';
+import { canItemBeGrouped } from '../../../../../../../app-logic/system';
 import { Input } from '../../../../../../../components';
 import { getOptionIsGrouped } from '../../../../ducks/utils';
 

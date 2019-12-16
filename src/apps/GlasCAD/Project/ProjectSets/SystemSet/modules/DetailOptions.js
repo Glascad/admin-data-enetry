@@ -1,5 +1,5 @@
 import React from 'react';
-import { getChildren, getLastItemFromPath } from '../../../../../../app-logic/system-utils';
+import { getChildren, getLastItemFromPath } from '../../../../../../app-logic/system';
 import { Select } from '../../../../../../components';
 import { SELECT_DETAIL_OPTION_VALUE } from '../ducks/actions';
 

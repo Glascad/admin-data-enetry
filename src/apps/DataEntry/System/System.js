@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { SystemMap } from '../../../app-logic/system-utils';
+import { SystemMap } from '../../../app-logic/system';
 import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems';
 import { ApolloWrapper, Ellipsis, Navigator, useMutation, useQuery, useRedoableState } from '../../../components';
 import { normalCase, parseSearch } from '../../../utils';

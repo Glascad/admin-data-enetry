@@ -1,6 +1,6 @@
 import { SELECT_OPTION_GROUP_VALUE } from "../../actions";
 import { sample1 } from "../sample-query-results";
-import { SystemMap } from "../../../../../../../../app-logic/system-utils";
+import { SystemMap } from "../../../../../../../../app-logic/system";
 import { defaultSystemSetUpdate } from "../../schemas";
 
 function testSelectOptionGroupValue({

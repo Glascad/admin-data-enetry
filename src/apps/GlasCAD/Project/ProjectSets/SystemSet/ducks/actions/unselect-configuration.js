@@ -1,4 +1,4 @@
-import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system";
 import { replace } from "../../../../../../../utils";
 
 export default function UNSELECT_CONFIGURATION({

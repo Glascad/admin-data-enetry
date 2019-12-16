@@ -1,5 +1,5 @@
 import React from 'react';
-import { getChildren, getLastItemFromPath, getOptionGroupValuesByOptionName, getOptionListFromPath, replaceOptionValue } from '../../../../../../app-logic/system-utils';
+import { getChildren, getLastItemFromPath, getOptionGroupValuesByOptionName, getOptionListFromPath, replaceOptionValue } from '../../../../../../app-logic/system';
 import { CollapsibleTitle, Select } from '../../../../../../components';
 import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from '../ducks/actions';
 

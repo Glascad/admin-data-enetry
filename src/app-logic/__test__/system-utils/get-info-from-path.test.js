@@ -1,4 +1,4 @@
-import { getOptionListFromPath, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../system-utils";
+import { getOptionListFromPath, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../system";
 
 function testGetInfoFromPath({
     path,
