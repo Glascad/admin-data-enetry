@@ -22,5 +22,5 @@ export const defaultSystemSetUpdate = {
     optionGroupValues: undefined,
     details: undefined,
     configurations: undefined,
-    optionalConfigurationTypesToUnselect: undefined,
+    optionalConfigurationsToUnselect: undefined,
 };

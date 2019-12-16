@@ -21,7 +21,7 @@ export default function DetailOptions({
                 path: detailOptionValuePath.replace(new RegExp(`${name}\\.${value}.*$`), name)
             }, systemMap).map(({ path }) => getLastItemFromPath(path))}
             onChange={newValue => dispatch(SELECT_DETAIL_OPTION_VALUE, [
-                newValue,
+                `${detailOptionValuePath.replace(value, newValue)}`.replace(new RegExp(`(^.*${newValue}).*$`), '$1'),
                 systemMap,
             ])}
         />

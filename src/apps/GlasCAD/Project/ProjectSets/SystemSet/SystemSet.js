@@ -12,6 +12,7 @@ import SystemOptions from './modules/SystemOptions';
 import SystemSetInfo from './modules/SystemSetInfo';
 import './SystemSet.scss';
 import Configurations from './modules/Configurations';
+import SAMPLE_SYSTEM_SETS from './ducks/__test__/sample-query-results';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -45,9 +46,17 @@ export default function SystemSet({
     history,
 }) {
 
-    const { systemSetId } = parseSearch(search);
+    const { systemSetId, sampleSystemSet = {} } = parseSearch(search);
 
-    const [fetchSystemSet, systemSetQueryResult, fetchingSystemSet] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
+    // splice in sample system set into the system set query result
+    // and add sample system to all systems array
+    const { systemSet: _sampleSystemSet, system: _sampleSystem } = SAMPLE_SYSTEM_SETS[sampleSystemSet] || {};
+    const [fetchSystemSet, ssqr, fetchingSystemSet] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
+    const { _systemSet = {} } = ssqr;
+    const systemSetQueryResult = {
+        ...ssqr,
+        _systemSet: _sampleSystemSet || _systemSet,
+    }
     const [updateSystemSet, updateResult, updating] = useMutation({ mutation }, fetchSystemSet);
 
     const {
@@ -66,7 +75,9 @@ export default function SystemSet({
         pushState
     )(systemSetUpdate => ACTION(systemSetQueryResult, systemSetUpdate, payload));
 
-    const [fetchSystem, systemQueryResult, fetchingSystem] = useQuery({
+    // compare system id of system set to the sample system id
+    // if same splice sample system into system query result
+    const [fetchSystem, qr, fetchingSystem] = useQuery({
         query: gql`
             query SystemById($systemId: Int!) {
                 systemById(id: $systemId) {
@@ -76,7 +87,6 @@ export default function SystemSet({
             ${F.MNFG.ENTIRE_SYSTEM}
         `,
     }, true);
-
     const {
         _system = {},
         _system: {
@@ -84,7 +94,19 @@ export default function SystemSet({
             _detailConfigurations = [],
             _optionGroups = [],
         } = {},
-    } = systemQueryResult;
+    } = qr;
+
+    const systemQueryResult = _systemSet.id === sampleSystemSet.id ?
+        {
+            ...qr,
+            _system: _sampleSystem || _system,
+        }
+        :
+        qr;
+
+
+
+    // const _optionGroups = [];
 
     const systemMap = new SystemMap(_system);
 

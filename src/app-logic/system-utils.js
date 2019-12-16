@@ -135,7 +135,7 @@ export const makeRenderable = window.makeRenderable = system => {
     return makeNodeRenderable(systemMap);
 }
 
-export const getUnknownPathFromObject = object => Object.entries(object).find(([key]) => key.match(/path/i)) || [];
+export const getUnknownPathFromObject = object => Object.entries(object).find(([key, value]) => value && key.match(/path/i)) || [];
 
 export const getOptionListFromPath = window.getOptionListFromPath = (path = '') => path
     .replace(/^\d+\.(.*__(D|C)T__\.\w+\.?)?/, '')

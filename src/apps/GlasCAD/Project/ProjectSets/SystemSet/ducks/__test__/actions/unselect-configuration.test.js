@@ -1,33 +1,47 @@
 import { UNSELECT_CONFIGURATION } from "../../actions";
-import { sample1 } from "../sample-query-results";
+import SAMPLE_SYSTEM_SETS from "../sample-query-results";
+
+const {
+    sample1: {
+        systemSet: sample1SystemSet,
+        system: sample1System,
+    }
+} = SAMPLE_SYSTEM_SETS;
 
 function testUnselectConfiguration({
     description = '',
     systemSetUpdate = {},
     configurationPath,
-    configurationOptionValues = [],
+    configurations = [],
     nonExistentConfigurationOptionValues = [],
+    optionalConfigurationsToUnselect = [],
 }) {
     describe(`Testing unselect configuration: ${description}`, () => {
-        const result = UNSELECT_CONFIGURATION(sample1, systemSetUpdate, configurationPath);
-        if (!configurationOptionValues && !nonExistentConfigurationOptionValues) throw new Error(`Must provide configurationOptionValues or nonExistentConfigurationOptionValues`);
-        if (configurationOptionValues && configurationOptionValues.length)
+        const result = UNSELECT_CONFIGURATION({ _systemSet: sample1SystemSet }, systemSetUpdate, configurationPath);
+        // if (!configurations && !nonExistentConfigurationOptionValues) throw new Error(`Must provide configurations or nonExistentConfigurationOptionValues`);
+        if (configurations && configurations.length)
             test('Result should contain correct deletion path...', () => {
-                expect(result.configurationOptionValues).toEqual(
-                    expect.arrayContaining(configurationOptionValues.map(({ oldPath }) => (
-                        expect.objectContaining({
-                            oldPath,
-                        })
+                expect(result.configurations).toEqual(
+                    expect.arrayContaining(configurations.map(configuration => (
+                        expect.objectContaining(configuration)
                     )))
                 );
             });
         if (nonExistentConfigurationOptionValues && nonExistentConfigurationOptionValues.length)
             test('...or should remove creation path', () => {
-                expect(result.configurationOptionValues).toEqual(
-                    expect.not.arrayContaining(nonExistentConfigurationOptionValues.map(({ oldPath, newPath }) => (
+                expect(result.configurations).toEqual(
+                    expect.not.arrayContaining(nonExistentConfigurationOptionValues.map(configuration => (
+                        expect.objectContaining(configuration)
+                    )))
+                );
+            });
+        if (optionalConfigurationsToUnselect && optionalConfigurationsToUnselect.length)
+            test('Result should contain correct deletion path...', () => {
+                expect(result.optionalConfigurationsToUnselect).toEqual(
+                    expect.arrayContaining(optionalConfigurationsToUnselect.map(({ detailType, configurationType }) => (
                         expect.objectContaining({
-                            oldPath,
-                            newPath,
+                            detailType,
+                            configurationType,
                         })
                     )))
                 );
@@ -38,56 +52,58 @@ function testUnselectConfiguration({
 testUnselectConfiguration({
     description: "Works with full path and no state",
     systemSetUpdate: {},
-    configurationPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-    configurationOptionValues: [
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+    optionalConfigurationsToUnselect: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            detailType: "HEAD",
+            configurationType: "COMPENSATING_RECEPTOR",
         },
     ],
+    configuration: [],
 });
 
 testUnselectConfiguration({
     description: "Works with partial path and no state",
     systemSetUpdate: {},
-    configurationPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR",
-    configurationOptionValues: [
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR",
+    optionalConfigurationsToUnselect: [
         {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
+            detailType: "HEAD",
+            configurationType: "COMPENSATING_RECEPTOR",
         },
     ],
+    configuration: [],
 });
 
 testUnselectConfiguration({
-    description: "Works with partial path and updated state",
+    description: "Removes Updated Configuration",
     systemSetUpdate: {
-        configurationOptionValues: [
+        configurations: [
             {
-                oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-                newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR.DURABILITY.HIGH_PERFORMANCE",
             },
         ],
     },
-    configurationPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR",
-    configurationOptionValues: [
-        {
-            oldPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY",
-        },
-    ],
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR",
+    configurations: [],
+    optionalConfigurationsToUnselect: [],
 });
 
 testUnselectConfiguration({
     description: "Works with full path in state",
     systemSetUpdate: {
-        configurationOptionValues: [
+        configurations: [
             {
-                newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID",
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
             },
         ],
     },
-    configurationPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID",
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+    configuration: [],
+    optionalConfigurationsToUnselect: [],
     nonExistentConfigurationOptionValues: [
         {
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID",
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
         },
     ],
 });
@@ -95,16 +111,81 @@ testUnselectConfiguration({
 testUnselectConfiguration({
     description: "Works with partial path in state",
     systemSetUpdate: {
-        configurationOptionValues: [
+        configurations: [
             {
-                newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID",
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
             },
         ],
     },
-    configurationPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+    configuration: [],
+    optionalConfigurationsToUnselect: [],
     nonExistentConfigurationOptionValues: [
         {
-            newPath: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING.VOID.VOID",
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
         },
     ],
 });
+
+testUnselectConfiguration({
+    description: "Works with multiple items in state",
+    systemSetUpdate: {
+        configurations: [
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+            },
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.COMPENSATING_RECEPTOR.GLAZING.INSIDE",
+            },
+        ],
+    },
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+    configuration: [
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+        },
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.COMPENSATING_RECEPTOR.GLAZING.INSIDE",
+        },
+    ],
+    optionalConfigurationsToUnselect: [],
+    nonExistentConfigurationOptionValues: [
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL_FLASHING",
+        },
+    ],
+});
+
+testUnselectConfiguration({
+    description: "Works with multiple items in state",
+    systemSetUpdate: {
+        configurations: [
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.COMPENSATING_RECEPTOR.GLAZING.INSIDE",
+            },
+        ],
+    },
+    configurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SHIM_SUPPORT",
+    configuration: [
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL",
+        },
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.COMPENSATING_RECEPTOR.GLAZING.INSIDE",
+        },
+    ],
+    optionalConfigurationsToUnselect: [
+        {
+            detailType: "SILL",
+            configurationType: "SHIM_SUPPORT",
+        }
+    ],
+});
+
+

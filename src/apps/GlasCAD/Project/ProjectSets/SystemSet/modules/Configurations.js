@@ -5,6 +5,7 @@ import { normalCase } from '../../../../../../utils';
 import { SELECT_CONFIGURATION_OPTION_VALUE, UNSELECT_CONFIGURATION } from '../ducks/actions';
 
 export default function Configurations({
+    _systemSetConfigurations,
     _optionGroups,
     configurations,
     detailType,
@@ -18,16 +19,14 @@ export default function Configurations({
         },
         selection: {
             configurationOptionValuePath,
-            detailConfigurationPath
+            detailConfigurationPath,
         } = {},
     }, i) => {
+        // const optional = true;
         const configurationType = getConfigurationTypeFromPath((configurationOptionValuePath || detailConfigurationPath) || path);
-        const options = getOptionListFromPath((configurationOptionValuePath || detailConfigurationPath))
-            .filter(({ name }) => (
-                name !== 'VOID'
-                &&
-                !_optionGroups.some(og => og.name === name)
-            ));
+        const options = getOptionListFromPath((configurationOptionValuePath || detailConfigurationPath || path))
+            .filter(({ name }) => !_optionGroups.some(og => og.name === name));
+        
         return (
             <Fragment
                 key={(configurationOptionValuePath || detailConfigurationPath) || path}
@@ -42,7 +41,7 @@ export default function Configurations({
                             dispatch(UNSELECT_CONFIGURATION, (configurationOptionValuePath || detailConfigurationPath))
                             :
                             dispatch(SELECT_CONFIGURATION_OPTION_VALUE, [
-                                path.replace(/(__CT__\.\w+)\..*/g, '$1'),
+                                path,
                                 systemMap,
                             ])}
                     />
