@@ -50,6 +50,7 @@ export default function merge({
         mergeOptionGroupValues(oldSystemSetOptionGroupValues, optionGroupValuesToUpdate)
             .concat(optionGroupValuesToAdd)
             .filter(({ optionName }) => _optionGroups.some(({ name }) => name === optionName))
+            .sort(({ optionName: oName1 }, { optionName: oName2 }) => oName1 < oName2 ? -1 : 1)
         :
         [];
 
@@ -70,8 +71,8 @@ export default function merge({
         .concat(details);
 
     const _systemSetConfigurations = oldSystemSetConfigurations
-        .filter(({configurationOptionValuePath, detailConfigurationPath}) => !optionalConfigurationsToUnselect
-            .some(({ detailType, configurationType }) =>  (
+        .filter(({ configurationOptionValuePath, detailConfigurationPath }) => !optionalConfigurationsToUnselect
+            .some(({ detailType, configurationType }) => (
                 detailType === getDetailTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
                 &&
                 configurationType === getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
