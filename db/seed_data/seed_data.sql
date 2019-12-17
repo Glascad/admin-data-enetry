@@ -7,11 +7,8 @@ INSERT INTO manufacturers (name) VALUES
 ('Initial Manufacturer'), ('Practice Manufacturer');
 
 
--- PROJECT FOR USER_ONE
+-- PROJECT FOR ADMIN, TEST, ANDREW
 INSERT INTO projects (name, owner_id) VALUES
-('Demo Project', 1);
-
-
--- TEST PROJECT
-INSERT INTO projects (name, owner_id) VALUES
-('Test Project', 2);
+('Demo Project', 1),
+('Test Project', 2),
+('Andrew''s Project', 3);

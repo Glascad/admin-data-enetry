@@ -1,11 +1,10 @@
 import React from 'react';
-import { getDetailTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system';
+import { getDetailTypeFromPath, getOptionListFromPath, getConfigurationTypeFromPath } from '../../../../../../app-logic/system';
 import { CollapsibleTitle, GroupingBox } from '../../../../../../components';
+import Detail from '../../../../../../modules/Detail/Detail';
 import { match } from '../../../../../../utils';
 import Configurations from './Configurations';
 import DetailOptions from './DetailOptions';
-import DetailDisplay from './DetailDisplay';
-import Detail from '../../../../../../modules/Detail/Detail';
 
 export default function Details({
     _systemSetDetails = [],
@@ -25,10 +24,9 @@ export default function Details({
                     .filter(({ path }) => path.startsWith(detailOptionValuePath || systemDetailPath))
                     .map(detailConfiguration => ({
                         detailConfiguration,
-                        selection: _systemSetConfigurations
-                            .find(({ configurationOptionValuePath, detailConfigurationPath, }) => (
-                                detailConfigurationPath || configurationOptionValuePath || '').match(new RegExp(`^${detailConfiguration.path}\\b`))
-                            ),
+                        selection: _systemSetConfigurations.find(({ configurationOptionValuePath, detailConfigurationPath, }) => (
+                            detailConfigurationPath || configurationOptionValuePath || ''
+                        ).match(new RegExp(`^${detailConfiguration.path}\\b`))),
                     }))
                     .sort(({
                         detailConfiguration: {
@@ -44,6 +42,19 @@ export default function Details({
                         .case(!a && b, -1)
                         .otherwise(-1)
                     );
+                const configurationPaths = configurations
+                    .map(({
+                        selection: {
+                            configurationOptionValuePath,
+                            detailConfigurationPath,
+                        } = {},
+                    }) => configurationOptionValuePath || detailConfigurationPath)
+                    .filter(Boolean)
+                    .reduce((paths, path) => ({
+                        ...paths,
+                        [getConfigurationTypeFromPath(path)]: path,
+                    }), {});
+                console.log({ configurations, configurationPaths });
                 const optionList = getOptionListFromPath(detailOptionValuePath || systemDetailPath);
                 return (
                     <GroupingBox
@@ -83,15 +94,15 @@ export default function Details({
                             }}
                         /> */}
                         <svg
-                            id="detail-display"
+                            // id="detail-display"
                             viewBox="0 0 5 2"
-                            transform="scale(1, -1)">
+                            transform="scale(1, -1)"
+                        >
                             <Detail
-                                {...{
-                                    detail: systemMap[detailOptionValuePath || systemDetailPath],
-                                    systemMap,
-                                }}
-                            ></Detail>
+                                detail={systemMap[detailOptionValuePath || systemDetailPath]}
+                                systemMap={systemMap}
+                                configurationPaths={configurationPaths}
+                            />
                         </svg>
                         {`${detailOptionValuePath || systemDetailPath}`}
                     </GroupingBox>

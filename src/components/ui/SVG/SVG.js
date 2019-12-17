@@ -11,8 +11,6 @@ export function SVGPath({
 
     const transform = new Matrix(matrix);
 
-    console.log(arguments[0]);
-
     return (
         <path
             className={className}

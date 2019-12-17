@@ -213,14 +213,14 @@ export default window.Matrix = class Matrix {
 
     // CONSTRUCTOR
     constructor(arg = Matrix.IDENTITY_MATRIX) {
-        if (Array.isArray(arg)) {
+        if (arg instanceof Matrix) return arg;
+        else if (Array.isArray(arg)) {
             this.array = Matrix.complete(arg);
             this.object = Matrix.toObject(arg);
         } else {
             this.array = Matrix.toArray(arg);
             this.object = Matrix.complete(arg);
         }
-
     }
 
     transformCoordinate = (X, Y) => {

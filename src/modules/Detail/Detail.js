@@ -13,20 +13,23 @@ export default function Detail({
 }) {
     const configurations = getChildren(detail, systemMap);
     const childPaths = configurationPaths || getDefaultConfigurationPaths(detail, systemMap);
+    const selectedConfigurationTypes = Object.keys(configurationPaths);
     return (
         <g className={`Detail ${className}`}>
-            {configurations.map((configuration, i) => (
-                <Configuration
-                    key={i}
-                    {...getConfigurationProps(configuration)}
-                    getPartProps={getPartProps}
-                    systemMap={systemMap}
-                    detailConfiguration={configuration}
-                    configurationOptionValue={systemMap[childPaths[getConfigurationTypeFromPath(configuration.path)]]}
-                    onClick={() => onClick(configuration)}
-                    doNotTransform={false}
-                />
-            ))}
+            {configurations
+                .filter(({ path }) => selectedConfigurationTypes.includes(getConfigurationTypeFromPath(path)))
+                .map((configuration, i) => (
+                    <Configuration
+                        key={i}
+                        {...getConfigurationProps(configuration)}
+                        getPartProps={getPartProps}
+                        systemMap={systemMap}
+                        detailConfiguration={configuration}
+                        configurationOptionValue={systemMap[childPaths[getConfigurationTypeFromPath(configuration.path)]]}
+                        onClick={() => onClick(configuration)}
+                        doNotTransform={false}
+                    />
+                ))}
         </g>
     );
 };

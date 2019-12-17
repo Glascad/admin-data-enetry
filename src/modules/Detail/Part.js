@@ -15,9 +15,6 @@ export default function Part({
     className = "",
 }) {
 
-    console.log(arguments[0]);
-    console.log({ paths, className, part });
-
     const matrix = new Matrix(transform);
 
     return (

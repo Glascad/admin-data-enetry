@@ -1,6 +1,7 @@
 import { getChildren, getConfigurationTypeFromPath } from ".";
 import { Matrix } from "../../utils";
 import { getCoordinateExtremities, getPartExtremities, getTransformedPartCoordinates } from "../../utils/functions/svg-utils";
+import { exists } from "fs";
 
 export default (item, selectedConfigurationPaths, systemMap) => {
     const {
@@ -27,21 +28,38 @@ export default (item, selectedConfigurationPaths, systemMap) => {
 
         console.log({ parts });
 
+        const configurationTransform = new Matrix(transform);
+
+        console.log({ configurationTransform });
+
         const coordinates = parts.reduce((allCoordinates, {
             _part,
             transform: partTransform,
-        }) => allCoordinates.concat(
-            getTransformedPartCoordinates(
-                _part,
-                transform ?
-                    new Matrix(transform).applyTransformation(partTransform)
-                    :
-                    partTransform,
-            ),
-        ), []);
+        }) => {
+
+            console.log({ partTransform });
+
+            const newTransform = transform ?
+                configurationTransform.applyTransformation(partTransform)
+                :
+                partTransform;
+            
+            console.log({ newTransform });
+
+            return allCoordinates.concat(
+                getTransformedPartCoordinates(
+                    _part,
+                    newTransform,
+                ),
+            )
+        }, []);
 
         console.log({ coordinates });
 
-        return getCoordinateExtremities(coordinates);
+        const extremities = getCoordinateExtremities(coordinates);
+
+        console.log({ extremities });
+
+        return extremities;
     }
 }
