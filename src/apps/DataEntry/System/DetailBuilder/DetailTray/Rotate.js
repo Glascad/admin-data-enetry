@@ -14,7 +14,7 @@ export default function Rotate({
 
     const createRotate = clockwise => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,
-        intermediateTransform: Matrix.createRotation(
+        appliedTransform: Matrix.createRotation(
             clockwise ?
                 -angle
                 :

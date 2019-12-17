@@ -19,12 +19,14 @@ export default memo(function DetailTray({
     } = {},
     dispatchPartial,
     cancelPartial,
+    systemMap,
+    selectedConfigurationPaths,
 }) {
 
     console.log(arguments[0])
 
     const TRANSFORM = (systemInput, {
-        intermediateTransform,
+        appliedTransform,
         targetItem: {
             id,
             fakeId,
@@ -38,13 +40,8 @@ export default memo(function DetailTray({
             :
             transform
         );
-        // translations are independent of scale/skew
-        const scaleSkewTransform = intermediateTransform.multiply(previousTransform.multiply([[1, 0, 0], [0, 1, 0], [0, 0, 0]]));
-        const translateTransform = intermediateTransform.multiply(previousTransform.multiply([[0, 0, 0], [0, 0, 0], [0, 0, 1]]));
-        // both transformations are then added together
-        const resultingTransform = scaleSkewTransform.add(translateTransform);
         const update = {
-            transform: resultingTransform.toObject(),
+            transform: previousTransform.applyTransformation(appliedTransform).toObject(),
         };
         const payload = {
             ...partialAction ?
@@ -68,6 +65,8 @@ export default memo(function DetailTray({
         dispatchPartial,
         cancelPartial,
         TRANSFORM,
+        systemMap,
+        selectedConfigurationPaths,
     };
 
     return (

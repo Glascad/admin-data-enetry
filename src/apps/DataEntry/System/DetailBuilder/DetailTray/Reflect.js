@@ -11,7 +11,7 @@ export default function Reflect({
 
     const createMirror = angle => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,
-        intermediateTransform: Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }),
+        appliedTransform: Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }),
     });
 
     return (

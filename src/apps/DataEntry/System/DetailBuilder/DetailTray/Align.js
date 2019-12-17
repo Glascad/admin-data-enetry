@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { getAlignmentCoordinate, joinConfigurationOrPart } from '../../../../../app-logic/system';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { DIRECTIONS, Matrix } from '../../../../../utils';
-import { getAlignmentCoordinate } from '../../../../../utils/functions/svg-utils';
 
 const {
     DOWN,
@@ -18,6 +18,8 @@ export default function Align({
     dispatchPartial,
     selectedItem,
     TRANSFORM,
+    systemMap,
+    selectedConfigurationPaths,
 }) {
     console.log(arguments[0]);
 
@@ -35,13 +37,30 @@ export default function Align({
             setVerticalAndFirst([v, f]);
 
             dispatchPartial(TRANSFORM, selectedItem, (item1, item2) => {
-                const coordinate1 = getAlignmentCoordinate(v, f, item1);
-                const coordinate2 = getAlignmentCoordinate(v, f, item2);
+                const coordinate1 = getAlignmentCoordinate(
+                    v,
+                    f,
+                    joinConfigurationOrPart(
+                        item1,
+                        selectedConfigurationPaths,
+                        systemMap,
+                    ),
+                );
+                const coordinate2 = getAlignmentCoordinate(
+                    v,
+                    f,
+                    joinConfigurationOrPart(
+                        item2,
+                        selectedConfigurationPaths,
+                        systemMap,
+                    ),
+                );
                 const nudge = coordinate2 - coordinate1;
                 setVerticalAndFirst([]);
+                console.log({ coordinate1, coordinate2, nudge, v, f, item1, item2 });
                 return {
                     targetItem: item1,
-                    intermediateTransform: Matrix.createTranslation(
+                    appliedTransform: Matrix.createTranslation(
                         v ? 0 : nudge,
                         v ? nudge : 0,
                     ),

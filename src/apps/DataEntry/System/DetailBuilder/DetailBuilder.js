@@ -106,10 +106,11 @@ export default function DetailBuilder({
                 updating={updating}
                 partialAction={partialAction}
                 dispatchPartialPayload={dispatchPartialPayload}
-            />
+                />
             <DetailTray
                 selectItem={selectItem}
                 systemMap={systemMap}
+                selectedConfigurationPaths={selectedConfigurationPaths}
                 selectedItem={selectedItem}
                 dispatch={dispatch}
                 partialAction={partialAction}

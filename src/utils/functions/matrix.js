@@ -1,5 +1,6 @@
 import { multiply, add } from 'mathjs';
 import { cos, sin } from './trig';
+import match from './match';
 
 export default window.Matrix = class Matrix {
     // IDENTITY MATRIX
@@ -57,20 +58,26 @@ export default window.Matrix = class Matrix {
 
     static multiply = (...matrices) => new Matrix(
         multiply(
-            ...matrices.map(m => m instanceof Matrix ?
-                m.array
-                :
-                m,
+            ...matrices.map(m => match()
+                .case(m instanceof Matrix, () => m.array)
+                .case(Array.isArray(m), () => m)
+                .case(typeof m === 'object', () => new Matrix(m).array)
+                .otherwise(() => {
+                    throw new Error(`Can only multiply against a Matrix, an Array, or an Object. Received: ${m}`);
+                })
             ),
         ),
     );
 
     static add = (...matrices) => new Matrix(
         add(
-            ...matrices.map(m => m instanceof Matrix ?
-                m.array
-                :
-                m,
+            ...matrices.map(m => match()
+                .case(m instanceof Matrix, () => m.array)
+                .case(Array.isArray(m), () => m)
+                .case(typeof m === 'object', () => new Matrix(m).array)
+                .otherwise(() => {
+                    throw new Error(`Can only multiply against a Matrix, an Array, or an Object. Received: ${m}`);
+                })
             ),
         ),
     );
@@ -225,6 +232,16 @@ export default window.Matrix = class Matrix {
     multiply = (...matrices) => Matrix.multiply(this, ...matrices);
     add = (...matrices) => Matrix.add(this, ...matrices);
 
+    applyTransformation = appliedTransform => {
+        const transform = appliedTransform instanceof Matrix ?
+            appliedTransform
+            :
+            new Matrix(appliedTransform);
+        const scaleSkewTransform = transform.multiply(this.multiply([[1, 0, 0], [0, 1, 0], [0, 0, 0]]));
+        const translateTransform = transform.multiply(this.multiply([[0, 0, 0], [0, 0, 0], [0, 0, 1]]));
+        return scaleSkewTransform.add(translateTransform);
+    }
+
     toString = () => {
         const {
             object: {
@@ -245,6 +262,3 @@ export default window.Matrix = class Matrix {
     toArray = () => this.array;
     toObject = () => this.object;
 }
-
-window.Matrix.IDENTITY = new window.Matrix(window.Matrix.IDENTITY_MATRIX);
-window.Matrix.TEMP = new window.Matrix({ a: 0, b: -1, c: 20, d: 1, e: 0 });
