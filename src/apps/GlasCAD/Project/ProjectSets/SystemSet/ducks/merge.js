@@ -23,7 +23,7 @@ export default function merge({
     optionGroupValues = [],
     details = [],
     configurations = [],
-    optionalConfigurationToUnselect = [],
+    optionalConfigurationsToUnselect = [],
 }, {
     id: actualSystemId,
     _optionGroups = [],
@@ -70,7 +70,12 @@ export default function merge({
         .concat(details);
 
     const _systemSetConfigurations = oldSystemSetConfigurations
-        .filter(configuration => !optionalConfigurationToUnselect.includes(configuration))
+        .filter(({configurationOptionValuePath, detailConfigurationPath}) => !optionalConfigurationsToUnselect
+            .some(({ detailType, configurationType }) =>  (
+                detailType === getDetailTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
+                &&
+                configurationType === getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
+            )))
         .filter(configuration => {
             const [pathKey, path] = getUnknownPathFromObject(configuration);
             const detailType = getDetailTypeFromPath(path);

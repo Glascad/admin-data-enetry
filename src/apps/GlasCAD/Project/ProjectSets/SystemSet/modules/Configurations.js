@@ -38,8 +38,10 @@ export default function Configurations({
                         label={configurationType}
                         checked={!!(configurationOptionValuePath || detailConfigurationPath)}
                         onChange={() => !!(configurationOptionValuePath || detailConfigurationPath) ?
+                            console.log({msg: "UNSELECT", configurationOptionValuePath, detailConfigurationPath}) ||
                             dispatch(UNSELECT_CONFIGURATION, (configurationOptionValuePath || detailConfigurationPath))
                             :
+                            console.log({msg: "Select", configurationOptionValuePath, detailConfigurationPath}) ||
                             dispatch(SELECT_CONFIGURATION_OPTION_VALUE, [
                                 path,
                                 systemMap,
