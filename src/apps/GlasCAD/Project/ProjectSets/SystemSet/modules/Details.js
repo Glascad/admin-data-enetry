@@ -5,6 +5,7 @@ import { match } from '../../../../../../utils';
 import Configurations from './Configurations';
 import DetailOptions from './DetailOptions';
 import DetailDisplay from './DetailDisplay';
+import Detail from '../../../../../../modules/Detail/Detail';
 
 export default function Details({
     _systemSetDetails = [],
@@ -74,13 +75,25 @@ export default function Details({
                             }}
                         />
                         {/* DETAIL DISPLAY */}
-                        <DetailDisplay
+                        {/* <DetailDisplay
                             {...{
                                 detailType,
                                 detailOptionValuePath: detailOptionValuePath || systemDetailPath,
                                 configurations,
                             }}
-                        />
+                        /> */}
+                        <svg
+                            id="detail-display"
+                            viewBox="0 0 5 2"
+                            transform="scale(1, -1)">
+                            <Detail
+                                {...{
+                                    detail: systemMap[detailOptionValuePath || systemDetailPath],
+                                    systemMap,
+                                }}
+                            ></Detail>
+                        </svg>
+                        {`${detailOptionValuePath || systemDetailPath}`}
                     </GroupingBox>
                 );
             })}

@@ -7,7 +7,7 @@ export default function Configuration({
     detailConfiguration,
     detailConfiguration: {
         transform: matrix,
-    },
+    } = {},
     configurationOptionValue,
     systemMap,
     onClick = () => { },

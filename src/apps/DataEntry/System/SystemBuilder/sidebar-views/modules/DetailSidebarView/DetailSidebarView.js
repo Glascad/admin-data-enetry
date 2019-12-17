@@ -1,45 +1,45 @@
 import React from 'react';
-import { getDefaultPath } from '../../../../../../../app-logic/system';
-import { TransformProvider } from '../../../../../../../components';
+import Configuration from '../../../../../../../modules/Detail/Configuration';
+import Detail from '../../../../../../../modules/Detail/Detail';
+import Part from '../../../../../../../modules/Detail/Part';
 import { match } from '../../../../../../../utils';
-import { getViewBox } from '../../../../../../../utils/functions/svg-utils';
-import DetailDisplay from '../../../../DetailBuilder/DetailDisplay/DetailDisplay';
+import { getDefaultPath } from '../../../../../../../app-logic/system';
 
 export default function DetailSidebarView({
     systemMap,
-    children,
-    // selectItem,
     selectedItem,
     selectedItem: {
         path = '',
-        _part: {
-            paths = [],
-        } = {},
     },
 }) {
 
-    return match(path)
-        .regex(/__(C|P)T/i, (
-            <TransformProvider>
-                <DetailDisplay
-                    systemMap={systemMap}
-                    children={children}
-                    selectedConfigurationPaths={''}
-                    selectItem={() => console.log("hey")}
-                    selectedItem={getDefaultPath(selectedItem)}
-                />
-            </TransformProvider>
-        ))
-        .regex(/__DT__/i, children.map(child => (
-            <TransformProvider>
-                <DetailDisplay
-                    systemMap={systemMap}
-                    children={children}
-                    selectedConfigurationPaths={''}
-                    selectItem={() => console.log("hey")}
-                    selectedItem={getDefaultPath(child)}
-                />
-            </TransformProvider>
-        )))
-        .otherwise(null);
+    return (
+        <svg
+            id="detail-display"
+            viewBox="0 0 5 2"
+            transform="scale(1, -1)"
+        >
+            {match(path)
+                .regex(/__PT/i, (
+                    <Part
+                        {...{
+                            part: selectedItem,
+                        }}
+                    ></Part>))
+                .regex(/__CT/i, (
+                    <Configuration
+                        systemMap={systemMap}
+                        detailConfiguration={selectedItem}
+                        configurationOptionValue={systemMap[getDefaultPath(selectedItem, systemMap)]}
+                    ></Configuration>
+                ))
+                .regex(/__DT/i, (
+                    <Detail
+                        systemMap={systemMap}
+                        detail={selectedItem}
+                    />
+                ))
+                .otherwise(null)}
+        </svg>
+    );
 };

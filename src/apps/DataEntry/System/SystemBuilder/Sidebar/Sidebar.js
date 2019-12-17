@@ -93,7 +93,6 @@ export default function Sidebar({
                     systemMap,
                     selectItem,
                     selectedItem,
-                    children,
                 }}
             />
         </RightSidebar>
