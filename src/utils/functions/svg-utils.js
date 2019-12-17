@@ -55,31 +55,50 @@ export const getTransformedPartCoordinates = (part, transform) => transformCoord
 
 export const getPartExtremities = ({ paths }, transform) => getCoordinateExtremities(getTransformedPartCoordinates({ paths }, transform));
 
+const getMin = nums => (nums.length ? Math.min(...nums) : 0) || 0;
+const getMax = nums => (nums.length ? Math.max(...nums) : 0) || 0;
+
 export const getCoordinateExtremities = coordinates => {
     console.log({ coordinates });
     const xValues = coordinates.map(({ x }) => x || 0);
     const yValues = coordinates.map(({ y }) => y || 0);
     return {
         x: {
-            min: (Math.min(...xValues) || 0),
-            max: (Math.max(...xValues) || 0),
+            min: getMin(xValues),
+            max: getMax(xValues),
         },
         y: {
-            min: (Math.min(...yValues) || 0),
-            max: (Math.max(...yValues) || 0),
+            min: getMin(yValues),
+            max: getMax(yValues),
         },
     };
 }
 
-export const getViewBox = (paths, padding = 0) => {
-    const extremes = getPartExtremities({ paths });
-    return `${
-        extremes.x.min - padding
-        } ${
-        extremes.y.min + padding
-        } ${
-        extremes.x.max - extremes.x.min - padding
-        } ${
-        extremes.y.max - extremes.y.min + padding
-        }`;
-};
+export const joinExtremities = extremities => getCoordinateExtremities(
+    extremities.reduce((coordinates, { x = {}, y = {} }) => coordinates.concat([{
+        x: x.min,
+        y: y.min,
+    }, {
+        x: x.max,
+        y: y.max,
+    }]), [])
+);
+
+export const getViewBox = ({
+    x: {
+        min: xMin = 0,
+        max: xMax = 0,
+    } = {},
+    y: {
+        min: yMin = 0,
+        max: yMax = 0,
+    } = {},
+} = {}, padding = 0) => `${
+    xMin - padding
+    } ${
+    yMin + padding
+    } ${
+    xMax - xMin - padding
+    } ${
+    yMax - yMin + padding
+    }`;

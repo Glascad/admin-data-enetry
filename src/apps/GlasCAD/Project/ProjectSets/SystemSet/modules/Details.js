@@ -1,10 +1,12 @@
 import React from 'react';
-import { getDetailTypeFromPath, getOptionListFromPath, getConfigurationTypeFromPath } from '../../../../../../app-logic/system';
+import { getDetailTypeFromPath, getOptionListFromPath, getConfigurationTypeFromPath, getDetailOrConfigurationOrPartExtremities } from '../../../../../../app-logic/system';
 import { CollapsibleTitle, GroupingBox } from '../../../../../../components';
 import Detail from '../../../../../../modules/Detail/Detail';
 import { match } from '../../../../../../utils';
 import Configurations from './Configurations';
 import DetailOptions from './DetailOptions';
+import { getViewBox } from '../../../../../../utils/functions/svg-utils';
+import DetailDisplay from './DetailDisplay';
 
 export default function Details({
     _systemSetDetails = [],
@@ -86,25 +88,14 @@ export default function Details({
                             }}
                         />
                         {/* DETAIL DISPLAY */}
-                        {/* <DetailDisplay
+                        <DetailDisplay
                             {...{
-                                detailType,
-                                detailOptionValuePath: detailOptionValuePath || systemDetailPath,
-                                configurations,
+                                systemMap,
+                                detailOptionValuePath,
+                                systemDetailPath,
+                                configurationPaths,
                             }}
-                        /> */}
-                        <svg
-                            // id="detail-display"
-                            viewBox="0 0 5 2"
-                            transform="scale(1, -1)"
-                        >
-                            <Detail
-                                detail={systemMap[detailOptionValuePath || systemDetailPath]}
-                                systemMap={systemMap}
-                                configurationPaths={configurationPaths}
-                            />
-                        </svg>
-                        {`${detailOptionValuePath || systemDetailPath}`}
+                        />
                     </GroupingBox>
                 );
             })}
