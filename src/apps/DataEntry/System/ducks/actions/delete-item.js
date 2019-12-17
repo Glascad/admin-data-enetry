@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import { getOldPath, getUpdatedPath } from "../utils";
 
-export default function DELETE_ITEM(systemInput, payload) {
-    const { path, __typename } = payload;
+export default function DELETE_ITEM(systemInput, { path, __typename }) {
     const {
         [`new${__typename}s`]: newItemArray,
         pathsToDelete: initialPathsToDelete,
@@ -17,6 +16,8 @@ export default function DELETE_ITEM(systemInput, payload) {
     } = systemInput;
 
     const oldPath = getOldPath(path, systemInput);
+
+    console.log({ newItemArray });
 
     const isNewItem = newItemArray.some(newItem => path === getUpdatedPath(newItem));
 
@@ -40,6 +41,7 @@ export default function DELETE_ITEM(systemInput, payload) {
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.filter(item => {
+                console.log({ item });
                 const updatedNewPath = getUpdatedPath(item);
                 return !updatedNewPath.startsWith(path) || updatedNewPath.startsWith(`${path}_`);
             })

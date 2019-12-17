@@ -1,5 +1,6 @@
+import { getParentPathFromObject } from '../../../../app-logic/system';
 import { match, removeNullValues } from '../../../../utils';
-import { getParentKeyAndPathOffObject, getParentWithUpdatedPath, getUpdatedPath } from "./utils";
+import { getParentWithUpdatedPath, getUpdatedPath } from "./utils";
 
 export default function merge(systemInput, {
     _system,
@@ -107,7 +108,7 @@ export default function merge(systemInput, {
         })
         .concat(newItems.map(item => {
             const { name, __typename = '', id, fakeId } = item;
-            const [parentKey, parentPath] = getParentKeyAndPathOffObject(item);
+            const [parentKey, parentPath] = getParentPathFromObject(item);
             const path = `${
                 parentPath || systemId
                 }.${

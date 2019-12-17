@@ -22,6 +22,9 @@ import getAllInstancesOfItem from './get-all-instances-of-item';
 import getDetailTypeFromPath from './get-detail-type-from-path';
 import getConfigurationTypeFromPath from './get-configuration-type-from-path';
 import getDefaultConfigurationPaths from './get-default-configuration-paths';
+import getParentPathFromObject from './get-parent-path-from-object';
+import getAlignmentCoordinate from './get-alignment-coordinate';
+import joinConfigurationOrPart from './join-configuration-or-part';
 
 export {
     SystemMap,
@@ -48,4 +51,7 @@ export {
     getDetailTypeFromPath,
     getConfigurationTypeFromPath,
     getDefaultConfigurationPaths,
+    getParentPathFromObject,
+    getAlignmentCoordinate,
+    joinConfigurationOrPart,
 };

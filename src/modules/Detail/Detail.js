@@ -6,6 +6,7 @@ export default function Detail({
     systemMap,
     detail,
     configurationPaths,
+    className = "",
     onClick = () => { },
     getConfigurationProps = () => { },
     getPartProps = () => { },
@@ -13,7 +14,7 @@ export default function Detail({
     const configurations = getChildren(detail, systemMap);
     const childPaths = configurationPaths || getDefaultConfigurationPaths(detail, systemMap);
     return (
-        <g>
+        <g className={`Detail ${className}`}>
             {configurations.map((configuration, i) => (
                 <Configuration
                     key={i}
@@ -23,6 +24,7 @@ export default function Detail({
                     detailConfiguration={configuration}
                     configurationOptionValue={systemMap[childPaths[getConfigurationTypeFromPath(configuration.path)]]}
                     onClick={() => onClick(configuration)}
+                    doNotTransform={false}
                 />
             ))}
         </g>

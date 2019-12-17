@@ -1,6 +1,6 @@
-import { getPathPrefix, getLastItemFromPath, getParentPath, getTypenameFromPath } from "../../../../../app-logic/system";
+import { getLastItemFromPath, getParentPath, getParentPathFromObject, getPathPrefix, getTypenameFromPath } from "../../../../../app-logic/system";
 import { removeNullValues } from "../../../../../utils";
-import { getOldPath, getParentKeyAndPathOffObject, getParentWithUpdatedPath, getUpdatedPath } from "../utils";
+import { getOldPath, getParentWithUpdatedPath, getUpdatedPath } from "../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
     // console.log(arguments);
@@ -50,7 +50,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
             })
             ||
             path === `${value}.${getPathPrefix(payload)}${item.name}`
-                
+
         )
         &&
         item.fakeId === fakeId
@@ -63,7 +63,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
 
     // If item is not in state && item doesn't have a parent update key, 
     // it needs to see if a parent is in state is has moved to add it to the update.
-    const [updateParentKey, updateParentPath] = getParentKeyAndPathOffObject(update);
+    const [updateParentKey, updateParentPath] = getParentPathFromObject(update);
     const parentWithUpdatedPath = !updatedItem && !updatedNewItem && !updateParentKey ?
         getParentWithUpdatedPath(systemInput, { path: oldPath })
         :
@@ -77,7 +77,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.map(item => {
-                const [parentPathKey, itemParentPath] = getParentKeyAndPathOffObject(item);
+                const [parentPathKey, itemParentPath] = getParentPathFromObject(item);
                 return itemParentPath && itemParentPath.startsWith(parentPath) ?
                     (itemParentPath === parentPath) && (item.name === name) && (fakeId === item.fakeId) ?
                         removeNullValues(
@@ -106,7 +106,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
             ...updatedSystemInput,
             [key]: value.map(item => {
                 const { update: itemUpdate } = item;
-                const [updatedParentPathKey, updatedParentPath] = getParentKeyAndPathOffObject(itemUpdate);
+                const [updatedParentPathKey, updatedParentPath] = getParentPathFromObject(itemUpdate);
                 const updatedPath = getUpdatedPath(item);
 
                 return (updatedParentPath || getParentPath({ path: updatedPath })).startsWith(parentPath) ?

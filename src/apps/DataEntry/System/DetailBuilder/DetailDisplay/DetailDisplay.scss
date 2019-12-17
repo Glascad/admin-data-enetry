@@ -51,17 +51,22 @@
                     fill: none;
                     stroke: none;
                 }
-                &:hover {
-                    .Part {
-                        fill: $light-gray;
-                    }
-                }
                 &.selected {
                     .Part {
                         fill: $selected-color;
                     }
                     .configuration-origin {
                         stroke: $selected-color;
+                    }
+                }
+            }
+
+            .Detail {
+                .Configuration {
+                    &:hover {
+                        .Part {
+                            fill: $light-gray;
+                        }
                     }
                 }
             }

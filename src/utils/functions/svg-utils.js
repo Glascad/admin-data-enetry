@@ -1,14 +1,5 @@
-import { DIRECTIONS, Matrix } from "..";
+import { Matrix } from "..";
 import match from "./match";
-
-const {
-    DOWN,
-    UP,
-    LEFT,
-    RIGHT,
-    VCENTER,
-    HCENTER,
-} = DIRECTIONS;
 
 export const multiplyArguments = ({ command, arguments: args = [], ...rest }) => ({
     ...rest,
@@ -50,6 +41,7 @@ export const getCommandCoordinates = commands => commands.reduce((vals, {
 ), []);
 
 export const transformCoordinates = (coordinates, transform) => {
+    console.log({ coordinates, transform });
     if (!transform) return coordinates;
     else {
         const matrix = new Matrix(transform);
@@ -61,8 +53,10 @@ export const getPartCoordinates = ({ paths }) => paths.reduce((coordinates, { co
 
 export const getTransformedPartCoordinates = (part, transform) => transformCoordinates(getPartCoordinates(part), transform);
 
-export const getPartExtremities = ({ paths }, transform) => {
-    const coordinates = getTransformedPartCoordinates({ paths }, transform);
+export const getPartExtremities = ({ paths }, transform) => getCoordinateExtremities(getTransformedPartCoordinates({ paths }, transform));
+
+export const getCoordinateExtremities = coordinates => {
+    console.log({ coordinates });
     const xValues = coordinates.map(({ x }) => x || 0);
     const yValues = coordinates.map(({ y }) => y || 0);
     return {
@@ -88,36 +82,4 @@ export const getViewBox = (paths, padding = 0) => {
         } ${
         extremes.y.max - extremes.y.min + padding
         }`;
-};
-
-export const getAlignmentCoordinate = (vertical, first, selectedItem = {}) => {
-
-    const {
-        _part: {
-            paths = [],
-        } = {},
-        transform = {},
-    } = selectedItem;
-
-    const {
-        x: {
-            min: xMin,
-            max: xMax,
-        },
-        y: {
-            min: yMin,
-            max: yMax,
-        },
-    } = getPartExtremities({ paths }, transform);
-
-    return match(vertical, first)
-        .equals(...DOWN, yMin)
-        .equals(...UP, yMax)
-        .equals(...LEFT, xMin)
-        .equals(...RIGHT, xMax)
-        .equals(...VCENTER, (yMax + yMin) / 2)
-        .equals(...HCENTER, (xMax + xMin) / 2)
-        .otherwise(() => {
-            throw new Error(`invalid direction vertical: ${vertical} first: ${first}`)
-        });
 };

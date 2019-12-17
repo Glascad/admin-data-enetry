@@ -18,7 +18,7 @@ function testCopyItem({
 testCopyItem({
     systemInput: {},
     payload: {
-        partialPayload: {
+        selectedItem: {
             path: "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS",
             __typename: "ConfigurationOption",
         },

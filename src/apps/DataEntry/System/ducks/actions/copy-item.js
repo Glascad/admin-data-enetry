@@ -1,6 +1,6 @@
-import { getChildren, getPathPrefix, getLastItemFromPath } from "../../../../../app-logic/system";
+import { getChildren, getLastItemFromPath, getPathPrefix } from "../../../../../app-logic/system";
+import { getParentPathFromObject } from "../../../../../app-logic/system";
 import { removeNullValues } from "../../../../../utils";
-import { getParentKeyAndPathOffObject } from "../utils";
 import ADD_ITEM from "./add-item";
 
 export default function COPY_ITEM(systemInput, {
@@ -10,7 +10,7 @@ export default function COPY_ITEM(systemInput, {
         path,
         update,
         id,
-      ...rest
+        ...rest
     },
     targetItem: {
         path: newParentPath,
@@ -19,12 +19,12 @@ export default function COPY_ITEM(systemInput, {
     systemMap
 }) {
 
-    const [oldParentKey, oldParentPath] = getParentKeyAndPathOffObject(selectedItem);
+    const [oldParentKey, oldParentPath] = getParentPathFromObject(selectedItem);
     const children = getChildren(selectedItem, systemMap);
     const name = update && update.name ? update.name : getLastItemFromPath(path);
     const parentPathKey = `parent${parentTypename}Path`;
 
-    
+
 
     const updatedSystemInput = ADD_ITEM(systemInput, removeNullValues({
         ...rest,

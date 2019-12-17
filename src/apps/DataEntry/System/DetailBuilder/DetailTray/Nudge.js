@@ -14,7 +14,7 @@ export default function Nudge({
 
     const createNudge = (vertical, first) => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,
-        intermediateTransform: Matrix.createTranslation(
+        appliedTransform: Matrix.createTranslation(
             vertical ?
                 0
                 :

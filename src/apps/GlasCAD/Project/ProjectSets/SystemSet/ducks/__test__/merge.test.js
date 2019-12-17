@@ -1,7 +1,7 @@
 import merge from "../merge";
 import { defaultSystemSetUpdate } from "../schemas";
 import SAMPLE_SYSTEM_SETS from './sample-query-results';
-import { getUnknownPathFromObject } from "../../../../../../../app-logic/system-utils";
+import { getUnknownPathFromObject } from "../../../../../../../app-logic/system";
 
 const {
     sample1: {

@@ -13,10 +13,11 @@ export default function Configuration({
     onClick = () => { },
     className = '',
     getPartProps = () => { },
+    doNotTransform = true,
 }) {
 
     const parts = getChildren(configurationOptionValue || detailConfiguration, systemMap);
-    const transform = new Matrix(matrix);
+    const transform = doNotTransform ? undefined : new Matrix(matrix);
 
     console.log(arguments[0]);
 

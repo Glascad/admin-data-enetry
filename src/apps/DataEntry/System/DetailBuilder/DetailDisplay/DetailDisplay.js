@@ -33,7 +33,7 @@ export default withRouter(function DetailDisplay({
     const configurationType = getConfigurationTypeFromPath(path);
 
     const handleClick = item => {
-        console.log({ item });
+        console.log({ item, partialAction });
         if (partialAction) dispatchPartialPayload(item);
         if (!partialPayload) selectItem(item);
     }
