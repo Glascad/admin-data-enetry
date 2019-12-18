@@ -3,7 +3,7 @@ import { getDetailOrConfigurationOrPartExtremities } from '../../../../../../app
 import Detail from '../../../../../../modules/Detail/Detail';
 import { getViewBox } from '../../../../../../utils/functions/svg-utils';
 
-export default function DetailDisplay({
+export default function DetailPreview({
     systemMap,
     detailOptionValuePath,
     systemDetailPath,
@@ -19,6 +19,7 @@ export default function DetailDisplay({
                 ),
             )}
             transform="scale(1, -1)"
+            className="DetailPreview"
         >
             <Detail
                 detail={systemMap[detailOptionValuePath || systemDetailPath]}

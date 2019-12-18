@@ -47,7 +47,8 @@
 .card .nested,
 .GroupingBox,
 .card.Tray .tray-section,
-.card .GroupingBox {
+.card .GroupingBox,
+.GroupingBox.horizontally-divided > *  {
     .grouping-box-title {
         margin-top: $xxxxx-large;
 
@@ -68,7 +69,9 @@
 }
 
 .label {
+    display: flex;
     color: $medium-gray;
+    
     + * {
         margin-top: $x-small;
     }
@@ -109,14 +112,11 @@
             }
         }
     }
-
-    .GroupingBox {
-        // margin-top: $large + $text-size / 2 !important;
-    }
 }
 
 .nested,
-.GroupingBox {
+.GroupingBox,
+.GroupingBox.horizontally-divided > * {
     margin: $xxxx-large 0 0;
 
     > * {
@@ -128,7 +128,12 @@
     }
 }
 
-.GroupingBox {
+.GroupingBox.horizontally-divided > :last-child {
+    margin-right: $x-large;
+}
+
+.GroupingBox,
+.GroupingBox.horizontally-divided > * {
     > * {
         margin-right: $x-large;
     }
