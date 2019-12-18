@@ -2,12 +2,21 @@ import { getConfigurationTypeFromPath } from ".";
 import getChildren from "./get-children";
 import getDefaultPath from "./get-default-path";
 
-export default window.getDefaultConfigurationPaths = (detail, systemMap) => {
+export default window.getDefaultConfigurationPaths = ({ path }, systemMap, includeOptionalConfigurations = true) => {
 
-    const children = getChildren(detail, systemMap);
+    const defaultPath = getDefaultPath(path, systemMap).replace(/\.__CT__\..*/, '');
 
-    return children.reduce((paths, { path }) => ({
+    const detail = systemMap[defaultPath];
+
+    const configurations = getChildren(detail, systemMap);
+
+    return configurations.reduce((paths, { path, optional }) => ({
         ...paths,
-        [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, ''),
+        ...(!optional || includeOptionalConfigurations ?
+            {
+                [getConfigurationTypeFromPath(path)]: getDefaultPath(path, systemMap).replace(/\.__PT\d+__\..*/, ''),
+            }
+            :
+            null),
     }), {});
 }

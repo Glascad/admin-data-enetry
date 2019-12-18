@@ -5,7 +5,7 @@ import Configuration from './Configuration';
 export default function Detail({
     systemMap,
     detail,
-    configurationPaths,
+    configurationPaths = {},
     className = "",
     onClick = () => { },
     getConfigurationProps = () => { },

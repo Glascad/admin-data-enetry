@@ -25,6 +25,7 @@ import getDefaultConfigurationPaths from './get-default-configuration-paths';
 import getParentPathFromObject from './get-parent-path-from-object';
 import getAlignmentCoordinate from './get-alignment-coordinate';
 import getDetailOrConfigurationOrPartExtremities from './get-detail-or-configuration-or-part-extremities';
+import removeOptionsFromPath from './remove-options-from-path';
 
 export {
     SystemMap,
@@ -54,4 +55,5 @@ export {
     getParentPathFromObject,
     getAlignmentCoordinate,
     getDetailOrConfigurationOrPartExtremities,
+    removeOptionsFromPath,
 };

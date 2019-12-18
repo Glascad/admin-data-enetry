@@ -1,11 +1,11 @@
 import React from 'react';
-import ItemName from '../sidebar-views/modules/ItemName/ItemName';
-import { TitleBar, RightSidebar, TransformProvider } from '../../../../../components';
-import ItemToggles from '../sidebar-views/modules/ItemToggles/ItemToggles';
-import { getLastItemFromPath, getChildren } from '../../../../../app-logic/system';
-import ItemChildren from '../sidebar-views/modules/ItemChildren/ItemChildren';
+import { getChildren, getLastItemFromPath } from '../../../../../app-logic/system';
+import { RightSidebar, TitleBar } from '../../../../../components';
+import DetailOrConfigurationOrPart from '../../../../../modules/Detail/DetailOrConfigurationOrPart';
 import BottomButtons from '../sidebar-views/modules/BottomButtons/BottomButtons';
-import DetailSidebarView from '../sidebar-views/modules/DetailSidebarView/DetailSidebarView';
+import ItemChildren from '../sidebar-views/modules/ItemChildren/ItemChildren';
+import ItemName from '../sidebar-views/modules/ItemName/ItemName';
+import ItemToggles from '../sidebar-views/modules/ItemToggles/ItemToggles';
 
 export default function Sidebar({
     queryResult,
@@ -88,11 +88,10 @@ export default function Sidebar({
                     systemMap,
                 }}
             />
-            <DetailSidebarView
+            <DetailOrConfigurationOrPart
                 {...{
                     systemMap,
-                    selectItem,
-                    selectedItem,
+                    path,
                 }}
             />
         </RightSidebar>

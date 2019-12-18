@@ -1,51 +1,48 @@
-import { getChildren, getConfigurationTypeFromPath } from ".";
-import { Matrix, match } from "../../utils";
-import { getCoordinateExtremities, getPartExtremities, getTransformedPartCoordinates, joinExtremities } from "../../utils/functions/svg-utils";
+import { getChildren, getConfigurationTypeFromPath, getDefaultPath } from ".";
+import { match, Matrix } from "../../utils";
+import { getPartExtremities, joinExtremities } from "../../utils/functions/svg-utils";
 
-const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurationPaths, systemMap) => match(item.__typename, item)
-    .against({
-        ConfigurationPart: (_, { _part, transform }) => getPartExtremities(_part, transform),
-        DetailConfiguration: (_, { path, transform }) => {
+const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurationPaths, systemMap) => match(item.__typename)
+    .equals(undefined)
+    .equals('ConfigurationPart', () => getPartExtremities(item._part, item.transform))
+    .regex(/Configuration/, () => {
 
-            const configurationType = getConfigurationTypeFromPath(path);
-            const configurationPath = selectedConfigurationPaths[configurationType];
-            const configuration = systemMap[configurationPath];
+        const { path, transform } = item;
 
-            const parts = getChildren(configuration, systemMap);
+        const configurationType = getConfigurationTypeFromPath(path);
+        const configurationPath = (selectedConfigurationPaths || {})[configurationType] || getDefaultPath(path, systemMap);
+        const configuration = systemMap[configurationPath];
 
-            const configurationTransform = new Matrix(transform);
+        const parts = getChildren(configuration, systemMap);
 
-            const partExtremities = parts.map(({ _part, transform: partTransform }) => {
-                const newTransform = transform ?
-                    configurationTransform.applyTransformation(partTransform)
-                    :
-                    partTransform;
+        const configurationTransform = new Matrix(transform);
 
-                return getPartExtremities(_part, newTransform);
-            });
+        const partExtremities = parts.map(({ _part, transform: partTransform }) => {
+            const newTransform = transform ?
+                configurationTransform.applyTransformation(partTransform)
+                :
+                partTransform;
 
-            return joinExtremities(partExtremities);
+            return getPartExtremities(_part, newTransform);
+        });
 
-        },
-        SystemDetail: (_, detail) => {
+        return joinExtremities(partExtremities);
 
-            const configurations = getChildren(detail, systemMap);
-            const configurationTypes = Object.keys(selectedConfigurationPaths);
+    })
+    .regex(/Detail/, () => {
 
-            const configurationExtremities = configurations
-                .filter(({ path }) => configurationTypes.includes(getConfigurationTypeFromPath(path)))
-                .map(configuration => getDetailOrConfigurationOrPartExtremities(configuration, selectedConfigurationPaths, systemMap));
+        const { path } = item;
 
-            console.log({
-                detail,
-                configurations,
-                configurationTypes,
-                configurationExtremities
-            });
+        const detailPath = getDefaultPath(path, systemMap);
+        const detail = systemMap[detailPath];
+        const configurations = getChildren(detail, systemMap);
+        const configurationTypes = Object.keys(selectedConfigurationPaths);
 
-            return joinExtremities(configurationExtremities);
-        },
-        undefined: () => { },
+        const configurationExtremities = configurations
+            .filter(({ path }) => configurationTypes.includes(getConfigurationTypeFromPath(path)))
+            .map(configuration => getDetailOrConfigurationOrPartExtremities(configuration, selectedConfigurationPaths, systemMap));
+
+        return joinExtremities(configurationExtremities);
     })
     .otherwise(__typename => {
         throw new Error(`Can only join SystemDetail, DetailConfiguration, or ConfigurationPart. Received: ${__typename}`);
