@@ -1,65 +1,30 @@
 import React from 'react';
-import { getConfigurationTypeFromPath } from '../../../../../../app-logic/system-utils';
+import { getDetailOrConfigurationOrPartExtremities } from '../../../../../../app-logic/system';
+import Detail from '../../../../../../modules/Detail/Detail';
+import { getViewBox } from '../../../../../../utils/functions/svg-utils';
 
 export default function DetailDisplay({
-    detailType,
-    detailOptionValuePath = '',
-    configurations,
+    systemMap,
+    detailOptionValuePath,
+    systemDetailPath,
+    configurationPaths,
 }) {
     return (
-        <div className="system-set-detail">
-            <div
-                data-cy={`DETAIL.${
-                    detailType
-                    }${
-                    detailOptionValuePath
-                        .replace(/.*__DT__\.\w+\./, '.')
-                        .replace(/\.?VOID\.?/g, '')
-                    }`}
-            >
-                {detailOptionValuePath}
-                {/* DETAIL.{
-                                        detailType
-                                    }{
-                                        detailOptionValuePath
-                                            .replace(/.*__DT__\.\w+\./, '.')
-                                            .replace(/\.?VOID\.?/g, '')
-                                    } */}
-            </div>
-            {configurations.map(({
-                detailConfiguration: {
-                    path,
-                    optional,
-                },
-                selection: {
-                    configurationOptionValuePath,
-                    detailConfigurationPath,
-                } = {},
-            }, i) => !optional || configurationOptionValuePath || detailConfigurationPath ? (
-                <div
-                    key={configurationOptionValuePath || detailConfigurationPath || path}
-                    data-cy={`CONFIGURATION.${
-                        detailType
-                        }.${
-                        getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath || path)
-                        }${
-                        (configurationOptionValuePath || detailConfigurationPath || path)
-                            .replace(/.*__CT__\.\w+\.?/, '.')
-                            .replace(/\.?VOID\.?/g, '')
-                        }`}
-                >
-                    {configurationOptionValuePath || detailConfigurationPath}
-                    {/* CONFIGURATION.{
-                                            detailType
-                                        }.{
-                                            getConfigurationTypeFromPath(configurationOptionValuePath || path)
-                                        }{
-                                            (configurationOptionValuePath || path)
-                                                .replace(/.*__CT__\.\w+\.?/, '.')
-                                                .replace(/\.?VOID\.?/g, '')
-                                        } */}
-                </div>
-            ) : null)}
-        </div>
+        <svg
+            viewBox={getViewBox(
+                getDetailOrConfigurationOrPartExtremities(
+                    systemMap[systemDetailPath || detailOptionValuePath.replace(/(\.__DT__\.\w+).*/, '*1')],
+                    configurationPaths,
+                    systemMap,
+                ),
+            )}
+            transform="scale(1, -1)"
+        >
+            <Detail
+                detail={systemMap[detailOptionValuePath || systemDetailPath]}
+                systemMap={systemMap}
+                configurationPaths={configurationPaths}
+            />
+        </svg>
     );
 }

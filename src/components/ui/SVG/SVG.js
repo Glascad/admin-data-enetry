@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Matrix, svg } from '../../../utils';
+import { getPartExtremities } from '../../../utils/functions/svg-utils';
 
 export function SVGPath({
     className = '',
@@ -38,7 +39,7 @@ export default function SVG({
     return (
         <svg
             className={className}
-            viewBox={svg.getViewBox(paths)}
+            viewBox={svg.getViewBox(getPartExtremities({ paths }))}
             transform="scale(1, -1)"
         >
             {paths.map(({ commands, color }, i) => (

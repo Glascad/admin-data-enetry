@@ -56,7 +56,7 @@ const match = (...inputs) => ({
             match(...inputs),
     against: obj => Object.entries(obj)
         .reduce(
-            (acc, [key, cb]) => acc.equals(key, cb),
+            (acc, [key, cb]) => acc.case(`${inputs[0]}` === key, cb),
             match(`${inputs[0]}`, ...inputs.slice(1))
         ),
     otherwise: cb => invokeIfCallback(cb, ...inputs),

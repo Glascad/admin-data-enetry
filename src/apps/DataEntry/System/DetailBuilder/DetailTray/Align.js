@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAlignmentCoordinate, joinConfigurationOrPart } from '../../../../../app-logic/system';
+import { getAlignmentCoordinate, getDetailOrConfigurationOrPartExtremities } from '../../../../../app-logic/system';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { DIRECTIONS, Matrix } from '../../../../../utils';
@@ -40,7 +40,7 @@ export default function Align({
                 const coordinate1 = getAlignmentCoordinate(
                     v,
                     f,
-                    joinConfigurationOrPart(
+                    getDetailOrConfigurationOrPartExtremities(
                         item1,
                         selectedConfigurationPaths,
                         systemMap,
@@ -49,7 +49,7 @@ export default function Align({
                 const coordinate2 = getAlignmentCoordinate(
                     v,
                     f,
-                    joinConfigurationOrPart(
+                    getDetailOrConfigurationOrPartExtremities(
                         item2,
                         selectedConfigurationPaths,
                         systemMap,
