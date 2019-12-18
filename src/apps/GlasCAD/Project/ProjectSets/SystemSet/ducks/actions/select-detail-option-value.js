@@ -85,40 +85,16 @@ export default function SELECT_DETAIL_OPTION_VALUE({
         details:
             updatedDOV ?
                 defaultPath === (previousDetailOptionValuePath || previousSystemDetailPath) ?
-                    console.log({
-                        msg: "REMOVING",
-                        updatedDOV,
-                        previousDetailOptionValuePath,
-                        previousSystemDetailPath,
-                    }) ||
                     // remove if updating back to original path
                     details.filter((_, i) => i !== index)
                     :
                     // replace if updating updated
-                    console.log({
-                        msg: "UPDATING",
-                        updatedDOV,
-                        previousDetailOptionValuePath,
-                        previousSystemDetailPath,
-                    }) ||
                     replace(details, index, newDOV)
                 :
                 (previousSystemDetailPath || previousDetailOptionValuePath) === defaultPath ?
-                    console.log({
-                        msg: "LEAVING",
-                        updatedDOV,
-                        previousDetailOptionValuePath,
-                        previousSystemDetailPath,
-                    }) ||
                     // leave state if option value is already selected
                     details
                     :
-                    console.log({
-                        msg: "ADDING",
-                        updatedDOV,
-                        previousDetailOptionValuePath,
-                        previousSystemDetailPath,
-                    }) ||
                     // add if updating non-updated
                     details.concat(newDOV),
         configurations,
