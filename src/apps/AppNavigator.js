@@ -7,9 +7,6 @@ import DataEntry from './DataEntry/DataEntry';
 import Glascad from './GlasCAD/GlasCAD';
 import Login from './Login/Login';
 
-
-
-
 // CONVERT THIS INTO A HOOOK
 // const Glascad = lazy(() => import('./GlasCAD/GlasCAD'));
 // const DataEntry = lazy(() => import('./DataEntry/data-entry'));

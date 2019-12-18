@@ -13,9 +13,9 @@ export default function DetailOrConfigurationOrPart({
     className,
 }) {
 
-    const item = systemMap[path];
+    if (!path.match(/\.__DT/)) return null;
 
-    if (!item) return null;
+    const item = systemMap[path];
 
     const selectedConfigurationPaths = configurationPaths || getDefaultConfigurationPaths(item, systemMap, false);
 

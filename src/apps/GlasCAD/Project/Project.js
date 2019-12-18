@@ -11,26 +11,14 @@ import {
 
 import query from './project-graphql/query';
 
-// import ProjectDetails from './ProjectDetails/ProjectDetails';
 import ProjectSets from './ProjectSets/ProjectSets';
-// import Keyplans from './Keyplans/Keyplans';
 import Elevations from './Elevations/Elevations';
-// import ElevationDebugger from './ElevationDebugger/ElevationDebugger';
-// import Details from './Details/Details';
-// import Schedules from './Schedules/Schedules';
-// import Notes from './Notes/Notes';
 
 import { parseSearch } from '../../../utils';
 
 const subroutes = {
-    // ProjectDetails,
     ProjectSets,
-    // Keyplans,
     Elevations,
-    // ElevationDebugger,
-    // Details,
-    // Schedules,
-    // Notes,
 };
 
 Project.navigationOptions = ({
@@ -56,7 +44,9 @@ Project.navigationOptions = ({
                         name = '',
                     } = {},
                 } = {},
-            }) => name || <Ellipsis />}
+            }) => name || (
+                <Ellipsis />
+            )}
         </ApolloWrapper>
     ),
 });
@@ -81,7 +71,6 @@ export default function Project({
             to={path.replace(/project.*/, 'main-menu')}
         />
     );
-    // console.log(arguments[0]);
 
     return (
         <Navigator
