@@ -14,7 +14,6 @@ function testSelectOptionGroupValue({
     description = '',
     systemSetUpdate,
     _systemSet = {
-        __typename: "SystemSet",
         id: 0,
         name: "Test System Set",
         systemId: 0,
@@ -336,4 +335,103 @@ testSelectOptionGroupValue({
             detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL"
         }
     ],
+});
+
+testSelectOptionGroupValue({
+    description: "Selecting the same Item in state",
+    _systemSet: {
+        id: 3,
+         name: "Test System Set",
+         systemId: 0,
+         projectId: 3,
+         systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
+        _systemSetOptionGroupValues: [
+            {
+         optionName: "GLAZING",
+             name: "INSIDE"
+         },
+            {
+         optionName: "STOPS",
+                name: "DOWN"
+            }
+        ],
+        _systemSetDetails: [
+            {
+                systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD"
+            },
+            {
+                detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN"
+            },
+            {
+                systemDetailPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL"
+            }
+        ],
+        _systemSetConfigurations: [
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE"
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY"
+            },
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL"
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE"
+            }
+        ]
+    },
+    // _systemSet: sample1SystemSet,
+    payload: {
+        optionName: "GLAZING",
+        name: "OUTSIDE"
+    },
+    systemSetUpdate: {
+        systemOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE",
+        optionGroupValues: [{
+            optionName: "STOPS",
+            name: "UP"
+        }],
+        details: [
+            {
+                detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE"
+            },
+        ],
+        configurations: [
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.UP"
+            },
+            {
+                detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.INSIDE.__CT__.SILL"
+            },
+            {
+                configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.UP.GLAZING.INSIDE"
+            }
+        ]
+    }, optionGroupValues: [
+        {
+        optionName: "STOPS",
+        name: "UP"
+        },
+        {
+            optionName: "GLAZING",
+            name: "OUTSIDE",
+        }
+    ],
+    details: [
+        {
+            detailOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE"
+        },
+    ],
+    configurations: [
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.UP"
+        },
+        {
+            detailConfigurationPath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.UP.GLAZING.OUTSIDE.__CT__.SILL"
+        },
+        {
+            configurationOptionValuePath: "0.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.UP.GLAZING.OUTSIDE"
+        }
+    ]
 });

@@ -18,8 +18,14 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
 ]) {
     // console.log(arguments);
 
+    // console.log({ configurations });
+
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
     const defaultPath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
+    // console.log({
+    //     payloadPath,
+    //     defaultPath,
+    // })
     const { __typename } = systemMap[defaultPath] || {};
     const configurationPathKey = `${__typename}Path`.replace(/^./, letter => letter.toLowerCase());
     const detailType = getDetailTypeFromPath(defaultPath);
@@ -50,26 +56,20 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
         [configurationPathKey]: defaultPath,
     };
 
+    // console.log({
+    //     payloadPath,
+    //     updatedCOV,
+    //     newCOV,
+    // })
+
     return {
         ...arguments[1],
         configurations:
             updatedCOV ?
-                payloadPath === (previousConfigurationOptionPath || previousDetailConfigurationPath) ?
-                    console.log({
-                        msg: 'UPDATED && SAME AS ORIGINAL',
-                        updatedCOV,
-                        previousConfigurationOptionPath,
-                        previousDetailConfigurationPath,
-                    }) ||
+                defaultPath === (previousConfigurationOptionPath || previousDetailConfigurationPath) ?
                     // remove from state if updating back to original path
                     configurations.filter((_, i) => i !== index)
                     :
-                    console.log({
-                        msg: 'UPDATED && NOT SAME AS ORIGINAL',
-                        updatedCOV,
-                        previousConfigurationOptionPath,
-                        previousDetailConfigurationPath,
-                    }) ||
                     // replace in state if updating previously updated item
                     replace(configurations, index, newCOV)
                 :
@@ -82,22 +82,10 @@ export default function SELECT_CONFIGURATION_OPTION_VALUE({
                         return defaultDetailType === detailType && defaultConfigurationType === configurationType
                     })
                 ) ?
-                    console.log({
-                        msg: 'NOT UPDATED && NOT SAME OR IS IN OPTIONAL CONFIGURATIONS',
-                        updatedCOV,
-                        previousConfigurationOptionPath,
-                        previousDetailConfigurationPath,
-                    }) ||
 
                     // leave state if option value is already selected or if item is in OptionConfigurationsToUnselect
                     configurations
                     :
-                    console.log({
-                        msg: 'NOT UPDATED && ADDING TO STATE',
-                        updatedCOV,
-                        previousConfigurationOptionPath,
-                        previousDetailConfigurationPath,
-                    }) ||
                     // add to state if updating non-previously updated item
                     configurations.concat(newCOV),
         optionalConfigurationsToUnselect: optionalConfigurationsToUnselect
