@@ -410,10 +410,11 @@
     }
 
     .DetailOrConfigurationOrPart {
-        // fill: none;
-        // stroke: $x-light-gray;
-        // stroke-width: 0.015px;
-        fill: $medium-gray;
+        width: calc(100% - #{$small * 2} - 2px);
+        fill: $light-gray;
         stroke: none;
+        border: 1px solid black;
+        padding: $small;
+        background: $darker-blue;
     }
 }

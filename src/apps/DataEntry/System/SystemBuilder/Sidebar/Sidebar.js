@@ -40,6 +40,12 @@ export default function Sidebar({
             <TitleBar
                 title={`Edit ${name}`}
             />
+            <DetailOrConfigurationOrPart
+                {...{
+                    systemMap,
+                    path,
+                }}
+            />
             <ItemName
                 {...{
                     queryResult,
@@ -86,12 +92,6 @@ export default function Sidebar({
                     dispatchPartial,
                     dispatch,
                     systemMap,
-                }}
-            />
-            <DetailOrConfigurationOrPart
-                {...{
-                    systemMap,
-                    path,
                 }}
             />
         </RightSidebar>
