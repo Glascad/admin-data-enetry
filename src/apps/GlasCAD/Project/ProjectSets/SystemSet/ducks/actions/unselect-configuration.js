@@ -6,51 +6,47 @@ export default function UNSELECT_CONFIGURATION({
         _systemSetConfigurations = [],
     },
 }, {
-    configurations = [],
-    optionalConfigurationsToUnselect = [],
+    configurations: oldConfigurations = [],
+    optionalConfigurationsToUnselect: oldOptionalConfigurationsToUnselect = [],
 },
     configurationPath
 ) {
-    console.log(arguments);
+    // console.log(arguments);
     const detailType = getDetailTypeFromPath(configurationPath);
     const configurationType = getConfigurationTypeFromPath(configurationPath);
 
     // find in state
-    const COVInState = configurations.find(({ detailConfigurationPath, configurationOptionValuePath }) => (
+    const COVInState = oldConfigurations.find(({ detailConfigurationPath, configurationOptionValuePath }) => (
         getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === detailType
         &&
         getConfigurationTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === configurationType
     ));
 
-    const index = configurations.indexOf(COVInState);
+    const index = oldConfigurations.indexOf(COVInState);
 
     // or find in query
-    const { configurationOptionValuePath: queryCOVP, detailConfigurationPath: queryDCP } = !COVInState && _systemSetConfigurations.find(({ configurationOptionValuePath, detailConfigurationPath }) => (
+    const { configurationOptionValuePath: queryCOVP, detailConfigurationPath: queryDCP } =  _systemSetConfigurations.find(({ configurationOptionValuePath, detailConfigurationPath }) => (
         getDetailTypeFromPath(configurationOptionValuePath || detailConfigurationPath) === detailType
         &&
         getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath) === configurationType
     )) || {};
 
+    const configurations = COVInState ?
+        oldConfigurations.filter((_, i) => i !== index)
+        :
+        oldConfigurations;
 
-    const filteredConfigurations = COVInState ?
-        {
-            configurations: configurations.filter((_, i) => i !== index),
-            optionalConfigurationsToUnselect,
-        } : (queryCOVP || queryDCP) ?
-            {
-                configurations,
-                optionalConfigurationsToUnselect: optionalConfigurationsToUnselect.concat({
-                    detailType: getDetailTypeFromPath(queryCOVP || queryDCP),
-                    configurationType: getConfigurationTypeFromPath(queryCOVP || queryDCP),
-                })
-            } :
-            {
-                configurations,
-                optionalConfigurationsToUnselect,
-            }
+    const optionalConfigurationsToUnselect = (queryCOVP || queryDCP) ?
+        oldOptionalConfigurationsToUnselect.concat({
+            detailType: getDetailTypeFromPath(queryCOVP || queryDCP),
+            configurationType: getConfigurationTypeFromPath(queryCOVP || queryDCP)
+        })
+        :
+        oldOptionalConfigurationsToUnselect;
 
     return {
         ...arguments[1],
-        ...filteredConfigurations,
+        configurations,
+        optionalConfigurationsToUnselect,
     };
 }
