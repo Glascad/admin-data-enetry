@@ -38,7 +38,8 @@ export const getCommandCoordinates = commands => commands.reduce((vals, {
             A: { x: six, y: seven },
         })
         .otherwise([])
-), []);
+    ), [])
+    .filter(({x, y}) => typeof x === 'number' && typeof y === 'number');
 
 export const transformCoordinates = (coordinates, transform) => {
     // console.log({ coordinates, transform });
