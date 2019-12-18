@@ -41,7 +41,7 @@ export const getCommandCoordinates = commands => commands.reduce((vals, {
 ), []);
 
 export const transformCoordinates = (coordinates, transform) => {
-    console.log({ coordinates, transform });
+    // console.log({ coordinates, transform });
     if (!transform) return coordinates;
     else {
         const matrix = new Matrix(transform);
@@ -59,7 +59,7 @@ const getMin = nums => (nums.length ? Math.min(...nums) : 0) || 0;
 const getMax = nums => (nums.length ? Math.max(...nums) : 0) || 0;
 
 export const getCoordinateExtremities = coordinates => {
-    console.log({ coordinates });
+    // console.log({ coordinates });
     const xValues = coordinates.map(({ x }) => x || 0);
     const yValues = coordinates.map(({ y }) => y || 0);
     return {

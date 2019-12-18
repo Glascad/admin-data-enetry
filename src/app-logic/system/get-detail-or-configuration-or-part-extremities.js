@@ -36,12 +36,12 @@ const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurat
                 .filter(({ path }) => configurationTypes.includes(getConfigurationTypeFromPath(path)))
                 .map(configuration => getDetailOrConfigurationOrPartExtremities(configuration, selectedConfigurationPaths, systemMap));
 
-            console.log({
-                detail,
-                configurations,
-                configurationTypes,
-                configurationExtremities
-            });
+            // console.log({
+            //     detail,
+            //     configurations,
+            //     configurationTypes,
+            //     configurationExtremities
+            // });
 
             return joinExtremities(configurationExtremities);
         },

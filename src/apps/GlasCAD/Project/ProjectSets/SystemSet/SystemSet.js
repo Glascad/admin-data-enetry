@@ -119,7 +119,6 @@ export default function SystemSet({
             &&
             newSystemOptionValuePath
         ) {
-            console.log("UPDATING AFTER RESELECTION OF SYSTEM");
             _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
                 name,
                 getDefaultOptionGroupValue(name, systemMap),
@@ -161,7 +160,7 @@ export default function SystemSet({
         });
     }
 
-    console.log({ systemSet });
+    // console.log({ systemSet });
 
     return (
         <>

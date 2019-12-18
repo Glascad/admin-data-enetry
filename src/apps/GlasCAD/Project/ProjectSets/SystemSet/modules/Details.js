@@ -56,7 +56,7 @@ export default function Details({
                         ...paths,
                         [getConfigurationTypeFromPath(path)]: path,
                     }), {});
-                console.log({ configurations, configurationPaths });
+                // console.log({ configurations, configurationPaths });
                 const optionList = getOptionListFromPath(detailOptionValuePath || systemDetailPath);
                 return (
                     <GroupingBox

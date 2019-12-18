@@ -27,13 +27,6 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     const detailPathKey = `${__typename}Path`.replace(/^./, letter => letter.toLowerCase());
     const detailType = getDetailTypeFromPath(defaultPath);
 
-    console.log({
-        _systemSetOptionGroupValues,
-        optionGroupValues,
-        groupedOptionValues,
-        defaultPath,
-    })
-
     // find DOV in query result
     const { detailOptionValuePath: previousDetailOptionValuePath, systemDetailPath: previousSystemDetailPath } = _systemSetDetails
         .find(dov => (
@@ -50,7 +43,6 @@ export default function SELECT_DETAIL_OPTION_VALUE({
 
     const newDOV = {
         ...defaultSystemSetDetail,
-        // ...updatedDOV,
         [detailPathKey]: defaultPath,
     };
 
@@ -58,7 +50,7 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     // remove all previous children from state
     const [newConfigurations, configurationsToUpdate] = _.partition(
         configurations,
-        ({ detailConfigurationPath, configurationOptionValuePath }) => getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === detailType,
+        ({ detailConfigurationPath, configurationOptionValuePath }) => getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) !== detailType,
     );
 
     const configurationTypePaths = unique(configurationsToUpdate
@@ -92,19 +84,43 @@ export default function SELECT_DETAIL_OPTION_VALUE({
         ...arguments[1],
         details:
             updatedDOV ?
-                (updatedDOV.systemDetailPath || updatedDOV.detailOptionValuePath) === (previousDetailOptionValuePath || previousSystemDetailPath) ?
+                defaultPath === (previousDetailOptionValuePath || previousSystemDetailPath) ?
+                    console.log({
+                        msg: "REMOVING",
+                        updatedDOV,
+                        previousDetailOptionValuePath,
+                        previousSystemDetailPath,
+                    }) ||
                     // remove if updating back to original path
                     details.filter((_, i) => i !== index)
                     :
                     // replace if updating updated
+                    console.log({
+                        msg: "UPDATING",
+                        updatedDOV,
+                        previousDetailOptionValuePath,
+                        previousSystemDetailPath,
+                    }) ||
                     replace(details, index, newDOV)
                 :
                 (previousSystemDetailPath || previousDetailOptionValuePath) === defaultPath ?
+                    console.log({
+                        msg: "LEAVING",
+                        updatedDOV,
+                        previousDetailOptionValuePath,
+                        previousSystemDetailPath,
+                    }) ||
                     // leave state if option value is already selected
                     details
                     :
+                    console.log({
+                        msg: "ADDING",
+                        updatedDOV,
+                        previousDetailOptionValuePath,
+                        previousSystemDetailPath,
+                    }) ||
                     // add if updating non-updated
                     details.concat(newDOV),
-        configurations: newConfigurations,
+        configurations,
     });
 }
