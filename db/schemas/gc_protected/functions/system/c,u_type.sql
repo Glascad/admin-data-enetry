@@ -87,7 +87,7 @@
 
         <<ONLY TYPE (detail, configuration)>>
             IF t.path IS NULL OR u IS NULL THEN 
-                RAISE EXCEPTION 'Must specify both `path` and `update` on <<PARENT>> <<TYPE>>, received path: % and update: %', t.path, (
+                RAISE EXCEPTION 'Must specify both `path` and `update` on <<FULL>>, received path: % and update: %', t.path, (
                     CASE WHEN u IS NULL THEN NULL
                     ELSE '[update]' END
                 );
@@ -138,7 +138,7 @@
         RETURNING * INTO ust;
 
         IF ust IS NULL THEN
-            RAISE EXCEPTION 'Cannot update <<PARENT>> <<TYPE>>, cannot find path %', t.path::TEXT;
+            RAISE EXCEPTION 'Cannot update <<FULL>>, cannot find path %', t.path::TEXT;
         END IF;
 
         RETURN ust;

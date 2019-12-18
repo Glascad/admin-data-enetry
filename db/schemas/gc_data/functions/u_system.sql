@@ -29,7 +29,7 @@ DECLARE
             cp,
             cov,
             co,
-            sc,
+            dc,
             dov,
             _do,
             sd,
@@ -137,22 +137,22 @@ BEGIN
             configuration_part,
             configuration_option_value,
             configuration_option,
+            detail_configuration,
             detail_option_value,
             detail_option,
             system_detail,
             system_option_value,
-            detail_configuration,
             system_option
         )
         ALIAS (
             cp,
             cov,
             co,
+            dc,
             dov,
             _do,
             sd,
             sov,
-            sc,
             so
         )
     >>
@@ -183,7 +183,7 @@ BEGIN
             cp,
             cov,
             co,
-            sc,
+            dc,
             dov,
             _do,
             sd,

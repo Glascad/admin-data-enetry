@@ -2,7 +2,7 @@ import { getConfigurationTypeFromPath } from ".";
 import getChildren from "./get-children";
 import getDefaultPath from "./get-default-path";
 
-export default window.getDefaultConfigurationPaths = ({ path }, systemMap, includeOptionalConfigurations = true) => {
+export default window.getDefaultConfigurationPaths = ({ path = '' } = {}, systemMap, includeOptionalConfigurations = true) => {
 
     const defaultPath = getDefaultPath(path, systemMap).replace(/\.__CT__\..*/, '');
 

@@ -127,7 +127,7 @@ ${require('../../db/seed_data/users.sql')}
 ----- SEED DATA -----
 
 ${require('../../db/seed_data/seed_data.sql')}
-${require('./insert-parts')}
+${require('./seed-data')}
 ${require('../../db/seed_data/system.sql')}
 ${require('../../db/seed_data/system_set.sql')}
 

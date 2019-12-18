@@ -1,21 +1,8 @@
-import React, {
-    useState,
-    useEffect,
-} from 'react';
-
-import {
-    Input,
-    TitleBar,
-    withContext,
-    Ellipsis,
-} from '../../components';
-
-import { AuthContext } from '../../AuthContext';
-
-import { StaticContext } from '../Statics/Statics';
-
+import React, { useEffect, useState } from 'react';
 import LoginSplash from '../../assets/images/Login Splash.jpeg';
-
+import { AuthContext } from '../../AuthContext';
+import { Ellipsis, Input, TitleBar, withContext } from '../../components';
+import { StaticContext } from '../Statics/Statics';
 import './Login.scss';
 
 function Login({
@@ -91,6 +78,7 @@ function Login({
                             />
                             <div className="bottom-buttons">
                                 <button
+                                    data-cy="login"
                                     className="action"
                                     onClick={submit}
                                 >
