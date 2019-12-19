@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
+import { CircleButton, Input, Select, useInitialState } from '../../../../../../../../components';
+import { replace } from '../../../../../../../../utils';
 
-import { GroupingBox, Input, CircleButton, useInitialState, Select } from "../../../../../../components";
-import { defaultHorizontal } from './elevation-input';
-import { replace } from '../../../../../../utils';
-
-function Horizontal({
+export default function Horizontal({
     horizontals,
     horizontal: {
         distance,
@@ -76,65 +74,5 @@ function Horizontal({
                 Delete
             </CircleButton>
         </div>
-    );
-}
-
-export default function AddHorizontals({
-    horizontals,
-    updateElevation,
-    measureFromOptions,
-    measureToOptions,
-    recursiveElevation,
-}) {
-    console.log(arguments[0]);
-    return (
-        <GroupingBox
-            title="Horizontals"
-            circleButton={{
-                actionType: "add",
-                className: "action",
-                onClick: () => {
-                    const lastHorizontal = horizontals[horizontals.length - 1] || defaultHorizontal;
-
-                    const {
-                        distance,
-                    } = lastHorizontal;
-
-                    var { originalContainer: topContainer } = recursiveElevation;
-
-                    while (topContainer.topContainers.length) {
-                        topContainer = topContainer.topContainers[0];
-                    }
-
-                    if (
-                        (horizontals.length === 0)
-                        ||
-                        topContainer.canAddHorizontalByDistance(distance)
-                    ) {
-                        updateElevation({
-                            horizontals: horizontals.concat(lastHorizontal),
-                        });
-                    }
-                },
-            }}
-        >
-            {horizontals.length ?
-                horizontals.map((horizontal, i, { length }) => (
-                    <Horizontal
-                        key={i}
-                        i={i}
-                        horizontal={horizontal}
-                        horizontals={horizontals}
-                        updateElevation={updateElevation}
-                        measureToOptions={measureToOptions}
-                        measureFromOptions={measureFromOptions}
-                        length={length}
-                    />
-                )) : (
-                    <div>
-                        No Horizontals
-                    </div>
-                )}
-        </GroupingBox>
     );
 }

@@ -1,5 +1,5 @@
-import { defaultElevationInput } from "./elevation-input";
 import _ from 'lodash';
+import { defaultElevationInput } from "./elevation-input";
 
 export default function generateElevation({
     verticalRoughOpening = defaultElevationInput.verticalRoughOpening,

@@ -14,7 +14,6 @@ function DetailOrConfigurationOrPart({
     configurationPaths,
     id,
     className,
-    strokeWidth,
     style,
     getDetailProps = () => { },
     getConfigurationProps = () => { },
