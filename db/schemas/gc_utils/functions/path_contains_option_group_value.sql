@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS path_contains_option_group_value;
 
-CREATE OR REPLACE FUNCTION gc_protected.path_contains_option_group_value(
+CREATE OR REPLACE FUNCTION gc_utils.path_contains_option_group_value(
     path LTREE,
     option_name OPTION_NAME,
     option_value_name OPTION_VALUE_NAME

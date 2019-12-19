@@ -34,6 +34,6 @@ export default function SELECT_SYSTEM_SET_OPTION_VALUE({
     ), {
         ...arguments[1],
         systemOptionValuePath,
-            details: [],
+        details: [],
     });
 }

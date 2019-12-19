@@ -19,7 +19,7 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     payloadPath,
     systemMap,
 ]) {
-    // console.log(arguments);
+    console.log(arguments);
 
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
     const defaultPath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);

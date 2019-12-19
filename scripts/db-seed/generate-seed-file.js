@@ -33,6 +33,7 @@ ${require('../../db/schemas/gc_utils/operators/ltree=ltree.sql')}
 ${require('../../db/schemas/gc_utils/functions/either_or.sql')}
 ${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
+${require('../../db/schemas/gc_utils/functions/path_contains_option_group_value.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_child_type.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_dt~ct_from_path.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_subpath.sql')}
@@ -59,7 +60,6 @@ ${require('../../db/schemas/gc_protected/triggers/g_system_set_types.sql')}
 ${require('../../db/schemas/gc_protected/triggers/g_system_set_parent_paths.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_missing_items.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_unselected_options.sql')}
-${require('../../db/schemas/gc_protected/triggers/utils/path_contains_option_group_value.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_option_group_values.sql')}
 
 

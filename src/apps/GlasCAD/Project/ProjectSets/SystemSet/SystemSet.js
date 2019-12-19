@@ -30,7 +30,9 @@ const mutation = gql`mutation UpdateEntireSystemSet($systemSet: EntireSystemSetI
             systemSet: $systemSet
         }
     ) {
-        ...EntireSystemSet
+        systemSet {
+            ...EntireSystemSet
+        }
     }
 }
 ${F.PROJ.ENTIRE_SYSTEM_SET}
@@ -46,7 +48,7 @@ export default function SystemSet({
     history,
 }) {
 
-    const { systemSetId, sampleSystemSet = {} } = parseSearch(search);
+    const { systemSetId, sampleSystemSet = {}, projectId } = parseSearch(search);
 
     // splice in sample system set into the system set query result
     // and add sample system to all systems array
@@ -111,23 +113,29 @@ export default function SystemSet({
     const systemMap = new SystemMap(_system);
 
     useEffect(() => {
-        const newSystemOptionValuePath = getDefaultPath(systemMap);
-        if (
-            (systemId === newSystemId)
-            &&
-            !systemOptionValuePath
-            &&
-            newSystemOptionValuePath
-        ) {
-            _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
-                name,
-                getDefaultOptionGroupValue(name, systemMap),
-                systemMap,
-            ]));
-            dispatch(SELECT_SYSTEM_OPTION_VALUE, [
-                newSystemOptionValuePath,
-                systemMap,
-            ]);
+        if (systemId === newSystemId) {
+            const newSystemOptionValuePath = getDefaultPath(systemMap);
+            if (
+                !systemOptionValuePath
+                &&
+                newSystemOptionValuePath
+            ) {
+                console.log({
+                    newSystemOptionValuePath,
+                    _optionGroups,
+                    systemMap,
+                    systemSetUpdate,
+                });
+                dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                    newSystemOptionValuePath,
+                    systemMap,
+                ]);
+                _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
+                    name,
+                    getDefaultOptionGroupValue(name, systemMap),
+                    systemMap,
+                ]));
+            }
         }
     });
 
@@ -155,9 +163,22 @@ export default function SystemSet({
     } = allSystems.find(({ id }) => id === systemId) || {};
 
     const save = async () => {
+
+        const payload = {
+            ...systemSetUpdate,
+            projectId: +projectId,
+            id: +systemSetId,
+        };
+
         console.log({
             systemSet,
+            systemSetUpdate,
+            payload,
         });
+
+        const result = await updateSystemSet({ systemSet: payload });
+
+        console.log({ result });
     }
 
     // console.log({ systemSet });
