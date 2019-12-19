@@ -1,6 +1,7 @@
 import { getParentPathFromObject, getPathPrefix } from '../../../../app-logic/system';
 import { match, removeNullValues } from '../../../../utils';
 import { getParentWithUpdatedPath, getUpdatedPath } from "./utils";
+import getPartFromPartId from '../../../../app-logic/system/get-part-from-part-id';
 
 export default function merge(systemInput, {
     _system,
@@ -119,6 +120,11 @@ export default function merge(systemInput, {
                 name: undefined
             });
         }));
+    
+    const getUpdatedParts = updatedConfigurationParts => updatedConfigurationParts.map(configurationPart => ({
+        ...configurationPart,
+        _part: getPartFromPartId(configurationPart.partId, _system),
+    }));
 
     const updatedSystemOptions = mergeArray(_systemOptions, systemOptions, newSystemOptions);
     const updatedSystemOptionValues = mergeArray(_systemOptionValues, systemOptionValues, newSystemOptionValues);
@@ -128,7 +134,7 @@ export default function merge(systemInput, {
     const updatedConfigurationOptions = mergeArray(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeArray(_systemDetails, systemDetails, newSystemDetails);
     const updatedDetailConfigurations = mergeArray(_detailConfigurations, detailConfigurations, newDetailConfigurations);
-    const updatedConfigurationParts = mergeArray(_configurationParts, configurationParts, newConfigurationParts);
+    const updatedConfigurationParts = getUpdatedParts(mergeArray(_configurationParts, configurationParts, newConfigurationParts));
 
     return {
         ..._system,
