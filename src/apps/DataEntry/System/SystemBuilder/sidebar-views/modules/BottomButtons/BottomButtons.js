@@ -29,6 +29,7 @@ const BottomButtons = ({
                         partialAction,
                         cancelPartial,
                         dispatchPartial,
+                        systemMap,
                     }}
                 />
                 <ItemLink

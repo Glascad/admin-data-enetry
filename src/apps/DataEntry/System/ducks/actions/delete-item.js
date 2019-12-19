@@ -17,8 +17,6 @@ export default function DELETE_ITEM(systemInput, { path, __typename }) {
 
     const oldPath = getOldPath(path, systemInput);
 
-    console.log({ newItemArray });
-
     const isNewItem = newItemArray.some(newItem => path === getUpdatedPath(newItem));
 
     const isUpdatedItem = systemInput[`${__typename.replace(/^./, letter => letter.toLowerCase())}s`]
@@ -26,8 +24,6 @@ export default function DELETE_ITEM(systemInput, { path, __typename }) {
 
     const partitionDeletedItems = itemArray => itemArray.reduce(([updated, deleted], item) => {
         const updatedPath = getUpdatedPath(item);
-
-        console.log({ updatedPath, path, item })
 
         return updatedPath.startsWith(path) && !updatedPath.startsWith(`${path}_`) ?
             [updated, deleted.concat(getOldPath(updatedPath, systemInput))]
@@ -41,7 +37,6 @@ export default function DELETE_ITEM(systemInput, { path, __typename }) {
         .reduce((updatedSystemInput, [key, value]) => ({
             ...updatedSystemInput,
             [key]: value.filter(item => {
-                console.log({ item });
                 const updatedNewPath = getUpdatedPath(item);
                 return !updatedNewPath.startsWith(path) || updatedNewPath.startsWith(`${path}_`);
             })
