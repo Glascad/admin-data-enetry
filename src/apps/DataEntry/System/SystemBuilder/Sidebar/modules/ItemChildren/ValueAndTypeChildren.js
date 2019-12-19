@@ -220,14 +220,14 @@ export default function ValueAndTypeChildren({
                     actionType: "add",
                     className: "action",
                     onClick: () => {
-                        dispatch(ADD_ITEM, {
+                        const payload = {
                             __typename: __typename.match(/value$/i) ?
                                 console.log("IS VALUE")
                                 ||
                                 match(__typename)
-                                .regex(/^system/i, 'SystemDetail')
-                                .regex(/^detail/i, 'DetailConfiguration')
-                                .otherwise('ConfigurationPart')
+                                    .regex(/^system/i, 'SystemDetail')
+                                    .regex(/^detail/i, 'DetailConfiguration')
+                                    .otherwise('ConfigurationPart')
                                 :
                                 console.log("IS TYPE")
                                 ||
@@ -237,7 +237,15 @@ export default function ValueAndTypeChildren({
                                     .otherwise('ConfigurationPart'),
                             [`parent${__typename}Path`]: path,
                             name: getSelectTypeName(children, `ADD_${childTypeType.toUpperCase()}`),
-                        })
+                        };
+                        dispatch(ADD_ITEM, __typename.match(/detail$/i) || (__typename.match(/DetailOptionValue$/i)) ?
+                            {
+                                ...payload,
+                                optional: false,
+                            }
+                            :
+                            payload
+                        )
                     },
                 }
                     :
