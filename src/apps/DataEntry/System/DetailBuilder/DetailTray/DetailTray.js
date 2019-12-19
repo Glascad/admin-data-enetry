@@ -23,7 +23,7 @@ export default memo(function DetailTray({
     selectedConfigurationPaths,
 }) {
 
-    console.log(arguments[0])
+    // console.log(arguments[0]);
 
     const TRANSFORM = (systemInput, {
         appliedTransform,

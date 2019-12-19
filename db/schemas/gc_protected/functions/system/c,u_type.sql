@@ -47,7 +47,7 @@
                 t.<<TYPE>>_type,
             <<END ONLY>>
             <<ONLY TYPE (configuration)>>
-                t.optional,
+                t.optional OR FALSE,
             <<END ONLY>>
             <<ONLY TYPE (part)>>
                 s.manufacturer_id,
@@ -87,7 +87,7 @@
 
         <<ONLY TYPE (detail, configuration)>>
             IF t.path IS NULL OR u IS NULL THEN 
-                RAISE EXCEPTION 'Must specify both `path` and `update` on <<PARENT>> <<TYPE>>, received path: % and update: %', t.path, (
+                RAISE EXCEPTION 'Must specify both `path` and `update` on <<FULL>>, received path: % and update: %', t.path, (
                     CASE WHEN u IS NULL THEN NULL
                     ELSE '[update]' END
                 );
@@ -102,7 +102,8 @@
             <<ONLY TYPE (configuration)>>
                 optional = COALESCE(
                     u.optional,
-                    ts.optional
+                    ts.optional,
+                    FALSE
                 ),
             <<END ONLY>>
             <<ONLY TYPE (configuration, part)>>
@@ -138,7 +139,7 @@
         RETURNING * INTO ust;
 
         IF ust IS NULL THEN
-            RAISE EXCEPTION 'Cannot update <<PARENT>> <<TYPE>>, cannot find path %', t.path::TEXT;
+            RAISE EXCEPTION 'Cannot update <<FULL>>, cannot find path %', t.path::TEXT;
         END IF;
 
         RETURN ust;

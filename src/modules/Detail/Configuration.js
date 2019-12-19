@@ -26,7 +26,6 @@ export default function Configuration({
         >
             {parts.map(part => (
                 <Part
-                    {...arguments[0]}
                     {...getPartProps(part)}
                     part={part}
                     onClick={onClick}

@@ -8,9 +8,20 @@
     padding-bottom: $xxxx-large;
     width: fit-content;
     min-width: $pill-width;
+    display: flex;
+    flex-direction: column;
 
     &.full-width {
         width: fill;
+    }
+
+    &.horizontally-divided {
+        flex-direction: row;
+        justify-content: space-between;
+
+        > * {
+            // width: fill;
+        }
     }
 
     // button {
@@ -18,6 +29,12 @@
     //         background: $off-white;
     //     }
     // }
+
+    .grouping-box-title,
+    .toggle-background,
+    .add-button-background {
+        width: auto;
+    }
 
     .grouping-box-title {
         position: absolute;
@@ -98,13 +115,13 @@
     .TitleBar {
         border: none;
         font-size: $base-size;
-        
+
         .title-bar-left {
             background: $off-white;
             padding: 0 $x-small;
             height: auto;
             transform: translateX(#{-$small});
-            
+
             .title {
                 font-weight: normal;
             }

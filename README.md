@@ -118,3 +118,5 @@ The elevation data structure will integrate with system data to select configura
 ## <a name="client"></a> End Client Application
 
 ...
+
+## Manbearpig reborn again part II

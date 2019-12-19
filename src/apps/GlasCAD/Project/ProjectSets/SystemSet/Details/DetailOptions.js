@@ -25,8 +25,5 @@ export default function DetailOptions({
                 systemMap,
             ])}
         />
-    )
-        :
-        null
-    );
+    ) : null);
 }

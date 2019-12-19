@@ -7,11 +7,11 @@ import { parseSearch } from '../../../../../utils';
 import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
 import merge from './ducks/merge';
 import { defaultSystemSetUpdate } from './ducks/schemas';
-import Details from './modules/Details';
-import SystemOptions from './modules/SystemOptions';
-import SystemSetInfo from './modules/SystemSetInfo';
+import Details from './Details/Details';
+import SystemOptions from './SystemOptions/SystemOptions';
+import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
 import './SystemSet.scss';
-import Configurations from './modules/Configurations';
+import Configurations from './Details/Configurations';
 import SAMPLE_SYSTEM_SETS from './ducks/__test__/sample-query-results';
 
 const query = gql`query SystemSet($systemSetId: Int!) {

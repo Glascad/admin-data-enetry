@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 import { ELEVATION_FIELDS } from './elevation-data';
-import { print } from 'graphql';
 
 // FIELDS
 
@@ -129,5 +128,3 @@ export const ENTIRE_PROJECT = gql`
     ${ELEVATION_FIELDS}
     ${SYSTEM_SET_FIELDS}
 `;
-
-console.log(print(ENTIRE_SYSTEM_SET));

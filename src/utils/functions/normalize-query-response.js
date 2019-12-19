@@ -16,4 +16,5 @@ const cleanData = ({ data }) => removeNullValues(
 export default __raw => ({
     ...cleanData(__raw),
     __raw,
+    __receivedAt: Date.now(),
 });

@@ -1,10 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-
+import { useEffect, useState } from 'react';
 import client from '../../apollo-config';
-
 import { normalizeQueryResponse, removeNullValues } from '../../utils';
-
-import useMountTracker from './use-mount-tracker';
 
 export function useMutation(mutation, fetchQuery = () => { }) {
 
@@ -37,7 +33,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         } catch (err) {
             console.log("ERROR in mutation");
             console.log({ err });
-            
+
             const {
                 networkError: {
                     result: {

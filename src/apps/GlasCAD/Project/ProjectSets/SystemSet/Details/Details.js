@@ -1,12 +1,11 @@
 import React from 'react';
-import { getDetailTypeFromPath, getOptionListFromPath, getConfigurationTypeFromPath, getDetailOrConfigurationOrPartExtremities } from '../../../../../../app-logic/system';
+import { getConfigurationTypeFromPath, getDetailTypeFromPath, getOptionListFromPath } from '../../../../../../app-logic/system';
 import { CollapsibleTitle, GroupingBox } from '../../../../../../components';
-import Detail from '../../../../../../modules/Detail/Detail';
 import { match } from '../../../../../../utils';
 import Configurations from './Configurations';
+import './Details.scss';
 import DetailOptions from './DetailOptions';
-import { getViewBox } from '../../../../../../utils/functions/svg-utils';
-import DetailDisplay from './DetailDisplay';
+import DetailPreview from './DetailPreview';
 
 export default function Details({
     _systemSetDetails = [],
@@ -63,32 +62,34 @@ export default function Details({
                         data-cy={detailType}
                         key={detailOptionValuePath || systemDetailPath}
                         title={detailType}
-                        className="full-width"
+                        className="system-set-detail full-width horizontally-divided"
                     >
-                        {/* DETAIL OPTIONS */}
-                        <DetailOptions
-                            {...{
-                                optionList,
-                                _optionGroups,
-                                detailType,
-                                detailOptionValuePath: detailOptionValuePath || systemDetailPath,
-                                systemMap,
-                                dispatch,
-                            }}
-                        />
-                        {/* Detail CONFIGURATIONS */}
-                        <Configurations
-                            {...{
-                                _systemSetConfigurations,
-                                _optionGroups,
-                                configurations,
-                                detailType,
-                                dispatch,
-                                systemMap,
-                            }}
-                        />
+                        <div>
+                            {/* DETAIL OPTIONS */}
+                            <DetailOptions
+                                {...{
+                                    optionList,
+                                    _optionGroups,
+                                    detailType,
+                                    detailOptionValuePath: detailOptionValuePath || systemDetailPath,
+                                    systemMap,
+                                    dispatch,
+                                }}
+                            />
+                            {/* Detail CONFIGURATIONS */}
+                            <Configurations
+                                {...{
+                                    _systemSetConfigurations,
+                                    _optionGroups,
+                                    configurations,
+                                    detailType,
+                                    dispatch,
+                                    systemMap,
+                                }}
+                            />
+                        </div>
                         {/* DETAIL DISPLAY */}
-                        <DetailDisplay
+                        <DetailPreview
                             {...{
                                 systemMap,
                                 detailOptionValuePath,

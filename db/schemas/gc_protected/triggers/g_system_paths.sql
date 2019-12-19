@@ -13,7 +13,7 @@
     RETURNS TRIGGER AS $$
     BEGIN
 
-        IF NEW.path IS NOT NULL THEN
+        IF NEW.path IS NOT NULL AND NEW.path <> OLD.path THEN
             RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.path. Received %', NEW.path;
         END IF;
 
@@ -59,12 +59,12 @@
     RETURNS TRIGGER AS $$
     BEGIN
 
-        IF NEW.option_name IS NOT NULL THEN
-            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.option_name. Received %', NEW.option_name;
+        IF NEW.option_name IS NOT NULL AND NEW.option_name <> OLD.option_name THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option_value.option_name. Received %', NEW.option_name;
         END IF;
 
-        IF NEW.path IS NOT NULL THEN
-            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.path. Received %', NEW.path;
+        IF NEW.path IS NOT NULL AND NEW.path <> OLD.path THEN
+            RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option_value.path. Received %', NEW.path;
         END IF;
 
         NEW.option_name := subpath(
@@ -118,8 +118,8 @@
                 END IF;
             <<END ONLY>>
 
-            IF NEW.path IS NOT NULL THEN
-                RAISE EXCEPTION 'Cannot directly update generated column: <<TYPE>>_option.path. Received %', NEW.path;
+            IF NEW.path IS NOT NULL AND NEW.path <> OLD.path THEN
+                RAISE EXCEPTION 'Cannot directly update generated column: <<PARENT>>_<<TYPE>>.path. Received %', NEW.path;
             END IF;
 
             NEW.path := COALESCE(
