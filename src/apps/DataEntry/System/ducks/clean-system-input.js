@@ -28,18 +28,32 @@ const mapNewTypes = type => ({
 }) => ({
     ...rest,
     [type]: name,
+    });
+
+const mapNewParts = ({
+    nodeId,
+    __typename,
+    name,
+    fakeId,
+    ...rest,
+}) => removeNullValues({
+    ...rest,
 });
 
 const mapParts = ({
     __typename,
     nodeId,
     path,
-    name,
     fakeId,
+    update: {
+        name,
+        ...update,
+    },
     ...rest
 }) => removeNullValues({
     ...rest,
     id: getConfigurationPartIdFromPath(path),
+    update,
 });
 
 export default ({
@@ -96,5 +110,5 @@ export default ({
     newConfigurationOptionValues: newConfigurationOptionValues.map(removeTypenameAndNodeIdAndFakeId),
     newSystemDetails: newSystemDetails.map(mapNewTypes('detailType')),
     newDetailConfigurations: newDetailConfigurations.map(mapNewTypes('configurationType')),
-    newConfigurationParts: newConfigurationParts.map(mapNewTypes('configurationPart')),
+    newConfigurationParts: newConfigurationParts.map(mapNewParts),
 });

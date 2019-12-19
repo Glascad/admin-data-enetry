@@ -28,7 +28,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
 
     // if the path and initial path are the same, the item is the same
     const oldPath = getOldPath(path, systemInput);
-    // console.log({ oldPath });
+    // Finding item in state from updated array
     const updatedItem = itemsArray.find(item =>
         item.path === oldPath
         &&
@@ -36,7 +36,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
         &&
         item.fakeId === fakeId
     );
-    // if it is a new item, the parent needs to be the same as the path from parent, and the name needs to be the same as the last item on the path
+    // Finding the item in State from new array
     const updatedNewItem = newItemsArray.find(item => {
         const [parentKey, parentPath] = getParentPathFromObject(item);
         return (
@@ -47,7 +47,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
     });
 
     const newPath = getUpdatedPath(payload);
-
+    
     // If item is not in state && item doesn't have a parent update key, 
     // it needs to see if a parent is in state is has moved to add it to the update.
     const [updateParentKey, updateParentPath] = getParentPathFromObject(update);
@@ -119,6 +119,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
             }).concat((key === itemsKey && !updatedItem && !updatedNewItem) ?
                 parentWithUpdatedPath ?
                     {
+                        id,
+                        fakeId,
                         __typename,
                         path: oldPath,
                         update: {
@@ -128,6 +130,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
                     }
                     :
                     {
+                        id,
+                        fakeId,
                         __typename,
                         path: oldPath,
                         update,

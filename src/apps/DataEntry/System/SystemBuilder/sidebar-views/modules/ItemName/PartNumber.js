@@ -1,8 +1,10 @@
 import React from 'react';
 import { Select } from '../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
+import getPartId from '../../../../../../../app-logic/system/get-part-id';
 
 export default function PartNumber({
+    system,
     system: {
         _manufacturer: {
             _parts = [],
@@ -27,6 +29,7 @@ export default function PartNumber({
                 ...selectedItem,
                 update: {
                     name: partNumber.replace(/-/g, '_'),
+                    partId: getPartId(partNumber, system)
                 }
             })}
         />

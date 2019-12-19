@@ -2,7 +2,7 @@ import { getChildren, getLastItemFromPath, getParentPath, getParentPathFromObjec
 import { match } from '../../../../utils';
 
 export const getOldPath = (currentPath, systemInput) => Object.entries(systemInput)
-    .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations$/i) && !key.match(/new/i)) ?
+    .reduce((allUpdatedItemsArr, [key, value]) => (key.match(/options$|values$|details$|configurations|parts$/i) && !key.match(/new/i)) ?
         allUpdatedItemsArr.concat(value)
         :
         allUpdatedItemsArr, [])

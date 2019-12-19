@@ -11,6 +11,7 @@ export default function COPY_ITEM(systemInput, {
         update,
         id,
         fakeId,
+        _part,
         ...rest
     },
     targetItem: {

@@ -38,8 +38,8 @@ export const getCommandCoordinates = commands => commands.reduce((vals, {
             A: { x: six, y: seven },
         })
         .otherwise([])
-    ), [])
-    .filter(({x, y}) => typeof x === 'number' && typeof y === 'number');
+), [])
+    .filter(({ x, y }) => typeof x === 'number' && typeof y === 'number');
 
 export const transformCoordinates = (coordinates, transform) => {
     // console.log({ coordinates, transform });
@@ -54,7 +54,7 @@ export const getPartCoordinates = ({ paths }) => paths.reduce((coordinates, { co
 
 export const getTransformedPartCoordinates = (part, transform) => transformCoordinates(getPartCoordinates(part), transform);
 
-export const getPartExtremities = ({ paths }, transform) => getCoordinateExtremities(getTransformedPartCoordinates({ paths }, transform));
+export const getPartExtremities = ({ paths = [] } = {}, transform) => getCoordinateExtremities(getTransformedPartCoordinates({ paths }, transform));
 
 const getMin = nums => (nums.length ? Math.min(...nums) : 0) || 0;
 const getMax = nums => (nums.length ? Math.max(...nums) : 0) || 0;
