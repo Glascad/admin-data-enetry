@@ -1,7 +1,7 @@
 import React from 'react';
-import { Select, Input } from '../../../../../../../components';
+import { Input, Select, useInitialState } from '../../../../components';
 
-const SystemName = ({
+export default function SystemName({
     system: {
         name,
         _manufacturer: {
@@ -12,9 +12,15 @@ const SystemName = ({
     },
     queryResult: {
         systemTypes = [],
+        __receivedAt,
     },
     dispatch,
-}) => (
+    doNotRenderManufacturer = false,
+}) {
+
+    const [initialSightline, setInitialSightline] = useInitialState(sightline, [__receivedAt]);
+
+    return (
         <>
             <Input
                 data-cy="system-name"
@@ -22,12 +28,14 @@ const SystemName = ({
                 value={name}
                 onChange={({ target: { value } }) => dispatch(() => ({ name: value }))}
             />
-            <Select
-                data-cy={`manufacturer`}
-                readOnly={true}
-                label={'Manufacturer'}
-                value={mnfgName}
-            />
+            {doNotRenderManufacturer ? null : (
+                <Select
+                    data-cy="manufacturer"
+                    readOnly={true}
+                    label="Manufacturer"
+                    value={mnfgName}
+                />
+            )}
             <Select
                 data-cy="system-type"
                 label="System Type"
@@ -39,9 +47,9 @@ const SystemName = ({
                 data-cy="sightline"
                 label="Sightline"
                 type="inches"
-                initialValue={sightline}
+                initialValue={initialSightline}
                 onChange={sightline => dispatch(() => ({ sightline }))}
             />
         </>
     );
-export default SystemName;
+}

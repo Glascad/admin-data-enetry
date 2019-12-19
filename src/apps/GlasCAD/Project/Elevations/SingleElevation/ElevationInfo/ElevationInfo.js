@@ -1,28 +1,10 @@
-import React, { useState } from 'react';
-
-import { Redirect } from 'react-router-dom';
-
 import _ from 'lodash';
-
-import {
-    TitleBar,
-    Input,
-    GroupingBox,
-    AsyncButton,
-    ConfirmButton,
-    useInitialState,
-    Select,
-} from '../../../../../../components';
-
-import {
-    parseSearch,
-    ImperialValue,
-} from '../../../../../../utils';
-
-import renderPreview from '../../ElevationPreview/render-preview';
-
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, TitleBar, useInitialState } from '../../../../../../components';
+import { ImperialValue, parseSearch } from '../../../../../../utils';
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
-
+import renderPreview from '../../ElevationPreview/render-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
 export default function ElevationInfo({
@@ -190,7 +172,6 @@ export default function ElevationInfo({
                 />
                 <GroupingBox
                     title="Rough opening"
-                    // className="disabled"
                 >
                     <Input
                         data-cy="ro-lock"

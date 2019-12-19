@@ -2,10 +2,10 @@ import React from 'react';
 import { getChildren, getLastItemFromPath } from '../../../../../app-logic/system';
 import { RightSidebar, TitleBar } from '../../../../../components';
 import DetailOrConfigurationOrPart from '../../../../../modules/Detail/DetailOrConfigurationOrPart';
-import BottomButtons from '../sidebar-views/modules/BottomButtons/BottomButtons';
-import ItemChildren from '../sidebar-views/modules/ItemChildren/ItemChildren';
-import ItemName from '../sidebar-views/modules/ItemName/ItemName';
-import ItemToggles from '../sidebar-views/modules/ItemToggles/ItemToggles';
+import BottomButtons from './modules/BottomButtons/BottomButtons';
+import ItemChildren from './modules/ItemChildren/ItemChildren';
+import ItemName from './modules/ItemName/ItemName';
+import ItemToggles from './modules/ItemToggles/ItemToggles';
 
 export default function Sidebar({
     queryResult,

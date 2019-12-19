@@ -1,10 +1,10 @@
 import React from 'react';
 import { match } from "../../../../../../../utils";
-import ValueName from './ValueName';
-import OptionName from './OptionName';
-import SystemName from './SystemName';
-import PartNumber from './PartNumber';
+import SystemName from '../../../../modules/SystemName';
 import DetailOrConfigurationType from './DetailOrConfigurationType';
+import OptionName from './OptionName';
+import PartNumber from './PartNumber';
+import ValueName from './ValueName';
 
 export default function ItemName({ selectedItem: { __typename = '' } }) {
     const props = arguments[0];

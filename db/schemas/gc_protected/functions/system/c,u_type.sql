@@ -47,7 +47,7 @@
                 t.<<TYPE>>_type,
             <<END ONLY>>
             <<ONLY TYPE (configuration)>>
-                t.optional,
+                t.optional OR FALSE,
             <<END ONLY>>
             <<ONLY TYPE (part)>>
                 s.manufacturer_id,
@@ -102,7 +102,8 @@
             <<ONLY TYPE (configuration)>>
                 optional = COALESCE(
                     u.optional,
-                    ts.optional
+                    ts.optional,
+                    FALSE
                 ),
             <<END ONLY>>
             <<ONLY TYPE (configuration, part)>>

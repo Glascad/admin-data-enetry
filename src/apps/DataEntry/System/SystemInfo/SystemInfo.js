@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { AsyncButton, ConfirmButton, Ellipsis, Input, Select, TitleBar } from '../../../../components';
+import { AsyncButton, ConfirmButton, Ellipsis, Input, Select, TitleBar, useInitialState } from '../../../../components';
 import { parseSearch } from '../../../../utils';
+import SystemName from '../modules/SystemName';
 
 SystemInfo.navigationOptions = {
     path: '/info',
@@ -12,18 +13,20 @@ function SystemInfo({
         search,
         state: {
             previousPath = '/data-entry/manufacturer/system-search',
-            previousSearch = arguments[0].location.search,
+            previousSearch,
         } = {},
     },
     match: {
         path,
     },
     history,
+    queryResult,
     queryResult: {
         allManufacturers = [],
         systemTypes = [],
     },
     systemInput,
+    system,
     system: {
         name,
         _manufacturer: {
@@ -45,6 +48,8 @@ function SystemInfo({
     const mName = mnfgName || (allManufacturers.find(({ id }) => `${id}` === manufacturerId) || {}).name;
 
     console.log({ sightline });
+
+    const [] = useInitialState();
 
     const hasChanges = (
         systemInput.name
@@ -72,7 +77,7 @@ function SystemInfo({
                         <ConfirmButton
                             data-cy="cancel"
                             doNotConfirmWhen={true}
-                            onClick={() => history.push(`${previousPath}${previousSearch}`)}
+                            onClick={() => history.push(`${previousPath}${previousSearch || search}`)}
                         >
                             Cancel
                         </ConfirmButton>
@@ -105,25 +110,13 @@ function SystemInfo({
                 )}
             />
             <div className="card">
-                <Input
-                    data-cy="system-name"
-                    label="System Name"
-                    value={name}
-                    onChange={({ target: { value } }) => dispatch(() => ({ name: value }))}
-                />
-                <Select
-                    data-cy="system-type"
-                    label="System Type"
-                    value={systemType}
-                    options={systemTypes}
-                    onChange={systemType => dispatch(() => ({ systemType }))}
-                />
-                <Input
-                    data-cy="sightline"
-                    label="Sightline"
-                    type="inches"
-                    initialValue={sightline}
-                    onChange={sightline => dispatch(() => ({ sightline }))}
+                <SystemName
+                    {...{
+                        system,
+                        queryResult,
+                        dispatch,
+                        doNotRenderManufacturer: true,
+                    }}
                 />
             </div>
         </>
