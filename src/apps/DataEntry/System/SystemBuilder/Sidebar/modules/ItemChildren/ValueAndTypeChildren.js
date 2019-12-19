@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { filterOptionsAbove, getAllInstancesOfItem, getChildren, getLastItemFromPath, getParentPath } from '../../../../../../../app-logic/system';
+import { filterOptionsAbove, getAllInstancesOfItem, getChildren, getLastItemFromPath, getParentPath, getConfigurationPartIdFromPath } from '../../../../../../../app-logic/system';
 import { confirmWithModal, ToggleBox } from '../../../../../../../components';
 import { match } from '../../../../../../../utils';
 import { ADD_ITEM, UPDATE_ITEM } from '../../../../ducks/actions';
 import { getSelectTypeName } from '../../../../ducks/utils';
 import Row from './Row';
+import getPartId from '../../../../../../../app-logic/system/get-part-id';
 
 export default function ValueAndTypeChildren({
     system,
@@ -19,6 +20,7 @@ export default function ValueAndTypeChildren({
         validOptions = [],
         detailTypes = [],
         configurationTypes = [],
+        _system = {},
     } = {},
     selectedItem,
     selectedItem: {
@@ -119,7 +121,7 @@ export default function ValueAndTypeChildren({
                                     dispatch(UPDATE_ITEM, {
                                         ...child,
                                         update: {
-                                            name,
+                                            name: name.replace(/-/g, '_'),
                                             [`default${childTypename}Value`]: instanceDefaultValue,
 
                                         }
@@ -168,12 +170,22 @@ export default function ValueAndTypeChildren({
                                         selectItem={selectItem}
                                         handleSelectChange={name => {
                                             if (childName !== name) {
-                                                const updateType = () => dispatch(UPDATE_ITEM, {
-                                                    ...item,
-                                                    update: {
-                                                        name,
-                                                    },
-                                                });
+                                                const updateType = () => dispatch(UPDATE_ITEM,
+                                                    childTypeType === 'Part' ?
+                                                        {
+                                                            ...item,
+                                                            update: {
+                                                                name: name.replace(/-/g, '_'),
+                                                                partId: getPartId(name, _system),
+                                                            },
+                                                        }
+                                                        :
+                                                        {
+                                                            ...item,
+                                                            update: {
+                                                                name: name.replace(/-/g, '_'),
+                                                            },
+                                                        });
                                                 if (childTypeChildren.length > 0) {
                                                     confirmWithModal(updateType, {
                                                         titleBar: { title: `Change ${childName}` },
@@ -238,13 +250,16 @@ export default function ValueAndTypeChildren({
                             [`parent${__typename}Path`]: path,
                             name: getSelectTypeName(children, `ADD_${childTypeType.toUpperCase()}`),
                         };
-                        dispatch(ADD_ITEM, __typename.match(/detail$/i) || (__typename.match(/DetailOptionValue$/i)) ?
-                            {
+                        dispatch(ADD_ITEM, match(__typename)
+                            .regex(/detail$|DetailOptionValue/i, {
                                 ...payload,
                                 optional: false,
-                            }
-                            :
-                            payload
+                            })
+                            .regex(/part$|ConfigurationOptionValue/i, {
+                                ...payload,
+                                partId: getPartId(payload.name, _system),
+                            })
+                            .otherwise(payload)
                         )
                     },
                 }
