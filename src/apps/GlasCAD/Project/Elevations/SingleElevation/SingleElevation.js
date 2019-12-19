@@ -1,21 +1,11 @@
 import React, { useEffect } from 'react';
-
-import {
-    Navigator,
-    ApolloWrapper,
-    useQuery,
-    useMutation,
-} from '../../../../../components';
-
+import { Navigator, useMutation, useQuery } from '../../../../../components';
+import { parseSearch } from '../../../../../utils';
+import BuildElevation from './BuildElevation/BuildElevation';
 import CreateElevation from './CreateElevation/CreateElevation';
 import ElevationInfo from './ElevationInfo/ElevationInfo';
-import BuildElevation from './BuildElevation/BuildElevation';
-
-import query, { bugReportQuery } from './utils/elevation-graphql/query';
 import updateElevationMutation from './utils/elevation-graphql/mutations';
-
-import { parseSearch } from '../../../../../utils';
-
+import query from './utils/elevation-graphql/query';
 import * as SAMPLE_ELEVATIONS from './utils/sample-elevations';
 
 const subroutes = {
@@ -29,9 +19,7 @@ SingleElevation.navigationOptions = {
     subroutes,
 };
 
-export {
-    SAMPLE_ELEVATIONS,
-};
+export { SAMPLE_ELEVATIONS, };
 
 export default function SingleElevation({
     location: {

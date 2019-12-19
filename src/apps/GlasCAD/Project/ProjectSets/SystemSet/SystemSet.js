@@ -20,7 +20,7 @@ const query = gql`query SystemSet($systemSetId: Int!) {
     }
     ...AllSystems
 }
-${F.PRJ.ENTIRE_SYSTEM_SET}
+${F.PROJ.ENTIRE_SYSTEM_SET}
 ${F.MNFG.ALL_SYSTEMS}
 `;
 
@@ -33,7 +33,7 @@ const mutation = gql`mutation UpdateEntireSystemSet($systemSet: EntireSystemSetI
         ...EntireSystemSet
     }
 }
-${F.PRJ.ENTIRE_SYSTEM_SET}
+${F.PROJ.ENTIRE_SYSTEM_SET}
 `;
 
 export default function SystemSet({

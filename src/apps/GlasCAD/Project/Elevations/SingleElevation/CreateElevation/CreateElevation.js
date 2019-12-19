@@ -38,7 +38,7 @@ const saveDefaultMutation = {
                 }
             }
         }
-        ${F.PRJ.ENTIRE_PROJECT}
+        ${F.PROJ.ENTIRE_PROJECT}
     `,
 };
 

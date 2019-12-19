@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { ENTIRE_SYSTEM_SET } from './system-set';
 
 // FIELDS
 
@@ -67,13 +68,11 @@ export const ENTIRE_ELEVATION = gql`
             }
         }
         systemSetBySystemSetId {
-            __typename
-            nodeId
-            id
-            name
+            ...EntireSystemSet
         }
     }
     ${ELEVATION_FIELDS}
     ${ELEVATION_CONTAINER_FIELDS}
     ${ENTIRE_CONTAINER_DETAIL}
+    ${ENTIRE_SYSTEM_SET}
 `;

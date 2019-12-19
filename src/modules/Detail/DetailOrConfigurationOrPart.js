@@ -25,6 +25,8 @@ function DetailOrConfigurationOrPart({
 
     const selectedConfigurationPaths = configurationPaths || getDefaultConfigurationPaths(item, systemMap, false);
 
+    const configurationPathString = Object.values(selectedConfigurationPaths).sort().join();
+
     const [viewBox, setViewBox] = useInitialState(
         getViewBox(
             getDetailOrConfigurationOrPartExtremities(
@@ -33,7 +35,7 @@ function DetailOrConfigurationOrPart({
                 systemMap,
             ),
         ),
-        [path, !!item],
+        [path, !!item, configurationPathString],
     );
 
     const [x, y, width, height] = viewBox.split(/\s+/g);
