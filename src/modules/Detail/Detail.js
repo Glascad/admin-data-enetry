@@ -15,7 +15,9 @@ export default function Detail({
     const childPaths = configurationPaths || getDefaultConfigurationPaths(detail, systemMap);
     const selectedConfigurationTypes = Object.keys(configurationPaths);
     return (
-        <g className={`Detail ${className}`}>
+        <g
+            className={`Detail ${className}`}
+        >
             {configurations
                 .filter(({ path }) => selectedConfigurationTypes.includes(getConfigurationTypeFromPath(path)))
                 .map((configuration, i) => (

@@ -12,7 +12,7 @@ export default function Part({
         _part: {
             paths = [],
         } = {},
-    },
+    } = {},
     onClick,
     className = "",
 }) {

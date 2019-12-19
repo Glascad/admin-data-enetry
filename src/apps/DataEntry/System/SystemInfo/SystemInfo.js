@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { AsyncButton, ConfirmButton, Ellipsis, Input, Select, TitleBar, useInitialState } from '../../../../components';
+import { AsyncButton, ConfirmButton, Ellipsis, TitleBar, useInitialState } from '../../../../components';
 import { parseSearch } from '../../../../utils';
-import SystemName from '../modules/SystemName';
+import SystemInfoInputs from '../modules/SystemInfoInputs';
 
 SystemInfo.navigationOptions = {
     path: '/info',
@@ -110,7 +110,7 @@ function SystemInfo({
                 )}
             />
             <div className="card">
-                <SystemName
+                <SystemInfoInputs
                     {...{
                         system,
                         queryResult,

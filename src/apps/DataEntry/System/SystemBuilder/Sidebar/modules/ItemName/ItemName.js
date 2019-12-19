@@ -1,6 +1,6 @@
 import React from 'react';
 import { match } from "../../../../../../../utils";
-import SystemName from '../../../../modules/SystemName';
+import SystemInfoInputs from '../../../../modules/SystemInfoInputs';
 import DetailOrConfigurationType from './DetailOrConfigurationType';
 import OptionName from './OptionName';
 import PartNumber from './PartNumber';
@@ -11,7 +11,7 @@ export default function ItemName({ selectedItem: { __typename = '' } }) {
     const NameComponent = match(__typename)
         .regex(/Value$/, () => ValueName)
         .regex(/Option$/, () => OptionName)
-        .equals('System', () => SystemName)
+        .equals('System', () => SystemInfoInputs)
         .equals('ConfigurationPart', () => PartNumber)
         .otherwise(() => DetailOrConfigurationType);
     return <NameComponent {...props} />;
