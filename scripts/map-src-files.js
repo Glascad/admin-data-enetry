@@ -1,6 +1,6 @@
 (async () => {
-    const fs = require(`${__dirname}/promise-fs`);
-    const fsToJSON = require(`${__dirname}/files-to-json`);
+    const fs = require(`${__dirname}/../server/utils/promise-fs`);
+    const fsToJSON = require(`${__dirname}/../server/utils/files-to-json`);
     const src = await fsToJSON(`${__dirname}/../src`);
 
     const keys = obj => typeof obj === 'object' ?

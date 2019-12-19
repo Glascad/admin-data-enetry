@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { compareTwoStrings, findBestMatch } from 'string-similarity';
 import useInitialState from '../../hooks/use-initial-state';
@@ -23,6 +23,10 @@ export default function Select({
     onChange,
     "data-cy": dataCy,
     className,
+    readOnly,
+    disabled,
+    noPlaceholder = false,
+    autoResize = false,
 }) {
 
     const [input, setInput] = useInitialState(normalCase(value));
@@ -41,13 +45,34 @@ export default function Select({
 
     const selectOption = i => onChange(filteredOptions[i]);
 
+    const ref = useRef();
+
+    useEffect(() => {
+        if (autoResize) {
+            setTimeout(() => {
+                try {
+                    ref.current.style.width = 0;
+                    ref.current.style.width = `${ref.current.scrollWidth + 1}px`;
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+        }
+    }, [value]);
+
     useEffect(() => {
         if (autoFocus) setInput('');
     }, [autoFocus]);
 
     return (
-        <div
-            className={`Input Select ${className}`}
+        <label
+            className={`Input Select ${
+                className
+                } ${
+                disabled ? 'disabled' : ''
+                } ${
+                readOnly ? 'read-only' : ''
+                }`}
             data-cy={dataCy}
         >
             {label ? (
@@ -58,9 +83,11 @@ export default function Select({
             <div className="select-input-wrapper">
                 <input
                     className="select-input"
+                    ref={ref}
                     data-cy={`${dataCy} ${value.toLowerCase()}`}
                     autoFocus={autoFocus}
-                    placeholder={normalCase(value)}
+                    readOnly={readOnly}
+                    placeholder={noPlaceholder ? undefined : normalCase(value)}
                     value={input}
                     onFocus={() => setInput('')}
                     onBlur={() => setInput(normalCase(value))}
@@ -98,6 +125,6 @@ export default function Select({
                     </div>
                 ) : null)}
             </div>
-        </div>
+        </label>
     );
 }

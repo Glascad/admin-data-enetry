@@ -1,17 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    NavLink,
-    withRouter,
-} from 'react-router-dom';
-
+import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
+import { extractNavigationOptions, normalCase } from '../../../utils';
 import Dropdown from '../../ui/Dropdown/Dropdown';
-
-import './NavMenu.scss';
-
-import { extractNavigationOptions } from '../../../utils';
-
 import Navigator from '../Navigator';
+import './NavMenu.scss';
 
 NavMenu.propTypes = {
     ...Navigator.propTypes,
@@ -38,7 +31,7 @@ function NavMenu({
                     ...arguments[0],
                     ...routeProps,
                 }))
-                .filter(({ shouldRender }) => shouldRender !== false)
+                .filter(({ shouldRenderInNavMenu }) => shouldRenderInNavMenu !== false)
                 .map(({
                     exact,
                     name,
@@ -48,7 +41,7 @@ function NavMenu({
                 }, i) => subroutes ? (
                     <Dropdown
                         key={i}
-                        label={name}
+                        label={normalCase(name)}
                         open={(closed === true) ? false : !!pathname.includes(path)}
                         removeDropdown={removeDropdown}
                         className={
@@ -60,8 +53,8 @@ function NavMenu({
                     >
                         {Object.entries(subroutes)
                             .map(([name, route]) => extractNavigationOptions(name, route, routeProps))
-                            .filter(({ shouldRender }) => shouldRender !== false)
-                            .map(({ name: childName, path: childPath }, j) => (
+                            .filter(({ shouldRenderInNavMenu }) => shouldRenderInNavMenu !== false)
+                            .map(({ name: childName, path: childPath, removeDropdown }, j) => (
                                 <NavLink
                                     key={j}
                                     isActive={(_, { pathname }) => exact ?
@@ -80,7 +73,20 @@ function NavMenu({
                                         }`}
                                     activeClassName="matched"
                                 >
-                                    {childName}
+                                    {normalCase(childName)}
+                                    {removeDropdown ? (
+                                        <div
+                                            className="remove-navlink"
+                                            onClick={e => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                removeDropdown();
+                                            }}
+                                        >
+                                            <div className="block-one" />
+                                            <div className="block-two" />
+                                        </div>
+                                    ) : null}
                                 </NavLink>
                             ))}
                     </Dropdown>
@@ -101,7 +107,7 @@ function NavMenu({
                                 className="item"
                                 activeClassName="matched"
                             >
-                                {name}
+                                {normalCase(name)}
                             </NavLink>
                         )
                 )}

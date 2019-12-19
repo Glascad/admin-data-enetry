@@ -25,7 +25,7 @@ import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 
-export default function EditElevation({
+export default function ElevationInfo({
     history,
     match: {
         path,
@@ -33,7 +33,7 @@ export default function EditElevation({
     location: {
         search,
         state: {
-            previousPath = '/glascad/project/elevation/elevations/elevation-search',
+            previousPath = '/glascad/project/elevations/elevation-search',
             previousSearch = arguments[0].location.search,
         } = {},
     },
@@ -41,11 +41,16 @@ export default function EditElevation({
         _elevation,
         _elevation: {
             finishedFloorHeight: initialFFH,
-        } = {}
+        } = {},
     },
+    project: {
+        _systemSets = [],
+    } = {},
     updateEntireElevation,
     updating,
 }) {
+
+    console.log(arguments[0]);
 
     const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(new ImperialValue(initialFFH), [initialFFH]);
 
@@ -63,6 +68,9 @@ export default function EditElevation({
                 y: roy,
             } = {},
             finishedFloorHeight,
+            _systemSet: {
+                name: systemSetName,
+            } = {},
         } = {},
     } = recursiveElevation;
 
@@ -173,18 +181,22 @@ export default function EditElevation({
                 <Select
                     data-cy="system-set"
                     label="System set"
-                    disabled={true}
-                    options={[{ label: "Trifab451" }]}
-                    value={"Trifab451"}
+                    options={_systemSets.map(({ name }) => name)}
+                    value={systemSetName}
+                    onChange={name => updateElevation({
+                        systemSetId: (_systemSets.find(ss => ss.name === name) || {}).id,
+                        _systemSet: _systemSets.find(ss => ss.name === name),
+                    })}
                 />
                 <GroupingBox
                     title="Rough opening"
-                    className="disabled"
+                    // className="disabled"
                 >
                     <Input
                         data-cy="ro-lock"
                         label="Locked"
                         type="switch"
+                        readOnly={true}
                         checked={true}
                     />
                     <div className="input-group">
@@ -192,13 +204,14 @@ export default function EditElevation({
                             data-cy="ro-width"
                             label="Width"
                             type="inches"
-                            initialValue={new ImperialValue(rox)}
-                            onChange={() => { }}
+                            readOnly={true}
+                            value={new ImperialValue(rox)}
                         />
                         <Input
                             data-cy="mo-horizontal"
                             label="Masonry opening"
                             type="switch"
+                            readOnly={true}
                             checked={true}
                         />
                     </div>
@@ -207,13 +220,14 @@ export default function EditElevation({
                             data-cy="ro-height"
                             label="Height"
                             type="inches"
-                            initialValue={new ImperialValue(roy)}
-                            onChange={() => { }}
+                            readOnly={true}
+                            value={new ImperialValue(roy)}
                         />
                         <Input
                             data-cy="mo-vertical"
                             label="Masonry opening"
                             type="switch"
+                            readOnly={true}
                             checked={true}
                         />
                     </div>

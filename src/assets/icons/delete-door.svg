@@ -1,0 +1,13 @@
+
+<svg class="icon"  width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    
+    
+    <g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polyline class="stroke-red"   points="21.5 0.5 9.5 9 21.5 17.5"></polyline>
+        <rect class="stroke-gray"   x="9.5" y="0.5" width="12" height="17"></rect>
+        <g class="fill-white"   transform="translate(0.000000, 8.000000)">
+            <rect class="fill-red"   x="0" y="0" width="6" height="2"></rect>
+        </g>
+    </g>
+</svg>

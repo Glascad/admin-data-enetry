@@ -1,7 +1,7 @@
 
-import { unique, Loggable } from '../../../../../../../utils';
+import { GET_RELATIVE_DIRECTIONS, Loggable, unique } from '../../../../../../../utils';
 import sortDetails from './sort-details';
-import { GET_RELATIVE_DIRECTIONS } from './directions';
+
 
 const matchedDetailsKey = 'matched_details<first>';
 const detailsByContainerKey = 'details_by_container<first>';

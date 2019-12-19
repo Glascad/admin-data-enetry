@@ -1,12 +1,19 @@
-import applyActionToElevation from "./apply-action";
-import MERGE_CONTAINERS from "../merge-containers";
+import { DIRECTIONS } from "../../../../../../../../../utils";
+import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";
 import sample1 from "../../../../utils/sample-elevations/sample1.json";
 import sample2 from "../../../../utils/sample-elevations/sample2.json";
-import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
+import MERGE_CONTAINERS from "../merge-containers";
+import applyActionToElevation from "./apply-action";
 import chainTests from './chain-tests';
-import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";
 
-const testMerge = ({ elevation, direction, containerId, deletedContainerId, daylightOpening }) => {
+function testMerge({
+    elevation,
+    direction,
+    containerId,
+    deletedContainerId,
+    daylightOpening,
+}) {
+
     const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
         containers: {
             [containerId]: container,

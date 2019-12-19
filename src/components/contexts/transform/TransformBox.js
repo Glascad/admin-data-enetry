@@ -13,61 +13,57 @@ function TransformBox({
             y: scaleY,
         },
         spaceKey,
+        innerContainerRef,
+        outerContainerRef,
     },
     children,
-    outerTransformRef,
-    innerTransformRef,
     outerStyle,
     innerStyle,
     viewportRef,
     className = '',
+    overtakeViewport = true,
     ...props
 }) {
 
-    const outerContainer = useRef(outerTransformRef);
-    const innerContainer = useRef(innerTransformRef);
-
     useEffect(() => {
-        const resizeViewport = () => {
+        if (overtakeViewport) {
+            var previousViewportStyles;
+
             setTimeout(() => {
+                try {
+                    previousViewportStyles = {
+                        paddingBottom: viewportRef.current.style.paddingBottom,
+                        marginBottom: viewportRef.current.style.marginBottom,
+                        overflowY: viewportRef.current.style.overflowY,
+                        overflowX: viewportRef.current.style.overflowX,
+                    };
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+
+            const resizeViewport = () => setTimeout(() => {
                 try {
                     viewportRef.current.style.paddingBottom = "0";
                     viewportRef.current.style.marginBottom = "0";
                     viewportRef.current.style.overflowY = "hidden";
                     viewportRef.current.style.overflowX = "hidden";
-                    outerContainer.current.style.height = `${
+                    outerContainerRef.current.style.height = `${
                         window.innerHeight
                         -
-                        outerContainer.current.offsetTop
+                        outerContainerRef.current.offsetTop
                         -
                         48}px`;
                 } catch (err) {
                     console.error(err);
                 }
             });
-        }
 
-        var previousViewportStyles;
+            resizeViewport();
 
-        setTimeout(() => {
-            try {
-                previousViewportStyles = {
-                    paddingBottom: viewportRef.current.style.paddingBottom,
-                    marginBottom: viewportRef.current.style.marginBottom,
-                    overflowY: viewportRef.current.style.overflowY,
-                    overflowX: viewportRef.current.style.overflowX,
-                };
-            } catch (err) {
-                console.error(err);
-            }
-        });
+            window.addEventListener('resize', resizeViewport);
 
-        resizeViewport();
-
-        window.addEventListener('resize', resizeViewport);
-
-        return () => {
-            setTimeout(() => {
+            return () => setTimeout(() => {
                 try {
                     const {
                         paddingBottom,
@@ -89,8 +85,8 @@ function TransformBox({
     return (
         <div
             {...props}
+            ref={outerContainerRef}
             style={outerStyle}
-            ref={outerContainer}
             className={`TransformBox ${
                 className
                 } ${
@@ -101,7 +97,7 @@ function TransformBox({
                 }`}
         >
             <div
-                ref={innerContainer}
+                ref={innerContainerRef}
                 style={{
                     ...innerStyle,
                     transform: `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`,

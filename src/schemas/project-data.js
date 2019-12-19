@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { ELEVATION_FIELDS } from './elevation-data';
+import { print } from 'graphql';
 
 // FIELDS
 
@@ -37,18 +38,20 @@ export const SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS = gql`
     }
 `;
 
-export const SYSTEM_SET_DETAIL_OPTION_VALUE_FIELDS = gql`
-    fragment SystemSetDetailOptionValueFields on SystemSetDetailOptionValue {
+export const SYSTEM_SET_DETAIL_FIELDS = gql`
+    fragment SystemSetDetailFields on SystemSetDetail {
         __typename
         nodeId
+        systemDetailPath
         detailOptionValuePath
     }
 `;
 
-export const SYSTEM_SET_CONFIGURATION_OPTION_VALUE_FIELDS = gql`
-    fragment SystemSetConfigurationOptionValueFields on SystemSetConfigurationOptionValue {
+export const SYSTEM_SET_CONFIGURATION_FIELDS = gql`
+    fragment SystemSetConfigurationFields on SystemSetConfiguration {
         __typename
         nodeId
+        detailConfigurationPath
         configurationOptionValuePath
     }
 `;
@@ -79,21 +82,21 @@ export const ENTIRE_SYSTEM_SET = gql`
                 ...SystemSetOptionGroupValueFields
             }
         }
-        systemSetDetailOptionValuesBySystemSetId {
+        systemSetDetailsBySystemSetId {
             nodes {
-                ...SystemSetDetailOptionValueFields
+                ...SystemSetDetailFields
             }
         }
-        systemSetConfigurationOptionValuesBySystemSetId {
+        systemSetConfigurationsBySystemSetId {
             nodes {
-                ...SystemSetConfigurationOptionValueFields
+                ...SystemSetConfigurationFields
             }
         }
     }
     ${SYSTEM_SET_FIELDS}
     ${SYSTEM_SET_OPTION_GROUP_VALUE_FIELDS}
-    ${SYSTEM_SET_DETAIL_OPTION_VALUE_FIELDS}
-    ${SYSTEM_SET_CONFIGURATION_OPTION_VALUE_FIELDS}
+    ${SYSTEM_SET_DETAIL_FIELDS}
+    ${SYSTEM_SET_CONFIGURATION_FIELDS}
 `;
 
 // ${SD.ENTIRE_SYSTEM}
@@ -126,3 +129,5 @@ export const ENTIRE_PROJECT = gql`
     ${ELEVATION_FIELDS}
     ${SYSTEM_SET_FIELDS}
 `;
+
+console.log(print(ENTIRE_SYSTEM_SET));

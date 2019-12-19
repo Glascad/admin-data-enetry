@@ -1,11 +1,57 @@
 {
     "id": 1,
+    "__typename": "System",
     "manufacturerId": 1,
     "systemType": "STOREFRONT",
     "name": "Sample 1",
     "_manufacturer": {
+        "__typename": "Manufacturer",
         "id": 1,
-        "name": "Kawneer"
+        "name": "Initial Manufacturer",
+        "_parts": [
+            {
+                "__typename": "Part",
+                "id": 1,
+                "partNumber": "451-CG-004",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 2,
+                "partNumber": "450-026",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 3,
+                "partNumber": "451T-026",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 4,
+                "partNumber": "451T-CG-003",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 5,
+                "partNumber": "451T-CG-001",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 6,
+                "partNumber": "451T-VG-570",
+                "orientation": "FRONT"
+            },
+            {
+                "__typename": "Part",
+                "id": 7,
+                "partNumber": "451-VG-572",
+                "orientation": "FRONT"
+            }
+        ]
     },
     "_systemOptions": [
         {
@@ -103,34 +149,34 @@
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP"
         }
     ],
-    "_systemConfigurations": [
+    "_detailConfigurations": [
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.COMPENSATING_RECEPTOR",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.INSIDE.__CT__.HEAD",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.COMPENSATING_RECEPTOR",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.DOWN.GLAZING.OUTSIDE.__CT__.HEAD",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.COMPENSATING_RECEPTOR",
             "optional": false
         },
         {
-            "__typename": "SystemConfiguration",
+            "__typename": "DetailConfiguration",
             "path": "1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.STOPS.UP.__CT__.HEAD",
             "optional": false
         }

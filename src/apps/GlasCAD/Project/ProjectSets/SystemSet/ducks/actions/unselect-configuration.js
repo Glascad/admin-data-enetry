@@ -1,52 +1,52 @@
-import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system";
 import { replace } from "../../../../../../../utils";
 
 export default function UNSELECT_CONFIGURATION({
     _systemSet: {
-        _systemSetConfigurationOptionValues = [],
+        _systemSetConfigurations = [],
     },
 }, {
-    configurationOptionValues = [],
+    configurations: oldConfigurations = [],
+    optionalConfigurationsToUnselect: oldOptionalConfigurationsToUnselect = [],
 },
     configurationPath
 ) {
+    // console.log(arguments);
     const detailType = getDetailTypeFromPath(configurationPath);
     const configurationType = getConfigurationTypeFromPath(configurationPath);
 
     // find in state
-    const COVInState = configurationOptionValues.find(({ oldPath, newPath }) => (
-        getDetailTypeFromPath(oldPath || newPath) === detailType
+    const COVInState = oldConfigurations.find(({ detailConfigurationPath, configurationOptionValuePath }) => (
+        getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === detailType
         &&
-        getConfigurationTypeFromPath(oldPath || newPath) === configurationType
+        getConfigurationTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === configurationType
     ));
 
-    const { oldPath, newPath } = COVInState || {};
-
-    const isCreated = newPath && !oldPath;
-    const isUpdated = oldPath && newPath;
-
-    const index = configurationOptionValues.indexOf(COVInState);
+    const index = oldConfigurations.indexOf(COVInState);
 
     // or find in query
-    const { configurationOptionValuePath } = !COVInState && _systemSetConfigurationOptionValues.find(({ configurationOptionValuePath }) => (
-        getDetailTypeFromPath(configurationOptionValuePath) === detailType
+    const { configurationOptionValuePath: queryCOVP, detailConfigurationPath: queryDCP } =  _systemSetConfigurations.find(({ configurationOptionValuePath, detailConfigurationPath }) => (
+        getDetailTypeFromPath(configurationOptionValuePath || detailConfigurationPath) === detailType
         &&
-        getConfigurationTypeFromPath(configurationOptionValuePath) === configurationType
+        getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath) === configurationType
     )) || {};
+
+    const configurations = COVInState ?
+        oldConfigurations.filter((_, i) => i !== index)
+        :
+        oldConfigurations;
+
+    const optionalConfigurationsToUnselect = (queryCOVP || queryDCP) ?
+        oldOptionalConfigurationsToUnselect.concat({
+            detailType: getDetailTypeFromPath(queryCOVP || queryDCP),
+            configurationType: getConfigurationTypeFromPath(queryCOVP || queryDCP)
+        })
+        :
+        oldOptionalConfigurationsToUnselect;
 
     return {
         ...arguments[1],
-        configurationOptionValues: isCreated ?
-            configurationOptionValues.filter((_, i) => i !== index)
-            :
-            isUpdated ?
-                replace(configurationOptionValues, index, { oldPath })
-                :
-                configurationOptionValuePath ?
-                    configurationOptionValues.concat({
-                        oldPath: configurationOptionValuePath
-                    })
-                    :
-                    configurationOptionValues,
+        configurations,
+        optionalConfigurationsToUnselect,
     };
 }

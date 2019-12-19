@@ -1,5 +1,5 @@
 import sample1 from './sample1.json';
 
-export {
+export default {
     sample1,
 }

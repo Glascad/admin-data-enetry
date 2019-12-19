@@ -1,80 +1,79 @@
 import { replace, unique } from "../../../../../../../utils";
 import _ from 'lodash';
 import { SELECT_DETAIL_OPTION_VALUE, SELECT_CONFIGURATION_OPTION_VALUE } from ".";
-import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system";
 
 export default function SELECT_OPTION_GROUP_VALUE({
     _systemSet: {
-        _systemSetDetailOptionValues = [],
-        _systemSetConfigurationOptionValues = [],
+        _systemSetDetails = [],
+        _systemSetConfigurations = [],
         _systemSetOptionGroupValues = [],
     },
 }, {
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
     optionGroupValues = [],
 }, [
     optionName,
     name,
     systemMap,
 ]) {
+    // console.log(arguments);
     // find option group in query result
     const { name: oldValue } = _systemSetOptionGroupValues.find(ovg => ovg.optionName === optionName) || {};
     // then find option group in state
     const updatedOGV = optionGroupValues.find(ogv => ogv.optionName === optionName);
     const index = optionGroupValues.indexOf(updatedOGV);
     const newOGV = {
-        ...updatedOGV,
+        // ...updatedOGV,
         optionName,
         name,
     };
-    // get details that need to be updated
+    // get details that need to be updated from state and query results 
     const [newDOVs, DOVsToUpdate] = _.partition(
-        detailOptionValues,
-        ({ newPath, oldPath }) => !(newPath || oldPath).includes(`.${optionName}.`),
+        details,
+        ({ systemDetailPath, detailOptionValuePath }) => !(systemDetailPath || detailOptionValuePath).includes(`.${optionName}.`),
     );
-    const DTPaths = unique(DOVsToUpdate
-        .map(({ newPath, oldPath }) => (newPath || oldPath))
-        .concat(_systemSetDetailOptionValues
-            .map(({ detailOptionValuePath }) => detailOptionValuePath)
-            .filter(path => path.includes(`.${optionName}`))
-        )
-        .map(path => path.replace(/(\.__DT__\.\w+)\..*$/, '$1'))
+
+    const allDOVsToUpdate = _systemSetDetails
+        .filter(({ detailOptionValuePath, systemDetailPath }) => (systemDetailPath || detailOptionValuePath).includes(`.${optionName}.`))
+        .concat(DOVsToUpdate);
+
+    const DTPaths = unique(allDOVsToUpdate
+        .map(({ systemDetailPath, detailOptionValuePath }) => (systemDetailPath || detailOptionValuePath))
+        .map(path => path.replace(new RegExp(`(^.*${optionName})\\..*$`), '$1'))
     );
+
     const detailTypes = DTPaths.map(getDetailTypeFromPath);
+
     // within details that don't need to be updated, get configurations that need to be updated
-    const [newCOVs, COVsToUpdate] = _.partition(
-        configurationOptionValues,
-        ({ newPath, oldPath }) => !newDOVs.some(dov => (newPath || oldPath).startsWith(dov.newPath || dov.oldPath)),
+    const COVsToUpdate = configurations.filter(
+        ({ detailConfigurationPath, configurationOptionValuePath }) => !allDOVsToUpdate
+            .some(dov => (detailConfigurationPath || configurationOptionValuePath)
+                .startsWith(dov.systemDetailPath || dov.detailOptionValuePath))
     );
-    const CTPaths = unique(COVsToUpdate
-        .map(({ newPath, oldPath }) => (newPath || oldPath))
-        .concat(_systemSetConfigurationOptionValues.map(({ configurationOptionValuePath }) => configurationOptionValuePath))
-        .map(path => path.replace(/(\.__CT__\.\w+)\..*$/, '$1'))
+
+    const allCOVsToUpdate = _systemSetConfigurations
+        .filter(({ detailConfigurationPath, configurationOptionValuePath }) =>
+            (detailConfigurationPath || configurationOptionValuePath).match(new RegExp(`__CT__.*\\.${optionName}\\.`))
+            &&
+            !configurations
+                .some(({ detailConfigurationPath: cDCP, configurationOptionValuePath: cCOVP }) =>
+                    (
+                        getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === getDetailTypeFromPath(cDCP || cCOVP)
+                        &&
+                        getConfigurationTypeFromPath(detailConfigurationPath || configurationOptionValuePath) === getConfigurationTypeFromPath(cDCP || cCOVP)
+                    )
+                ))
+        .concat(COVsToUpdate);
+
+    const CTPaths = unique(allCOVsToUpdate
+        .map(({ detailConfigurationPath, configurationOptionValuePath }) => (detailConfigurationPath || configurationOptionValuePath))
+        .map(path => path.replace(new RegExp(`(^.*${optionName})\\..*$`), '$1'))
         .filter(path => !detailTypes.includes(getDetailTypeFromPath(path)))
     );
-    const configurationTypes = CTPaths.map(getConfigurationTypeFromPath);
-    // update configurations
-    return CTPaths.reduce((systemSetUpdate, path) => (
-        SELECT_CONFIGURATION_OPTION_VALUE(
-            arguments[0],
-            systemSetUpdate,
-            [
-                path,
-                systemMap,
-            ],
-        )
-        // update details
-    ), DTPaths.reduce((systemSetUpdate, path) => (
-        SELECT_DETAIL_OPTION_VALUE(
-            arguments[0],
-            systemSetUpdate,
-            [
-                path,
-                systemMap,
-            ],
-        )
-    ), {
+
+    const systemSetWithUpdatedOptionGroupValue = {
         ...arguments[1],
         optionGroupValues: oldValue === name ?
             // if option group value is same as query result, then remove from state,
@@ -86,7 +85,40 @@ export default function SELECT_OPTION_GROUP_VALUE({
                 :
                 // otherwise add to state
                 optionGroupValues.concat(newOGV),
-        detailOptionValues: newDOVs,
-        configurationOptionValues: newCOVs,
-    }))
+        details,
+        configurations,
+    }
+    // console.log({ systemSetWithUpdatedOptionGroupValue })
+
+    const systemSetWithUpdatedDetails = DTPaths.reduce((systemSetUpdate, path) => (
+        SELECT_DETAIL_OPTION_VALUE(
+            arguments[0],
+            systemSetUpdate,
+            [
+                path,
+                systemMap,
+            ],
+        )
+    ), systemSetWithUpdatedOptionGroupValue)
+
+
+    // console.log({ systemSetWithUpdatedDetails })
+
+    // update configurations
+    const systemSetWithUpdatedConfigurations = CTPaths.reduce((systemSetUpdate, path) => (
+        SELECT_CONFIGURATION_OPTION_VALUE(
+            arguments[0],
+            systemSetUpdate,
+            [
+                path,
+                systemMap,
+            ],
+        )
+        // update details
+    ), systemSetWithUpdatedDetails)
+
+    // console.log({ systemSetWithUpdatedConfigurations })
+
+    return systemSetWithUpdatedConfigurations;
+
 }

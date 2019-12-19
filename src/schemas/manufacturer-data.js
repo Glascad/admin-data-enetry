@@ -11,14 +11,31 @@ export const MANUFACTURER_FIELDS = gql`
 
 // FIELDS
 
+export const PART_FIELDS = gql`
+    fragment PartFields on Part {
+        __typename
+        nodeId
+        id
+        partNumber
+        orientation
+        paths {
+            commands {
+                command
+                arguments
+            }
+        }
+    }
+`;
+
 export const SYSTEM_FIELDS = gql`
     fragment SystemFields on System {
         __typename
         nodeId
         id
         manufacturerId
-        systemType
         name
+        systemType
+        sightline
     }
 `;
 
@@ -72,8 +89,8 @@ export const DETAIL_OPTION_VALUE_FIELDS = gql`
     }
 `;
 
-export const SYSTEM_CONFIGURATION_FIELDS = gql`
-    fragment SystemConfigurationFields on SystemConfiguration {
+export const DETAIL_CONFIGURATION_FIELDS = gql`
+    fragment DetailConfigurationFields on DetailConfiguration {
         __typename
         nodeId
         path
@@ -96,6 +113,19 @@ export const CONFIGURATION_OPTION_VALUE_FIELDS = gql`
         __typename
         nodeId
         path
+    }
+`;
+
+export const CONFIGURATION_PART_FIELDS = gql`
+    fragment ConfigurationPartFields on ConfigurationPart {
+        __typename
+        nodeId
+        id
+        path
+        parentConfigurationOptionValuePath
+        parentDetailConfigurationPath
+        partId
+        transform { a b c d e f g h i }
     }
 `;
 
@@ -150,11 +180,27 @@ export const ENTIRE_MANUFACTURER = gql`
     ${SYSTEM_FIELDS}
 `;
 
+export const ENTIRE_CONFIGURATION_PART = gql`
+    fragment EntireConfigurationPart on ConfigurationPart {
+        ...ConfigurationPartFields
+        partByPartId {
+            ...PartFields
+        }
+    }
+    ${CONFIGURATION_PART_FIELDS}
+    ${PART_FIELDS}
+`;
+
 export const ENTIRE_SYSTEM = gql`
     fragment EntireSystem on System {
         ...SystemFields
         manufacturerByManufacturerId {
             ...ManufacturerFields
+            partsByManufacturerId {
+                nodes {
+                ...PartFields
+                }
+            }
         }
         systemOptionsBySystemId {
             nodes {
@@ -186,9 +232,9 @@ export const ENTIRE_SYSTEM = gql`
                 ...DetailOptionValueFields
             }
         }
-        systemConfigurationsBySystemId {
+        detailConfigurationsBySystemId {
             nodes {
-                ...SystemConfigurationFields
+                ...DetailConfigurationFields
             }
         }
         configurationOptionsBySystemId {
@@ -201,16 +247,23 @@ export const ENTIRE_SYSTEM = gql`
                 ...ConfigurationOptionValueFields
             }
         }
+        configurationPartsBySystemId {
+            nodes {
+                ...EntireConfigurationPart
+            }
+        }
     }
     ${SYSTEM_FIELDS}
     ${MANUFACTURER_FIELDS}
+    ${PART_FIELDS}
     ${SYSTEM_OPTION_FIELDS}
     ${SYSTEM_OPTION_VALUE_FIELDS}
     ${OPTION_GROUP_FIELDS}
     ${SYSTEM_DETAIL_FIELDS}
     ${DETAIL_OPTION_FIELDS}
     ${DETAIL_OPTION_VALUE_FIELDS}
-    ${SYSTEM_CONFIGURATION_FIELDS}
+    ${DETAIL_CONFIGURATION_FIELDS}
     ${CONFIGURATION_OPTION_FIELDS}
     ${CONFIGURATION_OPTION_VALUE_FIELDS}
+    ${ENTIRE_CONFIGURATION_PART}
 `;

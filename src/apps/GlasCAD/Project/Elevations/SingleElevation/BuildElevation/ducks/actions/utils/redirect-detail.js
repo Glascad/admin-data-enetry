@@ -23,7 +23,7 @@ export default function redirectDetail({
     },
 }) {
 
-    console.log(`REDIRECTING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
+    // console.log(`REDIRECTING DETAIL: ${detailId}, REDIRECTING FROM: ${oldId} TO:  ${newId}`);
 
     // console.log({ detail, oldContainer, newContainer });
     // console.trace(detail);

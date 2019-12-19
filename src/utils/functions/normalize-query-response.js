@@ -3,7 +3,7 @@ import flattenNodeArrays from './flatten-node-arrays';
 import replaceByKeys from './replace-by-keys';
 import extractArrayCount from './extract-array-count';
 
-export default ({ data }) => removeNullValues(
+const cleanData = ({ data }) => removeNullValues(
     flattenNodeArrays(
         replaceByKeys(
             extractArrayCount(
@@ -12,3 +12,8 @@ export default ({ data }) => removeNullValues(
         ),
     ),
 ) || {};
+
+export default __raw => ({
+    ...cleanData(__raw),
+    __raw,
+});

@@ -37,7 +37,7 @@ export default function extractNavigationOptions(functionName, component, props 
     const {
         path = `/${name.replace(/ +/g, '-').toLowerCase()}`,
         subroutes,
-        shouldRender: optionsShouldRender,
+        shouldRenderInNavMenu: optionsshouldRenderInNavMenu,
         requiredURLParams,
     } = options;
 
@@ -53,8 +53,8 @@ export default function extractNavigationOptions(functionName, component, props 
 
     const searchKeys = Object.keys(removeNullValues(parsedSearch));
 
-    const shouldRender = options.hasOwnProperty('shouldRender') ?
-        optionsShouldRender
+    const shouldRenderInNavMenu = options.hasOwnProperty('shouldRenderInNavMenu') ?
+        optionsshouldRenderInNavMenu
         :
         (requiredURLParams || []).every(param => searchKeys.includes(param));
 
@@ -65,7 +65,7 @@ export default function extractNavigationOptions(functionName, component, props 
 
     return {
         ...options,
-        shouldRender,
+        shouldRenderInNavMenu,
         removeDropdown,
         component,
         name,

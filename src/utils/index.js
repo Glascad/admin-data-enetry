@@ -1,3 +1,5 @@
+// OBJECTS
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, getDirectionFromArrowKey } from './objects/directions';
 // CLASSES
 import parseSearch from './classes/parse-search';
 import ImperialValue from './classes/imperial-values';
@@ -19,10 +21,20 @@ import logInputOutput from './functions/log-input-output';
 import match, { final } from './functions/match';
 import replace from './functions/replace';
 import { extractPathData } from './functions/parse-svg';
+import getDroppedFileContents from './functions/get-dropped-file-contents';
+import DXFToSVG from './functions/dxf-to-svg';
+import * as trig from './functions/trig';
+import * as svg from './functions/svg-utils';
+import Matrix from './functions/matrix';
+import limitRefetches from './functions/limit-refetches';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
 export {
+    // OBJECTS
+    DIRECTIONS,
+    GET_RELATIVE_DIRECTIONS,
+    getDirectionFromArrowKey,
     // CLASSES
     parseSearch,
     ImperialValue,
@@ -47,5 +59,10 @@ export {
     final,
     replace,
     extractPathData,
+    DXFToSVG,
+    getDroppedFileContents,
+    trig,
+    svg,
+    Matrix,
+    limitRefetches,
 };
-    

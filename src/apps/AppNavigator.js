@@ -1,15 +1,11 @@
-import React, { Suspense, lazy } from 'react';
-
+import React, { Suspense } from 'react';
 import { AuthContext } from '../AuthContext';
-
-import { withContext, Navigator } from '../components';
-
-import Login from './Login/Login';
-import Practice from './Practice/practice';
-
-import Glascad from './GlasCAD/GlasCAD';
-import DataEntry from './DataEntry/DataEntry';
+import { Navigator, withContext } from '../components';
 import { match } from '../utils';
+import DataEntry from './DataEntry/DataEntry';
+// import Practice from './Practice/practice';
+import Glascad from './GlasCAD/GlasCAD';
+import Login from './Login/Login';
 
 // CONVERT THIS INTO A HOOOK
 // const Glascad = lazy(() => import('./GlasCAD/GlasCAD'));
@@ -36,10 +32,11 @@ const mapProps = ({
         .regex(/data.entry/i, { DataEntry })
         .regex(/client/i, { Glascad })
         .otherwise({ Login }),
-    // .otherwise({
-    //     DataEntry,
-    //     Glascad,
-    // }),
+        // .otherwise({
+        //     DataEntry,
+        //     Glascad,
+        //     // Login,
+        // }),
 });
 
 export default withContext(AuthContext, mapProps)(AppNavigator);

@@ -1,10 +1,10 @@
 @import "../../../styles/variables";
 
 .Select {
-    &.warning {
+    &.read-only {
         .select-input-wrapper {
             &::after {
-                border-left-color: $light-gray;
+                display: none;
             }
         }
     }

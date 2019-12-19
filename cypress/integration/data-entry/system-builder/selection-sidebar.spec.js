@@ -2,7 +2,7 @@
 describe('Testing selection in system builder', () => {
     beforeEach(() => {
         cy.login();
-        cy.visit(`http://localhost:3000/data-entry/system/build?systemId=1`);
+        cy.visit(`http://localhost:3000/data-entry/system/build?manufacturerId=2&systemId=2`);
     });
 
     it('Can select settings menu', () => {

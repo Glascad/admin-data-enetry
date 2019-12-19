@@ -1,8 +1,9 @@
-import mergeDLO from './utils/merge-dlo';
+import { GET_RELATIVE_DIRECTIONS } from '../../../../../../../../utils';
 import deleteContainer from './utils/delete-container';
-import { GET_RELATIVE_DIRECTIONS } from '../../../utils/recursive-elevation/directions';
 import deleteDetail from './utils/delete-detail';
+import mergeDLO from './utils/merge-dlo';
 import redirectDetail from './utils/redirect-detail';
+
 
 MERGE_CONTAINERS.getSelectedItems = ({
     container: {

@@ -140,10 +140,14 @@
     flex-direction: column;
     align-items: center;
     padding-top: $header-height;
-    padding-bottom: $header-height * 4;
+    height: 100vh;
 
     > * {
         width: 90%;
         max-width: 80vw;
+    }
+
+    > .card {
+        margin-bottom: $header-height * 4;
     }
 }

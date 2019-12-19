@@ -9,7 +9,7 @@ export const withSettingsContext = withContext(SettingsContext, ({ context }) =>
 export default class SettingsProvider extends PureComponent {
 
     state = {
-        shouldRender: {
+        shouldRenderInNavMenu: {
             detailBubbles: false,
             glassMarks: false,
             infillColors: false,
@@ -30,7 +30,7 @@ export default class SettingsProvider extends PureComponent {
     render = () => {
         const {
             state: {
-                shouldRender,
+                shouldRenderInNavMenu,
             },
             updateSetting,
         } = this;
@@ -38,7 +38,7 @@ export default class SettingsProvider extends PureComponent {
         return (
             <SettingsContext.Provider
                 value={{
-                    shouldRender,
+                    shouldRenderInNavMenu,
                     updateSetting,
                 }}
             >

@@ -1,0 +1,13 @@
+@import "../../../../../../styles/variables";
+
+.system-set-detail {
+
+
+    .DetailPreview {
+        padding: $small;
+        background: $light-gray;
+        fill: $dark-gray;
+        stroke: none;
+        width: $pill-width * 2;
+    }
+}

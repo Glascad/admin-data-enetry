@@ -66,6 +66,12 @@ export const ENTIRE_ELEVATION = gql`
                 ...EntireContainerDetail
             }
         }
+        systemSetBySystemSetId {
+            __typename
+            nodeId
+            id
+            name
+        }
     }
     ${ELEVATION_FIELDS}
     ${ELEVATION_CONTAINER_FIELDS}

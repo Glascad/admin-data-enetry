@@ -1,4 +1,4 @@
-import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system-utils";
+import { getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
 
 export default function validateSystemSetUpdate({
     systemId,

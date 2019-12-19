@@ -52,7 +52,7 @@ export default function DetailTypes() {
                                 <>
                                     <TitleBar
                                         title="Detail Type Settings"
-                                        selections={[type]}
+                                        snailTrail={[type]}
                                     />
                                     <Input
                                         label="Vertical"

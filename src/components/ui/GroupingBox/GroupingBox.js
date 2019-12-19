@@ -1,11 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import './GroupingBox.scss';
-import Toggle from '../Toggle/Toggle';
-import CircleButton from '../CircleButton/CircleButton';
-import customPropTypes from '../../utils/custom-prop-types';
-import { normalCase } from '../../../utils';
+import React from 'react';
 import { Input } from '../..';
+import { normalCase } from '../../../utils';
+import customPropTypes from '../../utils/custom-prop-types';
+import CircleButton from '../CircleButton/CircleButton';
+import Toggle from '../Toggle/Toggle';
+import './GroupingBox.scss';
 
 GroupingBox.propTypes = {
     title: PropTypes.string,
@@ -15,17 +15,13 @@ GroupingBox.propTypes = {
     className: PropTypes.string,
 };
 
-GroupingBox.defaultProps = {
-    className: "",
-};
-
 export default function GroupingBox({
     title,
     switch: switchProps,
     toggle,
     circleButton,
     children,
-    className,
+    className = "",
     "data-cy": dataCy,
 }) {
     return (

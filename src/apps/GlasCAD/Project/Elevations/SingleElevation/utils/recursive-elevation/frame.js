@@ -1,5 +1,4 @@
-import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
-import { unique, Loggable, lastItem, replace } from "../../../../../../../utils";
+import { lastItem, Loggable, replace, unique } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';

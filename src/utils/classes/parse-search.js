@@ -1,3 +1,4 @@
+import _ from 'lodash';
 
 /**
  * parseSearch converts the search string from the url into an object for easy use
@@ -19,7 +20,7 @@ const parseSearch = search => search.replace(/^.*?\?/, "")
 
 const joinSearch = searchObject => Object
     .entries(searchObject)
-    .filter(([_, value]) => value)
+    .filter(([_, value]) => value !== undefined)
     .reduce((search, [key, value], i) => `${
         search
         }${
@@ -60,4 +61,4 @@ class Search {
     toString = () => this.search;
 }
 
-export default search => new Search(search);
+export default _.memoize(search => new Search(search));
