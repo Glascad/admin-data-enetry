@@ -24,8 +24,6 @@ export default function Sidebar({
     match,
     location,
 }) {
-    console.log(arguments[0]);
-
     const itemName = getLastItemFromPath(path);
 
     const children = getChildren(selectedItem, systemMap);

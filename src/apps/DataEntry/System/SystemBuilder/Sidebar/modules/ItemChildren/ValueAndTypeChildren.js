@@ -78,12 +78,6 @@ export default function ValueAndTypeChildren({
         :
         optionSelected;
 
-    console.log({
-        optionSelected,
-        optionIsSelected,
-        childTypename,
-    });
-
     return (
         <ToggleBox
             views={[
@@ -158,7 +152,6 @@ export default function ValueAndTypeChildren({
                                 const { path: itemPath = '' } = item;
                                 const childTypeChildren = getChildren({ path: itemPath }, systemMap);
                                 const childName = getLastItemFromPath(itemPath);
-                                console.log({ item, childTypeChildren, childName })
                                 return (
                                     <Row
                                         key={i}
@@ -234,15 +227,11 @@ export default function ValueAndTypeChildren({
                     onClick: () => {
                         const payload = {
                             __typename: __typename.match(/value$/i) ?
-                                console.log("IS VALUE")
-                                ||
                                 match(__typename)
                                     .regex(/^system/i, 'SystemDetail')
                                     .regex(/^detail/i, 'DetailConfiguration')
                                     .otherwise('ConfigurationPart')
                                 :
-                                console.log("IS TYPE")
-                                ||
                                 match(__typename)
                                     .regex(/system$/i, 'SystemDetail')
                                     .regex(/detail$/i, 'DetailConfiguration')

@@ -98,8 +98,6 @@ export default function System({
         _system: _sampleSystem || _system,
     };
 
-    console.log({ queryResult, _sampleSystem, _system });
-
     const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
 
     const {

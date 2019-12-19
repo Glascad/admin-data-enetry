@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getDefaultConfigurationPaths, getDefaultPath, getDetailOrConfigurationOrPartExtremities } from '../../app-logic/system';
 import { nullIf, useInitialState } from '../../components';
 import { match } from '../../utils';
@@ -19,6 +19,7 @@ function DetailOrConfigurationOrPart({
     getConfigurationProps = () => { },
     getPartProps = () => { },
     children,
+    preserveInitialViewBox = false,
 }) {
 
     const item = systemMap[path];
@@ -27,24 +28,24 @@ function DetailOrConfigurationOrPart({
 
     const configurationPathString = Object.values(selectedConfigurationPaths).sort().join();
 
-    const [viewBox, setViewBox] = useInitialState(
-        getViewBox(
-            getDetailOrConfigurationOrPartExtremities(
-                item,
-                selectedConfigurationPaths,
-                systemMap,
-            ),
+    console.log(configurationPathString);
+    console.log({ item, selectedConfigurationPaths });
+
+    const viewBox = getViewBox(
+        getDetailOrConfigurationOrPartExtremities(
+            item,
+            selectedConfigurationPaths,
+            systemMap,
         ),
-        [path, !!item, configurationPathString],
     );
 
-    const [x, y, width, height] = viewBox.split(/\s+/g);
+    const [initialViewBox, setViewBox] = useInitialState(viewBox, [path, !!item, configurationPathString]);
 
     return (
         <svg
             id={id}
             className={`DetailOrConfigurationOrPart ${className}`}
-            viewBox={viewBox}
+            viewBox={preserveInitialViewBox ? initialViewBox : viewBox}
             transform="scale(1, -1)"
             style={style}
         >
@@ -78,13 +79,6 @@ function DetailOrConfigurationOrPart({
                 })
                 .otherwise(null)}
             {children}
-            <rect
-                className="view-box"
-                x={x}
-                y={y}
-                height={height}
-                width={width}
-            />
         </svg>
     );
 }

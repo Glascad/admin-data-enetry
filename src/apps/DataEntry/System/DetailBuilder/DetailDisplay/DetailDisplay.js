@@ -54,6 +54,7 @@ function DetailDisplay({
                     onClick: handleClick,
                     className: part === selectedItem ? 'selected' : '',
                 })}
+                preserveInitialViewBox={true}
             >
                 {children.length ? (
                     <g id="origin">

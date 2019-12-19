@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
-import { Select, confirmWithModal } from '../../../../../../../components';
+import { getAllInstancesOfItem, getLastItemFromPath, getParent, getSiblings } from '../../../../../../../app-logic/system';
+import { confirmWithModal, Select } from '../../../../../../../components';
 import { UPDATE_ITEM } from '../../../../ducks/actions';
-import { getAllInstancesOfItem, getSiblings, getParent, getLastItemFromPath } from '../../../../../../../app-logic/system';
 import { getOptionIsGrouped } from '../../../../ducks/utils';
 
 export default memo(function ValueName({
@@ -28,7 +28,6 @@ export default memo(function ValueName({
     const siblings = getSiblings(selectedItem, systemMap);
 
     const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
-    console.log({optionIsGrouped});
 
     const validValues = validOptions
         .reduce((siblings, { name, _validOptionValues }) => (
