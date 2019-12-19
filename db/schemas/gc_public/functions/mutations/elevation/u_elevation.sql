@@ -18,7 +18,7 @@ DECLARE
     ue ELEVATIONS%ROWTYPE;
 BEGIN
 
-    SET search_path = gc_public,gc_protected,gc_controlled,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
+    SET search_path = gc_public,gc_protected,gc_controlled,gc_utils,gc_data,pg_temp_1,pg_toast,pg_toast_temp_1;
 
     -- CHECK CURRENT USER
 

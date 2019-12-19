@@ -83,4 +83,4 @@ function DetailOrConfigurationOrPart({
     );
 }
 
-export default nullIf(DetailOrConfigurationOrPart, ({ path }) => !path.match(/\.__DT/));
+export default nullIf(DetailOrConfigurationOrPart, ({ path = '' }) => !path.match(/\.__DT/));

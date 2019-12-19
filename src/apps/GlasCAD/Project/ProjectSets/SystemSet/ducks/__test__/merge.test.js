@@ -1,7 +1,7 @@
 import merge from "../merge";
 import { defaultSystemSetUpdate } from "../schemas";
 import SAMPLE_SYSTEM_SETS from './sample-query-results';
-import { getUnknownPathFromObject } from "../../../../../../../app-logic/system";
+import { getUnknownPathAndKeyFromItem } from "../../../../../../../app-logic/system";
 
 const {
     sample1: {
@@ -51,7 +51,7 @@ function testMerge({
         }
         test('result should have correct detail path and detail key', () => {
             _systemSetDetails.forEach(detail => {
-                const [pathKey, path] = getUnknownPathFromObject(detail);
+                const [pathKey, path] = getUnknownPathAndKeyFromItem(detail);
                 expect(result._systemSetDetails
                     .find(({ [pathKey]: detailPath }) => detailPath === path))
                     .toEqual(detail);
@@ -68,7 +68,7 @@ function testMerge({
             // resultSystemSetConfiguration: result._systemSetConfigurations,
             // });
             _systemSetConfigurations.forEach(configuration => {
-                const [pathKey, path] = getUnknownPathFromObject(configuration);
+                const [pathKey, path] = getUnknownPathAndKeyFromItem(configuration);
                 expect(result._systemSetConfigurations
                     .find(({ [pathKey]: configurationPath }) => configurationPath === path))
                     .toEqual(configuration);

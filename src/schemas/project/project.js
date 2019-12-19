@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
-import { SYSTEM_SET_FIELDS } from './system-set';
+import { MANUFACTURER_FIELDS, SYSTEM_FIELDS } from '../manufacturer';
 import { ELEVATION_FIELDS } from './elevation';
+import { SYSTEM_SET_FIELDS } from './system-set';
 
 // FIELDS
 
@@ -48,10 +49,9 @@ export const ENTIRE_PROJECT = gql`
             nodes {
                 ...SystemSetFields
                 systemBySystemId {
-                    name
-                    systemType
+                    ...SystemFields
                     manufacturerByManufacturerId {
-                        name
+                        ...ManufacturerFields
                     }
                 }
                 elevationsBySystemSetId {
@@ -63,4 +63,6 @@ export const ENTIRE_PROJECT = gql`
     ${PROJECT_FIELDS}
     ${ELEVATION_FIELDS}
     ${SYSTEM_SET_FIELDS}
+    ${SYSTEM_FIELDS}
+    ${MANUFACTURER_FIELDS}
 `;

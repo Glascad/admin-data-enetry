@@ -1,4 +1,4 @@
-import { getDefaultPath, getDetailTypeFromPath, getChildren, getConfigurationTypeFromPath, getUnknownPathFromObject, getParentPath } from "../../../../../../../app-logic/system";
+import { getDefaultPath, getDetailTypeFromPath, getChildren, getConfigurationTypeFromPath, getUnknownPathAndKeyFromItem, getParentPath } from "../../../../../../../app-logic/system";
 import { mergeOptionGroupValues } from "../merge";
 import { defaultSystemSetDetail } from "../schemas";
 import _ from 'lodash';

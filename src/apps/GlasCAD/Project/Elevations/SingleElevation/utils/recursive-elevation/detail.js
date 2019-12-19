@@ -1,7 +1,5 @@
-
 import { GET_RELATIVE_DIRECTIONS, Loggable, unique } from '../../../../../../../utils';
 import sortDetails from './sort-details';
-
 
 const matchedDetailsKey = 'matched_details<first>';
 const detailsByContainerKey = 'details_by_container<first>';
@@ -116,25 +114,25 @@ export default class RecursiveDetail extends Loggable {
                         ||
                         this.secondContainer.customRoughOpening
                     ) ?
-                        'Jamb'
+                        'JAMB'
                         :
-                        'Mullion'
+                        'MULLION'
                     :
                     (
                         !this.firstContainer
                         ||
                         this.firstContainer.customRoughOpening
                     ) ?
-                        'Sill'
+                        'SILL'
                         :
                         (
                             !this.secondContainer
                             ||
                             this.secondContainer.customRoughOpening
                         ) ?
-                            'Head'
+                            'HEAD'
                             :
-                            'Horizontal'
+                            'HORIZONTAL'
             )
             // )
         );

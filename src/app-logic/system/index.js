@@ -7,7 +7,7 @@ import getParent from './get-parent';
 import getChildren from './get-children';
 import getOptionListFromPath from './get-option-list-from-path';
 import getSiblings from './get-siblings';
-import getUnknownPathFromObject from './get-unknown-path-from-object';
+import getUnknownPathAndKeyFromItem from './get-unknown-path-and-key-from-item';
 import filterOptionsAbove from './filter-options-above';
 import getLastItemFromPath from './get-last-item-from-path';
 import getNextItemFromPath from './get-next-item-from-path';
@@ -26,6 +26,7 @@ import getParentPathFromObject from './get-parent-path-from-object';
 import getAlignmentCoordinate from './get-alignment-coordinate';
 import getDetailOrConfigurationOrPartExtremities from './get-detail-or-configuration-or-part-extremities';
 import removeOptionsFromPath from './remove-options-from-path';
+import getUnknownPathFromItem from './get-unknown-path-from-item';
 
 export {
     SystemMap,
@@ -37,7 +38,7 @@ export {
     getChildren,
     getOptionListFromPath,
     getSiblings,
-    getUnknownPathFromObject,
+    getUnknownPathAndKeyFromItem,
     getLastItemFromPath,
     filterOptionsAbove,
     getNextItemFromPath,
@@ -56,4 +57,5 @@ export {
     getAlignmentCoordinate,
     getDetailOrConfigurationOrPartExtremities,
     removeOptionsFromPath,
+    getUnknownPathFromItem,
 };

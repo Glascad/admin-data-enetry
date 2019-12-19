@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getLastItemFromPath, getUnknownPathFromObject, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
+import { getLastItemFromPath, getUnknownPathAndKeyFromItem, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
 import { removeNullValues } from "../../../../../../utils";
 import validateSystemSetUpdate from "./validate-system-set-update";
 
@@ -58,12 +58,12 @@ export default function merge({
 
     const _systemSetDetails = oldSystemSetDetails
         .filter(detail => {
-            const [pathKey, path] = getUnknownPathFromObject(detail);
+            const [pathKey, path] = getUnknownPathAndKeyFromItem(detail);
             const detailType = getDetailTypeFromPath(path);
             return path.startsWith(systemOptionValuePath)
                 &&
                 !details.some(d => {
-                    const [dPathKey, dPath] = getUnknownPathFromObject(d);
+                    const [dPathKey, dPath] = getUnknownPathAndKeyFromItem(d);
                     const dDetailType = getDetailTypeFromPath(dPath);
                     return detailType === dDetailType;
                 });
@@ -78,13 +78,13 @@ export default function merge({
                 configurationType === getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
             )))
         .filter(configuration => {
-            const [pathKey, path] = getUnknownPathFromObject(configuration);
+            const [pathKey, path] = getUnknownPathAndKeyFromItem(configuration);
             const detailType = getDetailTypeFromPath(path);
             const configurationType = getConfigurationTypeFromPath(path);
             return path.startsWith(systemOptionValuePath)
                 &&
                 !configurations.some(c => {
-                    const [cPathKey, cPath] = getUnknownPathFromObject(c);
+                    const [cPathKey, cPath] = getUnknownPathAndKeyFromItem(c);
                     const cDetailType = getDetailTypeFromPath(cPath);
                     const cConfigurationType = getConfigurationTypeFromPath(cPath)
                     return detailType === cDetailType

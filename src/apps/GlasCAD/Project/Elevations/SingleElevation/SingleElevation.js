@@ -7,6 +7,7 @@ import ElevationInfo from './ElevationInfo/ElevationInfo';
 import updateElevationMutation from './utils/elevation-graphql/mutations';
 import query from './utils/elevation-graphql/query';
 import * as SAMPLE_ELEVATIONS from './utils/sample-elevations';
+import { SystemMap } from '../../../../../app-logic/system';
 
 const subroutes = {
     CreateElevation,
@@ -77,6 +78,23 @@ export default function SingleElevation({
         }
     }, [elevationId]);
 
+    const {
+        _elevation: {
+            _systemSet: systemSet,
+            _systemSet: {
+                _system,
+            } = {},
+        } = {},
+    } = queryResult;
+
+    const systemMap = new SystemMap(_system);
+
+    console.log({
+        queryResult,
+        systemSet,
+        systemMap,
+    });
+
     const routeProps = sampleElevation ?
         {
             queryResult: {
@@ -85,6 +103,7 @@ export default function SingleElevation({
             updating: false,
             defaultElevation,
             project,
+            systemMap,
             updateEntireElevation: () => {
                 throw new Error("Cannot update sample elevation");
             },
@@ -95,6 +114,8 @@ export default function SingleElevation({
             updating,
             defaultElevation,
             project,
+            systemMap,
+            systemSet,
             updateEntireElevation,
         };
 

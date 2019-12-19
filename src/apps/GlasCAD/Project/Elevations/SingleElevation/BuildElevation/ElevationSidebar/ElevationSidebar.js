@@ -1,17 +1,10 @@
 import React, { PureComponent } from 'react';
-
-import { SelectionContext } from '../contexts/SelectionContext';
-
+import { RightSidebar, withContext } from '../../../../../../../components';
 import RecursiveElevation from '../../utils/recursive-elevation/elevation';
-
+import { SelectionContext } from '../contexts/SelectionContext';
 import VIEWS from './views';
 
-import {
-    withContext,
-    RightSidebar,
-} from '../../../../../../../components';
-
-class ElevationRightSidebar extends PureComponent {
+class ElevationSidebar extends PureComponent {
 
     state = {
         stackedView: undefined,
@@ -64,6 +57,8 @@ class ElevationRightSidebar extends PureComponent {
                 states,
                 elevation,
                 updateElevation,
+                systemMap,
+                systemSet,
                 context: {
                     items: {
                         length,
@@ -91,7 +86,9 @@ class ElevationRightSidebar extends PureComponent {
                     currentIndex,
                     states,
                     updateElevation,
-                    elevation
+                    elevation,
+                    systemMap,
+                    systemSet,
                 }}
             />
         );
@@ -129,4 +126,4 @@ const mapProps = ({
                 VIEWS.Settings,
 });
 
-export default withContext(SelectionContext, mapProps)(ElevationRightSidebar);
+export default withContext(SelectionContext, mapProps)(ElevationSidebar);

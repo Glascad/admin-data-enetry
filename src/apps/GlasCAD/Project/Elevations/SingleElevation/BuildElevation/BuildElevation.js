@@ -1,24 +1,17 @@
 import React, { PureComponent } from 'react';
-
-import { StaticContext } from '../../../../../Statics/Statics';
-
-import mergeElevationInput from './ducks/merge-input';
-
-import ActionProvider from './contexts/ActionContext';
-import SelectionProvider from './contexts/SelectionContext';
-import ElevationTransformProvider from './contexts/ElevationTransformProvider';
-
-import Header from './Header/Header';
-import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
-import ElevationRightSidebar from './ElevationRightSidebar/ElevationRightSidebar';
-import NavigationButtons from "./NavigationButtons/NavigationButtons";
-
+import { ErrorBoundary, withRedoableState } from '../../../../../../components';
 import { parseSearch } from '../../../../../../utils';
-
-import { ErrorBoundary, withRedoableState, Ellipsis } from '../../../../../../components';
-
+import { StaticContext } from '../../../../../Statics/Statics';
 import renderPreview from '../../ElevationPreview/render-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import ActionProvider from './contexts/ActionContext';
+import ElevationTransformProvider from './contexts/ElevationTransformProvider';
+import SelectionProvider from './contexts/SelectionContext';
+import mergeElevationInput from './ducks/merge-input';
+import ElevationSidebar from './ElevationSidebar/ElevationSidebar';
+import Header from './Header/Header';
+import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
+import NavigationButtons from "./NavigationButtons/NavigationButtons";
 
 export const defaultElevationInput = {
     containers: [],
@@ -211,7 +204,7 @@ class BuildElevation extends PureComponent {
                         },
                         ...container
                     }) => ({
-                            ...container,
+                        ...container,
                         daylightOpening,
                         [id > 0 ?
                             'id'
@@ -241,6 +234,8 @@ class BuildElevation extends PureComponent {
                     path,
                 },
                 project,
+                systemMap,
+                systemSet,
                 refetch,
                 queryResult,
                 queryResult: {
@@ -293,11 +288,13 @@ class BuildElevation extends PureComponent {
                             updating={updating}
                             elevationInput={elevationInput}
                         />
-                        <ElevationRightSidebar
+                        <ElevationSidebar
                             currentIndex={currentIndex}
                             states={states}
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
+                            systemMap={systemMap}
+                            systemSet={systemSet}
                         />
                         <ErrorBoundary
                             renderError={(error, info) => (
