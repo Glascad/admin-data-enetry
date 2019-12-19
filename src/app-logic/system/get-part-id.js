@@ -6,11 +6,5 @@ export default function getPartId(
         } = {}
     } = {}
 ) {
-    const partId = _parts.reduce((partId, part) => part.partNumber === partNumber ? part.id : partId, undefined);
-    console.log({
-        partId,
-        partNumber,
-        _parts,
-    });
-    return partId;
+    return _parts.reduce((partId, part) => part.partNumber === partNumber ? part.id : partId, undefined);
 };
