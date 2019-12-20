@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { getDefaultConfigurationPaths, getDefaultPath, getDetailOrConfigurationOrPartExtremities } from '../../app-logic/system';
 import { nullIf, useInitialState } from '../../components';
 import { match } from '../../utils';

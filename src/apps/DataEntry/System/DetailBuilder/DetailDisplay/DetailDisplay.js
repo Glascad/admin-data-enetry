@@ -28,7 +28,7 @@ function DetailDisplay({
     const { scale: { x: scaleX, y: scaleY } } = useContext(TransformContext);
     const { path } = parseSearch(search);
 
-    const handleClick = item => {
+    const onClick = item => {
         if (partialAction) dispatchPartialPayload(item);
         if (!partialPayload) selectItem(item);
     }
@@ -47,11 +47,11 @@ function DetailDisplay({
                 path={path}
                 configurationPaths={selectedConfigurationPaths}
                 getConfigurationProps={configuration => ({
-                    onClick: handleClick,
+                    onClick,
                     className: configuration === selectedItem ? 'selected' : '',
                 })}
                 getPartProps={part => ({
-                    onClick: handleClick,
+                    onClick,
                     className: part === selectedItem ? 'selected' : '',
                 })}
                 preserveInitialViewBox={true}
