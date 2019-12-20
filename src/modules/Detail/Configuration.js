@@ -19,6 +19,8 @@ export default function Configuration({
     const parts = getChildren(configurationOptionValue || detailConfiguration, systemMap);
     const transform = doNotTransform ? undefined : new Matrix(matrix);
 
+    console.log({ detailConfiguration, configurationOptionValue });
+
     return (
         <g
             className={`Configuration ${className}`}

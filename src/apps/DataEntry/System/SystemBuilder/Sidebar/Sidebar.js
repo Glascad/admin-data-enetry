@@ -30,6 +30,8 @@ export default function Sidebar({
 
     const name = __typename.replace(/^.*([A-Z]\w+)$/, '$1');
 
+    console.log({ selectedItem });
+
     return selectedItem ? (
         <RightSidebar
             open={!!selectedItem}
