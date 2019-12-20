@@ -28,8 +28,8 @@ function DetailOrConfigurationOrPart({
 
     const configurationPathString = Object.values(selectedConfigurationPaths).sort().join();
 
-    console.log(configurationPathString);
-    console.log({ item, selectedConfigurationPaths });
+    // console.log(configurationPathString);
+    // console.log({ item, selectedConfigurationPaths });
 
     const viewBox = getViewBox(
         getDetailOrConfigurationOrPartExtremities(
