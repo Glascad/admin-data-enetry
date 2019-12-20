@@ -4,7 +4,7 @@ SET search_path TO public, gc_utils, gc_public, gc_data, gc_protected, gc_contro
 
 -- INITIAL MANUFACTURERS
 INSERT INTO manufacturers (name) VALUES
-('Initial Manufacturer'), ('Practice Manufacturer');
+('Test'), ('Kawneer');
 
 
 -- PROJECT FOR ADMIN, TEST, ANDREW

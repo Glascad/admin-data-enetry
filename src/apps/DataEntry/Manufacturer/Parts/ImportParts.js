@@ -1,25 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import {
-    TitleBar,
-    Input,
-    SVG,
-    CircleButton,
-    AsyncButton,
-    TransformBox,
-    TransformProvider,
-    ConfirmButton,
-    useMutation,
-} from '../../../../components';
-import {
-    Check,
-} from '../../../../assets/icons';
-import {
-    getDroppedFileContents,
-    DXFToSVG,
-    replace,
-} from '../../../../utils';
 import gql from 'graphql-tag';
+import React, { useEffect, useState } from 'react';
+import { Check } from '../../../../assets/icons';
+import { AsyncButton, CircleButton, ConfirmButton, Input, SVG, TitleBar, TransformBox, TransformProvider, useMutation } from '../../../../components';
 import F from '../../../../schemas';
+import { DXFToSVG, getDroppedFileContents, replace } from '../../../../utils';
 
 const mutation = gql`
     mutation CreatePart($part: PartInput!) {
