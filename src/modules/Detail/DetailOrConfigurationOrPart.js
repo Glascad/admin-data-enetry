@@ -73,6 +73,7 @@ function DetailOrConfigurationOrPart({
                             getPartProps={getPartProps}
                             systemMap={systemMap}
                             detail={item}
+
                             configurationPaths={selectedConfigurationPaths}
                         />
                     );
