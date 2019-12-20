@@ -2,7 +2,7 @@
 DO $create_systems$ DECLARE ___ INTEGER; BEGIN
 
     <<LOOP
-        NAME (Initial, Practice)
+        NAME ('Test', 'Trifab-451T')
         MNFG_ID (1, 2)
         RECEPTOR_MAIN_ID (7, 14)
         RECEPTOR_OTHER_ID (6, 13)
@@ -17,7 +17,7 @@ DO $create_systems$ DECLARE ___ INTEGER; BEGIN
             -- id INTEGER,
             NULL,
             -- name TEXT,
-            '<<NAME>> System',
+            <<NAME>>,
             -- system_type SYSTEM_TYPE,
             'STOREFRONT',
             -- manufacturer_id INTEGER,

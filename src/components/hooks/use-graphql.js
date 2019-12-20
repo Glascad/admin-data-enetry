@@ -7,7 +7,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
     const [mutationResult, setMutationResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const mutate = async variables => {
+    const mutate = async (variables, options) => {
 
         setLoading(true);
 
@@ -15,6 +15,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
 
             const response = await client.mutate({
                 variables,
+                ...options,
                 ...mutation,
             });
 
@@ -58,7 +59,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
     const [queryResult, setQueryResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const fetchQuery = async variables => {
+    const fetchQuery = async (variables, options) => {
 
         // console.log("FETCHING QUERY");
         // console.log({ query, variables });
@@ -67,7 +68,11 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         try {
 
-            const response = await client.query(variables ? { ...query, variables } : query);
+            const response = await client.query({
+                ...query,
+                ...options,
+                variables: variables || query.variables,
+            });
 
             // console.log({
             //     response,

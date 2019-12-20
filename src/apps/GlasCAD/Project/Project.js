@@ -49,7 +49,7 @@ export default function Project({
         search,
     },
 }) {
-    const [fetchQuery, queryResult] = useQuery({
+    const [fetchProject, queryResult, fetchingProject] = useQuery({
         query,
         variables: {
             id: +parseSearch(search).projectId,
@@ -64,7 +64,11 @@ export default function Project({
 
     return (
         <Navigator
-            routeProps={{ queryResult }}
+            routeProps={{
+                queryResult,
+                fetchProject,
+                fetchingProject,
+            }}
             routes={subroutes}
         />
     );

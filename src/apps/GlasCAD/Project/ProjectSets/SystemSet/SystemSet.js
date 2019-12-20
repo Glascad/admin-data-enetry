@@ -4,15 +4,14 @@ import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../
 import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState } from '../../../../../components';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
+import Details from './Details/Details';
 import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
 import merge from './ducks/merge';
 import { defaultSystemSetUpdate } from './ducks/schemas';
-import Details from './Details/Details';
-import SystemOptions from './SystemOptions/SystemOptions';
-import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
-import './SystemSet.scss';
-import Configurations from './Details/Configurations';
 import SAMPLE_SYSTEM_SETS from './ducks/__test__/sample-query-results';
+import SystemOptions from './SystemOptions/SystemOptions';
+import './SystemSet.scss';
+import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -45,6 +44,8 @@ export default function SystemSet({
     match: {
         path,
     },
+    fetchProject,
+    fetchingProject,
     history,
 }) {
 
@@ -179,6 +180,26 @@ export default function SystemSet({
         const result = await updateSystemSet({ systemSet: payload });
 
         console.log({ result });
+
+        try {
+            const {
+                updateEntireSystemSet: {
+                    systemSet: {
+                        id,
+                    },
+                },
+            } = result;
+
+            const projectResult = await fetchProject(null, { fetchPolicy: "no-cache" });
+
+            console.log({ projectResult });
+
+            history.push(`${path.replace(/system-set.*/, 'all')}${parseSearch(search).update({ systemSetId: id })}`);
+
+        } catch (err) {
+            console.error(err);
+        }
+
     }
 
     // console.log({ systemSet });
@@ -199,6 +220,8 @@ export default function SystemSet({
                         <AsyncButton
                             onClick={save}
                             className="action"
+                            loadingText="Saving"
+                            loading={updating || fetchingProject}
                         >
                             Save
                         </AsyncButton>
@@ -245,6 +268,8 @@ export default function SystemSet({
                     <AsyncButton
                         onClick={save}
                         className="action"
+                        loadingText="Saving"
+                        loading={updating || fetchingProject}
                     >
                         Save
                     </AsyncButton>

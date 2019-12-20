@@ -184,7 +184,7 @@ export default class RecursiveDetail extends Loggable {
             // this.exists && (
             this.__detailId || (
                 this.__detailId = `${
-                this.detailType === 'Horizontal' ?
+                this.detailType === 'HORIZONTAL' ?
                     'Z'
                     :
                     this.detailType[0].toUpperCase()
