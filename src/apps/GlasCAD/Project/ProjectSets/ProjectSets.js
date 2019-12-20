@@ -1,16 +1,8 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
-import {
-    CollapsibleTitle,
-    ListWrapper,
-    Navigator,
-} from '../../../../components';
-
-import SystemSet from './SystemSet/SystemSet';
-
+import { CollapsibleTitle, ListWrapper, Navigator } from '../../../../components';
 import { parseSearch } from '../../../../utils';
+import SystemSet from './SystemSet/SystemSet';
 
 ProjectSetsRouter.navigationOptions = {
     path: "/sets",
@@ -73,7 +65,7 @@ function ProjectSets({
                         return {
                             ...ss,
                             title: name,
-                            subtitle: `${manufacturerName} - ${systemName}`,
+                            subtitle: manufacturerName,
                             footer: `Applied to ${totalCount} elevation${totalCount === 1 ? '' : 's'}`,
                             type: 'tile',
                             align: 'left',
