@@ -54,6 +54,10 @@ function DetailDisplay({
                     onClick,
                     className: part === selectedItem ? 'selected' : '',
                 })}
+                getDetailProps={detail => ({
+                    onClick: handleClick,
+                    className: detail === selectItem ? 'selected' : '',
+                })}
                 preserveInitialViewBox={true}
             >
                 {children.length ? (
