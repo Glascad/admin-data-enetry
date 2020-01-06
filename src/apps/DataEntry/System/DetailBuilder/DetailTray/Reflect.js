@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
@@ -11,6 +11,8 @@ export default function Reflect({
     dispatch,
     TRANSFORM,
 }) {
+
+    const [reflectAroundCenter, setReflectAroundCenter] = useState(false);
 
     const {
         x: {
@@ -27,10 +29,16 @@ export default function Reflect({
         targetItem: selectedItem,
         appliedTransform: Matrix.createMirrorAcrossAxis(
             angle,
-            {
-                x: (xMax + xMin) / 2,
-                y: (yMax + yMin) / 2
-            }),
+            reflectAroundCenter ?
+                {
+                    x: 0,
+                    y: 0
+                }
+                :
+                {
+                    x: (xMax + xMin) / 2,
+                    y: (yMax + yMin) / 2
+                }),
     });
 
     return (
@@ -38,6 +46,13 @@ export default function Reflect({
             <div className="label">
                 Reflect
                 </div>
+            <Input
+                data-cy="reflect-toggle"
+                type="switch"
+                label="Reflect Around Center"
+                checked={reflectAroundCenter}
+                onChange={() => setReflectAroundCenter(!reflectAroundCenter)}
+            />
             <div className="input-group">
                 <Input
                     data-cy="reflect-vertical"
