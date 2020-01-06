@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getDetailOrConfigurationOrPartExtremities } from '../../../../../app-logic/system';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
@@ -6,19 +7,35 @@ import { Matrix } from '../../../../../utils';
 export default function Rotate({
     selectedItem,
     dispatch,
-    TRANSFORM
+    selectedConfigurationPaths,
+    systemMap,
+    TRANSFORM,
 }) {
 
     const [angle, setAngle] = useState(0);
 
+    const {
+        x: {
+            min: xMin,
+            max: xMax,
+        } = {},
+        y: {
+            min: yMin,
+            max: yMax,
+        } = {},
+    } = getDetailOrConfigurationOrPartExtremities(selectedItem, selectedConfigurationPaths, systemMap) || {};
 
     const createRotate = clockwise => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,
-        appliedTransform: Matrix.createRotation(
+        appliedTransform: Matrix.createCenteredRotation(
             clockwise ?
                 -angle
                 :
                 +angle,
+            {
+                x: (xMax + xMin) / 2,
+                y: (yMax + yMin) / 2,
+            }
         ),
     });
 

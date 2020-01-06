@@ -18,6 +18,16 @@ const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurat
         const configurationTransform = new Matrix(transform);
 
         const partExtremities = parts.map(({ _part, transform: partTransform }) => {
+            console.log({
+                partTransform,
+                item,
+                configurationPath,
+                configurationType,
+                selectedConfigurationPaths,
+                configuration,
+                parts,
+                configurationTransform,
+            });
             const newTransform = transform ?
                 configurationTransform.applyTransformation(partTransform)
                 :

@@ -2,16 +2,35 @@ import React from 'react';
 import * as Icons from '../../../../../assets/icons';
 import { Input } from '../../../../../components';
 import { Matrix } from '../../../../../utils';
+import { getDetailOrConfigurationOrPartExtremities } from '../../../../../app-logic/system';
 
 export default function Reflect({
     selectedItem,
+    selectedConfigurationPaths,
+    systemMap,
     dispatch,
     TRANSFORM,
 }) {
 
+    const {
+        x: {
+            min: xMin,
+            max: xMax,
+        } = {},
+        y: {
+            min: yMin,
+            max: yMax,
+        } = {},
+    } = getDetailOrConfigurationOrPartExtremities(selectedItem, selectedConfigurationPaths, systemMap) || {};
+
     const createMirror = angle => () => dispatch(TRANSFORM, {
         targetItem: selectedItem,
-        appliedTransform: Matrix.createMirrorAcrossAxis(angle, { x: 0, y: 0 }),
+        appliedTransform: Matrix.createMirrorAcrossAxis(
+            angle,
+            {
+                x: (xMax + xMin) / 2,
+                y: (yMax + yMin) / 2
+            }),
     });
 
     return (
