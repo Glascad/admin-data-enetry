@@ -7,16 +7,15 @@ export function useMutation(mutation, fetchQuery = () => { }) {
     const [mutationResult, setMutationResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const mutate = async (variables, options) => {
+    const mutate = async (variables = mutation.variables) => {
 
         setLoading(true);
 
         try {
 
             const response = await client.mutate({
-                variables,
-                ...options,
                 ...mutation,
+                variables,
             });
 
             const normalResponse = normalizeQueryResponse(response);
@@ -41,7 +40,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
                         errors = [],
                     } = {},
                 } = {},
-                graphQLErrors = []
+                graphQLErrors = [],
             } = removeNullValues(err);
 
             errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
@@ -59,7 +58,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
     const [queryResult, setQueryResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const fetchQuery = async (variables, options) => {
+    const fetchQuery = async (variables = query.variables) => {
 
         // console.log("FETCHING QUERY");
         // console.log({ query, variables });
@@ -70,8 +69,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
             const response = await client.query({
                 ...query,
-                ...options,
-                variables: variables || query.variables,
+                variables,
             });
 
             // console.log({

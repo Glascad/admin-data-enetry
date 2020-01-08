@@ -46,6 +46,7 @@ System.navigationOptions = ({
                 variables: {
                     id: +parseSearch(search).systemId,
                 },
+                fetchPolicy: "no-cache",
             }}
         >
             {({

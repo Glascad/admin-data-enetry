@@ -28,6 +28,7 @@ function DetailOrConfigurationOrPart({
 
     const configurationPathString = Object.values(selectedConfigurationPaths).sort().join();
 
+    console.log({ path, item, selectedConfigurationPaths });
     // console.log(configurationPathString);
     // console.log({ item, selectedConfigurationPaths });
 
@@ -77,7 +78,6 @@ function DetailOrConfigurationOrPart({
                             getPartProps={getPartProps}
                             systemMap={systemMap}
                             detail={item}
-
                             configurationPaths={selectedConfigurationPaths}
                         />
                     );

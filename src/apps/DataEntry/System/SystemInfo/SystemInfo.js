@@ -91,20 +91,21 @@ function SystemInfo({
                                             id = +systemId,
                                         } = {},
                                     } = {},
-                                } = hasChanges ?
-                                        await save()
-                                        :
-                                        {};
+                                } = hasChanges ? await save() : {};
 
-                                history.push(`${
+                                const newPath = `${
                                     path.replace(/info/, 'build')
                                     }${
                                     parseSearch(search).update({ systemId: id })
-                                    }`);
+                                    }`;
+                                
+                                console.log({ newPath });
+
+                                history.push(newPath);
                             }}
                             loading={updating}
                         >
-                            {hasChanges ? "Save" : "Load"}
+                            {hasChanges || systemId === 'null' ? "Save" : "Load"}
                         </AsyncButton>
                     </>
                 )}

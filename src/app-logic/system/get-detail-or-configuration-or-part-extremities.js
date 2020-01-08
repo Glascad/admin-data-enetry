@@ -10,7 +10,12 @@ const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurat
         const { path, transform } = item;
 
         const configurationType = getConfigurationTypeFromPath(path);
-        const configurationPath = (selectedConfigurationPaths || {})[configurationType] || getDefaultPath(path, systemMap);
+        const selectedConfigurationPath = (selectedConfigurationPaths || {})[configurationType] || '';
+        const configurationPath = selectedConfigurationPath.startsWith(path) ?
+            selectedConfigurationPath
+            :
+            getDefaultPath(path, systemMap);
+
         const configuration = systemMap[configurationPath];
 
         const parts = getChildren(configuration, systemMap);

@@ -69,7 +69,13 @@ export default function Manufacturer({
     },
 }) {
     const { manufacturerId } = parseSearch(search);
-    const [fetchQuery, queryResult] = useQuery({ query, variables: { id: +manufacturerId } });
+    const [fetchQuery, queryResult] = useQuery({
+        query,
+        variables: {
+            id: +manufacturerId,
+        },
+        fetchPolicy: "network-only",
+    });
     const { _manufacturer } = queryResult;
     return (
         <Navigator
