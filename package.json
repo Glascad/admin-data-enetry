@@ -53,7 +53,7 @@
         "not op_mini all"
     ],
     "devDependencies": {
-        "cypress": "^3.7.0",
+        "cypress": "^3.8.1",
         "prop-types": "^15.7.2"
     },
     "nodemonConfig": {
