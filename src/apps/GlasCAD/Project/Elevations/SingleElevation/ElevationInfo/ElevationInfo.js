@@ -16,7 +16,7 @@ export default function ElevationInfo({
         search,
         state: {
             previousPath = '/glascad/project/elevations/elevation-search',
-            previousSearch = arguments[0].location.search,
+            previousSearch,
         } = {},
     },
     queryResult: {
@@ -119,7 +119,7 @@ export default function ElevationInfo({
                 previousPath
                 // path.replace(/elevation\/elevation-info/, 'elevation-search')
                 }${
-                previousSearch
+                previousSearch || search
                 // parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
                 }`)}
             doNotConfirmWhen={doNotConfirm}
