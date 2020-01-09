@@ -19,7 +19,7 @@ module.exports = function startServer() {
 
     APP.use(cors());
 
-    APP.use(express.static(`${__dirname}/build/`));
+    APP.use(express.static(`${__dirname}/../build/`));
 
     APP.use(postgraphile(
         DO_GC_CONNECTION_STRING,
@@ -42,7 +42,7 @@ module.exports = function startServer() {
         },
     ));
 
-    APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/build/`));
+    APP.get('*', (_, res) => res.status(200).sendFile(`${__dirname}/../build/`));
 
     APP.listen(SERVER_PORT, () => console.log(chalk`${chalk.blueBright(`[glascad]`)} listening on port ${SERVER_PORT}`));
 
