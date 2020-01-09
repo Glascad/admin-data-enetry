@@ -92,7 +92,6 @@ export default class ListContainer extends PureComponent {
         const groupKeys = Object.keys(grouped);
 
         return (
-            // <div className={`ListContainer ${className}`}>
             <>
                 {titleBar && titleBar.title ? (
                     <TitleBar
@@ -173,7 +172,6 @@ export default class ListContainer extends PureComponent {
                     {afterList}
                 </ul>
             </>
-            // </div>
         );
     }
 }
