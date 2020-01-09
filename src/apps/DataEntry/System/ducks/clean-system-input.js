@@ -35,7 +35,7 @@ const mapNewParts = ({
     __typename,
     name,
     fakeId,
-    ...rest,
+    ...rest
 }) => removeNullValues({
     ...rest,
 });
@@ -47,7 +47,7 @@ const mapParts = ({
     fakeId,
     update: {
         name,
-        ...update,
+        ...update
     },
     ...rest
 }) => removeNullValues({

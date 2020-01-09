@@ -38,6 +38,10 @@ function DetailOrConfigurationOrPart({
 
     const [initialViewBox, setViewBox] = useInitialState(viewBox, [path, !!item, configurationPathString]);
 
+    console.log({
+        item, viewBox, initialViewBox, systemMap, configurationPaths, defConf: getDefaultConfigurationPaths(item, systemMap, false)
+    });
+
     return (
         <svg
             id={id}

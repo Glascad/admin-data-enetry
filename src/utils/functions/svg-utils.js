@@ -63,6 +63,20 @@ export const getCoordinateExtremities = coordinates => {
     // console.log({ coordinates });
     const xValues = coordinates.map(({ x }) => x || 0);
     const yValues = coordinates.map(({ y }) => y || 0);
+    console.log({
+        xValues,
+        yValues, 
+        endResult: {
+            x: {
+                min: getMin(xValues),
+                max: getMax(xValues),
+            },
+            y: {
+                min: getMin(yValues),
+                max: getMax(yValues),
+            },
+        }
+    });
     return {
         x: {
             min: getMin(xValues),
