@@ -1,11 +1,7 @@
-import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
-import './ListContainer.scss';
 import _ from 'lodash';
-
+import React, { PureComponent } from 'react';
 import TitleBar from '../TitleBar/TitleBar';
-
-import Select from 'react-select';
+import './ListContainer.scss';
 
 const noFilter = {
     label: "None",
@@ -96,55 +92,55 @@ export default class ListContainer extends PureComponent {
                 {titleBar && titleBar.title ? (
                     <TitleBar
                         {...titleBar}
-                        right={(
-                            <>
-                                {filters.length ? (
-                                    <span>
-                                        <span>Filter By: {filterName}</span>
-                                        <Select
-                                            value={selectedFilter}
-                                            options={[
-                                                noFilter,
-                                                ...filters
-                                            ]}
-                                            onChange={selectedFilter => this.setState({
-                                                selectedFilter
-                                            })}
-                                        />
-                                    </span>
-                                ) : null}
-                                {sorts.length ? (
-                                    <span>
-                                        <span>Sort By: {sortName}</span>
-                                        <Select
-                                            value={selectedSort}
-                                            options={[
-                                                noSort,
-                                                ...sorts
-                                            ]}
-                                            onChange={selectedSort => this.setState({
-                                                selectedSort
-                                            })}
-                                        />
-                                    </span>
-                                ) : null}
-                                {groups.length ? (
-                                    <span>
-                                        <span>Group By: {groupByName}</span>
-                                        <Select
-                                            value={selectedGroupBy}
-                                            options={[
-                                                noGroupBy,
-                                                ...groups
-                                            ]}
-                                            onChange={selectedGroupBy => this.setState({
-                                                selectedGroupBy
-                                            })}
-                                        />
-                                    </span>
-                                ) : null}
-                            </>
-                        )}
+                    // right={(
+                    //     <>
+                    //         {filters.length ? (
+                    //             <span>
+                    //                 <span>Filter By: {filterName}</span>
+                    //                 <Select
+                    //                     value={selectedFilter}
+                    //                     options={[
+                    //                         noFilter,
+                    //                         ...filters
+                    //                     ]}
+                    //                     onChange={selectedFilter => this.setState({
+                    //                         selectedFilter
+                    //                     })}
+                    //                 />
+                    //             </span>
+                    //         ) : null}
+                    //         {sorts.length ? (
+                    //             <span>
+                    //                 <span>Sort By: {sortName}</span>
+                    //                 <Select
+                    //                     value={selectedSort}
+                    //                     options={[
+                    //                         noSort,
+                    //                         ...sorts
+                    //                     ]}
+                    //                     onChange={selectedSort => this.setState({
+                    //                         selectedSort
+                    //                     })}
+                    //                 />
+                    //             </span>
+                    //         ) : null}
+                    //         {groups.length ? (
+                    //             <span>
+                    //                 <span>Group By: {groupByName}</span>
+                    //                 <Select
+                    //                     value={selectedGroupBy}
+                    //                     options={[
+                    //                         noGroupBy,
+                    //                         ...groups
+                    //                     ]}
+                    //                     onChange={selectedGroupBy => this.setState({
+                    //                         selectedGroupBy
+                    //                     })}
+                    //                 />
+                    //             </span>
+                    //         ) : null}
+                    //     </>
+                    // )}
                     />
                 ) : label ? (
                     <div className="label">

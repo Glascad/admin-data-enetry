@@ -12,14 +12,6 @@
         input {
             box-shadow: 0 0 1px 1px $selected-color;
         }
-        .React-Select {
-            color: $dark-gray;
-            box-shadow: 0 0 1px 1px $selected-color;
-
-            input {
-                box-shadow: none;
-            }
-        }
     }
 
     .label {
@@ -220,52 +212,6 @@
                     fill: $off-white;
                 }
             }
-        }
-    }
-
-    .React-Select {
-        box-sizing: border-box;
-        width: $pill-width;
-        height: $item-height;
-        height: $xxx-large;
-        min-height: $xxx-large;
-        max-height: $xxx-large;
-        border-radius: $xx-small;
-
-        > div {
-            &:first-of-type {
-                // height: $item-height;
-                height: $xxx-large;
-                min-height: $xxx-large;
-                max-height: $xxx-large;
-                border: 1px solid $light-gray;
-                outline: none;
-                box-shadow: none;
-
-                > div {
-                    height: $xxx-large;
-                    min-height: $xxx-large;
-                    max-height: $xxx-large;
-                }
-            }
-        }
-        svg {
-            color: $medium-gray;
-        }
-        &:hover {
-            svg {
-                color: $dark-gray;
-            }
-        }
-        div {
-            span {
-                display: none;
-            }
-        }
-
-        &.multi {
-            // min-width: $pill-width;
-            width: stretch;
         }
     }
 }
