@@ -11,4 +11,7 @@ INSERT INTO manufacturers (name) VALUES
 INSERT INTO projects (name, owner_id) VALUES
 ('Demo Project', 1),
 ('Test Project', 2),
-('Andrew''s Project', 3);
+('Andrew''s Project', 3),
+('Ray''s Project', 4),
+('Wayne''s Project', 5),
+('Mary Ann''s Project', 6);

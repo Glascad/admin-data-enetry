@@ -28,10 +28,6 @@ function DetailOrConfigurationOrPart({
 
     const configurationPathString = Object.values(selectedConfigurationPaths).sort().join();
 
-    console.log({ path, item, selectedConfigurationPaths });
-    // console.log(configurationPathString);
-    // console.log({ item, selectedConfigurationPaths });
-
     const viewBox = getViewBox(
         getDetailOrConfigurationOrPartExtremities(
             item,
@@ -70,18 +66,16 @@ function DetailOrConfigurationOrPart({
                         configurationOptionValue={systemMap[getDefaultPath(item, systemMap)]}
                     />
                 ))
-                .regex(/__DT/i, () => {
-                    return (
-                        <Detail
-                            {...getDetailProps(item)}
-                            getConfigurationProps={getConfigurationProps}
-                            getPartProps={getPartProps}
-                            systemMap={systemMap}
-                            detail={item}
-                            configurationPaths={selectedConfigurationPaths}
-                        />
-                    );
-                })
+                .regex(/__DT/i, () => (
+                    <Detail
+                        {...getDetailProps(item)}
+                        getConfigurationProps={getConfigurationProps}
+                        getPartProps={getPartProps}
+                        systemMap={systemMap}
+                        detail={item}
+                        configurationPaths={selectedConfigurationPaths}
+                    />
+                ))
                 .otherwise(null)}
             {children}
         </svg>
