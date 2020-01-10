@@ -1,28 +1,14 @@
-import React, { PureComponent, createRef } from 'react';
 import PropTypes from 'prop-types';
-
-import Select from 'react-select';
-
+import React, { createRef, PureComponent } from 'react';
 import { ImperialValue, normalCase } from '../../../utils';
-
-// import FlipSwitch from '../FlipSwitch/FlipSwitch';
-
-import './Input.scss';
 import customPropTypes from '../../utils/custom-prop-types';
+import './Input.scss';
 
 const booleanTypes = [
     "switch",
     "checkbox",
     "icon",
 ];
-
-// const selectStyles = {
-//     inchInput: (provided, state) => ({
-//         ...provided,
-//         n: console.log({ provided, state }),
-//         height: '2rem',
-//     }),
-// };
 
 export default class Input extends PureComponent {
 
@@ -233,13 +219,6 @@ export default class Input extends PureComponent {
                 direction,
                 light,
                 type,
-                select,
-                select: {
-                    value: selectValue,
-                    value: {
-                        label: selectValueLabel,
-                    } = {},
-                } = {},
                 value,
                 initialValue,
                 checked,
@@ -256,13 +235,11 @@ export default class Input extends PureComponent {
                 onMouseUp,
                 onDrop,
                 "data-cy": dataCy,
-                ...props
             },
             ref,
             handleInchChange,
             handleInchblur,
             handleKeyDown,
-            // handleNumberChange,
         } = this;
 
         if (
@@ -304,9 +281,7 @@ export default class Input extends PureComponent {
                     } type-${
                     Icon ? 'icon'
                         :
-                        select ? 'select'
-                            :
-                            type
+                        type
                     } ${
                     readOnly ? 'read-only' : ''
                     } ${
@@ -322,60 +297,38 @@ export default class Input extends PureComponent {
                 onMouseDown={onMouseDown}
                 onMouseUp={onMouseUp}
                 onDrop={onDrop}
-                {...(isBoolean || select ? { "data-cy": dataCy } : null)}
+                {...isBoolean ? { "data-cy": dataCy } : null}
             >
-                {!isBoolean ? (
-                    LABEL
-                ) : null}
-                {select ? (
-                    <Select
-                        {...select}
-                        ref={ref}
-                        className={`React-Select ${select.isMulti ? "multi" : ""}`}
-                        value={selectValue ? {
-                            ...selectValue,
-                            label: normalCase(selectValueLabel),
-                        } : undefined}
-                        options={select.options.map(o => ({
-                            ...o,
-                            label: normalCase(o.label),
-                        }))}
-                        readOnly={readOnly}
-                    />
-                ) : (
-                        <inputTag.name
-                            ref={ref}
-                            readOnly={readOnly}
-                            type={isBoolean ?
-                                'checkbox'
-                                :
-                                isInches ?
-                                    "text"
-                                    :
-                                    type}
-                            value={onChange || readOnly ? (
-                                (value === undefined || Number.isNaN(value))
-                                &&
-                                ["text", "number", "password"].includes(type)
-                            ) ?
-                                ""
-                                :
-                                isInches ?
-                                    inchInput
-                                    :
-                                    value
-                                :
-                                undefined}
-                            checked={isBoolean ? checked : undefined}
-                            onChange={isInches ? handleInchChange : onChange}
-                            onBlur={isInches ? handleInchblur : onBlur}
-                            onKeyDown={onEnter ? handleKeyDown : onKeyDown}
-                            data-cy={isBoolean ? undefined : dataCy}
-                        // VVV is this spread necessary?
-                        // {...props}
-                        />
-                    )
-                }
+                {isBoolean ? null : LABEL}
+                <inputTag.name
+                    ref={ref}
+                    readOnly={readOnly}
+                    type={isBoolean ?
+                        'checkbox'
+                        :
+                        isInches ?
+                            "text"
+                            :
+                            type}
+                    value={onChange || readOnly ? (
+                        (value === undefined || Number.isNaN(value))
+                        &&
+                        ["text", "number", "password"].includes(type)
+                    ) ?
+                        ""
+                        :
+                        isInches ?
+                            inchInput
+                            :
+                            value
+                        :
+                        undefined}
+                    checked={isBoolean ? checked : undefined}
+                    onChange={isInches ? handleInchChange : onChange}
+                    onBlur={isInches ? handleInchblur : onBlur}
+                    onKeyDown={onEnter ? handleKeyDown : onKeyDown}
+                    data-cy={isBoolean ? undefined : dataCy}
+                />
                 {isBoolean ? (
                     <>
                         {type === 'checkbox' ? (
