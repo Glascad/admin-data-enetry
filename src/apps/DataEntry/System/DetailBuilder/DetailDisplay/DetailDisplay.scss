@@ -19,6 +19,11 @@
                 fill: none;
             }
 
+            .Part,
+            .Configuration {
+                transition: all 0.2s;
+            }
+
             .Part {
                 stroke: $dark-gray;
                 fill: rgba(255, 255, 255, 0.25);
