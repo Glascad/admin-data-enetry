@@ -1,7 +1,7 @@
+import { render } from "@testing-library/react";
 import React from 'react';
-import { render, fireEvent, getByTestId } from "@testing-library/react";
-import Input from './Input';
 import { Simulate } from 'react-dom/test-utils';
+import Input from "./Input";
 
 describe(`Boolean Input working`, () => {
 

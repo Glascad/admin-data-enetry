@@ -17,7 +17,7 @@ export default class Pill extends PureComponent {
         footer: customPropTypes.renderable,
         // passed props
         hoverButtons: ButtonTile.propTypes.buttonProps,
-        inputValue: Input.propTypes.value,
+        // inputValue: Input.propTypes.value,
         // styles
         type: PropTypes.oneOf([
             'pill',
