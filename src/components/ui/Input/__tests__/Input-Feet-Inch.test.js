@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import React from 'react';
-import Input from "./Input";
+import Input from "../Input";
 
 const onChange = jest.fn();
 const onBlur = jest.fn();
