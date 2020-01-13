@@ -33,11 +33,27 @@
         NULL,
         NULL
     )
+    COLUMN_TYPE (
+        INTEGER,
+        LTREE,
+        LTREE,
+        LTREE,
+        LTREE,
+        LTREE
+    )
 >>
 
     DROP FUNCTION IF EXISTS get_<<TYPE>>_child_type;
 
-    CREATE OR REPLACE FUNCTION gc_data.get_<<TYPE>>_child_type(parent_path LTREE)
+    CREATE OR REPLACE FUNCTION gc_data.get_<<TYPE>>_child_type(
+        parent_path
+        <<ONLY TYPE (system_detail, detail_configuration, system_option_value, detail_option_value, configuration_option_value)>>
+            LTREE
+        <<END ONLY>>
+        <<ONLY TYPE (system)>>
+            INTEGER
+        <<END ONLY>>
+    )
     RETURNS TEXT AS $$
     DECLARE
         is_type_a BOOLEAN;
@@ -50,7 +66,7 @@
             <<END ONLY>>
             <<ONLY TYPE (system)>>
                 WHERE a.parent_<<ALTERNATE_PARENT_TYPE>>_path IS NULL
-                AND a.system_id::TEXT::LTREE = parent_path
+                AND a.system_id = parent_path
             <<END ONLY>>
         );
         
@@ -61,7 +77,7 @@
             <<END ONLY>>
             <<ONLY TYPE (system)>>
                 WHERE b.parent_<<ALTERNATE_PARENT_TYPE>>_path IS NULL
-                AND b.system_id::TEXT::LTREE = parent_path
+                AND b.system_id = parent_path
             <<END ONLY>>
         );
         

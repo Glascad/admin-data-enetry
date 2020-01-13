@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types';
-import React, { createRef, PureComponent, useState, useEffect } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { ImperialValue, normalCase } from '../../../utils';
-import customPropTypes from '../../utils/custom-prop-types';
 import './Input.scss';
 
 // static propTypes = {
@@ -86,7 +84,7 @@ export default function Input({
     direction = 'column',
     light,
     type = 'text',
-    value: oldValue,
+    value,
     initialValue,
     checked = false,
     onChange,
@@ -105,7 +103,7 @@ export default function Input({
 }) {
 
     if (
-        oldValue !== undefined
+        value !== undefined
         &&
         initialValue !== undefined
     ) {
@@ -138,9 +136,9 @@ export default function Input({
     const convertedValue = initialValue instanceof ImperialValue ?
         initialValue
         :
-        new ImperialValue(initialValue || oldValue || 0);
+        new ImperialValue(initialValue || value || 0);
 
-    const [{ inchInput, value }, setState] = useState({ inchInput: `${convertedValue}`, value: convertedValue });
+    const [{ inchInput, inchValue }, setState] = useState({ inchInput: `${convertedValue}`, inchValue: convertedValue });
 
     const keys = {};
 
@@ -149,29 +147,29 @@ export default function Input({
 
     const handleInchChange = ({ target: { value: inchInput } }) => {
 
-        const value = new ImperialValue(inchInput);
+        const inchValue = new ImperialValue(inchInput);
 
-        setState({ inchInput, value });
+        setState({ inchInput, inchValue });
 
         if (onChange) {
-            if (initialValue instanceof ImperialValue) onChange(value);
-            else onChange(value.value);
+            if (initialValue instanceof ImperialValue) onChange(inchValue);
+            else onChange(inchValue.value);
         }
     }
 
     const handleInchblur = ({ target, target: { value: inchInput } }) => {
 
-        const value = new ImperialValue(inchInput);
+        const inchValue = new ImperialValue(inchInput);
 
-        const stringValue = `${value}`;
+        const stringValue = `${inchValue}`;
 
-        setState({ inchInput: stringValue, value });
+        setState({ inchInput: stringValue, inchValue });
 
-        ref.current.value = stringValue;
+        ref.current.inchValue = stringValue;
 
         if (onBlur) {
-            if (initialValue instanceof ImperialValue) onBlur(value);
-            else onBlur(value.value);
+            if (initialValue instanceof ImperialValue) onBlur(inchValue);
+            else onBlur(inchValue.value);
         }
     }
 
@@ -190,7 +188,7 @@ export default function Input({
 
     useEffect(() => {
         if (
-            (initialValue !== oldValue)
+            (initialValue !== value)
             &&
             (type === 'inches')
         ) {
@@ -199,10 +197,10 @@ export default function Input({
                 :
                 new ImperialValue(initialValue);
 
-            const oldConvertedValue = oldValue instanceof ImperialValue ?
-                oldValue
+            const oldConvertedValue = value instanceof ImperialValue ?
+                value
                 :
-                new ImperialValue(oldValue);
+                new ImperialValue(value);
 
             if (convertedValue.value !== oldConvertedValue.value) {
                 // console.log("RECEIVED NEW INITIAL VALUE");
@@ -212,7 +210,9 @@ export default function Input({
                 });
             }
         }
-    }, [initialValue])
+    }, [initialValue]);
+
+    console.log({ type, value, });
 
     return (
         <tag.name

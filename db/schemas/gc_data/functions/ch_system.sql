@@ -17,7 +17,7 @@ BEGIN
 
     -- option values must not have duplicate kinds of children
 
-    SELECT ARRAY_AGG(get_system_child_type(t.id::TEXT::LTREE)) FROM systems t INTO ___ WHERE t.id = s.id;
+    SELECT ARRAY_AGG(get_system_child_type(t.id)) FROM systems t INTO ___ WHERE t.id = s.id;
 
     <<LOOP 
         TYPE (

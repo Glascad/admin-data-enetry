@@ -1,31 +1,10 @@
-import React, {
-    PureComponent,
-    createContext,
-    createRef,
-    useEffect,
-    useContext,
-} from 'react';
-
-import './Statics.scss';
-
-import {
-    NavLink,
-    Link,
-    withRouter,
-} from 'react-router-dom';
-
+import React, { createContext, createRef, PureComponent, useContext, useEffect } from 'react';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
-
-import {
-    DoubleArrow,
-    NavMenu,
-    Navigator,
-    ApolloWrapper,
-    withContext,
-} from '../../components';
-
 import { AuthContext } from '../../AuthContext';
+import { DoubleArrow, Navigator, NavMenu, withContext } from '../../components';
 import { extractNavigationOptions, normalCase } from '../../utils';
+import './Statics.scss';
 
 export const StaticContext = createContext();
 
@@ -112,6 +91,7 @@ class Statics extends PureComponent {
                     />
                     <div className="bottom-buttons">
                         {Object.entries(allowedApplications)
+                            .filter((_, __, { length }) => length > 1)
                             .map(([name, route]) => extractNavigationOptions(name, route))
                             .map(({ name, path }) => (
                                 <NavLink
