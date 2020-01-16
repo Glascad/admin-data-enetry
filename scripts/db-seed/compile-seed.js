@@ -1,27 +1,36 @@
-const chalk = require('chalk');
 const compileDbFiles = require('./compile-db-files');
 const generateSeedFile = require('./generate-seed-file');
-const pfs = require('../../server/utils/promise-fs');
+const pfs = require('../utils/promise-fs');
+const log = require('./log');
 
 module.exports = async function compileSeed() {
     try {
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Compiling database seed`);
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Reading database files from ${chalk.blue('db/')}`);
+        console.log(`${log.compiling} Compiling database seed`);
+        console.log(`${log.compiling} Reading database files from ${log.path('db/')}`);
 
         await compileDbFiles();
 
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully read files from ${chalk.blue('db/')}`);
+        console.log(`${log.compiling} Successfully read files from ${log.path('db/')}`);
 
         const SEED_FILE = generateSeedFile();
 
-        await pfs.writeFile(`${__dirname}/../../compiled/db-seed.sql`, SEED_FILE);
+        const OLD_SEED = null; // (await pfs.readFile(`${__dirname}/../../compiled/db-seed.sql`)).toString();
 
-        console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} Successfully wrote database seed to ${chalk.blue('compiled/db-seed.sql')}`);
+        if (SEED_FILE === OLD_SEED) {
 
-        return SEED_FILE;
+            console.log(`${log.compiling} No changes found`);
+
+        } else {
+
+            await pfs.writeFile(`${__dirname}/../../compiled/db-seed.sql`, SEED_FILE);
+
+            console.log(`${log.compiling} Successfully wrote database seed to ${log.path('compiled/db-seed.sql')}`);
+
+            return SEED_FILE;
+        }
 
     } catch (err) {
-        console.error(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyan(`[compiling]`)}`)}`)} ${chalk.redBright(`Error seeding db`)}`);
+        console.error(`${log.compiling} ${log.error(`Error seeding db`)}`);
         console.error(err);
     }
 }

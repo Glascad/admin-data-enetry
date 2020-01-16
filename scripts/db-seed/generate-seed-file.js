@@ -45,7 +45,6 @@ ${require('../../db/schemas/gc_data/functions/utils/prepend_system_id.sql')}
 ${require('../../db/schemas/gc_controlled/tables.sql')}
 ${require('../../db/schemas/gc_data/tables/d,dc_types.sql')}
 ${require('../../db/schemas/gc_data/tables/manufacturer.sql')}
--- configuration_data
 ${require('../../db/schemas/gc_private/tables.sql')}
 ${require('../../db/schemas/gc_public/tables.sql')}
 ${require('../../db/schemas/gc_protected/tables/system.sql')}
@@ -61,6 +60,8 @@ ${require('../../db/schemas/gc_protected/triggers/g_system_set_parent_paths.sql'
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_missing_items.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_unselected_options.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_option_group_values.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_system_option_groups.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_system_option_value_children.sql')}
 
 
 ----- INVOKER ROLE -----
@@ -85,7 +86,6 @@ ${require('../../db/schemas/gc_protected/functions/system_set/d&c_system_set_nod
 ${require('../../db/schemas/gc_protected/functions/system_set/c~u_system_set_option_group_value.sql')}
 ${require('../../db/schemas/gc_protected/functions/system_set/d_system_set_optional_configuration.sql')}
 ${require('../../db/schemas/gc_data/functions/u_system.sql')}
-${require('../../db/schemas/gc_data/functions/ch_system.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/elevation/u_elevation.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/elevation/copy_elevation.sql')}
 ${require('../../db/schemas/gc_public/functions/mutations/elevation/d_elevation.sql')}

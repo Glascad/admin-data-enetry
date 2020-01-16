@@ -2,9 +2,9 @@
 DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
 
     <<LOOP 
-        PID (1, 2, 3)
-        SID (1, 2, 2)
-        NAME ('Test', 'Test2', '451T')
+        PID (1, 2, 3, 4, 5, 6)
+        SID (1, 2, 2, 2, 2, 2)
+        NAME ('Test', 'Test2', '451T', '451T', '451T', '451T')
     >>
 
         SELECT 1 FROM update_entire_system_set(

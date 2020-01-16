@@ -100,6 +100,8 @@ export default function Input({
     onMouseUp,
     onDrop,
     "data-cy": dataCy,
+    autoFocus,
+    tabIndex,
 }) {
 
     if (
@@ -212,8 +214,6 @@ export default function Input({
         }
     }, [initialValue]);
 
-    console.log({ type, value, });
-
     return (
         <tag.name
             className={`Input ${
@@ -263,6 +263,8 @@ export default function Input({
                         value
                     :
                     undefined}
+                autoFocus={autoFocus}
+                tabIndex={tabIndex}
                 checked={isBoolean ? checked : undefined}
                 onChange={isInches ? handleInchChange : onChange}
                 onBlur={isInches ? handleInchblur : onBlur}

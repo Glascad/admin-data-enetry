@@ -1,6 +1,6 @@
 const { Client } = require('pg');
-const chalk = require('chalk');
 const compileSeed = require('./compile-seed');
+const log = require('./log');
 
 const {
     env: {
@@ -19,11 +19,11 @@ module.exports = async function seedDatabase(done) {
     if (NODE_ENV === 'development') {
 
         if (RESEED === 'true') {
-            console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} Re-seeding database`);
+            console.log(`${log.dbseed} Re-seeding database`);
 
             const DB_SEED = await compileSeed();
 
-            if (RESEED === 'true') {
+            if (DB_SEED && RESEED === 'true') {
                 const DB = new Client({
                     user: 'doadmin', // DO NOT CHANGE
                     password: DO_ADMIN_PASSWORD,
@@ -34,45 +34,45 @@ module.exports = async function seedDatabase(done) {
                 });
 
                 try {
-                    console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Connecting to db`);
+                    console.log(`${log.seeding} Connecting to db`);
 
                     await DB.connect();
 
-                    console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully connected to db`);
+                    console.log(`${log.seeding} Successfully connected to db`);
                 } catch (err) {
-                    console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error connecting to db:')}`);
+                    console.error(`${log.glascad} ${log.error('Error connecting to db:')}`);
                     console.error(err);
                 }
 
                 try {
-                    console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Seeding db`);
+                    console.log(`${log.seeding} Seeding db`);
 
                     await DB.query(DB_SEED);
 
-                    console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully seeded db`);
+                    console.log(`${log.seeding} Successfully seeded db`);
                 } catch (err) {
-                    console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error seeding db:')}`);
+                    console.error(`${log.glascad} ${log.error('Error seeding db:')}`);
                     console.error(err);
                 }
 
                 try {
-                    console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Disconnecting from db`);
+                    console.log(`${log.seeding} Disconnecting from db`);
 
                     await DB.end();
-                    
-                    console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]${chalk.cyanBright(`[seeding]`)}`)}`)} Successfully disconnected from db`);
+
+                    console.log(`${log.seeding} Successfully disconnected from db`);
                 } catch (err) {
-                    console.error(chalk`${chalk.blueBright(`[glascad]`)} ${chalk.redBright('Error disconnecting from db:')}`);
+                    console.error(`${log.glascad} ${log.error('Error disconnecting from db:')}`);
                     console.error(err);
                 }
             } else {
-                console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} Not seeding db`);
+                console.log(`${log.dbseed} Not seeding db`);
             }
 
-            console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} done`);
+            console.log(`${log.dbseed} done`);
 
         } else {
-            console.log(chalk`${chalk.blueBright(`[glascad]${chalk.greenBright(`[dbseed]`)}`)} Not compiling`);
+            console.log(`${log.dbseed} Not compiling`);
         }
     }
 

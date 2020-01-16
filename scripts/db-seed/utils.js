@@ -1,17 +1,4 @@
-const chalk = require('chalk');
-
-const highlightEndOfPath = path => path.replace(/(^.*\/)?([^/]+)(\.sql$)?/, `$1${chalk.inverse('$2')}$3`);
-
-const shortenPath = path => path.replace('../../', '');
-
-const linkPath = shortenPath; // path => path.replace('../..', `file://${__dirname.replace(/scripts\/.*/, '')}`);
-
-const logPath = path => chalk.blue(shortenPath(path));
-
-const logWarningPath = path => chalk.yellow(linkPath(highlightEndOfPath(path)));
-
-const logErrorPath = path => chalk.red(linkPath(highlightEndOfPath(path)));
-
+const log = require('./log');
 
 // Compile Utils
 
@@ -45,19 +32,19 @@ const getKeys = obj => typeof obj === 'object' ?
 const entireOnly = /([\s\S]*)<<\s*ONLY\s*(\S+)\s*(\(\S+(,\s*\S+)*\))\s*>>([\s\S]*?)<<\s*END\s*ONLY\s*>>([\s\S]*)/ig;
 
 const ONLY = (path, contents, vars, varObj, PROTECTION = 20) => {
-    if (PROTECTION <= 0) throw new Error(`<<ONLY>> depth exceeded maximum limit of 20 in ${logErrorPath(path)}`);
+    if (PROTECTION <= 0) throw new Error(`<<ONLY>> depth exceeded maximum limit of 20 in ${log.errorPath(path)}`);
     else return contents.replace(
         entireOnly,
         (match, before, onlyVar, onlyVals, lastOnlyVal, onlyContents, after, offset, entireString) => {
 
-            if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${chalk.redBright(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+            if (!(onlyVar in varObj)) throw new Error(`Invalid <<ONLY>> variable ${log.error(onlyVar)}, must be one of: ${Object.keys(varObj).map(v => `${log.variable(v)}`).join(', ')} in ${log.errorPath(path)}`);
 
             const validValues = vars.map(v => v[onlyVar]);
 
             const onlyValues = onlyVals.replace(/(^\s*\(\s*)|(\s*\)\s*$)/ig, '').split(/[,\s]+/g);
 
             onlyValues.forEach(v => {
-                if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${chalk.redBright(v)}, must be one of: ${validValues.map(v => `${chalk.gray(v)}`).join(', ')} in ${logErrorPath(path)}`);
+                if (!validValues.includes(v)) throw new Error(`Invalid <<ONLY>> value ${log.error(v)}, must be one of: ${validValues.map(v => `${log.variable(v)}`).join(', ')} in ${log.errorPath(path)}`);
             });
 
             // working from the inside out
@@ -81,18 +68,18 @@ const loopEnd = /<<\s*END\s*LOOP\s*>>/ig;
 const entireLoop = /([\s\S]*)\s*<<\s*LOOP\s*((\S+\s*\(\s*\S+(,\s*\S+)*\s*\)\s*)+)>>([\s\S]*?)<<\s*END\s*LOOP\s*>>([\s\S]*)/ig;
 
 const LOOP = (path, contents, PROTECTION = 20) => {
-    if (PROTECTION <= 0) throw new Error(`<<LOOP>> depth exceeded maximum limit of 20 in ${logErrorPath(path)}`);
+    if (PROTECTION <= 0) throw new Error(`<<LOOP>> depth exceeded maximum limit of 20 in ${log.errorPath(path)}`);
     else return contents.replace(
         entireLoop,
-        (match, before, variables, lastVar, lastVal, contents, after, offset, entireString) => {
+        (match, before, variable, lastVar, lastVal, contents, after, offset, entireString) => {
 
-            const vars = variables.split(/\s*\)\s*/g)
+            const vars = variable.split(/\s*\)\s*/g)
                 .filter(Boolean)
                 .reduce((varls, varSet, i) => {
 
                     const [varname, ...values] = varSet.trim().split(/[(,\s]+/g);
 
-                    if (varls.length && varls.length !== values.length) throw new Error(`<<LOOP>> variable ${chalk.redBright(varname)} must have same number of values as previous variables in ${logPath(path)}`);
+                    if (varls.length && varls.length !== values.length) throw new Error(`<<LOOP>> variable ${log.error(varname)} must have same number of values as previous variable in ${log.path(path)}`);
 
                     return values.map((val, i) => ({
                         ...varls[i],
@@ -101,19 +88,19 @@ const LOOP = (path, contents, PROTECTION = 20) => {
 
                 }, []);
 
-            // console.log(chalk.gray(` -- Looping through variable${
+            // console.log(log.variable(` -- Looping through variable${
             //     Object.keys(vars[0]).length > 1 ? 's' : ''
             //     } ${
             //     Object.keys(vars[0]).map(varname => `${
-            //         chalk.white(varname)
+            //         log.variable(varname)
             //         // } (${
             //         // vars.map(v => `${
-            //         //     chalk.gray(v[varname])
+            //         //     log.variable(v[varname])
             //         //     }`).join(', ')
             //         // )
             //         }`).join(', ')
             //     } in ${
-            //     logPath(path)
+            //     log.path(path)
             //     }`));
 
             // working from the inside out
@@ -121,7 +108,7 @@ const LOOP = (path, contents, PROTECTION = 20) => {
                 before
                 }${
                 vars.reduce(
-                    // loop through each set of variables
+                    // loop through each set of variable
                     (generated, varObj) => `${
                         // accumulate generated sql
                         generated
@@ -136,13 +123,13 @@ const LOOP = (path, contents, PROTECTION = 20) => {
                             )
                         }`,
                     `\n-- LOOP in file ${
-                    shortenPath(path)
+                    log.shortPath(path)
                     }`,
                 )
                 }${
                 after
                 }\n-- END LOOP in file ${
-                shortenPath(path)
+                log.shortPath(path)
                 }`, PROTECTION - 1);
         }
     );
@@ -157,17 +144,17 @@ const duplicateSQL = (path, contents) => {
     const loopCount = (loopMatches || []).length;
     const endLoopCount = (endLoopMatches || []).length;
 
-    if (loopAttemptCount !== loopCount) throw new Error(`Invalid <<LOOP ... >> attempt in ${logErrorPath(path)}`);
-    if (loopCount !== endLoopCount) throw new Error(`Unequal number of '<<LOOP ... >>'s and '<<END LOOP>'s in ${logErrorPath(path)}`);
+    if (loopAttemptCount !== loopCount) throw new Error(`Invalid <<LOOP ... >> attempt in ${log.errorPath(path)}`);
+    if (loopCount !== endLoopCount) throw new Error(`Unequal number of '<<LOOP ... >>'s and '<<END LOOP>'s in ${log.errorPath(path)}`);
 
     return LOOP(path, contents)
 }
 
 const insertEnvVars = (path, contents) => contents.replace(/<<\s*(\w*)\s*>>/g, (match, ENV_VAR) => {
     const value = process.env[ENV_VAR];
-    if (!value) throw new Error(`Variable ${chalk.gray(ENV_VAR)} in ${logErrorPath(path)} not found in ${logErrorPath('.env')}`);
+    if (!value) throw new Error(`Variable ${log.variable(ENV_VAR)} in ${log.errorPath(path)} not found in ${log.errorPath('.env')}`);
     else {
-        // console.log(chalk.gray(` -- Inserting environment variable ${chalk.white(ENV_VAR)} in ${logPath(path)}`));
+        // console.log(log.variable(` -- Inserting environment variable ${log.variable(ENV_VAR)} in ${log.path(path)}`));
         return value;
     }
 });
@@ -186,14 +173,14 @@ const getDbContents = path => {
         .split(/\//)
         .reduce((obj, filename) => obj[filename.toUpperCase()], DB);
 
-    if (contents === undefined) throw new Error(`Invalid file reference: ${logErrorPath(path)}`);
-    if (typeof contents === 'object') throw new Error(`Cannot reference directory: ${logErrorPath(path)}. Nested files include: ${Object.keys(contents).join(', ')}`)
-    if (typeof contents !== 'string') throw new Error(`File empty: ${logErrorPath(path)}`);
+    if (contents === undefined) throw new Error(`Invalid file reference: ${log.errorPath(path)}`);
+    if (typeof contents === 'object') throw new Error(`Cannot reference directory: ${log.errorPath(path)}. Nested files include: ${Object.keys(contents).join(', ')}`)
+    if (typeof contents !== 'string') throw new Error(`File empty: ${log.errorPath(path)}`);
     if (
         contents.match(/^\s*$/)
         ||
         contents.split(/\n/).every(line => line.match(/^\s*(--.*)?$/))
-    ) setTimeout(() => console.warn(`${chalk.yellowBright`Warning:`} File commented out: ${logWarningPath(path)}`));
+    ) setTimeout(() => console.warn(`${log.warning("Warning:")} File commented out: ${log.warningPath(path)}`));
 
     return contents;
 }
@@ -208,7 +195,7 @@ const sqlPipe = [
 ];
 
 const _require = path => {
-    if (requiredPaths.includes(path)) throw new Error(`Duplicate path required: ${logErrorPath(path)}`);
+    if (requiredPaths.includes(path)) throw new Error(`Duplicate path required: ${log.errorPath(path)}`);
     else {
         requiredPaths.push(path);
         return path.match(/\/|\./) ?

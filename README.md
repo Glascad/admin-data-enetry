@@ -56,3 +56,19 @@ We ought to go through this process every Friday, committing our changes for the
 ### Continuous Integration
 
 Glascad has a standard process of maintaining a production version of the software.
+
+### Refactor & Test As We Go & As Things Break
+
+As we update our standards and practices for code organisation and testing, we do not update or refactor things that are not broken.
+
+We refactor old code to current standards as we revisit it to implement new features, and we update and refactor tests of old features as those old features break.
+
+### Design & Application Review
+
+We regulary discuss 
+
+## Summary
+
+We follow the principles of Test-Driven Development, Modularity, Separation of Concerns, and Single Source of Truth.
+
+We have a design and application review each Thursday, followed by a code review each Friday.

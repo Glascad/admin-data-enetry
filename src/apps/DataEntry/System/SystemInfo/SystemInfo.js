@@ -1,114 +1,31 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { AsyncButton, ConfirmButton, Ellipsis, TitleBar, useInitialState } from '../../../../components';
-import { parseSearch } from '../../../../utils';
 import SystemInfoInputs from '../modules/SystemInfoInputs';
+import Header from './Header';
 
 SystemInfo.navigationOptions = {
     path: '/info',
 };
 
 function SystemInfo({
-    location: {
-        search,
-        state: {
-            previousPath = '/data-entry/manufacturer/system-search',
-            previousSearch,
-        } = {},
-    },
-    match: {
-        path,
-    },
-    history,
     queryResult,
-    queryResult: {
-        allManufacturers = [],
-        systemTypes = [],
-    },
     systemInput,
     system,
-    system: {
-        name,
-        _manufacturer: {
-            name: mnfgName = "",
-        } = {},
-        systemType,
-        sightline,
-    },
     fetching,
     updating,
     dispatch,
     save,
 }) {
-
-    console.log(arguments[0]);
-
-    const { systemId, manufacturerId } = parseSearch(search);
-
-    const mName = mnfgName || (allManufacturers.find(({ id }) => `${id}` === manufacturerId) || {}).name;
-
-    console.log({ sightline });
-
-    const [] = useInitialState();
-
-    const hasChanges = (
-        systemInput.name
-        ||
-        systemInput.sightline
-        ||
-        systemInput.systemType
-    );
-
     return (
         <>
-            <TitleBar
-                title={systemId === 'null' ?
-                    "New System"
-                    :
-                    "System Info"}
-                snailTrail={fetching ? [
-                    <Ellipsis text="Loading" />
-                ] : [
-                        mName,
-                        systemId !== 'null' && name,
-                    ]}
-                right={(
-                    <>
-                        <ConfirmButton
-                            data-cy="cancel"
-                            doNotConfirmWhen={true}
-                            onClick={() => history.push(`${previousPath}${previousSearch || search}`)}
-                        >
-                            Cancel
-                        </ConfirmButton>
-                        <AsyncButton
-                            className="action"
-                            data-cy="save-load"
-                            onClick={async () => {
-                                const {
-                                    updateEntireSystem: {
-                                        system: {
-                                            id = +systemId,
-                                        } = {},
-                                    } = {},
-                                } = hasChanges ? await save() : {};
-
-                                const newPath = `${
-                                    path.replace(/info/, 'build')
-                                    }${
-                                    parseSearch(search).update({ systemId: id })
-                                    }`;
-                                
-                                console.log({ newPath });
-
-                                history.push(newPath);
-                            }}
-                            loading={updating}
-                        >
-                            {hasChanges || systemId === 'null' ? "Save" : "Load"}
-                        </AsyncButton>
-                    </>
-                )}
+            <Header
+                {...{
+                    systemInput,
+                    system,
+                    queryResult,
+                    fetching,
+                    save,
+                    updating,
+                }}
             />
             <div className="card">
                 <SystemInfoInputs
@@ -124,4 +41,4 @@ function SystemInfo({
     );
 }
 
-export default withRouter(SystemInfo);
+export default SystemInfo;
