@@ -2,8 +2,9 @@ import React from 'react';
 import ItemMovement from './ItemMovement';
 import ItemDelete from './ItemDelete';
 import ItemLink from './ItemLink';
+import SpliceOption from './SpliceOption';
 
-const BottomButtons = ({
+export default function BottomButtons({
     system,
     selectedItem,
     selectedItem: {
@@ -17,11 +18,19 @@ const BottomButtons = ({
     dispatchPartial,
     dispatch,
     systemMap,
-}) => __typename.match(/^System$/i) ?
+}) {
+    return __typename.match(/^System$/i) ?
         null
         :
         (
             <>
+                <SpliceOption
+                    {...{
+                        dispatch,
+                        selectedItem,
+                        systemMap,
+                    }}
+                />
                 <ItemMovement
                     {...{
                         selectedItem,
@@ -49,5 +58,5 @@ const BottomButtons = ({
                     }}
                 />
             </>
-        );
-export default BottomButtons;
+        )
+};

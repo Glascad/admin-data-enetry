@@ -18,20 +18,26 @@ export default function SPLICE_OPTION(
     const childOptionPath = `${path}.SELECT_OPTION`;
     const childOptionParentKey = `parent${__typename}Path`;
     const childOptionTypename = __typename.match(/Value$/i) ?
-    __typename.replace(/value$/i, "")
-    :
+        __typename.replace(/value$/i, "")
+        :
         __typename.replace(/^.*(System|Detail|Configuration)$/i, '$1Option');
 
     const childValuePath = `${childOptionPath}.EMPTY_VALUE`
     const childValueParentKey = `parent${childOptionTypename}Path`;
     const childValueTypename = `${childOptionTypename}Value`;
-    
+
     const children = getChildren(selectedItem, systemMap);
 
-    console.log({children});
+    const systemInputAfterMovingChildren = children.reduce((accumulatedSystemInput, child) => UPDATE_ITEM(
+        accumulatedSystemInput, {
+        ...child,
+        update: {
+            [`parent${childValueTypename}Path`]: childValuePath,
+        }
+    }), systemInput);
 
     // Add Option called "SELECT_OPTION" to selected Item
-    const systemInputAfterAddingOption = ADD_ITEM(systemInput, {
+    const systemInputAfterAddingOption = ADD_ITEM(systemInputAfterMovingChildren, {
         name: 'SELECT_OPTION',
         [childOptionParentKey]: path,
         __typename: childOptionTypename,
@@ -45,14 +51,6 @@ export default function SPLICE_OPTION(
     });
 
     // move Children to "EMPTY_VALUE"
-    const systemInputAfterMovingChildren = children.reduce((accumulatedSystemInput, child) => UPDATE_ITEM(
-        accumulatedSystemInput, {
-        ...child,
-        update: {
-            [`parent${childValueTypename}Path`]: childValuePath,
-        }
-    }),
-        systemInputAfterAddingOptionValue);
 
-    return systemInputAfterMovingChildren;
+    return systemInputAfterAddingOptionValue;
 }
