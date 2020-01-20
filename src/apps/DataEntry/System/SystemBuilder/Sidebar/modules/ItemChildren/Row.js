@@ -14,6 +14,7 @@ const Row = ({
     grandchildren,
     dispatch,
     selectItem,
+    disabled,
 }) => (
         <div className="input-group">
             <Select
@@ -21,6 +22,7 @@ const Row = ({
                 value={selectValue}
                 options={selectChildOptions}
                 onChange={handleSelectChange}
+                disabled={disabled}
             />
             <CircleButton
                 data-cy={`select-child-${selectValue.toLowerCase()}`}

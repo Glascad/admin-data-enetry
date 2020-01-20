@@ -79,9 +79,10 @@ export default function Sidebar({
                     dispatch,
                     systemMap,
                 }}
-            />
+                />
             <BottomButtons
                 {...{
+                    queryResult,
                     match,
                     location,
                     system,
