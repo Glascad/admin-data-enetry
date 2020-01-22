@@ -242,7 +242,6 @@ export default function Input({
             {isBoolean ? null : LABEL}
             <inputTag.name
                 ref={ref}
-                readOnly={readOnly}
                 type={isBoolean ?
                     'checkbox'
                     :
@@ -263,6 +262,8 @@ export default function Input({
                         value
                     :
                     undefined}
+                readOnly={readOnly}
+                disabled={disabled || readOnly}
                 autoFocus={autoFocus}
                 tabIndex={tabIndex}
                 checked={isBoolean ? checked : undefined}

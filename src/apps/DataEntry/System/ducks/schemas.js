@@ -42,6 +42,8 @@ export const systemOptionUpdate = {
     path: undefined,
 };
 
+export const sightline = 2
+
 export const systemUpdate = {
     __typename: "System",
     // path: undefined,

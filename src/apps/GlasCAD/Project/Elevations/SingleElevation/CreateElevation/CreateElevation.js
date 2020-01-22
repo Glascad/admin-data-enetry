@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import React, { memo, useCallback, useMemo } from 'react';
-import { GroupingBox, Input, useInitialState, useMutation, useRedoableState } from '../../../../../../components';
+import { GroupingBox, Input, useInitialState, useMutation, useRedoableState, useSaveOnCtrlS } from '../../../../../../components';
 import F from '../../../../../../schemas';
 import { parseSearch } from '../../../../../../utils';
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -111,7 +111,7 @@ export default memo(function CreateElevation({
         }
     }
 
-    const save = useCallback(async () => {
+    const save = useSaveOnCtrlS(useCallback(async () => {
 
         const {
             _elevationContainers,
@@ -168,7 +168,7 @@ export default memo(function CreateElevation({
             console.error(`Error saving elevation`);
             console.error(err);
         }
-    }, [mergedElevation]);
+    }, [mergedElevation]));
 
     // console.log("this is the CREATE elevation page");
 

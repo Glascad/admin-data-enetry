@@ -2,6 +2,7 @@ import { getParentPathFromObject, getPathPrefix } from '../../../../app-logic/sy
 import { match, removeNullValues } from '../../../../utils';
 import { getParentWithUpdatedPath, getUpdatedPath } from "./utils";
 import getPartFromPartId from '../../../../app-logic/system/get-part-from-part-id';
+import { sightline as defaultSightline } from './schemas';
 
 export default function merge(systemInput, {
     _system,
@@ -120,7 +121,7 @@ export default function merge(systemInput, {
                 name: undefined
             });
         }));
-    
+
     const getUpdatedParts = updatedConfigurationParts => updatedConfigurationParts.map(configurationPart => ({
         ...configurationPart,
         _part: getPartFromPartId(configurationPart.partId, _system),
@@ -139,7 +140,7 @@ export default function merge(systemInput, {
     return {
         ..._system,
         name: newName || name,
-        sightline: newSightline || sightline,
+        sightline:  newSightline || sightline || defaultSightline,
         systemType: newSystemType || systemType,
         _systemOptions: updatedSystemOptions,
         _systemOptionValues: updatedSystemOptionValues,

@@ -43,6 +43,7 @@ import useRedoableState, { withRedoableState } from './hooks/use-redoable-state'
 import useMountTracker from './hooks/use-mount-tracker';
 import useInitialState from './hooks/use-initial-state';
 import useSelection from './hooks/use-selection';
+import useSaveOnCtrlS from './hooks/use-save-on-ctrl-s';
 
 // NAVIGATION COMPONENTS
 import Navigator from './navigation/Navigator';
@@ -103,6 +104,7 @@ export {
     useMountTracker,
     useInitialState,
     useSelection,
+    useSaveOnCtrlS,
     // NAVIGATION
     Navigator,
     TabNavigator,
@@ -115,4 +117,3 @@ export {
     // SPECIAL FUNCTIONS
     confirmWithModal,
 };
-

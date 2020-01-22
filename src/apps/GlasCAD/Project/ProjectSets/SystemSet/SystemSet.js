@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
 import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system';
-import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState } from '../../../../../components';
+import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
 import Details from './Details/Details';
@@ -163,7 +163,7 @@ export default function SystemSet({
         } = {},
     } = allSystems.find(({ id }) => id === systemId) || {};
 
-    const save = async () => {
+    const save = useSaveOnCtrlS(async () => {
 
         const payload = {
             ...systemSetUpdate,
@@ -200,7 +200,7 @@ export default function SystemSet({
             console.error(err);
         }
 
-    }
+    });
 
     // console.log({ systemSet });
 

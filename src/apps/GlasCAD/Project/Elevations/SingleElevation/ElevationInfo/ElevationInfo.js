@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, TitleBar, useInitialState } from '../../../../../../components';
+import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, TitleBar, useInitialState, useSaveOnCtrlS } from '../../../../../../components';
 import { ImperialValue, parseSearch } from '../../../../../../utils';
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 import renderPreview from '../../ElevationPreview/render-preview';
@@ -58,7 +58,7 @@ export default function ElevationInfo({
 
     const doNotConfirm = _.isEqual(elevationInput, {});
 
-    const save = async () => {
+    const save = useSaveOnCtrlS(async () => {
 
         if (!doNotConfirm) {
             const elevation = {
@@ -75,7 +75,7 @@ export default function ElevationInfo({
         }
 
         history.push(`${path.replace(/elevation-info/, 'build-elevation')}${search}`);
-    }
+    });
 
     console.log("this is the EDIT elevation page");
 

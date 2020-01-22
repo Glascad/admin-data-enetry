@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { SystemMap } from '../../../app-logic/system';
 import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems';
-import { ApolloWrapper, Ellipsis, Navigator, useMutation, useQuery, useRedoableState } from '../../../components';
+import { ApolloWrapper, Ellipsis, Navigator, useMutation, useQuery, useRedoableState, useSaveOnCtrlS } from '../../../components';
 import { normalCase, parseSearch } from '../../../utils';
 import DetailBuilder from './DetailBuilder/DetailBuilder';
 import cleanSystemInput from './ducks/clean-system-input';
@@ -124,7 +124,7 @@ export default function System({
         ),
     }));
 
-    const save = async () => {
+    const save = useSaveOnCtrlS(async () => {
         dispatch(() => systemUpdate);
         try {
             const systemPayload = {
@@ -140,19 +140,7 @@ export default function System({
             console.error(err);
             dispatch(() => systemInput);
         }
-    };
-
-    useEffect(() => {
-        const saveOnCtrlS = e => {
-            const { key, ctrlKey, metaKey } = e;
-            if (key.match(/^s$/i) && (ctrlKey || metaKey)) {
-                e.preventDefault();
-                save();
-            }
-        }
-        window.addEventListener('keydown', saveOnCtrlS);
-        return () => window.removeEventListener('keydown', saveOnCtrlS);
-    }, [save]);
+    });
 
     // console.log({
     //     system,
