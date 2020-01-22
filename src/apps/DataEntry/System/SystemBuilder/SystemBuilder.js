@@ -36,11 +36,10 @@ export default function SystemBuilder({
 
     const {
         selectedItem,
-        selectedItem: {
-            __typename: selectedTypename,
-        } = {},
         selectItem,
     } = useSelection({ systemMap, location, match, history });
+
+    console.log({ selectedItem });
 
     const { partialAction, dispatchPartial, cancelPartial, completePartial } = usePartialAction({ selectItem, dispatch });
 

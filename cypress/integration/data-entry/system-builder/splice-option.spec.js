@@ -1,12 +1,7 @@
 
 describe('User can splice an option below all available spots', () => {
-    beforeEach(() => {
-        cy.login();
 
-        cy.visit(`http://localhost:3000/data-entry/system/build?sampleSystem=sample3&manufacturerId=1&systemId=1`);
-    });;
 
-     
     // CHANGES VALUE BY ITEM_NAME
 
     it('can splice an option under a system', () => {
@@ -52,6 +47,47 @@ describe('User can splice an option below all available spots', () => {
         cy.getDataCy`3.SET.CENTER.DURABILITY.STANDARD_DUTY`.should('exist');
 
     });
+
+    // CHANGES VALUE BY CHANGING CHILD OPTION NAME
+
+    it('can splice an option under a system', () => {
+        cy.login();
+        cy.visit(`http://localhost:3000/data-entry/system/build?=&manufacturerId=1&systemId=3`);
+
+        // Clicks the System
+        cy.getDataCy`3`.click({ force: true });
+        // Presses the splice-option button
+        cy.getDataCy`splice-option-button`.click({ force: true });
+        // types in child selection
+        cy.getDataCy`edit-child-select_option select_option`.type('Dur{enter}');
+        // expect selected option (Durability) to exist
+        cy.getDataCy`3.DURABILITY`.should('exist');
+        // The first value is selected for Durability
+        cy.getDataCy`3.DURABILITY.STANDARD_DUTY`.should('exist');
+    });
+
+    it('can splice an option under a systemOptionValue', () => {
+        cy.login();
+        cy.visit(`http://localhost:3000/data-entry/system/build?=&manufacturerId=3&systemId=3`);
+        // Clicks the System Option Value
+        cy.getDataCy`3.SET.CENTER`.click({ force: true });
+        // Presses the splice-option button
+        cy.getDataCy`splice-option-button`.click({ force: true });
+        // types in child selection
+        cy.getDataCy`edit-child-select_option select_option`.type('Dur{enter}');
+        // expect selected option (Durability) to exist
+        cy.getDataCy`3.SET.CENTER.DURABILITY`.should('exist');
+        // The first value is selected for Durability
+        cy.getDataCy`3.SET.CENTER.DURABILITY.STANDARD_DUTY`.should('exist');
+
+    });
+
+
+    beforeEach(() => {
+        cy.login();
+
+        cy.visit(`http://localhost:3000/data-entry/system/build?sampleSystem=sample3&manufacturerId=1&systemId=1`);
+    });;
 
     it('can splice an option under a systemDetail', () => {
         // Clicks the SystemDetail
@@ -174,38 +210,6 @@ describe('User can splice an option below all available spots', () => {
     });
 
     // CHANGES VALUE BY CHANGING CHILD OPTION NAME
-    
-    it('can splice an option under a system', () => {
-        cy.login();
-        cy.visit(`http://localhost:3000/data-entry/system/build?=&manufacturerId=1&systemId=3`);
-
-        // Clicks the System
-        cy.getDataCy`3`.click({ force: true });
-        // Presses the splice-option button
-        cy.getDataCy`splice-option-button`.click({ force: true });
-        // types in child selection
-        cy.getDataCy`edit-child-select_option select_option`.type('Dur{enter}');
-        // expect selected option (Durability) to exist
-        cy.getDataCy`3.DURABILITY`.should('exist');
-        // The first value is selected for Durability
-        cy.getDataCy`3.DURABILITY.STANDARD_DUTY`.should('exist');
-    });
-
-    it('can splice an option under a systemOptionValue', () => {
-        cy.login();
-        cy.visit(`http://localhost:3000/data-entry/system/build?=&manufacturerId=3&systemId=3`);
-        // Clicks the System Option Value
-        cy.getDataCy`3.SET.CENTER`.click({ force: true });
-        // Presses the splice-option button
-        cy.getDataCy`splice-option-button`.click({ force: true });
-        // types in child selection
-        cy.getDataCy`edit-child-select_option select_option`.type('Dur{enter}');
-        // expect selected option (Durability) to exist
-        cy.getDataCy`3.SET.CENTER.DURABILITY`.should('exist');
-        // The first value is selected for Durability
-        cy.getDataCy`3.SET.CENTER.DURABILITY.STANDARD_DUTY`.should('exist');
-
-    });
 
     it('can splice an option under a systemDetail', () => {
         // Clicks the SystemDetail

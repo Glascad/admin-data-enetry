@@ -61,7 +61,7 @@ function Header({
                         Icon={Hamburger}
                         checked={selectedTypename === 'Settings'}
                         onMouseDown={e => e.stopPropagation()}
-                        onChange={() => selectItem(selectedTypename === 'Settings' ?
+                        onChange={() => console.log('selectingItem') || selectItem(selectedTypename === 'Settings' ?
                             undefined
                             :
                             { __typename: 'Settings' }

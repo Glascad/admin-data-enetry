@@ -3,6 +3,7 @@ import { Matrix, svg } from '../../../utils';
 import { getPartExtremities } from '../../../utils/functions/svg-utils';
 
 export function SVGPath({
+    dataCy,
     className = '',
     commands = [],
     transform: matrix,
@@ -14,6 +15,7 @@ export function SVGPath({
 
     return (
         <path
+            data-cy={dataCy}
             className={className}
             onClick={onClick}
             d={commands
@@ -32,6 +34,7 @@ export function SVGPath({
 }
 
 export default function SVG({
+    dataCy,
     paths = [],
     className = '',
 }) {
@@ -44,6 +47,7 @@ export default function SVG({
         >
             {paths.map(({ commands, color }, i) => (
                 <SVGPath
+                    dataCy={dataCy}
                     commands={commands}
                     color={color}
                     className={i === selectedPathIndex ? 'selected' : ''}

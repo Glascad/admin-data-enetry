@@ -218,7 +218,7 @@ export default memo(function CreateElevation({
                     value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
                         startingBayQuantity: Math.round(Math.min(
-                            +value,
+                            +value < 0 ? 0 : + value,
                             (
                                 horizontalRoughOpening - recursiveElevation.sightline
                             ) / (

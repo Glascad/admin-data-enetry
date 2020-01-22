@@ -22,7 +22,7 @@ export default function DetailOrConfigurationType({
 
     const siblings = getSiblings(selectedItem, systemMap);
 
-    const selectValidTypes = __typename.match(/detail/i) ?
+    const selectValidTypes = __typename.match(/detail$/i) ?
         detailTypes
         :
         configurationTypes

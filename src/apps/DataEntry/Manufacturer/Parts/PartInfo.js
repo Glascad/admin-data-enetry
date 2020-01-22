@@ -72,6 +72,7 @@ export default function PartInfo({
                     readOnly={true}
                 />
                 <SVG
+                    dataCy={`svg-${partId}`}
                     className="part-preview"
                     paths={paths}
                 />
