@@ -8,7 +8,7 @@ export default function SystemName({
             name: mnfgName = "",
         } = {},
         systemType,
-        sightline = 2,
+        sightline,
     },
     queryResult: {
         systemTypes = [],
