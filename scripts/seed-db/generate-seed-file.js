@@ -28,12 +28,24 @@ ${require('../../db/schemas/gc_data/types.sql')}
 ${require('../../db/schemas/gc_utils/operators/ltree=ltree.sql')}
 
 
+----- CAST FUNCTIONS -----
+${require('../../db/schemas/gc_utils/casts/rectangle_to_rectangle_quad.sql')}
+
+
 ----- UTILITY FUNCTIONS -----
 
 ${require('../../db/schemas/gc_utils/functions/either_or.sql')}
 ${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
 ${require('../../db/schemas/gc_utils/functions/path_contains_option_group_value.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/values_overlap.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/rectangles_overlap.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/no_rectangles_overlap.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/rectangle_area.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/sum_rectangle_area.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/rectangle_is_contained.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/rectangles_are_contained.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/rectangles_fill_space.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_child_type.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_dt~ct_from_path.sql')}
 ${require('../../db/schemas/gc_data/functions/utils/get_subpath.sql')}
@@ -75,6 +87,7 @@ ${require('../../db/schemas/gc_private/functions/c_a_user.sql')}
 ${require('../../db/schemas/gc_private/functions/u_password.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/c~u_elevation_container.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/c~u_container_detail.sql')}
+${require('../../db/schemas/gc_protected/functions/elevation/c_elevation_frame.sql')}
 ${require('../../db/schemas/gc_protected/functions/elevation/c~u_elevation.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/c~u_system.sql')}
 ${require('../../db/schemas/gc_protected/functions/system/c+d_option_groups.sql')}
@@ -130,6 +143,7 @@ ${require('../../db/seed_data/seed_data.sql')}
 ${require('./seed-data')}
 ${require('../../db/seed_data/system.sql')}
 ${require('../../db/seed_data/system_set.sql')}
+${require('../../db/seed_data/elevation.sql')}
 
 
 ----- POLICIES -----
@@ -138,7 +152,7 @@ ${require('../../db/security/policies.sql')}
 
 
 -- for preventing updates until they are ready
--- RAISE EXCEPTION 'SUCCESS!';
+-- RAISE EXCEPTION '========== SUCCESS! ==========';
 
 END $seed$
 

@@ -6,6 +6,34 @@ gc_controlled.coordinate AS (
 );
 
 CREATE TYPE
+gc_controlled.dimensions AS (
+    width FLOAT,
+    height FLOAT
+);
+
+CREATE TYPE
+gc_controlled.line_1d AS (
+    a FLOAT,
+    b FLOAT
+);
+
+CREATE TYPE
+gc_controlled.rectangle AS (
+    origin COORDINATE,
+    dimensions DIMENSIONS
+);
+
+CREATE TYPE
+gc_controlled.rectangle_quad AS (
+    xmin FLOAT,
+    ymin FLOAT,
+    xmax FLOAT,
+    ymax FLOAT,
+    origin COORDINATE,
+    dimensions DIMENSIONS
+);
+
+CREATE TYPE
 gc_controlled.svg_path_command_letter AS ENUM (
     'M', -- 'm',
     'L', -- 'l',

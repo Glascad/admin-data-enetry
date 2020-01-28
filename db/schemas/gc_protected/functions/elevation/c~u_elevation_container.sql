@@ -32,34 +32,25 @@ BEGIN
                 elevation_id,
                 original,
                 contents,
-                daylight_opening,
-                custom_rough_opening
+                daylight_opening
+                -- custom_rough_opening
             ) VALUES (
                 eid,
                 ec.original,
                 ec.contents,
-                ec.daylight_opening,
-                ec.custom_rough_opening
+                ec.daylight_opening
+                -- ec.custom_rough_opening
             )
             RETURNING *;
         ELSE RETURN QUERY
             UPDATE elevation_containers SET
-                original = CASE
-                    WHEN ec.original IS NOT NULL
-                        THEN ec.original
-                    ELSE elevation_containers.original END,
-                contents = CASE
-                    WHEN ec.contents IS NOT NULL
-                        THEN ec.contents
-                    ELSE elevation_containers.contents END,
-                daylight_opening = CASE
-                    WHEN ec.daylight_opening IS NOT NULL
-                        THEN ec.daylight_opening
-                    ELSE elevation_containers.daylight_opening END,
-                custom_rough_opening = CASE
-                    WHEN ec.custom_rough_opening IS NOT NULL
-                        THEN ec.custom_rough_opening
-                    ELSE elevation_containers.custom_rough_opening END
+                original = COALESCE(ec.original, elevation_containers.original),
+                contents = COALESCE(ec.contents, elevation_containers.contents),
+                daylight_opening = COALESCE(ec.daylight_opening, elevation_containers.daylight_opening)
+                -- custom_rough_opening = CASE
+                --     WHEN ec.custom_rough_opening IS NOT NULL
+                --         THEN ec.custom_rough_opening
+                --     ELSE elevation_containers.custom_rough_opening END
             WHERE elevation_containers.elevation_id = eid
             AND elevation_containers.id = ec.id
             RETURNING *;

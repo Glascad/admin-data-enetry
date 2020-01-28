@@ -8,6 +8,7 @@ gc_protected.system_sets (
     system_option_value_path LTREE REFERENCES system_option_values INITIALLY DEFERRED,
     name VARCHAR(50),
     UNIQUE (id, system_option_value_path),
+    UNIQUE (id, project_id),
     UNIQUE (id, system_id),
     UNIQUE (id, system_id, system_option_value_path),
     CONSTRAINT ss_maybe_sov CHECK (

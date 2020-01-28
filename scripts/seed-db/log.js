@@ -5,6 +5,7 @@ const dbseed = `${glascad}${chalk.greenBright(`[dbseed]`)}`;
 const compiling = `${dbseed}${chalk.cyan(`[compiling]`)}`;
 const seeding = `${dbseed}${chalk.cyanBright(`[seeding]`)}`;
 
+const success = chalk.green;
 const warning = chalk.yellowBright;
 const error = chalk.redBright;
 const variable = chalk.gray;
@@ -24,6 +25,7 @@ module.exports = {
     dbseed,
     compiling,
     seeding,
+    success,
     warning,
     error,
     path,

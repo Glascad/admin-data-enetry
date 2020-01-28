@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const compileSeed = require('./compile-seed');
+const compileSeedFile = require('./compile-seed-file');
 const log = require('./log');
 
 const {
@@ -19,9 +19,9 @@ module.exports = async function seedDatabase(done) {
     if (NODE_ENV === 'development') {
 
         if (RESEED === 'true') {
-            console.log(`${log.dbseed} Re-seeding database`);
+            console.log(`${log.dbseed} Reseeding database`);
 
-            const DB_SEED = await compileSeed();
+            const DB_SEED = await compileSeedFile();
 
             if (DB_SEED && RESEED === 'true') {
                 const DB = new Client({
@@ -40,7 +40,7 @@ module.exports = async function seedDatabase(done) {
 
                     console.log(`${log.seeding} Successfully connected to db`);
                 } catch (err) {
-                    console.error(`${log.glascad} ${log.error('Error connecting to db:')}`);
+                    console.error(`${log.seeding} ${log.error('Error connecting to db:')}`);
                     console.error(err);
                 }
 
@@ -51,8 +51,13 @@ module.exports = async function seedDatabase(done) {
 
                     console.log(`${log.seeding} Successfully seeded db`);
                 } catch (err) {
-                    console.error(`${log.glascad} ${log.error('Error seeding db:')}`);
-                    console.error(err);
+                    if (err.message && err.message.match(/success!/i)) {
+                        console.log(`${log.seeding} ${log.success(err.message)}`);
+                        console.log(`${log.seeding} Awaiting completion before seeding.`);
+                    } else {
+                        console.error(`${log.seeding} ${log.error('Error seeding db:')}`);
+                        console.error(err);
+                    }
                 }
 
                 try {
@@ -62,7 +67,7 @@ module.exports = async function seedDatabase(done) {
 
                     console.log(`${log.seeding} Successfully disconnected from db`);
                 } catch (err) {
-                    console.error(`${log.glascad} ${log.error('Error disconnecting from db:')}`);
+                    console.error(`${log.seeding} ${log.error('Error disconnecting from db:')}`);
                     console.error(err);
                 }
             } else {
