@@ -1,7 +1,7 @@
 
 DROP FUNCTION IF EXISTS no_rectangles_overlap;
 
-CREATE OR REPLACE FUNCTION gc_utils.no_rectangles_overlap(rqs RECTANGLE_QUAD[])
+CREATE OR REPLACE FUNCTION gc_utils.no_rectangles_overlap(rqs RECTANGLE_QUAD[], BOOLEAN = FALSE)
 RETURNS BOOLEAN AS $$
 DECLARE
     rq RECTANGLE_QUAD;
@@ -13,7 +13,11 @@ BEGIN
 
         FOREACH orq IN ARRAY rqs LOOP
             IF rectangles_overlap(rq, orq) THEN
-                RETURN FALSE;
+                IF $2 THEN
+                    RAISE EXCEPTION 'Rectangles overlap: %, %', rq, orq;
+                ELSE
+                    RETURN FALSE;
+                END IF;
             END IF;
         END LOOP;
     END LOOP;

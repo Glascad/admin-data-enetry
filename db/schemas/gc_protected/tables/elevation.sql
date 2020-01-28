@@ -21,6 +21,9 @@ gc_protected.elevations (
     REFERENCES system_sets (
         project_id,
         id
+    ),
+    CONSTRAINT valid_rough_opening CHECK (
+        validate_rectangle(((0, 0), rough_opening)::RECTANGLE)
     )
 );
 
@@ -32,7 +35,10 @@ gc_protected.elevation_containers (
     contents VARCHAR(50),
     daylight_opening RECTANGLE NOT NULL, -- <-- should be not null?
     -- custom_rough_opening BOOLEAN DEFAULT FALSE,
-    UNIQUE (elevation_id, id)
+    UNIQUE (elevation_id, id),
+    CONSTRAINT dlo_valid_rectangle CHECK (
+        validate_rectangle(daylight_opening)
+    )
 );
 
 CREATE TABLE
@@ -41,7 +47,10 @@ gc_protected.elevation_frames (
     elevation_id INTEGER REFERENCES elevations NOT NULL,
     vertical BOOLEAN NOT NULL,
     placement RECTANGLE NOT NULL,
-    UNIQUE (elevation_id, id)
+    UNIQUE (elevation_id, id),
+    CONSTRAINT frame_valid_placement CHECK (
+        validate_rectangle(placement)
+    )
 );
 
 CREATE TABLE
@@ -54,11 +63,6 @@ gc_protected.container_details (
     vertical BOOLEAN NOT NULL,
     placement RECTANGLE NOT NULL,
     UNIQUE (first_container_id, second_container_id),
-    CONSTRAINT detail_references_at_least_one_container CHECK (
-        first_container_id IS NOT NULL
-        OR
-        second_container_id IS NOT NULL
-    ),
     FOREIGN KEY (
         elevation_id,
         first_container_id
@@ -72,5 +76,13 @@ gc_protected.container_details (
     ) REFERENCES elevation_containers (
         elevation_id,
         id
+    ),
+    CONSTRAINT detail_references_at_least_one_container CHECK (
+        first_container_id IS NOT NULL
+        OR
+        second_container_id IS NOT NULL
+    ),
+    CONSTRAINT detail_valid_placement CHECK (
+        validate_rectangle(placement)
     )
 );

@@ -38,6 +38,7 @@ ${require('../../db/schemas/gc_utils/functions/either_or.sql')}
 ${require('../../db/schemas/gc_utils/functions/sum_bools.sql')}
 ${require('../../db/schemas/gc_utils/functions/get_real_id.sql')}
 ${require('../../db/schemas/gc_utils/functions/path_contains_option_group_value.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/validate_rectangle.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/values_overlap.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/rectangles_overlap.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/no_rectangles_overlap.sql')}
@@ -74,6 +75,7 @@ ${require('../../db/schemas/gc_protected/triggers/ch_system_set_no_unselected_op
 ${require('../../db/schemas/gc_protected/triggers/ch_system_set_option_group_values.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_option_groups.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_option_value_children.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_elevation_placement.sql')}
 
 
 ----- INVOKER ROLE -----
