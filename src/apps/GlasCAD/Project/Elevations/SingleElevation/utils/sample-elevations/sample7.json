@@ -7,8 +7,8 @@
     "sightline": 2,
     "preview": " <svg viewBox=\"0 0 300 120\" transform=\"scale(1, -1)\" > <rect class=\"container \" x=\"2\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"51.6666666666667\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"101.3333333333334\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"151.0000000000001\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"200.6666666666668\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"250.33333333333348\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"2\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"51.6666666666667\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"101.3333333333334\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"151.0000000000001\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"200.6666666666668\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"250.33333333333348\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"frame vertical\" x=\"0\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame vertical\" x=\"49.6666666666667\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"118\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"0\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame vertical\" x=\"99.3333333333334\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"51.6666666666667\" y=\"118\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"51.6666666666667\" y=\"0\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame vertical\" x=\"149.0000000000001\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"101.3333333333334\" y=\"118\" height=\"2\" width=\"47.666666666666714\" /> <rect class=\"frame horizontal\" x=\"101.3333333333334\" y=\"0\" height=\"2\" width=\"47.666666666666714\" /> <rect class=\"frame vertical\" x=\"198.6666666666668\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"151.0000000000001\" y=\"118\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"151.0000000000001\" y=\"0\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame vertical\" x=\"248.33333333333348\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"200.6666666666668\" y=\"118\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"200.6666666666668\" y=\"0\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame vertical\" x=\"298.00000000000017\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"250.33333333333348\" y=\"118\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"250.33333333333348\" y=\"0\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"59\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"51.6666666666667\" y=\"59\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"101.3333333333334\" y=\"59\" height=\"2\" width=\"47.666666666666714\" /> <rect class=\"frame horizontal\" x=\"151.0000000000001\" y=\"59\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"200.6666666666668\" y=\"59\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"250.33333333333348\" y=\"59\" height=\"2\" width=\"47.666666666666686\" /> </svg> ",
     "roughOpening": {
-        "x": 300,
-        "y": 120,
+        "width": 300,
+        "height": 120,
         "__typename": "Coordinate"
     },
     "_elevationContainers": [
@@ -18,9 +18,10 @@
             "id": 1515,
             "original": true,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -29,9 +30,10 @@
             "id": 1516,
             "original": false,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -40,9 +42,10 @@
             "id": 1517,
             "original": false,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -51,9 +54,10 @@
             "id": 1518,
             "original": false,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -62,9 +66,10 @@
             "id": 1519,
             "original": false,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -73,9 +78,10 @@
             "id": 1520,
             "original": false,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -83,9 +89,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0Ml0=",
             "id": 1542,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -93,9 +100,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0M10=",
             "id": 1543,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -103,9 +111,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0NF0=",
             "id": 1544,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -113,9 +122,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0NV0=",
             "id": 1545,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -123,9 +133,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0Nl0=",
             "id": 1546,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         },
         {
@@ -133,9 +144,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0N10=",
             "id": 1547,
             "daylightOpening": {
-                "x": 47.6666666666667,
-                "y": 57,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
             }
         }
     ],

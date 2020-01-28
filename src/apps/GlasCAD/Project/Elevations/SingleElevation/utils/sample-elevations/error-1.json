@@ -6,8 +6,8 @@
     "finishedFloorHeight": 0,
     "sightline": 2,
     "roughOpening": {
-        "x": 120,
-        "y": 120,
+        "width": 120,
+        "height": 120,
         "__typename": "Coordinate"
     },
     "_elevationContainers": [
@@ -17,9 +17,10 @@
             "id": 1425,
             "original": true,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 27.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 27.5
+                }
             },
             "customRoughOpening": true
         },
@@ -28,9 +29,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQyNl0=",
             "id": 1426,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 25.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 25.5
+                }
             }
         },
         {
@@ -38,9 +40,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQyN10=",
             "id": 1427,
             "daylightOpening": {
-                "x": 57,
-                "y": 27.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 57,
+                    "height": 27.5
+                }
             }
         },
         {
@@ -48,9 +51,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQyOF0=",
             "id": 1428,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 14.75,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 14.75
+                }
             },
             "customRoughOpening": true
         },
@@ -59,9 +63,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQyOV0=",
             "id": 1429,
             "daylightOpening": {
-                "x": 57,
-                "y": 12.75,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 57,
+                    "height": 12.75
+                }
             }
         },
         {
@@ -69,9 +74,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzMF0=",
             "id": 1430,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 25.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 25.5
+                }
             },
             "customRoughOpening": true
         },
@@ -80,9 +86,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzMV0=",
             "id": 1431,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 14.75,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 14.75
+                }
             }
         },
         {
@@ -90,9 +97,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzMl0=",
             "id": 1432,
             "daylightOpening": {
-                "x": 57,
-                "y": 12.75,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 57,
+                    "height": 12.75
+                }
             }
         },
         {
@@ -100,9 +108,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzM10=",
             "id": 1433,
             "daylightOpening": {
-                "x": 57,
-                "y": 27.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 57,
+                    "height": 27.5
+                }
             }
         },
         {
@@ -110,9 +119,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzNF0=",
             "id": 1434,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 27.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 27.5
+                }
             }
         },
         {
@@ -120,9 +130,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzNV0=",
             "id": 1435,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 14.75,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 14.75
+                }
             }
         },
         {
@@ -130,9 +141,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzNl0=",
             "id": 1436,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 14.75,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 14.75
+                }
             },
             "customRoughOpening": true
         },
@@ -141,9 +153,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzN10=",
             "id": 1437,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 25.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 25.5
+                }
             },
             "customRoughOpening": true
         },
@@ -152,9 +165,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzOF0=",
             "id": 1438,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 25.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 25.5
+                }
             }
         },
         {
@@ -162,9 +176,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQzOV0=",
             "id": 1439,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 27.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 27.5
+                }
             }
         },
         {
@@ -172,9 +187,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTQ0MF0=",
             "id": 1440,
             "daylightOpening": {
-                "x": 27.5,
-                "y": 27.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 27.5,
+                    "height": 27.5
+                }
             },
             "customRoughOpening": true
         }

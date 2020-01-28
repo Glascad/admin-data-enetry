@@ -46,8 +46,8 @@ export default function ElevationInfo({
         rawElevation: {
             name,
             roughOpening: {
-                x: rox,
-                y: roy,
+                width,
+                height,
             } = {},
             finishedFloorHeight,
             _systemSet: {
@@ -186,7 +186,7 @@ export default function ElevationInfo({
                             label="Width"
                             type="inches"
                             readOnly={true}
-                            value={new ImperialValue(rox)}
+                            value={new ImperialValue(width)}
                         />
                         <Input
                             data-cy="mo-horizontal"
@@ -202,7 +202,7 @@ export default function ElevationInfo({
                             label="Height"
                             type="inches"
                             readOnly={true}
-                            value={new ImperialValue(roy)}
+                            value={new ImperialValue(height)}
                         />
                         <Input
                             data-cy="mo-vertical"

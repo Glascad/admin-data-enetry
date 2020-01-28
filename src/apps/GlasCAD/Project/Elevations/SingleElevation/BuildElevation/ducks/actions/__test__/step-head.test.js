@@ -39,8 +39,10 @@ testStepHead({
     containerId: 1542,
     distance: 24,
     daylightOpening: {
-        x: 47.6666666666667,
-        y: 33,
+        dimensions: {
+            width: 47.6666666666667,
+            height: 33,
+        }
     },
     customRoughOpening: false,
 });

@@ -20,8 +20,8 @@ function ElevationTransformProvider({
             id,
         } = {},
         roughOpening: {
-            x: rox,
-            y: roy,
+            width,
+            height,
         } = {},
         finishedFloorHeight,
     } = {},
@@ -38,15 +38,15 @@ function ElevationTransformProvider({
         if (IE) {
             const { clientHeight, clientWidth } = IE;
 
-            const ratioY = clientHeight / roy / pixelsPerInch;
-            const ratioX = clientWidth / rox / pixelsPerInch;
+            const ratioY = clientHeight / height / pixelsPerInch;
+            const ratioX = clientWidth / width / pixelsPerInch;
 
             const baseScaleY = ratioY * 0.6;
             const baseScaleX = ratioX * 0.75;
 
             const baseScale = Math.min(baseScaleY, baseScaleX);
 
-            const baseTranslateX = -rox * 0.2;
+            const baseTranslateX = -width * 0.2;
 
             setScaleX(baseScale);
             setScaleY(baseScale);

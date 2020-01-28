@@ -4,25 +4,28 @@ function renderPreview({
     // placedDetails = [],
     allFrames = [],
     roughOpening: {
-        x = 0,
-        y = 0,
+        width: roWidth = 0,
+        height: roHeight = 0,
     } = {},
     finishedFloorHeight = 0,
 }, {
     renderText = false,
     renderCustomRoughOpenings = false,
-} = {}) {
+    } = {}) {
+    
+    // take all containers and add half a sightline to it.
+    
     return `
         <svg
-            viewBox="${`0 0 ${x} ${y + finishedFloorHeight}`}"
+            viewBox="${`0 0 ${roWidth} ${roHeight + finishedFloorHeight}`}"
             transform="scale(1, -1)"
         >
             ${
         ''
         // `<!-- ROUGH OPENING -->
         //     <!-- <rect
-        //         width=${x}
-        //         height=${y}
+        //         width=${roWidth}
+        //         height=${roHeight}
         //         x=${0}
         //         y=${finishedFloorHeight}
         //         // fill="rgba(127, 191, 255, 0.25)"
@@ -37,7 +40,7 @@ function renderPreview({
             :
             `<path
                 class="finished-floor"
-                d="M-6, 0L${x + 6}, 0"
+                d="M-6, 0L${roWidth + 6}, 0"
             />`
         }
         ${allContainers
