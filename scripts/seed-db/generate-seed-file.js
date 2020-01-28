@@ -76,6 +76,7 @@ ${require('../../db/schemas/gc_protected/triggers/ch_system_set_option_group_val
 ${require('../../db/schemas/gc_protected/triggers/ch_system_option_groups.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_system_option_value_children.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_elevation_placement.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_elevation_container_placement.sql')}
 
 
 ----- INVOKER ROLE -----
