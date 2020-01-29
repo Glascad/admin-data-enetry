@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, TitleBar, useInitialState } from '../../../../../../components';
+import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, SVG, TitleBar, useInitialState } from '../../../../../../components';
 import { ImperialValue, parseSearch } from '../../../../../../utils';
-import ElevationPreview from '../../ElevationPreview/ElevationPreview';
-import renderPreview from '../../ElevationPreview/render-preview';
+import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 export default function ElevationInfo({
     history,
@@ -69,7 +69,7 @@ export default function ElevationInfo({
             const result = await updateEntireElevation({
                 elevation: {
                     ...elevation,
-                    preview: renderPreview(recursiveElevation)
+                    preview: generatePreview(recursiveElevation)
                 },
             });
         }
@@ -228,7 +228,7 @@ export default function ElevationInfo({
                 >
                     <ElevationPreview
                         data-cy="elevation-preview"
-                        preview={renderPreview(recursiveElevation)}
+                        recursiveElevation={recursiveElevation}
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">

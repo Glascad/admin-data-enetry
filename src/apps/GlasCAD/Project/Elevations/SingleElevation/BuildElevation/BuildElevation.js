@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { ErrorBoundary, withRedoableState } from '../../../../../../components';
 import { parseSearch } from '../../../../../../utils';
 import { StaticContext } from '../../../../../Statics/Statics';
-import renderPreview from '../../ElevationPreview/render-preview';
+import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import ActionProvider from './contexts/ActionContext';
 import ElevationTransformProvider from './contexts/ElevationTransformProvider';
@@ -208,7 +208,7 @@ class BuildElevation extends PureComponent {
                             :
                             'fakeId']: id,
                     })),
-                preview: renderPreview(recursiveElevation),
+                preview: generatePreview(recursiveElevation),
             },
         });
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ListWrapper, TitleBar } from '../../../../components';
-import ElevationPreview from '../Elevations/ElevationPreview/ElevationPreview';
+import { ListWrapper, SVG, TitleBar } from '../../../../components';
 import { parseSearch } from '../../../../utils';
+import ElevationPreview from '../Elevations/ElevationPreview/ElevationPreview';
 
 export default function BugList({
     history,

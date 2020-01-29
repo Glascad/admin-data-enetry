@@ -1,20 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
-
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import {
-    ListWrapper,
-    ApolloWrapper,
-    Ellipsis,
-    useMutation,
-} from '../../../../../components';
-
+import { Ellipsis, ListWrapper, SVG, useMutation } from '../../../../../components';
 import { parseSearch } from '../../../../../utils';
-
-import deleteElevationMutation from './delete-elevation';
 import copyElevationMutation from './copy-elevation';
-
+import deleteElevationMutation from './delete-elevation';
 import ElevationPreview from '../ElevationPreview/ElevationPreview';
+
+
+
+
+
 
 export default function ElevationSearch({
     history,
@@ -136,9 +131,7 @@ export default function ElevationSearch({
                     const children = copyingThisElevation ? (
                         <Ellipsis text="Copying" />
                     ) : (
-                            <ElevationPreview
-                                preview={preview}
-                            />
+                            <ElevationPreview preview={preview} />
                         );
                     return {
                         title,
