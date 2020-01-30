@@ -150,7 +150,7 @@ DO $create_elevation$ DECLARE ___ INTEGER; BEGIN
             FALSE,
             -- placement RECTANGLE,
             (
-                (0, 0),
+                (2, 0),
                 (197, 2)
             ),
             -- container_detail_ids INTEGER[]

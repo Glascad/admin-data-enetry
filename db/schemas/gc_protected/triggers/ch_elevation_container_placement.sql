@@ -25,6 +25,7 @@ DECLARE
     <<END LOOP>>
 BEGIN
 
+    -- gather data
     eid := COALESCE(NEW.elevation_id, OLD.elevation_id);
 
     SELECT (0, 0), rough_opening FROM elevations
@@ -57,10 +58,12 @@ BEGIN
         
     <<END LOOP>>
 
+    -- compare against rough opening
     IF NOT rectangle_is_contained(ecdlo, ep::RECTANGLE_QUAD) THEN
-        RAISE EXCEPTION 'Elevation container %, % must fit inside elevation %, %', ecid, ecdlo, eid, ep;
+        RAISE EXCEPTION 'Container %, % must fit inside elevation %, %', ecid, ecdlo, eid, ep;
     END IF;
 
+    -- compare against all 4 frames
     IF ecdlo.xmax <> rfp.xmin THEN
         RAISE EXCEPTION 'Container %, % and its right frame %, % must be adjacent', ecid, ecdlo, rfid, rfp;
     END IF;

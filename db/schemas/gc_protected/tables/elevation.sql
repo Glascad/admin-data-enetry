@@ -10,7 +10,7 @@ gc_protected.elevations (
     rough_opening DIMENSIONS NOT NULL,
     finished_floor_height FLOAT DEFAULT 0 NOT NULL,
     -- sightline FLOAT,
-    preview VARCHAR(25000),
+    preview SVG_PATH[],
     last_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_updated_by INTEGER REFERENCES users,
     UNIQUE (project_id, name),

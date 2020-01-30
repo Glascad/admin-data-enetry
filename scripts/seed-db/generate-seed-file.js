@@ -17,7 +17,7 @@ ${require('../../db/schemas/schemas.sql')}
 
 ${require('../../db/schemas/gc_controlled/types/util_types.sql')}
 ${require('../../db/schemas/gc_controlled/types/auth_types.sql')}
-${require('../../db/schemas/gc_controlled/types/storage_types.sql')}
+${require('../../db/schemas/gc_controlled/types/geometric_types.sql')}
 ${require('../../db/schemas/gc_controlled/types/architecture_types.sql')}
 ${require('../../db/schemas/gc_public/types')}
 ${require('../../db/schemas/gc_data/types.sql')}
@@ -42,6 +42,7 @@ ${require('../../db/schemas/gc_utils/functions/rectangles/validate_rectangle.sql
 ${require('../../db/schemas/gc_utils/functions/rectangles/values_overlap.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/rectangles_overlap.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/no_rectangles_overlap.sql')}
+${require('../../db/schemas/gc_utils/functions/rectangles/combine_rectangles.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/rectangle_area.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/sum_rectangle_area.sql')}
 ${require('../../db/schemas/gc_utils/functions/rectangles/rectangle_is_contained.sql')}
@@ -78,6 +79,7 @@ ${require('../../db/schemas/gc_protected/triggers/ch_system_option_value_childre
 ${require('../../db/schemas/gc_protected/triggers/ch_elevation_placement.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_elevation_container_placement.sql')}
 ${require('../../db/schemas/gc_protected/triggers/ch_container_detail_placement.sql')}
+${require('../../db/schemas/gc_protected/triggers/ch_elevation_frame_placement.sql')}
 
 
 ----- INVOKER ROLE -----

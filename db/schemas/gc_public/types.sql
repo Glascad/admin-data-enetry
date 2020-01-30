@@ -45,7 +45,7 @@ gc_public.entire_elevation AS (
     detail_ids_to_delete INTEGER[],
     frames ENTIRE_ELEVATION_FRAME[],
     -- sightline FLOAT,
-    preview TEXT
+    preview SVG_PATH[]
 );
 
 

@@ -35,6 +35,7 @@ gc_controlled.rectangle_quad AS (
 
 CREATE TYPE
 gc_controlled.svg_path_command_letter AS ENUM (
+    -- Postgraphile capitalizes all enums, case-sensitive values will break it - must find another solution for relative commands
     'M', -- 'm',
     'L', -- 'l',
     'H', -- 'h',
