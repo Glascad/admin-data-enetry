@@ -10,7 +10,12 @@ export const ELEVATION_FIELDS = gql`
         id
         name
         finishedFloorHeight
-        preview
+        preview {
+            commands {
+                command
+                arguments
+            }
+        }
         roughOpening {
             width
             height
