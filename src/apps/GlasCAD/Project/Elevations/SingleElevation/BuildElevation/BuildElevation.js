@@ -12,6 +12,7 @@ import ElevationSidebar from './ElevationSidebar/ElevationSidebar';
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
 import NavigationButtons from "./NavigationButtons/NavigationButtons";
+import _ from 'lodash'
 
 export const defaultElevationInput = {
     containers: [],
@@ -151,63 +152,102 @@ class BuildElevation extends PureComponent {
                 currentState: {
                     elevationInput,
                     elevationInput: {
-                        details,
-                        containers,
+                        details: inputDetails,
+                        containers: inputContainers,
                     },
                     recursiveElevation,
+                    recursiveElevation: {
+                        allFrames,
+                        allContainers,
+                    }
                 },
                 clearHistory,
                 cancel,
             },
         } = this;
 
+        console.log(this.props);
+
         const id = +parseSearch(search).elevationId;
 
         cancel();
+
+        const frames = allFrames.map(({
+            vertical,
+            placement,
+            dimensions,
+            frameDetails,
+        }) => {
+            const [containerDetails, containerFakeDetails] = _.partition(frameDetails, ({ id }) => !!id);
+
+            return {
+                vertical,
+                placement,
+                dimensions,
+                containerDetailIds: containerDetails.map(({ id }) => id),
+                containerDetailFakeIds: containerFakeDetails.map(({ fakeId }) => fakeId),
+            };
+        });
+
+        // adds the containers from state plus the rest of the container's placement and id that arn't in state
+        const containers = inputContainers
+            .map(({
+                nodeId,
+                __typename,
+                id,
+                daylightOpening,
+                ...container
+            }) => ({
+                ...container,
+                daylightOpening,
+                [id > 0 ?
+                    'id'
+                    :
+                    'fakeId']: id,
+            }))
+            .concat(
+                allContainers
+                    .filter(({ id }) => !inputContainers.includes(id))
+                    .map(({ id, placement }) => ({ id, placement }))
+            );
+
+        const details = inputDetails
+            .map(({
+                nodeId,
+                __typename,
+                _detailOptionValues,
+                firstContainerId,
+                secondContainerId,
+                id,
+                ...detail
+            }) => ({
+                ...detail,
+                ...(id > 0 ?
+                    { id }
+                    :
+                    null),
+                [firstContainerId > 0 ?
+                    'firstContainerId'
+                    :
+                    'firstContainerFakeId']: firstContainerId,
+                [secondContainerId > 0 ?
+                    'secondContainerId'
+                    :
+                    'secondContainerFakeId']: secondContainerId,
+            }))
+            .concat(
+                allDetails
+                    .filter(({ id }) => !inputDetails.includes(id))
+                    .map(({ id, placement }) => ({ id, placement }))
+            )
 
         const result = await updateEntireElevation({
             elevation: {
                 ...elevationInput,
                 id,
-                details: details
-                    .map(({
-                        nodeId,
-                        __typename,
-                        _detailOptionValues,
-                        firstContainerId,
-                        secondContainerId,
-                        id,
-                        ...detail
-                    }) => ({
-                        ...detail,
-                        ...(id > 0 ?
-                            { id }
-                            :
-                            null),
-                        [firstContainerId > 0 ?
-                            'firstContainerId'
-                            :
-                            'firstContainerFakeId']: firstContainerId,
-                        [secondContainerId > 0 ?
-                            'secondContainerId'
-                            :
-                            'secondContainerFakeId']: secondContainerId,
-                    })),
-                containers: containers
-                    .map(({
-                        nodeId,
-                        __typename,
-                        id,
-                        daylightOpening,
-                        ...container
-                    }) => ({
-                        ...container,
-                        daylightOpening,
-                        [id > 0 ?
-                            'id'
-                            :
-                            'fakeId']: id,
-                    })),
+                frames,
+                details,
+                containers,
                 preview: generatePreview(recursiveElevation),
             },
         });

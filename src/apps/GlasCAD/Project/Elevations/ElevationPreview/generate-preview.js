@@ -30,16 +30,16 @@ export default function generatePreview({
                     arguments: origin,
                 },
                 {
-                    command: 'v',
-                    arguments: [height],
+                    command: 'V',
+                    arguments: [origin + height],
                 },
                 {
-                    command: 'h',
-                    arguments: [width],
+                    command: 'H',
+                    arguments: [origin + width],
                 },
                 {
-                    command: 'v',
-                    arguments: [-height],
+                    command: 'V',
+                    arguments: [origin],
                 },
                 {
                     command: 'Z'
