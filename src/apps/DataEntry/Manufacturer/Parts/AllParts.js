@@ -87,26 +87,28 @@ export default function AllParts({
                                 paths={paths}
                             />
                         ),
-                        hoverButtons: [{
-                            children: (
-                                <Link
-                                    to=""
-                                >
-                                    Load
+                        hoverButtons: [
+                            //     {
+                            //     children: (
+                            //         <Link
+                            //             to=""
+                            //         >
+                            //             Load
+                            //         </Link>
+                            //     ),
+                            // },
+                            {
+                                children: (
+                                    <Link
+                                        to={`${path.replace(/all/, 'info')}${parseSearch(search).update({ partId: id })}`}
+                                    >
+                                        Info
                                 </Link>
-                            ),
-                        }, {
-                            children: (
-                                <Link
-                                    to={`${path.replace(/all/, 'info')}${parseSearch(search).update({ partId: id })}`}
-                                >
-                                    Info
-                                </Link>
-                            ),
-                        }, {
-                            text: "Delete",
-                            className: "danger",
-                        }],
+                                ),
+                            }, {
+                                text: "Delete",
+                                className: "danger",
+                            }],
                     }))}
                     circleButton={{
                         type: "tile",

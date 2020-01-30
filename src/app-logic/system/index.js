@@ -9,6 +9,7 @@ import getOptionListFromPath from './get-option-list-from-path';
 import getSiblings from './get-siblings';
 import getUnknownPathAndKeyFromItem from './get-unknown-path-and-key-from-item';
 import filterOptionsAbove from './filter-options-above';
+import filterOptionsAboveAndBelow from './filter-options-above-and-below';
 import getLastItemFromPath from './get-last-item-from-path';
 import getNextItemFromPath from './get-next-item-from-path';
 import getDefaultPath from './get-default-path';
@@ -41,6 +42,7 @@ export {
     getUnknownPathAndKeyFromItem,
     getLastItemFromPath,
     filterOptionsAbove,
+    filterOptionsAboveAndBelow,
     getNextItemFromPath,
     getDefaultPath,
     replaceOptionValue,

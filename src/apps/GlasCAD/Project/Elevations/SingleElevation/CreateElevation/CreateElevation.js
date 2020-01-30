@@ -4,15 +4,15 @@ import React, { memo, useCallback, useMemo } from 'react';
 import { GroupingBox, Input, useInitialState, useMutation, useRedoableState, useSaveOnCtrlS } from '../../../../../../components';
 import F from '../../../../../../schemas';
 import { parseSearch } from '../../../../../../utils';
-import ElevationPreview from '../../ElevationPreview/ElevationPreview';
-import renderPreview from '../../ElevationPreview/render-preview';
+import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
-import { defaultElevationInput, measureFromOptions, measureToOptions } from './utils/elevation-input';
-import generateElevation from './utils/generate-elevation';
 import AddHorizontals from './CreateElevationView/AddHorizontals/AddHorizontals';
 import ElevationId from './CreateElevationView/ElevationId/ElevationId';
 import { Footer, Header } from './CreateElevationView/Header&Footer/Header&Footer';
 import RoughOpening from './CreateElevationView/RoughOpening/RoughOpening';
+import { defaultElevationInput, measureFromOptions, measureToOptions } from './utils/elevation-input';
+import generateElevation from './utils/generate-elevation';
+import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 const areEqual = (json, input) => _.isEqual({
     ...JSON.parse(json),
@@ -143,7 +143,7 @@ export default memo(function CreateElevation({
                 secondContainerFakeId: secondContainerId,
             })),
             ...createdElevation,
-            preview: renderPreview(recursiveElevation),
+            preview: generatePreview(recursiveElevation),
         };
 
         try {
@@ -218,7 +218,7 @@ export default memo(function CreateElevation({
                     value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
                         startingBayQuantity: Math.round(Math.min(
-                            +value,
+                            +value < 0 ? 0 : + value,
                             (
                                 horizontalRoughOpening - recursiveElevation.sightline
                             ) / (
@@ -249,7 +249,7 @@ export default memo(function CreateElevation({
                 >
                     <ElevationPreview
                         data-cy="preview"
-                        elevation={recursiveElevation}
+                        recursiveElevation={recursiveElevation}
                     />
                 </GroupingBox>
                 <Footer

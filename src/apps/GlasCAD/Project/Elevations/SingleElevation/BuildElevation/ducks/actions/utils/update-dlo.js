@@ -11,7 +11,12 @@ export default function updateDLO({
         rawContainer,
         rawContainer: {
             id: containerId,
-            daylightOpening: DLO,
+            daylightOpening: {
+                dimensions: {
+                    width,
+                    height,
+                }
+            },
         },
     },
     vertical,
@@ -23,14 +28,16 @@ export default function updateDLO({
         ...rawContainer,
         ...previouslyUpdatedContainer,
         daylightOpening: {
-            x: vertical ?
-                DLO.x
-                :
-                DLO.x - distance,
-            y: vertical ?
-                DLO.y - distance
-                :
-                DLO.y,
+            dimensions: {
+                width: vertical ?
+                    width
+                    :
+                    width - distance,
+                height: vertical ?
+                    height - distance
+                    :
+                    height,
+            }
         },
     };
 

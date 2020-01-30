@@ -24,6 +24,7 @@ const mapNewTypes = type => ({
     nodeId,
     name,
     fakeId,
+    parentSystemPath,
     ...rest
 }) => ({
     ...rest,

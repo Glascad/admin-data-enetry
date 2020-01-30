@@ -12,7 +12,12 @@ export default function mergeDLO({
         rawContainer,
         rawContainer: {
             id: containerId,
-            daylightOpening: DLO,
+            daylightOpening: {
+                dimensions: {
+                    width,
+                    height,
+                },
+            },
             original,
         },
     },
@@ -41,14 +46,16 @@ export default function mergeDLO({
         ...previouslyUpdatedContainer,
         original: original || originalToMerge,
         daylightOpening: {
-            x: vertical ?
-                DLO.x
-                :
-                DLO.x + sightline + DLOToMerge.x,
-            y: vertical ?
-                DLO.y + sightline + DLOToMerge.y
-                :
-                DLO.y,
+            dimensions: {
+                width: vertical ?
+                    width
+                    :
+                    width + sightline + DLOToMerge.dimensions.width,
+                height: vertical ?
+                    height + sightline + DLOToMerge.dimensions.height
+                    :
+                    height,
+            }
         },
     };
 

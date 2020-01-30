@@ -3,7 +3,7 @@ import React, { memo, useState } from 'react';
 import { withSelectionContext } from '../../../contexts/SelectionContext';
 
 import {
-    TitleBar, Input,
+    TitleBar, Input, useInitialState,
 } from '../../../../../../../../../components';
 
 import { withActionContext } from '../../../contexts/ActionContext';
@@ -23,8 +23,8 @@ function AlterRoughOpening({
     },
 }) {
 
-    const initialValue = new ImperialValue(12);
-    const [distance, setDistance] = useState(initialValue);
+    const [initialValue] = useInitialState(new ImperialValue(18), []);
+    const [distance, setDistance] = useState(initialValue.value);
 
     const title = first ? "Raise Curb" : "Step Head";
     const dataCy = first ? "raise-curb" : "step-head";
@@ -55,7 +55,7 @@ function AlterRoughOpening({
             {allContainers.every(container => (
                 container.canAddIntermediateByVerticalAndDistance(
                     false,
-                    distance.value - (
+                    (distance.value ? distance.value : distance) - (
                         container.getFrameByDirection(true, first).sightline
                         ||
                         0

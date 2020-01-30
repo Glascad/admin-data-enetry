@@ -3,80 +3,98 @@
     "name": "Sample 2",
     "finishedFloorHeight": 0,
     "roughOpening": {
-        "x": 400,
-        "y": 670
+        "width": 400,
+        "height": 670
     },
     "_elevationContainers": [
         {
             "id": 729,
             "original": true,
             "daylightOpening": {
-                "x": 185,
-                "y": 205
+                "dimensions" : {
+                    "width": 185,
+                    "height": 205
+                }
             }
         },
         {
             "id": 732,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 215
+                "dimensions" : {
+                    "width": 185,
+                    "height": 215
+                }
             }
         },
         {
             "id": 733,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 100
+                "dimensions" : {
+                    "width": 185,
+                    "height": 100
+                }
             }
         },
         {
             "id": 734,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 100
+                "dimensions" : {
+                    "width": 185,
+                    "height": 100
+                }
             }
         },
         {
             "id": 736,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 210
+                "dimensions" : {
+                    "width": 185,
+                    "height": 210
+                }
             }
         },
         {
             "id": 737,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 100
+                "dimensions" : {
+                    "width": 185,
+                    "height": 100
+                }
             }
         },
         {
             "id": 738,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 100
+                "dimensions" : {
+                    "width": 185,
+                    "height": 100
+                }
             }
         },
         {
             "id": 739,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 100
+                "dimensions" : {
+                    "width": 185,
+                    "height": 100
+                }
             }
         },
         {
             "id": 740,
             "original": false,
             "daylightOpening": {
-                "x": 185,
-                "y": 100
+                "dimensions" : {
+                    "width": 185,
+                    "height": 100
+                }
             }
         }
     ],

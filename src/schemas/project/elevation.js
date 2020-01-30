@@ -10,11 +10,15 @@ export const ELEVATION_FIELDS = gql`
         id
         name
         finishedFloorHeight
-        sightline
-        preview
+        preview {
+            commands {
+                command
+                arguments
+            }
+        }
         roughOpening {
-            x
-            y
+            width
+            height
         }
     }
 `;
@@ -27,10 +31,12 @@ export const ELEVATION_CONTAINER_FIELDS = gql`
         original
         contents
         daylightOpening {
-            x
-            y
+            dimensions {
+                width
+                height
+            }
         }
-        customRoughOpening
+        # customRoughOpening
     }
 `;
 

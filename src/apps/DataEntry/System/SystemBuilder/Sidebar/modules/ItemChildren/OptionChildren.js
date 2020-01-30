@@ -22,6 +22,7 @@ const OptionChildren = ({
 }) => {
 
     const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
+    const optionIsSpliced = itemName === 'SELECT_OPTION';
 
     const validOptionValues = validOptions
         .reduce((values, { name, _validOptionValues }) => (
@@ -30,12 +31,12 @@ const OptionChildren = ({
                 :
                 values
         ), []);
-
+    
     const selectOptions = validOptionValues
         .filter(({ name }) => !children.some(v => getLastItemFromPath(v.path) === name))
         .map(({ name }) => name);
 
-    return (<GroupingBox
+    return optionIsSpliced ? null : (<GroupingBox
         data-cy="edit-item-values"
         title="Option Values"
         circleButton={selectOptions.length > 0 ? {

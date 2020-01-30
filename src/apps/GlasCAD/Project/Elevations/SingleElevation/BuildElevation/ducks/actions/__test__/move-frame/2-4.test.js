@@ -14,13 +14,17 @@ testMoveFrame({
     daylightOpenings: [
         {
             id: 732,
-            x: 185,
-            y: 240,
+            dimensions: {
+                width: 185,
+                height: 240,
+            }
         },
         {
             id: 729,
-            x: 185,
-            y: 180,
+            dimensions: {
+                width: 185,
+                height: 180,
+            }
         },
     ],
 });

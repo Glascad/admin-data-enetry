@@ -2,8 +2,10 @@ import React from 'react';
 import ItemMovement from './ItemMovement';
 import ItemDelete from './ItemDelete';
 import ItemLink from './ItemLink';
+import SpliceOption from './SpliceOption';
 
-const BottomButtons = ({
+export default function BottomButtons({
+    queryResult,
     system,
     selectedItem,
     selectedItem: {
@@ -17,37 +19,51 @@ const BottomButtons = ({
     dispatchPartial,
     dispatch,
     systemMap,
-}) => __typename.match(/^System$/i) ?
-        null
-        :
-        (
-            <>
-                <ItemMovement
-                    {...{
-                        selectedItem,
-                        name,
-                        partialAction,
-                        cancelPartial,
-                        dispatchPartial,
-                        systemMap,
-                    }}
-                />
-                <ItemLink
-                    {...{
-                        selectedItem,
-                        match,
-                        location,
-                    }}
-                />
-                <ItemDelete
-                    {...{
-                        system,
-                        selectedItem,
-                        name,
-                        dispatch,
-                        systemMap,
-                    }}
-                />
-            </>
-        );
-export default BottomButtons;
+}) {
+    return (
+        <>
+            <SpliceOption
+                {...{
+                    queryResult,
+                    dispatch,
+                    selectedItem,
+                    systemMap,
+                }}
+            />
+            {__typename.match(/^System$/i) ?
+                null
+                :
+                (
+                    <>
+                        <ItemMovement
+                            {...{
+                                selectedItem,
+                                name,
+                                partialAction,
+                                cancelPartial,
+                                dispatchPartial,
+                                systemMap,
+                            }}
+                        />
+                        <ItemLink
+                            {...{
+                                selectedItem,
+                                match,
+                                location,
+                            }}
+                        />
+                        <ItemDelete
+                            {...{
+                                system,
+                                selectedItem,
+                                name,
+                                dispatch,
+                                systemMap,
+                            }}
+                        />
+                    </>
+                )
+            }
+        </>
+    )
+};

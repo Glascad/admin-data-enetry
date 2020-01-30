@@ -76,7 +76,10 @@ export const useSelection = ({
 
     const decodedPath = decodeURI(path);
 
-    const selectedItem = systemMap[decodedPath];
+    const selectedItem = decodedPath === 'undefined' ?
+        undefined
+        :
+        systemMap[decodedPath];
 
     const selectItem = ({ path: newPath } = {}) => history.push(`${
         matchPath

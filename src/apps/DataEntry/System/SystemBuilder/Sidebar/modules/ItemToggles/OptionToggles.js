@@ -10,11 +10,13 @@ const OptionToggles = ({
     selectedItem: {
         path,
     },
+    itemName,
     dispatch,
     systemMap,
 }) => {
+    const optionIsSpliced = itemName === 'SELECT_OPTION';
     const optionIsGrouped = getOptionIsGrouped(system, selectedItem);
-    return path.match(/__DT__/) && canItemBeGrouped(selectedItem, systemMap) ? (
+    return optionIsSpliced ? null : path.match(/__DT__/) && canItemBeGrouped(selectedItem, systemMap) ? (
         <Input
             data-cy="group-option"
             type="switch"

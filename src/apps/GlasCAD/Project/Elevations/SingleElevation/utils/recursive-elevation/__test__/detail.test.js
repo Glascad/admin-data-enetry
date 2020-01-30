@@ -104,7 +104,7 @@ testDetails({
             id: 6907,
             keys: [
                 ["vertical", true],
-                ["detailType", "Jamb"],
+                ["detailType", "JAMB"],
 
             ],
             methods: [
@@ -114,7 +114,7 @@ testDetails({
             id: 4570,
             keys: [
                 ["vertical", true],
-                ["detailType", "Jamb"],
+                ["detailType", "JAMB"],
 
             ],
             methods: [
@@ -132,7 +132,7 @@ testDetails({
             id: 6907,
             keys: [
                 ["vertical", true],
-                ["detailType", "Jamb"],
+                ["detailType", "JAMB"],
 
             ],
             methods: [
@@ -142,7 +142,7 @@ testDetails({
             id: 4570,
             keys: [
                 ["vertical", true],
-                ["detailType", "Jamb"],
+                ["detailType", "JAMB"],
 
             ],
             methods: [

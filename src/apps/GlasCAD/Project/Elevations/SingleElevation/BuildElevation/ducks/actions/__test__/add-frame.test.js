@@ -80,15 +80,19 @@ testAddFrame({
     oldContainer: {
         id: 887,
         daylightOpening: {
-            x: 185,
-            y: 280,
+            dimensions: {
+                width: 185,
+                height: 280,
+            }
         },
     },
     newContainer: {
         id: -10000,
         daylightOpening: {
-            x: 185,
-            y: 90,
+            dimensions: {
+                width: 185,
+                height: 90,
+            }
         },
     },
     expectedDetails: [
@@ -112,15 +116,19 @@ testAddFrame({
     oldContainer: {
         id: 805,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 210,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 210,
+            }
         },
     },
     newContainer: {
         id: -10001,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 30,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 30,
+            }
         },
     },
     expectedDetails: [
@@ -157,15 +165,19 @@ testAddFrame({
     oldContainer: {
         id: 805,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 185,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 185,
+            }
         },
     },
     newContainer: {
         id: -10002,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 55,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 55,
+            }
         },
     },
     expectedDetails: [
@@ -206,15 +218,19 @@ testAddFrame({
     oldContainer: {
         id: 805,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 180,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 180,
+            }
         },
     },
     newContainer: {
         id: -10003,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 60,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 60,
+            }
         },
     },
     expectedDetails: [
@@ -255,15 +271,19 @@ testAddFrame({
     oldContainer: {
         id: 805,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 175,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 175,
+            }
         },
     },
     newContainer: {
         id: -10004,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 65,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 65,
+            }
         },
     },
     expectedDetails: [
@@ -308,15 +328,19 @@ testAddFrame({
     oldContainer: {
         id: 805,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 120,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 120,
+            }
         },
     },
     newContainer: {
         id: -10005,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 120,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 120,
+            }
         },
     },
     expectedDetails: [
@@ -365,15 +389,19 @@ testAddFrame({
     oldContainer: {
         id: 805,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 60,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 60,
+            }
         },
     },
     newContainer: {
         id: -10006,
         daylightOpening: {
-            x: 86.6666666666667,
-            y: 180,
+            dimensions: {
+                width: 86.6666666666667,
+                height: 180,
+            }
         },
     },
     expectedDetails: [
@@ -434,15 +462,19 @@ testAddFrame({
     oldContainer: {
         id: 890,
         daylightOpening: {
-            x: 285,
-            y: 185,
+            dimensions: {
+                width: 285,
+                height: 185,
+            }
         },
     },
     newContainer: {
         id: -10007,
         daylightOpening: {
-            x: 85,
-            y: 185,
+            dimensions: {
+                width: 85,
+                height: 185,
+            }
         },
     },
     expectedDetails: [
@@ -466,15 +498,19 @@ testAddFrame({
     oldContainer: {
         id: 890,
         daylightOpening: {
-            x: 190,
-            y: 185,
+            dimensions: {
+                width: 190,
+                height: 185,
+            }
         },
     },
     newContainer: {
         id: -10008,
         daylightOpening: {
-            x: 180,
-            y: 185,
+            dimensions: {
+                width: 180,
+                height: 185,
+            }
         },
     },
     expectedDetails: [
@@ -503,15 +539,19 @@ testAddFrame({
     oldContainer: {
         id: 890,
         daylightOpening: {
-            x: 185,
-            y: 185,
+            dimensions: {
+                width: 185,
+                height: 185,
+            }
         },
     },
     newContainer: {
         id: -10009,
         daylightOpening: {
-            x: 185,
-            y: 185,
+            dimensions: {
+                width: 185,
+                height: 185,
+            }
         },
     },
     expectedDetails: [
@@ -545,15 +585,19 @@ testAddFrame({
     oldContainer: {
         id: 890,
         daylightOpening: {
-            x: 180,
-            y: 185,
+            dimensions: {
+                width: 180,
+                height: 185,
+            }
         },
     },
     newContainer: {
         id: -10010,
         daylightOpening: {
-            x: 190,
-            y: 185,
+            dimensions: {
+                width: 190,
+                height: 185,
+            }
         },
     },
     expectedDetails: [
@@ -587,15 +631,19 @@ testAddFrame({
     oldContainer: {
         id: 890,
         daylightOpening: {
-            x: 85,
-            y: 185,
+            dimensions: {
+                width: 85,
+                height: 185,
+            }
         },
     },
     newContainer: {
         id: -10011,
         daylightOpening: {
-            x: 285,
-            y: 185,
+            dimensions: {
+                width: 285,
+                height: 185,
+            }
         },
     },
     expectedDetails: [

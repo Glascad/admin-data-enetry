@@ -1,41 +1,23 @@
-import React, { useRef, useEffect } from 'react';
-
+import React from 'react';
+import { SVG } from '../../../../../components';
 import './ElevationPreview.scss';
-import renderPreview from './render-preview';
-import RecursiveElevation from '../SingleElevation/utils/recursive-elevation/elevation';
-import { ErrorBoundary } from '../../../../../components';
+import generatePreview from './generate-preview';
 
-function ElevationPreview({ preview, elevation, ...props }) {
-    const ref = useRef();
-
-    if (!preview) {
-        if (elevation instanceof RecursiveElevation) preview = renderPreview(elevation);
-        else preview = renderPreview(new RecursiveElevation(elevation));
-    }
-
-    useEffect(() => {
-        ref.current.innerHTML = preview || '';
-    }, [preview]);
+export default function ElevationPreview({
+    preview,
+    recursiveElevation,
+    dataCy,
+}) {
+    console.log(arguments);
 
     return (
         <div
-            {...props}
-            className="ElevationPreview"
-            ref={ref}
-        />
-    );
-}
-
-export default function ErrorBoundedElevationPreview(props) {
-    return (
-        <ErrorBoundary
-            renderError={(error, info) => (
-                <div></div>
-            )}
+            className='ElevationPreview'
         >
-            <ElevationPreview
-                {...props}
+            <SVG
+                paths={preview || generatePreview(recursiveElevation)}
+                dataCy={dataCy}
             />
-        </ErrorBoundary>
+        </div>
     )
 }

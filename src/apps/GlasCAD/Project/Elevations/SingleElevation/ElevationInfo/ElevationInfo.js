@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, TitleBar, useInitialState, useSaveOnCtrlS } from '../../../../../../components';
 import { ImperialValue, parseSearch } from '../../../../../../utils';
-import ElevationPreview from '../../ElevationPreview/ElevationPreview';
-import renderPreview from '../../ElevationPreview/render-preview';
+import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 export default function ElevationInfo({
     history,
@@ -46,8 +46,8 @@ export default function ElevationInfo({
         rawElevation: {
             name,
             roughOpening: {
-                x: rox,
-                y: roy,
+                width,
+                height,
             } = {},
             finishedFloorHeight,
             _systemSet: {
@@ -69,7 +69,7 @@ export default function ElevationInfo({
             const result = await updateEntireElevation({
                 elevation: {
                     ...elevation,
-                    preview: renderPreview(recursiveElevation)
+                    preview: generatePreview(recursiveElevation)
                 },
             });
         }
@@ -186,7 +186,7 @@ export default function ElevationInfo({
                             label="Width"
                             type="inches"
                             readOnly={true}
-                            value={new ImperialValue(rox)}
+                            value={new ImperialValue(width)}
                         />
                         <Input
                             data-cy="mo-horizontal"
@@ -202,7 +202,7 @@ export default function ElevationInfo({
                             label="Height"
                             type="inches"
                             readOnly={true}
-                            value={new ImperialValue(roy)}
+                            value={new ImperialValue(height)}
                         />
                         <Input
                             data-cy="mo-vertical"
@@ -228,7 +228,7 @@ export default function ElevationInfo({
                 >
                     <ElevationPreview
                         data-cy="elevation-preview"
-                        preview={renderPreview(recursiveElevation)}
+                        recursiveElevation={recursiveElevation}
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">

@@ -205,7 +205,6 @@ export default function Input({
                 new ImperialValue(value);
 
             if (convertedValue.value !== oldConvertedValue.value) {
-                // console.log("RECEIVED NEW INITIAL VALUE");
                 setState({
                     inchInput: `${convertedValue}`,
                     value: convertedValue,

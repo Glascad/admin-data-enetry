@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ElevationPreview from '../Elevations/ElevationPreview/ElevationPreview';
+import { SVG, TitleBar } from '../../../../components';
 import { parseSearch } from '../../../../utils';
+import generatePreview from '../Elevations/ElevationPreview/generate-preview';
 import RecursiveElevation from '../Elevations/SingleElevation/utils/recursive-elevation/elevation';
-import renderPreview from '../Elevations/ElevationPreview/render-preview';
-import { TitleBar } from '../../../../components';
-
 import './ElevationViewer.scss';
+import ElevationPreview from '../Elevations/ElevationPreview/ElevationPreview';
+
 
 export default function ElevationViewer({
     location: {
@@ -85,13 +85,7 @@ export default function ElevationViewer({
                         .reverse()
                         .map(({ mergedElevation }) => (
                             <ElevationPreview
-                                preview={renderPreview(
-                                    new RecursiveElevation(mergedElevation),
-                                    {
-                                        renderText: true,
-                                        renderCustomRoughOpenings: true,
-                                    },
-                                )}
+                                recursiveElevation={new RecursiveElevation(mergedElevation)}
                             />
                         ))
                     }

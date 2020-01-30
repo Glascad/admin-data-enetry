@@ -2,19 +2,19 @@ import _ from 'lodash';
 import { defaultElevationInput } from "./elevation-input";
 
 export default function generateElevation({
-    verticalRoughOpening = defaultElevationInput.verticalRoughOpening,
-    horizontalRoughOpening = defaultElevationInput.horizontalRoughOpening,
+    height = defaultElevationInput.height,
+    width = defaultElevationInput.width,
     startingBayQuantity = defaultElevationInput.startingBayQuantity,
     finishedFloorHeight = defaultElevationInput.finishedFloorHeight,
     sightline = defaultElevationInput.sightline,
     horizontals = defaultElevationInput.horizontals,
 } = defaultElevationInput) {
 
-    const bayWidth = (horizontalRoughOpening - sightline * (startingBayQuantity + 1)) / startingBayQuantity;
+    const bayWidth = (width - sightline * (startingBayQuantity + 1)) / startingBayQuantity;
 
     const lastContainerHeight = horizontals
         .reduce(((height, { distance }) => height - sightline - distance),
-            verticalRoughOpening - sightline * 2);
+            height - sightline * 2);
 
     const containerHeights = horizontals
         .map(({ distance }) => distance)
@@ -29,8 +29,10 @@ export default function generateElevation({
                     id: i + 1 + j * startingBayQuantity,
                     original: i === 0 && j === 0,
                     daylightOpening: {
-                        x: bayWidth,
-                        y: height,
+                        dimensions: {
+                            width: bayWidth,
+                            height,
+                        }
                     },
                 }))),
             []);
@@ -76,8 +78,8 @@ export default function generateElevation({
 
     return {
         roughOpening: {
-            x: horizontalRoughOpening,
-            y: verticalRoughOpening,
+            width,
+            height,
         },
         finishedFloorHeight,
         sightline,

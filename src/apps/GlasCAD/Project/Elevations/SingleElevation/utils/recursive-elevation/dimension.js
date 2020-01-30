@@ -29,8 +29,8 @@ const getValuesFromItem = item => {
     if (item instanceof RecursiveElevation) {
         const {
             roughOpening: {
-                x,
-                y,
+                width,
+                height,
             },
         } = item;
         return {
@@ -40,8 +40,8 @@ const getValuesFromItem = item => {
             isRoughOpening: true,
             x: 0,
             y: 0,
-            height: y,
-            width: x,
+            height,
+            width,
         };
     }
 }

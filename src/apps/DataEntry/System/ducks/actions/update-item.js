@@ -46,6 +46,8 @@ export default function UPDATE_ITEM(systemInput, payload) {
         )
     });
 
+    console.log(updatedNewItem);
+
     const newPath = getUpdatedPath(payload);
     
     // If item is not in state && item doesn't have a parent update key, 

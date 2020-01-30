@@ -186,11 +186,13 @@ export default function SystemSet({
                 updateEntireSystemSet: {
                     systemSet: {
                         id,
+                        projectId,
                     },
                 },
             } = result;
+            console.log({ id });
 
-            const projectResult = await fetchProject(null, { fetchPolicy: "no-cache" });
+            const projectResult = await fetchProject({ id: projectId }, { fetchPolicy: "no-cache" });
 
             console.log({ projectResult });
 
