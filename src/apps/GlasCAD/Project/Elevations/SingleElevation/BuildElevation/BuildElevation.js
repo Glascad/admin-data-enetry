@@ -144,6 +144,7 @@ class BuildElevation extends PureComponent {
 
     save = async () => {
         const {
+            props,
             props: {
                 location: {
                     search,
@@ -167,11 +168,23 @@ class BuildElevation extends PureComponent {
             },
         } = this;
 
-        console.log(this.props);
+        console.log(props);
 
         const id = +parseSearch(search).elevationId;
 
         cancel();
+
+        const log = fn => (...args) => {
+            console.log(args);
+            const result = fn(...args);
+            console.log(result);
+            return result;
+        };
+
+        const mapPlacement = log(({ x, y, width, height }) => ({
+            origin: { x, y },
+            dimensions: { width, height },
+        }));
 
         const frames = allFrames.map(({
             vertical,
@@ -183,7 +196,7 @@ class BuildElevation extends PureComponent {
 
             return {
                 vertical,
-                placement,
+                placement: mapPlacement(placement),
                 dimensions,
                 containerDetailIds: containerDetails.map(({ id }) => id),
                 containerDetailFakeIds: containerFakeDetails.map(({ fakeId }) => fakeId),
@@ -196,11 +209,10 @@ class BuildElevation extends PureComponent {
                 nodeId,
                 __typename,
                 id,
-                daylightOpening,
                 ...container
             }) => ({
                 ...container,
-                daylightOpening,
+                daylightOpening: mapPlacement((allContainers.find(c => c.id === id) || {}).placement),
                 [id > 0 ?
                     'id'
                     :
@@ -209,7 +221,7 @@ class BuildElevation extends PureComponent {
             .concat(
                 allContainers
                     .filter(({ id }) => !inputContainers.includes(id))
-                    .map(({ id, placement }) => ({ id, placement }))
+                    .map(({ id, placement }) => ({ id, daylightOpening: mapPlacement(placement) }))
             );
 
         const details = inputDetails
@@ -227,6 +239,7 @@ class BuildElevation extends PureComponent {
                     { id }
                     :
                     null),
+                placement: mapPlacement((allDetails.find(d => d.id === id) || {}).placement),
                 [firstContainerId > 0 ?
                     'firstContainerId'
                     :
@@ -239,7 +252,7 @@ class BuildElevation extends PureComponent {
             .concat(
                 allDetails
                     .filter(({ id }) => !inputDetails.includes(id))
-                    .map(({ id, placement }) => ({ id, placement }))
+                    .map(({ id, placement }) => ({ id, placement: mapPlacement(placement) }))
             )
 
         const result = await updateEntireElevation({

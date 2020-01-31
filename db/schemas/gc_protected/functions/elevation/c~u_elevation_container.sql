@@ -36,7 +36,7 @@ BEGIN
                 -- custom_rough_opening
             ) VALUES (
                 eid,
-                ec.original,
+                COALESCE(ec.original, FALSE),
                 ec.contents,
                 ec.daylight_opening
                 -- ec.custom_rough_opening
