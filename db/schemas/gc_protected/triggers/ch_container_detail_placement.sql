@@ -18,6 +18,14 @@ DECLARE
     efid INTEGER;
     ef RECORD;
     efp RECTANGLE;
+    fec RECORD;
+    sec RECORD;
+    fecid INTEGER;
+    secid INTEGER;
+    fecpq RECTANGLE_QUAD;
+    secpq RECTANGLE_QUAD;
+    ecoverlapmin FLOAT;
+    ecoverlapmax FLOAT;
 BEGIN
 
     -- gather data
@@ -59,7 +67,79 @@ BEGIN
     efp := ef.placement;
 
     -- other details
-    -- SELECT array_agg(placement) FROM container_details
+    SELECT array_agg(placement) FROM container_details cd
+    INTO ocdps
+    WHERE cd.elevation_frame_id = efid
+    AND cd.id <> cdid;
+
+    -- containers
+    fecid := COALESCE(NEW.first_container_id, OLD.first_container_id);
+    secid := COALESCE(NEW.second_container_id, OLD.second_container_id);
+
+    SELECT daylight_opening FROM elevation_containers
+    INTO fec
+    WHERE elevation_containers.id = fecid;
+
+    SELECT daylight_opening FROM elevation_containers
+    INTO sec
+    WHERE elevation_containers.id = secid;
+
+    fecpq := fec.daylight_opening::RECTANGLE_QUAD;
+    secpq := sec.daylight_opening::RECTANGLE_QUAD;
+
+    -- compare against sightline
+    IF v THEN
+        IF cddim.width <> sl THEN
+            RAISE EXCEPTION 'Vertical detail %, % must have sightline % as width %', cdid, cdp, sl, cddim.width;
+        END IF;
+    ELSE
+        IF cddim.height <> sl THEN
+            RAISE EXCEPTION 'Horizontal detail %, % must have sightline % as height %', cdid, cdp, sl, cddim.height;
+        END IF;
+    END IF;
+
+    -- compare with first container & second container
+    IF v THEN
+        IF cdpq.xmin <> fecpq.xmax THEN
+            RAISE EXCEPTION 'Detail %, % must be adjacent to first container %, %', cdid, cpd, fecid, fecpq;
+        END IF;
+
+        IF cdpq.xmax <> secpq.xmin THEN
+            RAISE EXCEPTION 'Detail %, % must be adjacent to second container %, %', cdid, cpd, secid, secpq;
+        END IF;
+
+        -- calculate overlap between containers
+        ecoverlapmin := greatest(fecpq.ymin, secpq.ymin);
+        ecoverlapmax := least(fecpq.ymax, secpq.ymax);
+
+        IF cdpq.ymin <> ecoverlapmin THEN
+            RAISE EXCEPTION 'Vertical detail %, %, must end at minimum y overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmin, fecid, fecpq, secid, secpq;
+        END IF;
+
+        IF cdpq.ymax <> ecoverlapmax THEN
+            RAISE EXCEPTION 'Vertical detail %, %, must end at maximum y overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmax, fecid, fecpq, secid, secpq;
+        END IF;
+    ELSE
+        IF cdpq.ymin <> fecpq.ymax THEN
+            RAISE EXCEPTION 'Detail %, % must be adjacent to first container %, %', cdid, cpd, fecid, fecpq;
+        END IF;
+
+        IF cdpq.ymax <> secpq.ymin THEN
+            RAISE EXCEPTION 'Detail %, % must be adjacent to second container %, %', cdid, cpd, secid, secpq;
+        END IF;
+
+        -- calculate overlap between containers
+        ecoverlapmin := greatest(fecpq.xmin, secpq.xmin);
+        ecoverlapmax := least(fecpq.xmax, secpq.xmax);
+
+        IF cdpq.xmin <> ecoverlapmin THEN
+            RAISE EXCEPTION 'Horizontal detail %, %, must end at minimum x overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmin, fecid, fecpq, secid, secpq;
+        END IF;
+
+        IF cdpq.xmax <> ecoverlapmax THEN
+            RAISE EXCEPTION 'Horizontal detail %, %, must end at maximum x overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmax, fecid, fecpq, secid, secpq;
+        END IF;
+    END IF;
 
     -- compare against rough opening
     IF NOT rectangle_is_contained(cdp, ep) THEN
@@ -72,8 +152,9 @@ BEGIN
     END IF;
 
     -- compare with other details within frame
-    -- compare with first container
-    -- compare with second container
+    IF NOT no_rectangles_overlap(ocdps::RECTANGLE_QUAD[] || cdp::RECTANGLE_QUAD) THEN
+        RAISE EXCEPTION 'Detail %, % must not overlap with other details %', cdid, cdp, ocdps;
+    END IF;
 
     RETURN NEW;
 

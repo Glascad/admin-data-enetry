@@ -76,12 +76,12 @@ BEGIN
     -- compare with details
         -- details should all be contained within the frame
         IF NOT rectangles_are_contained(cdps, efp) THEN
-            RAISE EXCEPTION 'Details %, % must fit inside frame %, %', cdids, cdps, efid, efp;
+            RAISE EXCEPTION 'Frame %, % must contain all details %, %', efid, efp, cdids, cdps;
         END IF;
 
         -- details should not overlap each other
         IF NOT no_rectangles_overlap(cdps) THEN
-            RAISE EXCEPTION 'Details %, % must not overlap', cdids, cdps;
+            RAISE EXCEPTION 'Frame %''s details %, % must not overlap', efid, cdids, cdps;
         END IF;
 
         -- details and frame should all have same sightline and x|y dimension
@@ -102,7 +102,7 @@ BEGIN
                 OR
                 (NOT v AND efdim.height <> d.height)
             ) THEN
-                RAISE EXCEPTION 'Detail % must have same sightline as containing frame %, %', r, efid, efp;
+                RAISE EXCEPTION 'Frame %, % and its detail % must all have same sightline', efid, efp, r;
             END IF;
 
         END LOOP;
@@ -112,21 +112,21 @@ BEGIN
 
         IF v THEN
             IF ((
-                efpq.xmin <> rq.xmin
+                efpq.ymin <> rq.ymin
                 AND
-                efpq.xmin <> rq.xmin - sl
+                efpq.ymin <> rq.ymin - sl
             ) OR (
-                efpq.xmax <> rq.xmax
+                efpq.ymax <> rq.ymax
                 AND
-                efpq.xmax <> rq.xmax + sl
+                efpq.ymax <> rq.ymax + sl
             )) THEN
                 RAISE EXCEPTION 'Vertical frame %, % must end at end of frames % or extend one sightline beyond', efid, efp, rq;
             END IF;
         ELSE
             IF (
-                efpq.ymin <> rq.ymin
+                efpq.xmin <> rq.xmin
                 OR
-                efpq.ymax <> rq.ymax
+                efpq.xmax <> rq.xmax
             ) THEN
                 RAISE EXCEPTION 'Horizontal frame %, % must end at end of frames %', efid, efp, rq;
             END IF;
@@ -142,7 +142,7 @@ BEGIN
                 OR
                 (NOT v AND rq.ymax <> efpq.ymin)
             ) THEN
-                RAISE EXCEPTION 'First container % must be adjacent to frame %, %', rq, efid, efp;
+                RAISE EXCEPTION 'Frame %, % must be adjacent to first container %', efid, efp, rq;
             END IF;
 
         END LOOP;
@@ -165,7 +165,7 @@ BEGIN
                 OR
                 (NOT v AND rq.ymin <> efpq.ymax)
             ) THEN
-                RAISE EXCEPTION 'Second container % must be adjacent to frame %, %', rq, efid, efp;
+                RAISE EXCEPTION 'Frame %, % must be adjacent to second container %', efid, efp, rq;
             END IF;
 
         END LOOP;

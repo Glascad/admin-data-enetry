@@ -158,6 +158,7 @@ class BuildElevation extends PureComponent {
                     recursiveElevation,
                     recursiveElevation: {
                         allFrames,
+                        allDetails,
                         allContainers,
                     }
                 },

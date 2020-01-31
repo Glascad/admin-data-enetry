@@ -110,8 +110,8 @@ DO $create_elevation$ DECLARE ___ INTEGER; BEGIN
             7,
             TRUE,
             (
-                (0, 0),
-                (2, 200)
+                (0, 2),
+                (2, 196)
             ),
             NULL,
             NULL,
@@ -122,8 +122,8 @@ DO $create_elevation$ DECLARE ___ INTEGER; BEGIN
             8,
             TRUE,
             (
-                (199, 0),
-                (2, 200)
+                (199, 2),
+                (2, 196)
             ),
             NULL,
             1,
@@ -134,8 +134,8 @@ DO $create_elevation$ DECLARE ___ INTEGER; BEGIN
             9,
             TRUE,
             (
-                (398, 0),
-                (2, 200)
+                (398, 2),
+                (2, 196)
             ),
             NULL,
             2,
