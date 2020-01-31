@@ -53,7 +53,11 @@ export default class RecursiveElevation extends Loggable {
             roughOpening = {},
             _elevationContainers = [],
             _containerDetails = [],
-            sightline = 10,
+            _systemSet: {
+                _system: {
+                    sightline = 2,
+                } = {},
+            } = {},
             minimumDaylightOpening = 5,
         } = rawElevation;
 

@@ -12,7 +12,7 @@ export default {
                     elevation: $elevation
                 }
             ) {
-                elevation: elevations {
+                elevation {
                     ...EntireElevation
                 }
             }
@@ -22,11 +22,9 @@ export default {
     update(cache, {
         data: {
             updateEntireElevation: {
+                elevation,
                 elevation: {
-                    0: elevation,
-                    0: {
-                        id,
-                    },
+                    id,
                 },
             },
         },
@@ -60,11 +58,9 @@ export default {
     refetchQueries: ({
         data: {
             updateEntireElevation: {
-                elevation: [
-                    {
-                        id,
-                    },
-                ],
+                elevation: {
+                    id,
+                },
             },
         },
     }) => [{

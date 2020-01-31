@@ -120,7 +120,7 @@ BEGIN
                 AND
                 efpq.ymax <> rq.ymax + sl
             )) THEN
-                RAISE EXCEPTION 'Vertical frame %, % must end at end of frames % or extend one sightline beyond', efid, efp, rq;
+                RAISE EXCEPTION 'Vertical frame %, % must end at end of details %, % or extend one sightline beyond', efid, efp, rq, cdps;
             END IF;
         ELSE
             IF (
@@ -128,7 +128,7 @@ BEGIN
                 OR
                 efpq.xmax <> rq.xmax
             ) THEN
-                RAISE EXCEPTION 'Horizontal frame %, % must end at end of frames %', efid, efp, rq;
+                RAISE EXCEPTION 'Horizontal frame %, % must end at end of details %, %', efid, efp, rq, cdps;
             END IF;
         END IF;
 

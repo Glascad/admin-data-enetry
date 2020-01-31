@@ -168,38 +168,42 @@ class BuildElevation extends PureComponent {
             },
         } = this;
 
-        console.log(props);
-
         const id = +parseSearch(search).elevationId;
 
         cancel();
 
-        const log = fn => (...args) => {
-            console.log(args);
-            const result = fn(...args);
-            console.log(result);
-            return result;
-        };
-
-        const mapPlacement = log(({ x, y, width, height }) => ({
+        const mapPlacement = ({ x, y, width, height }) => ({
             origin: { x, y },
             dimensions: { width, height },
-        }));
+        });
+
+        console.log({ allFrames });
 
         const frames = allFrames.map(({
             vertical,
             placement,
             dimensions,
-            frameDetails,
+            details,
         }) => {
-            const [containerDetails, containerFakeDetails] = _.partition(frameDetails, ({ id }) => !!id);
+            const [containerDetails, containerFakeDetails] = _.partition(details, ({ id }) => id > 0);
+            
+            const containerDetailIds = containerDetails.map(({ id }) => id);
+            const containerDetailFakeIds = containerFakeDetails.map(({ id }) => id);
+            
+            console.log({
+                details,
+                containerDetails,
+                containerFakeDetails,
+                containerDetailIds,
+                containerDetailFakeIds,
+            });
 
             return {
                 vertical,
                 placement: mapPlacement(placement),
                 dimensions,
-                containerDetailIds: containerDetails.map(({ id }) => id),
-                containerDetailFakeIds: containerFakeDetails.map(({ fakeId }) => fakeId),
+                containerDetailIds,
+                containerDetailFakeIds,
             };
         });
 
@@ -220,7 +224,7 @@ class BuildElevation extends PureComponent {
             }))
             .concat(
                 allContainers
-                    .filter(({ id }) => !inputContainers.includes(id))
+                    .filter(({ id }) => !inputContainers.some(c => c.id === id))
                     .map(({ id, placement }) => ({ id, daylightOpening: mapPlacement(placement) }))
             );
 
@@ -235,10 +239,10 @@ class BuildElevation extends PureComponent {
                 ...detail
             }) => ({
                 ...detail,
-                ...(id > 0 ?
-                    { id }
+                [id > 0 ?
+                    'id'
                     :
-                    null),
+                    'fakeId']: id,
                 placement: mapPlacement((allDetails.find(d => d.id === id) || {}).placement),
                 [firstContainerId > 0 ?
                     'firstContainerId'
@@ -251,24 +255,25 @@ class BuildElevation extends PureComponent {
             }))
             .concat(
                 allDetails
-                    .filter(({ id }) => !inputDetails.includes(id))
+                    .filter(({ id }) => !inputDetails.some(d => d.id === id))
                     .map(({ id, placement }) => ({ id, placement: mapPlacement(placement) }))
-            )
+            );
 
-        const result = await updateEntireElevation({
-            elevation: {
-                ...elevationInput,
-                id,
-                frames,
-                details,
-                containers,
-                preview: generatePreview(recursiveElevation),
-            },
-        });
+        const elevationPayload = {
+            ...elevationInput,
+            id,
+            frames,
+            details,
+            containers,
+            preview: generatePreview(recursiveElevation),
+        };
 
-        if (this.mounted) {
-            clearHistory();
-        }
+        console.log({ elevationPayload });
+        console.log(JSON.stringify(elevationPayload));
+
+        const result = await updateEntireElevation({ elevation: elevationPayload });
+
+        if (this.mounted) clearHistory();
 
         return result;
     }
@@ -314,6 +319,8 @@ class BuildElevation extends PureComponent {
         //     currentState,
         //     states,
         // });
+
+        console.log({ recursiveElevation });
 
         // console.log(this);
 

@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS update_entire_elevation;
 
 CREATE OR REPLACE FUNCTION gc_public.update_entire_elevation(elevation ENTIRE_ELEVATION)
-RETURNS SETOF ELEVATIONS AS $$
+RETURNS ELEVATIONS AS $$
 DECLARE
     -- OWNER
     pid INTEGER;
@@ -24,7 +24,6 @@ BEGIN
     SET search_path = gc_public,gc_protected,gc_controlled,gc_utils,gc_data,pg_temp_1,pg_toast,pg_toast_temp_1;
 
     -- CHECK CURRENT USER
-
     IF e.id IS NOT NULL THEN
         SELECT project_id FROM elevations INTO pid
         WHERE id = e.id;
@@ -32,6 +31,7 @@ BEGIN
         pid := e.project_id;
     END IF;
 
+    -- IF NOT AUTHORIZED
     IF pid NOT IN (
         SELECT id FROM projects
         WHERE owner_id = get_current_user_id()
@@ -39,9 +39,8 @@ BEGIN
 
         RAISE EXCEPTION 'Elevation not owned by user %', get_current_user_id();
 
+    -- IF AUTHORIZED
     ELSE
-
-        -- IF AUTHORIZED
 
         SELECT * FROM create_or_update_elevation(e) INTO ue;
 
@@ -74,7 +73,6 @@ BEGIN
                 -- GET REAL IDS & PAIR WITH DETAIL FAKE IDS
                 IF ef.container_detail_fake_ids IS NOT NULL THEN
                     FOREACH cdid IN ARRAY ef.container_detail_fake_ids LOOP
-                        -- RAISE EXCEPTION 'real_id: %, cdid: %', real_id, cdid;
                         frame_id_pairs := frame_id_pairs || ROW(real_id, cdid)::ID_PAIR;
                     END LOOP;
                 END IF;
@@ -96,7 +94,7 @@ BEGIN
             SELECT * FROM UNNEST (e.container_ids_to_delete)
         );
 
-        RETURN QUERY SELECT * FROM (SELECT ue.*) ue;
+        RETURN ue;
 
     END IF;
 END;

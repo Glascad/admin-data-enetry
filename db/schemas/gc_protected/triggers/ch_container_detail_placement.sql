@@ -8,7 +8,6 @@ DECLARE
     ep RECTANGLE;
     epq RECTANGLE_QUAD;
     cdid INTEGER;
-    cdp RECTANGLE;
     cdpq RECTANGLE_QUAD;
     cdo COORDINATE;
     cddim DIMENSIONS;
@@ -40,10 +39,9 @@ BEGIN
 
     -- detail
     cdid := COALESCE(NEW.id, OLD.id);
-    cdp := COALESCE(NEW.placement, OLD.placement);
-    cdpq := cdp::RECTANGLE_QUAD;
-    cdo := cdp.origin;
-    cddim := cdp.dimensions;
+    cdpq := COALESCE(NEW.placement, OLD.placement)::RECTANGLE_QUAD;
+    cdo := cdpq.origin;
+    cddim := cdpq.dimensions;
     v := COALESCE(NEW.vertical, OLD.vertical);
 
     -- sightline
@@ -90,22 +88,22 @@ BEGIN
     -- compare against sightline
     IF v THEN
         IF cddim.width <> sl THEN
-            RAISE EXCEPTION 'Vertical detail %, % must have sightline % as width %', cdid, cdp, sl, cddim.width;
+            RAISE EXCEPTION 'Vertical detail %, %, %, % must have sightline % as width %', cdid, cdpq, NEW, OLD, sl, cddim.width;
         END IF;
     ELSE
         IF cddim.height <> sl THEN
-            RAISE EXCEPTION 'Horizontal detail %, % must have sightline % as height %', cdid, cdp, sl, cddim.height;
+            RAISE EXCEPTION 'Horizontal detail %, %, %, % must have sightline % as height %', cdid, cdpq, NEW, OLD, sl, cddim.height;
         END IF;
     END IF;
 
     -- compare with first container & second container
     IF v THEN
         IF cdpq.xmin <> fecpq.xmax THEN
-            RAISE EXCEPTION 'Detail %, % must be adjacent to first container %, %', cdid, cpd, fecid, fecpq;
+            RAISE EXCEPTION 'Detail %, %, %, % must be adjacent to first container %, %', cdid, cpd, NEW, OLD, fecid, fecpq;
         END IF;
 
         IF cdpq.xmax <> secpq.xmin THEN
-            RAISE EXCEPTION 'Detail %, % must be adjacent to second container %, %', cdid, cpd, secid, secpq;
+            RAISE EXCEPTION 'Detail %, %, %, % must be adjacent to second container %, %', cdid, cpd, NEW, OLD, secid, secpq;
         END IF;
 
         -- calculate overlap between containers
@@ -113,19 +111,19 @@ BEGIN
         ecoverlapmax := least(fecpq.ymax, secpq.ymax);
 
         IF cdpq.ymin <> ecoverlapmin THEN
-            RAISE EXCEPTION 'Vertical detail %, %, must end at minimum y overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmin, fecid, fecpq, secid, secpq;
+            RAISE EXCEPTION 'Vertical detail %, %, %, %, must end at minimum y overlap % of first container %, % and second container %, %', cdid, cdpq, NEW, OLD, ecoverlapmin, fecid, fecpq, secid, secpq;
         END IF;
 
         IF cdpq.ymax <> ecoverlapmax THEN
-            RAISE EXCEPTION 'Vertical detail %, %, must end at maximum y overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmax, fecid, fecpq, secid, secpq;
+            RAISE EXCEPTION 'Vertical detail %, %, %, %, must end at maximum y overlap % of first container %, % and second container %, %', cdid, cdpq, NEW, OLD, ecoverlapmax, fecid, fecpq, secid, secpq;
         END IF;
     ELSE
         IF cdpq.ymin <> fecpq.ymax THEN
-            RAISE EXCEPTION 'Detail %, % must be adjacent to first container %, %', cdid, cpd, fecid, fecpq;
+            RAISE EXCEPTION 'Detail %, %, %, % must be adjacent to first container %, %', cdid, cpd, NEW, OLD, fecid, fecpq;
         END IF;
 
         IF cdpq.ymax <> secpq.ymin THEN
-            RAISE EXCEPTION 'Detail %, % must be adjacent to second container %, %', cdid, cpd, secid, secpq;
+            RAISE EXCEPTION 'Detail %, %, %, % must be adjacent to second container %, %', cdid, cpd, NEW, OLD, secid, secpq;
         END IF;
 
         -- calculate overlap between containers
@@ -133,27 +131,27 @@ BEGIN
         ecoverlapmax := least(fecpq.xmax, secpq.xmax);
 
         IF cdpq.xmin <> ecoverlapmin THEN
-            RAISE EXCEPTION 'Horizontal detail %, %, must end at minimum x overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmin, fecid, fecpq, secid, secpq;
+            RAISE EXCEPTION 'Horizontal detail %, %, %, %, must end at minimum x overlap % of first container %, % and second container %, %', cdid, cdpq, NEW, OLD, ecoverlapmin, fecid, fecpq, secid, secpq;
         END IF;
 
         IF cdpq.xmax <> ecoverlapmax THEN
-            RAISE EXCEPTION 'Horizontal detail %, %, must end at maximum x overlap % of first container %, % and second container %, %', cdid, cdp, ecoverlapmax, fecid, fecpq, secid, secpq;
+            RAISE EXCEPTION 'Horizontal detail %, %, %, %, must end at maximum x overlap % of first container %, % and second container %, %', cdid, cdpq, NEW, OLD, ecoverlapmax, fecid, fecpq, secid, secpq;
         END IF;
     END IF;
 
     -- compare against rough opening
-    IF NOT rectangle_is_contained(cdp, ep) THEN
-        RAISE EXCEPTION 'Detail %, % must fit inside elevation %, %', cdid, cdp, eid, ep;
+    IF NOT rectangle_is_contained(cdpq, ep) THEN
+        RAISE EXCEPTION 'Detail %, %, %, % must fit inside elevation %, %', cdid, cdpq, NEW, OLD, eid, ep;
     END IF;
 
     -- compare with frame
-    IF NOT rectangle_is_contained(cdp, efp) THEN
-        RAISE EXCEPTION 'Detail %, % must fit inside frame %, %', cdid, cdps, efid, efp;
+    IF NOT rectangle_is_contained(cdpq, efp) THEN
+        RAISE EXCEPTION 'Detail %, %, %, % must fit inside frame %, %', cdid, cdps, NEW, OLD, efid, efp;
     END IF;
 
     -- compare with other details within frame
-    IF NOT no_rectangles_overlap(ocdps::RECTANGLE_QUAD[] || cdp::RECTANGLE_QUAD) THEN
-        RAISE EXCEPTION 'Detail %, % must not overlap with other details %', cdid, cdp, ocdps;
+    IF NOT no_rectangles_overlap(ocdps::RECTANGLE_QUAD[] || cdpq::RECTANGLE_QUAD) THEN
+        RAISE EXCEPTION 'Detail %, %, %, % must not overlap with other details %', cdid, cdpq, NEW, OLD, ocdps;
     END IF;
 
     RETURN NEW;
@@ -162,6 +160,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE CONSTRAINT TRIGGER check_container_detail_placement
-AFTER INSERT OR UPDATE OF placement, first_container_id, second_container_id, elevation_frame_id ON container_details
+AFTER INSERT OR UPDATE OF placement ON container_details
 INITIALLY DEFERRED
 FOR EACH ROW EXECUTE FUNCTION check_container_detail_placement();

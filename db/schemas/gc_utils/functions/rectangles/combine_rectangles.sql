@@ -19,9 +19,9 @@ BEGIN
     FOREACH rq IN ARRAY $1 LOOP
 
         xmin := least(xmin, rq.xmin);
-        xmax := least(xmax, rq.xmax);
+        xmax := greatest(xmax, rq.xmax);
         ymin := least(ymin, rq.ymin);
-        ymax := least(ymax, rq.ymax);
+        ymax := greatest(ymax, rq.ymax);
 
     END LOOP;
 

@@ -31,9 +31,9 @@ BEGIN
     WHERE cds.elevation_id = eid;
 
     -- compare data
-    IF rectangles_fill_space((ecdlos || efps)::RECTANGLE_QUAD[], bb::RECTANGLE_QUAD, TRUE) = FALSE THEN
-        RAISE EXCEPTION 'Invalid placement in elevation %', eid;
-    END IF;
+    -- IF rectangles_fill_space((ecdlos || efps)::RECTANGLE_QUAD[], bb::RECTANGLE_QUAD) = FALSE THEN
+    --     RAISE EXCEPTION 'Invalid placement in elevation %', eid;
+    -- END IF;
 
     RETURN NEW;
 
@@ -41,6 +41,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE CONSTRAINT TRIGGER check_elevation_placement
-AFTER INSERT OR UPDATE OF rough_opening ON elevations
+AFTER UPDATE OF rough_opening ON elevations
 INITIALLY DEFERRED
 FOR EACH ROW EXECUTE FUNCTION check_elevation_placement();

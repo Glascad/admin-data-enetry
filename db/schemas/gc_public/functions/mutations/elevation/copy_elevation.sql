@@ -95,8 +95,8 @@ BEGIN
                 vertical
             ) VALUES (
                 ne.id,
-                get_real_id(id_pairs, cd.first_container_id),
-                get_real_id(id_pairs, cd.second_container_id),
+                get_real_id(id_pairs, cd.first_container_id, TRUE),
+                get_real_id(id_pairs, cd.second_container_id, TRUE),
                 cd.vertical
             );
         END LOOP;
