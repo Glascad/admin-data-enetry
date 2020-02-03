@@ -15,6 +15,7 @@ import ListWrapper from './ui/ListWrapper/ListWrapper';
 import Toggle from './ui/Toggle/Toggle';
 import Input from './ui/Input/Input';
 import Select from './ui/Select/Select';
+import Pinnable from './ui/Pinnable/Pinnable';
 import Ellipsis from './ui/Ellipsis/Ellipsis';
 import AsyncButton from './ui/AsyncButton/AsyncButton';
 import ConfirmButton from './ui/ConfirmButton/ConfirmButton';
@@ -59,6 +60,8 @@ import ErrorBoundary from './dev/ErrorBoundary/ErrorBoundary';
 // UNIVERSAL STYLES
 import './index.scss';
 
+
+
 export {
     // UI
     Dropdown,
@@ -77,6 +80,7 @@ export {
     Toggle,
     Input,
     Select,
+    Pinnable,
     Ellipsis,
     AsyncButton,
     ConfirmButton,
@@ -117,3 +121,4 @@ export {
     // SPECIAL FUNCTIONS
     confirmWithModal,
 };
+    

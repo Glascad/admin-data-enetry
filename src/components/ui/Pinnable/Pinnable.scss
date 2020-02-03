@@ -1,0 +1,21 @@
+@import "../../../styles/variables";
+
+#viewport {
+    .Pinnable {
+        width: unset;
+        min-width: unset;
+        max-width: unset;
+    }
+}
+
+.Pinnable {
+    border-top: $small solid $light-blue;
+
+    &.pinned {
+        position: fixed;
+        transform: translate(-50%, -50%);
+    }
+
+    .close {
+    }
+}
