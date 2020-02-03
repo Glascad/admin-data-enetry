@@ -274,12 +274,14 @@ class List extends PureComponent {
                     </Modal>
                 ) : null}
                 {children ? (
-                    <div className={`nested ${
-                        Object.keys(selectedItem).length === 0 ?
-                            "disabled"
-                            :
-                            ""
-                        }`} >
+                    <div
+                        className={`nested ${
+                            Object.keys(selectedItem).length === 0 ?
+                                "disabled"
+                                :
+                                ""
+                            }`}
+                    >
                         {children(selectedItem)}
                     </div>
                 ) : null}

@@ -78,6 +78,9 @@ export default function SystemTree({
                                 //     systemMap
                                 // })
 
+                                const isSpliced = name === 'SELECT_OPTION';
+                                const isEmptyValue = name === 'EMPTY_VALUE';
+
                                 const isAvailableToCompleteAction = PARTIAL_ACTION ?
                                     getPotentialParent({ partialPayload, item }, systemMap)
                                     :
@@ -93,7 +96,7 @@ export default function SystemTree({
                                     &&
                                     getLastItemFromPath(selectedItem.path) === getLastItemFromPath(item.path);
 
-                                return (
+                                return isEmptyValue ? null : (
                                     <div
                                         data-cy={`${path}`}
                                         className={`tree-item type-${
@@ -110,6 +113,8 @@ export default function SystemTree({
                                             groupedWithSelectedItem ? 'grouped-with-selected' : ''
                                             } ${
                                             optional ? 'optional' : ''
+                                            } ${
+                                            isSpliced ? 'spliced' : ''
                                             } ${
                                             PARTIAL_ACTION && !isAvailableToCompleteAction && !isSelected ?
                                                 'disabled'

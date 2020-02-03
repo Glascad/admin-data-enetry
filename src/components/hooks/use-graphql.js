@@ -1,25 +1,21 @@
-import { useState, useEffect, useCallback } from 'react';
-
+import { useEffect, useState } from 'react';
 import client from '../../apollo-config';
-
 import { normalizeQueryResponse, removeNullValues } from '../../utils';
-
-import useMountTracker from './use-mount-tracker';
 
 export function useMutation(mutation, fetchQuery = () => { }) {
 
     const [mutationResult, setMutationResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const mutate = async variables => {
+    const mutate = async (variables = mutation.variables) => {
 
         setLoading(true);
 
         try {
 
             const response = await client.mutate({
-                variables,
                 ...mutation,
+                variables,
             });
 
             const normalResponse = normalizeQueryResponse(response);
@@ -37,14 +33,14 @@ export function useMutation(mutation, fetchQuery = () => { }) {
         } catch (err) {
             console.log("ERROR in mutation");
             console.log({ err });
-            
+
             const {
                 networkError: {
                     result: {
                         errors = [],
                     } = {},
                 } = {},
-                graphQLErrors = []
+                graphQLErrors = [],
             } = removeNullValues(err);
 
             errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
@@ -62,7 +58,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
     const [queryResult, setQueryResult] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const fetchQuery = async variables => {
+    const fetchQuery = async (variables = query.variables) => {
 
         // console.log("FETCHING QUERY");
         // console.log({ query, variables });
@@ -71,7 +67,10 @@ export function useQuery(query, doNotFetchOnMount = false) {
 
         try {
 
-            const response = await client.query(variables ? { ...query, variables } : query);
+            const response = await client.query({
+                ...query,
+                variables,
+            });
 
             // console.log({
             //     response,

@@ -134,8 +134,8 @@ class DimensionButton extends PureComponent {
                     vertical,
                     elevation: {
                         roughOpening: {
-                            x: ROx,
-                            y: ROy,
+                            width,
+                            height,
                         },
                     },
                 },
@@ -165,7 +165,7 @@ class DimensionButton extends PureComponent {
             (first ? -1 : 1)
         ) / scaleY
         ) + (
-                (first ? 0 : vertical ? ROx : ROy)
+                (first ? 0 : vertical ? width : height)
                 *
                 pixelsPerInch
             );

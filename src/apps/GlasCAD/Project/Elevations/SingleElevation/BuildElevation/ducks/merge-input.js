@@ -8,8 +8,8 @@ function mergeElevationInput(
 ) {
     const {
         roughOpening: {
-            x,
-            y,
+            width,
+            height,
         } = {},
         finishedFloorHeight,
         _containerDetails = [],

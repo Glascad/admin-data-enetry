@@ -75,8 +75,10 @@ testMergeInput({
         id: 709,
         original: true,
         daylightOpening: {
-            x: 480,
-            y: 240,
+            dimensions: {
+                width: 480,
+                height: 240,
+            }
         },
     }],
     details: [{
@@ -99,8 +101,10 @@ testMergeInput({
         id: 732,
         original: false,
         daylightOpening: {
-            x: 185,
-            y: 540
+            dimensions: {
+                width: 185,
+                height: 540
+            }
         }
     }],
     details: [{

@@ -10,6 +10,8 @@ export default function COPY_ITEM(systemInput, {
         path,
         update,
         id,
+        fakeId,
+        _part,
         ...rest
     },
     targetItem: {
@@ -18,9 +20,15 @@ export default function COPY_ITEM(systemInput, {
     },
     systemMap
 }) {
+    console.log(arguments);
 
     const [oldParentKey, oldParentPath] = getParentPathFromObject(selectedItem);
     const children = getChildren(selectedItem, systemMap);
+    console.log({
+        children,
+        systemMap,
+        selectedItem,
+    });
     const name = update && update.name ? update.name : getLastItemFromPath(path);
     const parentPathKey = `parent${parentTypename}Path`;
 

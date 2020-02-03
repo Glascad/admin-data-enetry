@@ -12,7 +12,7 @@ export default {
                     elevation: $elevation
                 }
             ) {
-                elevation: elevations {
+                elevation {
                     ...EntireElevation
                 }
             }
@@ -22,49 +22,45 @@ export default {
     update(cache, {
         data: {
             updateEntireElevation: {
+                elevation,
                 elevation: {
-                    0: elevation,
-                    0: {
-                        id,
-                    },
+                    id,
                 },
             },
         },
     }) {
 
-        // const oldResult = (() => {
-        //     try {
-        //         return cache.readQuery({ query, variables: { id } });
-        //     } catch (err) {
-        //         console.log({ err });
-        //         return {};
-        //     }
-        // })();
+        const oldResult = (() => {
+            try {
+                return cache.readQuery({ query, variables: { id } });
+            } catch (err) {
+                console.log({ err });
+                return {};
+            }
+        })();
 
-        // console.log({ oldResult });
+        console.log({ oldResult });
 
-        // const data = {
-        //     ...oldResult,
-        //     elevationById: elevation,
-        // };
+        const data = {
+            ...oldResult,
+            elevationById: elevation,
+        };
 
-        // cache.writeQuery({
-        //     query,
-        //     variables: {
-        //         id,
-        //     },
-        //     data,
-        // });
+        cache.writeQuery({
+            query,
+            variables: {
+                id,
+            },
+            data,
+        });
     },
     awaitRefetchQueries: true,
     refetchQueries: ({
         data: {
             updateEntireElevation: {
-                elevation: [
-                    {
-                        id,
-                    },
-                ],
+                elevation: {
+                    id,
+                },
             },
         },
     }) => [{

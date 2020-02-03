@@ -37,7 +37,9 @@ testUpdateDLO({
     vertical: false,
     distance: 20,
     daylightOpening: {
-        x: 215,
-        y: 230,
+        dimensions: {
+            width: 215,
+            height: 230,
+        }
     }
 });

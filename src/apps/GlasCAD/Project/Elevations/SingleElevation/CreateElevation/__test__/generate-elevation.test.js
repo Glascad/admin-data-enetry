@@ -9,8 +9,8 @@ import { defaultElevationInput } from '../elevation-input';
 const testGeneration = ({ description, elevationInput }) => {
 
     const {
-        verticalRoughOpening,
-        horizontalRoughOpening,
+        height,
+        width,
         startingBayQuantity: bayCount,
         horizontals: {
             length: horizontalCount,
@@ -39,8 +39,8 @@ const testGeneration = ({ description, elevationInput }) => {
             horizontalCount,
         }),
         roughOpening: {
-            x: horizontalRoughOpening,
-            y: verticalRoughOpening,
+            width,
+            height,
         },
     });
 
@@ -55,8 +55,8 @@ testGeneration({
 testGeneration({
     description: "Sample Input 1",
     elevationInput: {
-        verticalRoughOpening: 300,
-        horizontalRoughOpening: 500,
+        height: 300,
+        width: 500,
         startingBayQuantity: 3,
         finishedFloorHeight: 0,
         sightline: 10,

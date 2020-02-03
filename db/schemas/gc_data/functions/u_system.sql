@@ -200,7 +200,7 @@ BEGIN
 
     <<END LOOP>>
 
-    RETURN check_entire_system(us);
+    RETURN us;
 
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

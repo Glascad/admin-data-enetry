@@ -35,7 +35,7 @@ BEGIN
                 name,
                 rough_opening,
                 finished_floor_height,
-                sightline,
+                -- sightline,
                 preview
             ) VALUES (
                 e.project_id,
@@ -43,7 +43,7 @@ BEGIN
                 e.name,
                 e.rough_opening,
                 e.finished_floor_height,
-                e.sightline,
+                -- e.sightline,
                 e.preview
             )
             RETURNING *;

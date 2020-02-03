@@ -2,8 +2,9 @@
 DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
 
     <<LOOP 
-        PID (1, 2, 3)
-        SID (1, 2, 2)
+        PID (1, 2, 3, 4, 5, 6)
+        SID (1, 2, 2, 2, 2, 2)
+        NAME ('Test', 'Test2', '451T', '451T', '451T', '451T')
     >>
 
         SELECT 1 FROM update_entire_system_set(
@@ -15,7 +16,7 @@ DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
                 -- project_id INTEGER,
                 <<PID>>,
                 -- name VARCHAR(50),
-                'Test System Set',
+                <<NAME>>,
                 -- system_option_value_path LTREE,
                 '<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE',
                 -- option_group_values OPTION_VALUE_PAIR[],

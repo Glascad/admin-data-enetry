@@ -1,29 +1,11 @@
-import React, { useState } from 'react';
-
-import { Redirect } from 'react-router-dom';
-
 import _ from 'lodash';
-
-import {
-    TitleBar,
-    Input,
-    GroupingBox,
-    AsyncButton,
-    ConfirmButton,
-    useInitialState,
-    Select,
-} from '../../../../../../components';
-
-import {
-    parseSearch,
-    ImperialValue,
-} from '../../../../../../utils';
-
-import renderPreview from '../../ElevationPreview/render-preview';
-
-import ElevationPreview from '../../ElevationPreview/ElevationPreview';
-
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { AsyncButton, ConfirmButton, GroupingBox, Input, Select, TitleBar, useInitialState, useSaveOnCtrlS } from '../../../../../../components';
+import { ImperialValue, parseSearch } from '../../../../../../utils';
+import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 export default function ElevationInfo({
     history,
@@ -34,7 +16,7 @@ export default function ElevationInfo({
         search,
         state: {
             previousPath = '/glascad/project/elevations/elevation-search',
-            previousSearch = arguments[0].location.search,
+            previousSearch,
         } = {},
     },
     queryResult: {
@@ -64,8 +46,8 @@ export default function ElevationInfo({
         rawElevation: {
             name,
             roughOpening: {
-                x: rox,
-                y: roy,
+                width,
+                height,
             } = {},
             finishedFloorHeight,
             _systemSet: {
@@ -76,7 +58,7 @@ export default function ElevationInfo({
 
     const doNotConfirm = _.isEqual(elevationInput, {});
 
-    const save = async () => {
+    const save = useSaveOnCtrlS(async () => {
 
         if (!doNotConfirm) {
             const elevation = {
@@ -87,13 +69,13 @@ export default function ElevationInfo({
             const result = await updateEntireElevation({
                 elevation: {
                     ...elevation,
-                    preview: renderPreview(recursiveElevation)
+                    preview: generatePreview(recursiveElevation)
                 },
             });
         }
 
         history.push(`${path.replace(/elevation-info/, 'build-elevation')}${search}`);
-    }
+    });
 
     console.log("this is the EDIT elevation page");
 
@@ -137,7 +119,7 @@ export default function ElevationInfo({
                 previousPath
                 // path.replace(/elevation\/elevation-info/, 'elevation-search')
                 }${
-                previousSearch
+                previousSearch || search
                 // parseSearch(search).remove("elevationId", "sampleElevation", "bugId")
                 }`)}
             doNotConfirmWhen={doNotConfirm}
@@ -190,7 +172,6 @@ export default function ElevationInfo({
                 />
                 <GroupingBox
                     title="Rough opening"
-                    // className="disabled"
                 >
                     <Input
                         data-cy="ro-lock"
@@ -205,7 +186,7 @@ export default function ElevationInfo({
                             label="Width"
                             type="inches"
                             readOnly={true}
-                            value={new ImperialValue(rox)}
+                            value={new ImperialValue(width)}
                         />
                         <Input
                             data-cy="mo-horizontal"
@@ -221,7 +202,7 @@ export default function ElevationInfo({
                             label="Height"
                             type="inches"
                             readOnly={true}
-                            value={new ImperialValue(roy)}
+                            value={new ImperialValue(height)}
                         />
                         <Input
                             data-cy="mo-vertical"
@@ -247,7 +228,7 @@ export default function ElevationInfo({
                 >
                     <ElevationPreview
                         data-cy="elevation-preview"
-                        preview={renderPreview(recursiveElevation)}
+                        recursiveElevation={recursiveElevation}
                     />
                 </GroupingBox>
                 <div className="bottom-buttons">

@@ -2,6 +2,7 @@ import ADD_ITEM from "./add-item";
 import DELETE_ITEM from "./delete-item";
 import UPDATE_ITEM from "./update-item";
 import COPY_ITEM from "./copy-item";
+import SPLICE_OPTION from "./splice-option";
 import ADD_OPTION_GROUP from "./add-option-group";
 import DELETE_OPTION_GROUP from "./delete-option-group";
 
@@ -10,6 +11,7 @@ export {
     DELETE_ITEM,
     UPDATE_ITEM,
     COPY_ITEM,
+    SPLICE_OPTION,
     ADD_OPTION_GROUP,
     DELETE_OPTION_GROUP,
 };

@@ -8,5 +8,5 @@ export default gql`
             ...EntireProject
         }
     }
-    ${F.PRJ.ENTIRE_PROJECT}
+    ${F.PROJ.ENTIRE_PROJECT}
 `;

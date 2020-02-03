@@ -78,6 +78,10 @@
                     border: none;
                     color: $off-white;
                 }
+
+                &.spliced {
+                    border: 2px solid $danger-color;
+                }
             }
         }
     }

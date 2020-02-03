@@ -1,22 +1,13 @@
 import React, { useEffect } from 'react';
-
-import {
-    Navigator,
-    ApolloWrapper,
-    useQuery,
-    useMutation,
-} from '../../../../../components';
-
+import { Navigator, useMutation, useQuery } from '../../../../../components';
+import { parseSearch } from '../../../../../utils';
+import BuildElevation from './BuildElevation/BuildElevation';
 import CreateElevation from './CreateElevation/CreateElevation';
 import ElevationInfo from './ElevationInfo/ElevationInfo';
-import BuildElevation from './BuildElevation/BuildElevation';
-
-import query, { bugReportQuery } from './utils/elevation-graphql/query';
 import updateElevationMutation from './utils/elevation-graphql/mutations';
-
-import { parseSearch } from '../../../../../utils';
-
+import query from './utils/elevation-graphql/query';
 import * as SAMPLE_ELEVATIONS from './utils/sample-elevations';
+import { SystemMap } from '../../../../../app-logic/system';
 
 const subroutes = {
     CreateElevation,
@@ -29,9 +20,7 @@ SingleElevation.navigationOptions = {
     subroutes,
 };
 
-export {
-    SAMPLE_ELEVATIONS,
-};
+export { SAMPLE_ELEVATIONS, };
 
 export default function SingleElevation({
     location: {
@@ -89,6 +78,23 @@ export default function SingleElevation({
         }
     }, [elevationId]);
 
+    const {
+        _elevation: {
+            _systemSet: systemSet,
+            _systemSet: {
+                _system,
+            } = {},
+        } = {},
+    } = queryResult;
+
+    const systemMap = new SystemMap(_system);
+
+    console.log({
+        queryResult,
+        systemSet,
+        systemMap,
+    });
+
     const routeProps = sampleElevation ?
         {
             queryResult: {
@@ -97,6 +103,7 @@ export default function SingleElevation({
             updating: false,
             defaultElevation,
             project,
+            systemMap,
             updateEntireElevation: () => {
                 throw new Error("Cannot update sample elevation");
             },
@@ -107,6 +114,8 @@ export default function SingleElevation({
             updating,
             defaultElevation,
             project,
+            systemMap,
+            systemSet,
             updateEntireElevation,
         };
 

@@ -53,7 +53,11 @@ export default class RecursiveElevation extends Loggable {
             roughOpening = {},
             _elevationContainers = [],
             _containerDetails = [],
-            sightline = 10,
+            _systemSet: {
+                _system: {
+                    sightline = 2,
+                } = {},
+            } = {},
             minimumDaylightOpening = 5,
         } = rawElevation;
 
@@ -158,15 +162,15 @@ export default class RecursiveElevation extends Loggable {
     getPrecedenceByVertical = vertical => {
         const {
             roughOpening: {
-                y,
-                x,
+                height,
+                width,
             },
         } = this;
 
         return vertical ?
-            x / 2
+            width / 2
             :
-            y / 2;
+            height / 2;
     }
 
     get precedence() {

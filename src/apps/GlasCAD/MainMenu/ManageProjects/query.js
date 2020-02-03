@@ -6,5 +6,5 @@ export default gql`
     {
         ...AllProjects
     }
-    ${F.PRJ.ALL_PROJECTS}
+    ${F.PROJ.ALL_PROJECTS}
 `;

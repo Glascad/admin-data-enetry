@@ -1,45 +1,18 @@
-import React, { memo, useCallback, useMemo, useState, useEffect } from 'react';
-
 import gql from 'graphql-tag';
-
-import F from '../../../../../../schemas';
-
 import _ from 'lodash';
-
-import { Link } from 'react-router-dom';
-
-import {
-    TitleBar,
-    Input,
-    GroupingBox,
-    CircleButton,
-    useRedoableState,
-    useQuery,
-    AsyncButton,
-    useMutation,
-    ConfirmButton,
-    useInitialState,
-    Select,
-} from '../../../../../../components';
-
-import ElevationPreview from '../../ElevationPreview/ElevationPreview';
-
-import renderPreview from '../../ElevationPreview/render-preview';
-
+import React, { memo, useCallback, useMemo } from 'react';
+import { GroupingBox, Input, useInitialState, useMutation, useRedoableState, useSaveOnCtrlS } from '../../../../../../components';
+import F from '../../../../../../schemas';
+import { parseSearch } from '../../../../../../utils';
+import generatePreview from '../../ElevationPreview/generate-preview';
 import RecursiveElevation from '../utils/recursive-elevation/elevation';
-
-import generateElevation from './generate-elevation';
-
-import { parseSearch, ImperialValue } from '../../../../../../utils';
-
-import {
-    measureFromOptions,
-    measureToOptions,
-    defaultHorizontal,
-    defaultElevationInput,
-} from './elevation-input';
-
-import AddHorizontals from './AddHorizontals';
+import AddHorizontals from './CreateElevationView/AddHorizontals/AddHorizontals';
+import ElevationId from './CreateElevationView/ElevationId/ElevationId';
+import { Footer, Header } from './CreateElevationView/Header&Footer/Header&Footer';
+import RoughOpening from './CreateElevationView/RoughOpening/RoughOpening';
+import { defaultElevationInput, measureFromOptions, measureToOptions } from './utils/elevation-input';
+import generateElevation from './utils/generate-elevation';
+import ElevationPreview from '../../ElevationPreview/ElevationPreview';
 
 const areEqual = (json, input) => _.isEqual({
     ...JSON.parse(json),
@@ -65,7 +38,7 @@ const saveDefaultMutation = {
                 }
             }
         }
-        ${F.PRJ.ENTIRE_PROJECT}
+        ${F.PROJ.ENTIRE_PROJECT}
     `,
 };
 
@@ -91,15 +64,7 @@ export default memo(function CreateElevation({
 
     const initialElevationInput = JSON.parse(defaultElevation) || defaultElevationInput;
 
-    const [initialHorizontalRoughOpening, setInitialHorizontalRoughOpening] = useInitialState(initialElevationInput.horizontalRoughOpening);
-    const [initialVerticalRoughOpening, setInitialVerticalRoughOpening] = useInitialState(initialElevationInput.verticalRoughOpening);
     const [initialFinishedFloorHeight, setInitialFinishedFloorHeight] = useInitialState(initialElevationInput.finishedFloorHeight);
-
-    // console.log(
-    //     initialElevationInput.horizontalRoughOpening,
-    //     initialElevationInput.verticalRoughOpening,
-    //     initialElevationInput.finishedFloorHeight,
-    // );
 
     const {
         currentState: elevationInput,
@@ -146,7 +111,7 @@ export default memo(function CreateElevation({
         }
     }
 
-    const save = useCallback(async () => {
+    const save = useSaveOnCtrlS(useCallback(async () => {
 
         const {
             _elevationContainers,
@@ -178,7 +143,7 @@ export default memo(function CreateElevation({
                 secondContainerFakeId: secondContainerId,
             })),
             ...createdElevation,
-            preview: renderPreview(recursiveElevation),
+            preview: generatePreview(recursiveElevation),
         };
 
         try {
@@ -203,162 +168,47 @@ export default memo(function CreateElevation({
             console.error(`Error saving elevation`);
             console.error(err);
         }
-    }, [mergedElevation]);
+    }, [mergedElevation]));
 
     // console.log("this is the CREATE elevation page");
-
-    const cancelModalProps = {
-        titleBar: {
-            title: "Discard Elevation",
-        },
-        children: (
-            <>
-                <div>
-                    You have unfinished changes.
-                </div>
-                <div>
-                    Are you sure you want to discard your changes and leave this page ?
-                </div>
-            </>
-        ),
-        cancel: {
-            text: "Stay",
-        },
-        finish: {
-            className: "danger",
-            text: "Leave",
-        },
-    };
 
     const doNotConfirm = areEqual(defaultElevation, elevationInput);
 
     return (
         <>
-            <TitleBar
-                // data-cy="new-elevation"
-                title="New Elevation"
-                snailTrail={[name]}
-                right={(
-                    <>
-                        <ConfirmButton
-                            modalProps={cancelModalProps}
-                            onClick={() => history.push(`${
-                                path.replace(/\/elevation\/create-elevation/, '')
-                                }${
-                                search
-                                }`)}
-                            doNotConfirmWhen={doNotConfirm}
-                        >
-                            Cancel
-                        </ConfirmButton>
-                        <AsyncButton
-                            data-cy="create"
-                            className={`action ${name && startingBayQuantity ? '' : 'disabled'}`}
-                            onClick={save}
-                            loading={creating}
-                            loadingText="Creating"
-                        >
-                            Create
-                        </AsyncButton>
-                    </>
-                )}
+            <Header
+                {...{
+                    elevationInput,
+                    doNotConfirm,
+                    creating,
+                    save,
+                }}
             />
             <div
                 id="CreateElevation"
                 className="card"
             >
-                <Input
-                    data-cy="elevation-id"
-                    label="Elevation ID"
-                    autoFocus={true}
-                    value={name}
-                    onChange={({ target: { value } }) => updateElevation({
-                        name: value,
-                    })}
+                <ElevationId
+                    {...{
+                        name,
+                        _systemSets,
+                        systemSetId,
+                        updateElevation,
+                    }}
                 />
-                <Select
-                    data-cy="system-set"
-                    label="System set"
-                    value={(_systemSets.find(({ id }) => id === systemSetId) || {}).name}
-                    options={_systemSets.map(({ name }) => name)}
-                    onChange={value => updateElevation({
-                        systemSetId: (_systemSets.find(({ name }) => name === value) || {}).id,
-                    })}
+                <RoughOpening
+                    {...{
+                        horizontalRoughOpening,
+                        horizontalMasonryOpening,
+                        verticalRoughOpening,
+                        recursiveElevation,
+                        horizontals,
+                        verticalMasonryOpening,
+                        updateElevation,
+                        startingBayQuantity,
+                        initialElevationInput,
+                    }}
                 />
-                <GroupingBox
-                    title="Rough opening"
-                >
-                    <div className="input-group">
-                        <Input
-                            data-cy="rough-opening-width"
-                            label="Width"
-                            type="inches"
-                            min={10}
-                            initialValue={initialHorizontalRoughOpening}
-                            onChange={horizontalRoughOpening => updateElevation({
-                                horizontalRoughOpening: Math.max(
-                                    +horizontalRoughOpening,
-                                    10,
-                                    startingBayQuantity * 5 + (
-                                        startingBayQuantity + (
-                                            1 * recursiveElevation.sightline
-                                        )
-                                    )
-                                )
-                            })}
-                            onBlur={() => setInitialHorizontalRoughOpening(horizontalRoughOpening)}
-                        />
-                        <Input
-                            label="Masonry opening"
-                            disabled={true}
-                            type="switch"
-                            readOnly={true}
-                            checked={horizontalMasonryOpening}
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Input
-                            data-cy="rough-opening-height"
-                            label="Height"
-                            type="inches"
-                            min={10}
-                            initialValue={initialVerticalRoughOpening}
-                            onChange={verticalRoughOpening => updateElevation({
-                                verticalRoughOpening: Math.max(
-                                    +verticalRoughOpening,
-                                    // 10,
-                                    horizontals
-                                        .reduce((sum, { distance }) => (
-                                            sum
-                                            +
-                                            distance
-                                            +
-                                            recursiveElevation.sightline
-                                        ), (
-                                            recursiveElevation.sightline
-                                            *
-                                            2
-                                            +
-                                            5
-                                        ))
-                                    // horizontals.length * 5 + (
-                                    //     horizontals.length + (
-                                    //         1 * recursiveElevation.sightline
-                                    //     )
-                                    // )
-                                ),
-                            })}
-                            onBlur={() => setInitialVerticalRoughOpening(verticalRoughOpening)}
-                        />
-                        <Input
-                            label="Masonry opening"
-                            disabled={true}
-                            type="switch"
-                            readOnly={true}
-                            checked={verticalMasonryOpening}
-                        />
-                    </div>
-                </GroupingBox>
                 <Input
                     data-cy="starting-bay"
                     label="Starting bay quantity"
@@ -368,7 +218,7 @@ export default memo(function CreateElevation({
                     value={startingBayQuantity || ''}
                     onChange={({ target: { value } }) => updateElevation({
                         startingBayQuantity: Math.round(Math.min(
-                            +value,
+                            +value < 0 ? 0 : + value,
                             (
                                 horizontalRoughOpening - recursiveElevation.sightline
                             ) / (
@@ -394,55 +244,24 @@ export default memo(function CreateElevation({
                     recursiveElevation={recursiveElevation}
                     verticalRoughOpening={verticalRoughOpening}
                 />
-                {/* <ElevationPreview
-                    elevation={recursiveElevation}
-                /> */}
                 <GroupingBox
                     title="Preview"
                 >
                     <ElevationPreview
                         data-cy="preview"
-                        elevation={recursiveElevation}
+                        recursiveElevation={recursiveElevation}
                     />
                 </GroupingBox>
-                <div className="bottom-buttons">
-                    <ConfirmButton
-                        data-cy="cancel-button"
-                        modalProps={cancelModalProps}
-                        onClick={() => history.push(`${
-                            path.replace(/\/elevation\/create-elevation/, '')
-                            }${
-                            search
-                            }`)}
-                        doNotConfirmWhen={doNotConfirm}
-                    >
-                        Cancel
-                    </ConfirmButton>
-                    <div className="buttons-right">
-                        <AsyncButton
-                            data-cy="save-as-default-button"
-                            className={`action ${doNotConfirm ?
-                                'disabled'
-                                :
-                                ''
-                                }`}
-                            onClick={saveDefault}
-                            loading={savingDefault}
-                            loadingText="Saving"
-                        >
-                            Save As Default
-                        </AsyncButton>
-                        <AsyncButton
-                            data-cy="create-button"
-                            className={`action ${name && startingBayQuantity ? '' : 'disabled'}`}
-                            onClick={save}
-                            loading={creating}
-                            loadingText="Creating"
-                        >
-                            Create
-                        </AsyncButton>
-                    </div>
-                </div>
+                <Footer
+                    {...{
+                        doNotConfirm,
+                        saveDefault,
+                        savingDefault,
+                        elevationInput,
+                        creating,
+                        save,
+                    }}
+                />
             </div>
         </>
     );

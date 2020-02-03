@@ -1,4 +1,4 @@
-import { getDefaultPath, getDetailTypeFromPath, getChildren, getConfigurationTypeFromPath, getUnknownPathFromObject, getParentPath } from "../../../../../../../app-logic/system";
+import { getDefaultPath, getDetailTypeFromPath, getChildren, getConfigurationTypeFromPath, getUnknownPathAndKeyFromItem, getParentPath } from "../../../../../../../app-logic/system";
 import { mergeOptionGroupValues } from "../merge";
 import { defaultSystemSetDetail } from "../schemas";
 import _ from 'lodash';
@@ -19,7 +19,7 @@ export default function SELECT_DETAIL_OPTION_VALUE({
     payloadPath,
     systemMap,
 ]) {
-    // console.log(arguments);
+    console.log(arguments);
 
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
     const defaultPath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);

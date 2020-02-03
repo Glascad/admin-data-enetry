@@ -10,6 +10,7 @@ export default function SELECT_OPTION_GROUP_VALUE({
         _systemSetOptionGroupValues = [],
     },
 }, {
+    systemId,
     details = [],
     configurations = [],
     optionGroupValues = [],
@@ -30,13 +31,18 @@ export default function SELECT_OPTION_GROUP_VALUE({
         name,
     };
     // get details that need to be updated from state and query results 
+    console.log({ details });
     const [newDOVs, DOVsToUpdate] = _.partition(
         details,
         ({ systemDetailPath, detailOptionValuePath }) => !(systemDetailPath || detailOptionValuePath).includes(`.${optionName}.`),
     );
 
     const allDOVsToUpdate = _systemSetDetails
-        .filter(({ detailOptionValuePath, systemDetailPath }) => (systemDetailPath || detailOptionValuePath).includes(`.${optionName}.`))
+        .filter(({ detailOptionValuePath, systemDetailPath }) => (
+            (detailOptionValuePath || systemDetailPath).startsWith(systemId || '')
+            &&
+            (systemDetailPath || detailOptionValuePath).includes(`.${optionName}.`)
+        ))
         .concat(DOVsToUpdate);
 
     const DTPaths = unique(allDOVsToUpdate
@@ -48,14 +54,15 @@ export default function SELECT_OPTION_GROUP_VALUE({
 
     // within details that don't need to be updated, get configurations that need to be updated
     const COVsToUpdate = configurations.filter(
-        ({ detailConfigurationPath, configurationOptionValuePath }) => !allDOVsToUpdate
-            .some(dov => (detailConfigurationPath || configurationOptionValuePath)
-                .startsWith(dov.systemDetailPath || dov.detailOptionValuePath))
-    );
+        ({ detailConfigurationPath, configurationOptionValuePath }) => (
+            !allDOVsToUpdate
+                .some(dov => (detailConfigurationPath || configurationOptionValuePath)
+                    .startsWith(dov.systemDetailPath || dov.detailOptionValuePath))
+        ));
 
     const allCOVsToUpdate = _systemSetConfigurations
         .filter(({ detailConfigurationPath, configurationOptionValuePath }) =>
-            (detailConfigurationPath || configurationOptionValuePath).match(new RegExp(`__CT__.*\\.${optionName}\\.`))
+            (detailConfigurationPath || configurationOptionValuePath).match(new RegExp(`^${systemId || ''}\..*__CT__.*\\.${optionName}\\.`))
             &&
             !configurations
                 .some(({ detailConfigurationPath: cDCP, configurationOptionValuePath: cCOVP }) =>

@@ -7,8 +7,8 @@
     "sightline": 2,
     "preview": " <svg viewBox=\"0 0 240 96\" transform=\"scale(1, -1)\" > <rect class=\"container \" x=\"2\" y=\"2\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"81.3333333333334\" y=\"2\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"160.6666666666668\" y=\"2\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"2\" y=\"49\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"81.3333333333334\" y=\"49\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"160.6666666666668\" y=\"49\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"41.6666666666667\" y=\"72.5\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"121.0000000000001\" y=\"72.5\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"200.33333333333348\" y=\"72.5\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"200.33333333333348\" y=\"25.5\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"121.0000000000001\" y=\"25.5\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"container \" x=\"41.6666666666667\" y=\"25.5\" height=\"21.5\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"0\" y=\"0\" height=\"25.5\" width=\"2\" /> <rect class=\"frame vertical\" x=\"39.6666666666667\" y=\"0\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"0\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"79.3333333333334\" y=\"0\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"41.6666666666667\" y=\"94\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"119.0000000000001\" y=\"0\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"81.3333333333334\" y=\"0\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"158.6666666666668\" y=\"0\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"121.0000000000001\" y=\"94\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"198.33333333333348\" y=\"0\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"160.6666666666668\" y=\"0\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame horizontal\" x=\"200.33333333333348\" y=\"94\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"47\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"0\" y=\"47\" height=\"25.5\" width=\"2\" /> <rect class=\"frame vertical\" x=\"39.6666666666667\" y=\"47\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"41.6666666666667\" y=\"47\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"79.3333333333334\" y=\"47\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"81.3333333333334\" y=\"47\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"119.0000000000001\" y=\"47\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"121.0000000000001\" y=\"47\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"158.6666666666668\" y=\"47\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"160.6666666666668\" y=\"47\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame vertical\" x=\"198.33333333333348\" y=\"47\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"200.33333333333348\" y=\"47\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"70.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"39.6666666666667\" y=\"70.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"41.6666666666667\" y=\"70.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"79.3333333333334\" y=\"70.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"81.3333333333334\" y=\"70.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"119.0000000000001\" y=\"70.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"121.0000000000001\" y=\"70.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"158.6666666666668\" y=\"70.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"160.6666666666668\" y=\"70.5\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame vertical\" x=\"198.33333333333348\" y=\"70.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"200.33333333333348\" y=\"70.5\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame vertical\" x=\"238.00000000000017\" y=\"70.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"200.33333333333348\" y=\"23.5\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame vertical\" x=\"198.33333333333348\" y=\"23.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame vertical\" x=\"238.00000000000017\" y=\"23.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"160.6666666666668\" y=\"23.5\" height=\"2\" width=\"37.666666666666686\" /> <rect class=\"frame vertical\" x=\"158.6666666666668\" y=\"23.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"121.0000000000001\" y=\"23.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"119.0000000000001\" y=\"23.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"81.3333333333334\" y=\"23.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"79.3333333333334\" y=\"23.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"41.6666666666667\" y=\"23.5\" height=\"2\" width=\"37.6666666666667\" /> <rect class=\"frame vertical\" x=\"39.6666666666667\" y=\"23.5\" height=\"25.5\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"23.5\" height=\"2\" width=\"37.6666666666667\" /> </svg> ",
     "roughOpening": {
-        "x": 240,
-        "y": 96,
+        "width": 240,
+        "height": 96,
         "__typename": "Coordinate"
     },
     "_elevationContainers": [
@@ -18,9 +18,10 @@
             "id": 2565,
             "original": true,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -29,9 +30,10 @@
             "id": 2566,
             "original": false,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -41,9 +43,10 @@
             "id": 2567,
             "original": false,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -52,9 +55,10 @@
             "id": 2568,
             "original": false,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -64,9 +68,10 @@
             "id": 2569,
             "original": false,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -75,9 +80,10 @@
             "id": 2570,
             "original": false,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -86,9 +92,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3MV0=",
             "id": 2571,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -96,9 +103,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3Ml0=",
             "id": 2572,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -107,9 +115,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3M10=",
             "id": 2573,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -117,9 +126,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3NF0=",
             "id": 2574,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -128,9 +138,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3NV0=",
             "id": 2575,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -138,9 +149,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3Nl0=",
             "id": 2576,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -149,9 +161,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3N10=",
             "id": 2577,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -160,9 +173,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3OF0=",
             "id": 2578,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -170,9 +184,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU3OV0=",
             "id": 2579,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -181,9 +196,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4MF0=",
             "id": 2580,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -191,9 +207,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4MV0=",
             "id": 2581,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -202,9 +219,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4Ml0=",
             "id": 2582,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -212,9 +230,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4M10=",
             "id": 2583,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -222,9 +241,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4NF0=",
             "id": 2584,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -233,9 +253,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4NV0=",
             "id": 2585,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -243,9 +264,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4Nl0=",
             "id": 2586,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         },
@@ -254,9 +276,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4N10=",
             "id": 2587,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             }
         },
         {
@@ -264,9 +287,10 @@
             "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMjU4OF0=",
             "id": 2588,
             "daylightOpening": {
-                "x": 37.6666666666667,
-                "y": 21.5,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 37.6666666666667,
+                    "height": 21.5
+                }
             },
             "customRoughOpening": true
         }

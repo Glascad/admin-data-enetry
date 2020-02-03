@@ -5,7 +5,7 @@ import { UPDATE_ITEM } from "./actions";
 
 export const usePartialAction = ({ selectItem, dispatch }) => {
     const [partialAction, setPartialAction] = useState();
-    console.log({ partialAction });
+    // console.log({ partialAction });
 
     const dispatchPartial = (ACTION, payload, completePayload) => setPartialAction({ ACTION, payload, completePayload });
     const cancelPartial = () => setPartialAction();
@@ -50,7 +50,7 @@ export const usePartialAction = ({ selectItem, dispatch }) => {
         }
     }, [partialAction]);
 
-    console.log({ partialAction });
+    // console.log({ partialAction });
 
     return {
         partialAction,
@@ -76,7 +76,10 @@ export const useSelection = ({
 
     const decodedPath = decodeURI(path);
 
-    const selectedItem = systemMap[decodedPath];
+    const selectedItem = decodedPath === 'undefined' ?
+        undefined
+        :
+        systemMap[decodedPath];
 
     const selectItem = ({ path: newPath } = {}) => history.push(`${
         matchPath

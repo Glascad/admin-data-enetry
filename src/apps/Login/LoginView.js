@@ -11,9 +11,7 @@ function Login({
         login,
         logout,
     },
-    staticContext,
     staticContext: {
-        Viewport,
         sidebar: {
             toggle,
         },
@@ -64,6 +62,7 @@ function Login({
                                 data-cy="username"
                                 label="username"
                                 autoFocus={true}
+                                tabIndex={0}
                                 value={username}
                                 onKeyDown={submitOnEnter}
                                 onChange={({ target: { value } }) => setUsername(value)}

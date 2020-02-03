@@ -1,6 +1,8 @@
-import { getParentPathFromObject } from '../../../../app-logic/system';
+import { getParentPathFromObject, getPathPrefix } from '../../../../app-logic/system';
 import { match, removeNullValues } from '../../../../utils';
 import { getParentWithUpdatedPath, getUpdatedPath } from "./utils";
+import getPartFromPartId from '../../../../app-logic/system/get-part-from-part-id';
+import { sightline as defaultSightline } from './schemas';
 
 export default function merge(systemInput, {
     _system,
@@ -52,6 +54,7 @@ export default function merge(systemInput, {
     } = systemInput;
 
     const mergeArray = (oldItems, updatedItems, newItems) => oldItems
+        // Deletes Old Items
         .filter(({ path }) => {
             const updatedItem = updatedItems.find(item =>
                 item.path === path
@@ -64,15 +67,8 @@ export default function merge(systemInput, {
 
             // if the parent is updated, we look to see if the move prevents it from being deleted or not
             if (parentWithUpdatedPath) {
-                //     console.log("PARENT UPDATED")
-                //     console.log({
-                //         path,
-                //         parentWithUpdatedPath,
-                //     })
-                // const parentUpdatedPath = getUpdatedPath(parentWithUpdatedPath);
                 return !pathsToDelete.some(deletedPath => {
                     const { input: foundDeletedItem } = deletedPath.match(new RegExp(`${parentWithUpdatedPath.path}\\b`)) || {};
-                    // console.log({foundDeletedItem});
                     return foundDeletedItem && path.match(foundDeletedItem);
                 });
             } else {
@@ -80,11 +76,12 @@ export default function merge(systemInput, {
                 return !pathsToDelete.some(deletedPath => path.match(new RegExp(`${deletedPath}\\b`)));
             };
         })
+        // Update Old Items
         .map(oldItem => {
             const { path } = oldItem;
             const updatedItem = updatedItems.find(item => path === item.path);
             const [newUpdatedItemParentKey, newUpdatedItemParentPath] = updatedItem ?
-                Object.entries(updatedItem.update).find(([key]) => key.match(/^parent/)) || []
+                getParentPathFromObject(updatedItem.update)
                 :
                 [];
             const parentWithUpdatedPath = getParentWithUpdatedPath(systemInput, oldItem);
@@ -112,11 +109,7 @@ export default function merge(systemInput, {
             const path = `${
                 parentPath || systemId
                 }.${
-                match(__typename)
-                    .regex(/detail$/i, '__DT__.')
-                    .regex(/configuration$/i, '__CT__.')
-                    .regex(/part$/i, `__PT${id || fakeId}__.`)
-                    .otherwise('')
+                getPathPrefix(item)
                 }${
                 name
                 }`;
@@ -129,6 +122,11 @@ export default function merge(systemInput, {
             });
         }));
 
+    const getUpdatedParts = updatedConfigurationParts => updatedConfigurationParts.map(configurationPart => ({
+        ...configurationPart,
+        _part: getPartFromPartId(configurationPart.partId, _system),
+    }));
+
     const updatedSystemOptions = mergeArray(_systemOptions, systemOptions, newSystemOptions);
     const updatedSystemOptionValues = mergeArray(_systemOptionValues, systemOptionValues, newSystemOptionValues);
     const updatedDetailOptions = mergeArray(_detailOptions, detailOptions, newDetailOptions);
@@ -137,12 +135,12 @@ export default function merge(systemInput, {
     const updatedConfigurationOptions = mergeArray(_configurationOptions, configurationOptions, newConfigurationOptions);
     const updatedSystemDetails = mergeArray(_systemDetails, systemDetails, newSystemDetails);
     const updatedDetailConfigurations = mergeArray(_detailConfigurations, detailConfigurations, newDetailConfigurations);
-    const updatedConfigurationParts = mergeArray(_configurationParts, configurationParts, newConfigurationParts);
+    const updatedConfigurationParts = getUpdatedParts(mergeArray(_configurationParts, configurationParts, newConfigurationParts));
 
     return {
         ..._system,
         name: newName || name,
-        sightline: newSightline || sightline,
+        sightline:  newSightline || sightline || defaultSightline,
         systemType: newSystemType || systemType,
         _systemOptions: updatedSystemOptions,
         _systemOptionValues: updatedSystemOptionValues,

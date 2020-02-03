@@ -1,15 +1,23 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { CollapsibleTitle, GroupingBox, Input, Select } from '../../../../../../components';
 import { SELECT_SYSTEM } from '../ducks/actions';
+import { parseSearch } from '../../../../../../utils';
 
-export default function SystemSetInfo({
+function SystemSetInfo({
     systemName,
     allSystems,
     dispatch,
     manufacturerName,
     systemType,
     name,
+    location: {
+        search,
+    },
 }) {
+
+    const { systemSetId } = parseSearch(search);
+
     return (
         <CollapsibleTitle
             title="System Set"
@@ -21,6 +29,7 @@ export default function SystemSetInfo({
                     <Select
                         data-cy="system-name"
                         label="System"
+                        readOnly={!!systemSetId}
                         value={systemName}
                         options={allSystems.map(({ name }) => name)}
                         onChange={system => dispatch(SELECT_SYSTEM, system)}
@@ -51,3 +60,5 @@ export default function SystemSetInfo({
         </CollapsibleTitle>
     );
 }
+
+export default withRouter(SystemSetInfo);

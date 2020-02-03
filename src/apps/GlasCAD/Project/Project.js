@@ -1,20 +1,10 @@
 import React from 'react';
-
 import { Redirect } from 'react-router-dom';
-
-import {
-    ApolloWrapper,
-    Navigator,
-    Ellipsis,
-    useQuery,
-} from '../../../components';
-
-import query from './project-graphql/query';
-
-import ProjectSets from './ProjectSets/ProjectSets';
-import Elevations from './Elevations/Elevations';
-
+import { ApolloWrapper, Ellipsis, Navigator, useQuery } from '../../../components';
 import { parseSearch } from '../../../utils';
+import Elevations from './Elevations/Elevations';
+import query from './project-graphql/query';
+import ProjectSets from './ProjectSets/ProjectSets';
 
 const subroutes = {
     ProjectSets,
@@ -59,7 +49,7 @@ export default function Project({
         search,
     },
 }) {
-    const [fetchQuery, queryResult] = useQuery({
+    const [fetchProject, queryResult, fetchingProject] = useQuery({
         query,
         variables: {
             id: +parseSearch(search).projectId,
@@ -74,7 +64,11 @@ export default function Project({
 
     return (
         <Navigator
-            routeProps={{ queryResult }}
+            routeProps={{
+                queryResult,
+                fetchProject,
+                fetchingProject,
+            }}
             routes={subroutes}
         />
     );

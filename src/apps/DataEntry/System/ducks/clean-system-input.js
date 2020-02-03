@@ -1,7 +1,7 @@
 import { removeNullValues } from "../../../../utils";
 import { getConfigurationPartIdFromPath } from "../../../../app-logic/system";
 
-const removeTypenameAndNodeId = ({ __typename, nodeId, ...rest }) => rest;
+const removeTypenameAndNodeIdAndFakeId = ({ __typename, nodeId, fakeId, parentSystemPath, ...rest }) => rest; // Change the PatentSystemPath when creating
 
 const mapTypes = type => ({
     __typename,
@@ -23,21 +23,38 @@ const mapNewTypes = type => ({
     __typename,
     nodeId,
     name,
+    fakeId,
+    parentSystemPath,
     ...rest
 }) => ({
     ...rest,
     [type]: name,
+    });
+
+const mapNewParts = ({
+    nodeId,
+    __typename,
+    name,
+    fakeId,
+    ...rest
+}) => removeNullValues({
+    ...rest,
 });
 
 const mapParts = ({
     __typename,
     nodeId,
     path,
-    name,
+    fakeId,
+    update: {
+        name,
+        ...update
+    },
     ...rest
 }) => removeNullValues({
     ...rest,
     id: getConfigurationPartIdFromPath(path),
+    update,
 });
 
 export default ({
@@ -77,22 +94,22 @@ export default ({
     pathsToDelete,
     optionGroupsToDelete,
     newOptionGroups,
-    systemOptions: systemOptions.map(removeTypenameAndNodeId),
-    detailOptions: detailOptions.map(removeTypenameAndNodeId),
-    configurationOptions: configurationOptions.map(removeTypenameAndNodeId),
-    systemOptionValues: systemOptionValues.map(removeTypenameAndNodeId),
-    detailOptionValues: detailOptionValues.map(removeTypenameAndNodeId),
-    configurationOptionValues: configurationOptionValues.map(removeTypenameAndNodeId),
+    systemOptions: systemOptions.map(removeTypenameAndNodeIdAndFakeId),
+    detailOptions: detailOptions.map(removeTypenameAndNodeIdAndFakeId),
+    configurationOptions: configurationOptions.map(removeTypenameAndNodeIdAndFakeId),
+    systemOptionValues: systemOptionValues.map(removeTypenameAndNodeIdAndFakeId),
+    detailOptionValues: detailOptionValues.map(removeTypenameAndNodeIdAndFakeId),
+    configurationOptionValues: configurationOptionValues.map(removeTypenameAndNodeIdAndFakeId),
     systemDetails: systemDetails.map(mapTypes('detailType')),
     detailConfigurations: detailConfigurations.map(mapTypes('configurationType')),
     configurationParts: configurationParts.map(mapParts),
-    newSystemOptions: newSystemOptions.map(removeTypenameAndNodeId),
-    newDetailOptions: newDetailOptions.map(removeTypenameAndNodeId),
-    newConfigurationOptions: newConfigurationOptions.map(removeTypenameAndNodeId),
-    newSystemOptionValues: newSystemOptionValues.map(removeTypenameAndNodeId),
-    newDetailOptionValues: newDetailOptionValues.map(removeTypenameAndNodeId),
-    newConfigurationOptionValues: newConfigurationOptionValues.map(removeTypenameAndNodeId),
+    newSystemOptions: newSystemOptions.map(removeTypenameAndNodeIdAndFakeId),
+    newDetailOptions: newDetailOptions.map(removeTypenameAndNodeIdAndFakeId),
+    newConfigurationOptions: newConfigurationOptions.map(removeTypenameAndNodeIdAndFakeId),
+    newSystemOptionValues: newSystemOptionValues.map(removeTypenameAndNodeIdAndFakeId),
+    newDetailOptionValues: newDetailOptionValues.map(removeTypenameAndNodeIdAndFakeId),
+    newConfigurationOptionValues: newConfigurationOptionValues.map(removeTypenameAndNodeIdAndFakeId),
     newSystemDetails: newSystemDetails.map(mapNewTypes('detailType')),
     newDetailConfigurations: newDetailConfigurations.map(mapNewTypes('configurationType')),
-    newConfigurationParts: newConfigurationParts.map(mapNewTypes('configurationPart')),
+    newConfigurationParts: newConfigurationParts.map(mapNewParts),
 });

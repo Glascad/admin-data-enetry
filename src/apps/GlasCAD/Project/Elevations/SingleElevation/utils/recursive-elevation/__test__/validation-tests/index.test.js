@@ -19,8 +19,8 @@ export default function testElevation({ description, elevation }) {
                 sightline: expect.any(Number),
                 minimumDaylightOpening: expect.any(Number),
                 roughOpening: {
-                    x: expect.any(Number),
-                    y: expect.any(Number),
+                    width: expect.any(Number),
+                    height: expect.any(Number),
                 },
                 rawElevation: elevation,
             });

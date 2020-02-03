@@ -1,18 +1,17 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
 import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system';
-import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState } from '../../../../../components';
+import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
+import Details from './Details/Details';
 import { SELECT_OPTION_GROUP_VALUE, SELECT_SYSTEM_OPTION_VALUE } from './ducks/actions';
 import merge from './ducks/merge';
 import { defaultSystemSetUpdate } from './ducks/schemas';
-import Details from './Details/Details';
-import SystemOptions from './SystemOptions/SystemOptions';
-import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
-import './SystemSet.scss';
-import Configurations from './Details/Configurations';
 import SAMPLE_SYSTEM_SETS from './ducks/__test__/sample-query-results';
+import SystemOptions from './SystemOptions/SystemOptions';
+import './SystemSet.scss';
+import SystemSetInfo from './SystemSetInfo/SystemSetInfo';
 
 const query = gql`query SystemSet($systemSetId: Int!) {
     systemSetById(id: $systemSetId) {
@@ -20,7 +19,7 @@ const query = gql`query SystemSet($systemSetId: Int!) {
     }
     ...AllSystems
 }
-${F.PRJ.ENTIRE_SYSTEM_SET}
+${F.PROJ.ENTIRE_SYSTEM_SET}
 ${F.MNFG.ALL_SYSTEMS}
 `;
 
@@ -30,10 +29,12 @@ const mutation = gql`mutation UpdateEntireSystemSet($systemSet: EntireSystemSetI
             systemSet: $systemSet
         }
     ) {
-        ...EntireSystemSet
+        systemSet {
+            ...EntireSystemSet
+        }
     }
 }
-${F.PRJ.ENTIRE_SYSTEM_SET}
+${F.PROJ.ENTIRE_SYSTEM_SET}
 `;
 
 export default function SystemSet({
@@ -43,10 +44,12 @@ export default function SystemSet({
     match: {
         path,
     },
+    fetchProject,
+    fetchingProject,
     history,
 }) {
 
-    const { systemSetId, sampleSystemSet = {} } = parseSearch(search);
+    const { systemSetId, sampleSystemSet = {}, projectId } = parseSearch(search);
 
     // splice in sample system set into the system set query result
     // and add sample system to all systems array
@@ -111,23 +114,29 @@ export default function SystemSet({
     const systemMap = new SystemMap(_system);
 
     useEffect(() => {
-        const newSystemOptionValuePath = getDefaultPath(systemMap);
-        if (
-            (systemId === newSystemId)
-            &&
-            !systemOptionValuePath
-            &&
-            newSystemOptionValuePath
-        ) {
-            _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
-                name,
-                getDefaultOptionGroupValue(name, systemMap),
-                systemMap,
-            ]));
-            dispatch(SELECT_SYSTEM_OPTION_VALUE, [
-                newSystemOptionValuePath,
-                systemMap,
-            ]);
+        if (systemId === newSystemId) {
+            const newSystemOptionValuePath = getDefaultPath(systemMap);
+            if (
+                !systemOptionValuePath
+                &&
+                newSystemOptionValuePath
+            ) {
+                console.log({
+                    newSystemOptionValuePath,
+                    _optionGroups,
+                    systemMap,
+                    systemSetUpdate,
+                });
+                dispatch(SELECT_SYSTEM_OPTION_VALUE, [
+                    newSystemOptionValuePath,
+                    systemMap,
+                ]);
+                _optionGroups.forEach(({ name }) => dispatch(SELECT_OPTION_GROUP_VALUE, [
+                    name,
+                    getDefaultOptionGroupValue(name, systemMap),
+                    systemMap,
+                ]));
+            }
         }
     });
 
@@ -154,11 +163,46 @@ export default function SystemSet({
         } = {},
     } = allSystems.find(({ id }) => id === systemId) || {};
 
-    const save = async () => {
+    const save = useSaveOnCtrlS(async () => {
+
+        const payload = {
+            ...systemSetUpdate,
+            projectId: +projectId,
+            id: +systemSetId,
+        };
+
         console.log({
             systemSet,
+            systemSetUpdate,
+            payload,
         });
-    }
+
+        const result = await updateSystemSet({ systemSet: payload });
+
+        console.log({ result });
+
+        try {
+            const {
+                updateEntireSystemSet: {
+                    systemSet: {
+                        id,
+                        projectId,
+                    },
+                },
+            } = result;
+            console.log({ id });
+
+            const projectResult = await fetchProject({ id: projectId }, { fetchPolicy: "no-cache" });
+
+            console.log({ projectResult });
+
+            history.push(`${path.replace(/system-set.*/, 'all')}${parseSearch(search).update({ systemSetId: id })}`);
+
+        } catch (err) {
+            console.error(err);
+        }
+
+    });
 
     // console.log({ systemSet });
 
@@ -178,6 +222,8 @@ export default function SystemSet({
                         <AsyncButton
                             onClick={save}
                             className="action"
+                            loadingText="Saving"
+                            loading={updating || fetchingProject}
                         >
                             Save
                         </AsyncButton>
@@ -224,6 +270,8 @@ export default function SystemSet({
                     <AsyncButton
                         onClick={save}
                         className="action"
+                        loadingText="Saving"
+                        loading={updating || fetchingProject}
                     >
                         Save
                     </AsyncButton>

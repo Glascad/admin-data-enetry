@@ -5,8 +5,8 @@
     "name": "HH Frame Error",
     "finishedFloorHeight": 0,
     "roughOpening": {
-        "x": 1000,
-        "y": 560,
+        "width": 1000,
+        "height": 560,
         "__typename": "Coordinate"
     },
     "_elevationContainers": [
@@ -16,9 +16,10 @@
             "id": 814,
             "original": true,
             "daylightOpening": {
-                "x": 115,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115,
+                    "height": 210
+                }
             }
         },
         {
@@ -27,9 +28,10 @@
             "id": 816,
             "original": false,
             "daylightOpening": {
-                "x": 115,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115,
+                    "height": 210
+                }
             }
         },
         {
@@ -38,9 +40,10 @@
             "id": 818,
             "original": false,
             "daylightOpening": {
-                "x": 484.9999999999985,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 484.9999999999985,
+                    "height": 100
+                }
             },
             "customRoughOpening": true
         },
@@ -50,9 +53,10 @@
             "id": 819,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 100
+                }
             }
         },
         {
@@ -61,9 +65,10 @@
             "id": 820,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 210
+                }
             }
         },
         {
@@ -72,9 +77,10 @@
             "id": 822,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 100
+                }
             }
         },
         {
@@ -83,9 +89,10 @@
             "id": 824,
             "original": false,
             "daylightOpening": {
-                "x": 115,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115,
+                    "height": 210
+                }
             }
         },
         {
@@ -94,9 +101,10 @@
             "id": 826,
             "original": false,
             "daylightOpening": {
-                "x": 115,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115,
+                    "height": 210
+                }
             }
         },
         {
@@ -105,9 +113,10 @@
             "id": 829,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 100
+                }
             }
         },
         {
@@ -116,9 +125,10 @@
             "id": 830,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 210
+                }
             }
         },
         {
@@ -127,9 +137,10 @@
             "id": 832,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 100
+                }
             }
         },
         {
@@ -138,9 +149,10 @@
             "id": 834,
             "original": false,
             "daylightOpening": {
-                "x": 115,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115,
+                    "height": 210
+                }
             }
         },
         {
@@ -149,9 +161,10 @@
             "id": 836,
             "original": false,
             "daylightOpening": {
-                "x": 115,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115,
+                    "height": 210
+                }
             }
         },
         {
@@ -160,9 +173,10 @@
             "id": 839,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 100
+                }
             }
         },
         {
@@ -171,9 +185,10 @@
             "id": 840,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 210
+                }
             }
         },
         {
@@ -182,9 +197,10 @@
             "id": 842,
             "original": false,
             "daylightOpening": {
-                "x": 153,
-                "y": 100,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 153,
+                    "height": 100
+                }
             }
         },
         {
@@ -193,9 +209,10 @@
             "id": 844,
             "original": false,
             "daylightOpening": {
-                "x": 115.999999999997,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115.999999999997,
+                    "height": 210
+                }
             }
         },
         {
@@ -204,16 +221,19 @@
             "id": 846,
             "original": false,
             "daylightOpening": {
-                "x": 115.999999999997,
-                "y": 210,
-                "__typename": "Coordinate"
+                "dimensions": {
+                    "width": 115.999999999997,
+                    "height": 210
+                }
             }
         },
         {
             "id": -1,
             "daylightOpening": {
-                "x": 484.9999999999985,
-                "y": 100
+                "dimensions": {
+                    "width": 484.9999999999985,
+                    "height": 10
+                }
             }
         }
     ],

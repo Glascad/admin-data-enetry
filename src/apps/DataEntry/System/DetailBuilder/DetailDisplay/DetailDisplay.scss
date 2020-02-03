@@ -4,6 +4,7 @@
     .inner-transform-box {
         width: 100%;
         height: 100%;
+        padding: 0 17.5% 10%;
 
         #detail-display {
             width: 100%;
@@ -16,6 +17,11 @@
             #origin {
                 stroke: $medium-gray;
                 fill: none;
+            }
+
+            .Part,
+            .Configuration {
+                transition: all 0.2s;
             }
 
             .Part {

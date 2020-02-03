@@ -6,36 +6,36 @@
         background-color: transparent;
         transform: scaleY(-1);
 
-        rect {
-            // stroke: $dark-gray;
+        // rect {
+        //     // stroke: $dark-gray;
 
-            &.frame {
-                fill: $dark-gray;
+        //     &.frame {
+        //         fill: $dark-gray;
 
-                &.horizontal {
-                    fill: $medium-gray;
-                }
-            }
+        //         &.horizontal {
+        //             fill: $medium-gray;
+        //         }
+        //     }
 
-            &.container {
-                fill: transparentize(mix($light-blue, white), 0.3);
+        //     &.container {
 
-                &.custom-rough-opening {
-                    fill: $x-light-gray;
-                }
-            }
-        }
+        //         &.custom-rough-opening {
+        //             fill: $x-light-gray;
+        //         }
+        //     }
+        // }
 
-        text {
-            font-size: $x-small;
-        }
+        // text {
+        //     font-size: $x-small;
+        // }
 
         path {
-            &.finished-floor {
-                stroke: $dark-gray;
+            // &.finished-floor {
+            fill: transparentize(mix($light-blue, white), 0.3);
+            stroke: $dark-gray;
 
-                stroke-width: 2px;
-            }
+            stroke-width: 2px;
+            // }
         }
     }
 }

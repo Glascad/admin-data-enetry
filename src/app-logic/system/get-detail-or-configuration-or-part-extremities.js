@@ -10,7 +10,12 @@ const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurat
         const { path, transform } = item;
 
         const configurationType = getConfigurationTypeFromPath(path);
-        const configurationPath = (selectedConfigurationPaths || {})[configurationType] || getDefaultPath(path, systemMap);
+        const selectedConfigurationPath = (selectedConfigurationPaths || {})[configurationType] || '';
+        const configurationPath = selectedConfigurationPath.startsWith(path) ?
+            selectedConfigurationPath
+            :
+            getDefaultPath(path, systemMap);
+
         const configuration = systemMap[configurationPath];
 
         const parts = getChildren(configuration, systemMap);
@@ -18,6 +23,16 @@ const getDetailOrConfigurationOrPartExtremities = (item = {}, selectedConfigurat
         const configurationTransform = new Matrix(transform);
 
         const partExtremities = parts.map(({ _part, transform: partTransform }) => {
+            console.log({
+                partTransform,
+                item,
+                configurationPath,
+                configurationType,
+                selectedConfigurationPaths,
+                configuration,
+                parts,
+                configurationTransform,
+            });
             const newTransform = transform ?
                 configurationTransform.applyTransformation(partTransform)
                 :
