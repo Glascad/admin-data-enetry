@@ -4,7 +4,11 @@
     "id": 186,
     "name": "Error 1",
     "finishedFloorHeight": 0,
-    "sightline": 2,
+    "_systemSet":{
+        "_system":{
+            "sightline": 2
+        }
+    },
     "roughOpening": {
         "width": 120,
         "height": 120,
