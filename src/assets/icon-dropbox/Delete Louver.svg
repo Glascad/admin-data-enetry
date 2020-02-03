@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Delete Louver</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Delete-Louver" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Rectangle-Copy-5" fill="#D0021B" points="9 1 22 1 19 5 12 5"></polygon>
+        <polygon id="Rectangle-Copy-6" fill="#D0021B" points="9 7 22 7 19 11 12 11"></polygon>
+        <polygon id="Rectangle-Copy-7" fill="#D0021B" points="9 13 22 13 19 17 12 17"></polygon>
+        <rect id="Rectangle-Copy-5" stroke="#878787" x="9.5" y="0.5" width="12" height="17"></rect>
+        <g id="Minus" fill="#FFFFFF" transform="translate(0.000000, 8.000000)">
+            <rect id="Rectangle" fill="#D0021B" x="0" y="0" width="6" height="2"></rect>
+        </g>
+    </g>
+</svg>

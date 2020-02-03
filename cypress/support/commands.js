@@ -1,4 +1,4 @@
-import { getProjectId, setProjectId, getElevationId } from "./localstorage";
+import { getJwt, setJwt, getProjectId, setProjectId, getElevationId } from "./local-storage";
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -13,15 +13,20 @@ import { getProjectId, setProjectId, getElevationId } from "./localstorage";
 //
 // -- This is a parent command --
 
-const getBaseRequest = () => ({
+Cypress.Commands.add("getDataCy", (strings, interpolatedValues = []) => (
+    cy.get(`[data-cy="${strings.reduce((acc, str, i) => `${acc}${str}${interpolatedValues[i] || ''}`, '')}"]`)
+));
+
+export const getBaseRequest = () => ({
     ...console.log({
         projectId: getProjectId(),
         elevationId: getElevationId(),
     }),
     method: "POST",
-    url: "http://localhost:5001/graphql",
+    // url: "https://dev.glascad.com/graphql",
+    url: "/graphql",
     headers: {
-        Authentication: `Bearer ${localStorage.getItem('JSON-Web-Token')}`,
+        Authentication: `Bearer ${getJwt()}`,
     },
 });
 
@@ -29,7 +34,7 @@ Cypress.Commands.add("setup", () => {
     console.log("Logging in");
     cy.login();
     console.log("Logged in");
-    console.log(localStorage.getItem('JSON-Web-Token'));
+    console.log(getJwt());
     console.log("Creating project")
     cy.createProject();
     console.log("Created Project");
@@ -52,8 +57,8 @@ Cypress.Commands.add("login", () => {
                 mutation {
                     authenticate(
                         input: {
-                            username: "cypress"
-                            password: "cypress"
+                            username: "${Cypress.env("USERNAME")}"
+                            password: "${Cypress.env("PASSWORD")}"
                         }
                     ) {
                         jwt
@@ -69,7 +74,7 @@ Cypress.Commands.add("login", () => {
                 },
             },
         },
-    }) => window.localStorage.setItem("JSON-Web-Token", jwt));
+    }) => setJwt(jwt));
 });
 
 Cypress.Commands.add("createProject", () => {
@@ -78,7 +83,7 @@ Cypress.Commands.add("createProject", () => {
         body: {
             query: `
                 mutation {
-                    createAProject (
+                    createOrUpdateProject (
                         input: {
                             name: "CYPRESS TEST PROJECT"
                         }
@@ -93,7 +98,7 @@ Cypress.Commands.add("createProject", () => {
     }).then(({
         body: {
             data: {
-                createAProject: {
+                createOrUpdateProject: {
                     project: {
                         id,
                     },
@@ -116,16 +121,18 @@ Cypress.Commands.add("createElevation", () => {
                                 projectId: ${getProjectId()}
                                 sightline: 2
                                 roughOpening: {
-                                    x: 240
-                                    y: 120
+                                    width: 240
+                                    height: 120
                                 }
                                 containers: [
                                     {
                                         fakeId: 1
                                         original: true
                                         daylightOpening: {
-                                            x: 236
-                                            y: 116
+                                            dimensions: {
+                                                width: 236
+                                                height: 116
+                                            }
                                         }
                                     }
                                 ]
@@ -158,7 +165,7 @@ Cypress.Commands.add("createElevation", () => {
             `,
         }
     }).then(({
-        ...body,
+        ...body
         // body: {
         //     data: {
         //         updateEntireElevation: {

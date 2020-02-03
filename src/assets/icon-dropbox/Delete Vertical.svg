@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Delete Vertical</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Delete-Vertical" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle-Copy-5" stroke="#878787" x="9.5" y="0.5" width="12" height="17"></rect>
+        <rect id="Rectangle" fill="#D0021B" x="15" y="1" width="1" height="16"></rect>
+        <g id="Minus" fill="#FFFFFF" transform="translate(0.000000, 8.000000)">
+            <rect id="Rectangle" fill="#D0021B" x="0" y="0" width="6" height="2"></rect>
+        </g>
+    </g>
+</svg>

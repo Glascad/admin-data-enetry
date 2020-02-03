@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import {
     Redirect,
@@ -12,6 +12,8 @@ import {
 import {
     validatePath,
     extractNavigationOptions,
+    parseSearch,
+    removeNullValues,
 } from '../../utils';
 
 
@@ -37,7 +39,6 @@ class NavigatorChild extends PureComponent {
     };
 
     componentDidMount = () => {
-        // console.log('child updating route' + this.props.index);
         this.props.updateCurrentRoute(this.props.index);
     }
 
@@ -47,6 +48,13 @@ class NavigatorChild extends PureComponent {
 
 
 class Navigator extends PureComponent {
+
+    static propTypes = {
+        children: PropTypes.func,
+        initialRoute: PropTypes.string,
+        routeProps: PropTypes.object,
+        routes: PropTypes.objectOf(PropTypes.func),
+    };
 
     static defaultProps = {
         children: (_, Children) => Children,
@@ -100,28 +108,45 @@ class Navigator extends PureComponent {
             updateCurrentRoute,
         } = this;
 
-        const mappedRoutes = Object.entries(routes)
-            .map(([name, route]) => extractNavigationOptions(name, route, {
-                ...props,
-                ...routeProps,
-            }, false));
+        const parsedSearch = parseSearch(search);
+        const searchKeys = Object.keys(removeNullValues(parsedSearch));
+
+        const filteredMappedRoutes = Object.entries(routes)
+            .map(([name, route]) => (
+                extractNavigationOptions(name, route, {
+                    ...props,
+                    ...routeProps,
+                }, false)
+            ))
+            .filter(({
+                disabled,
+                requiredURLParams = [],
+            }) => (
+                    !disabled
+                    &&
+                    requiredURLParams.every(param => searchKeys.includes(param))
+                ));
 
         const previousIndex = currentRoute - 1;
         const nextIndex = currentRoute + 1;
 
-        const previousRoute = mappedRoutes[previousIndex] || {};
-        const nextRoute = mappedRoutes[nextIndex] || {};
+        const previousRoute = filteredMappedRoutes[previousIndex] || {};
+        const nextRoute = filteredMappedRoutes[nextIndex] || {};
 
         const previousLink = url + previousRoute.path;
         const nextLink = url + nextRoute.path;
 
         return (
             <Switch>
-                {mappedRoutes
-                    .map(({ exact, component: RouteChild, disabled, ...route }, i) => !disabled && (
+                {filteredMappedRoutes.map(({
+                    exact,
+                    component: RouteChild,
+                    ...route
+                }, i) => (
                         <Route
                             key={route.path}
-                            {...route}
+                            // {...console.log(Object.keys(route))}
+                            // {...route}
                             exact={exact}
                             path={validatePath(`${
                                 path
@@ -132,21 +157,20 @@ class Navigator extends PureComponent {
                                 ...reactRouterProps,
                                 previousLink,
                                 nextLink,
-                                mappedRoutes,
+                                filteredMappedRoutes,
                                 route,
                             }, (
-                                    <NavigatorChild
-                                        index={i}
-                                        updateCurrentRoute={updateCurrentRoute}
-                                    >
-                                        {RouteChild ?
-                                            <RouteChild {...reactRouterProps} {...routeProps} />
-                                            :
-                                            route.render(reactRouterProps)
-                                        }
-                                    </NavigatorChild>
-                                )
-                            )}
+                                <NavigatorChild
+                                    index={i}
+                                    updateCurrentRoute={updateCurrentRoute}
+                                >
+                                    {RouteChild ?
+                                        <RouteChild {...reactRouterProps} {...routeProps} />
+                                        :
+                                        route.render(reactRouterProps)
+                                    }
+                                </NavigatorChild>
+                            ))}
                         />
                     ))}
                 <Route
@@ -155,7 +179,7 @@ class Navigator extends PureComponent {
                             to={validatePath(`${
                                 url
                                 }${
-                                mappedRoutes[0].path
+                                (filteredMappedRoutes[0] || {}).path || ''
                                 }${
                                 search
                                 }`)}

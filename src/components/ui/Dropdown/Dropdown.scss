@@ -21,10 +21,53 @@
 
                 .triangle {
                     // opacity: 0;
-                    width: 0;
-                    border-left: 9px solid $medium-gray;
-                    border-bottom: 7px solid rgba(0, 0, 0, 0);
-                    border-top: 7px solid rgba(0, 0, 0, 0);
+                    @include triangle(9px, $medium-gray);
+                }
+            }
+
+            .remove-dropdown {
+                position: absolute;
+                // background: yellow;
+                height: $menu-height;
+                width: $menu-height;
+                top: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .block-one,
+                .block-two {
+                    height: $base-size;
+                    width: 2px;
+                    background: $medium-gray;
+                }
+
+                .block-one {
+                    margin-right: -1px;
+                    transform: rotate(45deg);
+                }
+                .block-two {
+                    margin-left: -1px;
+                    transform: rotate(-45deg);
+                }
+                &:hover {
+                    .block-one,
+                    .block-two {
+                        background: $off-white;
+                    }
+
+                    + .triangle-wrapper {
+                        .triangle {
+                            border-left-color: $medium-gray;
+                        }
+                    }
+                }
+            }
+
+            &:hover {
+                .triangle {
+                    border-left-color: $off-white;
                 }
             }
         }

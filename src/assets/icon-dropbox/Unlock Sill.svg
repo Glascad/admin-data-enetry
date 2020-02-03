@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Unlock Sill</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Unlock-Sill" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle-Copy-5" stroke="#878787" x="8.5" y="0.5" width="10" height="16"></rect>
+        <g id="Icon_Point" transform="translate(7.000000, 15.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
+        </g>
+        <g id="Icon_Point" transform="translate(17.000000, 15.000000)" fill="#0CFC04">
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" id="Combined-Shape"></path>
+        </g>
+        <g id="Lock" transform="translate(0.000000, 13.000000)" fill="#D0021B">
+            <path d="M4,0 L4,2 L5,2 L5,5 L0,5 L0,2 L1,2 L1,0 L4,0 Z M3,1 L2,1 L2,2 L3,2 L3,1 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

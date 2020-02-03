@@ -1,28 +1,32 @@
-// SIZES
+// sizes
 
 $header-height: 75px;
 $menu-height: 50px;
 // $viewport-height: calc(100vh - 75px);
 $sidebar-width: 250px;
-$right-sidebar-width: 300px;
+$right-sidebar-width: 350px;
 // $viewport-width: calc(100vw - 17.5vw);
 
 $item-height: 40px;
 $pill-width: 200px;
 $hot-key-height: 35px;
 
-// Colors
+// colors
+$warning-color: rgb(255, 180, 0);
 $danger-color: #d0021b;
 $selected-color: #4a90e2;
+$logo-blue: #13899b;
 $action-color: #5cb85c;
 $icon-green: #0cfc04;
 
 $off-white: #eceff1;
+$x-light-gray: #d8d8d8;
 $light-gray: #c8c8c8;
 $medium-gray: #979797;
 $medium-dark-gray: #878787;
 $dark-medium-gray: #585858;
 $dark-gray: #4a4a4a;
+$x-dark-gray: #333333;
 
 $glass-blue: #e0f1fb;
 $light-blue: #86c7e9;
@@ -46,7 +50,7 @@ $icon-thickness: 0.2rem;
 
 $checkbox-height: $item-height / 2;
 
-// SCSS Mixins
+// scss mixins
 
 @mixin hoverable-background($color, $darken: true) {
     border-color: $color;
@@ -63,4 +67,12 @@ $checkbox-height: $item-height / 2;
             }
         }
     }
+}
+
+@mixin triangle($size: 9px, $color: $medium-gray, $rotation: 0deg) {
+    width: 0;
+    border-left: $size solid $color;
+    border-bottom: $size * 7 / 9 solid rgba(0, 0, 0, 0);
+    border-top: $size * 7 / 9 solid rgba(0, 0, 0, 0);
+    transform: rotate($rotation);
 }

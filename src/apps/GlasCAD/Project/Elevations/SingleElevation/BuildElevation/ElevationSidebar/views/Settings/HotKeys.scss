@@ -1,0 +1,65 @@
+@import "../../../../../../../../../styles/variables";
+
+.hot-key-wrapper {
+    .hot-key-group {
+        display: flex;
+        align-items: center;
+        color: $off-white;
+
+        > * {
+            + * {
+                margin-left: $x-small;
+            }
+        }
+
+        .hot-key {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: $xxx-large;
+            width: fit-content;
+            min-width: $xxx-large;
+            border-radius: $xx-small;
+            padding: 0 $x-small;
+            border: 1px solid $light-gray;
+            box-shadow: 1px 2px $light-gray;
+
+            &.drag {
+                padding: 0;
+                border: none;
+                // border-radius: 0;
+                // border-bottom: 1px solid $light-gray;
+                box-shadow: none;
+            }
+            &.up,
+            &.down,
+            &.right,
+            &.left {
+                font-size: 0;
+                &::after {
+                    content: "";
+                    height: 0;
+                    width: 0;
+                    border-bottom: $x-small solid $off-white;
+                    border-right: $xx-small solid transparent;
+                    border-left: $xx-small solid transparent;
+                }
+            }
+            &.down {
+                &::after {
+                    transform: rotate(180deg);
+                }
+            }
+            &.right {
+                &::after {
+                    transform: rotate(90deg);
+                }
+            }
+            &.left {
+                &::after {
+                    transform: rotate(270deg);
+                }
+            }
+        }
+    }
+}

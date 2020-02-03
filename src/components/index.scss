@@ -1,10 +1,12 @@
 @import "../styles/variables";
+// @import "../components/ui/CircleButton/CircleButton";
 
 .card {
     background: $off-white;
     border-top: $x-small solid $light-blue;
     padding: $x-large;
     padding-bottom: $xxxxx-large;
+    box-shadow: 3px 3px 4px $medium-gray;
 
     &.floating {
         position: absolute;
@@ -34,7 +36,6 @@
     .card {
         &.floating {
             width: fit-content;
-            box-shadow: 0px 2px $x-small 1px rgba(74, 74, 74, 0.8);
             // width: 30vw;
             // max-width: 30vw;
             // min-width: 30vw;
@@ -45,8 +46,10 @@
 .card,
 .card .nested,
 .GroupingBox,
-.card .GroupingBox {
-    .TitleBar {
+.card.Tray .tray-section,
+.card .GroupingBox,
+.GroupingBox.horizontally-divided > *  {
+    .grouping-box-title {
         margin-top: $xxxxx-large;
 
         &:first-child {
@@ -55,10 +58,8 @@
     }
 
     > * {
-        margin-top: $x-large;
-
-        &:first-child {
-            margin-top: 0;
+        &:not(:first-child) {
+            margin-top: $x-large;
         }
 
         &:last-child {
@@ -68,15 +69,54 @@
 }
 
 .label {
+    display: flex;
     color: $medium-gray;
+    
     + * {
         margin-top: $x-small;
     }
 }
 
-.nested,
-.GroupingBox {
+.nested {
+    border-left: $small solid $selected-color;
     padding: $x-small 0;
+
+    .nested {
+        margin-top: $xxxx-large;
+        border-left: none;
+        margin-left: 0;
+        margin-bottom: 0;
+        padding: 0;
+    }
+
+    &.disabled {
+        // opacity: 0.3;
+        opacity: 1;
+        position: relative;
+        &:after {
+            position: absolute;
+            top: -$small;
+            left: -$small;
+            right: 0;
+            bottom: -$x-small;
+            background: $off-white;
+            // background: green;
+            opacity: 0.7;
+            content: "";
+        }
+        .nested {
+            &.disabled {
+                &:after {
+                    background: none;
+                }
+            }
+        }
+    }
+}
+
+.nested,
+.GroupingBox,
+.GroupingBox.horizontally-divided > * {
     margin: $xxxx-large 0 0;
 
     > * {
@@ -88,25 +128,61 @@
     }
 }
 
-.GroupingBox {
+.GroupingBox.horizontally-divided > :last-child {
+    margin-right: $x-large;
+}
+
+.GroupingBox,
+.GroupingBox.horizontally-divided > * {
     > * {
         margin-right: $x-large;
     }
-}
-
-.nested {
-    border-left: $small solid $selected-color;
 
     .nested {
-        margin-top: $xxxx-large;
-        border-left: none;
-        margin-left: 0;
-        margin-bottom: 0;
-        padding: 0;
-    }
+        margin-top: $small !important;
+        padding-bottom: 0;
+        border: none;
 
-    .GroupingBox {
-        // margin-top: $large + $text-size / 2 !important;
+        > * {
+            margin: 0 !important;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 0;
+            // margin-left: $xx-large;
+            border-left: 1px solid $medium-gray;
+            padding: 0;
+
+            .Toggle {
+                height: $xxx-large;
+                min-width: $pill-width;
+                width: $pill-width;
+
+                .toggle-button {
+                    height: $xxx-large;
+                    padding: 0 $large;
+                }
+            }
+
+            .label {
+                margin-right: $small;
+                // padding-left: $x-small;
+
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    margin-right: $small;
+                }
+
+                + * {
+                    margin-top: 0;
+                }
+            }
+
+            + * {
+                padding-top: $small;
+            }
+        }
     }
 }
 
@@ -134,13 +210,14 @@
 }
 
 .disabled {
-    opacity: 0.5;
+    opacity: 0.33;
     pointer-events: none;
 }
 
 .input-group {
     display: flex;
     align-items: flex-end;
+    flex-flow: row wrap;
 
     > * {
         + * {
@@ -150,6 +227,10 @@
                 margin-left: $xxxxx-large;
             }
         }
+    }
+
+    .GroupingBox {
+        margin-top: $x-small;
     }
 }
 

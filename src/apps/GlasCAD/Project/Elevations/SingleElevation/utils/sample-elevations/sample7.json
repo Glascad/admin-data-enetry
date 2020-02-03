@@ -1,0 +1,429 @@
+{
+    "__typename": "Elevation",
+    "nodeId": "WyJlbGV2YXRpb25zIiwxOTZd",
+    "id": 196,
+    "name": "Sample 7",
+    "finishedFloorHeight": 0,
+    "sightline": 2,
+    "preview": " <svg viewBox=\"0 0 300 120\" transform=\"scale(1, -1)\" > <rect class=\"container \" x=\"2\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"51.6666666666667\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"101.3333333333334\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"151.0000000000001\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"200.6666666666668\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"250.33333333333348\" y=\"2\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"2\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"51.6666666666667\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"101.3333333333334\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"151.0000000000001\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"200.6666666666668\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"container \" x=\"250.33333333333348\" y=\"61\" height=\"57\" width=\"47.6666666666667\" /> <rect class=\"frame vertical\" x=\"0\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame vertical\" x=\"49.6666666666667\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"118\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"0\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame vertical\" x=\"99.3333333333334\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"51.6666666666667\" y=\"118\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"51.6666666666667\" y=\"0\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame vertical\" x=\"149.0000000000001\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"101.3333333333334\" y=\"118\" height=\"2\" width=\"47.666666666666714\" /> <rect class=\"frame horizontal\" x=\"101.3333333333334\" y=\"0\" height=\"2\" width=\"47.666666666666714\" /> <rect class=\"frame vertical\" x=\"198.6666666666668\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"151.0000000000001\" y=\"118\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"151.0000000000001\" y=\"0\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame vertical\" x=\"248.33333333333348\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"200.6666666666668\" y=\"118\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"200.6666666666668\" y=\"0\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame vertical\" x=\"298.00000000000017\" y=\"0\" height=\"120\" width=\"2\" /> <rect class=\"frame horizontal\" x=\"250.33333333333348\" y=\"118\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"250.33333333333348\" y=\"0\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"2\" y=\"59\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"51.6666666666667\" y=\"59\" height=\"2\" width=\"47.6666666666667\" /> <rect class=\"frame horizontal\" x=\"101.3333333333334\" y=\"59\" height=\"2\" width=\"47.666666666666714\" /> <rect class=\"frame horizontal\" x=\"151.0000000000001\" y=\"59\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"200.6666666666668\" y=\"59\" height=\"2\" width=\"47.666666666666686\" /> <rect class=\"frame horizontal\" x=\"250.33333333333348\" y=\"59\" height=\"2\" width=\"47.666666666666686\" /> </svg> ",
+    "roughOpening": {
+        "width": 300,
+        "height": 120,
+        "__typename": "Coordinate"
+    },
+    "_elevationContainers": [
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxNV0=",
+            "id": 1515,
+            "original": true,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxNl0=",
+            "id": 1516,
+            "original": false,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxN10=",
+            "id": 1517,
+            "original": false,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxOF0=",
+            "id": 1518,
+            "original": false,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUxOV0=",
+            "id": 1519,
+            "original": false,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTUyMF0=",
+            "id": 1520,
+            "original": false,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0Ml0=",
+            "id": 1542,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0M10=",
+            "id": 1543,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0NF0=",
+            "id": 1544,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0NV0=",
+            "id": 1545,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0Nl0=",
+            "id": 1546,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        },
+        {
+            "__typename": "ElevationContainer",
+            "nodeId": "WyJlbGV2YXRpb25fY29udGFpbmVycyIsMTU0N10=",
+            "id": 1547,
+            "daylightOpening": {
+                "dimensions": {
+                    "width": 47.6666666666667,
+                    "height": 57
+                }
+            }
+        }
+    ],
+    "_containerDetails": [
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg1OF0=",
+            "id": 3858,
+            "vertical": true,
+            "secondContainerId": 1515,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg1OV0=",
+            "id": 3859,
+            "vertical": true,
+            "firstContainerId": 1515,
+            "secondContainerId": 1516,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2MF0=",
+            "id": 3860,
+            "vertical": false,
+            "firstContainerId": 1542,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2MV0=",
+            "id": 3861,
+            "vertical": false,
+            "secondContainerId": 1515,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2Ml0=",
+            "id": 3862,
+            "vertical": true,
+            "firstContainerId": 1516,
+            "secondContainerId": 1517,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2M10=",
+            "id": 3863,
+            "vertical": false,
+            "firstContainerId": 1543,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2NF0=",
+            "id": 3864,
+            "vertical": false,
+            "secondContainerId": 1516,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2NV0=",
+            "id": 3865,
+            "vertical": true,
+            "firstContainerId": 1517,
+            "secondContainerId": 1518,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2Nl0=",
+            "id": 3866,
+            "vertical": false,
+            "firstContainerId": 1544,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2N10=",
+            "id": 3867,
+            "vertical": false,
+            "secondContainerId": 1517,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2OF0=",
+            "id": 3868,
+            "vertical": true,
+            "firstContainerId": 1518,
+            "secondContainerId": 1519,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg2OV0=",
+            "id": 3869,
+            "vertical": false,
+            "firstContainerId": 1545,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3MF0=",
+            "id": 3870,
+            "vertical": false,
+            "secondContainerId": 1518,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3MV0=",
+            "id": 3871,
+            "vertical": true,
+            "firstContainerId": 1519,
+            "secondContainerId": 1520,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3Ml0=",
+            "id": 3872,
+            "vertical": false,
+            "firstContainerId": 1546,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3M10=",
+            "id": 3873,
+            "vertical": false,
+            "secondContainerId": 1519,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3NF0=",
+            "id": 3874,
+            "vertical": true,
+            "firstContainerId": 1520,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3NV0=",
+            "id": 3875,
+            "vertical": false,
+            "firstContainerId": 1547,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzg3Nl0=",
+            "id": 3876,
+            "vertical": false,
+            "secondContainerId": 1520,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzkzN10=",
+            "id": 3937,
+            "vertical": false,
+            "firstContainerId": 1515,
+            "secondContainerId": 1542,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzkzOF0=",
+            "id": 3938,
+            "vertical": true,
+            "secondContainerId": 1542,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzkzOV0=",
+            "id": 3939,
+            "vertical": true,
+            "firstContainerId": 1542,
+            "secondContainerId": 1543,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0MF0=",
+            "id": 3940,
+            "vertical": false,
+            "firstContainerId": 1516,
+            "secondContainerId": 1543,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0MV0=",
+            "id": 3941,
+            "vertical": true,
+            "firstContainerId": 1543,
+            "secondContainerId": 1544,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0Ml0=",
+            "id": 3942,
+            "vertical": false,
+            "firstContainerId": 1517,
+            "secondContainerId": 1544,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0M10=",
+            "id": 3943,
+            "vertical": true,
+            "firstContainerId": 1544,
+            "secondContainerId": 1545,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0NF0=",
+            "id": 3944,
+            "vertical": false,
+            "firstContainerId": 1518,
+            "secondContainerId": 1545,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0NV0=",
+            "id": 3945,
+            "vertical": true,
+            "firstContainerId": 1545,
+            "secondContainerId": 1546,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0Nl0=",
+            "id": 3946,
+            "vertical": false,
+            "firstContainerId": 1519,
+            "secondContainerId": 1546,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0N10=",
+            "id": 3947,
+            "vertical": true,
+            "firstContainerId": 1546,
+            "secondContainerId": 1547,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0OF0=",
+            "id": 3948,
+            "vertical": false,
+            "firstContainerId": 1520,
+            "secondContainerId": 1547,
+            "_detailOptionValues": []
+        },
+        {
+            "__typename": "ContainerDetail",
+            "nodeId": "WyJjb250YWluZXJfZGV0YWlscyIsMzk0OV0=",
+            "id": 3949,
+            "vertical": true,
+            "firstContainerId": 1547,
+            "_detailOptionValues": []
+        }
+    ],
+    "__by": "Id"
+}

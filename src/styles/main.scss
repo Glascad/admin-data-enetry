@@ -8,20 +8,20 @@ body {
 
 button,
 input {
-    outline: none;
+    height: $xxx-large;
     border-radius: $xx-small;
+    border: 1px solid $light-gray;
+    outline: none;
 }
 
 button {
     // @include two-colors($selected-color, $off-white);
     // border-color: $selected-color;
-    border: 1px solid $light-gray;
     background: none;
     display: flex;
     justify-content: center;
     align-items: center;
     // height: $item-height;
-    height: $xxx-large;
     min-width: $pill-width * 0.75;
     padding: 0 $large;
     font-size: $text-size;
@@ -70,6 +70,24 @@ button {
             color: $dark-gray;
         }
     }
+
+    // &.warning {
+    //     pointer-events: none;
+    //     background: mix($warning-color, white, 20) !important;
+    //     border-color: mix($warning-color, white, 85) !important;
+    // }
+}
+
+pre {
+    background: $dark-gray;
+    color: $off-white;
+    padding: $x-small;
+    overflow: hidden;
+    white-space: pre-wrap;
+
+    code {
+        font-family: Monospace;
+    }
 }
 
 textarea {
@@ -77,12 +95,10 @@ textarea {
 }
 
 input {
-    border: none;
-    border: 1px solid $light-gray;
+    // border: none;
     // height: $item-height;
-    height: $xxx-large;
     width: $pill-width;
-    padding: 0 $small;
+    padding: 0 $x-small;
     font-size: $text-size;
 }
 

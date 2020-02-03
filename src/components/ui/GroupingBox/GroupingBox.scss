@@ -1,60 +1,91 @@
-
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 
 .GroupingBox {
     position: relative;
     border: 1px solid $medium-gray;
     border-radius: $x-small;
-    padding-bottom: $xx-large !important;
+    padding-top: $x-small;
+    padding-bottom: $xxxx-large;
     width: fit-content;
     min-width: $pill-width;
-    
+    display: flex;
+    flex-direction: column;
+
+    &.full-width {
+        width: fill;
+    }
+
+    &.horizontally-divided {
+        flex-direction: row;
+        justify-content: space-between;
+
+        > * {
+            // width: fill;
+        }
+    }
+
     // button {
     //     &:not(.danger) {
     //         background: $off-white;
     //     }
     // }
-    
-    .title {
+
+    .grouping-box-title,
+    .toggle-background,
+    .add-button-background {
+        width: auto;
+    }
+
+    .grouping-box-title {
         position: absolute;
         top: -$text-size / 2;
         left: $large;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0;
         background: white;
         font-weight: bold;
         box-shadow: 0 0 0 $x-small white;
         // font-weight: bold;
+
+        .Toggle {
+            button {
+                font-size: ($base-size + $small) / 2;
+            }
+        }
     }
 
-    .toggle-background, .add-button-background {
+    .toggle-background,
+    .add-button-background {
         position: absolute;
         right: $large - $x-small;
         margin: 0 !important;
         background: white;
         padding: 0 $xx-small;
-        
+
         .CircleButton {
             .circle-button {
                 height: $xxx-large;
                 width: $xxx-large;
             }
         }
-        
+
         .Toggle {
             height: $x-large;
             max-height: $x-large;
 
             > button {
                 height: $x-large;
-                font-size: $x-large * .6;
+                font-size: $x-large * 0.6;
             }
         }
     }
-    
+
     .toggle-background {
         top: -$x-large / 2;
     }
-    
+
     .add-button-background {
         top: -$xxx-large / 2;
     }
@@ -73,18 +104,54 @@
             right: $small;
         }
     }
+
+    .CircleButton {
+        .circle-button {
+            height: $xxx-large;
+            width: $xxx-large;
+        }
+    }
+
+    .TitleBar {
+        border: none;
+        font-size: $base-size;
+
+        .title-bar-left {
+            background: $off-white;
+            padding: 0 $x-small;
+            height: auto;
+            transform: translateX(#{-$small});
+
+            .title {
+                font-weight: normal;
+            }
+
+            z-index: 1;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            // width: calc(100% - #{$x-large * 2});
+            width: 100%;
+            height: 1px;
+            background: $medium-dark-gray;
+            z-index: 0;
+        }
+    }
 }
 
 .card {
     .GroupingBox {
-        .title {
+        .grouping-box-title {
             font-weight: normal;
             background: $off-white;
             box-shadow: 0 0 0 $x-small $off-white;
         }
-        .toggle-background, .add-button-background {
+        .toggle-background,
+        .add-button-background {
             background: $off-white;
         }
     }
 }
-        

@@ -38,9 +38,44 @@
         }
         .content {
             > a {
+                position: relative;
                 padding-left: $large * 2;
+
                 &.matched {
                     color: $light-blue;
+                }
+
+                .remove-navlink {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                    width: $menu-height;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .block-one,
+                    .block-two {
+                        height: $small;
+                        width: 1.5px;
+                        background: $medium-gray;
+                    }
+
+                    .block-one {
+                        margin-right: -0.75px;
+                        transform: rotate(45deg);
+                    }
+                    .block-two {
+                        margin-left: -0.75px;
+                        transform: rotate(-45deg);
+                    }
+
+                    &:hover {
+                        .block-one,.block-two{
+                            background: $off-white;
+                        }
+                    }
                 }
             }
         }

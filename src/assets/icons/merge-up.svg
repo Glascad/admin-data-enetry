@@ -1,5 +1,5 @@
 
-<svg class="icon"  width="25px" height="18px" viewBox="0 0 25 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="icon"  width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     
     
     
@@ -7,7 +7,7 @@
         <rect class="fill-gray"   x="13" y="9" width="11" height="1"></rect>
         <rect class="stroke-gray"   x="0.5" y="0.5" width="24" height="17"></rect>
         <g class="fill-green"  transform="translate(5.000000, 12.000000)" >
-            <path d="M0,0 L3,0 L3,3 L0,3 L0,0 Z M1,1 L1,2 L2,2 L2,1 L1,1 Z" ></path>
+            <path d="M3,0 L3,3 L0,3 L0,0 L3,0 Z M2,1 L1,1 L1,2 L2,2 L2,1 Z" ></path>
         </g>
         <rect class="fill-red"   x="1" y="9" width="11" height="1"></rect>
         <rect class="fill-green"   transform="translate(6.500000, 9.000000) scale(1, -1) translate(-6.500000, -9.000000) " x="6" y="6" width="1" height="6"></rect>

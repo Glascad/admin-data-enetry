@@ -1,3 +1,5 @@
+import { parseSearch } from "..";
+import removeNullValues from "./remove-null-values";
 
 /**
  * This function is used by the Navigator and NavMenu components to take the static navigationOptions off of any component, and to generate a name to be displayed in the NavMenu or in a Toggle-/Tab-Navigator, as well as a path that should be used by react-router-dom.
@@ -14,37 +16,57 @@
  * }
  */
 
-export default (functionName, component, props, log = false) => {
+export default function extractNavigationOptions(functionName, component, props = {}, log = false) {
+    // console.log(arguments);
+
     const {
         navigationOptions = {},
     } = component;
 
+    const options = typeof navigationOptions === 'function' ?
+        navigationOptions(props)
+        :
+        navigationOptions;
+
+    const name = options.name || functionName
+        .replace(/_|\W/g, '')
+        .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`);
+
+    if (typeof name !== 'string' && !options.path) throw new Error(`Must provide path with non-string name. Received path: ${options.path} and name: ${options.name || name}, for component: ${functionName}`);
+
     const {
-        name = functionName
-            .replace(/_|\W/g, '')
-            .replace(/([A-Z])/g, (match, _, offset) => offset === 0 ? match : ` ${match}`),
         path = `/${name.replace(/ +/g, '-').toLowerCase()}`,
         subroutes,
-        ...options
-    } = typeof navigationOptions === 'function' ?
-            navigationOptions(props)
-            :
-            navigationOptions;
+        shouldRenderInNavMenu: optionsshouldRenderInNavMenu,
+        requiredURLParams,
+    } = options;
 
-    if (log) {
-        // console.log({
-        //     name,
-        //     path,
-        //     functionName,
-        //     navigationOptions,
-        //     options,
-        //     props,
-        //     subroutes,
-        // });
-    }
+    const {
+        location: {
+            search = '',
+            pathname = '',
+        } = {},
+        history,
+    } = props;
+
+    const parsedSearch = parseSearch(search);
+
+    const searchKeys = Object.keys(removeNullValues(parsedSearch));
+
+    const shouldRenderInNavMenu = options.hasOwnProperty('shouldRenderInNavMenu') ?
+        optionsshouldRenderInNavMenu
+        :
+        (requiredURLParams || []).every(param => searchKeys.includes(param));
+
+    const removeDropdown = requiredURLParams ?
+        () => history.push(`${pathname}${parsedSearch.remove(requiredURLParams)}`)
+        :
+        undefined;
 
     return {
         ...options,
+        shouldRenderInNavMenu,
+        removeDropdown,
         component,
         name,
         path,

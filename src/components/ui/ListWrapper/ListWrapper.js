@@ -1,30 +1,44 @@
 import React, { PureComponent } from 'react';
-// import PropTypes from 'prop-types';
-import SelectionWrapper from '../../state/SelectionWrapper';
+import PropTypes from 'prop-types';
 import Pill from '../Pill/Pill';
+import oldMultiSelect from '../MultiSelect/oldMultiSelect';
 import MultiSelect from '../MultiSelect/MultiSelect';
 import Modal from '../Modal/Modal';
 import ListContainer from '../ListContainer/ListContainer';
 import CircleButton from '../CircleButton/CircleButton';
 
-import './ListWrapper.scss';
+import useSelection, { selectionProps } from '../../hooks/use-selection';
+import customPropTypes from '../../utils/custom-prop-types';
+import TitleBar from '../TitleBar/TitleBar';
 
 class List extends PureComponent {
 
-    // static propTypes = {
-    //     title: PropTypes.string,
-    //     label: PropTypes.string,
-    //     parent: PropTypes.string,
-    //     items: PropTypes.array.isRequired,
-    //     mapPillProps: PropTypes.func.isRequired,
-    //     onCreate: PropTypes.func,
-    //     onUpdate: PropTypes.func,
-    //     onDelete: PropTypes.func,
-    //     children: PropTypes.func,
-    //     multiSelect: PropTypes.shape({
-
-    //     })
-    // };
+    static propTypes = {
+        mapPillProps: customPropTypes.deprecated(PropTypes.func, "Don't use map pill props"),
+        titleBar: PropTypes.shape(TitleBar.propTypes),
+        label: customPropTypes.renderable,
+        identifier: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        items: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+        defaultPillProps: PropTypes.shape(Pill.propTypes),
+        circleButton: PropTypes.shape(CircleButton.propTypes),
+        onDisabledSelect: PropTypes.func,
+        onCreate: PropTypes.func,
+        onFinish: PropTypes.func,
+        onUpdate: PropTypes.func,
+        onDelete: PropTypes.func,
+        deleteModal: PropTypes.shape(Modal.propTypes),
+        selection: selectionProps,
+        multiSelect: PropTypes.shape({
+            ...MultiSelect.propTypes,
+            allItems: PropTypes.arrayOf(PropTypes.shape(Pill.propTypes)),
+            mapPreviousItems: customPropTypes.deprecated(PropTypes.func, "Don't use map previous items"),
+            title: customPropTypes.renderable,
+        }),
+        children: customPropTypes.renderable,
+    };
 
     static defaultProps = {
         identifier: "nodeId",
@@ -54,6 +68,7 @@ class List extends PureComponent {
     }
 
     handleMultiSelectFinish = async ({ arguments: { addedItems, deletedItems } }) => {
+        // console.log({ addedItems, deletedItems });
         try {
             await this.props.onFinish ?
                 this.props.onFinish({ addedItems, deletedItems })
@@ -102,6 +117,7 @@ class List extends PureComponent {
                 multiSelect,
                 multiSelect: {
                     title: multiSelectTitle,
+                    allItems,
                     // onCreate: onMultiSelectCreate,
                     // onDelete: onMultiSelectDelete,
                     mapPreviousItems = item => item,
@@ -176,7 +192,10 @@ class List extends PureComponent {
                                 onDelete={_delete}
                                 arguments={args}
                                 {...defaultPillProps}
-                                {...mapPillProps(item)}
+                                {...(mapPillProps ?
+                                    mapPillProps(item)
+                                    :
+                                    item)}
                             />
                         );
                     }}
@@ -228,6 +247,7 @@ class List extends PureComponent {
                         }}
                         selection={selection}
                         previousItems={items.map(mapPreviousItems)}
+                        otherItems={allItems.filter(({ [identifier]: id }) => !items.some(item => id === item[identifier]))}
                         mapPillProps={mapPillProps}
                     />
                 ) : deleteModal ? (
@@ -246,17 +266,22 @@ class List extends PureComponent {
                         Are you sure you want to delete {
                             modalName.toLowerCase()
                         }: {
-                            mapPillProps(selectedItem).title
+                            mapPillProps ?
+                                mapPillProps(selectedItem).title
+                                :
+                                selectedItem.title
                         }?
                     </Modal>
                 ) : null}
                 {children ? (
-                    <div className={`nested ${
-                        Object.keys(selectedItem).length === 0 ?
-                            "disabled"
-                            :
-                            ""
-                        }`} >
+                    <div
+                        className={`nested ${
+                            Object.keys(selectedItem).length === 0 ?
+                                "disabled"
+                                :
+                                ""
+                            }`}
+                    >
                         {children(selectedItem)}
                     </div>
                 ) : null}
@@ -277,6 +302,9 @@ export default function ListWrapper({
     } = {},
     identifier,
 }) {
+
+    const selection = useSelection(identifier);
+
     return stateManager ? (
         <List
             {...arguments[0]}
@@ -287,15 +315,9 @@ export default function ListWrapper({
             }}
         />
     ) : (
-            <SelectionWrapper
-                identifier={identifier}
-            >
-                {selection => (
-                    <List
-                        {...arguments[0]}
-                        selection={selection}
-                    />
-                )}
-            </SelectionWrapper>
+            <List
+                {...arguments[0]}
+                selection={selection}
+            />
         );
 }

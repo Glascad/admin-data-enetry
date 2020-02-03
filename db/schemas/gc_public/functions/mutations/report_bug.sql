@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS report_bug;
 
-CREATE OR REPLACE FUNCTION report_bug(
+CREATE OR REPLACE FUNCTION gc_public.report_bug(
     location TEXT,
     report TEXT,
     state JSON

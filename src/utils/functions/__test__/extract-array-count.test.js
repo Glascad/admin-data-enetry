@@ -19,7 +19,7 @@ describe('extract array count tests', () => {
                 project: {
                     id: 1,
                     name: "Project",
-                    elevationsByProjectIdCount: 4,
+                    _elevationCount: 4,
                 },
             },
         });

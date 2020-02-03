@@ -1,6 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Ellipsis from '../Ellipsis/Ellipsis';
+import customPropTypes from '../../utils/custom-prop-types';
+
+AsyncButton.propTypes = {
+    className: PropTypes.string,
+    loadingText: Ellipsis.propTypes.text,
+    loading: PropTypes.bool,
+    text: PropTypes.string,
+    children: customPropTypes.renderable,
+};
 
 export default function AsyncButton({
     className = '',
@@ -25,5 +35,5 @@ export default function AsyncButton({
                 text
             }
         </button>
-    )
+    );
 }

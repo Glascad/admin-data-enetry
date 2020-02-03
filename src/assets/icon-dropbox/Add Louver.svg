@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="18px" viewBox="0 0 28 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Add Louver</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Add-Louver" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Plus" transform="translate(0.000000, 6.000000)" fill="#0CFC04">
+            <polygon id="Path" points="4 2 6 2 6 4 4 4 4 6 2 6 2 4 8.43769499e-15 4 8.43769499e-15 2 2 2 2 -8.8817842e-16 4 -8.8817842e-16"></polygon>
+        </g>
+        <polygon id="Rectangle-Copy-5" fill="#0CFC04" points="9 1 22 1 19 5 12 5"></polygon>
+        <polygon id="Rectangle-Copy-6" fill="#0CFC04" points="9 7 22 7 19 11 12 11"></polygon>
+        <polygon id="Rectangle-Copy-7" fill="#0CFC04" points="9 13 22 13 19 17 12 17"></polygon>
+        <rect id="Rectangle-Copy-5" stroke="#878787" x="9.5" y="0.5" width="12" height="17"></rect>
+    </g>
+</svg>
