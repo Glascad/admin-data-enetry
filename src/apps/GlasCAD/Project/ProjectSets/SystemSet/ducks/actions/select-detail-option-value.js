@@ -1,61 +1,70 @@
-import { getDefaultPath, getDetailTypeFromPath, getChildren, getConfigurationTypeFromPath } from "../../../../../../../app-logic/system-utils";
+import { getDefaultPath, getDetailTypeFromPath, getChildren, getConfigurationTypeFromPath, getUnknownPathAndKeyFromItem, getParentPath } from "../../../../../../../app-logic/system";
 import { mergeOptionGroupValues } from "../merge";
-import { defaultSystemSetNode } from "../schemas";
+import { defaultSystemSetDetail } from "../schemas";
 import _ from 'lodash';
 import { SELECT_CONFIGURATION_OPTION_VALUE } from ".";
 import { replace, unique } from "../../../../../../../utils";
 
 export default function SELECT_DETAIL_OPTION_VALUE({
     _systemSet: {
-        _systemSetDetailOptionValues = [],
-        _systemSetConfigurationOptionValues = [],
+        _systemSetDetails = [],
+        _systemSetConfigurations = [],
         _systemSetOptionGroupValues = [],
     },
 }, {
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
     optionGroupValues = [],
 }, [
     payloadPath,
     systemMap,
 ]) {
+    console.log(arguments);
+
     const groupedOptionValues = mergeOptionGroupValues(_systemSetOptionGroupValues, optionGroupValues);
-    const detailOptionValuePath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
-    const detailType = getDetailTypeFromPath(detailOptionValuePath);
+    const defaultPath = getDefaultPath(payloadPath, systemMap, groupedOptionValues);
+    const { __typename } = systemMap[defaultPath] || {};
+    const detailPathKey = `${__typename}Path`.replace(/^./, letter => letter.toLowerCase());
+    const detailType = getDetailTypeFromPath(defaultPath);
 
     // find DOV in query result
-    const { detailOptionValuePath: oldPath } = _systemSetDetailOptionValues.find(dov => (
-        dov.detailOptionValuePath.replace(/(__DT__\.\w+)\..*$/, '$1')
-        ===
-        detailOptionValuePath.replace(/(__DT__\.\w+)\..*$/, '$1')
-    )) || {};
+    const { detailOptionValuePath: previousDetailOptionValuePath, systemDetailPath: previousSystemDetailPath } = _systemSetDetails
+        .find(dov => (
+            (dov.detailOptionValuePath || dov.systemDetailPath).replace(/(__DT__\.\w+)\..*$/, '$1')
+            ===
+            defaultPath.replace(/(__DT__\.\w+)\..*$/, '$1')
+        )) || {};
 
     // find DOV in state
-    const updatedDOV = detailOptionValues.find(({ oldPath, newPath }) => (
-        getDetailTypeFromPath(oldPath || newPath) === detailType
-    ));
+    const updatedDOV = details.find(({ systemDetailPath, detailOptionValuePath }) => getDetailTypeFromPath(
+        systemDetailPath || detailOptionValuePath) === detailType)
 
-    const index = detailOptionValues.indexOf(updatedDOV);
+    const index = details.indexOf(updatedDOV);
 
     const newDOV = {
-        ...defaultSystemSetNode,
-        ...updatedDOV,
-        oldPath,
-        newPath: detailOptionValuePath,
+        ...defaultSystemSetDetail,
+        [detailPathKey]: defaultPath,
     };
 
     // find all child configuration types in state
     // remove all previous children from state
-    const [newConfigurationOptionValues, configurationOptionValuesToUpdate] = _.partition(
-        configurationOptionValues,
-        ({ oldPath, newPath }) => getDetailTypeFromPath(oldPath || newPath) === detailType,
+    const [newConfigurations, configurationsToUpdate] = _.partition(
+        configurations,
+        ({ detailConfigurationPath, configurationOptionValuePath }) => getDetailTypeFromPath(detailConfigurationPath || configurationOptionValuePath) !== detailType,
     );
 
-    const configurationTypePaths = unique(configurationOptionValuesToUpdate
-        .map(({ oldPath, newPath }) => oldPath || newPath)
-        .concat(_systemSetConfigurationOptionValues.map(({ configurationOptionValuePath }) => configurationOptionValuePath))
+    const configurationTypePaths = unique(configurationsToUpdate
+        // old items in state
+        .map(({ detailConfigurationPath, configurationOptionValuePath }) => detailConfigurationPath || configurationOptionValuePath)
+        // items from query result
+        .concat(_systemSetConfigurations.map(({ configurationOptionValuePath, detailConfigurationPath }) => configurationOptionValuePath || detailConfigurationPath))
+        // children configurations that are required
+        .concat(getChildren(systemMap[defaultPath], systemMap)
+            .filter(({ optional }) => !optional)
+            .map(({ path }) => path)
+        )
         .map(path => `${
-            detailOptionValuePath
+            defaultPath
             }.__CT__.${
             getConfigurationTypeFromPath(path)
             }`)
@@ -73,20 +82,21 @@ export default function SELECT_DETAIL_OPTION_VALUE({
         )
     ), {
         ...arguments[1],
-        detailOptionValues: updatedDOV ?
-            updatedDOV.oldPath === detailOptionValuePath ?
-                // remove if updating back to original path
-                detailOptionValues.filter((_, i) => i !== index)
+        details:
+            updatedDOV ?
+                defaultPath === (previousDetailOptionValuePath || previousSystemDetailPath) ?
+                    // remove if updating back to original path
+                    details.filter((_, i) => i !== index)
+                    :
+                    // replace if updating updated
+                    replace(details, index, newDOV)
                 :
-                // replace if updating updated
-                replace(detailOptionValues, index, newDOV)
-            :
-            oldPath === detailOptionValuePath ?
-                // leave state if option value is already selected
-                detailOptionValues
-                :
-                // add if updating non-updated
-                detailOptionValues.concat(newDOV),
-        configurationOptionValues: newConfigurationOptionValues,
+                (previousSystemDetailPath || previousDetailOptionValuePath) === defaultPath ?
+                    // leave state if option value is already selected
+                    details
+                    :
+                    // add if updating non-updated
+                    details.concat(newDOV),
+        configurations,
     });
 }

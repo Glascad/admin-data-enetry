@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
-import { multiply } from 'mathjs';
-import { svg, Matrix } from '../../../utils';
+import React, { useState } from 'react';
+import { Matrix, svg } from '../../../utils';
+import { getPartExtremities } from '../../../utils/functions/svg-utils';
 
 export function SVGPath({
+    dataCy,
     className = '',
     commands = [],
     transform: matrix,
     onClick,
     color,
 }) {
+
     const transform = new Matrix(matrix);
+
     return (
         <path
+            data-cy={dataCy}
             className={className}
             onClick={onClick}
             d={commands
@@ -31,6 +34,7 @@ export function SVGPath({
 }
 
 export default function SVG({
+    dataCy,
     paths = [],
     className = '',
 }) {
@@ -38,11 +42,12 @@ export default function SVG({
     return (
         <svg
             className={className}
-            viewBox={svg.getViewBox(paths)}
+            viewBox={svg.getViewBox(getPartExtremities({ paths }))}
             transform="scale(1, -1)"
         >
             {paths.map(({ commands, color }, i) => (
                 <SVGPath
+                    dataCy={dataCy}
                     commands={commands}
                     color={color}
                     className={i === selectedPathIndex ? 'selected' : ''}

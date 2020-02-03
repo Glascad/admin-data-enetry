@@ -1,20 +1,11 @@
-import {
-    removeNullValues,
-    match,
-} from "../../../../../../utils";
 import _ from 'lodash';
+import { getLastItemFromPath, getUnknownPathAndKeyFromItem, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
+import { removeNullValues } from "../../../../../../utils";
 import validateSystemSetUpdate from "./validate-system-set-update";
 
-export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues.map(({ optionName, name }) => ({
-    optionName,
-    name: optionGroupValues
-        .reduce((name, update) => (
-            update.optionName === optionName ?
-                update.name
-                :
-                name
-        ), name),
-}));
+export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues
+    .filter(({ optionName }) => !optionGroupValues.find(group => group.optionName === optionName))
+    .concat(optionGroupValues);
 
 export default function merge({
     _systemSet,
@@ -22,20 +13,23 @@ export default function merge({
         systemId: oldSystemId,
         systemOptionValuePath: oldSystemOptionValuePath = "",
         _systemSetOptionGroupValues: oldSystemSetOptionGroupValues = [],
-        _systemSetDetailOptionValues: oldSystemSetDetailOptionValues = [],
-        _systemSetConfigurationOptionValues: oldSystemSetConfigurationOptionValues = [],
+        _systemSetDetails: oldSystemSetDetails = [],
+        _systemSetConfigurations: oldSystemSetConfigurations = [],
     } = {},
 }, {
     name,
     systemId: newSystemId,
     systemOptionValuePath: newSystemOptionValuePath = "",
     optionGroupValues = [],
-    detailOptionValues = [],
-    configurationOptionValues = [],
+    details = [],
+    configurations = [],
+    optionalConfigurationsToUnselect = [],
 }, {
     id: actualSystemId,
     _optionGroups = [],
 }) {
+
+    // console.log(arguments);
 
     validateSystemSetUpdate(arguments[1]);
 
@@ -56,60 +50,49 @@ export default function merge({
         mergeOptionGroupValues(oldSystemSetOptionGroupValues, optionGroupValuesToUpdate)
             .concat(optionGroupValuesToAdd)
             .filter(({ optionName }) => _optionGroups.some(({ name }) => name === optionName))
+            .sort(({ optionName: oName1 }, { optionName: oName2 }) => oName1 < oName2 ? -1 : 1)
         :
         [];
 
-    const updateOptionValues = (pathKey, oldArray, newArray, parentArray) => {
-        const {
-            update = [],
-            _delete = [],
-            create = [],
-        } = _.groupBy(newArray, ({ oldPath, newPath }) => (
-            match(!!oldPath, !!newPath)
-                .equals(true, true, 'update')
-                .equals(true, false, '_delete')
-                .equals(false, true, 'create')
-                .otherwise(() => {
-                    throw new Error(`Invalid item has no \`oldPath\` and no \`newPath\`, in ${pathKey}: ${newArray}`);
-                })
-        ));
+    // details have the same optionValuePath as systemSet
 
-        return oldArray
-            .filter(({ [pathKey]: path }) => (
-                (
-                    parentArray.some(parentPath => path.startsWith(parentPath))
-                    ||
-                    update.some(item => path === item.oldPath)
-                )
+    const _systemSetDetails = oldSystemSetDetails
+        .filter(detail => {
+            const [pathKey, path] = getUnknownPathAndKeyFromItem(detail);
+            const detailType = getDetailTypeFromPath(path);
+            return path.startsWith(systemOptionValuePath)
                 &&
-                !_delete.some(item => path.startsWith(item.oldPath))
-            ))
-            .map(item => ({
-                ...item,
-                [pathKey]: update.reduce(
-                    (path, { oldPath, newPath }) => (
-                        oldPath === item[pathKey] ?
-                            newPath
-                            :
-                            path
-                    ), item[pathKey]),
-            }))
-            .concat(create.map(({ newPath }) => ({ [pathKey]: newPath })));
-    }
+                !details.some(d => {
+                    const [dPathKey, dPath] = getUnknownPathAndKeyFromItem(d);
+                    const dDetailType = getDetailTypeFromPath(dPath);
+                    return detailType === dDetailType;
+                });
+        })
+        .concat(details);
 
-    const _systemSetDetailOptionValues = updateOptionValues(
-        "detailOptionValuePath",
-        oldSystemSetDetailOptionValues,
-        detailOptionValues,
-        [systemOptionValuePath],
-    );
-
-    const _systemSetConfigurationOptionValues = updateOptionValues(
-        "configurationOptionValuePath",
-        oldSystemSetConfigurationOptionValues,
-        configurationOptionValues,
-        _systemSetDetailOptionValues.map(({ detailOptionValuePath }) => detailOptionValuePath),
-    );
+    const _systemSetConfigurations = oldSystemSetConfigurations
+        .filter(({ configurationOptionValuePath, detailConfigurationPath }) => !optionalConfigurationsToUnselect
+            .some(({ detailType, configurationType }) => (
+                detailType === getDetailTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
+                &&
+                configurationType === getConfigurationTypeFromPath(configurationOptionValuePath || detailConfigurationPath)
+            )))
+        .filter(configuration => {
+            const [pathKey, path] = getUnknownPathAndKeyFromItem(configuration);
+            const detailType = getDetailTypeFromPath(path);
+            const configurationType = getConfigurationTypeFromPath(path);
+            return path.startsWith(systemOptionValuePath)
+                &&
+                !configurations.some(c => {
+                    const [cPathKey, cPath] = getUnknownPathAndKeyFromItem(c);
+                    const cDetailType = getDetailTypeFromPath(cPath);
+                    const cConfigurationType = getConfigurationTypeFromPath(cPath)
+                    return detailType === cDetailType
+                        &&
+                        configurationType === cConfigurationType;
+                });
+        })
+        .concat(configurations);
 
     return {
         ..._systemSet,
@@ -118,8 +101,8 @@ export default function merge({
             name,
             systemId,
             _systemSetOptionGroupValues,
-            _systemSetDetailOptionValues,
-            _systemSetConfigurationOptionValues,
+            _systemSetDetails,
+            _systemSetConfigurations,
         }),
     };
 }

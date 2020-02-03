@@ -1,14 +1,10 @@
-
+import { DIRECTIONS, Loggable, replace } from '../../../../../../../utils';
 import RecursiveContainer from './container';
 import RecursiveDetail from './detail';
-import RecursiveFrame from './frame';
 import RecursiveDimension from './dimension';
-
 import dimensionsOverlap from './dimensions-overlap';
+import RecursiveFrame from './frame';
 import sortDimensionTracks from './sort-dimension-tracks';
-
-import { DIRECTIONS } from './directions';
-import { Loggable, lastItem, replace } from '../../../../../../../utils';
 
 const {
     UP,
@@ -57,7 +53,11 @@ export default class RecursiveElevation extends Loggable {
             roughOpening = {},
             _elevationContainers = [],
             _containerDetails = [],
-            sightline = 10,
+            _systemSet: {
+                _system: {
+                    sightline = 2,
+                } = {},
+            } = {},
             minimumDaylightOpening = 5,
         } = rawElevation;
 
@@ -162,15 +162,15 @@ export default class RecursiveElevation extends Loggable {
     getPrecedenceByVertical = vertical => {
         const {
             roughOpening: {
-                y,
-                x,
+                height,
+                width,
             },
         } = this;
 
         return vertical ?
-            x / 2
+            width / 2
             :
-            y / 2;
+            height / 2;
     }
 
     get precedence() {

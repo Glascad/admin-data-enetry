@@ -188,7 +188,7 @@ export default dxf => {
                         220: yExtrusionDirection,
                         230: zExtrusionDirection,
                     },
-                    ...otherClasses,
+                    ...otherClasses
                 }) => {
                     // console.log({ AcDbEllipse });
 

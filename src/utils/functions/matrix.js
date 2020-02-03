@@ -1,5 +1,6 @@
-import { multiply } from 'mathjs';
+import { multiply, add } from 'mathjs';
 import { cos, sin } from './trig';
+import match from './match';
 
 export default window.Matrix = class Matrix {
     // IDENTITY MATRIX
@@ -57,10 +58,26 @@ export default window.Matrix = class Matrix {
 
     static multiply = (...matrices) => new Matrix(
         multiply(
-            ...matrices.map(m => m instanceof Matrix ?
-                m.array
-                :
-                m,
+            ...matrices.map(m => match()
+                .case(m instanceof Matrix, () => m.array)
+                .case(Array.isArray(m), () => m)
+                .case(typeof m === 'object', () => new Matrix(m).array)
+                .otherwise(() => {
+                    throw new Error(`Can only multiply against a Matrix, an Array, or an Object. Received: ${m}`);
+                })
+            ),
+        ),
+    );
+
+    static add = (...matrices) => new Matrix(
+        add(
+            ...matrices.map(m => match()
+                .case(m instanceof Matrix, () => m.array)
+                .case(Array.isArray(m), () => m)
+                .case(typeof m === 'object', () => new Matrix(m).array)
+                .otherwise(() => {
+                    throw new Error(`Can only multiply against a Matrix, an Array, or an Object. Received: ${m}`);
+                })
             ),
         ),
     );
@@ -196,7 +213,8 @@ export default window.Matrix = class Matrix {
 
     // CONSTRUCTOR
     constructor(arg = Matrix.IDENTITY_MATRIX) {
-        if (Array.isArray(arg)) {
+        if (arg instanceof Matrix) return arg;
+        else if (Array.isArray(arg)) {
             this.array = Matrix.complete(arg);
             this.object = Matrix.toObject(arg);
         } else {
@@ -205,7 +223,24 @@ export default window.Matrix = class Matrix {
         }
     }
 
+    transformCoordinate = (X, Y) => {
+        const { c, f } = this.object;
+        const [[x], [y]] = multiply(this.array, [[X], [Y], [0]]);
+        return { x: x + c, y: y + f };
+    }
+
     multiply = (...matrices) => Matrix.multiply(this, ...matrices);
+    add = (...matrices) => Matrix.add(this, ...matrices);
+
+    applyTransformation = appliedTransform => {
+        const transform = appliedTransform instanceof Matrix ?
+            appliedTransform
+            :
+            new Matrix(appliedTransform);
+        const scaleSkewTransform = transform.multiply(this.multiply([[1, 0, 0], [0, 1, 0], [0, 0, 0]]));
+        const translateTransform = transform.multiply(this.multiply([[0, 0, 0], [0, 0, 0], [0, 0, 1]]));
+        return scaleSkewTransform.add(translateTransform);
+    }
 
     toString = () => {
         const {

@@ -1,36 +1,14 @@
 import React from 'react';
-
 import { Redirect } from 'react-router-dom';
-
-import {
-    ApolloWrapper,
-    Navigator,
-    Ellipsis,
-    useQuery,
-} from '../../../components';
-
-import query from './project-graphql/query';
-
-// import ProjectDetails from './ProjectDetails/ProjectDetails';
-import ProjectSets from './ProjectSets/ProjectSets';
-// import Keyplans from './Keyplans/Keyplans';
-import Elevations from './Elevations/Elevations';
-// import ElevationDebugger from './ElevationDebugger/ElevationDebugger';
-// import Details from './Details/Details';
-// import Schedules from './Schedules/Schedules';
-// import Notes from './Notes/Notes';
-
+import { ApolloWrapper, Ellipsis, Navigator, useQuery } from '../../../components';
 import { parseSearch } from '../../../utils';
+import Elevations from './Elevations/Elevations';
+import query from './project-graphql/query';
+import ProjectSets from './ProjectSets/ProjectSets';
 
 const subroutes = {
-    // ProjectDetails,
     ProjectSets,
-    // Keyplans,
     Elevations,
-    // ElevationDebugger,
-    // Details,
-    // Schedules,
-    // Notes,
 };
 
 Project.navigationOptions = ({
@@ -56,7 +34,9 @@ Project.navigationOptions = ({
                         name = '',
                     } = {},
                 } = {},
-            }) => name || <Ellipsis />}
+            }) => name || (
+                <Ellipsis />
+            )}
         </ApolloWrapper>
     ),
 });
@@ -69,7 +49,7 @@ export default function Project({
         search,
     },
 }) {
-    const [fetchQuery, queryResult] = useQuery({
+    const [fetchProject, queryResult, fetchingProject] = useQuery({
         query,
         variables: {
             id: +parseSearch(search).projectId,
@@ -81,11 +61,14 @@ export default function Project({
             to={path.replace(/project.*/, 'main-menu')}
         />
     );
-    // console.log(arguments[0]);
 
     return (
         <Navigator
-            routeProps={{ queryResult }}
+            routeProps={{
+                queryResult,
+                fetchProject,
+                fetchingProject,
+            }}
             routes={subroutes}
         />
     );

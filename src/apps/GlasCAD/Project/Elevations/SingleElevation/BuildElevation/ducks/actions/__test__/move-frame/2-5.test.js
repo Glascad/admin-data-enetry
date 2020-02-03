@@ -6,7 +6,7 @@ testMoveFrame({
     distance: -105,
     detailId: 1854,
     elevationArrays: {
-        
+
     },
     expectedDetails: [
 
@@ -17,13 +17,17 @@ testMoveFrame({
     daylightOpenings: [
         {
             id: 732,
-            x: 185,
-            y: 215,
+            dimensions: {
+                width: 185,
+                height: 215,
+            }
         },
         {
             id: 729,
-            x: 185,
-            y: 205,
+            dimensions: {
+                width: 185,
+                height: 205,
+            }
         },
     ],
 });

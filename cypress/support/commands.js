@@ -121,16 +121,18 @@ Cypress.Commands.add("createElevation", () => {
                                 projectId: ${getProjectId()}
                                 sightline: 2
                                 roughOpening: {
-                                    x: 240
-                                    y: 120
+                                    width: 240
+                                    height: 120
                                 }
                                 containers: [
                                     {
                                         fakeId: 1
                                         original: true
                                         daylightOpening: {
-                                            x: 236
-                                            y: 116
+                                            dimensions: {
+                                                width: 236
+                                                height: 116
+                                            }
                                         }
                                     }
                                 ]
@@ -163,7 +165,7 @@ Cypress.Commands.add("createElevation", () => {
             `,
         }
     }).then(({
-        ...body,
+        ...body
         // body: {
         //     data: {
         //         updateEntireElevation: {

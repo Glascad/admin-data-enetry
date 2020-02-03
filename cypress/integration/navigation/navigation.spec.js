@@ -4,7 +4,7 @@ describe('testing navigation', () => {
         // login
         cy.visit('http://localhost:3000/');
         cy.get('[data-cy="username"]').type('cypress');
-        cy.get('[data-cy="password"]').type('cypress{enter}');
+        cy.get('[data-cy="password"]').type(`${Cypress.env("PASSWORD")}{enter}`);
         cy.wait(5000);
         // projects
         // cy.get('div').contains('Demo Project');

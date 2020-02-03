@@ -1,19 +1,32 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
-import {
-    CollapsibleTitle,
-    ListWrapper,
-    Navigator,
-} from '../../../../components';
-
-import SystemSet from './SystemSet/SystemSet';
-
+import { CollapsibleTitle, ListWrapper, Navigator, useMutation } from '../../../../components';
 import { parseSearch } from '../../../../utils';
+import SystemSet from './SystemSet/SystemSet';
+import gql from 'graphql-tag';
 
 ProjectSetsRouter.navigationOptions = {
     path: "/sets",
+};
+
+const deleteSystemSetMutation = {
+    mutation: gql`
+        mutation DeleteSystemSetById($id: Int!) {
+            deleteSystemSetById(
+                input: {
+                    id: $id
+                }
+            ) {
+               systemSet{
+                    id,
+                    name,
+                    systemId,
+                    projectId,
+                    nodeId,
+                    }
+            }
+        }
+    `,
 };
 
 export default function ProjectSetsRouter(props) {
@@ -46,7 +59,10 @@ function ProjectSets({
         path,
     },
 }) {
+    const [deleteSystemSet, deleteResult, deleting] = useMutation(deleteSystemSetMutation);
+
     console.log(arguments[0]);
+
     return (
         <div className="card">
             <CollapsibleTitle
@@ -73,7 +89,7 @@ function ProjectSets({
                         return {
                             ...ss,
                             title: name,
-                            subtitle: `${manufacturerName} - ${systemName}`,
+                            subtitle: manufacturerName,
                             footer: `Applied to ${totalCount} elevation${totalCount === 1 ? '' : 's'}`,
                             type: 'tile',
                             align: 'left',
@@ -90,7 +106,9 @@ function ProjectSets({
                             ],
                         };
                     })}
-                    onDelete={() => { }}
+                    onDelete={({ arguments: { id } }) => deleteSystemSet({
+                        id,
+                    })}
                     circleButton={{
                         type: 'tile',
                         "data-cy": "new-system-set",

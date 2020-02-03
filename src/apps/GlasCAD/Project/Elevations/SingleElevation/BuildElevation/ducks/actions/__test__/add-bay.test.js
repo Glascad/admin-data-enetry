@@ -42,13 +42,13 @@ const testAddBay = ({ elevation, deletedDetails, expectedDetails, addBayFirst, e
         ));
 
         test(`${elevation.name} new bays DLO is x:${expectedDlo.x} y:${expectedDlo.y}`, () => {
-            expect(dlo.x).toEqual(expectedDlo.x);
-            expect(dlo.y).toEqual(expectedDlo.y);
+            expect(dlo.dimensions.width).toEqual(expectedDlo.x);
+            expect(dlo.dimensions.height).toEqual(expectedDlo.y);
         });
         
         test(`${elevation.name} new bays Rough Opening is x:${expectedRO.x} y:${expectedRO.y}`, () => {
-            expect(roughOpening.x).toEqual(expectedRO.x);
-            expect(roughOpening.y).toEqual(expectedRO.y);
+            expect(roughOpening.width).toEqual(expectedRO.x);
+            expect(roughOpening.height).toEqual(expectedRO.y);
         });
     });
 }

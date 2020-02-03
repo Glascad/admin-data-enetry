@@ -18,7 +18,12 @@ export default function updateDetailsAfterAddingFrame({
             sightline,
         },
         placement,
-        daylightOpening,
+        daylightOpening: {
+            dimensions: {
+                width,
+                height,
+            }
+        },
     },
     vertical,
     distance,
@@ -44,13 +49,13 @@ export default function updateDetailsAfterAddingFrame({
 
     const framePlacement = {
         x: vertical ?
-            placement.x + daylightOpening.x - distance - sightline
+            placement.x + width - distance - sightline
             :
             placement.x,
         y: vertical ?
             placement.y
             :
-            placement.y + daylightOpening.y - distance - sightline,
+            placement.y + height - distance - sightline,
         height: vertical ?
             placement.height
             :

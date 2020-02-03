@@ -1,12 +1,19 @@
-import applyActionToElevation from "./apply-action";
-import MERGE_CONTAINERS from "../merge-containers";
+import { DIRECTIONS } from "../../../../../../../../../utils";
+import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";
 import sample1 from "../../../../utils/sample-elevations/sample1.json";
 import sample2 from "../../../../utils/sample-elevations/sample2.json";
-import { DIRECTIONS } from "../../../../utils/recursive-elevation/directions";
+import MERGE_CONTAINERS from "../merge-containers";
+import applyActionToElevation from "./apply-action";
 import chainTests from './chain-tests';
-import testElevation from "../../../../utils/recursive-elevation/__test__/validation-tests/index.test";
 
-const testMerge = ({ elevation, direction, containerId, deletedContainerId, daylightOpening }) => {
+function testMerge({
+    elevation,
+    direction,
+    containerId,
+    deletedContainerId,
+    daylightOpening,
+}) {
+
     const sampleResult = applyActionToElevation(elevation, MERGE_CONTAINERS, ({
         containers: {
             [containerId]: container,
@@ -49,8 +56,10 @@ testMerge({
     containerId: 710,
     deletedContainerId: 708,
     daylightOpening: {
-        x: 480,
-        y: 230,
+        dimensions: {
+            width: 480,
+            height: 230,
+        }
     },
 });
 
@@ -60,8 +69,10 @@ testMerge({
     containerId: 707,
     deletedContainerId: 709,
     daylightOpening: {
-        x: 480,
-        y: 240,
+        dimensions: {
+            width: 480,
+            height: 240,
+        }
     },
 });
 
@@ -71,8 +82,10 @@ testMerge({
     containerId: 709,
     deletedContainerId: 710,
     daylightOpening: {
-        x: 235,
-        y: 480,
+        dimensions: {
+            width: 235,
+            height: 480,
+        }
     },
 });
 
@@ -82,8 +95,10 @@ testMerge({
     containerId: 708,
     deletedContainerId: 707,
     daylightOpening: {
-        x: 235,
-        y: 480,
+        dimensions: {
+            width: 235,
+            height: 480,
+        }
     },
 });
 
@@ -94,8 +109,10 @@ testMerge({
     containerId: 733,
     deletedContainerId: 732,
     daylightOpening: {
-        x: 185,
-        y: 430,
+        dimensions: {
+            width: 185,
+            height: 430,
+        }
     },
 });
 
@@ -105,8 +122,10 @@ testMerge({
     containerId: 739,
     deletedContainerId: 733,
     daylightOpening: {
-        x: 380,
-        y: 100
+        dimensions: {
+            width: 380,
+            height: 100
+        }
     }
 });
 
@@ -116,8 +135,10 @@ testMerge({
     containerId: 736,
     deletedContainerId: 737,
     daylightOpening: {
-        x: 185,
-        y: 320,
+        dimensions: {
+            width: 185,
+            height: 320,
+        }
     },
 });
 
@@ -132,8 +153,10 @@ chainTests({
                 containerId: 709,
                 deletedContainerId: 707,
                 daylightOpening: {
-                    x: 480,
-                    y: 240,
+                    dimensions: {
+                        width: 480,
+                        height: 240,
+                    }
                 },
             },
         },
@@ -144,8 +167,10 @@ chainTests({
                 containerId: 710,
                 deletedContainerId: 708,
                 daylightOpening: {
-                    x: 480,
-                    y: 230,
+                    dimensions: {
+                        width: 480,
+                        height: 230,
+                    }
                 },
             },
         },
@@ -156,8 +181,10 @@ chainTests({
                 containerId: 709,
                 deletedContainerId: 710,
                 daylightOpening: {
-                    x: 480,
-                    y: 480,
+                    dimensions: {
+                        width: 480,
+                        height: 480,
+                    }
                 },
             },
         },

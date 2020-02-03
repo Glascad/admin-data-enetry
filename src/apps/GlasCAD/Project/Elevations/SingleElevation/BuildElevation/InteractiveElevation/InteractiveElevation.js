@@ -40,8 +40,8 @@ const InteractiveElevation = ({
         allContainers = [],
         allFrames = [],
         roughOpening: {
-            x: rox = 0,
-            y: roy = 0,
+            width = 0,
+            height = 0,
         } = {},
         finishedFloorHeight,
         topDimensionTracks = [],
@@ -95,8 +95,8 @@ const InteractiveElevation = ({
                 id="InteractiveElevation"
                 className={`${selectedClass}-selected`}
                 innerStyle={{
-                    height: roy * pixelsPerInch,
-                    width: rox * pixelsPerInch,
+                    height: height * pixelsPerInch,
+                    width: width * pixelsPerInch,
                 }}
                 viewportRef={Viewport}
             >
@@ -104,8 +104,8 @@ const InteractiveElevation = ({
                 <div
                     id="rough-opening"
                     style={{
-                        height: roy * pixelsPerInch,
-                        width: rox * pixelsPerInch,
+                        height: height * pixelsPerInch,
+                        width: width * pixelsPerInch,
                     }}
                 />
                 {/* FINISHED FLOOR */}

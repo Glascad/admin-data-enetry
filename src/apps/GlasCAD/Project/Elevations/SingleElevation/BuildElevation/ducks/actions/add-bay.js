@@ -47,8 +47,10 @@ export default function ADD_BAY({
     ), arguments[0]);
 
     const newDLO = {
-        x: distance,
-        y: roughOpening.y - (sightline * 2),
+        dimensions: {
+            width: distance,
+            height: roughOpening.height - (sightline * 2),
+        }
     };
 
     const elevationWithAddedContainer = createContainer(elevationWithUpdatedDLO, { daylightOpening: newDLO });

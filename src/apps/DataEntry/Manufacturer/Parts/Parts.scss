@@ -3,9 +3,9 @@
 #AllParts {
     .Pill {
         .part-preview {
-            stroke: $dark-gray;
+            stroke: none;
+            // stroke: $dark-gray;
             fill: $dark-gray;
-            stroke-width: 5px;
         }
 
         &:hover {
@@ -31,6 +31,7 @@
 
         path {
             stroke: $dark-gray;
+            stroke-width: 0.002px;
             fill: $light-gray;
         }
         // background: white;
@@ -63,7 +64,7 @@
                         width: 100%;
                     }
                 }
-                .title-bar-right{
+                .title-bar-right {
                     margin: 0 $xx-small;
                 }
             }
@@ -82,10 +83,11 @@
                     fill: none;
                     width: fill;
                     height: fill;
+                    stroke-width: 0.002px;
 
                     path {
                         stroke: $off-white;
-                        stroke-width: 1px;
+                        // stroke-width: 1px;
                         // fill: $medium-dark-gray;
 
                         @for $i from 1 through 5 {

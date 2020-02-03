@@ -23,19 +23,10 @@ export default function useRedoableState(firstState, dependencies = []) {
     }, [effectDependency]);
 
     const dispatch = useCallback((setStateCallback, afterSetState) => {
-        setState(oldState => {
-            const intermediateState = setStateCallback(oldState);
-            const newState = {
-                ...oldState,
-                ...intermediateState,
-            };
-            console.log({
-                oldState,
-                intermediateState,
-                newState,
-            });
-            return newState;
-        });
+        setState(oldState => ({
+            ...oldState,
+            ...setStateCallback(oldState),
+        }));
         setAfterSetState({ afterSetState });
     }, [setState, setAfterSetState]);
 

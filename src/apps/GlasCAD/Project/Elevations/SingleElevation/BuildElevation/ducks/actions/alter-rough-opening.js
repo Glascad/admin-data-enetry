@@ -1,7 +1,6 @@
-import DELETE_CONTAINER from "./delete-container";
+import { DIRECTIONS, replace } from "../../../../../../../../utils";
 import ADD_FRAME from "./add-frame";
-import { DIRECTIONS } from "../../../utils/recursive-elevation/directions";
-import { replace } from "../../../../../../../../utils";
+import DELETE_CONTAINER from "./delete-container";
 
 ALTER_ROUGH_OPENING.getSelectedItems = ({
     first,
@@ -30,7 +29,9 @@ export default function ALTER_ROUGH_OPENING({
         id: containerId,
         rawContainer,
         daylightOpening: {
-            y,
+            dimensions: {
+                height,
+            },
         },
     },
     distance,
@@ -41,13 +42,13 @@ export default function ALTER_ROUGH_OPENING({
 
     const _frame = container.getFrameByDirection(true, first);
 
-    // delete container (set customRoughOpening to true) if step distance is equal to container.dlo.y + container.topFrame.sightline
-    if (y + _frame.sightline <= Math.abs(distance)) {
+    // delete container (set customRoughOpening to true) if step distance is equal to container.dlo.height + container.topFrame.sightline
+    if (height + _frame.sightline <= Math.abs(distance)) {
         return DELETE_CONTAINER(arguments[0], { container });
     } else {
 
         const distanceToAddFrame = first ?
-            y - distance
+            height - distance
             :
             distance - _frame.sightline;
 

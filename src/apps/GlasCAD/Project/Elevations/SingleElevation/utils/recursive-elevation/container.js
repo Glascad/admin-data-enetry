@@ -1,8 +1,5 @@
-
+import { DIRECTIONS, GET_RELATIVE_DIRECTIONS, Loggable, unique } from '../../../../../../../utils';
 import sortDetails from './sort-details';
-import { unique, Loggable } from '../../../../../../../utils';
-import { DIRECTIONS, GET_RELATIVE_DIRECTIONS } from './directions';
-import _ from 'lodash';
 
 const detailsKey = 'details<vertical><first>';
 const framesKey = 'frames<vertical><first>';
@@ -191,7 +188,7 @@ export default class RecursiveContainer extends Loggable {
                 this.leftContainers[0] ? (
                     (this.leftContainers[0].placement.x || 0)
                     +
-                    (this.leftContainers[0].daylightOpening.x || 0)
+                    (this.leftContainers[0].daylightOpening.dimensions.width || 0)
                 )
                     :
                     0
@@ -213,19 +210,29 @@ export default class RecursiveContainer extends Loggable {
                 (
                     (this.bottomContainers[0].placement.y || 0)
                     +
-                    (this.bottomContainers[0].daylightOpening.y || 0)
+                    (this.bottomContainers[0].daylightOpening.dimensions.height || 0)
                 )
             ) || 0)
         );
     }
 
     get placement() {
+        const {
+            daylightOpening: {
+                dimensions: {
+                    height,
+                    width,
+                } = {}
+            } = {},
+            placementX,
+            placementY,
+        } = this;
         return this.__placement || (
             this.__placement = {
-                height: this.daylightOpening.y,
-                width: this.daylightOpening.x,
-                x: this.placementX,
-                y: this.placementY,
+                height,
+                width,
+                x: placementX,
+                y: placementY,
             });
     }
 
@@ -266,7 +273,7 @@ export default class RecursiveContainer extends Loggable {
 
         const backwardContainers = container && container.getImmediateContainersByDirection(...BACKWARD);
 
-        const DLOKey = vertical ? 'x' : 'y';
+        const DLOKey = vertical ? 'width' : 'height';
 
         return !!(
             container
@@ -281,7 +288,7 @@ export default class RecursiveContainer extends Loggable {
                 !container.customRoughOpening
             )
             &&
-            container.daylightOpening[DLOKey] === this.daylightOpening[DLOKey]
+            container.daylightOpening.dimensions[DLOKey] === this.daylightOpening.dimensions[DLOKey]
         );
     }
 
@@ -301,12 +308,12 @@ export default class RecursiveContainer extends Loggable {
     );
 
     getMinOrMaxByVertical = (vertical, min) => {
-        const DLOKey = vertical ? 'x' : 'y';
+        const DLOKey = vertical ? 'width' : 'height';
 
         return min ?
             this.elevation.minimumDaylightOpening
             :
-            this.daylightOpening[DLOKey] - this.elevation.minimumDaylightOpening - this.elevation.sightline;
+            this.daylightOpening.dimensions[DLOKey] - this.elevation.minimumDaylightOpening - this.elevation.sightline;
     }
 
     minByVertical = vertical => this.getMinOrMaxByVertical(vertical, true);
@@ -350,7 +357,7 @@ export default class RecursiveContainer extends Loggable {
     getMaxRoughOpeningDistanceByDirection = first => {
         if (this.canAlterRoughOpeningByDirection(first)) {
             const { sightline } = this.getFrameByDirection(true, first);
-            return this.daylightOpening.y + sightline;
+            return this.daylightOpening.dimensions.height + sightline;
         }
     }
 

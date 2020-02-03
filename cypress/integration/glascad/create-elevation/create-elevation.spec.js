@@ -26,27 +26,29 @@ describe(`Testing end to end for create elevation`, () => {
         cy.getDataCy`starting-bay`
             .clear().type(`4`).should("have.value", `4`)
             .blur().should("have.value", `4`);
-
-        cy.getDataCy`curb-height`
+            
+            cy.getDataCy`curb-height`
             .clear().type(`10' 4"`).should("have.value", `10' 4"`)
             .blur().should("have.value", `10'-4"`);
-
-        cy.getDataCy`create`
+            
+            cy.getDataCy`create-button`
             .click();
-
-        cy.get('#InteractiveElevation');
-
-        cy.wait(2000);
-
-        cy.get('#InteractiveElevation').contains('div');
-
-        // cy.getDataCy`horizontal-distance`
-        // .clear().type(`10' 5"`).should("have.value", `10' 5"`)
-        // .blur().should("have.value", `10'-5"`)        
-    })
-
-    // it(`has correct preview`, () => {
-    //     cy.getDataCy`preview`.contains("viewBox", "0 0 38 120")
-    // })
-
+            
+            cy.get('#InteractiveElevation');
+            
+            cy.wait(2000);
+            
+            cy.get('#InteractiveElevation').contains('div');
+            
+            // cy.getDataCy`horizontal-distance`
+            // .clear().type(`10' 5"`).should("have.value", `10' 5"`)
+            // .blur().should("have.value", `10'-5"`)        
+        })
+        
+        it(`cannot create invalid elevation`, () => {
+            cy.getDataCy`starting-bay`
+                .clear().type(`-1`).should("have.value", ``)
+                .blur().should("have.value", ``);
+        })
+        
 });

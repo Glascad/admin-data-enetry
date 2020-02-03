@@ -1,5 +1,4 @@
-import { GET_RELATIVE_DIRECTIONS, DIRECTIONS } from "./directions";
-import { unique, Loggable, lastItem, replace } from "../../../../../../../utils";
+import { lastItem, Loggable, replace, unique } from "../../../../../../../utils";
 
 const containersKey = 'containers<first>';
 const runsAlongEdgeKey = 'runs_along_edge<first>';
@@ -469,8 +468,10 @@ export default class RecursiveFrame extends Loggable {
                 id,
                 rawContainer: {
                     daylightOpening: {
-                        x,
-                        y,
+                        dimensions: {
+                            width,
+                            height,
+                        }
                     } = {},
                 } = {},
             } = {}) => Math.min(
@@ -479,9 +480,9 @@ export default class RecursiveFrame extends Loggable {
                     Infinity
                     :
                     this.vertical ?
-                        x - this.elevation.minimumDaylightOpening
+                        width - this.elevation.minimumDaylightOpening
                         :
-                        y - this.elevation.minimumDaylightOpening,
+                        height - this.elevation.minimumDaylightOpening,
             ), Infinity)
 
     canMoveByDirection = first => this.canMoveAtAll
@@ -491,15 +492,17 @@ export default class RecursiveFrame extends Loggable {
                 id,
                 rawContainer: {
                     daylightOpening: {
-                        x,
-                        y,
+                        dimensions: {
+                            width,
+                            height,
+                        }
                     } = {},
                 } = {},
             } = {}) => !id || (
                 this.vertical ?
-                    x > this.elevation.minimumDaylightOpening
+                    width > this.elevation.minimumDaylightOpening
                     :
-                    y > this.elevation.minimumDaylightOpening
+                    height > this.elevation.minimumDaylightOpening
             ));
 
     canMoveByDistance = distance => Math.abs(distance) <= this.maximumMovementByDirection(distance > 0);
@@ -546,9 +549,9 @@ export default class RecursiveFrame extends Loggable {
         const container = this.findExtendedContainer(true, first);
         if (!container) return 0;
         return this.vertical ?
-            (container.placementX + container.daylightOpening.x) - this.placement.x - this.elevation.sightline
+            (container.placementX + container.daylightOpening.dimensions.width) - this.placement.x - this.elevation.sightline
             :
-            (container.placementY + container.daylightOpening.y) - this.placement.y - this.elevation.sightline
+            (container.placementY + container.daylightOpening.dimensions.height) - this.placement.y - this.elevation.sightline
     };
 
     get firstDistanceByExtend() { return this.firstOrLastDistanceByExtend(true); }
@@ -571,5 +574,5 @@ export default class RecursiveFrame extends Loggable {
     get canExtendLast() { return this.canExtendFirstOrLast(false); }
 
     // ADD-BAY    
-    get canAddBay() { return this.placement.height === this.elevation.roughOpening.y; }
+    get canAddBay() { return this.placement.height === this.elevation.roughOpening.height; }
 }

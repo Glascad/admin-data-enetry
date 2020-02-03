@@ -2,7 +2,7 @@
 DO $create_systems$ DECLARE ___ INTEGER; BEGIN
 
     <<LOOP
-        NAME (Initial, Practice)
+        NAME ('Test', 'Trifab-451T')
         MNFG_ID (1, 2)
         RECEPTOR_MAIN_ID (7, 14)
         RECEPTOR_OTHER_ID (6, 13)
@@ -17,7 +17,7 @@ DO $create_systems$ DECLARE ___ INTEGER; BEGIN
             -- id INTEGER,
             NULL,
             -- name TEXT,
-            '<<NAME>> System',
+            <<NAME>>,
             -- system_type SYSTEM_TYPE,
             'STOREFRONT',
             -- manufacturer_id INTEGER,
@@ -136,7 +136,8 @@ DO $create_systems$ DECLARE ___ INTEGER; BEGIN
             ARRAY[
                 ('SET', 'CENTER', NULL),
                 ('JOINERY', 'SCREW_SPLINE', 'SET.CENTER')
-            ]::NEW_SYSTEM_OPTION[]
+            ]::NEW_SYSTEM_OPTION[],
+            2
         )::ENTIRE_SYSTEM)
         INTO ___;
 

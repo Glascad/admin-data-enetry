@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 export const query = {
     query: gql`{
-        allDetailTypes{
-            nodes{
+        allDetailTypes {
+            nodes {
                 nodeId
                 id
                 type
@@ -17,20 +17,20 @@ export const query = {
 export const mutations = {
     createDetailType: {
         mutation: gql`mutation CreateDetailType(
-            $type:String!,
-            $vertical:Boolean,
-            $entrance:Boolean
-        ){
+            $type: String!,
+            $vertical: Boolean,
+            $entrance: Boolean
+        ) {
             createDetailType(
-                input:{
-                    detailType:{
+                input: {
+                    detailType: {
                         type:$type
                         vertical:$vertical
                         entrance:$entrance
                     }
                 }
-            ){
-                detailType{
+            ) {
+                detailType {
                     nodeId
                     id
                     type
@@ -61,22 +61,22 @@ export const mutations = {
     },
     updateDetailType: {
         mutation: gql`mutation UpdateDetailType(
-            $nodeId:ID!,
-            $type:String,
-            $vertical:Boolean,
-            $entrance:Boolean
-        ){
+            $nodeId: ID!,
+            $type: String,
+            $vertical: Boolean,
+            $entrance: Boolean
+        ) {
             updateDetailType(
-                input:{
-                    nodeId:$nodeId
-                    detailTypePatch:{
-                        type:$type
-                        vertical:$vertical
-                        entrance:$entrance
+                input: {
+                    nodeId: $nodeId
+                    detailTypePatch: {
+                        type: $type
+                        vertical: $vertical
+                        entrance: $entrance
                     }
                 }
-            ){
-                detailType{
+            ) {
+                detailType {
                     nodeId
                     id
                     type

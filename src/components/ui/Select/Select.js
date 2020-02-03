@@ -1,10 +1,8 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { compareTwoStrings, findBestMatch } from 'string-similarity';
-import useInitialState from '../../hooks/use-initial-state';
-import customPropTypes from '../../utils/custom-prop-types';
+import React, { useEffect, useRef } from 'react';
+import { findBestMatch } from 'string-similarity';
 import { match, normalCase, unique } from '../../../utils';
-
+import useInitialState from '../../hooks/use-initial-state';
 import './Select.scss';
 
 Select.propTypes = {
@@ -87,6 +85,7 @@ export default function Select({
                     data-cy={`${dataCy} ${value.toLowerCase()}`}
                     autoFocus={autoFocus}
                     readOnly={readOnly}
+                    disabled={disabled || readOnly}
                     placeholder={noPlaceholder ? undefined : normalCase(value)}
                     value={input}
                     onFocus={() => setInput('')}

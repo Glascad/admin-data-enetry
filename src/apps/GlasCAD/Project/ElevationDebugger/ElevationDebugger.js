@@ -24,7 +24,7 @@ ElevationDebugger.navigationOptions = ({
         } = {},
     } = {},
 }) => ({
-    shouldRender: role === 'ADMIN',
+    shouldRenderInNavMenu: role === 'ADMIN',
 });
 
 export default function ElevationDebugger() {

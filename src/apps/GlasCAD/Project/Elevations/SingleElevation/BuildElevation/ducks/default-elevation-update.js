@@ -11,8 +11,10 @@ export const defaultContainerUpdate = {
     original: false,
     contents: "",
     daylightOpening: {
-        x: 0,
-        y: 0,
+        dimensions: {
+            width: 0,
+            height: 0,
+        }
     },
     customRoughOpening: false,
 };
@@ -22,8 +24,8 @@ export default {
         id: 0,
         name: "",
         roughOpening: {
-            x: 0,
-            y: 0,
+            width: 0,
+            height: 0,
         },
         finishedFloorHeight: 0,
         details: [],

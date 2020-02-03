@@ -21,7 +21,12 @@ export default function ADD_FRAME({
 }, {
     container,
     container: {
-        daylightOpening: DLO,
+        daylightOpening: {
+            dimensions: {
+                width,
+                height,
+            }
+        },
         elevation: {
             sightline,
         },
@@ -31,7 +36,7 @@ export default function ADD_FRAME({
 }) {
 
     const correctedDistance = distance || (
-        (DLO[vertical ? 'x' : 'y'] - sightline) / 2
+        ((vertical ? width : height) - sightline) / 2
     );
 
     const elevationWithUpdatedDLO = updateDLO(arguments[0], {
@@ -41,14 +46,16 @@ export default function ADD_FRAME({
     });
 
     const newDLO = {
-        x: vertical ?
-            correctedDistance
-            :
-            DLO.x,
-        y: vertical ?
-            DLO.y
-            :
-            correctedDistance,
+        dimensions: {
+            width: vertical ?
+                correctedDistance
+                :
+                width,
+            height: vertical ?
+                height
+                :
+                correctedDistance,
+        }
     };
 
     const elevationWithAddedContainer = createContainer(elevationWithUpdatedDLO, { daylightOpening: newDLO });

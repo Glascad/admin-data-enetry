@@ -1,24 +1,18 @@
 import React, { PureComponent } from 'react';
-
+import { ErrorBoundary, withRedoableState } from '../../../../../../components';
+import { parseSearch } from '../../../../../../utils';
 import { StaticContext } from '../../../../../Statics/Statics';
-
-import mergeElevationInput from './ducks/merge-input';
-
+import generatePreview from '../../ElevationPreview/generate-preview';
+import RecursiveElevation from '../utils/recursive-elevation/elevation';
 import ActionProvider from './contexts/ActionContext';
-import SelectionProvider from './contexts/SelectionContext';
 import ElevationTransformProvider from './contexts/ElevationTransformProvider';
-
+import SelectionProvider from './contexts/SelectionContext';
+import mergeElevationInput from './ducks/merge-input';
+import ElevationSidebar from './ElevationSidebar/ElevationSidebar';
 import Header from './Header/Header';
 import InteractiveElevation from './InteractiveElevation/InteractiveElevation';
-import ElevationRightSidebar from './ElevationRightSidebar/ElevationRightSidebar';
 import NavigationButtons from "./NavigationButtons/NavigationButtons";
-
-import { parseSearch } from '../../../../../../utils';
-
-import { ErrorBoundary, withRedoableState, Ellipsis } from '../../../../../../components';
-
-import renderPreview from '../../ElevationPreview/render-preview';
-import RecursiveElevation from '../utils/recursive-elevation/elevation';
+import _ from 'lodash'
 
 export const defaultElevationInput = {
     containers: [],
@@ -150,6 +144,7 @@ class BuildElevation extends PureComponent {
 
     save = async () => {
         const {
+            props,
             props: {
                 location: {
                     search,
@@ -158,10 +153,15 @@ class BuildElevation extends PureComponent {
                 currentState: {
                     elevationInput,
                     elevationInput: {
-                        details,
-                        containers,
+                        details: inputDetails,
+                        containers: inputContainers,
                     },
                     recursiveElevation,
+                    recursiveElevation: {
+                        allFrames,
+                        allDetails,
+                        allContainers,
+                    }
                 },
                 clearHistory,
                 cancel,
@@ -172,59 +172,108 @@ class BuildElevation extends PureComponent {
 
         cancel();
 
-        const result = await updateEntireElevation({
-            elevation: {
-                ...elevationInput,
-                id,
-                details: details
-                    .map(({
-                        nodeId,
-                        __typename,
-                        _detailOptionValues,
-                        firstContainerId,
-                        secondContainerId,
-                        id,
-                        ...detail
-                    }) => ({
-                        ...detail,
-                        ...(id > 0 ?
-                            { id }
-                            :
-                            null),
-                        [firstContainerId > 0 ?
-                            'firstContainerId'
-                            :
-                            'firstContainerFakeId']: firstContainerId,
-                        [secondContainerId > 0 ?
-                            'secondContainerId'
-                            :
-                            'secondContainerFakeId']: secondContainerId,
-                    })),
-                containers: containers
-                    .map(({
-                        nodeId,
-                        __typename,
-                        id,
-                        daylightOpening: {
-                            __typename: dlo_typename,
-                            ...daylightOpening
-                        },
-                        ...container
-                    }) => ({
-                            ...container,
-                        daylightOpening,
-                        [id > 0 ?
-                            'id'
-                            :
-                            'fakeId']: id,
-                    })),
-                preview: renderPreview(recursiveElevation),
-            },
+        const mapPlacement = ({ x, y, width, height }) => ({
+            origin: { x, y },
+            dimensions: { width, height },
         });
 
-        if (this.mounted) {
-            clearHistory();
-        }
+        console.log({ allFrames });
+
+        const frames = allFrames.map(({
+            vertical,
+            placement,
+            dimensions,
+            details,
+        }) => {
+            const [containerDetails, containerFakeDetails] = _.partition(details, ({ id }) => id > 0);
+            
+            const containerDetailIds = containerDetails.map(({ id }) => id);
+            const containerDetailFakeIds = containerFakeDetails.map(({ id }) => id);
+            
+            console.log({
+                details,
+                containerDetails,
+                containerFakeDetails,
+                containerDetailIds,
+                containerDetailFakeIds,
+            });
+
+            return {
+                vertical,
+                placement: mapPlacement(placement),
+                dimensions,
+                containerDetailIds,
+                containerDetailFakeIds,
+            };
+        });
+
+        // adds the containers from state plus the rest of the container's placement and id that arn't in state
+        const containers = inputContainers
+            .map(({
+                nodeId,
+                __typename,
+                id,
+                ...container
+            }) => ({
+                ...container,
+                daylightOpening: mapPlacement((allContainers.find(c => c.id === id) || {}).placement),
+                [id > 0 ?
+                    'id'
+                    :
+                    'fakeId']: id,
+            }))
+            .concat(
+                allContainers
+                    .filter(({ id }) => !inputContainers.some(c => c.id === id))
+                    .map(({ id, placement }) => ({ id, daylightOpening: mapPlacement(placement) }))
+            );
+
+        const details = inputDetails
+            .map(({
+                nodeId,
+                __typename,
+                _detailOptionValues,
+                firstContainerId,
+                secondContainerId,
+                id,
+                ...detail
+            }) => ({
+                ...detail,
+                [id > 0 ?
+                    'id'
+                    :
+                    'fakeId']: id,
+                placement: mapPlacement((allDetails.find(d => d.id === id) || {}).placement),
+                [firstContainerId > 0 ?
+                    'firstContainerId'
+                    :
+                    'firstContainerFakeId']: firstContainerId,
+                [secondContainerId > 0 ?
+                    'secondContainerId'
+                    :
+                    'secondContainerFakeId']: secondContainerId,
+            }))
+            .concat(
+                allDetails
+                    .filter(({ id }) => !inputDetails.some(d => d.id === id))
+                    .map(({ id, placement }) => ({ id, placement: mapPlacement(placement) }))
+            );
+
+        const elevationPayload = {
+            ...elevationInput,
+            id,
+            frames,
+            details,
+            containers,
+            preview: generatePreview(recursiveElevation),
+        };
+
+        console.log({ elevationPayload });
+        console.log(JSON.stringify(elevationPayload));
+
+        const result = await updateEntireElevation({ elevation: elevationPayload });
+
+        if (this.mounted) clearHistory();
 
         return result;
     }
@@ -241,6 +290,8 @@ class BuildElevation extends PureComponent {
                     path,
                 },
                 project,
+                systemMap,
+                systemSet,
                 refetch,
                 queryResult,
                 queryResult: {
@@ -269,6 +320,8 @@ class BuildElevation extends PureComponent {
         //     states,
         // });
 
+        console.log({ recursiveElevation });
+
         // console.log(this);
 
         return (
@@ -293,11 +346,13 @@ class BuildElevation extends PureComponent {
                             updating={updating}
                             elevationInput={elevationInput}
                         />
-                        <ElevationRightSidebar
+                        <ElevationSidebar
                             currentIndex={currentIndex}
                             states={states}
                             elevation={recursiveElevation}
                             updateElevation={updateElevation}
+                            systemMap={systemMap}
+                            systemSet={systemSet}
                         />
                         <ErrorBoundary
                             renderError={(error, info) => (

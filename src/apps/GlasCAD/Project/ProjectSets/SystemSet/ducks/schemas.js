@@ -4,17 +4,23 @@ export const defaultOptionGroupValuePair = {
     name: undefined,
 };
 
-export const defaultSystemSetNode = {
-    oldPath: undefined,
-    newPath: undefined,
+export const defaultSystemSetDetail = {
+    systemDetailPath: undefined,
+    detailOptionValuePath: undefined,
+};
+
+export const defaultSystemSetConfiguration = {
+    detailConfigurationPath: undefined,
+    configurationOptionValuePath: undefined,
 };
 
 export const defaultSystemSetUpdate = {
     id: undefined,
-    name: undefined,
     systemId: undefined,
+    name: undefined,
     systemOptionValuePath: undefined,
     optionGroupValues: undefined,
-    detailOptionValues: undefined,
-    configurationOptionValues: undefined,
+    details: undefined,
+    configurations: undefined,
+    optionalConfigurationsToUnselect: undefined,
 };

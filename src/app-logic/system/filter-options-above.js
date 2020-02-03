@@ -1,0 +1,1 @@
+export default window.filterOptionsAbove = ({ path }, optionList = []) => optionList.filter(({ name }) => !path.includes(name));

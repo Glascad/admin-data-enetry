@@ -1,0 +1,99 @@
+@import "../../../../../styles/variables";
+
+#SystemTree {
+    display: flex;
+    align-items: flex-start;
+
+    .Tree {
+        .Branch {
+            .tree-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                white-space: nowrap;
+                border-radius: $xx-small;
+                height: $item-height;
+                margin: 0 $x-small $small;
+                padding: 0 $small;
+                cursor: default;
+                transition: all 0.1s;
+                // width: fit-content;
+                // margin-left: auto;
+                // margin-right: auto;
+
+                &.type-system {
+                    background: $dark-gray;
+                    color: $off-white;
+                }
+
+                &.type-option {
+                    background: $light-gray;
+                }
+
+                &.type-value {
+                    background: none;
+                    border: 1px solid $medium-gray;
+
+                    &.default {
+                        // text-transform: uppercase;
+
+                        &::before {
+                            content: "(";
+                            margin-right: $xx-small;
+                        }
+                        &::after {
+                            content: ")";
+                            margin-left: $xx-small;
+                        }
+                    }
+                }
+
+                &.subtype-systemdetail {
+                    background: $dark-gray;
+                    color: $off-white;
+                    border-radius: $large;
+                }
+
+                &.type-detailconfiguration {
+                    background: $medium-dark-gray;
+                    color: white;
+                }
+
+                &.type-configurationpart {
+                    background: none;
+                    border: 2px solid $medium-gray;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    // border: 1px solid $warning-color;
+                    // color: $warning-color;
+                    // background: mix($warning-color, white, 33%);
+                }
+
+                &.grouped-with-selected {
+                    border: 2px solid $selected-color;
+                }
+
+                &.selected {
+                    background: $selected-color;
+                    border: none;
+                    color: $off-white;
+                }
+
+                &.spliced {
+                    border: 2px solid $danger-color;
+                }
+            }
+        }
+    }
+
+    &.with-partial-action {
+        .Tree {
+            .tree-item {
+                &.available {
+                    border-width: 2px;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

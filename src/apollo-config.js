@@ -1,7 +1,7 @@
-import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
 
 
 // LOCALSTORAGE
@@ -11,7 +11,7 @@ export const STORAGE_KEYS = {
     RECENT_ACTIVITY: "Recent-Activity",
 };
 
-const getJWT = () => {
+const getAuthorization = () => {
     const JWT = localStorage.getItem(STORAGE_KEYS.JWT);
     return JWT ? `Bearer ${JWT}` : "";
 }
@@ -25,7 +25,7 @@ const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_BASE_URL}/graphql`
 // MIDDLEWARE
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-    const authorization = getJWT();
+    const authorization = getAuthorization();
     if (authorization) {
         operation.setContext(({
             headers: {

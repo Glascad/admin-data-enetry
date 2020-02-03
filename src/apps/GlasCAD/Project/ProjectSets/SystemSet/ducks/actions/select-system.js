@@ -1,5 +1,6 @@
 
-export default function SELECT_SYSTEM({ allSystems }, systemSetUpdate, { systemName }) {
+export default function SELECT_SYSTEM({ allSystems }, systemSetUpdate, systemName) {
+    console.log(arguments);
 
     const { id: systemId } = allSystems.find(({ name }) => name === systemName) || {};
 
@@ -7,10 +8,11 @@ export default function SELECT_SYSTEM({ allSystems }, systemSetUpdate, { systemN
 
     return {
         ...systemSetUpdate,
+        name: systemName,
         systemId,
         optionGroupValues: undefined,
         systemOptionValuePath: undefined,
-        detailOptionValues: undefined,
-        configurationOptionValues: undefined,
+        details: undefined,
+        configurations: undefined,
     };
 }

@@ -1,28 +1,47 @@
 
 DO $create_system_sets$ DECLARE ___ INTEGER; BEGIN
 
-    <<LOOP ID (1, 2)>>
-        -- TEST SYSTEM SET
+    <<LOOP 
+        PID (1, 2, 3, 4, 5, 6)
+        SID (1, 2, 2, 2, 2, 2)
+        NAME ('Test', 'Test2', '451T', '451T', '451T', '451T')
+    >>
 
-        
-
-        -- INSERT INTO system_sets (system_id, project_id, name, system_option_value_path) VALUES
-        -- (1, <<ID>>, 'Test System Set', '1.SET.CENTER.JOINERY.SCREW_SPLINE');
-
-        -- INSERT INTO system_set_option_group_values (system_set_id, option_name, name) VALUES
-        -- (<<ID>>, 'STOPS', 'DOWN'),
-        -- (<<ID>>, 'GLAZING', 'INSIDE');
-
-        -- INSERT INTO system_set_detail_option_values (system_set_id, detail_option_value_path) VALUES
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID'),
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID'),
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN');
-
-        -- INSERT INTO system_set_configuration_option_values (system_set_id, configuration_option_value_path) VALUES
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE'),
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.VOID.VOID.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY'),
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.VOID.VOID.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE'),
-        -- (<<ID>>, '1.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL.VOID.VOID');
+        SELECT 1 FROM update_entire_system_set(
+            (
+                -- id INTEGER,
+                NULL,
+                -- system_id INTEGER,
+                <<SID>>,
+                -- project_id INTEGER,
+                <<PID>>,
+                -- name VARCHAR(50),
+                <<NAME>>,
+                -- system_option_value_path LTREE,
+                '<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE',
+                -- option_group_values OPTION_VALUE_PAIR[],
+                ARRAY[
+                    ('STOPS', 'DOWN'),
+                    ('GLAZING', 'INSIDE')
+                ]::OPTION_VALUE_PAIR[],
+                -- detail_option_values ENTIRE_SYSTEM_SET_DETAIL[],
+                ARRAY[
+                    -- (sd, dov)
+                    ('<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD', NULL),
+                    ('<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL', NULL),
+                    (NULL, '<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN')
+                ]::ENTIRE_SYSTEM_SET_DETAIL[],
+                -- configuration_option_values ENTIRE_SYSTEM_SET_CONFIGURATION[]
+                ARRAY[
+                    -- (dc, cov)
+                    (NULL, '<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.HEAD.STOPS.DOWN.GLAZING.INSIDE'),
+                    (NULL, '<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HEAD.__CT__.COMPENSATING_RECEPTOR.DURABILITY.STANDARD_DUTY'),
+                    (NULL, '<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.HORIZONTAL.__CT__.HORIZONTAL.STOPS.DOWN.GLAZING.INSIDE'),
+                    ('<<SID>>.SET.CENTER.JOINERY.SCREW_SPLINE.__DT__.SILL.STOPS.DOWN.__CT__.SILL', NULL)
+                ]::ENTIRE_SYSTEM_SET_CONFIGURATION[],
+                NULL
+            )::ENTIRE_SYSTEM_SET
+        ) INTO ___;
 
     <<END LOOP>>
 

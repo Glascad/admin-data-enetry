@@ -343,8 +343,7 @@
                 input,
                 .select-input-wrapper,
                 .select-options,
-                .select-option,
-                .React-Select {
+                .select-option {
                     width: $pill-width * 0.715;
                 }
             }
@@ -407,5 +406,14 @@
                 background-image: linear-gradient(90deg, $dark-blue, $darker-blue 1.5%, $darker-blue 98.5%, $dark-blue);
             }
         }
+    }
+
+    .DetailOrConfigurationOrPart {
+        width: calc(100% - #{$small * 2} - 2px);
+        fill: $light-gray;
+        stroke: none;
+        border: 1px solid black;
+        padding: $small;
+        background: $darker-blue;
     }
 }
