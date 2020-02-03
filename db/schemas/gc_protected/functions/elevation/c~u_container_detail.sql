@@ -2,8 +2,8 @@ DROP FUNCTION IF EXISTS create_or_update_container_detail;
 
 CREATE OR REPLACE FUNCTION gc_protected.create_or_update_container_detail(
     container_detail ENTIRE_CONTAINER_DETAIL,
-    id_pairs ID_PAIR[],
-    frame_id_pairs ID_PAIR[],
+    cid_pairs ID_PAIR[],
+    fid_pairs ID_PAIR[],
     elevation_id INTEGER
 ) RETURNS CONTAINER_DETAILS AS $$
 DECLARE
@@ -40,13 +40,13 @@ BEGIN
                 eid,
                 COALESCE(
                     cd.first_container_id,
-                    get_real_id(id_pairs, cd.first_container_fake_id, TRUE)
+                    get_real_id(cid_pairs, cd.first_container_fake_id, TRUE)
                 ),
                 COALESCE(
                     cd.second_container_id,
-                    get_real_id(id_pairs, cd.second_container_fake_id, TRUE)
+                    get_real_id(cid_pairs, cd.second_container_fake_id, TRUE)
                 ),
-                get_real_id(frame_id_pairs, cd.fake_id, TRUE),
+                get_real_id(fid_pairs, cd.fake_id, TRUE),
                 cd.vertical,
                 cd.placement
             )
@@ -59,16 +59,16 @@ BEGIN
                 ),
                 first_container_id = COALESCE(
                     cd.first_container_id,
-                    get_real_id(id_pairs, cd.first_container_fake_id, TRUE),
+                    get_real_id(cid_pairs, cd.first_container_fake_id, TRUE),
                     container_details.first_container_id
                 ),
                 second_container_id = COALESCE(
                     cd.second_container_id,
-                    get_real_id(id_pairs, cd.second_container_fake_id, TRUE),
+                    get_real_id(cid_pairs, cd.second_container_fake_id, TRUE),
                     container_details.second_container_id
                 ),
                 elevation_frame_id = COALESCE(
-                    get_real_id(frame_id_pairs, cd.fake_id, TRUE),
+                    get_real_id(fid_pairs, cd.fake_id, TRUE),
                     container_details.elevation_frame_id
                 )
             WHERE container_details.id = cd.id
