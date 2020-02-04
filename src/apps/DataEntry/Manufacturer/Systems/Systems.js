@@ -1,19 +1,10 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-    Input,
-    ApolloWrapper,
-    ListWrapper,
-    StateManager,
-    TitleBar,
-    useQuery,
-    useMutation,
-} from '../../../../components';
-import F from '../../../../schemas';
-import gql from 'graphql-tag';
+import { ListWrapper, TitleBar, useMutation } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 
-const deleteSystemMutation = gql`mutation DeleteSystem($nodeId:ID!) {
+const deleteSystemMutation = gql`mutation DeleteSystem($nodeId: ID!) {
     deleteSystem(
         input: {
             nodeId: $nodeId

@@ -1,5 +1,12 @@
 const { _require } = require('./utils');
 
+
+
+// vvv LOOK HERE FOR AUTOMATIC POSTGRAPHILE GQL SCHEMA UPDATES WHEN SQL SCHEMA CHANGES
+// https://github.com/graphile/graphile-engine/blob/master/packages/graphile-build-pg/res/watch-fixtures.sql
+
+
+
 module.exports = function generateSeedFile() {
 
     const require = _require;
@@ -163,5 +170,9 @@ ${require('../../db/security/policies.sql')}
 END $seed$
 
 `;
+
+// ----- POSTGRAPHILE -----
+
+// ${require('../../db/schemas/postgraphile_watch/watch-fixtures.sql')}
 
 }

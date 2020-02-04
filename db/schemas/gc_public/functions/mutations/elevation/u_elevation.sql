@@ -13,8 +13,8 @@ DECLARE
     cd ENTIRE_CONTAINER_DETAIL;
     ___ INTEGER;
     real_id INTEGER;
-    id_pairs ID_PAIR[];
-    frame_id_pairs ID_PAIR[];
+    cid_pairs ID_PAIR[];
+    fid_pairs ID_PAIR[];
     ef ENTIRE_ELEVATION_FRAME;
     cdid INTEGER;
     -- OUT
@@ -48,7 +48,7 @@ BEGIN
         IF e.containers IS NOT NULL THEN
             FOREACH ec IN ARRAY e.containers LOOP
                 SELECT id FROM create_or_update_elevation_container(ec, ue.id) INTO real_id;
-                id_pairs := id_pairs || ROW(real_id, ec.fake_id)::ID_PAIR;
+                cid_pairs := cid_pairs || ROW(real_id, ec.fake_id)::ID_PAIR;
             END LOOP;
         END IF;
 
@@ -73,7 +73,7 @@ BEGIN
                 -- GET REAL IDS & PAIR WITH DETAIL FAKE IDS
                 IF ef.container_detail_fake_ids IS NOT NULL THEN
                     FOREACH cdid IN ARRAY ef.container_detail_fake_ids LOOP
-                        frame_id_pairs := frame_id_pairs || ROW(real_id, cdid)::ID_PAIR;
+                        fid_pairs := fid_pairs || ROW(real_id, cdid)::ID_PAIR;
                     END LOOP;
                 END IF;
             END LOOP;
@@ -83,7 +83,7 @@ BEGIN
         -- CREATE OR UPDATE DETAILS
         IF e.details IS NOT NULL THEN
             FOREACH cd IN ARRAY e.details LOOP
-                SELECT id FROM create_or_update_container_detail(cd, id_pairs, frame_id_pairs, ue.id) INTO ___;
+                SELECT id FROM create_or_update_container_detail(cd, cid_pairs, fid_pairs, ue.id) INTO ___;
             END LOOP;
         END IF;
 
