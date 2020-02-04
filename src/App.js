@@ -7,11 +7,8 @@ import AppNavigator from './apps/AppNavigator';
 import AuthProvider from './AuthContext';
 import URQLClient from './urql-config';
 
-// import { CheatSheet } from './components';
-
 export default function App() {
     return (
-        // <CheatSheet>
         <Router>
             <ApolloProvider client={apolloClient}>
                 <URQLProvider value={URQLClient}>
@@ -21,6 +18,5 @@ export default function App() {
                 </URQLProvider>
             </ApolloProvider>
         </Router>
-        // </CheatSheet>
     );
 }

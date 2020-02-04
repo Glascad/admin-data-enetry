@@ -38,7 +38,7 @@ module.exports = function startServer() {
             jwtPgTypeIdentifier: "gc_controlled.jwt",
             jwtSecret: JWT_SECRET,
             exportGqlSchemaPath: `${__dirname}/../compiled/gql-schema.gql`,
-            exportJsonSchemaPath: `${__dirname}/../src/gql-schema.json`,
+            exportJsonSchemaPath: `${__dirname}/../src/schemas/_schema.json`,
             pgDefaultRole: 'unauthorized',
             // pgDefaultRole: 'glascad',
         },
