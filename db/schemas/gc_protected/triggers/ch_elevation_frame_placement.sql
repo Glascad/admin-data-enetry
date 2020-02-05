@@ -93,19 +93,23 @@ BEGIN
             RAISE EXCEPTION 'Frame %, % must have correct sightline %', efid, efp, sl;
         END IF;
 
-        FOREACH r IN ARRAY cdps LOOP
+        IF cdps IS NOT NULL THEN
+            FOREACH r IN ARRAY cdps LOOP
 
-            d := r.dimensions;
+                d := r.dimensions;
 
-            IF (
-                (v AND efdim.width <> d.width)
-                OR
-                (NOT v AND efdim.height <> d.height)
-            ) THEN
-                RAISE EXCEPTION 'Frame %, % and its detail % must all have same sightline', efid, efp, r;
-            END IF;
+                IF (
+                    (v AND efdim.width <> d.width)
+                    OR
+                    (NOT v AND efdim.height <> d.height)
+                ) THEN
+                    RAISE EXCEPTION 'Frame %, % and its detail % must all have same sightline', efid, efp, r;
+                END IF;
 
-        END LOOP;
+            END LOOP;
+        ELSE
+            RAISE EXCEPTION 'Frame %, % must contain details', efid, efp;
+        END IF;
 
         -- ends of frame should match ends of end details (for verticals maybe plus 1 SL)
         rq := combine_rectangles(cdps);

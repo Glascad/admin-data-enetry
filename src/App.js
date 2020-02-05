@@ -1,22 +1,18 @@
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
-import { BrowserRouter as Router } from 'react-router-dom';
-import AuthProvider from './AuthContext';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { BrowserRouter } from 'react-router-dom';
 import AppNavigator from './apps/AppNavigator';
-import client from './apollo-config';
-
-// import { CheatSheet } from './components';
+import apolloClient from './http/apollo-config';
+import AuthProvider from './http/AuthContext';
 
 export default function App() {
     return (
-        // <CheatSheet>
-        <Router>
-            <ApolloProvider client={client}>
+        <BrowserRouter>
+            <ApolloProvider client={apolloClient}>
                 <AuthProvider>
                     <AppNavigator />
                 </AuthProvider>
             </ApolloProvider>
-        </Router>
-        // </CheatSheet>
+        </BrowserRouter>
     );
 }

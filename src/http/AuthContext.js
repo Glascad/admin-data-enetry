@@ -1,10 +1,10 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
-import F from './schemas';
-import client, { STORAGE_KEYS } from './apollo-config';
-import { useQuery, useMutation } from './components';
-import { parseSearch } from './utils';
+import React, { createContext, useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import client from './apollo-config';
+import { useMutation, useQuery } from '../components';
+import { STORAGE_KEYS } from './local-storage';
+import F from '../schemas';
 
 export const AuthContext = createContext();
 
@@ -26,6 +26,7 @@ const mutation = {
             }
         }
     `,
+    fetchPolicy: 'no-cache',
 };
 
 function AuthProvider({
@@ -44,7 +45,7 @@ function AuthProvider({
     const getCurrentUser = async () => {
         try {
             const result = await fetchQuery();
-            // console.log({ result });
+            console.log({ result });
             const { currentUser: { id } = {} } = result || {};
             // console.log({ originalLocation });
             if (id) {

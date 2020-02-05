@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { SystemMap } from '../../../app-logic/system';
 import * as SAMPLE_SYSTEMS from '../../../app-logic/__test__/sample-systems';
-import { ApolloWrapper, Ellipsis, Navigator, useMutation, useQuery, useRedoableState, useSaveOnCtrlS } from '../../../components';
+import { ApolloWrapper, Ellipsis, Navigator, useApolloMutation, useApolloQuery, useRedoableState, useSaveOnCtrlS } from '../../../components';
 import { normalCase, parseSearch } from '../../../utils';
 import DetailBuilder from './DetailBuilder/DetailBuilder';
 import cleanSystemInput from './ducks/clean-system-input';
@@ -90,16 +90,30 @@ export default function System({
 
     const _sampleSystem = SAMPLE_SYSTEMS[sampleSystem];
 
-    const [fetchQuery, qr, fetching] = useQuery({ query, variables: { id: +systemId || 0 } });
+    const variables = { id: +systemId || 0 };
 
-    const { _system } = qr;
+    const qr = useApolloQuery(query, { variables });
+
+    const {
+        _system,
+        __raw: {
+            loading: fetching,
+            refetch,
+        },
+    } = qr;
+
+    useEffect(() => {
+        refetch();
+    }, [systemId]);
+
+    console.log({ qr });
 
     const queryResult = {
         ...qr,
         _system: _sampleSystem || _system,
     };
 
-    const [updateEntireSystem, updateStatus, updating] = useMutation(updateEntireSystemMutation, fetchQuery);
+    const [updateEntireSystem, { __raw: { loading: updating } }] = useApolloMutation(updateEntireSystemMutation, { refetchQueries: [{ query, variables }] });
 
     const {
         currentState: systemInput,

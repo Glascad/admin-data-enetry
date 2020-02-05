@@ -5,7 +5,7 @@
  * Recursively searches through the object, protecting against circular structures using the `prev` array.
  */
 
-const removeNullValues = (obj, prev = []) => (obj === null ?
+const removeNullValues = (obj = {}, prev = []) => (obj === null ?
     undefined
     :
     typeof obj !== 'object' || prev.includes(obj) ?
