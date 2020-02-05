@@ -26,6 +26,7 @@ const mutation = {
             }
         }
     `,
+    fetchPolicy: 'no-cache',
 };
 
 function AuthProvider({
@@ -44,7 +45,7 @@ function AuthProvider({
     const getCurrentUser = async () => {
         try {
             const result = await fetchQuery();
-            // console.log({ result });
+            console.log({ result });
             const { currentUser: { id } = {} } = result || {};
             // console.log({ originalLocation });
             if (id) {

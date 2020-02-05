@@ -72,6 +72,8 @@ export function useQuery(query, doNotFetchOnMount = false) {
                 variables,
             });
 
+            console.log({ response });
+
             // console.log({
             //     response,
             //     variables,
