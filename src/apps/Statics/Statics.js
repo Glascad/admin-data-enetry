@@ -1,8 +1,8 @@
 import React, { createContext, createRef, PureComponent, useContext, useEffect } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
-import { AuthContext } from '../../AuthContext';
 import { DoubleArrow, Navigator, NavMenu, withContext } from '../../components';
+import { AuthContext } from '../../http/AuthContext';
 import { extractNavigationOptions, normalCase } from '../../utils';
 import './Statics.scss';
 

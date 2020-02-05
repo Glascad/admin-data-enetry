@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LoginSplash from '../../assets/images/Login Splash.jpeg';
-import { AuthContext } from '../../AuthContext';
 import { Ellipsis, Input, TitleBar, withContext } from '../../components';
+import { AuthContext } from '../../http/AuthContext';
 import { StaticContext } from '../Statics/Statics';
 import './Login.scss';
 

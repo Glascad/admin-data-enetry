@@ -1,6 +1,5 @@
+import { ApolloConsumer } from '@apollo/react-components';
 import React from 'react';
-
-import { ApolloConsumer } from 'react-apollo';
 
 export default function withApolloContext(ReactComponent) {
     return function ApolloComponent(props) {

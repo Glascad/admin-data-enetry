@@ -11,28 +11,25 @@ export const DIRECTIONS = {
 export const GET_RELATIVE_DIRECTIONS = ([vertical, first]) => ({
     FORWARD: [
         vertical,
-        vertical ?
-            first
-            :
-            first
+        first,
     ],
     BACKWARD: [
         vertical,
-        !first
+        !first,
     ],
     LEFT: [
         !vertical,
         vertical ?
             !first
             :
-            first
+            first,
     ],
     RIGHT: [
         !vertical,
         vertical ?
             first
             :
-            !first
+            !first,
     ],
 });
 
