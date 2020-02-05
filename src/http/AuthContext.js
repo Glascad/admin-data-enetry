@@ -38,6 +38,9 @@ function AuthProvider({
 
     const {
         currentUser = {},
+        currentUser: {
+            id: currentUserId,
+        } = {},
         __raw: {
             refetch,
         },
@@ -64,18 +67,8 @@ function AuthProvider({
         }
     }
 
-    useEffect(() => {
-        getCurrentUser();
-    }, []);
-
     const authenticating = localStorage.getItem(STORAGE_KEYS.JWT) ?
-        (
-            !queryResult
-            ||
-            !queryResult.currentUser
-            ||
-            !queryResult.currentUser.id
-        )
+        !currentUserId
         :
         loading;
 
