@@ -4,6 +4,11 @@
     "id": 74,
     "name": "HH Frame Error",
     "finishedFloorHeight": 0,
+    "_systemSet": {
+        "_system": {
+            "sightline": 10
+        }
+    },
     "roughOpening": {
         "width": 1000,
         "height": 560,

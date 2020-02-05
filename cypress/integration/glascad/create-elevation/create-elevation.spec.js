@@ -8,8 +8,10 @@ describe(`Testing end to end for create elevation`, () => {
 
     it("Typing in the input gives the correct value", () => {
 
-        cy.getDataCy`elevation-id`.type("Elevation 1");
-        cy.get('.title-bar-left').contains("Elevation 1");
+        const number = Math.floor(Math.random() * 10000)
+
+        cy.getDataCy`elevation-id`.type(`Elevation ${number}`);
+        cy.get('.title-bar-left').contains(`Elevation ${number}`);
 
         cy.wait(2000);
 
@@ -31,7 +33,7 @@ describe(`Testing end to end for create elevation`, () => {
             .clear().type(`10' 4"`).should("have.value", `10' 4"`)
             .blur().should("have.value", `10'-4"`);
             
-            cy.getDataCy`create-button`
+            cy.getDataCy`create-button`.first()
             .click();
             
             cy.get('#InteractiveElevation');
