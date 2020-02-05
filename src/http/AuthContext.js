@@ -1,33 +1,27 @@
 import gql from 'graphql-tag';
 import React, { createContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import { useApolloMutation, useApolloQuery } from '../components';
+import { CURRENT_USER } from '../schemas/authentication';
 import client from './apollo-config';
-import { useMutation, useQuery } from '../components';
 import { STORAGE_KEYS } from './local-storage';
-import F from '../schemas';
 
 export const AuthContext = createContext();
 
-const query = {
-    query: gql`{ ...CurrentUser } ${F.AUTH.CURRENT_USER}`,
-    fetchPolicy: 'no-cache',
-};
+const query = gql`{ ...CurrentUser } ${CURRENT_USER}`;
 
-const mutation = {
-    mutation: gql`
-        mutation Authenticate($username: String!, $password: String!) {
-            authenticate(
-                input: {
-                    username: $username
-                    password: $password
-                }
-            ) {
-                jwt
+const mutation = gql`
+    mutation Authenticate($username: String!, $password: String!) {
+        authenticate(
+            input: {
+                username: $username
+                password: $password
             }
+        ) {
+            jwt
         }
-    `,
-    fetchPolicy: 'no-cache',
-};
+    }
+`;
 
 function AuthProvider({
     children,
@@ -39,12 +33,22 @@ function AuthProvider({
 }) {
 
     const [originalLocation, setOriginalLocation] = useState(`${pathname}${search}`);
-    const [fetchQuery, queryResult] = useQuery(query, true);
-    const [authenticate, authResult, authPromise] = useMutation(mutation);
+    const queryResult = useApolloQuery(query, { fetchPolicy: 'no-cache' });
+    const [authenticate, { loading }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
+
+    const {
+        currentUser = {},
+        currentUser: {
+            id: currentUserId,
+        } = {},
+        __raw: {
+            refetch,
+        },
+    } = queryResult;
 
     const getCurrentUser = async () => {
         try {
-            const result = await fetchQuery();
+            const result = await refetch();
             console.log({ result });
             const { currentUser: { id } = {} } = result || {};
             // console.log({ originalLocation });
@@ -63,20 +67,10 @@ function AuthProvider({
         }
     }
 
-    useEffect(() => {
-        getCurrentUser();
-    }, []);
-
     const authenticating = localStorage.getItem(STORAGE_KEYS.JWT) ?
-        (
-            !queryResult
-            ||
-            !queryResult.currentUser
-            ||
-            !queryResult.currentUser.id
-        )
+        !currentUserId
         :
-        authPromise;
+        loading;
 
     const login = async ({ username, password }) => {
         try {
@@ -89,7 +83,8 @@ function AuthProvider({
             if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
 
         } catch (err) {
-            // console.log({ err });
+            console.error("ERROR AUTHENTICATING");
+            console.log({ err });
         }
 
         return getCurrentUser();
@@ -105,10 +100,6 @@ function AuthProvider({
 
         return getCurrentUser();
     };
-
-    const { currentUser = {} } = queryResult;
-
-    console.log({ currentUser });
 
     return (
         <AuthContext.Provider
