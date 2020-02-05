@@ -1,11 +1,11 @@
 import React from 'react';
-import { Navigator, ApolloWrapper, Ellipsis } from '../../../components';
+import { Navigator, ApolloWrapper, Ellipsis, useQuery } from '../../../components';
 import Systems from './Systems/Systems';
 import Parts from './Parts/Parts';
 import gql from 'graphql-tag';
 import F from '../../../schemas';
 import { parseSearch } from '../../../utils';
-import { useQuery } from 'urql';
+// import { useQuery } from 'urql';
 
 const subroutes = {
     Systems,
@@ -70,7 +70,7 @@ export default function Manufacturer({
     },
 }) {
     const { manufacturerId } = parseSearch(search);
-    const [{ data: { _manufacturer } = {} }, fetchQuery] = useQuery({
+    const [fetchQuery, { _manufacturer } = {}] = useQuery({
         query,
         variables: {
             id: +manufacturerId,

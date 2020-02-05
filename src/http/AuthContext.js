@@ -2,9 +2,9 @@ import gql from 'graphql-tag';
 import React, { createContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import client from './apollo-config';
-import { useMutation, useQuery } from './components';
+import { useMutation, useQuery } from '../components';
 import { STORAGE_KEYS } from './local-storage';
-import F from './schemas';
+import F from '../schemas';
 
 export const AuthContext = createContext();
 

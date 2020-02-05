@@ -1,22 +1,22 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider as URQLProvider } from 'urql';
-import apolloClient from './apollo-config';
+import { BrowserRouter } from 'react-router-dom';
+// import { Provider } from 'urql';
 import AppNavigator from './apps/AppNavigator';
-import AuthProvider from './AuthContext';
-import URQLClient from './urql-config';
+import apolloClient from './http/apollo-config';
+import AuthProvider from './http/AuthContext';
+// import URQLClient from './http/urql-config';
 
 export default function App() {
     return (
-        <Router>
+        <BrowserRouter>
             <ApolloProvider client={apolloClient}>
-                <URQLProvider value={URQLClient}>
-                    <AuthProvider>
-                        <AppNavigator />
-                    </AuthProvider>
-                </URQLProvider>
+                {/* <Provider value={URQLClient}> */}
+                <AuthProvider>
+                    <AppNavigator />
+                </AuthProvider>
+                {/* </Provider> */}
             </ApolloProvider>
-        </Router>
+        </BrowserRouter>
     );
 }

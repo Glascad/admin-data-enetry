@@ -21,6 +21,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
             },
         }));
     }
+    console.log({ operation });
+    console.log(operation.getContext());
     return forward(operation);
 });
 
@@ -34,15 +36,10 @@ const cache = new InMemoryCache({
 
 // CLIENT
 
-const client = new ApolloClient({
+export default new ApolloClient({
     link: ApolloLink.from([
         authMiddleware,
         httpLink,
     ]),
     cache,
 });
-
-
-// EXPORT
-
-export default client;

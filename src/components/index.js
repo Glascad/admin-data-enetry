@@ -41,7 +41,6 @@ import nullIf from './higher-order/null-if';
 
 // HOOKS
 import useRedoableState, { withRedoableState } from './hooks/use-redoable-state';
-import useMountTracker from './hooks/use-mount-tracker';
 import useInitialState from './hooks/use-initial-state';
 import useSelection from './hooks/use-selection';
 import useSaveOnCtrlS from './hooks/use-save-on-ctrl-s';
@@ -105,7 +104,6 @@ export {
     useQuery,
     useMutation,
     useRedoableState,
-    useMountTracker,
     useInitialState,
     useSelection,
     useSaveOnCtrlS,

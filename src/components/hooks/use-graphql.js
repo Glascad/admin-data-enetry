@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import client from '../../apollo-config';
+import client from '../../http/apollo-config';
 import { normalizeQueryResponse, removeNullValues } from '../../utils';
 
 export function useMutation(mutation, fetchQuery = () => { }) {
