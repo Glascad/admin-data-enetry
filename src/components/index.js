@@ -34,12 +34,14 @@ import StateManager from './state/StateManager';
 
 // HIGHER ORDER COMPONENTS
 import asyncComponent from './higher-order/async-component';
-import { useQuery, useMutation } from './hooks/use-graphql';
 import withContext from './higher-order/with-context';
 import transformProps from './higher-order/transform-props';
 import nullIf from './higher-order/null-if';
 
 // HOOKS
+import { useQuery, useMutation } from './hooks/use-graphql';
+import useApolloQuery from './hooks/use-apollo-query';
+import useApolloMutation from './hooks/use-apollo-mutation';
 import useRedoableState, { withRedoableState } from './hooks/use-redoable-state';
 import useInitialState from './hooks/use-initial-state';
 import useSelection from './hooks/use-selection';
@@ -103,6 +105,8 @@ export {
     // HOOKS
     useQuery,
     useMutation,
+    useApolloQuery,
+    useApolloMutation,
     useRedoableState,
     useInitialState,
     useSelection,

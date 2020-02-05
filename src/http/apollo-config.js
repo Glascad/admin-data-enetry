@@ -18,9 +18,11 @@ const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_BASE_URL}/graphql`
 //         ...response,
 //         data: {
 //             ...response.data,
-//             normalized: normalizeQueryResponse(response),
 //         },
+//         normalized: normalizeQueryResponse(response),
+//         n: console.log({ response }),
 //     }));
+//     console.log({ operation });
 //     // console.log({ observer, operation, context: operation.getContext() });
 //     // observer.subscribe({
 //     //     next: result => console.log(result) || normalizeQueryResponse(result),

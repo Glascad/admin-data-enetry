@@ -1,5 +1,5 @@
 import React from 'react';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { BrowserRouter } from 'react-router-dom';
 import AppNavigator from './apps/AppNavigator';
 import apolloClient from './http/apollo-config';
