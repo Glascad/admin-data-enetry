@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useApolloMutation, useApolloQuery } from '../components';
 import { CURRENT_USER } from '../schemas/authentication';
-import client from './apollo-config';
+import client from './apollo-client';
 import { STORAGE_KEYS } from './local-storage';
 
 export const AuthContext = createContext();
