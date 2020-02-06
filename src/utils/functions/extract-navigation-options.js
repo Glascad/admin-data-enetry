@@ -1,5 +1,5 @@
 import { parseSearch } from "..";
-import removeNullValues from "./remove-null-values";
+import removeNullishValues from "./remove-nullish-values";
 
 /**
  * This function is used by the Navigator and NavMenu components to take the static navigationOptions off of any component, and to generate a name to be displayed in the NavMenu or in a Toggle-/Tab-Navigator, as well as a path that should be used by react-router-dom.
@@ -51,7 +51,7 @@ export default function extractNavigationOptions(functionName, component, props 
 
     const parsedSearch = parseSearch(search);
 
-    const searchKeys = Object.keys(removeNullValues(parsedSearch));
+    const searchKeys = Object.keys(removeNullishValues(parsedSearch));
 
     const shouldRenderInNavMenu = options.hasOwnProperty('shouldRenderInNavMenu') ?
         optionsshouldRenderInNavMenu

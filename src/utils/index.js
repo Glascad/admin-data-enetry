@@ -5,7 +5,7 @@ import parseSearch from './classes/parse-search';
 import ImperialValue from './classes/imperial-values';
 import Loggable from './classes/loggable';
 // FUNCTIONS
-import removeNullValues from './functions/remove-null-values';
+import removeNullishValues from './functions/remove-nullish-values';
 import replaceByKeys from './functions/replace-by-keys';
 import flattenNodeArrays from './functions/flatten-node-arrays';
 import extractArrayCount from './functions/extract-array-count';
@@ -41,7 +41,7 @@ export {
     ImperialValue,
     Loggable,
     // FUNCTIONS
-    removeNullValues,
+    removeNullishValues,
     replaceByKeys,
     flattenNodeArrays,
     extractArrayCount,

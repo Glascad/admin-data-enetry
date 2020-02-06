@@ -1,6 +1,6 @@
 import { getChildren, getLastItemFromPath, getPathPrefix } from "../../../../../app-logic/system";
 import { getParentPathFromObject } from "../../../../../app-logic/system";
-import { removeNullValues } from "../../../../../utils";
+import { removeNullishValues } from "../../../../../utils";
 import ADD_ITEM from "./add-item";
 
 export default function COPY_ITEM(systemInput, {
@@ -34,7 +34,7 @@ export default function COPY_ITEM(systemInput, {
 
 
 
-    const updatedSystemInput = ADD_ITEM(systemInput, removeNullValues({
+    const updatedSystemInput = ADD_ITEM(systemInput, removeNullishValues({
         ...rest,
         [oldParentKey]: undefined,
         [parentPathKey]: newParentPath,

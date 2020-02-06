@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { getLastItemFromPath, getUnknownPathAndKeyFromItem, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
-import { removeNullValues } from "../../../../../../utils";
+import { removeNullishValues } from "../../../../../../utils";
 import validateSystemSetUpdate from "./validate-system-set-update";
 
 export const mergeOptionGroupValues = (_systemSetOptionGroupValues, optionGroupValues) => _systemSetOptionGroupValues
@@ -97,7 +97,7 @@ export default function merge({
     return {
         ..._systemSet,
         systemOptionValuePath,
-        ...removeNullValues({
+        ...removeNullishValues({
             name,
             systemId,
             _systemSetOptionGroupValues,

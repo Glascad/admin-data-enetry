@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import client from '../../http/apollo-config';
-import { normalizeQueryResponse, removeNullValues } from '../../utils';
+import client from '../../http/apollo-client';
+import { normalizeQueryResponse, removeNullishValues } from '../../utils';
 
 export function useMutation(mutation, fetchQuery = () => { }) {
 
@@ -41,7 +41,7 @@ export function useMutation(mutation, fetchQuery = () => { }) {
                     } = {},
                 } = {},
                 graphQLErrors = [],
-            } = removeNullValues(err);
+            } = removeNullishValues(err);
 
             errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
 
@@ -108,7 +108,7 @@ export function useQuery(query, doNotFetchOnMount = false) {
                     } = {},
                 } = {},
                 graphQLErrors = []
-            } = removeNullValues(err);
+            } = removeNullishValues(err);
 
             errors.concat(graphQLErrors).forEach(({ message }) => console.error(message));
 

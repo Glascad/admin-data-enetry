@@ -1,5 +1,5 @@
 import { getLastItemFromPath, getParentPath, getParentPathFromObject, getPathPrefix, getTypenameFromPath } from "../../../../../app-logic/system";
-import { removeNullValues } from "../../../../../utils";
+import { removeNullishValues } from "../../../../../utils";
 import { getOldPath, getParentWithUpdatedPath, getUpdatedPath } from "../utils";
 
 export default function UPDATE_ITEM(systemInput, payload) {
@@ -67,7 +67,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
                 const [parentPathKey, itemParentPath] = getParentPathFromObject(item);
                 return itemParentPath && itemParentPath.startsWith(parentPath) ?
                     item === updatedNewItem ?
-                        removeNullValues(
+                        removeNullishValues(
                             {
                                 ...item,
                                 [parentPathKey]: updateParentKey ? undefined : itemParentPath,
@@ -95,7 +95,7 @@ export default function UPDATE_ITEM(systemInput, payload) {
                 const updatedPath = getUpdatedPath(item);
 
                 return (updatedParentPath || getParentPath({ path: updatedPath })).startsWith(parentPath) ?
-                    removeNullValues(
+                    removeNullishValues(
                         item === updatedItem ?
                             {
                                 ...item,

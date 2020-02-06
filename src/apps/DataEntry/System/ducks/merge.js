@@ -1,5 +1,5 @@
 import { getParentPathFromObject, getPathPrefix } from '../../../../app-logic/system';
-import { match, removeNullValues } from '../../../../utils';
+import { match, removeNullishValues } from '../../../../utils';
 import { getParentWithUpdatedPath, getUpdatedPath } from "./utils";
 import getPartFromPartId from '../../../../app-logic/system/get-part-from-part-id';
 import { sightline as defaultSightline } from './schemas';
@@ -100,7 +100,7 @@ export default function merge(systemInput, {
             } : {};
             return {
                 ...oldItem,
-                ...removeNullValues(newUpdatedItem),
+                ...removeNullishValues(newUpdatedItem),
             };
         })
         .concat(newItems.map(item => {
@@ -114,7 +114,7 @@ export default function merge(systemInput, {
                 name
                 }`;
 
-            return removeNullValues({
+            return removeNullishValues({
                 ...item,
                 path,
                 [parentKey]: undefined,

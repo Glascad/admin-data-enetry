@@ -13,7 +13,7 @@ import {
     validatePath,
     extractNavigationOptions,
     parseSearch,
-    removeNullValues,
+    removeNullishValues,
 } from '../../utils';
 
 
@@ -109,7 +109,7 @@ class Navigator extends PureComponent {
         } = this;
 
         const parsedSearch = parseSearch(search);
-        const searchKeys = Object.keys(removeNullValues(parsedSearch));
+        const searchKeys = Object.keys(removeNullishValues(parsedSearch));
 
         const filteredMappedRoutes = Object.entries(routes)
             .map(([name, route]) => (

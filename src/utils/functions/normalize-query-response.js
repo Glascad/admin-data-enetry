@@ -1,7 +1,7 @@
 import extractArrayCount from './extract-array-count';
 import flattenNodeArrays from './flatten-node-arrays';
 import pipe from './pipe';
-import removeNullValues from './remove-null-values';
+import removeNullishValues from './remove-nullish-values';
 import replaceByKeys from './replace-by-keys';
 
 export default __raw => pipe(
@@ -9,7 +9,7 @@ export default __raw => pipe(
     extractArrayCount,
     replaceByKeys,
     flattenNodeArrays,
-    removeNullValues,
+    removeNullishValues,
     clean => ({
         ...clean,
         __raw,

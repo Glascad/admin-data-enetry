@@ -1,4 +1,4 @@
-import { removeNullValues } from "../../../../utils";
+import { removeNullishValues } from "../../../../utils";
 import { getConfigurationPartIdFromPath } from "../../../../app-logic/system";
 
 const removeTypenameAndNodeIdAndFakeId = ({ __typename, nodeId, fakeId, parentSystemPath, ...rest }) => rest; // Change the PatentSystemPath when creating
@@ -13,7 +13,7 @@ const mapTypes = type => ({
     ...rest
 }) => ({
     ...rest,
-    update: removeNullValues({
+    update: removeNullishValues({
         ...update,
         [type]: name,
     }),
@@ -37,7 +37,7 @@ const mapNewParts = ({
     name,
     fakeId,
     ...rest
-}) => removeNullValues({
+}) => removeNullishValues({
     ...rest,
 });
 
@@ -51,7 +51,7 @@ const mapParts = ({
         ...update
     },
     ...rest
-}) => removeNullValues({
+}) => removeNullishValues({
     ...rest,
     id: getConfigurationPartIdFromPath(path),
     update,
