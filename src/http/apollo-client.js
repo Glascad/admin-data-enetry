@@ -18,6 +18,10 @@ export default new ApolloClient({
             console.error({ graphQLErrors, networkError });
             // send the error to error alert system
         }),
+        setContext((request, context) => {
+            console.log({ request, context });
+            return context;
+        }),
         createHttpLink({
             uri: `${process.env.REACT_APP_BASE_URL}/graphql`,
         }),
