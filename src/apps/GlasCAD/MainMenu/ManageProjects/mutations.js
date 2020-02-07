@@ -1,9 +1,7 @@
 import gql from 'graphql-tag';
 import F from '../../../../schemas';
-import query from "./query";
 
-export const createProjectMutation = {
-    mutation: gql`
+export const createProjectMutation = gql`
         mutation CreateProject($name: String!) {
             createOrUpdateProject(
                 input: {
@@ -18,13 +16,9 @@ export const createProjectMutation = {
             }
         }
         ${F.PROJ.PROJECT_FIELDS}
-    `,
-    awaitRefetchQueries: true,
-    refetchQueries: [{ query }],
-};
+    `;
 
-export const deleteProjectMutation = {
-    mutation: gql`
+export const deleteProjectMutation = gql`
         mutation DeleteProject($projectId: Int!) {
             deleteEntireProject(
                 input: {
@@ -34,7 +28,5 @@ export const deleteProjectMutation = {
                     integer
             }
         }
-    `,
-    awaitRefetchQueries: true,
-    refetchQueries: [{ query }],
-};
+    `;
+        

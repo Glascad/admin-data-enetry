@@ -34,7 +34,7 @@ function AuthProvider({
 
     const [originalLocation, setOriginalLocation] = useState(`${pathname}${search}`);
     const queryResult = useApolloQuery(query, { fetchPolicy: 'no-cache' });
-    const [authenticate, { loading }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
+    const [authenticate, { __raw: { loading } }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
 
     const {
         currentUser = {},

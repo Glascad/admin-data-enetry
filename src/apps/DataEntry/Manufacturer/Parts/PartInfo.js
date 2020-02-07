@@ -1,9 +1,9 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { parseSearch } from '../../../../utils';
-import { useQuery, TitleBar, SVG, Select, Input } from '../../../../components';
-import gql from 'graphql-tag';
+import { Input, Select, SVG, TitleBar, useApolloQuery } from '../../../../components';
 import F from '../../../../schemas';
+import { parseSearch } from '../../../../utils';
 
 PartInfo.navigationOptions = {
     path: "/info",
@@ -32,7 +32,7 @@ export default function PartInfo({
 }) {
     console.log(arguments[0]);
     const { partId } = parseSearch(search);
-    const [fetchQuery, queryResult] = useQuery({ query, variables: { id: +partId } });
+    const queryResult = useApolloQuery(query, { variables: { id: +partId } });
     console.log({ queryResult });
     const {
         _part: {

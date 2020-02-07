@@ -182,14 +182,13 @@ class BuildElevation extends PureComponent {
         const frames = allFrames.map(({
             vertical,
             placement,
-            dimensions,
             details,
         }) => {
             const [containerDetails, containerFakeDetails] = _.partition(details, ({ id }) => id > 0);
-            
+
             const containerDetailIds = containerDetails.map(({ id }) => id);
             const containerDetailFakeIds = containerFakeDetails.map(({ id }) => id);
-            
+
             console.log({
                 details,
                 containerDetails,
@@ -201,7 +200,6 @@ class BuildElevation extends PureComponent {
             return {
                 vertical,
                 placement: mapPlacement(placement),
-                dimensions,
                 containerDetailIds,
                 containerDetailFakeIds,
             };

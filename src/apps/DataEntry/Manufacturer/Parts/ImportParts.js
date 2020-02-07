@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React, { useEffect, useState } from 'react';
 import { Check } from '../../../../assets/icons';
-import { AsyncButton, CircleButton, ConfirmButton, Input, SVG, TitleBar, TransformBox, TransformProvider, useMutation } from '../../../../components';
+import { AsyncButton, CircleButton, ConfirmButton, Input, SVG, TitleBar, TransformBox, TransformProvider, useApolloMutation } from '../../../../components';
 import F from '../../../../schemas';
 import { DXFToSVG, getDroppedFileContents, replace } from '../../../../utils';
 
@@ -91,7 +91,7 @@ export default function ImportParts({
     const fileCount = files.length;
 
 
-    const [savePart, savePartResult, saving] = useMutation({ mutation });
+    const [savePart, savePartResult] = useApolloMutation(mutation);
 
     const rejectParts = () => setFiles(files => files.filter(({ selected }) => !selected));
     const acceptParts = async () => {

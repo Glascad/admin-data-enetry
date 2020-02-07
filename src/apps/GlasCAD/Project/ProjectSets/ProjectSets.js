@@ -1,16 +1,15 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CollapsibleTitle, ListWrapper, Navigator, useMutation } from '../../../../components';
+import { CollapsibleTitle, ListWrapper, Navigator, useApolloMutation } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 import SystemSet from './SystemSet/SystemSet';
-import gql from 'graphql-tag';
 
 ProjectSetsRouter.navigationOptions = {
     path: "/sets",
 };
 
-const deleteSystemSetMutation = {
-    mutation: gql`
+const deleteSystemSetMutation = gql`
         mutation DeleteSystemSetById($id: Int!) {
             deleteSystemSetById(
                 input: {
@@ -26,8 +25,7 @@ const deleteSystemSetMutation = {
                     }
             }
         }
-    `,
-};
+    `;
 
 export default function ProjectSetsRouter(props) {
     return (
@@ -59,7 +57,7 @@ function ProjectSets({
         path,
     },
 }) {
-    const [deleteSystemSet, deleteResult, deleting] = useMutation(deleteSystemSetMutation);
+    const [deleteSystemSet, deleteResult] = useApolloMutation(deleteSystemSetMutation);
 
     console.log(arguments[0]);
 
