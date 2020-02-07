@@ -2,19 +2,38 @@ import _ from 'lodash';
 import { defaultElevationInput } from "./elevation-input";
 
 export default function generateElevation({
-    height = defaultElevationInput.height,
-    width = defaultElevationInput.width,
+    systemSetId,
+    verticalRoughOpening = defaultElevationInput.verticalRoughOpening,
+    horizontalRoughOpening = defaultElevationInput.horizontalRoughOpening,
     startingBayQuantity = defaultElevationInput.startingBayQuantity,
     finishedFloorHeight = defaultElevationInput.finishedFloorHeight,
-    sightline = defaultElevationInput.sightline,
     horizontals = defaultElevationInput.horizontals,
-} = defaultElevationInput) {
+} = defaultElevationInput,
+    {
+        _systemSets = []
+    } = {},
+) {
 
-    const bayWidth = (width - sightline * (startingBayQuantity + 1)) / startingBayQuantity;
+    console.log(arguments);
+
+    const {
+        _system: {
+            sightline,
+        } = {}
+    } = _systemSets.find(({ id }) => id === systemSetId) || {};
+
+    const bayWidth = (horizontalRoughOpening - sightline * (startingBayQuantity + 1)) / startingBayQuantity;
+
+    console.log({
+        bayWidth,
+        horizontalRoughOpening,
+        sightline,
+        startingBayQuantity,
+    })
 
     const lastContainerHeight = horizontals
         .reduce(((height, { distance }) => height - sightline - distance),
-            height - sightline * 2);
+            verticalRoughOpening - sightline * 2);
 
     const containerHeights = horizontals
         .map(({ distance }) => distance)
@@ -32,6 +51,10 @@ export default function generateElevation({
                         dimensions: {
                             width: bayWidth,
                             height,
+                        },
+                        origin: {
+                            x: (bayWidth + sightline) * i,
+                            y: (height + sightline) * j,
                         }
                     },
                 }))),
@@ -78,11 +101,10 @@ export default function generateElevation({
 
     return {
         roughOpening: {
-            width,
-            height,
+            width: horizontalRoughOpening,
+            height: verticalRoughOpening,
         },
         finishedFloorHeight,
-        sightline,
         _elevationContainers,
         _containerDetails,
     };

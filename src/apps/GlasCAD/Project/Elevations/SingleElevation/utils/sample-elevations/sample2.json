@@ -4,6 +4,11 @@
     "id": 69,
     "name": "Sample 2",
     "finishedFloorHeight": 0,
+    "_systemSet": {
+        "_system": {
+            "sightline": 10
+        }
+    },
     "roughOpening": {
         "width": 400,
         "height": 670,

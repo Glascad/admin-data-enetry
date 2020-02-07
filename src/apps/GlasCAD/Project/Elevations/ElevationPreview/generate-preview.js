@@ -19,7 +19,7 @@ export default function generatePreview({ allContainers = [] } = {}) {
         const height = placementHeight + (0.5 * topSL) + (0.5 * bottomSL);
         const width = placementWidth + (0.5 * rightSL) + (0.5 * leftSL);
 
-        console.log({ topSL, bottomSL, rightSL, leftSL, x, y, placementHeight, placementWidth, origin, height, width });
+        // console.log({ topSL, bottomSL, rightSL, leftSL, x, y, placementHeight, placementWidth, origin, height, width });
 
         const commands = [
             {
