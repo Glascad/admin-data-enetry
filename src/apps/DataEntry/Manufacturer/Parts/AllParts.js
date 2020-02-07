@@ -1,10 +1,10 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TitleBar, useQuery, SVG, ListWrapper, Ellipsis } from '../../../../components';
-import './Parts.scss';
+import { Ellipsis, ListWrapper, SVG, TitleBar, useApolloQuery } from '../../../../components';
 import F from '../../../../schemas';
-import gql from 'graphql-tag';
 import { parseSearch } from '../../../../utils';
+import './Parts.scss';
 
 const query = gql`query partsByManufacturer($id: Int!) {
     allParts(condition: {
@@ -40,15 +40,21 @@ export default function AllParts({
 }) {
     console.log(arguments[0]);
     const { manufacturerId } = parseSearch(search);
-    const [fetchQuery, queryResult, fetching] = useQuery({
+    const queryResult = useApolloQuery(
         query,
-        variables: {
-            id: +manufacturerId,
-        },
-        fetchPolicy: shouldRefetch ? "no-cache" : "cache-first",
-    });
+        {
+            variables: {
+                id: +manufacturerId,
+            },
+            fetchPolicy: shouldRefetch ? "no-cache" : "cache-first",
+        });
     console.log({ queryResult });
-    const { allParts = [] } = queryResult;
+    const {
+        allParts = [],
+        __raw: {
+            loading: fetching,
+        }
+    } = queryResult;
     return (
         <>
             <div

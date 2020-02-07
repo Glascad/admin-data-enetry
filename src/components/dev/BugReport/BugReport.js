@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-
-import { withRouter } from 'react-router-dom';
-
-import ApolloWrapper from '../../state/ApolloWrapper';
-import Input from '../../ui/Input/Input';
-import { useMutation } from '../../hooks/use-graphql';
-
 import gql from 'graphql-tag';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { useApolloMutation } from '../..';
+import Input from '../../ui/Input/Input';
 
-const mutation = {
-    mutation: gql`
+
+
+
+const mutation = gql`
         mutation ReportBug(
             $location: String,
             $report: String!,
@@ -25,8 +23,7 @@ const mutation = {
                 success: boolean
             }
         }
-    `,
-};
+    `;
 
 function BugReport({
     state,
@@ -41,7 +38,7 @@ function BugReport({
     onComplete = () => { },
 }) {
     const [report, updateReport] = useState('');
-    const [reportBug] = useMutation(mutation);
+    const [reportBug] = useApolloMutation(mutation);
 
     const sendReport = async (tryCount = 1) => {
         if (tryCount > 3) return;

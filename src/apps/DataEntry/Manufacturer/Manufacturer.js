@@ -1,11 +1,10 @@
-import React from 'react';
-import { Navigator, ApolloWrapper, Ellipsis, useQuery } from '../../../components';
-import Systems from './Systems/Systems';
-import Parts from './Parts/Parts';
 import gql from 'graphql-tag';
+import React from 'react';
+import { ApolloWrapper, Ellipsis, Navigator, useApolloQuery } from '../../../components';
 import F from '../../../schemas';
 import { parseSearch } from '../../../utils';
-// import { useQuery } from 'urql';
+import Parts from './Parts/Parts';
+import Systems from './Systems/Systems';
 
 const subroutes = {
     Systems,
@@ -70,13 +69,14 @@ export default function Manufacturer({
     },
 }) {
     const { manufacturerId } = parseSearch(search);
-    const [fetchQuery, { _manufacturer } = {}] = useQuery({
+    const { _manufacturer, __raw: { refetch: fetchQuery} } = useApolloQuery(
         query,
-        variables: {
-            id: +manufacturerId,
-        },
-        // fetchPolicy: "network-only",
-    });
+        {
+            variables: {
+                id: +manufacturerId,
+            },
+            // fetchPolicy: "network-only",
+        });
     return (
         <Navigator
             routeProps={{ _manufacturer, fetchQuery }}

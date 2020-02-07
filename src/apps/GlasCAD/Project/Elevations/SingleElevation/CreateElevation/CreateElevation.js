@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import _ from 'lodash';
 import React, { memo, useCallback, useMemo } from 'react';
-import { GroupingBox, Input, useInitialState, useMutation, useRedoableState, useSaveOnCtrlS } from '../../../../../../components';
+import { GroupingBox, Input, useApolloMutation, useInitialState, useRedoableState, useSaveOnCtrlS } from '../../../../../../components';
 import F from '../../../../../../schemas';
 import { parseSearch } from '../../../../../../utils';
 import ElevationPreview from '../../ElevationPreview/ElevationPreview';
@@ -22,8 +22,7 @@ const areEqual = (json, input) => _.isEqual({
     name: undefined,
 });
 
-const saveDefaultMutation = {
-    mutation: gql`
+const saveDefaultMutation = gql`
         mutation UpdateProject($id: Int!, $defaultElevation: JSON!) {
             updateProjectById(
                 input: {
@@ -39,8 +38,7 @@ const saveDefaultMutation = {
             }
         }
         ${F.PROJ.ENTIRE_PROJECT}
-    `,
-};
+    `;
 
 export default memo(function CreateElevation({
     history,
@@ -61,7 +59,7 @@ export default memo(function CreateElevation({
 
     console.log(arguments[0]);
 
-    const [runSaveDefault, saveDefaultResult, savingDefault] = useMutation(saveDefaultMutation);
+    const [runSaveDefault, { __raw: { loading: savingDefault } }] = useApolloMutation(saveDefaultMutation);
 
     const initialElevationInput = JSON.parse(defaultElevation) || defaultElevationInput;
 

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useApolloMutation, useApolloQuery } from '../components';
 import { CURRENT_USER } from '../schemas/authentication';
@@ -34,7 +34,7 @@ function AuthProvider({
 
     const [originalLocation, setOriginalLocation] = useState(`${pathname}${search}`);
     const queryResult = useApolloQuery(query, { fetchPolicy: 'no-cache' });
-    const [authenticate, { loading }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
+    const [authenticate, { __raw: { loading } }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
 
     const {
         currentUser = {},
