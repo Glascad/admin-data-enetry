@@ -145,13 +145,9 @@ ${require('../../db/security/roles.sql')}
 ${require('../../db/security/privileges.sql')}
 
 
------ USERS -----
-
-${require('../../db/seed_data/users.sql')}
-
-
 ----- SEED DATA -----
 
+${require('../../db/seed_data/users.sql')}
 ${require('../../db/seed_data/seed_data.sql')}
 ${require('./seed-data')}
 ${require('../../db/seed_data/system.sql')}
