@@ -151,6 +151,14 @@ export default function SystemSet({
         _systemSetOptionGroupValues = [],
     } = systemSet;
 
+    console.log({
+        systemSet,
+        name,
+        systemSetQueryResult,
+        systemSetUpdate,
+        systemMap,
+    });
+
     useEffect(() => {
         if (systemId) fetchSystem({ systemId });
     }, [systemId]);

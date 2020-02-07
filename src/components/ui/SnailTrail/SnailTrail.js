@@ -5,6 +5,7 @@ import './SnailTrail.scss';
 export default function SnailTrail({
     trail = [],
 }) {
+    console.log(arguments);
     return (
         <div className="SnailTrail">
             {trail.map((item, i) => item ? (
