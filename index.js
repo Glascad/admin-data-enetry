@@ -1,2 +1,2 @@
 require('dotenv').config();
-require('./scripts/seed-db')(require('./server'));
+require('./server/scripts/seed-db')(require('./server'));

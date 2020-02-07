@@ -1,6 +1,6 @@
 const compileDbFiles = require('./compile-db-files');
 const generateSeedFile = require('./generate-seed-file');
-const pfs = require('../utils/promise-fs');
+const pfs = require('../../utils/promise-fs');
 const log = require('./log');
 
 module.exports = async function compileSeed() {
@@ -22,7 +22,7 @@ module.exports = async function compileSeed() {
 
         } else {
 
-            await pfs.writeFile(`${__dirname}/../../compiled/db-seed.sql`, SEED_FILE);
+            await pfs.writeFile(`${__dirname}/../../../compiled/db-seed.sql`, SEED_FILE);
 
             console.log(`${log.compiling} Successfully wrote database seed to ${log.path('compiled/db-seed.sql')}`);
 

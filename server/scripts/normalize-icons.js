@@ -1,5 +1,5 @@
-const filesToJSON = require('../server/utils/files-to-json');
-const pfs = require('../server/utils/promise-fs');
+const filesToJSON = require('../utils/files-to-json');
+const pfs = require('../utils/promise-fs');
 const chalk = require('chalk');
 
 const assetsFolder = `src/assets`;
@@ -8,7 +8,7 @@ const iconsFolder = `icons`;
 
 const updatedIconsFolder = `icon-dropbox`;
 
-const pathToAssets = `${__dirname}/../${assetsFolder}`;
+const pathToAssets = `${__dirname}/../../${assetsFolder}`;
 
 const pathToIcons = `${pathToAssets}/${iconsFolder}`;
 
