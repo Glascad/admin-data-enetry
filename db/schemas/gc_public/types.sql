@@ -6,7 +6,7 @@ gc_public.entire_elevation_container AS (
     id INTEGER,
     fake_id INTEGER,
     original BOOLEAN,
-    contents TEXT,
+    contents ELEVATION_CONTENTS,
     daylight_opening RECTANGLE
     -- custom_rough_opening BOOLEAN
 );
