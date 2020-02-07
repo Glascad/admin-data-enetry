@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React, { useEffect } from 'react';
 import { getDefaultOptionGroupValue, getDefaultPath, SystemMap } from '../../../../../app-logic/system';
-import { AsyncButton, ConfirmButton, TitleBar, useMutation, useQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
+import { AsyncButton, ConfirmButton, TitleBar, useApolloMutation, useApolloQuery, useRedoableState, useSaveOnCtrlS } from '../../../../../components';
 import F from '../../../../../schemas';
 import { parseSearch } from '../../../../../utils';
 import Details from './Details/Details';
@@ -54,13 +54,18 @@ export default function SystemSet({
     // splice in sample system set into the system set query result
     // and add sample system to all systems array
     const { systemSet: _sampleSystemSet, system: _sampleSystem } = SAMPLE_SYSTEM_SETS[sampleSystemSet] || {};
-    const [fetchSystemSet, ssqr, fetchingSystemSet] = useQuery({ query, variables: { systemSetId: +systemSetId || 0 } });
-    const { _systemSet = {} } = ssqr;
+    const ssqr = useApolloQuery(query, { variables: { systemSetId: +systemSetId || 0 } });
+    const {
+        _systemSet = {},
+        raw: {
+            refetch: fetchSystemSet,
+        } = {}
+    } = ssqr;
     const systemSetQueryResult = {
         ...ssqr,
         _systemSet: _sampleSystemSet || _systemSet,
     }
-    const [updateSystemSet, updateResult, updating] = useMutation({ mutation }, fetchSystemSet);
+    const [updateSystemSet, { __raw: { loading: updating } }] = useApolloMutation(mutation);
 
     const {
         allSystems = [],
@@ -80,22 +85,24 @@ export default function SystemSet({
 
     // compare system id of system set to the sample system id
     // if same splice sample system into system query result
-    const [fetchSystem, qr, fetchingSystem] = useQuery({
-        query: gql`
+    const qr = useApolloQuery(
+        gql`
             query SystemById($systemId: Int!) {
                 systemById(id: $systemId) {
                     ...EntireSystem
                 }
             }
             ${F.MNFG.ENTIRE_SYSTEM}
-        `,
-    }, true);
+        `);
     const {
         _system = {},
         _system: {
             id: newSystemId,
             _detailConfigurations = [],
             _optionGroups = [],
+        } = {},
+        __raw: {
+            refetch: fetchSystem,
         } = {},
     } = qr;
 

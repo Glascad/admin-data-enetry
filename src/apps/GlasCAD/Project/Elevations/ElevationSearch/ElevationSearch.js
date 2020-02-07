@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Ellipsis, ListWrapper, SVG, useMutation } from '../../../../../components';
+import { Ellipsis, ListWrapper, useApolloMutation } from '../../../../../components';
 import { parseSearch } from '../../../../../utils';
+import query from '../../project-graphql/query';
+import ElevationPreview from '../ElevationPreview/ElevationPreview';
 import copyElevationMutation from './copy-elevation';
 import deleteElevationMutation from './delete-elevation';
-import ElevationPreview from '../ElevationPreview/ElevationPreview';
-
-
-
-
-
 
 export default function ElevationSearch({
     history,
@@ -26,8 +22,24 @@ export default function ElevationSearch({
         } = {},
     },
 }) {
-    const [deleteElevation, deleteResult, deleting] = useMutation(deleteElevationMutation);
-    const [copyElevation, copyResult, runningCopy] = useMutation(copyElevationMutation);
+    const [deleteElevation, { __raw: { loading: deleting } }] = useApolloMutation(deleteElevationMutation, {
+        awaitRefetchQueries: true,
+        refetchQueries: () => [{
+            query,
+            variables: {
+                id: +parseSearch(window.location.search).projectId,
+            },
+        }],
+    });
+    const [copyElevation, copyResult] = useApolloMutation(copyElevationMutation, {
+        awaitRefetchQueries: true,
+        refetchQueries: () => [{
+            query,
+            variables: {
+                id: +parseSearch(window.location.search).projectId,
+            },
+        }],
+    });
     const [copying, setCopying] = useState(false);
     const [copiedElevationId, setCopiedElevationId] = useState();
 

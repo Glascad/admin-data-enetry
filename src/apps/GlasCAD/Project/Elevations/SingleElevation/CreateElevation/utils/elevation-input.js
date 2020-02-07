@@ -26,6 +26,5 @@ export const defaultElevationInput = {
     horizontalMasonryOpening: true,
     startingBayQuantity: 1,
     finishedFloorHeight: 0,
-    sightline: 2,
     horizontals: [defaultHorizontal],
 };

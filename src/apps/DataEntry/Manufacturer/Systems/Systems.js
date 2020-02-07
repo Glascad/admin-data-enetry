@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ListWrapper, TitleBar, useMutation } from '../../../../components';
+import { ListWrapper, TitleBar, useApolloMutation } from '../../../../components';
 import { parseSearch } from '../../../../utils';
 
 const deleteSystemMutation = gql`mutation DeleteSystem($nodeId: ID!) {
@@ -32,7 +32,7 @@ export default function Systems({
 }) {
     const { manufacturerId } = parseSearch(search);
     const variables = { manufacturerId: +manufacturerId };
-    const [deleteSystem] = useMutation({ mutation: deleteSystemMutation });
+    const [deleteSystem] = useApolloMutation(deleteSystemMutation);
     return (
         <div className="card">
             <TitleBar

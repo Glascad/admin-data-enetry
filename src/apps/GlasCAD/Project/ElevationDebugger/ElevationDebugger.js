@@ -1,6 +1,6 @@
-import React from 'react';
 import gql from 'graphql-tag';
-import { Navigator, useQuery } from '../../../../components';
+import React from 'react';
+import { Navigator, useApolloQuery } from '../../../../components';
 import BugList from './BugList';
 import ElevationViewer from './ElevationViewer';
 
@@ -29,7 +29,7 @@ ElevationDebugger.navigationOptions = ({
 
 export default function ElevationDebugger() {
 
-    const [fetchQuery, { bugReports = [] }] = useQuery({ query });
+    const { bugReports = [] } = useApolloQuery(query);
 
     return (
         <Navigator
