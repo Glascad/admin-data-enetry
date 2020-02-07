@@ -6,5 +6,5 @@ export const STORAGE_KEYS = {
 
 export const getAuthorization = () => {
     const JWT = localStorage.getItem(STORAGE_KEYS.JWT);
-    return JWT ? `Bearer ${JWT}` : "";
+    return JWT && `Bearer ${JWT}`;
 }
