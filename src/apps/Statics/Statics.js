@@ -1,10 +1,9 @@
-import React, { createContext, createRef, PureComponent, useContext, useEffect } from 'react';
-import { Link, NavLink, withRouter } from 'react-router-dom';
-import { ReactComponent as Logo } from '../../assets/logo.svg';
-import { DoubleArrow, Navigator, NavMenu, withContext } from '../../components';
-import { AuthContext } from '../../http/AuthContext';
-import { extractNavigationOptions, normalCase } from '../../utils';
+import React, { createContext, memo, useContext, useEffect, useRef, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { AuthContext } from '../../http/authentication/AuthContext';
+import LeftSidebar from './LeftSidebar';
 import './Statics.scss';
+import Viewport from './Viewport';
 
 export const StaticContext = createContext();
 
@@ -16,121 +15,59 @@ export const useCollapseSidebar = () => {
     }, []);
 }
 
-class Statics extends PureComponent {
+export default withRouter(memo(function Statics({
+    match: {
+        path,
+    },
+    initialRoute,
+    routes,
+    allowedApplications,
+}) {
 
-    state = {
-        open: true,
-    };
+    const {
+        currentUser: {
+            username,
+        } = {},
+        logout,
+    } = useContext(AuthContext);
 
-    Viewport = createRef();
+    const viewportRef = useRef();
 
-    toggle = open => typeof open === 'boolean' ?
-        this.setState({ open })
-        :
-        this.setState({ open: !this.state.open });
+    const [open, setOpen] = useState(true);
 
-    render = () => {
-        const {
-            state: {
-                open,
-            },
-            props,
-            props: {
-                AUTH: {
-                    currentUser: {
-                        username,
-                    } = {},
-                    logout,
+    const toggle = open => setOpen(typeof open === 'boolean' ? open : open => !open);
+
+    return (
+        <StaticContext.Provider
+            value={{
+                sidebar: {
+                    open,
+                    toggle,
                 },
-                match: {
-                    path,
-                },
-                initialRoute,
                 routes,
-                allowedApplications,
-            },
-            toggle,
-            getPathTo,
-            Viewport,
-        } = this;
-
-        return (
-            <StaticContext.Provider
-                value={{
-                    sidebar: {
-                        open,
-                        toggle,
-                    },
+                viewportRef,
+            }}
+        >
+            <LeftSidebar
+                routeProps={arguments[0]}
+                {...{
+                    open,
+                    path,
+                    toggle,
                     routes,
-                    getPathTo,
-                    Viewport,
+                    toggle,
+                    allowedApplications,
+                    username,
+                    logout,
                 }}
-            >
-                <div
-                    id="Sidebar"
-                    className={open ? "" : "closed"}
-                    onClick={e => e.stopPropagation()}
-                    onKeyDown={e => e.stopPropagation()}
-                    onMouseDown={e => e.stopPropagation()}
-                    onWheel={e => e.stopPropagation()}
-                >
-                    <Link
-                        id="sidebar-header"
-                        to={path}
-                    >
-                        <Logo className="logo" />
-                        <span>glascad</span>
-                    </Link>
-                    <NavMenu
-                        routeProps={props}
-                        routes={routes}
-                        closed={!open}
-                    />
-                    <DoubleArrow
-                        onClick={toggle}
-                    />
-                    <div className="bottom-buttons">
-                        {Object.entries(allowedApplications)
-                            .filter((_, __, { length }) => length > 1)
-                            .map(([name, route]) => extractNavigationOptions(name, route))
-                            .map(({ name, path }) => (
-                                <NavLink
-                                    key={path}
-                                    to={path}
-                                    activeClassName="disabled"
-                                >
-                                    <button className="light">
-                                        {normalCase(name)}
-                                    </button>
-                                </NavLink>
-                            ))}
-                        <div id="current-user">
-                            <div>
-                                {username}
-                            </div>
-                            {username ? (
-                                <button
-                                    className="empty light"
-                                    onClick={logout}
-                                >
-                                    Logout
-                            </button>
-                            ) : null}
-                        </div>
-                    </div>
-                </div>
-                <div
-                    id="viewport"
-                    ref={Viewport}
-                >
-                    <Navigator
-                        initialRoute={initialRoute}
-                        routes={routes}
-                    />
-                </div>
-            </StaticContext.Provider>
-        );
-    }
-}
-
-export default withContext(AuthContext, ({ context }) => ({ AUTH: context }))(withRouter(Statics));
+            />
+            <Viewport
+                {...{
+                    viewportRef,
+                    initialRoute,
+                    routes,
+                }}
+            />
+        </StaticContext.Provider>
+    );
+}));

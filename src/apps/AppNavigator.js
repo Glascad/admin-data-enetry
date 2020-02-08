@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navigator } from '../components';
-import { AuthContext } from '../http/AuthContext';
-import { match } from '../utils';
-import DataEntry from './DataEntry/DataEntry';
-import Glascad from './GlasCAD/GlasCAD';
-import Login from './Login/Login';
+import { AuthContext } from '../http/authentication/AuthContext';
+import getAllowedApplications from '../http/authentication/get-allowed-applications';
+import Login from '../http/authentication/Login/Login';
+import wrapApplications from '../http/authentication/wrap-applications';
 
 export default function AppNavigator() {
     const {
@@ -13,21 +12,25 @@ export default function AppNavigator() {
         },
     } = useContext(AuthContext);
 
-    const allowedApplications = match(role)
-        .regex(/admin/i, { DataEntry, Glascad })
-        .regex(/data.entry/i, { DataEntry })
-        .regex(/client/i, { Glascad })
-        .otherwise({ Login });
-    // .otherwise({
-    //     DataEntry,
-    //     Glascad,
-    //     // Login,
-    // });
+    const [allowedApplications, setAllowedApplications] = useState();
+    const [loading, setLoading] = useState(false);
 
-    return (
+    const getAndSetApplications = async () => {
+        setLoading(true);
+        setAllowedApplications(wrapApplications(await getAllowedApplications(role)));
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        getAndSetApplications();
+    }, [role]);
+
+    return allowedApplications ? (
         <Navigator
             routeProps={{ allowedApplications }}
             routes={allowedApplications}
         />
-    );
+    ) : (
+            <Login loading={loading} />
+        );
 }
