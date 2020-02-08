@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import apolloClient from './apollo-client';
-import Authentication from './apps/Authentication/Authentication';
+import Authentication from './Authentication/Authentication';
 
 export default function App() {
     return (

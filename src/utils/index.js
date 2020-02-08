@@ -27,7 +27,8 @@ import * as trig from './functions/trig';
 import * as svg from './functions/svg-utils';
 import Matrix from './functions/matrix';
 import limitRefetches from './functions/limit-refetches';
-import pipe, { asyncPipe } from './functions/pipe';
+import pipe, { asyncPipe, tap, asyncTap } from './functions/pipe';
+import { filter } from 'minimatch';
 
 const validatePath = path => path.replace(/\/+/g, '/');
 
@@ -68,4 +69,8 @@ export {
     limitRefetches,
     pipe,
     asyncPipe,
+    tap,
+    asyncTap,
+    filter,
 };
+

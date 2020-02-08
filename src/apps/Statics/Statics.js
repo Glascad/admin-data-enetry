@@ -1,9 +1,7 @@
 import React, { createContext, memo, useContext, useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { AuthContext } from '../Authentication/Authentication';
+import { Navigator } from '../../components';
 import LeftSidebar from './LeftSidebar';
 import './Statics.scss';
-import Viewport from './Viewport';
 
 export const StaticContext = createContext();
 
@@ -15,25 +13,13 @@ export const useCollapseSidebar = () => {
     }, []);
 }
 
-export default withRouter(memo(function Statics({
-    match: {
-        path,
-    },
+export default memo(function Statics({
     initialRoute,
     routes,
     allowedApplications,
+    currentUser,
+    logout,
 }) {
-
-    const AUTH = useContext(AuthContext);
-
-    console.log({ AUTH });
-
-    const {
-        currentUser: {
-            username,
-        } = {},
-        logout,
-    } = AUTH;
 
     const viewportRef = useRef();
 
@@ -56,22 +42,22 @@ export default withRouter(memo(function Statics({
                 routeProps={arguments[0]}
                 {...{
                     open,
-                    path,
                     toggle,
                     routes,
-                    toggle,
                     allowedApplications,
-                    username,
+                    currentUser,
                     logout,
                 }}
             />
-            <Viewport
-                {...{
-                    viewportRef,
-                    initialRoute,
-                    routes,
-                }}
-            />
+            <div
+                id="viewport"
+                ref={viewportRef}
+            >
+                <Navigator
+                    initialRoute={initialRoute}
+                    routes={routes}
+                />
+            </div>
         </StaticContext.Provider>
     );
-}));
+});

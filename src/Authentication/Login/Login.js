@@ -1,16 +1,13 @@
-import React, { useContext, useState } from 'react';
-import LoginSplash from '../../../assets/images/Login Splash.jpeg';
-import { Ellipsis, Input, TitleBar } from '../../../components';
-import { AuthContext } from '../Authentication';
+import React, { useState } from 'react';
+import LoginSplash from '../../assets/images/Login Splash.jpeg';
+import { Ellipsis, Input, TitleBar } from '../../components';
 import './Login.scss';
 
-export default function Login() {
-
-    const {
-        authenticating,
-        login,
-        logout,
-    } = useContext(AuthContext);
+export default function Login({
+    login,
+    authenticating,
+    logout,
+}) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

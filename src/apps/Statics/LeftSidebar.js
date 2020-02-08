@@ -1,19 +1,23 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useRouteMatch } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { DoubleArrow, NavMenu } from '../../components';
 import { extractNavigationOptions, normalCase } from '../../utils';
 
 export default function LeftSidebar({
     open,
-    path,
     toggle,
     routes,
     routeProps,
     allowedApplications,
-    username,
+    currentUser: {
+        username,
+    } = {},
     logout,
 }) {
+
+    const { path } = useRouteMatch();
+
     return (
         <div
             id="Sidebar"
