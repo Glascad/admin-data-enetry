@@ -4,8 +4,8 @@ import { from } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
-import { removeNullishValues } from '../utils';
 import { getAuthorization } from './local-storage';
+import { removeNullishValues } from './utils';
 
 export default new ApolloClient({
     link: from([

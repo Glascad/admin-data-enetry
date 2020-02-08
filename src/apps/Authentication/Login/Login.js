@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import LoginSplash from '../../../assets/images/Login Splash.jpeg';
 import { Ellipsis, Input, TitleBar } from '../../../components';
-import { AuthContext } from '../AuthContext';
+import { AuthContext } from '../Authentication';
 import './Login.scss';
 
-export default function Login({ loading }) {
+export default function Login() {
 
     const {
         authenticating,
@@ -26,12 +26,12 @@ export default function Login({ loading }) {
                 src={LoginSplash}
             />
             <div className="floating card">
-                {authenticating || loading ? (
+                {authenticating ? (
                     <>
                         <TitleBar
                             title={(
                                 <Ellipsis
-                                    text="Authenticating"
+                                    text="Loading"
                                 />
                             )}
                         />

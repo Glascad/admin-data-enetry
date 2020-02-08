@@ -1,6 +1,6 @@
 import React, { createContext, memo, useContext, useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { AuthContext } from '../../http/authentication/AuthContext';
+import { AuthContext } from '../Authentication/Authentication';
 import LeftSidebar from './LeftSidebar';
 import './Statics.scss';
 import Viewport from './Viewport';
@@ -24,12 +24,16 @@ export default withRouter(memo(function Statics({
     allowedApplications,
 }) {
 
+    const AUTH = useContext(AuthContext);
+
+    console.log({ AUTH });
+
     const {
         currentUser: {
             username,
         } = {},
         logout,
-    } = useContext(AuthContext);
+    } = AUTH;
 
     const viewportRef = useRef();
 
