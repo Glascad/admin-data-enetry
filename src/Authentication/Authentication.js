@@ -1,7 +1,6 @@
 import { useApolloClient } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import importAllowedApps from '../apps/import-allowed-apps';
 import { Navigator, useApolloMutation, useApolloQuery } from '../components';
 import { getAuthorization, setJwt } from '../local-storage';
@@ -26,84 +25,46 @@ const mutation = gql`
 
 export default function Authentication() {
 
-    const history = useHistory();
-    const { search, pathname } = useLocation();
-    const [originalLocation, setOriginalLocation] = useState(`${pathname}${search}`);
-    const queryResult = useApolloQuery(query, { fetchPolicy: 'no-cache' });
-    const [authenticate, authenticationResult] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
-    const [allowedApplications, setAllowedApps] = useState(null);
-    const [importingApps, setImportingApps] = useState(false);
-
     const {
         currentUser,
+        currentUser: {
+            role,
+        } = {},
         __raw: {
             refetch,
-            loading: fetchingCurrentUser,
-        },
-    } = queryResult;
+        }
+    } = useApolloQuery(query, { fetchPolicy: 'no-cache' });
 
-    const {
-        __raw: {
-            loading: loggingIn,
-        },
-    } = authenticationResult;
+    const [authenticate] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
+
+    const [authenticating, setAuthenticating] = useState(!!getAuthorization());
+
+    const [allowedApplications, setAllowedApps] = useState(null);
 
     const client = useApolloClient();
 
-    const authenticating = (
-        importingApps
-        ||
-        loggingIn
-        ||
-        (
-            getAuthorization()
-            &&
-            fetchingCurrentUser
-        )
-    );
-
-    console.log({
-        importingApps,
-        loggingIn,
-        fetchingCurrentUser,
-        authenticating,
-        currentUser,
-        allowedApplications,
-    });
-
-    const rerouteToOriginalLocation = () => history.push(originalLocation.match(/\/(glascad|data-entry)/) ?
-        originalLocation
-        :
-        `/glascad`
-    );
-
-    const getCurrentUser = async () => asyncPipe(
-        refetch(),
-        tap(() => setImportingApps(true)),
-        ({ currentUser: { role = '', id } = {} } = {}) => asyncPipe(
+    useEffect(() => {
+        setAllowedApps(null);
+        asyncPipe(
             importAllowedApps(role),
-            setAllowedApps,
-            id ? rerouteToOriginalLocation : () => console.log('unauthorized')
-        ),
-        () => setImportingApps(false),
-    );
+            tap(setAllowedApps),
+            apps => apps && setAuthenticating(false),
+        );
+    }, [role]);
 
     const login = ({ username, password }) => asyncPipe(
-        authenticate({ username, password }),
+        setAuthenticating(true),
+        () => authenticate({ username, password }),
         ({ authenticate: { jwt } }) => setJwt(jwt),
-        getCurrentUser,
+        refetch,
     );
 
     const logout = () => asyncPipe(
-        client.clearStore(),
+        setAuthenticating(false),
+        () => client.clearStore(),
         () => localStorage.clear(),
-        () => setOriginalLocation(''),
-        getCurrentUser,
+        refetch,
     );
-
-    useEffect(() => {
-        getCurrentUser();
-    }, []);
 
     return allowedApplications ? (
         <Navigator
