@@ -18,6 +18,8 @@ export default function SystemName({
     doNotRenderManufacturer = false,
 }) {
 
+    console.log(arguments);
+
     const [initialSightline, setInitialSightline] = useInitialState(sightline, [__receivedAt]);
 
     return (

@@ -52,6 +52,7 @@ export default function Systems({
                     id,
                     name: systemName,
                 }) => ({
+                    dataCy: systemName,
                     title: systemName || 'Untitled',
                     hoverButtons: [
                         {

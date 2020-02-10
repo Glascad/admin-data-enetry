@@ -141,6 +141,7 @@ export default function System({
     const save = useSaveOnCtrlS(async () => {
         dispatch(() => systemUpdate);
         try {
+            console.log({ systemInput, system })
             const systemPayload = {
                 ...cleanSystemInput(systemInput, system),
                 manufacturerId: +manufacturerId,

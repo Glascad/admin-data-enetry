@@ -176,6 +176,7 @@ export default class Pill extends PureComponent {
     render = () => {
         const {
             props: {
+                dataCy,
                 className,
                 type,
                 inputType,
@@ -227,6 +228,7 @@ export default class Pill extends PureComponent {
 
         return (
             <tag.name
+                data-cy={dataCy}
                 ref={ref}
                 className={`Pill ${
                     className
@@ -308,6 +310,7 @@ export default class Pill extends PureComponent {
                                     onClick: beginEdit
                                 } : null,
                                 deletable ? {
+                                    ['data-cy']: `delete-${title}`,
                                     text: "Delete",
                                     className: "danger",
                                     onClick: handleDeleteClick
