@@ -47,7 +47,7 @@ gc_protected.elevation_frames (
     elevation_id INTEGER REFERENCES elevations NOT NULL,
     vertical BOOLEAN NOT NULL,
     placement RECTANGLE NOT NULL,
-    UNIQUE (elevation_id, id),
+    UNIQUE (elevation_id, id, vertical),
     CONSTRAINT frame_valid_placement CHECK (
         validate_rectangle(placement)
     )
@@ -63,7 +63,7 @@ gc_protected.container_details (
     vertical BOOLEAN NOT NULL,
     placement RECTANGLE NOT NULL,
     UNIQUE (first_container_id, second_container_id),
-    FOREIGN KEY (
+    CONSTRAINT cd_ec__eid_fecid FOREIGN KEY (
         elevation_id,
         first_container_id
     )
@@ -71,13 +71,23 @@ gc_protected.container_details (
         elevation_id,
         id
     ),
-    FOREIGN KEY (
+    CONSTRAINT cd_ec__eid_secid FOREIGN KEY (
         elevation_id,
         second_container_id
     )
     REFERENCES elevation_containers (
         elevation_id,
         id
+    ),
+    CONSTRAINT cd_ef__eid_efid_v FOREIGN KEY (
+        elevation_id,
+        elevation_frame_id,
+        vertical
+    )
+    REFERENCES elevation_frames (
+        elevation_id,
+        id,
+        vertical
     ),
     CONSTRAINT detail_references_at_least_one_container CHECK (
         first_container_id IS NOT NULL

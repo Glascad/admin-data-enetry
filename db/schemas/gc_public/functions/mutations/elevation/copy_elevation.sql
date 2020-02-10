@@ -6,16 +6,23 @@ CREATE OR REPLACE FUNCTION gc_public.copy_elevation(
 ) RETURNS elevations AS $$
 DECLARE
     eid ALIAS FOR elevation_id;
-    e elevations%ROWTYPE;
-    ne elevations%ROWTYPE;
-    ec elevation_containers%ROWTYPE;
+    e RECORD;
+    ne RECORD;
+    ef RECORD;
+    ec RECORD;
     pid INTEGER;
     ecid INTEGER;
-    cd container_details%ROWTYPE;
-    id_pairs ID_PAIR[];
+    efid INTEGER;
+    cdid INTEGER;
+    cd RECORD;
+    ecid_pairs ID_PAIR[];
+    efid_pairs ID_PAIR[];
+    cdids INTEGER[];
+    ecids INTEGER[];
+    efids INTEGER[];
 BEGIN
 
-    SET search_path = gc_public,gc_protected,gc_controlled,gc_utils,pg_temp_1,pg_toast,pg_toast_temp_1;
+    SET search_path = gc_public, gc_protected, gc_controlled, gc_utils, gc_data, pg_temp_1, pg_toast, pg_toast_temp_1;
 
     SELECT * FROM elevations
     INTO e
@@ -55,7 +62,6 @@ BEGIN
         ) RETURNING * INTO ne;
 
         -- CREATE ELEVATION CONTAINERS
-
         FOR ec IN (
             SELECT * FROM elevation_containers
             WHERE elevation_containers.elevation_id = eid
@@ -64,24 +70,42 @@ BEGIN
                 elevation_id,
                 original,
                 contents,
-                daylight_opening,
-                custom_rough_opening
+                daylight_opening
             ) VALUES (
                 ne.id,
                 ec.original,
                 ec.contents,
-                ec.daylight_opening,
-                ec.custom_rough_opening
+                ec.daylight_opening
             ) RETURNING id INTO ecid;
 
-            id_pairs := id_pairs || ROW(
+            ecid_pairs := ecid_pairs || (
                 ecid, -- NEW/REAL ID
                 ec.id -- OLD/FAKE ID
             )::ID_PAIR;
         END LOOP;
 
-        -- CREATE CONTAINER DETAILS
+        -- CREATE ELEVATION FRAMES
+        FOR ef IN (
+            SELECT * FROM elevation_frames
+            WHERE elevation_frames.elevation_id = eid
+        ) LOOP
+            INSERT INTO elevation_frames (
+                elevation_id,
+                vertical,
+                placement
+            ) VALUES (
+                ne.id,
+                ef.vertical,
+                ef.placement
+            ) RETURNING id INTO efid;
 
+            efid_pairs := efid_pairs || (
+                efid, -- new/real id
+                ef.id -- old/fake id
+            )::ID_PAIR;
+        END LOOP;
+
+        -- CREATE CONTAINER DETAILS
         FOR cd IN (
             SELECT * FROM container_details
             WHERE container_details.elevation_id = eid
@@ -90,19 +114,25 @@ BEGIN
                 elevation_id,
                 first_container_id,
                 second_container_id,
-                vertical
+                elevation_frame_id,
+                vertical,
+                placement
             ) VALUES (
                 ne.id,
-                get_real_id(id_pairs, cd.first_container_id, TRUE),
-                get_real_id(id_pairs, cd.second_container_id, TRUE),
-                cd.vertical
-            );
+                get_real_id(ecid_pairs, cd.first_container_id, TRUE),
+                get_real_id(ecid_pairs, cd.second_container_id, TRUE),
+                get_real_id(efid_pairs, cd.elevation_frame_id, TRUE),
+                cd.vertical,
+                cd.placement
+            ) RETURNING id INTO cdid;
+
+            cdids := cdids || cdid;
         END LOOP;
 
         RETURN ne;
 
     END IF;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql STRICT SECURITY DEFINER;
 
 ALTER FUNCTION gc_public.copy_elevation OWNER TO gc_invoker;
