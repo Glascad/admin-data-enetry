@@ -39,18 +39,20 @@ export default function Manufacturers({
                                 align: "left"
                             }}
                             mapPillProps={({ name, id }) => ({
+                                dataCy: `manufacturer-${name}`,
                                 title: name,
                                 hoverButtons: [
                                     {
                                         children: (
                                             <Link
-                                                to={`${
-                                                    path.replace(/main.menu.*/, `manufacturer/systems`)
-                                                    }${
-                                                    parseSearch(search)
-                                                        .update({ manufacturerId: id })
-                                                        .remove(["systemId"])
-                                                    }`}
+                                            data-cy={`${name}-systems-button`}
+                                            to={`${
+                                                path.replace(/main.menu.*/, `manufacturer/systems`)
+                                            }${
+                                                parseSearch(search)
+                                                .update({ manufacturerId: id })
+                                                .remove(["systemId"])
+                                            }`}
                                             >
                                                 Systems
                                             </Link>
@@ -59,8 +61,9 @@ export default function Manufacturers({
                                     {
                                         children: (
                                             <Link
-                                                to={`${
-                                                    path.replace(/main.menu.*/, `manufacturer/parts`)
+                                            data-cy={`${name}-parts-button`}
+                                            to={`${
+                                                path.replace(/main.menu.*/, `manufacturer/parts`)
                                                     }${
                                                     parseSearch(search)
                                                         .update({ manufacturerId: id })

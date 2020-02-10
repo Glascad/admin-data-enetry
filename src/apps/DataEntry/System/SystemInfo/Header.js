@@ -30,6 +30,8 @@ function Header({
     fetching,
 }) {
 
+    console.log(systemInput);
+
     const { systemId, manufacturerId } = parseSearch(search);
 
     const mName = mnfgName || (allManufacturers.find(({ id }) => `${id}` === manufacturerId) || {}).name;

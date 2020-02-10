@@ -39,11 +39,13 @@ export default function ManageProjects({
                     align: "left",
                 }}
                 mapPillProps={({ id, name }) => ({
+                    dataCy: name,
                     title: name,
                     hoverButtons: [
                         {
                             children: (
                                 <Link
+                                    data-cy={`edit-${name}`}
                                     to={path.replace(/main-menu.*/,
                                         `project/project-details?projectId=${id}`)}
                                 >

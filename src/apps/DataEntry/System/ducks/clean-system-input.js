@@ -29,7 +29,7 @@ const mapNewTypes = type => ({
 }) => ({
     ...rest,
     [type]: name,
-    });
+});
 
 const mapNewParts = ({
     nodeId,
@@ -85,12 +85,13 @@ export default ({
     newConfigurationParts
 }, {
     id,
+    sightline: systemSightline,
 }) => ({
     id,
     manufacturerId,
     name,
     systemType,
-    sightline,
+    sightline: sightline || systemSightline,
     pathsToDelete,
     optionGroupsToDelete,
     newOptionGroups,

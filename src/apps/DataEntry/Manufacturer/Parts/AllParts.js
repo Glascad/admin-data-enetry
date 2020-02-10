@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Ellipsis, ListWrapper, SVG, TitleBar, useApolloQuery } from '../../../../components';
+import { Ellipsis, ListWrapper, SVG, TitleBar, useApolloQuery, useApolloMutation } from '../../../../components';
 import F from '../../../../schemas';
 import { parseSearch } from '../../../../utils';
 import './Parts.scss';
@@ -14,9 +14,18 @@ const query = gql`query partsByManufacturer($id: Int!) {
             ...PartFields
         }
     }
-}
-${F.MNFG.PART_FIELDS}
-`;
+}${F.MNFG.PART_FIELDS}`;
+
+const mutation = gql`mutation DeletePart($nodeId: ID!){
+    deletePart(input: {
+        nodeId: $nodeId
+    }) {
+        part {
+            nodeId,
+            partNumber,
+        }
+    }
+}`;
 
 AllParts.navigationOptions = {
     path: '/all',
@@ -55,6 +64,9 @@ export default function AllParts({
             loading: fetching,
         }
     } = queryResult;
+
+    const [deletePart] = useApolloMutation(mutation);
+
     return (
         <>
             <div
@@ -84,6 +96,7 @@ export default function AllParts({
                 />
                 <ListWrapper
                     items={allParts.map(({ partNumber, paths, id }) => ({
+                        dataCy: partNumber,
                         title: partNumber,
                         type: "tile",
                         align: "left",
@@ -106,16 +119,18 @@ export default function AllParts({
                             {
                                 children: (
                                     <Link
+                                        data-cy={`${partNumber}-info`}
                                         to={`${path.replace(/all/, 'info')}${parseSearch(search).update({ partId: id })}`}
                                     >
                                         Info
                                 </Link>
                                 ),
-                            }, {
-                                text: "Delete",
-                                className: "danger",
                             }],
                     }))}
+                    onDelete={item => console.log({ item })}
+                    deleteModal={{
+                        name: "Part",
+                    }}
                     circleButton={{
                         type: "tile",
                         className: "primary",

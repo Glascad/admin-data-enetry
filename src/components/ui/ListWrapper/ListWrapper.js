@@ -209,6 +209,7 @@ class List extends PureComponent {
                         />
                     ) : !creating && (onCreate || onFinish || multiSelect || circleButton) ? (
                         <CircleButton
+                            data-cy="add-button"
                             actionType="add"
                             {...circleButton}
                             className={(circleButton && circleButton.className) || "action"}
