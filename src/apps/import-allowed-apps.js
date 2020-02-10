@@ -15,7 +15,7 @@ const rolePermissions = {
     ],
 };
 
-export default role => asyncPipe(
+export default (role = '') => asyncPipe(
     role,
     // get allowed application names by role
     role => match(role).against(rolePermissions).otherwise(rolePermissions.unauthenticated),

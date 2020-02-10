@@ -129,6 +129,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE CONSTRAINT TRIGGER check_elevation_container_placement
-AFTER INSERT OR UPDATE OF daylight_opening ON elevation_containers
+AFTER INSERT OR UPDATE OF daylight_opening, contents ON elevation_containers
 INITIALLY DEFERRED
 FOR EACH ROW EXECUTE FUNCTION check_elevation_container_placement();
