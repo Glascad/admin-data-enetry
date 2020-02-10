@@ -1,21 +1,10 @@
-import React from 'react';
-import F from '../../../../schemas';
-
-import {
-    Link,
-} from 'react-router-dom';
-
-import {
-    ApolloWrapper,
-    TitleBar,
-    ListWrapper,
-    useMutation,
-    useQuery,
-} from '../../../../components';
-
-import query from './query';
-import { deleteProjectMutation, createProjectMutation } from './mutations';
 import gql from 'graphql-tag';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ListWrapper, TitleBar, useApolloMutation, useApolloQuery } from '../../../../components';
+import F from '../../../../schemas';
+import { createProjectMutation, deleteProjectMutation } from './mutations';
+import query from "./query";
 
 export default function ManageProjects({
     match: {
@@ -23,10 +12,16 @@ export default function ManageProjects({
     },
 }) {
     // console.log(arguments[0]);
-    const allProjectsQuery = { query: gql`{ ...AllProjects } ${F.PROJ.ALL_PROJECTS}` };
-    const [fetchQuery, { allProjects = [] }, loading] = useQuery(allProjectsQuery);
-    const [deleteProject, deleteResult, deleting] = useMutation(deleteProjectMutation, fetchQuery);
-    const [createProject, createResult, creating] = useMutation(createProjectMutation, fetchQuery);
+    const allProjectsQuery = gql`{ ...AllProjects } ${F.PROJ.ALL_PROJECTS}`;
+    const { allProjects = [], __raw: { refetch: fetchQuery } } = useApolloQuery(allProjectsQuery);
+    const [deleteProject, { __raw: { loading: deleting } }] = useApolloMutation(deleteProjectMutation, {
+        awaitRefetchQueries: true,
+        refetchQueries: [{ query }],
+    });
+    const [createProject, createResult] = useApolloMutation(createProjectMutation, {
+        awaitRefetchQueries: true,
+        refetchQueries: [{ query }],
+    });
 
     return (
         <div

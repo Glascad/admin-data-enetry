@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getLastItemFromPath, getUnknownPathAndKeyFromItem, getDetailTypeFromPath, getConfigurationTypeFromPath } from "../../../../../../app-logic/system";
+import { getConfigurationTypeFromPath, getDetailTypeFromPath, getUnknownPathAndKeyFromItem } from "../../../../../../app-logic/system";
 import { removeNullishValues } from "../../../../../../utils";
 import validateSystemSetUpdate from "./validate-system-set-update";
 

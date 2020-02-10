@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { ApolloWrapper, Ellipsis, Navigator, useQuery } from '../../../components';
+import { ApolloWrapper, Ellipsis, Navigator, useApolloQuery } from '../../../components';
 import { parseSearch } from '../../../utils';
 import Elevations from './Elevations/Elevations';
 import query from './project-graphql/query';
@@ -49,12 +49,20 @@ export default function Project({
         search,
     },
 }) {
-    const [fetchProject, queryResult, fetchingProject] = useQuery({
+    const queryResult = useApolloQuery(
         query,
-        variables: {
-            id: +parseSearch(search).projectId,
-        },
-    });
+        {
+            variables: {
+                id: +parseSearch(search).projectId,
+            },
+        });
+
+    const {
+        __raw: {
+            refetch: fetchProject,
+            loading: fetchingProject,
+        }
+    } = queryResult;
 
     if (!parseSearch(search).projectId) return (
         <Redirect

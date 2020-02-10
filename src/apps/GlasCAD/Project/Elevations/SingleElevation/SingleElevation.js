@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { Navigator, useMutation, useQuery } from '../../../../../components';
+import { SystemMap } from '../../../../../app-logic/system';
+import { Navigator, useApolloMutation, useApolloQuery } from '../../../../../components';
 import { parseSearch } from '../../../../../utils';
 import BuildElevation from './BuildElevation/BuildElevation';
 import CreateElevation from './CreateElevation/CreateElevation';
 import ElevationInfo from './ElevationInfo/ElevationInfo';
-import updateElevationMutation from './utils/elevation-graphql/mutations';
+import updateElevationMutation, { updateEntireElevationOptions } from './utils/elevation-graphql/mutations';
 import query from './utils/elevation-graphql/query';
 import * as SAMPLE_ELEVATIONS from './utils/sample-elevations';
-import { SystemMap } from '../../../../../app-logic/system';
 
 const subroutes = {
     CreateElevation,
@@ -42,7 +42,7 @@ export default function SingleElevation({
     // console.log({ variables });
 
     // const [fetchElevation, elevationStatus, fetchingElevation] = useQuery({ query, variables }, true);
-    const [refetch, queryResult, fetching] = useQuery({ query, variables }, true);
+    const queryResult = useApolloQuery(query, { variables }, true);
 
     // const [fetchBugs, bugStatus, fetchingBugs] = useQuery({ query: bugReportQuery });
 
@@ -61,13 +61,9 @@ export default function SingleElevation({
 
     // console.log({ queryResult });
 
-    const [updateEntireElevation, updatedElevation, updating] = useMutation(
+    const [updateEntireElevation, { __raw: { loading: updating } }] = useApolloMutation(
         updateElevationMutation,
-        () => {
-            if (elevationId) {
-                refetch(variables);
-            }
-        }
+        updateEntireElevationOptions,
     );
 
     useEffect(() => {
@@ -85,6 +81,10 @@ export default function SingleElevation({
                 _system,
             } = {},
         } = {},
+        __raw: {
+            refetch,
+            loading: fetching,
+        } = {}
     } = queryResult;
 
     const systemMap = new SystemMap(_system);

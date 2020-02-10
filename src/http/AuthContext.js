@@ -1,10 +1,10 @@
 import gql from 'graphql-tag';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useApolloMutation, useApolloQuery } from '../components';
 import { CURRENT_USER } from '../schemas/authentication';
 import client from './apollo-client';
-import { STORAGE_KEYS } from './local-storage';
+import { setJwt, STORAGE_KEYS } from './local-storage';
 
 export const AuthContext = createContext();
 
@@ -34,7 +34,7 @@ function AuthProvider({
 
     const [originalLocation, setOriginalLocation] = useState(`${pathname}${search}`);
     const queryResult = useApolloQuery(query, { fetchPolicy: 'no-cache' });
-    const [authenticate, { loading }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
+    const [authenticate, { __raw: { loading } }] = useApolloMutation(mutation, { fetchPolicy: 'no-cache' });
 
     const {
         currentUser = {},
@@ -63,7 +63,8 @@ function AuthProvider({
                 console.log('No Current User');
             }
         } catch (err) {
-            console.error(err);
+            console.error("ERROR GETTING USET");
+            console.error({err});
         }
     }
 
@@ -80,7 +81,7 @@ function AuthProvider({
                 },
             } = await authenticate({ username, password });
 
-            if (jwt) localStorage.setItem(STORAGE_KEYS.JWT, jwt);
+            setJwt(jwt);
 
         } catch (err) {
             console.error("ERROR AUTHENTICATING");

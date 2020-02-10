@@ -4,8 +4,7 @@ import query from './query';
 import projectQuery from '../../../../project-graphql/query';
 import { parseSearch } from '../../../../../../../utils';
 
-export default {
-    mutation: gql`
+export default gql`
         mutation UpdateEntireElevation($elevation: EntireElevationInput!) {
             updateEntireElevation(
                 input: {
@@ -18,7 +17,9 @@ export default {
             }
         }
         ${F.ELVTN.ENTIRE_ELEVATION}
-    `,
+    `;
+
+export const updateEntireElevationOptions = {
     update(cache, {
         data: {
             updateEntireElevation: {
@@ -74,4 +75,4 @@ export default {
             id,
         },
     }],
-};
+}

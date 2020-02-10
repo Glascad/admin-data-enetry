@@ -37,7 +37,7 @@ BEGIN
             ) VALUES (
                 eid,
                 COALESCE(ec.original, FALSE),
-                ec.contents,
+                COALESCE(ec.contents, 'GLASS'),
                 ec.daylight_opening
                 -- ec.custom_rough_opening
             )

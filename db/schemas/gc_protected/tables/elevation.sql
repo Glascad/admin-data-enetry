@@ -32,7 +32,7 @@ gc_protected.elevation_containers (
     id SERIAL PRIMARY KEY,
     elevation_id INTEGER REFERENCES elevations NOT NULL,
     original BOOLEAN DEFAULT FALSE NOT NULL,
-    contents VARCHAR(50),
+    contents ELEVATION_CONTENTS DEFAULT 'GLASS' NOT NULL,
     daylight_opening RECTANGLE NOT NULL, -- <-- should be not null?
     -- custom_rough_opening BOOLEAN DEFAULT FALSE,
     UNIQUE (elevation_id, id),
