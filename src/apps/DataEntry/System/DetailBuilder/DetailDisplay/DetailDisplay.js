@@ -25,7 +25,7 @@ function DetailDisplay({
     updating,
 }) {
 
-    const { Viewport } = useContext(StaticContext);
+    const { viewportRef } = useContext(StaticContext);
     const { scale: { x: scaleX, y: scaleY } } = useContext(TransformContext);
     const { path } = parseSearch(search);
 
@@ -37,7 +37,7 @@ function DetailDisplay({
     return (
         <TransformBox
             id="DetailDisplay"
-            viewportRef={Viewport}
+            viewportRef={viewportRef}
         >
             {updating ? (
                 <Ellipsis text="Updating" />

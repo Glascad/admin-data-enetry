@@ -28,14 +28,14 @@ export default function SystemTree({
     completePartial,
 }) {
 
-    const { Viewport } = useContext(StaticContext);
+    const { viewportRef } = useContext(StaticContext);
 
     const trunk = makeRenderable(system);
 
     return (
         <TransformBox
             id="SystemTree"
-            viewportRef={Viewport}
+            viewportRef={viewportRef}
             className={PARTIAL_ACTION ? 'with-partial-action' : ''}
         >
             {fetching ? (
