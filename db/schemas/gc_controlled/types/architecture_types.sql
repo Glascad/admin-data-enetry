@@ -13,7 +13,8 @@ gc_controlled.elevation_contents AS ENUM (
     'GLASS',
     'VOID_STEPPED_HEAD',
     'VOID_RAISED_CURB',
-    'VOID_NOTCH',
+    'VOID_LEFT_NOTCH',
+    'VOID_RIGHT_NOTCH',
     'VOID_INTERNAL'
 );
 

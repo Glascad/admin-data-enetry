@@ -167,8 +167,8 @@ END $seed$
 
 `;
 
-// ----- POSTGRAPHILE -----
+    // ----- POSTGRAPHILE -----
 
-// ${require('../../../db/schemas/postgraphile_watch/watch-fixtures.sql')}
+    // ${require('../../../db/schemas/postgraphile_watch/watch-fixtures.sql')}
 
 }

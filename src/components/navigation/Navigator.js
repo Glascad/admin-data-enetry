@@ -1,21 +1,7 @@
-import React, { PureComponent } from 'react';
-
 import PropTypes from 'prop-types';
-
-import {
-    Redirect,
-    Route,
-    Switch,
-    withRouter,
-} from 'react-router-dom';
-
-import {
-    validatePath,
-    extractNavigationOptions,
-    parseSearch,
-    removeNullishValues,
-} from '../../utils';
-
+import React, { PureComponent } from 'react';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { extractNavigationOptions, parseSearch, removeNullishValues, validatePath } from '../../utils';
 
 /**
  * PURPOSE
@@ -30,7 +16,6 @@ import {
  * This component is used inside the TabNavigator, and the Wizard component will be refactored to use a Navigator once (if) we need to use a Wizard in the future.
  * 
  */
-
 
 class NavigatorChild extends PureComponent {
 
