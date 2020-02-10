@@ -44,7 +44,6 @@ BEGIN
             finished_floor_height,
             project_id,
             system_set_id,
-            sightline,
             preview
         ) VALUES (
             new_name,
@@ -52,7 +51,6 @@ BEGIN
             e.finished_floor_height,
             e.project_id,
             e.system_set_id,
-            e.sightline,
             e.preview
         ) RETURNING * INTO ne;
 
