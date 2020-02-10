@@ -53,8 +53,11 @@ export default function generateElevation({
                             height,
                         },
                         origin: {
-                            x: (bayWidth + sightline) * i,
-                            y: (height + sightline) * j,
+                            x: (bayWidth * i) + sightline * (i + 1),
+                            y: containerHeights.reduce((totalHeight, containerHeight, k) => k < j ?
+                                totalHeight + containerHeight
+                                :
+                                totalHeight, 0) + sightline * (j + 1),
                         }
                     },
                 }))),

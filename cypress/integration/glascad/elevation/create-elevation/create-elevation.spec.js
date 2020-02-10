@@ -40,7 +40,7 @@ describe(`Testing end to end for create elevation`, () => {
             
             cy.wait(2000);
             
-            cy.get('#InteractiveElevation').contains('div');
+            cy.get('.Container').should('exist');
             
             // cy.getDataCy`horizontal-distance`
             // .clear().type(`10' 5"`).should("have.value", `10' 5"`)
