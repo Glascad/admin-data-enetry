@@ -7,9 +7,7 @@ const path = require('path');
 const {
     env: {
         SERVER_PORT,
-        CONNECTION_STRING,
         DO_GC_CONNECTION_STRING,
-        // DO_GC_PRACTICE_CONNECTION_STRING,
         JWT_SECRET,
     },
 } = process;
@@ -24,7 +22,6 @@ module.exports = function startServer() {
 
     APP.use(postgraphile(
         DO_GC_CONNECTION_STRING,
-        // DO_GC_PRACTICE_CONNECTION_STRING,
         [
             'gc_data',
             'gc_public',
@@ -40,30 +37,6 @@ module.exports = function startServer() {
             exportGqlSchemaPath: `${__dirname}/../compiled/gql-schema.gql`,
             exportJsonSchemaPath: `${__dirname}/../compiled/gql-schema.json`,
             pgDefaultRole: 'unauthorized',
-            // handleErrors: (errors, req, res) => {
-            //     console.log(res.statusMessage);
-            //     // console.log(Object.keys(res));
-            //     // console.log(res.req);
-            //     if (errors.length) {
-            //         const filteredErrors = errors.filter(({ message }) => (
-            //             req.headers.authorization
-            //             ||
-            //             !message.match(/authorization.*header.*not.*correct.*format/i))
-            //         );
-            //         if (filteredErrors.length !== errors.length) {
-            //             console.log(req.headers.authorization);
-            //         } if (filteredErrors.length) {
-            //             errors.forEach(({ message }) => console.error(message));
-            //             res.statusMessage = `Postgraphile errors: "${filteredErrors.map(({ message }) => message).join(`", "`)}"`;
-            //             return errors;
-            //         } else {
-            //             res.statusCode = 401;
-            //             res.statusMessage = 'Invalid authentication';
-            //         }
-            //     }
-            //     console.log(`${chalk.blue('Response:')} statusCode: ${chalk.gray(res.statusCode)}, statusMessage: ${chalk.gray(res.statusMessage)}`);
-            // },
-            // extendedErrors: ['severity', 'code', 'detail', 'hint', 'where', 'schema', 'table', 'column', 'dataType', 'constraint'],
             // pgDefaultRole: 'glascad',
         },
     ));

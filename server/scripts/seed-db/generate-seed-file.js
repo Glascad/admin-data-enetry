@@ -85,7 +85,9 @@ ${require('../../../db/schemas/gc_protected/triggers/ch_system_option_groups.sql
 ${require('../../../db/schemas/gc_protected/triggers/ch_system_option_value_children.sql')}
 ${require('../../../db/schemas/gc_protected/triggers/ch_elevation_placement.sql')}
 ${require('../../../db/schemas/gc_protected/triggers/ch_elevation_container_placement.sql')}
+${require('../../../db/schemas/gc_protected/triggers/ch_void_elevation_container_neighbors.sql')}
 ${require('../../../db/schemas/gc_protected/triggers/ch_container_detail_placement.sql')}
+${require('../../../db/schemas/gc_protected/triggers/ch_container_detail_has_frame_or_no_sightline.sql')}
 ${require('../../../db/schemas/gc_protected/triggers/ch_elevation_frame_placement.sql')}
 
 

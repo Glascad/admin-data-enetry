@@ -59,7 +59,7 @@ gc_protected.container_details (
     elevation_id INTEGER REFERENCES elevations NOT NULL,
     first_container_id INTEGER REFERENCES elevation_containers,
     second_container_id INTEGER REFERENCES elevation_containers,
-    elevation_frame_id INTEGER REFERENCES elevation_frames INITIALLY DEFERRED NOT NULL,
+    elevation_frame_id INTEGER REFERENCES elevation_frames INITIALLY DEFERRED,
     vertical BOOLEAN NOT NULL,
     placement RECTANGLE NOT NULL,
     UNIQUE (first_container_id, second_container_id),
