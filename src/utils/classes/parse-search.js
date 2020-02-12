@@ -13,6 +13,11 @@ import _ from 'lodash';
 
 const parseSearch = search => search.replace(/^.*?\?/, "")
     .split(/[?&]/)
+    .filter(pair => (
+        pair.replace(/^.*?=/, "")
+        &&
+        pair.replace(/=.*/, "")
+    ))
     .reduce((parsedSearch, pair) => ({
         ...parsedSearch,
         [pair.replace(/=.*/, "")]: pair.replace(/^.*?=/, ""),
@@ -20,7 +25,7 @@ const parseSearch = search => search.replace(/^.*?\?/, "")
 
 const joinSearch = searchObject => Object
     .entries(searchObject)
-    .filter(([_, value]) => value !== undefined)
+    .filter(([key, value]) => key && value !== undefined)
     .reduce((search, [key, value], i) => `${
         search
         }${
@@ -46,6 +51,8 @@ class Search {
         }
 
         Object.assign(this, this.parsedSearch);
+
+        console.log(this);
     }
 
     update = searchObject => new Search({

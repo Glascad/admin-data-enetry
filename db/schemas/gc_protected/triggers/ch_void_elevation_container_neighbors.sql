@@ -32,24 +32,20 @@ BEGIN
         ) INTO <<DET_DIR>>;
     <<END LOOP>>
 
-    -- stepped heads & raised curbs cannot have another deleted container above or beneath them
-    IF c ~ 'STEPPED_HEAD|RAISED_CURB' THEN
+    -- no voids can be vertically adjacent to other voids
+    <<LOOP CON_DIR (above, below)>>
+        IF <<CON_DIR>> IS NOT NULL THEN
+            RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
+        END IF;
+    <<END LOOP>>
 
-        <<LOOP CON_DIR (above, below)>>
+    -- internal voids cannot be adjacent to any other voids altogether
+    IF c ~ 'INTERNAL' THEN
+        <<LOOP CON_DIR (left_of, right_of)>>
             IF <<CON_DIR>> IS NOT NULL THEN
                 RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
             END IF;
         <<END LOOP>>
-
-    -- internal voids cannot have any other deleted containers around them
-    ELSIF c ~ 'INTERNAL' THEN
-
-        <<LOOP CON_DIR (above, below, left_of, right_of)>>
-            IF <<CON_DIR>> IS NOT NULL THEN
-                RAISE EXCEPTION 'Container % with % cannot have other VOID containers <<CON_DIR>> it. Received %', NEW.id, c, <<CON_DIR>>;
-            END IF;
-        <<END LOOP>>
-
     END IF;
 
     RETURN NEW;

@@ -14,12 +14,10 @@ require('dotenv').config();
 // the project's config changing)
 
 module.exports = (on, config) => {
-    
+
     // `on` is used to hook into various events Cypress emits
     // `config` is the resolved Cypress config
-    const {
-        USER_CYPRESS,
-    } = process.env;
+    const { USER_CYPRESS } = process.env;
 
     const [USERNAME, PASSWORD] = USER_CYPRESS.replace(/'/g, '').split(/,\s*/g);
 
